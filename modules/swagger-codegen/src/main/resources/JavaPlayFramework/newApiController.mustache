@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
+import play.Configuration;
 {{/useBeanValidation}}
 
 {{#wrapCalls}}
@@ -35,13 +36,19 @@ public class {{classname}}Controller extends Controller {
     private final {{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp;
     {{/controllerOnly}}
     private final ObjectMapper mapper;
+    {{#useBeanValidation}}
+    private final Configuration configuration;
+    {{/useBeanValidation}}
 
     @Inject
-    private {{classname}}Controller({{^controllerOnly}}{{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp{{/controllerOnly}}) {
+    private {{classname}}Controller({{#useBeanValidation}}Configuration configuration{{^controllerOnly}}, {{/controllerOnly}}{{/useBeanValidation}}{{^controllerOnly}}{{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp{{/controllerOnly}}) {
         {{^controllerOnly}}
         this.imp = imp;
         {{/controllerOnly}}
         mapper = new ObjectMapper();
+        {{#useBeanValidation}}
+        this.configuration = configuration;
+        {{/useBeanValidation}}
     }
 
 {{#operation}}
@@ -55,12 +62,21 @@ public class {{classname}}Controller extends Controller {
         if (node{{paramName}} != null) {
             {{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isContainer}}new TypeReference<{{{dataType}}}>(){}{{/isContainer}}{{^isContainer}}{{{dataType}}}.class{{/isContainer}});
             {{#useBeanValidation}}
-            {{#isListContainer}}for ({{{baseType}}} curItem : {{paramName}}) {
-                curItem.validate();
-            }{{/isListContainer}}{{#isMapContainer}}for (Map.Entry<String, {{{baseType}}}> entry : {{paramName}}.entrySet()) {
-                entry.getValue().validate();
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                {{#isListContainer}}
+                for ({{{baseType}}} curItem : {{paramName}}) {
+                    SwaggerUtils.validate(curItem);
+                }
+                {{/isListContainer}}
+                {{#isMapContainer}}
+                for (Map.Entry<String, {{{baseType}}}> entry : {{paramName}}.entrySet()) {
+                    SwaggerUtils.validate(entry.getValue());
+                }
+                {{/isMapContainer}}
+                {{^isContainer}}
+                SwaggerUtils.validate({{paramName}});
+                {{/isContainer}}
             }
-            {{/isMapContainer}}{{^isContainer}}{{paramName}}.validate();{{/isContainer}}
             {{/useBeanValidation}}
         } else {
             {{#required}}
@@ -173,13 +189,30 @@ public class {{classname}}Controller extends Controller {
         {{/collectionFormat}}
         {{/headerParams}}
         {{^controllerOnly}}
-        {{#returnType}}{{>returnTypesNoVoid}} obj = {{/returnType}}imp.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}{{^isResponseFile}}{{^returnTypeIsPrimitive}}{{#useBeanValidation}}
-        {{#isListContainer}}for ({{{returnType}}} curItem : obj) {
-            curItem.validate();
-        }{{/isListContainer}}{{#isMapContainer}}for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
-            entry.getValue().validate();
+        {{#returnType}}{{>returnTypesNoVoid}} obj = {{/returnType}}imp.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{#returnType}}
+        {{^isResponseFile}}
+        {{^returnTypeIsPrimitive}}
+        {{#useBeanValidation}}
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            {{#isListContainer}}
+            for ({{{returnType}}} curItem : obj) {
+                SwaggerUtils.validate(curItem);
+            }
+            {{/isListContainer}}
+            {{#isMapContainer}}
+            for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
+                SwaggerUtils.validate(entry.getValue());
+            }
+            {{/isMapContainer}}
+            {{^returnContainer}}
+            SwaggerUtils.validate(obj);
+            {{/returnContainer}}
         }
-        {{/isMapContainer}}{{^returnContainer}}obj.validate();{{/returnContainer}}{{/useBeanValidation}}{{/returnTypeIsPrimitive}}{{/isResponseFile}}{{/returnType}}
+        {{/useBeanValidation}}
+        {{/returnTypeIsPrimitive}}
+        {{/isResponseFile}}
+        {{/returnType}}
         {{#returnType}}
         {{^isResponseFile}}JsonNode result = mapper.valueToTree(obj);
         return ok(result);
