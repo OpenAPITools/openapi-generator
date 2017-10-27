@@ -1,18 +1,18 @@
 import connexion
-{{#imports}}{{import}}
+import six
+
+{{#imports}}{{import}}  # noqa: E501
 {{/imports}}
-from datetime import date, datetime
-from typing import List, Dict
-from six import iteritems
-from ..util import deserialize_date, deserialize_datetime
+from {{packageName}} import util
 {{#operations}}
 {{#operation}}
 
 
-def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}):
-    """
-    {{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
-    {{#notes}}{{.}}{{/notes}}
+def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}):  # noqa: E501
+    """{{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
+
+    {{#notes}}{{.}}{{/notes}} # noqa: E501
+
     {{#allParams}}
     :param {{paramName}}: {{description}}
         {{^isContainer}}
@@ -55,15 +55,15 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
     {{#allParams}}
         {{^isContainer}}
             {{#isDate}}
-    {{paramName}} = deserialize_date({{paramName}})
+    {{paramName}} = util.deserialize_date({{paramName}})
             {{/isDate}}
             {{#isDateTime}}
-    {{paramName}} = deserialize_datetime({{paramName}})
+    {{paramName}} = util.deserialize_datetime({{paramName}})
             {{/isDateTime}}
             {{^isPrimitiveType}}
                 {{^isFile}}
     if connexion.request.is_json:
-        {{paramName}} = {{baseType}}.from_dict(connexion.request.get_json())
+        {{paramName}} = {{baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
                 {{/isFile}}
             {{/isPrimitiveType}}
         {{/isContainer}}
@@ -71,15 +71,15 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
             {{#items}}
                 {{#isDate}}
     if connexion.request.is_json:
-        {{paramName}} = [deserialize_date(s) for s in connexion.request.get_json()]
+        {{paramName}} = [util.deserialize_date(s) for s in connexion.request.get_json()]  # noqa: E501
                 {{/isDate}}
                 {{#isDateTime}}
     if connexion.request.is_json:
-        {{paramName}} = [deserialize_datetime(s) for s in connexion.request.get_json()]
+        {{paramName}} = [util.deserialize_datetime(s) for s in connexion.request.get_json()]  # noqa: E501
                 {{/isDateTime}}
                 {{#complexType}}
     if connexion.request.is_json:
-        {{paramName}} = [{{complexType}}.from_dict(d) for d in connexion.request.get_json()]
+        {{paramName}} = [{{complexType}}.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
                 {{/complexType}}
             {{/items}}
         {{/isListContainer}}
@@ -87,15 +87,15 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
             {{#items}}
                 {{#isDate}}
     if connexion.request.is_json:
-        {{paramName}} = {k: deserialize_date(v) for k, v in iteritems(connexion.request.get_json())}
+        {{paramName}} = {k: util.deserialize_date(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
                 {{/isDate}}
                 {{#isDateTime}}
     if connexion.request.is_json:
-        {{paramName}} = {k: deserialize_datetime(v) for k, v in iteritems(connexion.request.get_json())}
+        {{paramName}} = {k: util.deserialize_datetime(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
                 {{/isDateTime}}
                 {{#complexType}}
     if connexion.request.is_json:
-        {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in iteritems(connexion.request.get_json())}
+        {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
                 {{/complexType}}
             {{/items}}
         {{/isMapContainer}}
