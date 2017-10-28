@@ -2,15 +2,12 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
 import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.models.properties.*;
 
 import java.util.*;
 import java.util.regex.Pattern;
-
-import org.apache.commons.io.FileUtils;
 
 import io.swagger.models.auth.SecuritySchemeDefinition;
 import io.swagger.codegen.CliOption;
@@ -24,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.regex.Matcher;
 
@@ -38,12 +36,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     protected String defaultDateFormat = "%Y-%m-%d";
 
     protected Boolean useMonadLogger = false;
+    protected Boolean genEnums = true;
 
     // CLI PROPS
     public static final String PROP_ALLOW_FROMJSON_NULLS = "allowFromJsonNulls";
     public static final String PROP_ALLOW_TOJSON_NULLS = "allowToJsonNulls";
     public static final String PROP_DATETIME_FORMAT = "dateTimeFormat";
     public static final String PROP_DATE_FORMAT = "dateFormat";
+    public static final String PROP_GENERATE_ENUMS = "generateEnums";
     public static final String PROP_GENERATE_FORM_URLENCODED_INSTANCES = "generateFormUrlEncodedInstances";
     public static final String PROP_GENERATE_LENSES = "generateLenses";
     public static final String PROP_GENERATE_MODEL_CONSTRUCTORS = "generateModelConstructors";
@@ -62,9 +62,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     // vendor extensions
     static final String X_ALL_UNIQUE_PARAMS = "x-allUniqueParams";
     static final String X_COLLECTION_FORMAT = "x-collectionFormat";
-    static final String X_DUPLICATE = "x-duplicate";
     static final String X_HADDOCK_PATH = "x-haddockPath";
     static final String X_HAS_BODY_OR_FORM_PARAM = "x-hasBodyOrFormParam";
+    static final String X_HAS_ENUM_SECTION = "x-hasEnumSection";
     static final String X_HAS_MIME_FORM_URL_ENCODED = "x-hasMimeFormUrlEncoded";
     static final String X_HAS_NEW_TAG = "x-hasNewTag";
     static final String X_HAS_OPTIONAL_PARAMS = "x-hasOptionalParams";
@@ -72,7 +72,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     static final String X_HAS_UNKNOWN_RETURN = "x-hasUnknownReturn";
     static final String X_INLINE_CONTENT_TYPE = "x-inlineContentType";
     static final String X_IS_BODY_OR_FORM_PARAM = "x-isBodyOrFormParam";
+    static final String X_IS_BODY_PARAM = "x-isBodyParam";
     static final String X_MEDIA_DATA_TYPE = "x-mediaDataType";
+    static final String X_DATA_TYPE = "x-dataType";
+    static final String X_ENUM_VALUES = "x-enumValues";
     static final String X_MEDIA_IS_JSON = "x-mediaIsJson";
     static final String X_MIME_TYPES = "x-mimeTypes";
     static final String X_OPERATION_TYPE = "x-operationType";
@@ -82,14 +85,15 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     static final String X_STRICT_FIELDS = "x-strictFields";
     static final String X_UNKNOWN_MIME_TYPES = "x-unknownMimeTypes";
     static final String X_USE_MONAD_LOGGER = "x-useMonadLogger";
+    static final String X_NEWTYPE = "x-newtype";
+    static final String X_ENUM = "x-enum";
 
 
-    protected Map<String, CodegenParameter> uniqueParamsByName = new HashMap<String, CodegenParameter>();
+    protected ArrayList<Map<String,String>> unknownMimeTypes = new ArrayList<>();
+    protected Map<String, Map<String,Object>> uniqueParamNameTypes = new HashMap<>();
+    protected Map<String, Set<String>> modelMimeTypes = new HashMap<>();
+    protected Map<String, String> knownMimeDataTypes = new HashMap<>();
     protected Set<String> typeNames = new HashSet<String>();
-    protected Map<String, String> knownMimeDataTypes = new HashMap<String, String>();
-    protected Map<String, Set<String>> modelMimeTypes = new HashMap<String, Set<String>>();
-    protected String lastTag = "";
-    protected ArrayList<Map<String,String>> unknownMimeTypes = new ArrayList<Map<String,String>>();
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -212,6 +216,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         cliOptions.add(CliOption.newBoolean(PROP_ALLOW_TOJSON_NULLS, "allow emitting JSON Null during model encoding to JSON").defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(CliOption.newBoolean(PROP_GENERATE_LENSES, "Generate Lens optics for Models").defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(PROP_GENERATE_MODEL_CONSTRUCTORS, "Generate smart constructors (only supply required fields) for models").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(PROP_GENERATE_ENUMS, "Generate specific datatypes for swagger enums").defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(PROP_GENERATE_FORM_URLENCODED_INSTANCES, "Generate FromForm/ToForm instances for models that are used by operations that produce or consume application/x-www-form-urlencoded").defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(PROP_INLINE_CONSUMES_CONTENT_TYPES, "Inline (hardcode) the content-type on operations that do not have multiple content-types (Consumes)").defaultValue(Boolean.FALSE.toString()));
 
@@ -237,7 +242,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public void setGenerateModelConstructors(Boolean value) {
         additionalProperties.put(PROP_GENERATE_MODEL_CONSTRUCTORS, value);
     }
-
+    public void setGenerateEnums(Boolean value) {
+        additionalProperties.put(PROP_GENERATE_ENUMS, value);
+        genEnums = value;
+    }
     public void setGenerateFormUrlEncodedInstances(Boolean value) {
         additionalProperties.put(PROP_GENERATE_FORM_URLENCODED_INSTANCES, value);
     }
@@ -309,6 +317,12 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             setGenerateModelConstructors(convertPropertyToBoolean(PROP_GENERATE_MODEL_CONSTRUCTORS));
         } else {
             setGenerateModelConstructors(true);
+        }
+
+        if (additionalProperties.containsKey(PROP_GENERATE_ENUMS)) {
+            setGenerateEnums(convertPropertyToBoolean(PROP_GENERATE_ENUMS));
+        } else {
+            setGenerateEnums(true);
         }
 
         if (additionalProperties.containsKey(PROP_GENERATE_FORM_URLENCODED_INSTANCES)) {
@@ -515,7 +529,19 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 op.vendorExtensions.put(X_HAS_OPTIONAL_PARAMS, true);
             }
 
-            deduplicateParameter(param);
+            if (typeMapping.containsKey(param.dataType)
+                    || param.isMapContainer || param.isListContainer
+                    || param.isPrimitiveType || param.isFile || param.isEnum) {
+
+                String dataType = genEnums && param.isEnum ? param.datatypeWithEnum : param.dataType;
+
+                String paramNameType = toDedupedName(toTypeName("Param", param.paramName), dataType, !param.isEnum);
+                param.vendorExtensions.put(X_PARAM_NAME_TYPE, paramNameType);
+
+                HashMap<String, Object> props = new HashMap<>();
+                props.put(X_IS_BODY_PARAM, param.isBodyParam);
+                addToUniques(X_NEWTYPE, paramNameType, dataType, props);
+            }
         }
 
         processPathExpr(op);
@@ -560,14 +586,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         });
         additionalProperties.put(X_UNKNOWN_MIME_TYPES, unknownMimeTypes);
 
-        ArrayList<CodegenParameter> params = new ArrayList<>(uniqueParamsByName.values());
-        Collections.sort(params, new Comparator<CodegenParameter>() {
+        ArrayList<Map<String,Object>> params = new ArrayList<>(uniqueParamNameTypes.values());
+        Collections.sort(params, new Comparator<Map<String,Object>>() {
             @Override
-            public int compare(CodegenParameter o1, CodegenParameter o2) {
+            public int compare(Map<String,Object> o1, Map<String,Object> o2) {
                 return
-                        ((String) o1.vendorExtensions.get(X_PARAM_NAME_TYPE))
+                        ((String) o1.get(X_PARAM_NAME_TYPE))
                                 .compareTo(
-                                        (String) o2.vendorExtensions.get(X_PARAM_NAME_TYPE));
+                                        (String) o2.get(X_PARAM_NAME_TYPE));
             }
         });
         additionalProperties.put(X_ALL_UNIQUE_PARAMS, params);
@@ -613,12 +639,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         String prefix = StringUtils.uncapitalize(model.classname);
         for (CodegenProperty prop : model.vars) {
             prop.name = toVarName(prefix, prop.name);
-        }
-
-        //String dataOrNewtype = "data";
-        // check if it's a ModelImpl before casting
-        if (!(mod instanceof ModelImpl)) {
-            return model;
         }
 
         return model;
@@ -699,50 +719,66 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
     }
 
-    private void deduplicateParameter(CodegenParameter param) {
-        if (typeMapping.containsKey(param.dataType) || param.isPrimitiveType || param.isListContainer || param.isMapContainer || param.isFile) {
-
-            String paramNameType = toTypeName("Param", param.paramName);
-
-            if (uniqueParamsByName.containsKey(paramNameType)) {
-                if(!checkParamForDuplicates(paramNameType, param)) {
-                    paramNameType = paramNameType + param.dataType;
-                    if(!checkParamForDuplicates(paramNameType, param)) {
-                        while (typeNames.contains(paramNameType)) {
-                            paramNameType = generateNextName(paramNameType);
-                            if(checkParamForDuplicates(paramNameType, param)) {
-                                break;
-                            }
-                        }
-                    }
-
-                    uniqueParamsByName.put(paramNameType, param);
-                }
-            } else {
-
-                while (typeNames.contains(paramNameType)) {
-                    paramNameType = generateNextName(paramNameType);
-                    if(checkParamForDuplicates(paramNameType, param)) {
-                        break;
-                    }
-                }
-
-                uniqueParamsByName.put(paramNameType, param);
-            }
-
-            param.vendorExtensions.put(X_PARAM_NAME_TYPE, paramNameType);
-            typeNames.add(paramNameType);
+    private String toDedupedName(String paramNameType, String dataType, Boolean appendDataType) {
+        if (appendDataType
+                && uniqueParamNameTypes.containsKey(paramNameType)
+                && !isDuplicate(paramNameType, dataType)) {
+            paramNameType = paramNameType + dataType;
         }
+
+        while (typeNames.contains(paramNameType)) {
+            if (isDuplicate(paramNameType, dataType)) {
+                break;
+            }
+            paramNameType = generateNextName(paramNameType);
+        }
+
+        typeNames.add(paramNameType);
+        return paramNameType;
     }
 
-    public Boolean checkParamForDuplicates(String paramNameType, CodegenParameter param) {
-        CodegenParameter lastParam = this.uniqueParamsByName.get(paramNameType);
-        if (lastParam != null && lastParam.dataType != null && lastParam.dataType.equals(param.dataType)) {
-            param.vendorExtensions.put(X_DUPLICATE, true);
-            return true;
+    public Boolean isDuplicate(String paramNameType, String dataType) {
+        Map<String, Object> lastParam = this.uniqueParamNameTypes.get(paramNameType);
+        if (lastParam != null) {
+            String comparisonKey = lastParam.containsKey(X_ENUM) ? X_ENUM_VALUES : X_DATA_TYPE;
+            String lastParamDataType = (String) lastParam.get(comparisonKey);
+            if (lastParamDataType != null && lastParamDataType.equals(dataType)) {
+                return true;
+            }
         }
         return false;
     }
+
+    private Pair<Boolean, String> isDuplicateEnumValues(String enumValues) {
+        for (Map<String, Object> vs : uniqueParamNameTypes.values()) {
+            if (enumValues.equals(vs.get(X_ENUM_VALUES))) {
+                return Pair.of(true, (String) vs.get(X_PARAM_NAME_TYPE));
+            }
+        }
+        return Pair.of(false, null);
+    }
+
+
+    private void addToUniques(String xGroup, String paramNameType, String dataType, Map<String, Object> props) {
+        HashMap<String, Object> m = new HashMap<>();
+        m.put(X_PARAM_NAME_TYPE, paramNameType);
+        m.put(X_DATA_TYPE, dataType);
+        m.put(xGroup, true);
+        m.putAll(props);
+        uniqueParamNameTypes.put(paramNameType, m);
+    }
+
+    private void addEnumToUniques(String paramNameType, String datatype, String enumValues, Map<String, Object> allowableValues, String description) {
+        HashMap<String, Object> props = new HashMap<>();
+        props.put("allowableValues", allowableValues);
+        if(StringUtils.isNotBlank(description)) {
+            props.put("description", description);
+        }
+        props.put(X_ENUM_VALUES, enumValues);
+        addToUniques(X_ENUM, paramNameType, datatype, props);
+        additionalProperties.put(X_HAS_ENUM_SECTION, true);
+    }
+
 
     // build the parameterized path segments, according to pathParams
     private void processPathExpr(CodegenOperation op) {
@@ -962,20 +998,121 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public String toEnumName(CodegenProperty property) {
-        return "Enum'" + toTypeName("", property.name);
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            cm.isEnum = genEnums && cm.isEnum;
+            if(cm.isAlias) {
+                cm.vendorExtensions.put(X_DATA_TYPE, cm.dataType);
+            }
+            for (CodegenProperty var : cm.vars) {
+                String datatype = genEnums && !StringUtils.isBlank(var.datatypeWithEnum)
+                        ? var.datatypeWithEnum
+                        : var.datatype;
+                var.vendorExtensions.put(X_DATA_TYPE, datatype);
+            }
+        }
+        return postProcessModelsEnum(objs);
+    }
+
+    @Override
+    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+        Map<String, Object> objsEnum = super.postProcessModelsEnum(objs);
+        if (genEnums) {
+            List<Object> models = (List<Object>) objsEnum.get("models");
+            for (Object _mo : models) {
+                Map<String, Object> mo = (Map<String, Object>) _mo;
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                if (cm.isEnum && cm.allowableValues != null) {
+                    updateAllowableValuesNames(cm.classname, cm.allowableValues);
+                    addEnumToUniques(cm.classname, cm.dataType, cm.allowableValues.values().toString(), cm.allowableValues, cm.description);
+                }
+            }
+        }
+        return objsEnum;
+    }
+
+    @Override
+    protected void updateDataTypeWithEnumForMap(CodegenProperty property) {
+        CodegenProperty baseItem = property.items;
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMapContainer) || Boolean.TRUE.equals(baseItem.isListContainer))) {
+            baseItem = baseItem.items;
+        }
+        if (baseItem != null) {
+
+            // this replacement is/needs to be language-specific
+            property.datatypeWithEnum = property.datatypeWithEnum.replace(baseItem.baseType + ")", toEnumName(baseItem) + ")");
+
+            property.enumName = toEnumName(property);
+            if (property.defaultValue != null) {
+                property.defaultValue = property.defaultValue.replace(", " + property.items.baseType, ", " + toEnumName(property.items));
+            }
+        }
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty var) {
+        if (!genEnums) return super.toEnumName(var);
+
+        if (var.items != null && var.items.isEnum) {
+            return toEnumName(var.items);
+        }
+        String paramNameType = "E'" + toTypeName("", var.name);
+        String enumValues = var._enum.toString();
+
+        Pair<Boolean, String> duplicateEnum = isDuplicateEnumValues(enumValues);
+        if (duplicateEnum.getLeft()) {
+            paramNameType = duplicateEnum.getRight();
+        } else {
+            paramNameType = toDedupedName(paramNameType, enumValues, false);
+            var.datatypeWithEnum = paramNameType;
+            updateCodegenPropertyEnum(var);
+            addEnumToUniques(paramNameType, var.datatype, enumValues, var.allowableValues, var.description);
+        }
+
+        return paramNameType;
+    }
+
+    @Override
+    public void updateCodegenPropertyEnum(CodegenProperty var) {
+        super.updateCodegenPropertyEnum(var);
+        if (!genEnums) return;
+        updateCodegenPropertyEnumValues(var, var.datatypeWithEnum);
+    }
+
+    public void updateCodegenPropertyEnumValues(CodegenProperty var, String paramNameType) {
+        if (var.items != null && var.items.allowableValues != null) {
+            updateCodegenPropertyEnumValues(var.items, var.items.datatypeWithEnum);
+            return;
+        }
+        if(var.isEnum && var.allowableValues != null) {
+            updateAllowableValuesNames(paramNameType, var.allowableValues);
+        }
+    }
+
+    private void updateAllowableValuesNames(String paramNameType, Map<String, Object> allowableValues) {
+        if (allowableValues == null) {
+            return;
+        }
+        for (Map<String, String> enumVar : (List<Map<String, String>>) allowableValues.get("enumVars")) {
+            enumVar.put("name", paramNameType + enumVar.get("name"));
+        }
     }
 
     @Override
     public String toEnumVarName(String value, String datatype) {
+        if (!genEnums) return super.toEnumVarName(value, datatype);
+
         List<String> num = new ArrayList<>(Arrays.asList("integer","int","double","long","float"));
         if (value.length() == 0) {
-            return "E'Empty";
+            return "'Empty";
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(value) != null) {
-            return "E'" + sanitizeName(getSymbolName(value));
+            return "'" + StringUtils.capitalize(sanitizeName(getSymbolName(value)));
         }
 
         // number
@@ -984,10 +1121,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             varName = varName.replaceAll("-", "Minus_");
             varName = varName.replaceAll("\\+", "Plus_");
             varName = varName.replaceAll("\\.", "_Dot_");
-            return "E'" + sanitizeName(varName);
+            return "'" + StringUtils.capitalize(sanitizeName(varName));
         }
 
-        return "E'" + sanitizeName(value);
+        return "'" + StringUtils.capitalize(sanitizeName(value));
     }
 
     @Override
