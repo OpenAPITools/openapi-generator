@@ -95,20 +95,17 @@ instance Arbitrary AdditionalPropertiesClass where
       <$> arbitrary -- additionalPropertiesClassMapProperty :: Maybe (Map.Map String Text)
       <*> arbitrary -- additionalPropertiesClassMapOfMapProperty :: Maybe (Map.Map String (Map.Map String Text))
     
-
 instance Arbitrary Animal where
   arbitrary =
     Animal
       <$> arbitrary -- animalClassName :: Text
       <*> arbitrary -- animalColor :: Maybe Text
     
-
 instance Arbitrary AnimalFarm where
   arbitrary =
     
     pure AnimalFarm
      
-
 instance Arbitrary ApiResponse where
   arbitrary =
     ApiResponse
@@ -116,19 +113,16 @@ instance Arbitrary ApiResponse where
       <*> arbitrary -- apiResponseType :: Maybe Text
       <*> arbitrary -- apiResponseMessage :: Maybe Text
     
-
 instance Arbitrary ArrayOfArrayOfNumberOnly where
   arbitrary =
     ArrayOfArrayOfNumberOnly
       <$> arbitrary -- arrayOfArrayOfNumberOnlyArrayArrayNumber :: Maybe [[Double]]
     
-
 instance Arbitrary ArrayOfNumberOnly where
   arbitrary =
     ArrayOfNumberOnly
       <$> arbitrary -- arrayOfNumberOnlyArrayNumber :: Maybe [Double]
     
-
 instance Arbitrary ArrayTest where
   arbitrary =
     ArrayTest
@@ -136,7 +130,6 @@ instance Arbitrary ArrayTest where
       <*> arbitrary -- arrayTestArrayArrayOfInteger :: Maybe [[Integer]]
       <*> arbitrary -- arrayTestArrayArrayOfModel :: Maybe [[ReadOnlyFirst]]
     
-
 instance Arbitrary Capitalization where
   arbitrary =
     Capitalization
@@ -147,39 +140,28 @@ instance Arbitrary Capitalization where
       <*> arbitrary -- capitalizationScaEthFlowPoints :: Maybe Text
       <*> arbitrary -- capitalizationAttName :: Maybe Text
     
-
 instance Arbitrary Category where
   arbitrary =
     Category
       <$> arbitrary -- categoryId :: Maybe Integer
       <*> arbitrary -- categoryName :: Maybe Text
     
-
 instance Arbitrary ClassModel where
   arbitrary =
     ClassModel
       <$> arbitrary -- classModelClass :: Maybe Text
     
-
 instance Arbitrary Client where
   arbitrary =
     Client
       <$> arbitrary -- clientClient :: Maybe Text
     
-
 instance Arbitrary EnumArrays where
   arbitrary =
     EnumArrays
       <$> arbitrary -- enumArraysJustSymbol :: Maybe Text
       <*> arbitrary -- enumArraysArrayEnum :: Maybe [Text]
     
-
-instance Arbitrary EnumClass where
-  arbitrary =
-    
-    pure EnumClass
-     
-
 instance Arbitrary EnumTest where
   arbitrary =
     EnumTest
@@ -188,7 +170,6 @@ instance Arbitrary EnumTest where
       <*> arbitrary -- enumTestEnumNumber :: Maybe Double
       <*> arbitrary -- enumTestOuterEnum :: Maybe OuterEnum
     
-
 instance Arbitrary FormatTest where
   arbitrary =
     FormatTest
@@ -206,21 +187,18 @@ instance Arbitrary FormatTest where
       <*> arbitrary -- formatTestUuid :: Maybe Text
       <*> arbitrary -- formatTestPassword :: Text
     
-
 instance Arbitrary HasOnlyReadOnly where
   arbitrary =
     HasOnlyReadOnly
       <$> arbitrary -- hasOnlyReadOnlyBar :: Maybe Text
       <*> arbitrary -- hasOnlyReadOnlyFoo :: Maybe Text
     
-
 instance Arbitrary MapTest where
   arbitrary =
     MapTest
       <$> arbitrary -- mapTestMapMapOfString :: Maybe (Map.Map String (Map.Map String Text))
       <*> arbitrary -- mapTestMapOfEnumString :: Maybe (Map.Map String Text)
     
-
 instance Arbitrary MixedPropertiesAndAdditionalPropertiesClass where
   arbitrary =
     MixedPropertiesAndAdditionalPropertiesClass
@@ -228,26 +206,22 @@ instance Arbitrary MixedPropertiesAndAdditionalPropertiesClass where
       <*> arbitrary -- mixedPropertiesAndAdditionalPropertiesClassDateTime :: Maybe DateTime
       <*> arbitrary -- mixedPropertiesAndAdditionalPropertiesClassMap :: Maybe (Map.Map String Animal)
     
-
 instance Arbitrary Model200Response where
   arbitrary =
     Model200Response
       <$> arbitrary -- model200ResponseName :: Maybe Int
       <*> arbitrary -- model200ResponseClass :: Maybe Text
     
-
 instance Arbitrary ModelList where
   arbitrary =
     ModelList
       <$> arbitrary -- modelList123List :: Maybe Text
     
-
 instance Arbitrary ModelReturn where
   arbitrary =
     ModelReturn
       <$> arbitrary -- modelReturnReturn :: Maybe Int
     
-
 instance Arbitrary Name where
   arbitrary =
     Name
@@ -256,13 +230,11 @@ instance Arbitrary Name where
       <*> arbitrary -- nameProperty :: Maybe Text
       <*> arbitrary -- name123Number :: Maybe Int
     
-
 instance Arbitrary NumberOnly where
   arbitrary =
     NumberOnly
       <$> arbitrary -- numberOnlyJustNumber :: Maybe Double
     
-
 instance Arbitrary Order where
   arbitrary =
     Order
@@ -273,11 +245,9 @@ instance Arbitrary Order where
       <*> arbitrary -- orderStatus :: Maybe Text
       <*> arbitrary -- orderComplete :: Maybe Bool
     
-
 instance Arbitrary OuterBoolean where
   arbitrary =
     OuterBoolean <$> arbitrary
-
 instance Arbitrary OuterComposite where
   arbitrary =
     OuterComposite
@@ -285,21 +255,12 @@ instance Arbitrary OuterComposite where
       <*> arbitrary -- outerCompositeMyString :: Maybe OuterString
       <*> arbitrary -- outerCompositeMyBoolean :: Maybe OuterBoolean
     
-
-instance Arbitrary OuterEnum where
-  arbitrary =
-    
-    pure OuterEnum
-     
-
 instance Arbitrary OuterNumber where
   arbitrary =
     OuterNumber <$> arbitrary
-
 instance Arbitrary OuterString where
   arbitrary =
     OuterString <$> arbitrary
-
 instance Arbitrary Pet where
   arbitrary =
     Pet
@@ -310,27 +271,23 @@ instance Arbitrary Pet where
       <*> arbitrary -- petTags :: Maybe [Tag]
       <*> arbitrary -- petStatus :: Maybe Text
     
-
 instance Arbitrary ReadOnlyFirst where
   arbitrary =
     ReadOnlyFirst
       <$> arbitrary -- readOnlyFirstBar :: Maybe Text
       <*> arbitrary -- readOnlyFirstBaz :: Maybe Text
     
-
 instance Arbitrary SpecialModelName where
   arbitrary =
     SpecialModelName
       <$> arbitrary -- specialModelNameSpecialPropertyName :: Maybe Integer
     
-
 instance Arbitrary Tag where
   arbitrary =
     Tag
       <$> arbitrary -- tagId :: Maybe Integer
       <*> arbitrary -- tagName :: Maybe Text
     
-
 instance Arbitrary User where
   arbitrary =
     User
@@ -343,7 +300,6 @@ instance Arbitrary User where
       <*> arbitrary -- userPhone :: Maybe Text
       <*> arbitrary -- userUserStatus :: Maybe Int
     
-
 instance Arbitrary Cat where
   arbitrary =
     Cat
@@ -351,7 +307,6 @@ instance Arbitrary Cat where
       <*> arbitrary -- catColor :: Maybe Text
       <*> arbitrary -- catDeclawed :: Maybe Bool
     
-
 instance Arbitrary Dog where
   arbitrary =
     Dog
@@ -361,3 +316,42 @@ instance Arbitrary Dog where
     
 
 
+
+instance Arbitrary E'ArrayEnum where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'EnumFormString where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'EnumInteger where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'EnumNumber where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'EnumQueryInteger where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'EnumString where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'Inner where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'Inner2 where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'JustSymbol where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'Status where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'Status2 where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary EnumClass where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary OuterEnum where
+  arbitrary = arbitraryBoundedEnum

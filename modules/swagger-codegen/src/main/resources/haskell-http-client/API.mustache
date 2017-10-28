@@ -75,7 +75,7 @@ import qualified Prelude as P
 {{operationId}} 
   :: {{#vendorExtensions.x-hasBodyOrFormParam}}(Consumes {{{vendorExtensions.x-operationType}}} {{>_contentType}}{{#allParams}}{{#isBodyParam}}{{#required}}, MimeRender {{>_contentType}} {{#vendorExtensions.x-paramNameType}}{{{.}}}{{/vendorExtensions.x-paramNameType}}{{^vendorExtensions.x-paramNameType}}{{{dataType}}}{{/vendorExtensions.x-paramNameType}}{{/required}}{{/isBodyParam}}{{/allParams}})
   => {{^vendorExtensions.x-inlineContentType}}contentType -- ^ request content-type ('MimeType')
-  -> {{/vendorExtensions.x-inlineContentType}}{{/vendorExtensions.x-hasBodyOrFormParam}}{{#allParams}}{{#required}}{{#vendorExtensions.x-paramNameType}}{{{.}}}{{/vendorExtensions.x-paramNameType}}{{^vendorExtensions.x-paramNameType}}{{{dataType}}}{{/vendorExtensions.x-paramNameType}} -- ^ "{{{paramName}}}"{{#description}} - {{/description}} {{{description}}}
+  -> {{/vendorExtensions.x-inlineContentType}}{{/vendorExtensions.x-hasBodyOrFormParam}}{{#allParams}}{{#required}}{{#vendorExtensions.x-paramNameType}}{{{.}}}{{/vendorExtensions.x-paramNameType}}{{^vendorExtensions.x-paramNameType}}{{{dataType}}}{{/vendorExtensions.x-paramNameType}} -- ^ "{{{paramName}}}"{{#description}} -  {{{.}}}{{/description}}{{^required}}{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}{{/required}}
   -> {{/required}}{{/allParams}}{{requestType}} {{{vendorExtensions.x-operationType}}} {{#vendorExtensions.x-hasBodyOrFormParam}}{{>_contentType}}{{/vendorExtensions.x-hasBodyOrFormParam}}{{^vendorExtensions.x-hasBodyOrFormParam}}MimeNoContent{{/vendorExtensions.x-hasBodyOrFormParam}} {{vendorExtensions.x-returnType}}
 {{operationId}} {{#vendorExtensions.x-hasBodyOrFormParam}}{{^vendorExtensions.x-inlineContentType}}_ {{/vendorExtensions.x-inlineContentType}}{{/vendorExtensions.x-hasBodyOrFormParam}}{{#allParams}}{{#required}}{{#isBodyParam}}{{{paramName}}}{{/isBodyParam}}{{^isBodyParam}}({{{vendorExtensions.x-paramNameType}}} {{{paramName}}}){{/isBodyParam}} {{/required}}{{/allParams}}=
   _mkRequest "{{httpMethod}}" {{{vendorExtensions.x-path}}}{{#authMethods}}
@@ -108,14 +108,12 @@ instance Produces {{{vendorExtensions.x-operationType}}} {{{x-mediaDataType}}}
 
 
 -- * Parameter newtypes
+{{#x-allUniqueParams}}{{#x-newtype}}
+newtype {{{x-paramNameType}}} = {{{x-paramNameType}}} { un{{{x-paramNameType}}} :: {{{x-dataType}}} } deriving (P.Eq, P.Show{{#x-isBodyParam}}, A.ToJSON{{/x-isBodyParam}}){{/x-newtype}}{{/x-allUniqueParams}}
 
-{{#x-allUniqueParams}}
-newtype {{{vendorExtensions.x-paramNameType}}} = {{{vendorExtensions.x-paramNameType}}} { un{{{vendorExtensions.x-paramNameType}}} :: {{{dataType}}} } deriving (P.Eq, P.Show{{#isBodyParam}}, A.ToJSON{{/isBodyParam}})
-{{/x-allUniqueParams}}
+{{#authMethods}}{{#-first}}-- * Auth Methods
 
--- * Auth Methods
-
-{{#authMethods}}{{#isBasic}}-- ** {{name}}
+{{/-first}}{{#isBasic}}-- ** {{name}}
 data {{name}} =
   {{name}} B.ByteString B.ByteString -- ^ username password
   deriving (P.Eq, P.Show, P.Typeable)

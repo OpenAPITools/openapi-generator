@@ -20,6 +20,7 @@ public class HaskellHttpClientOptionsProvider implements OptionsProvider {
     public static final String DATE_FORMAT = "%Y-%m-%d";
     public static final String MODEL_DERIVING = "";
     public static final String STRICT_FIELDS = "false";
+    public static final String GENERATE_ENUMS = "true";
     public static final String GENERATE_FORM_URLENCODED_INSTANCES = "true";
     public static final String GENERATE_LENSES = "true";
     public static final String GENERATE_MODEL_CONSTRUCTORS = "true";
@@ -46,6 +47,7 @@ public class HaskellHttpClientOptionsProvider implements OptionsProvider {
                 .put(HaskellHttpClientCodegen.PROP_DATETIME_FORMAT, DATETIME_FORMAT)
                 .put(HaskellHttpClientCodegen.PROP_DATE_FORMAT, DATE_FORMAT)
                 .put(HaskellHttpClientCodegen.PROP_MODEL_DERIVING, MODEL_DERIVING)
+                .put(HaskellHttpClientCodegen.PROP_GENERATE_ENUMS, GENERATE_ENUMS)
                 .put(HaskellHttpClientCodegen.PROP_GENERATE_FORM_URLENCODED_INSTANCES, GENERATE_FORM_URLENCODED_INSTANCES)
                 .put(HaskellHttpClientCodegen.PROP_GENERATE_LENSES, GENERATE_LENSES)
                 .put(HaskellHttpClientCodegen.PROP_GENERATE_MODEL_CONSTRUCTORS, GENERATE_MODEL_CONSTRUCTORS)
