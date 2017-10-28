@@ -248,6 +248,32 @@ defmodule SwaggerPetstore.Api.Fake do
   end
 
   @doc """
+  test inline additionalProperties
+  
+
+  ## Parameters
+
+  - connection (SwaggerPetstore.Connection): Connection to server
+  - param (Object): request body
+  - opts (KeywordList): [optional] Optional parameters
+
+  ## Returns
+
+  {:ok, %{}} on success
+  {:error, info} on failure
+  """
+  @spec test_inline_additional_properties(Tesla.Env.client, SwaggerPetstore.Model.Object.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_inline_additional_properties(connection, param, _opts \\ []) do
+    %{}
+    |> method(:post)
+    |> url("/fake/inline-additionalProperties")
+    |> add_param(:body, :"param", param)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> decode(false)
+  end
+
+  @doc """
   test json serialization of form data
   
 
