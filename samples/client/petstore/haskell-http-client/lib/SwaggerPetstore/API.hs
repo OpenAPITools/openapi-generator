@@ -359,6 +359,32 @@ instance Consumes TestEnumParameters MimeAny
 instance Produces TestEnumParameters MimeAny
 
 
+-- *** testInlineAdditionalProperties
+
+-- | @POST \/fake\/inline-additionalProperties@
+-- 
+-- test inline additionalProperties
+-- 
+-- 
+-- 
+testInlineAdditionalProperties 
+  :: (Consumes TestInlineAdditionalProperties contentType, MimeRender contentType A.Value)
+  => contentType -- ^ request content-type ('MimeType')
+  -> A.Value -- ^ "param" -  request body
+  -> SwaggerPetstoreRequest TestInlineAdditionalProperties contentType NoContent
+testInlineAdditionalProperties _ param =
+  _mkRequest "POST" ["/fake/inline-additionalProperties"]
+    `setBodyParam` param
+
+data TestInlineAdditionalProperties 
+
+-- | /Body Param/ "param" - request body
+instance HasBodyParam TestInlineAdditionalProperties A.Value 
+
+-- | @application/json@
+instance Consumes TestInlineAdditionalProperties MimeJSON
+
+
 -- *** testJsonFormData
 
 -- | @GET \/fake\/jsonFormData@
@@ -990,14 +1016,14 @@ newtype ApiKey = ApiKey { unApiKey :: Text } deriving (P.Eq, P.Show)
 newtype Body = Body { unBody :: [User] } deriving (P.Eq, P.Show, A.ToJSON)
 newtype Byte = Byte { unByte :: ByteArray } deriving (P.Eq, P.Show)
 newtype Callback = Callback { unCallback :: Text } deriving (P.Eq, P.Show)
-newtype EnumFormString = EnumFormString { unEnumFormString :: Text } deriving (P.Eq, P.Show)
-newtype EnumFormStringArray = EnumFormStringArray { unEnumFormStringArray :: [Text] } deriving (P.Eq, P.Show)
-newtype EnumHeaderString = EnumHeaderString { unEnumHeaderString :: Text } deriving (P.Eq, P.Show)
-newtype EnumHeaderStringArray = EnumHeaderStringArray { unEnumHeaderStringArray :: [Text] } deriving (P.Eq, P.Show)
-newtype EnumQueryDouble = EnumQueryDouble { unEnumQueryDouble :: Double } deriving (P.Eq, P.Show)
-newtype EnumQueryInteger = EnumQueryInteger { unEnumQueryInteger :: Int } deriving (P.Eq, P.Show)
-newtype EnumQueryString = EnumQueryString { unEnumQueryString :: Text } deriving (P.Eq, P.Show)
-newtype EnumQueryStringArray = EnumQueryStringArray { unEnumQueryStringArray :: [Text] } deriving (P.Eq, P.Show)
+newtype EnumFormString = EnumFormString { unEnumFormString :: E'EnumFormString } deriving (P.Eq, P.Show)
+newtype EnumFormStringArray = EnumFormStringArray { unEnumFormStringArray :: [E'Inner2] } deriving (P.Eq, P.Show)
+newtype EnumHeaderString = EnumHeaderString { unEnumHeaderString :: E'EnumFormString } deriving (P.Eq, P.Show)
+newtype EnumHeaderStringArray = EnumHeaderStringArray { unEnumHeaderStringArray :: [E'Inner2] } deriving (P.Eq, P.Show)
+newtype EnumQueryDouble = EnumQueryDouble { unEnumQueryDouble :: E'EnumNumber } deriving (P.Eq, P.Show)
+newtype EnumQueryInteger = EnumQueryInteger { unEnumQueryInteger :: E'EnumQueryInteger } deriving (P.Eq, P.Show)
+newtype EnumQueryString = EnumQueryString { unEnumQueryString :: E'EnumFormString } deriving (P.Eq, P.Show)
+newtype EnumQueryStringArray = EnumQueryStringArray { unEnumQueryStringArray :: [E'Inner2] } deriving (P.Eq, P.Show)
 newtype File = File { unFile :: FilePath } deriving (P.Eq, P.Show)
 newtype Int32 = Int32 { unInt32 :: Int } deriving (P.Eq, P.Show)
 newtype Int64 = Int64 { unInt64 :: Integer } deriving (P.Eq, P.Show)
@@ -1017,7 +1043,7 @@ newtype ParamString = ParamString { unParamString :: Text } deriving (P.Eq, P.Sh
 newtype Password = Password { unPassword :: Text } deriving (P.Eq, P.Show)
 newtype PatternWithoutDelimiter = PatternWithoutDelimiter { unPatternWithoutDelimiter :: Text } deriving (P.Eq, P.Show)
 newtype PetId = PetId { unPetId :: Integer } deriving (P.Eq, P.Show)
-newtype Status = Status { unStatus :: [Text] } deriving (P.Eq, P.Show)
+newtype Status = Status { unStatus :: [E'Status2] } deriving (P.Eq, P.Show)
 newtype StatusText = StatusText { unStatusText :: Text } deriving (P.Eq, P.Show)
 newtype Tags = Tags { unTags :: [Text] } deriving (P.Eq, P.Show)
 newtype Username = Username { unUsername :: Text } deriving (P.Eq, P.Show)

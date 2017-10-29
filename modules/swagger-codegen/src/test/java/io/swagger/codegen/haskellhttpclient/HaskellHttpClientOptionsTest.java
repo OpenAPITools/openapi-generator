@@ -36,6 +36,8 @@ public class HaskellHttpClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setGenerateModelConstructors(Boolean.valueOf(HaskellHttpClientOptionsProvider.GENERATE_MODEL_CONSTRUCTORS));
             times = 1;
+            clientCodegen.setGenerateEnums(Boolean.valueOf(HaskellHttpClientOptionsProvider.GENERATE_ENUMS));
+            times = 1;
             clientCodegen.setGenerateFormUrlEncodedInstances(Boolean.valueOf(HaskellHttpClientOptionsProvider.GENERATE_FORM_URLENCODED_INSTANCES));
             times = 1;
             clientCodegen.setGenerateLenses(Boolean.valueOf(HaskellHttpClientOptionsProvider.GENERATE_LENSES));

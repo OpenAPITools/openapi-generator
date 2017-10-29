@@ -918,6 +918,27 @@ paths:
       responses:
         200:
           description: "successful operation"
+  /fake/inline-additionalProperties:
+    post:
+      tags:
+      - "fake"
+      summary: "test inline additionalProperties"
+      description: ""
+      operationId: "testInlineAdditionalProperties"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "param"
+        description: "request body"
+        required: true
+        schema:
+          type: "object"
+          additionalProperties:
+            type: "string"
+      responses:
+        200:
+          description: "successful operation"
   /another-fake/dummy:
     patch:
       tags:
@@ -966,15 +987,19 @@ definitions:
       id:
         type: "integer"
         format: "int64"
+        x-dataType: "Integer"
       petId:
         type: "integer"
         format: "int64"
+        x-dataType: "Integer"
       quantity:
         type: "integer"
         format: "int32"
+        x-dataType: "Int"
       shipDate:
         type: "string"
         format: "date-time"
+        x-dataType: "DateTime"
       status:
         type: "string"
         description: "Order Status"
@@ -982,9 +1007,11 @@ definitions:
         - "placed"
         - "approved"
         - "delivered"
+        x-dataType: "E'Status"
       complete:
         type: "boolean"
         default: false
+        x-dataType: "Bool"
     example:
       petId: 6
       quantity: 1
@@ -1003,8 +1030,10 @@ definitions:
       id:
         type: "integer"
         format: "int64"
+        x-dataType: "Integer"
       name:
         type: "string"
+        x-dataType: "Text"
     example:
       name: "name"
       id: 6
@@ -1017,22 +1046,30 @@ definitions:
         type: "integer"
         format: "int64"
         x-is-unique: true
+        x-dataType: "Integer"
       username:
         type: "string"
+        x-dataType: "Text"
       firstName:
         type: "string"
+        x-dataType: "Text"
       lastName:
         type: "string"
+        x-dataType: "Text"
       email:
         type: "string"
+        x-dataType: "Text"
       password:
         type: "string"
+        x-dataType: "Text"
       phone:
         type: "string"
+        x-dataType: "Text"
       userStatus:
         type: "integer"
         format: "int32"
         description: "User Status"
+        x-dataType: "Int"
     example:
       firstName: "firstName"
       lastName: "lastName"
@@ -1053,8 +1090,10 @@ definitions:
       id:
         type: "integer"
         format: "int64"
+        x-dataType: "Integer"
       name:
         type: "string"
+        x-dataType: "Text"
     example:
       name: "name"
       id: 1
@@ -1070,11 +1109,14 @@ definitions:
         type: "integer"
         format: "int64"
         x-is-unique: true
+        x-dataType: "Integer"
       category:
         $ref: "#/definitions/Category"
+        x-dataType: "Category"
       name:
         type: "string"
         example: "doggie"
+        x-dataType: "Text"
       photoUrls:
         type: "array"
         xml:
@@ -1082,6 +1124,7 @@ definitions:
           wrapped: true
         items:
           type: "string"
+        x-dataType: "[Text]"
       tags:
         type: "array"
         xml:
@@ -1089,6 +1132,7 @@ definitions:
           wrapped: true
         items:
           $ref: "#/definitions/Tag"
+        x-dataType: "[Tag]"
       status:
         type: "string"
         description: "pet status in the store"
@@ -1096,6 +1140,7 @@ definitions:
         - "available"
         - "pending"
         - "sold"
+        x-dataType: "E'Status2"
     example:
       photoUrls:
       - "photoUrls"
@@ -1122,10 +1167,13 @@ definitions:
       code:
         type: "integer"
         format: "int32"
+        x-dataType: "Int"
       type:
         type: "string"
+        x-dataType: "Text"
       message:
         type: "string"
+        x-dataType: "Text"
     example:
       code: 0
       type: "type"
@@ -1135,6 +1183,7 @@ definitions:
       $special[property.name]:
         type: "integer"
         format: "int64"
+        x-dataType: "Integer"
     xml:
       name: "$special[model.name]"
   Return:
@@ -1142,6 +1191,7 @@ definitions:
       return:
         type: "integer"
         format: "int32"
+        x-dataType: "Int"
     description: "Model for testing reserved words"
     xml:
       name: "Return"
@@ -1152,15 +1202,19 @@ definitions:
       name:
         type: "integer"
         format: "int32"
+        x-dataType: "Int"
       snake_case:
         type: "integer"
         format: "int32"
         readOnly: true
+        x-dataType: "Int"
       property:
         type: "string"
+        x-dataType: "Text"
       123Number:
         type: "integer"
         readOnly: true
+        x-dataType: "Int"
     description: "Model for testing model name same as property name"
     xml:
       name: "Name"
@@ -1169,8 +1223,10 @@ definitions:
       name:
         type: "integer"
         format: "int32"
+        x-dataType: "Int"
       class:
         type: "string"
+        x-dataType: "Text"
     description: "Model for testing model name starting with number"
     xml:
       name: "Name"
@@ -1178,6 +1234,7 @@ definitions:
     properties:
       _class:
         type: "string"
+        x-dataType: "Text"
     description: "Model for testing model with \"_class\" property"
   Dog:
     allOf:
@@ -1186,6 +1243,7 @@ definitions:
       properties:
         breed:
           type: "string"
+          x-dataType: "Text"
   Cat:
     allOf:
     - $ref: "#/definitions/Animal"
@@ -1193,6 +1251,7 @@ definitions:
       properties:
         declawed:
           type: "boolean"
+          x-dataType: "Bool"
   Animal:
     type: "object"
     required:
@@ -1201,9 +1260,11 @@ definitions:
     properties:
       className:
         type: "string"
+        x-dataType: "Text"
       color:
         type: "string"
         default: "red"
+        x-dataType: "Text"
   AnimalFarm:
     type: "array"
     items:
@@ -1220,52 +1281,65 @@ definitions:
         type: "integer"
         minimum: 10
         maximum: 100
+        x-dataType: "Int"
       int32:
         type: "integer"
         format: "int32"
         minimum: 20
         maximum: 200
+        x-dataType: "Int"
       int64:
         type: "integer"
         format: "int64"
+        x-dataType: "Integer"
       number:
         type: "number"
         minimum: 32.1
         maximum: 543.2
+        x-dataType: "Double"
       float:
         type: "number"
         format: "float"
         minimum: 54.3
         maximum: 987.6
+        x-dataType: "Float"
       double:
         type: "number"
         format: "double"
         minimum: 67.8
         maximum: 123.4
+        x-dataType: "Double"
       string:
         type: "string"
         pattern: "/[a-z]/i"
+        x-dataType: "Text"
       byte:
         type: "string"
         format: "byte"
         pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
+        x-dataType: "ByteArray"
       binary:
         type: "string"
         format: "binary"
+        x-dataType: "Binary"
       date:
         type: "string"
         format: "date"
+        x-dataType: "Date"
       dateTime:
         type: "string"
         format: "date-time"
+        x-dataType: "DateTime"
       uuid:
         type: "string"
         format: "uuid"
+        x-dataType: "Text"
       password:
         type: "string"
         format: "password"
         minLength: 10
         maxLength: 64
+        x-dataType: "Text"
   EnumClass:
     type: "string"
     enum:
@@ -1282,20 +1356,24 @@ definitions:
         - "UPPER"
         - "lower"
         - ""
+        x-dataType: "E'EnumString"
       enum_integer:
         type: "integer"
         format: "int32"
         enum:
         - 1
         - -1
+        x-dataType: "E'EnumInteger"
       enum_number:
         type: "number"
         format: "double"
         enum:
         - 1.1
         - -1.2
+        x-dataType: "E'EnumNumber"
       outerEnum:
         $ref: "#/definitions/OuterEnum"
+        x-dataType: "OuterEnum"
   AdditionalPropertiesClass:
     type: "object"
     properties:
@@ -1303,35 +1381,42 @@ definitions:
         type: "object"
         additionalProperties:
           type: "string"
+        x-dataType: "(Map.Map String Text)"
       map_of_map_property:
         type: "object"
         additionalProperties:
           type: "object"
           additionalProperties:
             type: "string"
+        x-dataType: "(Map.Map String (Map.Map String Text))"
   MixedPropertiesAndAdditionalPropertiesClass:
     type: "object"
     properties:
       uuid:
         type: "string"
         format: "uuid"
+        x-dataType: "Text"
       dateTime:
         type: "string"
         format: "date-time"
+        x-dataType: "DateTime"
       map:
         type: "object"
         additionalProperties:
           $ref: "#/definitions/Animal"
+        x-dataType: "(Map.Map String Animal)"
   List:
     type: "object"
     properties:
       123-list:
         type: "string"
+        x-dataType: "Text"
   Client:
     type: "object"
     properties:
       client:
         type: "string"
+        x-dataType: "Text"
     example:
       client: "client"
     x-mimeTypes:
@@ -1342,33 +1427,43 @@ definitions:
       bar:
         type: "string"
         readOnly: true
+        x-dataType: "Text"
       baz:
         type: "string"
+        x-dataType: "Text"
   hasOnlyReadOnly:
     type: "object"
     properties:
       bar:
         type: "string"
         readOnly: true
+        x-dataType: "Text"
       foo:
         type: "string"
         readOnly: true
+        x-dataType: "Text"
   Capitalization:
     type: "object"
     properties:
       smallCamel:
         type: "string"
+        x-dataType: "Text"
       CapitalCamel:
         type: "string"
+        x-dataType: "Text"
       small_Snake:
         type: "string"
+        x-dataType: "Text"
       Capital_Snake:
         type: "string"
+        x-dataType: "Text"
       SCA_ETH_Flow_Points:
         type: "string"
+        x-dataType: "Text"
       ATT_NAME:
         type: "string"
         description: "Name of the pet\n"
+        x-dataType: "Text"
   MapTest:
     type: "object"
     properties:
@@ -1378,6 +1473,7 @@ definitions:
           type: "object"
           additionalProperties:
             type: "string"
+        x-dataType: "(Map.Map String (Map.Map String Text))"
       map_of_enum_string:
         type: "object"
         additionalProperties:
@@ -1385,6 +1481,7 @@ definitions:
           enum:
           - "UPPER"
           - "lower"
+        x-dataType: "(Map.Map String E'Inner)"
   ArrayTest:
     type: "object"
     properties:
@@ -1392,6 +1489,7 @@ definitions:
         type: "array"
         items:
           type: "string"
+        x-dataType: "[Text]"
       array_array_of_integer:
         type: "array"
         items:
@@ -1399,17 +1497,20 @@ definitions:
           items:
             type: "integer"
             format: "int64"
+        x-dataType: "[[Integer]]"
       array_array_of_model:
         type: "array"
         items:
           type: "array"
           items:
             $ref: "#/definitions/ReadOnlyFirst"
+        x-dataType: "[[ReadOnlyFirst]]"
   NumberOnly:
     type: "object"
     properties:
       JustNumber:
         type: "number"
+        x-dataType: "Double"
   ArrayOfNumberOnly:
     type: "object"
     properties:
@@ -1417,6 +1518,7 @@ definitions:
         type: "array"
         items:
           type: "number"
+        x-dataType: "[Double]"
   ArrayOfArrayOfNumberOnly:
     type: "object"
     properties:
@@ -1426,6 +1528,7 @@ definitions:
           type: "array"
           items:
             type: "number"
+        x-dataType: "[[Double]]"
   EnumArrays:
     type: "object"
     properties:
@@ -1434,6 +1537,7 @@ definitions:
         enum:
         - ">="
         - "$"
+        x-dataType: "E'JustSymbol"
       array_enum:
         type: "array"
         items:
@@ -1441,6 +1545,7 @@ definitions:
           enum:
           - "fish"
           - "crab"
+        x-dataType: "[E'ArrayEnum]"
   OuterEnum:
     type: "string"
     enum:
@@ -1452,20 +1557,26 @@ definitions:
     properties:
       my_number:
         $ref: "#/definitions/OuterNumber"
+        x-dataType: "OuterNumber"
       my_string:
         $ref: "#/definitions/OuterString"
+        x-dataType: "OuterString"
       my_boolean:
         $ref: "#/definitions/OuterBoolean"
+        x-dataType: "OuterBoolean"
     example:
       my_string: {}
       my_number: {}
       my_boolean: {}
   OuterNumber:
     type: "number"
+    x-dataType: "Double"
   OuterString:
     type: "string"
+    x-dataType: "Text"
   OuterBoolean:
     type: "boolean"
+    x-dataType: "Bool"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"

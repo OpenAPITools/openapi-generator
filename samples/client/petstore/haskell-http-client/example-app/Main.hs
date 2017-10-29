@@ -104,7 +104,9 @@ runPet mgr config = do
           Right r -> putStrLn $ "getPetById: found pet: " <> show r  -- display 'Pet' model object, r 
 
         -- findPetsByStatus
-        let findPetsByStatusRequest = S.findPetsByStatus (S.Status ["available","pending","sold"])
+        let findPetsByStatusRequest = S.findPetsByStatus (S.Status [ S.E'Status2'Available
+                                                                   , S.E'Status2'Pending
+                                                                   , S.E'Status2'Sold])
         findPetsByStatusResult <- S.dispatchMime mgr config findPetsByStatusRequest S.MimeJSON
         mapM_ (\r -> putStrLn $ "findPetsByStatus: found " <> (show . length) r <> " pets") findPetsByStatusResult 
 
@@ -115,7 +117,7 @@ runPet mgr config = do
 
         -- updatePet
         let updatePetRequest = S.updatePet S.MimeJSON $ pet
-                { S.petStatus   = Just "available"
+                { S.petStatus   = Just S.E'Status2'Available
                 , S.petCategory = Just (S.Category (Just 3) (Just "catname"))
                 }
         _ <- S.dispatchLbs mgr config updatePetRequest S.MimeXML

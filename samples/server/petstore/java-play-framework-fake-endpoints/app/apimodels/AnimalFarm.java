@@ -51,21 +51,5 @@ public class AnimalFarm extends ArrayList<Animal>  {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-  public void validate() {
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    Validator validator = factory.getValidator();
-    Set<ConstraintViolation<AnimalFarm>> constraintViolations = validator.validate(this);
-    if (constraintViolations.size() > 0) {
-      StringBuilder errors = new StringBuilder();
-      for (ConstraintViolation<AnimalFarm> contraintes : constraintViolations) {
-        errors.append(String.format("%s.%s %s\n",
-            contraintes.getRootBeanClass().getSimpleName(),
-            contraintes.getPropertyPath(),
-            contraintes.getMessage()));
-      }
-      throw new RuntimeException("Bean validation : " + errors);
-    }
-  }
 }
 

@@ -13,13 +13,13 @@ defmodule SwaggerPetstore.RequestBuilder do
   ## Parameters
 
   - request (Map) - Collected request options
-  - m (String) - Request method
+  - m (atom) - Request method
 
   ## Returns
 
   Map
   """
-  @spec method(map(), String.t) :: map()
+  @spec method(map(), atom) :: map()
   def method(request, m) do
     Map.put_new(request, :method, m)
   end
@@ -54,7 +54,7 @@ defmodule SwaggerPetstore.RequestBuilder do
 
   Map
   """
-  @spec add_optional_params(map(), %{optional(:atom) => :atom}, keyword()) :: map()
+  @spec add_optional_params(map(), %{optional(atom) => atom}, keyword()) :: map()
   def add_optional_params(request, _, []), do: request
   def add_optional_params(request, definitions, [{key, value} | tail]) do
     case definitions do
@@ -81,7 +81,7 @@ defmodule SwaggerPetstore.RequestBuilder do
 
   Map
   """
-  @spec add_param(map(), :atom, :atom, any()) :: map()
+  @spec add_param(map(), atom, atom, any()) :: map()
   def add_param(request, :body, :body, value), do: Map.put(request, :body, value)
   def add_param(request, :body, key, value) do
     request
@@ -106,25 +106,20 @@ defmodule SwaggerPetstore.RequestBuilder do
 
   ## Parameters
 
-  - env (Tesla.Env) - The response object
-  - struct - The shape of the struct to deserialize into
+  - arg1 (Tesla.Env.t | term) - The response object
+  - arg2 (:false | struct | [struct]) - The shape of the struct to deserialize into
 
   ## Returns
 
   {:ok, struct} on success
-  {:error, info} on failure
+  {:error, term} on failure
   """
-  @spec decode(Tesla.Env.t) :: {:ok, struct()} | {:error, Tesla.Env.t}
+  @spec decode(Tesla.Env.t | term()) :: {:ok, struct()} | {:error, Tesla.Env.t} | {:error, term()}
   def decode(%Tesla.Env{status: 200, body: body}), do: Poison.decode(body)
-  def decode(response) do
-    {:error, response}
-  end
-  @spec decode(Tesla.Env.t, struct()) :: {:ok, struct()} | {:error, Tesla.Env.t}
+  def decode(response), do: {:error, response}
+
+  @spec decode(Tesla.Env.t | term(), :false | struct() | [struct()]) :: {:ok, struct()} | {:error, Tesla.Env.t} | {:error, term()}
   def decode(%Tesla.Env{status: 200} = env, false), do: {:ok, env}
-  def decode(%Tesla.Env{status: 200, body: body}, struct) do
-    Poison.decode(body, as: struct)
-  end
-  def decode(response, _struct) do
-    {:error, response}
-  end
+  def decode(%Tesla.Env{status: 200, body: body}, struct), do: Poison.decode(body, as: struct)
+  def decode(response, _struct), do: {:error, response}
 end
