@@ -182,6 +182,18 @@ public interface FakeApi extends ApiClient.Api {
   }
 
   /**
+   * test inline additionalProperties
+   * 
+    * @param param request body (required)
+   */
+  @RequestLine("POST /fake/inline-additionalProperties")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testInlineAdditionalProperties(Object param);
+
+  /**
    * test json serialization of form data
    * 
     * @param param field1 (required)

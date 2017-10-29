@@ -64,7 +64,7 @@ public class AnotherFakeApi {
      */
     public com.squareup.okhttp.Call testSpecialTagsCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
-        
+
         // create path and map variables
         String localVarPath = "/another-fake/dummy";
 
@@ -102,7 +102,7 @@ public class AnotherFakeApi {
         String[] localVarAuthNames = new String[] {  };
         return apiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
-    
+
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call testSpecialTagsValidateBeforeCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
@@ -111,14 +111,10 @@ public class AnotherFakeApi {
             throw new ApiException("Missing the required parameter 'body' when calling testSpecialTags(Async)");
         }
         
-        
+
         com.squareup.okhttp.Call call = testSpecialTagsCall(body, progressListener, progressRequestListener);
         return call;
 
-        
-        
-        
-        
     }
 
     /**

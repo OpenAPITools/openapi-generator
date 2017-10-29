@@ -120,6 +120,18 @@ public interface FakeApi {
     }
 
 
+    @ApiOperation(value = "test inline additionalProperties", nickname = "testInlineAdditionalProperties", notes = "", tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation") })
+    @RequestMapping(value = "/fake/inline-additionalProperties",
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    default CompletableFuture<ResponseEntity<Void>> testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true )  @Valid @RequestBody Object param, @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
+        // do some magic!
+        return CompletableFuture.completedFuture(new ResponseEntity<Void>(HttpStatus.OK));
+    }
+
+
     @ApiOperation(value = "test json serialization of form data", nickname = "testJsonFormData", notes = "", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })

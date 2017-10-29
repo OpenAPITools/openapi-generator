@@ -31,7 +31,6 @@ public interface AnotherFakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @ApiImplicitParams({
-    
     })
     @RequestMapping(value = "/another-fake/dummy",
         produces = { "application/json" }, 

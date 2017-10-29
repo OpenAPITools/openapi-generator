@@ -94,13 +94,15 @@ is_authorized(
     end;
   {{/isApiKey}}
 {{/authMethods}}
+{{/operation}}{{/operations}}
 {{^authMethods}}
 is_authorized(Req, State) ->
-    {true, Req, State};
+    {true, Req, State}.
 {{/authMethods}}
-{{/operation}}{{/operations}}
+{{#authMethods}}
 is_authorized(Req, State) ->
     {{false, <<"">>}, Req, State}.
+{{/authMethods}}
 
 -spec content_types_accepted(Req :: cowboy_req:req(), State :: state()) ->
     {

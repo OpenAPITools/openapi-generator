@@ -51,7 +51,7 @@ object PetApi {
         * @return And endpoint representing a Unit
         */
         private def deletePet(da: DataAccessor): Endpoint[Unit] =
-        delete("pet" :: long  :: string) { (petId: Long, apiKey: String) => 
+        delete("pet" :: long  :: headerOption("api_key")) { (petId: Long, apiKey: Option[String]) => 
                 da.Pet_deletePet(petId, apiKey)
                 NoContent[Unit]
         } handle {
@@ -108,7 +108,7 @@ object PetApi {
         * @return And endpoint representing a Unit
         */
         private def updatePetWithForm(da: DataAccessor): Endpoint[Unit] =
-        post("pet" :: long  :: string :: string) { (petId: Long, name: String, status: String) => 
+        post("pet" :: long  :: String :: String) { (petId: Long, name: String, status: String) => 
                 da.Pet_updatePetWithForm(petId, name, status)
                 NoContent[Unit]
         } handle {
@@ -120,7 +120,7 @@ object PetApi {
         * @return And endpoint representing a ApiResponse
         */
         private def uploadFile(da: DataAccessor): Endpoint[ApiResponse] =
-        post("pet" :: long :: "uploadImage"  :: string :: fileUpload("file")) { (petId: Long, additionalMetadata: String, file: FileUpload) => 
+        post("pet" :: long :: "uploadImage"  :: String :: fileUpload("file")) { (petId: Long, additionalMetadata: String, file: FileUpload) => 
                 Ok(da.Pet_uploadFile(petId, additionalMetadata, file))
         } handle {
           case e: Exception => BadRequest(e)

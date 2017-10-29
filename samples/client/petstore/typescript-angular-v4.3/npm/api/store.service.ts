@@ -9,7 +9,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
@@ -70,11 +69,12 @@ export class StoreService {
 
         let headers = this.defaultHeaders;
 
-        return this.httpClient.delete<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, 
-        {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        return this.httpClient.delete<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+            {
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
     /**
@@ -90,11 +90,12 @@ export class StoreService {
             headers = headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
-        return this.httpClient.get<any>(`${this.basePath}/store/inventory`, 
-        {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        return this.httpClient.get<any>(`${this.basePath}/store/inventory`,
+            {
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
     /**
@@ -109,11 +110,12 @@ export class StoreService {
 
         let headers = this.defaultHeaders;
 
-        return this.httpClient.get<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, 
-        {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        return this.httpClient.get<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+            {
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
     /**
@@ -128,11 +130,13 @@ export class StoreService {
 
         let headers = this.defaultHeaders;
 
-        return this.httpClient.post<any>(`${this.basePath}/store/order`, body, 
-        {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        return this.httpClient.post<any>(`${this.basePath}/store/order`,
+            body, 
+            {
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
 }

@@ -20,10 +20,22 @@ import io.swagger.jaxrs.PATCH;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+/**
+ * Swagger Petstore
+ *
+ * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ *
+ */
 @Path("/")
 @Api(value = "/", description = "")
 public interface UserApi  {
 
+    /**
+     * Create user
+     *
+     * This can only be done by the logged in user.
+     *
+     */
     @POST
     @Path("/user")
     @Produces({ "application/xml", "application/json" })
@@ -32,6 +44,12 @@ public interface UserApi  {
         @ApiResponse(code = 200, message = "successful operation") })
     public void createUser(@Valid User body);
 
+    /**
+     * Creates list of users with given input array
+     *
+     * 
+     *
+     */
     @POST
     @Path("/user/createWithArray")
     @Produces({ "application/xml", "application/json" })
@@ -40,6 +58,12 @@ public interface UserApi  {
         @ApiResponse(code = 200, message = "successful operation") })
     public void createUsersWithArrayInput(@Valid List<User> body);
 
+    /**
+     * Creates list of users with given input array
+     *
+     * 
+     *
+     */
     @POST
     @Path("/user/createWithList")
     @Produces({ "application/xml", "application/json" })
@@ -48,6 +72,12 @@ public interface UserApi  {
         @ApiResponse(code = 200, message = "successful operation") })
     public void createUsersWithListInput(@Valid List<User> body);
 
+    /**
+     * Delete user
+     *
+     * This can only be done by the logged in user.
+     *
+     */
     @DELETE
     @Path("/user/{username}")
     @Produces({ "application/xml", "application/json" })
@@ -57,6 +87,12 @@ public interface UserApi  {
         @ApiResponse(code = 404, message = "User not found") })
     public void deleteUser(@PathParam("username") String username);
 
+    /**
+     * Get user by user name
+     *
+     * 
+     *
+     */
     @GET
     @Path("/user/{username}")
     @Produces({ "application/xml", "application/json" })
@@ -67,6 +103,12 @@ public interface UserApi  {
         @ApiResponse(code = 404, message = "User not found") })
     public User getUserByName(@PathParam("username") String username);
 
+    /**
+     * Logs user into the system
+     *
+     * 
+     *
+     */
     @GET
     @Path("/user/login")
     @Produces({ "application/xml", "application/json" })
@@ -76,6 +118,12 @@ public interface UserApi  {
         @ApiResponse(code = 400, message = "Invalid username/password supplied") })
     public String loginUser(@QueryParam("username") @NotNull String username, @QueryParam("password") @NotNull String password);
 
+    /**
+     * Logs out current logged in user session
+     *
+     * 
+     *
+     */
     @GET
     @Path("/user/logout")
     @Produces({ "application/xml", "application/json" })
@@ -84,6 +132,12 @@ public interface UserApi  {
         @ApiResponse(code = 200, message = "successful operation") })
     public void logoutUser();
 
+    /**
+     * Updated user
+     *
+     * This can only be done by the logged in user.
+     *
+     */
     @PUT
     @Path("/user/{username}")
     @Produces({ "application/xml", "application/json" })

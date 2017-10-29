@@ -90,6 +90,11 @@ samples/client/petstore/silex/SwaggerServer/venodr/
 **/vendor/
 **/composer.lock
 
+#PHP-Symfony
+samples/server/petstore/php-symfony/SymfonyBundle-php/Tests/cache/
+samples/server/petstore/php-symfony/SymfonyBundle-php/Tests/logs/
+
+
 # Perl
 samples/client/petstore/perl/deep_module_test/
 

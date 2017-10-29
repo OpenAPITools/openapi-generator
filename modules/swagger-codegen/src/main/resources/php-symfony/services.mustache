@@ -2,9 +2,33 @@
 # https://github.com/swagger-api/swagger-codegen
 # Do not edit the class manually.
 
+parameters:
+    {{bundleAlias}}.serializer: '{{servicePackage}}\JmsSerializer'
+    {{bundleAlias}}.validator:  '{{servicePackage}}\SymfonyValidator'
+
 services:
     {{bundleAlias}}.api.api_server:
         class: {{apiPackage}}\ApiServer
 
     {{bundleAlias}}.model.model_serializer:
         class: {{modelPackage}}\ModelSerializer
+
+    {{bundleAlias}}.service.serializer:
+        class: %{{bundleAlias}}.serializer%
+
+    {{bundleAlias}}.service.validator:
+        class: %{{bundleAlias}}.validator%
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+    {{bundleAlias}}.controller.{{pathPrefix}}:
+        class: {{controllerPackage}}\{{baseName}}Controller
+        calls:
+         - [setSerializer, ['@{{bundleAlias}}.service.serializer']]
+         - [setValidator,  ['@{{bundleAlias}}.service.validator']]
+         - [setApiServer,  ['@{{bundleAlias}}.api.api_server']]
+
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

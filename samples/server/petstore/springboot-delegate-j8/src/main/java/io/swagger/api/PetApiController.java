@@ -43,7 +43,7 @@ public class PetApiController implements PetApi {
         return delegate.addPet(body);
     }
 
-    public ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true ) @PathVariable("petId") Long petId,
+    public ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId,
         @ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
@@ -62,7 +62,7 @@ public class PetApiController implements PetApi {
         return delegate.findPetsByTags(tags);
     }
 
-    public ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return",required=true ) @PathVariable("petId") Long petId,
+    public ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return",required=true) @PathVariable("petId") Long petId,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return delegate.getPetById(petId);
@@ -74,7 +74,7 @@ public class PetApiController implements PetApi {
         return delegate.updatePet(body);
     }
 
-    public ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true ) @PathVariable("petId") Long petId,
+    public ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Updated name of the pet") @RequestPart(value="name", required=false)  String name,
         @ApiParam(value = "Updated status of the pet") @RequestPart(value="status", required=false)  String status,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
@@ -82,7 +82,7 @@ public class PetApiController implements PetApi {
         return delegate.updatePetWithForm(petId, name, status);
     }
 
-    public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId,
+    public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,
         @ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
