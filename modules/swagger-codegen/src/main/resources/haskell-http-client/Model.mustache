@@ -8,6 +8,8 @@ Module : {{title}}.Model
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveTraversable #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
@@ -18,9 +20,11 @@ Module : {{title}}.Model
 module {{title}}.Model where
 
 import {{title}}.Core
+import {{title}}.MimeTypes
 
 import Data.Aeson ((.:),(.:!),(.:?),(.=))
 
+import qualified Control.Arrow as P (left)
 import qualified Data.Aeson as A
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as BL
@@ -39,7 +43,7 @@ import qualified Web.HttpApiData as WH
 import Control.Applicative ((<|>))
 import Control.Applicative (Alternative)
 import Data.Text (Text)
-import Prelude (($), (.),(<$>),(<*>),(>>=),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
+import Prelude (($), (.),(<$>),(<*>),(>>=),(=<<),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
 
 import qualified Prelude as P
 
@@ -50,18 +54,17 @@ import qualified Prelude as P
 -- * Models
 
 {{#models}}
-{{#model}}
-
+{{#model}}{{^isEnum}}
 -- ** {{classname}}
 -- | {{classname}}{{#title}}
 -- {{{.}}}
 -- {{/title}}{{#description}}
 -- {{{.}}}{{/description}}{{#isAlias}}
 newtype {{classname}} = {{classname}}
-  { un{{classname}} :: {{{dataType}}}
+  { un{{classname}} :: {{{vendorExtensions.x-dataType}}}
   } deriving (P.Eq, P.Show, P.Typeable, A.ToJSON, A.FromJSON, WH.ToHttpApiData, WH.FromHttpApiData{{#modelDeriving}}, {{modelDeriving}}{{/modelDeriving}}){{/isAlias}}{{^isAlias}}
 data {{classname}} = {{classname}}
-  { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{datatype}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#readOnly}}/ReadOnly/ {{/readOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{#hasMore}}
+  { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#readOnly}}/ReadOnly/ {{/readOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}
   } deriving (P.Show, P.Eq, P.Typeable{{#modelDeriving}}, {{modelDeriving}}{{/modelDeriving}}){{/isAlias}}
 
@@ -100,17 +103,40 @@ instance WH.ToForm {{classname}} where
 {{#generateModelConstructors}}
 -- | Construct a value of type '{{classname}}' (by applying it's required fields, if any)
 mk{{classname}}
-  :: {{#requiredVars}}{{{datatype}}} -- ^ '{{name}}'{{#description}}:{{/description}} {{{description}}}
+  :: {{#requiredVars}}{{{vendorExtensions.x-dataType}}} -- ^ '{{name}}'{{#description}}:{{/description}} {{{description}}}
   -> {{/requiredVars}}{{classname}}
 mk{{classname}} {{#requiredVars}}{{name}} {{/requiredVars}}=
   {{classname}}
   { {{#vars}}{{#required}}{{name}}{{/required}}{{^required}}{{name}} = {{#isListContainer}}Nothing{{/isListContainer}}{{#isMapContainer}}Nothing{{/isMapContainer}}{{^isContainer}}Nothing{{/isContainer}}{{/required}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}
   }
-{{/generateModelConstructors}}
-{{/isAlias}}  
+{{/generateModelConstructors}}{{/isAlias}}{{/isEnum}}{{/model}}{{/models}}
 
-{{/model}}
-{{/models}}
+{{#x-hasEnumSection}}-- * Enums
+{{#x-allUniqueParams}}{{#x-enum}}
 
+-- ** {{{x-paramNameType}}}
 
+-- | Enum of '{{{x-dataType}}}'{{#description}} . 
+-- {{{.}}}{{/description}}
+data {{{x-paramNameType}}}
+  = {{#allowableValues}}{{#enumVars}}{{{name}}} -- ^ @{{{value}}}@
+  {{^-last}}| {{/-last}}{{#-last}}deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum){{/-last}}{{/enumVars}}{{/allowableValues}}
+
+instance A.ToJSON {{{x-paramNameType}}} where toJSON = A.toJSON . from{{{x-paramNameType}}}
+instance A.FromJSON {{{x-paramNameType}}} where parseJSON o = P.either P.fail (pure . P.id) . to{{{x-paramNameType}}} =<< A.parseJSON o
+instance WH.ToHttpApiData {{{x-paramNameType}}} where toQueryParam = WH.toQueryParam . from{{{x-paramNameType}}}
+instance WH.FromHttpApiData {{{x-paramNameType}}} where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . to{{{x-paramNameType}}}
+instance MimeRender MimeMultipartFormData {{{x-paramNameType}}} where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap '{{{x-paramNameType}}}' enum
+from{{{x-paramNameType}}} :: {{{x-paramNameType}}} -> {{{x-dataType}}}
+from{{{x-paramNameType}}} = \case{{#allowableValues}}{{#enumVars}}
+  {{{name}}} -> {{{value}}}{{/enumVars}}{{/allowableValues}}
+
+-- | parse '{{{x-paramNameType}}}' enum
+to{{{x-paramNameType}}} :: {{{x-dataType}}} -> P.Either String {{{x-paramNameType}}}
+to{{{x-paramNameType}}} = \case{{#allowableValues}}{{#enumVars}}
+  {{{value}}} -> P.Right {{{name}}}{{/enumVars}}{{/allowableValues}}
+  s -> P.Left $ "to{{{x-paramNameType}}}: enum parse failure: " P.++ P.show s
+{{/x-enum}}{{/x-allUniqueParams}}{{/x-hasEnumSection}}

@@ -9,8 +9,29 @@ import java.lang.annotation.Target;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 public class SwaggerUtils {
 
+
+    public static <T> void validate(T obj) {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<T>> constraintViolations = validator.validate(obj);
+        if (constraintViolations.size() > 0) {
+            StringBuilder errors = new StringBuilder();
+            for (ConstraintViolation<T> contraintes : constraintViolations) {
+                errors.append(String.format("%s.%s %s\n",
+                contraintes.getRootBeanClass().getSimpleName(),
+                contraintes.getPropertyPath(),
+                contraintes.getMessage()));
+            }
+            throw new RuntimeException("Bean validation : " + errors);
+        }
+    }
 
     public static List<String> parametersToList(String collectionFormat, String[] values){
         List<String> params = new ArrayList<>();

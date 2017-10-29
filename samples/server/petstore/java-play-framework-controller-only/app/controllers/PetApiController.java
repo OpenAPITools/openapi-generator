@@ -18,6 +18,7 @@ import swagger.SwaggerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
+import play.Configuration;
 
 import swagger.SwaggerUtils.ApiAction;
 
@@ -25,10 +26,12 @@ import swagger.SwaggerUtils.ApiAction;
 public class PetApiController extends Controller {
 
     private final ObjectMapper mapper;
+    private final Configuration configuration;
 
     @Inject
-    private PetApiController() {
+    private PetApiController(Configuration configuration) {
         mapper = new ObjectMapper();
+        this.configuration = configuration;
     }
 
 
@@ -38,7 +41,9 @@ public class PetApiController extends Controller {
         Pet body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), Pet.class);
-            body.validate();
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                SwaggerUtils.validate(body);
+            }
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
@@ -98,7 +103,9 @@ public class PetApiController extends Controller {
         Pet body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), Pet.class);
-            body.validate();
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                SwaggerUtils.validate(body);
+            }
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }

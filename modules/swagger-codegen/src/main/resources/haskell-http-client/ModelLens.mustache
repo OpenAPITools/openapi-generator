@@ -33,7 +33,7 @@ import {{title}}.Core
 
 {{#vars}}
 -- | '{{name}}' Lens
-{{name}}L :: Lens_' {{classname}} ({{^required}}Maybe {{/required}}{{datatype}})
+{{name}}L :: Lens_' {{classname}} ({{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}})
 {{name}}L f {{classname}}{..} = (\{{name}} -> {{classname}} { {{name}}, ..} ) <$> f {{name}}
 {-# INLINE {{name}}L #-}
 

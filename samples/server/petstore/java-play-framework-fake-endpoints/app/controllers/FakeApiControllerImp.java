@@ -57,6 +57,12 @@ public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     }
 
     @Override
+    public void testInlineAdditionalProperties(Object param) throws Exception {
+        //Do your magic!!!
+        
+    }
+
+    @Override
     public void testJsonFormData(String param, String param2) throws Exception {
         //Do your magic!!!
         

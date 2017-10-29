@@ -48,11 +48,6 @@ haskell-http-client
 
 * Model Inheritance
 
-* Default Parameter Values
-
-* Enum Parameters
-
-
 This is beta software; other cases may not be supported.
 
 ### Codegen "additional properties" parameters
@@ -67,6 +62,7 @@ These options allow some customization of the code generation process.
 | allowToJsonNulls                | allow emitting JSON Null during model encoding to JSON                                                                        | false    | false                |
 | dateFormat                      | format string used to parse/render a date                                                                                     | %Y-%m-%d | %Y-%m-%d                      |
 | dateTimeFormat                  | format string used to parse/render a datetime. (Defaults to [formatISO8601Millis][1] when not provided)                       |          |                   |
+| generateEnums                   | Generate specific datatypes for swagger enums                                                                                 | true     | true |
 | generateFormUrlEncodedInstances | Generate FromForm/ToForm instances for models used by x-www-form-urlencoded operations (model fields must be primitive types) | true     | true |
 | generateLenses                  | Generate Lens optics for Models                                                                                               | true     | true                  |
 | generateModelConstructors       | Generate smart constructors (only supply required fields) for models                                                          | true     | true       |

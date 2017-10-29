@@ -106,7 +106,9 @@ testPetOps mgr config =
           Left (S.MimeError e _) -> assertFailure e
 
     it "findPetsByStatus" $ do
-      let findPetsByStatusRequest = S.findPetsByStatus (S.Status ["available","pending","sold"])
+      let findPetsByStatusRequest = S.findPetsByStatus (S.Status [ S.E'Status2'Available
+                                                                 , S.E'Status2'Pending
+                                                                 , S.E'Status2'Sold])
       findPetsByStatusResult <- S.dispatchMime mgr config findPetsByStatusRequest S.MimeJSON
       NH.responseStatus (S.mimeResultResponse findPetsByStatusResult) `shouldBe` NH.status200
       case S.mimeResult findPetsByStatusResult of
@@ -127,7 +129,7 @@ testPetOps mgr config =
         _ -> pendingWith "no pet") $
       it "updatePet" $ \pet -> do
         let updatePetRequest = S.updatePet S.MimeJSON $ pet
-                { S.petStatus   = Just "available"
+                { S.petStatus   = Just S.E'Status2'Available
                 , S.petCategory = Just (S.Category (Just 3) (Just "catname"))
                 }
         updatePetResponse <- S.dispatchLbs mgr config updatePetRequest S.MimeXML
