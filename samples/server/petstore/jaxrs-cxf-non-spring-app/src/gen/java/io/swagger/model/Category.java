@@ -13,6 +13,9 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+  * A category for a pet
+ **/
 @ApiModel(description="A category for a pet")
 public class Category  {
   

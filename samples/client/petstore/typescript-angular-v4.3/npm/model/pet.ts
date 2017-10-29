@@ -9,7 +9,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-
 import { Category } from './category';
 import { Tag } from './tag';
 
@@ -19,25 +18,20 @@ import { Tag } from './tag';
  */
 export interface Pet {
     id?: number;
-
     category?: Category;
-
     name: string;
-
     photoUrls: Array<string>;
-
     tags?: Array<Tag>;
-
     /**
      * pet status in the store
      */
     status?: Pet.StatusEnum;
-
 }
 export namespace Pet {
-    export enum StatusEnum {
-        Available = <any> 'available',
-        Pending = <any> 'pending',
-        Sold = <any> 'sold'
+    export type StatusEnum = 'available' | 'pending' | 'sold';
+    export const StatusEnum = {
+        Available: 'available' as StatusEnum,
+        Pending: 'pending' as StatusEnum,
+        Sold: 'sold' as StatusEnum
     }
 }

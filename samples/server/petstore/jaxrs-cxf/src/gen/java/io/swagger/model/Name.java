@@ -13,6 +13,9 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+  * Model for testing model name same as property name
+ **/
 @ApiModel(description="Model for testing model name same as property name")
 public class Name  {
   

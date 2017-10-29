@@ -194,6 +194,11 @@
       <artifactId>org.apache.oltu.oauth2.client</artifactId>
       <version>${oltu-version}</version>
     </dependency>
+    <dependency>
+      <groupId>io.gsonfire</groupId>
+      <artifactId>gson-fire</artifactId>
+      <version>${gson-fire-version}</version>
+    </dependency>
 
     <!-- JSON processing: jackson -->
     <dependency>
@@ -241,6 +246,7 @@
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
+    <gson-fire-version>1.8.0</gson-fire-version>
     <swagger-core-version>1.5.15</swagger-core-version>
     <jackson-version>2.6.6</jackson-version>
     <play-version>2.4.11</play-version>

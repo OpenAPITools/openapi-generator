@@ -127,80 +127,16 @@ allowed_methods(Req, State) ->
         State :: state()
     }.
 
-is_authorized(
-    Req0,
-    State = #state{
-        operation_id = 'CreateUser' = OperationID,
-        logic_handler = LogicHandler
-    }
-) ->
-    {true, Req0, State};
 
-is_authorized(
-    Req0,
-    State = #state{
-        operation_id = 'CreateUsersWithArrayInput' = OperationID,
-        logic_handler = LogicHandler
-    }
-) ->
-    {true, Req0, State};
 
-is_authorized(
-    Req0,
-    State = #state{
-        operation_id = 'CreateUsersWithListInput' = OperationID,
-        logic_handler = LogicHandler
-    }
-) ->
-    {true, Req0, State};
 
-is_authorized(
-    Req0,
-    State = #state{
-        operation_id = 'DeleteUser' = OperationID,
-        logic_handler = LogicHandler
-    }
-) ->
-    {true, Req0, State};
 
-is_authorized(
-    Req0,
-    State = #state{
-        operation_id = 'GetUserByName' = OperationID,
-        logic_handler = LogicHandler
-    }
-) ->
-    {true, Req0, State};
 
-is_authorized(
-    Req0,
-    State = #state{
-        operation_id = 'LoginUser' = OperationID,
-        logic_handler = LogicHandler
-    }
-) ->
-    {true, Req0, State};
 
-is_authorized(
-    Req0,
-    State = #state{
-        operation_id = 'LogoutUser' = OperationID,
-        logic_handler = LogicHandler
-    }
-) ->
-    {true, Req0, State};
 
-is_authorized(
-    Req0,
-    State = #state{
-        operation_id = 'UpdateUser' = OperationID,
-        logic_handler = LogicHandler
-    }
-) ->
-    {true, Req0, State};
 
 is_authorized(Req, State) ->
-    {{false, <<"">>}, Req, State}.
+    {true, Req, State}.
 
 -spec content_types_accepted(Req :: cowboy_req:req(), State :: state()) ->
     {

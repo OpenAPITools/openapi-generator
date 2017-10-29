@@ -24,7 +24,7 @@ export const COLLECTION_FORMATS = {
  * @interface FetchAPI
  */
 export interface FetchAPI {
-    (url: string, init?: any): Promise<any>;
+    (url: string, init?: any): Promise<Response>;
 }
 
 /**
@@ -253,7 +253,7 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
+        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response{{/returnType}}> {
             const localVarFetchArgs = {{classname}}FetchParamCreator(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {

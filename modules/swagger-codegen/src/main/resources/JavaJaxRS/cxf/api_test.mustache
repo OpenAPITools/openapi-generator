@@ -42,7 +42,15 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 
 /**
- * API tests for {{classname}}
+ {{#appName}}
+ * {{{appName}}}
+ *
+ {{/appName}}
+ {{#appDescription}}
+ * <p>{{{appDescription}}}
+ *
+ {{/appDescription}}
+ * API tests for {{classname}} 
  */
 {{#generateSpringBootApplication}}
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -91,10 +99,14 @@ public class {{classname}}Test {
 
     {{#operations}}{{#operation}}
     /**
+     {{#summary}}
      * {{summary}}
      *
+     {{#notes}}
      * {{notes}}
      *
+     {{/notes}}
+     {{/summary}}
      * @throws ApiException
      *          if the Api call fails
      */

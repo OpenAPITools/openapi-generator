@@ -98,6 +98,14 @@ public interface FakeApiDelegate {
     }
 
     /**
+     * @see FakeApi#testInlineAdditionalProperties
+     */
+    default ResponseEntity<Void> testInlineAdditionalProperties(Object param) {
+    // do some magic!
+    return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    /**
      * @see FakeApi#testJsonFormData
      */
     default ResponseEntity<Void> testJsonFormData(String param,

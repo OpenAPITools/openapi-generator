@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import java.io.File;
+import java.lang.StringBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -82,7 +83,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
         supportingFiles.add(new SupportingFile("api.module.mustache", getIndexDirectory(), "api.module.ts"));
-        supportingFiles.add(new SupportingFile("rxjs-operators.mustache", getIndexDirectory(), "rxjs-operators.ts"));        
+        supportingFiles.add(new SupportingFile("rxjs-operators.mustache", getIndexDirectory(), "rxjs-operators.ts"));
         supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
         supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
         supportingFiles.add(new SupportingFile("encoder.mustache", getIndexDirectory(), "encoder.ts"));
@@ -149,7 +150,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public boolean isDataTypeFile(final String dataType) {
         return dataType != null && dataType.equals("Blob");
     }
-    
+
     @Override
     public String getTypeDeclaration(Property p) {
         Property inner;
@@ -247,8 +248,54 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 }
             }
 
-            // Convert path to TypeScript template string, applying URI encoding
-            op.path = op.path.replaceAll("\\{(.*?)\\}", "\\$\\{encodeURIComponent(String($1))\\}");
+            // Prep a string buffer where we're going to set up our new version of the string.
+            StringBuffer pathBuffer = new StringBuffer();
+
+            // Set up other variables for tracking the current state of the string.
+            int insideCurly = 0;
+            boolean foundUnderscore = false;
+
+            // Iterate through existing string, one character at a time.
+            for(int i = 0; i < op.path.length(); i++) {
+                switch(op.path.charAt(i)) {
+                    case '{':
+                        // We entered curly braces, so track that.
+                        insideCurly++;
+
+                        // Add the more complicated component instead of just the brace.
+                        pathBuffer.append("${encodeURIComponent(String(");
+                        break;
+                    case '}':
+                        // We exited curly braces, so track that.
+                        insideCurly--;
+
+                        // Add the more complicated component instead of just the brace.
+                        pathBuffer.append("))}");
+                        break;
+                    case '_':
+                        // If we're inside the curly brace, the following character will need to be uppercase.
+                        // Otherwise, just add the character.
+                        if (insideCurly > 0) {
+                            foundUnderscore = true;
+                        } else {
+                            pathBuffer.append(op.path.charAt(i));
+                        }
+                        break;
+                    default:
+                        // If we previously found an underscore, we need an uppercase letter.
+                        // Otherwise, just add the character.
+                        if (foundUnderscore) {
+                            pathBuffer.append(Character.toUpperCase(op.path.charAt(i)));
+                            foundUnderscore = false;
+                        } else {
+                            pathBuffer.append(op.path.charAt(i));
+                        }
+                        break;
+                }
+            }
+
+            // Overwrite path to TypeScript template string, after applying everything we just did.
+            op.path = pathBuffer.toString();
         }
 
         // Add additional filename information for model imports in the services
@@ -272,7 +319,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             CodegenModel cm = (CodegenModel) mo.get("model");
             mo.put("tsImports", toTsImports(cm,cm.imports));
         }
-        
+
         return result;
     }
 

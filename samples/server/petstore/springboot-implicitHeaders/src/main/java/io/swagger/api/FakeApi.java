@@ -35,7 +35,6 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
     @ApiImplicitParams({
-    
     })
     @RequestMapping(value = "/fake/outer/boolean",
         method = RequestMethod.POST)
@@ -46,7 +45,6 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
     @ApiImplicitParams({
-    
     })
     @RequestMapping(value = "/fake/outer/composite",
         method = RequestMethod.POST)
@@ -57,7 +55,6 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
     @ApiImplicitParams({
-    
     })
     @RequestMapping(value = "/fake/outer/number",
         method = RequestMethod.POST)
@@ -68,7 +65,6 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output string", response = String.class) })
     @ApiImplicitParams({
-    
     })
     @RequestMapping(value = "/fake/outer/string",
         method = RequestMethod.POST)
@@ -79,7 +75,6 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @ApiImplicitParams({
-    
     })
     @RequestMapping(value = "/fake",
         produces = { "application/json" }, 
@@ -95,7 +90,6 @@ public interface FakeApi {
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found") })
     @ApiImplicitParams({
-    
     })
     @RequestMapping(value = "/fake",
         produces = { "application/xml; charset=utf-8", "application/json; charset=utf-8" }, 
@@ -109,7 +103,8 @@ public interface FakeApi {
         @ApiResponse(code = 400, message = "Invalid request"),
         @ApiResponse(code = 404, message = "Not found") })
     @ApiImplicitParams({
-    @ApiImplicitParam(name = "enumHeaderStringArray", value = "Header parameter enum test (string array)",  dataType = "List<String>", paramType = "header"),@ApiImplicitParam(name = "enumHeaderString", value = "Header parameter enum test (string)",  dataType = "String", paramType = "header")
+    @ApiImplicitParam(name = "enumHeaderStringArray", value = "Header parameter enum test (string array)",  dataType = "List<String>", paramType = "header"),
+    @ApiImplicitParam(name = "enumHeaderString", value = "Header parameter enum test (string)",  dataType = "String", paramType = "header")
     })
     @RequestMapping(value = "/fake",
         produces = { "*/*" }, 
@@ -118,11 +113,21 @@ public interface FakeApi {
     ResponseEntity<Void> testEnumParameters(@ApiParam(value = "Form parameter enum test (string array)", allowableValues=">, $") @RequestPart(value="enum_form_string_array", required=false)  List<String> enumFormStringArray,@ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @RequestPart(value="enum_form_string", required=false)  String enumFormString,@ApiParam(value = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,@ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString,@ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1.1, -1.2") @RequestPart(value="enum_query_double", required=false)  Double enumQueryDouble, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
 
 
+    @ApiOperation(value = "test inline additionalProperties", nickname = "testInlineAdditionalProperties", notes = "", tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation") })
+    @ApiImplicitParams({
+    })
+    @RequestMapping(value = "/fake/inline-additionalProperties",
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    ResponseEntity<Void> testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true )  @Valid @RequestBody Object param, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+
+
     @ApiOperation(value = "test json serialization of form data", nickname = "testJsonFormData", notes = "", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     @ApiImplicitParams({
-    
     })
     @RequestMapping(value = "/fake/jsonFormData",
         consumes = { "application/json" },

@@ -56,7 +56,7 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true ) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+    ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
 
 
     @ApiOperation(value = "Finds Pets by status", nickname = "findPetsByStatus", notes = "Multiple status values can be provided with comma separated strings", response = Pet.class, responseContainer = "List", authorizations = {
@@ -102,7 +102,7 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.GET)
-    ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return",required=true ) @PathVariable("petId") Long petId, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+    ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return",required=true) @PathVariable("petId") Long petId, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
 
 
     @ApiOperation(value = "Update an existing pet", nickname = "updatePet", notes = "", authorizations = {
@@ -134,7 +134,7 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/x-www-form-urlencoded",
         method = RequestMethod.POST)
-    ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true ) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @RequestPart(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet") @RequestPart(value="status", required=false)  String status, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+    ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @RequestPart(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet") @RequestPart(value="status", required=false)  String status, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
 
 
     @ApiOperation(value = "uploads an image", nickname = "uploadFile", notes = "", response = ModelApiResponse.class, authorizations = {
@@ -149,6 +149,6 @@ public interface PetApi {
         produces = "application/json",
         consumes = "multipart/form-data",
         method = RequestMethod.POST)
-    ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+    ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
 
 }

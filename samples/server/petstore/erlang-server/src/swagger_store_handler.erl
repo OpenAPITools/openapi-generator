@@ -95,14 +95,6 @@ allowed_methods(Req, State) ->
         State :: state()
     }.
 
-is_authorized(
-    Req0,
-    State = #state{
-        operation_id = 'DeleteOrder' = OperationID,
-        logic_handler = LogicHandler
-    }
-) ->
-    {true, Req0, State};
 
 is_authorized(
     Req0,
@@ -124,26 +116,10 @@ is_authorized(
         {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
     end;
 
-is_authorized(
-    Req0,
-    State = #state{
-        operation_id = 'GetOrderById' = OperationID,
-        logic_handler = LogicHandler
-    }
-) ->
-    {true, Req0, State};
 
-is_authorized(
-    Req0,
-    State = #state{
-        operation_id = 'PlaceOrder' = OperationID,
-        logic_handler = LogicHandler
-    }
-) ->
-    {true, Req0, State};
 
 is_authorized(Req, State) ->
-    {{false, <<"">>}, Req, State}.
+    {true, Req, State}.
 
 -spec content_types_accepted(Req :: cowboy_req:req(), State :: state()) ->
     {
