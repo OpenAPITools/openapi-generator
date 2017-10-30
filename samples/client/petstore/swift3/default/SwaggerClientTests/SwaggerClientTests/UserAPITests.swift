@@ -151,4 +151,14 @@ class UserAPITests: XCTestCase {
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
+    func testPathParamsAreEscaped() {
+        // The path for this operation is /user/{userId}. In order to make a usable path,
+        // then we must make sure that {userId} is percent-escaped when it is substituted
+        // into the path. So we intentionally introduce a path with spaces.
+        let userRequestBuilder = UserAPI.getUserByNameWithRequestBuilder(username: "User Name With Spaces")
+        let urlContainsSpace = userRequestBuilder.URLString.contains(" ")
+
+        XCTAssert(!urlContainsSpace, "Expected URL to be escaped, but it was not.")
+    }
+
 }
