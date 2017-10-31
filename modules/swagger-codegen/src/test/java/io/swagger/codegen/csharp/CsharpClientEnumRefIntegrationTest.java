@@ -30,7 +30,7 @@ public class CsharpClientEnumRefIntegrationTest extends AbstractIntegrationTest 
 
     @Override
     protected IntegrationTestPathsConfig getIntegrationTestPathsConfig() {
-        return new IntegrationTestPathsConfig("csharp/enum-ref");
+        return new IntegrationTestPathsConfig("csharp/general/enum-ref");
     }
 
     @Override

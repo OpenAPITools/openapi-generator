@@ -33,7 +33,32 @@
     }
   },
   "definitions": {
+    "WeekDays": {
+      "type": "string",
+      "enum": [
+        "sun",
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat"
+      ]
+    },
     "My_Class_With_Optional_Enum": {
+      "properties": {
+        "quarantine": {
+          "type": "boolean"
+        },
+        "grayware": {
+          "type": "boolean"
+        },
+        "days": {
+          "$ref": "#/definitions/WeekDays"
+        }
+      }
+    },
+    "My_Class_With_Optional_Inline_Enum": {
       "properties": {
         "quarantine": {
           "type": "boolean"

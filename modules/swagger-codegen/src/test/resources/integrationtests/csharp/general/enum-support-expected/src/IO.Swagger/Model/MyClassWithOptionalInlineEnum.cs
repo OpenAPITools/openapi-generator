@@ -25,10 +25,10 @@ using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// MyClassWithOptionalEnum
+    /// MyClassWithOptionalInlineEnum
     /// </summary>
     [DataContract]
-    public partial class MyClassWithOptionalEnum :  IEquatable<MyClassWithOptionalEnum>, IValidatableObject
+    public partial class MyClassWithOptionalInlineEnum :  IEquatable<MyClassWithOptionalInlineEnum>, IValidatableObject
     {
         /// <summary>
         /// Gets or Sets Days
@@ -86,12 +86,12 @@ namespace IO.Swagger.Model
         [DataMember(Name="days", EmitDefaultValue=false)]
         public DaysEnum? Days { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="MyClassWithOptionalEnum" /> class.
+        /// Initializes a new instance of the <see cref="MyClassWithOptionalInlineEnum" /> class.
         /// </summary>
         /// <param name="Quarantine">Quarantine.</param>
         /// <param name="Grayware">Grayware.</param>
         /// <param name="Days">Days.</param>
-        public MyClassWithOptionalEnum(bool? Quarantine = default(bool?), bool? Grayware = default(bool?), DaysEnum? Days = default(DaysEnum?))
+        public MyClassWithOptionalInlineEnum(bool? Quarantine = default(bool?), bool? Grayware = default(bool?), DaysEnum? Days = default(DaysEnum?))
         {
             this.Quarantine = Quarantine;
             this.Grayware = Grayware;
@@ -118,7 +118,7 @@ namespace IO.Swagger.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class MyClassWithOptionalEnum {\n");
+            sb.Append("class MyClassWithOptionalInlineEnum {\n");
             sb.Append("  Quarantine: ").Append(Quarantine).Append("\n");
             sb.Append("  Grayware: ").Append(Grayware).Append("\n");
             sb.Append("  Days: ").Append(Days).Append("\n");
@@ -142,15 +142,15 @@ namespace IO.Swagger.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as MyClassWithOptionalEnum);
+            return this.Equals(input as MyClassWithOptionalInlineEnum);
         }
 
         /// <summary>
-        /// Returns true if MyClassWithOptionalEnum instances are equal
+        /// Returns true if MyClassWithOptionalInlineEnum instances are equal
         /// </summary>
-        /// <param name="input">Instance of MyClassWithOptionalEnum to be compared</param>
+        /// <param name="input">Instance of MyClassWithOptionalInlineEnum to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(MyClassWithOptionalEnum input)
+        public bool Equals(MyClassWithOptionalInlineEnum input)
         {
             if (input == null)
                 return false;
