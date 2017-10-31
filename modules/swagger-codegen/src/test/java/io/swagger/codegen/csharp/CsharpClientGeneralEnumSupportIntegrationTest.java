@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CsharpClientInlineEnumIntegrationTest extends AbstractIntegrationTest {
-    public CsharpClientInlineEnumIntegrationTest() {
+public class CsharpClientGeneralEnumSupportIntegrationTest extends AbstractIntegrationTest {
+    public CsharpClientGeneralEnumSupportIntegrationTest() {
         generateSwaggerMetadata = false;
 
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
@@ -30,7 +30,7 @@ public class CsharpClientInlineEnumIntegrationTest extends AbstractIntegrationTe
 
     @Override
     protected IntegrationTestPathsConfig getIntegrationTestPathsConfig() {
-        return new IntegrationTestPathsConfig("csharp/enum-inline");
+        return new IntegrationTestPathsConfig("csharp/general/enum-support");
     }
 
     @Override
@@ -46,7 +46,7 @@ public class CsharpClientInlineEnumIntegrationTest extends AbstractIntegrationTe
     }
 
     // TODO: Remove this when super.generatesCorrectDirectoryStructure() is re-enabled.
-    @Test(description = "Verify csharp enums as ref properties")
+    @Test(description = "Verify csharp enum support, generalized across supported C# versions.")
     public void test() throws IOException {
         this.generatesCorrectDirectoryStructure();
     }
