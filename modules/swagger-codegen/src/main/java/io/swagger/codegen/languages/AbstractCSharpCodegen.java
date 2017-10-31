@@ -315,20 +315,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 if (var.name.equalsIgnoreCase(cm.name)) {
                     var.name = "_" + var.name;
                 }
-
-                if(var.isEnum) {
-                    // In C#, Enums are considered primitives because they're compiled to numerical types (int by default)
-                    var.isPrimitiveType = true;
-
-                    // HACK: Consider Nullable<Enum> as a container so we can properly handle unsupplied enum values as null.
-                    var.isContainer = var.required;
-                }
             }
         }
         // process enum in models
         return postProcessModelsEnum(objs);
     }
 
+    /**
+     * Invoked by {@link DefaultGenerator} after all models have been post-processed, allowing for a last pass of codegen-specific model cleanup.
+     *
+     * @param objs Current state of codegen object model.
+     * @return An in-place modified state of the codegen object model.
+     */
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         final Map<String, Object> processed =  super.postProcessAllModels(objs);

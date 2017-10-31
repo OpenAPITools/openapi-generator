@@ -63,6 +63,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return this;
     }
 
+    /**
+     * Programmatically disable the output of .swagger-codegen/VERSION, .swagger-codegen-ignore,
+     * or other metadata files used by Swagger Codegen.
+     * @param generateSwaggerMetadata true: enable outputs, false: disable outputs
+     */
+    @SuppressWarnings("WeakerAccess")
     public void setGenerateSwaggerMetadata(Boolean generateSwaggerMetadata) {
         this.generateSwaggerMetadata = generateSwaggerMetadata;
     }
@@ -73,6 +79,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
      * @param key The system property key
      * @param value The system property value
      */
+    @SuppressWarnings("WeakerAccess")
     public void setGeneratorPropertyDefault(final String key, final String value) {
         this.generatorPropertyDefaults.put(key, value);
     }
@@ -116,6 +123,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
     private void configureGeneratorProperties() {
         // allows generating only models by specifying a CSV of models to generate, or empty for all
+        // NOTE: Boolean.TRUE is required below rather than `true` because of JVM boxing constraints and type inference.
         generateApis = System.getProperty(CodegenConstants.APIS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.APIS, null);
         generateModels = System.getProperty(CodegenConstants.MODELS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODELS, null);
         generateSupportingFiles = System.getProperty(CodegenConstants.SUPPORTING_FILES) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.SUPPORTING_FILES, null);
