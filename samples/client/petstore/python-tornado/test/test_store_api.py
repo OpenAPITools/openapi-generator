@@ -3,7 +3,7 @@
 """
     Swagger Petstore
 
-    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  # noqa: E501
 
     OpenAPI spec version: 1.0.0
     Contact: apiteam@swagger.io
@@ -13,53 +13,47 @@
 
 from __future__ import absolute_import
 
-import os
-import sys
 import unittest
 
 import petstore_api
+from petstore_api.api.store_api import StoreApi  # noqa: E501
 from petstore_api.rest import ApiException
-from petstore_api.apis.store_api import StoreApi
 
 
 class TestStoreApi(unittest.TestCase):
-    """ StoreApi unit test stubs """
+    """StoreApi unit test stubs"""
 
     def setUp(self):
-        self.api = petstore_api.apis.store_api.StoreApi()
+        self.api = petstore_api.api.store_api.StoreApi()  # noqa: E501
 
     def tearDown(self):
         pass
 
     def test_delete_order(self):
-        """
-        Test case for delete_order
+        """Test case for delete_order
 
-        Delete purchase order by ID
+        Delete purchase order by ID  # noqa: E501
         """
         pass
 
     def test_get_inventory(self):
-        """
-        Test case for get_inventory
+        """Test case for get_inventory
 
-        Returns pet inventories by status
+        Returns pet inventories by status  # noqa: E501
         """
         pass
 
     def test_get_order_by_id(self):
-        """
-        Test case for get_order_by_id
+        """Test case for get_order_by_id
 
-        Find purchase order by ID
+        Find purchase order by ID  # noqa: E501
         """
         pass
 
     def test_place_order(self):
-        """
-        Test case for place_order
+        """Test case for place_order
 
-        Place an order for a pet
+        Place an order for a pet  # noqa: E501
         """
         pass
 

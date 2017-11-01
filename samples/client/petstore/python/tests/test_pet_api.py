@@ -1,5 +1,7 @@
 # coding: utf-8
 
+# flake8: noqa
+
 """
 Run the tests.
 $ pip install nose (optional)

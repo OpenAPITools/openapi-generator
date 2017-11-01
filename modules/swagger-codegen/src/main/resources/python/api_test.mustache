@@ -4,30 +4,29 @@
 
 from __future__ import absolute_import
 
-import os
-import sys
 import unittest
 
 import {{packageName}}
+from {{apiPackage}}.{{classVarName}} import {{classname}}  # noqa: E501
 from {{packageName}}.rest import ApiException
-from {{packageName}}.apis.{{classVarName}} import {{classname}}
 
 
 class {{#operations}}Test{{classname}}(unittest.TestCase):
-    """ {{classname}} unit test stubs """
+    """{{classname}} unit test stubs"""
 
     def setUp(self):
-        self.api = {{packageName}}.apis.{{classVarName}}.{{classname}}()
+        self.api = {{apiPackage}}.{{classVarName}}.{{classname}}()  # noqa: E501
 
     def tearDown(self):
         pass
 
    {{#operation}}
     def test_{{operationId}}(self):
-        """
-        Test case for {{{operationId}}}
+        """Test case for {{{operationId}}}
 
-        {{{summary}}}
+{{#summary}}
+        {{{summary}}}  # noqa: E501
+{{/summary}}
         """
         pass
 
