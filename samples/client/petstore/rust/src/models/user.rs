@@ -10,6 +10,9 @@
 
 /// User : A User who is purchasing from the pet store
 
+#[allow(unused_imports)]
+use serde_json::Value;
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct User {
   #[serde(rename = "id")]

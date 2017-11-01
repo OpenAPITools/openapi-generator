@@ -39,16 +39,6 @@ pub enum TestSpecialTagsResponse {
 }
 
 #[derive(Debug, PartialEq)]
-pub enum GetXmlFeaturesResponse {
-    Success ( models::XmlObject ) ,
-}
-
-#[derive(Debug, PartialEq)]
-pub enum PostXmlFeaturesResponse {
-    Success ,
-}
-
-#[derive(Debug, PartialEq)]
 pub enum FakeOuterBooleanSerializeResponse {
     OutputBoolean ( models::OuterBoolean ) ,
 }
@@ -222,12 +212,6 @@ pub trait Api {
     /// To test special tags
     fn test_special_tags(&self, body: models::Client, context: &Context) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send>;
 
-    /// Get some XML
-    fn get_xml_features(&self, context: &Context) -> Box<Future<Item=GetXmlFeaturesResponse, Error=ApiError> + Send>;
-
-    /// Post some xml
-    fn post_xml_features(&self, xml_object: models::XmlObject, context: &Context) -> Box<Future<Item=PostXmlFeaturesResponse, Error=ApiError> + Send>;
-
 
     fn fake_outer_boolean_serialize(&self, body: Option<models::OuterBoolean>, context: &Context) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError> + Send>;
 
@@ -325,12 +309,6 @@ pub trait ApiNoContext {
 
     /// To test special tags
     fn test_special_tags(&self, body: models::Client) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send>;
-
-    /// Get some XML
-    fn get_xml_features(&self) -> Box<Future<Item=GetXmlFeaturesResponse, Error=ApiError> + Send>;
-
-    /// Post some xml
-    fn post_xml_features(&self, xml_object: models::XmlObject) -> Box<Future<Item=PostXmlFeaturesResponse, Error=ApiError> + Send>;
 
 
     fn fake_outer_boolean_serialize(&self, body: Option<models::OuterBoolean>) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError> + Send>;
@@ -441,16 +419,6 @@ impl<'a, T: Api> ApiNoContext for ContextWrapper<'a, T> {
     /// To test special tags
     fn test_special_tags(&self, body: models::Client) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send> {
         self.api().test_special_tags(body, &self.context())
-    }
-
-    /// Get some XML
-    fn get_xml_features(&self) -> Box<Future<Item=GetXmlFeaturesResponse, Error=ApiError> + Send> {
-        self.api().get_xml_features(&self.context())
-    }
-
-    /// Post some xml
-    fn post_xml_features(&self, xml_object: models::XmlObject) -> Box<Future<Item=PostXmlFeaturesResponse, Error=ApiError> + Send> {
-        self.api().post_xml_features(xml_object, &self.context())
     }
 
 
