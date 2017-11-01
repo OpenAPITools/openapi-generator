@@ -1,10 +1,13 @@
 package io.swagger.codegen.java;
 
 import com.google.common.collect.Sets;
+import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.DefaultGenerator;
+import io.swagger.codegen.config.CodegenConfigurator;
 import io.swagger.codegen.languages.JavaClientCodegen;
 import io.swagger.oas.models.media.ArraySchema;
 import io.swagger.oas.models.media.BooleanSchema;
@@ -20,16 +23,22 @@ import io.swagger.oas.models.media.XML;
 import io.swagger.oas.models.parameters.Parameter;
 import io.swagger.oas.models.parameters.QueryParameter;
 import io.swagger.parser.v3.util.SchemaTypeUtil;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.junit.rules.TemporaryFolder;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("static-method")
 public class JavaModelTest {
+
+    private TemporaryFolder folder = new TemporaryFolder();
 
     @Test(description = "convert a simple java model")
     public void simpleModelTest() {
@@ -730,6 +739,26 @@ public class JavaModelTest {
         Assert.assertTrue(cp.isNotContainer);
         Assert.assertTrue(cp.isBoolean);
         Assert.assertEquals(cp.getter, "isProperty");
+    }
+
+    @Test
+    public void generateModel() throws Exception {
+        folder.create();
+        final File output = folder.getRoot();
+        System.out.println(output);
+        getClass().getClassLoader().getResourceAsStream("src/test/resources/3_0_0/petstore.json");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setLang("java")
+                .setInputSpec("src/test/resources/3_0_0/petstore.json")
+                .setOutputDir(output.getAbsolutePath());
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        File orderFile = new File(output, "src/main/java/io/swagger/client/model/Order.java");
+        Assert.assertTrue(orderFile.exists());
+        folder.delete();
     }
 
 }

@@ -18,8 +18,8 @@ import com.google.gson.stream.JsonWriter;
 {{/gson}}
 public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
   {{#allowableValues}}{{#enumVars}}
-  {{{name}}}({{{value}}}){{^-last}},
-  {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
+  {{{name}}}({{{value}}}){{^@last}},
+  {{/@last}}{{#@last}};{{/@last}}{{/enumVars}}{{/allowableValues}}
 
   private {{{dataType}}} value;
 

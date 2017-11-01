@@ -279,6 +279,11 @@
             <version>2.8.47</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.jknack</groupId>
+            <artifactId>handlebars</artifactId>
+            <version>4.0.6</version>
+        </dependency>
 
     </dependencies>
     <repositories>
