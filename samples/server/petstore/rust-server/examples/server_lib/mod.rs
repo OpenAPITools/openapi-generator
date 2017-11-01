@@ -11,8 +11,6 @@ use std::io::Error;
 
 use petstore_api::{Api, ApiError, Context,
                       TestSpecialTagsResponse,
-                      GetXmlFeaturesResponse,
-                      PostXmlFeaturesResponse,
                       FakeOuterBooleanSerializeResponse,
                       FakeOuterCompositeSerializeResponse,
                       FakeOuterNumberSerializeResponse,
@@ -56,20 +54,6 @@ impl Api for Server {
     fn test_special_tags(&self, body: models::Client, context: &Context) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send> {
         let context = context.clone();
         println!("test_special_tags({:?}) - X-Span-ID: {:?}", body, context.x_span_id.unwrap_or(String::from("<none>")).clone());
-        Box::new(futures::failed("Generic failure".into()))
-    }
-
-    /// Get some XML
-    fn get_xml_features(&self, context: &Context) -> Box<Future<Item=GetXmlFeaturesResponse, Error=ApiError> + Send> {
-        let context = context.clone();
-        println!("get_xml_features() - X-Span-ID: {:?}", context.x_span_id.unwrap_or(String::from("<none>")).clone());
-        Box::new(futures::failed("Generic failure".into()))
-    }
-
-    /// Post some xml
-    fn post_xml_features(&self, xml_object: models::XmlObject, context: &Context) -> Box<Future<Item=PostXmlFeaturesResponse, Error=ApiError> + Send> {
-        let context = context.clone();
-        println!("post_xml_features({:?}) - X-Span-ID: {:?}", xml_object, context.x_span_id.unwrap_or(String::from("<none>")).clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
