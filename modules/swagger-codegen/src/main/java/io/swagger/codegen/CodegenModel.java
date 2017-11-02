@@ -186,4 +186,372 @@ public class CodegenModel {
         result = 31 * result + Objects.hash(parentVars);
         return result;
     }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
+
+    public String getParentSchema() {
+        return parentSchema;
+    }
+
+    public void setParentSchema(String parentSchema) {
+        this.parentSchema = parentSchema;
+    }
+
+    public List<String> getInterfaces() {
+        return interfaces;
+    }
+
+    public void setInterfaces(List<String> interfaces) {
+        this.interfaces = interfaces;
+    }
+
+    public CodegenModel getParentModel() {
+        return parentModel;
+    }
+
+    public void setParentModel(CodegenModel parentModel) {
+        this.parentModel = parentModel;
+    }
+
+    public List<CodegenModel> getInterfaceModels() {
+        return interfaceModels;
+    }
+
+    public void setInterfaceModels(List<CodegenModel> interfaceModels) {
+        this.interfaceModels = interfaceModels;
+    }
+
+    public List<CodegenModel> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<CodegenModel> children) {
+        this.children = children;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getClassname() {
+        return classname;
+    }
+
+    public void setClassname(String classname) {
+        this.classname = classname;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getClassVarName() {
+        return classVarName;
+    }
+
+    public void setClassVarName(String classVarName) {
+        this.classVarName = classVarName;
+    }
+
+    public String getModelJson() {
+        return modelJson;
+    }
+
+    public void setModelJson(String modelJson) {
+        this.modelJson = modelJson;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    public String getXmlPrefix() {
+        return xmlPrefix;
+    }
+
+    public void setXmlPrefix(String xmlPrefix) {
+        this.xmlPrefix = xmlPrefix;
+    }
+
+    public String getXmlNamespace() {
+        return xmlNamespace;
+    }
+
+    public void setXmlNamespace(String xmlNamespace) {
+        this.xmlNamespace = xmlNamespace;
+    }
+
+    public String getXmlName() {
+        return xmlName;
+    }
+
+    public void setXmlName(String xmlName) {
+        this.xmlName = xmlName;
+    }
+
+    public String getClassFilename() {
+        return classFilename;
+    }
+
+    public void setClassFilename(String classFilename) {
+        this.classFilename = classFilename;
+    }
+
+    public String getUnescapedDescription() {
+        return unescapedDescription;
+    }
+
+    public void setUnescapedDescription(String unescapedDescription) {
+        this.unescapedDescription = unescapedDescription;
+    }
+
+    public Discriminator getDiscriminator() {
+        return discriminator;
+    }
+
+    public void setDiscriminator(Discriminator discriminator) {
+        this.discriminator = discriminator;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    public String getArrayModelType() {
+        return arrayModelType;
+    }
+
+    public void setArrayModelType(String arrayModelType) {
+        this.arrayModelType = arrayModelType;
+    }
+
+    public boolean isAlias() {
+        return isAlias;
+    }
+
+    public void setAlias(boolean alias) {
+        isAlias = alias;
+    }
+
+    public List<CodegenProperty> getVars() {
+        return vars;
+    }
+
+    public void setVars(List<CodegenProperty> vars) {
+        this.vars = vars;
+    }
+
+    public List<CodegenProperty> getRequiredVars() {
+        return requiredVars;
+    }
+
+    public void setRequiredVars(List<CodegenProperty> requiredVars) {
+        this.requiredVars = requiredVars;
+    }
+
+    public List<CodegenProperty> getOptionalVars() {
+        return optionalVars;
+    }
+
+    public void setOptionalVars(List<CodegenProperty> optionalVars) {
+        this.optionalVars = optionalVars;
+    }
+
+    public List<CodegenProperty> getReadOnlyVars() {
+        return readOnlyVars;
+    }
+
+    public void setReadOnlyVars(List<CodegenProperty> readOnlyVars) {
+        this.readOnlyVars = readOnlyVars;
+    }
+
+    public List<CodegenProperty> getReadWriteVars() {
+        return readWriteVars;
+    }
+
+    public void setReadWriteVars(List<CodegenProperty> readWriteVars) {
+        this.readWriteVars = readWriteVars;
+    }
+
+    public List<CodegenProperty> getAllVars() {
+        return allVars;
+    }
+
+    public void setAllVars(List<CodegenProperty> allVars) {
+        this.allVars = allVars;
+    }
+
+    public List<CodegenProperty> getParentVars() {
+        return parentVars;
+    }
+
+    public void setParentVars(List<CodegenProperty> parentVars) {
+        this.parentVars = parentVars;
+    }
+
+    public Map<String, Object> getAllowableValues() {
+        return allowableValues;
+    }
+
+    public void setAllowableValues(Map<String, Object> allowableValues) {
+        this.allowableValues = allowableValues;
+    }
+
+    public Set<String> getMandatory() {
+        return mandatory;
+    }
+
+    public void setMandatory(Set<String> mandatory) {
+        this.mandatory = mandatory;
+    }
+
+    public Set<String> getAllMandatory() {
+        return allMandatory;
+    }
+
+    public void setAllMandatory(Set<String> allMandatory) {
+        this.allMandatory = allMandatory;
+    }
+
+    public Set<String> getImports() {
+        return imports;
+    }
+
+    public void setImports(Set<String> imports) {
+        this.imports = imports;
+    }
+
+    public boolean isHasVars() {
+        return hasVars;
+    }
+
+    public void setHasVars(boolean hasVars) {
+        this.hasVars = hasVars;
+    }
+
+    public boolean isEmptyVars() {
+        return emptyVars;
+    }
+
+    public void setEmptyVars(boolean emptyVars) {
+        this.emptyVars = emptyVars;
+    }
+
+    public boolean isHasMoreModels() {
+        return hasMoreModels;
+    }
+
+    public void setHasMoreModels(boolean hasMoreModels) {
+        this.hasMoreModels = hasMoreModels;
+    }
+
+    public boolean isHasEnums() {
+        return hasEnums;
+    }
+
+    public void setHasEnums(boolean hasEnums) {
+        this.hasEnums = hasEnums;
+    }
+
+    public boolean isEnum() {
+        return isEnum;
+    }
+
+    public void setEnum(boolean anEnum) {
+        isEnum = anEnum;
+    }
+
+    public boolean isHasRequired() {
+        return hasRequired;
+    }
+
+    public void setHasRequired(boolean hasRequired) {
+        this.hasRequired = hasRequired;
+    }
+
+    public boolean isHasOptional() {
+        return hasOptional;
+    }
+
+    public void setHasOptional(boolean hasOptional) {
+        this.hasOptional = hasOptional;
+    }
+
+    public boolean isArrayModel() {
+        return isArrayModel;
+    }
+
+    public void setArrayModel(boolean arrayModel) {
+        isArrayModel = arrayModel;
+    }
+
+    public boolean isHasChildren() {
+        return hasChildren;
+    }
+
+    public void setHasChildren(boolean hasChildren) {
+        this.hasChildren = hasChildren;
+    }
+
+    public boolean isHasOnlyReadOnly() {
+        return hasOnlyReadOnly;
+    }
+
+    public void setHasOnlyReadOnly(boolean hasOnlyReadOnly) {
+        this.hasOnlyReadOnly = hasOnlyReadOnly;
+    }
+
+    public ExternalDocumentation getExternalDocumentation() {
+        return externalDocumentation;
+    }
+
+    public void setExternalDocumentation(ExternalDocumentation externalDocumentation) {
+        this.externalDocumentation = externalDocumentation;
+    }
+
+    public Map<String, Object> getVendorExtensions() {
+        return vendorExtensions;
+    }
+
+    public void setVendorExtensions(Map<String, Object> vendorExtensions) {
+        this.vendorExtensions = vendorExtensions;
+    }
+
+    public String getAdditionalPropertiesType() {
+        return additionalPropertiesType;
+    }
+
+    public void setAdditionalPropertiesType(String additionalPropertiesType) {
+        this.additionalPropertiesType = additionalPropertiesType;
+    }
 }

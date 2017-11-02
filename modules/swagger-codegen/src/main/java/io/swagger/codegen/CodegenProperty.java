@@ -62,6 +62,525 @@ public class CodegenProperty implements Cloneable {
     public String xmlNamespace;
     public boolean isXmlWrapped = false;
 
+    public String getBaseName() {
+        return baseName;
+    }
+
+    public void setBaseName(String baseName) {
+        this.baseName = baseName;
+    }
+
+    public String getComplexType() {
+        return complexType;
+    }
+
+    public void setComplexType(String complexType) {
+        this.complexType = complexType;
+    }
+
+    public String getGetter() {
+        return getter;
+    }
+
+    public void setGetter(String getter) {
+        this.getter = getter;
+    }
+
+    public String getSetter() {
+        return setter;
+    }
+
+    public void setSetter(String setter) {
+        this.setter = setter;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDatatype() {
+        return datatype;
+    }
+
+    public void setDatatype(String datatype) {
+        this.datatype = datatype;
+    }
+
+    public String getDatatypeWithEnum() {
+        return datatypeWithEnum;
+    }
+
+    public void setDatatypeWithEnum(String datatypeWithEnum) {
+        this.datatypeWithEnum = datatypeWithEnum;
+    }
+
+    public String getDataFormat() {
+        return dataFormat;
+    }
+
+    public void setDataFormat(String dataFormat) {
+        this.dataFormat = dataFormat;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMin() {
+        return min;
+    }
+
+    public void setMin(String min) {
+        this.min = min;
+    }
+
+    public String getMax() {
+        return max;
+    }
+
+    public void setMax(String max) {
+        this.max = max;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    public String getDefaultValueWithParam() {
+        return defaultValueWithParam;
+    }
+
+    public void setDefaultValueWithParam(String defaultValueWithParam) {
+        this.defaultValueWithParam = defaultValueWithParam;
+    }
+
+    public String getBaseType() {
+        return baseType;
+    }
+
+    public void setBaseType(String baseType) {
+        this.baseType = baseType;
+    }
+
+    public String getContainerType() {
+        return containerType;
+    }
+
+    public void setContainerType(String containerType) {
+        this.containerType = containerType;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUnescapedDescription() {
+        return unescapedDescription;
+    }
+
+    public void setUnescapedDescription(String unescapedDescription) {
+        this.unescapedDescription = unescapedDescription;
+    }
+
+    public Integer getMaxLength() {
+        return maxLength;
+    }
+
+    public void setMaxLength(Integer maxLength) {
+        this.maxLength = maxLength;
+    }
+
+    public Integer getMinLength() {
+        return minLength;
+    }
+
+    public void setMinLength(Integer minLength) {
+        this.minLength = minLength;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
+    }
+
+    public String getExample() {
+        return example;
+    }
+
+    public void setExample(String example) {
+        this.example = example;
+    }
+
+    public String getJsonSchema() {
+        return jsonSchema;
+    }
+
+    public void setJsonSchema(String jsonSchema) {
+        this.jsonSchema = jsonSchema;
+    }
+
+    public String getMinimum() {
+        return minimum;
+    }
+
+    public void setMinimum(String minimum) {
+        this.minimum = minimum;
+    }
+
+    public String getMaximum() {
+        return maximum;
+    }
+
+    public void setMaximum(String maximum) {
+        this.maximum = maximum;
+    }
+
+    public boolean isExclusiveMinimum() {
+        return exclusiveMinimum;
+    }
+
+    public void setExclusiveMinimum(boolean exclusiveMinimum) {
+        this.exclusiveMinimum = exclusiveMinimum;
+    }
+
+    public boolean isExclusiveMaximum() {
+        return exclusiveMaximum;
+    }
+
+    public void setExclusiveMaximum(boolean exclusiveMaximum) {
+        this.exclusiveMaximum = exclusiveMaximum;
+    }
+
+    public boolean isHasMore() {
+        return hasMore;
+    }
+
+    public void setHasMore(boolean hasMore) {
+        this.hasMore = hasMore;
+    }
+
+    public boolean isRequired() {
+        return required;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
+
+    public boolean isSecondaryParam() {
+        return secondaryParam;
+    }
+
+    public void setSecondaryParam(boolean secondaryParam) {
+        this.secondaryParam = secondaryParam;
+    }
+
+    public boolean isHasMoreNonReadOnly() {
+        return hasMoreNonReadOnly;
+    }
+
+    public void setHasMoreNonReadOnly(boolean hasMoreNonReadOnly) {
+        this.hasMoreNonReadOnly = hasMoreNonReadOnly;
+    }
+
+    public boolean isPrimitiveType() {
+        return isPrimitiveType;
+    }
+
+    public void setPrimitiveType(boolean primitiveType) {
+        isPrimitiveType = primitiveType;
+    }
+
+    public boolean isContainer() {
+        return isContainer;
+    }
+
+    public void setContainer(boolean container) {
+        isContainer = container;
+    }
+
+    public boolean isNotContainer() {
+        return isNotContainer;
+    }
+
+    public void setNotContainer(boolean notContainer) {
+        isNotContainer = notContainer;
+    }
+
+    public boolean isString() {
+        return isString;
+    }
+
+    public void setString(boolean string) {
+        isString = string;
+    }
+
+    public boolean isNumeric() {
+        return isNumeric;
+    }
+
+    public void setNumeric(boolean numeric) {
+        isNumeric = numeric;
+    }
+
+    public boolean isInteger() {
+        return isInteger;
+    }
+
+    public void setInteger(boolean integer) {
+        isInteger = integer;
+    }
+
+    public boolean isLong() {
+        return isLong;
+    }
+
+    public void setLong(boolean aLong) {
+        isLong = aLong;
+    }
+
+    public boolean isFloat() {
+        return isFloat;
+    }
+
+    public void setFloat(boolean aFloat) {
+        isFloat = aFloat;
+    }
+
+    public boolean isDouble() {
+        return isDouble;
+    }
+
+    public void setDouble(boolean aDouble) {
+        isDouble = aDouble;
+    }
+
+    public boolean isByteArray() {
+        return isByteArray;
+    }
+
+    public void setByteArray(boolean byteArray) {
+        isByteArray = byteArray;
+    }
+
+    public boolean isBinary() {
+        return isBinary;
+    }
+
+    public void setBinary(boolean binary) {
+        isBinary = binary;
+    }
+
+    public boolean isFile() {
+        return isFile;
+    }
+
+    public void setFile(boolean file) {
+        isFile = file;
+    }
+
+    public boolean isBoolean() {
+        return isBoolean;
+    }
+
+    public void setBoolean(boolean aBoolean) {
+        isBoolean = aBoolean;
+    }
+
+    public boolean isDate() {
+        return isDate;
+    }
+
+    public void setDate(boolean date) {
+        isDate = date;
+    }
+
+    public boolean isDateTime() {
+        return isDateTime;
+    }
+
+    public void setDateTime(boolean dateTime) {
+        isDateTime = dateTime;
+    }
+
+    public boolean isUuid() {
+        return isUuid;
+    }
+
+    public void setUuid(boolean uuid) {
+        isUuid = uuid;
+    }
+
+    public boolean isListContainer() {
+        return isListContainer;
+    }
+
+    public void setListContainer(boolean listContainer) {
+        isListContainer = listContainer;
+    }
+
+    public boolean isMapContainer() {
+        return isMapContainer;
+    }
+
+    public void setMapContainer(boolean mapContainer) {
+        isMapContainer = mapContainer;
+    }
+
+    public boolean isEnum() {
+        return isEnum;
+    }
+
+    public void setEnum(boolean anEnum) {
+        isEnum = anEnum;
+    }
+
+    public boolean isReadOnly() {
+        return isReadOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        isReadOnly = readOnly;
+    }
+
+    public List<String> get_enum() {
+        return _enum;
+    }
+
+    public void set_enum(List<String> _enum) {
+        this._enum = _enum;
+    }
+
+    public Map<String, Object> getAllowableValues() {
+        return allowableValues;
+    }
+
+    public void setAllowableValues(Map<String, Object> allowableValues) {
+        this.allowableValues = allowableValues;
+    }
+
+    public CodegenProperty getItems() {
+        return items;
+    }
+
+    public void setItems(CodegenProperty items) {
+        this.items = items;
+    }
+
+    public Map<String, Object> getVendorExtensions() {
+        return vendorExtensions;
+    }
+
+    public void setVendorExtensions(Map<String, Object> vendorExtensions) {
+        this.vendorExtensions = vendorExtensions;
+    }
+
+    public boolean isHasValidation() {
+        return hasValidation;
+    }
+
+    public void setHasValidation(boolean hasValidation) {
+        this.hasValidation = hasValidation;
+    }
+
+    public boolean isInherited() {
+        return isInherited;
+    }
+
+    public void setInherited(boolean inherited) {
+        isInherited = inherited;
+    }
+
+    public String getNameInCamelCase() {
+        return nameInCamelCase;
+    }
+
+    public void setNameInCamelCase(String nameInCamelCase) {
+        this.nameInCamelCase = nameInCamelCase;
+    }
+
+    public String getEnumName() {
+        return enumName;
+    }
+
+    public void setEnumName(String enumName) {
+        this.enumName = enumName;
+    }
+
+    public Integer getMaxItems() {
+        return maxItems;
+    }
+
+    public void setMaxItems(Integer maxItems) {
+        this.maxItems = maxItems;
+    }
+
+    public Integer getMinItems() {
+        return minItems;
+    }
+
+    public void setMinItems(Integer minItems) {
+        this.minItems = minItems;
+    }
+
+    public boolean isXmlAttribute() {
+        return isXmlAttribute;
+    }
+
+    public void setXmlAttribute(boolean xmlAttribute) {
+        isXmlAttribute = xmlAttribute;
+    }
+
+    public String getXmlPrefix() {
+        return xmlPrefix;
+    }
+
+    public void setXmlPrefix(String xmlPrefix) {
+        this.xmlPrefix = xmlPrefix;
+    }
+
+    public String getXmlName() {
+        return xmlName;
+    }
+
+    public void setXmlName(String xmlName) {
+        this.xmlName = xmlName;
+    }
+
+    public String getXmlNamespace() {
+        return xmlNamespace;
+    }
+
+    public void setXmlNamespace(String xmlNamespace) {
+        this.xmlNamespace = xmlNamespace;
+    }
+
+    public boolean isXmlWrapped() {
+        return isXmlWrapped;
+    }
+
+    public void setXmlWrapped(boolean xmlWrapped) {
+        isXmlWrapped = xmlWrapped;
+    }
 
     @Override
     public String toString() {
