@@ -21,7 +21,7 @@ Add a new pet to the store
 
 
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -37,7 +37,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
-try: 
+try:
     # Add a new pet to the store
     api_instance.add_pet(body)
 except ApiException as e:
@@ -72,7 +72,7 @@ Deletes a pet
 
 
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -89,7 +89,7 @@ api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 789 # int | Pet id to delete
 api_key = 'api_key_example' # str |  (optional)
 
-try: 
+try:
     # Deletes a pet
     api_instance.delete_pet(pet_id, api_key=api_key)
 except ApiException as e:
@@ -125,7 +125,7 @@ Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -141,7 +141,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 status = ['status_example'] # list[str] | Status values that need to be considered for filter
 
-try: 
+try:
     # Finds Pets by status
     api_response = api_instance.find_pets_by_status(status)
     pprint(api_response)
@@ -177,7 +177,7 @@ Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -193,7 +193,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 tags = ['tags_example'] # list[str] | Tags to filter by
 
-try: 
+try:
     # Finds Pets by tags
     api_response = api_instance.find_pets_by_tags(tags)
     pprint(api_response)
@@ -229,7 +229,7 @@ Find pet by ID
 
 Returns a single pet
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -247,7 +247,7 @@ configuration.api_key['api_key'] = 'YOUR_API_KEY'
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 789 # int | ID of pet to return
 
-try: 
+try:
     # Find pet by ID
     api_response = api_instance.get_pet_by_id(pet_id)
     pprint(api_response)
@@ -283,7 +283,7 @@ Update an existing pet
 
 
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -299,7 +299,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
-try: 
+try:
     # Update an existing pet
     api_instance.update_pet(body)
 except ApiException as e:
@@ -334,7 +334,7 @@ Updates a pet in the store with form data
 
 
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -352,7 +352,7 @@ pet_id = 789 # int | ID of pet that needs to be updated
 name = 'name_example' # str | Updated name of the pet (optional)
 status = 'status_example' # str | Updated status of the pet (optional)
 
-try: 
+try:
     # Updates a pet in the store with form data
     api_instance.update_pet_with_form(pet_id, name=name, status=status)
 except ApiException as e:
@@ -389,7 +389,7 @@ uploads an image
 
 
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -407,7 +407,7 @@ pet_id = 789 # int | ID of pet to update
 additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
 file = '/path/to/file.txt' # file | file to upload (optional)
 
-try: 
+try:
     # uploads an image
     api_response = api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file)
     pprint(api_response)

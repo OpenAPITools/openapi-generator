@@ -1,9 +1,10 @@
 # coding: utf-8
 
+# flake8: noqa
 """
     Swagger Petstore
 
-    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  # noqa: E501
 
     OpenAPI spec version: 1.0.0
     Contact: apiteam@swagger.io
@@ -14,39 +15,39 @@
 from __future__ import absolute_import
 
 # import models into model package
-from .additional_properties_class import AdditionalPropertiesClass
-from .animal import Animal
-from .animal_farm import AnimalFarm
-from .api_response import ApiResponse
-from .array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
-from .array_of_number_only import ArrayOfNumberOnly
-from .array_test import ArrayTest
-from .capitalization import Capitalization
-from .category import Category
-from .class_model import ClassModel
-from .client import Client
-from .enum_arrays import EnumArrays
-from .enum_class import EnumClass
-from .enum_test import EnumTest
-from .format_test import FormatTest
-from .has_only_read_only import HasOnlyReadOnly
-from .list import List
-from .map_test import MapTest
-from .mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
-from .model_200_response import Model200Response
-from .model_return import ModelReturn
-from .name import Name
-from .number_only import NumberOnly
-from .order import Order
-from .outer_boolean import OuterBoolean
-from .outer_composite import OuterComposite
-from .outer_enum import OuterEnum
-from .outer_number import OuterNumber
-from .outer_string import OuterString
-from .pet import Pet
-from .read_only_first import ReadOnlyFirst
-from .special_model_name import SpecialModelName
-from .tag import Tag
-from .user import User
-from .cat import Cat
-from .dog import Dog
+from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
+from petstore_api.models.animal import Animal
+from petstore_api.models.animal_farm import AnimalFarm
+from petstore_api.models.api_response import ApiResponse
+from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
+from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
+from petstore_api.models.array_test import ArrayTest
+from petstore_api.models.capitalization import Capitalization
+from petstore_api.models.category import Category
+from petstore_api.models.class_model import ClassModel
+from petstore_api.models.client import Client
+from petstore_api.models.enum_arrays import EnumArrays
+from petstore_api.models.enum_class import EnumClass
+from petstore_api.models.enum_test import EnumTest
+from petstore_api.models.format_test import FormatTest
+from petstore_api.models.has_only_read_only import HasOnlyReadOnly
+from petstore_api.models.list import List
+from petstore_api.models.map_test import MapTest
+from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
+from petstore_api.models.model_200_response import Model200Response
+from petstore_api.models.model_return import ModelReturn
+from petstore_api.models.name import Name
+from petstore_api.models.number_only import NumberOnly
+from petstore_api.models.order import Order
+from petstore_api.models.outer_boolean import OuterBoolean
+from petstore_api.models.outer_composite import OuterComposite
+from petstore_api.models.outer_enum import OuterEnum
+from petstore_api.models.outer_number import OuterNumber
+from petstore_api.models.outer_string import OuterString
+from petstore_api.models.pet import Pet
+from petstore_api.models.read_only_first import ReadOnlyFirst
+from petstore_api.models.special_model_name import SpecialModelName
+from petstore_api.models.tag import Tag
+from petstore_api.models.user import User
+from petstore_api.models.cat import Cat
+from petstore_api.models.dog import Dog
