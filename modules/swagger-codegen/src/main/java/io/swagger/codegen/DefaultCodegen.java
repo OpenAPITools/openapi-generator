@@ -3362,8 +3362,17 @@ public class DefaultCodegen {
      * @param library Library template
      */
     public void setLibrary(String library) {
-        if (library != null && !supportedLibraries.containsKey(library))
-            throw new RuntimeException("unknown library: " + library);
+        if (library != null && !supportedLibraries.containsKey(library)) {
+            StringBuilder sb = new StringBuilder("Unknown library: " + library + "\nAvailable libraries:");
+            if(supportedLibraries.size() == 0) {
+                sb.append("\n  ").append("NONE");
+            } else {
+                for (String lib : supportedLibraries.keySet()) {
+                    sb.append("\n  ").append(lib);
+                }
+            }
+            throw new RuntimeException(sb.toString());
+        }
         this.library = library;
     }
 
