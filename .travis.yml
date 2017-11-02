@@ -11,18 +11,18 @@ cache:
   - $HOME/samples/client/petstore/php/SwaggerClient-php/vendor
   - $HOME/samples/client/petstore/ruby/venodr/bundle
   - $HOME/samples/client/petstore/python/.venv/
-  - $HOME/samples/client/petstore/typescript-node/npm/node_modules
-  - $HOME/samples/client/petstore/typescript-node/npm/typings/
-  - $HOME/samples/client/petstore/typescript-fetch/tests/default/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/tests/default/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/default/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/builds/default/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/with-npm-version/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/npm/with-npm-version/typings
-  - $HOME/samples/client/petstore/typescript-angularjs/node_modules
-  - $HOME/samples/client/petstore/typescript-angularjs/typings
+    #  - $HOME/samples/client/petstore/typescript-node/npm/node_modules
+    #  - $HOME/samples/client/petstore/typescript-node/npm/typings/
+    #  - $HOME/samples/client/petstore/typescript-fetch/tests/default/node_modules
+    #  - $HOME/samples/client/petstore/typescript-fetch/tests/default/typings
+    #  - $HOME/samples/client/petstore/typescript-fetch/builds/default/node_modules
+    #  - $HOME/samples/client/petstore/typescript-fetch/builds/default/typings
+    #  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/node_modules
+    #  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/typings
+    #  - $HOME/samples/client/petstore/typescript-fetch/builds/with-npm-version/node_modules
+    #  - $HOME/samples/client/petstore/typescript-fetch/npm/with-npm-version/typings
+    #  - $HOME/samples/client/petstore/typescript-angularjs/node_modules
+    #  - $HOME/samples/client/petstore/typescript-angularjs/typings
   - $HOME/.cocoapods/repos/master
   timeout: 1000
 # note: docker is not yet supported in iOS build
