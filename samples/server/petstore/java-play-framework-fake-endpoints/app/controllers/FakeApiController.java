@@ -159,7 +159,7 @@ public class FakeApiController extends Controller {
         String valuenumber = (request().body().asMultipartFormData().asFormUrlEncoded().get("number"))[0];
         BigDecimal number;
         if (valuenumber != null) {
-            number = Float.parseFloat(valuenumber);
+            number = new BigDecimal(valuenumber);
         } else {
             throw new IllegalArgumentException("'number' parameter is required");
         }
@@ -194,7 +194,7 @@ public class FakeApiController extends Controller {
         String value_byte = (request().body().asMultipartFormData().asFormUrlEncoded().get("byte"))[0];
         byte[] _byte;
         if (value_byte != null) {
-            _byte = value_byte;
+            _byte = value_byte.getBytes();
         } else {
             throw new IllegalArgumentException("'byte' parameter is required");
         }
