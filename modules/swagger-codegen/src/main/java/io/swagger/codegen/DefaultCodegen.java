@@ -2,20 +2,8 @@ package io.swagger.codegen;
 
 import javax.annotation.Nullable;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1130,7 +1118,7 @@ public class DefaultCodegen {
         String datatype = null;
         if (p instanceof StringProperty && "number".equals(p.getFormat())) {
             datatype = "BigDecimal";
-        } else if (p instanceof ByteArrayProperty) {
+        } else if ((p instanceof ByteArrayProperty) || (p instanceof StringProperty && "byte".equals(p.getFormat()))) {
             datatype = "ByteArray";
         } else if (p instanceof BinaryProperty) {
             datatype = "binary";
@@ -1706,20 +1694,7 @@ public class DefaultCodegen {
         // type is number and without format
         if (p instanceof DecimalProperty && !(p instanceof DoubleProperty) && !(p instanceof FloatProperty)) {
             DecimalProperty sp = (DecimalProperty) p;
-            property.isFloat = true;
-            /*if (sp.getEnum() != null) {
-                List<Double> _enum = sp.getEnum();
-                property._enum = new ArrayList<String>();
-                for(Double i : _enum) {
-                  property._enum.add(i.toString());
-                }
-                property.isEnum = true;
-
-                // legacy support
-                Map<String, Object> allowableValues = new HashMap<String, Object>();
-                allowableValues.put("values", _enum);
-                property.allowableValues = allowableValues;
-            }*/
+            property.isNumber = true;
         }
         if (p instanceof DoubleProperty) {
             DoubleProperty sp = (DoubleProperty) p;
@@ -2371,7 +2346,9 @@ public class DefaultCodegen {
             }
             r.dataType = cm.datatype;
 
-            if (Boolean.TRUE.equals(cm.isString)) {
+            if (Boolean.TRUE.equals(cm.isByteArray)) {
+                r.isByteArray = true;
+            } else if (Boolean.TRUE.equals(cm.isString)) {
                 r.isString = true;
             } else if (Boolean.TRUE.equals(cm.isBoolean)) {
                 r.isBoolean = true;
@@ -2381,14 +2358,15 @@ public class DefaultCodegen {
             } else if (Boolean.TRUE.equals(cm.isInteger)) {
                 r.isInteger = true;
                 r.isNumeric = true;
+            } else if (Boolean.TRUE.equals(cm.isNumber)) {
+                r.isNumber = true;
+                r.isNumeric = true;
             } else if (Boolean.TRUE.equals(cm.isDouble)) {
                 r.isDouble = true;
                 r.isNumeric = true;
             } else if (Boolean.TRUE.equals(cm.isFloat)) {
                 r.isFloat = true;
                 r.isNumeric = true;
-            } else if (Boolean.TRUE.equals(cm.isByteArray)) {
-                r.isByteArray = true;
             } else if (Boolean.TRUE.equals(cm.isBinary)) {
                 r.isBinary = true;
             } else if (Boolean.TRUE.equals(cm.isFile)) {
@@ -2712,6 +2690,8 @@ public class DefaultCodegen {
             p.example = "56";
         } else if (Boolean.TRUE.equals(p.isFloat)) {
             p.example = "3.4";
+        } else if (Boolean.TRUE.equals(p.isNumber)) {
+            p.example = "8.14";
         } else if (Boolean.TRUE.equals(p.isDouble)) {
             p.example = "1.2";
         } else if (Boolean.TRUE.equals(p.isBinary)) {
@@ -3593,7 +3573,10 @@ public class DefaultCodegen {
             return;
         }
 
-        if (Boolean.TRUE.equals(property.isString)) {
+        if (Boolean.TRUE.equals(property.isByteArray)) {
+            parameter.isByteArray = true;
+            parameter.isPrimitiveType = true;
+        } else if (Boolean.TRUE.equals(property.isString)) {
             parameter.isString = true;
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isBoolean)) {
@@ -3611,8 +3594,8 @@ public class DefaultCodegen {
         } else if (Boolean.TRUE.equals(property.isFloat)) {
             parameter.isFloat = true;
             parameter.isPrimitiveType = true;
-        } else if (Boolean.TRUE.equals(property.isByteArray)) {
-            parameter.isByteArray = true;
+        }  else if (Boolean.TRUE.equals(property.isNumber)) {
+            parameter.isNumber = true;
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isBinary)) {
             parameter.isByteArray = true;
