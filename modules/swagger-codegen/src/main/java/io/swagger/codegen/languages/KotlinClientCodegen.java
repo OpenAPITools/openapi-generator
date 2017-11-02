@@ -23,6 +23,7 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
     protected String packageName = "io.swagger.client";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
 
     /**
      * Constructs an instance of `KotlinClientCodegen`.
@@ -56,17 +57,26 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
         ));
 
         // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
-        // as well as select soft (contextual) keywords
+        // as well as keywords from https://kotlinlang.org/docs/reference/keyword-reference.html
         reservedWords = new HashSet<String>(Arrays.asList(
                 "abstract",
+                "annotation",
                 "as",
                 "break",
                 "case",
                 "catch",
                 "class",
+                "companion",
+                "const",
+                "constructor",
                 "continue",
+                "crossinline",
+                "data",
+                "delegate",
                 "do",
                 "else",
+                "enum",
+                "external",
                 "false",
                 "final",
                 "finally",
@@ -74,20 +84,33 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
                 "fun",
                 "if",
                 "in",
+                "infix",
+                "init",
+                "inline",
+                "inner",
                 "interface",
+                "internal",
                 "is",
                 "it",
+                "lateinit",
                 "lazy",
+                "noinline",
                 "null",
                 "object",
+                "open",
+                "operator",
+                "out",
                 "override",
                 "package",
                 "private",
                 "protected",
                 "public",
+                "reified",
                 "return",
                 "sealed",
                 "super",
+                "suspend",
+                "tailrec",
                 "this",
                 "throw",
                 "true",
@@ -96,6 +119,7 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
                 "typeof",
                 "val",
                 "var",
+                "vararg",
                 "when",
                 "while"
         ));
@@ -149,12 +173,17 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
         importMapping.put("LocalDate", "java.time.LocalDate");
         importMapping.put("LocalTime", "java.time.LocalTime");
 
+        specialCharReplacements.put(";", "Semicolon");
+
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue(sourceFolder));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Client package name (e.g. io.swagger).").defaultValue(this.packageName));
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, "Client package's organization (i.e. maven groupId).").defaultValue(groupId));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, "Client artifact id (name of generated jar).").defaultValue(artifactId));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "Client package version.").defaultValue(artifactVersion));
+
+        CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC);
+        cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
     }
 
     public CodegenType getTag() {
@@ -192,6 +221,10 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
+            setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
@@ -253,6 +286,27 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("infrastructure/ResponseExtensions.kt.mustache", infrastructureFolder, "ResponseExtensions.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
+    }
+
+    /**
+     * Sets the naming convention for Kotlin enum properties
+     *
+     * @param enumPropertyNamingType The string representation of the naming convention, as defined by {@link CodegenConstants.ENUM_PROPERTY_NAMING_TYPE}
+     */
+    public void setEnumPropertyNaming(final String enumPropertyNamingType) {
+        try {
+            this.enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.valueOf(enumPropertyNamingType);
+        } catch (IllegalArgumentException ex) {
+            StringBuilder sb = new StringBuilder(enumPropertyNamingType + " is an invalid enum property naming option. Please choose from:");
+            for (CodegenConstants.ENUM_PROPERTY_NAMING_TYPE t : CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.values()) {
+                sb.append("\n  ").append(t.name());
+            }
+            throw new RuntimeException(sb.toString());
+        }
+    }
+
+    public CodegenConstants.ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {
+        return this.enumPropertyNaming;
     }
 
     @Override
@@ -385,5 +439,70 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         return postProcessModelsEnum(super.postProcessModels(objs));
+    }
+
+    /**
+     * Return the sanitized variable name for enum
+     *
+     * @param value    enum variable name
+     * @param datatype data type
+     * @return the sanitized variable name for enum
+     */
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        String modified;
+        if (value.length() == 0) {
+            modified = "EMPTY";
+        } else {
+            modified = value;
+
+            for (Map.Entry<String, String> specialCharacters : specialCharReplacements.entrySet()) {
+                // Underscore is the only special character we'll allow
+                if (!specialCharacters.getKey().equals("_")) {
+                    modified = modified.replaceAll("\\Q" + specialCharacters.getKey() + "\\E", specialCharacters.getValue());
+                }
+            }
+
+            // Fallback, replace unknowns with underscore.
+            modified = modified.replaceAll("\\W+", "_");
+            if (modified.matches("\\d.*")) {
+                modified = "_" + modified;
+            }
+
+            // _, __, and ___ are reserved in Kotlin. Treat all names with only underscores consistently, regardless of count.
+            if (modified.matches("^_*$")) {
+                modified = modified.replaceAll("\\Q_\\E", "Underscore");
+            }
+        }
+
+        switch (getEnumPropertyNaming()) {
+            case original:
+                // NOTE: This is provided as a last-case allowance, but will still result in reserved words being escaped.
+                modified =  value;
+                break;
+            case camelCase:
+                // NOTE: Removes hyphens and underscores
+                modified =  camelize(modified, true);
+                break;
+            case PascalCase:
+                // NOTE: Removes hyphens and underscores
+                String result = camelize(modified);
+                modified =  result.substring(0, 1).toUpperCase() + result.substring(1);
+                break;
+            case snake_case:
+                // NOTE: Removes hyphens
+                modified = underscore(modified);
+                break;
+            case UPPERCASE:
+                modified = modified.toUpperCase();
+                break;
+        }
+
+        if (reservedWords.contains(modified)) {
+            // TODO: Allow enum escaping as an option (e.g. backticks vs append/prepend underscore vs match model property escaping).
+            return String.format("`%s`", modified);
+        }
+
+        return modified;
     }
 }
