@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 To test class name in snake case
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -30,7 +30,7 @@ configuration.api_key['api_key_query'] = 'YOUR_API_KEY'
 api_instance = petstore_api.FakeClassnameTags123Api(petstore_api.ApiClient(configuration))
 body = petstore_api.Client() # Client | client model
 
-try: 
+try:
     # To test class name in snake case
     api_response = api_instance.test_classname(body)
     pprint(api_response)

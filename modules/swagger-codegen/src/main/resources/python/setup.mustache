@@ -2,8 +2,7 @@
 
 {{>partial_header}}
 
-import sys
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages  # noqa: H301
 
 NAME = "{{{projectName}}}"
 VERSION = "{{packageVersion}}"
@@ -36,7 +35,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     long_description="""\
-    {{appDescription}}
+    {{appDescription}}  # noqa: E501
     """
 )
 {{/hasMore}}
