@@ -1,5 +1,6 @@
 package io.swagger.codegen;
 
+import com.github.jknack.handlebars.Helper;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.samskivert.mustache.Mustache.Compiler;
@@ -3240,6 +3241,12 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return tag;
+    }
+
+    @Override
+    public Map<String, Helper> getHelpers() {
+        // TODO: this class should be abstract
+        return null;
     }
 
     /**

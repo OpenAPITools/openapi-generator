@@ -537,7 +537,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                         String templateName = templateFile.replace("\\", "/");
                         templateName = templateName.substring(templateName.indexOf("/") + 1);
-                        final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateName.replace(config.templateDir(), ""), null, null);
+                        final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateName.replace(config.templateDir(), StringUtils.EMPTY));
                         writeToFile(outputFilename, hTemplate.apply(bundle));
 
                         // writeToFile(outputFilename, tmpl.execute(bundle));
@@ -705,8 +705,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     .defaultValue("")
                     .compile(template);
 
-            final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateName, null, null);
-            writeToFile(adjustedOutputFilename, hTemplate.apply(templateData));
+            final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateName);
+            String rendered = hTemplate.apply(templateData);
+            writeToFile(adjustedOutputFilename, rendered);
             return new File(adjustedOutputFilename);
         }
 
@@ -814,8 +815,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         for (Tag tag : tags) {
             try {
-                System.out.println(config);
-                System.out.println();
                 CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, openAPI.getComponents().getSchemas(), openAPI);
                 codegenOperation.tags = new ArrayList<>(tags);
                 config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
@@ -973,11 +972,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return authMethods;
     }
 
-    private com.github.jknack.handlebars.Template getHandlebars(String templateName, Helper helper, String helperName) throws IOException {
+    private com.github.jknack.handlebars.Template getHandlebars(String templateName) throws IOException {
         final TemplateLoader templateLoader = new ClassPathTemplateLoader("/" + config.templateDir(), ".mustache");
         final Handlebars handlebars = new Handlebars(templateLoader);
-        if (helper != null) {
-            handlebars.registerHelper(helperName, helper);
+        Map<String, Helper> helpers = config.getHelpers();
+        if (helpers != null && !helpers.isEmpty()) {
+            for (String key : helpers.keySet()) {
+               handlebars.registerHelper(key, helpers.get(key));
+            }
         }
         return handlebars.compile(templateName.replace(".mustache", ""));
     }

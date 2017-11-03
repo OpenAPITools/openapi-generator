@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.github.jknack.handlebars.Helper;
 import com.samskivert.mustache.Mustache.Compiler;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.oas.models.Operation;
@@ -214,4 +215,5 @@ public interface CodegenConfig {
 
     String toGetter(String name);
 
+    Map<String, Helper> getHelpers();
 }

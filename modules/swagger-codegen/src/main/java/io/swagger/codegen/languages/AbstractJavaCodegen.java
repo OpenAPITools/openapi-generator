@@ -1,15 +1,21 @@
 package io.swagger.codegen.languages;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import com.github.jknack.handlebars.Helper;
+import com.github.jknack.handlebars.Options;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import io.swagger.codegen.languages.helpers.JavaImportsHelper;
 import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.oas.models.Operation;
@@ -1271,6 +1277,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             tag = "Class" + tag;
         }
         return tag;
+    }
+
+    @Override
+    public Map<String, Helper> getHelpers() {
+        Map<String, Helper> helpers = new LinkedHashMap<>();
+        helpers.put("imports", new JavaImportsHelper());
+        return helpers;
     }
 
 }
