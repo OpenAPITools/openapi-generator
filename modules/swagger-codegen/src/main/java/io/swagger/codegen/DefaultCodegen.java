@@ -2204,6 +2204,7 @@ public class DefaultCodegen {
         List<CodegenParameter> headerParams = new ArrayList<CodegenParameter>();
         List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
         List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
+        List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
 
         if (parameters != null) {
             for (Parameter param : parameters) {
@@ -2234,6 +2235,9 @@ public class DefaultCodegen {
 
 
                 allParams.add(p);
+                if (p.required || p.isBodyParam) {
+                    requiredParams.add(p.copy());
+                }
                 // Issue #2561 (neilotoole) : Moved setting of is<Type>Param flags
                 // from here to fromParameter().
                 if (param instanceof QueryParameter) {
@@ -2287,6 +2291,7 @@ public class DefaultCodegen {
         op.headerParams = addHasMore(headerParams);
         // op.cookieParams = cookieParams;
         op.formParams = addHasMore(formParams);
+        op.requiredParams = addHasMore(requiredParams);
         op.externalDocs = operation.getExternalDocs();
         // legacy support
         op.nickname = op.operationId;
@@ -2294,6 +2299,7 @@ public class DefaultCodegen {
         if (op.allParams.size() > 0) {
             op.hasParams = true;
         }
+        op.hasRequiredParams = op.requiredParams.size() > 0;
 
         // set Restful Flag
         op.isRestfulShow = op.isRestfulShow();
