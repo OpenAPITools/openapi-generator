@@ -72,7 +72,7 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    bool getComplete() const;
+    bool isComplete() const;
     void setComplete(bool value);
 
 protected:
