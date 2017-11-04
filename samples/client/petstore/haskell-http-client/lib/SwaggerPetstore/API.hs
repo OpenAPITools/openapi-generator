@@ -80,10 +80,11 @@ import qualified Prelude as P
 -- 
 testSpecialTags 
   :: (Consumes TestSpecialTags contentType, MimeRender contentType Client)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
   -> Client -- ^ "body" -  client model
-  -> SwaggerPetstoreRequest TestSpecialTags contentType Client
-testSpecialTags _ body =
+  -> SwaggerPetstoreRequest TestSpecialTags contentType Client accept
+testSpecialTags _  _ body =
   _mkRequest "PATCH" ["/another-fake/dummy"]
     `setBodyParam` body
 
@@ -109,9 +110,10 @@ instance Produces TestSpecialTags MimeJSON
 -- 
 fakeOuterBooleanSerialize 
   :: (Consumes FakeOuterBooleanSerialize contentType)
-  => contentType -- ^ request content-type ('MimeType')
-  -> SwaggerPetstoreRequest FakeOuterBooleanSerialize contentType OuterBoolean
-fakeOuterBooleanSerialize _ =
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
+  -> SwaggerPetstoreRequest FakeOuterBooleanSerialize contentType OuterBoolean accept
+fakeOuterBooleanSerialize _  _ =
   _mkRequest "POST" ["/fake/outer/boolean"]
 
 data FakeOuterBooleanSerialize 
@@ -127,9 +129,10 @@ instance HasBodyParam FakeOuterBooleanSerialize OuterBoolean
 -- 
 fakeOuterCompositeSerialize 
   :: (Consumes FakeOuterCompositeSerialize contentType)
-  => contentType -- ^ request content-type ('MimeType')
-  -> SwaggerPetstoreRequest FakeOuterCompositeSerialize contentType OuterComposite
-fakeOuterCompositeSerialize _ =
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
+  -> SwaggerPetstoreRequest FakeOuterCompositeSerialize contentType OuterComposite accept
+fakeOuterCompositeSerialize _  _ =
   _mkRequest "POST" ["/fake/outer/composite"]
 
 data FakeOuterCompositeSerialize 
@@ -145,9 +148,10 @@ instance HasBodyParam FakeOuterCompositeSerialize OuterComposite
 -- 
 fakeOuterNumberSerialize 
   :: (Consumes FakeOuterNumberSerialize contentType)
-  => contentType -- ^ request content-type ('MimeType')
-  -> SwaggerPetstoreRequest FakeOuterNumberSerialize contentType OuterNumber
-fakeOuterNumberSerialize _ =
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
+  -> SwaggerPetstoreRequest FakeOuterNumberSerialize contentType OuterNumber accept
+fakeOuterNumberSerialize _  _ =
   _mkRequest "POST" ["/fake/outer/number"]
 
 data FakeOuterNumberSerialize 
@@ -163,9 +167,10 @@ instance HasBodyParam FakeOuterNumberSerialize OuterNumber
 -- 
 fakeOuterStringSerialize 
   :: (Consumes FakeOuterStringSerialize contentType)
-  => contentType -- ^ request content-type ('MimeType')
-  -> SwaggerPetstoreRequest FakeOuterStringSerialize contentType OuterString
-fakeOuterStringSerialize _ =
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
+  -> SwaggerPetstoreRequest FakeOuterStringSerialize contentType OuterString accept
+fakeOuterStringSerialize _  _ =
   _mkRequest "POST" ["/fake/outer/string"]
 
 data FakeOuterStringSerialize 
@@ -183,10 +188,11 @@ instance HasBodyParam FakeOuterStringSerialize OuterString
 -- 
 testClientModel 
   :: (Consumes TestClientModel contentType, MimeRender contentType Client)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
   -> Client -- ^ "body" -  client model
-  -> SwaggerPetstoreRequest TestClientModel contentType Client
-testClientModel _ body =
+  -> SwaggerPetstoreRequest TestClientModel contentType Client accept
+testClientModel _  _ body =
   _mkRequest "PATCH" ["/fake"]
     `setBodyParam` body
 
@@ -216,13 +222,14 @@ instance Produces TestClientModel MimeJSON
 -- 
 testEndpointParameters 
   :: (Consumes TestEndpointParameters contentType)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
   -> Number -- ^ "number" -  None
   -> ParamDouble -- ^ "double" -  None
   -> PatternWithoutDelimiter -- ^ "patternWithoutDelimiter" -  None
   -> Byte -- ^ "byte" -  None
-  -> SwaggerPetstoreRequest TestEndpointParameters contentType res
-testEndpointParameters _ (Number number) (ParamDouble double) (PatternWithoutDelimiter patternWithoutDelimiter) (Byte byte) =
+  -> SwaggerPetstoreRequest TestEndpointParameters contentType res accept
+testEndpointParameters _  _ (Number number) (ParamDouble double) (PatternWithoutDelimiter patternWithoutDelimiter) (Byte byte) =
   _mkRequest "POST" ["/fake"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthBasicHttpBasicTest)
     `addForm` toForm ("number", number)
@@ -305,9 +312,10 @@ instance Produces TestEndpointParameters MimeJsonCharsetutf8
 -- 
 testEnumParameters 
   :: (Consumes TestEnumParameters contentType)
-  => contentType -- ^ request content-type ('MimeType')
-  -> SwaggerPetstoreRequest TestEnumParameters contentType res
-testEnumParameters _ =
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
+  -> SwaggerPetstoreRequest TestEnumParameters contentType res accept
+testEnumParameters _  _ =
   _mkRequest "GET" ["/fake"]
 
 data TestEnumParameters  
@@ -369,9 +377,9 @@ instance Produces TestEnumParameters MimeAny
 -- 
 testInlineAdditionalProperties 
   :: (Consumes TestInlineAdditionalProperties contentType, MimeRender contentType A.Value)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
   -> A.Value -- ^ "param" -  request body
-  -> SwaggerPetstoreRequest TestInlineAdditionalProperties contentType NoContent
+  -> SwaggerPetstoreRequest TestInlineAdditionalProperties contentType NoContent MimeNoContent
 testInlineAdditionalProperties _ param =
   _mkRequest "POST" ["/fake/inline-additionalProperties"]
     `setBodyParam` param
@@ -395,10 +403,10 @@ instance Consumes TestInlineAdditionalProperties MimeJSON
 -- 
 testJsonFormData 
   :: (Consumes TestJsonFormData contentType)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
   -> Param -- ^ "param" -  field1
   -> Param2 -- ^ "param2" -  field2
-  -> SwaggerPetstoreRequest TestJsonFormData contentType NoContent
+  -> SwaggerPetstoreRequest TestJsonFormData contentType NoContent MimeNoContent
 testJsonFormData _ (Param param) (Param2 param2) =
   _mkRequest "GET" ["/fake/jsonFormData"]
     `addForm` toForm ("param", param)
@@ -422,10 +430,11 @@ instance Consumes TestJsonFormData MimeJSON
 -- 
 testClassname 
   :: (Consumes TestClassname contentType, MimeRender contentType Client)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
   -> Client -- ^ "body" -  client model
-  -> SwaggerPetstoreRequest TestClassname contentType Client
-testClassname _ body =
+  -> SwaggerPetstoreRequest TestClassname contentType Client accept
+testClassname _  _ body =
   _mkRequest "PATCH" ["/fake_classname_test"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyApiKeyQuery)
     `setBodyParam` body
@@ -458,10 +467,11 @@ instance Produces TestClassname MimeJSON
 -- 
 addPet 
   :: (Consumes AddPet contentType, MimeRender contentType Pet)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
   -> Pet -- ^ "body" -  Pet object that needs to be added to the store
-  -> SwaggerPetstoreRequest AddPet contentType res
-addPet _ body =
+  -> SwaggerPetstoreRequest AddPet contentType res accept
+addPet _  _ body =
   _mkRequest "POST" ["/pet"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
     `setBodyParam` body
@@ -495,9 +505,10 @@ instance Produces AddPet MimeJSON
 -- Note: Has 'Produces' instances, but no response schema
 -- 
 deletePet 
-  :: PetId -- ^ "petId" -  Pet id to delete
-  -> SwaggerPetstoreRequest DeletePet MimeNoContent res
-deletePet (PetId petId) =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> PetId -- ^ "petId" -  Pet id to delete
+  -> SwaggerPetstoreRequest DeletePet MimeNoContent res accept
+deletePet  _ (PetId petId) =
   _mkRequest "DELETE" ["/pet/",toPath petId]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
 
@@ -522,9 +533,10 @@ instance Produces DeletePet MimeJSON
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
 findPetsByStatus 
-  :: Status -- ^ "status" -  Status values that need to be considered for filter
-  -> SwaggerPetstoreRequest FindPetsByStatus MimeNoContent [Pet]
-findPetsByStatus (Status status) =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> Status -- ^ "status" -  Status values that need to be considered for filter
+  -> SwaggerPetstoreRequest FindPetsByStatus MimeNoContent [Pet] accept
+findPetsByStatus  _ (Status status) =
   _mkRequest "GET" ["/pet/findByStatus"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
     `setQuery` toQueryColl CommaSeparated ("status", Just status)
@@ -547,9 +559,10 @@ instance Produces FindPetsByStatus MimeJSON
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
 findPetsByTags 
-  :: Tags -- ^ "tags" -  Tags to filter by
-  -> SwaggerPetstoreRequest FindPetsByTags MimeNoContent [Pet]
-findPetsByTags (Tags tags) =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> Tags -- ^ "tags" -  Tags to filter by
+  -> SwaggerPetstoreRequest FindPetsByTags MimeNoContent [Pet] accept
+findPetsByTags  _ (Tags tags) =
   _mkRequest "GET" ["/pet/findByTags"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
     `setQuery` toQueryColl CommaSeparated ("tags", Just tags)
@@ -574,9 +587,10 @@ instance Produces FindPetsByTags MimeJSON
 -- AuthMethod: 'AuthApiKeyApiKey'
 -- 
 getPetById 
-  :: PetId -- ^ "petId" -  ID of pet to return
-  -> SwaggerPetstoreRequest GetPetById MimeNoContent Pet
-getPetById (PetId petId) =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> PetId -- ^ "petId" -  ID of pet to return
+  -> SwaggerPetstoreRequest GetPetById MimeNoContent Pet accept
+getPetById  _ (PetId petId) =
   _mkRequest "GET" ["/pet/",toPath petId]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyApiKey)
 
@@ -601,10 +615,11 @@ instance Produces GetPetById MimeJSON
 -- 
 updatePet 
   :: (Consumes UpdatePet contentType, MimeRender contentType Pet)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
   -> Pet -- ^ "body" -  Pet object that needs to be added to the store
-  -> SwaggerPetstoreRequest UpdatePet contentType res
-updatePet _ body =
+  -> SwaggerPetstoreRequest UpdatePet contentType res accept
+updatePet _  _ body =
   _mkRequest "PUT" ["/pet"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
     `setBodyParam` body
@@ -639,10 +654,11 @@ instance Produces UpdatePet MimeJSON
 -- 
 updatePetWithForm 
   :: (Consumes UpdatePetWithForm contentType)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
   -> PetId -- ^ "petId" -  ID of pet that needs to be updated
-  -> SwaggerPetstoreRequest UpdatePetWithForm contentType res
-updatePetWithForm _ (PetId petId) =
+  -> SwaggerPetstoreRequest UpdatePetWithForm contentType res accept
+updatePetWithForm _  _ (PetId petId) =
   _mkRequest "POST" ["/pet/",toPath petId]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
 
@@ -679,10 +695,11 @@ instance Produces UpdatePetWithForm MimeJSON
 -- 
 uploadFile 
   :: (Consumes UploadFile contentType)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
   -> PetId -- ^ "petId" -  ID of pet to update
-  -> SwaggerPetstoreRequest UploadFile contentType ApiResponse
-uploadFile _ (PetId petId) =
+  -> SwaggerPetstoreRequest UploadFile contentType ApiResponse accept
+uploadFile _  _ (PetId petId) =
   _mkRequest "POST" ["/pet/",toPath petId,"/uploadImage"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
 
@@ -718,9 +735,10 @@ instance Produces UploadFile MimeJSON
 -- Note: Has 'Produces' instances, but no response schema
 -- 
 deleteOrder 
-  :: OrderIdText -- ^ "orderId" -  ID of the order that needs to be deleted
-  -> SwaggerPetstoreRequest DeleteOrder MimeNoContent res
-deleteOrder (OrderIdText orderId) =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> OrderIdText -- ^ "orderId" -  ID of the order that needs to be deleted
+  -> SwaggerPetstoreRequest DeleteOrder MimeNoContent res accept
+deleteOrder  _ (OrderIdText orderId) =
   _mkRequest "DELETE" ["/store/order/",toPath orderId]
 
 data DeleteOrder  
@@ -741,8 +759,9 @@ instance Produces DeleteOrder MimeJSON
 -- AuthMethod: 'AuthApiKeyApiKey'
 -- 
 getInventory 
-  :: SwaggerPetstoreRequest GetInventory MimeNoContent ((Map.Map String Int))
-getInventory =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> SwaggerPetstoreRequest GetInventory MimeNoContent ((Map.Map String Int)) accept
+getInventory  _ =
   _mkRequest "GET" ["/store/inventory"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyApiKey)
 
@@ -760,9 +779,10 @@ instance Produces GetInventory MimeJSON
 -- For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 -- 
 getOrderById 
-  :: OrderId -- ^ "orderId" -  ID of pet that needs to be fetched
-  -> SwaggerPetstoreRequest GetOrderById MimeNoContent Order
-getOrderById (OrderId orderId) =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> OrderId -- ^ "orderId" -  ID of pet that needs to be fetched
+  -> SwaggerPetstoreRequest GetOrderById MimeNoContent Order accept
+getOrderById  _ (OrderId orderId) =
   _mkRequest "GET" ["/store/order/",toPath orderId]
 
 data GetOrderById  
@@ -782,10 +802,11 @@ instance Produces GetOrderById MimeJSON
 -- 
 placeOrder 
   :: (Consumes PlaceOrder contentType, MimeRender contentType Order)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
   -> Order -- ^ "body" -  order placed for purchasing the pet
-  -> SwaggerPetstoreRequest PlaceOrder contentType Order
-placeOrder _ body =
+  -> SwaggerPetstoreRequest PlaceOrder contentType Order accept
+placeOrder _  _ body =
   _mkRequest "POST" ["/store/order"]
     `setBodyParam` body
 
@@ -813,10 +834,11 @@ instance Produces PlaceOrder MimeJSON
 -- 
 createUser 
   :: (Consumes CreateUser contentType, MimeRender contentType User)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
   -> User -- ^ "body" -  Created user object
-  -> SwaggerPetstoreRequest CreateUser contentType res
-createUser _ body =
+  -> SwaggerPetstoreRequest CreateUser contentType res accept
+createUser _  _ body =
   _mkRequest "POST" ["/user"]
     `setBodyParam` body
 
@@ -842,10 +864,11 @@ instance Produces CreateUser MimeJSON
 -- 
 createUsersWithArrayInput 
   :: (Consumes CreateUsersWithArrayInput contentType, MimeRender contentType Body)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
   -> Body -- ^ "body" -  List of user object
-  -> SwaggerPetstoreRequest CreateUsersWithArrayInput contentType res
-createUsersWithArrayInput _ body =
+  -> SwaggerPetstoreRequest CreateUsersWithArrayInput contentType res accept
+createUsersWithArrayInput _  _ body =
   _mkRequest "POST" ["/user/createWithArray"]
     `setBodyParam` body
 
@@ -871,10 +894,11 @@ instance Produces CreateUsersWithArrayInput MimeJSON
 -- 
 createUsersWithListInput 
   :: (Consumes CreateUsersWithListInput contentType, MimeRender contentType Body)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
   -> Body -- ^ "body" -  List of user object
-  -> SwaggerPetstoreRequest CreateUsersWithListInput contentType res
-createUsersWithListInput _ body =
+  -> SwaggerPetstoreRequest CreateUsersWithListInput contentType res accept
+createUsersWithListInput _  _ body =
   _mkRequest "POST" ["/user/createWithList"]
     `setBodyParam` body
 
@@ -899,9 +923,10 @@ instance Produces CreateUsersWithListInput MimeJSON
 -- Note: Has 'Produces' instances, but no response schema
 -- 
 deleteUser 
-  :: Username -- ^ "username" -  The name that needs to be deleted
-  -> SwaggerPetstoreRequest DeleteUser MimeNoContent res
-deleteUser (Username username) =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> Username -- ^ "username" -  The name that needs to be deleted
+  -> SwaggerPetstoreRequest DeleteUser MimeNoContent res accept
+deleteUser  _ (Username username) =
   _mkRequest "DELETE" ["/user/",toPath username]
 
 data DeleteUser  
@@ -920,9 +945,10 @@ instance Produces DeleteUser MimeJSON
 -- 
 -- 
 getUserByName 
-  :: Username -- ^ "username" -  The name that needs to be fetched. Use user1 for testing. 
-  -> SwaggerPetstoreRequest GetUserByName MimeNoContent User
-getUserByName (Username username) =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> Username -- ^ "username" -  The name that needs to be fetched. Use user1 for testing. 
+  -> SwaggerPetstoreRequest GetUserByName MimeNoContent User accept
+getUserByName  _ (Username username) =
   _mkRequest "GET" ["/user/",toPath username]
 
 data GetUserByName  
@@ -941,10 +967,11 @@ instance Produces GetUserByName MimeJSON
 -- 
 -- 
 loginUser 
-  :: Username -- ^ "username" -  The user name for login
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> Username -- ^ "username" -  The user name for login
   -> Password -- ^ "password" -  The password for login in clear text
-  -> SwaggerPetstoreRequest LoginUser MimeNoContent Text
-loginUser (Username username) (Password password) =
+  -> SwaggerPetstoreRequest LoginUser MimeNoContent Text accept
+loginUser  _ (Username username) (Password password) =
   _mkRequest "GET" ["/user/login"]
     `setQuery` toQuery ("username", Just username)
     `setQuery` toQuery ("password", Just password)
@@ -967,8 +994,9 @@ instance Produces LoginUser MimeJSON
 -- Note: Has 'Produces' instances, but no response schema
 -- 
 logoutUser 
-  :: SwaggerPetstoreRequest LogoutUser MimeNoContent res
-logoutUser =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> SwaggerPetstoreRequest LogoutUser MimeNoContent res accept
+logoutUser  _ =
   _mkRequest "GET" ["/user/logout"]
 
 data LogoutUser  
@@ -990,11 +1018,12 @@ instance Produces LogoutUser MimeJSON
 -- 
 updateUser 
   :: (Consumes UpdateUser contentType, MimeRender contentType User)
-  => contentType -- ^ request content-type ('MimeType')
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> Accept accept -- ^ request accept ('MimeType')
   -> Username -- ^ "username" -  name that need to be deleted
   -> User -- ^ "body" -  Updated user object
-  -> SwaggerPetstoreRequest UpdateUser contentType res
-updateUser _ (Username username) body =
+  -> SwaggerPetstoreRequest UpdateUser contentType res accept
+updateUser _  _ (Username username) body =
   _mkRequest "PUT" ["/user/",toPath username]
     `setBodyParam` body
 
