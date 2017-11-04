@@ -91,7 +91,7 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    bool getComplete() const;
+    bool isComplete() const;
     bool completeIsSet() const;
     void unsetComplete();
     void setComplete(bool value);

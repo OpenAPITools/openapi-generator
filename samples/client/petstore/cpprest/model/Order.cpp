@@ -279,7 +279,7 @@ void Order::unsetStatus()
     m_StatusIsSet = false;
 }
 
-bool Order::getComplete() const
+bool Order::isComplete() const
 {
     return m_Complete;
 }
