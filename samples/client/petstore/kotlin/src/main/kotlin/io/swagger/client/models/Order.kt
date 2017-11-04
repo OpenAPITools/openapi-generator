@@ -31,11 +31,19 @@ data class Order (
     val complete: kotlin.Boolean? = null
 ) {
 
-    enum class Status(val value: kotlin.String) {
+    /**
+    * Order Status
+    * Values: placed,approved,delivered
+    */
+    enum class Status(val value: kotlin.Any){
+    
         placed("placed"),
+    
         approved("approved"),
+    
         delivered("delivered");
+    
     }
 
-
 }
+
