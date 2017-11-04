@@ -343,7 +343,8 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String escapeReservedWord(String name) {
-        return "_" + name;
+        // TODO: Allow enum escaping as an option (e.g. backticks vs append/prepend underscore vs match model property escaping).
+        return String.format("`%s`", name);
     }
 
     /**
@@ -354,12 +355,25 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
      * @return capitalized model name
      */
     @Override
-    public String toModelName(String name) {
-        if(!name.startsWith("kotlin.") && !name.startsWith("java.")) {
-            return initialCaps(modelNamePrefix + name + modelNameSuffix);
-        } else {
+    public String toModelName(final String name) {
+        // Allow for explicitly configured kotlin.* and java.* types
+        if (name.startsWith("kotlin.") || name.startsWith("java.")) {
             return name;
         }
+
+        // If importMapping contains name, assume this is a legitimate model name.
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+
+        String modifiedName = name.replaceAll("\\.", "");
+        modifiedName = sanitizeKotlinSpecificNames(modifiedName);
+
+        if (reservedWords.contains(modifiedName)) {
+            modifiedName = escapeReservedWord(modifiedName);
+        }
+
+        return titleCase(modifiedName);
     }
 
     /**
@@ -455,24 +469,7 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
             modified = "EMPTY";
         } else {
             modified = value;
-
-            for (Map.Entry<String, String> specialCharacters : specialCharReplacements.entrySet()) {
-                // Underscore is the only special character we'll allow
-                if (!specialCharacters.getKey().equals("_")) {
-                    modified = modified.replaceAll("\\Q" + specialCharacters.getKey() + "\\E", specialCharacters.getValue());
-                }
-            }
-
-            // Fallback, replace unknowns with underscore.
-            modified = modified.replaceAll("\\W+", "_");
-            if (modified.matches("\\d.*")) {
-                modified = "_" + modified;
-            }
-
-            // _, __, and ___ are reserved in Kotlin. Treat all names with only underscores consistently, regardless of count.
-            if (modified.matches("^_*$")) {
-                modified = modified.replaceAll("\\Q_\\E", "Underscore");
-            }
+            modified = sanitizeKotlinSpecificNames(modified);
         }
 
         switch (getEnumPropertyNaming()) {
@@ -487,7 +484,7 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
             case PascalCase:
                 // NOTE: Removes hyphens and underscores
                 String result = camelize(modified);
-                modified =  result.substring(0, 1).toUpperCase() + result.substring(1);
+                modified =  titleCase(result);
                 break;
             case snake_case:
                 // NOTE: Removes hyphens
@@ -499,10 +496,42 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         if (reservedWords.contains(modified)) {
-            // TODO: Allow enum escaping as an option (e.g. backticks vs append/prepend underscore vs match model property escaping).
-            return String.format("`%s`", modified);
+            return escapeReservedWord(modified);
         }
 
         return modified;
+    }
+
+    private String titleCase(final String input) {
+        return input.substring(0, 1).toUpperCase() + input.substring(1);
+    }
+
+    /**
+     * Sanitize against Kotlin specific naming conventions, which may differ from those required by {@link DefaultCodegen#sanitizeName}.
+     *
+     * @param name string to be sanitize
+     * @return sanitized string
+     */
+    private String sanitizeKotlinSpecificNames(final String name) {
+        String word = name;
+        for (Map.Entry<String, String> specialCharacters : specialCharReplacements.entrySet()) {
+            // Underscore is the only special character we'll allow
+            if (!specialCharacters.getKey().equals("_")) {
+                word = word.replaceAll("\\Q" + specialCharacters.getKey() + "\\E", specialCharacters.getValue());
+            }
+        }
+
+        // Fallback, replace unknowns with underscore.
+        word = word.replaceAll("\\W+", "_");
+        if (word.matches("\\d.*")) {
+            word = "_" + word;
+        }
+
+        // _, __, and ___ are reserved in Kotlin. Treat all names with only underscores consistently, regardless of count.
+        if (word.matches("^_*$")) {
+            word = word.replaceAll("\\Q_\\E", "Underscore");
+        }
+
+        return word;
     }
 }

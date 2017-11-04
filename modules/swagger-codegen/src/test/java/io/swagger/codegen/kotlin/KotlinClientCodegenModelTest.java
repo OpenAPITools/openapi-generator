@@ -6,6 +6,7 @@ import io.swagger.models.*;
 import io.swagger.models.properties.*;
 
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("static-method")
@@ -152,6 +153,42 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property1.baseType, "Child");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isNotContainer);
+    }
+
+    @DataProvider(name = "modelNames")
+    public static Object[][] modelNames(){
+        return new Object[][] {
+                { "TestNs.TestClass" , new ModelNameTest("TestNs.TestClass", "TestNsTestClass") },
+                { "$", new ModelNameTest("$", "Dollar") },
+                { "for", new ModelNameTest("`for`","`for`")},
+                { "One<Two", new ModelNameTest("One<Two", "OneLess_ThanTwo")},
+                { "this is a test", new ModelNameTest("this is a test", "This_is_a_test")}
+        };
+    }
+
+    @Test(dataProvider = "modelNames", description = "sanitize model names")
+    public void sanitizeModelNames(final String name, final ModelNameTest testCase) {
+        final Model model = getComplexModel();
+        final DefaultCodegen codegen = new KotlinClientCodegen();
+        final CodegenModel cm = codegen.fromModel(name, model);
+
+        Assert.assertEquals(cm.name, testCase.expectedName);
+        Assert.assertEquals(cm.classname, testCase.expectedClassName);
+    }
+
+    private static class ModelNameTest {
+        private String expectedName;
+        private String expectedClassName;
+
+        private ModelNameTest(String nameAndClass) {
+            this.expectedName = nameAndClass;
+            this.expectedClassName = nameAndClass;
+        }
+
+        private ModelNameTest(String expectedName, String expectedClassName) {
+            this.expectedName = expectedName;
+            this.expectedClassName = expectedClassName;
+        }
     }
 }
 
