@@ -540,7 +540,7 @@ class ApiClient(object):
         try:
             return klass(data)
         except UnicodeEncodeError:
-            return unicode(data)  # noqa: F821
+            return six.u(data)
         except TypeError:
             return data
 
