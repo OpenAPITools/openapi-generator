@@ -33,6 +33,7 @@ import SwaggerPetstore.Logging
 
 import qualified Control.Arrow as P (left)
 import qualified Control.DeepSeq as NF
+import qualified Control.Exception.Safe as E
 import qualified Data.Aeson as A
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Base64.Lazy as BL64
@@ -132,8 +133,15 @@ withNoLogging p = p { configLogExecWithContext =  runNullLogExec}
  
 -- * SwaggerPetstoreRequest
 
--- | Represents a request. The "req" type variable is the request type. The "res" type variable is the response type.
-data SwaggerPetstoreRequest req contentType res = SwaggerPetstoreRequest
+-- | Represents a request.
+--
+--   Type Variables:
+--
+--   * req - request operation
+--   * contentType - 'MimeType' associated with request body
+--   * res - response model
+--   * accept - 'MimeType' associated with response body
+data SwaggerPetstoreRequest req contentType res accept = SwaggerPetstoreRequest
   { rMethod  :: NH.Method   -- ^ Method of SwaggerPetstoreRequest
   , rUrlPath :: [BCL.ByteString] -- ^ Endpoint of SwaggerPetstoreRequest
   , rParams   :: Params -- ^ params of SwaggerPetstoreRequest
@@ -142,22 +150,22 @@ data SwaggerPetstoreRequest req contentType res = SwaggerPetstoreRequest
   deriving (P.Show)
 
 -- | 'rMethod' Lens
-rMethodL :: Lens_' (SwaggerPetstoreRequest req contentType res) NH.Method
+rMethodL :: Lens_' (SwaggerPetstoreRequest req contentType res accept) NH.Method
 rMethodL f SwaggerPetstoreRequest{..} = (\rMethod -> SwaggerPetstoreRequest { rMethod, ..} ) <$> f rMethod
 {-# INLINE rMethodL #-}
 
 -- | 'rUrlPath' Lens
-rUrlPathL :: Lens_' (SwaggerPetstoreRequest req contentType res) [BCL.ByteString]
+rUrlPathL :: Lens_' (SwaggerPetstoreRequest req contentType res accept) [BCL.ByteString]
 rUrlPathL f SwaggerPetstoreRequest{..} = (\rUrlPath -> SwaggerPetstoreRequest { rUrlPath, ..} ) <$> f rUrlPath
 {-# INLINE rUrlPathL #-}
 
 -- | 'rParams' Lens
-rParamsL :: Lens_' (SwaggerPetstoreRequest req contentType res) Params
+rParamsL :: Lens_' (SwaggerPetstoreRequest req contentType res accept) Params
 rParamsL f SwaggerPetstoreRequest{..} = (\rParams -> SwaggerPetstoreRequest { rParams, ..} ) <$> f rParams
 {-# INLINE rParamsL #-}
 
 -- | 'rParams' Lens
-rAuthTypesL :: Lens_' (SwaggerPetstoreRequest req contentType res) [P.TypeRep]
+rAuthTypesL :: Lens_' (SwaggerPetstoreRequest req contentType res accept) [P.TypeRep]
 rAuthTypesL f SwaggerPetstoreRequest{..} = (\rAuthTypes -> SwaggerPetstoreRequest { rAuthTypes, ..} ) <$> f rAuthTypes
 {-# INLINE rAuthTypesL #-}
 
@@ -165,7 +173,7 @@ rAuthTypesL f SwaggerPetstoreRequest{..} = (\rAuthTypes -> SwaggerPetstoreReques
 
 -- | Designates the body parameter of a request
 class HasBodyParam req param where
-  setBodyParam :: forall contentType res. (Consumes req contentType, MimeRender contentType param) => SwaggerPetstoreRequest req contentType res -> param -> SwaggerPetstoreRequest req contentType res
+  setBodyParam :: forall contentType res accept. (Consumes req contentType, MimeRender contentType param) => SwaggerPetstoreRequest req contentType res accept -> param -> SwaggerPetstoreRequest req contentType res accept
   setBodyParam req xs =
     req `_setBodyLBS` mimeRender (P.Proxy :: P.Proxy contentType) xs & _setContentTypeHeader
 
@@ -176,12 +184,12 @@ class HasOptionalParam req param where
   {-# MINIMAL applyOptionalParam | (-&-) #-}
 
   -- | Apply an optional parameter to a request
-  applyOptionalParam :: SwaggerPetstoreRequest req contentType res -> param -> SwaggerPetstoreRequest req contentType res
+  applyOptionalParam :: SwaggerPetstoreRequest req contentType res accept -> param -> SwaggerPetstoreRequest req contentType res accept
   applyOptionalParam = (-&-)
   {-# INLINE applyOptionalParam #-}
 
   -- | infix operator \/ alias for 'addOptionalParam'
-  (-&-) :: SwaggerPetstoreRequest req contentType res -> param -> SwaggerPetstoreRequest req contentType res
+  (-&-) :: SwaggerPetstoreRequest req contentType res accept -> param -> SwaggerPetstoreRequest req contentType res accept
   (-&-) = applyOptionalParam
   {-# INLINE (-&-) #-}
 
@@ -223,18 +231,18 @@ data ParamBody
 
 _mkRequest :: NH.Method -- ^ Method 
           -> [BCL.ByteString] -- ^ Endpoint
-          -> SwaggerPetstoreRequest req contentType res -- ^ req: Request Type, res: Response Type
+          -> SwaggerPetstoreRequest req contentType res accept -- ^ req: Request Type, res: Response Type
 _mkRequest m u = SwaggerPetstoreRequest m u _mkParams []
 
 _mkParams :: Params
 _mkParams = Params [] [] ParamBodyNone
 
-setHeader :: SwaggerPetstoreRequest req contentType res -> [NH.Header] -> SwaggerPetstoreRequest req contentType res
+setHeader :: SwaggerPetstoreRequest req contentType res accept -> [NH.Header] -> SwaggerPetstoreRequest req contentType res accept
 setHeader req header =
   req `removeHeader` P.fmap P.fst header &
   L.over (rParamsL . paramsHeadersL) (header P.++)
 
-removeHeader :: SwaggerPetstoreRequest req contentType res -> [NH.HeaderName] -> SwaggerPetstoreRequest req contentType res
+removeHeader :: SwaggerPetstoreRequest req contentType res accept -> [NH.HeaderName] -> SwaggerPetstoreRequest req contentType res accept
 removeHeader req header =
   req &
   L.over
@@ -244,19 +252,19 @@ removeHeader req header =
     cifst = CI.mk . P.fst
 
 
-_setContentTypeHeader :: forall req contentType res. MimeType contentType => SwaggerPetstoreRequest req contentType res -> SwaggerPetstoreRequest req contentType res
+_setContentTypeHeader :: forall req contentType res accept. MimeType contentType => SwaggerPetstoreRequest req contentType res accept -> SwaggerPetstoreRequest req contentType res accept
 _setContentTypeHeader req =
     case mimeType (P.Proxy :: P.Proxy contentType) of 
         Just m -> req `setHeader` [("content-type", BC.pack $ P.show m)]
         Nothing -> req `removeHeader` ["content-type"]
 
-_setAcceptHeader :: forall req contentType res accept. MimeType accept => SwaggerPetstoreRequest req contentType res -> accept -> SwaggerPetstoreRequest req contentType res
-_setAcceptHeader req accept =
-    case mimeType' accept of 
+_setAcceptHeader :: forall req contentType res accept. MimeType accept => SwaggerPetstoreRequest req contentType res accept -> SwaggerPetstoreRequest req contentType res accept
+_setAcceptHeader req =
+    case mimeType (P.Proxy :: P.Proxy accept) of 
         Just m -> req `setHeader` [("accept", BC.pack $ P.show m)]
         Nothing -> req `removeHeader` ["accept"]
 
-setQuery :: SwaggerPetstoreRequest req contentType res -> [NH.QueryItem] -> SwaggerPetstoreRequest req contentType res
+setQuery :: SwaggerPetstoreRequest req contentType res accept -> [NH.QueryItem] -> SwaggerPetstoreRequest req contentType res accept
 setQuery req query = 
   req &
   L.over
@@ -265,29 +273,29 @@ setQuery req query =
   where
     cifst = CI.mk . P.fst
 
-addForm :: SwaggerPetstoreRequest req contentType res -> WH.Form -> SwaggerPetstoreRequest req contentType res
+addForm :: SwaggerPetstoreRequest req contentType res accept -> WH.Form -> SwaggerPetstoreRequest req contentType res accept
 addForm req newform = 
     let form = case paramsBody (rParams req) of
             ParamBodyFormUrlEncoded _form -> _form
             _ -> mempty
     in req & L.set (rParamsL . paramsBodyL) (ParamBodyFormUrlEncoded (newform <> form))
 
-_addMultiFormPart :: SwaggerPetstoreRequest req contentType res -> NH.Part -> SwaggerPetstoreRequest req contentType res
+_addMultiFormPart :: SwaggerPetstoreRequest req contentType res accept -> NH.Part -> SwaggerPetstoreRequest req contentType res accept
 _addMultiFormPart req newpart = 
     let parts = case paramsBody (rParams req) of
             ParamBodyMultipartFormData _parts -> _parts
             _ -> []
     in req & L.set (rParamsL . paramsBodyL) (ParamBodyMultipartFormData (newpart : parts))
 
-_setBodyBS :: SwaggerPetstoreRequest req contentType res -> B.ByteString -> SwaggerPetstoreRequest req contentType res
+_setBodyBS :: SwaggerPetstoreRequest req contentType res accept -> B.ByteString -> SwaggerPetstoreRequest req contentType res accept
 _setBodyBS req body = 
     req & L.set (rParamsL . paramsBodyL) (ParamBodyB body)
 
-_setBodyLBS :: SwaggerPetstoreRequest req contentType res -> BL.ByteString -> SwaggerPetstoreRequest req contentType res
+_setBodyLBS :: SwaggerPetstoreRequest req contentType res accept -> BL.ByteString -> SwaggerPetstoreRequest req contentType res accept
 _setBodyLBS req body = 
     req & L.set (rParamsL . paramsBodyL) (ParamBodyBL body)
 
-_hasAuthType :: AuthMethod authMethod => SwaggerPetstoreRequest req contentType res -> P.Proxy authMethod -> SwaggerPetstoreRequest req contentType res
+_hasAuthType :: AuthMethod authMethod => SwaggerPetstoreRequest req contentType res accept -> P.Proxy authMethod -> SwaggerPetstoreRequest req contentType res accept
 _hasAuthType req proxy =
   req & L.over rAuthTypesL (P.typeRep proxy :)
 
@@ -362,19 +370,24 @@ class P.Typeable a =>
   applyAuthMethod
     :: SwaggerPetstoreConfig
     -> a
-    -> SwaggerPetstoreRequest req contentType res
-    -> IO (SwaggerPetstoreRequest req contentType res)
+    -> SwaggerPetstoreRequest req contentType res accept
+    -> IO (SwaggerPetstoreRequest req contentType res accept)
 
 -- | An existential wrapper for any AuthMethod
 data AnyAuthMethod = forall a. AuthMethod a => AnyAuthMethod a deriving (P.Typeable)
 
 instance AuthMethod AnyAuthMethod where applyAuthMethod config (AnyAuthMethod a) req = applyAuthMethod config a req
 
+-- | indicates exceptions related to AuthMethods
+data AuthMethodException = AuthMethodException String deriving (P.Show, P.Typeable)
+
+instance E.Exception AuthMethodException
+
 -- | apply all matching AuthMethods in config to request
 _applyAuthMethods
-  :: SwaggerPetstoreRequest req contentType res
+  :: SwaggerPetstoreRequest req contentType res accept
   -> SwaggerPetstoreConfig
-  -> IO (SwaggerPetstoreRequest req contentType res)
+  -> IO (SwaggerPetstoreRequest req contentType res accept)
 _applyAuthMethods req config@(SwaggerPetstoreConfig {configAuthMethods = as}) =
   foldlM go req as
   where
