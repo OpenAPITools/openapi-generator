@@ -283,7 +283,7 @@ export class {{classname}} {
 {{/hasFormParams}}
 {{#useHttpClient}}
         return this.httpClient.{{httpMethod}}{{^isResponseFile}}<any>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
-            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}}, {{/isBodyAllowed}}
+            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
             {
 {{#hasQueryParams}}
                 params: queryParameters,

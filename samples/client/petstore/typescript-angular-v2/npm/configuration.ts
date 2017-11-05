@@ -56,7 +56,7 @@ export class Configuration {
         }
 
         let type = accepts.find(x => this.isJsonMime(x));
-        if (type === undefined) { 
+        if (type === undefined) {
             return accepts[0];
         }
         return type;
@@ -72,8 +72,8 @@ export class Configuration {
      * @param {string} mime - MIME (Multipurpose Internet Mail Extensions)
      * @return {boolean} True if the given MIME is JSON, false otherwise.
      */
-    public isJsonMime(mime: string): boolean {		
-        const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');		
-        return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');		
+    public isJsonMime(mime: string): boolean {
+        const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
+        return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
     }
 }

@@ -82,11 +82,12 @@ export class StoreService {
         let consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, 
-        {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        return this.httpClient.delete<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+            {
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
     /**
@@ -115,11 +116,12 @@ export class StoreService {
         let consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/store/inventory`, 
-        {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        return this.httpClient.get<any>(`${this.basePath}/store/inventory`,
+            {
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
     /**
@@ -148,11 +150,12 @@ export class StoreService {
         let consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, 
-        {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        return this.httpClient.get<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+            {
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
     /**
@@ -185,11 +188,13 @@ export class StoreService {
             headers = headers.set("Content-Type", httpContentTypeSelected);
         }
 
-        return this.httpClient.post<any>(`${this.basePath}/store/order`, body, 
-        {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        return this.httpClient.post<any>(`${this.basePath}/store/order`,
+            body,
+            {
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
 }

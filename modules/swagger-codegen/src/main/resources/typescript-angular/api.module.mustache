@@ -18,7 +18,7 @@ import { {{classname}} } from './{{importPath}}';
   imports:      [ CommonModule, {{#useHttpClient}}HttpClientModule{{/useHttpClient}}{{^useHttpClient}}HttpModule{{/useHttpClient}} ],
   declarations: [],
   exports:      [],
-  providers: [ 
+  providers: [
     {{#apiInfo}}{{#apis}}{{classname}}{{#hasMore}},
     {{/hasMore}}{{/apis}}{{/apiInfo}} ]
 })
