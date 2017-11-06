@@ -1,0 +1,65 @@
+package {{package}};
+
+import {{invokerPackage}}.CollectionFormats.*;
+
+{{#useRxJava}}
+import rx.Observable;
+{{/useRxJava}}
+{{#useRxJava2}}
+import io.reactivex.Observable;
+{{/useRxJava2}}
+{{#doNotUseRx}}
+import retrofit2.Call;
+{{/doNotUseRx}}
+import retrofit2.http.*;
+
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+{{#operations}}
+public interface {{classname}} {
+  {{#operation}}
+  /**
+   * {{summary}}
+   * {{notes}}
+{{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+{{/allParams}}
+   * @return Call&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Object{{/returnType}}&gt;
+{{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+{{/externalDocs}}
+   */
+  {{#formParams}}
+  {{#-first}}
+  {{#isMultipart}}@retrofit2.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit2.http.FormUrlEncoded{{/isMultipart}}
+  {{/-first}}
+  {{/formParams}}
+  {{^formParams}}
+  {{#prioritizedContentTypes}}
+  {{#-first}}
+  @Headers({
+    "Content-Type:{{mediaType}}"
+  })
+  {{/-first}}
+  {{/prioritizedContentTypes}}
+  {{/formParams}}  
+  @{{httpMethod}}("{{{path}}}")
+  {{^doNotUseRx}}Observable{{/doNotUseRx}}{{#doNotUseRx}}Call{{/doNotUseRx}}<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}{{/isResponseFile}}> {{operationId}}({{^allParams}});{{/allParams}}
+    {{#allParams}}{{>libraries/retrofit2/queryParams}}{{>libraries/retrofit2/pathParams}}{{>libraries/retrofit2/headerParams}}{{>libraries/retrofit2/bodyParams}}{{>libraries/retrofit2/formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}
+  );{{/hasMore}}{{/allParams}}
+
+  {{/operation}}
+}
+{{/operations}}

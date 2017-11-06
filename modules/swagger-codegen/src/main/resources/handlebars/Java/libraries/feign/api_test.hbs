@@ -1,0 +1,70 @@
+package {{package}};
+
+import {{invokerPackage}}.ApiClient;
+{{#imports}}import {{import}};
+{{/imports}}
+import org.junit.Before;
+import org.junit.Test;
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+/**
+ * API tests for {{classname}}
+ */
+public class {{classname}}Test {
+
+    private {{classname}} api;
+
+    @Before
+    public void setup() {
+        api = new ApiClient().buildClient({{classname}}.class);
+    }
+
+    {{#operations}}{{#operation}}
+    /**
+     * {{summary}}
+     *
+     * {{notes}}
+     */
+    @Test
+    public void {{operationId}}Test() {
+        {{#allParams}}
+        {{{dataType}}} {{paramName}} = null;
+        {{/allParams}}
+        // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+
+        // TODO: test validations
+    }
+
+        {{#hasQueryParams}}
+    /**
+     * {{summary}}
+     *
+     * {{notes}}
+     *
+     * This tests the overload of the method that uses a Map for query parameters instead of
+     * listing them out individually.
+     */
+    @Test
+    public void {{operationId}}TestQueryMap() {
+          {{#allParams}}
+            {{^isQueryParam}}
+        {{{dataType}}} {{paramName}} = null;
+            {{/isQueryParam}}
+          {{/allParams}}
+        {{classname}}.{{operationIdCamelCase}}QueryParams queryParams = new {{classname}}.{{operationIdCamelCase}}QueryParams()
+          {{#queryParams}}
+            .{{paramName}}(null){{^hasMore}};{{/hasMore}}
+          {{/queryParams}}
+        // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{^isQueryParam}}{{paramName}}, {{/isQueryParam}}{{/allParams}}queryParams);
+
+    // TODO: test validations
+    }
+        {{/hasQueryParams}}
+    {{/operation}}{{/operations}}
+}

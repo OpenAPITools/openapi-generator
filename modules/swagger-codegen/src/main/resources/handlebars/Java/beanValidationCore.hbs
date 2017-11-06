@@ -1,0 +1,20 @@
+{{#pattern}} @Pattern(regexp="{{{pattern}}}"){{/pattern}}{{!
+minLength && maxLength set
+}}{{#minLength}}{{#maxLength}} @Size(min={{minLength}},max={{maxLength}}){{/maxLength}}{{/minLength}}{{!
+minLength set, maxLength not
+}}{{#minLength}}{{^maxLength}} @Size(min={{minLength}}){{/maxLength}}{{/minLength}}{{!
+minLength not set, maxLength set
+}}{{^minLength}}{{#maxLength}} @Size(max={{maxLength}}){{/maxLength}}{{/minLength}}{{!
+@Size: minItems && maxItems set 
+}}{{#minItems}}{{#maxItems}} @Size(min={{minItems}},max={{maxItems}}){{/maxItems}}{{/minItems}}{{!
+@Size: minItems set, maxItems not 
+}}{{#minItems}}{{^maxItems}} @Size(min={{minItems}}){{/maxItems}}{{/minItems}}{{!
+@Size: minItems not set && maxItems set 
+}}{{^minItems}}{{#maxItems}} @Size(max={{maxItems}}){{/maxItems}}{{/minItems}}{{! 
+check for integer or long / all others=decimal type with @Decimal*
+isInteger set
+}}{{#isInteger}}{{#minimum}} @Min({{minimum}}){{/minimum}}{{#maximum}} @Max({{maximum}}){{/maximum}}{{/isInteger}}{{!
+isLong set 
+}}{{#isLong}}{{#minimum}} @Min({{minimum}}){{/minimum}}{{#maximum}} @Max({{maximum}}){{/maximum}}{{/isLong}}{{!
+Not Integer, not Long => we have a decimal value!
+}}{{^isInteger}}{{^isLong}}{{#minimum}} @DecimalMin("{{minimum}}"){{/minimum}}{{#maximum}} @DecimalMax("{{maximum}}"){{/maximum}}{{/isLong}}{{/isInteger}}

@@ -1,0 +1,118 @@
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+group = '{{groupId}}'
+version = '{{artifactVersion}}'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.+'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+
+if(hasProperty('target') && target == 'android') {
+
+    apply plugin: 'com.android.library'
+    apply plugin: 'com.github.dcendents.android-maven'
+
+    android {
+        compileSdkVersion 25
+        buildToolsVersion '25.0.2'
+        defaultConfig {
+            minSdkVersion 14
+            targetSdkVersion 25
+        }
+        compileOptions {
+            {{#java8}}
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+            {{/java8}}
+            {{^java8}}
+            sourceCompatibility JavaVersion.VERSION_1_7
+            targetCompatibility JavaVersion.VERSION_1_7
+            {{/java8}}
+        }
+
+        // Rename the aar correctly
+        libraryVariants.all { variant ->
+            variant.outputs.each { output ->
+                def outputFile = output.outputFile
+                if (outputFile != null && outputFile.name.endsWith('.aar')) {
+                    def fileName = "${project.name}-${variant.baseName}-${version}.aar"
+                    output.outputFile = new File(outputFile.parent, fileName)
+                }
+            }
+        }
+
+        dependencies {
+            provided 'javax.annotation:jsr250-api:1.0'
+        }
+    }
+
+    afterEvaluate {
+        android.libraryVariants.all { variant ->
+            def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
+            task.description = "Create jar artifact for ${variant.name}"
+            task.dependsOn variant.javaCompile
+            task.from variant.javaCompile.destinationDir
+            task.destinationDir = project.file("${project.buildDir}/outputs/jar")
+            task.archiveName = "${project.name}-${variant.baseName}-${version}.jar"
+            artifacts.add('archives', task);
+        }
+    }
+
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier = 'sources'
+    }
+
+    artifacts {
+        archives sourcesJar
+    }
+
+} else {
+
+    apply plugin: 'java'
+    apply plugin: 'maven'
+
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+
+    install {
+        repositories.mavenInstaller {
+            pom.artifactId = '{{artifactId}}'
+        }
+    }
+
+    task execute(type:JavaExec) {
+       main = System.getProperty('mainClass')
+       classpath = sourceSets.main.runtimeClasspath
+    }
+}
+
+ext {
+    okhttp_version = "2.7.5"
+    oltu_version = "1.0.1"
+    retrofit_version = "1.9.0"
+    swagger_annotations_version = "1.5.8"
+    junit_version = "4.12"
+    jodatime_version = "2.9.3"
+}
+
+dependencies {
+    compile "com.squareup.okhttp:okhttp:$okhttp_version"
+    compile "com.squareup.retrofit:retrofit:$retrofit_version"
+    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
+    compile "joda-time:joda-time:$jodatime_version"
+    testCompile "junit:junit:$junit_version"
+}

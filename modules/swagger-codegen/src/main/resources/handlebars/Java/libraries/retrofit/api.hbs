@@ -1,0 +1,64 @@
+package {{package}};
+
+import {{invokerPackage}}.CollectionFormats.*;
+
+import retrofit.Callback;
+import retrofit.http.*;
+import retrofit.mime.*;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+{{#operations}}
+public interface {{classname}} {
+  {{#operation}}
+  /**
+   * {{summary}}
+   * Sync method
+   * {{notes}}
+{{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+{{/allParams}}
+{{#returnType}}
+   * @return {{returnType}}
+{{/returnType}}
+{{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+{{/externalDocs}}
+   */
+  {{#formParams}}{{#-first}}
+  {{#isMultipart}}@retrofit.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit.http.FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
+  @{{httpMethod}}("{{{path}}}")
+  {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}} {{operationId}}({{^allParams}});{{/allParams}}
+    {{#allParams}}{{>libraries/retrofit/queryParams}}{{>libraries/retrofit/pathParams}}{{>libraries/retrofit/headerParams}}{{>libraries/retrofit/bodyParams}}{{>libraries/retrofit/formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}
+  );{{/hasMore}}{{/allParams}}
+
+  /**
+   * {{summary}}
+   * Async method
+{{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+{{/allParams}}
+   * @param cb callback method
+{{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+{{/externalDocs}}
+   */
+  {{#formParams}}{{#-first}}
+  {{#isMultipart}}@retrofit.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit.http.FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
+  @{{httpMethod}}("{{{path}}}")
+  void {{operationId}}(
+    {{#allParams}}{{>libraries/retrofit/queryParams}}{{>libraries/retrofit/pathParams}}{{>libraries/retrofit/headerParams}}{{>libraries/retrofit/bodyParams}}{{>libraries/retrofit/formParams}}, {{/allParams}}Callback<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> cb
+  );
+  {{/operation}}
+}
+{{/operations}}

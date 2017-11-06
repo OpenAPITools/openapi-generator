@@ -1,0 +1,91 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
+import io.vertx.core.MultiMap;
+import io.vertx.core.json.JsonObject;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import java.util.*;
+
+import {{invokerPackage}}.ApiClient;
+import {{invokerPackage}}.ApiException;
+import {{invokerPackage}}.Configuration;
+import {{invokerPackage}}.Pair;
+
+{{>generatedAnnotation}}
+{{#operations}}
+public class {{classname}}Impl implements {{classname}} {
+
+    private ApiClient {{localVariablePrefix}}apiClient;
+
+    public {{classname}}Impl() {
+        this(null);
+    }
+
+    public {{classname}}Impl(ApiClient apiClient) {
+        this.{{localVariablePrefix}}apiClient = apiClient != null ? apiClient : Configuration.getDefaultApiClient();
+    }
+
+    public ApiClient getApiClient() {
+        return {{localVariablePrefix}}apiClient;
+    }
+
+    public void setApiClient(ApiClient apiClient) {
+        this.{{localVariablePrefix}}apiClient = apiClient;
+    }
+
+    {{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}
+     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     {{/allParams}}
+     * @param resultHandler Asynchronous result handler
+     */
+    public void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>> resultHandler) {
+        Object {{localVariablePrefix}}localVarBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+        {{#allParams}}{{#required}}
+        // verify the required parameter '{{paramName}}' is set
+        if ({{paramName}} == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}"));
+            return;
+        }
+        {{/required}}{{/allParams}}
+        // create path and map variables
+        String {{localVariablePrefix}}localVarPath = "{{{path}}}"{{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}", {{{paramName}}}.toString()){{/pathParams}};
+
+        // query params
+        List<Pair> {{localVariablePrefix}}localVarQueryParams = new ArrayList<>();
+        {{#queryParams}}
+        {{localVariablePrefix}}localVarQueryParams.addAll({{localVariablePrefix}}apiClient.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
+        {{/queryParams}}
+
+        // header params
+        MultiMap {{localVariablePrefix}}localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        {{#headerParams}}if ({{paramName}} != null)
+        {{localVariablePrefix}}localVarHeaderParams.add("{{baseName}}", {{localVariablePrefix}}apiClient.parameterToString({{paramName}}));
+        {{/headerParams}}
+
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> {{localVariablePrefix}}localVarFormParams = new HashMap<>();
+        {{#formParams}}if ({{paramName}} != null) {{localVariablePrefix}}localVarFormParams.put("{{baseName}}", {{paramName}});
+        {{/formParams}}
+
+        String[] {{localVariablePrefix}}localVarAccepts = { {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} };
+        String[] {{localVariablePrefix}}localVarContentTypes = { {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} };
+        String[] {{localVariablePrefix}}localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+        {{#returnType}}
+        TypeReference<{{{returnType}}}> {{localVariablePrefix}}localVarReturnType = new TypeReference<{{{returnType}}}>() {};
+        {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}localVarPath, "{{httpMethod}}", {{localVariablePrefix}}localVarQueryParams, {{localVariablePrefix}}localVarBody, {{localVariablePrefix}}localVarHeaderParams, {{localVariablePrefix}}localVarFormParams, {{localVariablePrefix}}localVarAccepts, {{localVariablePrefix}}localVarContentTypes, {{localVariablePrefix}}localVarAuthNames, {{localVariablePrefix}}localVarReturnType, resultHandler);{{/returnType}}{{^returnType}}
+        {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}localVarPath, "{{httpMethod}}", {{localVariablePrefix}}localVarQueryParams, {{localVariablePrefix}}localVarBody, {{localVariablePrefix}}localVarHeaderParams, {{localVariablePrefix}}localVarFormParams, {{localVariablePrefix}}localVarAccepts, {{localVariablePrefix}}localVarContentTypes, {{localVariablePrefix}}localVarAuthNames, null, resultHandler);{{/returnType}}
+    }
+    {{/operation}}
+}
+{{/operations}}

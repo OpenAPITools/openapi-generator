@@ -1,0 +1,235 @@
+/**
+ * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+ */{{#description}}
+@ApiModel(description = "{{{description}}}"){{/description}}
+{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
+public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcelableModel}}implements Parcelable {{#serializableModel}}, Serializable {{/serializableModel}}{{/parcelableModel}}{{^parcelableModel}}{{#serializableModel}}implements Serializable {{/serializableModel}}{{/parcelableModel}}{
+{{#serializableModel}}
+  private static final long serialVersionUID = 1L;
+
+{{/serializableModel}}
+  {{#vars}}
+    {{#isEnum}}
+    {{^isContainer}}
+{{>modelInnerEnum}}
+    {{/isContainer}}
+    {{/isEnum}}
+    {{#items.isEnum}}
+      {{#items}}
+      {{^isContainer}}
+{{>modelInnerEnum}}
+      {{/isContainer}}
+      {{/items}}
+    {{/items.isEnum}}
+  {{#jackson}}
+  @JsonProperty("{{baseName}}")
+  {{#withXml}}
+    {{^isContainer}}
+  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}localName = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+    {{/isContainer}}
+    {{#isContainer}}
+      {{#isXmlWrapped}}
+  // items.xmlName={{items.xmlName}}
+  @JacksonXmlElementWrapper(useWrapping = {{isXmlWrapped}}, {{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}localName = "{{#items.xmlName}}{{items.xmlName}}{{/items.xmlName}}{{^items.xmlName}}{{items.baseName}}{{/items.xmlName}}")
+      {{/isXmlWrapped}}
+    {{/isContainer}}
+  {{/withXml}}
+  {{/jackson}}
+  {{#withXml}}
+  {{#isXmlAttribute}}
+  @XmlAttribute(name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+  {{/isXmlAttribute}}
+  {{^isXmlAttribute}}
+    {{^isContainer}}
+  @XmlElement({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+    {{/isContainer}}
+    {{#isContainer}}
+  // Is a container wrapped={{isXmlWrapped}}
+      {{#items}}
+  // items.name={{name}} items.baseName={{baseName}} items.xmlName={{xmlName}} items.xmlNamespace={{xmlNamespace}}
+  // items.example={{example}} items.type={{datatype}}
+  @XmlElement({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+      {{/items}}
+      {{#isXmlWrapped}}
+  @XmlElementWrapper({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+      {{/isXmlWrapped}}
+    {{/isContainer}}
+  {{/isXmlAttribute}}
+  {{/withXml}}
+  {{#gson}}
+  @SerializedName("{{baseName}}")
+  {{/gson}}
+  {{#isContainer}}
+  private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
+  {{/isContainer}}
+  {{^isContainer}}
+  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};
+  {{/isContainer}}
+
+  {{/vars}}
+  {{#vars}}
+  {{^isReadOnly}}
+  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    this.{{name}} = {{name}};
+    return this;
+  }
+  {{#isListContainer}}
+
+  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    {{^required}}
+    if (this.{{name}} == null) {
+      this.{{name}} = {{{defaultValue}}};
+    }
+    {{/required}}
+    this.{{name}}.add({{name}}Item);
+    return this;
+  }
+  {{/isListContainer}}
+  {{#isMapContainer}}
+
+  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    {{^required}}
+    if (this.{{name}} == null) {
+      this.{{name}} = {{{defaultValue}}};
+    }
+    {{/required}}
+    this.{{name}}.put(key, {{name}}Item);
+    return this;
+  }
+  {{/isMapContainer}}
+
+  {{/isReadOnly}}
+   /**
+  {{#description}}
+   * {{description}}
+  {{/description}}
+  {{^description}}
+   * Get {{name}}
+  {{/description}}
+  {{#minimum}}
+   * minimum: {{minimum}}
+  {{/minimum}}
+  {{#maximum}}
+   * maximum: {{maximum}}
+  {{/maximum}}
+   * @return {{name}}
+  **/
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+{{#vendorExtensions.extraAnnotation}}
+  {{{vendorExtensions.extraAnnotation}}}
+{{/vendorExtensions.extraAnnotation}}
+  public {{{datatypeWithEnum}}} {{getter}}() {
+    return {{name}};
+  }
+  {{^isReadOnly}}
+
+  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+    this.{{name}} = {{name}};
+  }
+  {{/isReadOnly}}
+
+  {{/vars}}
+
+{{^supportJava6}}
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }{{#hasVars}}
+    {{classname}} {{classVarName}} = ({{classname}}) o;
+    return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
+        {{/hasMore}}{{/vars}}{{#parent}} &&
+        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
+    return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+  }
+
+{{/supportJava6}}
+{{#supportJava6}}
+  @Override
+  public boolean equals(java.lang.Object o) {
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }{{#hasVars}}
+    {{classname}} {{classVarName}} = ({{classname}}) o;
+    return {{#vars}}ObjectUtils.equals(this.{{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
+    {{/hasMore}}{{/vars}}{{#parent}} &&
+    super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
+    return true;{{/hasVars}}
+  }
+
+  @Override
+  public int hashCode() {
+    return ObjectUtils.hashCodeMulti({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+  }
+
+{{/supportJava6}}
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class {{classname}} {\n");
+    {{#parent}}sb.append("    ").append(toIndentedString(super.toString())).append("\n");{{/parent}}
+    {{#vars}}sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
+    {{/vars}}sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+
+  {{#parcelableModel}}
+  public void writeToParcel(Parcel out, int flags) {
+    {{#parent}} super.writeToParcel(out, flags); {{/parent}} {{#vars}}
+    out.writeValue({{name}});
+    {{/vars}}
+  }
+
+  public {{classname}}() {
+    super();
+  }
+
+  {{classname}}(Parcel in) {
+    {{#parent}} super(in); {{/parent}}
+    {{#vars}}
+    {{#isPrimitiveType}}
+    {{name}} = ({{{datatypeWithEnum}}})in.readValue(null);
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    {{name}} = ({{{datatypeWithEnum}}})in.readValue({{complexType}}.class.getClassLoader());
+    {{/isPrimitiveType}}
+    {{/vars}}
+  }
+
+  public int describeContents() {
+    return 0;
+  }
+
+  public static final Parcelable.Creator<{{classname}}> CREATOR = new Parcelable.Creator<{{classname}}>() {
+    public {{classname}} createFromParcel(Parcel in) {
+      return new {{classname}}(in);
+    }
+    public {{classname}}[] newArray(int size) {
+      return new {{classname}}[size];
+    }
+  };
+  {{/parcelableModel}}
+}
