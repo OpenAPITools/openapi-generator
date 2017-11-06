@@ -196,7 +196,7 @@ let enumsMap = {
             {{#hasEnums}}
                 {{#vars}}
                     {{#isEnum}}
-    "{{datatypeWithEnum}}": {{datatypeWithEnum}},
+        {{#isContainer}}"{{classname}}.{{enumName}}": {{classname}}.{{enumName}}{{/isContainer}}{{#isNotContainer}}"{{datatypeWithEnum}}": {{datatypeWithEnum}}{{/isNotContainer}},
                     {{/isEnum}}
                 {{/vars}}
             {{/hasEnums}}
