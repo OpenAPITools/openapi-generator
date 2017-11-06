@@ -7,8 +7,8 @@
   public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {
     {{#allowableValues}}
       {{#enumVars}}
-    {{{name}}}({{{value}}}){{^@last}},
-    {{/@last}}{{#@last}};{{/@last}}
+    {{{name}}}({{{value}}}){{^-last}},
+    {{/-last}}{{#-last}};{{/-last}}
       {{/enumVars}}
     {{/allowableValues}}
 

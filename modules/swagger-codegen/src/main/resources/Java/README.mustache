@@ -57,7 +57,7 @@ Then manually install the following JARs:
 Please follow the [installation](#installation) instruction and execute the following Java code:
 
 ```java
-{{#apiInfo}}{{#apis}}{{#@first}}{{#operations}}{{#operation}}{{#@first}}
+{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
 import {{{invokerPackage}}}.*;
 import {{{invokerPackage}}}.auth.*;
 import {{{modelPackage}}}.*;
@@ -99,7 +99,7 @@ public class {{{classname}}}Example {
         }
     }
 }
-{{/@first}}{{/operation}}{{/operations}}{{/@first}}{{/apis}}{{/apiInfo}}
+{{/-first}}{{/operation}}{{/operations}}{{/-ofirst}}{{/apis}}{{/apiInfo}}
 ```
 
 ## Documentation for API Endpoints
