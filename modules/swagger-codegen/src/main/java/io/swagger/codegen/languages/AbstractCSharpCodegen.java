@@ -1,7 +1,5 @@
 package io.swagger.codegen.languages;
 
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
 import io.swagger.codegen.*;
 import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.models.properties.*;
@@ -10,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.*;
 
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
