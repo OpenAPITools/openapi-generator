@@ -107,6 +107,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public void processOpts() {
         super.processOpts();
 
+        if (HANDLEBARS_TEMPLATE.equals(templateEngine)) {
+            embeddedTemplateDir = templateDir = "handlebars/v1/Java";
+        }
+
         if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2)) {
             LOGGER.warn("You specified both RxJava versions 1 and 2 but they are mutually exclusive. Defaulting to v2.");
         } else if (additionalProperties.containsKey(USE_RX_JAVA)) {
@@ -154,88 +158,90 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
 
+        String extension = this.resolveExtension();
+
         //Common files
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
-        writeOptional(outputFolder, new SupportingFile("build.gradle.mustache", "", "build.gradle"));
-        writeOptional(outputFolder, new SupportingFile("build.sbt.mustache", "", "build.sbt"));
-        writeOptional(outputFolder, new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
-        writeOptional(outputFolder, new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
-        writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
-        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
+        writeOptional(outputFolder, new SupportingFile("pom" + extension, "", "pom.xml"));
+        writeOptional(outputFolder, new SupportingFile("README" + extension, "", "README.md"));
+        writeOptional(outputFolder, new SupportingFile("build.gradle" + extension, "", "build.gradle"));
+        writeOptional(outputFolder, new SupportingFile("build.sbt" + extension, "", "build.sbt"));
+        writeOptional(outputFolder, new SupportingFile("settings.gradle" + extension, "", "settings.gradle"));
+        writeOptional(outputFolder, new SupportingFile("gradle.properties" + extension, "", "gradle.properties"));
+        writeOptional(outputFolder, new SupportingFile("manifest" + extension, projectFolder, "AndroidManifest.xml"));
+        supportingFiles.add(new SupportingFile("travis" + extension, "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile("ApiClient" + extension, invokerFolder, "ApiClient.java"));
         if(!"resttemplate".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
+            supportingFiles.add(new SupportingFile("StringUtil" + extension, invokerFolder, "StringUtil.java"));
         }
 
-        supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
-        supportingFiles.add(new SupportingFile( "gradlew.mustache", "", "gradlew") );
-        supportingFiles.add(new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") );
-        supportingFiles.add(new SupportingFile( "gradle-wrapper.properties.mustache",
+        supportingFiles.add(new SupportingFile("auth/HttpBasicAuth" + extension, authFolder, "HttpBasicAuth.java"));
+        supportingFiles.add(new SupportingFile("auth/ApiKeyAuth" + extension, authFolder, "ApiKeyAuth.java"));
+        supportingFiles.add(new SupportingFile("auth/OAuth" + extension, authFolder, "OAuth.java"));
+        supportingFiles.add(new SupportingFile("auth/OAuthFlow" + extension, authFolder, "OAuthFlow.java"));
+        supportingFiles.add(new SupportingFile( "gradlew" + extension, "", "gradlew") );
+        supportingFiles.add(new SupportingFile( "gradlew.bat" + extension, "", "gradlew.bat") );
+        supportingFiles.add(new SupportingFile( "gradle-wrapper.properties" + extension,
                 gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") );
         supportingFiles.add(new SupportingFile( "gradle-wrapper.jar",
                 gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("git_push.sh\" + extension", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore" + extension, "", ".gitignore"));
 
         if (performBeanValidation) {
-            supportingFiles.add(new SupportingFile("BeanValidationException.mustache", invokerFolder,
+            supportingFiles.add(new SupportingFile("BeanValidationException" + extension, invokerFolder,
                     "BeanValidationException.java"));
         }
 
         //TODO: add doc to retrofit1 and feign
         if ( "feign".equals(getLibrary()) || "retrofit".equals(getLibrary()) ){
-            modelDocTemplateFiles.remove("model_doc.mustache");
-            apiDocTemplateFiles.remove("api_doc.mustache");
+            modelDocTemplateFiles.remove("model_doc" + extension);
+            apiDocTemplateFiles.remove("api_doc" + extension);
         }
 
         if (!("feign".equals(getLibrary()) || "resttemplate".equals(getLibrary()) || usesAnyRetrofitLibrary())) {
-            supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
-            supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
-            supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
-            supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
+            supportingFiles.add(new SupportingFile("apiException" + extension, invokerFolder, "ApiException.java"));
+            supportingFiles.add(new SupportingFile("Configuration" + extension, invokerFolder, "Configuration.java"));
+            supportingFiles.add(new SupportingFile("Pair" + extension, invokerFolder, "Pair.java"));
+            supportingFiles.add(new SupportingFile("auth/Authentication" + extension, authFolder, "Authentication.java"));
         }
 
         if ("feign".equals(getLibrary())) {
             additionalProperties.put("jackson", "true");
-            supportingFiles.add(new SupportingFile("ParamExpander.mustache", invokerFolder, "ParamExpander.java"));
-            supportingFiles.add(new SupportingFile("EncodingUtils.mustache", invokerFolder, "EncodingUtils.java"));
+            supportingFiles.add(new SupportingFile("ParamExpander" + extension, invokerFolder, "ParamExpander.java"));
+            supportingFiles.add(new SupportingFile("EncodingUtils" + extension, invokerFolder, "EncodingUtils.java"));
         } else if ("okhttp-gson".equals(getLibrary()) || StringUtils.isEmpty(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
-            supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
-            supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
-            supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
-            supportingFiles.add(new SupportingFile("ProgressRequestBody.mustache", invokerFolder, "ProgressRequestBody.java"));
-            supportingFiles.add(new SupportingFile("ProgressResponseBody.mustache", invokerFolder, "ProgressResponseBody.java"));
-            supportingFiles.add(new SupportingFile("GzipRequestInterceptor.mustache", invokerFolder, "GzipRequestInterceptor.java"));
+            supportingFiles.add(new SupportingFile("ApiCallback" + extension, invokerFolder, "ApiCallback.java"));
+            supportingFiles.add(new SupportingFile("ApiResponse" + extension, invokerFolder, "ApiResponse.java"));
+            supportingFiles.add(new SupportingFile("JSON" + extension, invokerFolder, "JSON.java"));
+            supportingFiles.add(new SupportingFile("ProgressRequestBody" + extension, invokerFolder, "ProgressRequestBody.java"));
+            supportingFiles.add(new SupportingFile("ProgressResponseBody" + extension, invokerFolder, "ProgressResponseBody.java"));
+            supportingFiles.add(new SupportingFile("GzipRequestInterceptor" + extension, invokerFolder, "GzipRequestInterceptor.java"));
             additionalProperties.put("gson", "true");
         } else if (usesAnyRetrofitLibrary()) {
-            supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
-            supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
+            supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient" + extension, authFolder, "OAuthOkHttpClient.java"));
+            supportingFiles.add(new SupportingFile("CollectionFormats" + extension, invokerFolder, "CollectionFormats.java"));
             additionalProperties.put("gson", "true");
             if ("retrofit2".equals(getLibrary()) && !usePlayWS) {
-                supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+                supportingFiles.add(new SupportingFile("JSON" + extension, invokerFolder, "JSON.java"));
             }
         } else if ("jersey2".equals(getLibrary()) || "resteasy".equals(getLibrary()))  {
-            supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+            supportingFiles.add(new SupportingFile("JSON" + extension, invokerFolder, "JSON.java"));
             additionalProperties.put("jackson", "true");
         } else if("jersey1".equals(getLibrary())) {
             additionalProperties.put("jackson", "true");
         } else if("resttemplate".equals(getLibrary())) {
             additionalProperties.put("jackson", "true");
-            supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
+            supportingFiles.add(new SupportingFile("auth/Authentication" + extension, authFolder, "Authentication.java"));
         } else if("vertx".equals(getLibrary())) {
             typeMapping.put("file", "AsyncFile");
             importMapping.put("AsyncFile", "io.vertx.core.file.AsyncFile");
             setJava8Mode(true);
             additionalProperties.put("java8", "true");
             additionalProperties.put("jackson", "true");
-            apiTemplateFiles.put("apiImpl.mustache", "Impl.java");
-            apiTemplateFiles.put("rxApiImpl.mustache", ".java");
-            supportingFiles.remove(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
+            apiTemplateFiles.put("apiImpl" + extension, "Impl.java");
+            apiTemplateFiles.put("rxApiImpl" + extension, ".java");
+            supportingFiles.remove(new SupportingFile("manifest" + extension, projectFolder, "AndroidManifest.xml"));
         } else {
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
         }
@@ -250,39 +256,39 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 }
             }
 
-            apiTemplateFiles.remove("api.mustache");
+            apiTemplateFiles.remove("api" + extension);
             
             if (PLAY_24.equals(playVersion)) {
                 additionalProperties.put(PLAY_24, true);
-                apiTemplateFiles.put("play24/api.mustache", ".java");
+                apiTemplateFiles.put("play24/api" + extension, ".java");
                 
-                supportingFiles.add(new SupportingFile("play24/ApiClient.mustache", invokerFolder, "ApiClient.java"));
-                supportingFiles.add(new SupportingFile("play24/Play24CallFactory.mustache", invokerFolder, "Play24CallFactory.java"));
-                supportingFiles.add(new SupportingFile("play24/Play24CallAdapterFactory.mustache", invokerFolder,
+                supportingFiles.add(new SupportingFile("play24/ApiClient" + extension, invokerFolder, "ApiClient.java"));
+                supportingFiles.add(new SupportingFile("play24/Play24CallFactory" + extension, invokerFolder, "Play24CallFactory.java"));
+                supportingFiles.add(new SupportingFile("play24/Play24CallAdapterFactory" + extension, invokerFolder,
                         "Play24CallAdapterFactory.java"));
             } else {
                 additionalProperties.put(PLAY_25, true);
-                apiTemplateFiles.put("play25/api.mustache", ".java");
+                apiTemplateFiles.put("play25/api" + extension, ".java");
                 
-                supportingFiles.add(new SupportingFile("play25/ApiClient.mustache", invokerFolder, "ApiClient.java"));
-                supportingFiles.add(new SupportingFile("play25/Play25CallFactory.mustache", invokerFolder, "Play25CallFactory.java"));
-                supportingFiles.add(new SupportingFile("play25/Play25CallAdapterFactory.mustache", invokerFolder,
+                supportingFiles.add(new SupportingFile("play25/ApiClient" + extension, invokerFolder, "ApiClient.java"));
+                supportingFiles.add(new SupportingFile("play25/Play25CallFactory" + extension, invokerFolder, "Play25CallFactory.java"));
+                supportingFiles.add(new SupportingFile("play25/Play25CallAdapterFactory" + extension, invokerFolder,
                         "Play25CallAdapterFactory.java"));
                 additionalProperties.put("java8", "true");
             }
 
-            supportingFiles.add(new SupportingFile("play-common/auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
-            supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
-            supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
+            supportingFiles.add(new SupportingFile("play-common/auth/ApiKeyAuth" + extension, authFolder, "ApiKeyAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/Authentication" + extension, authFolder, "Authentication.java"));
+            supportingFiles.add(new SupportingFile("Pair" + extension, invokerFolder, "Pair.java"));
             
             additionalProperties.put("jackson", "true");
             additionalProperties.remove("gson");
         }
 
         if (additionalProperties.containsKey("jackson")) {
-            supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
+            supportingFiles.add(new SupportingFile("RFC3339DateFormat" + extension, invokerFolder, "RFC3339DateFormat.java"));
             if ("threetenbp".equals(dateLibrary) && !usePlayWS) {
-                supportingFiles.add(new SupportingFile("CustomInstantDeserializer.mustache", invokerFolder, "CustomInstantDeserializer.java"));
+                supportingFiles.add(new SupportingFile("CustomInstantDeserializer" + extension, invokerFolder, "CustomInstantDeserializer.java"));
             }
         }
     }

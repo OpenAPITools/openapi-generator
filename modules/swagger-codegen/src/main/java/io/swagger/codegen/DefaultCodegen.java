@@ -63,6 +63,11 @@ public class DefaultCodegen implements CodegenConfig {
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
     public static final String DEFAULT_CONTENT_TYPE = "application/json";
 
+    public static final String MUSTACHE_TEMPLATE = "mustache";
+    public static final String MUSTACHE_EXTENSION = ".mustache";
+    public static final String HANDLEBARS_TEMPLATE = "handlebars";
+    public static final String HANDLEBARS_EXTENSION = ".hbs";
+
     protected String inputSpec;
     protected String outputFolder = "";
     protected Set<String> defaultIncludes = new HashSet<String>();
@@ -82,6 +87,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> modelDocTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> reservedWordsMappings = new HashMap<String, String>();
     protected String templateDir;
+    protected String templateEngine;
+    protected String templateFileExtension;
     protected String embeddedTemplateDir;
     protected String commonTemplateDir = "_common";
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -116,6 +123,14 @@ public class DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         if (additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)) {
             this.setTemplateDir((String) additionalProperties.get(CodegenConstants.TEMPLATE_DIR));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.TEMPLATE_FILE_EXTENSION)) {
+            this.setTemplateFileExtension((String) additionalProperties.get(CodegenConstants.TEMPLATE_FILE_EXTENSION));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.TEMPLATE_ENGINE)) {
+            this.setTemplateEngine((String) additionalProperties.get(CodegenConstants.TEMPLATE_ENGINE));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
@@ -467,6 +482,26 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    public String templateEngine() {
+        return templateEngine;
+    }
+
+    public String templateFileExtension() {
+        return templateFileExtension;
+    }
+
+    public String resolveExtension() {
+        String extension = DefaultCodegen.MUSTACHE_EXTENSION;
+        if (DefaultCodegen.HANDLEBARS_TEMPLATE.equals(this.templateEngine())) {
+            if (StringUtils.isNotBlank(this.templateFileExtension())) {
+                extension = this.templateFileExtension();
+            } else {
+                extension = DefaultCodegen.HANDLEBARS_EXTENSION;
+            }
+        }
+        return extension;
+    }
+
     public String getCommonTemplateDir() {
         return this.commonTemplateDir;
     }
@@ -561,6 +596,14 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void setTemplateDir(String templateDir) {
         this.templateDir = templateDir;
+    }
+
+    public void setTemplateEngine(String templateEngine) {
+        this.templateEngine = templateEngine;
+    }
+
+    public void setTemplateFileExtension(String templateFileExtension) {
+        this.templateFileExtension = templateFileExtension;
     }
 
     public void setModelPackage(String modelPackage) {

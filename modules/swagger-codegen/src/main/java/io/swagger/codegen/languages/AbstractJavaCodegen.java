@@ -93,11 +93,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public AbstractJavaCodegen() {
         super();
         supportsInheritance = true;
-        modelTemplateFiles.put("model.mustache", ".java");
-        apiTemplateFiles.put("api.mustache", ".java");
-        apiTestTemplateFiles.put("api_test.mustache", ".java");
-        modelDocTemplateFiles.put("model_doc.mustache", ".md");
-        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         setReservedWordsLowerCase(
             Arrays.asList(
@@ -183,6 +178,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public void processOpts() {
         super.processOpts();
+
+        final String extension = resolveExtension();
+        modelTemplateFiles.put(String.format("model%s", extension), ".java");
+        apiTemplateFiles.put(String.format("api%s", extension), ".java");
+        apiTestTemplateFiles.put(String.format("api_test%s", extension), ".java");
+        modelDocTemplateFiles.put(String.format("model_doc%s", extension), ".md");
+        apiDocTemplateFiles.put(String.format("api_doc%s", extension), ".md");
 
         if (additionalProperties.containsKey(SUPPORT_JAVA6)) {
             this.setSupportJava6(Boolean.valueOf(additionalProperties.get(SUPPORT_JAVA6).toString()));
@@ -806,7 +808,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (schema.getName() != null) {
                 LOGGER.error("No Type defined for Property " + schema.getName());
             } else {
-                LOGGER.error("No Type defined.", new Exception());
+                // LOGGER.error("No Type defined.", new Exception());
             }
         }
         return toModelName(swaggerType);

@@ -525,20 +525,25 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         String template = readTemplate(templateFile);
                         Mustache.Compiler compiler = Mustache.compiler();
                         compiler = config.processCompiler(compiler);
-                        Template tmpl = compiler
-                                .withLoader(new Mustache.TemplateLoader() {
-                                    @Override
-                                    public Reader getTemplate(String name) {
-                                        return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
-                                    }
-                                })
-                                .defaultValue("")
-                                .compile(template);
-
-                        String templateName = templateFile.replace("\\", "/");
-                        templateName = templateName.substring(templateName.indexOf("/") + 1);
-                        final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateName.replace(config.templateDir(), StringUtils.EMPTY));
-                        writeToFile(outputFilename, hTemplate.apply(bundle));
+                        String rendered = null;
+                        if (DefaultCodegen.HANDLEBARS_TEMPLATE.equals(config.templateEngine())) {
+                            String templateName = templateFile.replace("\\", "/");
+                            templateName = templateName.substring(templateName.indexOf("/") + 1);
+                            final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateName.replace(config.templateDir(), StringUtils.EMPTY));
+                            rendered = hTemplate.apply(bundle);
+                        } else {
+                            Template tmpl = compiler
+                                    .withLoader(new Mustache.TemplateLoader() {
+                                        @Override
+                                        public Reader getTemplate(String name) {
+                                            return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
+                                        }
+                                    })
+                                    .defaultValue("")
+                                    .compile(template);
+                            rendered = tmpl.execute(bundle);
+                        }
+                        writeToFile(outputFilename, rendered);
 
                         // writeToFile(outputFilename, tmpl.execute(bundle));
                         files.add(new File(outputFilename));
@@ -695,18 +700,22 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             String template = readTemplate(templateFile);
             Mustache.Compiler compiler = Mustache.compiler();
             compiler = config.processCompiler(compiler);
-            Template tmpl = compiler
-                    .withLoader(new Mustache.TemplateLoader() {
-                        @Override
-                        public Reader getTemplate(String name) {
-                            return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
-                        }
-                    })
-                    .defaultValue("")
-                    .compile(template);
-
-            final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateName);
-            String rendered = hTemplate.apply(templateData);
+            String rendered = null;
+            if (DefaultCodegen.HANDLEBARS_TEMPLATE.equals(config.templateEngine())) {
+                final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateName);
+                rendered = hTemplate.apply(templateData);
+            } else {
+                Template tmpl = compiler
+                        .withLoader(new Mustache.TemplateLoader() {
+                            @Override
+                            public Reader getTemplate(String name) {
+                                return getTemplateReader(getFullTemplateFile(config, name + config.resolveExtension()));
+                            }
+                        })
+                        .defaultValue("")
+                        .compile(template);
+                rendered = tmpl.execute(templateData);
+            }
             writeToFile(adjustedOutputFilename, rendered);
             return new File(adjustedOutputFilename);
         }
@@ -973,7 +982,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
     private com.github.jknack.handlebars.Template getHandlebars(String templateName) throws IOException {
-        final TemplateLoader templateLoader = new ClassPathTemplateLoader("/" + config.templateDir(), ".mustache");
+        final TemplateLoader templateLoader = new ClassPathTemplateLoader("/" + config.templateDir(), config.resolveExtension());
         final Handlebars handlebars = new Handlebars(templateLoader);
         Map<String, Helper> helpers = config.getHelpers();
         if (helpers != null && !helpers.isEmpty()) {
@@ -981,6 +990,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                handlebars.registerHelper(key, helpers.get(key));
             }
         }
-        return handlebars.compile(templateName.replace(".mustache", ""));
+        return handlebars.compile(templateName.replace(config.resolveExtension(), StringUtils.EMPTY));
     }
 }
