@@ -2886,7 +2886,7 @@ public class DefaultCodegen {
      * @return true if the library/module/package of the corresponding type needs to be imported
      */
     protected boolean needToImport(String type) {
-        return !defaultIncludes.contains(type)
+        return StringUtils.isNotBlank(type) && !defaultIncludes.contains(type)
             && !languageSpecificPrimitives.contains(type);
     }
 
