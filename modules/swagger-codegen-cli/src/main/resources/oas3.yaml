@@ -173,6 +173,19 @@ components:
           title: "remove prefix of the operationId"
           description: "Remove prefix of operationId, e.g. config_getId => getId"
           x-option: "--remove-operation-id-prefix"
+        templateEngine:
+          type: "string"
+          title: "template engine"
+          description: "template engine to generate files. (default is 'mustache'"
+          example: "mustache, handlebars"
+          x-option: "--template-engine"
+          x-short-version: "-e"
+        templateFileExtension:
+          type: "string"
+          title: "template file extension"
+          description: "extension related to template files."
+          example: ".mustache, .hbs"
+          x-option: "--template-file-extension"
     ConfigHelp:
       x-command: "config-help"
       x-command-description: "Config help for chosen lang"
