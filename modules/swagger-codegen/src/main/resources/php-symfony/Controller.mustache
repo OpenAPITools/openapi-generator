@@ -135,7 +135,7 @@ class Controller
         if (null === $exception) {
             return null;
         }
-        
+
         if (!$this->container->get('kernel')->isDebug()) {
             return [
                 'message'  => $exception->getMessage(),

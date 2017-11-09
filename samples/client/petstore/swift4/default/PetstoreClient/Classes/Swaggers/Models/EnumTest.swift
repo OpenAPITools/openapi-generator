@@ -54,9 +54,9 @@ open class EnumTest: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        enumString = try container.decodeIfPresent(String.self, forKey: "enum_string")
-        enumInteger = try container.decodeIfPresent(Int.self, forKey: "enum_integer")
-        enumNumber = try container.decodeIfPresent(Double.self, forKey: "enum_number")
+        enumString = try container.decodeIfPresent(EnumString.self, forKey: "enum_string")
+        enumInteger = try container.decodeIfPresent(EnumInteger.self, forKey: "enum_integer")
+        enumNumber = try container.decodeIfPresent(EnumNumber.self, forKey: "enum_number")
         outerEnum = try container.decodeIfPresent(OuterEnum.self, forKey: "outerEnum")
     }
 }
