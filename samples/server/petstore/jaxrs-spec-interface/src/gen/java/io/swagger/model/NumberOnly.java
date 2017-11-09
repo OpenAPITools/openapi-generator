@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class NumberOnly  implements Serializable {
@@ -23,6 +24,7 @@ public class NumberOnly  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("JustNumber")
   public BigDecimal getJustNumber() {
     return justNumber;
   }

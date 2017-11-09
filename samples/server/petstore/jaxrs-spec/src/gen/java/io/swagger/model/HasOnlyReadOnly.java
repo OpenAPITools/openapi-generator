@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class HasOnlyReadOnly  implements Serializable {
@@ -23,6 +24,7 @@ public class HasOnlyReadOnly  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("bar")
   public String getBar() {
     return bar;
   }
@@ -39,6 +41,7 @@ public class HasOnlyReadOnly  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("foo")
   public String getFoo() {
     return foo;
   }

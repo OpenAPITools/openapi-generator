@@ -11,6 +11,7 @@ import javax.validation.Valid;
  **/
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "Model for testing model name starting with number")
 
 public class Model200Response  implements Serializable {
@@ -27,6 +28,7 @@ public class Model200Response  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -43,6 +45,7 @@ public class Model200Response  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("class")
   public String getPropertyClass() {
     return propertyClass;
   }
