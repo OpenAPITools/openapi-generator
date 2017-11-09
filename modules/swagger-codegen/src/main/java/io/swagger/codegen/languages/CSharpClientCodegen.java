@@ -514,11 +514,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objMap) {
-        return super.postProcessModels(objMap);
-    }
-
-    @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
         super.postProcessParameter(parameter);
@@ -529,7 +524,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         postProcessPattern(property.pattern, property.vendorExtensions);
         super.postProcessModelProperty(model, property);
     }
-
 
     /*
     * The swagger pattern spec follows the Perl convention and style of modifiers. .NET
