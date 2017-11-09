@@ -179,8 +179,10 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
 
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
+        additionalProperties.put("modelHeaderGuardPrefix", modelPackage.replaceAll("\\.", "_").toUpperCase());
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
         additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
+        additionalProperties.put("apiHeaderGuardPrefix", apiPackage.replaceAll("\\.", "_").toUpperCase());
         additionalProperties.put("declspec", declspec);
         additionalProperties.put("defaultInclude", defaultInclude);
     }

@@ -16,8 +16,8 @@
  * Describes the result of uploading an image resource
  */
 
-#ifndef ApiResponse_H_
-#define ApiResponse_H_
+#ifndef IO_SWAGGER_CLIENT_MODEL_ApiResponse_H_
+#define IO_SWAGGER_CLIENT_MODEL_ApiResponse_H_
 
 
 #include "ModelBase.h"
@@ -89,4 +89,4 @@ protected:
 }
 }
 
-#endif /* ApiResponse_H_ */
+#endif /* IO_SWAGGER_CLIENT_MODEL_ApiResponse_H_ */

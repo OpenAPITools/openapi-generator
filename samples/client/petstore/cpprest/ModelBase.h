@@ -16,8 +16,8 @@
  * This is the base class for all model classes
  */
 
-#ifndef ModelBase_H_
-#define ModelBase_H_
+#ifndef IO_SWAGGER_CLIENT_MODEL_ModelBase_H_
+#define IO_SWAGGER_CLIENT_MODEL_ModelBase_H_
 
 
 #include "HttpContent.h"
@@ -90,4 +90,4 @@ public:
 }
 }
 
-#endif /* ModelBase_H_ */
+#endif /* IO_SWAGGER_CLIENT_MODEL_ModelBase_H_ */
