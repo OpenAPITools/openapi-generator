@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
@@ -30,6 +31,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
   }
@@ -46,6 +48,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("dateTime")
   public Date getDateTime() {
     return dateTime;
   }
@@ -62,6 +65,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("map")
   public Map<String, Animal> getMap() {
     return map;
   }
