@@ -46,6 +46,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     private static final String IMMUTABLE_OPTION = "immutable";
     private static final String USE_BASE_PATH = "writeModulePath";
     private static final String PACKAGE_CONTEXT = "packageContext";
+    private static final String ASYNC_SERVER = "asyncServer";
 
     private static final Map<String, Predicate<Property>> propertyToSwaggerTypeMapping =
             createPropertyToSwaggerTypeMapping();
@@ -56,6 +57,9 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     private final Set<String> parentModels = new HashSet<>();
     private final Multimap<String, CodegenModel> childrenByParent = ArrayListMultimap.create();
     private final BiMap<String, String> modelNameMapping = HashBiMap.create();
+
+    /** If set to true, we will generate c# async endpoints and service interfaces */
+    private boolean asyncServer = false;
 
     public NancyFXServerCodegen() {
         outputFolder = "generated-code" + File.separator + getName();
@@ -87,6 +91,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         addSwitch(RETURN_ICOLLECTION, RETURN_ICOLLECTION_DESC, returnICollection);
         addSwitch(IMMUTABLE_OPTION, "Enabled by default. If disabled generates model classes with setters", true);
         addSwitch(USE_BASE_PATH, "Enabled by default. If disabled, module paths will not mirror api base path", true);
+        addSwitch(ASYNC_SERVER, "Set to true to enable the generation of async routes/endpoints.", false);
         typeMapping.putAll(nodaTimeTypesMappings());
         languageSpecificPrimitives.addAll(nodaTimePrimitiveTypes());
 
@@ -126,6 +131,10 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         
         if (additionalProperties.containsKey(OPTIONAL_PROJECT_GUID)) {
             setPackageGuid((String) additionalProperties.get(OPTIONAL_PROJECT_GUID));
+        }
+
+        if (additionalProperties.containsKey(ASYNC_SERVER)) {
+            setAsyncServer(Boolean.valueOf(additionalProperties.get(ASYNC_SERVER).toString()));
         }
 
         additionalProperties.put("packageGuid", packageGuid);
@@ -199,7 +208,11 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     public void setPackageGuid(String packageGuid) {
         this.packageGuid = packageGuid;
     }
-    
+
+    public void setAsyncServer(boolean asyncServer) {
+        this.asyncServer = asyncServer;
+    }
+
     @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + sourceFolder() + File.separator + API_NAMESPACE;

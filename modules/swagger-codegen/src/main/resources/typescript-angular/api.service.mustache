@@ -73,7 +73,6 @@ export class {{classname}} {
         return false;
     }
 
-
 {{^useHttpClient}}
 {{! not sure why we used to generate a second method here rather than inlining those few lines of code, 
     but let's keep it for now for the sake of backwards compatiblity. }}  
@@ -199,19 +198,41 @@ export class {{classname}} {
 
 {{/isOAuth}}
 {{/authMethods}}
-{{#bodyParam}}
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            {{#produces}}
+            '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
+            {{/produces}}
+        ];
+        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
 {{^useHttpClient}}
-        headers.set('Content-Type', 'application/json');
-
+            headers.set("Accept", httpHeaderAcceptSelected);
 {{/useHttpClient}}
-{{/bodyParam}}
-{{#hasFormParams}}
+{{#useHttpClient}}
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+{{/useHttpClient}}
+        }
+
         // to determine the Content-Type header
         let consumes: string[] = [
             {{#consumes}}
             '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
             {{/consumes}}
         ];
+{{#bodyParam}}
+        let httpContentTypeSelected:string = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+{{^useHttpClient}}
+            headers.set('Content-Type', httpContentTypeSelected);
+{{/useHttpClient}}
+{{#useHttpClient}}
+            headers = headers.set("Content-Type", httpContentTypeSelected);
+{{/useHttpClient}}
+        }
+{{/bodyParam}}
+
+{{#hasFormParams}}
         const canConsumeForm = this.canConsumeForm(consumes);
 
         let formParams: { append(param: string, value: any): void; };
@@ -239,8 +260,6 @@ export class {{classname}} {
 {{/useHttpClient}}
         }
 
-
-
 {{#formParams}}
         {{#isListContainer}}
         if ({{paramName}}) {
@@ -264,7 +283,7 @@ export class {{classname}} {
 {{/hasFormParams}}
 {{#useHttpClient}}
         return this.httpClient.{{httpMethod}}{{^isResponseFile}}<any>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
-            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}}, {{/isBodyAllowed}}
+            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
             {
 {{#hasQueryParams}}
                 params: queryParameters,

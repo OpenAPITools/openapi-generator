@@ -12,6 +12,7 @@ public class KotlinClientCodegenOptionsProvider implements OptionsProvider {
     public static final String ARTIFACT_ID = "swagger-kotlin-test";
     public static final String GROUP_ID = "io.swagger.tests";
     public static final String SOURCE_FOLDER = "./generated/kotlin";
+    public static final String ENUM_PROPERTY_NAMING = "camelCase";
 
     @Override
     public String getLanguage() {
@@ -27,6 +28,7 @@ public class KotlinClientCodegenOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ARTIFACT_ID, ARTIFACT_ID)
                 .put(CodegenConstants.GROUP_ID, GROUP_ID)
                 .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER)
+                .put(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING)
                 .build();
     }
 

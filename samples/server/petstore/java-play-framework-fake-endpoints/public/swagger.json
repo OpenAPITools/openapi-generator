@@ -978,7 +978,8 @@
           }
         },
         "x-contentType" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "missingReturnInfoIfNeeded" : "1.0"
       }
     },
     "/fake/outer/string" : {
@@ -1030,7 +1031,8 @@
           }
         },
         "x-contentType" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "missingReturnInfoIfNeeded" : "true"
       }
     },
     "/fake/outer/composite" : {

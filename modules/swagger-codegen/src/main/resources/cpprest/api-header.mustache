@@ -5,8 +5,8 @@
  * {{description}}
  */
 
-#ifndef {{classname}}_H_
-#define {{classname}}_H_
+#ifndef {{apiHeaderGuardPrefix}}_{{classname}}_H_
+#define {{apiHeaderGuardPrefix}}_{{classname}}_H_
 
 {{{defaultInclude}}}
 #include "ApiClient.h"
@@ -44,6 +44,6 @@ protected:
 }
 {{/apiNamespaceDeclarations}}
 
-#endif /* {{classname}}_H_ */
+#endif /* {{apiHeaderGuardPrefix}}_{{classname}}_H_ */
 
 {{/operations}}

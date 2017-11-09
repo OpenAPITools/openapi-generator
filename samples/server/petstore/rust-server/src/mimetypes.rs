@@ -8,10 +8,6 @@ pub mod responses {
     lazy_static! {
         pub static ref TEST_SPECIAL_TAGS_SUCCESSFUL_OPERATION: Mime = mime!(Application/Json);
     }
-    /// Create Mime objects for the response content types for GetXmlFeatures
-    lazy_static! {
-        pub static ref GET_XML_FEATURES_SUCCESS: Mime = mime!(Application/Xml);
-    }
     /// Create Mime objects for the response content types for TestClientModel
     lazy_static! {
         pub static ref TEST_CLIENT_MODEL_SUCCESSFUL_OPERATION: Mime = mime!(Application/Json);
@@ -64,10 +60,6 @@ pub mod requests {
    /// Create Mime objects for the request content types for TestSpecialTags
     lazy_static! {
         pub static ref TEST_SPECIAL_TAGS: Mime = mime!(Application/Json);
-    }
-   /// Create Mime objects for the request content types for PostXmlFeatures
-    lazy_static! {
-        pub static ref POST_XML_FEATURES: Mime = mime!(Application/Xml);
     }
    /// Create Mime objects for the request content types for FakeOuterBooleanSerialize
     lazy_static! {

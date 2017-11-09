@@ -1,3 +1,4 @@
+/// <reference path="./custom.d.ts" />
 // tslint:disable
 /**
  * Swagger Petstore *_/ ' \" =end -- \\r\\n \\n \\r
@@ -13,7 +14,7 @@
 
 
 import * as url from "url";
-import * as isomorphicFetch from "isomorphic-fetch";
+import * as portableFetch from "portable-fetch";
 import { Configuration } from "./configuration";
 
 const BASE_PATH = "https://petstore.swagger.io *_/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r".replace(/\/+$/, "");
@@ -35,7 +36,7 @@ export const COLLECTION_FORMATS = {
  * @interface FetchAPI
  */
 export interface FetchAPI {
-    (url: string, init?: any): Promise<any>;
+    (url: string, init?: any): Promise<Response>;
 }
 
 /**
@@ -56,7 +57,7 @@ export interface FetchArgs {
 export class BaseAPI {
     protected configuration: Configuration;
 
-    constructor(configuration?: Configuration, protected basePath: string = BASE_PATH, protected fetch: FetchAPI = isomorphicFetch) {
+    constructor(configuration?: Configuration, protected basePath: string = BASE_PATH, protected fetch: FetchAPI = portableFetch) {
         if (configuration) {
             this.configuration = configuration;
             this.basePath = configuration.basePath || this.basePath;
@@ -146,9 +147,9 @@ export const FakeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testCodeInjectEndRnNR(test code inject * &#39; &quot; &#x3D;end  rn n r?: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+        testCodeInjectEndRnNR(test code inject * &#39; &quot; &#x3D;end  rn n r?: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
             const localVarFetchArgs = FakeApiFetchParamCreator(configuration).testCodeInjectEndRnNR(test code inject * &#39; &quot; &#x3D;end  rn n r, options);
-            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response;

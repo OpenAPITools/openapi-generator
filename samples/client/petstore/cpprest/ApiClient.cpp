@@ -79,17 +79,17 @@ pplx::task<web::http::http_response> ApiClient::callApi(
 {
     if (postBody != nullptr && formParams.size() != 0)
     {
-        throw ApiException(400, U("Cannot have body and form params"));
+        throw ApiException(400, utility::conversions::to_string_t("Cannot have body and form params"));
     }
 
     if (postBody != nullptr && fileParams.size() != 0)
     {
-        throw ApiException(400, U("Cannot have body and file params"));
+        throw ApiException(400, utility::conversions::to_string_t("Cannot have body and file params"));
     }
 
-    if (fileParams.size() > 0 && contentType != U("multipart/form-data"))
+    if (fileParams.size() > 0 && contentType != utility::conversions::to_string_t("multipart/form-data"))
     {
-        throw ApiException(400, U("Operations with file parameters must be called with multipart/form-data"));
+        throw ApiException(400, utility::conversions::to_string_t("Operations with file parameters must be called with multipart/form-data"));
     }
 
     web::http::client::http_client client(m_Configuration->getBaseUrl(), m_Configuration->getHttpConfig());
@@ -115,7 +115,7 @@ pplx::task<web::http::http_response> ApiClient::callApi(
         uploadData.writeTo(data);
         auto bodyString = data.str();
         auto length = bodyString.size();
-        request.set_body(concurrency::streams::bytestream::open_istream(std::move(bodyString)), length, U("multipart/form-data; boundary=") + uploadData.getBoundary());
+        request.set_body(concurrency::streams::bytestream::open_istream(std::move(bodyString)), length, utility::conversions::to_string_t("multipart/form-data; boundary=") + uploadData.getBoundary());
     }
     else
     {
@@ -129,7 +129,7 @@ pplx::task<web::http::http_response> ApiClient::callApi(
         }
         else
         {
-            if (contentType == U("application/json"))
+            if (contentType == utility::conversions::to_string_t("application/json"))
             {
                 web::json::value body_data = web::json::value::object();
                 for (auto& kvp : formParams)
@@ -150,7 +150,7 @@ pplx::task<web::http::http_response> ApiClient::callApi(
                 }
                 if (!formParams.empty())
                 {
-                    request.set_body(formData.query(), U("application/x-www-form-urlencoded"));
+                    request.set_body(formData.query(), utility::conversions::to_string_t("application/x-www-form-urlencoded"));
                 }
             }
         }

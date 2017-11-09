@@ -11,7 +11,7 @@ import { UserService } from './api/user.service';
   imports:      [ CommonModule, HttpClientModule ],
   declarations: [],
   exports:      [],
-  providers: [ 
+  providers: [
     PetService,
     StoreService,
     UserService ]

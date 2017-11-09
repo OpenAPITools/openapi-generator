@@ -15,8 +15,6 @@ use futures::{Future, future, Stream, stream};
 use petstore_api::{ApiNoContext, ContextWrapperExt,
                       ApiError,
                       TestSpecialTagsResponse,
-                      GetXmlFeaturesResponse,
-                      PostXmlFeaturesResponse,
                       FakeOuterBooleanSerializeResponse,
                       FakeOuterCompositeSerializeResponse,
                       FakeOuterNumberSerializeResponse,
@@ -55,7 +53,6 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
-    "GetXmlFeatures",
     "FakeOuterBooleanSerialize",
     "FakeOuterCompositeSerialize",
     "FakeOuterNumberSerialize",
@@ -102,17 +99,6 @@ fn main() {
         // Disabled because there's no example.
         // Some("TestSpecialTags") => {
         //     let result = client.test_special_tags(???).wait();
-        //     println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
-        //  },
-
-        Some("GetXmlFeatures") => {
-            let result = client.get_xml_features().wait();
-            println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
-         },
-
-        // Disabled because there's no example.
-        // Some("PostXmlFeatures") => {
-        //     let result = client.post_xml_features(???).wait();
         //     println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
         //  },
 

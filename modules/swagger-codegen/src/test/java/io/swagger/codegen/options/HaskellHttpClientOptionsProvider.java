@@ -24,7 +24,7 @@ public class HaskellHttpClientOptionsProvider implements OptionsProvider {
     public static final String GENERATE_FORM_URLENCODED_INSTANCES = "true";
     public static final String GENERATE_LENSES = "true";
     public static final String GENERATE_MODEL_CONSTRUCTORS = "true";
-    public static final String INLINE_CONSUMES_CONTENT_TYPES = "false";
+    public static final String INLINE_MIME_TYPES = "false";
     public static final String USE_MONAD_LOGGER = "false";
 
     @Override
@@ -51,7 +51,7 @@ public class HaskellHttpClientOptionsProvider implements OptionsProvider {
                 .put(HaskellHttpClientCodegen.PROP_GENERATE_FORM_URLENCODED_INSTANCES, GENERATE_FORM_URLENCODED_INSTANCES)
                 .put(HaskellHttpClientCodegen.PROP_GENERATE_LENSES, GENERATE_LENSES)
                 .put(HaskellHttpClientCodegen.PROP_GENERATE_MODEL_CONSTRUCTORS, GENERATE_MODEL_CONSTRUCTORS)
-                .put(HaskellHttpClientCodegen.PROP_INLINE_CONSUMES_CONTENT_TYPES, INLINE_CONSUMES_CONTENT_TYPES)
+                .put(HaskellHttpClientCodegen.PROP_INLINE_MIME_TYPES, INLINE_MIME_TYPES)
                 .put(HaskellHttpClientCodegen.PROP_STRICT_FIELDS, STRICT_FIELDS)
                 .put(HaskellHttpClientCodegen.PROP_USE_MONAD_LOGGER, USE_MONAD_LOGGER)
 

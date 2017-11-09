@@ -58,7 +58,7 @@ open class Pet: Codable {
         name = try container.decode(String.self, forKey: "name")
         photoUrls = try container.decodeArray(String.self, forKey: "photoUrls")
         tags = try container.decodeArrayIfPresent(Tag.self, forKey: "tags")
-        status = try container.decodeIfPresent(String.self, forKey: "status")
+        status = try container.decodeIfPresent(Status.self, forKey: "status")
     }
 }
 

@@ -1,9 +1,9 @@
-export type {{enumName}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}};
+export type {{classname}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}};
 
-export const {{enumName}} = {
+export const {{classname}} = {
 {{#allowableValues}}
 {{#enumVars}}
-    {{name}}: {{{value}}} as {{enumName}}{{^-last}},{{/-last}}
+    {{name}}: {{{value}}} as {{classname}}{{^-last}},{{/-last}}
 {{/enumVars}}
 {{/allowableValues}}
 }

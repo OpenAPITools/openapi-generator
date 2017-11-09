@@ -62,11 +62,11 @@ These options allow some customization of the code generation process.
 | allowToJsonNulls                | allow emitting JSON Null during model encoding to JSON                                                                        | false    | false                |
 | dateFormat                      | format string used to parse/render a date                                                                                     | %Y-%m-%d | %Y-%m-%d                      |
 | dateTimeFormat                  | format string used to parse/render a datetime. (Defaults to [formatISO8601Millis][1] when not provided)                       |          |                   |
-| generateEnums                   | Generate specific datatypes for swagger enums                                                                                 | true     | true |
+| generateEnums                   | Generate specific datatypes for swagger enums                                                                                 | true     | true                   |
 | generateFormUrlEncodedInstances | Generate FromForm/ToForm instances for models used by x-www-form-urlencoded operations (model fields must be primitive types) | true     | true |
 | generateLenses                  | Generate Lens optics for Models                                                                                               | true     | true                  |
 | generateModelConstructors       | Generate smart constructors (only supply required fields) for models                                                          | true     | true       |
-| inlineConsumesContentTypes      | Inline (hardcode) the content-type on operations that do not have multiple content-types (Consumes)                           | false    | false      |
+| inlineMimeTypes                 | Inline (hardcode) the content-type and accept parameters on operations, when there is only 1 option                           | false    | false                 |
 | modelDeriving                   | Additional classes to include in the deriving() clause of Models                                                              |          |                    |
 | strictFields                    | Add strictness annotations to all model fields                                                                                | true     | true                  |
 | useMonadLogger                  | Use the monad-logger package to provide logging (if instead false, use the katip logging package)                             | false    | false                |
@@ -180,11 +180,17 @@ config0 <- withStdoutLogging =<< newConfig
 let config = config0
     `addAuthMethod` AuthOAuthFoo "secret-key"
 
-let addFooRequest = addFoo MimeJSON foomodel requiredparam1 requiredparam2
+let addFooRequest = 
+  addFoo 
+    (ContentType MimeJSON) 
+    (Accept MimeXML) 
+    (ParamBar paramBar)
+    (ParamQux paramQux)
+    modelBaz
   `applyOptionalParam` FooId 1
   `applyOptionalParam` FooName "name"
   `setHeader` [("qux_header","xxyy")]
-addFooResult <- dispatchMime mgr config addFooRequest MimeXML
+addFooResult <- dispatchMime mgr config addFooRequest
 ```
 
 See the example app and the haddocks for details.

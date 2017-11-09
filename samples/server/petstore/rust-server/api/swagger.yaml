@@ -139,11 +139,11 @@ paths:
         type: "array"
         items:
           type: "string"
-          default: "available"
           enum:
           - "available"
           - "pending"
           - "sold"
+          default: "available"
         collectionFormat: "csv"
         formatString: "{:?}"
         example: "&Vec::new()"
@@ -893,10 +893,10 @@ paths:
         type: "array"
         items:
           type: "string"
-          default: "$"
           enum:
           - ">"
           - "$"
+          default: "$"
         formatString: "{:?}"
         example: "Some(&Vec::new())"
       - name: "enum_form_string"
@@ -918,10 +918,10 @@ paths:
         type: "array"
         items:
           type: "string"
-          default: "$"
           enum:
           - ">"
           - "$"
+          default: "$"
         formatString: "{:?}"
         example: "Some(&Vec::new())"
       - name: "enum_header_string"
@@ -943,10 +943,10 @@ paths:
         type: "array"
         items:
           type: "string"
-          default: "$"
           enum:
           - ">"
           - "$"
+          default: "$"
         formatString: "{:?}"
         example: "Some(&Vec::new())"
       - name: "enum_query_string"
@@ -1347,60 +1347,6 @@ paths:
       path: "/fake/jsonFormData"
       HttpMethod: "Get"
       httpmethod: "get"
-  /fake/xmlFeatures:
-    get:
-      summary: "Get some XML"
-      operationId: "getXmlFeatures"
-      consumes:
-      - "application/xml"
-      produces:
-      - "application/xml"
-      parameters: []
-      responses:
-        200:
-          description: "Success"
-          schema:
-            $ref: "#/definitions/xmlObject"
-          uppercase_operation_id: "GET_XML_FEATURES"
-          uppercase_message: "SUCCESS"
-          uppercase_data_type: "XMLOBJECT"
-          producesXml: true
-      operation_id: "get_xml_features"
-      uppercase_operation_id: "GET_XML_FEATURES"
-      path: "/fake/xmlFeatures"
-      HttpMethod: "Get"
-      httpmethod: "get"
-    post:
-      summary: "Post some xml"
-      operationId: "postXmlFeatures"
-      consumes:
-      - "application/xml"
-      produces:
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "xmlObject"
-        required: true
-        schema:
-          $ref: "#/definitions/xmlObject"
-        uppercase_data_type: "XMLOBJECT"
-        refName: "xmlObject"
-        formatString: "{:?}"
-        example: "???"
-        model_key: "OuterBoolean"
-        uppercase_operation_id: "POST_XML_FEATURES"
-        consumesXml: true
-      responses:
-        200:
-          description: "Success"
-          uppercase_operation_id: "POST_XML_FEATURES"
-          uppercase_message: "SUCCESS"
-      operation_id: "post_xml_features"
-      uppercase_operation_id: "POST_XML_FEATURES"
-      path: "/fake/xmlFeatures"
-      HttpMethod: "Post"
-      httpmethod: "post"
-      noClientExample: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1512,7 +1458,7 @@ definitions:
         type: "string"
         description: "Order Status"
         enum:
-        - "placedtest"
+        - "placed"
         - "approved"
         - "delivered"
       complete:
@@ -1524,7 +1470,7 @@ definitions:
       id: 0
       shipDate: "2000-01-23T04:56:07.000+00:00"
       complete: false
-      status: "placedtest"
+      status: "placed"
     xml:
       name: "Order"
     upperCaseName: "ORDER"

@@ -110,7 +110,7 @@ void Order::setStatus(std::string value)
 {
     m_Status = value;
 }
-bool Order::getComplete() const
+bool Order::isComplete() const
 {
     return m_Complete;
 }
