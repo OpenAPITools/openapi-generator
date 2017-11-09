@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class User  implements Serializable {
@@ -29,6 +30,7 @@ public class User  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -45,6 +47,7 @@ public class User  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("username")
   public String getUsername() {
     return username;
   }
@@ -61,6 +64,7 @@ public class User  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("firstName")
   public String getFirstName() {
     return firstName;
   }
@@ -77,6 +81,7 @@ public class User  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("lastName")
   public String getLastName() {
     return lastName;
   }
@@ -93,6 +98,7 @@ public class User  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("email")
   public String getEmail() {
     return email;
   }
@@ -109,6 +115,7 @@ public class User  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("password")
   public String getPassword() {
     return password;
   }
@@ -125,6 +132,7 @@ public class User  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("phone")
   public String getPhone() {
     return phone;
   }
@@ -142,6 +150,7 @@ public class User  implements Serializable {
 
   
   @ApiModelProperty(value = "User Status")
+  @JsonProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }

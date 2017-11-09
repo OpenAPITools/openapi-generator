@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class SpecialModelName  implements Serializable {
@@ -22,6 +23,7 @@ public class SpecialModelName  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("$special[property.name]")
   public Long getSpecialPropertyName() {
     return specialPropertyName;
   }
