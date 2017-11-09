@@ -11,18 +11,18 @@ cache:
   - $HOME/samples/client/petstore/php/SwaggerClient-php/vendor
   - $HOME/samples/client/petstore/ruby/venodr/bundle
   - $HOME/samples/client/petstore/python/.venv/
-  - $HOME/samples/client/petstore/typescript-node/npm/node_modules
-  - $HOME/samples/client/petstore/typescript-node/npm/typings/
-  - $HOME/samples/client/petstore/typescript-fetch/tests/default/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/tests/default/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/default/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/builds/default/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/with-npm-version/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/npm/with-npm-version/typings
-  - $HOME/samples/client/petstore/typescript-angularjs/node_modules
-  - $HOME/samples/client/petstore/typescript-angularjs/typings
+    #  - $HOME/samples/client/petstore/typescript-node/npm/node_modules
+    #  - $HOME/samples/client/petstore/typescript-node/npm/typings/
+    #  - $HOME/samples/client/petstore/typescript-fetch/tests/default/node_modules
+    #  - $HOME/samples/client/petstore/typescript-fetch/tests/default/typings
+    #  - $HOME/samples/client/petstore/typescript-fetch/builds/default/node_modules
+    #  - $HOME/samples/client/petstore/typescript-fetch/builds/default/typings
+    #  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/node_modules
+    #  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/typings
+    #  - $HOME/samples/client/petstore/typescript-fetch/builds/with-npm-version/node_modules
+    #  - $HOME/samples/client/petstore/typescript-fetch/npm/with-npm-version/typings
+    #  - $HOME/samples/client/petstore/typescript-angularjs/node_modules
+    #  - $HOME/samples/client/petstore/typescript-angularjs/typings
   - $HOME/.cocoapods/repos/master
   timeout: 1000
 # note: docker is not yet supported in iOS build
@@ -100,7 +100,7 @@ script:
   # fail if generators contain tab '\t'
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
-  - mvn -q --batch-mode verify -Psamples
+  - travis_wait mvn -q --batch-mode verify -Psamples
 ### docker-related tasks have been moved to CircleCI
   # docker: build generator image and push to Docker Hub
   #- if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/swagger-generator && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME; fi; fi

@@ -23,8 +23,8 @@ module Petstore
     # @param [String] The enum value in the form of the string
     # @return [String] The enum value
     def build_from_hash(value)
-      consantValues = OuterEnum.constants.select{|c| c.to_s == value}
-      raise "Invalid ENUM value #{value} for class #OuterEnum" if consantValues.empty?
+      constantValues = OuterEnum.constants.select{|c| OuterEnum::const_get(c) == value}
+      raise "Invalid ENUM value #{value} for class #OuterEnum" if constantValues.empty?
       value
     end
   end

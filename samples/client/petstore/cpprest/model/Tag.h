@@ -16,8 +16,8 @@
  * A tag for a pet
  */
 
-#ifndef Tag_H_
-#define Tag_H_
+#ifndef IO_SWAGGER_CLIENT_MODEL_Tag_H_
+#define IO_SWAGGER_CLIENT_MODEL_Tag_H_
 
 
 #include "ModelBase.h"
@@ -80,4 +80,4 @@ protected:
 }
 }
 
-#endif /* Tag_H_ */
+#endif /* IO_SWAGGER_CLIENT_MODEL_Tag_H_ */

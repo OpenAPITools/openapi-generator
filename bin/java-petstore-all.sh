@@ -16,3 +16,4 @@
 ./bin/java-petstore-resttemplate.sh
 ./bin/java-petstore-resttemplate-withxml.sh
 ./bin/java-petstore-resteasy.sh
+./bin/java-petstore-google-api-client.sh

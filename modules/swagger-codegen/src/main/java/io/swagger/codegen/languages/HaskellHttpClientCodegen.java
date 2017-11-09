@@ -47,7 +47,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public static final String PROP_GENERATE_FORM_URLENCODED_INSTANCES = "generateFormUrlEncodedInstances";
     public static final String PROP_GENERATE_LENSES = "generateLenses";
     public static final String PROP_GENERATE_MODEL_CONSTRUCTORS = "generateModelConstructors";
-    public static final String PROP_INLINE_CONSUMES_CONTENT_TYPES = "inlineConsumesContentTypes";
+    public static final String PROP_INLINE_MIME_TYPES = "inlineMimeTypes";
     public static final String PROP_MODEL_DERIVING = "modelDeriving";
     public static final String PROP_STRICT_FIELDS = "strictFields";
     public static final String PROP_USE_MONAD_LOGGER = "useMonadLogger";
@@ -58,6 +58,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_+");
 
     static final String MEDIA_TYPE = "mediaType";
+    static final String MIME_NO_CONTENT = "MimeNoContent";
 
     // vendor extensions
     static final String X_ALL_UNIQUE_PARAMS = "x-allUniqueParams";
@@ -71,6 +72,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     static final String X_HAS_UNKNOWN_MIME_TYPES = "x-hasUnknownMimeTypes";
     static final String X_HAS_UNKNOWN_RETURN = "x-hasUnknownReturn";
     static final String X_INLINE_CONTENT_TYPE = "x-inlineContentType";
+    static final String X_INLINE_ACCEPT = "x-inlineAccept";
     static final String X_IS_BODY_OR_FORM_PARAM = "x-isBodyOrFormParam";
     static final String X_IS_BODY_PARAM = "x-isBodyParam";
     static final String X_MEDIA_DATA_TYPE = "x-mediaDataType";
@@ -142,7 +144,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                         "instance", "let", "in",
                         "mdo", "module", "newtype",
                         "proc", "qualified", "rec",
-                        "type", "where", "pure", "return"
+                        "type", "where", "pure", "return",
+                        "Accept", "ContentType"
                 )
         );
 
@@ -218,7 +221,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         cliOptions.add(CliOption.newBoolean(PROP_GENERATE_MODEL_CONSTRUCTORS, "Generate smart constructors (only supply required fields) for models").defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(PROP_GENERATE_ENUMS, "Generate specific datatypes for swagger enums").defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(PROP_GENERATE_FORM_URLENCODED_INSTANCES, "Generate FromForm/ToForm instances for models that are used by operations that produce or consume application/x-www-form-urlencoded").defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(CliOption.newBoolean(PROP_INLINE_CONSUMES_CONTENT_TYPES, "Inline (hardcode) the content-type on operations that do not have multiple content-types (Consumes)").defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(PROP_INLINE_MIME_TYPES, "Inline (hardcode) the content-type and accept parameters on operations, when there is only 1 option").defaultValue(Boolean.FALSE.toString()));
+
 
         cliOptions.add(CliOption.newString(PROP_MODEL_DERIVING, "Additional classes to include in the deriving() clause of Models"));
         cliOptions.add(CliOption.newBoolean(PROP_STRICT_FIELDS, "Add strictness annotations to all model fields").defaultValue((Boolean.TRUE.toString())));
@@ -249,8 +253,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public void setGenerateFormUrlEncodedInstances(Boolean value) {
         additionalProperties.put(PROP_GENERATE_FORM_URLENCODED_INSTANCES, value);
     }
-    public void setInlineConsumesContentTypes (Boolean value) {
-        additionalProperties.put(PROP_INLINE_CONSUMES_CONTENT_TYPES, value);
+    public void setInlineMimeTypes(Boolean value) {
+        additionalProperties.put(PROP_INLINE_MIME_TYPES, value);
     }
 
     public void setGenerateLenses(Boolean value) {
@@ -331,10 +335,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             setGenerateFormUrlEncodedInstances(true);
         }
 
-        if (additionalProperties.containsKey(PROP_INLINE_CONSUMES_CONTENT_TYPES)) {
-            setInlineConsumesContentTypes(convertPropertyToBoolean(PROP_INLINE_CONSUMES_CONTENT_TYPES));
+        if (additionalProperties.containsKey(PROP_INLINE_MIME_TYPES)) {
+            setInlineMimeTypes(convertPropertyToBoolean(PROP_INLINE_MIME_TYPES));
         } else {
-            setInlineConsumesContentTypes(false);
+            setInlineMimeTypes(false);
         }
 
         if (additionalProperties.containsKey(PROP_GENERATE_LENSES)) {
@@ -681,6 +685,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 op.vendorExtensions.put(X_HAS_UNKNOWN_RETURN, true);
             } else {
                 returnType = "NoContent";
+                if(!op.vendorExtensions.containsKey(X_INLINE_ACCEPT)) {
+                    SetNoContent(op, X_INLINE_ACCEPT);
+                }
             }
         }
         if (returnType.indexOf(" ") >= 0) {
@@ -690,9 +697,12 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     private void processProducesConsumes(CodegenOperation op) {
+        if (!(Boolean) op.vendorExtensions.get(X_HAS_BODY_OR_FORM_PARAM)) {
+            SetNoContent(op, X_INLINE_CONTENT_TYPE);
+        }
         if (op.hasConsumes) {
             for (Map<String, String> m : op.consumes) {
-                processMediaType(op,m);
+                processMediaType(op, m);
                 processInlineConsumesContentType(op, m);
 
             }
@@ -703,12 +713,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (op.hasProduces) {
             for (Map<String, String> m : op.produces) {
                 processMediaType(op,m);
+                processInlineProducesContentType(op, m);
             }
         }
     }
 
     private void processInlineConsumesContentType(CodegenOperation op, Map<String, String> m) {
-        if ((boolean) additionalProperties.get(PROP_INLINE_CONSUMES_CONTENT_TYPES)
+        if (op.vendorExtensions.containsKey(X_INLINE_CONTENT_TYPE)) return;
+        if ((boolean) additionalProperties.get(PROP_INLINE_MIME_TYPES)
                 && op.consumes.size() == 1) {
             op.vendorExtensions.put(X_INLINE_CONTENT_TYPE, m);
             for (CodegenParameter param : op.allParams) {
@@ -717,6 +729,19 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 }
             }
         }
+    }
+
+    private void processInlineProducesContentType(CodegenOperation op, Map<String, String> m) {
+        if ((boolean) additionalProperties.get(PROP_INLINE_MIME_TYPES)
+                && op.produces.size() == 1) {
+            op.vendorExtensions.put(X_INLINE_ACCEPT, m);
+        }
+    }
+
+    private void SetNoContent(CodegenOperation op, String inlineExtentionName) {
+        Map<String, String> m = new HashMap<>();
+        m.put(X_MEDIA_DATA_TYPE, MIME_NO_CONTENT);
+        op.vendorExtensions.put(inlineExtentionName, m);
     }
 
     private String toDedupedName(String paramNameType, String dataType, Boolean appendDataType) {
@@ -871,7 +896,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     private String getMimeDataType(String mimeType) {
         if (StringUtils.isBlank(mimeType)) {
-            return "MimeNoContent";
+            return MIME_NO_CONTENT;
         }
         if (knownMimeDataTypes.containsKey(mimeType)) {
             return knownMimeDataTypes.get(mimeType);

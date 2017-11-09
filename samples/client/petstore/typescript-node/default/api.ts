@@ -407,8 +407,8 @@ export class User {
 
 
 let enumsMap = {
-    "Order.StatusEnum": Order.StatusEnum,
-    "Pet.StatusEnum": Pet.StatusEnum,
+        "Order.StatusEnum": Order.StatusEnum,
+        "Pet.StatusEnum": Pet.StatusEnum,
 }
 
 let typeMap = {

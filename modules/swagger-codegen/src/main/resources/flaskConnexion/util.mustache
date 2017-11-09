@@ -44,7 +44,7 @@ def _deserialize_primitive(data, klass):
     try:
         value = klass(data)
     except UnicodeEncodeError:
-        value = unicode(data)
+        value = six.u(data)
     except TypeError:
         value = data
     return value

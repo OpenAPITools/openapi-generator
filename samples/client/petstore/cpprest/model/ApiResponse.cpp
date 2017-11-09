@@ -23,9 +23,9 @@ ApiResponse::ApiResponse()
 {
     m_Code = 0;
     m_CodeIsSet = false;
-    m_Type = U("");
+    m_Type = utility::conversions::to_string_t("");
     m_TypeIsSet = false;
-    m_Message = U("");
+    m_Message = utility::conversions::to_string_t("");
     m_MessageIsSet = false;
 }
 
@@ -44,15 +44,15 @@ web::json::value ApiResponse::toJson() const
 
     if(m_CodeIsSet)
     {
-        val[U("code")] = ModelBase::toJson(m_Code);
+        val[utility::conversions::to_string_t("code")] = ModelBase::toJson(m_Code);
     }
     if(m_TypeIsSet)
     {
-        val[U("type")] = ModelBase::toJson(m_Type);
+        val[utility::conversions::to_string_t("type")] = ModelBase::toJson(m_Type);
     }
     if(m_MessageIsSet)
     {
-        val[U("message")] = ModelBase::toJson(m_Message);
+        val[utility::conversions::to_string_t("message")] = ModelBase::toJson(m_Message);
     }
 
     return val;
@@ -60,40 +60,40 @@ web::json::value ApiResponse::toJson() const
 
 void ApiResponse::fromJson(web::json::value& val)
 {
-    if(val.has_field(U("code")))
+    if(val.has_field(utility::conversions::to_string_t("code")))
     {
-        setCode(ModelBase::int32_tFromJson(val[U("code")]));
+        setCode(ModelBase::int32_tFromJson(val[utility::conversions::to_string_t("code")]));
     }
-    if(val.has_field(U("type")))
+    if(val.has_field(utility::conversions::to_string_t("type")))
     {
-        setType(ModelBase::stringFromJson(val[U("type")]));
+        setType(ModelBase::stringFromJson(val[utility::conversions::to_string_t("type")]));
     }
-    if(val.has_field(U("message")))
+    if(val.has_field(utility::conversions::to_string_t("message")))
     {
-        setMessage(ModelBase::stringFromJson(val[U("message")]));
+        setMessage(ModelBase::stringFromJson(val[utility::conversions::to_string_t("message")]));
     }
 }
 
 void ApiResponse::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix[namePrefix.size() - 1] != U('.'))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
     {
-        namePrefix += U(".");
+        namePrefix += utility::conversions::to_string_t(".");
     }
 
     if(m_CodeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("code"), m_Code));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("code"), m_Code));
     }
     if(m_TypeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("type"), m_Type));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("type"), m_Type));
         
     }
     if(m_MessageIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("message"), m_Message));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("message"), m_Message));
         
     }
 }
@@ -101,22 +101,22 @@ void ApiResponse::toMultipart(std::shared_ptr<MultipartFormData> multipart, cons
 void ApiResponse::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix[namePrefix.size() - 1] != U('.'))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
     {
-        namePrefix += U(".");
+        namePrefix += utility::conversions::to_string_t(".");
     }
 
-    if(multipart->hasContent(U("code")))
+    if(multipart->hasContent(utility::conversions::to_string_t("code")))
     {
-        setCode(ModelBase::int32_tFromHttpContent(multipart->getContent(U("code"))));
+        setCode(ModelBase::int32_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("code"))));
     }
-    if(multipart->hasContent(U("type")))
+    if(multipart->hasContent(utility::conversions::to_string_t("type")))
     {
-        setType(ModelBase::stringFromHttpContent(multipart->getContent(U("type"))));
+        setType(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("type"))));
     }
-    if(multipart->hasContent(U("message")))
+    if(multipart->hasContent(utility::conversions::to_string_t("message")))
     {
-        setMessage(ModelBase::stringFromHttpContent(multipart->getContent(U("message"))));
+        setMessage(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("message"))));
     }
 }
 

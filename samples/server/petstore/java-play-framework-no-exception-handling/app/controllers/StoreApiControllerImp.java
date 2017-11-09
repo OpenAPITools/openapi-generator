@@ -14,7 +14,6 @@ public class StoreApiControllerImp implements StoreApiControllerImpInterface {
     @Override
     public void deleteOrder(String orderId)  {
         //Do your magic!!!
-        
     }
 
     @Override

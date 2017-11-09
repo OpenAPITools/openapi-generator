@@ -22,7 +22,7 @@ Method | HTTP request | Description
 
 Test serialization of outer boolean types
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -34,7 +34,7 @@ from pprint import pprint
 api_instance = petstore_api.FakeApi()
 body = petstore_api.OuterBoolean() # OuterBoolean | Input boolean as post body (optional)
 
-try: 
+try:
     api_response = api_instance.fake_outer_boolean_serialize(body=body)
     pprint(api_response)
 except ApiException as e:
@@ -69,7 +69,7 @@ No authorization required
 
 Test serialization of object with outer number type
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -81,7 +81,7 @@ from pprint import pprint
 api_instance = petstore_api.FakeApi()
 body = petstore_api.OuterComposite() # OuterComposite | Input composite as post body (optional)
 
-try: 
+try:
     api_response = api_instance.fake_outer_composite_serialize(body=body)
     pprint(api_response)
 except ApiException as e:
@@ -116,7 +116,7 @@ No authorization required
 
 Test serialization of outer number types
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -128,7 +128,7 @@ from pprint import pprint
 api_instance = petstore_api.FakeApi()
 body = petstore_api.OuterNumber() # OuterNumber | Input number as post body (optional)
 
-try: 
+try:
     api_response = api_instance.fake_outer_number_serialize(body=body)
     pprint(api_response)
 except ApiException as e:
@@ -163,7 +163,7 @@ No authorization required
 
 Test serialization of outer string types
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -175,7 +175,7 @@ from pprint import pprint
 api_instance = petstore_api.FakeApi()
 body = petstore_api.OuterString() # OuterString | Input string as post body (optional)
 
-try: 
+try:
     api_response = api_instance.fake_outer_string_serialize(body=body)
     pprint(api_response)
 except ApiException as e:
@@ -210,7 +210,7 @@ To test \"client\" model
 
 To test \"client\" model
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -222,7 +222,7 @@ from pprint import pprint
 api_instance = petstore_api.FakeApi()
 body = petstore_api.Client() # Client | client model
 
-try: 
+try:
     # To test \"client\" model
     api_response = api_instance.test_client_model(body)
     pprint(api_response)
@@ -258,7 +258,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -273,10 +273,10 @@ configuration.password = 'YOUR_PASSWORD'
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi(petstore_api.ApiClient(configuration))
-number = 3.4 # float | None
+number = 8.14 # float | None
 double = 1.2 # float | None
 pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
-byte = 'byte_example' # str | None
+byte = 'B' # str | None
 integer = 56 # int | None (optional)
 int32 = 56 # int | None (optional)
 int64 = 789 # int | None (optional)
@@ -288,7 +288,7 @@ date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
 password = 'password_example' # str | None (optional)
 param_callback = 'param_callback_example' # str | None (optional)
 
-try: 
+try:
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, date=date, date_time=date_time, password=password, param_callback=param_callback)
 except ApiException as e:
@@ -336,7 +336,7 @@ To test enum parameters
 
 To test enum parameters
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -355,7 +355,7 @@ enum_query_string = '-efg' # str | Query parameter enum test (string) (optional)
 enum_query_integer = 56 # int | Query parameter enum test (double) (optional)
 enum_query_double = 1.2 # float | Query parameter enum test (double) (optional)
 
-try: 
+try:
     # To test enum parameters
     api_instance.test_enum_parameters(enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string, enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double)
 except ApiException as e:
@@ -397,7 +397,7 @@ test inline additionalProperties
 
 
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -409,7 +409,7 @@ from pprint import pprint
 api_instance = petstore_api.FakeApi()
 param = NULL # object | request body
 
-try: 
+try:
     # test inline additionalProperties
     api_instance.test_inline_additional_properties(param)
 except ApiException as e:
@@ -444,7 +444,7 @@ test json serialization of form data
 
 
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -457,7 +457,7 @@ api_instance = petstore_api.FakeApi()
 param = 'param_example' # str | field1
 param2 = 'param2_example' # str | field2
 
-try: 
+try:
     # test json serialization of form data
     api_instance.test_json_form_data(param, param2)
 except ApiException as e:

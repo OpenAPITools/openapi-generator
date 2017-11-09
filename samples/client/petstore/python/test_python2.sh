@@ -23,6 +23,9 @@ python setup.py develop
 ### run tests
 nosetests
 
+### static analysis of code
+flake8 --show-source petstore_api/
+
 ### deactivate virtualenv
 #if [ $DEACTIVE == true ]; then
 #    deactivate
