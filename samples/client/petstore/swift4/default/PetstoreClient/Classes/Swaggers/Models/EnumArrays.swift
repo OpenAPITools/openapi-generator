@@ -43,7 +43,7 @@ open class EnumArrays: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        justSymbol = try container.decodeIfPresent(String.self, forKey: "just_symbol")
+        justSymbol = try container.decodeIfPresent(JustSymbol.self, forKey: "just_symbol")
         arrayEnum = try container.decodeArrayIfPresent(String.self, forKey: "array_enum")
     }
 }
