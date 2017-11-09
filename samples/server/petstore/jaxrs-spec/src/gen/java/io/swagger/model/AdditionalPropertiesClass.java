@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class AdditionalPropertiesClass  implements Serializable {
@@ -26,6 +27,7 @@ public class AdditionalPropertiesClass  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("map_property")
   public Map<String, String> getMapProperty() {
     return mapProperty;
   }
@@ -42,6 +44,7 @@ public class AdditionalPropertiesClass  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("map_of_map_property")
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }

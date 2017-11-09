@@ -11,6 +11,7 @@ import javax.validation.Valid;
  **/
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "Model for testing model name same as property name")
 
 public class Name  implements Serializable {
@@ -29,6 +30,7 @@ public class Name  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("name")
   @NotNull
   public Integer getName() {
     return name;
@@ -46,6 +48,7 @@ public class Name  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -62,6 +65,7 @@ public class Name  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("property")
   public String getProperty() {
     return property;
   }
@@ -78,6 +82,7 @@ public class Name  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("123Number")
   public Integer get123Number() {
     return _123Number;
   }
