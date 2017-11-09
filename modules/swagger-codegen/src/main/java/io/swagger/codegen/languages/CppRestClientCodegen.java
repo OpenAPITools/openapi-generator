@@ -312,7 +312,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
     @Override
     public String toDefaultValue(Property p) {
         if (p instanceof StringProperty) {
-            return "U(\"\")";
+            return "utility::conversions::to_string_t(\"\")";
         } else if (p instanceof BooleanProperty) {
             return "false";
         } else if (p instanceof DateProperty) {

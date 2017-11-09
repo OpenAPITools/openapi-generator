@@ -60,7 +60,7 @@ public:
 
         for( size_t i = 0; i < value.size(); i++)
         {
-            if( i > 0) ss << U(", ");
+            if( i > 0) ss << utility::conversions::to_string_t(", ");
             ss << ApiClient::parameterToString(value[i]);
         }
 

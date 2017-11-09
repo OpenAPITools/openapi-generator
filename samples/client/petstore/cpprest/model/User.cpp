@@ -23,17 +23,17 @@ User::User()
 {
     m_Id = 0L;
     m_IdIsSet = false;
-    m_Username = U("");
+    m_Username = utility::conversions::to_string_t("");
     m_UsernameIsSet = false;
-    m_FirstName = U("");
+    m_FirstName = utility::conversions::to_string_t("");
     m_FirstNameIsSet = false;
-    m_LastName = U("");
+    m_LastName = utility::conversions::to_string_t("");
     m_LastNameIsSet = false;
-    m_Email = U("");
+    m_Email = utility::conversions::to_string_t("");
     m_EmailIsSet = false;
-    m_Password = U("");
+    m_Password = utility::conversions::to_string_t("");
     m_PasswordIsSet = false;
-    m_Phone = U("");
+    m_Phone = utility::conversions::to_string_t("");
     m_PhoneIsSet = false;
     m_UserStatus = 0;
     m_UserStatusIsSet = false;
@@ -54,35 +54,35 @@ web::json::value User::toJson() const
 
     if(m_IdIsSet)
     {
-        val[U("id")] = ModelBase::toJson(m_Id);
+        val[utility::conversions::to_string_t("id")] = ModelBase::toJson(m_Id);
     }
     if(m_UsernameIsSet)
     {
-        val[U("username")] = ModelBase::toJson(m_Username);
+        val[utility::conversions::to_string_t("username")] = ModelBase::toJson(m_Username);
     }
     if(m_FirstNameIsSet)
     {
-        val[U("firstName")] = ModelBase::toJson(m_FirstName);
+        val[utility::conversions::to_string_t("firstName")] = ModelBase::toJson(m_FirstName);
     }
     if(m_LastNameIsSet)
     {
-        val[U("lastName")] = ModelBase::toJson(m_LastName);
+        val[utility::conversions::to_string_t("lastName")] = ModelBase::toJson(m_LastName);
     }
     if(m_EmailIsSet)
     {
-        val[U("email")] = ModelBase::toJson(m_Email);
+        val[utility::conversions::to_string_t("email")] = ModelBase::toJson(m_Email);
     }
     if(m_PasswordIsSet)
     {
-        val[U("password")] = ModelBase::toJson(m_Password);
+        val[utility::conversions::to_string_t("password")] = ModelBase::toJson(m_Password);
     }
     if(m_PhoneIsSet)
     {
-        val[U("phone")] = ModelBase::toJson(m_Phone);
+        val[utility::conversions::to_string_t("phone")] = ModelBase::toJson(m_Phone);
     }
     if(m_UserStatusIsSet)
     {
-        val[U("userStatus")] = ModelBase::toJson(m_UserStatus);
+        val[utility::conversions::to_string_t("userStatus")] = ModelBase::toJson(m_UserStatus);
     }
 
     return val;
@@ -90,127 +90,127 @@ web::json::value User::toJson() const
 
 void User::fromJson(web::json::value& val)
 {
-    if(val.has_field(U("id")))
+    if(val.has_field(utility::conversions::to_string_t("id")))
     {
-        setId(ModelBase::int64_tFromJson(val[U("id")]));
+        setId(ModelBase::int64_tFromJson(val[utility::conversions::to_string_t("id")]));
     }
-    if(val.has_field(U("username")))
+    if(val.has_field(utility::conversions::to_string_t("username")))
     {
-        setUsername(ModelBase::stringFromJson(val[U("username")]));
+        setUsername(ModelBase::stringFromJson(val[utility::conversions::to_string_t("username")]));
     }
-    if(val.has_field(U("firstName")))
+    if(val.has_field(utility::conversions::to_string_t("firstName")))
     {
-        setFirstName(ModelBase::stringFromJson(val[U("firstName")]));
+        setFirstName(ModelBase::stringFromJson(val[utility::conversions::to_string_t("firstName")]));
     }
-    if(val.has_field(U("lastName")))
+    if(val.has_field(utility::conversions::to_string_t("lastName")))
     {
-        setLastName(ModelBase::stringFromJson(val[U("lastName")]));
+        setLastName(ModelBase::stringFromJson(val[utility::conversions::to_string_t("lastName")]));
     }
-    if(val.has_field(U("email")))
+    if(val.has_field(utility::conversions::to_string_t("email")))
     {
-        setEmail(ModelBase::stringFromJson(val[U("email")]));
+        setEmail(ModelBase::stringFromJson(val[utility::conversions::to_string_t("email")]));
     }
-    if(val.has_field(U("password")))
+    if(val.has_field(utility::conversions::to_string_t("password")))
     {
-        setPassword(ModelBase::stringFromJson(val[U("password")]));
+        setPassword(ModelBase::stringFromJson(val[utility::conversions::to_string_t("password")]));
     }
-    if(val.has_field(U("phone")))
+    if(val.has_field(utility::conversions::to_string_t("phone")))
     {
-        setPhone(ModelBase::stringFromJson(val[U("phone")]));
+        setPhone(ModelBase::stringFromJson(val[utility::conversions::to_string_t("phone")]));
     }
-    if(val.has_field(U("userStatus")))
+    if(val.has_field(utility::conversions::to_string_t("userStatus")))
     {
-        setUserStatus(ModelBase::int32_tFromJson(val[U("userStatus")]));
+        setUserStatus(ModelBase::int32_tFromJson(val[utility::conversions::to_string_t("userStatus")]));
     }
 }
 
 void User::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix[namePrefix.size() - 1] != U('.'))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
     {
-        namePrefix += U(".");
+        namePrefix += utility::conversions::to_string_t(".");
     }
 
     if(m_IdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("id"), m_Id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("id"), m_Id));
     }
     if(m_UsernameIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("username"), m_Username));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("username"), m_Username));
         
     }
     if(m_FirstNameIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("firstName"), m_FirstName));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("firstName"), m_FirstName));
         
     }
     if(m_LastNameIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("lastName"), m_LastName));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("lastName"), m_LastName));
         
     }
     if(m_EmailIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("email"), m_Email));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("email"), m_Email));
         
     }
     if(m_PasswordIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("password"), m_Password));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("password"), m_Password));
         
     }
     if(m_PhoneIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("phone"), m_Phone));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("phone"), m_Phone));
         
     }
     if(m_UserStatusIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("userStatus"), m_UserStatus));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("userStatus"), m_UserStatus));
     }
 }
 
 void User::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix[namePrefix.size() - 1] != U('.'))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
     {
-        namePrefix += U(".");
+        namePrefix += utility::conversions::to_string_t(".");
     }
 
-    if(multipart->hasContent(U("id")))
+    if(multipart->hasContent(utility::conversions::to_string_t("id")))
     {
-        setId(ModelBase::int64_tFromHttpContent(multipart->getContent(U("id"))));
+        setId(ModelBase::int64_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("id"))));
     }
-    if(multipart->hasContent(U("username")))
+    if(multipart->hasContent(utility::conversions::to_string_t("username")))
     {
-        setUsername(ModelBase::stringFromHttpContent(multipart->getContent(U("username"))));
+        setUsername(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("username"))));
     }
-    if(multipart->hasContent(U("firstName")))
+    if(multipart->hasContent(utility::conversions::to_string_t("firstName")))
     {
-        setFirstName(ModelBase::stringFromHttpContent(multipart->getContent(U("firstName"))));
+        setFirstName(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("firstName"))));
     }
-    if(multipart->hasContent(U("lastName")))
+    if(multipart->hasContent(utility::conversions::to_string_t("lastName")))
     {
-        setLastName(ModelBase::stringFromHttpContent(multipart->getContent(U("lastName"))));
+        setLastName(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("lastName"))));
     }
-    if(multipart->hasContent(U("email")))
+    if(multipart->hasContent(utility::conversions::to_string_t("email")))
     {
-        setEmail(ModelBase::stringFromHttpContent(multipart->getContent(U("email"))));
+        setEmail(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("email"))));
     }
-    if(multipart->hasContent(U("password")))
+    if(multipart->hasContent(utility::conversions::to_string_t("password")))
     {
-        setPassword(ModelBase::stringFromHttpContent(multipart->getContent(U("password"))));
+        setPassword(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("password"))));
     }
-    if(multipart->hasContent(U("phone")))
+    if(multipart->hasContent(utility::conversions::to_string_t("phone")))
     {
-        setPhone(ModelBase::stringFromHttpContent(multipart->getContent(U("phone"))));
+        setPhone(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("phone"))));
     }
-    if(multipart->hasContent(U("userStatus")))
+    if(multipart->hasContent(utility::conversions::to_string_t("userStatus")))
     {
-        setUserStatus(ModelBase::int32_tFromHttpContent(multipart->getContent(U("userStatus"))));
+        setUserStatus(ModelBase::int32_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("userStatus"))));
     }
 }
 
