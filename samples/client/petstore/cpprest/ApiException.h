@@ -16,8 +16,8 @@
  * This is the exception being thrown in case the api call was not successful
  */
 
-#ifndef ApiException_H_
-#define ApiException_H_
+#ifndef IO_SWAGGER_CLIENT_API_ApiException_H_
+#define IO_SWAGGER_CLIENT_API_ApiException_H_
 
 
 
@@ -59,4 +59,4 @@ protected:
 }
 }
 
-#endif /* ApiBase_H_ */
+#endif /* IO_SWAGGER_CLIENT_API_ApiBase_H_ */

@@ -16,8 +16,8 @@
  * An order for a pets from the pet store
  */
 
-#ifndef Order_H_
-#define Order_H_
+#ifndef IO_SWAGGER_CLIENT_MODEL_Order_H_
+#define IO_SWAGGER_CLIENT_MODEL_Order_H_
 
 
 #include "ModelBase.h"
@@ -116,4 +116,4 @@ protected:
 }
 }
 
-#endif /* Order_H_ */
+#endif /* IO_SWAGGER_CLIENT_MODEL_Order_H_ */
