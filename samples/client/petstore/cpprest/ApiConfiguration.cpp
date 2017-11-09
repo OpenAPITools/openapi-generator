@@ -67,7 +67,7 @@ utility::string_t ApiConfiguration::getApiKey( const utility::string_t& prefix) 
     {
         return result->second;
     }
-    return U("");
+    return utility::conversions::to_string_t("");
 }
 
 void ApiConfiguration::setApiKey( const utility::string_t& prefix, const utility::string_t& apiKey )
