@@ -33,9 +33,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private Boolean generateApiDocumentation = null;
     private Boolean generateModelTests = null;
     private Boolean generateModelDocumentation = null;
+    private Boolean generateSwaggerMetadata = true;
     private String basePath;
     private String basePathWithoutHost;
     private String contextPath;
+    private Map<String, String> generatorPropertyDefaults = new HashMap<>();
 
     @Override
     public Generator opts(ClientOptInput opts) {
@@ -59,6 +61,38 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         return this;
+    }
+
+    /**
+     * Programmatically disable the output of .swagger-codegen/VERSION, .swagger-codegen-ignore,
+     * or other metadata files used by Swagger Codegen.
+     * @param generateSwaggerMetadata true: enable outputs, false: disable outputs
+     */
+    @SuppressWarnings("WeakerAccess")
+    public void setGenerateSwaggerMetadata(Boolean generateSwaggerMetadata) {
+        this.generateSwaggerMetadata = generateSwaggerMetadata;
+    }
+
+    /**
+     * Set generator properties otherwise pulled from system properties.
+     * Useful for running tests in parallel without relying on System.properties.
+     * @param key The system property key
+     * @param value The system property value
+     */
+    @SuppressWarnings("WeakerAccess")
+    public void setGeneratorPropertyDefault(final String key, final String value) {
+        this.generatorPropertyDefaults.put(key, value);
+    }
+
+    private Boolean getGeneratorPropertyDefaultSwitch(final String key, final Boolean defaultValue) {
+        String result = null;
+        if (this.generatorPropertyDefaults.containsKey(key)) {
+            result = this.generatorPropertyDefaults.get(key);
+        }
+        if (result != null) {
+            return Boolean.valueOf(result);
+        }
+        return defaultValue;
     }
 
     private String getScheme() {
@@ -88,11 +122,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
     private void configureGeneratorProperties() {
-
         // allows generating only models by specifying a CSV of models to generate, or empty for all
-        generateApis = System.getProperty("apis") != null ? true : null;
-        generateModels = System.getProperty("models") != null ? true : null;
-        generateSupportingFiles = System.getProperty("supportingFiles") != null ? true : null;
+        // NOTE: Boolean.TRUE is required below rather than `true` because of JVM boxing constraints and type inference.
+        generateApis = System.getProperty(CodegenConstants.APIS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.APIS, null);
+        generateModels = System.getProperty(CodegenConstants.MODELS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODELS, null);
+        generateSupportingFiles = System.getProperty(CodegenConstants.SUPPORTING_FILES) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.SUPPORTING_FILES, null);
 
         if (generateApis == null && generateModels == null && generateSupportingFiles == null) {
             // no specifics are set, generate everything
@@ -110,10 +144,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
         // model/api tests and documentation options rely on parent generate options (api or model) and no other options.
         // They default to true in all scenarios and can only be marked false explicitly
-        generateModelTests = System.getProperty("modelTests") != null ? Boolean.valueOf(System.getProperty("modelTests")) : true;
-        generateModelDocumentation = System.getProperty("modelDocs") != null ? Boolean.valueOf(System.getProperty("modelDocs")) : true;
-        generateApiTests = System.getProperty("apiTests") != null ? Boolean.valueOf(System.getProperty("apiTests")) : true;
-        generateApiDocumentation = System.getProperty("apiDocs") != null ? Boolean.valueOf(System.getProperty("apiDocs")) : true;
+        generateModelTests = System.getProperty(CodegenConstants.MODEL_TESTS) != null ? Boolean.valueOf(System.getProperty(CodegenConstants.MODEL_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_TESTS, true);
+        generateModelDocumentation = System.getProperty(CodegenConstants.MODEL_DOCS) != null ? Boolean.valueOf(System.getProperty(CodegenConstants.MODEL_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_DOCS, true);
+        generateApiTests = System.getProperty(CodegenConstants.API_TESTS) != null ? Boolean.valueOf(System.getProperty(CodegenConstants.API_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_TESTS, true);
+        generateApiDocumentation = System.getProperty(CodegenConstants.API_DOCS) != null ? Boolean.valueOf(System.getProperty(CodegenConstants.API_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
 
 
         // Additional properties added for tests to exclude references in project related files
@@ -595,7 +629,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         final String swaggerCodegenIgnore = ".swagger-codegen-ignore";
         String ignoreFileNameTarget = config.outputFolder() + File.separator + swaggerCodegenIgnore;
         File ignoreFile = new File(ignoreFileNameTarget);
-        if (!ignoreFile.exists()) {
+        if (generateSwaggerMetadata && !ignoreFile.exists()) {
             String ignoreFileNameSource = File.separator + config.getCommonTemplateDir() + File.separator + swaggerCodegenIgnore;
             String ignoreFileContents = readResourceContents(ignoreFileNameSource);
             try {
@@ -606,13 +640,15 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             files.add(ignoreFile);
         }
 
-        final String swaggerVersionMetadata = config.outputFolder() + File.separator + ".swagger-codegen" + File.separator + "VERSION";
-        File swaggerVersionMetadataFile = new File(swaggerVersionMetadata);
-        try {
-            writeToFile(swaggerVersionMetadata, ImplementationVersion.read());
-            files.add(swaggerVersionMetadataFile);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not generate supporting file '" + swaggerVersionMetadata + "'", e);
+        if(generateSwaggerMetadata) {
+            final String swaggerVersionMetadata = config.outputFolder() + File.separator + ".swagger-codegen" + File.separator + "VERSION";
+            File swaggerVersionMetadataFile = new File(swaggerVersionMetadata);
+            try {
+                writeToFile(swaggerVersionMetadata, ImplementationVersion.read());
+                files.add(swaggerVersionMetadataFile);
+            } catch (IOException e) {
+                throw new RuntimeException("Could not generate supporting file '" + swaggerVersionMetadata + "'", e);
+            }
         }
 
         /*
