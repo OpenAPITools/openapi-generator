@@ -88,6 +88,18 @@ public class FakeApiServiceImpl implements FakeApi {
     }
     
     /**
+     * test inline additionalProperties
+     *
+     * 
+     *
+     */
+    public void testInlineAdditionalProperties(Object param) {
+        // TODO: Implement...
+        
+        
+    }
+    
+    /**
      * test json serialization of form data
      *
      * 

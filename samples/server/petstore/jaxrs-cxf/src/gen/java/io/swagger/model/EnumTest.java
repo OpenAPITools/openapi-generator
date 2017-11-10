@@ -128,8 +128,11 @@ public enum EnumNumberEnum {
    * @return enumString
   **/
   @JsonProperty("enum_string")
-  public EnumStringEnum getEnumString() {
-    return enumString;
+  public String getEnumString() {
+    if (enumString == null) {
+      return null;
+    }
+    return enumString.value();
   }
 
   public void setEnumString(EnumStringEnum enumString) {
@@ -146,8 +149,11 @@ public enum EnumNumberEnum {
    * @return enumInteger
   **/
   @JsonProperty("enum_integer")
-  public EnumIntegerEnum getEnumInteger() {
-    return enumInteger;
+  public Integer getEnumInteger() {
+    if (enumInteger == null) {
+      return null;
+    }
+    return enumInteger.value();
   }
 
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
@@ -164,8 +170,11 @@ public enum EnumNumberEnum {
    * @return enumNumber
   **/
   @JsonProperty("enum_number")
-  public EnumNumberEnum getEnumNumber() {
-    return enumNumber;
+  public Double getEnumNumber() {
+    if (enumNumber == null) {
+      return null;
+    }
+    return enumNumber.value();
   }
 
   public void setEnumNumber(EnumNumberEnum enumNumber) {
