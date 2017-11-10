@@ -15,12 +15,12 @@ package io.swagger.client.model
 import java.util.Date
 
 case class Order (
-  id: Option[Long],
-  petId: Option[Long],
-  quantity: Option[Integer],
-  shipDate: Option[Date],
+  id: Option[Long] = None,
+  petId: Option[Long] = None,
+  quantity: Option[Integer] = None,
+  shipDate: Option[Date] = None,
   /* Order Status */
-  status: Option[String],
-  complete: Option[Boolean]
+  status: Option[String] = None,
+  complete: Option[Boolean] = None
 )
 

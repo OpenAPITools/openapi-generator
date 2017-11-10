@@ -211,7 +211,7 @@
     </dependency>
     <dependency>
       <groupId>com.wordnik.swagger</groupId>
-      <artifactId>swagger-async-httpclient_2.11</artifactId>
+      <artifactId>swagger-async-httpclient_2.10</artifactId>
       <version>${swagger-async-httpclient-version}</version>
     </dependency>
   </dependencies>
