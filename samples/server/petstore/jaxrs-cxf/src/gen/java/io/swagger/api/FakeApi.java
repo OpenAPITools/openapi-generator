@@ -109,6 +109,20 @@ public interface FakeApi  {
     public void testEnumParameters(@Multipart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray, @Multipart(value = "enum_form_string", required = false)  String enumFormString, @HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray, @HeaderParam("enum_header_string") String enumHeaderString, @QueryParam("enum_query_string_array") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @Multipart(value = "enum_query_double", required = false)  Double enumQueryDouble);
 
     /**
+     * test inline additionalProperties
+     *
+     * 
+     *
+     */
+    @POST
+    @Path("/fake/inline-additionalProperties")
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "test inline additionalProperties", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation") })
+    public void testInlineAdditionalProperties(@Valid Object param);
+
+    /**
      * test json serialization of form data
      *
      * 
