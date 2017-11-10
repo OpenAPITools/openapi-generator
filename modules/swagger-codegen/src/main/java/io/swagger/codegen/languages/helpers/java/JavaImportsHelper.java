@@ -7,10 +7,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by HugoMario on 2/11/2017.
- */
 public class JavaImportsHelper implements Helper<Map<String, Object>> {
+
+    public static final String NAME = "imports";
 
     @Override
     public CharSequence apply(Map<String, Object> templateData, Options options) throws IOException {
