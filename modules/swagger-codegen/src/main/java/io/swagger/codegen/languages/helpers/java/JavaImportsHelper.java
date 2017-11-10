@@ -1,4 +1,4 @@
-package io.swagger.codegen.languages.helpers;
+package io.swagger.codegen.languages.helpers.java;
 
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
