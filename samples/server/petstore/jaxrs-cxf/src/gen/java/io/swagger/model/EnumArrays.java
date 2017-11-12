@@ -92,8 +92,11 @@ public enum ArrayEnumEnum {
    * @return justSymbol
   **/
   @JsonProperty("just_symbol")
-  public JustSymbolEnum getJustSymbol() {
-    return justSymbol;
+  public String getJustSymbol() {
+    if (justSymbol == null) {
+      return null;
+    }
+    return justSymbol.value();
   }
 
   public void setJustSymbol(JustSymbolEnum justSymbol) {

@@ -1,0 +1,17 @@
+{application, {{packageName}},
+ [{description, {{#appDescription}}"{{appDescription}}"{{/appDescription}}{{^appDescription}}"Swagger client library"{{/appDescription}}},
+  {vsn, "{{apiVersion}}"},
+  {registered, []},
+  {applications,
+    [kernel,
+     stdlib,
+     ssl,
+     hackney
+    ]},
+  {env, []},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, [{{#licenseInfo}}"{{licenseInfo}}"{{/licenseInfo}}]},
+  {links, [{{#infoUrl}}"{{infoUrl}}"{{/infoUrl}}]}
+]}.

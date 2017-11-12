@@ -141,8 +141,11 @@ public enum StatusEnum {
    * @return status
   **/
   @JsonProperty("status")
-  public StatusEnum getStatus() {
-    return status;
+  public String getStatus() {
+    if (status == null) {
+      return null;
+    }
+    return status.value();
   }
 
   public void setStatus(StatusEnum status) {
