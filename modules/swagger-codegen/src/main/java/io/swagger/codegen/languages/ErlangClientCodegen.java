@@ -48,12 +48,12 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         embeddedTemplateDir = templateDir = "erlang-client";
 
         setReservedWordsLowerCase(
-                                  Arrays.asList(
-                                                "after","and","andalso","band","begin","bnot","bor","bsl","bsr","bxor","case",
-                                                "catch","cond","div","end","fun","if","let","not","of","or","orelse","receive",
-                                                "rem","try","when","xor"
-                                                )
-                                  );
+                Arrays.asList(
+                    "after","and","andalso","band","begin","bnot","bor","bsl","bsr","bxor","case",
+                    "catch","cond","div","end","fun","if","let","not","of","or","orelse","receive",
+                    "rem","try","when","xor"
+                    )
+                );
 
         instantiationTypes.clear();
 
@@ -84,11 +84,9 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Erlang application name (convention: lowercase).")
-                       .defaultValue(this.packageName));
+                .defaultValue(this.packageName));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Erlang application version")
-                       .defaultValue(this.packageVersion));
-
-
+                .defaultValue(this.packageVersion));
     }
 
     @Override
