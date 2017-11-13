@@ -257,10 +257,10 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERN
 Swagger\Client\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
 $api_instance = new Swagger\Client\Api\FakeApi(new \Http\Adapter\Guzzle6\Client());
-$number = 3.4; // float | None
+$number = 8.14; // float | None
 $double = 1.2; // double | None
 $pattern_without_delimiter = "pattern_without_delimiter_example"; // string | None
-$byte = "byte_example"; // string | None
+$byte = "B"; // string | None
 $integer = 56; // int | None
 $int32 = 56; // int | None
 $int64 = 789; // int | None
