@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class JavaImportsHelper implements Helper<Map<String, Object>> {
 
-    public static final String NAME = "imports";
+    public static final String NAME = "javaImports";
 
     @Override
     public CharSequence apply(Map<String, Object> templateData, Options options) throws IOException {

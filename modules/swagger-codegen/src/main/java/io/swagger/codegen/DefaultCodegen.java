@@ -3287,7 +3287,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Helper> getHelpers() {
+    public Map<String, Object> getHelpers() {
         // TODO: this class should be abstract
         return null;
     }

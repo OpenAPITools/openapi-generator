@@ -1,24 +1,22 @@
 package io.swagger.codegen.languages.helpers.java;
 
-import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.languages.JavaClientCodegen;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 
-public class ClassDefinitionHelper implements Helper<CodegenModel> {
+public class JavaHelper {
 
-    public static final String NAME = "classDefinition";
+    public static final String NAME = JavaHelper.class.getName();
 
-    @Override
-    public Object apply(CodegenModel codegenModel, Options options) throws IOException {
+    public CharSequence getClassDefinition(CodegenModel codegenModel, Options options) throws IOException {
         final Boolean serializableModel = Boolean.valueOf(String.valueOf(options.get(CodegenConstants.SERIALIZABLE_MODEL)));
         final Boolean parceableModel = Boolean.valueOf(String.valueOf(options.get(JavaClientCodegen.PARCELABLE_MODEL)));
         final StringBuilder builder = new StringBuilder();
-        builder.append("public class ");
         builder.append(codegenModel.classname);
         if (StringUtils.isNotBlank(codegenModel.parent)) {
             builder.append(StringUtils.SPACE);
@@ -32,10 +30,23 @@ public class ClassDefinitionHelper implements Helper<CodegenModel> {
                 builder.append(" implements Serializable");
             }
         }
-        builder.append(" {");
-        if (serializableModel) {
-            builder.append("\n\n\tprivate static final long serialVersionUID = 1L;");
-        }
         return builder.toString();
+    }
+
+    public CharSequence getJavaProperty(CodegenProperty codegenProperty, Options options) throws IOException {
+        final StringBuilder builder = new StringBuilder();
+        if (codegenProperty.isContainer()) {
+            builder.append(codegenProperty.getDatatypeWithEnum());
+            builder.append(StringUtils.SPACE);
+            builder.append(codegenProperty.getName());
+            builder.append(" = ");
+            if (codegenProperty.isRequired()) {
+                builder.append(codegenProperty.getDefaultValue());
+            } else {
+                builder.append("null");
+            }
+            return builder.toString();
+        }
+        return String.format("%s %s = %s", codegenProperty.getDatatypeWithEnum(), codegenProperty.getName(), codegenProperty.getDefaultValue());
     }
 }
