@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 To test code injection */ ' \" =end -- \\r\\n \\n \\r
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -24,7 +24,7 @@ from pprint import pprint
 api_instance = petstore_api.FakeApi()
 test_code_inject____end____rn_n_r = 'test_code_inject____end____rn_n_r_example' # str | To test code injection */ ' \" =end -- \\r\\n \\n \\r (optional)
 
-try: 
+try:
     # To test code injection */ ' \" =end -- \\r\\n \\n \\r
     api_instance.test_code_inject____end__rn_n_r(test_code_inject____end____rn_n_r=test_code_inject____end____rn_n_r)
 except ApiException as e:
