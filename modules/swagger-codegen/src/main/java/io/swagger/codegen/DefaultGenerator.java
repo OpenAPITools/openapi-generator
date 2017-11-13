@@ -984,16 +984,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private com.github.jknack.handlebars.Template getHandlebars(String templateName) throws IOException {
         final TemplateLoader templateLoader = new ClassPathTemplateLoader("/" + config.templateDir(), config.resolveExtension());
         final Handlebars handlebars = new Handlebars(templateLoader);
-        Map<String, Object> helpers = config.getHelpers();
-        if (helpers != null && !helpers.isEmpty()) {
-            for (String key : helpers.keySet()) {
-                if (handlebars instanceof Helper) {
-                    handlebars.registerHelper(key, (Helper) helpers.get(key));
-                } else {
-                    handlebars.registerHelpers(helpers.get(key));
-                }
-            }
-        }
+        handlebars.registerHelpers(config.getHandlebarHelper());
         return handlebars.compile(templateName.replace(config.resolveExtension(), StringUtils.EMPTY));
     }
 }

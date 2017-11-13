@@ -221,5 +221,5 @@ public interface CodegenConfig {
 
     String toGetter(String name);
 
-    Map<String, Object> getHelpers();
+    Object getHandlebarHelper();
 }

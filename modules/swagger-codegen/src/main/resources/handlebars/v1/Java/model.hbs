@@ -2,7 +2,7 @@
 
 package {{package}};
 
-{{javaImports~}}
+{{getJavaImports~}}
 {{#models~}}
 {{#model}}
 {{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>pojo}}{{/isEnum}}

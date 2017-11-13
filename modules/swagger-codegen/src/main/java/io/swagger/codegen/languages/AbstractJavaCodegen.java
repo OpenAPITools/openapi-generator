@@ -5,14 +5,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import io.swagger.codegen.languages.helpers.java.JavaHelper;
-import io.swagger.codegen.languages.helpers.java.JavaImportsHelper;
 import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.oas.models.Operation;
@@ -1277,11 +1275,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public Map<String, Object> getHelpers() {
-        Map<String, Object> helpers = new LinkedHashMap<>();
-        helpers.put(JavaImportsHelper.NAME, new JavaImportsHelper());
-        helpers.put(JavaHelper.NAME, new JavaHelper());
-        return helpers;
+    public Object getHandlebarHelper() {
+        return new JavaHelper();
     }
 
 }
