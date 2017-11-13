@@ -566,7 +566,7 @@ export class PetApi {
                 if (error) {
                     reject(error);
                 } else {
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -622,7 +622,7 @@ export class PetApi {
                 if (error) {
                     reject(error);
                 } else {
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -680,7 +680,7 @@ export class PetApi {
                     reject(error);
                 } else {
                     body = ObjectSerializer.deserialize(body, "Array<Pet>");
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -738,7 +738,7 @@ export class PetApi {
                     reject(error);
                 } else {
                     body = ObjectSerializer.deserialize(body, "Array<Pet>");
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -793,7 +793,7 @@ export class PetApi {
                     reject(error);
                 } else {
                     body = ObjectSerializer.deserialize(body, "Pet");
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -847,7 +847,7 @@ export class PetApi {
                 if (error) {
                     reject(error);
                 } else {
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -911,7 +911,7 @@ export class PetApi {
                 if (error) {
                     reject(error);
                 } else {
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -977,7 +977,7 @@ export class PetApi {
                     reject(error);
                 } else {
                     body = ObjectSerializer.deserialize(body, "ApiResponse");
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -1081,7 +1081,7 @@ export class StoreApi {
                 if (error) {
                     reject(error);
                 } else {
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -1129,7 +1129,7 @@ export class StoreApi {
                     reject(error);
                 } else {
                     body = ObjectSerializer.deserialize(body, "{ [key: string]: number; }");
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -1182,7 +1182,7 @@ export class StoreApi {
                     reject(error);
                 } else {
                     body = ObjectSerializer.deserialize(body, "Order");
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -1235,7 +1235,7 @@ export class StoreApi {
                     reject(error);
                 } else {
                     body = ObjectSerializer.deserialize(body, "Order");
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -1339,7 +1339,7 @@ export class UserApi {
                 if (error) {
                     reject(error);
                 } else {
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -1391,7 +1391,7 @@ export class UserApi {
                 if (error) {
                     reject(error);
                 } else {
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -1443,7 +1443,7 @@ export class UserApi {
                 if (error) {
                     reject(error);
                 } else {
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -1495,7 +1495,7 @@ export class UserApi {
                 if (error) {
                     reject(error);
                 } else {
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -1548,7 +1548,7 @@ export class UserApi {
                     reject(error);
                 } else {
                     body = ObjectSerializer.deserialize(body, "User");
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -1614,7 +1614,7 @@ export class UserApi {
                     reject(error);
                 } else {
                     body = ObjectSerializer.deserialize(body, "string");
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -1659,7 +1659,7 @@ export class UserApi {
                 if (error) {
                     reject(error);
                 } else {
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
@@ -1718,7 +1718,7 @@ export class UserApi {
                 if (error) {
                     reject(error);
                 } else {
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });
