@@ -150,7 +150,6 @@ class ApiClient(object):
             _request_timeout=_request_timeout)
 
         self.last_response = response_data
-{{^tornado}}
 
         return_data = response_data
         if _preload_content:
@@ -160,11 +159,19 @@ class ApiClient(object):
             else:
                 return_data = None
 
+{{^tornado}}
         if _return_http_data_only:
             return (return_data)
         else:
             return (return_data, response_data.status,
                     response_data.getheaders())
+{{/tornado}}
+{{#tornado}}
+        if _return_http_data_only:
+            raise tornado.gen.Return(return_data)
+        else:
+            raise tornado.gen.Return((return_data, response_data.status,
+                                      response_data.getheaders()))
 {{/tornado}}
 
     def sanitize_for_serialization(self, obj):
