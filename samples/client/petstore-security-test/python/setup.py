@@ -3,7 +3,7 @@
 """
     Swagger Petstore */ ' \" =end -- \\r\\n \\n \\r
 
-    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  */ ' \" =end --       
+    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  */ ' \" =end --         # noqa: E501
 
     OpenAPI spec version: 1.0.0 */ ' \" =end -- \\r\\n \\n \\r
     Contact: apiteam@swagger.io */ ' \" =end -- \\r\\n \\n \\r
@@ -11,8 +11,7 @@
 """
 
 
-import sys
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages  # noqa: H301
 
 NAME = "petstore-api"
 VERSION = "1.0.0"
@@ -36,6 +35,6 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     long_description="""\
-    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\  */ &#39; \&quot; &#x3D;end --       
+    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\  */ &#39; \&quot; &#x3D;end --         # noqa: E501
     """
 )
