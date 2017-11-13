@@ -12,6 +12,6 @@
         /// Enum {{name}} for {{{value}}}
         /// </summary>
         [EnumMember(Value = {{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{{value}}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}})]
-        {{name}}{{#isInteger}} = {{{value}}}{{/isInteger}}{{^-last}},
+        {{name}}{{#isInteger}} = {{{value}}}{{/isInteger}}{{^isInteger}} = {{-index}}{{/isInteger}}{{^-last}},
         {{/-last}}{{/enumVars}}{{/allowableValues}}
     }
