@@ -156,6 +156,20 @@ class ApiClient(object):
 
         self.last_response = response_data
 
+        return_data = response_data
+        if _preload_content:
+            # deserialize response data
+            if response_type:
+                return_data = self.deserialize(response_data, response_type)
+            else:
+                return_data = None
+
+        if _return_http_data_only:
+            raise tornado.gen.Return(return_data)
+        else:
+            raise tornado.gen.Return((return_data, response_data.status,
+                                      response_data.getheaders()))
+
     def sanitize_for_serialization(self, obj):
         """Builds a JSON POST object.
 
