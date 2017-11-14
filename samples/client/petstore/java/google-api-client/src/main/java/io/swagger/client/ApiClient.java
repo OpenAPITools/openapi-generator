@@ -4,8 +4,8 @@ import io.swagger.client.api.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-    import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
-    import org.threeten.bp.*;
+import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
+import org.threeten.bp.*;
 import com.google.api.client.googleapis.util.Utils;
 import com.google.api.client.http.AbstractHttpContent;
 import com.google.api.client.http.HttpRequestFactory;
@@ -15,9 +15,6 @@ import com.google.api.client.json.Json;
 
 import java.io.IOException;
 import java.io.OutputStream;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 
 public class ApiClient {
