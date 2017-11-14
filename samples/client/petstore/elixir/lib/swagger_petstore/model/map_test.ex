@@ -12,6 +12,11 @@ defmodule SwaggerPetstore.Model.MapTest do
     :"map_map_of_string",
     :"map_of_enum_string"
   ]
+
+  @type t :: %__MODULE__{
+    :"map_map_of_string" => %{optional(String.t) => %{optional(String.t) => String.t}},
+    :"map_of_enum_string" => %{optional(String.t) => String.t}
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.MapTest do

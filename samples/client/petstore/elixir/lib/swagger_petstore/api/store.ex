@@ -18,7 +18,7 @@ defmodule SwaggerPetstore.Api.Store do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - order_id (String): ID of the order that needs to be deleted
+  - order_id (String.t): ID of the order that needs to be deleted
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -67,7 +67,7 @@ defmodule SwaggerPetstore.Api.Store do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - order_id (Integer): ID of pet that needs to be fetched
+  - order_id (integer()): ID of pet that needs to be fetched
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns

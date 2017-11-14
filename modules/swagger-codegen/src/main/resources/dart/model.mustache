@@ -1,19 +1,7 @@
 part of {{pubName}}.api;
 
-{{#models}}{{#model}}
-@Entity()
-class {{classname}} {
-  {{#vars}}{{#description}}/* {{{description}}} */{{/description}}
-  @Property(name: '{{baseName}}')
-  {{{datatype}}} {{name}} = {{{defaultValue}}};
-  {{#allowableValues}}{{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}{{/allowableValues}}
-  {{/vars}}
-  {{classname}}();
-
-  @override
-  String toString()  {
-    return '{{classname}}[{{#vars}}{{name}}=${{name}}, {{/vars}}]';
-  }
-
-}
-{{/model}}{{/models}}
+{{#models}}
+{{#model}}
+{{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}{{>class}}{{/isEnum}}
+{{/model}}
+{{/models}}

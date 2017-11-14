@@ -14,7 +14,7 @@ public class CodegenParameter {
 
     public String example; // example value (x-example)
     public String jsonSchema;
-    public boolean isString, isNumeric, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid;
+    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid;
     public boolean isListContainer, isMapContainer;
     public boolean isFile, notFile;
     public boolean isEnum;
@@ -138,6 +138,7 @@ public class CodegenParameter {
         output.isLong = this.isLong;
         output.isDouble = this.isDouble;
         output.isFloat = this.isFloat;
+        output.isNumber = this.isNumber;
         output.isBoolean = this.isBoolean;
         output.isDate = this.isDate;
         output.isDateTime = this.isDateTime;
@@ -216,6 +217,8 @@ public class CodegenParameter {
         if (isInteger != that.isInteger)
             return false;
         if (isLong != that.isLong)
+            return false;
+        if (isNumber != that.isNumber)
             return false;
         if (isFloat != that.isFloat)
             return false;
@@ -308,6 +311,7 @@ public class CodegenParameter {
         result = 31 * result + (isInteger ? 13:31);
         result = 31 * result + (isLong ? 13:31);
         result = 31 * result + (isFloat ? 13:31);
+        result = 31 * result + (isNumber ? 13:31);
         result = 31 * result + (isDouble ? 13:31);
         result = 31 * result + (isByteArray ? 13:31);
         result = 31 * result + (isBinary ? 13:31);

@@ -16,8 +16,8 @@
  * This class represents a single item of a multipart-formdata request.
  */
 
-#ifndef HttpContent_H_
-#define HttpContent_H_
+#ifndef IO_SWAGGER_CLIENT_MODEL_HttpContent_H_
+#define IO_SWAGGER_CLIENT_MODEL_HttpContent_H_
 
 
 
@@ -67,4 +67,4 @@ protected:
 }
 }
 
-#endif /* HttpContent_H_ */
+#endif /* IO_SWAGGER_CLIENT_MODEL_HttpContent_H_ */

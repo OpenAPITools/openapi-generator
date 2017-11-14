@@ -328,6 +328,48 @@ public class InlineModelResolverTest {
         ModelImpl impl = (ModelImpl) body;
         assertNotNull(impl.getProperties().get("address"));
     }
+
+    @Test
+    public void resolveInlineBodyParameterWithRequired() throws Exception {
+        Swagger swagger = new Swagger();
+
+        swagger.path("/hello", new Path()
+                .get(new Operation()
+                        .parameter(new BodyParameter()
+                                .name("body")
+                                .schema(new ModelImpl()
+                                        .property("address", new ObjectProperty()
+                                                .property("street", new StringProperty()
+                                                        .required(true))
+                                                .required(true))
+                                        .property("name", new StringProperty())))));
+
+        new InlineModelResolver().flatten(swagger);
+
+        Operation operation = swagger.getPaths().get("/hello").getGet();
+        BodyParameter bp = (BodyParameter)operation.getParameters().get(0);
+        assertTrue(bp.getSchema() instanceof RefModel);
+
+        Model body = swagger.getDefinitions().get("body");
+        assertTrue(body instanceof ModelImpl);
+
+        ModelImpl impl = (ModelImpl) body;
+        assertNotNull(impl.getProperties().get("address"));
+
+        Property addressProperty = impl.getProperties().get("address");
+        assertTrue(addressProperty instanceof RefProperty);
+        assertTrue(addressProperty.getRequired());
+
+        Model helloAddress = swagger.getDefinitions().get("hello_address");
+        assertTrue(helloAddress instanceof ModelImpl);
+
+        ModelImpl addressImpl = (ModelImpl) helloAddress;
+        assertNotNull(addressImpl);
+
+        Property streetProperty = addressImpl.getProperties().get("street");
+        assertTrue(streetProperty instanceof  StringProperty);
+        assertTrue(streetProperty.getRequired());
+    }
     
     @Test
     public void resolveInlineBodyParameterWithTitle() throws Exception {

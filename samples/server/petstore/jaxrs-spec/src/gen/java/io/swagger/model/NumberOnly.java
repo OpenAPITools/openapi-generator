@@ -1,15 +1,17 @@
 package io.swagger.model;
 
 import java.math.BigDecimal;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class NumberOnly   {
+public class NumberOnly  implements Serializable {
   
   private @Valid BigDecimal justNumber = null;
 
@@ -22,6 +24,7 @@ public class NumberOnly   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("JustNumber")
   public BigDecimal getJustNumber() {
     return justNumber;
   }

@@ -17,77 +17,90 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
          */
         setReservedWordsLowerCase(
                 Arrays.asList(
+                        "alignas",
+                        "alignof",
+                        "and",
+                        "and_eq",
+                        "asm",
                         "auto",
+                        "bitand",
+                        "bitor",
+                        "bool",
                         "break",
                         "case",
+                        "catch",
                         "char",
+                        "char16_t",
+                        "char32_t",
+                        "class",
+                        "compl",
+                        "concept",
                         "const",
+                        "constexpr",
+                        "const_cast",
                         "continue",
+                        "decltype",
                         "default",
+                        "delete",
                         "do",
                         "double",
+                        "dynamic_cast",
                         "else",
                         "enum",
+                        "explicit",
+                        "export",
                         "extern",
+                        "false",
                         "float",
                         "for",
+                        "friend",
                         "goto",
                         "if",
+                        "inline",
                         "int",
                         "long",
+                        "mutable",
+                        "namespace",
+                        "new",
+                        "noexcept",
+                        "not",
+                        "not_eq",
+                        "nullptr",
+                        "operator",
+                        "or",
+                        "or_eq",
+                        "private",
+                        "protected",
+                        "public",
                         "register",
+                        "reinterpret_cast",
+                        "requires",
                         "return",
                         "short",
                         "signed",
                         "sizeof",
                         "static",
+                        "static_assert",
+                        "static_cast",
                         "struct",
                         "switch",
-                        "typedef",
-                        "union",
-                        "unsigned",
-                        "void",
-                        "volatile",
-                        "while",
-                        "asm",
-                        "bool",
-                        "catch",
-                        "class",
-                        "const_cast",
-                        "delete",
-                        "dynamic_cast",
-                        "explicit",
-                        "false",
-                        "friend",
-                        "inline",
-                        "mutable",
-                        "namespace",
-                        "new",
-                        "operator",
-                        "private",
-                        "public",
-                        "protected",
-                        "reinterpret_cast",
-                        "static_cast",
                         "template",
                         "this",
+                        "thread_local",
                         "throw",
                         "true",
                         "try",
+                        "typedef",
                         "typeid",
                         "typename",
+                        "union",
+                        "unsigned",
                         "using",
                         "virtual",
+                        "void",
+                        "volatile",
                         "wchar_t",
-                        "and",
-                        "and_eq",
-                        "bitand",
-                        "bitor",
-                        "compl",
-                        "not",
-                        "not_eq",
-                        "or",
-                        "or_eq",
+                        "while",
                         "xor",
                         "xor_eq")
         );
@@ -128,6 +141,15 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    public String toOperationId(String operationId) {
+        if (isReservedWord(operationId)) {
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + escapeReservedWord(operationId));
+            return escapeReservedWord(operationId);
+        }
+        return sanitizeName(super.toOperationId(operationId));
+    }
+
+    @Override
     public String toParamName(String name) {
         return sanitizeName(super.toParamName(name));
     }
@@ -143,5 +165,15 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         }
         property.nameInCamelCase = nameInCamelCase;
         return property;
+    }
+    
+    /**
+     * Output the Getter name for boolean property, e.g. isActive
+     *
+     * @param name the name of the property
+     * @return getter name based on naming convention
+     */
+    public String toBooleanGetter(String name) {
+        return "is" + getterAndSetterCapitalize(name);
     }
 }

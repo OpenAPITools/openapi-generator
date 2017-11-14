@@ -11,6 +11,10 @@ defmodule SwaggerPetstore.Model.NumberOnly do
   defstruct [
     :"JustNumber"
   ]
+
+  @type t :: %__MODULE__{
+    :"JustNumber" => float()
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.NumberOnly do

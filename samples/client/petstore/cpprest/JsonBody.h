@@ -16,8 +16,8 @@
  * This is a JSON http body which can be submitted via http
  */
 
-#ifndef JsonBody_H_
-#define JsonBody_H_
+#ifndef IO_SWAGGER_CLIENT_MODEL_JsonBody_H_
+#define IO_SWAGGER_CLIENT_MODEL_JsonBody_H_
 
 
 #include "IHttpBody.h"
@@ -47,4 +47,4 @@ protected:
 }
 }
 
-#endif /* JsonBody_H_ */
+#endif /* IO_SWAGGER_CLIENT_MODEL_JsonBody_H_ */

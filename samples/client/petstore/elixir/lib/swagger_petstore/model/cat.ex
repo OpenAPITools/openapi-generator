@@ -13,6 +13,12 @@ defmodule SwaggerPetstore.Model.Cat do
     :"color",
     :"declawed"
   ]
+
+  @type t :: %__MODULE__{
+    :"className" => String.t,
+    :"color" => String.t,
+    :"declawed" => boolean()
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.Cat do

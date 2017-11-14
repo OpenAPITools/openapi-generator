@@ -156,28 +156,28 @@ defmodule SwaggerPetstore.Api.Fake do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - number (Float): None
-  - double (Float): None
-  - pattern_without_delimiter (String): None
-  - byte (String): None
+  - number (float()): None
+  - double (float()): None
+  - pattern_without_delimiter (String.t): None
+  - byte (binary()): None
   - opts (KeywordList): [optional] Optional parameters
-    - :integer (Integer): None
-    - :int32 (Integer): None
-    - :int64 (Integer): None
-    - :float (Float): None
-    - :string (String): None
-    - :binary (String): None
-    - :date (DateTime): None
-    - :date_time (DateTime): None
-    - :password (String): None
-    - :callback (String): None
+    - :integer (integer()): None
+    - :int32 (integer()): None
+    - :int64 (integer()): None
+    - :float (float()): None
+    - :string (String.t): None
+    - :binary (binary()): None
+    - :date (Date.t): None
+    - :date_time (DateTime.t): None
+    - :password (String.t): None
+    - :callback (String.t): None
 
   ## Returns
 
   {:ok, %{}} on success
   {:error, info} on failure
   """
-  @spec test_endpoint_parameters(Tesla.Env.client, float(), float(), String.t, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_endpoint_parameters(Tesla.Env.client, float(), float(), String.t, binary(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def test_endpoint_parameters(connection, number, double, pattern_without_delimiter, byte, opts \\ []) do
     optional_params = %{
       :"integer" => :form,
@@ -212,14 +212,14 @@ defmodule SwaggerPetstore.Api.Fake do
 
   - connection (SwaggerPetstore.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
-    - :enum_form_string_array (List[String]): Form parameter enum test (string array)
-    - :enum_form_string (String): Form parameter enum test (string)
-    - :enum_header_string_array (List[String]): Header parameter enum test (string array)
-    - :enum_header_string (String): Header parameter enum test (string)
-    - :enum_query_string_array (List[String]): Query parameter enum test (string array)
-    - :enum_query_string (String): Query parameter enum test (string)
-    - :enum_query_integer (Integer): Query parameter enum test (double)
-    - :enum_query_double (Float): Query parameter enum test (double)
+    - :enum_form_string_array ([String.t]): Form parameter enum test (string array)
+    - :enum_form_string (String.t): Form parameter enum test (string)
+    - :enum_header_string_array ([String.t]): Header parameter enum test (string array)
+    - :enum_header_string (String.t): Header parameter enum test (string)
+    - :enum_query_string_array ([String.t]): Query parameter enum test (string array)
+    - :enum_query_string (String.t): Query parameter enum test (string)
+    - :enum_query_integer (integer()): Query parameter enum test (double)
+    - :enum_query_double (float()): Query parameter enum test (double)
 
   ## Returns
 
@@ -248,14 +248,40 @@ defmodule SwaggerPetstore.Api.Fake do
   end
 
   @doc """
+  test inline additionalProperties
+  
+
+  ## Parameters
+
+  - connection (SwaggerPetstore.Connection): Connection to server
+  - param (Object): request body
+  - opts (KeywordList): [optional] Optional parameters
+
+  ## Returns
+
+  {:ok, %{}} on success
+  {:error, info} on failure
+  """
+  @spec test_inline_additional_properties(Tesla.Env.client, SwaggerPetstore.Model.Object.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_inline_additional_properties(connection, param, _opts \\ []) do
+    %{}
+    |> method(:post)
+    |> url("/fake/inline-additionalProperties")
+    |> add_param(:body, :"param", param)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> decode(false)
+  end
+
+  @doc """
   test json serialization of form data
   
 
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - param (String): field1
-  - param2 (String): field2
+  - param (String.t): field1
+  - param2 (String.t): field2
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns

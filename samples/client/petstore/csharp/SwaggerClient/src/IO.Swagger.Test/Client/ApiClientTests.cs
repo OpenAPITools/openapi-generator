@@ -41,7 +41,7 @@ namespace IO.Swagger.Test
 			Assert.AreEqual("application/xml", api.SelectHeaderContentType (contentTypes));
 
 			contentTypes = new String[] {};
-			Assert.IsNull(api.SelectHeaderContentType (contentTypes));	
+			Assert.AreEqual("application/json", api.SelectHeaderContentType (contentTypes));
 		}
 
 		/// <summary>

@@ -13,6 +13,12 @@ defmodule SwaggerPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
     :"dateTime",
     :"map"
   ]
+
+  @type t :: %__MODULE__{
+    :"uuid" => String.t,
+    :"dateTime" => DateTime.t,
+    :"map" => %{optional(String.t) => Animal}
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do

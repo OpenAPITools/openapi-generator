@@ -17,6 +17,7 @@ import swagger.SwaggerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
+import play.Configuration;
 
 import swagger.SwaggerUtils.ApiAction;
 
@@ -24,10 +25,12 @@ import swagger.SwaggerUtils.ApiAction;
 public class StoreApiController extends Controller {
 
     private final ObjectMapper mapper;
+    private final Configuration configuration;
 
     @Inject
-    private StoreApiController() {
+    private StoreApiController(Configuration configuration) {
         mapper = new ObjectMapper();
+        this.configuration = configuration;
     }
 
 
@@ -50,10 +53,14 @@ public class StoreApiController extends Controller {
     public Result placeOrder() throws Exception {
         JsonNode nodebody = request().body().asJson();
         Order body;
-
-        body = mapper.readValue(nodebody.toString(), Order.class);
-        body.validate();
-
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), Order.class);
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                SwaggerUtils.validate(body);
+            }
+        } else {
+            throw new IllegalArgumentException("'body' parameter is required");
+        }
         return ok();
     }
 }

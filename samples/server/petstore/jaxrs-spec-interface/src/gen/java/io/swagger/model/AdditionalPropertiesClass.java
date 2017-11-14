@@ -3,15 +3,17 @@ package io.swagger.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class AdditionalPropertiesClass   {
+public class AdditionalPropertiesClass  implements Serializable {
   
   private @Valid Map<String, String> mapProperty = new HashMap<String, String>();
   private @Valid Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
@@ -25,6 +27,7 @@ public class AdditionalPropertiesClass   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("map_property")
   public Map<String, String> getMapProperty() {
     return mapProperty;
   }
@@ -41,6 +44,7 @@ public class AdditionalPropertiesClass   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("map_of_map_property")
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }

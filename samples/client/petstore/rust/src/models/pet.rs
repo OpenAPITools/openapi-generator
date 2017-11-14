@@ -10,6 +10,9 @@
 
 /// Pet : A pet for sale in the pet store
 
+#[allow(unused_imports)]
+use serde_json::Value;
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Pet {
   #[serde(rename = "id")]

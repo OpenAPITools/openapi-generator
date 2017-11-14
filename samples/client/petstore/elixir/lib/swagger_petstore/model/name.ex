@@ -14,6 +14,13 @@ defmodule SwaggerPetstore.Model.Name do
     :"property",
     :"123Number"
   ]
+
+  @type t :: %__MODULE__{
+    :"name" => integer(),
+    :"snake_case" => integer(),
+    :"property" => String.t,
+    :"123Number" => integer()
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.Name do

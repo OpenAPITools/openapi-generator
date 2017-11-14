@@ -12,6 +12,11 @@ import Foundation
 
 open class AllPrimitives: Codable {
 
+    public enum MyInlineStringEnum: String, Codable { 
+        case inlinestringenumvalue1 = "inlineStringEnumValue1"
+        case inlinestringenumvalue2 = "inlineStringEnumValue2"
+        case inlinestringenumvalue3 = "inlineStringEnumValue3"
+    }
     public var myInteger: Int?
     public var myIntegerArray: [Int]?
     public var myLong: Int64?
@@ -36,7 +41,35 @@ open class AllPrimitives: Codable {
     public var myUUIDArray: [UUID]?
     public var myStringEnum: StringEnum?
     public var myStringEnumArray: [StringEnum]?
+    public var myInlineStringEnum: MyInlineStringEnum?
 
+
+    public init(myInteger: Int?, myIntegerArray: [Int]?, myLong: Int64?, myLongArray: [Int64]?, myFloat: Float?, myFloatArray: [Float]?, myDouble: Double?, myDoubleArray: [Double]?, myString: String?, myStringArray: [String]?, myBytes: Data?, myBytesArray: [Data]?, myBoolean: Bool?, myBooleanArray: [Bool]?, myDate: Date?, myDateArray: [Date]?, myDateTime: Date?, myDateTimeArray: [Date]?, myFile: URL?, myFileArray: [URL]?, myUUID: UUID?, myUUIDArray: [UUID]?, myStringEnum: StringEnum?, myStringEnumArray: [StringEnum]?) {
+        self.myInteger = myInteger
+        self.myIntegerArray = myIntegerArray
+        self.myLong = myLong
+        self.myLongArray = myLongArray
+        self.myFloat = myFloat
+        self.myFloatArray = myFloatArray
+        self.myDouble = myDouble
+        self.myDoubleArray = myDoubleArray
+        self.myString = myString
+        self.myStringArray = myStringArray
+        self.myBytes = myBytes
+        self.myBytesArray = myBytesArray
+        self.myBoolean = myBoolean
+        self.myBooleanArray = myBooleanArray
+        self.myDate = myDate
+        self.myDateArray = myDateArray
+        self.myDateTime = myDateTime
+        self.myDateTimeArray = myDateTimeArray
+        self.myFile = myFile
+        self.myFileArray = myFileArray
+        self.myUUID = myUUID
+        self.myUUIDArray = myUUIDArray
+        self.myStringEnum = myStringEnum
+        self.myStringEnumArray = myStringEnumArray
+    }
 
     // Encodable protocol methods
 
@@ -68,10 +101,11 @@ open class AllPrimitives: Codable {
         try container.encodeArrayIfPresent(myUUIDArray, forKey: "myUUIDArray")
         try container.encodeIfPresent(myStringEnum, forKey: "myStringEnum")
         try container.encodeArrayIfPresent(myStringEnumArray, forKey: "myStringEnumArray")
+        try container.encodeIfPresent(myInlineStringEnum, forKey: "myInlineStringEnum")
     }
 
     // Decodable protocol methods
-    
+
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
@@ -99,6 +133,7 @@ open class AllPrimitives: Codable {
         myUUIDArray = try container.decodeArrayIfPresent(UUID.self, forKey: "myUUIDArray")
         myStringEnum = try container.decodeIfPresent(StringEnum.self, forKey: "myStringEnum")
         myStringEnumArray = try container.decodeArrayIfPresent(StringEnum.self, forKey: "myStringEnumArray")
+        myInlineStringEnum = try container.decodeIfPresent(MyInlineStringEnum.self, forKey: "myInlineStringEnum")
     }
 }
 

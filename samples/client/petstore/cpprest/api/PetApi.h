@@ -16,8 +16,8 @@
  * 
  */
 
-#ifndef PetApi_H_
-#define PetApi_H_
+#ifndef IO_SWAGGER_CLIENT_API_PetApi_H_
+#define IO_SWAGGER_CLIENT_API_PetApi_H_
 
 
 #include "ApiClient.h"
@@ -113,5 +113,5 @@ protected:
 }
 }
 
-#endif /* PetApi_H_ */
+#endif /* IO_SWAGGER_CLIENT_API_PetApi_H_ */
 

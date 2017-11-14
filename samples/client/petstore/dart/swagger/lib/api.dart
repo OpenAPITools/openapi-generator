@@ -6,6 +6,7 @@ import 'package:http/browser_client.dart';
 import 'package:http/http.dart';
 import 'package:dartson/dartson.dart';
 import 'package:dartson/transformers/date_time.dart';
+import 'package:dartson/type_transformer.dart';
 
 part 'api_client.dart';
 part 'api_helper.dart';
@@ -28,4 +29,3 @@ part 'model/user.dart';
 
 
 ApiClient defaultApiClient = new ApiClient();
-

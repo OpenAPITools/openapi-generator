@@ -4,6 +4,14 @@ package io.swagger.codegen;
  * A class for storing constants that are used throughout the project.
  */
 public class CodegenConstants {
+    public static final String APIS = "apis";
+    public static final String MODELS = "models";
+    public static final String SUPPORTING_FILES = "supportingFiles";
+    public static final String MODEL_TESTS = "modelTests";
+    public static final String MODEL_DOCS = "modelDocs";
+    public static final String API_TESTS = "apiTests";
+    public static final String API_DOCS = "apiDocs";
+
     public static final String API_PACKAGE = "apiPackage";
     public static final String API_PACKAGE_DESC = "package for generated api classes";
 
@@ -146,6 +154,10 @@ public class CodegenConstants {
     public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version.";
 
     public static enum MODEL_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
+    public static enum ENUM_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original, UPPERCASE}
+
+    public static final String ENUM_PROPERTY_NAMING = "enumPropertyNaming";
+    public static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'";
 
     public static final String MODEL_NAME_PREFIX = "modelNamePrefix";
     public static final String MODEL_NAME_PREFIX_DESC = "Prefix that will be prepended to all model names. Default is the empty string.";

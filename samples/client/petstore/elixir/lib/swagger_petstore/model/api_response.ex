@@ -13,6 +13,12 @@ defmodule SwaggerPetstore.Model.ApiResponse do
     :"type",
     :"message"
   ]
+
+  @type t :: %__MODULE__{
+    :"code" => integer(),
+    :"type" => String.t,
+    :"message" => String.t
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.ApiResponse do

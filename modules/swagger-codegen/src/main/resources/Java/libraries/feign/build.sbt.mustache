@@ -10,9 +10,9 @@ lazy val root = (project in file(".")).
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
       "io.swagger" % "swagger-annotations" % "1.5.9" % "compile",
-      "com.netflix.feign" % "feign-core" % "9.4.0" % "compile",
-      "com.netflix.feign" % "feign-jackson" % "9.4.0" % "compile",
-      "com.netflix.feign" % "feign-slf4j" % "9.4.0" % "compile",
+      "io.github.openfeign" % "feign-core" % "9.4.0" % "compile",
+      "io.github.openfeign" % "feign-jackson" % "9.4.0" % "compile",
+      "io.github.openfeign" % "feign-slf4j" % "9.4.0" % "compile",
       "io.github.openfeign.form" % "feign-form" % "2.1.0" % "compile",
       "com.fasterxml.jackson.core" % "jackson-core" % "2.8.7" % "compile",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.8.7" % "compile",

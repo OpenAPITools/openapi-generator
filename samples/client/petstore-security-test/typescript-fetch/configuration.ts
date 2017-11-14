@@ -10,7 +10,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
- 
+
 
 export interface ConfigurationParameters {
     apiKey?: string | ((name: string) => string);

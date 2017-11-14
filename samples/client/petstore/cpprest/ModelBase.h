@@ -16,8 +16,8 @@
  * This is the base class for all model classes
  */
 
-#ifndef ModelBase_H_
-#define ModelBase_H_
+#ifndef IO_SWAGGER_CLIENT_MODEL_ModelBase_H_
+#define IO_SWAGGER_CLIENT_MODEL_ModelBase_H_
 
 
 #include "HttpContent.h"
@@ -63,13 +63,13 @@ public:
     static bool boolFromJson(web::json::value& val);
     static std::shared_ptr<HttpContent> fileFromJson(web::json::value& val);
 
-    static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, const utility::string_t& value, const utility::string_t& contentType = U(""));
-    static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, const utility::datetime& value, const utility::string_t& contentType = U(""));
+    static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, const utility::string_t& value, const utility::string_t& contentType = utility::conversions::to_string_t(""));
+    static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, const utility::datetime& value, const utility::string_t& contentType = utility::conversions::to_string_t(""));
     static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, std::shared_ptr<HttpContent> value );
-    static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, const web::json::value& value, const utility::string_t& contentType = U("application/json") );
-    static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, int32_t value, const utility::string_t& contentType = U("") );
-    static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, int64_t value, const utility::string_t& contentType = U("") );
-    static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, double value, const utility::string_t& contentType = U("") );
+    static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, const web::json::value& value, const utility::string_t& contentType = utility::conversions::to_string_t("application/json") );
+    static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, int32_t value, const utility::string_t& contentType = utility::conversions::to_string_t("") );
+    static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, int64_t value, const utility::string_t& contentType = utility::conversions::to_string_t("") );
+    static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, double value, const utility::string_t& contentType = utility::conversions::to_string_t("") );
 
     static int64_t int64_tFromHttpContent(std::shared_ptr<HttpContent> val);
     static int32_t int32_tFromHttpContent(std::shared_ptr<HttpContent> val);
@@ -90,4 +90,4 @@ public:
 }
 }
 
-#endif /* ModelBase_H_ */
+#endif /* IO_SWAGGER_CLIENT_MODEL_ModelBase_H_ */

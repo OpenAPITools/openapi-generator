@@ -23,28 +23,28 @@ PHP 5.4.0 and later
 
 ## Installation & Usage
 
-To install the bindings via [Composer](http://getcomposer.org/), add the following to `composer.json`:
+To install the dependencies via [Composer](http://getcomposer.org/), add the following repository to `composer.json` of your Symfony project:
 
-```
+```json
 {
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/{{#composerVendorName}}{{.}}{{/composerVendorName}}{{^composerVendorName}}{{gitUserId}}{{/composerVendorName}}/{{#composerProjectName}}{{.}}{{/composerProjectName}}{{^composerProjectName}}{{gitRepoId}}{{/composerProjectName}}.git"
-    }
-  ],
-  "require": {
-    "{{#composerVendorName}}{{.}}{{/composerVendorName}}{{^composerVendorName}}{{gitUserId}}{{/composerVendorName}}/{{#composerProjectName}}{{.}}{{/composerProjectName}}{{^composerProjectName}}{{gitRepoId}}{{/composerProjectName}}": "*@dev"
-  }
+    "repositories": [{
+        "type": "path",
+        "url": "//Path to your generated swagger bundle"
+    }],
 }
 ```
 
-Then run `composer install`
+Then run:
 
+```
+composer require {{#composerVendorName}}{{.}}{{/composerVendorName}}{{^composerVendorName}}{{gitUserId}}{{/composerVendorName}}/{{#composerProjectName}}{{.}}{{/composerProjectName}}{{^composerProjectName}}{{gitRepoId}}{{/composerProjectName}}:dev-master
+```
+
+to add the generated swagger bundle as a dependency.
 
 ## Tests
 
-To run the unit tests:
+To run the unit tests for the generated bundle, first navigate to the directory containing the code, then run the following commands:
 
 ```
 composer install

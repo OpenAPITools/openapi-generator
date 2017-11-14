@@ -14,13 +14,11 @@ public class PetApiControllerImp implements PetApiControllerImpInterface {
     @Override
     public void addPet(Pet body) throws Exception {
         //Do your magic!!!
-        
     }
 
     @Override
     public void deletePet(Long petId, String apiKey) throws Exception {
         //Do your magic!!!
-        
     }
 
     @Override
@@ -44,13 +42,11 @@ public class PetApiControllerImp implements PetApiControllerImpInterface {
     @Override
     public void updatePet(Pet body) throws Exception {
         //Do your magic!!!
-        
     }
 
     @Override
     public void updatePetWithForm(Long petId, String name, String status) throws Exception {
         //Do your magic!!!
-        
     }
 
     @Override

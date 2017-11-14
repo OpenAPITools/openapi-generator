@@ -29,7 +29,7 @@ SWGFakeApi::SWGFakeApi(QString host, QString basePath) {
 }
 
 void
-SWGFakeApi::testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \r(QString* test_code_inject____end____rn_n_r) {
+SWGFakeApi::testCodeInject____end__rn_n_r(QString* test_code_inject____end____rn_n_r) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/fake");
 
@@ -45,16 +45,20 @@ SWGFakeApi::testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \r(QString* test_c
 
 
 
+    foreach(QString key, this->defaultHeaders.keys()) {
+        input.headers.insert(key, this->defaultHeaders.value(key));
+    }
+
     connect(worker,
             &HttpRequestWorker::on_execution_finished,
             this,
-            &SWGFakeApi::testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \rCallback);
+            &SWGFakeApi::testCodeInject____end__rn_n_rCallback);
 
     worker->execute(&input);
 }
 
 void
-SWGFakeApi::testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \rCallback(HttpRequestWorker * worker) {
+SWGFakeApi::testCodeInject____end__rn_n_rCallback(HttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -68,8 +72,12 @@ SWGFakeApi::testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \rCallback(HttpReq
 
     worker->deleteLater();
 
-    emit testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \rSignal();
-    emit testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \rSignalE(error_type, error_str);
+    if (worker->error_type == QNetworkReply::NoError) {
+        emit testCodeInject____end__rn_n_rSignal();
+    } else {
+        emit testCodeInject____end__rn_n_rSignalE(error_type, error_str);
+        emit testCodeInject____end__rn_n_rSignalEFull(worker, error_type, error_str);
+    }
 }
 
 

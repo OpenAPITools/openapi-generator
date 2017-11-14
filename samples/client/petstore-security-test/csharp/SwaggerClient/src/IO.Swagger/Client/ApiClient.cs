@@ -139,14 +139,7 @@ namespace IO.Swagger.Client
 
             if (postBody != null) // http body (model or byte[]) parameter
             {
-                if (postBody.GetType() == typeof(String))
-                {
-                    request.AddParameter("application/json", postBody, ParameterType.RequestBody);
-                }
-                else if (postBody.GetType() == typeof(byte[]))
-                {
-                    request.AddParameter(contentType, postBody, ParameterType.RequestBody);
-                }
+                request.AddParameter(contentType, postBody, ParameterType.RequestBody);
             }
 
             return request;
@@ -352,8 +345,24 @@ namespace IO.Swagger.Client
         }
 
         /// <summary>
+        ///Check if the given MIME is a JSON MIME.
+        ///JSON MIME examples:
+        ///    application/json
+        ///    application/json; charset=UTF8
+        ///    APPLICATION/JSON
+        ///    application/vnd.company+json
+        /// </summary>
+        /// <param name="mime">MIME</param>
+        /// <returns>Returns True if MIME type is json.</returns>
+        public bool IsJsonMime(String mime)
+        {
+            var jsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+            return mime != null && (jsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json"));
+        }
+
+        /// <summary>
         /// Select the Content-Type header's value from the given content-type array:
-        /// if JSON exists in the given array, use it;
+        /// if JSON type exists in the given array, use it;
         /// otherwise use the first one defined in 'consumes'
         /// </summary>
         /// <param name="contentTypes">The Content-Type array to select from.</param>
@@ -361,10 +370,13 @@ namespace IO.Swagger.Client
         public String SelectHeaderContentType(String[] contentTypes)
         {
             if (contentTypes.Length == 0)
-                return null;
-
-            if (contentTypes.Contains("application/json", StringComparer.OrdinalIgnoreCase))
                 return "application/json";
+
+            foreach (var contentType in contentTypes)
+            {
+                if (IsJsonMime(contentType.ToLower()))
+                    return contentType;
+            }
 
             return contentTypes[0]; // use the first content type specified in 'consumes'
         }

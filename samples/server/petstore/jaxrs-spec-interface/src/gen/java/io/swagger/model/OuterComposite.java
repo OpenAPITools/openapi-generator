@@ -1,15 +1,17 @@
 package io.swagger.model;
 
 import java.math.BigDecimal;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class OuterComposite   {
+public class OuterComposite  implements Serializable {
   
   private @Valid BigDecimal myNumber = null;
   private @Valid String myString = null;
@@ -24,6 +26,7 @@ public class OuterComposite   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("my_number")
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -40,6 +43,7 @@ public class OuterComposite   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("my_string")
   public String getMyString() {
     return myString;
   }
@@ -56,6 +60,7 @@ public class OuterComposite   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("my_boolean")
   public Boolean getMyBoolean() {
     return myBoolean;
   }

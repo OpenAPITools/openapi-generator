@@ -53,10 +53,10 @@ sub new {
 #
 # To test code injection */ ' \" =_end -- \\r\\n \\n \\r
 # 
-# @param string $test code inject */ &#39; &quot; &#x3D;end __ \r\n \n \r To test code injection */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r (optional)
+# @param string $test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r To test code injection */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r (optional)
 {
     my $params = {
-    'test code inject */ &#39; &quot; &#x3D;end __ \r\n \n \r' => {
+    'test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r' => {
         data_type => 'string',
         description => 'To test code injection */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r',
         required => '0',
@@ -89,8 +89,8 @@ sub test_code_inject____end__rn_n_r {
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json', '*/  \" =_end --       ');
 
     # form params
-    if ( exists $args{'test code inject */ &#39; &quot; &#x3D;end __ \r\n \n \r'} ) {
-                $form_params->{'test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r'} = $self->{api_client}->to_form_value($args{'test code inject */ &#39; &quot; &#x3D;end __ \r\n \n \r'});
+    if ( exists $args{'test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r'} ) {
+                $form_params->{'test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r'} = $self->{api_client}->to_form_value($args{'test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r'});
     }
     
     my $_body_data;

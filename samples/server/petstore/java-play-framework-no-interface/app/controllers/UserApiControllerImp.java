@@ -14,25 +14,21 @@ public class UserApiControllerImp  {
     
     public void createUser(User body) throws Exception {
         //Do your magic!!!
-        
     }
 
     
     public void createUsersWithArrayInput(List<User> body) throws Exception {
         //Do your magic!!!
-        
     }
 
     
     public void createUsersWithListInput(List<User> body) throws Exception {
         //Do your magic!!!
-        
     }
 
     
     public void deleteUser(String username) throws Exception {
         //Do your magic!!!
-        
     }
 
     
@@ -50,13 +46,11 @@ public class UserApiControllerImp  {
     
     public void logoutUser() throws Exception {
         //Do your magic!!!
-        
     }
 
     
     public void updateUser(String username, User body) throws Exception {
         //Do your magic!!!
-        
     }
 
 }

@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { Configuration } from './configuration';
@@ -11,13 +11,22 @@ import { UserService } from './api/user.service';
   imports:      [ CommonModule, HttpModule ],
   declarations: [],
   exports:      [],
-  providers:    [ PetService, StoreService, UserService ]
+  providers: [
+    PetService,
+    StoreService,
+    UserService ]
 })
 export class ApiModule {
-    public static forConfig(configurationFactory: () => Configuration): ModuleWithProviders {
+    public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders {
         return {
             ngModule: ApiModule,
-            providers: [ {provide: Configuration, useFactory: configurationFactory}]
+            providers: [ { provide: Configuration, useFactory: configurationFactory } ]
+        }
+    }
+
+    constructor( @Optional() @SkipSelf() parentModule: ApiModule) {
+        if (parentModule) {
+            throw new Error('ApiModule is already loaded. Import your base AppModule only.');
         }
     }
 }

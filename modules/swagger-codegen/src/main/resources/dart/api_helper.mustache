@@ -38,6 +38,14 @@ String _parameterToString(dynamic value) {
     return '';
   } else if (value is DateTime) {
     return value.toUtc().toIso8601String();
+  {{#models}}
+    {{#model}}
+      {{#isEnum}}
+  } else if (value is {{classname}}) {
+    return new {{classname}}TypeTransformer().encode(value).toString();
+      {{/isEnum}}
+    {{/model}}
+  {{/models}}
   } else {
     return value.toString();
   }

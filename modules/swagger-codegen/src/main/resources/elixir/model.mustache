@@ -9,6 +9,11 @@
     {{#vars}}:"{{baseName}}"{{#hasMore}},
     {{/hasMore}}{{/vars}}
   ]
+
+  @type t :: %__MODULE__{
+    {{#vars}}:"{{baseName}}" => {{{datatype}}}{{#hasMore}},
+    {{/hasMore}}{{/vars}}
+  }
 end
 
 defimpl Poison.Decoder, for: {{moduleName}}.Model.{{classname}} do

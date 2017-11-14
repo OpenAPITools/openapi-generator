@@ -11,6 +11,10 @@ defmodule SwaggerPetstore.Model.ArrayOfArrayOfNumberOnly do
   defstruct [
     :"ArrayArrayNumber"
   ]
+
+  @type t :: %__MODULE__{
+    :"ArrayArrayNumber" => [[float()]]
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.ArrayOfArrayOfNumberOnly do

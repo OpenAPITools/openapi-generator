@@ -11,6 +11,10 @@ defmodule SwaggerPetstore.Model.OuterEnum do
   defstruct [
     
   ]
+
+  @type t :: %__MODULE__{
+    
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.OuterEnum do

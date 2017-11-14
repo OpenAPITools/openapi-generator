@@ -16,7 +16,7 @@ class ApiClient {
   Map<String, Authentication> _authentications = {};
 
   final dson = new Dartson.JSON()
-                   ..addTransformer(new DateTimeParser(), DateTime);
+      ..addTransformer(new DateTimeParser(), DateTime);
 
   final _RegList = new RegExp(r'^List<(.*)>$');
   final _RegMap = new RegExp(r'^Map<String,(.*)>$');
@@ -121,7 +121,7 @@ class ApiClient {
     headerParams['Content-Type'] = contentType;
 
     if(body is MultipartRequest) {
-      var request = new MultipartRequest(method, Uri.parse(url));      
+      var request = new MultipartRequest(method, Uri.parse(url));
       request.fields.addAll(body.fields);
       request.files.addAll(body.files);
       request.headers.addAll(body.headers);
@@ -146,7 +146,7 @@ class ApiClient {
   }
 
   /// Update query and header parameters based on authentication settings.
-  /// @param authNames The authentications to apply  
+  /// @param authNames The authentications to apply
   void _updateParamsForAuth(List<String> authNames, List<QueryParam> queryParams, Map<String, String> headerParams) {
     authNames.forEach((authName) {
       Authentication auth = _authentications[authName];

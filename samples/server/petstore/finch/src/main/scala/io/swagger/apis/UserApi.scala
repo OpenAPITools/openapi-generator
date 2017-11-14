@@ -97,7 +97,7 @@ object UserApi {
         * @return And endpoint representing a String
         */
         private def loginUser(da: DataAccessor): Endpoint[String] =
-        get("user" :: "login"  :: string :: string) { (username: String, password: String) => 
+        get("user" :: "login"  :: param("username") :: param("password")) { (username: String, password: String) => 
                 Ok(da.User_loginUser(username, password))
         } handle {
           case e: Exception => BadRequest(e)

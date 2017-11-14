@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
+import play.Configuration;
 {{/useBeanValidation}}
 
 {{#wrapCalls}}
@@ -35,13 +36,19 @@ public class {{classname}}Controller extends Controller {
     private final {{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp;
     {{/controllerOnly}}
     private final ObjectMapper mapper;
+    {{#useBeanValidation}}
+    private final Configuration configuration;
+    {{/useBeanValidation}}
 
     @Inject
-    private {{classname}}Controller({{^controllerOnly}}{{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp{{/controllerOnly}}) {
+    private {{classname}}Controller({{#useBeanValidation}}Configuration configuration{{^controllerOnly}}, {{/controllerOnly}}{{/useBeanValidation}}{{^controllerOnly}}{{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp{{/controllerOnly}}) {
         {{^controllerOnly}}
         this.imp = imp;
         {{/controllerOnly}}
         mapper = new ObjectMapper();
+        {{#useBeanValidation}}
+        this.configuration = configuration;
+        {{/useBeanValidation}}
     }
 
 {{#operation}}
@@ -52,25 +59,44 @@ public class {{classname}}Controller extends Controller {
         {{^collectionFormat}}
         JsonNode node{{paramName}} = request().body().asJson();
         {{{dataType}}} {{paramName}};
-        {{^required}}
         if (node{{paramName}} != null) {
-            {{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isContainer}}new TypeReference<{{{dataType}}}>(){}{{/isContainer}}{{^isContainer}}{{{dataType}}}.class{{/isContainer}});{{/required}}
-        {{#required}}{{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isContainer}}new TypeReference<{{{dataType}}}>(){}{{/isContainer}}{{^isContainer}}{{{dataType}}}.class{{/isContainer}});{{/required}}{{#useBeanValidation}}
-        {{#isListContainer}}for ({{{baseType}}} curItem : {{paramName}}) {
-            curItem.validate();
-        }{{/isListContainer}}{{#isMapContainer}}for (Map.Entry<String, {{{baseType}}}> entry : {{paramName}}.entrySet()) {
-            entry.getValue().validate();
-        }
-        {{/isMapContainer}}{{^isContainer}}{{paramName}}.validate();{{/isContainer}}{{/useBeanValidation}}
-        {{^required}}
+            {{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isContainer}}new TypeReference<{{{dataType}}}>(){}{{/isContainer}}{{^isContainer}}{{{dataType}}}.class{{/isContainer}});
+            {{#useBeanValidation}}
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                {{#isListContainer}}
+                for ({{{baseType}}} curItem : {{paramName}}) {
+                    SwaggerUtils.validate(curItem);
+                }
+                {{/isListContainer}}
+                {{#isMapContainer}}
+                for (Map.Entry<String, {{{baseType}}}> entry : {{paramName}}.entrySet()) {
+                    SwaggerUtils.validate(entry.getValue());
+                }
+                {{/isMapContainer}}
+                {{^isContainer}}
+                SwaggerUtils.validate({{paramName}});
+                {{/isContainer}}
+            }
+            {{/useBeanValidation}}
         } else {
+            {{#required}}
+            throw new IllegalArgumentException("'{{baseName}}' parameter is required");
+            {{/required}}
+            {{^required}}
             {{paramName}} = null;
-        }{{/required}}
+            {{/required}}
+        }
         {{/collectionFormat}}
         {{/bodyParams}}
         {{#queryParams}}
         {{#collectionFormat}}
-        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", request().queryString().get("{{baseName}}"));
+        String[] {{paramName}}Array = request().queryString().get("{{baseName}}");
+        {{#required}}
+        if ({{paramName}}Array == null) {
+            throw new IllegalArgumentException("'{{baseName}}' parameter is required");
+        }
+        {{/required}}
+        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
             //noinspection UseBulkOperation
@@ -80,14 +106,16 @@ public class {{classname}}Controller extends Controller {
         {{^collectionFormat}}
         String value{{paramName}} = request().getQueryString("{{baseName}}");
         {{{dataType}}} {{paramName}};
-        {{^required}}
         if (value{{paramName}} != null) {
-            {{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};{{/required}}
-        {{#required}}{{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};{{/required}}
-        {{^required}}
+            {{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};
         } else {
+            {{#required}}
+            throw new IllegalArgumentException("'{{baseName}}' parameter is required");
+            {{/required}}
+            {{^required}}
             {{paramName}} = {{>paramDefaultValue}};
-        }{{/required}}
+            {{/required}}
+        }
         {{/collectionFormat}}
         {{/queryParams}}
         {{#formParams}}
@@ -95,13 +123,19 @@ public class {{classname}}Controller extends Controller {
         {{{dataType}}} {{paramName}} = request().body().asMultipartFormData().getFile("{{baseName}}");
         {{#required}}
         if (({{paramName}} == null || ((File) {{paramName}}.getFile()).length() == 0)) {
-            throw new RuntimeException("File cannot be empty");
+            throw new IllegalArgumentException("'{{baseName}}' file cannot be empty");
         }
         {{/required}}
         {{/notFile}}
         {{#notFile}}
         {{#collectionFormat}}
-        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", request().body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}"));
+        String[] {{paramName}}Array = request().body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}");
+        {{#required}}
+        if ({{paramName}}Array == null) {
+            throw new IllegalArgumentException("'{{baseName}}' parameter is required");
+        }
+        {{/required}}
+        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
             //noinspection UseBulkOperation
@@ -111,20 +145,28 @@ public class {{classname}}Controller extends Controller {
         {{^collectionFormat}}
         String value{{paramName}} = (request().body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}"))[0];
         {{{dataType}}} {{paramName}};
-        {{^required}}
         if (value{{paramName}} != null) {
-            {{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};{{/required}}
-        {{#required}}{{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};{{/required}}
-        {{^required}}
+            {{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};
         } else {
+            {{#required}}
+            throw new IllegalArgumentException("'{{baseName}}' parameter is required");
+            {{/required}}
+            {{^required}}
             {{paramName}} = {{>paramDefaultValue}};
-        }{{/required}}
+            {{/required}}
+        }
         {{/collectionFormat}}
         {{/notFile}}
         {{/formParams}}
         {{#headerParams}}
         {{#collectionFormat}}
-        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", request().headers().get("{{baseName}}"));
+        String[] {{paramName}}Array = request().headers().get("{{baseName}}");
+        {{#required}}
+        if ({{paramName}}Array == null) {
+            throw new IllegalArgumentException("'{{baseName}}' parameter is required");
+        }
+        {{/required}}
+        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
             //noinspection UseBulkOperation
@@ -134,24 +176,43 @@ public class {{classname}}Controller extends Controller {
         {{^collectionFormat}}
         String value{{paramName}} = request().getHeader("{{baseName}}");
         {{{dataType}}} {{paramName}};
-        {{^required}}
         if (value{{paramName}} != null) {
-            {{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};{{/required}}
-        {{#required}}{{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};{{/required}}
-        {{^required}}
+            {{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};
         } else {
+            {{#required}}
+            throw new IllegalArgumentException("'{{baseName}}' parameter is required");
+            {{/required}}
+            {{^required}}
             {{paramName}} = {{>paramDefaultValue}};
-        }{{/required}}
+            {{/required}}
+        }
         {{/collectionFormat}}
         {{/headerParams}}
         {{^controllerOnly}}
-        {{#returnType}}{{>returnTypesNoVoid}} obj = {{/returnType}}imp.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}{{^isResponseFile}}{{^returnTypeIsPrimitive}}{{#useBeanValidation}}
-        {{#isListContainer}}for ({{{returnType}}} curItem : obj) {
-            curItem.validate();
-        }{{/isListContainer}}{{#isMapContainer}}for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
-            entry.getValue().validate();
+        {{#returnType}}{{>returnTypesNoVoid}} obj = {{/returnType}}imp.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{#returnType}}
+        {{^isResponseFile}}
+        {{^returnTypeIsPrimitive}}
+        {{#useBeanValidation}}
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            {{#isListContainer}}
+            for ({{{returnType}}} curItem : obj) {
+                SwaggerUtils.validate(curItem);
+            }
+            {{/isListContainer}}
+            {{#isMapContainer}}
+            for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
+                SwaggerUtils.validate(entry.getValue());
+            }
+            {{/isMapContainer}}
+            {{^returnContainer}}
+            SwaggerUtils.validate(obj);
+            {{/returnContainer}}
         }
-        {{/isMapContainer}}{{^returnContainer}}obj.validate();{{/returnContainer}}{{/useBeanValidation}}{{/returnTypeIsPrimitive}}{{/isResponseFile}}{{/returnType}}
+        {{/useBeanValidation}}
+        {{/returnTypeIsPrimitive}}
+        {{/isResponseFile}}
+        {{/returnType}}
         {{#returnType}}
         {{^isResponseFile}}JsonNode result = mapper.valueToTree(obj);
         return ok(result);

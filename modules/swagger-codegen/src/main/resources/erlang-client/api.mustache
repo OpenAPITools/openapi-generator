@@ -1,0 +1,48 @@
+-module({{classname}}_api).
+
+-export([{{#operations}}{{#operation}}{{^-first}},
+         {{/-first}}{{operationId}}/{{#length}}{{allParams}}{{/length}}{{/operation}}{{/operations}}]).
+
+-define(BASE_URL, <<"{{{basePath}}}">>).
+
+{{#operations}}
+    {{#operation}}
+%% @doc {{summary}}
+{{^notes.isEmpty}}
+%% {{notes}}
+{{/notes.isEmpty}}
+-spec {{operationId}}({{#allParams}}{{^-first}}, {{/-first}}{{dataType}}{{/allParams}}) -> {{#returnType}}{ok, list(), {{returnType}}} | {error, string()}{{/returnType}}{{^returnType}}ok | {error, integer()}{{/returnType}}.
+{{operationId}}({{#allParams}}{{^-first}}, {{/-first}}{{paramName}}{{/allParams}}) ->
+    Method = {{httpMethod}},
+    Path = ["{{{replacedPathName}}}"],
+    QS = {{#queryParams.isEmpty}}[]{{/queryParams.isEmpty}}{{^queryParams.isEmpty}}lists:flatten([{{#queryParams}}{{^-first}}, {{/-first}}{{#qsEncode}}{{this}}{{/qsEncode}}{{/queryParams}}]){{/queryParams.isEmpty}},
+    Headers = [{{^headerParams.isEmpty}}{{#headerParams}}{{^-first}}, {{/-first}}{<<"{{baseName}}">>, {{paramName}}}{{/headerParams}}{{/headerParams.isEmpty}}],
+    Body1 = {{^formParams.isEmpty}}{form, [{{#formParams}}{{^-first}}, {{/-first}}{<<"{{baseName}}">>, {{paramName}}}{{/formParams}}]}{{/formParams.isEmpty}}{{#formParams.isEmpty}}{{#bodyParams.isEmpty}}[]{{/bodyParams.isEmpty}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/bodyParams.isEmpty}}{{/formParams.isEmpty}},
+    Opts = [],
+    Url = hackney_url:make_url(?BASE_URL, Path, QS),
+
+    case hackney:request(Method, Url, Headers, Body1, Opts) of
+{{#returnType}}
+        {{#responses}}
+{{#isDefault}}
+        {ok, {{code}}, RespHeaders, ClientRef} ->
+            {ok, Body} = hackney:body(ClientRef),
+            {ok, RespHeaders, jsx:decode(Body, [returns_maps, {labels, attempt_atom}])}{{#hasMore}}; {{/hasMore}}
+{{/isDefault}}
+{{^isDefault}}
+        {ok, {{code}}, _RespHeaders, _ClientRef} ->
+            {error, "{{message}}"}{{#hasMore}}; {{/hasMore}}
+{{/isDefault}}
+        {{/responses}}
+{{/returnType}}
+{{^returnType}}
+        {ok, 200, _RespHeaders, _ClientRef} ->
+             ok;
+        {ok, Status, _RespHeaders, _ClientRef} ->
+             {error, Status}
+{{/returnType}}
+    end.
+
+    {{/operation}}
+
+{{/operations}}

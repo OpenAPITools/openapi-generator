@@ -1,14 +1,16 @@
 package io.swagger.model;
 
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class SpecialModelName   {
+public class SpecialModelName  implements Serializable {
   
   private @Valid Long specialPropertyName = null;
 
@@ -21,6 +23,7 @@ public class SpecialModelName   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("$special[property.name]")
   public Long getSpecialPropertyName() {
     return specialPropertyName;
   }

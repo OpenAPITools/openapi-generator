@@ -9,7 +9,6 @@ import java.util.Objects;
 
 import io.swagger.models.ExternalDocs;
 
-
 public class CodegenModel {
     public String parent, parentSchema;
     public List<String> interfaces;

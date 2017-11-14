@@ -8,6 +8,8 @@ Module : {{title}}.Model
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveTraversable #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
@@ -17,33 +19,32 @@ Module : {{title}}.Model
 
 module {{title}}.Model where
 
+import {{title}}.Core
+import {{title}}.MimeTypes
+
 import Data.Aeson ((.:),(.:!),(.:?),(.=))
 
+import qualified Control.Arrow as P (left)
 import qualified Data.Aeson as A
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as BL
-import qualified Data.ByteString.Base64.Lazy as BL64
 import qualified Data.Data as P (Data, Typeable)
+import qualified Data.Foldable as P
 import qualified Data.HashMap.Lazy as HM
 import qualified Data.Map as Map
-import qualified Data.Set as Set
 import qualified Data.Maybe as P
-import qualified Data.Foldable as P
-import qualified Web.FormUrlEncoded as WH
-import qualified Web.HttpApiData as WH
-import qualified Control.DeepSeq as NF
-import qualified Data.Ix as P
+import qualified Data.Set as Set
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
-import qualified Control.Arrow as P (left)
-import Data.Text (Text)
-
 import qualified Data.Time as TI
-import qualified Data.Time.ISO8601 as TI
+import qualified Web.FormUrlEncoded as WH
+import qualified Web.HttpApiData as WH
 
 import Control.Applicative ((<|>))
 import Control.Applicative (Alternative)
-import Prelude (($), (.),(<$>),(<*>),(>>=),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
+import Data.Text (Text)
+import Prelude (($), (.),(<$>),(<*>),(>>=),(=<<),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
+
 import qualified Prelude as P
 
 
@@ -53,20 +54,21 @@ import qualified Prelude as P
 -- * Models
 
 {{#models}}
-{{#model}}
-
+{{#model}}{{^isEnum}}
 -- ** {{classname}}
 -- | {{classname}}{{#title}}
 -- {{{.}}}
 -- {{/title}}{{#description}}
--- {{{.}}}{{/description}}
+-- {{{.}}}{{/description}}{{#isAlias}}
+newtype {{classname}} = {{classname}}
+  { un{{classname}} :: {{{vendorExtensions.x-dataType}}}
+  } deriving (P.Eq, P.Show, P.Typeable, A.ToJSON, A.FromJSON, WH.ToHttpApiData, WH.FromHttpApiData{{#modelDeriving}}, {{modelDeriving}}{{/modelDeriving}}){{/isAlias}}{{^isAlias}}
 data {{classname}} = {{classname}}
-  { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{datatype}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#readOnly}}/ReadOnly/ {{/readOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{#hasMore}}
+  { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#readOnly}}/ReadOnly/ {{/readOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}
-  } deriving (P.Show,P.Eq,P.Typeable{{#modelDeriving}},{{modelDeriving}}{{/modelDeriving}})
+  } deriving (P.Show, P.Eq, P.Typeable{{#modelDeriving}}, {{modelDeriving}}{{/modelDeriving}}){{/isAlias}}
 
-
--- | FromJSON {{classname}}
+{{^isAlias}}-- | FromJSON {{classname}}
 instance A.FromJSON {{classname}} where
   parseJSON = A.withObject "{{classname}}" $ \o ->
     {{^hasVars}}pure {{/hasVars}}{{classname}}
@@ -101,152 +103,40 @@ instance WH.ToForm {{classname}} where
 {{#generateModelConstructors}}
 -- | Construct a value of type '{{classname}}' (by applying it's required fields, if any)
 mk{{classname}}
-  :: {{#requiredVars}}{{{datatype}}} -- ^ '{{name}}'{{#description}}:{{/description}} {{{description}}}
+  :: {{#requiredVars}}{{{vendorExtensions.x-dataType}}} -- ^ '{{name}}'{{#description}}:{{/description}} {{{description}}}
   -> {{/requiredVars}}{{classname}}
 mk{{classname}} {{#requiredVars}}{{name}} {{/requiredVars}}=
   {{classname}}
   { {{#vars}}{{#required}}{{name}}{{/required}}{{^required}}{{name}} = {{#isListContainer}}Nothing{{/isListContainer}}{{#isMapContainer}}Nothing{{/isMapContainer}}{{^isContainer}}Nothing{{/isContainer}}{{/required}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}
   }
-{{/generateModelConstructors}}
-  
-{{/model}}
-{{/models}}
+{{/generateModelConstructors}}{{/isAlias}}{{/isEnum}}{{/model}}{{/models}}
 
--- * Utils
+{{#x-hasEnumSection}}-- * Enums
+{{#x-allUniqueParams}}{{#x-enum}}
 
--- | Removes Null fields.  (OpenAPI-Specification 2.0 does not allow Null in JSON)
-_omitNulls :: [(Text, A.Value)] -> A.Value
-_omitNulls = A.object . P.filter notNull
-  where
-    notNull (_, A.Null) = False
-    notNull _ = True
+-- ** {{{x-paramNameType}}}
 
--- | Encodes fields using WH.toQueryParam
-_toFormItem :: (WH.ToHttpApiData a, Functor f) => t -> f a -> f (t, [Text])
-_toFormItem name x = (name,) . (:[]) . WH.toQueryParam <$> x
+-- | Enum of '{{{x-dataType}}}'{{#description}} . 
+-- {{{.}}}{{/description}}
+data {{{x-paramNameType}}}
+  = {{#allowableValues}}{{#enumVars}}{{{name}}} -- ^ @{{{value}}}@
+  {{^-last}}| {{/-last}}{{#-last}}deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum){{/-last}}{{/enumVars}}{{/allowableValues}}
 
--- | Collapse (Just "") to Nothing
-_emptyToNothing :: Maybe String -> Maybe String
-_emptyToNothing (Just "") = Nothing
-_emptyToNothing x = x
-{-# INLINE _emptyToNothing #-}
+instance A.ToJSON {{{x-paramNameType}}} where toJSON = A.toJSON . from{{{x-paramNameType}}}
+instance A.FromJSON {{{x-paramNameType}}} where parseJSON o = P.either P.fail (pure . P.id) . to{{{x-paramNameType}}} =<< A.parseJSON o
+instance WH.ToHttpApiData {{{x-paramNameType}}} where toQueryParam = WH.toQueryParam . from{{{x-paramNameType}}}
+instance WH.FromHttpApiData {{{x-paramNameType}}} where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . to{{{x-paramNameType}}}
+instance MimeRender MimeMultipartFormData {{{x-paramNameType}}} where mimeRender _ = mimeRenderDefaultMultipartFormData
 
--- | Collapse (Just mempty) to Nothing
-_memptyToNothing :: (P.Monoid a, P.Eq a) => Maybe a -> Maybe a
-_memptyToNothing (Just x) | x P.== P.mempty = Nothing
-_memptyToNothing x = x
-{-# INLINE _memptyToNothing #-}
+-- | unwrap '{{{x-paramNameType}}}' enum
+from{{{x-paramNameType}}} :: {{{x-paramNameType}}} -> {{{x-dataType}}}
+from{{{x-paramNameType}}} = \case{{#allowableValues}}{{#enumVars}}
+  {{{name}}} -> {{{value}}}{{/enumVars}}{{/allowableValues}}
 
--- * DateTime Formatting
-
-newtype DateTime = DateTime { unDateTime :: TI.UTCTime }
-  deriving (P.Eq,P.Data,P.Ord,P.Typeable,NF.NFData,TI.ParseTime,TI.FormatTime)
-instance A.FromJSON DateTime where
-  parseJSON = A.withText "DateTime" (_readDateTime . T.unpack)
-instance A.ToJSON DateTime where
-  toJSON (DateTime t) = A.toJSON (_showDateTime t)
-instance WH.FromHttpApiData DateTime where
-  parseUrlPiece = P.left T.pack . _readDateTime . T.unpack
-instance WH.ToHttpApiData DateTime where
-  toUrlPiece (DateTime t) = T.pack (_showDateTime t)
-instance P.Show DateTime where
-  show (DateTime t) = _showDateTime t
-
--- | @{{^dateTimeFormat}}_parseISO8601{{/dateTimeFormat}}{{#dateTimeFormat}}TI.parseTimeM True TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}@
-_readDateTime :: (TI.ParseTime t, Monad m, {{^dateTimeFormat}}Alternative m{{/dateTimeFormat}}) => String -> m t
-_readDateTime =
-  {{^dateTimeFormat}}_parseISO8601{{/dateTimeFormat}}{{#dateTimeFormat}}TI.parseTimeM True TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}
-{-# INLINE _readDateTime #-}
-
--- | @{{^dateTimeFormat}}TI.formatISO8601Millis{{/dateTimeFormat}}{{#dateTimeFormat}}TI.formatTime TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}@
-_showDateTime :: ({{^dateTimeFormat}}t ~ TI.UTCTime, {{/dateTimeFormat}}TI.FormatTime t) => t -> String
-_showDateTime =
-  {{^dateTimeFormat}}TI.formatISO8601Millis{{/dateTimeFormat}}{{#dateTimeFormat}}TI.formatTime TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}
-{-# INLINE _showDateTime #-}
-
--- | parse an ISO8601 date-time string
-_parseISO8601 :: (TI.ParseTime t, Monad m, Alternative m) => String -> m t
-_parseISO8601 t =
-  P.asum $
-  P.flip (TI.parseTimeM True TI.defaultTimeLocale) t <$>
-  ["%FT%T%QZ", "%FT%T%Q%z", "%FT%T%Q%Z"]
-{-# INLINE _parseISO8601 #-}
-
--- * Date Formatting
-
-newtype Date = Date { unDate :: TI.Day }
-  deriving (P.Enum,P.Eq,P.Data,P.Ord,P.Ix,NF.NFData,TI.ParseTime,TI.FormatTime)
-instance A.FromJSON Date where
-  parseJSON = A.withText "Date" (_readDate . T.unpack)
-instance A.ToJSON Date where
-  toJSON (Date t) = A.toJSON (_showDate t)
-instance WH.FromHttpApiData Date where
-  parseUrlPiece = P.left T.pack . _readDate . T.unpack
-instance WH.ToHttpApiData Date where
-  toUrlPiece (Date t) = T.pack (_showDate t)
-instance P.Show Date where
-  show (Date t) = _showDate t
-
--- | @TI.parseTimeM True TI.defaultTimeLocale "{{{dateFormat}}}"@
-_readDate :: (TI.ParseTime t, Monad m) => String -> m t
-_readDate =
-  TI.parseTimeM True TI.defaultTimeLocale "{{{dateFormat}}}"
-{-# INLINE _readDate #-}
-
--- | @TI.formatTime TI.defaultTimeLocale "{{{dateFormat}}}"@
-_showDate :: TI.FormatTime t => t -> String
-_showDate =
-  TI.formatTime TI.defaultTimeLocale "{{{dateFormat}}}"
-{-# INLINE _showDate #-}
-
--- * Byte/Binary Formatting
-
-  
--- | base64 encoded characters
-newtype ByteArray = ByteArray { unByteArray :: BL.ByteString }
-  deriving (P.Eq,P.Data,P.Ord,P.Typeable,NF.NFData)
-
-instance A.FromJSON ByteArray where
-  parseJSON = A.withText "ByteArray" _readByteArray
-instance A.ToJSON ByteArray where
-  toJSON = A.toJSON . _showByteArray
-instance WH.FromHttpApiData ByteArray where
-  parseUrlPiece = P.left T.pack . _readByteArray
-instance WH.ToHttpApiData ByteArray where
-  toUrlPiece = _showByteArray
-instance P.Show ByteArray where
-  show = T.unpack . _showByteArray
-
--- | read base64 encoded characters
-_readByteArray :: Monad m => Text -> m ByteArray
-_readByteArray = P.either P.fail (pure . ByteArray) . BL64.decode . BL.fromStrict . T.encodeUtf8
-{-# INLINE _readByteArray #-}
-
--- | show base64 encoded characters
-_showByteArray :: ByteArray -> Text
-_showByteArray = T.decodeUtf8 . BL.toStrict . BL64.encode . unByteArray
-{-# INLINE _showByteArray #-}
-
--- | any sequence of octets
-newtype Binary = Binary { unBinary :: BL.ByteString }
-  deriving (P.Eq,P.Data,P.Ord,P.Typeable,NF.NFData)
-
-instance A.FromJSON Binary where
-  parseJSON = A.withText "Binary" _readBinaryBase64
-instance A.ToJSON Binary where
-  toJSON = A.toJSON . _showBinaryBase64
-instance WH.FromHttpApiData Binary where
-  parseUrlPiece = P.left T.pack . _readBinaryBase64
-instance WH.ToHttpApiData Binary where
-  toUrlPiece = _showBinaryBase64
-instance P.Show Binary where
-  show = T.unpack . _showBinaryBase64
-
-_readBinaryBase64 :: Monad m => Text -> m Binary
-_readBinaryBase64 = P.either P.fail (pure . Binary) . BL64.decode . BL.fromStrict . T.encodeUtf8
-{-# INLINE _readBinaryBase64 #-}
-
-_showBinaryBase64 :: Binary -> Text
-_showBinaryBase64 = T.decodeUtf8 . BL.toStrict . BL64.encode . unBinary
-{-# INLINE _showBinaryBase64 #-}
+-- | parse '{{{x-paramNameType}}}' enum
+to{{{x-paramNameType}}} :: {{{x-dataType}}} -> P.Either String {{{x-paramNameType}}}
+to{{{x-paramNameType}}} = \case{{#allowableValues}}{{#enumVars}}
+  {{{value}}} -> P.Right {{{name}}}{{/enumVars}}{{/allowableValues}}
+  s -> P.Left $ "to{{{x-paramNameType}}}: enum parse failure: " P.++ P.show s
+{{/x-enum}}{{/x-allUniqueParams}}{{/x-hasEnumSection}}

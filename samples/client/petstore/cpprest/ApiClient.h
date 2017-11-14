@@ -16,8 +16,8 @@
  * This is an API client responsible for stating the HTTP calls
  */
 
-#ifndef ApiClient_H_
-#define ApiClient_H_
+#ifndef IO_SWAGGER_CLIENT_API_ApiClient_H_
+#define IO_SWAGGER_CLIENT_API_ApiClient_H_
 
 
 #include "ApiConfiguration.h"
@@ -60,7 +60,7 @@ public:
 
         for( size_t i = 0; i < value.size(); i++)
         {
-            if( i > 0) ss << U(", ");
+            if( i > 0) ss << utility::conversions::to_string_t(", ");
             ss << ApiClient::parameterToString(value[i]);
         }
 
@@ -88,4 +88,4 @@ protected:
 }
 }
 
-#endif /* ApiClient_H_ */
+#endif /* IO_SWAGGER_CLIENT_API_ApiClient_H_ */

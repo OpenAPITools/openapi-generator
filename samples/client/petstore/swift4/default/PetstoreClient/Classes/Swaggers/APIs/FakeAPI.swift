@@ -327,7 +327,7 @@ open class FakeAPI {
      */
     public enum EnumQueryInteger_testEnumParameters: Int { 
         case _1 = 1
-        case numberminus2 = -2
+        case number2 = -2
     }
 
     /**
@@ -335,7 +335,7 @@ open class FakeAPI {
      */
     public enum EnumQueryDouble_testEnumParameters: Double { 
         case _11 = 1.1
-        case numberminus12 = -1.2
+        case number12 = -1.2
     }
 
     /**
@@ -402,6 +402,41 @@ open class FakeAPI {
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false, headers: headerParameters)
+    }
+
+    /**
+     test inline additionalProperties
+     
+     - parameter param: (body) request body 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func testInlineAdditionalProperties(param: Any, completion: @escaping ((_ error: Error?) -> Void)) {
+        testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { (response, error) -> Void in
+            completion(error);
+        }
+    }
+
+
+    /**
+     test inline additionalProperties
+     - POST /fake/inline-additionalProperties
+     - 
+     
+     - parameter param: (body) request body 
+
+     - returns: RequestBuilder<Void> 
+     */
+    open class func testInlineAdditionalPropertiesWithRequestBuilder(param: Any) -> RequestBuilder<Void> {
+        let path = "/fake/inline-additionalProperties"
+        let URLString = PetstoreClientAPI.basePath + path
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: param)
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
     /**

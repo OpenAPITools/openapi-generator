@@ -4,15 +4,17 @@ import io.swagger.model.Category;
 import io.swagger.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class Pet   {
+public class Pet  implements Serializable {
   
   private @Valid Long id = null;
   private @Valid Category category = null;
@@ -61,6 +63,7 @@ public enum StatusEnum {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -77,6 +80,7 @@ public enum StatusEnum {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("category")
   public Category getCategory() {
     return category;
   }
@@ -93,6 +97,7 @@ public enum StatusEnum {
 
   
   @ApiModelProperty(example = "doggie", required = true, value = "")
+  @JsonProperty("name")
   @NotNull
   public String getName() {
     return name;
@@ -110,6 +115,7 @@ public enum StatusEnum {
 
   
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("photoUrls")
   @NotNull
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -127,6 +133,7 @@ public enum StatusEnum {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("tags")
   public List<Tag> getTags() {
     return tags;
   }
@@ -144,6 +151,7 @@ public enum StatusEnum {
 
   
   @ApiModelProperty(value = "pet status in the store")
+  @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }

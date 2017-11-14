@@ -27,13 +27,18 @@ Add a new pet to the store
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\PetApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
 $body = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
-    $api_instance->addPet($body);
+    $apiInstance->addPet($body);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->addPet: ', $e->getMessage(), PHP_EOL;
 }
@@ -74,14 +79,19 @@ Deletes a pet
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\PetApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
 $pet_id = 789; // int | Pet id to delete
 $api_key = "api_key_example"; // string | 
 
 try {
-    $api_instance->deletePet($pet_id, $api_key);
+    $apiInstance->deletePet($pet_id, $api_key);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->deletePet: ', $e->getMessage(), PHP_EOL;
 }
@@ -123,13 +133,18 @@ Multiple status values can be provided with comma separated strings
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\PetApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
 $status = array("status_example"); // string[] | Status values that need to be considered for filter
 
 try {
-    $result = $api_instance->findPetsByStatus($status);
+    $result = $apiInstance->findPetsByStatus($status);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->findPetsByStatus: ', $e->getMessage(), PHP_EOL;
@@ -171,13 +186,18 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\PetApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
 $tags = array("tags_example"); // string[] | Tags to filter by
 
 try {
-    $result = $api_instance->findPetsByTags($tags);
+    $result = $apiInstance->findPetsByTags($tags);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->findPetsByTags: ', $e->getMessage(), PHP_EOL;
@@ -219,15 +239,20 @@ Returns a single pet
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure API key authorization: api_key
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
+$config = Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
+// $config = Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
-$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\PetApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
 $pet_id = 789; // int | ID of pet to return
 
 try {
-    $result = $api_instance->getPetById($pet_id);
+    $result = $apiInstance->getPetById($pet_id);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->getPetById: ', $e->getMessage(), PHP_EOL;
@@ -269,13 +294,18 @@ Update an existing pet
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\PetApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
 $body = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
-    $api_instance->updatePet($body);
+    $apiInstance->updatePet($body);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->updatePet: ', $e->getMessage(), PHP_EOL;
 }
@@ -316,15 +346,20 @@ Updates a pet in the store with form data
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\PetApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
 $pet_id = 789; // int | ID of pet that needs to be updated
 $name = "name_example"; // string | Updated name of the pet
 $status = "status_example"; // string | Updated status of the pet
 
 try {
-    $api_instance->updatePetWithForm($pet_id, $name, $status);
+    $apiInstance->updatePetWithForm($pet_id, $name, $status);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->updatePetWithForm: ', $e->getMessage(), PHP_EOL;
 }
@@ -367,15 +402,20 @@ uploads an image
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\PetApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
 $pet_id = 789; // int | ID of pet to update
 $additional_metadata = "additional_metadata_example"; // string | Additional data to pass to server
 $file = "/path/to/file.txt"; // \SplFileObject | file to upload
 
 try {
-    $result = $api_instance->uploadFile($pet_id, $additional_metadata, $file);
+    $result = $apiInstance->uploadFile($pet_id, $additional_metadata, $file);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->uploadFile: ', $e->getMessage(), PHP_EOL;

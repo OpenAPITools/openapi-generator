@@ -44,9 +44,9 @@ defmodule SwaggerPetstore.Api.Pet do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - pet_id (Integer): Pet id to delete
+  - pet_id (integer()): Pet id to delete
   - opts (KeywordList): [optional] Optional parameters
-    - :api_key (String): 
+    - :api_key (String.t): 
 
   ## Returns
 
@@ -74,7 +74,7 @@ defmodule SwaggerPetstore.Api.Pet do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - status (List[String]): Status values that need to be considered for filter
+  - status ([String.t]): Status values that need to be considered for filter
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -100,7 +100,7 @@ defmodule SwaggerPetstore.Api.Pet do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - tags (List[String]): Tags to filter by
+  - tags ([String.t]): Tags to filter by
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -126,7 +126,7 @@ defmodule SwaggerPetstore.Api.Pet do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - pet_id (Integer): ID of pet to return
+  - pet_id (integer()): ID of pet to return
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -177,10 +177,10 @@ defmodule SwaggerPetstore.Api.Pet do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - pet_id (Integer): ID of pet that needs to be updated
+  - pet_id (integer()): ID of pet that needs to be updated
   - opts (KeywordList): [optional] Optional parameters
-    - :name (String): Updated name of the pet
-    - :status (String): Updated status of the pet
+    - :name (String.t): Updated name of the pet
+    - :status (String.t): Updated status of the pet
 
   ## Returns
 
@@ -209,10 +209,10 @@ defmodule SwaggerPetstore.Api.Pet do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - pet_id (Integer): ID of pet to update
+  - pet_id (integer()): ID of pet to update
   - opts (KeywordList): [optional] Optional parameters
-    - :additional_metadata (String): Additional data to pass to server
-    - :file (String): file to upload
+    - :additional_metadata (String.t): Additional data to pass to server
+    - :file (String.t): file to upload
 
   ## Returns
 

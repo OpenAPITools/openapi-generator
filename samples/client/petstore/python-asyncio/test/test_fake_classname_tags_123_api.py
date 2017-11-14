@@ -3,7 +3,7 @@
 """
     Swagger Petstore
 
-    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  # noqa: E501
 
     OpenAPI spec version: 1.0.0
     Contact: apiteam@swagger.io
@@ -13,29 +13,26 @@
 
 from __future__ import absolute_import
 
-import os
-import sys
 import unittest
 
 import petstore_api
+from petstore_api.api.fake_classname_tags_123_api import FakeClassnameTags123Api  # noqa: E501
 from petstore_api.rest import ApiException
-from petstore_api.apis.fake_classname_tags_123_api import FakeClassnameTags123Api
 
 
 class TestFakeClassnameTags123Api(unittest.TestCase):
-    """ FakeClassnameTags123Api unit test stubs """
+    """FakeClassnameTags123Api unit test stubs"""
 
     def setUp(self):
-        self.api = petstore_api.apis.fake_classname_tags_123_api.FakeClassnameTags123Api()
+        self.api = petstore_api.api.fake_classname_tags_123_api.FakeClassnameTags123Api()  # noqa: E501
 
     def tearDown(self):
         pass
 
     def test_test_classname(self):
-        """
-        Test case for test_classname
+        """Test case for test_classname
 
-        To test class name in snake case
+        To test class name in snake case  # noqa: E501
         """
         pass
 

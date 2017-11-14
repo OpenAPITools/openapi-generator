@@ -14,7 +14,7 @@ To test special tags
 
 To test special tags
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -26,7 +26,7 @@ from pprint import pprint
 api_instance = petstore_api.AnotherFakeApi()
 body = petstore_api.Client() # Client | client model
 
-try: 
+try:
     # To test special tags
     api_response = api_instance.test_special_tags(body)
     pprint(api_response)

@@ -29,7 +29,7 @@ Order::Order()
     m_QuantityIsSet = false;
     m_ShipDate = utility::datetime();
     m_ShipDateIsSet = false;
-    m_Status = U("");
+    m_Status = utility::conversions::to_string_t("");
     m_StatusIsSet = false;
     m_Complete = false;
     m_CompleteIsSet = false;
@@ -50,27 +50,27 @@ web::json::value Order::toJson() const
 
     if(m_IdIsSet)
     {
-        val[U("id")] = ModelBase::toJson(m_Id);
+        val[utility::conversions::to_string_t("id")] = ModelBase::toJson(m_Id);
     }
     if(m_PetIdIsSet)
     {
-        val[U("petId")] = ModelBase::toJson(m_PetId);
+        val[utility::conversions::to_string_t("petId")] = ModelBase::toJson(m_PetId);
     }
     if(m_QuantityIsSet)
     {
-        val[U("quantity")] = ModelBase::toJson(m_Quantity);
+        val[utility::conversions::to_string_t("quantity")] = ModelBase::toJson(m_Quantity);
     }
     if(m_ShipDateIsSet)
     {
-        val[U("shipDate")] = ModelBase::toJson(m_ShipDate);
+        val[utility::conversions::to_string_t("shipDate")] = ModelBase::toJson(m_ShipDate);
     }
     if(m_StatusIsSet)
     {
-        val[U("status")] = ModelBase::toJson(m_Status);
+        val[utility::conversions::to_string_t("status")] = ModelBase::toJson(m_Status);
     }
     if(m_CompleteIsSet)
     {
-        val[U("complete")] = ModelBase::toJson(m_Complete);
+        val[utility::conversions::to_string_t("complete")] = ModelBase::toJson(m_Complete);
     }
 
     return val;
@@ -78,99 +78,99 @@ web::json::value Order::toJson() const
 
 void Order::fromJson(web::json::value& val)
 {
-    if(val.has_field(U("id")))
+    if(val.has_field(utility::conversions::to_string_t("id")))
     {
-        setId(ModelBase::int64_tFromJson(val[U("id")]));
+        setId(ModelBase::int64_tFromJson(val[utility::conversions::to_string_t("id")]));
     }
-    if(val.has_field(U("petId")))
+    if(val.has_field(utility::conversions::to_string_t("petId")))
     {
-        setPetId(ModelBase::int64_tFromJson(val[U("petId")]));
+        setPetId(ModelBase::int64_tFromJson(val[utility::conversions::to_string_t("petId")]));
     }
-    if(val.has_field(U("quantity")))
+    if(val.has_field(utility::conversions::to_string_t("quantity")))
     {
-        setQuantity(ModelBase::int32_tFromJson(val[U("quantity")]));
+        setQuantity(ModelBase::int32_tFromJson(val[utility::conversions::to_string_t("quantity")]));
     }
-    if(val.has_field(U("shipDate")))
+    if(val.has_field(utility::conversions::to_string_t("shipDate")))
     {
-        setShipDate(ModelBase::dateFromJson(val[U("shipDate")]));
+        setShipDate(ModelBase::dateFromJson(val[utility::conversions::to_string_t("shipDate")]));
     }
-    if(val.has_field(U("status")))
+    if(val.has_field(utility::conversions::to_string_t("status")))
     {
-        setStatus(ModelBase::stringFromJson(val[U("status")]));
+        setStatus(ModelBase::stringFromJson(val[utility::conversions::to_string_t("status")]));
     }
-    if(val.has_field(U("complete")))
+    if(val.has_field(utility::conversions::to_string_t("complete")))
     {
-        setComplete(ModelBase::boolFromJson(val[U("complete")]));
+        setComplete(ModelBase::boolFromJson(val[utility::conversions::to_string_t("complete")]));
     }
 }
 
 void Order::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix[namePrefix.size() - 1] != U('.'))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
     {
-        namePrefix += U(".");
+        namePrefix += utility::conversions::to_string_t(".");
     }
 
     if(m_IdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("id"), m_Id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("id"), m_Id));
     }
     if(m_PetIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("petId"), m_PetId));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("petId"), m_PetId));
     }
     if(m_QuantityIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("quantity"), m_Quantity));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("quantity"), m_Quantity));
     }
     if(m_ShipDateIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("shipDate"), m_ShipDate));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("shipDate"), m_ShipDate));
         
     }
     if(m_StatusIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("status"), m_Status));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("status"), m_Status));
         
     }
     if(m_CompleteIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("complete"), m_Complete));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("complete"), m_Complete));
     }
 }
 
 void Order::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix[namePrefix.size() - 1] != U('.'))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
     {
-        namePrefix += U(".");
+        namePrefix += utility::conversions::to_string_t(".");
     }
 
-    if(multipart->hasContent(U("id")))
+    if(multipart->hasContent(utility::conversions::to_string_t("id")))
     {
-        setId(ModelBase::int64_tFromHttpContent(multipart->getContent(U("id"))));
+        setId(ModelBase::int64_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("id"))));
     }
-    if(multipart->hasContent(U("petId")))
+    if(multipart->hasContent(utility::conversions::to_string_t("petId")))
     {
-        setPetId(ModelBase::int64_tFromHttpContent(multipart->getContent(U("petId"))));
+        setPetId(ModelBase::int64_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("petId"))));
     }
-    if(multipart->hasContent(U("quantity")))
+    if(multipart->hasContent(utility::conversions::to_string_t("quantity")))
     {
-        setQuantity(ModelBase::int32_tFromHttpContent(multipart->getContent(U("quantity"))));
+        setQuantity(ModelBase::int32_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("quantity"))));
     }
-    if(multipart->hasContent(U("shipDate")))
+    if(multipart->hasContent(utility::conversions::to_string_t("shipDate")))
     {
-        setShipDate(ModelBase::dateFromHttpContent(multipart->getContent(U("shipDate"))));
+        setShipDate(ModelBase::dateFromHttpContent(multipart->getContent(utility::conversions::to_string_t("shipDate"))));
     }
-    if(multipart->hasContent(U("status")))
+    if(multipart->hasContent(utility::conversions::to_string_t("status")))
     {
-        setStatus(ModelBase::stringFromHttpContent(multipart->getContent(U("status"))));
+        setStatus(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("status"))));
     }
-    if(multipart->hasContent(U("complete")))
+    if(multipart->hasContent(utility::conversions::to_string_t("complete")))
     {
-        setComplete(ModelBase::boolFromHttpContent(multipart->getContent(U("complete"))));
+        setComplete(ModelBase::boolFromHttpContent(multipart->getContent(utility::conversions::to_string_t("complete"))));
     }
 }
 
@@ -279,7 +279,7 @@ void Order::unsetStatus()
     m_StatusIsSet = false;
 }
 
-bool Order::getComplete() const
+bool Order::isComplete() const
 {
     return m_Complete;
 }

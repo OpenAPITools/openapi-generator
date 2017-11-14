@@ -12,6 +12,11 @@ defmodule SwaggerPetstore.Model.Model200Response do
     :"name",
     :"class"
   ]
+
+  @type t :: %__MODULE__{
+    :"name" => integer(),
+    :"class" => String.t
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.Model200Response do

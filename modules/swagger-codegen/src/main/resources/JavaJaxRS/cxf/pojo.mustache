@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 {{#withXml}}
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -16,6 +17,9 @@ import javax.xml.bind.annotation.XmlEnumValue;
 {{^parent}}@XmlRootElement(name="{{classname}}"){{/parent}}
 {{/withXml}}
 {{#description}}
+/**
+  * {{{description}}}
+ **/
 @ApiModel(description="{{{description}}}")
 {{/description}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
@@ -28,6 +32,11 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
 {{/withXml}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+{{#description}}
+ /**
+   * {{{description}}}  
+  **/
+{{/description}}
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
   {{#vars}}
@@ -46,12 +55,22 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   {{/maximum}}
    * @return {{name}}
   **/
+  @JsonProperty("{{baseName}}")
 {{#vendorExtensions.extraAnnotation}}
   {{{vendorExtensions.extraAnnotation}}}
 {{/vendorExtensions.extraAnnotation}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isListContainer}}{{^isMapContainer}}public {{datatype}} {{getter}}() {
+    if ({{name}} == null) {
+      return null;
+    }
+    return {{name}}.value();
+  }{{/isMapContainer}}{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isListContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }
+  }{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isMapContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
+    return {{name}};
+  }{{/isMapContainer}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
+    return {{name}};
+  }{{/isEnum}}
 
   {{^isReadOnly}}
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {

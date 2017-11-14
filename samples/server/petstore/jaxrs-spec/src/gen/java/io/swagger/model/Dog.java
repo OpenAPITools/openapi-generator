@@ -1,15 +1,17 @@
 package io.swagger.model;
 
 import io.swagger.model.Animal;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class Dog extends Animal  {
+public class Dog extends Animal implements Serializable {
   
   private @Valid String breed = null;
 
@@ -22,6 +24,7 @@ public class Dog extends Animal  {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("breed")
   public String getBreed() {
     return breed;
   }

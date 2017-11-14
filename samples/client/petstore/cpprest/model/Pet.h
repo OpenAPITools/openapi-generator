@@ -16,16 +16,16 @@
  * A pet for sale in the pet store
  */
 
-#ifndef Pet_H_
-#define Pet_H_
+#ifndef IO_SWAGGER_CLIENT_MODEL_Pet_H_
+#define IO_SWAGGER_CLIENT_MODEL_Pet_H_
 
 
 #include "ModelBase.h"
 
-#include "Category.h"
-#include <cpprest/details/basic_types.h>
-#include <vector>
 #include "Tag.h"
+#include <cpprest/details/basic_types.h>
+#include "Category.h"
+#include <vector>
 
 namespace io {
 namespace swagger {
@@ -113,4 +113,4 @@ protected:
 }
 }
 
-#endif /* Pet_H_ */
+#endif /* IO_SWAGGER_CLIENT_MODEL_Pet_H_ */

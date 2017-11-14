@@ -3,9 +3,7 @@ package io.swagger.codegen.languages;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.codegen.*;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
+import io.swagger.models.properties.*;
 import io.swagger.models.Info;
 import io.swagger.models.Model;
 import io.swagger.models.Swagger;
@@ -31,7 +29,6 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             "{:tesla, \"~> 0.8\"}",
             "{:poison, \">= 1.0.0\"}"
     );
-
 
     public ElixirClientCodegen() {
         super();
@@ -420,14 +417,77 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String getTypeDeclaration(Property p) {
+        // SubClasses of AbstractProperty
+        //
+        // ArrayProperty
+        // MapProperty
+        // PasswordProperty
+        // StringProperty
+        //     EmailProperty
+        //     ByteArrayProperty
+        // DateProperty
+        // UUIDProperty
+        // DateTimeProperty
+        // ObjectProperty
+        // AbstractNumericProperty
+        //     BaseIntegerProperty
+        //         IntegerProperty
+        //         LongProperty
+        //     DecimalProperty
+        //         DoubleProperty
+        //         FloatProperty
+        // BinaryProperty
+        // BooleanProperty
+        // RefProperty
+        // FileProperty
         if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
             Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
+            return "[" + getTypeDeclaration(inner) + "]";
         } else if (p instanceof MapProperty) {
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "[String, " + getTypeDeclaration(inner) + "]";
+            return "%{optional(String.t) => " + getTypeDeclaration(inner) + "}";
+        } else if (p instanceof PasswordProperty) {
+            return "String.t";
+        } else if (p instanceof EmailProperty) {
+            return "String.t";
+        } else if (p instanceof ByteArrayProperty) {
+            return "binary()";
+        } else if (p instanceof StringProperty) {
+            return "String.t";
+        } else if (p instanceof DateProperty) {
+            return "Date.t";
+        } else if (p instanceof UUIDProperty) {
+            return "String.t";
+        } else if (p instanceof DateTimeProperty) {
+            return "DateTime.t";
+        } else if (p instanceof ObjectProperty) {
+            // How to map it?
+            return super.getTypeDeclaration(p);
+        } else if (p instanceof IntegerProperty) {
+            return "integer()";
+        } else if (p instanceof LongProperty) {
+            return "integer()";
+        } else if (p instanceof BaseIntegerProperty) {
+            return "integer()";
+        } else if (p instanceof DoubleProperty) {
+            return "float()";
+        } else if (p instanceof FloatProperty) {
+            return "float()";
+        } else if (p instanceof DecimalProperty) {
+            return "float()";
+        } else if (p instanceof AbstractNumericProperty) {
+            return "number()";
+        } else if (p instanceof BinaryProperty) {
+            return "binary()";
+        } else if (p instanceof BooleanProperty) {
+            return "boolean()";
+        } else if (p instanceof RefProperty) {
+            // How to map it?
+            return super.getTypeDeclaration(p);
+        } else if (p instanceof FileProperty) {
+            return "String.t";
         }
         return super.getTypeDeclaration(p);
     }
@@ -590,26 +650,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 buildTypespec(param.items, sb);
                 sb.append("}");
             } else if (param.isPrimitiveType) {
-                // <type>() OR <type>.t
-
-                // Primitive types in Elixir
-                // https://hexdocs.pm/elixir/1.5.2/typespecs.html#types-and-their-syntax
-                //
-                // NOTE: List, Tuple and Map are declared as primitive in a variable `languageSpecificPrimitives`.
-                HashMap map = new HashMap<String, String>();
-                map.put("Integer", "integer()");
-                map.put("Float", "float()");
-                map.put("Boolean", "boolean()");
-                map.put("String", "String.t");
-                map.put("List", "list()");
-                map.put("Atom", "atom()");
-                map.put("Map", "map()");
-                map.put("Tuple", "tuple()");
-                map.put("PID", "pid()");
-                map.put("DateTime", "DateTime.t");
-
-                String dataType = (String) map.get(param.dataType);
-                sb.append(dataType);
+                // like `integer()`, `String.t`
+                sb.append(param.dataType);
             } else if (param.isFile) {
                 sb.append("String.t");
             } else {

@@ -35,14 +35,15 @@
     {{#operation}}
     {{operationId}} = function({{#allParams}}{{paramName}}, {{/allParams}}...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
+
       {{#hasHeaderParams}}
       {{#headerParams}}
       if (!missing(`{{paramName}}`)) {
         headerParams['{{baseName}}'] <- `{{paramName}}`
       }
+
       {{/headerParams}}
       {{/hasHeaderParams}}
       {{#hasQueryParams}}
@@ -50,6 +51,7 @@
       if (!missing(`{{paramName}}`)) {
         queryParams['{{baseName}}'] <- {{paramName}}
       }
+
       {{/queryParams}}
       {{/hasQueryParams}}
       {{#hasFormParams}}
@@ -62,25 +64,28 @@
           "{{baseName}}" = httr::upload_file({{paramName}}){{#hasMore}},{{/hasMore}}
           {{/isFile}}
         {{/formParams}}
-      )     
+      )
+
       {{/hasFormParams}}
       {{#hasBodyParam}}
       {{#bodyParams}}
       if (!missing(`{{paramName}}`)) {
-        body <- `{{paramName}}`$toJSON()
+        body <- `{{paramName}}`$toJSONString()
+      } else {
+        body <- NULL
       }
+
       {{/bodyParams}}
       {{/hasBodyParam}}
-
       urlPath <- "{{path}}"
       {{#hasPathParams}}
       {{#pathParams}}
       if (!missing(`{{paramName}}`)) {
         urlPath <- gsub(paste0("\\{", "{{baseName}}", "\\}"), `{{paramName}}`, urlPath)
       }
+
       {{/pathParams}}
       {{/hasPathParams}}
-
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "{{httpMethod}}",
                                  queryParams = queryParams,
