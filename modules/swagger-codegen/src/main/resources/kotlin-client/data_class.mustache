@@ -12,11 +12,14 @@ data class {{classname}} (
 {{/-last}}{{/optionalVars}}
 ) {
 {{#hasEnums}}{{#vars}}{{#isEnum}}
-    enum class {{nameInCamelCase}}(val value: {{datatype}}) {
-    {{#_enum}}
-        {{{this}}}({{#isString}}"{{/isString}}{{{this}}}{{#isString}}"{{/isString}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
-    {{/_enum}}
+    /**
+    * {{{description}}}
+    * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+    */
+    enum class {{nameInCamelCase}}(val value: {{dataType}}){
+    {{#allowableValues}}{{#enumVars}}
+        {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{/enumVars}}{{/allowableValues}}
     }
-
 {{/isEnum}}{{/vars}}{{/hasEnums}}
 }

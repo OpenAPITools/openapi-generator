@@ -9,7 +9,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
@@ -58,7 +57,6 @@ export class PetService {
     }
 
 
-
     /**
      * Add a new pet to the store
      * 
@@ -79,11 +77,33 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        return this.httpClient.post<any>(`${this.basePath}/pet`, body, 
-        {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/xml',
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json',
+            'application/xml'
+        ];
+        let httpContentTypeSelected:string = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set("Content-Type", httpContentTypeSelected);
+        }
+
+        return this.httpClient.post<any>(`${this.basePath}/pet`,
+            body,
+            {
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
     /**
@@ -110,11 +130,26 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        return this.httpClient.delete<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, 
-        {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/xml',
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        return this.httpClient.delete<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
+            {
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
     /**
@@ -142,12 +177,27 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        return this.httpClient.get<any>(`${this.basePath}/pet/findByStatus`, 
-        {
-            params: queryParameters,
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/xml',
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        return this.httpClient.get<any>(`${this.basePath}/pet/findByStatus`,
+            {
+                params: queryParameters,
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
     /**
@@ -175,12 +225,27 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        return this.httpClient.get<any>(`${this.basePath}/pet/findByTags`, 
-        {
-            params: queryParameters,
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/xml',
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        return this.httpClient.get<any>(`${this.basePath}/pet/findByTags`,
+            {
+                params: queryParameters,
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
     /**
@@ -200,11 +265,26 @@ export class PetService {
             headers = headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
-        return this.httpClient.get<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, 
-        {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/xml',
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        return this.httpClient.get<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
+            {
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
     /**
@@ -227,11 +307,33 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        return this.httpClient.put<any>(`${this.basePath}/pet`, body, 
-        {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/xml',
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json',
+            'application/xml'
+        ];
+        let httpContentTypeSelected:string = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set("Content-Type", httpContentTypeSelected);
+        }
+
+        return this.httpClient.put<any>(`${this.basePath}/pet`,
+            body,
+            {
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
     /**
@@ -256,10 +358,21 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/xml',
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
         // to determine the Content-Type header
         let consumes: string[] = [
             'application/x-www-form-urlencoded'
         ];
+
         const canConsumeForm = this.canConsumeForm(consumes);
 
         let formParams: { append(param: string, value: any): void; };
@@ -271,8 +384,6 @@ export class PetService {
             formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         }
 
-
-
         if (name !== undefined) {
             formParams = formParams.append('name', <any>name) || formParams;
         }
@@ -280,11 +391,13 @@ export class PetService {
             formParams = formParams.append('status', <any>status) || formParams;
         }
 
-        return this.httpClient.post<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, 
-        convertFormParamsToString ? formParams.toString() : formParams, {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        return this.httpClient.post<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
+            convertFormParamsToString ? formParams.toString() : formParams,
+            {
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
     /**
@@ -309,10 +422,20 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
         // to determine the Content-Type header
         let consumes: string[] = [
             'multipart/form-data'
         ];
+
         const canConsumeForm = this.canConsumeForm(consumes);
 
         let formParams: { append(param: string, value: any): void; };
@@ -327,8 +450,6 @@ export class PetService {
             formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         }
 
-
-
         if (additionalMetadata !== undefined) {
             formParams = formParams.append('additionalMetadata', <any>additionalMetadata) || formParams;
         }
@@ -336,11 +457,13 @@ export class PetService {
             formParams = formParams.append('file', <any>file) || formParams;
         }
 
-        return this.httpClient.post<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`, 
-        convertFormParamsToString ? formParams.toString() : formParams, {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        return this.httpClient.post<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`,
+            convertFormParamsToString ? formParams.toString() : formParams,
+            {
+                headers: headers,
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
     }
 
 }

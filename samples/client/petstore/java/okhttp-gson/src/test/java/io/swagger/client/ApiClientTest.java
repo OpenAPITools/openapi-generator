@@ -165,7 +165,33 @@ public class ApiClientTest {
 
         apiClient.setConnectTimeout(10000);
     }
+    
+    @Test
+    public void testGetAndSetReadTimeout() {
+        // read timeout defaults to 10 seconds
+        assertEquals(10000, apiClient.getReadTimeout());
+        assertEquals(10000, apiClient.getHttpClient().getReadTimeout());
 
+        apiClient.setReadTimeout(0);
+        assertEquals(0, apiClient.getReadTimeout());
+        assertEquals(0, apiClient.getHttpClient().getReadTimeout());
+
+        apiClient.setReadTimeout(10000);
+    }
+    
+    @Test
+    public void testGetAndSetWriteTimeout() {
+        // write timeout defaults to 10 seconds
+        assertEquals(10000, apiClient.getWriteTimeout());
+        assertEquals(10000, apiClient.getHttpClient().getWriteTimeout());
+
+        apiClient.setWriteTimeout(0);
+        assertEquals(0, apiClient.getWriteTimeout());
+        assertEquals(0, apiClient.getHttpClient().getWriteTimeout());
+
+        apiClient.setWriteTimeout(10000);
+    }
+    
     @Test
     public void testParameterToPairWhenNameIsInvalid() throws Exception {
         List<Pair> pairs_a = apiClient.parameterToPair(null, new Integer(1));

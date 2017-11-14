@@ -1,11 +1,7 @@
 -module({{packageName}}_logic_handler).
 
 -export([handle_request/4]).
-{{#authMethods}}
-    {{#isApiKey}}
 -export([authorize_api_key/3]).
-    {{/isApiKey}}
-{{/authMethods}}
 -type context() :: #{binary() => any()}.
 -type handler_response() ::{
     Status :: cowboy:http_status(),
@@ -47,4 +43,10 @@ handle_request(Handler, OperationID, Req, Context) ->
 authorize_api_key(Handler, OperationID, ApiKey) ->
     Handler:authorize_api_key(OperationID, ApiKey).
     {{/isApiKey}}
+{{/authMethods}}
+{{^authMethods}}
+-spec authorize_api_key(Handler :: atom(), OperationID :: {{packageName}}_api:operation_id(), ApiKey :: binary()) ->
+    Result :: false.
+authorize_api_key(_Handler, _OperationID, _ApiKey) ->
+    false.
 {{/authMethods}}

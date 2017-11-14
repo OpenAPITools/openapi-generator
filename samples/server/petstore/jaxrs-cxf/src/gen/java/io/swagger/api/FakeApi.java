@@ -23,6 +23,12 @@ import io.swagger.jaxrs.PATCH;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+/**
+ * Swagger Petstore
+ *
+ * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ *
+ */
 @Path("/")
 @Api(value = "/", description = "")
 public interface FakeApi  {
@@ -55,6 +61,12 @@ public interface FakeApi  {
         @ApiResponse(code = 200, message = "Output string", response = String.class) })
     public String fakeOuterStringSerialize(@Valid String body);
 
+    /**
+     * To test \&quot;client\&quot; model
+     *
+     * To test \&quot;client\&quot; model
+     *
+     */
     @PATCH
     @Path("/fake")
     @Consumes({ "application/json" })
@@ -64,6 +76,12 @@ public interface FakeApi  {
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     public Client testClientModel(@Valid Client body);
 
+    /**
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     *
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     *
+     */
     @POST
     @Path("/fake")
     @Consumes({ "application/xml; charset=utf-8", "application/json; charset=utf-8" })
@@ -74,6 +92,12 @@ public interface FakeApi  {
         @ApiResponse(code = 404, message = "User not found") })
     public void testEndpointParameters(@Multipart(value = "number")  BigDecimal number, @Multipart(value = "double")  Double _double, @Multipart(value = "pattern_without_delimiter")  String patternWithoutDelimiter, @Multipart(value = "byte")  byte[] _byte, @Multipart(value = "integer", required = false)  Integer integer, @Multipart(value = "int32", required = false)  Integer int32, @Multipart(value = "int64", required = false)  Long int64, @Multipart(value = "float", required = false)  Float _float, @Multipart(value = "string", required = false)  String string, @Multipart(value = "binary", required = false)  byte[] binary, @Multipart(value = "date", required = false)  LocalDate date, @Multipart(value = "dateTime", required = false)  Date dateTime, @Multipart(value = "password", required = false)  String password, @Multipart(value = "callback", required = false)  String paramCallback);
 
+    /**
+     * To test enum parameters
+     *
+     * To test enum parameters
+     *
+     */
     @GET
     @Path("/fake")
     @Consumes({ "*/*" })
@@ -84,6 +108,26 @@ public interface FakeApi  {
         @ApiResponse(code = 404, message = "Not found") })
     public void testEnumParameters(@Multipart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray, @Multipart(value = "enum_form_string", required = false)  String enumFormString, @HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray, @HeaderParam("enum_header_string") String enumHeaderString, @QueryParam("enum_query_string_array") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @Multipart(value = "enum_query_double", required = false)  Double enumQueryDouble);
 
+    /**
+     * test inline additionalProperties
+     *
+     * 
+     *
+     */
+    @POST
+    @Path("/fake/inline-additionalProperties")
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "test inline additionalProperties", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation") })
+    public void testInlineAdditionalProperties(@Valid Object param);
+
+    /**
+     * test json serialization of form data
+     *
+     * 
+     *
+     */
     @GET
     @Path("/fake/jsonFormData")
     @Consumes({ "application/json" })

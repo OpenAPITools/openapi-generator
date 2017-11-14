@@ -15,6 +15,6 @@ package io.swagger.client.model
 
 case class ModelReturn (
   /* property description  *_/ ' \" =end -- \\r\\n \\n \\r */
-  _return: Option[Integer]
+  _return: Option[Integer] = None
 )
 

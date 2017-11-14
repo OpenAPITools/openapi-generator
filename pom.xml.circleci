@@ -656,7 +656,7 @@
             </modules>
         </profile>
         <profile>
-            <id>typescript-angular-client</id>
+            <id>typescript-angularjs-client</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -837,6 +837,7 @@
                 <module>samples/client/petstore/java/resttemplate-withXml</module>
                 <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/java/resteasy</module>
+                <module>samples/client/petstore/java/google-api-client</module>
                 <module>samples/client/petstore/kotlin/</module>
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>

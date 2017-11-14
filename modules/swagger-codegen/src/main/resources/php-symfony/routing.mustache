@@ -11,7 +11,29 @@
     path:     {{path}}
     methods:  [{{httpMethod}}]
     defaults:
-        _controller: {{bundleClassName}}:{{baseName}}:{{operationId}}
+        _controller: {{bundleAlias}}.controller.{{pathPrefix}}:{{operationId}}Action
+    {{#hasPathParams}}
+    requirements:
+    {{/hasPathParams}}
+    {{#pathParams}}
+        {{#pattern}}
+        {{paramName}}: '{{pattern}}'
+        {{/pattern}}
+        {{^pattern}}
+        {{#isLong}}
+        {{paramName}}: '\d+'
+        {{/isLong}}
+        {{#isInteger}}
+        {{paramName}}: '\d+'
+        {{/isInteger}}
+        {{#isString}}
+        {{paramName}}: '[a-z0-9]+'
+        {{/isString}}
+        {{#isBoolean}}
+        {{paramName}}: 'true|false'
+        {{/isBoolean}}
+        {{/pattern}}
+    {{/pathParams}}
 
 {{/operation}}
 {{/operations}}

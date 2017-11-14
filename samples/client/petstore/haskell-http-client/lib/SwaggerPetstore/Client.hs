@@ -59,11 +59,10 @@ dispatchLbs
   :: (Produces req accept, MimeType contentType)
   => NH.Manager -- ^ http-client Connection manager
   -> SwaggerPetstoreConfig -- ^ config
-  -> SwaggerPetstoreRequest req contentType res -- ^ request
-  -> accept -- ^ "accept" 'MimeType'
+  -> SwaggerPetstoreRequest req contentType res accept -- ^ request
   -> IO (NH.Response BCL.ByteString) -- ^ response
-dispatchLbs manager config request accept = do
-  initReq <- _toInitRequest config request accept 
+dispatchLbs manager config request  = do
+  initReq <- _toInitRequest config request
   dispatchInitUnsafe manager config initReq
 
 -- ** Mime
@@ -84,21 +83,26 @@ data MimeError =
 
 -- | send a request returning the 'MimeResult'
 dispatchMime
-  :: (Produces req accept, MimeUnrender accept res, MimeType contentType)
+  :: forall req contentType res accept. (Produces req accept, MimeUnrender accept res, MimeType contentType)
   => NH.Manager -- ^ http-client Connection manager
   -> SwaggerPetstoreConfig -- ^ config
-  -> SwaggerPetstoreRequest req contentType res -- ^ request
-  -> accept -- ^ "accept" 'MimeType'
+  -> SwaggerPetstoreRequest req contentType res accept -- ^ request
   -> IO (MimeResult res) -- ^ response
-dispatchMime manager config request accept = do
-  httpResponse <- dispatchLbs manager config request accept
+dispatchMime manager config request = do
+  httpResponse <- dispatchLbs manager config request
+  let statusCode = NH.statusCode . NH.responseStatus $ httpResponse
   parsedResult <-
     runConfigLogWithExceptions "Client" config $
-    do case mimeUnrender' accept (NH.responseBody httpResponse) of
-         Left s -> do
+    do if (statusCode >= 400 && statusCode < 600)
+         then do
+           let s = "error statusCode: " ++ show statusCode
            _log "Client" levelError (T.pack s)
            pure (Left (MimeError s httpResponse))
-         Right r -> pure (Right r)
+         else case mimeUnrender (P.Proxy :: P.Proxy accept) (NH.responseBody httpResponse) of
+           Left s -> do
+             _log "Client" levelError (T.pack s)
+             pure (Left (MimeError s httpResponse))
+           Right r -> pure (Right r)
   return (MimeResult parsedResult httpResponse)
 
 -- | like 'dispatchMime', but only returns the decoded http body
@@ -106,11 +110,10 @@ dispatchMime'
   :: (Produces req accept, MimeUnrender accept res, MimeType contentType)
   => NH.Manager -- ^ http-client Connection manager
   -> SwaggerPetstoreConfig -- ^ config
-  -> SwaggerPetstoreRequest req contentType res -- ^ request
-  -> accept -- ^ "accept" 'MimeType'
+  -> SwaggerPetstoreRequest req contentType res accept -- ^ request
   -> IO (Either MimeError res) -- ^ response
-dispatchMime' manager config request accept = do
-    MimeResult parsedResult _ <- dispatchMime manager config request accept 
+dispatchMime' manager config request  = do
+    MimeResult parsedResult _ <- dispatchMime manager config request
     return parsedResult
 
 -- ** Unsafe
@@ -120,11 +123,10 @@ dispatchLbsUnsafe
   :: (MimeType accept, MimeType contentType)
   => NH.Manager -- ^ http-client Connection manager
   -> SwaggerPetstoreConfig -- ^ config
-  -> SwaggerPetstoreRequest req contentType res -- ^ request
-  -> accept -- ^ "accept" 'MimeType'
+  -> SwaggerPetstoreRequest req contentType res accept -- ^ request
   -> IO (NH.Response BCL.ByteString) -- ^ response
-dispatchLbsUnsafe manager config request accept = do
-  initReq <- _toInitRequest config request accept
+dispatchLbsUnsafe manager config request  = do
+  initReq <- _toInitRequest config request
   dispatchInitUnsafe manager config initReq
 
 -- | dispatch an InitRequest
@@ -168,17 +170,16 @@ newtype InitRequest req contentType res accept = InitRequest
 _toInitRequest
   :: (MimeType accept, MimeType contentType)
   => SwaggerPetstoreConfig -- ^ config
-  -> SwaggerPetstoreRequest req contentType res -- ^ request
-  -> accept -- ^ "accept" 'MimeType'
+  -> SwaggerPetstoreRequest req contentType res accept -- ^ request
   -> IO (InitRequest req contentType res accept) -- ^ initialized request
-_toInitRequest config req0 accept = 
+_toInitRequest config req0  = 
   runConfigLogWithExceptions "Client" config $ do
     parsedReq <- P.liftIO $ NH.parseRequest $ BCL.unpack $ BCL.append (configHost config) (BCL.concat (rUrlPath req0))
     req1 <- P.liftIO $ _applyAuthMethods req0 config
     P.when
         (configValidateAuthMethods config && (not . null . rAuthTypes) req1)
-        (E.throwString $ "AuthMethod not configured: " <> (show . head . rAuthTypes) req1)
-    let req2 = req1 & _setContentTypeHeader & flip _setAcceptHeader accept
+        (E.throw $ AuthMethodException $ "AuthMethod not configured: " <> (show . head . rAuthTypes) req1)
+    let req2 = req1 & _setContentTypeHeader & _setAcceptHeader
         reqHeaders = ("User-Agent", WH.toHeader (configUserAgent config)) : paramsHeaders (rParams req2)
         reqQuery = NH.renderQuery True (paramsQuery (rParams req2))
         pReq = parsedReq { NH.method = (rMethod req2)
@@ -195,7 +196,7 @@ _toInitRequest config req0 accept =
     pure (InitRequest outReq)
 
 -- | modify the underlying Request
-modifyInitRequest :: InitRequest req contentType res accept -> (NH.Request -> NH.Request) -> InitRequest req contentType res accept 
+modifyInitRequest :: InitRequest req contentType res accept -> (NH.Request -> NH.Request) -> InitRequest req contentType res accept
 modifyInitRequest (InitRequest req) f = InitRequest (f req)
 
 -- | modify the underlying Request (monadic)

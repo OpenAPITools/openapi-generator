@@ -23,7 +23,7 @@ Tag::Tag()
 {
     m_Id = 0L;
     m_IdIsSet = false;
-    m_Name = U("");
+    m_Name = utility::conversions::to_string_t("");
     m_NameIsSet = false;
 }
 
@@ -42,11 +42,11 @@ web::json::value Tag::toJson() const
 
     if(m_IdIsSet)
     {
-        val[U("id")] = ModelBase::toJson(m_Id);
+        val[utility::conversions::to_string_t("id")] = ModelBase::toJson(m_Id);
     }
     if(m_NameIsSet)
     {
-        val[U("name")] = ModelBase::toJson(m_Name);
+        val[utility::conversions::to_string_t("name")] = ModelBase::toJson(m_Name);
     }
 
     return val;
@@ -54,31 +54,31 @@ web::json::value Tag::toJson() const
 
 void Tag::fromJson(web::json::value& val)
 {
-    if(val.has_field(U("id")))
+    if(val.has_field(utility::conversions::to_string_t("id")))
     {
-        setId(ModelBase::int64_tFromJson(val[U("id")]));
+        setId(ModelBase::int64_tFromJson(val[utility::conversions::to_string_t("id")]));
     }
-    if(val.has_field(U("name")))
+    if(val.has_field(utility::conversions::to_string_t("name")))
     {
-        setName(ModelBase::stringFromJson(val[U("name")]));
+        setName(ModelBase::stringFromJson(val[utility::conversions::to_string_t("name")]));
     }
 }
 
 void Tag::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix[namePrefix.size() - 1] != U('.'))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
     {
-        namePrefix += U(".");
+        namePrefix += utility::conversions::to_string_t(".");
     }
 
     if(m_IdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("id"), m_Id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("id"), m_Id));
     }
     if(m_NameIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("name"), m_Name));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("name"), m_Name));
         
     }
 }
@@ -86,18 +86,18 @@ void Tag::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utilit
 void Tag::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix[namePrefix.size() - 1] != U('.'))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
     {
-        namePrefix += U(".");
+        namePrefix += utility::conversions::to_string_t(".");
     }
 
-    if(multipart->hasContent(U("id")))
+    if(multipart->hasContent(utility::conversions::to_string_t("id")))
     {
-        setId(ModelBase::int64_tFromHttpContent(multipart->getContent(U("id"))));
+        setId(ModelBase::int64_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("id"))));
     }
-    if(multipart->hasContent(U("name")))
+    if(multipart->hasContent(utility::conversions::to_string_t("name")))
     {
-        setName(ModelBase::stringFromHttpContent(multipart->getContent(U("name"))));
+        setName(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("name"))));
     }
 }
 

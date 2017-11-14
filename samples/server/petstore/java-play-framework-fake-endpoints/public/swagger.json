@@ -978,7 +978,8 @@
           }
         },
         "x-contentType" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "missingReturnInfoIfNeeded" : "1.0"
       }
     },
     "/fake/outer/string" : {
@@ -1030,7 +1031,8 @@
           }
         },
         "x-contentType" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "missingReturnInfoIfNeeded" : "true"
       }
     },
     "/fake/outer/composite" : {
@@ -1078,6 +1080,34 @@
           "description" : "field2",
           "required" : true,
           "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/fake/inline-additionalProperties" : {
+      "post" : {
+        "tags" : [ "fake" ],
+        "summary" : "test inline additionalProperties",
+        "description" : "",
+        "operationId" : "testInlineAdditionalProperties",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "param",
+          "description" : "request body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          }
         } ],
         "responses" : {
           "200" : {

@@ -11,6 +11,7 @@ import javax.validation.Valid;
  **/
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "Model for testing reserved words")
 
 public class ModelReturn  implements Serializable {
@@ -26,6 +27,7 @@ public class ModelReturn  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("return")
   public Integer getReturn() {
     return _return;
   }

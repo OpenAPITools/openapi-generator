@@ -355,7 +355,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         for (Map.Entry<String, Object> entry : models.entrySet()) {
             String swaggerName = entry.getKey();
-
             CodegenModel model = ModelUtils.getModelByName(swaggerName, models);
             if (model != null) {
                 for (CodegenProperty var : model.allVars) {
@@ -369,7 +368,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                         updateCodegenPropertyEnum(var);
 
-                        // We do this after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
+                        // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
                         var.isPrimitiveType = true;
                     }
                 }

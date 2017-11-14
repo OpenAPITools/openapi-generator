@@ -1,5 +1,5 @@
 {{>licenseInfo}}
-import request = require('request');
+import localVarRequest = require('request');
 import http = require('http');
 {{^supportsES6}}
 import Promise = require('bluebird');
@@ -196,7 +196,7 @@ let enumsMap = {
             {{#hasEnums}}
                 {{#vars}}
                     {{#isEnum}}
-    "{{datatypeWithEnum}}": {{datatypeWithEnum}},
+        {{#isContainer}}"{{classname}}.{{enumName}}": {{classname}}.{{enumName}}{{/isContainer}}{{#isNotContainer}}"{{datatypeWithEnum}}": {{datatypeWithEnum}}{{/isNotContainer}},
                     {{/isEnum}}
                 {{/vars}}
             {{/hasEnums}}
@@ -216,13 +216,13 @@ export interface Authentication {
     /**
     * Apply authentication settings to header and query params.
     */
-    applyToRequest(requestOptions: request.Options): void;
+    applyToRequest(requestOptions: localVarRequest.Options): void;
 }
 
 export class HttpBasicAuth implements Authentication {
     public username: string;
     public password: string;
-    applyToRequest(requestOptions: request.Options): void {
+    applyToRequest(requestOptions: localVarRequest.Options): void {
         requestOptions.auth = {
             username: this.username, password: this.password
         }
@@ -235,7 +235,7 @@ export class ApiKeyAuth implements Authentication {
     constructor(private location: string, private paramName: string) {
     }
 
-    applyToRequest(requestOptions: request.Options): void {
+    applyToRequest(requestOptions: localVarRequest.Options): void {
         if (this.location == "query") {
             (<any>requestOptions.qs)[this.paramName] = this.apiKey;
         } else if (this.location == "header" && requestOptions && requestOptions.headers) {
@@ -247,7 +247,7 @@ export class ApiKeyAuth implements Authentication {
 export class OAuth implements Authentication {
     public accessToken: string;
 
-    applyToRequest(requestOptions: request.Options): void {
+    applyToRequest(requestOptions: localVarRequest.Options): void {
         if (requestOptions && requestOptions.headers) {
             requestOptions.headers["Authorization"] = "Bearer " + this.accessToken;
         }
@@ -257,7 +257,7 @@ export class OAuth implements Authentication {
 export class VoidAuth implements Authentication {
     public username: string;
     public password: string;
-    applyToRequest(_: request.Options): void {
+    applyToRequest(_: localVarRequest.Options): void {
         // Do nothing
     }
 }
@@ -371,9 +371,9 @@ export class {{classname}} {
     public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : Promise<{ response: http.{{#supportsES6}}IncomingMessage{{/supportsES6}}{{^supportsES6}}ClientResponse{{/supportsES6}}; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
         const localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
-        let queryParameters: any = {};
-        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
-        let formParams: any = {};
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarFormParams: any = {};
 
 {{#allParams}}
 {{#required}}
@@ -386,34 +386,34 @@ export class {{classname}} {
 {{/allParams}}
 {{#queryParams}}
         if ({{paramName}} !== undefined) {
-            queryParameters['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}");
+            localVarQueryParameters['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}");
         }
 
 {{/queryParams}}
 {{#headerParams}}
-        headerParams['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}");
+        localVarHeaderParams['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}");
 {{/headerParams}}
 
-        let useFormData = false;
+        let localVarUseFormData = false;
 
 {{#formParams}}
         if ({{paramName}} !== undefined) {
             {{#isFile}}
-            formParams['{{baseName}}'] = {{paramName}};
+            localVarFormParams['{{baseName}}'] = {{paramName}};
             {{/isFile}}
             {{^isFile}}
-            formParams['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}");
+            localVarFormParams['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}");
             {{/isFile}}
         }
 {{#isFile}}
-        useFormData = true;
+        localVarUseFormData = true;
 {{/isFile}}
 
 {{/formParams}}
-        let requestOptions: request.Options = {
+        let localVarRequestOptions: localVarRequest.Options = {
             method: '{{httpMethod}}',
-            qs: queryParameters,
-            headers: headerParams,
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
 {{^isResponseFile}}
@@ -428,27 +428,27 @@ export class {{classname}} {
         };
 
 {{#authMethods}}
-        this.authentications.{{name}}.applyToRequest(requestOptions);
+        this.authentications.{{name}}.applyToRequest(localVarRequestOptions);
 
 {{/authMethods}}
-        this.authentications.default.applyToRequest(requestOptions);
+        this.authentications.default.applyToRequest(localVarRequestOptions);
 
-        if (Object.keys(formParams).length) {
-            if (useFormData) {
-                (<any>requestOptions).formData = formParams;
+        if (Object.keys(localVarFormParams).length) {
+            if (localVarUseFormData) {
+                (<any>localVarRequestOptions).formData = localVarFormParams;
             } else {
-                requestOptions.form = formParams;
+                localVarRequestOptions.form = localVarFormParams;
             }
         }
         return new Promise<{ response: http.{{#supportsES6}}IncomingMessage{{/supportsES6}}{{^supportsES6}}ClientResponse{{/supportsES6}}; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
-            request(requestOptions, (error, response, body) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 } else {
                     {{#returnType}}
                     body = ObjectSerializer.deserialize(body, "{{{returnType}}}");
                     {{/returnType}}
-                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
                         reject({ response: response, body: body });

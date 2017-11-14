@@ -59,15 +59,16 @@ PetApi <- R6::R6Class(
     },
     add_pet = function(body, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
+
       if (!missing(`body`)) {
-        body <- `body`$toJSON()
+        body <- `body`$toJSONString()
+      } else {
+        body <- NULL
       }
 
       urlPath <- "/pet"
-
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
@@ -86,9 +87,9 @@ PetApi <- R6::R6Class(
     },
     delete_pet = function(pet_id, api_key, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
+
       if (!missing(`api_key`)) {
         headerParams['api_key'] <- `api_key`
       }
@@ -116,15 +117,14 @@ PetApi <- R6::R6Class(
     },
     find_pets_by_status = function(status, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
+
       if (!missing(`status`)) {
         queryParams['status'] <- status
       }
 
       urlPath <- "/pet/findByStatus"
-
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
@@ -145,15 +145,14 @@ PetApi <- R6::R6Class(
     },
     find_pets_by_tags = function(tags, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
+
       if (!missing(`tags`)) {
         queryParams['tags'] <- tags
       }
 
       urlPath <- "/pet/findByTags"
-
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
@@ -174,7 +173,6 @@ PetApi <- R6::R6Class(
     },
     get_pet_by_id = function(pet_id, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
 
@@ -203,15 +201,16 @@ PetApi <- R6::R6Class(
     },
     update_pet = function(body, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
+
       if (!missing(`body`)) {
-        body <- `body`$toJSON()
+        body <- `body`$toJSONString()
+      } else {
+        body <- NULL
       }
 
       urlPath <- "/pet"
-
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "PUT",
                                  queryParams = queryParams,
@@ -230,13 +229,13 @@ PetApi <- R6::R6Class(
     },
     update_pet_with_form = function(pet_id, name, status, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
+
       body <- list(
           "name" = name,
           "status" = status
-      )     
+      )
 
       urlPath <- "/pet/{petId}"
       if (!missing(`pet_id`)) {
@@ -261,13 +260,13 @@ PetApi <- R6::R6Class(
     },
     upload_file = function(pet_id, additional_metadata, file, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
+
       body <- list(
           "additionalMetadata" = additional_metadata,
           "file" = httr::upload_file(file)
-      )     
+      )
 
       urlPath <- "/pet/{petId}/uploadImage"
       if (!missing(`pet_id`)) {

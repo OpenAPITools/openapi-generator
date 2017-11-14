@@ -5,8 +5,8 @@
  * This is an API client responsible for stating the HTTP calls
  */
 
-#ifndef ApiClient_H_
-#define ApiClient_H_
+#ifndef {{apiHeaderGuardPrefix}}_ApiClient_H_
+#define {{apiHeaderGuardPrefix}}_ApiClient_H_
 
 {{{defaultInclude}}}
 #include "ApiConfiguration.h"
@@ -48,7 +48,7 @@ public:
 
         for( size_t i = 0; i < value.size(); i++)
         {
-            if( i > 0) ss << U(", ");
+            if( i > 0) ss << utility::conversions::to_string_t(", ");
             ss << ApiClient::parameterToString(value[i]);
         }
 
@@ -75,4 +75,4 @@ protected:
 }
 {{/apiNamespaceDeclarations}}
 
-#endif /* ApiClient_H_ */
+#endif /* {{apiHeaderGuardPrefix}}_ApiClient_H_ */

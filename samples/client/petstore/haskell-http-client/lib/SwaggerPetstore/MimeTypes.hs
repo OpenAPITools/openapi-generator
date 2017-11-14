@@ -14,6 +14,7 @@ Module : SwaggerPetstore.MimeTypes
 -}
 
 {-# LANGUAGE ConstraintKinds #-}
+{-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
@@ -42,6 +43,13 @@ import qualified Web.HttpApiData as WH
 import Prelude (($), (.),(<$>),(<*>),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty)
 import qualified Prelude as P
 
+-- * ContentType MimeType
+
+data ContentType a = MimeType a => ContentType { unContentType :: a }
+
+-- * Accept MimeType
+
+data Accept a = MimeType a => Accept { unAccept :: a }
 
 -- * Consumes Class
 

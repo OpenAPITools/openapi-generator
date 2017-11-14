@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class ArrayOfNumberOnly  implements Serializable {
@@ -25,6 +26,7 @@ public class ArrayOfNumberOnly  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }

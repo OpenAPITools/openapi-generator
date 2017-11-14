@@ -11,7 +11,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+  * Model for testing model name same as property name
+ **/
 @ApiModel(description="Model for testing model name same as property name")
 public class Name  {
   
@@ -28,6 +32,7 @@ public class Name  {
    * Get name
    * @return name
   **/
+  @JsonProperty("name")
   @NotNull
   public Integer getName() {
     return name;
@@ -46,6 +51,7 @@ public class Name  {
    * Get snakeCase
    * @return snakeCase
   **/
+  @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -55,6 +61,7 @@ public class Name  {
    * Get property
    * @return property
   **/
+  @JsonProperty("property")
   public String getProperty() {
     return property;
   }
@@ -72,6 +79,7 @@ public class Name  {
    * Get _123Number
    * @return _123Number
   **/
+  @JsonProperty("123Number")
   public Integer get123Number() {
     return _123Number;
   }

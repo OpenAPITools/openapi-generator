@@ -16,8 +16,8 @@
  * This is the interface for contents that can be sent to a remote HTTP server.
  */
 
-#ifndef IHttpBody_H_
-#define IHttpBody_H_
+#ifndef IO_SWAGGER_CLIENT_MODEL_IHttpBody_H_
+#define IO_SWAGGER_CLIENT_MODEL_IHttpBody_H_
 
 
 #include <iostream>
@@ -40,4 +40,4 @@ public:
 }
 }
 
-#endif /* IHttpBody_H_ */
+#endif /* IO_SWAGGER_CLIENT_MODEL_IHttpBody_H_ */

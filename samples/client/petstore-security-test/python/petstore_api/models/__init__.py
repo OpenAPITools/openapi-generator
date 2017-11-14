@@ -1,9 +1,10 @@
 # coding: utf-8
 
+# flake8: noqa
 """
     Swagger Petstore */ ' \" =end -- \\r\\n \\n \\r
 
-    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  */ ' \" =end --       
+    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  */ ' \" =end --         # noqa: E501
 
     OpenAPI spec version: 1.0.0 */ ' \" =end -- \\r\\n \\n \\r
     Contact: apiteam@swagger.io */ ' \" =end -- \\r\\n \\n \\r
@@ -14,4 +15,4 @@
 from __future__ import absolute_import
 
 # import models into model package
-from .model_return import ModelReturn
+from petstore_api.models.model_return import ModelReturn

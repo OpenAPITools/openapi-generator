@@ -479,6 +479,58 @@
 
 
     /**
+     * test inline additionalProperties
+     * 
+     * @param {Object} param request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    this.testInlineAdditionalPropertiesWithHttpInfo = function(param) {
+      var postBody = param;
+
+      // verify the required parameter 'param' is set
+      if (param === undefined || param === null) {
+        throw new Error("Missing the required parameter 'param' when calling testInlineAdditionalProperties");
+      }
+
+
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = [];
+      var contentTypes = ['application/json'];
+      var accepts = [];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/fake/inline-additionalProperties', 'POST',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * test inline additionalProperties
+     * 
+     * @param {Object} param request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    this.testInlineAdditionalProperties = function(param) {
+      return this.testInlineAdditionalPropertiesWithHttpInfo(param)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
      * test json serialization of form data
      * 
      * @param {String} param field1

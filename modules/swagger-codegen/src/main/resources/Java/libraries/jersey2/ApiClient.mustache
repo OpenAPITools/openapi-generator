@@ -307,6 +307,27 @@ public class ApiClient {
   }
 
   /**
+   * read timeout (in milliseconds).
+   * @return Read timeout
+   */
+  public int getReadTimeout() {
+    return readTimeout;
+  }
+  
+  /**
+   * Set the read timeout (in milliseconds).
+   * A value of 0 means no timeout, otherwise values must be between 1 and
+   * {@link Integer#MAX_VALUE}.
+   * @param readTimeout Read timeout in milliseconds
+   * @return API client
+   */
+  public ApiClient setReadTimeout(int readTimeout) {
+    this.readTimeout = readTimeout;
+    httpClient.property(ClientProperties.READ_TIMEOUT, readTimeout);
+    return this;
+  }
+
+  /**
    * Get the date format used to parse/format date parameters.
    * @return Date format
    */

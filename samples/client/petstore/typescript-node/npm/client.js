@@ -4,9 +4,9 @@ var fs = require('fs');
 function deepCheck(objectA, objectB) {
     var a = objectA;
     var b = objectB;
-    var isString = (typeof a == "string" && typeof b == "string");
-    var isBool = (typeof a == "boolean" && typeof b == "boolean");
-    var isNumber = (typeof a == "number" && typeof b == "number");
+    var isString = (typeof a === "string" && typeof b === "string");
+    var isBool = (typeof a === "boolean" && typeof b === "boolean");
+    var isNumber = (typeof a === "number" && typeof b === "number");
     if (a instanceof Array && b instanceof Array) {
         for (var i = 0; i < a.length; i++) {
             if (!deepCheck(a[i], b[i])) {
@@ -18,7 +18,7 @@ function deepCheck(objectA, objectB) {
     else if (isString || isBool || isNumber) {
         return a === b;
     }
-    else if (typeof a == "object" && typeof b == "object") {
+    else if (typeof a === "object" && typeof b === "object") {
         for (var key in a) {
             if (!deepCheck(a[key], b[key])) {
                 return false;
@@ -114,7 +114,7 @@ petApi.addPet(pet)
 })
     .then(function (res) {
     console.log('Updated pet using POST form');
-    return petApi.uploadFile(petId, undefined, fs.createReadStream('sample.png'));
+    return petApi.uploadFile(petId, undefined, fs.readFileSync('sample.png'));
 })
     .then(function (res) {
     console.log('Uploaded image');

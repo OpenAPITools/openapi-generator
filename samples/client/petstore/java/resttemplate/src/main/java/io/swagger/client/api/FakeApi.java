@@ -341,6 +341,39 @@ public class FakeApi {
         apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
+     * test inline additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param param request body
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void testInlineAdditionalProperties(Object param) throws RestClientException {
+        Object postBody = param;
+        
+        // verify the required parameter 'param' is set
+        if (param == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
+        }
+        
+        String path = UriComponentsBuilder.fromPath("/fake/inline-additionalProperties").build().toUriString();
+        
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] accepts = { };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { 
+            "application/json"
+        };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
+        apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
+    /**
      * test json serialization of form data
      * 
      * <p><b>200</b> - successful operation

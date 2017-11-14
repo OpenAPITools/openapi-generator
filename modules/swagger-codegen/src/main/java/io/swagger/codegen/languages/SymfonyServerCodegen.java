@@ -32,7 +32,9 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
     protected String bundleExtensionName;
     protected String bundleAlias;
     protected String controllerDirName = "Controller";
+    protected String serviceDirName = "Service";
     protected String controllerPackage;
+    protected String servicePackage;
     protected Boolean phpLegacySupport = Boolean.TRUE;
 
     protected HashSet<String> typeHintable;
@@ -74,7 +76,9 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
         modelDocPath = docsBasePath + File.separator + modelDirName;
         outputFolder = "generated-code" + File.separator + "php";
         apiTemplateFiles.put("api_controller.mustache", ".php");
-        modelTestTemplateFiles.put("model_test.mustache", ".php");
+        modelTestTemplateFiles.put("testing/model_test.mustache", ".php");
+        apiTestTemplateFiles = new HashMap<String, String>();
+        apiTestTemplateFiles.put("testing/api_test.mustache", ".php");
         embeddedTemplateDir = templateDir = "php-symfony";
 
         setReservedWordsLowerCase(
@@ -105,13 +109,10 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
             )
         );
 
-        //instantiationTypes.put("array", "array");
-        //instantiationTypes.put("map", "map");
-
         defaultIncludes = new HashSet<String>(
             Arrays.asList(
                 "\\DateTime",
-                "\\SplFileObject"
+                "UploadedFile"
             )
         );
 
@@ -135,7 +136,7 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
         typeMapping.put("boolean", "bool");
         typeMapping.put("Date", "\\DateTime");
         typeMapping.put("DateTime", "\\DateTime");
-        typeMapping.put("file", "\\SplFileObject");
+        typeMapping.put("file", "UploadedFile");
         typeMapping.put("map", "array");
         typeMapping.put("array", "array");
         typeMapping.put("list", "array");
@@ -242,6 +243,7 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
 
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
         additionalProperties.put("controllerPackage", controllerPackage);
+        additionalProperties.put("servicePackage", servicePackage);
         additionalProperties.put("apiTestsPackage", apiTestsPackage);
         additionalProperties.put("modelTestsPackage", modelTestsPackage);
 
@@ -275,14 +277,28 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("Extension.mustache", dependencyInjectionDir, bundleExtensionName + ".php"));
         supportingFiles.add(new SupportingFile("ApiPass.mustache", dependencyInjectionDir + File.separator + "Compiler", bundleName + "ApiPass.php"));
         supportingFiles.add(new SupportingFile("ApiServer.mustache", toPackagePath(apiPackage, srcBasePath), "ApiServer.php"));
-        supportingFiles.add(new SupportingFile("ModelSerializer.mustache", toPackagePath(modelPackage, srcBasePath), "ModelSerializer.php"));
-        supportingFiles.add(new SupportingFile("ModelInterface.mustache", toPackagePath(modelPackage, srcBasePath), "ModelInterface.php"));
+
+        // Serialization components
+        supportingFiles.add(new SupportingFile("serialization/SerializerInterface.mustache", toPackagePath(servicePackage, srcBasePath), "SerializerInterface.php"));
+        supportingFiles.add(new SupportingFile("serialization/JmsSerializer.mustache", toPackagePath(servicePackage, srcBasePath), "JmsSerializer.php"));
+        supportingFiles.add(new SupportingFile("serialization/StrictJsonDeserializationVisitor.mustache", toPackagePath(servicePackage, srcBasePath), "StrictJsonDeserializationVisitor.php"));
+        supportingFiles.add(new SupportingFile("serialization/TypeMismatchException.mustache", toPackagePath(servicePackage, srcBasePath), "TypeMismatchException.php"));
+        // Validation components
+        supportingFiles.add(new SupportingFile("validation/ValidatorInterface.mustache", toPackagePath(servicePackage, srcBasePath), "ValidatorInterface.php"));
+        supportingFiles.add(new SupportingFile("validation/SymfonyValidator.mustache", toPackagePath(servicePackage, srcBasePath), "SymfonyValidator.php"));
+
+        // Testing components
+        supportingFiles.add(new SupportingFile("testing/phpunit.xml.mustache", getPackagePath(), "phpunit.xml.dist"));
+        supportingFiles.add(new SupportingFile("testing/pom.xml", getPackagePath(), "pom.xml"));
+        supportingFiles.add(new SupportingFile("testing/AppKernel.php", toPackagePath(testsPackage, srcBasePath), "AppKernel.php"));
+        supportingFiles.add(new SupportingFile("testing/test_config.yml", toPackagePath(testsPackage, srcBasePath), "test_config.yml"));
+
         supportingFiles.add(new SupportingFile("routing.mustache", configDir, "routing.yml"));
         supportingFiles.add(new SupportingFile("services.mustache", configDir, "services.yml"));
         supportingFiles.add(new SupportingFile("composer.mustache", getPackagePath(), "composer.json"));
         supportingFiles.add(new SupportingFile("autoload.mustache", getPackagePath(), "autoload.php"));
         supportingFiles.add(new SupportingFile("README.mustache", getPackagePath(), "README.md"));
-        supportingFiles.add(new SupportingFile("phpunit.xml.mustache", getPackagePath(), "phpunit.xml.dist"));
+        
         supportingFiles.add(new SupportingFile(".travis.yml", getPackagePath(), ".travis.yml"));
         supportingFiles.add(new SupportingFile(".php_cs", getPackagePath(), ".php_cs"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", getPackagePath(), "git_push.sh"));
@@ -329,6 +345,14 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
                 if (!typeHint.isEmpty()) {
                     param.vendorExtensions.put("x-parameterType", typeHint);
                 }
+
+                // Quote default values for strings
+                // @todo: The default values for headers, forms and query params are handled
+                //        in DefaultCodegen fromParameter with no real possibility to override
+                //        the functionality. Thus we are handling quoting of string values here
+                if (param.dataType.equals("string") && param.defaultValue != null && !param.defaultValue.isEmpty()) {
+                    param.defaultValue = "'"+param.defaultValue+"'";
+                }
             }
 
             for (CodegenResponse response : op.responses) {
@@ -340,9 +364,6 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
                 if (response.dataType != null) {
                     final String dataType = extractSimpleName(response.dataType);
                     response.vendorExtensions.put("x-simpleName", dataType);
-                    // if (!typeMapping.containsValue(dataType)) {
-                    //     imports.add(response.dataType.replaceFirst("\\[\\]$", ""));
-                    // }
                 }
             }
 
@@ -364,19 +385,15 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
         ArrayList<Object> modelsArray = (ArrayList<Object>) objs.get("models");
         Map<String, Object> models = (Map<String, Object>) modelsArray.get(0);
         CodegenModel model = (CodegenModel) models.get("model");
-        HashSet<String> imports = new HashSet<>();
 
         // Simplify model var type
         for (CodegenProperty var : model.vars) {
             if (var.datatype != null) {
-                final String importType = var.datatype.replaceFirst("\\[\\]$", "");
-                final String dataType = extractSimpleName(var.datatype);
-                final boolean isScalarType = typeMapping.containsValue(importType);
-                var.vendorExtensions.put("x-fullType", var.datatype);
-                if (!isScalarType) {
-                    var.vendorExtensions.put("x-typeAnnotation", dataType.endsWith("[]") ? "array" : dataType);
-                    imports.add(importType);
-                    var.datatype = dataType;
+                // Determine if the paramter type is supported as a type hint and make it available
+                // to the templating engine
+                String typeHint = getTypeHint(var.datatype);
+                if (!typeHint.isEmpty()) {
+                    var.vendorExtensions.put("x-parameterType", typeHint);
                 }
 
                 if (var.isBoolean) {
@@ -384,8 +401,6 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
                 }
             }
         }
-
-        objs.put("useStatements", new ArrayList<>(imports));
 
         return objs;
     }
@@ -425,6 +440,7 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
         apiTestsPackage = testsPackage + "\\" + apiDirName;
         modelTestsPackage = testsPackage + "\\" + modelDirName;
         controllerPackage = invokerPackage + "\\" + controllerDirName;
+        servicePackage = invokerPackage + "\\" + serviceDirName;
     }
 
     @Override
@@ -483,6 +499,26 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
         } else {
             return modelPackage() + "\\" + name;
         }
+    }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
+    }
+
+    /**
+     * Return the regular expression/JSON schema pattern (http://json-schema.org/latest/json-schema-validation.html#anchor33)
+     *
+     * @param pattern the pattern (regular expression)
+     * @return properly-escaped pattern
+     */
+    @Override
+    public String toRegularExpression(String pattern) {
+        return escapeText(pattern);
     }
 
     public String toApiName(String name) {

@@ -102,10 +102,10 @@ Order <- R6::R6Class(
         '{
            "id": %d,
            "petId": %d,
-           "quantity": "%s",
-           "shipDate": "%s",
-           "status": "%s",
-           "complete": "%s"
+           "quantity": %s,
+           "shipDate": %s,
+           "status": %s,
+           "complete": %s
         }',
         self$`id`,
         self$`petId`,
