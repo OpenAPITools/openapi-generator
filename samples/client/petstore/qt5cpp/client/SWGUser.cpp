@@ -49,28 +49,22 @@ SWGUser::init() {
 
 void
 SWGUser::cleanup() {
-    
 
     if(username != nullptr) {
         delete username;
     }
-
     if(first_name != nullptr) {
         delete first_name;
     }
-
     if(last_name != nullptr) {
         delete last_name;
     }
-
     if(email != nullptr) {
         delete email;
     }
-
     if(password != nullptr) {
         delete password;
     }
-
     if(phone != nullptr) {
         delete phone;
     }
@@ -111,21 +105,13 @@ SWGUser::asJson ()
 QJsonObject*
 SWGUser::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
-    
     obj->insert("id", QJsonValue(id));
-
     toJsonValue(QString("username"), username, obj, QString("QString"));
-
     toJsonValue(QString("firstName"), first_name, obj, QString("QString"));
-
     toJsonValue(QString("lastName"), last_name, obj, QString("QString"));
-
     toJsonValue(QString("email"), email, obj, QString("QString"));
-
     toJsonValue(QString("password"), password, obj, QString("QString"));
-
     toJsonValue(QString("phone"), phone, obj, QString("QString"));
-
     obj->insert("userStatus", QJsonValue(user_status));
 
     return obj;
