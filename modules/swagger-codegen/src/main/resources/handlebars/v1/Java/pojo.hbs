@@ -4,6 +4,7 @@
 @ApiModel(description = "{{{description}}}"){{/description}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
 public class {{{getClassDefinition}}} {
+    // here it's the tab xD
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
 {{/serializableModel~}}
@@ -49,15 +50,14 @@ public class {{{getClassDefinition}}} {
   {{/gson~}}
   private {{{getJavaProperty}}};
   {{/vars}}
-  {{#vars}}
-  {{^isReadOnly}}
+  {{#vars~}}
+  {{^isReadOnly~}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
     return this;
   }
-  {{#isListContainer}}
 
-  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+  {{#isListContainer}}public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{^required}}
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
@@ -66,10 +66,8 @@ public class {{{getClassDefinition}}} {
     this.{{name}}.add({{name}}Item);
     return this;
   }
-  {{/isListContainer}}
-  {{#isMapContainer}}
-
-  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+  {{/isListContainer~}}
+  {{#isMapContainer}}public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{^required}}
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
@@ -77,9 +75,7 @@ public class {{{getClassDefinition}}} {
     {{/required}}
     this.{{name}}.put(key, {{name}}Item);
     return this;
-  }
-  {{/isMapContainer}}
-
+  }{{/isMapContainer~}}
   {{/isReadOnly}}
   /**
   {{#if description~}}* {{description}}{{else}}* Get {{name}}{{/if}}
@@ -91,23 +87,20 @@ public class {{{getClassDefinition}}} {
   {{/if~}}
   * @return {{name}}
   **/
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
-{{#vendorExtensions.extraAnnotation}}
+  {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}@ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  {{#vendorExtensions.extraAnnotation}}
   {{{vendorExtensions.extraAnnotation}}}
-{{/vendorExtensions.extraAnnotation}}
+  {{/vendorExtensions.extraAnnotation~}}
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
   {{^isReadOnly}}
-
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
   {{/isReadOnly}}
-
-  {{/vars}}
-
-{{^supportJava6}}
+  {{/vars~}}
+  {{^supportJava6~}}
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -127,11 +120,10 @@ public class {{{getClassDefinition}}} {
   public int hashCode() {
     return Objects.hash({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
-
-{{/supportJava6}}
-{{#supportJava6}}
+  {{/supportJava6~}}
+  {{#supportJava6~}}
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(java.lang.Object obj) {
   if (this == o) {
     return true;
   }
@@ -149,8 +141,7 @@ public class {{{getClassDefinition}}} {
   public int hashCode() {
     return ObjectUtils.hashCodeMulti({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
-
-{{/supportJava6}}
+  {{/supportJava6~}}
 
   @Override
   public String toString() {
@@ -175,7 +166,8 @@ public class {{{getClassDefinition}}} {
 
   {{#parcelableModel}}
   public void writeToParcel(Parcel out, int flags) {
-    {{#parent}} super.writeToParcel(out, flags); {{/parent}} {{#vars}}
+    {{#parent}} super.writeToParcel(out, flags); {{/parent}}
+    {{#vars~}}
     out.writeValue({{name}});
     {{/vars}}
   }
@@ -186,13 +178,9 @@ public class {{{getClassDefinition}}} {
 
   {{classname}}(Parcel in) {
     {{#parent}} super(in); {{/parent}}
-    {{#vars}}
-    {{#isPrimitiveType}}
-    {{name}} = ({{{datatypeWithEnum}}})in.readValue(null);
-    {{/isPrimitiveType}}
-    {{^isPrimitiveType}}
-    {{name}} = ({{{datatypeWithEnum}}})in.readValue({{complexType}}.class.getClassLoader());
-    {{/isPrimitiveType}}
+    {{#vars~}}
+    {{#isPrimitiveType~}}{{name}} = ({{{datatypeWithEnum}}})in.readValue(null);{{/isPrimitiveType~}}
+    {{^isPrimitiveType~}}{{name}} = ({{{datatypeWithEnum}}})in.readValue({{complexType}}.class.getClassLoader());{{/isPrimitiveType~}}
     {{/vars}}
   }
 
@@ -208,5 +196,5 @@ public class {{{getClassDefinition}}} {
       return new {{classname}}[size];
     }
   };
-  {{/parcelableModel}}
+  {{/parcelableModel~}}
 }
