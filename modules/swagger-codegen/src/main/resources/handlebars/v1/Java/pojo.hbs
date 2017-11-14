@@ -3,65 +3,51 @@
  */{{#description}}
 @ApiModel(description = "{{{description}}}"){{/description}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
-{{{classDefinition}}}
-  {{#vars}}
-    {{#isEnum}}
-    {{^isContainer}}
+public class {{{getClassDefinition}}} {
+{{#serializableModel}}
+  private static final long serialVersionUID = 1L;
+{{/serializableModel~}}
+  {{#vars~}}
+  {{#isEnum}}
+{{> modelInnerEnum}}
+  {{/isEnum~}}
+  {{#items.isEnum~}}
+  {{#items~}}
+  {{^isContainer~}}
 {{>modelInnerEnum}}
-    {{/isContainer}}
-    {{/isEnum}}
-    {{#items.isEnum}}
-      {{#items}}
-      {{^isContainer}}
-{{>modelInnerEnum}}
-      {{/isContainer}}
-      {{/items}}
-    {{/items.isEnum}}
+  {{/isContainer~}}
+  {{/items~}}
+  {{/items.isEnum~}}
   {{#jackson}}
   @JsonProperty("{{baseName}}")
-  {{#withXml}}
-    {{^isContainer}}
-  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}localName = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-    {{/isContainer}}
-    {{#isContainer}}
-      {{#isXmlWrapped}}
+  {{#withXml~}}
+  {{^isContainer~}}@JacksonXmlProperty({{{getJacksonXmlProperty isXmlAttribute xmlNamespace xmlName baseName}}}){{/isContainer}}
+  {{#isContainer~}}
+  {{#isXmlWrapped~}}
   // items.xmlName={{items.xmlName}}
-  @JacksonXmlElementWrapper(useWrapping = {{isXmlWrapped}}, {{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}localName = "{{#items.xmlName}}{{items.xmlName}}{{/items.xmlName}}{{^items.xmlName}}{{items.baseName}}{{/items.xmlName}}")
-      {{/isXmlWrapped}}
-    {{/isContainer}}
-  {{/withXml}}
-  {{/jackson}}
-  {{#withXml}}
-  {{#isXmlAttribute}}
-  @XmlAttribute(name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-  {{/isXmlAttribute}}
-  {{^isXmlAttribute}}
-    {{^isContainer}}
-  @XmlElement({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-    {{/isContainer}}
-    {{#isContainer}}
-  // Is a container wrapped={{isXmlWrapped}}
-      {{#items}}
-  // items.name={{name}} items.baseName={{baseName}} items.xmlName={{xmlName}} items.xmlNamespace={{xmlNamespace}}
-  // items.example={{example}} items.type={{datatype}}
-  @XmlElement({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-      {{/items}}
-      {{#isXmlWrapped}}
-  @XmlElementWrapper({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-      {{/isXmlWrapped}}
-    {{/isContainer}}
-  {{/isXmlAttribute}}
-  {{/withXml}}
-  {{#gson}}
+  @JacksonXmlElementWrapper({{{getJacksonXmlElementWrapper isXmlWrapped xmlNamespace xmlName baseName}}})
+  {{/isXmlWrapped~}}
+  {{/isContainer~}}
+  {{/withXml~}}
+  {{/jackson~}}
+  {{#withXml~}}
+  {{#isXmlAttribute~}}
+  @XmlAttribute(name = "{{getXmlAttributeName xmlName baseName}}")
+  {{/isXmlAttribute~}}
+  {{^isXmlAttribute~}}
+  {{^isContainer~}}@XmlElement({{{getXmlElementName xmlNamespace xmlName baseName}}}){{/isContainer}}
+  {{#isContainer~}}
+  {{#items~}}
+  @XmlElement({{{getXmlElementName items.xmlNamespace items.xmlName items.baseName}}})
+  {{/items~}}
+  {{#if isXmlWrapped~}}@XmlElementWrapper({{{getXmlElementName xmlNamespace xmlName baseName}}}){{/if}}
+  {{/isContainer~}}
+  {{/isXmlAttribute~}}
+  {{/withXml~}}
+  {{#gson~}}
   @SerializedName("{{baseName}}")
-  {{/gson}}
-  {{#isContainer}}
-  private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
-  {{/isContainer}}
-  {{^isContainer}}
-  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};
-  {{/isContainer}}
-
+  {{/gson~}}
+  private {{{getJavaProperty}}};
   {{/vars}}
   {{#vars}}
   {{^isReadOnly}}
@@ -95,20 +81,15 @@
   {{/isMapContainer}}
 
   {{/isReadOnly}}
-   /**
-  {{#description}}
-   * {{description}}
-  {{/description}}
-  {{^description}}
-   * Get {{name}}
-  {{/description}}
-  {{#minimum}}
-   * minimum: {{minimum}}
-  {{/minimum}}
-  {{#maximum}}
-   * maximum: {{maximum}}
-  {{/maximum}}
-   * @return {{name}}
+  /**
+  {{#if description~}}* {{description}}{{else}}* Get {{name}}{{/if}}
+  {{#if minimum~}}
+  * minimum: {{minimum}}
+  {{/if~}}
+  {{#if maximum~}}
+  * maximum: {{maximum}}
+  {{/if~}}
+  * @return {{name}}
   **/
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
 {{#vendorExtensions.extraAnnotation}}

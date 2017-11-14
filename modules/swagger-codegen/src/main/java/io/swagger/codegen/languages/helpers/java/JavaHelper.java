@@ -35,12 +35,12 @@ public class JavaHelper {
 
     public CharSequence getJavaProperty(CodegenProperty codegenProperty, Options options) throws IOException {
         final StringBuilder builder = new StringBuilder();
-        if (codegenProperty.isContainer()) {
+        if (codegenProperty.getIsContainer()) {
             builder.append(codegenProperty.getDatatypeWithEnum());
             builder.append(StringUtils.SPACE);
             builder.append(codegenProperty.getName());
             builder.append(" = ");
-            if (codegenProperty.isRequired()) {
+            if (codegenProperty.getRequired()) {
                 builder.append(codegenProperty.getDefaultValue());
             } else {
                 builder.append("null");
@@ -94,6 +94,70 @@ public class JavaHelper {
             builder.append("import javax.validation.constraints.*;\n");
             builder.append("import javax.validation.Valid;\n");
         }
+        return builder.toString();
+    }
+
+    public CharSequence getXmlAttributeName(String xmlName, String baseName) {
+        if (StringUtils.isNotBlank(xmlName)) {
+            return xmlName;
+        }
+        return baseName;
+    }
+
+    public CharSequence getXmlElementName(String xmlNamespace, String  xmlName, String baseName) {
+        StringBuilder builder = new StringBuilder();
+        if (StringUtils.isNotBlank(xmlNamespace)) {
+            builder.append("namespace=\"");
+            builder.append(xmlNamespace);
+            builder.append("\", ");
+        }
+        builder.append("name=\"");
+        if (StringUtils.isNotBlank(xmlName)) {
+            builder.append(xmlName);
+        } else {
+            builder.append(baseName);
+        }
+        builder.append("\"");
+        return builder.toString();
+    }
+
+    public CharSequence getJacksonXmlProperty(boolean isXmlAttribute, String xmlNamespace, String xmlName, String baseName) {
+        StringBuilder builder = new StringBuilder();
+        if (isXmlAttribute) {
+            builder.append("isAttribute = true, ");
+        }
+        if (StringUtils.isNotBlank(xmlNamespace)) {
+            builder.append("namespace=\"");
+            builder.append(xmlNamespace);
+            builder.append("\", ");
+        }
+        builder.append("localName = \"");
+        if (StringUtils.isNotBlank(xmlName)) {
+            builder.append(xmlName);
+        } else {
+            builder.append(baseName);
+        }
+        builder.append("\"");
+        return builder.toString();
+    }
+
+    public CharSequence getJacksonXmlElementWrapper(boolean isXmlWrapped, String xmlNamespace, String xmlName, String baseName) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("useWrapping = ");
+        builder.append(isXmlWrapped);
+        builder.append(", ");
+        if (StringUtils.isNotBlank(xmlNamespace)) {
+            builder.append("namespace=\"");
+            builder.append(xmlNamespace);
+            builder.append("\", ");
+        }
+        builder.append("localName = \"");
+        if (StringUtils.isNotBlank(xmlName)) {
+            builder.append(xmlName);
+        } else {
+            builder.append(baseName);
+        }
+        builder.append("\"");
         return builder.toString();
     }
 }
