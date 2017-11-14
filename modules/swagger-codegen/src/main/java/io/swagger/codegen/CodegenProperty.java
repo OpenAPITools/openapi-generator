@@ -254,7 +254,7 @@ public class CodegenProperty implements Cloneable {
         this.maximum = maximum;
     }
 
-    public boolean isExclusiveMinimum() {
+    public boolean getExclusiveMinimum() {
         return exclusiveMinimum;
     }
 
@@ -262,7 +262,7 @@ public class CodegenProperty implements Cloneable {
         this.exclusiveMinimum = exclusiveMinimum;
     }
 
-    public boolean isExclusiveMaximum() {
+    public boolean getIExclusiveMaximum() {
         return exclusiveMaximum;
     }
 
@@ -270,7 +270,7 @@ public class CodegenProperty implements Cloneable {
         this.exclusiveMaximum = exclusiveMaximum;
     }
 
-    public boolean isHasMore() {
+    public boolean getHasMore() {
         return hasMore;
     }
 
@@ -278,7 +278,7 @@ public class CodegenProperty implements Cloneable {
         this.hasMore = hasMore;
     }
 
-    public boolean isRequired() {
+    public boolean getRequired() {
         return required;
     }
 
@@ -286,7 +286,7 @@ public class CodegenProperty implements Cloneable {
         this.required = required;
     }
 
-    public boolean isSecondaryParam() {
+    public boolean getSecondaryParam() {
         return secondaryParam;
     }
 
@@ -294,7 +294,7 @@ public class CodegenProperty implements Cloneable {
         this.secondaryParam = secondaryParam;
     }
 
-    public boolean isHasMoreNonReadOnly() {
+    public boolean getHasMoreNonReadOnly() {
         return hasMoreNonReadOnly;
     }
 
@@ -302,7 +302,7 @@ public class CodegenProperty implements Cloneable {
         this.hasMoreNonReadOnly = hasMoreNonReadOnly;
     }
 
-    public boolean isPrimitiveType() {
+    public boolean getIsPrimitiveType() {
         return isPrimitiveType;
     }
 
@@ -310,7 +310,7 @@ public class CodegenProperty implements Cloneable {
         isPrimitiveType = primitiveType;
     }
 
-    public boolean isContainer() {
+    public boolean getIsContainer() {
         return isContainer;
     }
 
@@ -318,7 +318,7 @@ public class CodegenProperty implements Cloneable {
         isContainer = container;
     }
 
-    public boolean isNotContainer() {
+    public boolean getIsNotContainer() {
         return isNotContainer;
     }
 
@@ -326,7 +326,7 @@ public class CodegenProperty implements Cloneable {
         isNotContainer = notContainer;
     }
 
-    public boolean isString() {
+    public boolean getIsString() {
         return isString;
     }
 
@@ -334,7 +334,7 @@ public class CodegenProperty implements Cloneable {
         isString = string;
     }
 
-    public boolean isNumeric() {
+    public boolean getIsNumeric() {
         return isNumeric;
     }
 
@@ -342,7 +342,7 @@ public class CodegenProperty implements Cloneable {
         isNumeric = numeric;
     }
 
-    public boolean isInteger() {
+    public boolean getIsInteger() {
         return isInteger;
     }
 
@@ -350,7 +350,7 @@ public class CodegenProperty implements Cloneable {
         isInteger = integer;
     }
 
-    public boolean isLong() {
+    public boolean getIsLong() {
         return isLong;
     }
 
@@ -358,7 +358,7 @@ public class CodegenProperty implements Cloneable {
         isLong = aLong;
     }
 
-    public boolean isFloat() {
+    public boolean getIsFloat() {
         return isFloat;
     }
 
@@ -366,7 +366,7 @@ public class CodegenProperty implements Cloneable {
         isFloat = aFloat;
     }
 
-    public boolean isDouble() {
+    public boolean getIsDouble() {
         return isDouble;
     }
 
@@ -390,7 +390,7 @@ public class CodegenProperty implements Cloneable {
         isBinary = binary;
     }
 
-    public boolean isFile() {
+    public boolean getIsFile() {
         return isFile;
     }
 
@@ -398,7 +398,7 @@ public class CodegenProperty implements Cloneable {
         isFile = file;
     }
 
-    public boolean isBoolean() {
+    public boolean getIsBoolean() {
         return isBoolean;
     }
 
@@ -406,7 +406,7 @@ public class CodegenProperty implements Cloneable {
         isBoolean = aBoolean;
     }
 
-    public boolean isDate() {
+    public boolean getIsDate() {
         return isDate;
     }
 
@@ -414,7 +414,7 @@ public class CodegenProperty implements Cloneable {
         isDate = date;
     }
 
-    public boolean isDateTime() {
+    public boolean getIsDateTime() {
         return isDateTime;
     }
 
@@ -422,7 +422,7 @@ public class CodegenProperty implements Cloneable {
         isDateTime = dateTime;
     }
 
-    public boolean isUuid() {
+    public boolean getIsUuid() {
         return isUuid;
     }
 
@@ -430,7 +430,7 @@ public class CodegenProperty implements Cloneable {
         isUuid = uuid;
     }
 
-    public boolean isListContainer() {
+    public boolean getIsListContainer() {
         return isListContainer;
     }
 
@@ -438,7 +438,7 @@ public class CodegenProperty implements Cloneable {
         isListContainer = listContainer;
     }
 
-    public boolean isMapContainer() {
+    public boolean getIsMapContainer() {
         return isMapContainer;
     }
 
@@ -446,7 +446,7 @@ public class CodegenProperty implements Cloneable {
         isMapContainer = mapContainer;
     }
 
-    public boolean isEnum() {
+    public boolean getIsEnum() {
         return isEnum;
     }
 
@@ -454,7 +454,7 @@ public class CodegenProperty implements Cloneable {
         isEnum = anEnum;
     }
 
-    public boolean isReadOnly() {
+    public boolean getIsReadOnly() {
         return isReadOnly;
     }
 
@@ -494,7 +494,7 @@ public class CodegenProperty implements Cloneable {
         this.vendorExtensions = vendorExtensions;
     }
 
-    public boolean isHasValidation() {
+    public boolean getHasValidation() {
         return hasValidation;
     }
 
@@ -542,7 +542,7 @@ public class CodegenProperty implements Cloneable {
         this.minItems = minItems;
     }
 
-    public boolean isXmlAttribute() {
+    public boolean getIsXmlAttribute() {
         return isXmlAttribute;
     }
 
@@ -574,7 +574,7 @@ public class CodegenProperty implements Cloneable {
         this.xmlNamespace = xmlNamespace;
     }
 
-    public boolean isXmlWrapped() {
+    public boolean getIsXmlWrapped() {
         return isXmlWrapped;
     }
 
