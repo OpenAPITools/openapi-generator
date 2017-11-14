@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite>
+            <directory>{{apiTestPath}}</directory>
+            <directory>{{modelTestPath}}</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <server name="KERNEL_DIR" value="Tests/" />
+    </php>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">{{apiSrcPath}}</directory>
+            <directory suffix=".php">{{modelSrcPath}}</directory>
+        </whitelist>
+    </filter>
+</phpunit>

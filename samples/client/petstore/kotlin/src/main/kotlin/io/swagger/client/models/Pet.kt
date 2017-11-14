@@ -33,11 +33,19 @@ data class Pet (
     val status: Pet.Status? = null
 ) {
 
-    enum class Status(val value: kotlin.String) {
+    /**
+    * pet status in the store
+    * Values: available,pending,sold
+    */
+    enum class Status(val value: kotlin.Any){
+    
         available("available"),
+    
         pending("pending"),
+    
         sold("sold");
+    
     }
 
-
 }
+

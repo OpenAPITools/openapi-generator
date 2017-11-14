@@ -1,0 +1,38 @@
+{
+    "name": "swagger/server-bundle",
+    "description": "",
+    "keywords": [
+        "swagger",
+        "php",
+        "sdk",
+        "api"
+    ],
+    "homepage": "http://swagger.io",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Swagger and contributors",
+            "homepage": "https://github.com/swagger-api/swagger-codegen"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "symfony/validator": "*",
+        "jms/serializer-bundle": "*",
+        "symfony/framework-bundle": "^2.3|^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8",
+        "satooshi/php-coveralls": "~1.0",
+        "squizlabs/php_codesniffer": "~2.6",
+        "friendsofphp/php-cs-fixer": "~1.12",
+        "symfony/browser-kit": "*",
+        "hoa/regex": "~1.0"
+    },
+    "autoload": {
+        "psr-4": { "Swagger\\Server\\" : "./" }
+    }
+}

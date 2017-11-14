@@ -1,0 +1,45 @@
+{{>licenseInfo}}
+
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+import org.junit.Test;
+import org.junit.Ignore;
+
+import java.io.IOException;
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+/**
+ * API tests for {{classname}}
+ */
+@Ignore
+public class {{classname}}Test {
+
+    private final {{classname}} api = new {{classname}}();
+
+    {{#operations}}{{#operation}}
+    /**
+     * {{summary}}
+     *
+     * {{notes}}
+     *
+     * @throws IOException
+     *          if the Api call fails
+     */
+    @Test
+    public void {{operationId}}Test() throws IOException {
+        {{#allParams}}
+        {{{dataType}}} {{paramName}} = null;
+        {{/allParams}}
+        {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+
+        // TODO: test validations
+    }
+    {{/operation}}{{/operations}}
+}

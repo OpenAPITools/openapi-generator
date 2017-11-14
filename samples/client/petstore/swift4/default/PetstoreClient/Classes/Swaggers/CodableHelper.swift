@@ -11,14 +11,20 @@ public typealias EncodeResult = (data: Data?, error: Error?)
 
 open class CodableHelper {
 
+    open static var dateformatter: DateFormatter?
+
     open class func decode<T>(_ type: T.Type, from data: Data) -> (decodableObj: T?, error: Error?) where T : Decodable {
         var returnedDecodable: T? = nil
         var returnedError: Error? = nil
 
         let decoder = JSONDecoder()
-        decoder.dataDecodingStrategy = .base64
-        if #available(iOS 10.0, *) {
-            decoder.dateDecodingStrategy = .iso8601
+        if let df = self.dateformatter {
+            decoder.dateDecodingStrategy = .formatted(df)
+        } else {
+            decoder.dataDecodingStrategy = .base64
+            if #available(iOS 10.0, *) {
+                decoder.dateDecodingStrategy = .iso8601
+            }
         }
 
         do {

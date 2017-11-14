@@ -517,6 +517,58 @@ module Petstore
       return data, status_code, headers
     end
 
+    # test inline additionalProperties
+    # 
+    # @param param request body
+    # @param [Hash] opts the optional parameters
+    # @return [nil]
+    def test_inline_additional_properties(param, opts = {})
+      test_inline_additional_properties_with_http_info(param, opts)
+      return nil
+    end
+
+    # test inline additionalProperties
+    # 
+    # @param param request body
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    def test_inline_additional_properties_with_http_info(param, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: FakeApi.test_inline_additional_properties ..."
+      end
+      # verify the required parameter 'param' is set
+      if @api_client.config.client_side_validation && param.nil?
+        fail ArgumentError, "Missing the required parameter 'param' when calling FakeApi.test_inline_additional_properties"
+      end
+      # resource path
+      local_var_path = "/fake/inline-additionalProperties"
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = @api_client.object_to_http_body(param)
+      auth_names = []
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FakeApi#test_inline_additional_properties\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # test json serialization of form data
     # 
     # @param param field1

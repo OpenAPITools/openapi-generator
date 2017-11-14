@@ -29,6 +29,8 @@ public interface FakeApiControllerImpInterface {
 
     void testEnumParameters(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble) throws Exception;
 
+    void testInlineAdditionalProperties(Object param) throws Exception;
+
     void testJsonFormData(String param, String param2) throws Exception;
 
 }

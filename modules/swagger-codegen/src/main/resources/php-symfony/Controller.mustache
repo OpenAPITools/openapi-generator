@@ -19,9 +19,10 @@
 
 namespace {{controllerPackage}};
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use {{servicePackage}}\SerializerInterface;
+use {{servicePackage}}\ValidatorInterface;
 
 /**
  * Controller Class Doc Comment
@@ -31,212 +32,147 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  * @author   Swagger Codegen team
  * @link     https://github.com/swagger-api/swagger-codegen
  */
-class Controller extends BaseController
+class Controller
 {
+    protected $validator;
+    protected $serializer;
+    protected $apiServer;
 
-	/**
-	 * This will return a response with code 400. Usage example:
-	 *     return $this->createBadRequestResponse('Unable to access this page!');
-	 *
-	 * @param string $message A message
-	 *
-	 * @return Response
-	 */
-	public function createBadRequestResponse($message = 'Bad Request.')
-	{
-		return new Response($message, 400);
-	}
+    public function setValidator(ValidatorInterface $validator)
+    {
+        $this->validator = $validator;
+    }
 
-	/**
-	 * This will return an error response. Usage example:
-	 *     return $this->createErrorResponse(new UnauthorizedHttpException());
-	 *
-	 * @param HttpException $exception An HTTP exception
-	 *
-	 * @return Response
-	 */
-	public function createErrorResponse(HttpException $exception)
-	{
-		$statusCode = $exception->getStatusCode();
-		$headers    = array_merge($exception->getHeaders(), ['Content-Type' => 'application/json']);
+    public function setSerializer(SerializerInterface $serializer)
+    {
+        $this->serializer = $serializer;
+    }
 
-		$json = $this->exceptionToArray($exception);
-		$json['statusCode'] = $statusCode;
+    public function setApiServer($server)
+    {
+        $this->apiServer = $server;
+    }
 
-		return new Response(json_encode($json, 15, 512), $statusCode, $headers);
-	}
+    /**
+     * This will return a response with code 400. Usage example:
+     *     return $this->createBadRequestResponse('Unable to access this page!');
+     *
+     * @param string $message A message
+     *
+     * @return Response
+     */
+    public function createBadRequestResponse($message = 'Bad Request.')
+    {
+        return new Response($message, 400);
+    }
 
-	/**
-	 * Serializes data to a given type format.
-	 *
-	 * @param mixed  $data   The data to serialize.
-	 * @param string $class  The source data class.
-	 * @param string $format The target serialization format.
-	 *
-	 * @return string A serialized data string.
-	 */
-	public function serialize($data, $format)
-	{
-		return $this->get('{{bundleAlias}}.model.model_serializer')->serialize($data, $format);
-	}
+    /**
+     * This will return an error response. Usage example:
+     *     return $this->createErrorResponse(new UnauthorizedHttpException());
+     *
+     * @param HttpException $exception An HTTP exception
+     *
+     * @return Response
+     */
+    public function createErrorResponse(HttpException $exception)
+    {
+        $statusCode = $exception->getStatusCode();
+        $headers    = array_merge($exception->getHeaders(), ['Content-Type' => 'application/json']);
 
-	/**
-	 * Deserializes data from a given type format.
-	 *
-	 * @param string $data   The data to deserialize.
-	 * @param string $class  The target data class.
-	 * @param string $format The source serialization format.
-	 *
-	 * @return mixed A deserialized data.
-	 */
-	public function deserialize($data, $class, $format)
-	{
-		return $this->get('{{bundleAlias}}.model.model_serializer')->deserialize($data, $class, $format);
-	}
+        $json = $this->exceptionToArray($exception);
+        $json['statusCode'] = $statusCode;
 
-	/**
-	 * Decodes a string value.
-	 *
-	 * @param string $string     The string value to decode.
-	 * @param string $dataType   The data type of the parameter.
-	 *
-	 * @return mixed The decoded value.
-	 */
-	public function fromString($string, $dataType)
-	{
-		if ($dataType === 'integer' || $dataType === 'number') {
-			return $this->toNumber($string);
-		}
-		if ($dataType === 'bool') {
-			return $this->toBoolean($string);
-		}
-		if ($dataType === '\DateTime') {
-			return $this->toDateTime($string);
-		}
+        return new Response(json_encode($json, 15, 512), $statusCode, $headers);
+    }
 
-		return $string;
-	}
+    /**
+     * Serializes data to a given type format.
+     *
+     * @param mixed  $data   The data to serialize.
+     * @param string $class  The source data class.
+     * @param string $format The target serialization format.
+     *
+     * @return string A serialized data string.
+     */
+    protected function serialize($data, $format)
+    {
+        return $this->serializer->serialize($data, $format);
+    }
 
-	/**
-	 * Decodes a header value.
-	 *
-	 * @param string $header     The header value to decode.
-	 * @param string $dataType   The data type of the parameter.
-	 *
-	 * @return mixed The decoded value.
-	 */
-	public function fromHeader($header, $dataType)
-	{
-		return $this->fromString($header, $dataType);
-	}
+    /**
+     * Deserializes data from a given type format.
+     *
+     * @param string $data   The data to deserialize.
+     * @param string $class  The target data class.
+     * @param string $format The source serialization format.
+     *
+     * @return mixed A deserialized data.
+     */
+    protected function deserialize($data, $class, $format)
+    {
+        return $this->serializer->deserialize($data, $class, $format);
+    }
 
-	/**
-	 * Decodes a query value.
-	 *
-	 * @param string $query      The query value to decode.
-	 * @param string $dataType   The data type of the parameter.
-	 *
-	 * @return mixed The decoded value.
-	 */
-	public function fromQuery($query, $dataType)
-	{
-		return $this->fromString($query, $dataType);
-	}
+    protected function validate($data, $asserts = null)
+    {
+        $errors = $this->validator->validate($data, $asserts);
 
-	/**
-	 * Decodes a path value.
-	 *
-	 * @param string $path       The path value to decode.
-	 * @param string $dataType   The data type of the parameter.
-	 *
-	 * @return mixed The decoded value.
-	 */
-	public function fromPath($path, $dataType)
-	{
-		return $this->fromString($path, $dataType);
-	}
+        if (count($errors) > 0) {
+            $errorsString = (string)$errors;
+            return $this->createBadRequestResponse($errorsString);
+        }
+    }
 
-	/**
-	 * Decodes a form value.
-	 *
-	 * @param string $form       The form value to decode.
-	 * @param string $dataType   The data type of the parameter.
-	 *
-	 * @return mixed The decoded value.
-	 */
-	public function fromForm($form, $dataType)
-	{
-		return $this->fromString($form, $dataType);
-	}
+    /**
+     * Converts an exception to a serializable array.
+     *
+     * @param \Exception|null $exception
+     *
+     * @return array
+     */
+    private function exceptionToArray(\Exception $exception = null)
+    {
+        if (null === $exception) {
+            return null;
+        }
 
-	/**
-	 * Decoded a string to a number.
-	 *
-	 * @param string $string The string to decode.
-	 *
-	 * @return number|null A decoded number, or null, if not a valid string.
-	 */
-	private function toNumber($string)
-	{
-		if (is_numeric($string)) {
-			return $string + 0;
-		}
+        if (!$this->container->get('kernel')->isDebug()) {
+            return [
+                'message'  => $exception->getMessage(),
+            ];
+        }
 
-		return null;
-	}
+        return [
+            'message'  => $exception->getMessage(),
+            'type'     => get_class($exception),
+            'previous' => $this->exceptionToArray($exception->getPrevious()),
+        ];
+    }
 
-	/**
-	 * Decoded a string to a boolean.
-	 *
-	 * @param string $string The string to decode.
-	 *
-	 * @return boolean|null A decoded boolean, or null, if not a valid string.
-	 */
-	private function toBoolean($string)
-	{
-		if ($string === 'true') {
-			return true;
-		}
-		if ($string === 'false') {
-			return false;
-		}
+    protected function getOutputFormat($accept, array $produced)
+    {
+        // Figure out what the client accepts
+        $accept = preg_split("/[\s,]+/", $accept);
+        
+        if (in_array('*/*', $accept) || in_array('application/*', $accept)) {
+            // Prefer JSON if the client has no preference
+            if (in_array('application/json', $produced)) {
+                return 'application/json';
+            }
+            if (in_array('application/xml', $produced)) {
+                return 'application/xml';
+            }
+        }
 
-		return null;
-	}
+        if (in_array('application/json', $accept) && in_array('application/json', $produced)) {
+            return 'application/json';
+        }
 
-	/**
-	 * Decoded a string to a date time.
-	 *
-	 * @param string $string The string to decode.
-	 *
-	 * @return \DateTime|null A decoded date time, or null, if not a valid string.
-	 */
-	private function toDateTime($string)
-	{
-		if ($dateTime = date_create($string)) {
-			return $dateTime;
-		}
+        if (in_array('application/xml', $accept) && in_array('application/xml', $produced)) {
+            return 'application/xml';
+        }
 
-		return null;
-	}
-
-	/**
-	 * Converts an exception to a serializable array.
-	 *
-	 * @param \Exception|null $exception
-	 *
-	 * @return array
-	 */
-	private function exceptionToArray(\Exception $exception = null)
-	{
-		if (null === $exception) {
-			return null;
-		}
-
-		return [
-			'message'  => $exception->getMessage(),
-			'type'     => get_class($exception),
-			'previous' => $this->exceptionToArray($exception->getPrevious()),
-		];
-	}
+        // If we reach this point, we don't have a common ground between server and client
+        return null;
+    }
 }

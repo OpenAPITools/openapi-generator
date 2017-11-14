@@ -4,6 +4,7 @@
   <artifactId>swagger-cxf-server</artifactId>
   <packaging>war</packaging>
   <name>swagger-cxf-server</name>
+  <description>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\</description>
   <version>1.0.0</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
@@ -32,7 +33,7 @@
           <stopPort>8079</stopPort>
           <stopKey>stopit</stopKey>
           <httpConnector>
-            <port>8080</port>
+            <port>80</port>
             <idleTimeout>60000</idleTimeout>
           </httpConnector>
         </configuration>

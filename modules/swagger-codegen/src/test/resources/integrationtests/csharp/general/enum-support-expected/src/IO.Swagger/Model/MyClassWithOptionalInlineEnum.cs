@@ -41,43 +41,43 @@ namespace IO.Swagger.Model
             /// Enum Sun for value: sun
             /// </summary>
             [EnumMember(Value = "sun")]
-            Sun,
+            Sun = 1,
             
             /// <summary>
             /// Enum Mon for value: mon
             /// </summary>
             [EnumMember(Value = "mon")]
-            Mon,
+            Mon = 2,
             
             /// <summary>
             /// Enum Tue for value: tue
             /// </summary>
             [EnumMember(Value = "tue")]
-            Tue,
+            Tue = 3,
             
             /// <summary>
             /// Enum Wed for value: wed
             /// </summary>
             [EnumMember(Value = "wed")]
-            Wed,
+            Wed = 4,
             
             /// <summary>
             /// Enum Thu for value: thu
             /// </summary>
             [EnumMember(Value = "thu")]
-            Thu,
+            Thu = 5,
             
             /// <summary>
             /// Enum Fri for value: fri
             /// </summary>
             [EnumMember(Value = "fri")]
-            Fri,
+            Fri = 6,
             
             /// <summary>
             /// Enum Sat for value: sat
             /// </summary>
             [EnumMember(Value = "sat")]
-            Sat
+            Sat = 7
         }
 
         /// <summary>

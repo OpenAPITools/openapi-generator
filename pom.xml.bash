@@ -685,7 +685,7 @@
             </modules>
         </profile>
         <profile>
-            <id>typescript-angular-client</id>
+            <id>typescript-angularjs-client</id>
             <activation>
                 <property>
                     <name>env</name>

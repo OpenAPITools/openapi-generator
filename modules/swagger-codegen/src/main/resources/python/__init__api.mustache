@@ -1,8 +1,7 @@
 from __future__ import absolute_import
 
+# flake8: noqa
+
 # import apis into api package
-{{#apiInfo}}
-{{#apis}}
-from .{{classVarName}} import {{classname}}
-{{/apis}}
-{{/apiInfo}}
+{{#apiInfo}}{{#apis}}from {{apiPackage}}.{{classVarName}} import {{classname}}
+{{/apis}}{{/apiInfo}}

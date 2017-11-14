@@ -16,8 +16,8 @@
  * This class represents a single item of a multipart-formdata request.
  */
 
-#ifndef ApiConfiguration_H_
-#define ApiConfiguration_H_
+#ifndef IO_SWAGGER_CLIENT_API_ApiConfiguration_H_
+#define IO_SWAGGER_CLIENT_API_ApiConfiguration_H_
 
 
 
@@ -62,4 +62,4 @@ protected:
 }
 }
 }
-#endif /* ApiConfiguration_H_ */
+#endif /* IO_SWAGGER_CLIENT_API_ApiConfiguration_H_ */

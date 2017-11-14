@@ -16,8 +16,8 @@
  * 
  */
 
-#ifndef UserApi_H_
-#define UserApi_H_
+#ifndef IO_SWAGGER_CLIENT_API_UserApi_H_
+#define IO_SWAGGER_CLIENT_API_UserApi_H_
 
 
 #include "ApiClient.h"
@@ -112,5 +112,5 @@ protected:
 }
 }
 
-#endif /* UserApi_H_ */
+#endif /* IO_SWAGGER_CLIENT_API_UserApi_H_ */
 

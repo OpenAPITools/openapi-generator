@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Animal  implements Serializable {
@@ -25,6 +26,7 @@ public class Animal  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("className")
   @NotNull
   public String getClassName() {
     return className;
@@ -42,6 +44,7 @@ public class Animal  implements Serializable {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("color")
   public String getColor() {
     return color;
   }

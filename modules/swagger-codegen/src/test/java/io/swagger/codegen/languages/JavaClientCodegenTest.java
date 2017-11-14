@@ -1,5 +1,8 @@
 package io.swagger.codegen.languages;
 
+import static io.swagger.codegen.languages.JavaClientCodegen.RETROFIT_2;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,6 +11,11 @@ import java.util.Map;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import com.google.common.collect.ImmutableMap;
+
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
 
 public class JavaClientCodegenTest {
 
@@ -51,15 +59,15 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(JavaClientCodegen.prioritizeContentTypes(Arrays.asList(jsonMimeType)), Arrays.asList(jsonMimeType));
         Assert.assertEquals(JavaClientCodegen.prioritizeContentTypes(Arrays.asList(vendorMimeType)), Arrays.asList(vendorMimeType));
 
-        Assert.assertEquals(JavaClientCodegen.prioritizeContentTypes(Arrays.asList(xmlMimeType, jsonMimeType)), 
+        Assert.assertEquals(JavaClientCodegen.prioritizeContentTypes(Arrays.asList(xmlMimeType, jsonMimeType)),
                 Arrays.asList(jsonMimeType, xmlMimeType));
-        Assert.assertEquals(JavaClientCodegen.prioritizeContentTypes(Arrays.asList(jsonMimeType, xmlMimeType)), 
+        Assert.assertEquals(JavaClientCodegen.prioritizeContentTypes(Arrays.asList(jsonMimeType, xmlMimeType)),
                 Arrays.asList(jsonMimeType, xmlMimeType));
-        Assert.assertEquals(JavaClientCodegen.prioritizeContentTypes(Arrays.asList(jsonMimeType, vendorMimeType)), 
+        Assert.assertEquals(JavaClientCodegen.prioritizeContentTypes(Arrays.asList(jsonMimeType, vendorMimeType)),
                 Arrays.asList(vendorMimeType, jsonMimeType));
-        Assert.assertEquals(JavaClientCodegen.prioritizeContentTypes(Arrays.asList(textMimeType, xmlMimeType)), 
+        Assert.assertEquals(JavaClientCodegen.prioritizeContentTypes(Arrays.asList(textMimeType, xmlMimeType)),
                 Arrays.asList(textMimeType, xmlMimeType));
-        Assert.assertEquals(JavaClientCodegen.prioritizeContentTypes(Arrays.asList(xmlMimeType, textMimeType)), 
+        Assert.assertEquals(JavaClientCodegen.prioritizeContentTypes(Arrays.asList(xmlMimeType, textMimeType)),
                 Arrays.asList(xmlMimeType, textMimeType));
 
         System.out.println(JavaClientCodegen.prioritizeContentTypes(Arrays.asList(
@@ -74,4 +82,53 @@ public class JavaClientCodegenTest {
  
         Assert.assertNull(priContentTypes.get(3).get("hasMore"));
     }
+
+    @Test
+    public void testParametersAreCorrectlyOrderedWhenUsingRetrofit(){
+        JavaClientCodegen javaClientCodegen = new JavaClientCodegen();
+        javaClientCodegen.setLibrary(RETROFIT_2);
+
+        CodegenOperation codegenOperation = new CodegenOperation();
+        CodegenParameter queryParamRequired = createQueryParam("queryParam1", true);
+        CodegenParameter queryParamOptional = createQueryParam("queryParam2", false);
+        CodegenParameter pathParam1 = createPathParam("pathParam1");
+        CodegenParameter pathParam2 = createPathParam("pathParam2");
+
+        codegenOperation.allParams = Arrays.asList(queryParamRequired, pathParam1, pathParam2, queryParamOptional);
+        Map<String, Object> operations = ImmutableMap.<String, Object>of("operation", Arrays.asList(codegenOperation));
+
+        Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<Map<String, String>>());
+
+        javaClientCodegen.postProcessOperations(objs);
+
+        Assert.assertEquals(Arrays.asList(pathParam1, pathParam2, queryParamRequired, queryParamOptional), codegenOperation.allParams);
+        Assert.assertTrue(pathParam1.hasMore);
+        Assert.assertTrue(pathParam2.hasMore);
+        Assert.assertTrue(queryParamRequired.hasMore);
+        Assert.assertFalse(queryParamOptional.hasMore);
+
+    }
+
+    private CodegenParameter createPathParam(String name) {
+        CodegenParameter codegenParameter = createStringParam(name);
+        codegenParameter.isPathParam = true;
+        return codegenParameter;
+    }
+
+    private CodegenParameter createQueryParam(String name, boolean required) {
+        CodegenParameter codegenParameter = createStringParam(name);
+        codegenParameter.isQueryParam = true;
+        codegenParameter.required = required;
+        return codegenParameter;
+    }
+
+    private CodegenParameter createStringParam(String name){
+        CodegenParameter codegenParameter = new CodegenParameter();
+        codegenParameter.paramName = name;
+        codegenParameter.baseName = name;
+        codegenParameter.dataType = "String";
+        return codegenParameter;
+    }
+
+
 }

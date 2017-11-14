@@ -10,6 +10,6 @@
         /// <summary>
         /// Enum {{name}}
         /// </summary>
-        {{name}}{{#isInteger}} = {{{value}}}{{/isInteger}}{{^-last}},
+        {{name}}{{#isInteger}} = {{{value}}}{{/isInteger}}{{^isInteger}} = {{-index}}{{/isInteger}}{{^-last}},
         {{/-last}}{{/enumVars}}{{/allowableValues}}
     }

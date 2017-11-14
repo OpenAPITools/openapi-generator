@@ -98,7 +98,7 @@
        sprintf(
         '{
            {{#vars}}
-           "{{baseName}}": {{#isListContainer}}[{{/isListContainer}}{{#isPrimitiveType}}{{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}"%s"{{/isNumeric}}{{/isPrimitiveType}}{{^isPrimitiveType}}%s{{/isPrimitiveType}}{{#isListContainer}}]{{/isListContainer}}{{#hasMore}},{{/hasMore}}
+           "{{baseName}}": {{#isListContainer}}[{{/isListContainer}}{{#isPrimitiveType}}{{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}%s{{/isNumeric}}{{/isPrimitiveType}}{{^isPrimitiveType}}%s{{/isPrimitiveType}}{{#isListContainer}}]{{/isListContainer}}{{#hasMore}},{{/hasMore}}
            {{/vars}}
         }',
         {{#vars}}

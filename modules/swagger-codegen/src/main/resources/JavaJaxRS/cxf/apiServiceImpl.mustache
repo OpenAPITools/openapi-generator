@@ -25,9 +25,29 @@ import org.springframework.stereotype.Service;
 {{/useSpringAnnotationConfig}}
 {{#description}}
 {{/description}}
+{{#appName}}
+/**
+ * {{{appName}}}
+ *
+ {{#appDescription}}
+ * <p>{{{appDescription}}}
+ {{/appDescription}}
+ *
+ */
+{{/appName}}
 public class {{classname}}ServiceImpl implements {{classname}} {
 {{#operations}}
 {{#operation}}
+    {{#summary}}
+    /**
+     * {{summary}}
+     *
+     {{#notes}}
+     * {{notes}}
+     *
+     {{/notes}}
+     */
+    {{/summary}}
     public {{>returnTypes}} {{nickname}}({{#allParams}}{{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>bodyParamsImpl}}{{>formParamsImpl}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
         // TODO: Implement...
         

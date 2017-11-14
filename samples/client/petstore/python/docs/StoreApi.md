@@ -17,7 +17,7 @@ Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -29,7 +29,7 @@ from pprint import pprint
 api_instance = petstore_api.StoreApi()
 order_id = 'order_id_example' # str | ID of the order that needs to be deleted
 
-try: 
+try:
     # Delete purchase order by ID
     api_instance.delete_order(order_id)
 except ApiException as e:
@@ -64,7 +64,7 @@ Returns pet inventories by status
 
 Returns a map of status codes to quantities
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -81,7 +81,7 @@ configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # create an instance of the API class
 api_instance = petstore_api.StoreApi(petstore_api.ApiClient(configuration))
 
-try: 
+try:
     # Returns pet inventories by status
     api_response = api_instance.get_inventory()
     pprint(api_response)
@@ -114,7 +114,7 @@ Find purchase order by ID
 
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -126,7 +126,7 @@ from pprint import pprint
 api_instance = petstore_api.StoreApi()
 order_id = 789 # int | ID of pet that needs to be fetched
 
-try: 
+try:
     # Find purchase order by ID
     api_response = api_instance.get_order_by_id(order_id)
     pprint(api_response)
@@ -162,7 +162,7 @@ Place an order for a pet
 
 
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -174,7 +174,7 @@ from pprint import pprint
 api_instance = petstore_api.StoreApi()
 body = petstore_api.Order() # Order | order placed for purchasing the pet
 
-try: 
+try:
     # Place an order for a pet
     api_response = api_instance.place_order(body)
     pprint(api_response)

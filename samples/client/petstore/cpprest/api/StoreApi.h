@@ -16,8 +16,8 @@
  * 
  */
 
-#ifndef StoreApi_H_
-#define StoreApi_H_
+#ifndef IO_SWAGGER_CLIENT_API_StoreApi_H_
+#define IO_SWAGGER_CLIENT_API_StoreApi_H_
 
 
 #include "ApiClient.h"
@@ -80,5 +80,5 @@ protected:
 }
 }
 
-#endif /* StoreApi_H_ */
+#endif /* IO_SWAGGER_CLIENT_API_StoreApi_H_ */
 

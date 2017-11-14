@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Dog extends Animal {
   
@@ -21,6 +22,7 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
   **/
+  @JsonProperty("breed")
   public String getBreed() {
     return breed;
   }

@@ -57,7 +57,7 @@ open class Order: Codable {
         petId = try container.decodeIfPresent(Int64.self, forKey: "petId")
         quantity = try container.decodeIfPresent(Int.self, forKey: "quantity")
         shipDate = try container.decodeIfPresent(Date.self, forKey: "shipDate")
-        status = try container.decodeIfPresent(String.self, forKey: "status")
+        status = try container.decodeIfPresent(Status.self, forKey: "status")
         complete = try container.decodeIfPresent(Bool.self, forKey: "complete")
     }
 }

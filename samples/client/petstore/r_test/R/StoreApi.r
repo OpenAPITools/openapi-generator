@@ -47,7 +47,6 @@ StoreApi <- R6::R6Class(
     },
     delete_order = function(order_id, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
 
@@ -74,12 +73,10 @@ StoreApi <- R6::R6Class(
     },
     get_inventory = function(...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
 
       urlPath <- "/store/inventory"
-
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
@@ -100,7 +97,6 @@ StoreApi <- R6::R6Class(
     },
     get_order_by_id = function(order_id, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
 
@@ -129,15 +125,16 @@ StoreApi <- R6::R6Class(
     },
     place_order = function(body, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
+
       if (!missing(`body`)) {
-        body <- `body`$toJSON()
+        body <- `body`$toJSONString()
+      } else {
+        body <- NULL
       }
 
       urlPath <- "/store/order"
-
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,

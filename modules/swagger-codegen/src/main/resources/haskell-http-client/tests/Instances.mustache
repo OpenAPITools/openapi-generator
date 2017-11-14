@@ -91,13 +91,19 @@ instance ApproxEq TI.Day where
  
 {{#models}}
 {{#model}}
+{{^isEnum}}
 instance Arbitrary {{classname}} where
   arbitrary =
     {{#isAlias}}{{classname}} <$> arbitrary{{/isAlias}}{{^isAlias}}{{^hasVars}}
     pure {{/hasVars}}{{classname}}
     {{#hasVars}}  <$>{{/hasVars}} {{#vars}}arbitrary -- {{name}} :: {{^required}}Maybe {{/required}}{{datatype}}
     {{#hasMore}}  <*> {{/hasMore}}{{/vars}}{{/isAlias}}
-
+{{/isEnum}}
 {{/model}}
 {{/models}}
 
+
+{{#x-allUniqueParams}}{{#x-enum}}
+instance Arbitrary {{{x-paramNameType}}} where
+  arbitrary = arbitraryBoundedEnum
+{{/x-enum}}{{/x-allUniqueParams}}

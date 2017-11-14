@@ -155,7 +155,7 @@ SWGOrder::setStatus(QString* status) {
 }
 
 bool
-SWGOrder::getComplete() {
+SWGOrder::isComplete() {
     return complete;
 }
 void

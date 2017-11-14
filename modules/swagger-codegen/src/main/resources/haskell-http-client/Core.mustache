@@ -23,6 +23,7 @@ import {{title}}.Logging
 
 import qualified Control.Arrow as P (left)
 import qualified Control.DeepSeq as NF
+import qualified Control.Exception.Safe as E
 import qualified Data.Aeson as A
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Base64.Lazy as BL64
@@ -122,8 +123,15 @@ withNoLogging p = p { configLogExecWithContext =  runNullLogExec}
  
 -- * {{requestType}}
 
--- | Represents a request. The "req" type variable is the request type. The "res" type variable is the response type.
-data {{requestType}} req contentType res = {{requestType}}
+-- | Represents a request.
+--
+--   Type Variables:
+--
+--   * req - request operation
+--   * contentType - 'MimeType' associated with request body
+--   * res - response model
+--   * accept - 'MimeType' associated with response body
+data {{requestType}} req contentType res accept = {{requestType}}
   { rMethod  :: NH.Method   -- ^ Method of {{requestType}}
   , rUrlPath :: [BCL.ByteString] -- ^ Endpoint of {{requestType}}
   , rParams   :: Params -- ^ params of {{requestType}}
@@ -132,22 +140,22 @@ data {{requestType}} req contentType res = {{requestType}}
   deriving (P.Show)
 
 -- | 'rMethod' Lens
-rMethodL :: Lens_' ({{requestType}} req contentType res) NH.Method
+rMethodL :: Lens_' ({{requestType}} req contentType res accept) NH.Method
 rMethodL f {{requestType}}{..} = (\rMethod -> {{requestType}} { rMethod, ..} ) <$> f rMethod
 {-# INLINE rMethodL #-}
 
 -- | 'rUrlPath' Lens
-rUrlPathL :: Lens_' ({{requestType}} req contentType res) [BCL.ByteString]
+rUrlPathL :: Lens_' ({{requestType}} req contentType res accept) [BCL.ByteString]
 rUrlPathL f {{requestType}}{..} = (\rUrlPath -> {{requestType}} { rUrlPath, ..} ) <$> f rUrlPath
 {-# INLINE rUrlPathL #-}
 
 -- | 'rParams' Lens
-rParamsL :: Lens_' ({{requestType}} req contentType res) Params
+rParamsL :: Lens_' ({{requestType}} req contentType res accept) Params
 rParamsL f {{requestType}}{..} = (\rParams -> {{requestType}} { rParams, ..} ) <$> f rParams
 {-# INLINE rParamsL #-}
 
 -- | 'rParams' Lens
-rAuthTypesL :: Lens_' ({{requestType}} req contentType res) [P.TypeRep]
+rAuthTypesL :: Lens_' ({{requestType}} req contentType res accept) [P.TypeRep]
 rAuthTypesL f {{requestType}}{..} = (\rAuthTypes -> {{requestType}} { rAuthTypes, ..} ) <$> f rAuthTypes
 {-# INLINE rAuthTypesL #-}
 
@@ -155,7 +163,7 @@ rAuthTypesL f {{requestType}}{..} = (\rAuthTypes -> {{requestType}} { rAuthTypes
 
 -- | Designates the body parameter of a request
 class HasBodyParam req param where
-  setBodyParam :: forall contentType res. (Consumes req contentType, MimeRender contentType param) => {{requestType}} req contentType res -> param -> {{requestType}} req contentType res
+  setBodyParam :: forall contentType res accept. (Consumes req contentType, MimeRender contentType param) => {{requestType}} req contentType res accept -> param -> {{requestType}} req contentType res accept
   setBodyParam req xs =
     req `_setBodyLBS` mimeRender (P.Proxy :: P.Proxy contentType) xs & _setContentTypeHeader
 
@@ -166,12 +174,12 @@ class HasOptionalParam req param where
   {-# MINIMAL applyOptionalParam | (-&-) #-}
 
   -- | Apply an optional parameter to a request
-  applyOptionalParam :: {{requestType}} req contentType res -> param -> {{requestType}} req contentType res
+  applyOptionalParam :: {{requestType}} req contentType res accept -> param -> {{requestType}} req contentType res accept
   applyOptionalParam = (-&-)
   {-# INLINE applyOptionalParam #-}
 
   -- | infix operator \/ alias for 'addOptionalParam'
-  (-&-) :: {{requestType}} req contentType res -> param -> {{requestType}} req contentType res
+  (-&-) :: {{requestType}} req contentType res accept -> param -> {{requestType}} req contentType res accept
   (-&-) = applyOptionalParam
   {-# INLINE (-&-) #-}
 
@@ -213,18 +221,18 @@ data ParamBody
 
 _mkRequest :: NH.Method -- ^ Method 
           -> [BCL.ByteString] -- ^ Endpoint
-          -> {{requestType}} req contentType res -- ^ req: Request Type, res: Response Type
+          -> {{requestType}} req contentType res accept -- ^ req: Request Type, res: Response Type
 _mkRequest m u = {{requestType}} m u _mkParams []
 
 _mkParams :: Params
 _mkParams = Params [] [] ParamBodyNone
 
-setHeader :: {{requestType}} req contentType res -> [NH.Header] -> {{requestType}} req contentType res
+setHeader :: {{requestType}} req contentType res accept -> [NH.Header] -> {{requestType}} req contentType res accept
 setHeader req header =
   req `removeHeader` P.fmap P.fst header &
   L.over (rParamsL . paramsHeadersL) (header P.++)
 
-removeHeader :: {{requestType}} req contentType res -> [NH.HeaderName] -> {{requestType}} req contentType res
+removeHeader :: {{requestType}} req contentType res accept -> [NH.HeaderName] -> {{requestType}} req contentType res accept
 removeHeader req header =
   req &
   L.over
@@ -234,19 +242,19 @@ removeHeader req header =
     cifst = CI.mk . P.fst
 
 
-_setContentTypeHeader :: forall req contentType res. MimeType contentType => {{requestType}} req contentType res -> {{requestType}} req contentType res
+_setContentTypeHeader :: forall req contentType res accept. MimeType contentType => {{requestType}} req contentType res accept -> {{requestType}} req contentType res accept
 _setContentTypeHeader req =
     case mimeType (P.Proxy :: P.Proxy contentType) of 
         Just m -> req `setHeader` [("content-type", BC.pack $ P.show m)]
         Nothing -> req `removeHeader` ["content-type"]
 
-_setAcceptHeader :: forall req contentType res accept. MimeType accept => {{requestType}} req contentType res -> accept -> {{requestType}} req contentType res
-_setAcceptHeader req accept =
-    case mimeType' accept of 
+_setAcceptHeader :: forall req contentType res accept. MimeType accept => {{requestType}} req contentType res accept -> {{requestType}} req contentType res accept
+_setAcceptHeader req =
+    case mimeType (P.Proxy :: P.Proxy accept) of 
         Just m -> req `setHeader` [("accept", BC.pack $ P.show m)]
         Nothing -> req `removeHeader` ["accept"]
 
-setQuery :: {{requestType}} req contentType res -> [NH.QueryItem] -> {{requestType}} req contentType res
+setQuery :: {{requestType}} req contentType res accept -> [NH.QueryItem] -> {{requestType}} req contentType res accept
 setQuery req query = 
   req &
   L.over
@@ -255,29 +263,29 @@ setQuery req query =
   where
     cifst = CI.mk . P.fst
 
-addForm :: {{requestType}} req contentType res -> WH.Form -> {{requestType}} req contentType res
+addForm :: {{requestType}} req contentType res accept -> WH.Form -> {{requestType}} req contentType res accept
 addForm req newform = 
     let form = case paramsBody (rParams req) of
             ParamBodyFormUrlEncoded _form -> _form
             _ -> mempty
     in req & L.set (rParamsL . paramsBodyL) (ParamBodyFormUrlEncoded (newform <> form))
 
-_addMultiFormPart :: {{requestType}} req contentType res -> NH.Part -> {{requestType}} req contentType res
+_addMultiFormPart :: {{requestType}} req contentType res accept -> NH.Part -> {{requestType}} req contentType res accept
 _addMultiFormPart req newpart = 
     let parts = case paramsBody (rParams req) of
             ParamBodyMultipartFormData _parts -> _parts
             _ -> []
     in req & L.set (rParamsL . paramsBodyL) (ParamBodyMultipartFormData (newpart : parts))
 
-_setBodyBS :: {{requestType}} req contentType res -> B.ByteString -> {{requestType}} req contentType res
+_setBodyBS :: {{requestType}} req contentType res accept -> B.ByteString -> {{requestType}} req contentType res accept
 _setBodyBS req body = 
     req & L.set (rParamsL . paramsBodyL) (ParamBodyB body)
 
-_setBodyLBS :: {{requestType}} req contentType res -> BL.ByteString -> {{requestType}} req contentType res
+_setBodyLBS :: {{requestType}} req contentType res accept -> BL.ByteString -> {{requestType}} req contentType res accept
 _setBodyLBS req body = 
     req & L.set (rParamsL . paramsBodyL) (ParamBodyBL body)
 
-_hasAuthType :: AuthMethod authMethod => {{requestType}} req contentType res -> P.Proxy authMethod -> {{requestType}} req contentType res
+_hasAuthType :: AuthMethod authMethod => {{requestType}} req contentType res accept -> P.Proxy authMethod -> {{requestType}} req contentType res accept
 _hasAuthType req proxy =
   req & L.over rAuthTypesL (P.typeRep proxy :)
 
@@ -352,19 +360,24 @@ class P.Typeable a =>
   applyAuthMethod
     :: {{configType}}
     -> a
-    -> {{requestType}} req contentType res
-    -> IO ({{requestType}} req contentType res)
+    -> {{requestType}} req contentType res accept
+    -> IO ({{requestType}} req contentType res accept)
 
 -- | An existential wrapper for any AuthMethod
 data AnyAuthMethod = forall a. AuthMethod a => AnyAuthMethod a deriving (P.Typeable)
 
 instance AuthMethod AnyAuthMethod where applyAuthMethod config (AnyAuthMethod a) req = applyAuthMethod config a req
 
+-- | indicates exceptions related to AuthMethods
+data AuthMethodException = AuthMethodException String deriving (P.Show, P.Typeable)
+
+instance E.Exception AuthMethodException
+
 -- | apply all matching AuthMethods in config to request
 _applyAuthMethods
-  :: {{requestType}} req contentType res
+  :: {{requestType}} req contentType res accept
   -> {{configType}}
-  -> IO ({{requestType}} req contentType res)
+  -> IO ({{requestType}} req contentType res accept)
 _applyAuthMethods req config@({{configType}} {configAuthMethods = as}) =
   foldlM go req as
   where

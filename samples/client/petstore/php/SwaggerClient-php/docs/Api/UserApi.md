@@ -26,11 +26,15 @@ This can only be done by the logged in user.
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\UserApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
 $body = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Created user object
 
 try {
-    $api_instance->createUser($body);
+    $apiInstance->createUser($body);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUser: ', $e->getMessage(), PHP_EOL;
 }
@@ -70,11 +74,15 @@ Creates list of users with given input array
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\UserApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
 $body = array(new \Swagger\Client\Model\User()); // \Swagger\Client\Model\User[] | List of user object
 
 try {
-    $api_instance->createUsersWithArrayInput($body);
+    $apiInstance->createUsersWithArrayInput($body);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUsersWithArrayInput: ', $e->getMessage(), PHP_EOL;
 }
@@ -114,11 +122,15 @@ Creates list of users with given input array
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\UserApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
 $body = array(new \Swagger\Client\Model\User()); // \Swagger\Client\Model\User[] | List of user object
 
 try {
-    $api_instance->createUsersWithListInput($body);
+    $apiInstance->createUsersWithListInput($body);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUsersWithListInput: ', $e->getMessage(), PHP_EOL;
 }
@@ -158,11 +170,15 @@ This can only be done by the logged in user.
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\UserApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
 $username = "username_example"; // string | The name that needs to be deleted
 
 try {
-    $api_instance->deleteUser($username);
+    $apiInstance->deleteUser($username);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->deleteUser: ', $e->getMessage(), PHP_EOL;
 }
@@ -202,11 +218,15 @@ Get user by user name
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\UserApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
 $username = "username_example"; // string | The name that needs to be fetched. Use user1 for testing.
 
 try {
-    $result = $api_instance->getUserByName($username);
+    $result = $apiInstance->getUserByName($username);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->getUserByName: ', $e->getMessage(), PHP_EOL;
@@ -247,12 +267,16 @@ Logs user into the system
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\UserApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
 $username = "username_example"; // string | The user name for login
 $password = "password_example"; // string | The password for login in clear text
 
 try {
-    $result = $api_instance->loginUser($username, $password);
+    $result = $apiInstance->loginUser($username, $password);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->loginUser: ', $e->getMessage(), PHP_EOL;
@@ -294,10 +318,14 @@ Logs out current logged in user session
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\UserApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
 
 try {
-    $api_instance->logoutUser();
+    $apiInstance->logoutUser();
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->logoutUser: ', $e->getMessage(), PHP_EOL;
 }
@@ -334,12 +362,16 @@ This can only be done by the logged in user.
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\UserApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
 $username = "username_example"; // string | name that need to be deleted
 $body = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Updated user object
 
 try {
-    $api_instance->updateUser($username, $body);
+    $apiInstance->updateUser($username, $body);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->updateUser: ', $e->getMessage(), PHP_EOL;
 }

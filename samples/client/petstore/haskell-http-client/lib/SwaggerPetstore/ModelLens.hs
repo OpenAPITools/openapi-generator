@@ -194,12 +194,12 @@ clientClientL f Client{..} = (\clientClient -> Client { clientClient, ..} ) <$> 
 -- * EnumArrays
 
 -- | 'enumArraysJustSymbol' Lens
-enumArraysJustSymbolL :: Lens_' EnumArrays (Maybe Text)
+enumArraysJustSymbolL :: Lens_' EnumArrays (Maybe E'JustSymbol)
 enumArraysJustSymbolL f EnumArrays{..} = (\enumArraysJustSymbol -> EnumArrays { enumArraysJustSymbol, ..} ) <$> f enumArraysJustSymbol
 {-# INLINE enumArraysJustSymbolL #-}
 
 -- | 'enumArraysArrayEnum' Lens
-enumArraysArrayEnumL :: Lens_' EnumArrays (Maybe [Text])
+enumArraysArrayEnumL :: Lens_' EnumArrays (Maybe [E'ArrayEnum])
 enumArraysArrayEnumL f EnumArrays{..} = (\enumArraysArrayEnum -> EnumArrays { enumArraysArrayEnum, ..} ) <$> f enumArraysArrayEnum
 {-# INLINE enumArraysArrayEnumL #-}
 
@@ -212,17 +212,17 @@ enumArraysArrayEnumL f EnumArrays{..} = (\enumArraysArrayEnum -> EnumArrays { en
 -- * EnumTest
 
 -- | 'enumTestEnumString' Lens
-enumTestEnumStringL :: Lens_' EnumTest (Maybe Text)
+enumTestEnumStringL :: Lens_' EnumTest (Maybe E'EnumString)
 enumTestEnumStringL f EnumTest{..} = (\enumTestEnumString -> EnumTest { enumTestEnumString, ..} ) <$> f enumTestEnumString
 {-# INLINE enumTestEnumStringL #-}
 
 -- | 'enumTestEnumInteger' Lens
-enumTestEnumIntegerL :: Lens_' EnumTest (Maybe Int)
+enumTestEnumIntegerL :: Lens_' EnumTest (Maybe E'EnumInteger)
 enumTestEnumIntegerL f EnumTest{..} = (\enumTestEnumInteger -> EnumTest { enumTestEnumInteger, ..} ) <$> f enumTestEnumInteger
 {-# INLINE enumTestEnumIntegerL #-}
 
 -- | 'enumTestEnumNumber' Lens
-enumTestEnumNumberL :: Lens_' EnumTest (Maybe Double)
+enumTestEnumNumberL :: Lens_' EnumTest (Maybe E'EnumNumber)
 enumTestEnumNumberL f EnumTest{..} = (\enumTestEnumNumber -> EnumTest { enumTestEnumNumber, ..} ) <$> f enumTestEnumNumber
 {-# INLINE enumTestEnumNumberL #-}
 
@@ -324,7 +324,7 @@ mapTestMapMapOfStringL f MapTest{..} = (\mapTestMapMapOfString -> MapTest { mapT
 {-# INLINE mapTestMapMapOfStringL #-}
 
 -- | 'mapTestMapOfEnumString' Lens
-mapTestMapOfEnumStringL :: Lens_' MapTest (Maybe (Map.Map String Text))
+mapTestMapOfEnumStringL :: Lens_' MapTest (Maybe (Map.Map String E'Inner))
 mapTestMapOfEnumStringL f MapTest{..} = (\mapTestMapOfEnumString -> MapTest { mapTestMapOfEnumString, ..} ) <$> f mapTestMapOfEnumString
 {-# INLINE mapTestMapOfEnumStringL #-}
 
@@ -437,7 +437,7 @@ orderShipDateL f Order{..} = (\orderShipDate -> Order { orderShipDate, ..} ) <$>
 {-# INLINE orderShipDateL #-}
 
 -- | 'orderStatus' Lens
-orderStatusL :: Lens_' Order (Maybe Text)
+orderStatusL :: Lens_' Order (Maybe E'Status)
 orderStatusL f Order{..} = (\orderStatus -> Order { orderStatus, ..} ) <$> f orderStatus
 {-# INLINE orderStatusL #-}
 
@@ -511,7 +511,7 @@ petTagsL f Pet{..} = (\petTags -> Pet { petTags, ..} ) <$> f petTags
 {-# INLINE petTagsL #-}
 
 -- | 'petStatus' Lens
-petStatusL :: Lens_' Pet (Maybe Text)
+petStatusL :: Lens_' Pet (Maybe E'Status2)
 petStatusL f Pet{..} = (\petStatus -> Pet { petStatus, ..} ) <$> f petStatus
 {-# INLINE petStatusL #-}
 

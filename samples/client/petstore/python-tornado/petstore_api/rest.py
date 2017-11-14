@@ -3,7 +3,7 @@
 """
     Swagger Petstore
 
-    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  # noqa: E501
 
     OpenAPI spec version: 1.0.0
     Contact: apiteam@swagger.io
@@ -13,17 +13,17 @@
 
 import io
 import json
-import ssl
-import certifi
 import logging
 import re
+import ssl
+
+import certifi
+# python 2 and python 3 compatibility library
+import six
+from six.moves.urllib.parse import urlencode
 import tornado
 import tornado.gen
-from tornado.httpclient import AsyncHTTPClient, HTTPRequest
-
-# python 2 and python 3 compatibility library
-from six import PY3
-from six.moves.urllib.parse import urlencode
+from tornado import httpclient
 from urllib3.filepost import encode_multipart_formdata
 
 logger = logging.getLogger(__name__)
@@ -38,22 +38,18 @@ class RESTResponse(io.IOBase):
         self.data = data
 
     def getheaders(self):
-        """
-        Returns a CIMultiDictProxy of the response headers.
-        """
+        """Returns a CIMultiDictProxy of the response headers."""
         return self.tornado_response.headers
 
     def getheader(self, name, default=None):
-        """
-        Returns a given response header.
-        """
+        """Returns a given response header."""
         return self.tornado_response.headers.get(name, default)
 
 
-class RESTClientObject:
+class RESTClientObject(object):
 
     def __init__(self, configuration, pools_size=4, maxsize=4):
-        # maxsize is the number of requests to host that are allowed in parallel
+        # maxsize is number of requests to host that are allowed in parallel
         # ca_certs vs cert_file vs key_file
         # http://stackoverflow.com/a/23957365/2985775
 
@@ -64,9 +60,10 @@ class RESTClientObject:
             # if not set certificate file, use Mozilla's root certificates.
             ca_certs = certifi.where()
 
-        self.ssl_context = ssl_context = ssl.SSLContext()
+        self.ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+        self.ssl_context.load_verify_locations(cafile=ca_certs)
         if configuration.cert_file:
-            ssl_context.load_cert_chain(
+            self.ssl_context.load_cert_chain(
                 configuration.cert_file, keyfile=configuration.key_file
             )
 
@@ -77,12 +74,14 @@ class RESTClientObject:
             self.proxy_port = 80
             self.proxy_host = configuration.proxy
 
-        self.pool_manager = AsyncHTTPClient()
+        self.pool_manager = httpclient.AsyncHTTPClient()
 
     @tornado.gen.coroutine
-    def request(self, method, url, query_params=None, headers=None,
-                      body=None, post_params=None, _preload_content=True, _request_timeout=None):
-        """
+    def request(self, method, url, query_params=None, headers=None, body=None,
+                post_params=None, _preload_content=True,
+                _request_timeout=None):
+        """Execute Request
+
         :param method: http request method
         :param url: http request url
         :param query_params: query parameters in the url
@@ -91,19 +90,23 @@ class RESTClientObject:
         :param post_params: request post parameters,
                             `application/x-www-form-urlencoded`
                             and `multipart/form-data`
-        :param _preload_content: this is a non-applicable field for the AiohttpClient.
-        :param _request_timeout: timeout setting for this request. If one number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of (connection, read) timeouts.
+        :param _preload_content: this is a non-applicable field for
+                                 the AiohttpClient.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         """
         method = method.upper()
-        assert method in ['GET', 'HEAD', 'DELETE', 'POST', 'PUT', 'PATCH', 'OPTIONS']
+        assert method in ['GET', 'HEAD', 'DELETE', 'POST', 'PUT',
+                          'PATCH', 'OPTIONS']
 
         if post_params and body:
             raise ValueError(
                 "body parameter cannot be used with post_params parameter."
             )
 
-        request = HTTPRequest(url)
+        request = httpclient.HTTPRequest(url)
         request.ssl_context = self.ssl_context
         request.proxy_host = self.proxy_host
         request.proxy_port = self.proxy_port
@@ -113,7 +116,6 @@ class RESTClientObject:
         if 'Content-Type' not in headers:
             request.headers['Content-Type'] = 'application/json'
         request.request_timeout = _request_timeout or 5 * 60
-
 
         post_params = post_params or {}
 
@@ -126,11 +128,11 @@ class RESTClientObject:
                 if body:
                     body = json.dumps(body)
                 request.body = body
-            elif headers['Content-Type'] == 'application/x-www-form-urlencoded':
+            elif headers['Content-Type'] == 'application/x-www-form-urlencoded':  # noqa: E501
                 request.body = urlencode(post_params)
-            # TODO: transform to multipart form
             elif headers['Content-Type'] == 'multipart/form-data':
-                request.body = encode_multipart_formdata(post_params)
+                multipart = encode_multipart_formdata(post_params)
+                request.body, headers['Content-Type'] = multipart
             # Pass a `bytes` parameter directly in the body to support
             # other content types than Json when `body` argument is provided
             # in serialized form
@@ -138,53 +140,64 @@ class RESTClientObject:
                 request.body = body
             else:
                 # Cannot generate the request from given parameters
-                msg = """Cannot prepare a request message for provided arguments.
-                Please check that your arguments match declared content type."""
+                msg = """Cannot prepare a request message for provided
+                         arguments. Please check that your arguments match
+                         declared content type."""
                 raise ApiException(status=0, reason=msg)
 
-        r = yield self.pool_manager.fetch(request)
-        r = RESTResponse(r, r.body)
+        r = yield self.pool_manager.fetch(request, raise_error=False)
 
-        # log response body
-        logger.debug("response body: %s", r.data)
+        if _preload_content:
+
+            r = RESTResponse(r, r.body)
+            # In the python 3, the response.data is bytes.
+            # we need to decode it to string.
+            if six.PY3:
+                r.data = r.data.decode('utf8')
+
+            # log response body
+            logger.debug("response body: %s", r.data)
 
         if not 200 <= r.status <= 299:
             raise ApiException(http_resp=r)
 
-        return r
+        raise tornado.gen.Return(r)
 
     @tornado.gen.coroutine
-    def GET(self, url, headers=None, query_params=None, _preload_content=True, _request_timeout=None):
+    def GET(self, url, headers=None, query_params=None, _preload_content=True,
+            _request_timeout=None):
         result = yield self.request("GET", url,
-                                  headers=headers,
-                                  _preload_content=_preload_content,
-                                  _request_timeout=_request_timeout,
-                                  query_params=query_params)
+                                    headers=headers,
+                                    _preload_content=_preload_content,
+                                    _request_timeout=_request_timeout,
+                                    query_params=query_params)
         raise tornado.gen.Return(result)
 
     @tornado.gen.coroutine
-    def HEAD(self, url, headers=None, query_params=None, _preload_content=True, _request_timeout=None):
+    def HEAD(self, url, headers=None, query_params=None, _preload_content=True,
+             _request_timeout=None):
         result = yield self.request("HEAD", url,
-                                   headers=headers,
-                                   _preload_content=_preload_content,
-                                   _request_timeout=_request_timeout,
-                                   query_params=query_params)
+                                    headers=headers,
+                                    _preload_content=_preload_content,
+                                    _request_timeout=_request_timeout,
+                                    query_params=query_params)
         raise tornado.gen.Return(result)
 
     @tornado.gen.coroutine
-    def OPTIONS(self, url, headers=None, query_params=None, post_params=None, body=None, _preload_content=True,
-                _request_timeout=None):
+    def OPTIONS(self, url, headers=None, query_params=None, post_params=None,
+                body=None, _preload_content=True, _request_timeout=None):
         result = yield self.request("OPTIONS", url,
-                                   headers=headers,
-                                   query_params=query_params,
-                                   post_params=post_params,
-                                   _preload_content=_preload_content,
-                                   _request_timeout=_request_timeout,
-                                   body=body)
+                                    headers=headers,
+                                    query_params=query_params,
+                                    post_params=post_params,
+                                    _preload_content=_preload_content,
+                                    _request_timeout=_request_timeout,
+                                    body=body)
         raise tornado.gen.Return(result)
 
     @tornado.gen.coroutine
-    def DELETE(self, url, headers=None, query_params=None, body=None, _preload_content=True, _request_timeout=None):
+    def DELETE(self, url, headers=None, query_params=None, body=None,
+               _preload_content=True, _request_timeout=None):
         result = yield self.request("DELETE", url,
                                     headers=headers,
                                     query_params=query_params,
@@ -194,39 +207,39 @@ class RESTClientObject:
         raise tornado.gen.Return(result)
 
     @tornado.gen.coroutine
-    def POST(self, url, headers=None, query_params=None, post_params=None, body=None, _preload_content=True,
-             _request_timeout=None):
+    def POST(self, url, headers=None, query_params=None, post_params=None,
+             body=None, _preload_content=True, _request_timeout=None):
         result = yield self.request("POST", url,
-                                  headers=headers,
-                                  query_params=query_params,
-                                  post_params=post_params,
-                                  _preload_content=_preload_content,
-                                  _request_timeout=_request_timeout,
-                                  body=body)
+                                    headers=headers,
+                                    query_params=query_params,
+                                    post_params=post_params,
+                                    _preload_content=_preload_content,
+                                    _request_timeout=_request_timeout,
+                                    body=body)
         raise tornado.gen.Return(result)
 
     @tornado.gen.coroutine
-    def PUT(self, url, headers=None, query_params=None, post_params=None, body=None, _preload_content=True,
-            _request_timeout=None):
+    def PUT(self, url, headers=None, query_params=None, post_params=None,
+            body=None, _preload_content=True, _request_timeout=None):
         result = yield self.request("PUT", url,
-                                   headers=headers,
-                                   query_params=query_params,
-                                   post_params=post_params,
-                                   _preload_content=_preload_content,
-                                   _request_timeout=_request_timeout,
-                                   body=body)
+                                    headers=headers,
+                                    query_params=query_params,
+                                    post_params=post_params,
+                                    _preload_content=_preload_content,
+                                    _request_timeout=_request_timeout,
+                                    body=body)
         raise tornado.gen.Return(result)
 
     @tornado.gen.coroutine
-    def PATCH(self, url, headers=None, query_params=None, post_params=None, body=None, _preload_content=True,
-              _request_timeout=None):
+    def PATCH(self, url, headers=None, query_params=None, post_params=None,
+              body=None, _preload_content=True, _request_timeout=None):
         result = yield self.request("PATCH", url,
-                                   headers=headers,
-                                   query_params=query_params,
-                                   post_params=post_params,
-                                   _preload_content=_preload_content,
-                                   _request_timeout=_request_timeout,
-                                   body=body)
+                                    headers=headers,
+                                    query_params=query_params,
+                                    post_params=post_params,
+                                    _preload_content=_preload_content,
+                                    _request_timeout=_request_timeout,
+                                    body=body)
         raise tornado.gen.Return(result)
 
 
@@ -245,13 +258,12 @@ class ApiException(Exception):
             self.headers = None
 
     def __str__(self):
-        """
-        Custom error messages for exception
-        """
-        error_message = "({0})\n"\
-                        "Reason: {1}\n".format(self.status, self.reason)
+        """Custom error messages for exception"""
+        error_message = "({0})\nReason: {1}\n".format(
+            self.status, self.reason)
         if self.headers:
-            error_message += "HTTP response headers: {0}\n".format(self.headers)
+            error_message += "HTTP response headers: {0}\n".format(
+                self.headers)
 
         if self.body:
             error_message += "HTTP response body: {0}\n".format(self.body)

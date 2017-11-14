@@ -16,8 +16,8 @@
  * This class represents a container for building a application/x-multipart-formdata requests.
  */
 
-#ifndef MultipartFormData_H_
-#define MultipartFormData_H_
+#ifndef IO_SWAGGER_CLIENT_MODEL_MultipartFormData_H_
+#define IO_SWAGGER_CLIENT_MODEL_MultipartFormData_H_
 
 
 #include "IHttpBody.h"
@@ -60,4 +60,4 @@ protected:
 }
 }
 
-#endif /* MultipartFormData_H_ */
+#endif /* IO_SWAGGER_CLIENT_MODEL_MultipartFormData_H_ */
