@@ -72,45 +72,40 @@ public class {{classname}} {
     {{/externalDocs}}
 
     **/
-    public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#requiredParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}Map<String, Object> params) throws IOException {
-        {{#returnType}}HttpResponse response = {{/returnType}}{{operationId}}ForHttpResponse({{#requiredParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}params);{{#returnType}}
+    public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#bodyParam}}{{^required}}{{{dataType}}} {{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}Map<String, Object> params) throws IOException {
+        {{#returnType}}HttpResponse response = {{/returnType}}{{operationId}}ForHttpResponse({{#bodyParam}}{{^required}}{{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}params);{{#returnType}}
         TypeReference typeRef = new TypeReference<{{{returnType}}}>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);{{/returnType}}
     }
 
     public HttpResponse {{operationId}}ForHttpResponse({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws IOException {
-        Object {{localVariablePrefix}}postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
-        {{#allParams}}{{#required}}
-        // verify the required parameter '{{paramName}}' is set
+        {{#allParams}}{{#required}}// verify the required parameter '{{paramName}}' is set
         if ({{paramName}} == null) {
             throw new IllegalArgumentException("Missing the required parameter '{{paramName}}' when calling {{operationId}}");
-        }
-        {{/required}}{{/allParams}}
+        }{{/required}}{{/allParams}}
         {{#hasPathParams}}
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();{{#pathParams}}
         uriVariables.put("{{baseName}}", {{{paramName}}});{{/pathParams}}
         {{/hasPathParams}}
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "{{{path}}}");{{#hasQueryParams}}
-        {{#queryParams}}if ({{paramName}} != null) {
+        {{#queryParams}}
+        if ({{paramName}} != null) {
             uriBuilder = uriBuilder.queryParam("{{baseName}}", {{paramName}});
-        }{{#hasMore}}{{/hasMore}}{{/queryParams}}{{/hasQueryParams}}
+        }{{/queryParams}}{{/hasQueryParams}}
 
         String url = uriBuilder{{#hasPathParams}}.buildFromMap(uriVariables).toString();{{/hasPathParams}}{{^hasPathParams}}.build().toString();{{/hasPathParams}}
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = postBody == null ? null : apiClient.new JacksonJsonHttpContent(postBody);
+        HttpContent content = {{#bodyParam}}{{paramName}} == null ? null : apiClient.new JacksonJsonHttpContent({{paramName}}){{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.{{httpMethod}}, genericUrl, content).execute();
     }
 
-    public HttpResponse {{operationId}}ForHttpResponse({{#requiredParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}Map<String, Object> params) throws IOException {
-        Object {{localVariablePrefix}}postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
-        {{#allParams}}{{#required}}
-        // verify the required parameter '{{paramName}}' is set
+    public HttpResponse {{operationId}}ForHttpResponse({{#bodyParam}}{{^required}}{{{dataType}}} {{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}Map<String, Object> params) throws IOException {
+        {{#allParams}}{{#required}}// verify the required parameter '{{paramName}}' is set
         if ({{paramName}} == null) {
             throw new IllegalArgumentException("Missing the required parameter '{{paramName}}' when calling {{operationId}}");
-        }
-        {{/required}}{{/allParams}}
+        }{{/required}}{{/allParams}}
         {{#hasPathParams}}
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();{{#pathParams}}
@@ -118,14 +113,12 @@ public class {{classname}} {
         {{/hasPathParams}}
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "{{{path}}}");
 
-        if (params == null) {
-            params = new HashMap<String, Object>();
-        }{{#queryParams}}{{#required}}
-
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);{{#queryParams}}{{#required}}
         // Add the required query param '{{paramName}}' to the map of query params
-        params.put("{{paramName}}", {{paramName}});{{/required}}{{/queryParams}}
+        allParams.put("{{paramName}}", {{paramName}});{{/required}}{{/queryParams}}
 
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
 
@@ -138,11 +131,10 @@ public class {{classname}} {
             }
         }
 
-
         String url = uriBuilder{{#hasPathParams}}.buildFromMap(uriVariables).toString();{{/hasPathParams}}{{^hasPathParams}}.build().toString();{{/hasPathParams}}
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = postBody == null ? null : apiClient.new JacksonJsonHttpContent(postBody);
+        HttpContent content = {{#bodyParam}}{{paramName}} == null ? null : apiClient.new JacksonJsonHttpContent({{paramName}}){{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.{{httpMethod}}, genericUrl, content).execute();
     }
 
