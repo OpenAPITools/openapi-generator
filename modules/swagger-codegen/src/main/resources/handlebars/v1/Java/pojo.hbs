@@ -1,10 +1,8 @@
 /**
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
- */{{#description}}
-@ApiModel(description = "{{{description}}}"){{/description}}
+ */{{#description}}@ApiModel(description = "{{{description}}}"){{/description}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
 public class {{{getClassDefinition}}} {
-    // here it's the tab xD
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
 {{/serializableModel~}}
@@ -195,6 +193,5 @@ public class {{{getClassDefinition}}} {
     public {{classname}}[] newArray(int size) {
       return new {{classname}}[size];
     }
-  };
-  {{/parcelableModel~}}
+  };{{/parcelableModel}}
 }

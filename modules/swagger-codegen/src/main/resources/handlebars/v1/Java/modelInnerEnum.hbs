@@ -1,15 +1,13 @@
   /**
    * {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
-   */
-{{#gson}}
-  @JsonAdapter({{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.Adapter.class)
-{{/gson}}
+   */{{#gson}}
+  @JsonAdapter({{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.Adapter.class){{/gson}}
   public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {
     {{#allowableValues}}
-      {{#enumVars}}
+    {{#enumVars~}}
     {{{name}}}({{{value}}}){{^@last}},
-    {{/@last}}{{#@last}};{{/@last}}
-      {{/enumVars}}
+    {{/@last}}{{#@last}};{{/@last~}}
+    {{/enumVars~}}
     {{/allowableValues}}
 
     private {{{datatype}}} value;
@@ -17,10 +15,9 @@
     {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}({{{datatype}}} value) {
       this.value = value;
     }
-
-{{#jackson}}
+    {{#jackson}}
     @JsonValue
-{{/jackson}}
+    {{/jackson}}
     public {{{datatype}}} getValue() {
       return value;
     }
@@ -29,10 +26,9 @@
     public String toString() {
       return String.valueOf(value);
     }
-
-{{#jackson}}
+    {{#jackson}}
     @JsonCreator
-{{/jackson}}
+    {{/jackson}}
     public static {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue(String text) {
       for ({{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
         if (String.valueOf(b.value).equals(text)) {
@@ -41,8 +37,7 @@
       }
       return null;
     }
-{{#gson}}
-
+    {{#gson}}
     public static class Adapter extends TypeAdapter<{{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}> {
       @Override
       public void write(final JsonWriter jsonWriter, final {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} enumeration) throws IOException {
@@ -54,6 +49,5 @@
         {{{datatype}}} value = jsonReader.{{#isInteger}}nextInt(){{/isInteger}}{{^isInteger}}next{{{datatype}}}(){{/isInteger}};
         return {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.fromValue(String.valueOf(value));
       }
-    }
-{{/gson}}
+    }{{/gson}}
   }
