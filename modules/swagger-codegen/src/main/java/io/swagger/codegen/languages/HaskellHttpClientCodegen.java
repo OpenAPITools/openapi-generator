@@ -580,6 +580,17 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             ops.get(0).vendorExtensions.put(X_HAS_NEW_TAG, true);
         }
 
+        updateGlobalAdditionalProps();
+        return ret;
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        updateGlobalAdditionalProps();
+        return super.postProcessAllModels(objs);
+    }
+
+    public void updateGlobalAdditionalProps() {
         additionalProperties.put(X_HAS_UNKNOWN_MIME_TYPES, !unknownMimeTypes.isEmpty());
 
         Collections.sort(unknownMimeTypes, new Comparator<Map<String, String>>() {
@@ -601,8 +612,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             }
         });
         additionalProperties.put(X_ALL_UNIQUE_PARAMS, params);
-
-        return ret;
     }
 
     @Override

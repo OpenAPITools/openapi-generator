@@ -4,7 +4,7 @@
     public enum {{>innerApiEnumName}}
     {
     {{#allowableValues}}
-{{#values}}        {{&.}}{{^-last}}, {{/-last}}
+{{#values}}        {{&.}}{{^isInteger}} = {{-index}}{{/isInteger}}{{^-last}}, {{/-last}}
 {{/values}}
     {{/allowableValues}}
     };
