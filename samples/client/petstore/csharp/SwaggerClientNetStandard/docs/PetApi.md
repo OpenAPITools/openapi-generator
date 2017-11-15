@@ -20,8 +20,6 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
-
-
 ### Example
 ```csharp
 using System;
@@ -82,8 +80,6 @@ void (empty response body)
 > void DeletePet (long? petId, string apiKey = null)
 
 Deletes a pet
-
-
 
 ### Example
 ```csharp
@@ -342,8 +338,6 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
-
-
 ### Example
 ```csharp
 using System;
@@ -404,8 +398,6 @@ void (empty response body)
 > void UpdatePetWithForm (long? petId, string name = null, string status = null)
 
 Updates a pet in the store with form data
-
-
 
 ### Example
 ```csharp
@@ -471,8 +463,6 @@ void (empty response body)
 > ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
 
 uploads an image
-
-
 
 ### Example
 ```csharp

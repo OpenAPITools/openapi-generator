@@ -1,5 +1,6 @@
 package io.swagger.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenType;
@@ -168,5 +169,11 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         // Converts, for example, PUT to HttpPut for controller attributes
         operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase();
+    }
+
+    @Override
+    public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
+        // To avoid unexpected behaviors when options are passed programmatically such as { "useCollection": "" }
+        return super.processCompiler(compiler).emptyStringIsFalse(true);
     }
 }
