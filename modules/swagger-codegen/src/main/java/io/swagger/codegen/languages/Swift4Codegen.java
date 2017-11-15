@@ -150,7 +150,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                     "FILE", "mutating", "protocol", "switch", "FUNCTION", "none", "public",
                     "where", "LINE", "nonmutating", "static", "while", "optional", "struct",
                     "override", "subscript", "postfix", "typealias", "precedence", "var",
-                    "prefix", "Protocol", "required", "right", "set", "Type", "unowned", "weak",
+                    "prefix", "Protocol", "required", "right", "set", "throw", "Type", "unowned", "weak",
                     "Data", "Codable", "Encodable", "Decodable")
         );
 
