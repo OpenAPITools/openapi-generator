@@ -64,13 +64,10 @@ public class StoreApi {
     }
 
     public HttpResponse deleteOrderForHttpResponse(String orderId) throws IOException {
-        Object postBody = null;
-        
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'orderId' when calling deleteOrder");
         }
-        
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
@@ -79,28 +76,24 @@ public class StoreApi {
         String url = uriBuilder.buildFromMap(uriVariables).toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = postBody == null ? null : apiClient.new JacksonJsonHttpContent(postBody);
+        HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
     }
 
     public HttpResponse deleteOrderForHttpResponse(String orderId, Map<String, Object> params) throws IOException {
-        Object postBody = null;
-        
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'orderId' when calling deleteOrder");
         }
-        
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/order/{order_id}");
 
-        if (params == null) {
-            params = new HashMap<String, Object>();
-        }
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
 
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
 
@@ -113,11 +106,10 @@ public class StoreApi {
             }
         }
 
-
         String url = uriBuilder.buildFromMap(uriVariables).toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = postBody == null ? null : apiClient.new JacksonJsonHttpContent(postBody);
+        HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
     }
 
@@ -150,27 +142,24 @@ public class StoreApi {
     }
 
     public HttpResponse getInventoryForHttpResponse() throws IOException {
-        Object postBody = null;
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/inventory");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = postBody == null ? null : apiClient.new JacksonJsonHttpContent(postBody);
+        HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
     }
 
     public HttpResponse getInventoryForHttpResponse(Map<String, Object> params) throws IOException {
-        Object postBody = null;
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/inventory");
 
-        if (params == null) {
-            params = new HashMap<String, Object>();
-        }
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
 
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
 
@@ -183,11 +172,10 @@ public class StoreApi {
             }
         }
 
-
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = postBody == null ? null : apiClient.new JacksonJsonHttpContent(postBody);
+        HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
     }
 
@@ -226,13 +214,10 @@ public class StoreApi {
     }
 
     public HttpResponse getOrderByIdForHttpResponse(Long orderId) throws IOException {
-        Object postBody = null;
-        
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'orderId' when calling getOrderById");
         }
-        
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
@@ -241,28 +226,24 @@ public class StoreApi {
         String url = uriBuilder.buildFromMap(uriVariables).toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = postBody == null ? null : apiClient.new JacksonJsonHttpContent(postBody);
+        HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
     }
 
     public HttpResponse getOrderByIdForHttpResponse(Long orderId, Map<String, Object> params) throws IOException {
-        Object postBody = null;
-        
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'orderId' when calling getOrderById");
         }
-        
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/order/{order_id}");
 
-        if (params == null) {
-            params = new HashMap<String, Object>();
-        }
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
 
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
 
@@ -275,11 +256,10 @@ public class StoreApi {
             }
         }
 
-
         String url = uriBuilder.buildFromMap(uriVariables).toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = postBody == null ? null : apiClient.new JacksonJsonHttpContent(postBody);
+        HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
     }
 
@@ -316,37 +296,30 @@ public class StoreApi {
     }
 
     public HttpResponse placeOrderForHttpResponse(Order body) throws IOException {
-        Object postBody = body;
-        
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling placeOrder");
         }
-        
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/order");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = postBody == null ? null : apiClient.new JacksonJsonHttpContent(postBody);
+        HttpContent content = body == null ? null : apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
     public HttpResponse placeOrderForHttpResponse(Order body, Map<String, Object> params) throws IOException {
-        Object postBody = body;
-        
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling placeOrder");
         }
-        
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/order");
 
-        if (params == null) {
-            params = new HashMap<String, Object>();
-        }
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
 
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
 
@@ -359,11 +332,10 @@ public class StoreApi {
             }
         }
 
-
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = postBody == null ? null : apiClient.new JacksonJsonHttpContent(postBody);
+        HttpContent content = body == null ? null : apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 

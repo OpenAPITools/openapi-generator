@@ -10,6 +10,7 @@ import ssl
 
 import certifi
 # python 2 and python 3 compatibility library
+import six
 from six.moves.urllib.parse import urlencode
 import tornado
 import tornado.gen
@@ -50,7 +51,7 @@ class RESTClientObject(object):
             # if not set certificate file, use Mozilla's root certificates.
             ca_certs = certifi.where()
 
-        self.ssl_context = ssl.SSLContext()
+        self.ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
         self.ssl_context.load_verify_locations(cafile=ca_certs)
         if configuration.cert_file:
             self.ssl_context.load_cert_chain(
@@ -121,7 +122,8 @@ class RESTClientObject(object):
             elif headers['Content-Type'] == 'application/x-www-form-urlencoded':  # noqa: E501
                 request.body = urlencode(post_params)
             elif headers['Content-Type'] == 'multipart/form-data':
-                request.body = encode_multipart_formdata(post_params)
+                multipart = encode_multipart_formdata(post_params)
+                request.body, headers['Content-Type'] = multipart
             # Pass a `bytes` parameter directly in the body to support
             # other content types than Json when `body` argument is provided
             # in serialized form
@@ -134,14 +136,23 @@ class RESTClientObject(object):
                          declared content type."""
                 raise ApiException(status=0, reason=msg)
 
-        r = yield self.pool_manager.fetch(request)
-        r = RESTResponse(r, r.body)
+        r = yield self.pool_manager.fetch(request, raise_error=False)
 
-        # log response body
-        logger.debug("response body: %s", r.data)
+        if _preload_content:
+
+            r = RESTResponse(r, r.body)
+            # In the python 3, the response.data is bytes.
+            # we need to decode it to string.
+            if six.PY3:
+                r.data = r.data.decode('utf8')
+
+            # log response body
+            logger.debug("response body: %s", r.data)
 
         if not 200 <= r.status <= 299:
             raise ApiException(http_resp=r)
+
+        raise tornado.gen.Return(r)
 
     @tornado.gen.coroutine
     def GET(self, url, headers=None, query_params=None, _preload_content=True,

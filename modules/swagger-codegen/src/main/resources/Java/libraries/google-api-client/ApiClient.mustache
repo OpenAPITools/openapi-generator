@@ -5,16 +5,16 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 {{#joda}}
-    import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
 {{#java8}}
-    import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 {{/java8}}
 {{#threetenbp}}
-    import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
+import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 {{/threetenbp}}
 {{#threetenbp}}
-    import org.threeten.bp.*;
+import org.threeten.bp.*;
 {{/threetenbp}}
 import com.google.api.client.googleapis.util.Utils;
 import com.google.api.client.http.AbstractHttpContent;
@@ -25,9 +25,6 @@ import com.google.api.client.json.Json;
 
 import java.io.IOException;
 import java.io.OutputStream;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 {{>generatedAnnotation}}
 public class ApiClient {

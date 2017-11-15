@@ -68,37 +68,30 @@ public class AnotherFakeApi {
     }
 
     public HttpResponse testSpecialTagsForHttpResponse(Client body) throws IOException {
-        Object postBody = body;
-        
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling testSpecialTags");
         }
-        
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/another-fake/dummy");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = postBody == null ? null : apiClient.new JacksonJsonHttpContent(postBody);
+        HttpContent content = body == null ? null : apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
     }
 
     public HttpResponse testSpecialTagsForHttpResponse(Client body, Map<String, Object> params) throws IOException {
-        Object postBody = body;
-        
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling testSpecialTags");
         }
-        
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/another-fake/dummy");
 
-        if (params == null) {
-            params = new HashMap<String, Object>();
-        }
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
 
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
 
@@ -111,11 +104,10 @@ public class AnotherFakeApi {
             }
         }
 
-
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = postBody == null ? null : apiClient.new JacksonJsonHttpContent(postBody);
+        HttpContent content = body == null ? null : apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
     }
 
