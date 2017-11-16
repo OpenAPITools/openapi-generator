@@ -1,8 +1,9 @@
 "use strict";
-var localVarRequest = require('request');
-var Promise = require('bluebird');
-var defaultBasePath = 'http://petstore.swagger.io/v2';
-var primitives = [
+Object.defineProperty(exports, "__esModule", { value: true });
+const localVarRequest = require("request");
+const Promise = require("bluebird");
+let defaultBasePath = 'http://petstore.swagger.io/v2';
+let primitives = [
     "string",
     "boolean",
     "double",
@@ -12,10 +13,8 @@ var primitives = [
     "number",
     "any"
 ];
-var ObjectSerializer = (function () {
-    function ObjectSerializer() {
-    }
-    ObjectSerializer.findCorrectType = function (data, expectedType) {
+class ObjectSerializer {
+    static findCorrectType(data, expectedType) {
         if (data == undefined) {
             return expectedType;
         }
@@ -32,7 +31,7 @@ var ObjectSerializer = (function () {
             if (!typeMap[expectedType]) {
                 return expectedType;
             }
-            var discriminatorProperty = typeMap[expectedType].discriminator;
+            let discriminatorProperty = typeMap[expectedType].discriminator;
             if (discriminatorProperty == null) {
                 return expectedType;
             }
@@ -45,8 +44,8 @@ var ObjectSerializer = (function () {
                 }
             }
         }
-    };
-    ObjectSerializer.serialize = function (data, type) {
+    }
+    static serialize(data, type) {
         if (data == undefined) {
             return data;
         }
@@ -54,11 +53,11 @@ var ObjectSerializer = (function () {
             return data;
         }
         else if (type.lastIndexOf("Array<", 0) === 0) {
-            var subType = type.replace("Array<", "");
+            let subType = type.replace("Array<", "");
             subType = subType.substring(0, subType.length - 1);
-            var transformedData = [];
-            for (var index in data) {
-                var date = data[index];
+            let transformedData = [];
+            for (let index in data) {
+                let date = data[index];
                 transformedData.push(ObjectSerializer.serialize(date, subType));
             }
             return transformedData;
@@ -73,16 +72,16 @@ var ObjectSerializer = (function () {
             if (!typeMap[type]) {
                 return data;
             }
-            var attributeTypes = typeMap[type].getAttributeTypeMap();
-            var instance = {};
-            for (var index in attributeTypes) {
-                var attributeType = attributeTypes[index];
+            let attributeTypes = typeMap[type].getAttributeTypeMap();
+            let instance = {};
+            for (let index in attributeTypes) {
+                let attributeType = attributeTypes[index];
                 instance[attributeType.baseName] = ObjectSerializer.serialize(data[attributeType.name], attributeType.type);
             }
             return instance;
         }
-    };
-    ObjectSerializer.deserialize = function (data, type) {
+    }
+    static deserialize(data, type) {
         type = ObjectSerializer.findCorrectType(data, type);
         if (data == undefined) {
             return data;
@@ -91,11 +90,11 @@ var ObjectSerializer = (function () {
             return data;
         }
         else if (type.lastIndexOf("Array<", 0) === 0) {
-            var subType = type.replace("Array<", "");
+            let subType = type.replace("Array<", "");
             subType = subType.substring(0, subType.length - 1);
-            var transformedData = [];
-            for (var index in data) {
-                var date = data[index];
+            let transformedData = [];
+            for (let index in data) {
+                let date = data[index];
                 transformedData.push(ObjectSerializer.deserialize(date, subType));
             }
             return transformedData;
@@ -110,241 +109,226 @@ var ObjectSerializer = (function () {
             if (!typeMap[type]) {
                 return data;
             }
-            var instance = new typeMap[type]();
-            var attributeTypes = typeMap[type].getAttributeTypeMap();
-            for (var index in attributeTypes) {
-                var attributeType = attributeTypes[index];
+            let instance = new typeMap[type]();
+            let attributeTypes = typeMap[type].getAttributeTypeMap();
+            for (let index in attributeTypes) {
+                let attributeType = attributeTypes[index];
                 instance[attributeType.name] = ObjectSerializer.deserialize(data[attributeType.baseName], attributeType.type);
             }
             return instance;
         }
-    };
-    return ObjectSerializer;
-}());
-var ApiResponse = (function () {
-    function ApiResponse() {
     }
-    ApiResponse.getAttributeTypeMap = function () {
+}
+class ApiResponse {
+    static getAttributeTypeMap() {
         return ApiResponse.attributeTypeMap;
-    };
-    ApiResponse.discriminator = undefined;
-    ApiResponse.attributeTypeMap = [
-        {
-            "name": "code",
-            "baseName": "code",
-            "type": "number"
-        },
-        {
-            "name": "type",
-            "baseName": "type",
-            "type": "string"
-        },
-        {
-            "name": "message",
-            "baseName": "message",
-            "type": "string"
-        }];
-    return ApiResponse;
-}());
+    }
+}
+ApiResponse.discriminator = undefined;
+ApiResponse.attributeTypeMap = [
+    {
+        "name": "code",
+        "baseName": "code",
+        "type": "number"
+    },
+    {
+        "name": "type",
+        "baseName": "type",
+        "type": "string"
+    },
+    {
+        "name": "message",
+        "baseName": "message",
+        "type": "string"
+    }
+];
 exports.ApiResponse = ApiResponse;
-var Category = (function () {
-    function Category() {
-    }
-    Category.getAttributeTypeMap = function () {
+class Category {
+    static getAttributeTypeMap() {
         return Category.attributeTypeMap;
-    };
-    Category.discriminator = undefined;
-    Category.attributeTypeMap = [
-        {
-            "name": "id",
-            "baseName": "id",
-            "type": "number"
-        },
-        {
-            "name": "name",
-            "baseName": "name",
-            "type": "string"
-        }];
-    return Category;
-}());
-exports.Category = Category;
-var Order = (function () {
-    function Order() {
     }
-    Order.getAttributeTypeMap = function () {
+}
+Category.discriminator = undefined;
+Category.attributeTypeMap = [
+    {
+        "name": "id",
+        "baseName": "id",
+        "type": "number"
+    },
+    {
+        "name": "name",
+        "baseName": "name",
+        "type": "string"
+    }
+];
+exports.Category = Category;
+class Order {
+    static getAttributeTypeMap() {
         return Order.attributeTypeMap;
-    };
-    Order.discriminator = undefined;
-    Order.attributeTypeMap = [
-        {
-            "name": "id",
-            "baseName": "id",
-            "type": "number"
-        },
-        {
-            "name": "petId",
-            "baseName": "petId",
-            "type": "number"
-        },
-        {
-            "name": "quantity",
-            "baseName": "quantity",
-            "type": "number"
-        },
-        {
-            "name": "shipDate",
-            "baseName": "shipDate",
-            "type": "Date"
-        },
-        {
-            "name": "status",
-            "baseName": "status",
-            "type": "Order.StatusEnum"
-        },
-        {
-            "name": "complete",
-            "baseName": "complete",
-            "type": "boolean"
-        }];
-    return Order;
-}());
+    }
+}
+Order.discriminator = undefined;
+Order.attributeTypeMap = [
+    {
+        "name": "id",
+        "baseName": "id",
+        "type": "number"
+    },
+    {
+        "name": "petId",
+        "baseName": "petId",
+        "type": "number"
+    },
+    {
+        "name": "quantity",
+        "baseName": "quantity",
+        "type": "number"
+    },
+    {
+        "name": "shipDate",
+        "baseName": "shipDate",
+        "type": "Date"
+    },
+    {
+        "name": "status",
+        "baseName": "status",
+        "type": "Order.StatusEnum"
+    },
+    {
+        "name": "complete",
+        "baseName": "complete",
+        "type": "boolean"
+    }
+];
 exports.Order = Order;
-var Order;
 (function (Order) {
+    let StatusEnum;
     (function (StatusEnum) {
         StatusEnum[StatusEnum["Placed"] = 'placed'] = "Placed";
         StatusEnum[StatusEnum["Approved"] = 'approved'] = "Approved";
         StatusEnum[StatusEnum["Delivered"] = 'delivered'] = "Delivered";
-    })(Order.StatusEnum || (Order.StatusEnum = {}));
-    var StatusEnum = Order.StatusEnum;
+    })(StatusEnum = Order.StatusEnum || (Order.StatusEnum = {}));
 })(Order = exports.Order || (exports.Order = {}));
-var Pet = (function () {
-    function Pet() {
-    }
-    Pet.getAttributeTypeMap = function () {
+class Pet {
+    static getAttributeTypeMap() {
         return Pet.attributeTypeMap;
-    };
-    Pet.discriminator = undefined;
-    Pet.attributeTypeMap = [
-        {
-            "name": "id",
-            "baseName": "id",
-            "type": "number"
-        },
-        {
-            "name": "category",
-            "baseName": "category",
-            "type": "Category"
-        },
-        {
-            "name": "name",
-            "baseName": "name",
-            "type": "string"
-        },
-        {
-            "name": "photoUrls",
-            "baseName": "photoUrls",
-            "type": "Array<string>"
-        },
-        {
-            "name": "tags",
-            "baseName": "tags",
-            "type": "Array<Tag>"
-        },
-        {
-            "name": "status",
-            "baseName": "status",
-            "type": "Pet.StatusEnum"
-        }];
-    return Pet;
-}());
+    }
+}
+Pet.discriminator = undefined;
+Pet.attributeTypeMap = [
+    {
+        "name": "id",
+        "baseName": "id",
+        "type": "number"
+    },
+    {
+        "name": "category",
+        "baseName": "category",
+        "type": "Category"
+    },
+    {
+        "name": "name",
+        "baseName": "name",
+        "type": "string"
+    },
+    {
+        "name": "photoUrls",
+        "baseName": "photoUrls",
+        "type": "Array<string>"
+    },
+    {
+        "name": "tags",
+        "baseName": "tags",
+        "type": "Array<Tag>"
+    },
+    {
+        "name": "status",
+        "baseName": "status",
+        "type": "Pet.StatusEnum"
+    }
+];
 exports.Pet = Pet;
-var Pet;
 (function (Pet) {
+    let StatusEnum;
     (function (StatusEnum) {
         StatusEnum[StatusEnum["Available"] = 'available'] = "Available";
         StatusEnum[StatusEnum["Pending"] = 'pending'] = "Pending";
         StatusEnum[StatusEnum["Sold"] = 'sold'] = "Sold";
-    })(Pet.StatusEnum || (Pet.StatusEnum = {}));
-    var StatusEnum = Pet.StatusEnum;
+    })(StatusEnum = Pet.StatusEnum || (Pet.StatusEnum = {}));
 })(Pet = exports.Pet || (exports.Pet = {}));
-var Tag = (function () {
-    function Tag() {
-    }
-    Tag.getAttributeTypeMap = function () {
+class Tag {
+    static getAttributeTypeMap() {
         return Tag.attributeTypeMap;
-    };
-    Tag.discriminator = undefined;
-    Tag.attributeTypeMap = [
-        {
-            "name": "id",
-            "baseName": "id",
-            "type": "number"
-        },
-        {
-            "name": "name",
-            "baseName": "name",
-            "type": "string"
-        }];
-    return Tag;
-}());
-exports.Tag = Tag;
-var User = (function () {
-    function User() {
     }
-    User.getAttributeTypeMap = function () {
+}
+Tag.discriminator = undefined;
+Tag.attributeTypeMap = [
+    {
+        "name": "id",
+        "baseName": "id",
+        "type": "number"
+    },
+    {
+        "name": "name",
+        "baseName": "name",
+        "type": "string"
+    }
+];
+exports.Tag = Tag;
+class User {
+    static getAttributeTypeMap() {
         return User.attributeTypeMap;
-    };
-    User.discriminator = undefined;
-    User.attributeTypeMap = [
-        {
-            "name": "id",
-            "baseName": "id",
-            "type": "number"
-        },
-        {
-            "name": "username",
-            "baseName": "username",
-            "type": "string"
-        },
-        {
-            "name": "firstName",
-            "baseName": "firstName",
-            "type": "string"
-        },
-        {
-            "name": "lastName",
-            "baseName": "lastName",
-            "type": "string"
-        },
-        {
-            "name": "email",
-            "baseName": "email",
-            "type": "string"
-        },
-        {
-            "name": "password",
-            "baseName": "password",
-            "type": "string"
-        },
-        {
-            "name": "phone",
-            "baseName": "phone",
-            "type": "string"
-        },
-        {
-            "name": "userStatus",
-            "baseName": "userStatus",
-            "type": "number"
-        }];
-    return User;
-}());
+    }
+}
+User.discriminator = undefined;
+User.attributeTypeMap = [
+    {
+        "name": "id",
+        "baseName": "id",
+        "type": "number"
+    },
+    {
+        "name": "username",
+        "baseName": "username",
+        "type": "string"
+    },
+    {
+        "name": "firstName",
+        "baseName": "firstName",
+        "type": "string"
+    },
+    {
+        "name": "lastName",
+        "baseName": "lastName",
+        "type": "string"
+    },
+    {
+        "name": "email",
+        "baseName": "email",
+        "type": "string"
+    },
+    {
+        "name": "password",
+        "baseName": "password",
+        "type": "string"
+    },
+    {
+        "name": "phone",
+        "baseName": "phone",
+        "type": "string"
+    },
+    {
+        "name": "userStatus",
+        "baseName": "userStatus",
+        "type": "number"
+    }
+];
 exports.User = User;
-var enumsMap = {
+let enumsMap = {
     "Order.StatusEnum": Order.StatusEnum,
     "Pet.StatusEnum": Pet.StatusEnum,
 };
-var typeMap = {
+let typeMap = {
     "ApiResponse": ApiResponse,
     "Category": Category,
     "Order": Order,
@@ -352,58 +336,48 @@ var typeMap = {
     "Tag": Tag,
     "User": User,
 };
-var HttpBasicAuth = (function () {
-    function HttpBasicAuth() {
-    }
-    HttpBasicAuth.prototype.applyToRequest = function (requestOptions) {
+class HttpBasicAuth {
+    applyToRequest(requestOptions) {
         requestOptions.auth = {
             username: this.username, password: this.password
         };
-    };
-    return HttpBasicAuth;
-}());
+    }
+}
 exports.HttpBasicAuth = HttpBasicAuth;
-var ApiKeyAuth = (function () {
-    function ApiKeyAuth(location, paramName) {
+class ApiKeyAuth {
+    constructor(location, paramName) {
         this.location = location;
         this.paramName = paramName;
     }
-    ApiKeyAuth.prototype.applyToRequest = function (requestOptions) {
+    applyToRequest(requestOptions) {
         if (this.location == "query") {
             requestOptions.qs[this.paramName] = this.apiKey;
         }
         else if (this.location == "header" && requestOptions && requestOptions.headers) {
             requestOptions.headers[this.paramName] = this.apiKey;
         }
-    };
-    return ApiKeyAuth;
-}());
-exports.ApiKeyAuth = ApiKeyAuth;
-var OAuth = (function () {
-    function OAuth() {
     }
-    OAuth.prototype.applyToRequest = function (requestOptions) {
+}
+exports.ApiKeyAuth = ApiKeyAuth;
+class OAuth {
+    applyToRequest(requestOptions) {
         if (requestOptions && requestOptions.headers) {
             requestOptions.headers["Authorization"] = "Bearer " + this.accessToken;
         }
-    };
-    return OAuth;
-}());
-exports.OAuth = OAuth;
-var VoidAuth = (function () {
-    function VoidAuth() {
     }
-    VoidAuth.prototype.applyToRequest = function (_) {
-    };
-    return VoidAuth;
-}());
+}
+exports.OAuth = OAuth;
+class VoidAuth {
+    applyToRequest(_) {
+    }
+}
 exports.VoidAuth = VoidAuth;
+var PetApiApiKeys;
 (function (PetApiApiKeys) {
     PetApiApiKeys[PetApiApiKeys["api_key"] = 0] = "api_key";
-})(exports.PetApiApiKeys || (exports.PetApiApiKeys = {}));
-var PetApiApiKeys = exports.PetApiApiKeys;
-var PetApi = (function () {
-    function PetApi(basePathOrUsername, password, basePath) {
+})(PetApiApiKeys = exports.PetApiApiKeys || (exports.PetApiApiKeys = {}));
+class PetApi {
+    constructor(basePathOrUsername, password, basePath) {
         this._basePath = defaultBasePath;
         this.defaultHeaders = {};
         this._useQuerystring = false;
@@ -423,46 +397,34 @@ var PetApi = (function () {
             }
         }
     }
-    Object.defineProperty(PetApi.prototype, "useQuerystring", {
-        set: function (value) {
-            this._useQuerystring = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(PetApi.prototype, "basePath", {
-        get: function () {
-            return this._basePath;
-        },
-        set: function (basePath) {
-            this._basePath = basePath;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    PetApi.prototype.setDefaultAuthentication = function (auth) {
+    set useQuerystring(value) {
+        this._useQuerystring = value;
+    }
+    set basePath(basePath) {
+        this._basePath = basePath;
+    }
+    get basePath() {
+        return this._basePath;
+    }
+    setDefaultAuthentication(auth) {
         this.authentications.default = auth;
-    };
-    PetApi.prototype.setApiKey = function (key, value) {
+    }
+    setApiKey(key, value) {
         this.authentications[PetApiApiKeys[key]].apiKey = value;
-    };
-    Object.defineProperty(PetApi.prototype, "accessToken", {
-        set: function (token) {
-            this.authentications.petstore_auth.accessToken = token;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    PetApi.prototype.addPet = function (body) {
-        var localVarPath = this.basePath + '/pet';
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+    }
+    set accessToken(token) {
+        this.authentications.petstore_auth.accessToken = token;
+    }
+    addPet(body) {
+        const localVarPath = this.basePath + '/pet';
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling addPet.');
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'POST',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -481,8 +443,8 @@ var PetApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -496,19 +458,19 @@ var PetApi = (function () {
                 }
             });
         });
-    };
-    PetApi.prototype.deletePet = function (petId, apiKey) {
-        var localVarPath = this.basePath + '/pet/{petId}'
+    }
+    deletePet(petId, apiKey) {
+        const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
         localVarHeaderParams['api_key'] = ObjectSerializer.serialize(apiKey, "string");
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'DELETE',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -526,8 +488,8 @@ var PetApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -541,20 +503,20 @@ var PetApi = (function () {
                 }
             });
         });
-    };
-    PetApi.prototype.findPetsByStatus = function (status) {
-        var localVarPath = this.basePath + '/pet/findByStatus';
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+    }
+    findPetsByStatus(status) {
+        const localVarPath = this.basePath + '/pet/findByStatus';
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (status === null || status === undefined) {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
         if (status !== undefined) {
             localVarQueryParameters['status'] = ObjectSerializer.serialize(status, "Array<string>");
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'GET',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -572,8 +534,8 @@ var PetApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -588,20 +550,20 @@ var PetApi = (function () {
                 }
             });
         });
-    };
-    PetApi.prototype.findPetsByTags = function (tags) {
-        var localVarPath = this.basePath + '/pet/findByTags';
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+    }
+    findPetsByTags(tags) {
+        const localVarPath = this.basePath + '/pet/findByTags';
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (tags === null || tags === undefined) {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
         if (tags !== undefined) {
             localVarQueryParameters['tags'] = ObjectSerializer.serialize(tags, "Array<string>");
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'GET',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -619,8 +581,8 @@ var PetApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -635,18 +597,18 @@ var PetApi = (function () {
                 }
             });
         });
-    };
-    PetApi.prototype.getPetById = function (petId) {
-        var localVarPath = this.basePath + '/pet/{petId}'
+    }
+    getPetById(petId) {
+        const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'GET',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -664,8 +626,8 @@ var PetApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -680,17 +642,17 @@ var PetApi = (function () {
                 }
             });
         });
-    };
-    PetApi.prototype.updatePet = function (body) {
-        var localVarPath = this.basePath + '/pet';
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+    }
+    updatePet(body) {
+        const localVarPath = this.basePath + '/pet';
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling updatePet.');
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'PUT',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -709,8 +671,8 @@ var PetApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -724,24 +686,24 @@ var PetApi = (function () {
                 }
             });
         });
-    };
-    PetApi.prototype.updatePetWithForm = function (petId, name, status) {
-        var localVarPath = this.basePath + '/pet/{petId}'
+    }
+    updatePetWithForm(petId, name, status) {
+        const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
-        var localVarUseFormData = false;
+        let localVarUseFormData = false;
         if (name !== undefined) {
             localVarFormParams['name'] = ObjectSerializer.serialize(name, "string");
         }
         if (status !== undefined) {
             localVarFormParams['status'] = ObjectSerializer.serialize(status, "string");
         }
-        var localVarRequestOptions = {
+        let localVarRequestOptions = {
             method: 'POST',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -759,8 +721,8 @@ var PetApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -774,17 +736,17 @@ var PetApi = (function () {
                 }
             });
         });
-    };
-    PetApi.prototype.uploadFile = function (petId, additionalMetadata, file) {
-        var localVarPath = this.basePath + '/pet/{petId}/uploadImage'
+    }
+    uploadFile(petId, additionalMetadata, file) {
+        const localVarPath = this.basePath + '/pet/{petId}/uploadImage'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }
-        var localVarUseFormData = false;
+        let localVarUseFormData = false;
         if (additionalMetadata !== undefined) {
             localVarFormParams['additionalMetadata'] = ObjectSerializer.serialize(additionalMetadata, "string");
         }
@@ -792,7 +754,7 @@ var PetApi = (function () {
             localVarFormParams['file'] = file;
         }
         localVarUseFormData = true;
-        var localVarRequestOptions = {
+        let localVarRequestOptions = {
             method: 'POST',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -810,8 +772,8 @@ var PetApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -826,16 +788,15 @@ var PetApi = (function () {
                 }
             });
         });
-    };
-    return PetApi;
-}());
+    }
+}
 exports.PetApi = PetApi;
+var StoreApiApiKeys;
 (function (StoreApiApiKeys) {
     StoreApiApiKeys[StoreApiApiKeys["api_key"] = 0] = "api_key";
-})(exports.StoreApiApiKeys || (exports.StoreApiApiKeys = {}));
-var StoreApiApiKeys = exports.StoreApiApiKeys;
-var StoreApi = (function () {
-    function StoreApi(basePathOrUsername, password, basePath) {
+})(StoreApiApiKeys = exports.StoreApiApiKeys || (exports.StoreApiApiKeys = {}));
+class StoreApi {
+    constructor(basePathOrUsername, password, basePath) {
         this._basePath = defaultBasePath;
         this.defaultHeaders = {};
         this._useQuerystring = false;
@@ -855,47 +816,35 @@ var StoreApi = (function () {
             }
         }
     }
-    Object.defineProperty(StoreApi.prototype, "useQuerystring", {
-        set: function (value) {
-            this._useQuerystring = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(StoreApi.prototype, "basePath", {
-        get: function () {
-            return this._basePath;
-        },
-        set: function (basePath) {
-            this._basePath = basePath;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    StoreApi.prototype.setDefaultAuthentication = function (auth) {
+    set useQuerystring(value) {
+        this._useQuerystring = value;
+    }
+    set basePath(basePath) {
+        this._basePath = basePath;
+    }
+    get basePath() {
+        return this._basePath;
+    }
+    setDefaultAuthentication(auth) {
         this.authentications.default = auth;
-    };
-    StoreApi.prototype.setApiKey = function (key, value) {
+    }
+    setApiKey(key, value) {
         this.authentications[StoreApiApiKeys[key]].apiKey = value;
-    };
-    Object.defineProperty(StoreApi.prototype, "accessToken", {
-        set: function (token) {
-            this.authentications.petstore_auth.accessToken = token;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    StoreApi.prototype.deleteOrder = function (orderId) {
-        var localVarPath = this.basePath + '/store/order/{orderId}'
+    }
+    set accessToken(token) {
+        this.authentications.petstore_auth.accessToken = token;
+    }
+    deleteOrder(orderId) {
+        const localVarPath = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'DELETE',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -912,8 +861,8 @@ var StoreApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -927,14 +876,14 @@ var StoreApi = (function () {
                 }
             });
         });
-    };
-    StoreApi.prototype.getInventory = function () {
-        var localVarPath = this.basePath + '/store/inventory';
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+    }
+    getInventory() {
+        const localVarPath = this.basePath + '/store/inventory';
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'GET',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -952,8 +901,8 @@ var StoreApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -968,18 +917,18 @@ var StoreApi = (function () {
                 }
             });
         });
-    };
-    StoreApi.prototype.getOrderById = function (orderId) {
-        var localVarPath = this.basePath + '/store/order/{orderId}'
+    }
+    getOrderById(orderId) {
+        const localVarPath = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'GET',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -996,8 +945,8 @@ var StoreApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -1012,17 +961,17 @@ var StoreApi = (function () {
                 }
             });
         });
-    };
-    StoreApi.prototype.placeOrder = function (body) {
-        var localVarPath = this.basePath + '/store/order';
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+    }
+    placeOrder(body) {
+        const localVarPath = this.basePath + '/store/order';
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling placeOrder.');
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'POST',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -1040,8 +989,8 @@ var StoreApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -1056,16 +1005,15 @@ var StoreApi = (function () {
                 }
             });
         });
-    };
-    return StoreApi;
-}());
+    }
+}
 exports.StoreApi = StoreApi;
+var UserApiApiKeys;
 (function (UserApiApiKeys) {
     UserApiApiKeys[UserApiApiKeys["api_key"] = 0] = "api_key";
-})(exports.UserApiApiKeys || (exports.UserApiApiKeys = {}));
-var UserApiApiKeys = exports.UserApiApiKeys;
-var UserApi = (function () {
-    function UserApi(basePathOrUsername, password, basePath) {
+})(UserApiApiKeys = exports.UserApiApiKeys || (exports.UserApiApiKeys = {}));
+class UserApi {
+    constructor(basePathOrUsername, password, basePath) {
         this._basePath = defaultBasePath;
         this.defaultHeaders = {};
         this._useQuerystring = false;
@@ -1085,46 +1033,34 @@ var UserApi = (function () {
             }
         }
     }
-    Object.defineProperty(UserApi.prototype, "useQuerystring", {
-        set: function (value) {
-            this._useQuerystring = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(UserApi.prototype, "basePath", {
-        get: function () {
-            return this._basePath;
-        },
-        set: function (basePath) {
-            this._basePath = basePath;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    UserApi.prototype.setDefaultAuthentication = function (auth) {
+    set useQuerystring(value) {
+        this._useQuerystring = value;
+    }
+    set basePath(basePath) {
+        this._basePath = basePath;
+    }
+    get basePath() {
+        return this._basePath;
+    }
+    setDefaultAuthentication(auth) {
         this.authentications.default = auth;
-    };
-    UserApi.prototype.setApiKey = function (key, value) {
+    }
+    setApiKey(key, value) {
         this.authentications[UserApiApiKeys[key]].apiKey = value;
-    };
-    Object.defineProperty(UserApi.prototype, "accessToken", {
-        set: function (token) {
-            this.authentications.petstore_auth.accessToken = token;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    UserApi.prototype.createUser = function (body) {
-        var localVarPath = this.basePath + '/user';
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+    }
+    set accessToken(token) {
+        this.authentications.petstore_auth.accessToken = token;
+    }
+    createUser(body) {
+        const localVarPath = this.basePath + '/user';
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling createUser.');
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'POST',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -1142,8 +1078,8 @@ var UserApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -1157,17 +1093,17 @@ var UserApi = (function () {
                 }
             });
         });
-    };
-    UserApi.prototype.createUsersWithArrayInput = function (body) {
-        var localVarPath = this.basePath + '/user/createWithArray';
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+    }
+    createUsersWithArrayInput(body) {
+        const localVarPath = this.basePath + '/user/createWithArray';
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling createUsersWithArrayInput.');
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'POST',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -1185,8 +1121,8 @@ var UserApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -1200,17 +1136,17 @@ var UserApi = (function () {
                 }
             });
         });
-    };
-    UserApi.prototype.createUsersWithListInput = function (body) {
-        var localVarPath = this.basePath + '/user/createWithList';
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+    }
+    createUsersWithListInput(body) {
+        const localVarPath = this.basePath + '/user/createWithList';
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling createUsersWithListInput.');
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'POST',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -1228,8 +1164,8 @@ var UserApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -1243,18 +1179,18 @@ var UserApi = (function () {
                 }
             });
         });
-    };
-    UserApi.prototype.deleteUser = function (username) {
-        var localVarPath = this.basePath + '/user/{username}'
+    }
+    deleteUser(username) {
+        const localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'DELETE',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -1271,8 +1207,8 @@ var UserApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -1286,18 +1222,18 @@ var UserApi = (function () {
                 }
             });
         });
-    };
-    UserApi.prototype.getUserByName = function (username) {
-        var localVarPath = this.basePath + '/user/{username}'
+    }
+    getUserByName(username) {
+        const localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'GET',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -1314,8 +1250,8 @@ var UserApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -1330,12 +1266,12 @@ var UserApi = (function () {
                 }
             });
         });
-    };
-    UserApi.prototype.loginUser = function (username, password) {
-        var localVarPath = this.basePath + '/user/login';
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+    }
+    loginUser(username, password) {
+        const localVarPath = this.basePath + '/user/login';
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling loginUser.');
         }
@@ -1348,8 +1284,8 @@ var UserApi = (function () {
         if (password !== undefined) {
             localVarQueryParameters['password'] = ObjectSerializer.serialize(password, "string");
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'GET',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -1366,8 +1302,8 @@ var UserApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -1382,14 +1318,14 @@ var UserApi = (function () {
                 }
             });
         });
-    };
-    UserApi.prototype.logoutUser = function () {
-        var localVarPath = this.basePath + '/user/logout';
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+    }
+    logoutUser() {
+        const localVarPath = this.basePath + '/user/logout';
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'GET',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -1406,8 +1342,8 @@ var UserApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -1421,21 +1357,21 @@ var UserApi = (function () {
                 }
             });
         });
-    };
-    UserApi.prototype.updateUser = function (username, body) {
-        var localVarPath = this.basePath + '/user/{username}'
+    }
+    updateUser(username, body) {
+        const localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
-        var localVarQueryParameters = {};
-        var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
-        var localVarFormParams = {};
+        let localVarQueryParameters = {};
+        let localVarHeaderParams = Object.assign({}, this.defaultHeaders);
+        let localVarFormParams = {};
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling updateUser.');
         }
-        var localVarUseFormData = false;
-        var localVarRequestOptions = {
+        let localVarUseFormData = false;
+        let localVarRequestOptions = {
             method: 'PUT',
             qs: localVarQueryParameters,
             headers: localVarHeaderParams,
@@ -1453,8 +1389,8 @@ var UserApi = (function () {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise(function (resolve, reject) {
-            localVarRequest(localVarRequestOptions, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
@@ -1468,8 +1404,7 @@ var UserApi = (function () {
                 }
             });
         });
-    };
-    return UserApi;
-}());
+    }
+}
 exports.UserApi = UserApi;
 //# sourceMappingURL=api.js.map

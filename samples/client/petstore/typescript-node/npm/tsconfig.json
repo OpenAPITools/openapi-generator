@@ -3,17 +3,17 @@
         "module": "commonjs",
         "noImplicitAny": false,
         "suppressImplicitAnyIndexErrors": true,
-        "target": "ES5",
+        "target": "ES6",
+        "strict": true,
         "moduleResolution": "node",
         "removeComments": true,
         "sourceMap": true,
         "noLib": false,
-        "declaration": true
+        "declaration": true,
+        "lib": ["dom", "es6", "es5", "dom.iterable", "scripthost"]
     },
     "exclude": [
-        "node_modules",
-        "typings/browser",
-        "typings/browser.d.ts"
+        "node_modules"
     ]
 }
 
