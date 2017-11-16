@@ -132,7 +132,7 @@ namespace JsonSubTypes
         private static IList CreateCompatibleList(Type targetContainerType, Type elementType)
         {
             IList list;
-            if (targetContainerType.IsArray || targetContainerType.GetTypeInfo().IsAbstract)
+            if (targetContainerType.IsArray || targetContainerType.IsAbstract)
             {
                 list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(elementType));
             }
@@ -152,7 +152,7 @@ namespace JsonSubTypes
             }
             else
             {
-                elementType = arrayOrGenericContainer.GenericTypeArguments[0];
+                elementType = arrayOrGenericContainer.GetGenericArguments().FirstOrDefault();
             }
             return elementType;
         }
@@ -190,7 +190,7 @@ namespace JsonSubTypes
 
         private static Type GetTypeByPropertyPresence(JObject jObject, Type parentType)
         {
-            foreach (var type in parentType.GetTypeInfo().GetCustomAttributes<KnownSubTypeWithPropertyAttribute>())
+            foreach (var type in parentType.GetCustomAttributes(false).OfType<KnownSubTypeWithPropertyAttribute>())
             {
                 JToken ignore;
                 if (jObject.TryGetValue(type.PropertyName, out ignore))
@@ -222,7 +222,7 @@ namespace JsonSubTypes
             if (typeName == null)
                 return null;
 
-            var insideAssembly = parentType.GetTypeInfo().Assembly;
+            var insideAssembly = parentType.Assembly;
 
             var typeByName = insideAssembly.GetType(typeName);
             if (typeByName == null)
@@ -233,7 +233,7 @@ namespace JsonSubTypes
             return typeByName;
         }
 
-        private static Type GetTypeFromMapping(IReadOnlyDictionary<object, Type> typeMapping, object discriminatorValue)
+        private static Type GetTypeFromMapping(IDictionary<object, Type> typeMapping, object discriminatorValue)
         {
             var targetlookupValueType = typeMapping.First().Key.GetType();
             var lookupValue = ConvertJsonValueToType(discriminatorValue, targetlookupValueType);
@@ -244,12 +244,12 @@ namespace JsonSubTypes
 
         private static Dictionary<object, Type> GetSubTypeMapping(Type type)
         {
-            return type.GetTypeInfo().GetCustomAttributes<KnownSubTypeAttribute>().ToDictionary(x => x.AssociatedValue, x => x.SubType);
+            return type.GetCustomAttributes(false).OfType<KnownSubTypeAttribute>().ToDictionary(x => x.AssociatedValue, x => x.SubType);
         }
 
         private static object ConvertJsonValueToType(object objectType, Type targetlookupValueType)
         {
-            if (targetlookupValueType.GetTypeInfo().IsEnum)
+            if (targetlookupValueType.IsEnum)
                 return Enum.ToObject(targetlookupValueType, objectType);
 
             return Convert.ChangeType(objectType, targetlookupValueType);

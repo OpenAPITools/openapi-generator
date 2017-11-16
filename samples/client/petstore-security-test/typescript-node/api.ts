@@ -72,7 +72,7 @@ class ObjectSerializer {
         } else if (type.lastIndexOf("Array<", 0) === 0) { // string.startsWith pre es6
             let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
             subType = subType.substring(0, subType.length - 1); // Type> => Type
-            let transformedData = [];
+            let transformedData: any[] = [];
             for (let index in data) {
                 let date = data[index];
                 transformedData.push(ObjectSerializer.serialize(date, subType));
@@ -90,7 +90,7 @@ class ObjectSerializer {
 
             // get the map for the correct type.
             let attributeTypes = typeMap[type].getAttributeTypeMap();
-            let instance = {};
+            let instance: {[index: string]: any} = {};
             for (let index in attributeTypes) {
                 let attributeType = attributeTypes[index];
                 instance[attributeType.baseName] = ObjectSerializer.serialize(data[attributeType.name], attributeType.type);
@@ -109,7 +109,7 @@ class ObjectSerializer {
         } else if (type.lastIndexOf("Array<", 0) === 0) { // string.startsWith pre es6
             let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
             subType = subType.substring(0, subType.length - 1); // Type> => Type
-            let transformedData = [];
+            let transformedData: any[] = [];
             for (let index in data) {
                 let date = data[index];
                 transformedData.push(ObjectSerializer.deserialize(date, subType));
@@ -160,10 +160,10 @@ export class ModelReturn {
 }
 
 
-let enumsMap = {
+let enumsMap: {[index: string]: any} = {
 }
 
-let typeMap = {
+let typeMap: {[index: string]: any} = {
     "ModelReturn": ModelReturn,
 }
 
@@ -262,7 +262,7 @@ export class FakeApi {
     }
 
     public setApiKey(key: FakeApiApiKeys, value: string) {
-        this.authentications[FakeApiApiKeys[key]].apiKey = value;
+        (this.authentications as any)[FakeApiApiKeys[key]].apiKey = value;
     }
 
     set accessToken(token: string) {

@@ -80,8 +80,6 @@ No authorization required
 
 Creates list of users with given input array
 
-
-
 ### Example
 ```csharp
 using System;
@@ -139,8 +137,6 @@ No authorization required
 > void CreateUsersWithListInput (List<User> body)
 
 Creates list of users with given input array
-
-
 
 ### Example
 ```csharp
@@ -260,8 +256,6 @@ No authorization required
 
 Get user by user name
 
-
-
 ### Example
 ```csharp
 using System;
@@ -320,8 +314,6 @@ No authorization required
 > string LoginUser (string username, string password)
 
 Logs user into the system
-
-
 
 ### Example
 ```csharp
@@ -383,8 +375,6 @@ No authorization required
 > void LogoutUser ()
 
 Logs out current logged in user session
-
-
 
 ### Example
 ```csharp

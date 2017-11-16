@@ -343,10 +343,10 @@ namespace Example
             Configuration.Default.Password = "YOUR_PASSWORD";
 
             var apiInstance = new FakeApi();
-            var number = 3.4;  // decimal? | None
+            var number = 8.14;  // decimal? | None
             var _double = 1.2;  // double? | None
             var patternWithoutDelimiter = patternWithoutDelimiter_example;  // string | None
-            var _byte = _byte_example;  // byte[] | None
+            var _byte = B;  // byte[] | None
             var integer = 56;  // int? | None (optional) 
             var int32 = 56;  // int? | None (optional) 
             var int64 = 789;  // long? | None (optional) 
@@ -486,8 +486,6 @@ No authorization required
 
 test inline additionalProperties
 
-
-
 ### Example
 ```csharp
 using System;
@@ -545,8 +543,6 @@ No authorization required
 > void TestJsonFormData (string param, string param2)
 
 test json serialization of form data
-
-
 
 ### Example
 ```csharp

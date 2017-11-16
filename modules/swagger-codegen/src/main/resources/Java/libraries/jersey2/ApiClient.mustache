@@ -61,6 +61,7 @@ public class ApiClient {
   protected String basePath = "{{{basePath}}}";
   protected boolean debugging = false;
   protected int connectionTimeout = 0;
+  private int readTimeout = 0;
 
   protected Client httpClient;
   protected JSON json;
