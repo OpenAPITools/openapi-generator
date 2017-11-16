@@ -98,6 +98,8 @@ wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.3/swagge
 java -jar swagger-codegen-cli.jar help
 ```
 
+For Windows users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g. `Invoke-WebRequest -OutFile swagger-codegen-cli.jar http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.3/swagger-codegen-cli-2.2.3.jar`
+
 On a mac, it's even easier with `brew`:
 ```sh
 brew install swagger-codegen
