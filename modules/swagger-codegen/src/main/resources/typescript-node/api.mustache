@@ -63,7 +63,7 @@ class ObjectSerializer {
         } else if (type.lastIndexOf("Array<", 0) === 0) { // string.startsWith pre es6
             let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
             subType = subType.substring(0, subType.length - 1); // Type> => Type
-            let transformedData = [];
+            let transformedData: any[] = [];
             for (let index in data) {
                 let date = data[index];
                 transformedData.push(ObjectSerializer.serialize(date, subType));
@@ -81,7 +81,7 @@ class ObjectSerializer {
 
             // get the map for the correct type.
             let attributeTypes = typeMap[type].getAttributeTypeMap();
-            let instance = {};
+            let instance: {[index: string]: any} = {};
             for (let index in attributeTypes) {
                 let attributeType = attributeTypes[index];
                 instance[attributeType.baseName] = ObjectSerializer.serialize(data[attributeType.name], attributeType.type);
@@ -100,7 +100,7 @@ class ObjectSerializer {
         } else if (type.lastIndexOf("Array<", 0) === 0) { // string.startsWith pre es6
             let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
             subType = subType.substring(0, subType.length - 1); // Type> => Type
-            let transformedData = [];
+            let transformedData: any[] = [];
             for (let index in data) {
                 let date = data[index];
                 transformedData.push(ObjectSerializer.deserialize(date, subType));
@@ -190,7 +190,7 @@ export namespace {{classname}} {
 {{/model}}
 {{/models}}
 
-let enumsMap = {
+let enumsMap: {[index: string]: any} = {
     {{#models}}
         {{#model}}
             {{#hasEnums}}
@@ -204,7 +204,7 @@ let enumsMap = {
     {{/models}}
 }
 
-let typeMap = {
+let typeMap: {[index: string]: any} = {
     {{#models}}
         {{#model}}
     "{{classname}}": {{classname}},
@@ -339,7 +339,7 @@ export class {{classname}} {
     }
 
     public setApiKey(key: {{classname}}ApiKeys, value: string) {
-        this.authentications[{{classname}}ApiKeys[key]].apiKey = value;
+        (this.authentications as any)[{{classname}}ApiKeys[key]].apiKey = value;
     }
 {{#authMethods}}
 {{#isBasic}}
