@@ -60,6 +60,8 @@ public class CSharpClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setModelPropertyNaming(CSharpClientOptionsProvider.MODEL_PROPERTY_NAMING);
             times = 1;
+            clientCodegen.setValidatable(true);
+            times = 1;
         }};
     }
 }
