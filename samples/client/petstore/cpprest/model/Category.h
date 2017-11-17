@@ -16,8 +16,8 @@
  * A category for a pet
  */
 
-#ifndef Category_H_
-#define Category_H_
+#ifndef IO_SWAGGER_CLIENT_MODEL_Category_H_
+#define IO_SWAGGER_CLIENT_MODEL_Category_H_
 
 
 #include "ModelBase.h"
@@ -80,4 +80,4 @@ protected:
 }
 }
 
-#endif /* Category_H_ */
+#endif /* IO_SWAGGER_CLIENT_MODEL_Category_H_ */

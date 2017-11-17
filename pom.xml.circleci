@@ -656,7 +656,7 @@
             </modules>
         </profile>
         <profile>
-            <id>typescript-angular-client</id>
+            <id>typescript-angularjs-client</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -823,6 +823,7 @@
                 <!-- clients -->
                 <!-- test java-related projects -->
                 <module>samples/client/petstore/scala</module>
+                <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
@@ -836,6 +837,7 @@
                 <module>samples/client/petstore/java/resttemplate-withXml</module>
                 <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/java/resteasy</module>
+                <module>samples/client/petstore/java/google-api-client</module>
                 <module>samples/client/petstore/kotlin/</module>
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
@@ -863,6 +865,7 @@
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
                 <module>samples/server/petstore/java-msf4j</module>
+                <module>samples/server/petstore/jaxrs-spec-interface</module>
             </modules>
         </profile>
     </profiles>

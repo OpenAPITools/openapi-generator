@@ -18,6 +18,7 @@ import swagger.SwaggerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
+import play.Configuration;
 
 import swagger.SwaggerUtils.ApiAction;
 
@@ -26,11 +27,13 @@ public class StoreApiController extends Controller {
 
     private final StoreApiControllerImpInterface imp;
     private final ObjectMapper mapper;
+    private final Configuration configuration;
 
     @Inject
-    private StoreApiController(StoreApiControllerImpInterface imp) {
+    private StoreApiController(Configuration configuration, StoreApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
+        this.configuration = configuration;
     }
 
 
@@ -50,7 +53,9 @@ public class StoreApiController extends Controller {
     @ApiAction
     public Result getOrderById( @Min(1) @Max(5)Long orderId)  {
         Order obj = imp.getOrderById(orderId);
-        obj.validate();
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            SwaggerUtils.validate(obj);
+        }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }
@@ -59,12 +64,18 @@ public class StoreApiController extends Controller {
     public Result placeOrder() throws IOException {
         JsonNode nodebody = request().body().asJson();
         Order body;
-
-        body = mapper.readValue(nodebody.toString(), Order.class);
-        body.validate();
-
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), Order.class);
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                SwaggerUtils.validate(body);
+            }
+        } else {
+            throw new IllegalArgumentException("'body' parameter is required");
+        }
         Order obj = imp.placeOrder(body);
-        obj.validate();
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            SwaggerUtils.validate(obj);
+        }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }

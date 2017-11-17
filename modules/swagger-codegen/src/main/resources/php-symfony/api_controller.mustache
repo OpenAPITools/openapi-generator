@@ -23,8 +23,9 @@ use \Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Validator\Constraints as Assert;
 use {{apiPackage}}\{{classname}};
-{{#imports}}use {{this}};
+{{#imports}}use {{import}};
 {{/imports}}
 
 /**
@@ -53,8 +54,28 @@ class {{controllerName}} extends Controller
      * @param Request $request The Symfony request to handle.
      * @return Response The Symfony response.
      */
-    public function {{operationId}}Action(Request $request)
+    public function {{operationId}}Action(Request $request{{#hasPathParams}}{{#pathParams}}, ${{paramName}}{{/pathParams}}{{/hasPathParams}})
     {
+        {{#bodyParams}}
+        // Make sure that the client is providing something that we can consume
+        $consumes = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}];
+        $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
+        if (!in_array($inputFormat, $consumes)) {
+            // We can't consume the content that the client is sending us
+            return new Response('', 415);
+        }
+
+        {{/bodyParams}}
+        // Figure out what data format to return to the client
+        $produces = [{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}];
+        // Figure out what the client accepts
+        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
+        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
+        if ($responseFormat === null) {
+            return new Response('', 406);
+        }
+
+        // Handle authentication
         {{#authMethods}}
         // Authentication '{{name}}' required
         {{#isApiKey}}
@@ -76,81 +97,58 @@ class {{controllerName}} extends Controller
         $security{{name}} = $request->headers->get('authorization');
         {{/isOAuth}}
         {{/authMethods}}
+
+        // Read out all input parameter values into variables
+        {{#allParams}}
         {{#queryParams}}
-        // Handle query params
-        ${{paramName}} = $this->fromQuery($request->query->get('{{paramName}}'), '{{dataType}}');
+        ${{paramName}} = $request->query->get('{{paramName}}');
         {{/queryParams}}
         {{#headerParams}}
-        // Handle header params
-        ${{paramName}} = $this->fromHeader($request->headers->get('{{paramName}}'), '{{dataType}}');
+        ${{paramName}} = $request->headers->get('{{paramName}}');
         {{/headerParams}}
-        {{#pathParams}}
-        // Handle path params
-        ${{paramName}} = $this->fromPath($request->attributes->get('{{paramName}}'), '{{dataType}}');
-        {{/pathParams}}
         {{#formParams}}
         {{#isFile}}
-        // Handle file params
         ${{paramName}} = $request->files->get('{{paramName}}');
         {{/isFile}}
         {{^isFile}}
-        // Handle form params
-        ${{paramName}} = $this->fromForm($request->request->get('{{paramName}}'), '{{dataType}}');
+        ${{paramName}} = $request->request->get('{{paramName}}');
         {{/isFile}}
         {{/formParams}}
         {{#bodyParams}}
-        // Handle body params
-        ${{paramName}} = $this->deserialize($request->getContent(), '{{{dataType}}}', 'json');
+        ${{paramName}} = $request->getContent();
         {{/bodyParams}}
 
-        // Parse incoming parameters
-        {{#allParams}}
-        {{#required}}
-        // Verify the required parameter '{{paramName}}' is set
-        if (${{paramName}} === null) {
-            return $this->createBadRequestResponse('Missing the required parameter ${{paramName}} when calling {{operationId}}');
-        }
+        // Use the default value if no value was provided
+        {{^required}}
+        {{#isContainer}}
+        {{#items}}
+        {{#defaultValue}}
+        ${{paramName}} = ${{paramName}}?:[{{{defaultValue}}}];
+        {{/defaultValue}}
+        {{/items}}
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#defaultValue}}
+        ${{paramName}} = ${{paramName}}?:{{{defaultValue}}};
+        {{/defaultValue}}
+        {{/isContainer}}
         {{/required}}
-        {{#hasValidation}}
-        {{#maxLength}}
-        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(strlen(${{paramName}}) > {{maxLength}})) {
-            return $this->createBadRequestResponse('Invalid length for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
-        }
-        {{/maxLength}}
-        {{#minLength}}
-        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(strlen(${{paramName}}) < {{minLength}})) {
-            return $this->createBadRequestResponse('Invalid length for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
-        }
-        {{/minLength}}
-        {{#maximum}}
-        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(${{paramName}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}})) {
-            return $this->createBadRequestResponse('Invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.');
-        }
-        {{/maximum}}
-        {{#minimum}}
-        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(${{paramName}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}})) {
-            return $this->createBadRequestResponse('Invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.');
-        }
-        {{/minimum}}
-        {{#pattern}}
-        if ({{^required}}!is_null(${{paramName}}) && {{/required}}!preg_match("{{{pattern}}}", ${{paramName}})) {
-            return $this->createBadRequestResponse("Invalid value for \"{{paramName}}\" when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.");
-        }
-        {{/pattern}}
-        {{#maxItems}}
-        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(count(${{paramName}}) > {{maxItems}})) {
-            return $this->createBadRequestResponse('Invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{maxItems}}.');
-        }
-        {{/maxItems}}
-        {{#minItems}}
-        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(count(${{paramName}}) < {{minItems}})) {
-            return $this->createBadRequestResponse('Invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{minItems}}.');
-        }
-        {{/minItems}}
-        {{/hasValidation}}
+
+        // Deserialize the input values that needs it
+        {{^isFile}}
+        {{#bodyParams}}
+        
+        ${{paramName}} = $this->deserialize(${{paramName}}, '{{{dataType}}}', $inputFormat);
+        {{/bodyParams}}
+        {{^bodyParams}}
+        ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}array<{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}{{^collectionFormat}}csv{{/collectionFormat}}>{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', 'string');
+        {{/bodyParams}}
+        {{/isFile}}
         {{/allParams}}
 
-        // Call the API interface
+        // Validate the input values
+{{>api_input_validation}}
+
         try {
             $handler = $this->getApiHandler();
 
@@ -158,33 +156,35 @@ class {{controllerName}} extends Controller
             // Set authentication method '{{name}}'
             $handler->set{{name}}($security{{name}});
             {{/authMethods}}
-            {{#returnType}}
-            // Expecting a return value (exception otherwise)
-            $result = $handler->{{operationId}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+            
+            // Make the call to the business logic
+            $responseCode = {{#returnType}}200{{/returnType}}{{^returnType}}204{{/returnType}};
+            $responseHeaders = [];
+            $result = $handler->{{operationId}}({{#allParams}}${{paramName}}, {{/allParams}}$responseCode, $responseHeaders);
 
+            // Find default response message
+            $message = '{{#responses}}{{#isDefault}}{{message}}{{/isDefault}}{{/responses}}';
+
+            // Find a more specific message, if available
+            switch ($responseCode) {
             {{#responses}}
-            {{^vendorExtensions.x-symfonyExceptionSimple}}
-            // Handle {{code}} response: {{message}}
-            $content = $this->serialize($result, 'json');
-            return new Response($content, {{code}}, [
-                'Content-Type' => 'application/json',
-                'X-Swagger-Message' => '{{message}}',
-            ]);
-            {{/vendorExtensions.x-symfonyExceptionSimple}}
+                case {{code}}:
+                    $message = '{{message}}';
+                    break;
             {{/responses}}
-            {{/returnType}}
-            {{^returnType}}
-            // No return type expected; return empty response
-            $handler->{{operationId}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-            return new Response('', 204);
-            {{/returnType}}
-        {{#responses}}
-        {{#vendorExtensions.x-symfonyExceptionSimple}}
-        } catch ({{vendorExtensions.x-symfonyExceptionSimple}} $exception) {
-            // {{message}}
-            return $this->createErrorResponse($exception);
-        {{/vendorExtensions.x-symfonyExceptionSimple}}
-        {{/responses}}
+            }
+
+            return new Response(
+                $result?$this->serialize($result, $responseFormat):'',
+                $responseCode,
+                array_merge(
+                    $responseHeaders,
+                    [
+                        'Content-Type' => $responseFormat,
+                        'X-Swagger-Message' => $message
+                    ]
+                )
+            );
         } catch (Exception $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
@@ -197,7 +197,7 @@ class {{controllerName}} extends Controller
      */
     public function getApiHandler()
     {
-        return $this->get('{{bundleAlias}}.api.api_server')->getApiHandler('{{pathPrefix}}');
+        return $this->apiServer->getApiHandler('{{pathPrefix}}');
     }
 }
 {{/operations}}

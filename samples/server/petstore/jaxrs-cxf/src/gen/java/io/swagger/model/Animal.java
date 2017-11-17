@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Animal  {
   
@@ -24,6 +25,7 @@ public class Animal  {
    * Get className
    * @return className
   **/
+  @JsonProperty("className")
   @NotNull
   public String getClassName() {
     return className;
@@ -42,6 +44,7 @@ public class Animal  {
    * Get color
    * @return color
   **/
+  @JsonProperty("color")
   public String getColor() {
     return color;
   }

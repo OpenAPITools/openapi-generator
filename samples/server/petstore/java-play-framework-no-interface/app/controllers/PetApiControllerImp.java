@@ -15,13 +15,11 @@ public class PetApiControllerImp  {
     
     public void addPet(Pet body) throws Exception {
         //Do your magic!!!
-        
     }
 
     
     public void deletePet(Long petId, String apiKey) throws Exception {
         //Do your magic!!!
-        
     }
 
     
@@ -45,13 +43,11 @@ public class PetApiControllerImp  {
     
     public void updatePet(Pet body) throws Exception {
         //Do your magic!!!
-        
     }
 
     
     public void updatePetWithForm(Long petId, String name, String status) throws Exception {
         //Do your magic!!!
-        
     }
 
     

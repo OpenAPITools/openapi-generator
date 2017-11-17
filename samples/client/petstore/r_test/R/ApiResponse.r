@@ -65,9 +65,9 @@ ApiResponse <- R6::R6Class(
     toJSONString = function() {
        sprintf(
         '{
-           "code": "%s",
-           "type": "%s",
-           "message": "%s"
+           "code": %s,
+           "type": %s,
+           "message": %s
         }',
         self$`code`,
         self$`type`,

@@ -74,7 +74,7 @@ feature -- Change Element
         {{#isListContainer}}
         if attached {{name}} as l_{{name}} then
           across l_{{name}} as ic loop
-            Result.append ("%N")
+            Result.append ("%N {{name}}:")
             Result.append (ic.item.out)
             Result.append ("%N")
           end
@@ -82,6 +82,7 @@ feature -- Change Element
         {{/isListContainer}}
         {{#isMapContainer}}
         if attached {{name}} as l_{{name}} then
+          Result.append ("%N{{name}}:")
           across l_{{name}} as ic loop
             Result.append ("%N")
             Result.append ("key:")
@@ -95,7 +96,7 @@ feature -- Change Element
         {{/isMapContainer}}
         {{^isContainer}}
         if attached {{name}} as l_{{name}} then
-          Result.append ("%N")
+          Result.append ("%N{{name}}:")
           Result.append (l_{{name}}.out)
           Result.append ("%N")    
         end  

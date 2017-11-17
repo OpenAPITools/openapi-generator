@@ -14,6 +14,13 @@ defmodule SwaggerPetstore.Model.EnumTest do
     :"enum_number",
     :"outerEnum"
   ]
+
+  @type t :: %__MODULE__{
+    :"enum_string" => String.t,
+    :"enum_integer" => integer(),
+    :"enum_number" => float(),
+    :"outerEnum" => OuterEnum
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.EnumTest do

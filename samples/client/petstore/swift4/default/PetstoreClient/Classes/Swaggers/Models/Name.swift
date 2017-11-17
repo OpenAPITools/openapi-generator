@@ -9,21 +9,43 @@ import Foundation
 
 
 /** Model for testing model name same as property name */
+
 open class Name: Codable {
 
-    public var name: Int?
+    public var name: Int
     public var snakeCase: Int?
     public var property: String?
     public var _123Number: Int?
 
-    public init() {}
 
-
-    private enum CodingKeys: String, CodingKey { 
-        case name = "name"
-        case snakeCase = "snake_case"
-        case property = "property"
-        case _123Number = "123Number"
+    public init(name: Int, snakeCase: Int?, property: String?, _123Number: Int?) {
+        self.name = name
+        self.snakeCase = snakeCase
+        self.property = property
+        self._123Number = _123Number
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: String.self)
+
+        try container.encode(name, forKey: "name")
+        try container.encodeIfPresent(snakeCase, forKey: "snake_case")
+        try container.encodeIfPresent(property, forKey: "property")
+        try container.encodeIfPresent(_123Number, forKey: "123Number")
+    }
+
+    // Decodable protocol methods
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: String.self)
+
+        name = try container.decode(Int.self, forKey: "name")
+        snakeCase = try container.decodeIfPresent(Int.self, forKey: "snake_case")
+        property = try container.decodeIfPresent(String.self, forKey: "property")
+        _123Number = try container.decodeIfPresent(Int.self, forKey: "123Number")
+    }
 }
+

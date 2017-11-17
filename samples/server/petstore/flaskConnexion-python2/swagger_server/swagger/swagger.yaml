@@ -11,7 +11,7 @@ info:
   contact:
     email: "apiteam@swagger.io"
   license:
-    name: "Apache 2.0"
+    name: "Apache-2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 host: "petstore.swagger.io"
 basePath: "/v2"
@@ -161,6 +161,7 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
+      deprecated: true
       x-swagger-router-controller: "swagger_server.controllers.pet_controller"
   /pet/{petId}:
     get:
@@ -625,6 +626,13 @@ definitions:
         default: false
     title: "Pet Order"
     description: "An order for a pets from the pet store"
+    example:
+      id: 0
+      petId: 6
+      complete: false
+      status: "placed"
+      quantity: 1
+      shipDate: "2000-01-23T04:56:07.000+00:00"
     xml:
       name: "Order"
   Category:
@@ -637,6 +645,9 @@ definitions:
         type: "string"
     title: "Pet catehgry"
     description: "A category for a pet"
+    example:
+      id: 6
+      name: "name"
     xml:
       name: "Category"
   User:
@@ -663,6 +674,15 @@ definitions:
         description: "User Status"
     title: "a User"
     description: "A User who is purchasing from the pet store"
+    example:
+      id: 0
+      lastName: "lastName"
+      phone: "phone"
+      username: "username"
+      email: "email"
+      userStatus: 6
+      firstName: "firstName"
+      password: "password"
     xml:
       name: "User"
   Tag:
@@ -675,6 +695,9 @@ definitions:
         type: "string"
     title: "Pet Tag"
     description: "A tag for a pet"
+    example:
+      id: 1
+      name: "name"
     xml:
       name: "Tag"
   Pet:
@@ -714,6 +737,21 @@ definitions:
         - "sold"
     title: "a Pet"
     description: "A pet for sale in the pet store"
+    example:
+      tags:
+      - id: 1
+        name: "name"
+      - id: 1
+        name: "name"
+      id: 0
+      category:
+        id: 6
+        name: "name"
+      status: "available"
+      name: "doggie"
+      photoUrls:
+      - "photoUrls"
+      - "photoUrls"
     xml:
       name: "Pet"
   ApiResponse:
@@ -728,6 +766,10 @@ definitions:
         type: "string"
     title: "An uploaded response"
     description: "Describes the result of uploading an image resource"
+    example:
+      message: "message"
+      code: 0
+      type: "type"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"

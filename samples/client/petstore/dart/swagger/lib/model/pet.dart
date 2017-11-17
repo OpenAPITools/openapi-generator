@@ -1,6 +1,5 @@
 part of swagger.api;
 
-
 @Entity()
 class Pet {
   
@@ -33,6 +32,5 @@ class Pet {
   String toString()  {
     return 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status, ]';
   }
-
 }
 

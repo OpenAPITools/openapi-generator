@@ -17,6 +17,12 @@ open class GetAllModelsResult: Codable {
     public var myVariableNameTest: VariableNameTest?
 
 
+    public init(myPrimitiveArray: [AllPrimitives]?, myPrimitive: AllPrimitives?, myVariableNameTest: VariableNameTest?) {
+        self.myPrimitiveArray = myPrimitiveArray
+        self.myPrimitive = myPrimitive
+        self.myVariableNameTest = myVariableNameTest
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -29,7 +35,7 @@ open class GetAllModelsResult: Codable {
     }
 
     // Decodable protocol methods
-    
+
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 

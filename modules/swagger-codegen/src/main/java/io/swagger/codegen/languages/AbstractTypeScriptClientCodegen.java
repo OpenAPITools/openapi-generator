@@ -8,8 +8,14 @@ import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.IntegerSchema;
 import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.NumberSchema;
 import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -21,6 +27,7 @@ import java.util.Map;
 import java.util.TreeSet;
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final String UNDEFINED_VALUE = "undefined";
 
     protected String modelPropertyNaming= "camelCase";
     protected Boolean supportsES6 = true;
@@ -213,6 +220,37 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return String.format("{ [key, string]: %s;}", getTypeDeclaration(inner));
         }
         return super.getTypeDeclaration(propertySchema);
+    }
+
+    @Override
+    public String toDefaultValue(Schema propertySchema) {
+        if (propertySchema instanceof StringSchema) {
+            StringSchema sp = (StringSchema) propertySchema;
+            if (sp.getDefault() != null) {
+                return "\"" + sp.getDefault() + "\"";
+            }
+            return UNDEFINED_VALUE;
+        } else if (propertySchema instanceof BooleanSchema) {
+            return UNDEFINED_VALUE;
+        } else if (propertySchema instanceof DateSchema) {
+            return UNDEFINED_VALUE;
+        } else if (propertySchema instanceof DateTimeSchema) {
+            return UNDEFINED_VALUE;
+        } else if (propertySchema instanceof NumberSchema) {
+            NumberSchema dp = (NumberSchema) propertySchema;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+            return UNDEFINED_VALUE;
+        } else if (propertySchema instanceof IntegerSchema) {
+            IntegerSchema ip = (IntegerSchema) propertySchema;
+            if (ip.getDefault() != null) {
+                return ip.getDefault().toString();
+            }
+            return UNDEFINED_VALUE;
+        } else {
+            return UNDEFINED_VALUE;
+        }
     }
 
     @Override

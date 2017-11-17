@@ -111,7 +111,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>http://github.com/swagger-api/swagger-ui/archive/master.tar.gz</url>
+                            <url>https://github.com/swagger-api/swagger-ui/archive/master.tar.gz</url>
 
                             <unpack>true</unpack>
                             <skipCache>true</skipCache>

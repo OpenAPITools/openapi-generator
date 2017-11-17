@@ -26,6 +26,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings({"hiding"})
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     private static final String NET45 = "v4.5";
+    private static final String NET40 = "v4.0";
     private static final String NET35 = "v3.5";
     private static final String NETSTANDARD = "v5.0";
     private static final String UWP = "uwp";
@@ -86,6 +87,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         );
         frameworks = new ImmutableMap.Builder<String, String>()
                 .put(NET35, ".NET Framework 3.5 compatible")
+                .put(NET40, ".NET Framework 4.0 compatible")
                 .put(NET45, ".NET Framework 4.5+ compatible")
                 .put(NETSTANDARD, ".NET Standard 1.3 compatible")
                 .put(UWP, "Universal Windows Platform (IMPORTANT: this will be decommissioned and replaced by v5.0)")
@@ -238,7 +240,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             setSupportsUWP(Boolean.TRUE);
             additionalProperties.put("supportsAsync", this.supportsAsync);
             additionalProperties.put("supportsUWP", this.supportsUWP);
-
+        } else if (NET40.equals(this.targetFramework)) {
+            setTargetFrameworkNuget("net40");
+            setSupportsAsync(Boolean.FALSE);
+            if (additionalProperties.containsKey("supportsAsync")) {
+                additionalProperties.remove("supportsAsync");
+            }
+            additionalProperties.put("isNet40", true);
         } else {
             setTargetFrameworkNuget("net45");
             setSupportsAsync(Boolean.TRUE);
@@ -517,11 +525,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objMap) {
-        return super.postProcessModels(objMap);
-    }
-
-    @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
         super.postProcessParameter(parameter);
@@ -532,7 +535,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         postProcessPattern(property.pattern, property.vendorExtensions);
         super.postProcessModelProperty(model, property);
     }
-
 
     /*
     * The swagger pattern spec follows the Perl convention and style of modifiers. .NET

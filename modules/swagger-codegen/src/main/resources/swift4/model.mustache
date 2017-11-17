@@ -64,6 +64,14 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{
     }
 {{/additionalPropertiesType}}
 
+    {{#hasVars}}
+    public init({{#vars}}{{name}}: {{{datatypeWithEnum}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/vars}}) {
+        {{#vars}}
+        self.{{name}} = {{name}}
+        {{/vars}}
+    }
+    {{/hasVars}}
+
     // Encodable protocol methods
 
     public {{#parent}}override {{/parent}}func encode(to encoder: Encoder) throws {
@@ -79,12 +87,12 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{
     }
 
     // Decodable protocol methods
-    
+
     public {{#parent}}override {{/parent}}required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
         {{#vars}}
-        {{name}} = try container.decode{{#isListContainer}}Array{{/isListContainer}}{{^required}}IfPresent{{/required}}({{#isListContainer}}{{{items.datatype}}}{{/isListContainer}}{{^isListContainer}}{{{datatype}}}{{/isListContainer}}.self, forKey: "{{{baseName}}}")
+        {{name}} = try container.decode{{#isListContainer}}Array{{/isListContainer}}{{^required}}IfPresent{{/required}}({{#isListContainer}}{{{items.datatype}}}{{/isListContainer}}{{^isListContainer}}{{{datatypeWithEnum}}}{{/isListContainer}}.self, forKey: "{{{baseName}}}")
         {{/vars}}
         {{#additionalPropertiesType}}
         var nonAdditionalPropertyKeys = Set<String>()

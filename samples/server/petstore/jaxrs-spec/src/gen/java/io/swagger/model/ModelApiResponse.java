@@ -1,14 +1,16 @@
 package io.swagger.model;
 
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class ModelApiResponse   {
+public class ModelApiResponse  implements Serializable {
   
   private @Valid Integer code = null;
   private @Valid String type = null;
@@ -23,6 +25,7 @@ public class ModelApiResponse   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("code")
   public Integer getCode() {
     return code;
   }
@@ -39,6 +42,7 @@ public class ModelApiResponse   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("type")
   public String getType() {
     return type;
   }
@@ -55,6 +59,7 @@ public class ModelApiResponse   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("message")
   public String getMessage() {
     return message;
   }

@@ -1,3 +1,4 @@
+/// <reference path="./custom.d.ts" />
 // tslint:disable
 /**
  * Swagger Petstore *_/ ' \" =end -- \\r\\n \\n \\r
@@ -10,15 +11,19 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
- 
+
 
 import * as url from "url";
-import * as isomorphicFetch from "isomorphic-fetch";
+import * as portableFetch from "portable-fetch";
 import { Configuration } from "./configuration";
 
 const BASE_PATH = "https://petstore.swagger.io *_/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r".replace(/\/+$/, "");
 
-const COLLECTION_FORMATS = {
+/**
+ *
+ * @export
+ */
+export const COLLECTION_FORMATS = {
     csv: ",",
     ssv: " ",
     tsv: "\t",
@@ -31,7 +36,7 @@ const COLLECTION_FORMATS = {
  * @interface FetchAPI
  */
 export interface FetchAPI {
-    (url: string, init?: any): Promise<any>;
+    (url: string, init?: any): Promise<Response>;
 }
 
 /**
@@ -52,7 +57,7 @@ export interface FetchArgs {
 export class BaseAPI {
     protected configuration: Configuration;
 
-    constructor(configuration?: Configuration, protected basePath: string = BASE_PATH, protected fetch: FetchAPI = isomorphicFetch) {
+    constructor(configuration?: Configuration, protected basePath: string = BASE_PATH, protected fetch: FetchAPI = portableFetch) {
         if (configuration) {
             this.configuration = configuration;
             this.basePath = configuration.basePath || this.basePath;
@@ -102,26 +107,28 @@ export const FakeApiFetchParamCreator = function (configuration?: Configuration)
          * @throws {RequiredError}
          */
         testCodeInjectEndRnNR(test code inject * &#39; &quot; &#x3D;end  rn n r?: string, options: any = {}): FetchArgs {
-            const path = `/fake`;
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'PUT' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
-            const formParams = new url.URLSearchParams();
+            const localVarPath = `/fake`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'PUT' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new url.URLSearchParams();
 
             if (test code inject * &#39; &quot; &#x3D;end  rn n r !== undefined) {
-                formParams.set('test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r', test code inject * &#39; &quot; &#x3D;end  rn n r as any);
+                localVarFormParams.set('test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r', test code inject * &#39; &quot; &#x3D;end  rn n r as any);
             }
 
-            headerParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
-            requestOptions.body = formParams.toString();
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            localVarRequestOptions.body = localVarFormParams.toString();
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
     }
@@ -140,10 +147,10 @@ export const FakeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testCodeInjectEndRnNR(test code inject * &#39; &quot; &#x3D;end  rn n r?: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
-            const fetchArgs = FakeApiFetchParamCreator(configuration).testCodeInjectEndRnNR(test code inject * &#39; &quot; &#x3D;end  rn n r, options);
-            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+        testCodeInjectEndRnNR(test code inject * &#39; &quot; &#x3D;end  rn n r?: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = FakeApiFetchParamCreator(configuration).testCodeInjectEndRnNR(test code inject * &#39; &quot; &#x3D;end  rn n r, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response;
                     } else {

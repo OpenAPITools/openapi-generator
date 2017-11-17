@@ -8,19 +8,39 @@
 import Foundation
 
 
+
 open class MixedPropertiesAndAdditionalPropertiesClass: Codable {
 
     public var uuid: UUID?
     public var dateTime: Date?
     public var map: [String:Animal]?
 
-    public init() {}
 
-
-    private enum CodingKeys: String, CodingKey { 
-        case uuid = "uuid"
-        case dateTime = "dateTime"
-        case map = "map"
+    public init(uuid: UUID?, dateTime: Date?, map: [String:Animal]?) {
+        self.uuid = uuid
+        self.dateTime = dateTime
+        self.map = map
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: String.self)
+
+        try container.encodeIfPresent(uuid, forKey: "uuid")
+        try container.encodeIfPresent(dateTime, forKey: "dateTime")
+        try container.encodeIfPresent(map, forKey: "map")
+    }
+
+    // Decodable protocol methods
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: String.self)
+
+        uuid = try container.decodeIfPresent(UUID.self, forKey: "uuid")
+        dateTime = try container.decodeIfPresent(Date.self, forKey: "dateTime")
+        map = try container.decodeIfPresent([String:Animal].self, forKey: "map")
+    }
 }
+

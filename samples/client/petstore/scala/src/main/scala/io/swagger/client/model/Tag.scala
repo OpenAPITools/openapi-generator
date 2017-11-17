@@ -14,7 +14,7 @@ package io.swagger.client.model
 
 
 case class Tag (
-  id: Option[Long],
-  name: Option[String]
+  id: Option[Long] = None,
+  name: Option[String] = None
 )
 

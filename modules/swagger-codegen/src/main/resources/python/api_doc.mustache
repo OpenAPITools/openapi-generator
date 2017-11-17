@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 {{{notes}}}{{/notes}}
 
-### Example 
+### Example
 ```python
 from __future__ import print_function
 import time
@@ -51,7 +51,7 @@ api_instance = {{{packageName}}}.{{{classname}}}()
 {{/allParams}}
 {{/hasAuthMethods}}
 
-try: 
+try:
 {{#summary}}    # {{{.}}}
 {{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}
     pprint(api_response){{/returnType}}

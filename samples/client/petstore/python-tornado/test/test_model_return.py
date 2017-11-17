@@ -3,7 +3,7 @@
 """
     Swagger Petstore
 
-    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  # noqa: E501
 
     OpenAPI spec version: 1.0.0
     Contact: apiteam@swagger.io
@@ -13,17 +13,15 @@
 
 from __future__ import absolute_import
 
-import os
-import sys
 import unittest
 
 import petstore_api
+from petstore_api.models.model_return import ModelReturn  # noqa: E501
 from petstore_api.rest import ApiException
-from petstore_api.models.model_return import ModelReturn
 
 
 class TestModelReturn(unittest.TestCase):
-    """ ModelReturn unit test stubs """
+    """ModelReturn unit test stubs"""
 
     def setUp(self):
         pass
@@ -32,11 +30,9 @@ class TestModelReturn(unittest.TestCase):
         pass
 
     def testModelReturn(self):
-        """
-        Test ModelReturn
-        """
+        """Test ModelReturn"""
         # FIXME: construct object with mandatory attributes with example values
-        #model = petstore_api.models.model_return.ModelReturn()
+        # model = petstore_api.models.model_return.ModelReturn()  # noqa: E501
         pass
 
 

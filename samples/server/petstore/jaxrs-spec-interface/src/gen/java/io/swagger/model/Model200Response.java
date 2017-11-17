@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import io.swagger.annotations.ApiModel;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -10,9 +11,10 @@ import javax.validation.Valid;
  **/
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "Model for testing model name starting with number")
 
-public class Model200Response   {
+public class Model200Response  implements Serializable {
   
   private @Valid Integer name = null;
   private @Valid String propertyClass = null;
@@ -26,6 +28,7 @@ public class Model200Response   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -42,6 +45,7 @@ public class Model200Response   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("class")
   public String getPropertyClass() {
     return propertyClass;
   }

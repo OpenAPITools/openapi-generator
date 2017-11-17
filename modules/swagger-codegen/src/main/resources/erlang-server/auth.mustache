@@ -24,8 +24,12 @@ authorize_api_key(LogicHandler, OperationID, From, KeyParam, Req0) ->
                 ApiKey
             ),
             case Result of
+              {{#authMethods}}
+                {{#isApiKey}}
                 {true, Context}  ->
                     {true, Context, Req};
+                {{/isApiKey}}
+              {{/authMethods}}
                 false ->
                     AuthHeader = <<"">>,
                     {false, AuthHeader, Req}

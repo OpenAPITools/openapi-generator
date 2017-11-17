@@ -59,15 +59,16 @@ UserApi <- R6::R6Class(
     },
     create_user = function(body, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
+
       if (!missing(`body`)) {
-        body <- `body`$toJSON()
+        body <- `body`$toJSONString()
+      } else {
+        body <- NULL
       }
 
       urlPath <- "/user"
-
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
@@ -86,15 +87,16 @@ UserApi <- R6::R6Class(
     },
     create_users_with_array_input = function(body, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
+
       if (!missing(`body`)) {
-        body <- `body`$toJSON()
+        body <- `body`$toJSONString()
+      } else {
+        body <- NULL
       }
 
       urlPath <- "/user/createWithArray"
-
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
@@ -113,15 +115,16 @@ UserApi <- R6::R6Class(
     },
     create_users_with_list_input = function(body, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
+
       if (!missing(`body`)) {
-        body <- `body`$toJSON()
+        body <- `body`$toJSONString()
+      } else {
+        body <- NULL
       }
 
       urlPath <- "/user/createWithList"
-
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
@@ -140,7 +143,6 @@ UserApi <- R6::R6Class(
     },
     delete_user = function(username, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
 
@@ -167,7 +169,6 @@ UserApi <- R6::R6Class(
     },
     get_user_by_name = function(username, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
 
@@ -196,18 +197,18 @@ UserApi <- R6::R6Class(
     },
     login_user = function(username, password, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
+
       if (!missing(`username`)) {
         queryParams['username'] <- username
       }
+
       if (!missing(`password`)) {
         queryParams['password'] <- password
       }
 
       urlPath <- "/user/login"
-
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
@@ -228,12 +229,10 @@ UserApi <- R6::R6Class(
     },
     logout_user = function(...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
 
       urlPath <- "/user/logout"
-
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
@@ -252,11 +251,13 @@ UserApi <- R6::R6Class(
     },
     update_user = function(username, body, ...){
       args <- list(...)
-      body <- NULL
       queryParams <- list()
       headerParams <- character()
+
       if (!missing(`body`)) {
-        body <- `body`$toJSON()
+        body <- `body`$toJSONString()
+      } else {
+        body <- NULL
       }
 
       urlPath <- "/user/{username}"

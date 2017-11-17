@@ -13,6 +13,12 @@ defmodule SwaggerPetstore.Model.OuterComposite do
     :"my_string",
     :"my_boolean"
   ]
+
+  @type t :: %__MODULE__{
+    :"my_number" => OuterNumber,
+    :"my_string" => OuterString,
+    :"my_boolean" => OuterBoolean
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.OuterComposite do

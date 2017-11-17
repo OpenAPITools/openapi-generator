@@ -1,0 +1,109 @@
+package {{invokerPackage}};
+
+import {{apiPackage}}.*;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+{{#joda}}
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+{{/joda}}
+{{#java8}}
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+{{/java8}}
+{{#threetenbp}}
+import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
+{{/threetenbp}}
+{{#threetenbp}}
+import org.threeten.bp.*;
+{{/threetenbp}}
+import com.google.api.client.googleapis.util.Utils;
+import com.google.api.client.http.AbstractHttpContent;
+import com.google.api.client.http.HttpRequestFactory;
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.Json;
+
+import java.io.IOException;
+import java.io.OutputStream;
+
+{{>generatedAnnotation}}
+public class ApiClient {
+    private final String basePath;
+    private final HttpRequestFactory httpRequestFactory;
+    private final ObjectMapper objectMapper;
+
+    private static final String defaultBasePath = "{{basePath}}";
+
+    // A reasonable default object mapper. Client can pass in a chosen ObjectMapper anyway, this is just for reasonable defaults.
+    private static ObjectMapper createDefaultObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .setDateFormat(new RFC3339DateFormat());
+        {{#joda}}
+        objectMapper.registerModule(new JodaModule());
+        {{/joda}}
+        {{#java8}}
+        objectMapper.registerModule(new JavaTimeModule());
+        {{/java8}}
+        {{#threetenbp}}
+        ThreeTenModule module = new ThreeTenModule();
+        module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
+        module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
+        module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
+        objectMapper.registerModule(module);
+        {{/threetenbp}}
+        return objectMapper;
+    }
+
+    public ApiClient() {
+        this(null, null, null, null);
+    }
+
+    public ApiClient(
+        String basePath,
+        HttpTransport httpTransport,
+        HttpRequestInitializer initializer,
+        ObjectMapper objectMapper
+    ) {
+        this.basePath = basePath == null ? defaultBasePath : (
+            basePath.endsWith("/") ? basePath.substring(0, basePath.length() - 1) : basePath
+        );
+        this.httpRequestFactory = (httpTransport == null ? Utils.getDefaultTransport() : httpTransport).createRequestFactory(initializer);
+        this.objectMapper = (objectMapper == null ? createDefaultObjectMapper() : objectMapper);
+    }
+
+    public HttpRequestFactory getHttpRequestFactory() {
+        return httpRequestFactory;
+    }
+
+    public String getBasePath() {
+        return basePath;
+    }
+
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
+
+    public class JacksonJsonHttpContent extends AbstractHttpContent {
+        /* A POJO that can be serialized with a com.fasterxml Jackson ObjectMapper */
+        private final Object data;
+
+        public JacksonJsonHttpContent(Object data) {
+            super(Json.MEDIA_TYPE);
+            this.data = data;
+        }
+
+        @Override
+        public void writeTo(OutputStream out) throws IOException {
+            objectMapper.writeValue(out, data);
+        }
+    }
+
+    // Builder pattern to get API instances for this client.
+    {{#apiInfo}}{{#apis}}
+    public {{classname}} {{classVarName}}Api() {
+        return new {{classname}}(this);
+    }
+    {{/apis}}{{/apiInfo}}
+}

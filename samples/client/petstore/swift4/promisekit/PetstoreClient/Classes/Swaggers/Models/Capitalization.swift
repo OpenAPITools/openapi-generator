@@ -8,6 +8,7 @@
 import Foundation
 
 
+
 open class Capitalization: Codable {
 
     public var smallCamel: String?
@@ -18,16 +19,41 @@ open class Capitalization: Codable {
     /** Name of the pet  */
     public var ATT_NAME: String?
 
-    public init() {}
 
-
-    private enum CodingKeys: String, CodingKey { 
-        case smallCamel = "smallCamel"
-        case capitalCamel = "CapitalCamel"
-        case smallSnake = "small_Snake"
-        case capitalSnake = "Capital_Snake"
-        case sCAETHFlowPoints = "SCA_ETH_Flow_Points"
-        case ATT_NAME = "ATT_NAME"
+    public init(smallCamel: String?, capitalCamel: String?, smallSnake: String?, capitalSnake: String?, sCAETHFlowPoints: String?, ATT_NAME: String?) {
+        self.smallCamel = smallCamel
+        self.capitalCamel = capitalCamel
+        self.smallSnake = smallSnake
+        self.capitalSnake = capitalSnake
+        self.sCAETHFlowPoints = sCAETHFlowPoints
+        self.ATT_NAME = ATT_NAME
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: String.self)
+
+        try container.encodeIfPresent(smallCamel, forKey: "smallCamel")
+        try container.encodeIfPresent(capitalCamel, forKey: "CapitalCamel")
+        try container.encodeIfPresent(smallSnake, forKey: "small_Snake")
+        try container.encodeIfPresent(capitalSnake, forKey: "Capital_Snake")
+        try container.encodeIfPresent(sCAETHFlowPoints, forKey: "SCA_ETH_Flow_Points")
+        try container.encodeIfPresent(ATT_NAME, forKey: "ATT_NAME")
+    }
+
+    // Decodable protocol methods
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: String.self)
+
+        smallCamel = try container.decodeIfPresent(String.self, forKey: "smallCamel")
+        capitalCamel = try container.decodeIfPresent(String.self, forKey: "CapitalCamel")
+        smallSnake = try container.decodeIfPresent(String.self, forKey: "small_Snake")
+        capitalSnake = try container.decodeIfPresent(String.self, forKey: "Capital_Snake")
+        sCAETHFlowPoints = try container.decodeIfPresent(String.self, forKey: "SCA_ETH_Flow_Points")
+        ATT_NAME = try container.decodeIfPresent(String.self, forKey: "ATT_NAME")
+    }
 }
+

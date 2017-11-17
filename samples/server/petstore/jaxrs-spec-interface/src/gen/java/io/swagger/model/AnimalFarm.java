@@ -3,15 +3,17 @@ package io.swagger.model;
 import io.swagger.model.Animal;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class AnimalFarm extends ArrayList<Animal>  {
+public class AnimalFarm extends ArrayList<Animal> implements Serializable {
   
 
 

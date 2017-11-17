@@ -19,10 +19,20 @@ import io.swagger.jaxrs.PATCH;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+/**
+ * Swagger Petstore
+ *
+ * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ *
+ */
 @Path("/")
 @Api(value = "/", description = "")
 public interface FakeClassnameTags123Api  {
 
+    /**
+     * To test class name in snake case
+     *
+     */
     @PATCH
     @Path("/fake_classname_test")
     @Consumes({ "application/json" })

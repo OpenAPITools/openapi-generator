@@ -13,6 +13,7 @@ io.swagger.codegen.languages.CsharpDotNet2ClientCodegen
 io.swagger.codegen.languages.DartClientCodegen
 io.swagger.codegen.languages.ElixirClientCodegen
 io.swagger.codegen.languages.EiffelClientCodegen
+io.swagger.codegen.languages.ErlangClientCodegen
 io.swagger.codegen.languages.ErlangServerCodegen
 io.swagger.codegen.languages.FinchServerCodegen
 io.swagger.codegen.languages.FlashClientCodegen
@@ -56,8 +57,10 @@ io.swagger.codegen.languages.Rails5ServerCodegen
 io.swagger.codegen.languages.RestbedCodegen
 io.swagger.codegen.languages.RubyClientCodegen
 io.swagger.codegen.languages.RustClientCodegen
+io.swagger.codegen.languages.RustServerCodegen
 io.swagger.codegen.languages.ScalaClientCodegen
 io.swagger.codegen.languages.ScalatraServerCodegen
+io.swagger.codegen.languages.ScalazClientCodegen
 io.swagger.codegen.languages.SilexServerCodegen
 io.swagger.codegen.languages.SinatraServerCodegen
 io.swagger.codegen.languages.SlimFrameworkServerCodegen

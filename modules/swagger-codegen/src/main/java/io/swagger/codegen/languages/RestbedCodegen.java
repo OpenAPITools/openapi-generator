@@ -95,8 +95,6 @@ public class RestbedCodegen extends AbstractCppCodegen {
       addOption(DEFAULT_INCLUDE,
               "The default include statement that should be placed in all headers for including things like the declspec (convention: #include \"Commons.h\" ",
               this.defaultInclude);
-
-      reservedWords = new HashSet<String>();
       
       supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
       supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));

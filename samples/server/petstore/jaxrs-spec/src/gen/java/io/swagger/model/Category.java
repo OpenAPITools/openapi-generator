@@ -1,14 +1,16 @@
 package io.swagger.model;
 
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class Category   {
+public class Category  implements Serializable {
   
   private @Valid Long id = null;
   private @Valid String name = null;
@@ -22,6 +24,7 @@ public class Category   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -38,6 +41,7 @@ public class Category   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

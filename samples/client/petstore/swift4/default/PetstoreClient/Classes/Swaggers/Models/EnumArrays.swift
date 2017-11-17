@@ -8,6 +8,7 @@
 import Foundation
 
 
+
 open class EnumArrays: Codable {
 
     public enum JustSymbol: String, Codable { 
@@ -21,12 +22,29 @@ open class EnumArrays: Codable {
     public var justSymbol: JustSymbol?
     public var arrayEnum: [ArrayEnum]?
 
-    public init() {}
 
-
-    private enum CodingKeys: String, CodingKey { 
-        case justSymbol = "just_symbol"
-        case arrayEnum = "array_enum"
+    public init(justSymbol: JustSymbol?, arrayEnum: [ArrayEnum]?) {
+        self.justSymbol = justSymbol
+        self.arrayEnum = arrayEnum
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: String.self)
+
+        try container.encodeIfPresent(justSymbol, forKey: "just_symbol")
+        try container.encodeArrayIfPresent(arrayEnum, forKey: "array_enum")
+    }
+
+    // Decodable protocol methods
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: String.self)
+
+        justSymbol = try container.decodeIfPresent(JustSymbol.self, forKey: "just_symbol")
+        arrayEnum = try container.decodeArrayIfPresent(String.self, forKey: "array_enum")
+    }
 }
+

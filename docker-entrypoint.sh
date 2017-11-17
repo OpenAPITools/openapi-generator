@@ -11,7 +11,7 @@ codegen="${cli}/target/swagger-codegen-cli.jar"
 cmdsrc="${cli}/src/main/java/io/swagger/codegen/cmd"
 
 pattern="@Command(name = \"$1\""
-if expr "x$1" : 'x[a-z][a-z-]*$' > /dev/null && fgrep -qe "$pattern" "$cmdsrc"/*.java; then
+if expr "x$1" : 'x[a-z][a-z-]*$' > /dev/null && fgrep -qe "$pattern" "$cmdsrc"/*.java || expr "$1" = 'help' > /dev/null; then
     # If ${GEN_DIR} has been mapped elsewhere from default, and that location has not been built
     if [[ ! -f "${codegen}" ]]; then
         (cd "${GEN_DIR}" && exec mvn -am -pl "modules/swagger-codegen-cli" -Duser.home=$(dirname MAVEN_CONFIG) package)

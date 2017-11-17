@@ -13,7 +13,7 @@ feature -- API Access
 
 {{#operation}}
 
-	{{operationId}} {{#hasParams}}({{#allParams}}{{paramName}}: {{#required}}{{{dataType}}}{{/required}}{{^required}}detachable {{{dataType}}}{{/required}}{{#hasMore}}; {{/hasMore}}{{/allParams}}){{/hasParams}}{{#returnType}}: detachable {{{returnType}}}{{/returnType}}{{^returnType}}{{/returnType}}
+	{{operationId}} {{#hasParams}}({{#allParams}}{{paramName}}: {{#required}}{{{dataType}}}{{/required}}{{^required}}{{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}detachable {{{dataType}}}{{/isPrimitiveType}}{{/required}}{{#hasMore}}; {{/hasMore}}{{/allParams}}){{/hasParams}}{{#returnType}}: detachable {{{returnType}}}{{/returnType}}{{^returnType}}{{/returnType}}
 			-- {{summary}}
 			-- {{notes}}
 			-- {{#allParams}}
@@ -21,6 +21,17 @@ feature -- API Access
 			-- {{/allParams}}
 			-- {{#returnType}}
 			-- Result {{returnType}}{{/returnType}}
+		require
+		{{#allParams}}	
+		{{#hasValidation}}
+		{{#maximum}}
+			{{{paramName}}}_is_less_or_equal_than: {{{paramName}}} <= {{{maximum}}} 
+        {{/maximum}}
+     	{{#minimum}}
+     		{{{paramName}}}_is_greater_or_equal_than: {{{paramName}}} >= {{{minimum}}} 
+        {{/minimum}}
+		{{/hasValidation}}
+		{{/allParams}}	
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST

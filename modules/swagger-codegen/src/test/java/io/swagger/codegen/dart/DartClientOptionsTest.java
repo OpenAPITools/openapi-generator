@@ -38,7 +38,8 @@ public class DartClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setSourceFolder(DartClientOptionsProvider.SOURCE_FOLDER_VALUE);
             times = 1;
+            clientCodegen.setUseEnumExtension(Boolean.valueOf(DartClientOptionsProvider.USE_ENUM_EXTENSION));
+            times = 1;
         }};
     }
 }
-

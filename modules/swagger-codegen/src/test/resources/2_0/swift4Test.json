@@ -220,6 +220,14 @@
           "items": {
             "$ref": "#/definitions/StringEnum"
           }
+        },
+        "myInlineStringEnum": {
+          "type": "string",
+          "enum": [
+            "inlineStringEnumValue1",
+            "inlineStringEnumValue2",
+            "inlineStringEnumValue3"
+          ]
         }
       },
       "description": "Object which contains lots of different primitive Swagger types"

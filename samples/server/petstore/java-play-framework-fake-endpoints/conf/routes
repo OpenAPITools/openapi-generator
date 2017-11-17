@@ -5,6 +5,9 @@
 GET     /api                        controllers.ApiDocController.api
 
 
+#Functions for AnotherFake API
+PATCH     /v2/another-fake/dummy                     controllers.AnotherFakeApiController.testSpecialTags()
+
 #Functions for Fake API
 POST     /v2/fake/outer/boolean                     controllers.FakeApiController.fakeOuterBooleanSerialize()
 POST     /v2/fake/outer/composite                     controllers.FakeApiController.fakeOuterCompositeSerialize()
@@ -13,6 +16,7 @@ POST     /v2/fake/outer/string                     controllers.FakeApiController
 PATCH     /v2/fake                     controllers.FakeApiController.testClientModel()
 POST     /v2/fake                     controllers.FakeApiController.testEndpointParameters()
 GET     /v2/fake                     controllers.FakeApiController.testEnumParameters()
+POST     /v2/fake/inline-additionalProperties                     controllers.FakeApiController.testInlineAdditionalProperties()
 GET     /v2/fake/jsonFormData                     controllers.FakeApiController.testJsonFormData()
 
 #Functions for FakeClassnameTags123 API

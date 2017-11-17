@@ -57,7 +57,6 @@ class FakeApi(val defBasePath: String = "https://petstore.swagger.io *_/ ' \" =e
   var apiInvoker = defApiInvoker
 
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value
-
   val config = SwaggerConfig.forUrl(new URI(defBasePath))
   val client = new RestClient(config)
   val helper = new FakeApiAsyncHelper(client, config)

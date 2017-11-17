@@ -17,11 +17,15 @@ To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\FakeApi(new \Http\Adapter\Guzzle6\Client());
+$apiInstance = new Swagger\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
 $test_code_inject____end____rn_n_r = "test_code_inject____end____rn_n_r_example"; // string | To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
 
 try {
-    $api_instance->testCodeInjectEndRnNR($test_code_inject____end____rn_n_r);
+    $apiInstance->testCodeInjectEndRnNR($test_code_inject____end____rn_n_r);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testCodeInjectEndRnNR: ', $e->getMessage(), PHP_EOL;
 }

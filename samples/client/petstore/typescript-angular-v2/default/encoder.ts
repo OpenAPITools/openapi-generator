@@ -1,4 +1,4 @@
-import { QueryEncoder } from "@angular/http";
+    import { QueryEncoder } from '@angular/http';
 
 /**
 * CustomQueryEncoderHelper
@@ -15,3 +15,4 @@ export class CustomQueryEncoderHelper extends QueryEncoder {
         return v.replace(/\+/gi, '%2B');
     }
 }
+

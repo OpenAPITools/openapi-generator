@@ -1,6 +1,5 @@
 part of swagger.api;
 
-
 @Entity()
 class Tag {
   
@@ -17,6 +16,5 @@ class Tag {
   String toString()  {
     return 'Tag[id=$id, name=$name, ]';
   }
-
 }
 

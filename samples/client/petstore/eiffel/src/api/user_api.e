@@ -1,7 +1,7 @@
 note
  description:"[
 		Swagger Petstore
- 		This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ 		This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
   		OpenAPI spec version: 1.0.0
  	    Contact: apiteam@swagger.io
 
@@ -31,6 +31,7 @@ feature -- API Access
 			-- argument: body Created user object (required)
 			-- 
 			-- 
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -40,6 +41,7 @@ feature -- API Access
 			create l_request
 			l_request.set_body(body)
 			l_path := "/user"
+
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -59,6 +61,7 @@ feature -- API Access
 			-- argument: body List of user object (required)
 			-- 
 			-- 
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -68,6 +71,7 @@ feature -- API Access
 			create l_request
 			l_request.set_body(body)
 			l_path := "/user/createWithArray"
+
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -87,6 +91,7 @@ feature -- API Access
 			-- argument: body List of user object (required)
 			-- 
 			-- 
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -96,6 +101,7 @@ feature -- API Access
 			create l_request
 			l_request.set_body(body)
 			l_path := "/user/createWithList"
+
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -115,6 +121,7 @@ feature -- API Access
 			-- argument: username The name that needs to be deleted (required)
 			-- 
 			-- 
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -125,6 +132,7 @@ feature -- API Access
 			
 			l_path := "/user/{username}"
 			l_path.replace_substring_all ("{"+"username"+"}", api_client.url_encode (username.out))
+
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -147,6 +155,7 @@ feature -- API Access
 			-- 
 			-- 
 			-- Result STRING_32
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -158,6 +167,7 @@ feature -- API Access
 			l_path := "/user/login"
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "username", username));
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "password", password));
+
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -179,6 +189,7 @@ feature -- API Access
 			-- 
 			-- 
 			-- 
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -188,6 +199,7 @@ feature -- API Access
 			create l_request
 			
 			l_path := "/user/logout"
+
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -209,6 +221,7 @@ feature -- API Access
 			-- argument: body Updated user object (required)
 			-- 
 			-- 
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -219,6 +232,7 @@ feature -- API Access
 			l_request.set_body(body)
 			l_path := "/user/{username}"
 			l_path.replace_substring_all ("{"+"username"+"}", api_client.url_encode (username.out))
+
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -239,6 +253,7 @@ feature -- API Access
 			-- 
 			-- 
 			-- Result USER
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -249,6 +264,7 @@ feature -- API Access
 			
 			l_path := "/user/{username}"
 			l_path.replace_substring_all ("{"+"username"+"}", api_client.url_encode (username.out))
+
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");

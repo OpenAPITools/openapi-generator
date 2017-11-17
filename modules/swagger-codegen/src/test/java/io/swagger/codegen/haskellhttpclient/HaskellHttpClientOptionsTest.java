@@ -30,16 +30,19 @@ public class HaskellHttpClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(HaskellHttpClientOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
-
             clientCodegen.setAllowFromJsonNulls(Boolean.valueOf(HaskellHttpClientOptionsProvider.ALLOW_FROMJSON_NULLS));
             times = 1;
             clientCodegen.setAllowToJsonNulls(Boolean.valueOf(HaskellHttpClientOptionsProvider.ALLOW_TOJSON_NULLS));
             times = 1;
             clientCodegen.setGenerateModelConstructors(Boolean.valueOf(HaskellHttpClientOptionsProvider.GENERATE_MODEL_CONSTRUCTORS));
             times = 1;
+            clientCodegen.setGenerateEnums(Boolean.valueOf(HaskellHttpClientOptionsProvider.GENERATE_ENUMS));
+            times = 1;
             clientCodegen.setGenerateFormUrlEncodedInstances(Boolean.valueOf(HaskellHttpClientOptionsProvider.GENERATE_FORM_URLENCODED_INSTANCES));
             times = 1;
             clientCodegen.setGenerateLenses(Boolean.valueOf(HaskellHttpClientOptionsProvider.GENERATE_LENSES));
+            times = 1;
+            clientCodegen.setInlineMimeTypes(Boolean.valueOf(HaskellHttpClientOptionsProvider.INLINE_MIME_TYPES));
             times = 1;
             clientCodegen.setModelDeriving(HaskellHttpClientOptionsProvider.MODEL_DERIVING);
             times = 1;

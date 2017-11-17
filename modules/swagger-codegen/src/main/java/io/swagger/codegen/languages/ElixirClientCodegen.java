@@ -15,8 +15,21 @@ import io.swagger.codegen.SupportingFile;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.oas.models.info.Info;
 import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BinarySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.ByteArraySchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.EmailSchema;
+import io.swagger.oas.models.media.FileSchema;
+import io.swagger.oas.models.media.IntegerSchema;
 import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.NumberSchema;
+import io.swagger.oas.models.media.ObjectSchema;
+import io.swagger.oas.models.media.PasswordSchema;
 import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.oas.models.media.UUIDSchema;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -39,7 +52,6 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             "{:tesla, \"~> 0.8\"}",
             "{:poison, \">= 1.0.0\"}"
     );
-
 
     public ElixirClientCodegen() {
         super();
@@ -427,6 +439,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
      */
     @Override
+    /**
+<<<<<<< HEAD
     public String getTypeDeclaration(Schema propertySchema) {
         if (propertySchema instanceof ArraySchema) {
             Schema inner = ((ArraySchema) propertySchema).getItems();
@@ -434,6 +448,63 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         } else if (propertySchema instanceof MapSchema) {
             Schema inner = propertySchema.getAdditionalProperties();
             return String.format("%s[String, %s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
+=======*/
+    public String getTypeDeclaration(Schema propertySchema) {
+        // SubClasses of AbstractProperty
+        //
+        // ArrayProperty
+        // MapProperty
+        // PasswordProperty
+        // StringProperty
+        //     EmailProperty
+        //     ByteArrayProperty
+        // DateProperty
+        // UUIDProperty
+        // DateTimeProperty
+        // ObjectProperty
+        // AbstractNumericProperty
+        //     BaseIntegerProperty
+        //         IntegerProperty
+        //         LongProperty
+        //     DecimalProperty
+        //         DoubleProperty
+        //         FloatProperty
+        // BinaryProperty
+        // BooleanProperty
+        // RefProperty
+        // FileProperty
+        if (propertySchema instanceof ArraySchema) {
+            ArraySchema ap = (ArraySchema) propertySchema;
+            Schema inner = ap.getItems();
+            return "[" + getTypeDeclaration(inner) + "]";
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return "%{optional(String.t) => " + getTypeDeclaration(inner) + "}";
+        } else if (propertySchema instanceof PasswordSchema
+                || propertySchema instanceof EmailSchema
+                || propertySchema instanceof StringSchema
+                || propertySchema instanceof UUIDSchema
+                || propertySchema instanceof FileSchema
+                ) {
+            return "String.t";
+        } else if (propertySchema instanceof ByteArraySchema
+                || propertySchema instanceof BinarySchema) {
+            return "binary()";
+        } else if (propertySchema instanceof DateSchema) {
+            return "Date.t";
+        } else if (propertySchema instanceof DateTimeSchema) {
+            return "DateTime.t";
+        } else if (propertySchema instanceof ObjectSchema) {
+            // How to map it?
+            return super.getTypeDeclaration(propertySchema);
+        } else if (propertySchema instanceof IntegerSchema) {
+        } else if (propertySchema instanceof NumberSchema) {
+            return "float()";
+        } else if (propertySchema instanceof BooleanSchema) {
+            return "boolean()";
+        } else if (StringUtils.isNotBlank(propertySchema.get$ref())) {
+            // How to map it?
+            return super.getTypeDeclaration(propertySchema);
         }
         return super.getTypeDeclaration(propertySchema);
     }
@@ -596,26 +667,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 buildTypespec(param.items, sb);
                 sb.append("}");
             } else if (param.isPrimitiveType) {
-                // <type>() OR <type>.t
-
-                // Primitive types in Elixir
-                // https://hexdocs.pm/elixir/1.5.2/typespecs.html#types-and-their-syntax
-                //
-                // NOTE: List, Tuple and Map are declared as primitive in a variable `languageSpecificPrimitives`.
-                HashMap map = new HashMap<String, String>();
-                map.put("Integer", "integer()");
-                map.put("Float", "float()");
-                map.put("Boolean", "boolean()");
-                map.put("String", "String.t");
-                map.put("List", "list()");
-                map.put("Atom", "atom()");
-                map.put("Map", "map()");
-                map.put("Tuple", "tuple()");
-                map.put("PID", "pid()");
-                map.put("DateTime", "DateTime.t");
-
-                String dataType = (String) map.get(param.dataType);
-                sb.append(dataType);
+                // like `integer()`, `String.t`
+                sb.append(param.dataType);
             } else if (param.isFile) {
                 sb.append("String.t");
             } else {

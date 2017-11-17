@@ -1,6 +1,5 @@
 part of swagger.api;
 
-
 @Entity()
 class ApiResponse {
   
@@ -21,6 +20,5 @@ class ApiResponse {
   String toString()  {
     return 'ApiResponse[code=$code, type=$type, message=$message, ]';
   }
-
 }
 

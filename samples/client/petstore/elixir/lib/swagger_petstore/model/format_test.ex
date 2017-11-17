@@ -23,6 +23,22 @@ defmodule SwaggerPetstore.Model.FormatTest do
     :"uuid",
     :"password"
   ]
+
+  @type t :: %__MODULE__{
+    :"integer" => integer(),
+    :"int32" => integer(),
+    :"int64" => integer(),
+    :"number" => float(),
+    :"float" => float(),
+    :"double" => float(),
+    :"string" => String.t,
+    :"byte" => binary(),
+    :"binary" => binary(),
+    :"date" => Date.t,
+    :"dateTime" => DateTime.t,
+    :"uuid" => String.t,
+    :"password" => String.t
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.FormatTest do

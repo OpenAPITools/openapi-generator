@@ -21,10 +21,22 @@ import io.swagger.jaxrs.PATCH;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+/**
+ * Swagger Petstore
+ *
+ * <p>This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ *
+ */
 @Path("/v2")
 @Api(value = "/", description = "")
 public interface PetApi  {
 
+    /**
+     * Add a new pet to the store
+     *
+     * 
+     *
+     */
     @POST
     @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
@@ -34,6 +46,12 @@ public interface PetApi  {
         @ApiResponse(code = 405, message = "Invalid input") })
     public void addPet(@Valid Pet body);
 
+    /**
+     * Deletes a pet
+     *
+     * 
+     *
+     */
     @DELETE
     @Path("/pet/{petId}")
     @Produces({ "application/xml", "application/json" })
@@ -42,6 +60,12 @@ public interface PetApi  {
         @ApiResponse(code = 400, message = "Invalid pet value") })
     public void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key") String apiKey);
 
+    /**
+     * Finds Pets by status
+     *
+     * Multiple status values can be provided with comma separated strings
+     *
+     */
     @GET
     @Path("/pet/findByStatus")
     @Produces({ "application/xml", "application/json" })
@@ -51,6 +75,12 @@ public interface PetApi  {
         @ApiResponse(code = 400, message = "Invalid status value") })
     public List<Pet> findPetsByStatus(@QueryParam("status") @NotNull List<String> status);
 
+    /**
+     * Finds Pets by tags
+     *
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     *
+     */
     @GET
     @Path("/pet/findByTags")
     @Produces({ "application/xml", "application/json" })
@@ -60,6 +90,12 @@ public interface PetApi  {
         @ApiResponse(code = 400, message = "Invalid tag value") })
     public List<Pet> findPetsByTags(@QueryParam("tags") @NotNull List<String> tags);
 
+    /**
+     * Find pet by ID
+     *
+     * Returns a single pet
+     *
+     */
     @GET
     @Path("/pet/{petId}")
     @Produces({ "application/xml", "application/json" })
@@ -70,6 +106,12 @@ public interface PetApi  {
         @ApiResponse(code = 404, message = "Pet not found") })
     public Pet getPetById(@PathParam("petId") Long petId);
 
+    /**
+     * Update an existing pet
+     *
+     * 
+     *
+     */
     @PUT
     @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
@@ -81,6 +123,12 @@ public interface PetApi  {
         @ApiResponse(code = 405, message = "Validation exception") })
     public void updatePet(@Valid Pet body);
 
+    /**
+     * Updates a pet in the store with form data
+     *
+     * 
+     *
+     */
     @POST
     @Path("/pet/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
@@ -90,6 +138,12 @@ public interface PetApi  {
         @ApiResponse(code = 405, message = "Invalid input") })
     public void updatePetWithForm(@PathParam("petId") Long petId, @Multipart(value = "name", required = false)  String name, @Multipart(value = "status", required = false)  String status);
 
+    /**
+     * uploads an image
+     *
+     * 
+     *
+     */
     @POST
     @Path("/pet/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })

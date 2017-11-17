@@ -2,15 +2,17 @@ package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class Animal   {
+public class Animal  implements Serializable {
   
   private @Valid String className = null;
   private @Valid String color = "red";
@@ -24,6 +26,7 @@ public class Animal   {
 
   
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("className")
   @NotNull
   public String getClassName() {
     return className;
@@ -41,6 +44,7 @@ public class Animal   {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("color")
   public String getColor() {
     return color;
   }

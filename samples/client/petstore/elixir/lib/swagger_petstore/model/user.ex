@@ -18,6 +18,17 @@ defmodule SwaggerPetstore.Model.User do
     :"phone",
     :"userStatus"
   ]
+
+  @type t :: %__MODULE__{
+    :"id" => integer(),
+    :"username" => String.t,
+    :"firstName" => String.t,
+    :"lastName" => String.t,
+    :"email" => String.t,
+    :"password" => String.t,
+    :"phone" => String.t,
+    :"userStatus" => integer()
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.User do

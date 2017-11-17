@@ -20,7 +20,12 @@ import { {{classname}} } from '../{{filename}}';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+{{#useHttpClient}}
+import { CustomHttpUrlEncodingCodec }                        from '../encoder';
+{{/useHttpClient}}
+{{^useHttpClient}}
 import { CustomQueryEncoderHelper }                          from '../encoder';
+{{/useHttpClient}}
 {{#withInterfaces}}
 import { {{classname}}Interface }                            from './{{classname}}Interface';
 {{/withInterfaces}}
@@ -66,12 +71,6 @@ export class {{classname}} {
             }
         }
         return false;
-    }
-
-
-    public isJsonMime(mime: string): boolean {
-        const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
-        return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
     }
 
 {{^useHttpClient}}
@@ -121,7 +120,12 @@ export class {{classname}} {
 {{/allParams}}
 
 {{#hasQueryParams}}
-        let queryParameters = new {{#useHttpClient}}HttpParams{{/useHttpClient}}{{^useHttpClient}}URLSearchParams{{/useHttpClient}}();
+        {{#useHttpClient}}
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        {{/useHttpClient}}
+        {{^useHttpClient}}
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
+        {{/useHttpClient}}
 {{#queryParams}}
         {{#isListContainer}}
         if ({{paramName}}) {
@@ -194,61 +198,103 @@ export class {{classname}} {
 
 {{/isOAuth}}
 {{/authMethods}}
-{{#bodyParam}}
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            {{#produces}}
+            '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
+            {{/produces}}
+        ];
+        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
 {{^useHttpClient}}
-        headers.set('Content-Type', 'application/json');
-
+            headers.set("Accept", httpHeaderAcceptSelected);
 {{/useHttpClient}}
-{{/bodyParam}}
-{{#hasFormParams}}
+{{#useHttpClient}}
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+{{/useHttpClient}}
+        }
+
         // to determine the Content-Type header
         let consumes: string[] = [
             {{#consumes}}
             '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
             {{/consumes}}
         ];
-        let canConsumeForm = this.canConsumeForm(consumes);
+{{#bodyParam}}
+        let httpContentTypeSelected:string = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+{{^useHttpClient}}
+            headers.set('Content-Type', httpContentTypeSelected);
+{{/useHttpClient}}
+{{#useHttpClient}}
+            headers = headers.set("Content-Type", httpContentTypeSelected);
+{{/useHttpClient}}
+        }
+{{/bodyParam}}
+
+{{#hasFormParams}}
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): void; };
         let useForm = false;
+        let convertFormParamsToString = false;
 {{#formParams}}
 {{#isFile}}
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
         useForm = canConsumeForm;
 {{/isFile}}
 {{/formParams}}
-        let formParams = new (useForm ? FormData : URLSearchParams as any)() as {
-          set(param: string, value: any): void;
-        };
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+{{#useHttpClient}}
+            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+{{/useHttpClient}}
+{{^useHttpClient}}
+            // TODO: this fails if a parameter is a file, the api can't consume "multipart/form-data" and a blob is passed.
+            convertFormParamsToString = true;
+            formParams = new URLSearchParams('', new CustomQueryEncoderHelper());
+            // set the content-type explicitly to avoid having it set to 'text/plain'
+            headers.set('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+{{/useHttpClient}}
+        }
+
 {{#formParams}}
         {{#isListContainer}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
-                formParams.append('{{baseName}}', <any>element);
+                {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', <any>element){{#useHttpClient}} || formParams{{/useHttpClient}};
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            formParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])){{#useHttpClient}} || formParams{{/useHttpClient}};
         {{/isCollectionFormatMulti}}
         }
         {{/isListContainer}}
         {{^isListContainer}}
         if ({{paramName}} !== undefined) {
-            formParams.set('{{baseName}}', <any>{{paramName}});
+            {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', <any>{{paramName}}){{#useHttpClient}} || formParams{{/useHttpClient}};
         }
         {{/isListContainer}}
 {{/formParams}}
 
 {{/hasFormParams}}
 {{#useHttpClient}}
-        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<any>{{/isResponseFile}}(`${this.basePath}{{{path}}}`, {{#bodyParam}}{{paramName}}, {{/bodyParam}}{{#hasFormParams}}formParams, {{/hasFormParams}}{
+        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<any>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
+            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+            {
 {{#hasQueryParams}}
-            params: queryParameters,
+                params: queryParameters,
 {{/hasQueryParams}}
-            headers: headers,
+                headers: headers,
 {{#isResponseFile}}
-            responseType: "blob",
+                responseType: "blob",
 {{/isResponseFile}}
-            withCredentials: this.configuration.withCredentials,
-        });
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
 {{/useHttpClient}}
 {{^useHttpClient}}
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -258,7 +304,7 @@ export class {{classname}} {
             body: {{paramName}} == null ? '' : JSON.stringify({{paramName}}), // https://github.com/angular/angular/issues/10612
 {{/bodyParam}}
 {{#hasFormParams}}
-            body: formParams.toString(),
+            body: convertFormParamsToString ? formParams.toString() : formParams,
 {{/hasFormParams}}
 {{#isResponseFile}}
             responseType: ResponseContentType.Blob,

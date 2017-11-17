@@ -11,6 +11,10 @@ defmodule SwaggerPetstore.Model.Return do
   defstruct [
     :"return"
   ]
+
+  @type t :: %__MODULE__{
+    :"return" => integer()
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.Return do

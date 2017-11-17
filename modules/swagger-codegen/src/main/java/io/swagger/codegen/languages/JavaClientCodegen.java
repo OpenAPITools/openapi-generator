@@ -1,10 +1,13 @@
 package io.swagger.codegen.languages;
 
+import static java.util.Collections.sort;
+
 import com.google.common.collect.LinkedListMultimap;
 import io.swagger.codegen.*;
 import io.swagger.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.codegen.languages.features.GzipFeatures;
 import io.swagger.codegen.languages.features.PerformBeanValidationFeatures;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -49,6 +52,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useGzipFeature = false;
     protected boolean useRuntimeException = false;
 
+
     public JavaClientCodegen() {
         super();
         outputFolder = "generated-code" + File.separator + "java";
@@ -78,6 +82,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put("resttemplate", "HTTP client: Spring RestTemplate 4.3.9-RELEASE. JSON processing: Jackson 2.8.9");
         supportedLibraries.put("resteasy", "HTTP client: Resteasy client 3.1.3.Final. JSON processing: Jackson 2.8.9");
         supportedLibraries.put("vertx", "HTTP client: VertX client 3.2.4. JSON processing: Jackson 2.8.9");
+        supportedLibraries.put("google-api-client", "HTTP client: Google API client 1.23.0. JSON processing: Jackson 2.8.9");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -174,13 +179,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("StringUtil" + extension, invokerFolder, "StringUtil.java"));
         }
 
-        supportingFiles.add(new SupportingFile("auth/HttpBasicAuth" + extension, authFolder, "HttpBasicAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/ApiKeyAuth" + extension, authFolder, "ApiKeyAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/OAuth" + extension, authFolder, "OAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/OAuthFlow" + extension, authFolder, "OAuthFlow.java"));
-        supportingFiles.add(new SupportingFile( "gradlew" + extension, "", "gradlew") );
-        supportingFiles.add(new SupportingFile( "gradlew.bat" + extension, "", "gradlew.bat") );
-        supportingFiles.add(new SupportingFile( "gradle-wrapper.properties" + extension,
+        // google-api-client doesn't use the Swagger auth, because it uses Google Credential directly (HttpRequestInitializer)
+        if (!"google-api-client".equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
+        }
+        supportingFiles.add(new SupportingFile( "gradlew.mustache", "", "gradlew") );
+        supportingFiles.add(new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") );
+        supportingFiles.add(new SupportingFile( "gradle-wrapper.properties.mustache",
                 gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") );
         supportingFiles.add(new SupportingFile( "gradle-wrapper.jar",
                 gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
@@ -198,11 +206,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             apiDocTemplateFiles.remove("api_doc" + extension);
         }
 
-        if (!("feign".equals(getLibrary()) || "resttemplate".equals(getLibrary()) || usesAnyRetrofitLibrary())) {
-            supportingFiles.add(new SupportingFile("apiException" + extension, invokerFolder, "ApiException.java"));
-            supportingFiles.add(new SupportingFile("Configuration" + extension, invokerFolder, "Configuration.java"));
-            supportingFiles.add(new SupportingFile("Pair" + extension, invokerFolder, "Pair.java"));
-            supportingFiles.add(new SupportingFile("auth/Authentication" + extension, authFolder, "Authentication.java"));
+        if (!("feign".equals(getLibrary()) || "resttemplate".equals(getLibrary()) || usesAnyRetrofitLibrary() || "google-api-client".equals(getLibrary()))) {
+            supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
+            supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
+            supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
+            supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         }
 
         if ("feign".equals(getLibrary())) {
@@ -239,9 +247,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             setJava8Mode(true);
             additionalProperties.put("java8", "true");
             additionalProperties.put("jackson", "true");
-            apiTemplateFiles.put("apiImpl" + extension, "Impl.java");
-            apiTemplateFiles.put("rxApiImpl" + extension, ".java");
-            supportingFiles.remove(new SupportingFile("manifest" + extension, projectFolder, "AndroidManifest.xml"));
+
+            apiTemplateFiles.put("apiImpl.mustache", "Impl.java");
+            apiTemplateFiles.put("rxApiImpl.mustache", ".java");
+            supportingFiles.remove(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
+        } else if ("google-api-client".equals(getLibrary())) {
+            additionalProperties.put("jackson", "true");
         } else {
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
         }
@@ -322,10 +333,34 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     if (operation.returnType == null) {
                         operation.returnType = "Void";
                     }
-                    if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/"))
+                    if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")){
                         operation.path = operation.path.substring(1);
+                    }
+
+                    // sorting operation parameters to make sure path params are parsed before query params
+                    if (operation.allParams != null) {
+                        sort(operation.allParams, new Comparator<CodegenParameter>() {
+                            @Override
+                            public int compare(CodegenParameter one, CodegenParameter another) {
+                                if (one.isPathParam && another.isQueryParam) {
+                                    return -1;
+                                }
+                                if (one.isQueryParam && another.isPathParam){
+                                    return 1;
+                                }
+
+                                return 0;
+                            }
+                        });
+                        Iterator<CodegenParameter> iterator = operation.allParams.iterator();
+                        while (iterator.hasNext()){
+                            CodegenParameter param = iterator.next();
+                            param.hasMore = iterator.hasNext();
+                        }
+                    }
                 }
             }
+
         }
 
         // camelize path variables for Feign client

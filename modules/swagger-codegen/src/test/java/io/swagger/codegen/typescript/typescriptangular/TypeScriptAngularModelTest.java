@@ -42,7 +42,7 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.datatype, "number");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertEquals(property1.defaultValue, "undefined");
         Assert.assertEquals(property1.baseType, "number");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
@@ -52,7 +52,7 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.datatype, "string");
         Assert.assertEquals(property2.name, "name");
-        Assert.assertEquals(property2.defaultValue, "null");
+        Assert.assertEquals(property2.defaultValue, "undefined");
         Assert.assertEquals(property2.baseType, "string");
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
@@ -64,7 +64,7 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property3.datatype, "Date");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.baseType, "Date");
-        Assert.assertEquals(property3.defaultValue, "null");
+        Assert.assertEquals(property3.defaultValue, "undefined");
         Assert.assertTrue(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isNotContainer);
@@ -75,7 +75,7 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property4.datatype, "string");
         Assert.assertEquals(property4.name, "birthDate");
         Assert.assertEquals(property4.baseType, "string");
-        Assert.assertEquals(property4.defaultValue, "null");
+        Assert.assertEquals(property4.defaultValue, "undefined");
         Assert.assertFalse(property4.hasMore);
         Assert.assertFalse(property4.required);
         Assert.assertTrue(property4.isNotContainer);
@@ -100,7 +100,7 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.datatype, "number");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertEquals(property1.defaultValue, "undefined");
         Assert.assertEquals(property1.baseType, "number");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
@@ -133,7 +133,7 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.datatype, "Children");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertEquals(property1.defaultValue, "undefined");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isNotContainer);

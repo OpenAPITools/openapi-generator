@@ -18,7 +18,8 @@
 
 namespace {{apiPackage}};
 
-{{#operations}}{{#imports}}use {{this}};
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+{{#operations}}{{#imports}}use {{import}};
 {{/imports}}
 
 /**
@@ -56,20 +57,17 @@ interface {{classname}}
      *
     {{/description}}
     {{#allParams}}
-     * @param  {{vendorExtensions.x-simpleName}} ${{paramName}}  {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     * @param  {{dataType}} ${{paramName}}  {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
     {{/allParams}}
+     * @param  integer $responseCode     The HTTP response code to return
+     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-    {{#responses}}
-    {{#vendorExtensions.x-symfonyExceptionSimple}}
-     * @throws {{vendorExtensions.x-symfonyExceptionSimple}}  {{message}}
-    {{/vendorExtensions.x-symfonyExceptionSimple}}
-    {{^vendorExtensions.x-symfonyExceptionSimple}}
-     * @return {{^dataType}}void{{/dataType}}{{#dataType}}{{vendorExtensions.x-simpleName}}{{/dataType}}  {{message}}
+    {{#returnType}}
+     * @return {{{returnType}}}
      *
-    {{/vendorExtensions.x-symfonyExceptionSimple}}
-    {{/responses}}
+    {{/returnType}}
      */
-    public function {{operationId}}({{#allParams}}{{#vendorExtensions.x-parameterType}}{{vendorExtensions.x-parameterType}} {{/vendorExtensions.x-parameterType}}${{paramName}}{{^required}} = {{#defaultValue}}'{{{.}}}'{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    public function {{operationId}}({{#allParams}}{{#vendorExtensions.x-parameterType}}{{vendorExtensions.x-parameterType}} {{/vendorExtensions.x-parameterType}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}, {{/allParams}}&$responseCode, array &$responseHeaders);
 {{/operation}}
 }
 {{/operations}}

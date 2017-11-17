@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AdditionalPropertiesClass  {
   
@@ -25,6 +26,7 @@ public class AdditionalPropertiesClass  {
    * Get mapProperty
    * @return mapProperty
   **/
+  @JsonProperty("map_property")
   public Map<String, String> getMapProperty() {
     return mapProperty;
   }
@@ -47,6 +49,7 @@ public class AdditionalPropertiesClass  {
    * Get mapOfMapProperty
    * @return mapOfMapProperty
   **/
+  @JsonProperty("map_of_map_property")
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }

@@ -108,8 +108,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "default" : "available",
-            "enum" : [ "available", "pending", "sold" ]
+            "enum" : [ "available", "pending", "sold" ],
+            "default" : "available"
           },
           "collectionFormat" : "csv"
         } ],
@@ -680,8 +680,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "default" : "$",
-            "enum" : [ ">", "$" ]
+            "enum" : [ ">", "$" ],
+            "default" : "$"
           }
         }, {
           "name" : "enum_form_string",
@@ -699,8 +699,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "default" : "$",
-            "enum" : [ ">", "$" ]
+            "enum" : [ ">", "$" ],
+            "default" : "$"
           }
         }, {
           "name" : "enum_header_string",
@@ -718,8 +718,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "default" : "$",
-            "enum" : [ ">", "$" ]
+            "enum" : [ ">", "$" ],
+            "default" : "$"
           }
         }, {
           "name" : "enum_query_string",

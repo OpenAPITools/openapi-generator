@@ -2022,6 +2022,7 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenParameter> headerParams = new ArrayList<CodegenParameter>();
         List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
         List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
+        List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
 
         if (parameters != null) {
             for (Parameter param : parameters) {
@@ -2065,6 +2066,8 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 if (!codegenParameter.required) {
                     codegenOperation.hasOptionalParams = true;
+                } else {
+                    requiredParams.add(codegenParameter.copy());
                 }
             }
         }
@@ -2097,6 +2100,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenOperation.headerParams = addHasMore(headerParams);
         // op.cookieParams = cookieParams;
         codegenOperation.formParams = addHasMore(formParams);
+        codegenOperation.requiredParams = addHasMore(requiredParams);
         codegenOperation.externalDocs = operation.getExternalDocs();
         // legacy support
         codegenOperation.nickname = codegenOperation.operationId;
@@ -2104,6 +2108,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenOperation.allParams.size() > 0) {
             codegenOperation.hasParams = true;
         }
+        codegenOperation.hasRequiredParams = codegenOperation.requiredParams.size() > 0;
 
         // set Restful Flag
         codegenOperation.isRestfulShow = codegenOperation.isRestfulShow();
@@ -2648,7 +2653,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return true if the library/module/package of the corresponding type needs to be imported
      */
     protected boolean needToImport(String type) {
-        return !defaultIncludes.contains(type)
+        return StringUtils.isNotBlank(type) && !defaultIncludes.contains(type)
                 && !languageSpecificPrimitives.contains(type);
     }
 
@@ -3118,8 +3123,17 @@ public class DefaultCodegen implements CodegenConfig {
      * @param library Library template
      */
     public void setLibrary(String library) {
-        if (library != null && !supportedLibraries.containsKey(library))
-            throw new RuntimeException("unknown library: " + library);
+        if (library != null && !supportedLibraries.containsKey(library)) {
+            StringBuilder sb = new StringBuilder("Unknown library: " + library + "\nAvailable libraries:");
+            if(supportedLibraries.size() == 0) {
+                sb.append("\n  ").append("NONE");
+            } else {
+                for (String lib : supportedLibraries.keySet()) {
+                    sb.append("\n  ").append(lib);
+                }
+            }
+            throw new RuntimeException(sb.toString());
+        }
         this.library = library;
     }
 
@@ -3335,7 +3349,10 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
 
-        if (Boolean.TRUE.equals(property.isString)) {
+        if (Boolean.TRUE.equals(property.isByteArray)) {
+            parameter.isByteArray = true;
+            parameter.isPrimitiveType = true;
+        } else if (Boolean.TRUE.equals(property.isString)) {
             parameter.isString = true;
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isBoolean)) {
@@ -3353,8 +3370,8 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (Boolean.TRUE.equals(property.isFloat)) {
             parameter.isFloat = true;
             parameter.isPrimitiveType = true;
-        } else if (Boolean.TRUE.equals(property.isByteArray)) {
-            parameter.isByteArray = true;
+        }  else if (Boolean.TRUE.equals(property.isNumber)) {
+            parameter.isNumber = true;
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isBinary)) {
             parameter.isByteArray = true;

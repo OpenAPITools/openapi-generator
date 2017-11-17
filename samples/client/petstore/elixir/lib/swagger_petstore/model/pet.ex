@@ -16,6 +16,15 @@ defmodule SwaggerPetstore.Model.Pet do
     :"tags",
     :"status"
   ]
+
+  @type t :: %__MODULE__{
+    :"id" => integer(),
+    :"category" => Category,
+    :"name" => String.t,
+    :"photoUrls" => [String.t],
+    :"tags" => [Tag],
+    :"status" => String.t
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.Pet do

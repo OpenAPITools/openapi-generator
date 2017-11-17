@@ -16,6 +16,15 @@ defmodule SwaggerPetstore.Model.Order do
     :"status",
     :"complete"
   ]
+
+  @type t :: %__MODULE__{
+    :"id" => integer(),
+    :"petId" => integer(),
+    :"quantity" => integer(),
+    :"shipDate" => DateTime.t,
+    :"status" => String.t,
+    :"complete" => boolean()
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.Order do

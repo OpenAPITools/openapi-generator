@@ -254,17 +254,30 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
             for (CodegenParameter p : op.allParams) {
                 // TODO: This hacky, should be converted to mappings if possible to keep it clean.
                 // This could also be done using template imports
-                if(Boolean.TRUE.equals(p.isPrimitiveType)) {
+                if(p.isPathParam && p.isPrimitiveType) {
                     p.vendorExtensions.put("x-codegen-normalized-path-type", p.dataType.toLowerCase());
                     p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
-                } else if(Boolean.TRUE.equals(p.isBodyParam)) {
+                } else if(p.isHeaderParam) {
+                    if(p.required) {
+                        p.vendorExtensions.put("x-codegen-normalized-path-type", "header(\"" + p.baseName + "\")");
+                        p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
+                    } else {
+                        p.vendorExtensions.put("x-codegen-normalized-path-type", "headerOption(\"" + p.baseName + "\")");
+                        p.vendorExtensions.put("x-codegen-normalized-input-type", "Option["+ p.dataType + "]");
+                    }
+                } else if(p.isQueryParam) {
+                    if(p.isContainer || p.isListContainer) {
+                        p.vendorExtensions.put("x-codegen-normalized-path-type", "params(\"" + p.baseName + "\")");
+                        p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType.replaceAll("^[^\\[]+", "Seq"));
+                    } else {
+                        p.vendorExtensions.put("x-codegen-normalized-path-type", "param(\"" + p.baseName + "\")");
+                        p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
+                    }
+                } else if(p.isBodyParam) {
                     p.vendorExtensions.put("x-codegen-normalized-path-type", "jsonBody["+ p.dataType + "]");
                     p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
-                } else if(Boolean.TRUE.equals(p.isContainer) || Boolean.TRUE.equals(p.isListContainer)) {
-                    p.vendorExtensions.put("x-codegen-normalized-path-type", "params(\""+ p.paramName + "\")");
-                    p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType.replaceAll("^[^\\[]+", "Seq"));
-                } else if(Boolean.TRUE.equals(p.isFile)) {
-                    p.vendorExtensions.put("x-codegen-normalized-path-type", "fileUpload(\""+ p.paramName + "\")");
+                } else if(p.isFile) {
+                    p.vendorExtensions.put("x-codegen-normalized-path-type", "fileUpload(\""+ p.baseName + "\")");
                     p.vendorExtensions.put("x-codegen-normalized-input-type", "FileUpload");
                 } else {
                     p.vendorExtensions.put("x-codegen-normalized-path-type", p.dataType);
