@@ -104,6 +104,15 @@ public class LumenServerCodegen extends AbstractPhpCodegen
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+
+        for (CodegenOperation op : operations) {
+            op.httpMethod = op.httpMethod.toLowerCase();
+            // check to see if the path contains ".", which is not supported by Lumen
+            // ref: https://github.com/swagger-api/swagger-codegen/issues/6897
+            if (op.path != null && op.path.contains(".")) {
+                throw new IllegalArgumentException("'.' (dot) is not supported by PHP Lumen. Please refer to https://github.com/swagger-api/swagger-codegen/issues/6897 for more info.");
+            }
+        }
         
         // sort the endpoints in ascending to avoid the route priority issure. 
         // https://github.com/swagger-api/swagger-codegen/issues/2643

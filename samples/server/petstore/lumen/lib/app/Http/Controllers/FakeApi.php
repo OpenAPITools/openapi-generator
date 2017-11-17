@@ -48,7 +48,7 @@ class FakeApi extends Controller
         $body = $input['body'];
 
 
-        return response('How about implementing testClientModel as a PATCH method ?');
+        return response('How about implementing testClientModel as a patch method ?');
     }
     /**
      * Operation testEndpointParameters
@@ -146,7 +146,7 @@ class FakeApi extends Controller
         $callback = $input['callback'];
 
 
-        return response('How about implementing testEndpointParameters as a POST method ?');
+        return response('How about implementing testEndpointParameters as a post method ?');
     }
     /**
      * Operation testEnumParameters
@@ -181,7 +181,60 @@ class FakeApi extends Controller
         $enum_query_double = $input['enum_query_double'];
 
 
-        return response('How about implementing testEnumParameters as a GET method ?');
+        return response('How about implementing testEnumParameters as a get method ?');
+    }
+    /**
+     * Operation testInlineAdditionalProperties
+     *
+     * test inline additionalProperties.
+     *
+     *
+     * @return Http response
+     */
+    public function testInlineAdditionalProperties()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['param'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $param when calling testInlineAdditionalProperties');
+        }
+        $param = $input['param'];
+
+
+        return response('How about implementing testInlineAdditionalProperties as a post method ?');
+    }
+    /**
+     * Operation testJsonFormData
+     *
+     * test json serialization of form data.
+     *
+     *
+     * @return Http response
+     */
+    public function testJsonFormData()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['param'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $param when calling testJsonFormData');
+        }
+        $param = $input['param'];
+
+        if (!isset($input['param2'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $param2 when calling testJsonFormData');
+        }
+        $param2 = $input['param2'];
+
+
+        return response('How about implementing testJsonFormData as a get method ?');
     }
     /**
      * Operation fakeOuterBooleanSerialize
@@ -202,7 +255,7 @@ class FakeApi extends Controller
         $body = $input['body'];
 
 
-        return response('How about implementing fakeOuterBooleanSerialize as a POST method ?');
+        return response('How about implementing fakeOuterBooleanSerialize as a post method ?');
     }
     /**
      * Operation fakeOuterCompositeSerialize
@@ -223,7 +276,7 @@ class FakeApi extends Controller
         $body = $input['body'];
 
 
-        return response('How about implementing fakeOuterCompositeSerialize as a POST method ?');
+        return response('How about implementing fakeOuterCompositeSerialize as a post method ?');
     }
     /**
      * Operation fakeOuterNumberSerialize
@@ -244,7 +297,7 @@ class FakeApi extends Controller
         $body = $input['body'];
 
 
-        return response('How about implementing fakeOuterNumberSerialize as a POST method ?');
+        return response('How about implementing fakeOuterNumberSerialize as a post method ?');
     }
     /**
      * Operation fakeOuterStringSerialize
@@ -265,6 +318,6 @@ class FakeApi extends Controller
         $body = $input['body'];
 
 
-        return response('How about implementing fakeOuterStringSerialize as a POST method ?');
+        return response('How about implementing fakeOuterStringSerialize as a post method ?');
     }
 }

@@ -48,7 +48,7 @@ class UserApi extends Controller
         $body = $input['body'];
 
 
-        return response('How about implementing createUser as a POST method ?');
+        return response('How about implementing createUser as a post method ?');
     }
     /**
      * Operation createUsersWithArrayInput
@@ -72,7 +72,7 @@ class UserApi extends Controller
         $body = $input['body'];
 
 
-        return response('How about implementing createUsersWithArrayInput as a POST method ?');
+        return response('How about implementing createUsersWithArrayInput as a post method ?');
     }
     /**
      * Operation createUsersWithListInput
@@ -96,7 +96,7 @@ class UserApi extends Controller
         $body = $input['body'];
 
 
-        return response('How about implementing createUsersWithListInput as a POST method ?');
+        return response('How about implementing createUsersWithListInput as a post method ?');
     }
     /**
      * Operation loginUser
@@ -125,7 +125,7 @@ class UserApi extends Controller
         $password = $input['password'];
 
 
-        return response('How about implementing loginUser as a GET method ?');
+        return response('How about implementing loginUser as a get method ?');
     }
     /**
      * Operation logoutUser
@@ -144,7 +144,7 @@ class UserApi extends Controller
 
         //not path params validation
 
-        return response('How about implementing logoutUser as a GET method ?');
+        return response('How about implementing logoutUser as a get method ?');
     }
     /**
      * Operation deleteUser
@@ -164,7 +164,7 @@ class UserApi extends Controller
 
         //not path params validation
 
-        return response('How about implementing deleteUser as a DELETE method ?');
+        return response('How about implementing deleteUser as a delete method ?');
     }
     /**
      * Operation getUserByName
@@ -184,7 +184,7 @@ class UserApi extends Controller
 
         //not path params validation
 
-        return response('How about implementing getUserByName as a GET method ?');
+        return response('How about implementing getUserByName as a get method ?');
     }
     /**
      * Operation updateUser
@@ -204,6 +204,6 @@ class UserApi extends Controller
 
         //not path params validation
 
-        return response('How about implementing updateUser as a PUT method ?');
+        return response('How about implementing updateUser as a put method ?');
     }
 }
