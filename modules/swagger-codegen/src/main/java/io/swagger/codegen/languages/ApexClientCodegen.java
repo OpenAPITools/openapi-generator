@@ -235,6 +235,10 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
             }
         }
 
+        if (cm.vendorExtensions == null) {
+            cm.vendorExtensions = new HashMap<>();
+        }
+
         cm.vendorExtensions.put("hasPropertyMappings", !propertyMappings.isEmpty());
         cm.vendorExtensions.put("hasDefaultValues", hasDefaultValues);
         cm.vendorExtensions.put("propertyMappings", propertyMappings);

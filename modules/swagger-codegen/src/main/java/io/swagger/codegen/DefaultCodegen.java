@@ -3622,6 +3622,14 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+
+    protected Set<String> getProducesInfo(Operation operation) {
+        if(operation.getResponses() == null || operation.getResponses().isEmpty()) {
+            return null;
+        }
+        return operation.getResponses().keySet();
+    }
+
     protected Schema detectParent(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
         if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
             Schema schema = composedSchema.getAllOf().get(0);

@@ -174,9 +174,9 @@ public class KotlinClientCodegenModelTest {
 
     @Test(dataProvider = "modelNames", description = "sanitize model names")
     public void sanitizeModelNames(final String name, final ModelNameTest testCase) {
-        final Model model = getComplexModel();
+        final Schema schema = getComplexModel();
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final CodegenModel cm = codegen.fromModel(name, model);
+        final CodegenModel cm = codegen.fromModel(name, schema);
 
         Assert.assertEquals(cm.name, testCase.expectedName);
         Assert.assertEquals(cm.classname, testCase.expectedClassName);

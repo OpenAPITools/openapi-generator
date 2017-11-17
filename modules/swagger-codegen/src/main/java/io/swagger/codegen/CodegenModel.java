@@ -4,6 +4,7 @@ import io.swagger.oas.models.ExternalDocumentation;
 import io.swagger.oas.models.media.Discriminator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -44,7 +45,7 @@ public class CodegenModel {
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
-    public Map<String, Object> vendorExtensions;
+    public Map<String, Object> vendorExtensions = new HashMap<>();
 
     //The type of the value from additional properties. Used in map like objects.
     public String additionalPropertiesType;
