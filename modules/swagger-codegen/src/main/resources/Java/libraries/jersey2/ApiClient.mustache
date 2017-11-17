@@ -590,8 +590,6 @@ public class ApiClient {
     List<Object> contentTypes = response.getHeaders().get("Content-Type");
     if (contentTypes != null && !contentTypes.isEmpty())
       contentType = String.valueOf(contentTypes.get(0));
-    if (contentType == null)
-      throw new ApiException(500, "missing Content-Type in response");
 
     return response.readEntity(returnType);
   }
