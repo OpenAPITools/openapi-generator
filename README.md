@@ -849,6 +849,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Svenska Spel AB](https://www.svenskaspel.se/)
 - [Switch Database](https://www.switchdatabase.com/)
 - [TaskData](http://www.taskdata.com/)
+- [ThirdWatch.ai](https://www.thirdwatch.ai/)
 - [ThoughtWorks](https://www.thoughtworks.com)
 - [Trexle](https://trexle.com/)
 - [Upwork](http://upwork.com/)
