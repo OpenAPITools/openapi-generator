@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import static java.util.Collections.sort;
 
+import com.github.jknack.handlebars.internal.path.ThisPath;
 import com.google.common.collect.LinkedListMultimap;
 import io.swagger.codegen.*;
 import io.swagger.codegen.languages.features.BeanValidationFeatures;
@@ -181,14 +182,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         // google-api-client doesn't use the Swagger auth, because it uses Google Credential directly (HttpRequestInitializer)
         if (!"google-api-client".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
-            supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
-            supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
-            supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
+            supportingFiles.add(new SupportingFile("auth/HttpBasicAuth" + extension, authFolder, "HttpBasicAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/ApiKeyAuth" + extension, authFolder, "ApiKeyAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/OAuth" + extension, authFolder, "OAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/OAuthFlow" + extension, authFolder, "OAuthFlow.java"));
         }
-        supportingFiles.add(new SupportingFile( "gradlew.mustache", "", "gradlew") );
-        supportingFiles.add(new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") );
-        supportingFiles.add(new SupportingFile( "gradle-wrapper.properties.mustache",
+        supportingFiles.add(new SupportingFile( "gradlew" + extension, "", "gradlew") );
+        supportingFiles.add(new SupportingFile( "gradlew.bat" + extension, "", "gradlew.bat") );
+        supportingFiles.add(new SupportingFile( "gradle-wrapper.properties" + extension,
                 gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") );
         supportingFiles.add(new SupportingFile( "gradle-wrapper.jar",
                 gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
@@ -207,10 +208,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         if (!("feign".equals(getLibrary()) || "resttemplate".equals(getLibrary()) || usesAnyRetrofitLibrary() || "google-api-client".equals(getLibrary()))) {
-            supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
-            supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
-            supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
-            supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
+            supportingFiles.add(new SupportingFile("apiException" + extension, invokerFolder, "ApiException.java"));
+            supportingFiles.add(new SupportingFile("Configuration" + extension, invokerFolder, "Configuration.java"));
+            supportingFiles.add(new SupportingFile("Pair" + extension, invokerFolder, "Pair.java"));
+            supportingFiles.add(new SupportingFile("auth/Authentication" + extension, authFolder, "Authentication.java"));
         }
 
         if ("feign".equals(getLibrary())) {
@@ -248,9 +249,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             additionalProperties.put("java8", "true");
             additionalProperties.put("jackson", "true");
 
-            apiTemplateFiles.put("apiImpl.mustache", "Impl.java");
-            apiTemplateFiles.put("rxApiImpl.mustache", ".java");
-            supportingFiles.remove(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
+            apiTemplateFiles.put("apiImpl" + extension, "Impl.java");
+            apiTemplateFiles.put("rxApiImpl" + extension, ".java");
+            supportingFiles.remove(new SupportingFile("manifest" + extension, projectFolder, "AndroidManifest.xml"));
         } else if ("google-api-client".equals(getLibrary())) {
             additionalProperties.put("jackson", "true");
         } else {

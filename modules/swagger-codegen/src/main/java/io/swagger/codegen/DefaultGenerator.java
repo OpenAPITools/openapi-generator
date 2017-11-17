@@ -563,17 +563,16 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
 
                 if(ignoreProcessor.allowsFile(new File(outputFilename))) {
-                    if (templateFile.endsWith("mustache")) {
+                    if (templateFile.endsWith("mustache") || templateFile.endsWith("hbs")) {
                         String template = readTemplate(templateFile);
-                        Mustache.Compiler compiler = Mustache.compiler();
-                        compiler = config.processCompiler(compiler);
                         String rendered = null;
                         if (DefaultCodegen.HANDLEBARS_TEMPLATE.equals(config.templateEngine())) {
                             String templateName = templateFile.replace("\\", "/");
-                            templateName = templateName.substring(templateName.indexOf("/") + 1);
                             final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateName.replace(config.templateDir(), StringUtils.EMPTY));
                             rendered = hTemplate.apply(bundle);
                         } else {
+                            Mustache.Compiler compiler = Mustache.compiler();
+                            compiler = config.processCompiler(compiler);
                             Template tmpl = compiler
                                     .withLoader(new Mustache.TemplateLoader() {
                                         @Override
