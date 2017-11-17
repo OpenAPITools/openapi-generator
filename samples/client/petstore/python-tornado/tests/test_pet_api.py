@@ -4,6 +4,8 @@
 
 """
 Run the tests.
+$ docker pull swaggerapi/petstore
+$ docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
 $ pip install nose (optional)
 $ cd petstore_api-python
 $ nosetests -v
@@ -25,8 +27,7 @@ import json
 
 import urllib3
 
-HOST = 'http://petstore.swagger.io/v2'
-
+HOST = 'http://localhost/v2'
 
 class PetApiTests(AsyncTestCase):
 
@@ -152,7 +153,6 @@ class PetApiTests(AsyncTestCase):
         self.assertEqual(fetched.category.name, self.pet.category.name)
 
     @gen_test
-    @unittest.skip('skipping the test as the method sometimes invalid Petstore object with incorrect status')
     def test_find_pets_by_status(self):
         yield self.pet_api.add_pet(body=self.pet)
         pets = yield self.pet_api.find_pets_by_status(status=[self.pet.status])
@@ -162,7 +162,6 @@ class PetApiTests(AsyncTestCase):
         )
 
     @gen_test
-    @unittest.skip("skipping the test as the method sometimes invalid Petstore object with incorrect status")
     def test_find_pets_by_tags(self):
         yield self.pet_api.add_pet(body=self.pet)
         pets = yield self.pet_api.find_pets_by_tags(tags=[self.tag.name])
