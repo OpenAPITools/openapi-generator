@@ -4,6 +4,8 @@
 
 """
 Run the tests.
+$ docker pull swaggerapi/petstore
+$ docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
 $ pip install nose (optional)
 $ cd petstore_api-python
 $ nosetests -v
@@ -22,7 +24,7 @@ import json
 
 import urllib3
 
-HOST = 'http://petstore.swagger.io/v2'
+HOST = 'http://localhost/v2'
 
 
 class TimeoutWithEqual(urllib3.Timeout):
@@ -102,14 +104,14 @@ class PetApiTests(unittest.TestCase):
         mock_pool = MockPoolManager(self)
         self.api_client.rest_client.pool_manager = mock_pool
 
-        mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
+        mock_pool.expect_request('POST', 'http://localhost/v2/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ',
                                           'Accept': 'application/json',
                                           'User-Agent': 'Swagger-Codegen/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(total=5))
-        mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
+        mock_pool.expect_request('POST', 'http://localhost/v2/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ',
@@ -220,7 +222,6 @@ class PetApiTests(unittest.TestCase):
             list(map(lambda x: getattr(x, 'id'), self.pet_api.find_pets_by_status(status=[self.pet.status])))
         )
 
-    @unittest.skip("skipping the test as the method sometimes invalid Petstore object with incorrect status")
     def test_find_pets_by_tags(self):
         self.pet_api.add_pet(body=self.pet)
 
