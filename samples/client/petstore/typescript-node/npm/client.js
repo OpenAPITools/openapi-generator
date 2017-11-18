@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const api = require("./api");
-const fs = require("fs");
+var api = require("./api");
+var fs = require("fs");
 function deepCheck(objectA, objectB) {
-    let a = objectA;
-    let b = objectB;
-    let isString = (typeof a === "string" && typeof b === "string");
-    let isBool = (typeof a === "boolean" && typeof b === "boolean");
-    let isNumber = (typeof a === "number" && typeof b === "number");
+    var a = objectA;
+    var b = objectB;
+    var isString = (typeof a === "string" && typeof b === "string");
+    var isBool = (typeof a === "boolean" && typeof b === "boolean");
+    var isNumber = (typeof a === "number" && typeof b === "number");
     if (a instanceof Array && b instanceof Array) {
-        for (let i = 0; i < a.length; i++) {
+        for (var i = 0; i < a.length; i++) {
             if (!deepCheck(a[i], b[i])) {
                 return false;
             }
@@ -20,7 +20,7 @@ function deepCheck(objectA, objectB) {
         return a === b;
     }
     else if (typeof a === "object" && typeof b === "object") {
-        for (let key in a) {
+        for (var key in a) {
             if (!deepCheck(a[key], b[key])) {
                 return false;
             }
@@ -67,8 +67,8 @@ var deserializedPet = objectSerializer.deserialize(serializedPet, "Pet");
 var petType = deserializedPet instanceof rewiredApi.Pet;
 var tagType1 = deserializedPet.tags[0] instanceof rewiredApi.Tag;
 var categoryType = deserializedPet.category instanceof rewiredApi.Category;
-let checks = {};
-for (let key in deserializedPet) {
+var checks = {};
+for (var key in deserializedPet) {
     checks[key] = {};
     checks[key]["isCorrect"] = deepCheck(deserializedPet[key], serializedPet[key]);
     checks[key]["is"] = deserializedPet[key];
@@ -81,8 +81,8 @@ if (!correctTypes) {
     console.log("TagType1 correct: ", tagType1);
     console.log("CategoryType correct: ", categoryType);
 }
-for (let key in checks) {
-    let check = checks[key];
+for (var key in checks) {
+    var check = checks[key];
     if (!check["isCorrect"]) {
         exitCode = 1;
         console.log(key, " incorrect ", "\nis:\n ", check["is"], "\nshould:\n ", check["should"]);
@@ -100,26 +100,26 @@ if (!deepCheck(reserializedData, serializedPet)) {
     console.log("Reserialized Data incorrect! \nis:\n ", reserializedData, "\nshould:\n ", serializedPet);
 }
 petApi.addPet(pet)
-    .then((res) => {
+    .then(function (res) {
     var newPet = res.body;
     petId = newPet.id;
-    console.log(`Created pet with ID ${petId}`);
+    console.log("Created pet with ID " + petId);
     newPet.status = api.Pet.StatusEnum.Available;
     return petApi.updatePet(newPet);
 })
-    .then((res) => {
+    .then(function (res) {
     console.log('Updated pet using POST body');
     return petApi.updatePetWithForm(petId, undefined, "pending");
 })
-    .then((res) => {
+    .then(function (res) {
     console.log('Updated pet using POST form');
     return petApi.uploadFile(petId, undefined, fs.readFileSync('sample.png'));
 })
-    .then((res) => {
+    .then(function (res) {
     console.log('Uploaded image');
     return petApi.getPetById(petId);
 })
-    .then((res) => {
+    .then(function (res) {
     console.log('Got pet by ID: ' + JSON.stringify(res.body));
     console.log("EnumValue: ", api.Pet.StatusEnum.Pending);
     console.log("Typeof EnumValue:", typeof api.Pet.StatusEnum.Pending);
@@ -128,14 +128,14 @@ petApi.addPet(pet)
         throw new Error("Unexpected pet status");
     }
 })
-    .catch((err) => {
+    .catch(function (err) {
     console.error(err);
     exitCode = 1;
 })
-    .then(() => {
+    .then(function () {
     return petApi.deletePet(petId);
 })
-    .then((res) => {
+    .then(function (res) {
     console.log('Deleted pet');
     process.exit(exitCode);
 });
