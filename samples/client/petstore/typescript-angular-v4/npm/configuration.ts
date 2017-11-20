@@ -31,7 +31,7 @@ export class Configuration {
      * @param {string[]} contentTypes - the array of content types that are available for selection
      * @returns {string} the selected content-type or <code>undefined</code> if no selection could be made.
      */
-    public selectHeaderContentType (contentTypes: string[]): string {
+    public selectHeaderContentType (contentTypes: string[]): string | undefined {
         if (contentTypes.length == 0) {
             return undefined;
         }
@@ -50,7 +50,7 @@ export class Configuration {
      * @param {string[]} accepts - the array of content types that are available for selection.
      * @returns {string} the selected content-type or <code>undefined</code> if no selection could be made.
      */
-    public selectHeaderAccept(accepts: string[]): string  {
+    public selectHeaderAccept(accepts: string[]): string | undefined {
         if (accepts.length == 0) {
             return undefined;
         }
