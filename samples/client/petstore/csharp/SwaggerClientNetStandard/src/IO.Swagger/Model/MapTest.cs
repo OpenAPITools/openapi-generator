@@ -28,7 +28,6 @@ namespace IO.Swagger.Model
     [DataContract]
     public partial class MapTest :  IEquatable<MapTest>
     {
-
         /// <summary>
         /// Gets or Sets Inner
         /// </summary>
@@ -40,14 +39,15 @@ namespace IO.Swagger.Model
             /// Enum UPPER for "UPPER"
             /// </summary>
             [EnumMember(Value = "UPPER")]
-            UPPER,
+            UPPER = 1,
             
             /// <summary>
             /// Enum Lower for "lower"
             /// </summary>
             [EnumMember(Value = "lower")]
-            Lower
+            Lower = 2
         }
+
 
         /// <summary>
         /// Gets or Sets MapOfEnumString

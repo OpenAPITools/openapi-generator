@@ -1,17 +1,19 @@
-# IO.Swagger.Api.Fake_classname_tags123Api
+# IO.Swagger.Api.AnotherFakeApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**TestClassname**](Fake_classname_tags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
+[**TestSpecialTags**](AnotherFakeApi.md#testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 
 
-<a name="testclassname"></a>
-# **TestClassname**
-> ModelClient TestClassname (ModelClient body)
+<a name="testspecialtags"></a>
+# **TestSpecialTags**
+> ModelClient TestSpecialTags (ModelClient body)
 
-To test class name in snake case
+To test special tags
+
+To test special tags
 
 ### Example
 ```csharp
@@ -23,27 +25,22 @@ using IO.Swagger.Model;
 
 namespace Example
 {
-    public class TestClassnameExample
+    public class TestSpecialTagsExample
     {
         public void main()
         {
-            // Configure API key authorization: api_key_query
-            Configuration.Default.AddApiKey("api_key_query", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.AddApiKeyPrefix("api_key_query", "Bearer");
-
-            var apiInstance = new Fake_classname_tags123Api();
+            var apiInstance = new AnotherFakeApi();
             var body = new ModelClient(); // ModelClient | client model
 
             try
             {
-                // To test class name in snake case
-                ModelClient result = apiInstance.TestClassname(body);
+                // To test special tags
+                ModelClient result = apiInstance.TestSpecialTags(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
             {
-                Debug.Print("Exception when calling Fake_classname_tags123Api.TestClassname: " + e.Message );
+                Debug.Print("Exception when calling AnotherFakeApi.TestSpecialTags: " + e.Message );
             }
         }
     }
@@ -62,7 +59,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key_query](../README.md#api_key_query)
+No authorization required
 
 ### HTTP request headers
 

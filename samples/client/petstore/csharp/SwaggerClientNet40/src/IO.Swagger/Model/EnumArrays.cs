@@ -41,16 +41,20 @@ namespace IO.Swagger.Model
             /// Enum GreaterThanOrEqualTo for ">="
             /// </summary>
             [EnumMember(Value = ">=")]
-            GreaterThanOrEqualTo,
+            GreaterThanOrEqualTo = 1,
             
             /// <summary>
             /// Enum Dollar for "$"
             /// </summary>
             [EnumMember(Value = "$")]
-            Dollar
+            Dollar = 2
         }
 
-
+        /// <summary>
+        /// Gets or Sets JustSymbol
+        /// </summary>
+        [DataMember(Name="just_symbol", EmitDefaultValue=false)]
+        public JustSymbolEnum? JustSymbol { get; set; }
         /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>
@@ -62,20 +66,16 @@ namespace IO.Swagger.Model
             /// Enum Fish for "fish"
             /// </summary>
             [EnumMember(Value = "fish")]
-            Fish,
+            Fish = 1,
             
             /// <summary>
             /// Enum Crab for "crab"
             /// </summary>
             [EnumMember(Value = "crab")]
-            Crab
+            Crab = 2
         }
 
-        /// <summary>
-        /// Gets or Sets JustSymbol
-        /// </summary>
-        [DataMember(Name="just_symbol", EmitDefaultValue=false)]
-        public JustSymbolEnum? JustSymbol { get; set; }
+
         /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>

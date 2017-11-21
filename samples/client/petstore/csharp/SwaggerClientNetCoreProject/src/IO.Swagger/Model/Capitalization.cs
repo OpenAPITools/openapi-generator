@@ -114,55 +114,53 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
-        /// <param name="obj">Object to be compared</param>
+        /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as Capitalization);
+            return this.Equals(input as Capitalization);
         }
 
         /// <summary>
         /// Returns true if Capitalization instances are equal
         /// </summary>
-        /// <param name="other">Instance of Capitalization to be compared</param>
+        /// <param name="input">Instance of Capitalization to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Capitalization other)
+        public bool Equals(Capitalization input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            if (other == null)
+            if (input == null)
                 return false;
 
             return 
                 (
-                    this.SmallCamel == other.SmallCamel ||
-                    this.SmallCamel != null &&
-                    this.SmallCamel.Equals(other.SmallCamel)
+                    this.SmallCamel == input.SmallCamel ||
+                    (this.SmallCamel != null &&
+                    this.SmallCamel.Equals(input.SmallCamel))
                 ) && 
                 (
-                    this.CapitalCamel == other.CapitalCamel ||
-                    this.CapitalCamel != null &&
-                    this.CapitalCamel.Equals(other.CapitalCamel)
+                    this.CapitalCamel == input.CapitalCamel ||
+                    (this.CapitalCamel != null &&
+                    this.CapitalCamel.Equals(input.CapitalCamel))
                 ) && 
                 (
-                    this.SmallSnake == other.SmallSnake ||
-                    this.SmallSnake != null &&
-                    this.SmallSnake.Equals(other.SmallSnake)
+                    this.SmallSnake == input.SmallSnake ||
+                    (this.SmallSnake != null &&
+                    this.SmallSnake.Equals(input.SmallSnake))
                 ) && 
                 (
-                    this.CapitalSnake == other.CapitalSnake ||
-                    this.CapitalSnake != null &&
-                    this.CapitalSnake.Equals(other.CapitalSnake)
+                    this.CapitalSnake == input.CapitalSnake ||
+                    (this.CapitalSnake != null &&
+                    this.CapitalSnake.Equals(input.CapitalSnake))
                 ) && 
                 (
-                    this.SCAETHFlowPoints == other.SCAETHFlowPoints ||
-                    this.SCAETHFlowPoints != null &&
-                    this.SCAETHFlowPoints.Equals(other.SCAETHFlowPoints)
+                    this.SCAETHFlowPoints == input.SCAETHFlowPoints ||
+                    (this.SCAETHFlowPoints != null &&
+                    this.SCAETHFlowPoints.Equals(input.SCAETHFlowPoints))
                 ) && 
                 (
-                    this.ATT_NAME == other.ATT_NAME ||
-                    this.ATT_NAME != null &&
-                    this.ATT_NAME.Equals(other.ATT_NAME)
+                    this.ATT_NAME == input.ATT_NAME ||
+                    (this.ATT_NAME != null &&
+                    this.ATT_NAME.Equals(input.ATT_NAME))
                 );
         }
 
@@ -172,24 +170,22 @@ namespace IO.Swagger.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
+                int hashCode = 41;
                 if (this.SmallCamel != null)
-                    hash = hash * 59 + this.SmallCamel.GetHashCode();
+                    hashCode = hashCode * 59 + this.SmallCamel.GetHashCode();
                 if (this.CapitalCamel != null)
-                    hash = hash * 59 + this.CapitalCamel.GetHashCode();
+                    hashCode = hashCode * 59 + this.CapitalCamel.GetHashCode();
                 if (this.SmallSnake != null)
-                    hash = hash * 59 + this.SmallSnake.GetHashCode();
+                    hashCode = hashCode * 59 + this.SmallSnake.GetHashCode();
                 if (this.CapitalSnake != null)
-                    hash = hash * 59 + this.CapitalSnake.GetHashCode();
+                    hashCode = hashCode * 59 + this.CapitalSnake.GetHashCode();
                 if (this.SCAETHFlowPoints != null)
-                    hash = hash * 59 + this.SCAETHFlowPoints.GetHashCode();
+                    hashCode = hashCode * 59 + this.SCAETHFlowPoints.GetHashCode();
                 if (this.ATT_NAME != null)
-                    hash = hash * 59 + this.ATT_NAME.GetHashCode();
-                return hash;
+                    hashCode = hashCode * 59 + this.ATT_NAME.GetHashCode();
+                return hashCode;
             }
         }
     }
