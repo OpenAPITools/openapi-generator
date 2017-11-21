@@ -16,11 +16,13 @@ open class MixedPropertiesAndAdditionalPropertiesClass: Codable {
     public var map: [String:Animal]?
 
 
+    
     public init(uuid: UUID?, dateTime: Date?, map: [String:Animal]?) {
         self.uuid = uuid
         self.dateTime = dateTime
         self.map = map
     }
+    
 
     // Encodable protocol methods
 

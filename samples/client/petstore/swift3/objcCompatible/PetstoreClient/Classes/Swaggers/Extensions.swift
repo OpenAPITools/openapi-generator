@@ -53,7 +53,7 @@ extension Dictionary: JSONEncodable {
     func encodeToJSON() -> Any {
         var dictionary = [AnyHashable: Any]()
         for (key, value) in self {
-            dictionary[key as! NSObject] = encodeIfPossible(value)
+            dictionary[key] = encodeIfPossible(value)
         }
         return dictionary as Any
     }

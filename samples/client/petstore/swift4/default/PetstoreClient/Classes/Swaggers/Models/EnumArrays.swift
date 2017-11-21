@@ -23,10 +23,12 @@ open class EnumArrays: Codable {
     public var arrayEnum: [ArrayEnum]?
 
 
+    
     public init(justSymbol: JustSymbol?, arrayEnum: [ArrayEnum]?) {
         self.justSymbol = justSymbol
         self.arrayEnum = arrayEnum
     }
+    
 
     // Encodable protocol methods
 
@@ -35,7 +37,7 @@ open class EnumArrays: Codable {
         var container = encoder.container(keyedBy: String.self)
 
         try container.encodeIfPresent(justSymbol, forKey: "just_symbol")
-        try container.encodeArrayIfPresent(arrayEnum, forKey: "array_enum")
+        try container.encodeIfPresent(arrayEnum, forKey: "array_enum")
     }
 
     // Decodable protocol methods
@@ -44,7 +46,7 @@ open class EnumArrays: Codable {
         let container = try decoder.container(keyedBy: String.self)
 
         justSymbol = try container.decodeIfPresent(JustSymbol.self, forKey: "just_symbol")
-        arrayEnum = try container.decodeArrayIfPresent(String.self, forKey: "array_enum")
+        arrayEnum = try container.decodeIfPresent([ArrayEnum].self, forKey: "array_enum")
     }
 }
 

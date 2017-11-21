@@ -34,9 +34,9 @@ open class StoreAPI {
         return Observable.create { observer -> Disposable in
             deleteOrder(orderId: orderId) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -87,7 +87,7 @@ open class StoreAPI {
         return Observable.create { observer -> Disposable in
             getInventory() { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -145,7 +145,7 @@ open class StoreAPI {
         return Observable.create { observer -> Disposable in
             getOrderById(orderId: orderId) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -230,7 +230,7 @@ open class StoreAPI {
         return Observable.create { observer -> Disposable in
             placeOrder(body: body) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }

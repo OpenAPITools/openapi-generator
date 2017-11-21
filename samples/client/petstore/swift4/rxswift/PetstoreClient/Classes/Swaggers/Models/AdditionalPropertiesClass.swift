@@ -15,10 +15,12 @@ open class AdditionalPropertiesClass: Codable {
     public var mapOfMapProperty: [String:[String:String]]?
 
 
+    
     public init(mapProperty: [String:String]?, mapOfMapProperty: [String:[String:String]]?) {
         self.mapProperty = mapProperty
         self.mapOfMapProperty = mapOfMapProperty
     }
+    
 
     // Encodable protocol methods
 

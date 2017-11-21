@@ -14,9 +14,11 @@ open class NumberOnly: Codable {
     public var justNumber: Double?
 
 
+    
     public init(justNumber: Double?) {
         self.justNumber = justNumber
     }
+    
 
     // Encodable protocol methods
 

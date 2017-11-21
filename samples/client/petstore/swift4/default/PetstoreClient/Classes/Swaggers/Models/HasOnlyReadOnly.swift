@@ -15,10 +15,12 @@ open class HasOnlyReadOnly: Codable {
     public var foo: String?
 
 
+    
     public init(bar: String?, foo: String?) {
         self.bar = bar
         self.foo = foo
     }
+    
 
     // Encodable protocol methods
 

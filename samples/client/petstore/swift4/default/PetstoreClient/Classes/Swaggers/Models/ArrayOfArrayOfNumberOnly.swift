@@ -14,9 +14,11 @@ open class ArrayOfArrayOfNumberOnly: Codable {
     public var arrayArrayNumber: [[Double]]?
 
 
+    
     public init(arrayArrayNumber: [[Double]]?) {
         self.arrayArrayNumber = arrayArrayNumber
     }
+    
 
     // Encodable protocol methods
 
@@ -24,7 +26,7 @@ open class ArrayOfArrayOfNumberOnly: Codable {
 
         var container = encoder.container(keyedBy: String.self)
 
-        try container.encodeArrayIfPresent(arrayArrayNumber, forKey: "ArrayArrayNumber")
+        try container.encodeIfPresent(arrayArrayNumber, forKey: "ArrayArrayNumber")
     }
 
     // Decodable protocol methods
@@ -32,7 +34,7 @@ open class ArrayOfArrayOfNumberOnly: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        arrayArrayNumber = try container.decodeArrayIfPresent([Double].self, forKey: "ArrayArrayNumber")
+        arrayArrayNumber = try container.decodeIfPresent([[Double]].self, forKey: "ArrayArrayNumber")
     }
 }
 

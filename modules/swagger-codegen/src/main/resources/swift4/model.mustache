@@ -64,13 +64,13 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{
     }
 {{/additionalPropertiesType}}
 
-    {{#hasVars}}
+    {{^parent}}{{#hasVars}}
     public init({{#vars}}{{name}}: {{{datatypeWithEnum}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/vars}}) {
         {{#vars}}
         self.{{name}} = {{name}}
         {{/vars}}
     }
-    {{/hasVars}}
+    {{/hasVars}}{{/parent}}
 
     // Encodable protocol methods
 
@@ -79,7 +79,7 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{
         var container = encoder.container(keyedBy: String.self)
 
         {{#vars}}
-        try container.encode{{#isListContainer}}Array{{/isListContainer}}{{^required}}IfPresent{{/required}}({{{name}}}, forKey: "{{{baseName}}}")
+        try container.encode{{^required}}IfPresent{{/required}}({{{name}}}, forKey: "{{{baseName}}}")
         {{/vars}}
         {{#additionalPropertiesType}}
         try container.encodeMap(additionalProperties)
@@ -88,11 +88,11 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{
 
     // Decodable protocol methods
 
-    public {{#parent}}override {{/parent}}required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
         {{#vars}}
-        {{name}} = try container.decode{{#isListContainer}}Array{{/isListContainer}}{{^required}}IfPresent{{/required}}({{#isListContainer}}{{{items.datatype}}}{{/isListContainer}}{{^isListContainer}}{{{datatypeWithEnum}}}{{/isListContainer}}.self, forKey: "{{{baseName}}}")
+        {{name}} = try container.decode{{^required}}IfPresent{{/required}}({{{datatypeWithEnum}}}.self, forKey: "{{{baseName}}}")
         {{/vars}}
         {{#additionalPropertiesType}}
         var nonAdditionalPropertyKeys = Set<String>()
@@ -101,6 +101,9 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{
         {{/vars}}
         additionalProperties = try container.decodeMap({{{additionalPropertiesType}}}.self, excludedKeys: nonAdditionalPropertyKeys)
         {{/additionalPropertiesType}}
+        {{#parent}}
+        try super.init(from: decoder)
+        {{/parent}}
     }
 }
 

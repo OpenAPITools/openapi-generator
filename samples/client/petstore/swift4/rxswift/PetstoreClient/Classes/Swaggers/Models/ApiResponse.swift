@@ -16,11 +16,13 @@ open class ApiResponse: Codable {
     public var message: String?
 
 
+    
     public init(code: Int?, type: String?, message: String?) {
         self.code = code
         self.type = type
         self.message = message
     }
+    
 
     // Encodable protocol methods
 
