@@ -211,6 +211,50 @@ namespace IO.Swagger.Api
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null);
+        /// <summary>
+        /// test inline additionalProperties
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">request body</param>
+        /// <returns></returns>
+        void TestInlineAdditionalProperties (Object param);
+
+        /// <summary>
+        /// test inline additionalProperties
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">request body</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> TestInlineAdditionalPropertiesWithHttpInfo (Object param);
+        /// <summary>
+        /// test json serialization of form data
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">field1</param>
+        /// <param name="param2">field2</param>
+        /// <returns></returns>
+        void TestJsonFormData (string param, string param2);
+
+        /// <summary>
+        /// test json serialization of form data
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">field1</param>
+        /// <param name="param2">field2</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> TestJsonFormDataWithHttpInfo (string param, string param2);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -400,6 +444,50 @@ namespace IO.Swagger.Api
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersAsyncWithHttpInfo (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null);
+        /// <summary>
+        /// test inline additionalProperties
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">request body</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task TestInlineAdditionalPropertiesAsync (Object param);
+
+        /// <summary>
+        /// test inline additionalProperties
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">request body</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestInlineAdditionalPropertiesAsyncWithHttpInfo (Object param);
+        /// <summary>
+        /// test json serialization of form data
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">field1</param>
+        /// <param name="param2">field2</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task TestJsonFormDataAsync (string param, string param2);
+
+        /// <summary>
+        /// test json serialization of form data
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">field1</param>
+        /// <param name="param2">field2</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestJsonFormDataAsyncWithHttpInfo (string param, string param2);
         #endregion Asynchronous Operations
     }
 
@@ -1309,7 +1397,6 @@ namespace IO.Swagger.Api
                 localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(Configuration.Username + ":" + Configuration.Password);
             }
 
-
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
@@ -1612,6 +1699,294 @@ namespace IO.Swagger.Api
             if (ExceptionFactory != null)
             {
                 Exception exception = ExceptionFactory("TestEnumParameters", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToString()),
+                null);
+        }
+
+        /// <summary>
+        /// test inline additionalProperties 
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">request body</param>
+        /// <returns></returns>
+        public void TestInlineAdditionalProperties (Object param)
+        {
+             TestInlineAdditionalPropertiesWithHttpInfo(param);
+        }
+
+        /// <summary>
+        /// test inline additionalProperties 
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">request body</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<Object> TestInlineAdditionalPropertiesWithHttpInfo (Object param)
+        {
+            // verify the required parameter 'param' is set
+            if (param == null)
+                throw new ApiException(400, "Missing required parameter 'param' when calling FakeApi->TestInlineAdditionalProperties");
+
+            var localVarPath = "./fake/inline-additionalProperties";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (param != null && param.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = Configuration.ApiClient.Serialize(param); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = param; // byte array
+            }
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestInlineAdditionalProperties", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToString()),
+                null);
+        }
+
+        /// <summary>
+        /// test inline additionalProperties 
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">request body</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task TestInlineAdditionalPropertiesAsync (Object param)
+        {
+             await TestInlineAdditionalPropertiesAsyncWithHttpInfo(param);
+
+        }
+
+        /// <summary>
+        /// test inline additionalProperties 
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">request body</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestInlineAdditionalPropertiesAsyncWithHttpInfo (Object param)
+        {
+            // verify the required parameter 'param' is set
+            if (param == null)
+                throw new ApiException(400, "Missing required parameter 'param' when calling FakeApi->TestInlineAdditionalProperties");
+
+            var localVarPath = "./fake/inline-additionalProperties";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (param != null && param.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = Configuration.ApiClient.Serialize(param); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = param; // byte array
+            }
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestInlineAdditionalProperties", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToString()),
+                null);
+        }
+
+        /// <summary>
+        /// test json serialization of form data 
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">field1</param>
+        /// <param name="param2">field2</param>
+        /// <returns></returns>
+        public void TestJsonFormData (string param, string param2)
+        {
+             TestJsonFormDataWithHttpInfo(param, param2);
+        }
+
+        /// <summary>
+        /// test json serialization of form data 
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">field1</param>
+        /// <param name="param2">field2</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<Object> TestJsonFormDataWithHttpInfo (string param, string param2)
+        {
+            // verify the required parameter 'param' is set
+            if (param == null)
+                throw new ApiException(400, "Missing required parameter 'param' when calling FakeApi->TestJsonFormData");
+            // verify the required parameter 'param2' is set
+            if (param2 == null)
+                throw new ApiException(400, "Missing required parameter 'param2' when calling FakeApi->TestJsonFormData");
+
+            var localVarPath = "./fake/jsonFormData";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (param != null) localVarFormParams.Add("param", Configuration.ApiClient.ParameterToString(param)); // form parameter
+            if (param2 != null) localVarFormParams.Add("param2", Configuration.ApiClient.ParameterToString(param2)); // form parameter
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestJsonFormData", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToString()),
+                null);
+        }
+
+        /// <summary>
+        /// test json serialization of form data 
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">field1</param>
+        /// <param name="param2">field2</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task TestJsonFormDataAsync (string param, string param2)
+        {
+             await TestJsonFormDataAsyncWithHttpInfo(param, param2);
+
+        }
+
+        /// <summary>
+        /// test json serialization of form data 
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="param">field1</param>
+        /// <param name="param2">field2</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestJsonFormDataAsyncWithHttpInfo (string param, string param2)
+        {
+            // verify the required parameter 'param' is set
+            if (param == null)
+                throw new ApiException(400, "Missing required parameter 'param' when calling FakeApi->TestJsonFormData");
+            // verify the required parameter 'param2' is set
+            if (param2 == null)
+                throw new ApiException(400, "Missing required parameter 'param2' when calling FakeApi->TestJsonFormData");
+
+            var localVarPath = "./fake/jsonFormData";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (param != null) localVarFormParams.Add("param", Configuration.ApiClient.ParameterToString(param)); // form parameter
+            if (param2 != null) localVarFormParams.Add("param2", Configuration.ApiClient.ParameterToString(param2)); // form parameter
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestJsonFormData", localVarResponse);
                 if (exception != null) throw exception;
             }
 

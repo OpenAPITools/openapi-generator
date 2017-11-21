@@ -21,7 +21,7 @@ namespace IO.Swagger.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IFake_classname_tags123Api : IApiAccessor
+    public interface IFakeClassnameTags123Api : IApiAccessor
     {
         #region Synchronous Operations
         /// <summary>
@@ -74,15 +74,15 @@ namespace IO.Swagger.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class Fake_classname_tags123Api : IFake_classname_tags123Api
+    public partial class FakeClassnameTags123Api : IFakeClassnameTags123Api
     {
         private IO.Swagger.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Fake_classname_tags123Api"/> class.
+        /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class.
         /// </summary>
         /// <returns></returns>
-        public Fake_classname_tags123Api(String basePath)
+        public FakeClassnameTags123Api(String basePath)
         {
             this.Configuration = new Configuration { BasePath = basePath };
 
@@ -90,12 +90,12 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Fake_classname_tags123Api"/> class
+        /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class
         /// using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
-        public Fake_classname_tags123Api(Configuration configuration = null)
+        public FakeClassnameTags123Api(Configuration configuration = null)
         {
             if (configuration == null) // use the default one in Configuration
                 this.Configuration = Configuration.Default;
@@ -190,7 +190,7 @@ namespace IO.Swagger.Api
         {
             // verify the required parameter 'body' is set
             if (body == null)
-                throw new ApiException(400, "Missing required parameter 'body' when calling Fake_classname_tags123Api->TestClassname");
+                throw new ApiException(400, "Missing required parameter 'body' when calling FakeClassnameTags123Api->TestClassname");
 
             var localVarPath = "./fake_classname_test";
             var localVarPathParams = new Dictionary<String, String>();
@@ -223,6 +223,11 @@ namespace IO.Swagger.Api
                 localVarPostBody = body; // byte array
             }
 
+            // authentication (api_key_query) required
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key_query")))
+            {
+                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "api_key_query", Configuration.GetApiKeyWithPrefix("api_key_query")));
+            }
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
@@ -265,7 +270,7 @@ namespace IO.Swagger.Api
         {
             // verify the required parameter 'body' is set
             if (body == null)
-                throw new ApiException(400, "Missing required parameter 'body' when calling Fake_classname_tags123Api->TestClassname");
+                throw new ApiException(400, "Missing required parameter 'body' when calling FakeClassnameTags123Api->TestClassname");
 
             var localVarPath = "./fake_classname_test";
             var localVarPathParams = new Dictionary<String, String>();
@@ -298,6 +303,11 @@ namespace IO.Swagger.Api
                 localVarPostBody = body; // byte array
             }
 
+            // authentication (api_key_query) required
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key_query")))
+            {
+                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "api_key_query", Configuration.GetApiKeyWithPrefix("api_key_query")));
+            }
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,

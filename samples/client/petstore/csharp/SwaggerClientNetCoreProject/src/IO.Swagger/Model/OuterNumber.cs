@@ -18,20 +18,21 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// OuterBoolean
+    /// OuterNumber
     /// </summary>
     [DataContract]
-    public partial class OuterBoolean :  IEquatable<OuterBoolean>
+    public partial class OuterNumber :  IEquatable<OuterNumber>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OuterBoolean" /> class.
+        /// Initializes a new instance of the <see cref="OuterNumber" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        public OuterBoolean()
+        public OuterNumber()
         {
         }
         
@@ -42,7 +43,7 @@ namespace IO.Swagger.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class OuterBoolean {\n");
+            sb.Append("class OuterNumber {\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -59,23 +60,21 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
-        /// <param name="obj">Object to be compared</param>
+        /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as OuterBoolean);
+            return this.Equals(input as OuterNumber);
         }
 
         /// <summary>
-        /// Returns true if OuterBoolean instances are equal
+        /// Returns true if OuterNumber instances are equal
         /// </summary>
-        /// <param name="other">Instance of OuterBoolean to be compared</param>
+        /// <param name="input">Instance of OuterNumber to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(OuterBoolean other)
+        public bool Equals(OuterNumber input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            if (other == null)
+            if (input == null)
                 return false;
 
             return false;
@@ -87,12 +86,10 @@ namespace IO.Swagger.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
-                return hash;
+                int hashCode = 41;
+                return hashCode;
             }
         }
     }

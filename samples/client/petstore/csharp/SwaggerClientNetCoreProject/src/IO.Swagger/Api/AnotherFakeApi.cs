@@ -21,68 +21,68 @@ namespace IO.Swagger.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IFake_classname_tags123Api : IApiAccessor
+    public interface IAnotherFakeApi : IApiAccessor
     {
         #region Synchronous Operations
         /// <summary>
-        /// To test class name in snake case
+        /// To test special tags
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test special tags
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
         /// <returns>ModelClient</returns>
-        ModelClient TestClassname (ModelClient body);
+        ModelClient TestSpecialTags (ModelClient body);
 
         /// <summary>
-        /// To test class name in snake case
+        /// To test special tags
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test special tags
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> TestClassnameWithHttpInfo (ModelClient body);
+        ApiResponse<ModelClient> TestSpecialTagsWithHttpInfo (ModelClient body);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
-        /// To test class name in snake case
+        /// To test special tags
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test special tags
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
         /// <returns>Task of ModelClient</returns>
-        System.Threading.Tasks.Task<ModelClient> TestClassnameAsync (ModelClient body);
+        System.Threading.Tasks.Task<ModelClient> TestSpecialTagsAsync (ModelClient body);
 
         /// <summary>
-        /// To test class name in snake case
+        /// To test special tags
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test special tags
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClassnameAsyncWithHttpInfo (ModelClient body);
+        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestSpecialTagsAsyncWithHttpInfo (ModelClient body);
         #endregion Asynchronous Operations
     }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class Fake_classname_tags123Api : IFake_classname_tags123Api
+    public partial class AnotherFakeApi : IAnotherFakeApi
     {
         private IO.Swagger.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Fake_classname_tags123Api"/> class.
+        /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public Fake_classname_tags123Api(String basePath)
+        public AnotherFakeApi(String basePath)
         {
             this.Configuration = new Configuration { BasePath = basePath };
 
@@ -90,12 +90,12 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Fake_classname_tags123Api"/> class
+        /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class
         /// using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
-        public Fake_classname_tags123Api(Configuration configuration = null)
+        public AnotherFakeApi(Configuration configuration = null)
         {
             if (configuration == null) // use the default one in Configuration
                 this.Configuration = Configuration.Default;
@@ -169,30 +169,30 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test class name in snake case 
+        /// To test special tags To test special tags
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
         /// <returns>ModelClient</returns>
-        public ModelClient TestClassname (ModelClient body)
+        public ModelClient TestSpecialTags (ModelClient body)
         {
-             ApiResponse<ModelClient> localVarResponse = TestClassnameWithHttpInfo(body);
+             ApiResponse<ModelClient> localVarResponse = TestSpecialTagsWithHttpInfo(body);
              return localVarResponse.Data;
         }
 
         /// <summary>
-        /// To test class name in snake case 
+        /// To test special tags To test special tags
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        public ApiResponse< ModelClient > TestClassnameWithHttpInfo (ModelClient body)
+        public ApiResponse< ModelClient > TestSpecialTagsWithHttpInfo (ModelClient body)
         {
             // verify the required parameter 'body' is set
             if (body == null)
-                throw new ApiException(400, "Missing required parameter 'body' when calling Fake_classname_tags123Api->TestClassname");
+                throw new ApiException(400, "Missing required parameter 'body' when calling AnotherFakeApi->TestSpecialTags");
 
-            var localVarPath = "./fake_classname_test";
+            var localVarPath = "./another-fake/dummy";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -223,11 +223,6 @@ namespace IO.Swagger.Api
                 localVarPostBody = body; // byte array
             }
 
-            // authentication (api_key_query) required
-            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key_query")))
-            {
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "api_key_query", Configuration.GetApiKeyWithPrefix("api_key_query")));
-            }
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
@@ -238,7 +233,7 @@ namespace IO.Swagger.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("TestClassname", localVarResponse);
+                Exception exception = ExceptionFactory("TestSpecialTags", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -248,31 +243,31 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test class name in snake case 
+        /// To test special tags To test special tags
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
         /// <returns>Task of ModelClient</returns>
-        public async System.Threading.Tasks.Task<ModelClient> TestClassnameAsync (ModelClient body)
+        public async System.Threading.Tasks.Task<ModelClient> TestSpecialTagsAsync (ModelClient body)
         {
-             ApiResponse<ModelClient> localVarResponse = await TestClassnameAsyncWithHttpInfo(body);
+             ApiResponse<ModelClient> localVarResponse = await TestSpecialTagsAsyncWithHttpInfo(body);
              return localVarResponse.Data;
 
         }
 
         /// <summary>
-        /// To test class name in snake case 
+        /// To test special tags To test special tags
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClassnameAsyncWithHttpInfo (ModelClient body)
+        public async System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestSpecialTagsAsyncWithHttpInfo (ModelClient body)
         {
             // verify the required parameter 'body' is set
             if (body == null)
-                throw new ApiException(400, "Missing required parameter 'body' when calling Fake_classname_tags123Api->TestClassname");
+                throw new ApiException(400, "Missing required parameter 'body' when calling AnotherFakeApi->TestSpecialTags");
 
-            var localVarPath = "./fake_classname_test";
+            var localVarPath = "./another-fake/dummy";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -303,11 +298,6 @@ namespace IO.Swagger.Api
                 localVarPostBody = body; // byte array
             }
 
-            // authentication (api_key_query) required
-            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key_query")))
-            {
-                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "api_key_query", Configuration.GetApiKeyWithPrefix("api_key_query")));
-            }
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
@@ -318,7 +308,7 @@ namespace IO.Swagger.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("TestClassname", localVarResponse);
+                Exception exception = ExceptionFactory("TestSpecialTags", localVarResponse);
                 if (exception != null) throw exception;
             }
 
