@@ -10,15 +10,15 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
   private String authScheme = "";
   private boolean authPreemptive=false;
   protected String groupId = "io.swagger";
-  protected String artifactId = "scala-lagom";
+  protected String artifactId = "scala-lagom-server";
   protected String artifactVersion = "1.0.0";
 
   public ScalaLagomServerCodegen() {
     super();
-    outputFolder = "generated-code/scala-lagom";
+    outputFolder = "generated-code/scala-lagom-server";
     modelTemplateFiles.put("model.mustache", ".scala");
     apiTemplateFiles.put("api.mustache", ".scala");
-    embeddedTemplateDir = templateDir = "scala-lagom";
+    embeddedTemplateDir = templateDir = "scala-lagom-server";
     apiPackage = "io.swagger.client.api";
     modelPackage = "io.swagger.client.model";
 
@@ -166,7 +166,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
   @Override
   public String getName() {
-    return "scala-lagom";
+    return "scala-lagom-server";
   }
 
   @Override
