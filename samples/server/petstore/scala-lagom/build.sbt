@@ -1,6 +1,6 @@
 version       := "1.0.0"
 
-name          := "scala-lagomApi"
+name          := "scala-lagom"
 
 organization  := "io.swagger"
 
