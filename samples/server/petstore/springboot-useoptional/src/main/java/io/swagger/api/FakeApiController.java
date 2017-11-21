@@ -59,7 +59,7 @@ public class FakeApiController implements FakeApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<OuterComposite>(objectMapper.readValue("{  \"my_string\" : { },  \"my_number\" : { },  \"my_boolean\" : { }}", OuterComposite.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<OuterComposite>(objectMapper.readValue("{  \"my_number\" : { },  \"my_string\" : { },  \"my_boolean\" : { }}", OuterComposite.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<OuterComposite>(HttpStatus.INTERNAL_SERVER_ERROR);
