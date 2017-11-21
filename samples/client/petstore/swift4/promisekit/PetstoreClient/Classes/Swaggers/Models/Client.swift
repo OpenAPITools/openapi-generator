@@ -14,9 +14,11 @@ open class Client: Codable {
     public var client: String?
 
 
+    
     public init(client: String?) {
         self.client = client
     }
+    
 
     // Encodable protocol methods
 

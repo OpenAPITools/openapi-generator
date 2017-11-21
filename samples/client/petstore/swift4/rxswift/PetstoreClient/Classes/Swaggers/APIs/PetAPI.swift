@@ -34,9 +34,9 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             addPet(body: body) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -93,9 +93,9 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             deletePet(petId: petId, apiKey: apiKey) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -165,7 +165,7 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             findPetsByStatus(status: status) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -309,7 +309,7 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             findPetsByTags(tags: tags) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -453,7 +453,7 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             getPetById(petId: petId) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -563,9 +563,9 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             updatePet(body: body) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -624,9 +624,9 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             updatePetWithForm(petId: petId, name: name, status: status) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -694,7 +694,7 @@ open class PetAPI {
         return Observable.create { observer -> Disposable in
             uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }

@@ -37,18 +37,18 @@ extension ObservableType {
 
 final fileprivate class DoSink<O: ObserverType> : Sink<O>, ObserverType {
     typealias Element = O.E
-    typealias Parent = Do<Element>
+    typealias EventHandler = (Event<Element>) throws -> Void
     
-    private let _parent: Parent
+    private let _eventHandler: EventHandler
     
-    init(parent: Parent, observer: O, cancel: Cancelable) {
-        _parent = parent
+    init(eventHandler: @escaping EventHandler, observer: O, cancel: Cancelable) {
+        _eventHandler = eventHandler
         super.init(observer: observer, cancel: cancel)
     }
     
     func on(_ event: Event<Element>) {
         do {
-            try _parent._eventHandler(event)
+            try _eventHandler(event)
             forwardOn(event)
             if event.isStopEvent {
                 dispose()
@@ -80,7 +80,7 @@ final fileprivate class Do<Element> : Producer<Element> {
     
     override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         _onSubscribe?()
-        let sink = DoSink(parent: self, observer: observer, cancel: cancel)
+        let sink = DoSink(eventHandler: _eventHandler, observer: observer, cancel: cancel)
         let subscription = _source.subscribe(sink)
         _onSubscribed?()
         let onDispose = _onDispose

@@ -13,6 +13,7 @@ open class OuterBoolean: Codable {
 
 
 
+    
 
     // Encodable protocol methods
 

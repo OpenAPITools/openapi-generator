@@ -118,16 +118,12 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                         else {
                             mpForm.append(fileURL, withName: k)
                         }
-                        break
                     case let string as String:
                         mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
-                        break
                     case let number as NSNumber:
                         mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
-                        break
                     default:
                         fatalError("Unprocessable value \(v) with key \(k)")
-                        break
                     }
                 }
                 }, to: URLString, method: xMethod!, headers: nil, encodingCompletion: { encodingResult in
@@ -206,7 +202,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             validatedRequest.responseData(completionHandler: { (dataResponse) in
                 cleanupRequest()
 
-                if (dataResponse.result.isFailure) {
+                if dataResponse.result.isFailure {
                     completion(
                         nil,
                         ErrorResponse.HttpError(statusCode: dataResponse.response?.statusCode ?? 500, data: dataResponse.data, error: dataResponse.result.error!)

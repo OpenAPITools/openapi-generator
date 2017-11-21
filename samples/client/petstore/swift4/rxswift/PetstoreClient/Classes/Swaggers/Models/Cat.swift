@@ -14,9 +14,7 @@ open class Cat: Animal {
     public var declawed: Bool?
 
 
-    public init(declawed: Bool?) {
-        self.declawed = declawed
-    }
+    
 
     // Encodable protocol methods
 
@@ -29,10 +27,11 @@ open class Cat: Animal {
 
     // Decodable protocol methods
 
-    public override required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
         declawed = try container.decodeIfPresent(Bool.self, forKey: "declawed")
+        try super.init(from: decoder)
     }
 }
 

@@ -15,10 +15,12 @@ open class Animal: Codable {
     public var color: String?
 
 
+    
     public init(className: String, color: String?) {
         self.className = className
         self.color = color
     }
+    
 
     // Encodable protocol methods
 

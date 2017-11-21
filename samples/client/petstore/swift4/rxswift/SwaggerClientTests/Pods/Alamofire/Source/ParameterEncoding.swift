@@ -1,7 +1,7 @@
 //
 //  ParameterEncoding.swift
 //
-//  Copyright (c) 2014-2016 Alamofire Software Foundation (http://alamofire.org/)
+//  Copyright (c) 2014-2017 Alamofire Software Foundation (http://alamofire.org/)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -223,9 +223,9 @@ public struct URLEncoding: ParameterEncoding {
                 let endIndex = string.index(index, offsetBy: batchSize, limitedBy: string.endIndex) ?? string.endIndex
                 let range = startIndex..<endIndex
 
-                let substring = string.substring(with: range)
+                let substring = string[range]
 
-                escaped += substring.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet) ?? substring
+                escaped += substring.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet) ?? String(substring)
 
                 index = endIndex
             }
@@ -241,11 +241,7 @@ public struct URLEncoding: ParameterEncoding {
             let value = parameters[key]!
             components += queryComponents(fromKey: key, value: value)
         }
-    #if swift(>=4.0)
-        return components.map { "\($0.0)=\($0.1)" }.joined(separator: "&")
-    #else
         return components.map { "\($0)=\($1)" }.joined(separator: "&")
-    #endif
     }
 
     private func encodesParametersInURL(with method: HTTPMethod) -> Bool {

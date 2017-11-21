@@ -25,6 +25,7 @@ open class Pet: Codable {
     public var status: Status?
 
 
+    
     public init(id: Int64?, category: Category?, name: String, photoUrls: [String], tags: [Tag]?, status: Status?) {
         self.id = id
         self.category = category
@@ -33,6 +34,7 @@ open class Pet: Codable {
         self.tags = tags
         self.status = status
     }
+    
 
     // Encodable protocol methods
 
@@ -43,8 +45,8 @@ open class Pet: Codable {
         try container.encodeIfPresent(id, forKey: "id")
         try container.encodeIfPresent(category, forKey: "category")
         try container.encode(name, forKey: "name")
-        try container.encodeArray(photoUrls, forKey: "photoUrls")
-        try container.encodeArrayIfPresent(tags, forKey: "tags")
+        try container.encode(photoUrls, forKey: "photoUrls")
+        try container.encodeIfPresent(tags, forKey: "tags")
         try container.encodeIfPresent(status, forKey: "status")
     }
 
@@ -56,9 +58,9 @@ open class Pet: Codable {
         id = try container.decodeIfPresent(Int64.self, forKey: "id")
         category = try container.decodeIfPresent(Category.self, forKey: "category")
         name = try container.decode(String.self, forKey: "name")
-        photoUrls = try container.decodeArray(String.self, forKey: "photoUrls")
-        tags = try container.decodeArrayIfPresent(Tag.self, forKey: "tags")
-        status = try container.decodeIfPresent(String.self, forKey: "status")
+        photoUrls = try container.decode([String].self, forKey: "photoUrls")
+        tags = try container.decodeIfPresent([Tag].self, forKey: "tags")
+        status = try container.decodeIfPresent(Status.self, forKey: "status")
     }
 }
 
