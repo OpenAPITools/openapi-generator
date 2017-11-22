@@ -50,7 +50,7 @@ public class JavaHelper {
         return String.format("%s %s = %s", codegenProperty.getDatatypeWithEnum(), codegenProperty.getName(), codegenProperty.getDefaultValue());
     }
 
-    public CharSequence getJavaImports(Map<String, Object> templateData, Options options) throws IOException {
+    public CharSequence getModelImports(Map<String, Object> templateData, Options options) throws IOException {
         if (options == null) {
             return null;
         }
