@@ -20,7 +20,7 @@
 #define IO_SWAGGER_CLIENT_API_UserApi_H_
 
 
-#include "ApiClient.h"
+#include "../ApiClient.h"
 
 #include "User.h"
 #include <vector>

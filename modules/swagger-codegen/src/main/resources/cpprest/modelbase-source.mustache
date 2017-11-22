@@ -355,6 +355,12 @@ double ModelBase::doubleFromHttpContent(std::shared_ptr<HttpContent> val)
     return result;
 }
 
+web::json::value ModelBase::valueFromHttpContent(std::shared_ptr<HttpContent> val)
+{
+    utility::string_t str = ModelBase::stringFromHttpContent(val);
+    return web::json::value::parse(str);
+}
+
 {{#modelNamespaceDeclarations}}
 }
 {{/modelNamespaceDeclarations}}
