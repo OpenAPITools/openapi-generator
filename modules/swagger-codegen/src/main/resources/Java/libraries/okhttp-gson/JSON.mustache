@@ -9,6 +9,9 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.google.gson.JsonElement;
+import io.gsonfire.GsonFireBuilder;
+import io.gsonfire.TypeSelector;
 {{#joda}}
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -22,6 +25,8 @@ import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 {{/threetenbp}}
 
+import {{modelPackage}}.*;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Type;
@@ -34,6 +39,8 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 {{/java8}}
 import java.util.Date;
+import java.util.Map;
+import java.util.HashMap;
 
 public class JSON {
     private Gson gson;
@@ -49,8 +56,45 @@ public class JSON {
     private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
     {{/jsr310}}
 
+    public static GsonBuilder createGson() {
+        GsonFireBuilder fireBuilder = new GsonFireBuilder()
+        {{#parent}}
+          .registerTypeSelector({{classname}}.class, new TypeSelector() {
+            @Override
+            public Class getClassForElement(JsonElement readElement) {
+                Map classByDiscriminatorValue = new HashMap();
+                {{#children}}
+                classByDiscriminatorValue.put("{{name}}".toUpperCase(), {{classname}}.class);
+                {{/children}}
+                classByDiscriminatorValue.put("{{classname}}".toUpperCase(), {{classname}}.class);
+                return getClassByDiscriminator(
+                                           classByDiscriminatorValue,
+                                           getDiscriminatorValue(readElement, "{{discriminator}}"));
+            }
+          })
+        {{/parent}}
+        ;
+        return fireBuilder.createGsonBuilder();
+    }
+
+    private static String getDiscriminatorValue(JsonElement readElement, String discriminatorField) {
+        JsonElement element = readElement.getAsJsonObject().get(discriminatorField);
+        if(null == element) {
+            throw new IllegalArgumentException("missing discriminator field: <" + discriminatorField + ">");
+        }
+        return element.getAsString();
+    }
+
+    private static Class getClassByDiscriminator(Map classByDiscriminatorValue, String discriminatorValue) {
+        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue.toUpperCase());
+        if(null == clazz) {
+            throw new IllegalArgumentException("cannot determine model class of name: <" + discriminatorValue + ">");
+        }
+        return clazz;
+    }
+
     public JSON() {
-        gson = new GsonBuilder()
+        gson = createGson()
             .registerTypeAdapter(Date.class, dateTypeAdapter)
             .registerTypeAdapter(java.sql.Date.class, sqlDateTypeAdapter)
             {{#joda}}
