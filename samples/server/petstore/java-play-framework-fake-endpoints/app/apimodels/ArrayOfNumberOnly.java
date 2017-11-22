@@ -24,7 +24,7 @@ public class ArrayOfNumberOnly   {
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
     if (arrayNumber == null) {
-      arrayNumber = new ArrayList<>();
+      arrayNumber = new ArrayList<BigDecimal>();
     }
     arrayNumber.add(arrayNumberItem);
     return this;
