@@ -155,7 +155,7 @@ pplx::task<void> PetApi::addPet(std::shared_ptr<Pet> body)
         return void();
     });
 }
-pplx::task<void> PetApi::deletePet(int64_t petId, utility::string_t apiKey)
+pplx::task<void> PetApi::deletePet(int64_t petId, boost::optional<utility::string_t> apiKey)
 {
 
 
@@ -198,9 +198,9 @@ pplx::task<void> PetApi::deletePet(int64_t petId, utility::string_t apiKey)
 
     std::unordered_set<utility::string_t> consumeHttpContentTypes;
 
-    
+    if (apiKey)
     {
-        headerParams[utility::conversions::to_string_t("api_key")] = ApiClient::parameterToString(apiKey);
+        headerParams[utility::conversions::to_string_t("api_key")] = ApiClient::parameterToString(*apiKey);
     }
 
     std::shared_ptr<IHttpBody> httpBody;
@@ -300,7 +300,6 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByStatus(std::vect
 
     std::unordered_set<utility::string_t> consumeHttpContentTypes;
 
-    
     {
         queryParams[utility::conversions::to_string_t("status")] = ApiClient::parameterToArrayString<utility::string_t>(status);
     }
@@ -427,7 +426,6 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByTags(std::vector
 
     std::unordered_set<utility::string_t> consumeHttpContentTypes;
 
-    
     {
         queryParams[utility::conversions::to_string_t("tags")] = ApiClient::parameterToArrayString<utility::string_t>(tags);
     }
@@ -754,7 +752,7 @@ pplx::task<void> PetApi::updatePet(std::shared_ptr<Pet> body)
         return void();
     });
 }
-pplx::task<void> PetApi::updatePetWithForm(int64_t petId, utility::string_t name, utility::string_t status)
+pplx::task<void> PetApi::updatePetWithForm(int64_t petId, boost::optional<utility::string_t> name, boost::optional<utility::string_t> status)
 {
 
 
@@ -798,13 +796,13 @@ pplx::task<void> PetApi::updatePetWithForm(int64_t petId, utility::string_t name
     std::unordered_set<utility::string_t> consumeHttpContentTypes;
     consumeHttpContentTypes.insert( utility::conversions::to_string_t("application/x-www-form-urlencoded") );
 
-    
+    if (name)
     {
-        formParams[ utility::conversions::to_string_t("name") ] = ApiClient::parameterToString(name);
+        formParams[ utility::conversions::to_string_t("name") ] = ApiClient::parameterToString(*name);
     }
-    
+    if (status)
     {
-        formParams[ utility::conversions::to_string_t("status") ] = ApiClient::parameterToString(status);
+        formParams[ utility::conversions::to_string_t("status") ] = ApiClient::parameterToString(*status);
     }
 
     std::shared_ptr<IHttpBody> httpBody;
@@ -862,7 +860,7 @@ pplx::task<void> PetApi::updatePetWithForm(int64_t petId, utility::string_t name
         return void();
     });
 }
-pplx::task<std::shared_ptr<ApiResponse>> PetApi::uploadFile(int64_t petId, utility::string_t additionalMetadata, std::shared_ptr<HttpContent> file)
+pplx::task<std::shared_ptr<ApiResponse>> PetApi::uploadFile(int64_t petId, boost::optional<utility::string_t> additionalMetadata, boost::optional<std::shared_ptr<HttpContent>> file)
 {
 
 
@@ -905,13 +903,13 @@ pplx::task<std::shared_ptr<ApiResponse>> PetApi::uploadFile(int64_t petId, utili
     std::unordered_set<utility::string_t> consumeHttpContentTypes;
     consumeHttpContentTypes.insert( utility::conversions::to_string_t("multipart/form-data") );
 
-    
+    if (additionalMetadata)
     {
-        formParams[ utility::conversions::to_string_t("additionalMetadata") ] = ApiClient::parameterToString(additionalMetadata);
+        formParams[ utility::conversions::to_string_t("additionalMetadata") ] = ApiClient::parameterToString(*additionalMetadata);
     }
-    if (file != nullptr)
+    if (file && *file != nullptr)
     {
-        fileParams[ utility::conversions::to_string_t("file") ] = file;
+        fileParams[ utility::conversions::to_string_t("file") ] = *file;
     }
 
     std::shared_ptr<IHttpBody> httpBody;
