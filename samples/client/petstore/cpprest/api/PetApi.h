@@ -20,7 +20,7 @@
 #define IO_SWAGGER_CLIENT_API_PetApi_H_
 
 
-#include "ApiClient.h"
+#include "../ApiClient.h"
 
 #include "ApiResponse.h"
 #include "HttpContent.h"

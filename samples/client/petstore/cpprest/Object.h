@@ -11,37 +11,33 @@
  */
 
 /*
- * Tag.h
+ * Object.h
  *
- * A tag for a pet
+ * This is the implementation of a JSON object.
  */
 
-#ifndef IO_SWAGGER_CLIENT_MODEL_Tag_H_
-#define IO_SWAGGER_CLIENT_MODEL_Tag_H_
+#ifndef _Object_H_
+#define _Object_H_
 
 
-#include "../ModelBase.h"
+#include "ModelBase.h"
 
 #include <cpprest/details/basic_types.h>
+#include <cpprest/json.h>
 
 namespace io {
 namespace swagger {
 namespace client {
 namespace model {
 
-/// <summary>
-/// A tag for a pet
-/// </summary>
-class  Tag
-    : public ModelBase
+class  Object : public ModelBase
 {
 public:
-    Tag();
-    virtual ~Tag();
+    Object();
+    virtual ~Object();
 
     /////////////////////////////////////////////
     /// ModelBase overrides
-
     void validate() override;
 
     web::json::value toJson() const override;
@@ -51,28 +47,12 @@ public:
     void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
     /////////////////////////////////////////////
-    /// Tag members
+    /// Object manipulation
+    web::json::value getValue(const utility::string_t& key) const;
+    void setValue(const utility::string_t& key, const web::json::value& value);
 
-    /// <summary>
-    /// 
-    /// </summary>
-    int64_t getId() const;
-    bool idIsSet() const;
-    void unsetId();
-    void setId(int64_t value);
-    /// <summary>
-    /// 
-    /// </summary>
-    utility::string_t getName() const;
-    bool nameIsSet() const;
-    void unsetName();
-    void setName(utility::string_t value);
-
-protected:
-    int64_t m_Id;
-    bool m_IdIsSet;
-    utility::string_t m_Name;
-    bool m_NameIsSet;
+private:
+    web::json::value m_object;
 };
 
 }
@@ -80,4 +60,4 @@ protected:
 }
 }
 
-#endif /* IO_SWAGGER_CLIENT_MODEL_Tag_H_ */
+#endif /* _Object_H_ */
