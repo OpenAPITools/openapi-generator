@@ -654,11 +654,9 @@ pplx::task<utility::string_t> UserApi::loginUser(utility::string_t username, uti
 
     std::unordered_set<utility::string_t> consumeHttpContentTypes;
 
-    
     {
         queryParams[utility::conversions::to_string_t("username")] = ApiClient::parameterToString(username);
     }
-    
     {
         queryParams[utility::conversions::to_string_t("password")] = ApiClient::parameterToString(password);
     }
