@@ -358,4 +358,164 @@ public class CodegenOperation {
         result = 31 * result + (operationIdCamelCase != null ? operationIdCamelCase.hashCode() : 0);
         return result;
     }
+
+    public List<CodegenProperty> getResponseHeaders() {
+        return responseHeaders;
+    }
+
+    public boolean isHasAuthMethods() {
+        return hasAuthMethods;
+    }
+
+    public boolean isHasConsumes() {
+        return hasConsumes;
+    }
+
+    public boolean isHasProduces() {
+        return hasProduces;
+    }
+
+    public boolean isHasParams() {
+        return hasParams;
+    }
+
+    public boolean isHasOptionalParams() {
+        return hasOptionalParams;
+    }
+
+    public boolean isHasRequiredParams() {
+        return hasRequiredParams;
+    }
+
+    public boolean isReturnTypeIsPrimitive() {
+        return returnTypeIsPrimitive;
+    }
+
+    public boolean isReturnSimpleType() {
+        return returnSimpleType;
+    }
+
+    public boolean isSubresourceOperation() {
+        return subresourceOperation;
+    }
+
+    public boolean isMapContainer() {
+        return isMapContainer;
+    }
+
+    public boolean isListContainer() {
+        return isListContainer;
+    }
+
+    public boolean isMultipart() {
+        return isMultipart;
+    }
+
+    public boolean isHasMore() {
+        return hasMore;
+    }
+
+    public boolean isResponseBinary() {
+        return isResponseBinary;
+    }
+
+    public boolean isResponseFile() {
+        return isResponseFile;
+    }
+
+    public boolean isHasReference() {
+        return hasReference;
+    }
+
+    public boolean isDeprecated() {
+        return isDeprecated;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getOperationId() {
+        return operationId;
+    }
+
+    public String getReturnType() {
+        return returnType;
+    }
+
+    public String getHttpMethod() {
+        return httpMethod;
+    }
+
+    public String getReturnBaseType() {
+        return returnBaseType;
+    }
+
+    public String getReturnContainer() {
+        return returnContainer;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public String getUnescapedNotes() {
+        return unescapedNotes;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public String getBaseName() {
+        return baseName;
+    }
+
+    public String getDefaultResponse() {
+        return defaultResponse;
+    }
+
+    public Discriminator getDiscriminator() {
+        return discriminator;
+    }
+
+    public List<Map<String, String>> getConsumes() {
+        return consumes;
+    }
+
+    public List<Map<String, String>> getProduces() {
+        return produces;
+    }
+
+    public List<Map<String, String>> getPrioritizedContentTypes() {
+        return prioritizedContentTypes;
+    }
+
+    public CodegenParameter getBodyParam() {
+        return bodyParam;
+    }
+
+    public List<CodegenParameter> getAllParams() {
+        return allParams;
+    }
+
+    public List<CodegenParameter> getBodyParams() {
+        return bodyParams;
+    }
+
+    public List<CodegenParameter> getPathParams() {
+        return pathParams;
+    }
+
+    public List<CodegenParameter> getQueryParams() {
+        return queryParams;
+    }
+
+    public List<CodegenParameter> getHeaderParams() {
+        return headerParams;
+    }
+
+    public List<CodegenParameter> getFormParams() {
+        return formParams;
+    }
 }

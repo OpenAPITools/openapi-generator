@@ -343,5 +343,241 @@ public class CodegenParameter {
         result = 31 * result + (multipleOf != null ? multipleOf.hashCode() : 0);
         return result;
     }
+
+    public boolean getIsFormParam() {
+        return isFormParam;
+    }
+
+    public boolean getIsQueryParam() {
+        return isQueryParam;
+    }
+
+    public boolean getIsPathParam() {
+        return isPathParam;
+    }
+
+    public boolean getIsHeaderParam() {
+        return isHeaderParam;
+    }
+
+    public boolean getIsCookieParam() {
+        return isCookieParam;
+    }
+
+    public boolean getIsBodyParam() {
+        return isBodyParam;
+    }
+
+    public boolean getHasMore() {
+        return hasMore;
+    }
+
+    public boolean getIsContainer() {
+        return isContainer;
+    }
+
+    public boolean getSecondaryParam() {
+        return secondaryParam;
+    }
+
+    public boolean getIsCollectionFormatMulti() {
+        return isCollectionFormatMulti;
+    }
+
+    public boolean getIsPrimitiveType() {
+        return isPrimitiveType;
+    }
+
+    public String getBaseName() {
+        return baseName;
+    }
+
+    public String getParamName() {
+        return paramName;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public String getDatatypeWithEnum() {
+        return datatypeWithEnum;
+    }
+
+    public String getDataFormat() {
+        return dataFormat;
+    }
+
+    public String getCollectionFormat() {
+        return collectionFormat;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getUnescapedDescription() {
+        return unescapedDescription;
+    }
+
+    public String getBaseType() {
+        return baseType;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public String getEnumName() {
+        return enumName;
+    }
+
+    public String getExample() {
+        return example;
+    }
+
+    public String getJsonSchema() {
+        return jsonSchema;
+    }
+
+    public boolean getIsString() {
+        return isString;
+    }
+
+    public boolean getIsNumeric() {
+        return isNumeric;
+    }
+
+    public boolean getIsInteger() {
+        return isInteger;
+    }
+
+    public boolean getIsLong() {
+        return isLong;
+    }
+
+    public boolean getIsNumber() {
+        return isNumber;
+    }
+
+    public boolean getIsFloat() {
+        return isFloat;
+    }
+
+    public boolean getIsDouble() {
+        return isDouble;
+    }
+
+    public boolean getIsByteArray() {
+        return isByteArray;
+    }
+
+    public boolean getIsBinary() {
+        return isBinary;
+    }
+
+    public boolean getIsBoolean() {
+        return isBoolean;
+    }
+
+    public boolean getIsDate() {
+        return isDate;
+    }
+
+    public boolean getIsDateTime() {
+        return isDateTime;
+    }
+
+    public boolean getIsUuid() {
+        return isUuid;
+    }
+
+    public boolean getIsListContainer() {
+        return isListContainer;
+    }
+
+    public boolean getIsMapContainer() {
+        return isMapContainer;
+    }
+
+    public boolean getIsFile() {
+        return isFile;
+    }
+
+    public boolean getIsNotFile() {
+        return notFile;
+    }
+
+    public boolean getIsEnum() {
+        return isEnum;
+    }
+
+    public List<String> get_enum() {
+        return _enum;
+    }
+
+    public Map<String, Object> getAllowableValues() {
+        return allowableValues;
+    }
+
+    public CodegenProperty getItems() {
+        return items;
+    }
+
+    public Map<String, Object> getVendorExtensions() {
+        return vendorExtensions;
+    }
+
+    public boolean getHasValidation() {
+        return hasValidation;
+    }
+
+    public boolean getRequired() {
+        return required;
+    }
+
+    public String getMaximum() {
+        return maximum;
+    }
+
+    public boolean getExclusiveMaximum() {
+        return exclusiveMaximum;
+    }
+
+    public String getMinimum() {
+        return minimum;
+    }
+
+    public boolean getExclusiveMinimum() {
+        return exclusiveMinimum;
+    }
+
+    public Integer getMaxLength() {
+        return maxLength;
+    }
+
+    public Integer getMinLength() {
+        return minLength;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public Integer getMaxItems() {
+        return maxItems;
+    }
+
+    public Integer getMinItems() {
+        return minItems;
+    }
+
+    public boolean getUniqueItems() {
+        return uniqueItems;
+    }
+
+    public Number getMultipleOf() {
+        return multipleOf;
+    }
 }
 
