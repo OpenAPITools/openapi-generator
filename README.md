@@ -914,6 +914,7 @@ Presentations/Videos/Tutorials/Books
 - 2017/10/08 - [Generating a REST Ada client with OpenAPI and Swagger Codegen](https://blog.vacs.fr/vacs/blogs/post.html?post=2017/10/08/Generating-a-REST-Ada-client-with-OpenAPI-and-Swagger-Codegen) by [Stephane Carrez](https://github.com/stcarrez)
 - 2017/11/08 - [A Beginner's Guide to Code Generation for REST APIs](https://gum.co/swagger_codegen_beginner)(eBook) by [William Cheng](https://twitter.com/wing328)
 - 2017/11/18 - [10年前のレガシーシステムをサーバーサイドKotlinでフルリニューアルしている話 #jjug_ccc #ccc_g2](https://speakerdeck.com/maeharin/10nian-qian-falseregasisisutemuwosabasaidokotlindehururiniyuarusiteiruhua-number-jjug-ccc-number-ccc-g2) by [Hidenori Maehara](https://github.com/maeharin)
+- 2017/11/21 - [swagger-codegen から眺める Swift4](https://speakerdeck.com/d_date/swagger-codegen-karatiao-meru-swift4)
 
 # Swagger Codegen Core Team
 
