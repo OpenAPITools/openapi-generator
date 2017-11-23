@@ -981,7 +981,27 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                     paramPart.append(param.getName()).append("=");
                     paramPart.append("{");
-                    paramPart.append(param.getName());
+
+                    if (queryParameter.getStyle() != null) {
+                        paramPart.append(param.getName()).append("1");
+                        if (Parameter.StyleEnum.FORM.equals(queryParameter.getStyle())) {
+                            if (queryParameter.getExplode() != null && queryParameter.getExplode()) {
+                                paramPart.append(",");
+                            } else {
+                                paramPart.append("&").append(param.getName()).append("=");
+                                paramPart.append(param.getName()).append("2");
+                            }
+                        }
+                        else if (Parameter.StyleEnum.PIPEDELIMITED.equals(queryParameter.getStyle())) {
+                            paramPart.append("|");
+                        }
+                        else if (Parameter.StyleEnum.SPACEDELIMITED.equals(queryParameter.getStyle())) {
+                            paramPart.append("%20");
+                        }
+                    } else {
+                        paramPart.append(param.getName());
+                    }
+
                     paramPart.append("}");
                     if (!param.getRequired()) {
                         paramPart.append("]");
@@ -1122,7 +1142,11 @@ public class DefaultCodegen implements CodegenConfig {
             datatype = "string";
         } else {
             if (property != null) {
-                datatype = property.getType();
+                if (SchemaTypeUtil.OBJECT_TYPE.equals(property.getType()) && property.getAdditionalProperties() != null) {
+                    datatype = "map";
+                } else {
+                    datatype = property.getType();
+                }
             }
         }
         return datatype;
@@ -2235,9 +2259,8 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.vendorExtensions = parameter.getExtensions();
 
         if (parameter.getSchema() != null) {
-            // SerializableParameter qp = (SerializableParameter) param;
             Schema parameterSchema = parameter.getSchema();
-            String collectionFormat = "csv";
+            String collectionFormat = null;
             if (parameterSchema instanceof ArraySchema) { // for array parameter
                 final ArraySchema arraySchema = (ArraySchema) parameterSchema;
                 Schema inner = arraySchema.getItems();
@@ -2247,6 +2270,9 @@ public class DefaultCodegen implements CodegenConfig {
                     arraySchema.setItems(inner);
 
                 }
+
+                collectionFormat = getCollectionFormat(parameter);
+
                 CodegenProperty codegenProperty = fromProperty("inner", inner);
                 codegenParameter.items = codegenProperty;
                 codegenParameter.baseType = codegenProperty.datatype;
@@ -2269,6 +2295,7 @@ public class DefaultCodegen implements CodegenConfig {
                     imports.add(codegenProperty.baseType);
                     codegenProperty = codegenProperty.items;
                 }
+                collectionFormat = getCollectionFormat(parameter);
                 /** TODO: } else {
                  Map<PropertyId, Object> args = new HashMap<PropertyId, Object>();
                  String format = qp.getFormat();
@@ -3648,6 +3675,25 @@ public class DefaultCodegen implements CodegenConfig {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         }
         return ref;
+    }
+
+    protected String getCollectionFormat(Parameter parameter) {
+        if (Parameter.StyleEnum.FORM.equals(parameter.getStyle())) {
+            if (parameter.getExplode() != null && parameter.getExplode()) {
+                return "csv";
+            } else {
+                return "multi";
+            }
+        }
+        else if (Parameter.StyleEnum.PIPEDELIMITED.equals(parameter.getStyle())) {
+            return "pipe";
+        }
+        else if (Parameter.StyleEnum.SPACEDELIMITED.equals(parameter.getStyle())) {
+            return "space";
+        }
+        else {
+            return null;
+        }
     }
 
     public CodegenType getTag() {
