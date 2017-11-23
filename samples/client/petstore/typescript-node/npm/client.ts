@@ -116,10 +116,6 @@ if (!deepCheck(reserializedData, serializedPet)) {
                                                 "\nshould:\n ", serializedPet);
 }
 
-// category and status are not used in the tests below.
-pet.category = undefined;
-pet.status = undefined;
-
 // Test various API calls to the petstore
 petApi.addPet(pet)
     .then((res) => {

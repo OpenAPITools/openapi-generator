@@ -56,6 +56,7 @@ public class ApiClient {
   protected String basePath = "http://petstore.swagger.io:80/v2";
   protected boolean debugging = false;
   protected int connectionTimeout = 0;
+  private int readTimeout = 0;
 
   protected Client httpClient;
   protected JSON json;
@@ -299,6 +300,27 @@ public class ApiClient {
   public ApiClient setConnectTimeout(int connectionTimeout) {
     this.connectionTimeout = connectionTimeout;
     httpClient.property(ClientProperties.CONNECT_TIMEOUT, connectionTimeout);
+    return this;
+  }
+
+  /**
+   * read timeout (in milliseconds).
+   * @return Read timeout
+   */
+  public int getReadTimeout() {
+    return readTimeout;
+  }
+  
+  /**
+   * Set the read timeout (in milliseconds).
+   * A value of 0 means no timeout, otherwise values must be between 1 and
+   * {@link Integer#MAX_VALUE}.
+   * @param readTimeout Read timeout in milliseconds
+   * @return API client
+   */
+  public ApiClient setReadTimeout(int readTimeout) {
+    this.readTimeout = readTimeout;
+    httpClient.property(ClientProperties.READ_TIMEOUT, readTimeout);
     return this;
   }
 
@@ -564,8 +586,6 @@ public class ApiClient {
     List<Object> contentTypes = response.getHeaders().get("Content-Type");
     if (contentTypes != null && !contentTypes.isEmpty())
       contentType = String.valueOf(contentTypes.get(0));
-    if (contentType == null)
-      throw new ApiException(500, "missing Content-Type in response");
 
     return response.readEntity(returnType);
   }

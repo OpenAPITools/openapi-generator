@@ -20,6 +20,7 @@ open class Capitalization: Codable {
     public var ATT_NAME: String?
 
 
+    
     public init(smallCamel: String?, capitalCamel: String?, smallSnake: String?, capitalSnake: String?, sCAETHFlowPoints: String?, ATT_NAME: String?) {
         self.smallCamel = smallCamel
         self.capitalCamel = capitalCamel
@@ -28,6 +29,7 @@ open class Capitalization: Codable {
         self.sCAETHFlowPoints = sCAETHFlowPoints
         self.ATT_NAME = ATT_NAME
     }
+    
 
     // Encodable protocol methods
 

@@ -9,10 +9,12 @@
 #define {{apiHeaderGuardPrefix}}_{{classname}}_H_
 
 {{{defaultInclude}}}
-#include "ApiClient.h"
+#include "../ApiClient.h"
 
 {{#imports}}{{{import}}}
 {{/imports}}
+
+#include <boost/optional.hpp>
 
 {{#apiNamespaceDeclarations}}
 namespace {{this}} {
@@ -32,8 +34,14 @@ public:
     /// <remarks>
     /// {{notes}}
     /// </remarks>
-    {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/allParams}}
-    pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{#allParams}}
+    /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+    {{/allParams}}
+    pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{operationId}}(
+        {{#allParams}}
+        {{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}},{{/hasMore}}
+        {{/allParams}}
+    );
     {{/operation}}
 
 protected:

@@ -25,6 +25,7 @@ open class Order: Codable {
     public var complete: Bool?
 
 
+    
     public init(id: Int64?, petId: Int64?, quantity: Int?, shipDate: Date?, status: Status?, complete: Bool?) {
         self.id = id
         self.petId = petId
@@ -33,6 +34,7 @@ open class Order: Codable {
         self.status = status
         self.complete = complete
     }
+    
 
     // Encodable protocol methods
 

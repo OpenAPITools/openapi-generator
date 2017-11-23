@@ -21,7 +21,8 @@ using namespace Tizen::Web::Json;
 {{#imports}}{{{import}}}
 {{/imports}}
 
-{{#models}}{{#model}}
+{{#models}}
+{{#model}}
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -47,11 +48,12 @@ public:
 
     {{#vars}}
     {{datatype}} {{getter}}();
-    void {{setter}}({{datatype}} {{name}});
+    void {{setter}}({{{datatype}}} {{name}});
     {{/vars}}
 
 private:
-    {{#vars}}{{datatype}} {{name}};
+    {{#vars}}
+    {{{datatype}}} {{name}};
     {{/vars}}
 };
 

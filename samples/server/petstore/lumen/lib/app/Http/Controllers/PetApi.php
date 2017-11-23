@@ -48,7 +48,7 @@ class PetApi extends Controller
         $body = $input['body'];
 
 
-        return response('How about implementing addPet as a POST method ?');
+        return response('How about implementing addPet as a post method ?');
     }
     /**
      * Operation updatePet
@@ -72,7 +72,7 @@ class PetApi extends Controller
         $body = $input['body'];
 
 
-        return response('How about implementing updatePet as a PUT method ?');
+        return response('How about implementing updatePet as a put method ?');
     }
     /**
      * Operation findPetsByStatus
@@ -96,7 +96,7 @@ class PetApi extends Controller
         $status = $input['status'];
 
 
-        return response('How about implementing findPetsByStatus as a GET method ?');
+        return response('How about implementing findPetsByStatus as a get method ?');
     }
     /**
      * Operation findPetsByTags
@@ -120,7 +120,7 @@ class PetApi extends Controller
         $tags = $input['tags'];
 
 
-        return response('How about implementing findPetsByTags as a GET method ?');
+        return response('How about implementing findPetsByTags as a get method ?');
     }
     /**
      * Operation deletePet
@@ -140,7 +140,7 @@ class PetApi extends Controller
 
         //not path params validation
 
-        return response('How about implementing deletePet as a DELETE method ?');
+        return response('How about implementing deletePet as a delete method ?');
     }
     /**
      * Operation getPetById
@@ -160,7 +160,7 @@ class PetApi extends Controller
 
         //not path params validation
 
-        return response('How about implementing getPetById as a GET method ?');
+        return response('How about implementing getPetById as a get method ?');
     }
     /**
      * Operation updatePetWithForm
@@ -180,7 +180,7 @@ class PetApi extends Controller
 
         //not path params validation
 
-        return response('How about implementing updatePetWithForm as a POST method ?');
+        return response('How about implementing updatePetWithForm as a post method ?');
     }
     /**
      * Operation uploadFile
@@ -200,6 +200,6 @@ class PetApi extends Controller
 
         //not path params validation
 
-        return response('How about implementing uploadFile as a POST method ?');
+        return response('How about implementing uploadFile as a post method ?');
     }
 }

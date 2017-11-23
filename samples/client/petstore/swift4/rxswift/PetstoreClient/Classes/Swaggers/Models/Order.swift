@@ -25,6 +25,7 @@ open class Order: Codable {
     public var complete: Bool?
 
 
+    
     public init(id: Int64?, petId: Int64?, quantity: Int?, shipDate: Date?, status: Status?, complete: Bool?) {
         self.id = id
         self.petId = petId
@@ -33,6 +34,7 @@ open class Order: Codable {
         self.status = status
         self.complete = complete
     }
+    
 
     // Encodable protocol methods
 
@@ -57,7 +59,7 @@ open class Order: Codable {
         petId = try container.decodeIfPresent(Int64.self, forKey: "petId")
         quantity = try container.decodeIfPresent(Int.self, forKey: "quantity")
         shipDate = try container.decodeIfPresent(Date.self, forKey: "shipDate")
-        status = try container.decodeIfPresent(String.self, forKey: "status")
+        status = try container.decodeIfPresent(Status.self, forKey: "status")
         complete = try container.decodeIfPresent(Bool.self, forKey: "complete")
     }
 }

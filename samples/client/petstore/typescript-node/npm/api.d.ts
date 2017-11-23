@@ -1,3 +1,6 @@
+/// <reference types="request" />
+/// <reference types="bluebird" />
+/// <reference types="node" />
 import localVarRequest = require('request');
 import http = require('http');
 import Promise = require('bluebird');
@@ -5,7 +8,7 @@ export declare class ApiResponse {
     'code': number;
     'type': string;
     'message': string;
-    static discriminator: any;
+    static discriminator: undefined;
     static attributeTypeMap: Array<{
         name: string;
         baseName: string;
@@ -20,7 +23,7 @@ export declare class ApiResponse {
 export declare class Category {
     'id': number;
     'name': string;
-    static discriminator: any;
+    static discriminator: undefined;
     static attributeTypeMap: Array<{
         name: string;
         baseName: string;
@@ -39,7 +42,7 @@ export declare class Order {
     'shipDate': Date;
     'status': Order.StatusEnum;
     'complete': boolean;
-    static discriminator: any;
+    static discriminator: undefined;
     static attributeTypeMap: Array<{
         name: string;
         baseName: string;
@@ -65,7 +68,7 @@ export declare class Pet {
     'photoUrls': Array<string>;
     'tags': Array<Tag>;
     'status': Pet.StatusEnum;
-    static discriminator: any;
+    static discriminator: undefined;
     static attributeTypeMap: Array<{
         name: string;
         baseName: string;
@@ -87,7 +90,7 @@ export declare namespace Pet {
 export declare class Tag {
     'id': number;
     'name': string;
-    static discriminator: any;
+    static discriminator: undefined;
     static attributeTypeMap: Array<{
         name: string;
         baseName: string;
@@ -108,7 +111,7 @@ export declare class User {
     'password': string;
     'phone': string;
     'userStatus': number;
-    static discriminator: any;
+    static discriminator: undefined;
     static attributeTypeMap: Array<{
         name: string;
         baseName: string;

@@ -144,14 +144,7 @@ namespace IO.Swagger.Client
 
             if (postBody != null) // http body (model or byte[]) parameter
             {
-                if (postBody.GetType() == typeof(String))
-                {
-                    request.AddParameter(new Parameter { Value = postBody, Type = ParameterType.RequestBody, ContentType = "application/json" });
-                }
-                else if (postBody.GetType() == typeof(byte[]))
-                {
-                    request.AddParameter(new Parameter { Value = postBody, Type = ParameterType.RequestBody, ContentType = contentType });
-                }
+                request.AddParameter(new Parameter { Value = postBody, Type = ParameterType.RequestBody, ContentType = contentType });
             }
 
             return request;
@@ -357,8 +350,24 @@ namespace IO.Swagger.Client
         }
 
         /// <summary>
+        ///Check if the given MIME is a JSON MIME.
+        ///JSON MIME examples:
+        ///    application/json
+        ///    application/json; charset=UTF8
+        ///    APPLICATION/JSON
+        ///    application/vnd.company+json
+        /// </summary>
+        /// <param name="mime">MIME</param>
+        /// <returns>Returns True if MIME type is json.</returns>
+        public bool IsJsonMime(String mime)
+        {
+            var jsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+            return mime != null && (jsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json"));
+        }
+
+        /// <summary>
         /// Select the Content-Type header's value from the given content-type array:
-        /// if JSON exists in the given array, use it;
+        /// if JSON type exists in the given array, use it;
         /// otherwise use the first one defined in 'consumes'
         /// </summary>
         /// <param name="contentTypes">The Content-Type array to select from.</param>
@@ -366,10 +375,13 @@ namespace IO.Swagger.Client
         public String SelectHeaderContentType(String[] contentTypes)
         {
             if (contentTypes.Length == 0)
-                return null;
-
-            if (contentTypes.Contains("application/json", StringComparer.OrdinalIgnoreCase))
                 return "application/json";
+
+            foreach (var contentType in contentTypes)
+            {
+                if (IsJsonMime(contentType.ToLower()))
+                    return contentType;
+            }
 
             return contentTypes[0]; // use the first content type specified in 'consumes'
         }
@@ -404,31 +416,29 @@ namespace IO.Swagger.Client
 
         /// <summary>
         /// Dynamically cast the object into target type.
-        /// Ref: http://stackoverflow.com/questions/4925718/c-dynamic-runtime-cast
         /// </summary>
-        /// <param name="source">Object to be casted</param>
-        /// <param name="dest">Target type</param>
+        /// <param name="fromObject">Object to be casted</param>
+        /// <param name="toObject">Target type</param>
         /// <returns>Casted object</returns>
-        public static dynamic ConvertType(dynamic source, Type dest)
+        public static dynamic ConvertType(dynamic fromObject, Type toObject)
         {
-            return Convert.ChangeType(source, dest);
+            return Convert.ChangeType(fromObject, toObject);
         }
 
         /// <summary>
         /// Convert stream to byte array
-        /// Credit/Ref: http://stackoverflow.com/a/221941/677735
         /// </summary>
-        /// <param name="input">Input stream to be converted</param>
+        /// <param name="inputStream">Input stream to be converted</param>
         /// <returns>Byte array</returns>
-        public static byte[] ReadAsBytes(Stream input)
+        public static byte[] ReadAsBytes(Stream inputStream)
         {
-            byte[] buffer = new byte[16*1024];
+            byte[] buf = new byte[16*1024];
             using (MemoryStream ms = new MemoryStream())
             {
-                int read;
-                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                int count;
+                while ((count = inputStream.Read(buf, 0, buf.Length)) > 0)
                 {
-                    ms.Write(buffer, 0, read);
+                    ms.Write(buf, 0, count);
                 }
                 return ms.ToArray();
             }

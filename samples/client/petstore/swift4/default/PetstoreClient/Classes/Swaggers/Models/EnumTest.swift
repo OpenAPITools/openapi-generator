@@ -30,12 +30,14 @@ open class EnumTest: Codable {
     public var outerEnum: OuterEnum?
 
 
+    
     public init(enumString: EnumString?, enumInteger: EnumInteger?, enumNumber: EnumNumber?, outerEnum: OuterEnum?) {
         self.enumString = enumString
         self.enumInteger = enumInteger
         self.enumNumber = enumNumber
         self.outerEnum = outerEnum
     }
+    
 
     // Encodable protocol methods
 

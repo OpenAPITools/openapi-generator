@@ -1,0 +1,38 @@
+{{>licenseInfo}}
+package {{package}}
+import play.api.libs.json._
+{{#imports}}
+import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+case class {{classname}} (
+{{#vars}}
+    {{#isEnum}}
+                  {{{name}}}:  Option[{{classname}}{{datatypeWithEnum}}.{{classname}}{{datatypeWithEnum}}]{{#hasMore}},{{/hasMore}}
+    {{/isEnum}}
+    {{^isEnum}}
+        {{#description}}
+            /* {{{description}}} */
+        {{/description}}
+                  {{{name}}}: {{^required}}Option[{{/required}}{{datatype}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}
+    {{/isEnum}}
+{{/vars}}
+)
+
+object {{classname}} {
+implicit val format: Format[{{classname}}] = Json.format
+}
+
+{{#vars}}
+  {{#isEnum}}
+object {{classname}}{{datatypeWithEnum}} extends Enumeration {
+  val {{#allowableValues}}  {{#values}}{{.}}{{^-last}}, {{/-last}}{{/values}} = Value{{/allowableValues}}
+  type {{classname}}{{datatypeWithEnum}} = Value
+  implicit val format: Format[Value] = Format(Reads.enumNameReads(this), Writes.enumNameWrites[{{classname}}{{datatypeWithEnum}}.type])
+}
+ {{/isEnum}}
+{{/vars}}
+{{/model}}
+{{/models}}

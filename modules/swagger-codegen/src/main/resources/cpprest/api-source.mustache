@@ -26,7 +26,7 @@ using namespace {{modelNamespace}};
 }
 
 {{#operation}}
-pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{classname}}::{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{classname}}::{{operationId}}({{#allParams}}{{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
 {
 {{#allParams}}{{#required}}{{^isPrimitiveType}}{{^isContainer}}
     // verify the required parameter '{{paramName}}' is set
@@ -104,34 +104,53 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     {{#allParams}}
     {{^isBodyParam}}
     {{^isPathParam}}
-    {{^isPrimitiveType}}{{^isContainer}}if ({{paramName}} != nullptr){{/isContainer}}{{/isPrimitiveType}}
+    {{#required}}
+        {{^isPrimitiveType}}
+        {{^isContainer}}
+    if ({{paramName}} != nullptr)
+        {{/isContainer}}
+        {{/isPrimitiveType}}
+    {{/required}}
+    {{^required}}
+        {{^isPrimitiveType}}
+        {{^isContainer}}
+    if ({{paramName}} && *{{paramName}} != nullptr)
+        {{/isContainer}}
+        {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+    if ({{paramName}})
+        {{/isPrimitiveType}}
+        {{#isContainer}}
+    if ({{paramName}})
+        {{/isContainer}}
+    {{/required}}
     {
         {{#isContainer}}
         {{#isQueryParam}}
-        queryParams[utility::conversions::to_string_t("{{baseName}}")] = ApiClient::parameterToArrayString<{{items.datatype}}>({{paramName}});
+        queryParams[utility::conversions::to_string_t("{{baseName}}")] = ApiClient::parameterToArrayString<{{items.datatype}}>({{^required}}*{{/required}}{{paramName}});
         {{/isQueryParam}}
         {{#isHeaderParam}}
-        headerParams[utility::conversions::to_string_t("{{baseName}}")] = ApiClient::parameterToArrayString<{{items.datatype}}>({{paramName}});
+        headerParams[utility::conversions::to_string_t("{{baseName}}")] = ApiClient::parameterToArrayString<{{items.datatype}}>({{^required}}*{{/required}}{{paramName}});
         {{/isHeaderParam}}
         {{#isFormParam}}
         {{^isFile}}
-        formParams[ utility::conversions::to_string_t("{{baseName}}") ] = ApiClient::parameterToArrayString<{{items.datatype}}>({{paramName}});
+        formParams[ utility::conversions::to_string_t("{{baseName}}") ] = ApiClient::parameterToArrayString<{{items.datatype}}>({{^required}}*{{/required}}{{paramName}});
         {{/isFile}}
         {{/isFormParam}}
         {{/isContainer}}
         {{^isContainer}}
         {{#isQueryParam}}
-        queryParams[utility::conversions::to_string_t("{{baseName}}")] = ApiClient::parameterToString({{paramName}});
+        queryParams[utility::conversions::to_string_t("{{baseName}}")] = ApiClient::parameterToString({{^required}}*{{/required}}{{paramName}});
         {{/isQueryParam}}
         {{#isHeaderParam}}
-        headerParams[utility::conversions::to_string_t("{{baseName}}")] = ApiClient::parameterToString({{paramName}});
+        headerParams[utility::conversions::to_string_t("{{baseName}}")] = ApiClient::parameterToString({{^required}}*{{/required}}{{paramName}});
         {{/isHeaderParam}}
         {{#isFormParam}}
         {{#isFile}}
-        fileParams[ utility::conversions::to_string_t("{{baseName}}") ] = {{paramName}};
+        fileParams[ utility::conversions::to_string_t("{{baseName}}") ] = {{^required}}*{{/required}}{{paramName}};
         {{/isFile}}
         {{^isFile}}
-        formParams[ utility::conversions::to_string_t("{{baseName}}") ] = ApiClient::parameterToString({{paramName}});
+        formParams[ utility::conversions::to_string_t("{{baseName}}") ] = ApiClient::parameterToString({{^required}}*{{/required}}{{paramName}});
         {{/isFile}}
         {{/isFormParam}}
         {{/isContainer}}

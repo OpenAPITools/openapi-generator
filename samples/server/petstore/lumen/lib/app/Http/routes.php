@@ -22,199 +22,220 @@ $app->get('/', function () use ($app) {
 });
 
 /**
- * PATCH testClientModel
+ * patch testSpecialTags
+ * Summary: To test special tags
+ * Notes: To test special tags
+ * Output-Formats: [application/json]
+ */
+$app->patch('/v2/another-fake/dummy', 'AnotherFakeApi@testSpecialTags');
+/**
+ * patch testClientModel
  * Summary: To test \&quot;client\&quot; model
  * Notes: To test \&quot;client\&quot; model
  * Output-Formats: [application/json]
  */
-$app->PATCH('/v2/fake', 'FakeApi@testClientModel');
+$app->patch('/v2/fake', 'FakeApi@testClientModel');
 /**
- * POST testEndpointParameters
+ * post testEndpointParameters
  * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
  * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
  * Output-Formats: [application/xml; charset=utf-8, application/json; charset=utf-8]
  */
-$app->POST('/v2/fake', 'FakeApi@testEndpointParameters');
+$app->post('/v2/fake', 'FakeApi@testEndpointParameters');
 /**
- * GET testEnumParameters
+ * get testEnumParameters
  * Summary: To test enum parameters
  * Notes: To test enum parameters
  * Output-Formats: [*/*]
  */
-$app->GET('/v2/fake', 'FakeApi@testEnumParameters');
+$app->get('/v2/fake', 'FakeApi@testEnumParameters');
 /**
- * POST fakeOuterBooleanSerialize
+ * post testInlineAdditionalProperties
+ * Summary: test inline additionalProperties
+ * Notes: 
+
+ */
+$app->post('/v2/fake/inline-additionalProperties', 'FakeApi@testInlineAdditionalProperties');
+/**
+ * get testJsonFormData
+ * Summary: test json serialization of form data
+ * Notes: 
+
+ */
+$app->get('/v2/fake/jsonFormData', 'FakeApi@testJsonFormData');
+/**
+ * post fakeOuterBooleanSerialize
  * Summary: 
  * Notes: Test serialization of outer boolean types
 
  */
-$app->POST('/v2/fake/outer/boolean', 'FakeApi@fakeOuterBooleanSerialize');
+$app->post('/v2/fake/outer/boolean', 'FakeApi@fakeOuterBooleanSerialize');
 /**
- * POST fakeOuterCompositeSerialize
+ * post fakeOuterCompositeSerialize
  * Summary: 
  * Notes: Test serialization of object with outer number type
 
  */
-$app->POST('/v2/fake/outer/composite', 'FakeApi@fakeOuterCompositeSerialize');
+$app->post('/v2/fake/outer/composite', 'FakeApi@fakeOuterCompositeSerialize');
 /**
- * POST fakeOuterNumberSerialize
+ * post fakeOuterNumberSerialize
  * Summary: 
  * Notes: Test serialization of outer number types
 
  */
-$app->POST('/v2/fake/outer/number', 'FakeApi@fakeOuterNumberSerialize');
+$app->post('/v2/fake/outer/number', 'FakeApi@fakeOuterNumberSerialize');
 /**
- * POST fakeOuterStringSerialize
+ * post fakeOuterStringSerialize
  * Summary: 
  * Notes: Test serialization of outer string types
 
  */
-$app->POST('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
+$app->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
 /**
- * PATCH testClassname
+ * patch testClassname
  * Summary: To test class name in snake case
  * Notes: 
  * Output-Formats: [application/json]
  */
-$app->PATCH('/v2/fake_classname_test', 'Fake_classname_tags123Api@testClassname');
+$app->patch('/v2/fake_classname_test', 'FakeClassnameTags123Api@testClassname');
 /**
- * POST addPet
+ * post addPet
  * Summary: Add a new pet to the store
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->POST('/v2/pet', 'PetApi@addPet');
+$app->post('/v2/pet', 'PetApi@addPet');
 /**
- * PUT updatePet
+ * put updatePet
  * Summary: Update an existing pet
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->PUT('/v2/pet', 'PetApi@updatePet');
+$app->put('/v2/pet', 'PetApi@updatePet');
 /**
- * GET findPetsByStatus
+ * get findPetsByStatus
  * Summary: Finds Pets by status
  * Notes: Multiple status values can be provided with comma separated strings
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/v2/pet/findByStatus', 'PetApi@findPetsByStatus');
+$app->get('/v2/pet/findByStatus', 'PetApi@findPetsByStatus');
 /**
- * GET findPetsByTags
+ * get findPetsByTags
  * Summary: Finds Pets by tags
  * Notes: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/v2/pet/findByTags', 'PetApi@findPetsByTags');
+$app->get('/v2/pet/findByTags', 'PetApi@findPetsByTags');
 /**
- * DELETE deletePet
+ * delete deletePet
  * Summary: Deletes a pet
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->DELETE('/v2/pet/{petId}', 'PetApi@deletePet');
+$app->delete('/v2/pet/{petId}', 'PetApi@deletePet');
 /**
- * GET getPetById
+ * get getPetById
  * Summary: Find pet by ID
  * Notes: Returns a single pet
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/v2/pet/{petId}', 'PetApi@getPetById');
+$app->get('/v2/pet/{petId}', 'PetApi@getPetById');
 /**
- * POST updatePetWithForm
+ * post updatePetWithForm
  * Summary: Updates a pet in the store with form data
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->POST('/v2/pet/{petId}', 'PetApi@updatePetWithForm');
+$app->post('/v2/pet/{petId}', 'PetApi@updatePetWithForm');
 /**
- * POST uploadFile
+ * post uploadFile
  * Summary: uploads an image
  * Notes: 
  * Output-Formats: [application/json]
  */
-$app->POST('/v2/pet/{petId}/uploadImage', 'PetApi@uploadFile');
+$app->post('/v2/pet/{petId}/uploadImage', 'PetApi@uploadFile');
 /**
- * GET getInventory
+ * get getInventory
  * Summary: Returns pet inventories by status
  * Notes: Returns a map of status codes to quantities
  * Output-Formats: [application/json]
  */
-$app->GET('/v2/store/inventory', 'StoreApi@getInventory');
+$app->get('/v2/store/inventory', 'StoreApi@getInventory');
 /**
- * POST placeOrder
+ * post placeOrder
  * Summary: Place an order for a pet
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->POST('/v2/store/order', 'StoreApi@placeOrder');
+$app->post('/v2/store/order', 'StoreApi@placeOrder');
 /**
- * DELETE deleteOrder
+ * delete deleteOrder
  * Summary: Delete purchase order by ID
  * Notes: For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
  * Output-Formats: [application/xml, application/json]
  */
-$app->DELETE('/v2/store/order/{order_id}', 'StoreApi@deleteOrder');
+$app->delete('/v2/store/order/{order_id}', 'StoreApi@deleteOrder');
 /**
- * GET getOrderById
+ * get getOrderById
  * Summary: Find purchase order by ID
  * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/v2/store/order/{order_id}', 'StoreApi@getOrderById');
+$app->get('/v2/store/order/{order_id}', 'StoreApi@getOrderById');
 /**
- * POST createUser
+ * post createUser
  * Summary: Create user
  * Notes: This can only be done by the logged in user.
  * Output-Formats: [application/xml, application/json]
  */
-$app->POST('/v2/user', 'UserApi@createUser');
+$app->post('/v2/user', 'UserApi@createUser');
 /**
- * POST createUsersWithArrayInput
+ * post createUsersWithArrayInput
  * Summary: Creates list of users with given input array
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->POST('/v2/user/createWithArray', 'UserApi@createUsersWithArrayInput');
+$app->post('/v2/user/createWithArray', 'UserApi@createUsersWithArrayInput');
 /**
- * POST createUsersWithListInput
+ * post createUsersWithListInput
  * Summary: Creates list of users with given input array
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->POST('/v2/user/createWithList', 'UserApi@createUsersWithListInput');
+$app->post('/v2/user/createWithList', 'UserApi@createUsersWithListInput');
 /**
- * GET loginUser
+ * get loginUser
  * Summary: Logs user into the system
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/v2/user/login', 'UserApi@loginUser');
+$app->get('/v2/user/login', 'UserApi@loginUser');
 /**
- * GET logoutUser
+ * get logoutUser
  * Summary: Logs out current logged in user session
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/v2/user/logout', 'UserApi@logoutUser');
+$app->get('/v2/user/logout', 'UserApi@logoutUser');
 /**
- * DELETE deleteUser
+ * delete deleteUser
  * Summary: Delete user
  * Notes: This can only be done by the logged in user.
  * Output-Formats: [application/xml, application/json]
  */
-$app->DELETE('/v2/user/{username}', 'UserApi@deleteUser');
+$app->delete('/v2/user/{username}', 'UserApi@deleteUser');
 /**
- * GET getUserByName
+ * get getUserByName
  * Summary: Get user by user name
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/v2/user/{username}', 'UserApi@getUserByName');
+$app->get('/v2/user/{username}', 'UserApi@getUserByName');
 /**
- * PUT updateUser
+ * put updateUser
  * Summary: Updated user
  * Notes: This can only be done by the logged in user.
  * Output-Formats: [application/xml, application/json]
  */
-$app->PUT('/v2/user/{username}', 'UserApi@updateUser');
+$app->put('/v2/user/{username}', 'UserApi@updateUser');
 

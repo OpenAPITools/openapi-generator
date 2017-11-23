@@ -1,2 +1,2 @@
-github "Alamofire/Alamofire" >= 3.1.0
-github "ReactiveX/RxSwift" ~> 2.0
+github "Alamofire/Alamofire" ~> 4.5
+github "ReactiveX/RxSwift" "rxswift-3.0"

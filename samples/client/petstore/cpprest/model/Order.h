@@ -20,7 +20,7 @@
 #define IO_SWAGGER_CLIENT_MODEL_Order_H_
 
 
-#include "ModelBase.h"
+#include "../ModelBase.h"
 
 #include <cpprest/details/basic_types.h>
 

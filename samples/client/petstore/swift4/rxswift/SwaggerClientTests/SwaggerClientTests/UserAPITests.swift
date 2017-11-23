@@ -41,7 +41,7 @@ class UserAPITests: XCTestCase {
                 } else {
                     XCTFail("error logging in")
                 }
-            }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
@@ -61,21 +61,13 @@ class UserAPITests: XCTestCase {
                 } else {
                     XCTFail("error logging out")
                 }
-            }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
     func test1CreateUser() {
         let expectation = self.expectation(description: "testCreateUser")
-        let newUser = User()
-        newUser.email = "test@test.com"
-        newUser.firstName = "Test"
-        newUser.lastName = "Tester"
-        newUser.id = 1000
-        newUser.password = "test!"
-        newUser.phone = "867-5309"
-        newUser.username = "test@test.com"
-        newUser.userStatus = 0
+        let newUser = User(id: 1000, username: "test@test.com", firstName: "Test", lastName: "Tester", email: "test@test.com", password: "test!", phone: "867-5309", userStatus: 0)
         UserAPI.createUser(body: newUser).subscribe(onNext: {
             expectation.fulfill()
             }, onError: { errorType in
@@ -90,7 +82,7 @@ class UserAPITests: XCTestCase {
                 } else {
                     XCTFail("error creating user")
                 }
-            }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
@@ -106,7 +98,7 @@ class UserAPITests: XCTestCase {
             expectation.fulfill()
             }, onError: { errorType in
                 XCTFail("error getting user")
-            }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
@@ -126,7 +118,7 @@ class UserAPITests: XCTestCase {
                 } else {
                     XCTFail("error deleting user")
                 }
-            }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 

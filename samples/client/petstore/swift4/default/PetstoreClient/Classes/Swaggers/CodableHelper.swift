@@ -22,9 +22,12 @@ open class CodableHelper {
             decoder.dateDecodingStrategy = .formatted(df)
         } else {
             decoder.dataDecodingStrategy = .base64
-            if #available(iOS 10.0, *) {
-                decoder.dateDecodingStrategy = .iso8601
-            }
+            let formatter = DateFormatter()
+            formatter.calendar = Calendar(identifier: .iso8601)
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.timeZone = TimeZone(secondsFromGMT: 0)
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+            decoder.dateDecodingStrategy = .formatted(formatter)
         }
 
         do {
@@ -45,9 +48,12 @@ open class CodableHelper {
             encoder.outputFormatting = .prettyPrinted
         }
         encoder.dataEncodingStrategy = .base64
-        if #available(iOS 10.0, *) {
-            encoder.dateEncodingStrategy = .iso8601
-        }
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+        encoder.dateEncodingStrategy = .formatted(formatter)
 
         do {
             returnedData = try encoder.encode(value)

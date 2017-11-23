@@ -32,7 +32,7 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             fakeOuterBooleanSerialize(body: body) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -84,7 +84,7 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             fakeOuterCompositeSerialize(body: body) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -140,7 +140,7 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             fakeOuterNumberSerialize(body: body) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -192,7 +192,7 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             fakeOuterStringSerialize(body: body) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -246,7 +246,7 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             testClientModel(body: body) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -329,9 +329,9 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             testEndpointParameters(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -498,9 +498,9 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             testEnumParameters(enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -555,6 +555,60 @@ open class FakeAPI {
     }
 
     /**
+     test inline additionalProperties
+     
+     - parameter param: (body) request body 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func testInlineAdditionalProperties(param: Any, completion: @escaping ((_ error: Error?) -> Void)) {
+        testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { (response, error) -> Void in
+            completion(error);
+        }
+    }
+
+    /**
+     test inline additionalProperties
+     
+     - parameter param: (body) request body 
+     - returns: Observable<Void>
+     */
+    open class func testInlineAdditionalProperties(param: Any) -> Observable<Void> {
+        return Observable.create { observer -> Disposable in
+            testInlineAdditionalProperties(param: param) { error in
+                if let error = error {
+                    observer.on(.error(error))
+                } else {
+                    observer.on(.next(()))
+                }
+                observer.on(.completed)
+            }
+            return Disposables.create()
+        }
+    }
+
+    /**
+     test inline additionalProperties
+     - POST /fake/inline-additionalProperties
+     - 
+     
+     - parameter param: (body) request body 
+
+     - returns: RequestBuilder<Void> 
+     */
+    open class func testInlineAdditionalPropertiesWithRequestBuilder(param: Any) -> RequestBuilder<Void> {
+        let path = "/fake/inline-additionalProperties"
+        let URLString = PetstoreClientAPI.basePath + path
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: param)
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
      test json serialization of form data
      
      - parameter param: (form) field1 
@@ -578,9 +632,9 @@ open class FakeAPI {
         return Observable.create { observer -> Disposable in
             testJsonFormData(param: param, param2: param2) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }

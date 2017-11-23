@@ -160,7 +160,7 @@ public class RestbedCodegen extends AbstractCppCodegen {
   /**
    * Escapes a reserved word as defined in the `reservedWords` array. Handle
    * escaping those terms here. This logic is only called if a variable
-   * matches the reseved words
+   * matches the reserved words
    * 
    * @return the escaped term
    */
