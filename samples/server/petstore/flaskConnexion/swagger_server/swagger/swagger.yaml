@@ -108,11 +108,11 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "available"
           enum:
           - "available"
           - "pending"
           - "sold"
-          default: "available"
         collectionFormat: "csv"
       responses:
         200:
@@ -627,12 +627,12 @@ definitions:
     title: "Pet Order"
     description: "An order for a pets from the pet store"
     example:
-      id: 0
       petId: 6
+      quantity: 1
+      id: 0
+      shipDate: "2000-01-23T04:56:07.000+00:00"
       complete: false
       status: "placed"
-      quantity: 1
-      shipDate: "2000-01-23T04:56:07.000+00:00"
     xml:
       name: "Order"
   Category:
@@ -646,8 +646,8 @@ definitions:
     title: "Pet catehgry"
     description: "A category for a pet"
     example:
-      id: 6
       name: "name"
+      id: 6
     xml:
       name: "Category"
   User:
@@ -675,14 +675,14 @@ definitions:
     title: "a User"
     description: "A User who is purchasing from the pet store"
     example:
-      id: 0
-      lastName: "lastName"
-      phone: "phone"
-      username: "username"
-      email: "email"
-      userStatus: 6
       firstName: "firstName"
+      lastName: "lastName"
       password: "password"
+      userStatus: 6
+      phone: "phone"
+      id: 0
+      email: "email"
+      username: "username"
     xml:
       name: "User"
   Tag:
@@ -696,8 +696,8 @@ definitions:
     title: "Pet Tag"
     description: "A tag for a pet"
     example:
-      id: 1
       name: "name"
+      id: 1
     xml:
       name: "Tag"
   Pet:
@@ -738,20 +738,20 @@ definitions:
     title: "a Pet"
     description: "A pet for sale in the pet store"
     example:
-      tags:
-      - id: 1
-        name: "name"
-      - id: 1
-        name: "name"
-      id: 0
-      category:
-        id: 6
-        name: "name"
-      status: "available"
-      name: "doggie"
       photoUrls:
       - "photoUrls"
       - "photoUrls"
+      name: "doggie"
+      id: 0
+      category:
+        name: "name"
+        id: 6
+      tags:
+      - name: "name"
+        id: 1
+      - name: "name"
+        id: 1
+      status: "available"
     xml:
       name: "Pet"
   ApiResponse:
@@ -767,9 +767,9 @@ definitions:
     title: "An uploaded response"
     description: "Describes the result of uploading an image resource"
     example:
-      message: "message"
       code: 0
       type: "type"
+      message: "message"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
