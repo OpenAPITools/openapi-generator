@@ -14,9 +14,11 @@ open class List: Codable {
     public var _123List: String?
 
 
+    
     public init(_123List: String?) {
         self._123List = _123List
     }
+    
 
     // Encodable protocol methods
 

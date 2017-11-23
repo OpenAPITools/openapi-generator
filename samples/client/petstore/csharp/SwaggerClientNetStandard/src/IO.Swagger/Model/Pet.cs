@@ -40,19 +40,19 @@ namespace IO.Swagger.Model
             /// Enum Available for "available"
             /// </summary>
             [EnumMember(Value = "available")]
-            Available,
+            Available = 1,
             
             /// <summary>
             /// Enum Pending for "pending"
             /// </summary>
             [EnumMember(Value = "pending")]
-            Pending,
+            Pending = 2,
             
             /// <summary>
             /// Enum Sold for "sold"
             /// </summary>
             [EnumMember(Value = "sold")]
-            Sold
+            Sold = 3
         }
 
         /// <summary>

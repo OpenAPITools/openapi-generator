@@ -213,7 +213,7 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     /**
      * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reseved words
+     * those terms here.  This logic is only called if a variable matches the reserved words
      *
      * @return the escaped term
      */

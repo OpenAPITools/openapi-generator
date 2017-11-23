@@ -20,11 +20,13 @@
 #define IO_SWAGGER_CLIENT_API_UserApi_H_
 
 
-#include "ApiClient.h"
+#include "../ApiClient.h"
 
 #include "User.h"
 #include <vector>
 #include <cpprest/details/basic_types.h>
+
+#include <boost/optional.hpp>
 
 namespace io {
 namespace swagger {
@@ -45,7 +47,9 @@ public:
     /// This can only be done by the logged in user.
     /// </remarks>
     /// <param name="body">Created user object</param>
-    pplx::task<void> createUser(std::shared_ptr<User> body);
+    pplx::task<void> createUser(
+        std::shared_ptr<User> body
+    );
     /// <summary>
     /// Creates list of users with given input array
     /// </summary>
@@ -53,7 +57,9 @@ public:
     /// 
     /// </remarks>
     /// <param name="body">List of user object</param>
-    pplx::task<void> createUsersWithArrayInput(std::vector<std::shared_ptr<User>> body);
+    pplx::task<void> createUsersWithArrayInput(
+        std::vector<std::shared_ptr<User>> body
+    );
     /// <summary>
     /// Creates list of users with given input array
     /// </summary>
@@ -61,7 +67,9 @@ public:
     /// 
     /// </remarks>
     /// <param name="body">List of user object</param>
-    pplx::task<void> createUsersWithListInput(std::vector<std::shared_ptr<User>> body);
+    pplx::task<void> createUsersWithListInput(
+        std::vector<std::shared_ptr<User>> body
+    );
     /// <summary>
     /// Delete user
     /// </summary>
@@ -69,7 +77,9 @@ public:
     /// This can only be done by the logged in user.
     /// </remarks>
     /// <param name="username">The name that needs to be deleted</param>
-    pplx::task<void> deleteUser(utility::string_t username);
+    pplx::task<void> deleteUser(
+        utility::string_t username
+    );
     /// <summary>
     /// Get user by user name
     /// </summary>
@@ -77,31 +87,41 @@ public:
     /// 
     /// </remarks>
     /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
-    pplx::task<std::shared_ptr<User>> getUserByName(utility::string_t username);
+    pplx::task<std::shared_ptr<User>> getUserByName(
+        utility::string_t username
+    );
     /// <summary>
     /// Logs user into the system
     /// </summary>
     /// <remarks>
     /// 
     /// </remarks>
-    /// <param name="username">The user name for login</param>/// <param name="password">The password for login in clear text</param>
-    pplx::task<utility::string_t> loginUser(utility::string_t username, utility::string_t password);
+    /// <param name="username">The user name for login</param>
+    /// <param name="password">The password for login in clear text</param>
+    pplx::task<utility::string_t> loginUser(
+        utility::string_t username,
+        utility::string_t password
+    );
     /// <summary>
     /// Logs out current logged in user session
     /// </summary>
     /// <remarks>
     /// 
     /// </remarks>
-    
-    pplx::task<void> logoutUser();
+    pplx::task<void> logoutUser(
+    );
     /// <summary>
     /// Updated user
     /// </summary>
     /// <remarks>
     /// This can only be done by the logged in user.
     /// </remarks>
-    /// <param name="username">name that need to be deleted</param>/// <param name="body">Updated user object</param>
-    pplx::task<void> updateUser(utility::string_t username, std::shared_ptr<User> body);
+    /// <param name="username">name that need to be deleted</param>
+    /// <param name="body">Updated user object</param>
+    pplx::task<void> updateUser(
+        utility::string_t username,
+        std::shared_ptr<User> body
+    );
 
 protected:
     std::shared_ptr<ApiClient> m_ApiClient;

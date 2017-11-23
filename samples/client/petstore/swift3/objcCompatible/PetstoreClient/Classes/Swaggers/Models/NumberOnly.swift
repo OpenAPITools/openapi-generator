@@ -11,11 +11,6 @@ import Foundation
 open class NumberOnly: JSONEncodable {
 
     public var justNumber: Double?
-    public var justNumberNum: NSNumber? {
-        get {
-            return justNumber.map({ return NSNumber(value: $0) })
-        }
-    }
 
     public init() {}
 

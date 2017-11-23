@@ -1334,7 +1334,7 @@ public class DefaultCodegen implements CodegenConfig {
                 int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
                 for (Schema innerModel: composed.getAllOf()) {
                     if (codegenModel.discriminator == null) {
-                        // TODO: codegenModel.discriminator = innerModel.getDiscriminator();
+                        codegenModel.discriminator = schema.getDiscriminator();
                     }
                     if (innerModel.getXml() != null) {
                         codegenModel.xmlPrefix = innerModel.getXml().getPrefix();
@@ -2107,14 +2107,14 @@ public class DefaultCodegen implements CodegenConfig {
 
         // move "required" parameters in front of "optional" parameters
         if (sortParamsByRequiredFlag) {
-          Collections.sort(allParams, new Comparator<CodegenParameter>() {
-              @Override
-              public int compare(CodegenParameter one, CodegenParameter another) {
-                  if (one.required == another.required) return 0;
-                  else if (one.required) return -1;
-                  else return 1;
-              }
-          });
+            Collections.sort(allParams, new Comparator<CodegenParameter>() {
+                @Override
+                public int compare(CodegenParameter one, CodegenParameter another) {
+                    if (one.required == another.required) return 0;
+                    else if (one.required) return -1;
+                    else return 1;
+                }
+            });
         }
 
         codegenOperation.allParams = addHasMore(allParams);
@@ -3376,7 +3376,9 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
 
-        if (Boolean.TRUE.equals(property.isByteArray)) {
+        if (Boolean.TRUE.equals(property.isUuid) && Boolean.TRUE.equals(property.isString)) {
+            parameter.isUuid = true;
+        } else if (Boolean.TRUE.equals(property.isByteArray)) {
             parameter.isByteArray = true;
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isString)) {
@@ -3405,10 +3407,6 @@ public class DefaultCodegen implements CodegenConfig {
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isFile)) {
             parameter.isFile = true;
-        } else if (Boolean.TRUE.equals(property.isUuid)) {
-            parameter.isUuid = true;
-            // file is *not* a primitive type
-            //parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isDate)) {
             parameter.isDate = true;
             parameter.isPrimitiveType = true;

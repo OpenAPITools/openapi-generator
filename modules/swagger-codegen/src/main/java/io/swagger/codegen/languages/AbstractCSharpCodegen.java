@@ -269,24 +269,33 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         
         // {{useDateTimeOffset}}
         if (additionalProperties.containsKey(CodegenConstants.USE_DATETIME_OFFSET)) {
-            useDateTimeOffset(Boolean.valueOf(additionalProperties.get(CodegenConstants.USE_DATETIME_OFFSET).toString()));
+            useDateTimeOffset(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DATETIME_OFFSET));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_DATETIME_OFFSET, useDateTimeOffsetFlag);
         }
-        additionalProperties.put(CodegenConstants.USE_DATETIME_OFFSET, useDateTimeOffsetFlag);
 
         if (additionalProperties.containsKey(CodegenConstants.USE_COLLECTION)) {
-            setUseCollection(Boolean.valueOf(additionalProperties.get(CodegenConstants.USE_COLLECTION).toString()));
+            setUseCollection(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_COLLECTION));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_COLLECTION, useCollection);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.RETURN_ICOLLECTION)) {
-            setReturnICollection(Boolean.valueOf(additionalProperties.get(CodegenConstants.RETURN_ICOLLECTION).toString()));
+            setReturnICollection(convertPropertyToBooleanAndWriteBack(CodegenConstants.RETURN_ICOLLECTION));
+        } else {
+            additionalProperties.put(CodegenConstants.RETURN_ICOLLECTION, returnICollection);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
-            setOptionalEmitDefaultValue(Boolean.valueOf(additionalProperties.get(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES).toString()));
+            setOptionalEmitDefaultValue(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValue);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.NETCORE_PROJECT_FILE)) {
-            setNetCoreProjectFileFlag(Boolean.valueOf(additionalProperties.get(CodegenConstants.NETCORE_PROJECT_FILE).toString()));
+            setNetCoreProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.NETCORE_PROJECT_FILE));
+        } else {
+            additionalProperties.put(CodegenConstants.NETCORE_PROJECT_FILE, netCoreProjectFileFlag);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {

@@ -72,7 +72,7 @@ class ObjectSerializer {
         } else if (type.lastIndexOf("Array<", 0) === 0) { // string.startsWith pre es6
             let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
             subType = subType.substring(0, subType.length - 1); // Type> => Type
-            let transformedData = [];
+            let transformedData: any[] = [];
             for (let index in data) {
                 let date = data[index];
                 transformedData.push(ObjectSerializer.serialize(date, subType));
@@ -90,7 +90,7 @@ class ObjectSerializer {
 
             // get the map for the correct type.
             let attributeTypes = typeMap[type].getAttributeTypeMap();
-            let instance = {};
+            let instance: {[index: string]: any} = {};
             for (let index in attributeTypes) {
                 let attributeType = attributeTypes[index];
                 instance[attributeType.baseName] = ObjectSerializer.serialize(data[attributeType.name], attributeType.type);
@@ -109,7 +109,7 @@ class ObjectSerializer {
         } else if (type.lastIndexOf("Array<", 0) === 0) { // string.startsWith pre es6
             let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
             subType = subType.substring(0, subType.length - 1); // Type> => Type
-            let transformedData = [];
+            let transformedData: any[] = [];
             for (let index in data) {
                 let date = data[index];
                 transformedData.push(ObjectSerializer.deserialize(date, subType));
@@ -406,12 +406,12 @@ export class User {
 }
 
 
-let enumsMap = {
+let enumsMap: {[index: string]: any} = {
         "Order.StatusEnum": Order.StatusEnum,
         "Pet.StatusEnum": Pet.StatusEnum,
 }
 
-let typeMap = {
+let typeMap: {[index: string]: any} = {
     "ApiResponse": ApiResponse,
     "Category": Category,
     "Order": Order,
@@ -515,7 +515,7 @@ export class PetApi {
     }
 
     public setApiKey(key: PetApiApiKeys, value: string) {
-        this.authentications[PetApiApiKeys[key]].apiKey = value;
+        (this.authentications as any)[PetApiApiKeys[key]].apiKey = value;
     }
 
     set accessToken(token: string) {
@@ -1032,7 +1032,7 @@ export class StoreApi {
     }
 
     public setApiKey(key: StoreApiApiKeys, value: string) {
-        this.authentications[StoreApiApiKeys[key]].apiKey = value;
+        (this.authentications as any)[StoreApiApiKeys[key]].apiKey = value;
     }
 
     set accessToken(token: string) {
@@ -1290,7 +1290,7 @@ export class UserApi {
     }
 
     public setApiKey(key: UserApiApiKeys, value: string) {
-        this.authentications[UserApiApiKeys[key]].apiKey = value;
+        (this.authentications as any)[UserApiApiKeys[key]].apiKey = value;
     }
 
     set accessToken(token: string) {

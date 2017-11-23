@@ -20,12 +20,14 @@
 #define IO_SWAGGER_CLIENT_API_PetApi_H_
 
 
-#include "ApiClient.h"
+#include "../ApiClient.h"
 
 #include "ApiResponse.h"
 #include "HttpContent.h"
 #include "Pet.h"
 #include <cpprest/details/basic_types.h>
+
+#include <boost/optional.hpp>
 
 namespace io {
 namespace swagger {
@@ -46,15 +48,21 @@ public:
     /// 
     /// </remarks>
     /// <param name="body">Pet object that needs to be added to the store</param>
-    pplx::task<void> addPet(std::shared_ptr<Pet> body);
+    pplx::task<void> addPet(
+        std::shared_ptr<Pet> body
+    );
     /// <summary>
     /// Deletes a pet
     /// </summary>
     /// <remarks>
     /// 
     /// </remarks>
-    /// <param name="petId">Pet id to delete</param>/// <param name="apiKey"> (optional)</param>
-    pplx::task<void> deletePet(int64_t petId, utility::string_t apiKey);
+    /// <param name="petId">Pet id to delete</param>
+    /// <param name="apiKey"> (optional)</param>
+    pplx::task<void> deletePet(
+        int64_t petId,
+        boost::optional<utility::string_t> apiKey
+    );
     /// <summary>
     /// Finds Pets by status
     /// </summary>
@@ -62,7 +70,9 @@ public:
     /// Multiple status values can be provided with comma separated strings
     /// </remarks>
     /// <param name="status">Status values that need to be considered for filter</param>
-    pplx::task<std::vector<std::shared_ptr<Pet>>> findPetsByStatus(std::vector<utility::string_t> status);
+    pplx::task<std::vector<std::shared_ptr<Pet>>> findPetsByStatus(
+        std::vector<utility::string_t> status
+    );
     /// <summary>
     /// Finds Pets by tags
     /// </summary>
@@ -70,7 +80,9 @@ public:
     /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     /// </remarks>
     /// <param name="tags">Tags to filter by</param>
-    pplx::task<std::vector<std::shared_ptr<Pet>>> findPetsByTags(std::vector<utility::string_t> tags);
+    pplx::task<std::vector<std::shared_ptr<Pet>>> findPetsByTags(
+        std::vector<utility::string_t> tags
+    );
     /// <summary>
     /// Find pet by ID
     /// </summary>
@@ -78,7 +90,9 @@ public:
     /// Returns a single pet
     /// </remarks>
     /// <param name="petId">ID of pet to return</param>
-    pplx::task<std::shared_ptr<Pet>> getPetById(int64_t petId);
+    pplx::task<std::shared_ptr<Pet>> getPetById(
+        int64_t petId
+    );
     /// <summary>
     /// Update an existing pet
     /// </summary>
@@ -86,23 +100,37 @@ public:
     /// 
     /// </remarks>
     /// <param name="body">Pet object that needs to be added to the store</param>
-    pplx::task<void> updatePet(std::shared_ptr<Pet> body);
+    pplx::task<void> updatePet(
+        std::shared_ptr<Pet> body
+    );
     /// <summary>
     /// Updates a pet in the store with form data
     /// </summary>
     /// <remarks>
     /// 
     /// </remarks>
-    /// <param name="petId">ID of pet that needs to be updated</param>/// <param name="name">Updated name of the pet (optional)</param>/// <param name="status">Updated status of the pet (optional)</param>
-    pplx::task<void> updatePetWithForm(int64_t petId, utility::string_t name, utility::string_t status);
+    /// <param name="petId">ID of pet that needs to be updated</param>
+    /// <param name="name">Updated name of the pet (optional)</param>
+    /// <param name="status">Updated status of the pet (optional)</param>
+    pplx::task<void> updatePetWithForm(
+        int64_t petId,
+        boost::optional<utility::string_t> name,
+        boost::optional<utility::string_t> status
+    );
     /// <summary>
     /// uploads an image
     /// </summary>
     /// <remarks>
     /// 
     /// </remarks>
-    /// <param name="petId">ID of pet to update</param>/// <param name="additionalMetadata">Additional data to pass to server (optional)</param>/// <param name="file">file to upload (optional)</param>
-    pplx::task<std::shared_ptr<ApiResponse>> uploadFile(int64_t petId, utility::string_t additionalMetadata, std::shared_ptr<HttpContent> file);
+    /// <param name="petId">ID of pet to update</param>
+    /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+    /// <param name="file">file to upload (optional)</param>
+    pplx::task<std::shared_ptr<ApiResponse>> uploadFile(
+        int64_t petId,
+        boost::optional<utility::string_t> additionalMetadata,
+        boost::optional<std::shared_ptr<HttpContent>> file
+    );
 
 protected:
     std::shared_ptr<ApiClient> m_ApiClient;

@@ -74,9 +74,9 @@ open class {{classname}} {
         return Observable.create { observer -> Disposable in
             {{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) { {{#returnType}}data, {{/returnType}}error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next({{#returnType}}data!{{/returnType}}))
+                    observer.on(.next({{#returnType}}data!{{/returnType}}{{^returnType}}(){{/returnType}}))
                 }
                 observer.on(.completed)
             }

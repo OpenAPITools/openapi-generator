@@ -16,11 +16,13 @@ open class OuterComposite: Codable {
     public var myBoolean: OuterBoolean?
 
 
+    
     public init(myNumber: OuterNumber?, myString: OuterString?, myBoolean: OuterBoolean?) {
         self.myNumber = myNumber
         self.myString = myString
         self.myBoolean = myBoolean
     }
+    
 
     // Encodable protocol methods
 

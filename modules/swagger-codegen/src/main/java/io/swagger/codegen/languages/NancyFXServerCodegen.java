@@ -94,7 +94,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         addSwitch(RETURN_ICOLLECTION, RETURN_ICOLLECTION_DESC, returnICollection);
         addSwitch(IMMUTABLE_OPTION, "Enabled by default. If disabled generates model classes with setters", true);
         addSwitch(USE_BASE_PATH, "Enabled by default. If disabled, module paths will not mirror api base path", true);
-        addSwitch(ASYNC_SERVER, "Set to true to enable the generation of async routes/endpoints.", false);
+        addSwitch(ASYNC_SERVER, "Set to true to enable the generation of async routes/endpoints.", this.asyncServer);
         typeMapping.putAll(nodaTimeTypesMappings());
         languageSpecificPrimitives.addAll(nodaTimePrimitiveTypes());
 
@@ -137,7 +137,9 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         }
 
         if (additionalProperties.containsKey(ASYNC_SERVER)) {
-            setAsyncServer(Boolean.valueOf(additionalProperties.get(ASYNC_SERVER).toString()));
+            setAsyncServer(convertPropertyToBooleanAndWriteBack(ASYNC_SERVER));
+        } else {
+            additionalProperties.put(ASYNC_SERVER, this.asyncServer);
         }
 
         additionalProperties.put("packageGuid", packageGuid);

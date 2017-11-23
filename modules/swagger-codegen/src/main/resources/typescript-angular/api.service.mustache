@@ -204,7 +204,7 @@ export class {{classname}} {
             '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
             {{/produces}}
         ];
-        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
 {{^useHttpClient}}
             headers.set("Accept", httpHeaderAcceptSelected);
@@ -221,7 +221,7 @@ export class {{classname}} {
             {{/consumes}}
         ];
 {{#bodyParam}}
-        let httpContentTypeSelected:string = this.configuration.selectHeaderContentType(consumes);
+        let httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
 {{^useHttpClient}}
             headers.set('Content-Type', httpContentTypeSelected);

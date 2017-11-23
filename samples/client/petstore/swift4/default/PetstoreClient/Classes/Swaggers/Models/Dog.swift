@@ -14,9 +14,7 @@ open class Dog: Animal {
     public var breed: String?
 
 
-    public init(breed: String?) {
-        self.breed = breed
-    }
+    
 
     // Encodable protocol methods
 
@@ -29,10 +27,11 @@ open class Dog: Animal {
 
     // Decodable protocol methods
 
-    public override required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
         breed = try container.decodeIfPresent(String.self, forKey: "breed")
+        try super.init(from: decoder)
     }
 }
 

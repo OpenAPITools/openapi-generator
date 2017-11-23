@@ -185,6 +185,9 @@ public class CodegenConstants {
     public static final String SUPPORTS_ES6 = "supportsES6";
     public static final String SUPPORTS_ES6_DESC = "Generate code that conforms to ES6.";
 
+    public static final String SUPPORTS_ASYNC = "supportsAsync";
+    public static final String SUPPORTS_ASYNC_DESC = "Generate code that supports async operations.";
+
     public static final String EXCLUDE_TESTS = "excludeTests";
     public static final String EXCLUDE_TESTS_DESC = "Specifies that no tests are to be generated.";
 
@@ -208,6 +211,9 @@ public class CodegenConstants {
 
     public static final String NON_PUBLIC_API = "nonPublicApi";
     public static final String NON_PUBLIC_API_DESC = "Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.";
+
+    public static final String VALIDATABLE = "validatable";
+    public static final String VALIDATABLE_DESC = "Generates self-validatable models.";
 
     public static final String IGNORE_FILE_OVERRIDE = "ignoreFileOverride";
     public static final String IGNORE_FILE_OVERRIDE_DESC = "Specifies an override location for the .swagger-codegen-ignore file. Most useful on initial generation.";

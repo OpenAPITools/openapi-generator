@@ -29,7 +29,6 @@
 
 #include "SWGObject.h"
 
-
 namespace Swagger {
 
 class SWGPet: public SWGObject {

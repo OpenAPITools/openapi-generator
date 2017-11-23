@@ -16,11 +16,13 @@ open class ArrayTest: Codable {
     public var arrayArrayOfModel: [[ReadOnlyFirst]]?
 
 
+    
     public init(arrayOfString: [String]?, arrayArrayOfInteger: [[Int64]]?, arrayArrayOfModel: [[ReadOnlyFirst]]?) {
         self.arrayOfString = arrayOfString
         self.arrayArrayOfInteger = arrayArrayOfInteger
         self.arrayArrayOfModel = arrayArrayOfModel
     }
+    
 
     // Encodable protocol methods
 
@@ -28,9 +30,9 @@ open class ArrayTest: Codable {
 
         var container = encoder.container(keyedBy: String.self)
 
-        try container.encodeArrayIfPresent(arrayOfString, forKey: "array_of_string")
-        try container.encodeArrayIfPresent(arrayArrayOfInteger, forKey: "array_array_of_integer")
-        try container.encodeArrayIfPresent(arrayArrayOfModel, forKey: "array_array_of_model")
+        try container.encodeIfPresent(arrayOfString, forKey: "array_of_string")
+        try container.encodeIfPresent(arrayArrayOfInteger, forKey: "array_array_of_integer")
+        try container.encodeIfPresent(arrayArrayOfModel, forKey: "array_array_of_model")
     }
 
     // Decodable protocol methods
@@ -38,9 +40,9 @@ open class ArrayTest: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        arrayOfString = try container.decodeArrayIfPresent(String.self, forKey: "array_of_string")
-        arrayArrayOfInteger = try container.decodeArrayIfPresent([Int64].self, forKey: "array_array_of_integer")
-        arrayArrayOfModel = try container.decodeArrayIfPresent([ReadOnlyFirst].self, forKey: "array_array_of_model")
+        arrayOfString = try container.decodeIfPresent([String].self, forKey: "array_of_string")
+        arrayArrayOfInteger = try container.decodeIfPresent([[Int64]].self, forKey: "array_array_of_integer")
+        arrayArrayOfModel = try container.decodeIfPresent([[ReadOnlyFirst]].self, forKey: "array_array_of_model")
     }
 }
 

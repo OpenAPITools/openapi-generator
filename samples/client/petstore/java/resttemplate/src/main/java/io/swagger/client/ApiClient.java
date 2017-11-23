@@ -258,6 +258,9 @@ public class ApiClient {
      * @return ApiClient this client
      */
     public ApiClient addDefaultHeader(String name, String value) {
+        if (defaultHeaders.containsKey(name)) {
+            defaultHeaders.remove(name);
+        }
         defaultHeaders.add(name, value);
         return this;
     }

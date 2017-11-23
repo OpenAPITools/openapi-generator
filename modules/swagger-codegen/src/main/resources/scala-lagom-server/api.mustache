@@ -1,0 +1,62 @@
+{{>licenseInfo}}
+package {{package}}
+
+import akka.{Done, NotUsed}
+import com.lightbend.lagom.scaladsl.api.transport.Method
+import com.lightbend.lagom.scaladsl.api.{Service, ServiceCall}
+import play.api.libs.json._
+import com.lightbend.lagom.scaladsl.api.deser.PathParamSerializer
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+trait {{classname}} extends Service {
+
+
+  final override def descriptor = {
+    import Service._
+    named("{{classname}}").withCalls(
+{{#operations}}
+  {{#operation}}
+      restCall(Method.{{httpMethod}}, "{{path}}{{#queryParams.0}}?{{/queryParams.0}}{{#queryParams}}{{paramName}}{{#hasMore}}&{{/hasMore}}{{/queryParams}}", {{operationId}} _){{#hasMore}}, {{/hasMore}}
+  {{/operation}}
+{{/operations}}
+    ).withAutoAcl(true)
+  }
+
+{{#operations}}
+  {{#operation}}
+    {{#hasQueryParams}}
+      {{#queryParams}}{{#isContainer}}
+  // {{{paramName}}}:{{dataType}}  -- not yet supported Seq PathParamSerializers for multi value query parameters https://github.com/lagom/lagom/issues/643
+      {{/isContainer}}{{/queryParams}}{{/hasQueryParams}}{{#hasFormParams}}{{#allParams}}
+      {{#isFormParam}}
+  // {{{paramName}}}:{{dataType}}  -- not yet supported x-www-form-urlencoded{{/isFormParam}}{{/allParams}}{{/hasFormParams}}{{#hasHeaderParams}}{{#allParams}}
+      {{#isHeaderParam}}
+  // {{{paramName}}}:{{dataType}}  -- not yet supported heder params{{/isHeaderParam}}{{/allParams}}{{/hasHeaderParams}}
+  /**
+    * {{summary}}
+    * {{notes}}
+    * {{#allParams}} {{^isBodyParam}}
+    * @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/isBodyParam}}{{/allParams}}
+    * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{#bodyParams}} Body Parameter  {{description}} {{/bodyParams}}
+    */
+  def {{operationId}}({{#queryParams}}{{^isContainer}}{{^isEnum}}{{paramName}}:{{#required}}{{dataType}}{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{/required}}          {{^required}} Option[{{dataType}}]{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{^defaultValue}} = None{{/defaultValue}}{{/required}}{{#hasMore}},{{/hasMore}}{{/isEnum}}{{/isContainer}}{{#isEnum}}{{{paramName}}}: Option[{{classname}}{{enumName}}.{{classname}}{{enumName}}]{{/isEnum}}{{/queryParams}}{{#pathParams}}{{^isEnum}}{{paramName}}: {{#required}}{{dataType}}{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{/required}}{{^required}}Option[{{dataType}}]{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{^defaultValue}} = None{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/isEnum}}{{#isEnum}}{{{paramName}}}:  Option[{{classname}}{{enumName}}.{{classname}}{{enumName}}]{{/isEnum}}{{/pathParams}}): ServiceCall[{{#bodyParams}}{{dataType}}{{/bodyParams}}{{^hasBodyParam}}NotUsed{{/hasBodyParam}} ,{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Done{{/returnType}}]
+  {{/operation}}{{/operations}}
+
+{{#operations}}
+  {{#operation}}
+    {{#allParams}}
+      {{#isEnum}}
+        object {{classname}}{{enumName}} extends Enumeration {
+        val {{#allowableValues}}  {{#values}}{{.}}{{^-last}}, {{/-last}}{{/values}} = Value     {{/allowableValues}}
+        type {{classname}}{{enumName}} = Value
+        implicit val format: Format[Value] = Format(Reads.enumNameReads(this), Writes.enumNameWrites[{{classname}}{{enumName}}.type])
+        implicit val pathParamSerializer: PathParamSerializer[{{classname}}{{enumName}}] = PathParamSerializer.required("{{classname}}{{enumName}}")(withName)(_.toString)
+        }
+      {{/isEnum}}
+    {{/allParams}}
+  {{/operation}}
+  }
+{{/operations}}
+

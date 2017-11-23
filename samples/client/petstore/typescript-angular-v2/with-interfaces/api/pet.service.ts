@@ -218,7 +218,7 @@ export class PetService implements PetServiceInterface {
             'application/xml',
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
             headers.set("Accept", httpHeaderAcceptSelected);
         }
@@ -228,7 +228,7 @@ export class PetService implements PetServiceInterface {
             'application/json',
             'application/xml'
         ];
-        let httpContentTypeSelected:string = this.configuration.selectHeaderContentType(consumes);
+        let httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
             headers.set('Content-Type', httpContentTypeSelected);
         }
@@ -276,7 +276,7 @@ export class PetService implements PetServiceInterface {
             'application/xml',
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
             headers.set("Accept", httpHeaderAcceptSelected);
         }
@@ -328,7 +328,7 @@ export class PetService implements PetServiceInterface {
             'application/xml',
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
             headers.set("Accept", httpHeaderAcceptSelected);
         }
@@ -381,7 +381,7 @@ export class PetService implements PetServiceInterface {
             'application/xml',
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
             headers.set("Accept", httpHeaderAcceptSelected);
         }
@@ -426,7 +426,7 @@ export class PetService implements PetServiceInterface {
             'application/xml',
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
             headers.set("Accept", httpHeaderAcceptSelected);
         }
@@ -473,7 +473,7 @@ export class PetService implements PetServiceInterface {
             'application/xml',
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
             headers.set("Accept", httpHeaderAcceptSelected);
         }
@@ -483,7 +483,7 @@ export class PetService implements PetServiceInterface {
             'application/json',
             'application/xml'
         ];
-        let httpContentTypeSelected:string = this.configuration.selectHeaderContentType(consumes);
+        let httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
             headers.set('Content-Type', httpContentTypeSelected);
         }
@@ -529,7 +529,7 @@ export class PetService implements PetServiceInterface {
             'application/xml',
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
             headers.set("Accept", httpHeaderAcceptSelected);
         }
@@ -601,7 +601,7 @@ export class PetService implements PetServiceInterface {
         let httpHeaderAccepts: string[] = [
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
             headers.set("Accept", httpHeaderAcceptSelected);
         }

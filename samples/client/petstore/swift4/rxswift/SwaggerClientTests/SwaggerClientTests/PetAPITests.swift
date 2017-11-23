@@ -28,19 +28,15 @@ class PetAPITests: XCTestCase {
 
     func test1CreatePet() {
         let expectation = self.expectation(description: "testCreatePet")
-        let newPet = Pet()
-        let category = PetstoreClient.Category()
-        category.id = 1234
-        category.name = "eyeColor"
-        newPet.category = category
-        newPet.id = 1000
-        newPet.name = "Fluffy"
-        newPet.status = .available
+        let category = PetstoreClient.Category(id: 1234, name: "eyeColor")
+        let tags = [Tag(id: 1234, name: "New York"), Tag(id: 124321, name: "Jose")]
+        let newPet = Pet(id: 1000, category: category, name: "Fluffy", photoUrls: ["https://petstore.com/sample/photo1.jpg", "https://petstore.com/sample/photo2.jpg"], tags: tags, status: .available)
+
         PetAPI.addPet(body: newPet).subscribe(onNext: {
             expectation.fulfill()
             }, onError: { errorType in
                 XCTFail("error creating pet")
-            }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
@@ -49,10 +45,24 @@ class PetAPITests: XCTestCase {
         PetAPI.getPetById(petId: 1000).subscribe(onNext: { pet in
             XCTAssert(pet.id == 1000, "invalid id")
             XCTAssert(pet.name == "Fluffy", "invalid name")
+            XCTAssert(pet.category!.id == 1234, "invalid category id")
+            XCTAssert(pet.category!.name == "eyeColor", "invalid category name")
+
+            let tag1 = pet.tags![0]
+            XCTAssert(tag1.id == 1234, "invalid tag id")
+            XCTAssert(tag1.name == "New York", "invalid tag name")
+
+            let tag2 = pet.tags![1]
+            XCTAssert(tag2.id == 124321, "invalid tag id")
+            XCTAssert(tag2.name == "Jose", "invalid tag name")
+
+            XCTAssert(pet.photoUrls[0] == "https://petstore.com/sample/photo1.jpg")
+            XCTAssert(pet.photoUrls[1] == "https://petstore.com/sample/photo2.jpg")
+
             expectation.fulfill()
             }, onError: { errorType in
                 XCTFail("error getting pet")
-            }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
+        }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
@@ -72,7 +82,7 @@ class PetAPITests: XCTestCase {
                 } else {
                     XCTFail("error deleting pet")
                 }
-            }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 }

@@ -34,9 +34,9 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             createUser(body: body) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -88,9 +88,9 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             createUsersWithArrayInput(body: body) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -142,9 +142,9 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             createUsersWithListInput(body: body) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -196,9 +196,9 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             deleteUser(username: username) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -251,7 +251,7 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             getUserByName(username: username) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -346,7 +346,7 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             loginUser(username: username, password: password) { data, error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
                     observer.on(.next(data!))
                 }
@@ -407,9 +407,9 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             logoutUser() { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }
@@ -461,9 +461,9 @@ open class UserAPI {
         return Observable.create { observer -> Disposable in
             updateUser(username: username, body: body) { error in
                 if let error = error {
-                    observer.on(.error(error as Error))
+                    observer.on(.error(error))
                 } else {
-                    observer.on(.next())
+                    observer.on(.next(()))
                 }
                 observer.on(.completed)
             }

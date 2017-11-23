@@ -19,10 +19,12 @@ open class MapTest: Codable {
     public var mapOfEnumString: [String:String]?
 
 
+    
     public init(mapMapOfString: [String:[String:String]]?, mapOfEnumString: [String:String]?) {
         self.mapMapOfString = mapMapOfString
         self.mapOfEnumString = mapOfEnumString
     }
+    
 
     // Encodable protocol methods
 

@@ -1,6 +1,7 @@
 "use strict";
-var localVarRequest = require('request');
-var Promise = require('bluebird');
+Object.defineProperty(exports, "__esModule", { value: true });
+var localVarRequest = require("request");
+var Promise = require("bluebird");
 var defaultBasePath = 'http://petstore.swagger.io/v2';
 var primitives = [
     "string",
@@ -143,7 +144,8 @@ var ApiResponse = (function () {
             "name": "message",
             "baseName": "message",
             "type": "string"
-        }];
+        }
+    ];
     return ApiResponse;
 }());
 exports.ApiResponse = ApiResponse;
@@ -164,7 +166,8 @@ var Category = (function () {
             "name": "name",
             "baseName": "name",
             "type": "string"
-        }];
+        }
+    ];
     return Category;
 }());
 exports.Category = Category;
@@ -205,19 +208,20 @@ var Order = (function () {
             "name": "complete",
             "baseName": "complete",
             "type": "boolean"
-        }];
+        }
+    ];
     return Order;
 }());
 exports.Order = Order;
-var Order;
 (function (Order) {
+    var StatusEnum;
     (function (StatusEnum) {
         StatusEnum[StatusEnum["Placed"] = 'placed'] = "Placed";
         StatusEnum[StatusEnum["Approved"] = 'approved'] = "Approved";
         StatusEnum[StatusEnum["Delivered"] = 'delivered'] = "Delivered";
-    })(Order.StatusEnum || (Order.StatusEnum = {}));
-    var StatusEnum = Order.StatusEnum;
+    })(StatusEnum = Order.StatusEnum || (Order.StatusEnum = {}));
 })(Order = exports.Order || (exports.Order = {}));
+exports.Order = Order;
 var Pet = (function () {
     function Pet() {
     }
@@ -255,19 +259,20 @@ var Pet = (function () {
             "name": "status",
             "baseName": "status",
             "type": "Pet.StatusEnum"
-        }];
+        }
+    ];
     return Pet;
 }());
 exports.Pet = Pet;
-var Pet;
 (function (Pet) {
+    var StatusEnum;
     (function (StatusEnum) {
         StatusEnum[StatusEnum["Available"] = 'available'] = "Available";
         StatusEnum[StatusEnum["Pending"] = 'pending'] = "Pending";
         StatusEnum[StatusEnum["Sold"] = 'sold'] = "Sold";
-    })(Pet.StatusEnum || (Pet.StatusEnum = {}));
-    var StatusEnum = Pet.StatusEnum;
+    })(StatusEnum = Pet.StatusEnum || (Pet.StatusEnum = {}));
 })(Pet = exports.Pet || (exports.Pet = {}));
+exports.Pet = Pet;
 var Tag = (function () {
     function Tag() {
     }
@@ -285,7 +290,8 @@ var Tag = (function () {
             "name": "name",
             "baseName": "name",
             "type": "string"
-        }];
+        }
+    ];
     return Tag;
 }());
 exports.Tag = Tag;
@@ -336,7 +342,8 @@ var User = (function () {
             "name": "userStatus",
             "baseName": "userStatus",
             "type": "number"
-        }];
+        }
+    ];
     return User;
 }());
 exports.User = User;
@@ -398,10 +405,10 @@ var VoidAuth = (function () {
     return VoidAuth;
 }());
 exports.VoidAuth = VoidAuth;
+var PetApiApiKeys;
 (function (PetApiApiKeys) {
     PetApiApiKeys[PetApiApiKeys["api_key"] = 0] = "api_key";
-})(exports.PetApiApiKeys || (exports.PetApiApiKeys = {}));
-var PetApiApiKeys = exports.PetApiApiKeys;
+})(PetApiApiKeys = exports.PetApiApiKeys || (exports.PetApiApiKeys = {}));
 var PetApi = (function () {
     function PetApi(basePathOrUsername, password, basePath) {
         this._basePath = defaultBasePath;
@@ -830,10 +837,10 @@ var PetApi = (function () {
     return PetApi;
 }());
 exports.PetApi = PetApi;
+var StoreApiApiKeys;
 (function (StoreApiApiKeys) {
     StoreApiApiKeys[StoreApiApiKeys["api_key"] = 0] = "api_key";
-})(exports.StoreApiApiKeys || (exports.StoreApiApiKeys = {}));
-var StoreApiApiKeys = exports.StoreApiApiKeys;
+})(StoreApiApiKeys = exports.StoreApiApiKeys || (exports.StoreApiApiKeys = {}));
 var StoreApi = (function () {
     function StoreApi(basePathOrUsername, password, basePath) {
         this._basePath = defaultBasePath;
@@ -1060,10 +1067,10 @@ var StoreApi = (function () {
     return StoreApi;
 }());
 exports.StoreApi = StoreApi;
+var UserApiApiKeys;
 (function (UserApiApiKeys) {
     UserApiApiKeys[UserApiApiKeys["api_key"] = 0] = "api_key";
-})(exports.UserApiApiKeys || (exports.UserApiApiKeys = {}));
-var UserApiApiKeys = exports.UserApiApiKeys;
+})(UserApiApiKeys = exports.UserApiApiKeys || (exports.UserApiApiKeys = {}));
 var UserApi = (function () {
     function UserApi(basePathOrUsername, password, basePath) {
         this._basePath = defaultBasePath;

@@ -20,7 +20,7 @@
 #define IO_SWAGGER_CLIENT_MODEL_Pet_H_
 
 
-#include "ModelBase.h"
+#include "../ModelBase.h"
 
 #include "Tag.h"
 #include <cpprest/details/basic_types.h>

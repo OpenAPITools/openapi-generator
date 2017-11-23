@@ -10,6 +10,7 @@ import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.oas.models.media.Schema;
+import com.samskivert.mustache.Mustache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,8 +29,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     private static final String NET45 = "v4.5";
     private static final String NET40 = "v4.0";
     private static final String NET35 = "v3.5";
+    // TODO: v5.0 is PCL, not netstandard version 1.3, and not a specific .NET Framework. This needs to be updated,
+    // especially because it will conflict with .NET Framework 5.0 when released, and PCL 5 refers to Framework 4.0.
+    // We should support either NETSTANDARD, PCL, or Both… but the concepts shouldn't be mixed.
     private static final String NETSTANDARD = "v5.0";
     private static final String UWP = "uwp";
+
+    // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
+    private static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
 
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase() + "}";
     protected String clientPackage = "IO.Swagger.Client";
@@ -37,12 +44,18 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
+    // Defines TargetFrameworkVersion in csproj files
     protected String targetFramework = NET45;
+
+    // Defines nuget identifiers for target framework
     protected String targetFrameworkNuget = "net45";
     protected boolean supportsAsync = Boolean.TRUE;
     protected boolean supportsUWP = Boolean.FALSE;
     protected boolean netStandard = Boolean.FALSE;
     protected boolean generatePropertyChanged = Boolean.FALSE;
+    protected boolean hideGenerationTimestamp = Boolean.TRUE;
+
+    protected boolean validatable = Boolean.TRUE;
     protected Map<Character, String> regexModifiers;
     protected final Map<String, String> frameworks;
 
@@ -156,6 +169,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.NETCORE_PROJECT_FILE_DESC,
                 this.netCoreProjectFileFlag);
 
+        addSwitch(CodegenConstants.VALIDATABLE,
+                CodegenConstants.VALIDATABLE_DESC,
+                this.validatable);
+
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IgnoreCase");
         regexModifiers.put('m', "Multiline");
@@ -167,39 +184,43 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void processOpts() {
         super.processOpts();
 
+        /*
+         * NOTE: When supporting boolean additionalProperties, you should read the value and write it back as a boolean.
+         * This avoids oddities where additionalProperties contains "false" rather than false, which will cause the
+         * templating engine to behave unexpectedly.
+         *
+         * Use the pattern:
+         *     if (additionalProperties.containsKey(prop)) convertPropertyToBooleanAndWriteBack(prop);
+         */
+
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
 
         // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
+        if (additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
+            setHideGenerationTimestamp(convertPropertyToBooleanAndWriteBack(CodegenConstants.HIDE_GENERATION_TIMESTAMP));
         } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, hideGenerationTimestamp);
         }
 
         if (isEmpty(apiPackage)) {
-            apiPackage = "Api";
+            setApiPackage("Api");
         }
         if (isEmpty(modelPackage)) {
-            modelPackage = "Model";
+            setModelPackage("Model");
         }
         clientPackage = "Client";
 
         Boolean excludeTests = false;
         if (additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
-            excludeTests = Boolean.valueOf(additionalProperties.get(CodegenConstants.EXCLUDE_TESTS).toString());
+            excludeTests = convertPropertyToBooleanAndWriteBack(CodegenConstants.EXCLUDE_TESTS);
         }
 
-        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
-        additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        additionalProperties.put("clientPackage", clientPackage);
-        additionalProperties.put("emitDefaultValue", optionalEmitDefaultValue);
-
-        if (!additionalProperties.containsKey("validatable")) {
-            // default validatable to true if not set
-            additionalProperties.put("validatable", true);
+        if (additionalProperties.containsKey(CodegenConstants.VALIDATABLE)) {
+            setValidatable(convertPropertyToBooleanAndWriteBack(CodegenConstants.VALIDATABLE));
+        } else {
+            additionalProperties.put(CodegenConstants.VALIDATABLE, validatable);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.DOTNET_FRAMEWORK)) {
@@ -207,93 +228,116 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         } else {
             // Ensure default is set.
             setTargetFramework(NET45);
-            additionalProperties.put("targetFramework", this.targetFramework);
+            additionalProperties.put(CodegenConstants.DOTNET_FRAMEWORK, this.targetFramework);
         }
 
         if (NET35.equals(this.targetFramework)) {
-            setTargetFrameworkNuget("net35");
-            setSupportsAsync(Boolean.FALSE);
-            if (additionalProperties.containsKey("supportsAsync")) {
-                additionalProperties.remove("supportsAsync");
-            }
-            additionalProperties.put("validatable", false);
+            // This is correct, mono will require you build .NET 3.5 sources using 4.0 SDK
+            additionalProperties.put(MCS_NET_VERSION_KEY, "4");
             additionalProperties.put("net35", true);
+            if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ASYNC)) {
+                LOGGER.warn(".NET 3.5 generator does not support async.");
+                additionalProperties.remove(CodegenConstants.SUPPORTS_ASYNC);
+            }
+
+            setTargetFrameworkNuget("net35");
+            setValidatable(Boolean.FALSE);
+            setSupportsAsync(Boolean.FALSE);
         } else if (NETSTANDARD.equals(this.targetFramework)) {
+            // TODO: NETSTANDARD here is misrepresenting a PCL v5.0 which supports .NET Framework 4.6+, .NET Core 1.0, and Windows Universal 10.0
+            additionalProperties.put(MCS_NET_VERSION_KEY, "4.6-api");
+            if (additionalProperties.containsKey("supportsUWP")) {
+                LOGGER.warn(".NET " + NETSTANDARD + " generator does not support UWP.");
+                additionalProperties.remove("supportsUWP");
+            }
+
+            // TODO: NETSTANDARD=v5.0 and targetFrameworkNuget=netstandard1.3. These need to sync.
             setTargetFrameworkNuget("netstandard1.3");
             setSupportsAsync(Boolean.TRUE);
             setSupportsUWP(Boolean.FALSE);
             setNetStandard(Boolean.TRUE);
-            additionalProperties.put("supportsAsync", this.supportsAsync);
-            additionalProperties.put("supportsUWP", this.supportsUWP);
-            additionalProperties.put("netStandard", this.netStandard);
 
             //Tests not yet implemented for .NET Standard codegen
             //Todo implement it
             excludeTests = true;
-            if (additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
-                additionalProperties.remove(CodegenConstants.EXCLUDE_TESTS);
-            }
-            additionalProperties.put(CodegenConstants.EXCLUDE_TESTS, excludeTests);
         } else if (UWP.equals(this.targetFramework)) {
             setTargetFrameworkNuget("uwp");
             setSupportsAsync(Boolean.TRUE);
             setSupportsUWP(Boolean.TRUE);
-            additionalProperties.put("supportsAsync", this.supportsAsync);
-            additionalProperties.put("supportsUWP", this.supportsUWP);
         } else if (NET40.equals(this.targetFramework)) {
+            additionalProperties.put(MCS_NET_VERSION_KEY, "4");
+            additionalProperties.put("isNet40", true);
+
+            if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ASYNC)) {
+                LOGGER.warn(".NET " + NET40 + " generator does not support async.");
+                additionalProperties.remove(CodegenConstants.SUPPORTS_ASYNC);
+            }
+
             setTargetFrameworkNuget("net40");
             setSupportsAsync(Boolean.FALSE);
-            if (additionalProperties.containsKey("supportsAsync")) {
-                additionalProperties.remove("supportsAsync");
-            }
-            additionalProperties.put("isNet40", true);
         } else {
+            additionalProperties.put(MCS_NET_VERSION_KEY, "4.5.2-api");
             setTargetFrameworkNuget("net45");
             setSupportsAsync(Boolean.TRUE);
-            additionalProperties.put("supportsAsync", this.supportsAsync);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
             if (NET35.equals(targetFramework)) {
                 LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is only supported by generated code for .NET 4+.");
+                additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
             } else if (NETSTANDARD.equals(targetFramework)) {
                 LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is not supported in .NET Standard generated code.");
+                additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
             } else if (Boolean.TRUE.equals(netCoreProjectFileFlag)) {
                 LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is not supported in .NET Core csproj project format.");
-            } else {
-                setGeneratePropertyChanged(Boolean.valueOf(additionalProperties.get(CodegenConstants.GENERATE_PROPERTY_CHANGED).toString()));
-            }
-
-            if (Boolean.FALSE.equals(this.generatePropertyChanged)) {
                 additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
+            } else {
+                setGeneratePropertyChanged(convertPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_PROPERTY_CHANGED));
             }
         }
 
+        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+        additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        additionalProperties.put("clientPackage", clientPackage);
+
+        additionalProperties.put(CodegenConstants.EXCLUDE_TESTS, excludeTests);
+        additionalProperties.put(CodegenConstants.VALIDATABLE, this.validatable);
+        additionalProperties.put(CodegenConstants.SUPPORTS_ASYNC, this.supportsAsync);
+        additionalProperties.put("supportsUWP", this.supportsUWP);
+        additionalProperties.put("netStandard", this.netStandard);
         additionalProperties.put("targetFrameworkNuget", this.targetFrameworkNuget);
 
+        // TODO: either remove this and update templates to match the "optionalEmitDefaultValues" property, or rename that property.
+        additionalProperties.put("emitDefaultValue", optionalEmitDefaultValue);
+
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
-            setOptionalProjectFileFlag(Boolean.valueOf(
-                    additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_FILE).toString()));
+            setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_PROJECT_FILE, optionalProjectFileFlag);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID)) {
             setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_PROJECT_GUID, packageGuid);
         }
-        additionalProperties.put("packageGuid", packageGuid);
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_METHOD_ARGUMENT)) {
-            setOptionalMethodArgumentFlag(Boolean.valueOf(additionalProperties
-                    .get(CodegenConstants.OPTIONAL_METHOD_ARGUMENT).toString()));
+            setOptionalMethodArgumentFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_METHOD_ARGUMENT));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_METHOD_ARGUMENT, optionalMethodArgumentFlag);
         }
-        additionalProperties.put("optionalMethodArgument", optionalMethodArgumentFlag);
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_ASSEMBLY_INFO)) {
-            setOptionalAssemblyInfoFlag(Boolean.valueOf(additionalProperties
-                    .get(CodegenConstants.OPTIONAL_ASSEMBLY_INFO).toString()));
+            setOptionalAssemblyInfoFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_ASSEMBLY_INFO));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_ASSEMBLY_INFO, optionalAssemblyInfoFlag);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.NON_PUBLIC_API)) {
-            setNonPublicApi(Boolean.valueOf(additionalProperties.get(CodegenConstants.NON_PUBLIC_API).toString()));
+            setNonPublicApi(convertPropertyToBooleanAndWriteBack(CodegenConstants.NON_PUBLIC_API));
+        } else {
+            additionalProperties.put(CodegenConstants.NON_PUBLIC_API, isNonPublicApi());
         }
 
         final String testPackageName = testPackageName();
@@ -326,8 +370,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 clientPackageDir, "ExceptionFactory.cs"));
         supportingFiles.add(new SupportingFile("SwaggerDateConverter.mustache",
                 clientPackageDir, "SwaggerDateConverter.cs"));
-        supportingFiles.add(new SupportingFile("JsonSubTypes.mustache",
-                clientPackageDir, "JsonSubTypes.cs"));
+
+        if (NET40.equals(this.targetFramework)) {
+            // .net 4.0 doesn't include ReadOnlyDictionary…
+            supportingFiles.add(new SupportingFile("ReadOnlyDictionary.mustache",
+                    clientPackageDir, "ReadOnlyDictionary.cs"));
+        }
 
         if (Boolean.FALSE.equals(this.netStandard) && Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
             supportingFiles.add(new SupportingFile("compile.mustache", "", "build.bat"));
@@ -357,6 +405,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             if (Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
                 supportingFiles.add(new SupportingFile("packages_test.config.mustache", testPackageFolder + File.separator, "packages.config"));
             }
+
+            if (NET40.equals(this.targetFramework)) {
+                // Include minimal tests for modifications made to JsonSubTypes, since code is quite different for .net 4.0 from original implementation
+                supportingFiles.add(new SupportingFile("JsonSubTypesTests.mustache",
+                        testPackageFolder + File.separator + "Client",
+                        "JsonSubTypesTests.cs"));
+            }
         }
 
         if (Boolean.TRUE.equals(generatePropertyChanged)) {
@@ -366,9 +421,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        // apache v2 license
-        // UPDATE (20160612) no longer needed as the Apache v2 LICENSE is added globally
-        //supportingFiles.add(new SupportingFile("LICENSE", "", "LICENSE"));
 
         if (optionalAssemblyInfoFlag && Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
             supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", packageFolder + File.separator + "Properties", "AssemblyInfo.cs"));
@@ -738,12 +790,20 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.generatePropertyChanged = generatePropertyChanged;
     }
 
+    public void setHideGenerationTimestamp(boolean hideGenerationTimestamp) {
+        this.hideGenerationTimestamp = hideGenerationTimestamp;
+    }
+
     public boolean isNonPublicApi() {
         return nonPublicApi;
     }
 
     public void setNonPublicApi(final boolean nonPublicApi) {
         this.nonPublicApi = nonPublicApi;
+    }
+
+    public void setValidatable(boolean validatable) {
+        this.validatable = validatable;
     }
 
     @Override
@@ -769,5 +829,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     public String modelTestFileFolder() {
         return outputFolder + File.separator + testFolder + File.separator + testPackageName() + File.separator + modelPackage();
+    }
+
+    @Override
+    public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
+        // To avoid unexpected behaviors when options are passed programmatically such as { "supportsAsync": "" }
+        return super.processCompiler(compiler).emptyStringIsFalse(true);
     }
 }

@@ -39,16 +39,20 @@ namespace IO.Swagger.Model
             /// Enum GreaterThanOrEqualTo for ">="
             /// </summary>
             [EnumMember(Value = ">=")]
-            GreaterThanOrEqualTo,
+            GreaterThanOrEqualTo = 1,
             
             /// <summary>
             /// Enum Dollar for "$"
             /// </summary>
             [EnumMember(Value = "$")]
-            Dollar
+            Dollar = 2
         }
 
-
+        /// <summary>
+        /// Gets or Sets JustSymbol
+        /// </summary>
+        [DataMember(Name="just_symbol", EmitDefaultValue=false)]
+        public JustSymbolEnum? JustSymbol { get; set; }
         /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>
@@ -60,20 +64,16 @@ namespace IO.Swagger.Model
             /// Enum Fish for "fish"
             /// </summary>
             [EnumMember(Value = "fish")]
-            Fish,
+            Fish = 1,
             
             /// <summary>
             /// Enum Crab for "crab"
             /// </summary>
             [EnumMember(Value = "crab")]
-            Crab
+            Crab = 2
         }
 
-        /// <summary>
-        /// Gets or Sets JustSymbol
-        /// </summary>
-        [DataMember(Name="just_symbol", EmitDefaultValue=false)]
-        public JustSymbolEnum? JustSymbol { get; set; }
+
         /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>
@@ -118,35 +118,33 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
-        /// <param name="obj">Object to be compared</param>
+        /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as EnumArrays);
+            return this.Equals(input as EnumArrays);
         }
 
         /// <summary>
         /// Returns true if EnumArrays instances are equal
         /// </summary>
-        /// <param name="other">Instance of EnumArrays to be compared</param>
+        /// <param name="input">Instance of EnumArrays to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(EnumArrays other)
+        public bool Equals(EnumArrays input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            if (other == null)
+            if (input == null)
                 return false;
 
             return 
                 (
-                    this.JustSymbol == other.JustSymbol ||
-                    this.JustSymbol != null &&
-                    this.JustSymbol.Equals(other.JustSymbol)
+                    this.JustSymbol == input.JustSymbol ||
+                    (this.JustSymbol != null &&
+                    this.JustSymbol.Equals(input.JustSymbol))
                 ) && 
                 (
-                    this.ArrayEnum == other.ArrayEnum ||
+                    this.ArrayEnum == input.ArrayEnum ||
                     this.ArrayEnum != null &&
-                    this.ArrayEnum.SequenceEqual(other.ArrayEnum)
+                    this.ArrayEnum.SequenceEqual(input.ArrayEnum)
                 );
         }
 
@@ -156,16 +154,14 @@ namespace IO.Swagger.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
+                int hashCode = 41;
                 if (this.JustSymbol != null)
-                    hash = hash * 59 + this.JustSymbol.GetHashCode();
+                    hashCode = hashCode * 59 + this.JustSymbol.GetHashCode();
                 if (this.ArrayEnum != null)
-                    hash = hash * 59 + this.ArrayEnum.GetHashCode();
-                return hash;
+                    hashCode = hashCode * 59 + this.ArrayEnum.GetHashCode();
+                return hashCode;
             }
         }
     }

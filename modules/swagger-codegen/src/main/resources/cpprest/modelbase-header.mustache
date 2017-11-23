@@ -66,6 +66,7 @@ public:
     static utility::datetime dateFromHttpContent(std::shared_ptr<HttpContent> val);
     static bool boolFromHttpContent(std::shared_ptr<HttpContent> val);
     static double doubleFromHttpContent(std::shared_ptr<HttpContent> val);
+    static web::json::value valueFromHttpContent(std::shared_ptr<HttpContent> val);
 
 
     static utility::string_t toBase64( utility::string_t value );

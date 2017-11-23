@@ -26,7 +26,6 @@
 
 #include "SWGObject.h"
 
-
 namespace Swagger {
 
 class SWGCategory: public SWGObject {

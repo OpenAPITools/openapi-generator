@@ -1,6 +1,7 @@
 "use strict";
-var api = require('./api');
-var fs = require('fs');
+Object.defineProperty(exports, "__esModule", { value: true });
+var api = require("./api");
+var fs = require("fs");
 function deepCheck(objectA, objectB) {
     var a = objectA;
     var b = objectB;
@@ -98,8 +99,6 @@ if (!deepCheck(reserializedData, serializedPet)) {
     exitCode = 1;
     console.log("Reserialized Data incorrect! \nis:\n ", reserializedData, "\nshould:\n ", serializedPet);
 }
-pet.category = undefined;
-pet.status = undefined;
 petApi.addPet(pet)
     .then(function (res) {
     var newPet = res.body;

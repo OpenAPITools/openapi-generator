@@ -15,10 +15,12 @@ open class Category: Codable {
     public var name: String?
 
 
+    
     public init(id: Int64?, name: String?) {
         self.id = id
         self.name = name
     }
+    
 
     // Encodable protocol methods
 

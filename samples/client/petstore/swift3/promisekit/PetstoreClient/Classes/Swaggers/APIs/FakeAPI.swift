@@ -511,6 +511,54 @@ open class FakeAPI: APIBase {
     }
 
     /**
+     test inline additionalProperties
+     - parameter param: (body) request body 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func testInlineAdditionalProperties(param: Any, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
+        testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { (response, error) -> Void in
+            completion(error)
+        }
+    }
+
+    /**
+     test inline additionalProperties
+     - parameter param: (body) request body 
+     - returns: Promise<Void>
+     */
+    open class func testInlineAdditionalProperties( param: Any) -> Promise<Void> {
+        let deferred = Promise<Void>.pending()
+        testInlineAdditionalProperties(param: param) { error in
+            if let error = error {
+                deferred.reject(error)
+            } else {
+                deferred.fulfill()
+            }
+        }
+        return deferred.promise
+    }
+
+    /**
+     test inline additionalProperties
+     - POST /fake/inline-additionalProperties
+     - 
+
+     - parameter param: (body) request body 
+     - returns: RequestBuilder<Void> 
+     */
+    open class func testInlineAdditionalPropertiesWithRequestBuilder(param: Any) -> RequestBuilder<Void> {
+        let path = "/fake/inline-additionalProperties"
+        let URLString = PetstoreClientAPI.basePath + path
+        let parameters = param.encodeToJSON()
+
+        let url = NSURLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
      test json serialization of form data
      - parameter param: (form) field1 
      - parameter param2: (form) field2 

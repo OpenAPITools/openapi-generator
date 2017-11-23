@@ -80,7 +80,7 @@ struct Bag<T> : CustomDebugStringConvertible {
         }
 
         if _pairs.count < arrayDictionaryMaxSize {
-            _pairs.append(key: key, value: element)
+            _pairs.append((key: key, value: element))
             return key
         }
 
