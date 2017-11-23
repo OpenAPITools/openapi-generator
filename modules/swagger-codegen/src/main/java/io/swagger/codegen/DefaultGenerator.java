@@ -741,13 +741,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if(ignoreProcessor.allowsFile(new File(adjustedOutputFilename))) {
             String templateFile = getFullTemplateFile(config, templateName);
             String template = readTemplate(templateFile);
-            Mustache.Compiler compiler = Mustache.compiler();
-            compiler = config.processCompiler(compiler);
+
             String rendered = null;
             if (DefaultCodegen.HANDLEBARS_TEMPLATE.equals(config.templateEngine())) {
-                final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateName);
+                final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateFile);
                 rendered = hTemplate.apply(templateData);
             } else {
+                Mustache.Compiler compiler = Mustache.compiler();
+                compiler = config.processCompiler(compiler);
                 Template tmpl = compiler
                         .withLoader(new Mustache.TemplateLoader() {
                             @Override
@@ -1024,10 +1025,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return authMethods;
     }
 
-    private com.github.jknack.handlebars.Template getHandlebars(String templateName) throws IOException {
+    private com.github.jknack.handlebars.Template getHandlebars(String templateFile) throws IOException {
+        if (templateFile.startsWith(config.templateDir())) {
+            templateFile = templateFile.replaceFirst(config.templateDir(), StringUtils.EMPTY);
+        }
         final TemplateLoader templateLoader = new ClassPathTemplateLoader("/" + config.templateDir(), config.resolveExtension());
         final Handlebars handlebars = new Handlebars(templateLoader);
         handlebars.registerHelpers(config.getHandlebarHelper());
-        return handlebars.compile(templateName.replace(config.resolveExtension(), StringUtils.EMPTY));
+        return handlebars.compile(templateFile.replace(config.resolveExtension(), StringUtils.EMPTY));
     }
 }
