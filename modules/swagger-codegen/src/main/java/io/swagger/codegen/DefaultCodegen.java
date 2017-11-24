@@ -1,6 +1,5 @@
 package io.swagger.codegen;
 
-import com.github.jknack.handlebars.Helper;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.samskivert.mustache.Mustache.Compiler;
@@ -45,7 +44,6 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -54,12 +52,15 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.swagger.codegen.CodegenHelper.getDefaultIncludes;
+import static io.swagger.codegen.CodegenHelper.getImportMappings;
+import static io.swagger.codegen.CodegenHelper.getTypeMappings;
+import static io.swagger.codegen.CodegenHelper.initalizeSpecialCharacterMapping;
 import static io.swagger.codegen.utils.ModelUtils.processCodegenModels;
 import static io.swagger.codegen.utils.ModelUtils.processModelEnums;
 import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
@@ -728,66 +729,15 @@ public class DefaultCodegen implements CodegenConfig {
      * returns string presentation of the example path (it's a constructor)
      */
     public DefaultCodegen() {
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList("double",
-                        "int",
-                        "long",
-                        "short",
-                        "char",
-                        "float",
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Void",
-                        "Integer",
-                        "Long",
-                        "Float")
-        );
+        defaultIncludes = getDefaultIncludes();
 
-        typeMapping = new HashMap<String, String>();
-        typeMapping.put("array", "List");
-        typeMapping.put("map", "Map");
-        typeMapping.put("List", "List");
-        typeMapping.put("boolean", "Boolean");
-        typeMapping.put("string", "String");
-        typeMapping.put("int", "Integer");
-        typeMapping.put("float", "Float");
-        typeMapping.put("number", "BigDecimal");
-        typeMapping.put("DateTime", "Date");
-        typeMapping.put("long", "Long");
-        typeMapping.put("short", "Short");
-        typeMapping.put("char", "String");
-        typeMapping.put("double", "Double");
-        typeMapping.put("object", "Object");
-        typeMapping.put("integer", "Integer");
-        typeMapping.put("ByteArray", "byte[]");
-        typeMapping.put("binary", "byte[]");
-        typeMapping.put("file", "File");
-        typeMapping.put("UUID", "UUID");
-        typeMapping.put("BigDecimal", "BigDecimal");
-
+        typeMapping = getTypeMappings();
 
         instantiationTypes = new HashMap<String, String>();
 
         reservedWords = new HashSet<String>();
 
-        importMapping = new HashMap<String, String>();
-        importMapping.put("BigDecimal", "java.math.BigDecimal");
-        importMapping.put("UUID", "java.util.UUID");
-        importMapping.put("File", "java.io.File");
-        importMapping.put("Date", "java.util.Date");
-        importMapping.put("Timestamp", "java.sql.Timestamp");
-        importMapping.put("Map", "java.util.Map");
-        importMapping.put("HashMap", "java.util.HashMap");
-        importMapping.put("Array", "java.util.List");
-        importMapping.put("ArrayList", "java.util.ArrayList");
-        importMapping.put("List", "java.util.*");
-        importMapping.put("Set", "java.util.*");
-        importMapping.put("DateTime", "org.joda.time.*");
-        importMapping.put("LocalDateTime", "org.joda.time.*");
-        importMapping.put("LocalDate", "org.joda.time.*");
-        importMapping.put("LocalTime", "org.joda.time.*");
+        importMapping = getImportMappings();
 
         // we've used the .swagger-codegen-ignore approach as
         // suppportingFiles can be cleared by code generator that extends
@@ -805,49 +755,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .ALLOW_UNICODE_IDENTIFIERS_DESC).defaultValue(Boolean.FALSE.toString()));
 
         // initialize special character mapping
-        initalizeSpecialCharacterMapping();
-    }
-
-    /**
-     * Initialize special character mapping
-     */
-    protected void initalizeSpecialCharacterMapping() {
-        // Initialize special characters
-        specialCharReplacements.put("$", "Dollar");
-        specialCharReplacements.put("^", "Caret");
-        specialCharReplacements.put("|", "Pipe");
-        specialCharReplacements.put("=", "Equal");
-        specialCharReplacements.put("*", "Star");
-        specialCharReplacements.put("-", "Minus");
-        specialCharReplacements.put("&", "Ampersand");
-        specialCharReplacements.put("%", "Percent");
-        specialCharReplacements.put("#", "Hash");
-        specialCharReplacements.put("@", "At");
-        specialCharReplacements.put("!", "Exclamation");
-        specialCharReplacements.put("+", "Plus");
-        specialCharReplacements.put(":", "Colon");
-        specialCharReplacements.put(">", "Greater_Than");
-        specialCharReplacements.put("<", "Less_Than");
-        specialCharReplacements.put(".", "Period");
-        specialCharReplacements.put("_", "Underscore");
-        specialCharReplacements.put("?", "Question_Mark");
-        specialCharReplacements.put(",", "Comma");
-        specialCharReplacements.put("'", "Quote");
-        specialCharReplacements.put("\"", "Double_Quote");
-        specialCharReplacements.put("/", "Slash");
-        specialCharReplacements.put("\\", "Back_Slash");
-        specialCharReplacements.put("(", "Left_Parenthesis");
-        specialCharReplacements.put(")", "Right_Parenthesis");
-        specialCharReplacements.put("{", "Left_Curly_Bracket");
-        specialCharReplacements.put("}", "Right_Curly_Bracket");
-        specialCharReplacements.put("[", "Left_Square_Bracket");
-        specialCharReplacements.put("]", "Right_Square_Bracket");
-        specialCharReplacements.put("~", "Tilde");
-        specialCharReplacements.put("`", "Backtick");
-
-        specialCharReplacements.put("<=", "Less_Than_Or_Equal_To");
-        specialCharReplacements.put(">=", "Greater_Than_Or_Equal_To");
-        specialCharReplacements.put("!=", "Not_Equal");
+        initalizeSpecialCharacterMapping(specialCharReplacements);
     }
 
     /**
