@@ -8,6 +8,7 @@ import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.oas.models.media.ArraySchema;
 import io.swagger.oas.models.media.MapSchema;
 import io.swagger.oas.models.media.Schema;
@@ -324,7 +325,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             boolean succes = buildEnumFromVendorExtension(cm) ||
                     buildEnumFromValues(cm);
             for (CodegenProperty var : cm.vars) {
-                updateCodegenPropertyEnum(var);
+                ModelUtils.updateCodegenPropertyEnum(var);
             }
         }
         return objs;
@@ -343,7 +344,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         List<Object> values = (List<Object>) allowableValues.get("values");
         List<Map<String, String>> enumVars =
                 new ArrayList<Map<String, String>>();
-        String commonPrefix = findCommonPrefixOfVars(values);
+        String commonPrefix = ModelUtils.findCommonPrefixOfVars(values);
         int truncateIdx = commonPrefix.length();
         for (Object value : values) {
             Map<String, String> enumVar = new HashMap<String, String>();

@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
+
 @SuppressWarnings("static-method")
 public class JavaScriptModelEnumTest {
     @Test(description = "convert a JavaScript model with an enum")
@@ -97,7 +99,7 @@ public class JavaScriptModelEnumTest {
         Map<String, Schema> schemas = schema.getProperties();
         Schema property =  schemas.get("array_enum");
         CodegenProperty prope = codegen.fromProperty("array_enum", property);
-        codegen.updateCodegenPropertyEnum(prope);
+        updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "[ArrayEnumEnum]");
         Assert.assertEquals(prope.enumName, "ArrayEnumEnum");
         Assert.assertTrue(prope.isEnum);
@@ -130,7 +132,7 @@ public class JavaScriptModelEnumTest {
         Map<String, Schema> schemas = schema.getProperties();
         Schema property =  schemas.get("enum_integer");
         CodegenProperty prope = codegen.fromProperty("enum_integer", property);
-        codegen.updateCodegenPropertyEnum(prope);
+        updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "EnumIntegerEnum");
         Assert.assertEquals(prope.enumName, "EnumIntegerEnum");
         Assert.assertTrue(prope.isEnum);

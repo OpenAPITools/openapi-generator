@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.oas.models.Operation;
 import io.swagger.oas.models.media.ArraySchema;
@@ -570,7 +571,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
         return op;
     }
-    
+
     public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemes) {
         List<CodegenSecurity> secs = super.fromSecurity(schemes);
         for(CodegenSecurity sec : secs) {
@@ -1123,9 +1124,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         return paramNameType;
     }
 
-    @Override
     public void updateCodegenPropertyEnum(CodegenProperty var) {
-        super.updateCodegenPropertyEnum(var);
+        ModelUtils.updateCodegenPropertyEnum(var);
         if (!genEnums) return;
         updateCodegenPropertyEnumValues(var, var.datatypeWithEnum);
     }

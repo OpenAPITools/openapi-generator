@@ -20,6 +20,8 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
+
 @SuppressWarnings("static-method")
 public class TypeScriptFetchModelTest {
 
@@ -204,7 +206,7 @@ public class TypeScriptFetchModelTest {
 
         Schema property = (Schema) schema.getProperties().get("array_enum");
         CodegenProperty prope = codegen.fromProperty("array_enum", property);
-        codegen.updateCodegenPropertyEnum(prope);
+        updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "Array<ArrayEnumEnum>");
         Assert.assertEquals(prope.enumName, "ArrayEnumEnum");
         Assert.assertTrue(prope.isEnum);
@@ -238,7 +240,7 @@ public class TypeScriptFetchModelTest {
 
         Schema property = (Schema) schema.getProperties().get("enum_integer");
         CodegenProperty prope = codegen.fromProperty("enum_integer", property);
-        codegen.updateCodegenPropertyEnum(prope);
+        updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "EnumIntegerEnum");
         Assert.assertEquals(prope.enumName, "EnumIntegerEnum");
         Assert.assertTrue(prope.isEnum);

@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
+
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean optionalAssemblyInfoFlag = true;

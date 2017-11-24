@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
+
 @SuppressWarnings("static-method")
 public class PhpModelTest {
 
@@ -284,7 +286,7 @@ public class PhpModelTest {
 
         Schema property = (Schema) schema.getProperties().get("array_enum");
         CodegenProperty prope = codegen.fromProperty("array_enum", property);
-        codegen.updateCodegenPropertyEnum(prope);
+        updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "ARRAY_ENUM[]");
         Assert.assertEquals(prope.enumName, "ARRAY_ENUM");
         Assert.assertTrue(prope.isEnum);
@@ -316,7 +318,7 @@ public class PhpModelTest {
 
         Schema property = (Schema) schema.getProperties().get("enum_integer");
         CodegenProperty prope = codegen.fromProperty("enum_integer", property);
-        codegen.updateCodegenPropertyEnum(prope);
+        updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "ENUM_INTEGER");
         Assert.assertEquals(prope.enumName, "ENUM_INTEGER");
         Assert.assertTrue(prope.isEnum);

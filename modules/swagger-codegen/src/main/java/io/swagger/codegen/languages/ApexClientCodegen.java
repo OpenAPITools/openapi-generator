@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
+import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.oas.models.Operation;
 import io.swagger.oas.models.info.Info;
@@ -447,9 +448,8 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
         return camelize(classPrefix + super.toApiName(name));
     }
 
-    @Override
     public void updateCodegenPropertyEnum(CodegenProperty var) {
-        super.updateCodegenPropertyEnum(var);
+        ModelUtils.updateCodegenPropertyEnum(var);
         if (var.isEnum && var.example != null) {
             String example = var.example.replace("'", "");
             example = toEnumVarName(example, var.datatype);
