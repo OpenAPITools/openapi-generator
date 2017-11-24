@@ -779,6 +779,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Genesys - PureCloud](http://developer.mypurecloud.com/)
 - [Germin8](http://www.germin8.com)
 - [GigaSpaces](http://www.gigaspaces.com)
+- [GMO Pepabo](https://pepabo.com/en/)
 - [goTransverse](http://www.gotransverse.com/api)
 - [GraphHopper](https://graphhopper.com/)
 - [Gravitate Solutions](http://gravitatesolutions.com/)
