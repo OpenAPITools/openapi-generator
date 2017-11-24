@@ -10,7 +10,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import io.swagger.codegen.languages.helpers.java.JavaHelper;
+import io.swagger.codegen.languages.helpers.JavaHelper;
 import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.oas.models.Operation;
