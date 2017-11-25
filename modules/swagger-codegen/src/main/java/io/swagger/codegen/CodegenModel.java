@@ -12,6 +12,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class CodegenModel {
+
+    public static final String IS_ALIAS_EXT_NAME = "x-is-alias";
+
     public String parent, parentSchema;
     public List<String> interfaces;
 
@@ -26,7 +29,6 @@ public class CodegenModel {
     public Discriminator discriminator;
     public String defaultValue;
     public String arrayModelType;
-    public boolean isAlias; // Is this effectively an alias of another simple type
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
     public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
@@ -353,14 +355,6 @@ public class CodegenModel {
 
     public void setArrayModelType(String arrayModelType) {
         this.arrayModelType = arrayModelType;
-    }
-
-    public boolean isAlias() {
-        return isAlias;
-    }
-
-    public void setAlias(boolean alias) {
-        isAlias = alias;
     }
 
     public List<CodegenProperty> getVars() {

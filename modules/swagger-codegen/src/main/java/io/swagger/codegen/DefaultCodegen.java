@@ -1122,8 +1122,10 @@ public class DefaultCodegen implements CodegenConfig {
         codegenModel.classFilename = toModelFilename(name);
         codegenModel.modelJson = Json.pretty(schema);
         codegenModel.externalDocumentation = schema.getExternalDocs();
-        codegenModel.vendorExtensions = schema.getExtensions();
-        codegenModel.isAlias = typeAliases.containsKey(name);
+        if (schema.getExtensions() != null && !schema.getExtensions().isEmpty()) {
+            codegenModel.getVendorExtensions().putAll(schema.getExtensions());
+        }
+        codegenModel.getVendorExtensions().put(CodegenModel.IS_ALIAS_EXT_NAME, typeAliases.containsKey(name));
 
         codegenModel.discriminator = schema.getDiscriminator();
 

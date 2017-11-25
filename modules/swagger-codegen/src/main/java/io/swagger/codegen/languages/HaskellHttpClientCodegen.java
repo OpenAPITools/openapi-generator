@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import io.swagger.codegen.languages.helpers.ExtensionHelper;
 import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.oas.models.Operation;
@@ -1053,7 +1054,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
             cm.isEnum = genEnums && cm.isEnum;
-            if(cm.isAlias) {
+
+            boolean isAlias = ExtensionHelper.getBooleanValue(cm.getVendorExtensions(), CodegenModel.IS_ALIAS_EXT_NAME);
+
+            if(isAlias) {
                 cm.vendorExtensions.put(X_DATA_TYPE, cm.dataType);
             }
             for (CodegenProperty var : cm.vars) {

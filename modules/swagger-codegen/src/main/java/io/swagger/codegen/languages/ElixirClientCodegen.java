@@ -750,7 +750,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.discriminator = cm.discriminator;
             this.defaultValue = cm.defaultValue;
             this.arrayModelType = cm.arrayModelType;
-            this.isAlias = cm.isAlias;
+            // TODO: use vendor extension this.isAlias = cm.isAlias;
             this.vars = cm.vars;
             this.requiredVars = cm.requiredVars;
             this.optionalVars = cm.optionalVars;
