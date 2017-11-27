@@ -1235,7 +1235,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             codegenModel.dataType = getSchemaType(schema);
             if(schema.getEnum() != null && !schema.getEnum().isEmpty()) {
-                codegenModel.isEnum = true;
+                codegenModel.getVendorExtensions().put(CodegenModel.IS_ENUM_EXT_NAME, Boolean.TRUE);
                 // comment out below as allowableValues is not set in post processing model enum
                 codegenModel.allowableValues = new HashMap<String, Object>();
                 codegenModel.allowableValues.put("values", schema.getEnum());

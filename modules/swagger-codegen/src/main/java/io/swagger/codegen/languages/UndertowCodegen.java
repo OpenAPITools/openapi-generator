@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class UndertowCodegen extends AbstractJavaCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UndertowCodegen.class);
@@ -151,7 +154,8 @@ public class UndertowCodegen extends AbstractJavaCodegen {
         super.postProcessModelProperty(model, property);
 
         //Add imports for Jackson
-        if(!BooleanUtils.toBoolean(model.isEnum)) {
+        boolean isEnum = getBooleanValue(model.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        if(!BooleanUtils.toBoolean(isEnum)) {
             model.imports.add("JsonProperty");
 
             if(BooleanUtils.toBoolean(model.hasEnums)) {
@@ -171,7 +175,8 @@ public class UndertowCodegen extends AbstractJavaCodegen {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
             // for enum model
-            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+            boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
+            if (Boolean.TRUE.equals(isEnum) && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));
                 Map<String, String> item = new HashMap<String, String>();
                 item.put("import", importMapping.get("JsonValue"));

@@ -31,6 +31,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, OptionalFeatures {
@@ -635,7 +638,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         //Add imports for Jackson
-        if (!Boolean.TRUE.equals(model.isEnum)) {
+        boolean isEnum = getBooleanValue(model.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        if (!Boolean.TRUE.equals(isEnum)) {
             model.imports.add("JsonProperty");
 
             if (Boolean.TRUE.equals(model.hasEnums)) {
@@ -660,7 +664,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
             // for enum model
-            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+            boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
+            if (Boolean.TRUE.equals(isEnum) && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));
                 Map<String, String> item = new HashMap<String, String>();
                 item.put("import", importMapping.get("JsonValue"));

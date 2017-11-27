@@ -35,6 +35,9 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.regex.Matcher;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     // source folder where to write the files
@@ -1053,7 +1056,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
-            cm.isEnum = genEnums && cm.isEnum;
+            final boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
+            cm.getVendorExtensions().put(IS_ENUM_EXT_NAME, genEnums && isEnum);
 
             boolean isAlias = ExtensionHelper.getBooleanValue(cm.getVendorExtensions(), CodegenModel.IS_ALIAS_EXT_NAME);
 
@@ -1078,7 +1082,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             for (Object _mo : models) {
                 Map<String, Object> mo = (Map<String, Object>) _mo;
                 CodegenModel cm = (CodegenModel) mo.get("model");
-                if (cm.isEnum && cm.allowableValues != null) {
+                final boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
+                if (isEnum && cm.allowableValues != null) {
                     updateAllowableValuesNames(cm.classname, cm.allowableValues);
                     addEnumToUniques(cm.classname, cm.dataType, cm.allowableValues.values().toString(), cm.allowableValues, cm.description);
                 }

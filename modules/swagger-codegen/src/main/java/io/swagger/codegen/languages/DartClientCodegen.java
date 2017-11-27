@@ -21,6 +21,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String BROWSER_CLIENT = "browserClient";
     public static final String PUB_NAME = "pubName";
@@ -337,7 +340,8 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @return {@code true} if the enum was built
      */
     private boolean buildEnumFromValues(CodegenModel cm) {
-        if (!cm.isEnum || cm.allowableValues == null) {
+        boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        if (!isEnum || cm.allowableValues == null) {
             return false;
         }
         Map<String, Object> allowableValues = cm.allowableValues;
@@ -371,7 +375,8 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @return {@code true} if the enum was built
      */
     private boolean buildEnumFromVendorExtension(CodegenModel cm) {
-        if (!cm.isEnum || cm.allowableValues == null ||
+        boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        if (!isEnum || cm.allowableValues == null ||
                 !useEnumExtension ||
                 !cm.vendorExtensions.containsKey("x-enum-values")) {
             return false;

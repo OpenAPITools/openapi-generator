@@ -21,6 +21,9 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
     protected String resourceFolder = "src/main/resources";
@@ -140,7 +143,8 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if (!model.isEnum) {
+        boolean isEnum = getBooleanValue(model.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        if (!isEnum) {
             model.imports.add("JsonInclude");
             model.imports.add("JsonProperty");
             if (model.hasEnums) {
