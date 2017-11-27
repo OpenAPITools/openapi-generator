@@ -99,12 +99,11 @@ class {{controllerName}} extends Controller
         {{/authMethods}}
 
         // Read out all input parameter values into variables
-        {{#allParams}}
         {{#queryParams}}
         ${{paramName}} = $request->query->get('{{paramName}}');
         {{/queryParams}}
         {{#headerParams}}
-        ${{paramName}} = $request->headers->get('{{paramName}}');
+        ${{paramName}} = $request->headers->get('{{baseName}}');
         {{/headerParams}}
         {{#formParams}}
         {{#isFile}}
@@ -135,14 +134,14 @@ class {{controllerName}} extends Controller
         {{/required}}
 
         // Deserialize the input values that needs it
+        {{#allParams}}
         {{^isFile}}
-        {{#bodyParams}}
-        
-        ${{paramName}} = $this->deserialize(${{paramName}}, '{{{dataType}}}', $inputFormat);
-        {{/bodyParams}}
-        {{^bodyParams}}
-        ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}array<{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}{{^collectionFormat}}csv{{/collectionFormat}}>{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', 'string');
-        {{/bodyParams}}
+        {{#isBodyParam}}
+        ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}{{#items}}array<{{datatype}}>{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', $inputFormat);
+        {{/isBodyParam}}
+        {{^isBodyParam}}
+        ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}array<{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}{{^collectionFormat}}csv{{/collectionFormat}},{{dataType}}>{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', 'string');
+        {{/isBodyParam}}
         {{/isFile}}
         {{/allParams}}
 

@@ -83,7 +83,6 @@ class UserController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        
         $body = $this->deserialize($body, 'Swagger\Server\Model\User', $inputFormat);
 
         // Validate the input values
@@ -166,14 +165,13 @@ class UserController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        
-        $body = $this->deserialize($body, 'Swagger\Server\Model\User[]', $inputFormat);
+        $body = $this->deserialize($body, 'array<Swagger\Server\Model\User>', $inputFormat);
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\All([
-            new Assert\Type("Swagger\Server\Model\User[]")
+            new Assert\Type("Swagger\Server\Model\User")
         ]);
         $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
@@ -251,14 +249,13 @@ class UserController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        
-        $body = $this->deserialize($body, 'Swagger\Server\Model\User[]', $inputFormat);
+        $body = $this->deserialize($body, 'array<Swagger\Server\Model\User>', $inputFormat);
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\All([
-            new Assert\Type("Swagger\Server\Model\User[]")
+            new Assert\Type("Swagger\Server\Model\User")
         ]);
         $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
@@ -485,12 +482,6 @@ class UserController extends Controller
 
         // Deserialize the input values that needs it
         $username = $this->deserialize($username, 'string', 'string');
-        $username = $request->query->get('username');
-        $password = $request->query->get('password');
-
-        // Use the default value if no value was provided
-
-        // Deserialize the input values that needs it
         $password = $this->deserialize($password, 'string', 'string');
 
         // Validate the input values
@@ -571,6 +562,10 @@ class UserController extends Controller
 
         // Read out all input parameter values into variables
 
+        // Use the default value if no value was provided
+
+        // Deserialize the input values that needs it
+
         // Validate the input values
 
 
@@ -644,14 +639,7 @@ class UserController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        
-        $body = $this->deserialize($body, 'Swagger\Server\Model\User', $inputFormat);
-        $body = $request->getContent();
-
-        // Use the default value if no value was provided
-
-        // Deserialize the input values that needs it
-        
+        $username = $this->deserialize($username, 'string', 'string');
         $body = $this->deserialize($body, 'Swagger\Server\Model\User', $inputFormat);
 
         // Validate the input values

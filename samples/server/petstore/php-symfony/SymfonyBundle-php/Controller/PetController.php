@@ -87,7 +87,6 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        
         $body = $this->deserialize($body, 'Swagger\Server\Model\Pet', $inputFormat);
 
         // Validate the input values
@@ -162,17 +161,12 @@ class PetController extends Controller
         $securitypetstore_auth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $apiKey = $request->headers->get('apiKey');
+        $apiKey = $request->headers->get('api_key');
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         $petId = $this->deserialize($petId, 'int', 'string');
-        $apiKey = $request->headers->get('apiKey');
-
-        // Use the default value if no value was provided
-
-        // Deserialize the input values that needs it
         $apiKey = $this->deserialize($apiKey, 'string', 'string');
 
         // Validate the input values
@@ -258,7 +252,7 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $status = $this->deserialize($status, 'array<csv>', 'string');
+        $status = $this->deserialize($status, 'array<csv,string>', 'string');
 
         // Validate the input values
         $asserts = [];
@@ -345,7 +339,7 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $tags = $this->deserialize($tags, 'array<csv>', 'string');
+        $tags = $this->deserialize($tags, 'array<csv,string>', 'string');
 
         // Validate the input values
         $asserts = [];
@@ -521,7 +515,6 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        
         $body = $this->deserialize($body, 'Swagger\Server\Model\Pet', $inputFormat);
 
         // Validate the input values
@@ -609,19 +602,7 @@ class PetController extends Controller
 
         // Deserialize the input values that needs it
         $petId = $this->deserialize($petId, 'int', 'string');
-        $name = $request->request->get('name');
-        $status = $request->request->get('status');
-
-        // Use the default value if no value was provided
-
-        // Deserialize the input values that needs it
         $name = $this->deserialize($name, 'string', 'string');
-        $name = $request->request->get('name');
-        $status = $request->request->get('status');
-
-        // Use the default value if no value was provided
-
-        // Deserialize the input values that needs it
         $status = $this->deserialize($status, 'string', 'string');
 
         // Validate the input values
@@ -715,19 +696,7 @@ class PetController extends Controller
 
         // Deserialize the input values that needs it
         $petId = $this->deserialize($petId, 'int', 'string');
-        $additionalMetadata = $request->request->get('additionalMetadata');
-        $file = $request->files->get('file');
-
-        // Use the default value if no value was provided
-
-        // Deserialize the input values that needs it
         $additionalMetadata = $this->deserialize($additionalMetadata, 'string', 'string');
-        $additionalMetadata = $request->request->get('additionalMetadata');
-        $file = $request->files->get('file');
-
-        // Use the default value if no value was provided
-
-        // Deserialize the input values that needs it
 
         // Validate the input values
         $asserts = [];
