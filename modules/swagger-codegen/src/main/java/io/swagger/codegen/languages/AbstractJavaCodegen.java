@@ -30,6 +30,7 @@ import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
+import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.FormParameter;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.ArrayProperty;
@@ -941,13 +942,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             for (Operation operation : path.getOperations()) {
                 boolean hasFormParameters = false;
+                boolean hasBodyParameters = false;
                 for (Parameter parameter : operation.getParameters()) {
                     if (parameter instanceof FormParameter) {
                         hasFormParameters = true;
                     }
+                    if (parameter instanceof BodyParameter) {
+                        hasBodyParameters = true;
+                    }
                 }
-              //only add content-Type if its no a GET-Method
-                if(path.getGet() != null || ! operation.equals(path.getGet())){
+                if (hasBodyParameters || hasFormParameters){
                     String defaultContentType = hasFormParameters ? "application/x-www-form-urlencoded" : "application/json";
                     String contentType =  operation.getConsumes() == null || operation.getConsumes().isEmpty() ? defaultContentType : operation.getConsumes().get(0);
                     operation.setVendorExtension("x-contentType", contentType);
