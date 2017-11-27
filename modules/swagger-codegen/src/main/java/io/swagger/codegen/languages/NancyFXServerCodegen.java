@@ -121,6 +121,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         modelPackage = isNullOrEmpty(packageName) ? MODEL_NAMESPACE : packageName + "." + MODEL_NAMESPACE;
 
         supportingFiles.add(new SupportingFile("parameters.mustache", sourceFile("Utils"), "Parameters.cs"));
+        supportingFiles.add(new SupportingFile("localDateConverter.mustache", sourceFile("Utils"), "LocalDateConverter.cs"));
         supportingFiles.add(new SupportingFile("packages.config.mustache", sourceFolder(), "packages.config"));
         supportingFiles.add(new SupportingFile("nuspec.mustache", sourceFolder(), packageName + ".nuspec"));
 
@@ -391,12 +392,12 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     private static Map<String, String> nodaTimeTypesMappings() {
         return ImmutableMap.of(
                 "time", "LocalTime?",
-                "date", "ZonedDateTime?",
+                "date", "LocalDate?",
                 "datetime", "ZonedDateTime?");
     }
 
     private static Set<String> nodaTimePrimitiveTypes() {
-        return ImmutableSet.of("LocalTime?", "ZonedDateTime?");
+        return ImmutableSet.of("LocalTime?", "LocalDate?","ZonedDateTime?");
     }
 
     private class DependencyInfo {
