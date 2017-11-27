@@ -1,8 +1,8 @@
 -module(swagger_pet).
 
--export_type([swagger_pet/0,
-              encode/1,
-              decode/1]).
+-export([encode/1]).
+
+-export_type([swagger_pet/0]).
 
 -type swagger_pet() ::
     #{ 'id' => integer(),
@@ -26,4 +26,4 @@ encode(#{ 'id' := Id,
        'photoUrls' => PhotoUrls,
        'tags' => Tags,
        'status' => Status
-     }
+     }.
