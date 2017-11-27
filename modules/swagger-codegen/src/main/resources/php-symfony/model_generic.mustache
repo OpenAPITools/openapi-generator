@@ -21,7 +21,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
     /**
      * Gets {{name}}.
      *
-     * @return {{{datatype}}}{{^required}}|null{{/required}}
+     * @return {{{vendorExtensions.x-commentType}}}{{^required}}|null{{/required}}
      */
     public function {{getter}}()
     {
@@ -31,7 +31,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
     /**
      * Sets {{name}}.
      *
-     * @param {{{datatype}}}{{^required}}|null{{/required}} ${{name}}{{#description}}  {{{description}}}{{/description}}
+     * @param {{{vendorExtensions.x-commentType}}}{{^required}}|null{{/required}} ${{name}}{{#description}}  {{{description}}}{{/description}}
      *
      * @return $this
      */

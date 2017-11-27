@@ -152,7 +152,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **findPetsByStatus**
-> Swagger\Server\Model\Pet[] findPetsByStatus($status)
+> Swagger\Server\Model\Pet findPetsByStatus($status)
 
 Finds Pets by status
 
@@ -196,11 +196,11 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**string[]**](../Model/string.md)| Status values that need to be considered for filter |
+ **status** | [**string**](../Model/string.md)| Status values that need to be considered for filter |
 
 ### Return type
 
-[**Swagger\Server\Model\Pet[]**](../Model/Pet.md)
+[**Swagger\Server\Model\Pet**](../Model/Pet.md)
 
 ### Authorization
 
@@ -214,7 +214,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **findPetsByTags**
-> Swagger\Server\Model\Pet[] findPetsByTags($tags)
+> Swagger\Server\Model\Pet findPetsByTags($tags)
 
 Finds Pets by tags
 
@@ -258,11 +258,11 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**string[]**](../Model/string.md)| Tags to filter by |
+ **tags** | [**string**](../Model/string.md)| Tags to filter by |
 
 ### Return type
 
-[**Swagger\Server\Model\Pet[]**](../Model/Pet.md)
+[**Swagger\Server\Model\Pet**](../Model/Pet.md)
 
 ### Authorization
 

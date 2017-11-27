@@ -51,6 +51,8 @@ interface UserApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
+     * @return void
+     *
      */
     public function createUser(User $body, &$responseCode, array &$responseHeaders);
 
@@ -62,6 +64,8 @@ interface UserApiInterface
      * @param  Swagger\Server\Model\User[] $body  List of user object (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     *
+     * @return void
      *
      */
     public function createUsersWithArrayInput(array $body, &$responseCode, array &$responseHeaders);
@@ -75,6 +79,8 @@ interface UserApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
+     * @return void
+     *
      */
     public function createUsersWithListInput(array $body, &$responseCode, array &$responseHeaders);
 
@@ -86,6 +92,8 @@ interface UserApiInterface
      * @param  string $username  The name that needs to be deleted (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     *
+     * @return void
      *
      */
     public function deleteUser($username, &$responseCode, array &$responseHeaders);
@@ -99,7 +107,7 @@ interface UserApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return Swagger\Server\Model\User
+     * @return Swagger\Server\Model\User[]
      *
      */
     public function getUserByName($username, &$responseCode, array &$responseHeaders);
@@ -127,6 +135,8 @@ interface UserApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
+     * @return void
+     *
      */
     public function logoutUser(&$responseCode, array &$responseHeaders);
 
@@ -139,6 +149,8 @@ interface UserApiInterface
      * @param  Swagger\Server\Model\User $body  Updated user object (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     *
+     * @return void
      *
      */
     public function updateUser($username, User $body, &$responseCode, array &$responseHeaders);
