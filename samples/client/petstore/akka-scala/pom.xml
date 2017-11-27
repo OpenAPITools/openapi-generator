@@ -2,13 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.swagger</groupId>
-    <artifactId>swagger-client</artifactId>
+    <artifactId>scala-akka-petstore-client</artifactId>
     <packaging>jar</packaging>
-    <name>swagger-client</name>
+    <name>scala-akka-petstore-client</name>
     <version>1.0.0</version>
-    <prerequisites>
-        <maven>2.2.0</maven>
-    </prerequisites>
 
     <pluginRepositories>
         <pluginRepository>
@@ -21,6 +18,26 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>2.2.0</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -72,6 +89,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <id>add_sources</id>
@@ -106,7 +124,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>1.7</source>
+                    <source>
+                    1.7</source>
                     <target>1.7</target>
                 </configuration>
             </plugin>
@@ -209,6 +228,7 @@
         </dependency>
     </dependencies>
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <scala-version>2.10.4</scala-version>
         <json4s-jackson-version>3.2.11</json4s-jackson-version>
         <json4s-ext-version>3.2.11</json4s-ext-version>
@@ -221,6 +241,6 @@
 
         <junit-version>4.8.1</junit-version>
         <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
-        <scala-test-version>2.1.3</scala-test-version>
+        <scala-test-version>2.2.0</scala-test-version>
     </properties>
 </project>

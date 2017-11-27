@@ -10,7 +10,7 @@ info:
   contact:
     email: "apiteam@swagger.io"
   license:
-    name: "Apache 2.0"
+    name: "Apache-2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 host: "petstore.swagger.io:80"
 basePath: "/v2"
@@ -163,6 +163,7 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
+      deprecated: true
       x-contentType: "application/json"
       x-accepts: "application/json"
   /pet/{petId}:
@@ -626,6 +627,8 @@ paths:
           description: "successful operation"
           schema:
             $ref: "#/definitions/Client"
+      security:
+      - api_key_query: []
       x-contentType: "application/json"
       x-accepts: "application/json"
   /fake:
@@ -948,6 +951,79 @@ paths:
             $ref: "#/definitions/OuterComposite"
       x-contentType: "application/json"
       x-accepts: "application/json"
+  /fake/jsonFormData:
+    get:
+      tags:
+      - "fake"
+      summary: "test json serialization of form data"
+      description: ""
+      operationId: "testJsonFormData"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "param"
+        in: "formData"
+        description: "field1"
+        required: true
+        type: "string"
+      - name: "param2"
+        in: "formData"
+        description: "field2"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
+  /fake/inline-additionalProperties:
+    post:
+      tags:
+      - "fake"
+      summary: "test inline additionalProperties"
+      description: ""
+      operationId: "testInlineAdditionalProperties"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "param"
+        description: "request body"
+        required: true
+        schema:
+          type: "object"
+          additionalProperties:
+            type: "string"
+      responses:
+        200:
+          description: "successful operation"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
+  /another-fake/dummy:
+    patch:
+      tags:
+      - "$another-fake?"
+      summary: "To test special tags"
+      description: "To test special tags"
+      operationId: "test_special_tags"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "client model"
+        required: true
+        schema:
+          $ref: "#/definitions/Client"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Client"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
 securityDefinitions:
   petstore_auth:
     type: "oauth2"
@@ -960,6 +1036,10 @@ securityDefinitions:
     type: "apiKey"
     name: "api_key"
     in: "header"
+  api_key_query:
+    type: "apiKey"
+    name: "api_key_query"
+    in: "query"
   http_basic_test:
     type: "basic"
 definitions:
@@ -1006,7 +1086,7 @@ definitions:
       name:
         type: "string"
     example:
-      name: "aeiou"
+      name: "name"
       id: 6
     xml:
       name: "Category"
@@ -1034,14 +1114,14 @@ definitions:
         format: "int32"
         description: "User Status"
     example:
-      firstName: "aeiou"
-      lastName: "aeiou"
-      password: "aeiou"
+      firstName: "firstName"
+      lastName: "lastName"
+      password: "password"
       userStatus: 6
-      phone: "aeiou"
+      phone: "phone"
       id: 0
-      email: "aeiou"
-      username: "aeiou"
+      email: "email"
+      username: "username"
     xml:
       name: "User"
   Tag:
@@ -1053,7 +1133,7 @@ definitions:
       name:
         type: "string"
     example:
-      name: "aeiou"
+      name: "name"
       id: 1
     xml:
       name: "Tag"
@@ -1095,14 +1175,17 @@ definitions:
         - "sold"
     example:
       photoUrls:
-      - "aeiou"
+      - "photoUrls"
+      - "photoUrls"
       name: "doggie"
       id: 0
       category:
-        name: "aeiou"
+        name: "name"
         id: 6
       tags:
-      - name: "aeiou"
+      - name: "name"
+        id: 1
+      - name: "name"
         id: 1
       status: "available"
     xml:
@@ -1119,8 +1202,8 @@ definitions:
         type: "string"
     example:
       code: 0
-      type: "aeiou"
-      message: "aeiou"
+      type: "type"
+      message: "message"
   $special[model.name]:
     properties:
       $special[property.name]:
@@ -1239,6 +1322,7 @@ definitions:
       byte:
         type: "string"
         format: "byte"
+        pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
       binary:
         type: "string"
         format: "binary"
@@ -1323,7 +1407,7 @@ definitions:
       client:
         type: "string"
     example:
-      client: "aeiou"
+      client: "client"
   ReadOnlyFirst:
     type: "object"
     properties:
@@ -1435,12 +1519,6 @@ definitions:
     - "placed"
     - "approved"
     - "delivered"
-  OuterNumber:
-    type: "number"
-  OuterString:
-    type: "string"
-  OuterBoolean:
-    type: "boolean"
   OuterComposite:
     type: "object"
     properties:
@@ -1454,6 +1532,12 @@ definitions:
       my_string: {}
       my_number: {}
       my_boolean: {}
+  OuterNumber:
+    type: "number"
+  OuterString:
+    type: "string"
+  OuterBoolean:
+    type: "boolean"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
