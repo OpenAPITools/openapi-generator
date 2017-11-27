@@ -2,7 +2,9 @@ package {{packageName}}
 
 // TODO: properly handle custom imports
 import java.io._
-import java.util.Date
+import java.util.UUID
+import java.time._
+
 
 import {{modelPackage}}._
 
@@ -18,7 +20,7 @@ trait DataAccessor {
         * {{{description}}}
         * @return A {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}
         */
-        def {{baseName}}_{{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{^-last}}, {{/-last}}{{/allParams}}): {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}} = ???
+        def {{baseName}}_{{operationId}}({{{vendorExtensions.x-codegen-typedParams}}}): Either[CommonError,{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}] = ???
 
     {{/operation}}
 {{/operations}}
