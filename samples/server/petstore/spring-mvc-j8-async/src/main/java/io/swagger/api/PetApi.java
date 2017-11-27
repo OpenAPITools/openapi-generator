@@ -114,7 +114,7 @@ public interface PetApi {
             }
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return CompletableFuture.completedFuture(new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"status\" : \"available\",  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ]}, {  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"status\" : \"available\",  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ]} ]", List.class), HttpStatus.NOT_IMPLEMENTED));
+                    return CompletableFuture.completedFuture(new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}, {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED));
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
@@ -151,7 +151,7 @@ public interface PetApi {
             }
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return CompletableFuture.completedFuture(new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"status\" : \"available\",  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ]}, {  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"status\" : \"available\",  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ]} ]", List.class), HttpStatus.NOT_IMPLEMENTED));
+                    return CompletableFuture.completedFuture(new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}, {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED));
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
@@ -186,7 +186,7 @@ public interface PetApi {
             }
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return CompletableFuture.completedFuture(new ResponseEntity<>(getObjectMapper().get().readValue("{  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"status\" : \"available\",  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ]}", Pet.class), HttpStatus.NOT_IMPLEMENTED));
+                    return CompletableFuture.completedFuture(new ResponseEntity<>(getObjectMapper().get().readValue("{  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}", Pet.class), HttpStatus.NOT_IMPLEMENTED));
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
@@ -234,7 +234,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }, 
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<Void>> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @RequestPart(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet") @RequestPart(value="status", required=false)  String status) {
+    default CompletableFuture<ResponseEntity<Void>> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet") @RequestParam(value="status", required=false)  String status) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default PetApi interface so no example is generated");
@@ -255,11 +255,11 @@ public interface PetApi {
         produces = { "application/json" }, 
         consumes = { "multipart/form-data" },
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file) {
+    default CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return CompletableFuture.completedFuture(new ResponseEntity<>(getObjectMapper().get().readValue("{  \"message\" : \"message\",  \"code\" : 0,  \"type\" : \"type\"}", ModelApiResponse.class), HttpStatus.NOT_IMPLEMENTED));
+                    return CompletableFuture.completedFuture(new ResponseEntity<>(getObjectMapper().get().readValue("{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}", ModelApiResponse.class), HttpStatus.NOT_IMPLEMENTED));
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
