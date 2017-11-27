@@ -18,8 +18,8 @@ public class Pet   {
   private Long id = null;
   private Category category = null;
   private String name = null;
-  private List<String> photoUrls = new ArrayList<String>();
-  private List<Tag> tags = new ArrayList<Tag>();
+  private List<String> photoUrls = new ArrayList<>();
+  private List<Tag> tags = new ArrayList<>();
 
 
   public enum StatusEnum {
