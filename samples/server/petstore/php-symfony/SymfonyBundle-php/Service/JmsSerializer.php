@@ -5,7 +5,6 @@ namespace Swagger\Server\Service;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Naming\CamelCaseNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
-use Swagger\Server\Service\StrictJsonDeserializationVisitor;
 use JMS\Serializer\XmlDeserializationVisitor;
 
 class JmsSerializer implements SerializerInterface
