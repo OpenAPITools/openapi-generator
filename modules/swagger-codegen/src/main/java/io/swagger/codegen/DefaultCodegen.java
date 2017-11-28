@@ -1,8 +1,11 @@
 package io.swagger.codegen;
 
+import com.github.jknack.handlebars.Handlebars;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.samskivert.mustache.Mustache.Compiler;
+import io.swagger.codegen.languages.helpers.ExtensionHelper;
+import io.swagger.codegen.languages.helpers.NoneExtensionHelper;
 import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.oas.models.Operation;
@@ -3155,9 +3158,9 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Object getHandlebarHelper() {
-        // TODO: this class should be abstract
-        return null;
+    public void addHandlebarHelpers(Handlebars handlebars) {
+        handlebars.registerHelper(ExtensionHelper.NAME, new ExtensionHelper());
+        handlebars.registerHelper(NoneExtensionHelper.NAME, new NoneExtensionHelper());
     }
 
     /**

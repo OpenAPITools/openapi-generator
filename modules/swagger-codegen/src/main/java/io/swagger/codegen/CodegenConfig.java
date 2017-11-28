@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Helper;
 import com.samskivert.mustache.Mustache.Compiler;
 import io.swagger.oas.models.OpenAPI;
@@ -221,5 +222,5 @@ public interface CodegenConfig {
 
     String toGetter(String name);
 
-    Object getHandlebarHelper();
+    void addHandlebarHelpers(Handlebars handlebars);
 }

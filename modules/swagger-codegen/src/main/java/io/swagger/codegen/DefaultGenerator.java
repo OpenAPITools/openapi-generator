@@ -34,6 +34,7 @@ import com.github.jknack.handlebars.io.StringTemplateSource;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.github.jknack.handlebars.io.TemplateSource;
 import io.swagger.codegen.languages.helpers.ExtensionHelper;
+import io.swagger.codegen.languages.helpers.NoneExtensionHelper;
 import io.swagger.codegen.utils.URLPathUtil;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.oas.models.Operation;
@@ -1032,8 +1033,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
         final TemplateLoader templateLoader = new ClassPathTemplateLoader("/" + config.templateDir(), config.resolveExtension());
         final Handlebars handlebars = new Handlebars(templateLoader);
-        handlebars.registerHelpers(config.getHandlebarHelper());
-        handlebars.registerHelper(ExtensionHelper.NAME, new ExtensionHelper());
+        config.addHandlebarHelpers(handlebars);
 
         return handlebars.compile(templateFile.replace(config.resolveExtension(), StringUtils.EMPTY));
     }

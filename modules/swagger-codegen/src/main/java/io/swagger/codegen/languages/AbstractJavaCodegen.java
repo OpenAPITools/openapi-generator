@@ -10,7 +10,10 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import com.github.jknack.handlebars.Handlebars;
+import io.swagger.codegen.languages.helpers.ExtensionHelper;
 import io.swagger.codegen.languages.helpers.JavaHelper;
+import io.swagger.codegen.languages.helpers.NoneExtensionHelper;
 import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.oas.models.Operation;
@@ -1281,8 +1284,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public Object getHandlebarHelper() {
-        return new JavaHelper();
+    public void addHandlebarHelpers(Handlebars handlebars) {
+        super.addHandlebarHelpers(handlebars);
+        handlebars.registerHelpers(new JavaHelper());
     }
 
 }
