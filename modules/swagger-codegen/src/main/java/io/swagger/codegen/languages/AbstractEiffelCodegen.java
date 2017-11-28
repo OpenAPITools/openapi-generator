@@ -1,6 +1,8 @@
 package io.swagger.codegen.languages;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -480,13 +482,15 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         boolean removedChildEnum = false;
         for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
             // Look for enums
-            if (parentModelCodegenPropery.isEnum) {
+            boolean isEnum = getBooleanValue(parentModelCodegenPropery.getVendorExtensions(), IS_ENUM_EXT_NAME);
+            if (isEnum) {
                 // Now that we have found an enum in the parent class,
                 // and search the child class for the same enum.
                 Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                 while (iterator.hasNext()) {
                     CodegenProperty codegenProperty = iterator.next();
-                    if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
+                    isEnum = getBooleanValue(codegenProperty.getVendorExtensions(), IS_ENUM_EXT_NAME);
+                    if (isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
                         // We found an enum in the child class that is
                         // a duplicate of the one in the parent, so remove it.
                         iterator.remove();

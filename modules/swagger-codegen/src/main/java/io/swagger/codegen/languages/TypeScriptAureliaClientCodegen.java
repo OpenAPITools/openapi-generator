@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCodegen {
 
     public static final String NPM_NAME = "npmName";
@@ -123,7 +126,8 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
             cm.imports = new TreeSet(cm.imports);
             for (CodegenProperty var : cm.vars) {
                 // name enum with model name, e.g. StatuEnum => PetStatusEnum
-                if (Boolean.TRUE.equals(var.isEnum)) {
+                boolean isEnum = getBooleanValue(var.getVendorExtensions(), IS_ENUM_EXT_NAME);
+                if (Boolean.TRUE.equals(isEnum)) {
                     var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                     var.enumName = cm.classname + var.enumName;
                 }

@@ -387,7 +387,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                         // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
                         var.isPrimitiveType = true;
-                        var.isEnum = true;
+                        var.getVendorExtensions().put(IS_ENUM_EXT_NAME, Boolean.TRUE);
                     }
                 }
             } else {

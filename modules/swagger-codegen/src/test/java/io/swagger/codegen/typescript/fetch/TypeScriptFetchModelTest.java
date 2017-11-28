@@ -20,6 +20,8 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 
 @SuppressWarnings("static-method")
@@ -209,7 +211,7 @@ public class TypeScriptFetchModelTest {
         updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "Array<ArrayEnumEnum>");
         Assert.assertEquals(prope.enumName, "ArrayEnumEnum");
-        Assert.assertTrue(prope.isEnum);
+        Assert.assertTrue(getBooleanValue(prope.getVendorExtensions(), IS_ENUM_EXT_NAME));
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList("fish", "crab"));
 
         HashMap<String, String> fish= new HashMap<String, String>();
@@ -223,7 +225,7 @@ public class TypeScriptFetchModelTest {
         // assert inner items
         Assert.assertEquals(prope.datatypeWithEnum, "Array<ArrayEnumEnum>");
         Assert.assertEquals(prope.enumName, "ArrayEnumEnum");
-        Assert.assertTrue(prope.items.isEnum);
+        Assert.assertTrue(getBooleanValue(prope.items.getVendorExtensions(), IS_ENUM_EXT_NAME));
         Assert.assertEquals(prope.items.allowableValues.get("values"), Arrays.asList("fish", "crab"));
         Assert.assertEquals(prope.items.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
@@ -243,7 +245,7 @@ public class TypeScriptFetchModelTest {
         updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "EnumIntegerEnum");
         Assert.assertEquals(prope.enumName, "EnumIntegerEnum");
-        Assert.assertTrue(prope.isEnum);
+        Assert.assertTrue(getBooleanValue(prope.getVendorExtensions(), IS_ENUM_EXT_NAME));
         Assert.assertFalse(prope.isContainer);
         Assert.assertNull(prope.items);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));

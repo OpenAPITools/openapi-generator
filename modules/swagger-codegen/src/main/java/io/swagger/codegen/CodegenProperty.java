@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class CodegenProperty implements Cloneable {
+public class CodegenProperty implements Cloneable, VendorExtendable {
     public String baseName, complexType, getter, setter, description, datatype,
           datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
           baseType, containerType, title;
@@ -41,12 +41,11 @@ public class CodegenProperty implements Cloneable {
     public boolean isPrimitiveType, isContainer, isNotContainer;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime, isUuid;
     public boolean isListContainer, isMapContainer;
-    public boolean isEnum;
     public boolean isReadOnly = false;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
-    public Map<String, Object> vendorExtensions;
+    public Map<String, Object> vendorExtensions = new HashMap<>();
     public boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
     public boolean isInherited;
     public String nameInCamelCase; // property name in camel case
@@ -446,14 +445,6 @@ public class CodegenProperty implements Cloneable {
         isMapContainer = mapContainer;
     }
 
-    public boolean getIsEnum() {
-        return isEnum;
-    }
-
-    public void setEnum(boolean anEnum) {
-        isEnum = anEnum;
-    }
-
     public boolean getIsReadOnly() {
         return isReadOnly;
     }
@@ -613,7 +604,6 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + (hasMore  ? 13:31);
         result = prime * result + ((hasMoreNonReadOnly  ? 13:31));
         result = prime * result + ((isContainer  ? 13:31));
-        result = prime * result + (isEnum ? 1231 : 1237);
         result = prime * result + ((isNotContainer ? 13:31));
         result = prime * result + ((isPrimitiveType  ? 13:31));
         result = prime * result + ((isReadOnly  ? 13:31));
@@ -756,9 +746,6 @@ public class CodegenProperty implements Cloneable {
             return false;
         }
         if (this.isNotContainer != other.isNotContainer) {
-            return false;
-        }
-        if (this.isEnum != other.isEnum) {
             return false;
         }
         if (this.isReadOnly != other.isReadOnly) {

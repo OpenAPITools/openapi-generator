@@ -236,7 +236,8 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
       CodegenModel cm = (CodegenModel) mo.get("model");
 
       for (CodegenProperty var : cm.vars) {
-        if (var.isEnum) {
+        boolean isEnum = getBooleanValue(var.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        if (isEnum) {
           List<Object> enumValues = (List<Object>) var.allowableValues.get("values");
 
           for (final ListIterator<Object> i = enumValues.listIterator(); i.hasNext(); ) {

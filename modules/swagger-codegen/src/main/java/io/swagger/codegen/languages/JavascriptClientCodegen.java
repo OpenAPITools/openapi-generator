@@ -34,6 +34,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
@@ -793,7 +796,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 return "Object.<String, " + getJSDocType(cm, cp.items) + ">";
         }
         String dataType = trimBrackets(cp.datatypeWithEnum);
-        if (cp.isEnum) {
+        boolean isEnum = getBooleanValue(cp.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        if (isEnum) {
             dataType = cm.classname + '.' + dataType;
         }
         if (isModelledType(cp))
@@ -803,7 +807,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     private boolean isModelledType(CodegenProperty cp) {
         // N.B. enums count as modelled types, file is not modelled (SuperAgent uses some 3rd party library).
-        return cp.isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.datatype : cp.baseType);
+        boolean isEnum = getBooleanValue(cp.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        return isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.datatype : cp.baseType);
     }
 
     private String getJSDocType(CodegenParameter cp) {
@@ -957,13 +962,15 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             boolean removedChildEnum = false;
             for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
                 // Look for enums
-                if (parentModelCodegenPropery.isEnum) {
+                boolean isEnum = getBooleanValue(parentModelCodegenPropery.getVendorExtensions(), IS_ENUM_EXT_NAME);
+                if (isEnum) {
                     // Now that we have found an enum in the parent class,
                     // and search the child class for the same enum.
                     Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                     while (iterator.hasNext()) {
                         CodegenProperty codegenProperty = iterator.next();
-                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
+                        isEnum = getBooleanValue(codegenProperty.getVendorExtensions(), IS_ENUM_EXT_NAME);
+                        if (isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
                             // We found an enum in the child class that is
                             // a duplicate of the one in the parent, so remove it.
                             iterator.remove();

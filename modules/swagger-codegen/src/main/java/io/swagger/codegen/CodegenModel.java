@@ -11,9 +11,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class CodegenModel {
+public class CodegenModel implements VendorExtendable {
 
-    public static final String IS_ALIAS_EXT_NAME = "x-is-alias";
+    public static final String IS_ENUM_EXT_NAME = PREFFIX_IS + "enum";
+    public static final String IS_ALIAS_EXT_NAME = PREFFIX_IS + "alias";
+    public static final String HAS_VARS_EXT_NAME = PREFFIX_HAS + "vars";
 
     public String parent, parentSchema;
     public List<String> interfaces;
@@ -43,7 +45,7 @@ public class CodegenModel {
     public Set<String> allMandatory;
 
     public Set<String> imports = new TreeSet<String>();
-    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, hasOptional, isArrayModel, hasChildren;
+    public boolean /**hasVars,*/ emptyVars, hasMoreModels, hasEnums, /**isEnum,*/ hasRequired, hasOptional, isArrayModel, hasChildren;
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
@@ -125,15 +127,11 @@ public class CodegenModel {
             return false;
         if (imports != null ? !imports.equals(that.imports) : that.imports != null)
             return false;
-        if (hasVars != that.hasVars)
-            return false;
         if (emptyVars != that.emptyVars)
             return false;
         if (hasMoreModels != that.hasMoreModels)
             return false;
         if (hasEnums != that.hasEnums)
-            return false;
-        if (isEnum != that.isEnum)
             return false;
         if (externalDocumentation != null ? !externalDocumentation.equals(that.externalDocumentation) : that.externalDocumentation != null)
             return false;
@@ -176,11 +174,9 @@ public class CodegenModel {
         result = 31 * result + (mandatory != null ? mandatory.hashCode() : 0);
         result = 31 * result + (allMandatory != null ? allMandatory.hashCode() : 0);
         result = 31 * result + (imports != null ? imports.hashCode() : 0);
-        result = 31 * result + (hasVars ? 13:31);
         result = 31 * result + (emptyVars ? 13:31);
         result = 31 * result + (hasMoreModels ? 13:31);
         result = 31 * result + (hasEnums ? 13:31);
-        result = 31 * result + (isEnum ? 13:31);
         result = 31 * result + (externalDocumentation != null ? externalDocumentation.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         result = 31 * result + Objects.hash(hasOnlyReadOnly);
@@ -445,14 +441,6 @@ public class CodegenModel {
         this.imports = imports;
     }
 
-    public boolean isHasVars() {
-        return hasVars;
-    }
-
-    public void setHasVars(boolean hasVars) {
-        this.hasVars = hasVars;
-    }
-
     public boolean isEmptyVars() {
         return emptyVars;
     }
@@ -475,14 +463,6 @@ public class CodegenModel {
 
     public void setHasEnums(boolean hasEnums) {
         this.hasEnums = hasEnums;
-    }
-
-    public boolean isEnum() {
-        return isEnum;
-    }
-
-    public void setEnum(boolean anEnum) {
-        isEnum = anEnum;
     }
 
     public boolean isHasRequired() {

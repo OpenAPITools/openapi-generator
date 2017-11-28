@@ -61,6 +61,8 @@ import static io.swagger.codegen.CodegenHelper.getDefaultIncludes;
 import static io.swagger.codegen.CodegenHelper.getImportMappings;
 import static io.swagger.codegen.CodegenHelper.getTypeMappings;
 import static io.swagger.codegen.CodegenHelper.initalizeSpecialCharacterMapping;
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 import static io.swagger.codegen.utils.ModelUtils.processCodegenModels;
 import static io.swagger.codegen.utils.ModelUtils.processModelEnums;
 import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
@@ -1358,7 +1360,9 @@ public class DefaultCodegen implements CodegenConfig {
             codegenProperty.xmlName = propertySchema.getXml().getName();
             codegenProperty.xmlNamespace = propertySchema.getXml().getNamespace();
         }
-        codegenProperty.vendorExtensions = propertySchema.getExtensions();
+        if (propertySchema.getExtensions() != null && !propertySchema.getExtensions().isEmpty()) {
+            codegenProperty.getVendorExtensions().putAll(propertySchema.getExtensions());
+        }
 
         final String type = getSchemaType(propertySchema);
         if (propertySchema instanceof IntegerSchema) {
@@ -1401,7 +1405,7 @@ public class DefaultCodegen implements CodegenConfig {
                 for(Integer i : _enum) {
                     codegenProperty._enum.add(i.toString());
                 }
-                codegenProperty.isEnum = true;
+                codegenProperty.getVendorExtensions().put(IS_ENUM_EXT_NAME, Boolean.TRUE);
                 allowableValues.put("values", _enum);
             }
             if(allowableValues.size() > 0) {
@@ -1422,7 +1426,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (propertySchema.getEnum() != null) {
                 List<String> _enum = propertySchema.getEnum();
                 codegenProperty._enum = _enum;
-                codegenProperty.isEnum = true;
+                codegenProperty.getVendorExtensions().put(IS_ENUM_EXT_NAME, Boolean.TRUE);
 
                 // legacy support
                 Map<String, Object> allowableValues = new HashMap<String, Object>();
@@ -1462,7 +1466,7 @@ public class DefaultCodegen implements CodegenConfig {
                 for(Double i : _enum) {
                     codegenProperty._enum.add(i.toString());
                 }
-                codegenProperty.isEnum = true;
+                codegenProperty.getVendorExtensions().put(IS_ENUM_EXT_NAME, Boolean.TRUE);
 
                 // legacy support
                 Map<String, Object> allowableValues = new HashMap<String, Object>();
@@ -1478,7 +1482,7 @@ public class DefaultCodegen implements CodegenConfig {
                 for(String i : _enum) {
                     codegenProperty._enum.add(i);
                 }
-                codegenProperty.isEnum = true;
+                codegenProperty.getVendorExtensions().put(IS_ENUM_EXT_NAME, Boolean.TRUE);
 
                 // legacy support
                 Map<String, Object> allowableValues = new HashMap<String, Object>();
@@ -1494,7 +1498,7 @@ public class DefaultCodegen implements CodegenConfig {
                 for(String i : _enum) {
                     codegenProperty._enum.add(i);
                 }
-                codegenProperty.isEnum = true;
+                codegenProperty.getVendorExtensions().put(IS_ENUM_EXT_NAME, Boolean.TRUE);
 
                 // legacy support
                 Map<String, Object> allowableValues = new HashMap<String, Object>();
@@ -1506,7 +1510,8 @@ public class DefaultCodegen implements CodegenConfig {
         codegenProperty.dataFormat = propertySchema.getFormat();
 
         // this can cause issues for clients which don't support enums
-        if (codegenProperty.isEnum) {
+        boolean isEnum = getBooleanValue(codegenProperty.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        if (isEnum) {
             codegenProperty.datatypeWithEnum = toEnumName(codegenProperty);
             codegenProperty.enumName = toEnumName(codegenProperty);
         } else {
@@ -1581,7 +1586,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (isPropertyInnerMostEnum(property)) {
             // isEnum is set to true when the type is an enum
             // or the inner type of an array/map is an enum
-            property.isEnum = true;
+            property.getVendorExtensions().put(IS_ENUM_EXT_NAME, Boolean.TRUE);
             // update datatypeWithEnum and default value for array
             // e.g. List<string> => List<StatusEnum>
             updateDataTypeWithEnumForArray(property);
@@ -1612,7 +1617,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (isPropertyInnerMostEnum(property)) {
             // isEnum is set to true when the type is an enum
             // or the inner type of an array/map is an enum
-            property.isEnum = true;
+            property.getVendorExtensions().put(IS_ENUM_EXT_NAME, Boolean.TRUE);
             // update datatypeWithEnum and default value for map
             // e.g. Dictionary<string, string> => Dictionary<string, StatusEnum>
             updateDataTypeWithEnumForMap(property);
@@ -1633,8 +1638,8 @@ public class DefaultCodegen implements CodegenConfig {
                 || Boolean.TRUE.equals(currentProperty.isListContainer))) {
             currentProperty = currentProperty.items;
         }
-
-        return currentProperty == null ? false : currentProperty.isEnum;
+        boolean isEnum = getBooleanValue(currentProperty.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        return currentProperty == null ? false : isEnum;
     }
 
     protected Map<String, Object> getInnerEnumAllowableValues(CodegenProperty property) {
@@ -2135,19 +2140,20 @@ public class DefaultCodegen implements CodegenConfig {
 
             codegenParameter.dataType = codegenProperty.datatype;
             codegenParameter.dataFormat = codegenProperty.dataFormat;
-            if(codegenProperty.isEnum) {
+            boolean isEnum = getBooleanValue(codegenProperty.getVendorExtensions(), IS_ENUM_EXT_NAME);
+            if(isEnum) {
                 codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
                 codegenParameter.enumName = codegenProperty.enumName;
             }
 
             // enum
             updateCodegenPropertyEnum(codegenProperty);
-            codegenParameter.isEnum = codegenProperty.isEnum;
+            codegenParameter.isEnum = isEnum;
             codegenParameter._enum = codegenProperty._enum;
             codegenParameter.allowableValues = codegenProperty.allowableValues;
 
 
-            if (codegenProperty.items != null && codegenProperty.items.isEnum) {
+            if (codegenProperty.items != null && getBooleanValue(codegenProperty.items.getVendorExtensions(), IS_ENUM_EXT_NAME)) {
                 codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
                 codegenParameter.enumName = codegenProperty.enumName;
                 codegenParameter.items = codegenProperty.items;
@@ -2681,7 +2687,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         codegenModel.hasRequired = false;
         if (properties != null && !properties.isEmpty()) {
-            codegenModel.hasVars = true;
+            codegenModel.getVendorExtensions().put(CodegenModel.HAS_VARS_EXT_NAME, true);
             codegenModel.hasEnums = false;
 
 
@@ -2691,7 +2697,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenModel.allMandatory = codegenModel.mandatory = mandatory;
         } else {
             codegenModel.emptyVars = true;
-            codegenModel.hasVars = false;
+            codegenModel.getVendorExtensions().put(CodegenModel.HAS_VARS_EXT_NAME, false);
             codegenModel.hasEnums = false;
         }
 
@@ -2720,7 +2726,8 @@ public class DefaultCodegen implements CodegenConfig {
                 cp.required = mandatory.contains(key);
                 codegenModel.hasRequired = codegenModel.hasRequired || cp.required;
                 codegenModel.hasOptional = codegenModel.hasOptional || !cp.required;
-                if (cp.isEnum) {
+                boolean isEnum = getBooleanValue(cp.getVendorExtensions(), IS_ENUM_EXT_NAME);
+                if (isEnum) {
                     // FIXME: if supporting inheritance, when called a second time for allProperties it is possible for
                     // m.hasEnums to be set incorrectly if allProperties has enumerations but properties does not.
                     codegenModel.hasEnums = true;

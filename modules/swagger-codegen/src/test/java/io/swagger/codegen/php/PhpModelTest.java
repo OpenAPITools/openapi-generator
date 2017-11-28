@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 
 @SuppressWarnings("static-method")
@@ -289,7 +291,7 @@ public class PhpModelTest {
         updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "ARRAY_ENUM[]");
         Assert.assertEquals(prope.enumName, "ARRAY_ENUM");
-        Assert.assertTrue(prope.isEnum);
+        Assert.assertTrue(getBooleanValue(prope.getVendorExtensions(), IS_ENUM_EXT_NAME));
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList("fish", "crab"));
 
         HashMap<String, String> fish= new HashMap<String, String>();
@@ -303,7 +305,7 @@ public class PhpModelTest {
         // assert inner items
         Assert.assertEquals(prope.datatypeWithEnum, "ARRAY_ENUM[]");
         Assert.assertEquals(prope.enumName, "ARRAY_ENUM");
-        Assert.assertTrue(prope.items.isEnum);
+        Assert.assertTrue(getBooleanValue(prope.items.getVendorExtensions(), IS_ENUM_EXT_NAME));
         Assert.assertEquals(prope.items.allowableValues.get("values"), Arrays.asList("fish", "crab"));
         Assert.assertEquals(prope.items.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
@@ -321,7 +323,7 @@ public class PhpModelTest {
         updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "ENUM_INTEGER");
         Assert.assertEquals(prope.enumName, "ENUM_INTEGER");
-        Assert.assertTrue(prope.isEnum);
+        Assert.assertTrue(getBooleanValue(prope.getVendorExtensions(), IS_ENUM_EXT_NAME));
         Assert.assertFalse(prope.isContainer);
         Assert.assertNull(prope.items);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));

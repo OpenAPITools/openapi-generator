@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CodegenResponse {
+public class CodegenResponse implements VendorExtendable {
     public final List<CodegenProperty> headers = new ArrayList<CodegenProperty>();
     public String code, message;
     public boolean hasMore;
@@ -100,5 +100,10 @@ public class CodegenResponse {
         result = 31 * result + (jsonSchema != null ? jsonSchema.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public Map<String, Object> getVendorExtensions() {
+        return this.vendorExtensions;
     }
 }

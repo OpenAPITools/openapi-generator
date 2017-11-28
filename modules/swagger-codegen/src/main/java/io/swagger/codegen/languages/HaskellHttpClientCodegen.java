@@ -1113,8 +1113,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public String toEnumName(CodegenProperty var) {
         if (!genEnums) return super.toEnumName(var);
-
-        if (var.items != null && var.items.isEnum) {
+        if (var.items != null && getBooleanValue(var.items.getVendorExtensions(), IS_ENUM_EXT_NAME)) {
             return toEnumName(var.items);
         }
         String paramNameType = "E'" + toTypeName("", var.name);
@@ -1144,7 +1143,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             updateCodegenPropertyEnumValues(var.items, var.items.datatypeWithEnum);
             return;
         }
-        if(var.isEnum && var.allowableValues != null) {
+        boolean isEnum = getBooleanValue(var.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        if(isEnum && var.allowableValues != null) {
             updateAllowableValuesNames(paramNameType, var.allowableValues);
         }
     }

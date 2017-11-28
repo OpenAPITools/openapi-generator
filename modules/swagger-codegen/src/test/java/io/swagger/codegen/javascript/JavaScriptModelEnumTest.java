@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 
 @SuppressWarnings("static-method")
@@ -38,7 +40,7 @@ public class JavaScriptModelEnumTest {
         Assert.assertEquals(enumVar.name, "name");
         Assert.assertEquals(enumVar.defaultValue, null);
         Assert.assertEquals(enumVar.baseType, "String");
-        Assert.assertTrue(enumVar.isEnum);
+        Assert.assertTrue(getBooleanValue(enumVar.getVendorExtensions(), IS_ENUM_EXT_NAME));
     }
 
     @Test(description = "not override identical parent enums")
@@ -86,7 +88,7 @@ public class JavaScriptModelEnumTest {
         Assert.assertEquals(enumVar.baseName, "unsharedThing");
         Assert.assertEquals(enumVar.datatype, "String");
         Assert.assertEquals(enumVar.datatypeWithEnum, "UnsharedThingEnum");
-        Assert.assertTrue(enumVar.isEnum);
+        Assert.assertTrue(getBooleanValue(enumVar.getVendorExtensions(), IS_ENUM_EXT_NAME));
     }
 
     @Test(description = "test enum array model")
@@ -102,7 +104,7 @@ public class JavaScriptModelEnumTest {
         updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "[ArrayEnumEnum]");
         Assert.assertEquals(prope.enumName, "ArrayEnumEnum");
-        Assert.assertTrue(prope.isEnum);
+        Assert.assertTrue(getBooleanValue(prope.getVendorExtensions(), IS_ENUM_EXT_NAME));
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList("fish", "crab"));
 
         HashMap<String, String> fish= new HashMap<String, String>();
@@ -116,7 +118,7 @@ public class JavaScriptModelEnumTest {
         // assert inner items
         Assert.assertEquals(prope.datatypeWithEnum, "[ArrayEnumEnum]");
         Assert.assertEquals(prope.enumName, "ArrayEnumEnum");
-        Assert.assertTrue(prope.items.isEnum);
+        Assert.assertTrue(getBooleanValue(prope.items.getVendorExtensions(), IS_ENUM_EXT_NAME));
         Assert.assertEquals(prope.items.allowableValues.get("values"), Arrays.asList("fish", "crab"));
         Assert.assertEquals(prope.items.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
@@ -135,7 +137,7 @@ public class JavaScriptModelEnumTest {
         updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "EnumIntegerEnum");
         Assert.assertEquals(prope.enumName, "EnumIntegerEnum");
-        Assert.assertTrue(prope.isEnum);
+        Assert.assertTrue(getBooleanValue(prope.getVendorExtensions(), IS_ENUM_EXT_NAME));
         Assert.assertFalse(prope.isContainer);
         Assert.assertNull(prope.items);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));

@@ -15,6 +15,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 @SuppressWarnings("static-method")
 public class JavaModelEnumTest {
 
@@ -36,7 +39,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.name, "name");
         Assert.assertEquals(enumVar.defaultValue, "null");
         Assert.assertEquals(enumVar.baseType, "String");
-        Assert.assertTrue(enumVar.isEnum);
+        Assert.assertTrue(getBooleanValue(enumVar.getVendorExtensions(), IS_ENUM_EXT_NAME));
     }
 
     @Test(description = "not override identical parent enums")

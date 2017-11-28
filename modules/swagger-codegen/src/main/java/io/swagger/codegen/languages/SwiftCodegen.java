@@ -27,6 +27,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 /**
  * Swift (2.x) generator is no longer actively maintained. Please use 
  * 'swift3' or 'swift4' generator instead.
@@ -373,7 +376,8 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
             return codegenProperty;
         }
 
-        if (codegenProperty.isEnum) {
+        boolean isEnum = getBooleanValue(codegenProperty.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        if (isEnum) {
             List<Map<String, String>> swiftEnums = new ArrayList<Map<String, String>>();
             List<String> values = (List<String>) codegenProperty.allowableValues.get("values");
             

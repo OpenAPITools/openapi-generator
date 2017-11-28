@@ -19,6 +19,9 @@ import io.swagger.oas.models.media.MapSchema;
 import io.swagger.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public static final String USE_ES6 = "useEs6";
@@ -250,7 +253,8 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
             cm.imports = new TreeSet(cm.imports);
             for (CodegenProperty var : cm.vars) {
                 // handle default value for enum, e.g. available => StatusEnum.available
-                if (var.isEnum && var.defaultValue != null && !"null".equals(var.defaultValue)) {
+                boolean isEnum = getBooleanValue(var.getVendorExtensions(), IS_ENUM_EXT_NAME);
+                if (isEnum && var.defaultValue != null && !"null".equals(var.defaultValue)) {
                     var.defaultValue = var.datatypeWithEnum + "." + var.defaultValue;
                 }
             }

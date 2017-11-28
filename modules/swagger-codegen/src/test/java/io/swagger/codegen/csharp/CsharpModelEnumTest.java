@@ -15,6 +15,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class CsharpModelEnumTest {
     @Test(description = "not override identical parent enums")
     public void overrideEnumTest() {
@@ -67,6 +70,6 @@ public class CsharpModelEnumTest {
         Assert.assertEquals(enumVar.baseName, "unsharedThing");
         Assert.assertEquals(enumVar.datatype, "string");
         Assert.assertEquals(enumVar.datatypeWithEnum, "UnsharedThingEnum");
-        Assert.assertTrue(enumVar.isEnum);
+        Assert.assertTrue(getBooleanValue(enumVar.getVendorExtensions(), IS_ENUM_EXT_NAME));
     }
 }

@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Arrays;
 
-public class CodegenOperation {
+public class CodegenOperation implements VendorExtendable {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMapContainer,
@@ -517,5 +517,10 @@ public class CodegenOperation {
 
     public List<CodegenParameter> getFormParams() {
         return formParams;
+    }
+
+    @Override
+    public Map<String, Object> getVendorExtensions() {
+        return this.vendorExtensions;
     }
 }

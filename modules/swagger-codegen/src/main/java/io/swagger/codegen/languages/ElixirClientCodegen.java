@@ -762,11 +762,10 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.mandatory = cm.mandatory;
             this.allMandatory = cm.allMandatory;
             this.imports = cm.imports;
-            this.hasVars = cm.hasVars;
             this.emptyVars = cm.emptyVars;
             this.hasMoreModels = cm.hasMoreModels;
             this.hasEnums = cm.hasEnums;
-            this.isEnum = cm.isEnum;
+            //this.isEnum = cm.isEnum;
             this.hasRequired = cm.hasRequired;
             this.hasOptional = cm.hasOptional;
             this.isArrayModel = cm.isArrayModel;

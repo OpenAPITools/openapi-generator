@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String UNDEFINED_VALUE = "undefined";
 
@@ -382,7 +385,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             cm.imports = new TreeSet(cm.imports);
             for (CodegenProperty var : cm.vars) {
                 // name enum with model name, e.g. StatuEnum => Pet.StatusEnum
-                if (Boolean.TRUE.equals(var.isEnum)) {
+                boolean isEnum = getBooleanValue(var.getVendorExtensions(), IS_ENUM_EXT_NAME);
+                if (Boolean.TRUE.equals(isEnum)) {
                     var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + "." + var.enumName);
                 }
             }

@@ -30,6 +30,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class ApexClientCodegen extends AbstractJavaCodegen {
 
     private static final String CLASS_PREFIX = "classPrefix";
@@ -450,7 +453,8 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
 
     public void updateCodegenPropertyEnum(CodegenProperty var) {
         ModelUtils.updateCodegenPropertyEnum(var);
-        if (var.isEnum && var.example != null) {
+        boolean isEnum = getBooleanValue(var.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        if (isEnum && var.example != null) {
             String example = var.example.replace("'", "");
             example = toEnumVarName(example, var.datatype);
             var.example = toEnumDefaultValue(example, var.datatypeWithEnum);

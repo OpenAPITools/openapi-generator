@@ -5,7 +5,7 @@ import io.swagger.oas.models.security.Scopes;
 import java.util.List;
 import java.util.Map;
 
-public class CodegenSecurity {
+public class CodegenSecurity implements VendorExtendable {
     public String name;
     public String type;
     public Boolean hasMore, isBasic, isOAuth, isApiKey;
@@ -16,6 +16,7 @@ public class CodegenSecurity {
     public String flow, authorizationUrl, tokenUrl;
     public Scopes scopes;
     public Boolean isCode, isPassword, isApplication, isImplicit;
+    public Map<String, Object> vendorExtensions;
 
     @Override
     public String toString() {
@@ -85,5 +86,10 @@ public class CodegenSecurity {
         result = 31 * result + (isImplicit != null ? isImplicit.hashCode() : 0);
         result = 31 * result + (scopes != null ? scopes.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public Map<String, Object> getVendorExtensions() {
+        return this.vendorExtensions;
     }
 }
