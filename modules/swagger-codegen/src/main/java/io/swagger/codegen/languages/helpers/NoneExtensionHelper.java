@@ -2,25 +2,23 @@ package io.swagger.codegen.languages.helpers;
 
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
-import com.github.jknack.handlebars.Options.Buffer;
-import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.VendorExtendable;
 
 import java.io.IOException;
 import java.util.Map;
 
 import static io.swagger.codegen.VendorExtendable.PREFFIX_IS;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
-public class ExtensionHelper implements Helper<VendorExtendable> {
+public class NoneExtensionHelper implements Helper<VendorExtendable> {
 
-    public static final String NAME = "is";
+    public static final String NAME = "isNot";
 
     @Override
     public Object apply(VendorExtendable vendor, Options options) throws IOException {
-        final Buffer buffer = options.buffer();
-
+        final Options.Buffer buffer = options.buffer();
         if (vendor == null) {
-            buffer.append(options.inverse());
+            buffer.append(options.fn());
             return buffer;
         }
         final String param = options.param(0);
@@ -28,17 +26,10 @@ public class ExtensionHelper implements Helper<VendorExtendable> {
 
         final Map<String, Object> vendorExtensions = vendor.getVendorExtensions();
         if (vendorExtensions == null || !getBooleanValue(vendorExtensions, extension)) {
-            buffer.append(options.inverse());
-        } else {
             buffer.append(options.fn());
+        } else {
+            buffer.append(options.inverse());
         }
         return buffer;
-    }
-
-    public static boolean getBooleanValue(Map<String, Object> vendorExtensions, String extensionKey) {
-        if (vendorExtensions.get(extensionKey) == null) {
-            return false;
-        }
-        return Boolean.parseBoolean(vendorExtensions.get(extensionKey).toString());
     }
 }

@@ -5,6 +5,6 @@ package {{package}};
 {{getModelImports~}}
 {{#models~}}
 {{#model}}
-{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>pojo}}{{/isEnum}}
+{{#is this 'enum'}}{{>modelEnum}}{{/is}}{{#isNot this 'enum'}}{{>pojo}}{{/isNot}}
 {{/model}}
 {{/models}}

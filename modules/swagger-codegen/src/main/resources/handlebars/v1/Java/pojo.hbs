@@ -7,16 +7,16 @@ public class {{{getClassDefinition}}} {
   private static final long serialVersionUID = 1L;
 {{/serializableModel~}}
   {{#vars~}}
-  {{#isEnum}}
+  {{#is this 'enum'}}
 {{> modelInnerEnum}}
-  {{/isEnum~}}
-  {{#items.isEnum~}}
+  {{/is~}}
+  {{#is this.items 'enum'~}}
   {{#items~}}
   {{^isContainer~}}
 {{>modelInnerEnum}}
   {{/isContainer~}}
   {{/items~}}
-  {{/items.isEnum~}}
+  {{/is~}}
   {{#jackson}}
   @JsonProperty("{{baseName}}")
   {{#withXml~}}
