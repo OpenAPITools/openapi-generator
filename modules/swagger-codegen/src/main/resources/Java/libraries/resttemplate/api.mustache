@@ -89,11 +89,11 @@ public class {{classname}} {
         {{/hasMore}}{{/formParams}}{{/hasFormParams}}
 
         final String[] {{localVariablePrefix}}accepts = { {{#hasProduces}}
-            {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}
+            {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}
         {{/hasProduces}}};
         final List<MediaType> {{localVariablePrefix}}accept = {{localVariablePrefix}}apiClient.selectHeaderAccept({{localVariablePrefix}}accepts);
         final String[] {{localVariablePrefix}}contentTypes = { {{#hasConsumes}}
-            {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}
+            {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}
         {{/hasConsumes}}};
         final MediaType {{localVariablePrefix}}contentType = {{localVariablePrefix}}apiClient.selectHeaderContentType({{localVariablePrefix}}contentTypes);
 

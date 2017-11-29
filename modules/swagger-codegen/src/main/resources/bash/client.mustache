@@ -706,7 +706,7 @@ print_{{operationId}}_help() {
 {{/allParams}}
 {{#allParams}}
 {{#isBodyParam}}
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}${OFF} - {{{description}}}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[{{#consumes}}{{{mediaType}}}{{#hasMore}},{{/hasMore}}{{/consumes}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}${OFF} - {{{description}}}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
 {{#vendorExtensions}}
 {{#x-codegen-body-example}}
@@ -791,7 +791,7 @@ call_{{operationId}}() {
 {{#-first}}
 {{^hasMore}}
     if [[ -z $header_content_type ]]; then
-        header_content_type="{{mediaType}}"
+        header_content_type="{{{mediaType}}}"
     fi
 {{/hasMore}}
 {{/-first}}
@@ -805,7 +805,7 @@ call_{{operationId}}() {
         echo "ERROR: Request's content-type not specified!!!"
         echo "This operation expects content-type in one of the following formats:"
 {{#consumes}}
-        echo -e "\\t- {{mediaType}}"
+        echo -e "\\t- {{{mediaType}}}"
 {{/consumes}}
         echo ""
         echo "Use '--content-type' to set proper content type"
