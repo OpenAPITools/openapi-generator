@@ -48,7 +48,7 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
 
     std::unordered_set<utility::string_t> responseHttpContentTypes;
     {{#produces}}
-    responseHttpContentTypes.insert( utility::conversions::to_string_t("{{mediaType}}") );
+    responseHttpContentTypes.insert( utility::conversions::to_string_t("{{{mediaType}}}") );
     {{/produces}}
 
     utility::string_t responseHttpContentType;
@@ -98,7 +98,7 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
 
     std::unordered_set<utility::string_t> consumeHttpContentTypes;
     {{#consumes}}
-    consumeHttpContentTypes.insert( utility::conversions::to_string_t("{{mediaType}}") );
+    consumeHttpContentTypes.insert( utility::conversions::to_string_t("{{{mediaType}}}") );
     {{/consumes}}
 
     {{#allParams}}

@@ -169,7 +169,7 @@ static bool {{nickname}}Helper(char * accessToken,
 	headerList = curl_slist_append(headerList, accessHeader.c_str());
 	{{#hasConsumes}}
 	{{#consumes}}
-	headerList = curl_slist_append(headerList, "Content-Type: {{mediaType}}");
+	headerList = curl_slist_append(headerList, "Content-Type: {{{mediaType}}}");
 	{{/consumes}}
 	{{/hasConsumes}}
 	{{^hasConsumes}}
