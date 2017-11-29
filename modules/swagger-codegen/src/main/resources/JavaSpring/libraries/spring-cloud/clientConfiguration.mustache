@@ -24,10 +24,10 @@ public class ClientConfiguration {
 
 {{#authMethods}}
     {{#isBasic}}
-  @Value("${ {{{title}}}.security.{{{name}}}.username:}")
+  {{=<% %>=}}@Value("${<%title%>.security.<%name%>.username:}")<%={{ }}=%>
   private String {{{name}}}Username;
 
-  @Value("${ {{{title}}}.security.{{{name}}}.password:}")
+  {{=<% %>=}}@Value("${<%title%>.security.<%name%>.password:}")<%={{ }}=%>
   private String {{{name}}}Password;
 
   @Bean
@@ -38,7 +38,7 @@ public class ClientConfiguration {
 
     {{/isBasic}}
     {{#isApiKey}}
-  @Value("${ {{{title}}}.security.{{{name}}}.key:}")
+  {{=<% %>=}}@Value("${<%title%>.security.<%name%>.key:}")<%={{ }}=%>
   private String {{{name}}}Key;
 
   @Bean
