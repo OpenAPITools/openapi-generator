@@ -2691,8 +2691,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenModel.hasRequired = false;
         if (properties != null && !properties.isEmpty()) {
             codegenModel.getVendorExtensions().put(CodegenModel.HAS_VARS_EXT_NAME, true);
-            codegenModel.hasEnums = false;
-
+            codegenModel.getVendorExtensions().put(CodegenModel.HAS_ENUMS_EXT_NAME, false);
 
             Set<String> mandatory = required == null ? Collections.<String> emptySet()
                     : new TreeSet<String>(required);
@@ -2701,7 +2700,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             codegenModel.emptyVars = true;
             codegenModel.getVendorExtensions().put(CodegenModel.HAS_VARS_EXT_NAME, false);
-            codegenModel.hasEnums = false;
+            codegenModel.getVendorExtensions().put(CodegenModel.HAS_ENUMS_EXT_NAME, false);
         }
 
         if (allProperties != null) {
@@ -2733,7 +2732,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (isEnum) {
                     // FIXME: if supporting inheritance, when called a second time for allProperties it is possible for
                     // m.hasEnums to be set incorrectly if allProperties has enumerations but properties does not.
-                    codegenModel.hasEnums = true;
+                    codegenModel.getVendorExtensions().put(CodegenModel.HAS_ENUMS_EXT_NAME, true);
                 }
 
                 // set model's hasOnlyReadOnly to false if the property is read-only

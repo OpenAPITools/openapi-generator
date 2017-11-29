@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static io.swagger.codegen.CodegenModel.HAS_ENUMS_EXT_NAME;
 import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
@@ -454,7 +455,8 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allSchemas) {
         CodegenModel codegenModel = super.fromModel(name, schema, allSchemas);
-        if (allSchemas != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
+        boolean hasEnums = getBooleanValue(codegenModel.getVendorExtensions(), HAS_ENUMS_EXT_NAME);
+        if (allSchemas != null && codegenModel.parentSchema != null && hasEnums) {
             final Schema parentModel = allSchemas.get(codegenModel.parentSchema);
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
             codegenModel = AbstractEiffelCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
@@ -470,7 +472,8 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         // Because the child models extend the parents, the enums will be available via the parent.
 
         // Only bother with reconciliation if the parent model has enums.
-        if  (!parentCodegenModel.hasEnums) {
+        boolean hasEnums = getBooleanValue(parentCodegenModel.getVendorExtensions(), HAS_ENUMS_EXT_NAME);
+        if  (!hasEnums) {
             return codegenModel;
         }
 

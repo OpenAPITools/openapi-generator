@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
+import static io.swagger.codegen.CodegenModel.HAS_ENUMS_EXT_NAME;
 import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
@@ -641,8 +642,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         boolean isEnum = getBooleanValue(model.getVendorExtensions(), IS_ENUM_EXT_NAME);
         if (!Boolean.TRUE.equals(isEnum)) {
             model.imports.add("JsonProperty");
-
-            if (Boolean.TRUE.equals(model.hasEnums)) {
+            boolean hasEnums = getBooleanValue(model.getVendorExtensions(), HAS_ENUMS_EXT_NAME);
+            if (Boolean.TRUE.equals(hasEnums)) {
                 model.imports.add("JsonValue");
             }
         } else { // enum class

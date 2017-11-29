@@ -12,6 +12,7 @@ import io.swagger.oas.models.Operation;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import static io.swagger.codegen.CodegenModel.HAS_ENUMS_EXT_NAME;
 import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
@@ -81,8 +82,8 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         boolean isEnum = getBooleanValue(model.getVendorExtensions(), IS_ENUM_EXT_NAME);
         if(!BooleanUtils.toBoolean(isEnum)) {
             model.imports.add("JsonProperty");
-
-            if(BooleanUtils.toBoolean(model.hasEnums)) {
+            boolean hasEnums = getBooleanValue(model.getVendorExtensions(), HAS_ENUMS_EXT_NAME);
+            if(BooleanUtils.toBoolean(hasEnums)) {
                 model.imports.add("JsonValue");
             }
         }

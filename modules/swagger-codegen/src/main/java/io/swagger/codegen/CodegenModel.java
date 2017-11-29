@@ -16,6 +16,7 @@ public class CodegenModel implements VendorExtendable {
     public static final String IS_ENUM_EXT_NAME = PREFFIX_IS + "enum";
     public static final String IS_ALIAS_EXT_NAME = PREFFIX_IS + "alias";
     public static final String HAS_VARS_EXT_NAME = PREFFIX_HAS + "vars";
+    public static final String HAS_ENUMS_EXT_NAME = PREFFIX_HAS + "enums";
 
     public String parent, parentSchema;
     public List<String> interfaces;
@@ -45,7 +46,7 @@ public class CodegenModel implements VendorExtendable {
     public Set<String> allMandatory;
 
     public Set<String> imports = new TreeSet<String>();
-    public boolean /**hasVars,*/ emptyVars, hasMoreModels, hasEnums, /**isEnum,*/ hasRequired, hasOptional, isArrayModel, hasChildren;
+    public boolean emptyVars, hasMoreModels, hasRequired, hasOptional, isArrayModel, hasChildren;
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
@@ -131,8 +132,6 @@ public class CodegenModel implements VendorExtendable {
             return false;
         if (hasMoreModels != that.hasMoreModels)
             return false;
-        if (hasEnums != that.hasEnums)
-            return false;
         if (externalDocumentation != null ? !externalDocumentation.equals(that.externalDocumentation) : that.externalDocumentation != null)
             return false;
         if (!Objects.equals(hasOnlyReadOnly, that.hasOnlyReadOnly))
@@ -176,7 +175,6 @@ public class CodegenModel implements VendorExtendable {
         result = 31 * result + (imports != null ? imports.hashCode() : 0);
         result = 31 * result + (emptyVars ? 13:31);
         result = 31 * result + (hasMoreModels ? 13:31);
-        result = 31 * result + (hasEnums ? 13:31);
         result = 31 * result + (externalDocumentation != null ? externalDocumentation.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         result = 31 * result + Objects.hash(hasOnlyReadOnly);
@@ -455,14 +453,6 @@ public class CodegenModel implements VendorExtendable {
 
     public void setHasMoreModels(boolean hasMoreModels) {
         this.hasMoreModels = hasMoreModels;
-    }
-
-    public boolean isHasEnums() {
-        return hasEnums;
-    }
-
-    public void setHasEnums(boolean hasEnums) {
-        this.hasEnums = hasEnums;
     }
 
     public boolean isHasRequired() {

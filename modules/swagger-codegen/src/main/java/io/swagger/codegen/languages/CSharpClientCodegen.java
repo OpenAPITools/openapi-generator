@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static io.swagger.codegen.CodegenModel.HAS_ENUMS_EXT_NAME;
 import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -521,7 +522,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             final Schema parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             if (parentModel != null) {
                 final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
-                if (codegenModel.hasEnums) {
+                boolean hasEnums = getBooleanValue(codegenModel.getVendorExtensions(), HAS_ENUMS_EXT_NAME);
+                if (hasEnums) {
                     codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
                 }
 
@@ -644,7 +646,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         // Because the child models extend the parents, the enums will be available via the parent.
 
         // Only bother with reconciliation if the parent model has enums.
-        if (parentCodegenModel.hasEnums) {
+        boolean hasEnums = getBooleanValue(parentCodegenModel.getVendorExtensions(), HAS_ENUMS_EXT_NAME);
+        if (hasEnums) {
 
             // Get the properties for the parent and child models
             final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;

@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.swagger.codegen.CodegenModel.HAS_ENUMS_EXT_NAME;
 import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
@@ -149,8 +150,8 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         //Add imports for Jackson
         if(!BooleanUtils.toBoolean(isEnum)) {
             model.imports.add("JsonProperty");
-
-            if(BooleanUtils.toBoolean(model.hasEnums)) {
+            boolean hasEnums = getBooleanValue(model.getVendorExtensions(), HAS_ENUMS_EXT_NAME);
+            if(BooleanUtils.toBoolean(hasEnums)) {
                 model.imports.add("JsonValue");
             }
         }

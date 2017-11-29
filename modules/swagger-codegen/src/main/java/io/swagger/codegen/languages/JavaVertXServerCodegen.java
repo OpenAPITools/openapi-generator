@@ -21,6 +21,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.swagger.codegen.CodegenModel.HAS_ENUMS_EXT_NAME;
 import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
@@ -147,7 +148,8 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         if (!isEnum) {
             model.imports.add("JsonInclude");
             model.imports.add("JsonProperty");
-            if (model.hasEnums) {
+            boolean hasEnums = getBooleanValue(model.getVendorExtensions(), HAS_ENUMS_EXT_NAME);
+            if (hasEnums) {
                 model.imports.add("JsonValue");
             }
         }
