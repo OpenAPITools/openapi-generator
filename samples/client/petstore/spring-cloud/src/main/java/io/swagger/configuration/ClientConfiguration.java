@@ -22,7 +22,7 @@ import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 @EnableConfigurationProperties
 public class ClientConfiguration {
 
-  @Value("${ swaggerPetstore.security.apiKey.key:}")
+  @Value("${swaggerPetstore.security.apiKey.key:}")
   private String apiKeyKey;
 
   @Bean
