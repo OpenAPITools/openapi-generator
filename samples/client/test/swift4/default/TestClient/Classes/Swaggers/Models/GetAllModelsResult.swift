@@ -17,11 +17,13 @@ open class GetAllModelsResult: Codable {
     public var myVariableNameTest: VariableNameTest?
 
 
+    
     public init(myPrimitiveArray: [AllPrimitives]?, myPrimitive: AllPrimitives?, myVariableNameTest: VariableNameTest?) {
         self.myPrimitiveArray = myPrimitiveArray
         self.myPrimitive = myPrimitive
         self.myVariableNameTest = myVariableNameTest
     }
+    
 
     // Encodable protocol methods
 
@@ -29,7 +31,7 @@ open class GetAllModelsResult: Codable {
 
         var container = encoder.container(keyedBy: String.self)
 
-        try container.encodeArrayIfPresent(myPrimitiveArray, forKey: "myPrimitiveArray")
+        try container.encodeIfPresent(myPrimitiveArray, forKey: "myPrimitiveArray")
         try container.encodeIfPresent(myPrimitive, forKey: "myPrimitive")
         try container.encodeIfPresent(myVariableNameTest, forKey: "myVariableNameTest")
     }
@@ -39,7 +41,7 @@ open class GetAllModelsResult: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        myPrimitiveArray = try container.decodeArrayIfPresent(AllPrimitives.self, forKey: "myPrimitiveArray")
+        myPrimitiveArray = try container.decodeIfPresent([AllPrimitives].self, forKey: "myPrimitiveArray")
         myPrimitive = try container.decodeIfPresent(AllPrimitives.self, forKey: "myPrimitive")
         myVariableNameTest = try container.decodeIfPresent(VariableNameTest.self, forKey: "myVariableNameTest")
     }
