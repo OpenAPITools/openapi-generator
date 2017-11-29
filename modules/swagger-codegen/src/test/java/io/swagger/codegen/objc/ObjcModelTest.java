@@ -23,6 +23,9 @@ import org.testng.annotations.Test;
 
 import java.util.Map;
 
+import static io.swagger.codegen.CodegenModel.IS_ARRAY_MODEL_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 @SuppressWarnings("static-method")
 public class ObjcModelTest {
 
@@ -318,7 +321,7 @@ public class ObjcModelTest {
         final Schema schema = schemas.get("AnimalFarm");
         final CodegenModel codegenModel = codegen.fromModel("AnimalFarm", schema);
 
-        Assert.assertEquals(codegenModel.isArrayModel, true);
+        Assert.assertEquals(getBooleanValue(codegenModel.getVendorExtensions(), IS_ARRAY_MODEL_EXT_NAME), true);
         Assert.assertEquals(codegenModel.arrayModelType,"SWGAnimal");
     }
 

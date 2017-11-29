@@ -2,12 +2,14 @@ package io.swagger.codegen.java;
 
 import com.google.common.collect.Sets;
 import io.swagger.codegen.ClientOptInput;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.DefaultGenerator;
 import io.swagger.codegen.config.CodegenConfigurator;
+import io.swagger.codegen.languages.AbstractJavaCodegen;
 import io.swagger.codegen.languages.JavaClientCodegen;
 import io.swagger.oas.models.media.ArraySchema;
 import io.swagger.oas.models.media.BooleanSchema;
@@ -743,13 +745,18 @@ public class JavaModelTest {
 
     @Test
     public void generateModel() throws Exception {
-        folder.create();
-        final File output = folder.getRoot();
+        //folder.create();
+        //final File output = folder.getRoot();
+        final File output = new File("/Users/hugomercado/Documents/tempo/v3");
         System.out.println(output);
         getClass().getClassLoader().getResourceAsStream("src/test/resources/3_0_0/petstore.json");
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setLang("java")
+                .setLibrary("jersey2")
+                .setTemplateEngine("handlebars")
+                //.addAdditionalProperty("withXml", true)
+                .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)
                 .setInputSpec("src/test/resources/3_0_0/petstore.json")
                 .setOutputDir(output.getAbsolutePath());
 
@@ -758,7 +765,7 @@ public class JavaModelTest {
 
         File orderFile = new File(output, "src/main/java/io/swagger/client/model/Order.java");
         Assert.assertTrue(orderFile.exists());
-        folder.delete();
+        //folder.delete();
     }
 
 }

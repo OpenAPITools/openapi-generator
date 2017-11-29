@@ -15,8 +15,14 @@ public class CodegenModel implements VendorExtendable {
 
     public static final String IS_ENUM_EXT_NAME = PREFFIX_IS + "enum";
     public static final String IS_ALIAS_EXT_NAME = PREFFIX_IS + "alias";
+    public static final String IS_ARRAY_MODEL_EXT_NAME = PREFFIX_IS + "array-model";
     public static final String HAS_VARS_EXT_NAME = PREFFIX_HAS + "vars";
     public static final String HAS_ENUMS_EXT_NAME = PREFFIX_HAS + "enums";
+    public static final String HAS_MORE_MODELS_EXT_NAME = PREFFIX_HAS + "more-models";
+    public static final String HAS_REQUIRED_EXT_NAME = PREFFIX_HAS + "required";
+    public static final String HAS_OPTIONAL_EXT_NAME = PREFFIX_HAS + "optional";
+    public static final String HAS_CHILDREN_EXT_NAME = PREFFIX_HAS + "children";
+    public static final String HAS_ONLY_READ_ONLY_EXT_NAME = PREFFIX_HAS + "only-read-only";
 
     public String parent, parentSchema;
     public List<String> interfaces;
@@ -46,8 +52,7 @@ public class CodegenModel implements VendorExtendable {
     public Set<String> allMandatory;
 
     public Set<String> imports = new TreeSet<String>();
-    public boolean emptyVars, hasMoreModels, hasRequired, hasOptional, isArrayModel, hasChildren;
-    public boolean hasOnlyReadOnly = true; // true if all properties are read-only
+    public boolean emptyVars;
     public ExternalDocumentation externalDocumentation;
 
     public Map<String, Object> vendorExtensions = new HashMap<>();
@@ -130,14 +135,6 @@ public class CodegenModel implements VendorExtendable {
             return false;
         if (emptyVars != that.emptyVars)
             return false;
-        if (hasMoreModels != that.hasMoreModels)
-            return false;
-        if (externalDocumentation != null ? !externalDocumentation.equals(that.externalDocumentation) : that.externalDocumentation != null)
-            return false;
-        if (!Objects.equals(hasOnlyReadOnly, that.hasOnlyReadOnly))
-            return false;
-        if (!Objects.equals(hasChildren, that.hasChildren))
-            return false;
         if (!Objects.equals(parentVars, that.parentVars))
             return false;
         return vendorExtensions != null ? vendorExtensions.equals(that.vendorExtensions) : that.vendorExtensions == null;
@@ -174,11 +171,8 @@ public class CodegenModel implements VendorExtendable {
         result = 31 * result + (allMandatory != null ? allMandatory.hashCode() : 0);
         result = 31 * result + (imports != null ? imports.hashCode() : 0);
         result = 31 * result + (emptyVars ? 13:31);
-        result = 31 * result + (hasMoreModels ? 13:31);
         result = 31 * result + (externalDocumentation != null ? externalDocumentation.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
-        result = 31 * result + Objects.hash(hasOnlyReadOnly);
-        result = 31 * result + Objects.hash(hasChildren);
         result = 31 * result + Objects.hash(parentVars);
         return result;
     }
@@ -445,54 +439,6 @@ public class CodegenModel implements VendorExtendable {
 
     public void setEmptyVars(boolean emptyVars) {
         this.emptyVars = emptyVars;
-    }
-
-    public boolean isHasMoreModels() {
-        return hasMoreModels;
-    }
-
-    public void setHasMoreModels(boolean hasMoreModels) {
-        this.hasMoreModels = hasMoreModels;
-    }
-
-    public boolean isHasRequired() {
-        return hasRequired;
-    }
-
-    public void setHasRequired(boolean hasRequired) {
-        this.hasRequired = hasRequired;
-    }
-
-    public boolean isHasOptional() {
-        return hasOptional;
-    }
-
-    public void setHasOptional(boolean hasOptional) {
-        this.hasOptional = hasOptional;
-    }
-
-    public boolean isArrayModel() {
-        return isArrayModel;
-    }
-
-    public void setArrayModel(boolean arrayModel) {
-        isArrayModel = arrayModel;
-    }
-
-    public boolean isHasChildren() {
-        return hasChildren;
-    }
-
-    public void setHasChildren(boolean hasChildren) {
-        this.hasChildren = hasChildren;
-    }
-
-    public boolean isHasOnlyReadOnly() {
-        return hasOnlyReadOnly;
-    }
-
-    public void setHasOnlyReadOnly(boolean hasOnlyReadOnly) {
-        this.hasOnlyReadOnly = hasOnlyReadOnly;
     }
 
     public ExternalDocumentation getExternalDocumentation() {

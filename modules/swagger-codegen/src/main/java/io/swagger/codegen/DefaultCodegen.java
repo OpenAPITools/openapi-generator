@@ -64,6 +64,10 @@ import static io.swagger.codegen.CodegenHelper.getDefaultIncludes;
 import static io.swagger.codegen.CodegenHelper.getImportMappings;
 import static io.swagger.codegen.CodegenHelper.getTypeMappings;
 import static io.swagger.codegen.CodegenHelper.initalizeSpecialCharacterMapping;
+import static io.swagger.codegen.CodegenModel.HAS_ONLY_READ_ONLY_EXT_NAME;
+import static io.swagger.codegen.CodegenModel.HAS_OPTIONAL_EXT_NAME;
+import static io.swagger.codegen.CodegenModel.HAS_REQUIRED_EXT_NAME;
+import static io.swagger.codegen.CodegenModel.IS_ARRAY_MODEL_EXT_NAME;
 import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 import static io.swagger.codegen.utils.ModelUtils.processCodegenModels;
@@ -1141,7 +1145,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (schema instanceof ArraySchema) {
-            codegenModel.isArrayModel = true;
+            codegenModel.getVendorExtensions().put(IS_ARRAY_MODEL_EXT_NAME, Boolean.TRUE);
             codegenModel.arrayModelType = fromProperty(name, schema).complexType;
             addParentContainer(codegenModel, name, schema);
             //} else if (schema instanceof RefModel) {
@@ -2688,7 +2692,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     private void addVars(CodegenModel codegenModel, Map<String, Schema> properties, List<String> required, Map<String, Schema> allProperties, List<String> allRequired) {
 
-        codegenModel.hasRequired = false;
+        codegenModel.getVendorExtensions().put(CodegenModel.HAS_REQUIRED_EXT_NAME, Boolean.FALSE);
         if (properties != null && !properties.isEmpty()) {
             codegenModel.getVendorExtensions().put(CodegenModel.HAS_VARS_EXT_NAME, true);
             codegenModel.getVendorExtensions().put(CodegenModel.HAS_ENUMS_EXT_NAME, false);
@@ -2726,8 +2730,13 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 final CodegenProperty cp = fromProperty(key, propertySchema);
                 cp.required = mandatory.contains(key);
-                codegenModel.hasRequired = codegenModel.hasRequired || cp.required;
-                codegenModel.hasOptional = codegenModel.hasOptional || !cp.required;
+
+                boolean hasRequired = getBooleanValue(codegenModel.getVendorExtensions(), HAS_REQUIRED_EXT_NAME) || cp.required;
+                boolean hasOptional = getBooleanValue(codegenModel.getVendorExtensions(), HAS_OPTIONAL_EXT_NAME) || !cp.required;
+
+                codegenModel.getVendorExtensions().put(HAS_REQUIRED_EXT_NAME, hasRequired);
+                codegenModel.getVendorExtensions().put(HAS_OPTIONAL_EXT_NAME, hasOptional);
+
                 boolean isEnum = getBooleanValue(cp.getVendorExtensions(), IS_ENUM_EXT_NAME);
                 if (isEnum) {
                     // FIXME: if supporting inheritance, when called a second time for allProperties it is possible for
@@ -2737,7 +2746,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                 // set model's hasOnlyReadOnly to false if the property is read-only
                 if (!Boolean.TRUE.equals(cp.isReadOnly)) {
-                    codegenModel.hasOnlyReadOnly = false;
+                    codegenModel.getVendorExtensions().put(HAS_ONLY_READ_ONLY_EXT_NAME, Boolean.FALSE);
                 }
 
                 if (i+1 != totalCount) {
