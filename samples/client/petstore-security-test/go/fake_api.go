@@ -26,11 +26,11 @@ type FakeApiService service
 
 
 /* FakeApiService To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
-
+ * @param ctx context.Context for authentication, logging, tracing, etc.
  @param optional (nil or map[string]interface{}) with one or more of:
      @param "testCodeInjectEndRnNR" (string) To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
  @return */
-func (a *FakeApiService) TestCodeInjectEndRnNR(localVarOptionals map[string]interface{}) ( *http.Response, error) {
+func (a *FakeApiService) TestCodeInjectEndRnNR(ctx context.Context, localVarOptionals map[string]interface{}) ( *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody interface{}
@@ -72,7 +72,7 @@ func (a *FakeApiService) TestCodeInjectEndRnNR(localVarOptionals map[string]inte
 	if localVarTempParam, localVarOk := localVarOptionals["testCodeInjectEndRnNR"].(string); localVarOk {
 		localVarFormParams.Add("test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r", parameterToString(localVarTempParam, ""))
 	}
-	r, err := a.client.prepareRequest(nil, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
 	}

@@ -27,7 +27,7 @@ type FakeClassnameTags123ApiService service
 
 
 /* FakeClassnameTags123ApiService To test class name in snake case
- * @param ctx context.Context Authentication Context 
+ * @param ctx context.Context for authentication, logging, tracing, etc.
  @param body client model
  @return Client*/
 func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body Client) (Client,  *http.Response, error) {

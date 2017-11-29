@@ -22,12 +22,12 @@ type {{classname}}Service service
 
 /* {{{classname}}}Service {{summary}}{{#notes}}
  {{notes}}{{/notes}}
-{{#hasAuthMethods}} * @param ctx context.Context Authentication Context {{/hasAuthMethods}}
+ * @param ctx context.Context for authentication, logging, tracing, etc.
 {{#allParams}}{{#required}} @param {{paramName}} {{description}}
 {{/required}}{{/allParams}}{{#hasOptionalParams}} @param optional (nil or map[string]interface{}) with one or more of:
 {{#allParams}}{{^required}}     @param "{{paramName}}" ({{dataType}}) {{description}}
 {{/required}}{{/allParams}}{{/hasOptionalParams}} @return {{#returnType}}{{{returnType}}}{{/returnType}}*/
-func (a *{{{classname}}}Service) {{{nickname}}}({{#hasAuthMethods}}ctx context.Context, {{/hasAuthMethods}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals map[string]interface{}{{/hasOptionalParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}} *http.Response, error) {
+func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}}, {{/hasParams}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals map[string]interface{}{{/hasOptionalParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}} *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("{{httpMethod}}")
 		localVarPostBody interface{}
@@ -201,7 +201,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}({{#hasAuthMethods}}ctx context.C
 	}
 {{/isApiKey}}
 {{/authMethods}}
-	r, err := a.client.prepareRequest({{#hasAuthMethods}}ctx, {{/hasAuthMethods}}{{^hasAuthMethods}}nil, {{/hasAuthMethods}}localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return {{#returnType}}successPayload, {{/returnType}}nil, err
 	}
