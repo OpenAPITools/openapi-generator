@@ -264,8 +264,13 @@ func (c *APIClient) prepareRequest (
 	// Add the user agent to the request.
 	localVarRequest.Header.Add("User-Agent", c.cfg.UserAgent)
 	
-	// Walk through any authentication.
+
 	if ctx != nil {
+		// add context to the request
+		localVarRequest = localVarRequest.WithContext(ctx)
+
+		// Walk through any authentication.
+
 		// OAuth2 authentication
 		if tok, ok := ctx.Value(ContextOAuth2).(oauth2.TokenSource); ok {
 			// We were able to grab an oauth2 token from the context

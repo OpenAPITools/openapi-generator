@@ -24,7 +24,7 @@ Add a new pet to the store
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
@@ -52,7 +52,7 @@ Deletes a pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **petId** | **int64**| Pet id to delete | 
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
@@ -89,7 +89,7 @@ Multiple status values can be provided with comma separated strings
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **status** | [**[]string**](string.md)| Status values that need to be considered for filter | 
 
 ### Return type
@@ -117,7 +117,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **tags** | [**[]string**](string.md)| Tags to filter by | 
 
 ### Return type
@@ -145,7 +145,7 @@ Returns a single pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **petId** | **int64**| ID of pet to return | 
 
 ### Return type
@@ -173,7 +173,7 @@ Update an existing pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
@@ -201,7 +201,7 @@ Updates a pet in the store with form data
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **petId** | **int64**| ID of pet that needs to be updated | 
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
@@ -239,7 +239,7 @@ uploads an image
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **petId** | **int64**| ID of pet to update | 
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
