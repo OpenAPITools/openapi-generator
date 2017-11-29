@@ -38,3 +38,7 @@ java $JAVA_OPTS -jar $executable $ags
 ags="$@ generate -t modules/swagger-codegen/src/main/resources/swift4 -i modules/swagger-codegen/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -l swift4 -c ./bin/swift4-petstore-rxswift.json -o samples/client/petstore/swift4/rxswift"
 echo "#### Petstore Swift API client (rxswift) ####"
 java $JAVA_OPTS -jar $executable $ags
+
+ags="$@ generate -t modules/swagger-codegen/src/main/resources/swift4 -i modules/swagger-codegen/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -l swift4 -c ./bin/swift4-petstore-objcCompatible.json -o samples/client/petstore/swift4/objcCompatible"
+echo "#### Petstore Swift API client (objcCompatible) ####"
+java $JAVA_OPTS -jar $executable $ags
