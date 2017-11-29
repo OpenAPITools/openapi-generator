@@ -18,8 +18,8 @@ import io.swagger.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.codegen.languages.features.JbossFeature;
 import io.swagger.codegen.languages.features.SwaggerFeatures;
 
-import static io.swagger.codegen.CodegenModel.HAS_ENUMS_EXT_NAME;
-import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.HAS_ENUMS_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen

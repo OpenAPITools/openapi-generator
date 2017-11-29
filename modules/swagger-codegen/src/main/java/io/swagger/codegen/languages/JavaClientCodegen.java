@@ -1,6 +1,6 @@
 package io.swagger.codegen.languages;
 
-import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 import static java.util.Collections.sort;
 

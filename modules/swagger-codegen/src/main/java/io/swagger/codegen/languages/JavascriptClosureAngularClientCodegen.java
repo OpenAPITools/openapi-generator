@@ -19,7 +19,7 @@ import io.swagger.oas.models.media.MapSchema;
 import io.swagger.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 
-import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implements CodegenConfig {

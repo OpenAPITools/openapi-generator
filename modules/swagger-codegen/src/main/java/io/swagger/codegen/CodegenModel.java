@@ -13,17 +13,6 @@ import java.util.TreeSet;
 
 public class CodegenModel implements VendorExtendable {
 
-    public static final String IS_ENUM_EXT_NAME = PREFFIX_IS + "enum";
-    public static final String IS_ALIAS_EXT_NAME = PREFFIX_IS + "alias";
-    public static final String IS_ARRAY_MODEL_EXT_NAME = PREFFIX_IS + "array-model";
-    public static final String HAS_VARS_EXT_NAME = PREFFIX_HAS + "vars";
-    public static final String HAS_ENUMS_EXT_NAME = PREFFIX_HAS + "enums";
-    public static final String HAS_MORE_MODELS_EXT_NAME = PREFFIX_HAS + "more-models";
-    public static final String HAS_REQUIRED_EXT_NAME = PREFFIX_HAS + "required";
-    public static final String HAS_OPTIONAL_EXT_NAME = PREFFIX_HAS + "optional";
-    public static final String HAS_CHILDREN_EXT_NAME = PREFFIX_HAS + "children";
-    public static final String HAS_ONLY_READ_ONLY_EXT_NAME = PREFFIX_HAS + "only-read-only";
-
     public String parent, parentSchema;
     public List<String> interfaces;
 

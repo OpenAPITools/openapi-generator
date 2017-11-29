@@ -35,7 +35,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.regex.Matcher;
 
-import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenConfig {

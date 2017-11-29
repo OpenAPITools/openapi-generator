@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {

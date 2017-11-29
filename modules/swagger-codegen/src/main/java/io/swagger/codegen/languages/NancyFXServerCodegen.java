@@ -250,7 +250,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         log.debug("Processing parents:  " + parentModels);
         for (final String parent : parentModels) {
             final CodegenModel parentModel = ModelUtils.getModelByName(parent, models);
-            parentModel.getVendorExtensions().put(CodegenModel.HAS_CHILDREN_EXT_NAME, Boolean.TRUE);
+            parentModel.getVendorExtensions().put(CodegenConstants.HAS_CHILDREN_EXT_NAME, Boolean.TRUE);
             final Collection<CodegenModel> childrenModels = childrenByParent.get(parent);
             for (final CodegenModel child : childrenModels) {
                 processParentPropertiesInChildModel(parentModel, child);

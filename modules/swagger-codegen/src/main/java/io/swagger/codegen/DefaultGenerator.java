@@ -702,7 +702,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         for (int i = 0; i < allModels.size() - 1; i++) {
             HashMap<String, CodegenModel> cm = (HashMap<String, CodegenModel>) allModels.get(i);
             CodegenModel m = cm.get("model");
-            m.getVendorExtensions().put(CodegenModel.HAS_MORE_MODELS_EXT_NAME, Boolean.TRUE);
+            m.getVendorExtensions().put(CodegenConstants.HAS_MORE_MODELS_EXT_NAME, Boolean.TRUE);
         }
 
         config.postProcessSupportingFileData(bundle);

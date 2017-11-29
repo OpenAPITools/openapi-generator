@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCodegen {

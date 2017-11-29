@@ -1,8 +1,8 @@
 package io.swagger.codegen.languages;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static io.swagger.codegen.CodegenModel.HAS_ENUMS_EXT_NAME;
-import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.HAS_ENUMS_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 import java.util.Arrays;

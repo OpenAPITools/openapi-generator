@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 
