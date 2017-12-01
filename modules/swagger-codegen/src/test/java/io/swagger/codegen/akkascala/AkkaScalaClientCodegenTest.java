@@ -25,5 +25,6 @@ public class AkkaScalaClientCodegenTest {
         List<SupportingFile> supportingFiles = this.akkaScalaClientCodegen.supportingFiles();
 
         assertThat(supportingFiles.contains(new SupportingFile("README.mustache", "", "README.md")), is(equalTo(true)));
+        assertThat(supportingFiles.contains(new SupportingFile("build.sbt.mustache", "", "build.sbt")), is(equalTo(true)));
     }
 }
