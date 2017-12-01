@@ -11,7 +11,7 @@ import Foundation
 
 /** {{description}} */{{/description}}
 {{#isArrayModel}}
-public typealias {{classname}} = [{{arrayModelType}}]
+public typealias {{classname}} = {{parent}}
 {{/isArrayModel}}
 {{^isArrayModel}}
 {{#isEnum}}
