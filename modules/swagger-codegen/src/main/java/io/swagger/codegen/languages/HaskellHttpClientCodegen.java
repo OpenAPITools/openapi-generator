@@ -634,25 +634,25 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
-            if (modelMimeTypes.containsKey(m.classname)) {
-                Set<String> mimeTypes = modelMimeTypes.get(m.classname);
-                m.vendorExtensions.put(X_MIME_TYPES, mimeTypes);
+        for (Object object : allModels) {
+            HashMap<String, Object> h = (HashMap<String, Object>) object;
+            CodegenModel codegenModel = (CodegenModel) h.get("model");
+            if (modelMimeTypes.containsKey(codegenModel.classname)) {
+                Set<String> mimeTypes = modelMimeTypes.get(codegenModel.classname);
+                codegenModel.vendorExtensions.put(X_MIME_TYPES, mimeTypes);
                 if ((boolean)additionalProperties.get(PROP_GENERATE_FORM_URLENCODED_INSTANCES) && mimeTypes.contains("MimeFormUrlEncoded")) {
                     Boolean hasMimeFormUrlEncoded = true;
-                    for (CodegenProperty v : m.vars) {
-                        boolean isPrimitiveType = getBooleanValue(v.getVendorExtensions(), CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME);
-                        boolean isString = getBooleanValue(v.getVendorExtensions(), CodegenConstants.IS_STRING_EXT_NAME);
-                        boolean isDate = getBooleanValue(v.getVendorExtensions(), CodegenConstants.IS_DATE_EXT_NAME);
-                        boolean isDateTime = getBooleanValue(v.getVendorExtensions(), CodegenConstants.IS_DATE_TIME_EXT_NAME);
+                    for (CodegenProperty codegenProperty : codegenModel.vars) {
+                        boolean isPrimitiveType = getBooleanValue(codegenProperty, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME);
+                        boolean isString = getBooleanValue(codegenProperty, CodegenConstants.IS_STRING_EXT_NAME);
+                        boolean isDate = getBooleanValue(codegenProperty, CodegenConstants.IS_DATE_EXT_NAME);
+                        boolean isDateTime = getBooleanValue(codegenProperty, CodegenConstants.IS_DATE_TIME_EXT_NAME);
                         if (!(isPrimitiveType || isString || isDate || isDateTime)) {
                             hasMimeFormUrlEncoded = false;
                         }
                     }
                     if (hasMimeFormUrlEncoded) {
-                        m.vendorExtensions.put(X_HAS_MIME_FORM_URL_ENCODED, true);
+                        codegenModel.vendorExtensions.put(X_HAS_MIME_FORM_URL_ENCODED, true);
                     }
                 }
             }
@@ -1060,10 +1060,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
-            final boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
+            final boolean isEnum = getBooleanValue(cm, IS_ENUM_EXT_NAME);
             cm.getVendorExtensions().put(IS_ENUM_EXT_NAME, genEnums && isEnum);
 
-            boolean isAlias = ExtensionHelper.getBooleanValue(cm.getVendorExtensions(), CodegenConstants.IS_ALIAS_EXT_NAME);
+            boolean isAlias = ExtensionHelper.getBooleanValue(cm, CodegenConstants.IS_ALIAS_EXT_NAME);
 
             if(isAlias) {
                 cm.vendorExtensions.put(X_DATA_TYPE, cm.dataType);
@@ -1086,7 +1086,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             for (Object _mo : models) {
                 Map<String, Object> mo = (Map<String, Object>) _mo;
                 CodegenModel cm = (CodegenModel) mo.get("model");
-                final boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
+                final boolean isEnum = getBooleanValue(cm, IS_ENUM_EXT_NAME);
                 if (isEnum && cm.allowableValues != null) {
                     updateAllowableValuesNames(cm.classname, cm.allowableValues);
                     addEnumToUniques(cm.classname, cm.dataType, cm.allowableValues.values().toString(), cm.allowableValues, cm.description);
@@ -1099,8 +1099,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     protected void updateDataTypeWithEnumForMap(CodegenProperty property) {
         CodegenProperty baseItem = property.items;
-        boolean isMapContainer = getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_MAP_CONTAINER_EXT_NAME);
-        boolean isListContainer = getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_LIST_CONTAINER_EXT_NAME);
+        boolean isMapContainer = getBooleanValue(property, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME);
+        boolean isListContainer = getBooleanValue(property, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME);
         while (baseItem != null && (isMapContainer || isListContainer)) {
             baseItem = baseItem.items;
         }
@@ -1119,7 +1119,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public String toEnumName(CodegenProperty var) {
         if (!genEnums) return super.toEnumName(var);
-        if (var.items != null && getBooleanValue(var.items.getVendorExtensions(), IS_ENUM_EXT_NAME)) {
+        if (var.items != null && getBooleanValue(var.items, IS_ENUM_EXT_NAME)) {
             return toEnumName(var.items);
         }
         String paramNameType = "E'" + toTypeName("", var.name);
@@ -1149,7 +1149,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             updateCodegenPropertyEnumValues(var.items, var.items.datatypeWithEnum);
             return;
         }
-        boolean isEnum = getBooleanValue(var.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        boolean isEnum = getBooleanValue(var, IS_ENUM_EXT_NAME);
         if(isEnum && var.allowableValues != null) {
             updateAllowableValuesNames(paramNameType, var.allowableValues);
         }

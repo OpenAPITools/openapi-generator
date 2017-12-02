@@ -455,7 +455,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allSchemas) {
         CodegenModel codegenModel = super.fromModel(name, schema, allSchemas);
-        boolean hasEnums = getBooleanValue(codegenModel.getVendorExtensions(), HAS_ENUMS_EXT_NAME);
+        boolean hasEnums = getBooleanValue(codegenModel, HAS_ENUMS_EXT_NAME);
         if (allSchemas != null && codegenModel.parentSchema != null && hasEnums) {
             final Schema parentModel = allSchemas.get(codegenModel.parentSchema);
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
@@ -472,7 +472,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         // Because the child models extend the parents, the enums will be available via the parent.
 
         // Only bother with reconciliation if the parent model has enums.
-        boolean hasEnums = getBooleanValue(parentCodegenModel.getVendorExtensions(), HAS_ENUMS_EXT_NAME);
+        boolean hasEnums = getBooleanValue(parentCodegenModel, HAS_ENUMS_EXT_NAME);
         if  (!hasEnums) {
             return codegenModel;
         }
@@ -485,14 +485,14 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         boolean removedChildEnum = false;
         for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
             // Look for enums
-            boolean isEnum = getBooleanValue(parentModelCodegenPropery.getVendorExtensions(), IS_ENUM_EXT_NAME);
+            boolean isEnum = getBooleanValue(parentModelCodegenPropery, IS_ENUM_EXT_NAME);
             if (isEnum) {
                 // Now that we have found an enum in the parent class,
                 // and search the child class for the same enum.
                 Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                 while (iterator.hasNext()) {
                     CodegenProperty codegenProperty = iterator.next();
-                    isEnum = getBooleanValue(codegenProperty.getVendorExtensions(), IS_ENUM_EXT_NAME);
+                    isEnum = getBooleanValue(codegenProperty, IS_ENUM_EXT_NAME);
                     if (isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
                         // We found an enum in the child class that is
                         // a duplicate of the one in the parent, so remove it.

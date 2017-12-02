@@ -236,7 +236,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
       CodegenModel cm = (CodegenModel) mo.get("model");
 
       for (CodegenProperty var : cm.vars) {
-        boolean isEnum = getBooleanValue(var.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        boolean isEnum = getBooleanValue(var, IS_ENUM_EXT_NAME);
         if (isEnum) {
           List<Object> enumValues = (List<Object>) var.allowableValues.get("values");
 
@@ -256,7 +256,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         Map<String, Object> mo = (Map<String, Object>) _mo;
         CodegenModel cm = (CodegenModel) mo.get("model");
         // for enum model
-        boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        boolean isEnum = getBooleanValue(cm, IS_ENUM_EXT_NAME);
         if (Boolean.TRUE.equals(isEnum) && cm.allowableValues != null) {
           cm.imports.add(importMapping.get("SerializedName"));
           Map<String, String> item = new HashMap<String, String>();

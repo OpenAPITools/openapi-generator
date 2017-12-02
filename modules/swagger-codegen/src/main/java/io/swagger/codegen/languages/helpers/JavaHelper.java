@@ -37,7 +37,7 @@ public class JavaHelper {
 
     public CharSequence getJavaProperty(CodegenProperty codegenProperty, Options options) throws IOException {
         final StringBuilder builder = new StringBuilder();
-        if (getBooleanValue(codegenProperty.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME)) {
+        if (getBooleanValue(codegenProperty, CodegenConstants.IS_CONTAINER_EXT_NAME)) {
             builder.append(codegenProperty.getDatatypeWithEnum());
             builder.append(StringUtils.SPACE);
             builder.append(codegenProperty.getName());

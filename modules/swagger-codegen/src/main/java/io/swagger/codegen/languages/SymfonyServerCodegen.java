@@ -413,7 +413,7 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
                     var.vendorExtensions.put("x-parameterType", typeHint);
                 }
 
-                if (getBooleanValue(var.getVendorExtensions(), CodegenConstants.IS_BOOLEAN_EXT_NAME)) {
+                if (getBooleanValue(var, CodegenConstants.IS_BOOLEAN_EXT_NAME)) {
                     var.getter = var.getter.replaceAll("^get", "is");
                 }
             }

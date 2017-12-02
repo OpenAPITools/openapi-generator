@@ -24,8 +24,7 @@ public class NoneExtensionHelper implements Helper<VendorExtendable> {
         final String param = options.param(0);
         String extension = PREFFIX_IS + param;
 
-        final Map<String, Object> vendorExtensions = vendor.getVendorExtensions();
-        if (vendorExtensions == null || !getBooleanValue(vendorExtensions, extension)) {
+        if (!getBooleanValue(vendor, extension)) {
             buffer.append(options.fn());
         } else {
             buffer.append(options.inverse());

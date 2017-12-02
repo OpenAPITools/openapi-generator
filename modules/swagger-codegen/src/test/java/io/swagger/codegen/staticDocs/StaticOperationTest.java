@@ -27,7 +27,7 @@ public class StaticOperationTest {
         Assert.assertEquals(cp.datatype, "String");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "string");
-        Assert.assertTrue(getBooleanValue(cp.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(cp, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a boolean parameter")
@@ -40,8 +40,8 @@ public class StaticOperationTest {
         Assert.assertEquals(cp.datatype, "Boolean");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "boolean");
-        Assert.assertTrue(getBooleanValue(cp.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
-        Assert.assertTrue(getBooleanValue(cp.getVendorExtensions(), CodegenConstants.IS_BOOLEAN_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(cp, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(cp, CodegenConstants.IS_BOOLEAN_EXT_NAME));
         Assert.assertEquals(cp.getter, "getProperty");
     }
 
@@ -59,7 +59,7 @@ public class StaticOperationTest {
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.defaultValue, "null");
         Assert.assertEquals(cp.baseType, "Children");
-        Assert.assertTrue(getBooleanValue(cp.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(cp, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a complex list parameter")
@@ -76,6 +76,6 @@ public class StaticOperationTest {
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "array");
         Assert.assertEquals(cp.containerType, "array");
-        Assert.assertTrue(getBooleanValue(cp.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(cp, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 }

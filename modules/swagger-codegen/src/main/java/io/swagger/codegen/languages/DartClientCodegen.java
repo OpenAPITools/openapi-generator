@@ -340,7 +340,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @return {@code true} if the enum was built
      */
     private boolean buildEnumFromValues(CodegenModel cm) {
-        boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        boolean isEnum = getBooleanValue(cm, IS_ENUM_EXT_NAME);
         if (!isEnum || cm.allowableValues == null) {
             return false;
         }
@@ -375,7 +375,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @return {@code true} if the enum was built
      */
     private boolean buildEnumFromVendorExtension(CodegenModel cm) {
-        boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        boolean isEnum = getBooleanValue(cm, IS_ENUM_EXT_NAME);
         if (!isEnum || cm.allowableValues == null ||
                 !useEnumExtension ||
                 !cm.vendorExtensions.containsKey("x-enum-values")) {

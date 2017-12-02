@@ -675,11 +675,11 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         // We can drop the check for unwrapRequired in (unwrapRequired && !property.required)
         // due to short-circuit evaluation of the || operator.
         boolean isSwiftOptional = !unwrapRequired || !property.required;
-        boolean isInteger = getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_INTEGER_EXT_NAME);
-        boolean isLong = getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_LONG_EXT_NAME);
-        boolean isFloat = getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_FLOAT_EXT_NAME);
-        boolean isDouble = getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_DOUBLE_EXT_NAME);
-        boolean isBoolean = getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_BOOLEAN_EXT_NAME);
+        boolean isInteger = getBooleanValue(property, CodegenConstants.IS_INTEGER_EXT_NAME);
+        boolean isLong = getBooleanValue(property, CodegenConstants.IS_LONG_EXT_NAME);
+        boolean isFloat = getBooleanValue(property, CodegenConstants.IS_FLOAT_EXT_NAME);
+        boolean isDouble = getBooleanValue(property, CodegenConstants.IS_DOUBLE_EXT_NAME);
+        boolean isBoolean = getBooleanValue(property, CodegenConstants.IS_BOOLEAN_EXT_NAME);
 
         boolean isSwiftScalarType = isInteger || isLong || isFloat || isDouble || isBoolean;
         if (isSwiftOptional && isSwiftScalarType) {

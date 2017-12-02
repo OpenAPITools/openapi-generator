@@ -452,7 +452,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        boolean isEnum = getBooleanValue(model.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        boolean isEnum = getBooleanValue(model, IS_ENUM_EXT_NAME);
         if(!BooleanUtils.toBoolean(isEnum)) {
             //final String lib = getLibrary();
             //Needed imports for Jackson based libraries
@@ -507,7 +507,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 Map<String, Object> mo = (Map<String, Object>) _mo;
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 // for enum model
-                boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
+                boolean isEnum = getBooleanValue(cm, IS_ENUM_EXT_NAME);
                 if (Boolean.TRUE.equals(isEnum) && cm.allowableValues != null) {
                     cm.imports.add(importMapping.get("SerializedName"));
                     Map<String, String> item = new HashMap<String, String>();

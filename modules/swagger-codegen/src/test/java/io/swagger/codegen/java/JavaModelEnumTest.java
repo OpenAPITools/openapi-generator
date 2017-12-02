@@ -39,7 +39,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.name, "name");
         Assert.assertEquals(enumVar.defaultValue, "null");
         Assert.assertEquals(enumVar.baseType, "String");
-        Assert.assertTrue(getBooleanValue(enumVar.getVendorExtensions(), IS_ENUM_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(enumVar, IS_ENUM_EXT_NAME));
     }
 
     @Test(description = "not override identical parent enums")

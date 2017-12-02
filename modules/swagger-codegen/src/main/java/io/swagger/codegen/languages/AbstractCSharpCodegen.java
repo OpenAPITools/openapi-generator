@@ -366,7 +366,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         Map<String, CodegenModel> enumRefs = new HashMap<String, CodegenModel>();
         for (Map.Entry<String, Object> entry : models.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
-            boolean isEnum = getBooleanValue(model.getVendorExtensions(), IS_ENUM_EXT_NAME);
+            boolean isEnum = getBooleanValue(model, IS_ENUM_EXT_NAME);
             if (isEnum) {
                 enumRefs.put(entry.getKey(), model);
             }

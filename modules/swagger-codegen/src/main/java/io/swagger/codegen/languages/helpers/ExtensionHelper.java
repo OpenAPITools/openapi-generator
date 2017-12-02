@@ -26,8 +26,7 @@ public class ExtensionHelper implements Helper<VendorExtendable> {
         final String param = options.param(0);
         String extension = PREFFIX_IS + param;
 
-        final Map<String, Object> vendorExtensions = vendor.getVendorExtensions();
-        if (vendorExtensions == null || !getBooleanValue(vendorExtensions, extension)) {
+        if (!getBooleanValue(vendor, extension)) {
             buffer.append(options.inverse());
         } else {
             buffer.append(options.fn());
@@ -35,7 +34,11 @@ public class ExtensionHelper implements Helper<VendorExtendable> {
         return buffer;
     }
 
-    public static boolean getBooleanValue(Map<String, Object> vendorExtensions, String extensionKey) {
+    public static boolean getBooleanValue(VendorExtendable vendorExtendable, String extensionKey) {
+        if (vendorExtendable == null) {
+            return false;
+        }
+        Map<String, Object> vendorExtensions = vendorExtendable.getVendorExtensions();
         if (vendorExtensions.get(extensionKey) == null) {
             return false;
         }

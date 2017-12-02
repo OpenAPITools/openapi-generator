@@ -304,13 +304,13 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
                     boolean isModel = false;
                     CodegenProperty item = p;
 
-                    if (getBooleanValue(p.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME)) {
+                    if (getBooleanValue(p, CodegenConstants.IS_CONTAINER_EXT_NAME)) {
                         item = p.items;
                     }
-                    boolean isString = getBooleanValue(p.getVendorExtensions(), CodegenConstants.IS_STRING_EXT_NAME);
-                    boolean isPrimitiveType = getBooleanValue(p.getVendorExtensions(), CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME);
-                    boolean isContainer = getBooleanValue(p.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME);
-                    boolean isInteger = getBooleanValue(p.getVendorExtensions(), CodegenConstants.IS_INTEGER_EXT_NAME);
+                    boolean isString = getBooleanValue(p, CodegenConstants.IS_STRING_EXT_NAME);
+                    boolean isPrimitiveType = getBooleanValue(p, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME);
+                    boolean isContainer = getBooleanValue(p, CodegenConstants.IS_CONTAINER_EXT_NAME);
+                    boolean isInteger = getBooleanValue(p, CodegenConstants.IS_INTEGER_EXT_NAME);
                     if (item != null && !isString && !isPrimitiveType && !isContainer && !isInteger) {
                         if (!d.contains(item.datatype)) {
                             // LOGGER.info("Model " + m.name + " uses " + p.datatype);

@@ -253,7 +253,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
             cm.imports = new TreeSet(cm.imports);
             for (CodegenProperty var : cm.vars) {
                 // handle default value for enum, e.g. available => StatusEnum.available
-                boolean isEnum = getBooleanValue(var.getVendorExtensions(), IS_ENUM_EXT_NAME);
+                boolean isEnum = getBooleanValue(var, IS_ENUM_EXT_NAME);
                 if (isEnum && var.defaultValue != null && !"null".equals(var.defaultValue)) {
                     var.defaultValue = var.datatypeWithEnum + "." + var.defaultValue;
                 }

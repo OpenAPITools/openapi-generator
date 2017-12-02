@@ -47,9 +47,9 @@ public class LagomScalaApiModelTest {
     Assert.assertEquals(property1.name, "id");
     Assert.assertEquals(property1.defaultValue, "null");
     Assert.assertEquals(property1.baseType, "Long");
-    Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
+    Assert.assertTrue(getBooleanValue(property1, CodegenConstants.HAS_MORE_EXT_NAME));
     Assert.assertTrue(property1.required);
-    Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+    Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
     final CodegenProperty property2 = cm.vars.get(1);
     Assert.assertEquals(property2.baseName, "name");
@@ -59,9 +59,9 @@ public class LagomScalaApiModelTest {
     Assert.assertEquals(property2.name, "name");
     Assert.assertEquals(property2.defaultValue, "null");
     Assert.assertEquals(property2.baseType, "String");
-    Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
+    Assert.assertTrue(getBooleanValue(property2, CodegenConstants.HAS_MORE_EXT_NAME));
     Assert.assertTrue(property2.required);
-    Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+    Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
     final CodegenProperty property3 = cm.vars.get(2);
     Assert.assertEquals(property3.baseName, "createdAt");
@@ -71,9 +71,9 @@ public class LagomScalaApiModelTest {
     Assert.assertEquals(property3.name, "createdAt");
     Assert.assertEquals(property3.defaultValue, "null");
     Assert.assertEquals(property3.baseType, "DateTime");
-    Assert.assertFalse(getBooleanValue(property3.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
+    Assert.assertFalse(getBooleanValue(property3, CodegenConstants.HAS_MORE_EXT_NAME));
     Assert.assertFalse(property3.required);
-    Assert.assertTrue(getBooleanValue(property3.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+    Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
   }
 
   @Test(description = "convert a model with list property")
@@ -101,7 +101,7 @@ public class LagomScalaApiModelTest {
     Assert.assertEquals(property1.baseType, "List");
     Assert.assertEquals(property1.containerType, "array");
     Assert.assertFalse(property1.required);
-    Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
+    Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
   }
 
   @Test(description = "convert a model with a map property")
@@ -129,7 +129,7 @@ public class LagomScalaApiModelTest {
     Assert.assertEquals(property1.baseType, "Map");
     Assert.assertEquals(property1.containerType, "map");
     Assert.assertFalse(property1.required);
-    Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
+    Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
   }
 
   @Test(description = "convert a model with complex properties")
@@ -156,7 +156,7 @@ public class LagomScalaApiModelTest {
     Assert.assertEquals(property1.defaultValue, "null");
     Assert.assertEquals(property1.baseType, "Children");
     Assert.assertFalse(property1.required);
-    Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+    Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
   }
 
   @Test(description = "convert a model with complex list property")
@@ -184,7 +184,7 @@ public class LagomScalaApiModelTest {
     Assert.assertEquals(property1.baseType, "List");
     Assert.assertEquals(property1.containerType, "array");
     Assert.assertFalse(property1.required);
-    Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
+    Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
   }
 
   @Test(description = "convert a model with complex map property")
@@ -213,8 +213,8 @@ public class LagomScalaApiModelTest {
     Assert.assertEquals(property1.baseType, "Map");
     Assert.assertEquals(property1.containerType, "map");
     Assert.assertFalse(property1.required);
-    Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
-    Assert.assertFalse(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+    Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
+    Assert.assertFalse(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
   }
 
   @Test(description = "convert an array model")

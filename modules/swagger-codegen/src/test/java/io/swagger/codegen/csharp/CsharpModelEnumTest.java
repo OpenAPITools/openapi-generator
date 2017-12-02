@@ -70,6 +70,6 @@ public class CsharpModelEnumTest {
         Assert.assertEquals(enumVar.baseName, "unsharedThing");
         Assert.assertEquals(enumVar.datatype, "string");
         Assert.assertEquals(enumVar.datatypeWithEnum, "UnsharedThingEnum");
-        Assert.assertTrue(getBooleanValue(enumVar.getVendorExtensions(), IS_ENUM_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(enumVar, IS_ENUM_EXT_NAME));
     }
 }

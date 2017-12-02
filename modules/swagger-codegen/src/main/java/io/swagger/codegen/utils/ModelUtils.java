@@ -101,7 +101,7 @@ public class ModelUtils {
             CodegenModel cm = (CodegenModel) mo.get("model");
 
             // for enum model
-            boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
+            boolean isEnum = getBooleanValue(cm, IS_ENUM_EXT_NAME);
             if (Boolean.TRUE.equals(isEnum) && cm.allowableValues != null) {
                 Map<String, Object> allowableValues = cm.allowableValues;
                 List<Object> values = (List<Object>) allowableValues.get("values");

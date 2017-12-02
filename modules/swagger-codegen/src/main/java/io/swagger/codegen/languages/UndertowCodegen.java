@@ -155,10 +155,10 @@ public class UndertowCodegen extends AbstractJavaCodegen {
         super.postProcessModelProperty(model, property);
 
         //Add imports for Jackson
-        boolean isEnum = getBooleanValue(model.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        boolean isEnum = getBooleanValue(model, IS_ENUM_EXT_NAME);
         if(!BooleanUtils.toBoolean(isEnum)) {
             model.imports.add("JsonProperty");
-            boolean hasEnums = getBooleanValue(model.getVendorExtensions(), HAS_ENUMS_EXT_NAME);
+            boolean hasEnums = getBooleanValue(model, HAS_ENUMS_EXT_NAME);
             if(BooleanUtils.toBoolean(hasEnums)) {
                 model.imports.add("JsonValue");
             }
@@ -176,7 +176,7 @@ public class UndertowCodegen extends AbstractJavaCodegen {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
             // for enum model
-            boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
+            boolean isEnum = getBooleanValue(cm, IS_ENUM_EXT_NAME);
             if (Boolean.TRUE.equals(isEnum) && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));
                 Map<String, String> item = new HashMap<String, String>();

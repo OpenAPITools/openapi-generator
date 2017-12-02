@@ -144,11 +144,11 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        boolean isEnum = getBooleanValue(model.getVendorExtensions(), IS_ENUM_EXT_NAME);
+        boolean isEnum = getBooleanValue(model, IS_ENUM_EXT_NAME);
         if (!isEnum) {
             model.imports.add("JsonInclude");
             model.imports.add("JsonProperty");
-            boolean hasEnums = getBooleanValue(model.getVendorExtensions(), HAS_ENUMS_EXT_NAME);
+            boolean hasEnums = getBooleanValue(model, HAS_ENUMS_EXT_NAME);
             if (hasEnums) {
                 model.imports.add("JsonValue");
             }
