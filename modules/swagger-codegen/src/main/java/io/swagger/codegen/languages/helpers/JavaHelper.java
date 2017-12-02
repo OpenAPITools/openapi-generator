@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class JavaHelper {
 
     public CharSequence getClassDefinition(CodegenModel codegenModel, Options options) throws IOException {
@@ -35,7 +37,7 @@ public class JavaHelper {
 
     public CharSequence getJavaProperty(CodegenProperty codegenProperty, Options options) throws IOException {
         final StringBuilder builder = new StringBuilder();
-        if (codegenProperty.getIsContainer()) {
+        if (getBooleanValue(codegenProperty.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME)) {
             builder.append(codegenProperty.getDatatypeWithEnum());
             builder.append(StringUtils.SPACE);
             builder.append(codegenProperty.getName());

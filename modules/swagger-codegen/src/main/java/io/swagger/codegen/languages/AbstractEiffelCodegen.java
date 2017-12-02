@@ -446,7 +446,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             for (final CodegenProperty parentProperty : parent.vars) {
                 final CodegenProperty duplicatedByParent = childPropertiesByName.get(parentProperty.name);
                 if (duplicatedByParent != null) {
-                    duplicatedByParent.isInherited = true;
+                    duplicatedByParent.getVendorExtensions().put(CodegenConstants.IS_INHERITED_EXT_NAME, Boolean.TRUE);
                 }
             }
         }
@@ -508,7 +508,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             int count = 0, numVars = codegenProperties.size();
             for(CodegenProperty codegenProperty : codegenProperties) {
                 count += 1;
-                codegenProperty.hasMore = (count < numVars) ? true : false;
+                codegenProperty.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, (count < numVars) ? true : false);
             }
             codegenModel.vars = codegenProperties;
         }
@@ -587,7 +587,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         if (!languageSpecificPrimitives.contains(innerProperty.baseType)) {
             property.complexType = innerProperty.baseType;
         } else {
-            property.isPrimitiveType = true;
+            property.getVendorExtensions().put(CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME, Boolean.TRUE);
         }
         property.items = innerProperty;
         // inner item is Enum

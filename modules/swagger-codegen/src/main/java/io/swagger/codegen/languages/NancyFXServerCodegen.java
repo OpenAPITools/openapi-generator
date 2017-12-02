@@ -7,6 +7,7 @@ import static java.util.Arrays.asList;
 import static java.util.UUID.randomUUID;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
@@ -269,12 +270,12 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
             if (duplicatedByParent != null) {
                 log.info(String.format("Property: '%s' in '%s' model is inherited from '%s'" ,
                         property.name, child.classname, parent.classname));
-                duplicatedByParent.isInherited = true;
+                duplicatedByParent.getVendorExtensions().put(CodegenConstants.IS_INHERITED_EXT_NAME, Boolean.TRUE);
                 final CodegenProperty parentVar = duplicatedByParent.clone();
-                parentVar.hasMore = false;
+                parentVar.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, Boolean.FALSE);
                 child.parentVars.add(parentVar);
                 if (previousParentVar != null) {
-                    previousParentVar.hasMore = true;
+                    previousParentVar.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, Boolean.TRUE);
                 }
                 previousParentVar = parentVar;
             }

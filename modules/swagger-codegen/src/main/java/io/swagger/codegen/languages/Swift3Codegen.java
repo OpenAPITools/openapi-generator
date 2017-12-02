@@ -26,6 +26,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
@@ -607,7 +609,13 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         // We can drop the check for unwrapRequired in (unwrapRequired && !property.required)
         // due to short-circuit evaluation of the || operator.
         boolean isSwiftOptional = !unwrapRequired || !property.required;
-        boolean isSwiftScalarType = property.isInteger || property.isLong || property.isFloat || property.isDouble || property.isBoolean;
+        boolean isInteger = getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_INTEGER_EXT_NAME);
+        boolean isLong = getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_LONG_EXT_NAME);
+        boolean isFloat = getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_FLOAT_EXT_NAME);
+        boolean isDouble = getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_DOUBLE_EXT_NAME);
+        boolean isBoolean = getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_BOOLEAN_EXT_NAME);
+
+        boolean isSwiftScalarType = isInteger || isLong || isFloat || isDouble || isBoolean;
         if (isSwiftOptional && isSwiftScalarType) {
             // Optional scalar types like Int?, Int64?, Float?, Double?, and Bool?
             // do not translate to Objective-C. So we want to flag those
@@ -663,7 +671,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
             int count = 0, numVars = codegenProperties.size();
             for(CodegenProperty codegenProperty : codegenProperties) {
                 count += 1;
-                codegenProperty.hasMore = (count < numVars) ? true : false;
+                codegenProperty.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, (count < numVars));
             }
             codegenModel.vars = codegenProperties;
         }

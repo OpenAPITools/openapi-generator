@@ -9,6 +9,7 @@ import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.languages.helpers.ExtensionHelper;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.oas.models.Operation;
 import io.swagger.oas.models.media.ArraySchema;
@@ -31,6 +32,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
     protected String packageName = "swagger";
@@ -300,10 +303,15 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
                 for (CodegenProperty p : m.allVars) {
                     boolean isModel = false;
                     CodegenProperty item = p;
-                    if (p.isContainer) {
+
+                    if (getBooleanValue(p.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME)) {
                         item = p.items;
                     }
-                    if (item != null && !item.isString && !item.isPrimitiveType && !item.isContainer && !item.isInteger) {
+                    boolean isString = getBooleanValue(p.getVendorExtensions(), CodegenConstants.IS_STRING_EXT_NAME);
+                    boolean isPrimitiveType = getBooleanValue(p.getVendorExtensions(), CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME);
+                    boolean isContainer = getBooleanValue(p.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME);
+                    boolean isInteger = getBooleanValue(p.getVendorExtensions(), CodegenConstants.IS_INTEGER_EXT_NAME);
+                    if (item != null && !isString && !isPrimitiveType && !isContainer && !isInteger) {
                         if (!d.contains(item.datatype)) {
                             // LOGGER.info("Model " + m.name + " uses " + p.datatype);
                             d.add(item.datatype);

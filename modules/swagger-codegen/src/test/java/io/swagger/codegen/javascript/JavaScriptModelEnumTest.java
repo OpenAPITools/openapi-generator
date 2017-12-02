@@ -1,5 +1,6 @@
 package io.swagger.codegen.javascript;
 
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 
@@ -138,7 +139,7 @@ public class JavaScriptModelEnumTest {
         Assert.assertEquals(prope.datatypeWithEnum, "EnumIntegerEnum");
         Assert.assertEquals(prope.enumName, "EnumIntegerEnum");
         Assert.assertTrue(getBooleanValue(prope.getVendorExtensions(), IS_ENUM_EXT_NAME));
-        Assert.assertFalse(prope.isContainer);
+        Assert.assertFalse(getBooleanValue(prope.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
         Assert.assertNull(prope.items);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));
 

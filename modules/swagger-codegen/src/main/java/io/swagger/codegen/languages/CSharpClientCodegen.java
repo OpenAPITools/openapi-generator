@@ -543,8 +543,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     // helper list of parentVars simplifies templating
                     if (!propertyHash.containsKey(property.name)) {
                         final CodegenProperty parentVar = property.clone();
-                        parentVar.isInherited = true;
-                        parentVar.hasMore = true;
+                        parentVar.getVendorExtensions().put(CodegenConstants.IS_INHERITED_EXT_NAME, Boolean.TRUE);
+                        parentVar.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, Boolean.TRUE);
                         last = parentVar;
                         LOGGER.info("adding parent variable {}", property.name);
                         codegenModel.parentVars.add(parentVar);
@@ -552,7 +552,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 }
 
                 if (last != null) {
-                    last.hasMore = false;
+                    last.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, Boolean.FALSE);
                 }
             }
         }
@@ -680,7 +680,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 int count = 0, numVars = codegenProperties.size();
                 for (CodegenProperty codegenProperty : codegenProperties) {
                     count += 1;
-                    codegenProperty.hasMore = count < numVars;
+                    codegenProperty.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, count < numVars);
                 }
                 codegenModel.vars = codegenProperties;
             }

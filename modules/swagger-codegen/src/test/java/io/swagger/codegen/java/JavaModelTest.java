@@ -37,6 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 @SuppressWarnings("static-method")
 public class JavaModelTest {
 
@@ -70,9 +72,9 @@ public class JavaModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, "null");
         Assert.assertEquals(property1.baseType, "Long");
-        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property2 = vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -83,9 +85,9 @@ public class JavaModelTest {
         Assert.assertEquals(property2.defaultValue, "null");
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertEquals(property2.example, "Tony");
-        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property3 = vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -95,9 +97,9 @@ public class JavaModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
         Assert.assertEquals(property3.baseType, "Date");
-        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(getBooleanValue(property3.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property3.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with list property")
@@ -126,7 +128,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with a map property")
@@ -154,7 +156,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "Map");
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with a map with complex list property")
@@ -182,7 +184,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "Map");
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with a 2D list property")
@@ -206,7 +208,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex properties")
@@ -231,7 +233,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "Children");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex list property")
@@ -259,7 +261,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex map property")
@@ -288,8 +290,8 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "Map");
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
-        Assert.assertFalse(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
+        Assert.assertFalse(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
     }
 
@@ -325,8 +327,8 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
-        Assert.assertFalse(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
+        Assert.assertFalse(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty itemsProperty = property.items;
         Assert.assertEquals(itemsProperty.baseName,"child");
@@ -389,9 +391,9 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "NAME");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
+        Assert.assertFalse(getBooleanValue(property.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with a 2nd char upper-case property names")
@@ -415,9 +417,9 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "pId");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
+        Assert.assertFalse(getBooleanValue(property.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model starting with two upper-case letter property names")
@@ -441,9 +443,9 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "atTName");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
+        Assert.assertFalse(getBooleanValue(property.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert hyphens per issue 503")
@@ -503,9 +505,9 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "inputBinaryData");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "byte[]");
-        Assert.assertFalse(property.hasMore);
+        Assert.assertFalse(getBooleanValue(property.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "translate an invalid param name")
@@ -528,8 +530,8 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "u");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(getBooleanValue(property.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a parameter")
@@ -654,10 +656,10 @@ public class JavaModelTest {
         Assert.assertEquals(property2.defaultValue, "null");
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertEquals(property2.example, "Tony");
-        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
-        Assert.assertTrue(property2.isXmlAttribute);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.IS_XML_ATTRIBUTE_EXT_NAME));
         Assert.assertEquals(property2.xmlName, "myName");
         Assert.assertNull(property2.xmlNamespace);
 
@@ -669,10 +671,10 @@ public class JavaModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
         Assert.assertEquals(property3.baseType, "Date");
-        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(getBooleanValue(property3.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
-        Assert.assertFalse(property3.isXmlAttribute);
+        Assert.assertTrue(getBooleanValue(property3.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertFalse(getBooleanValue(property3.getVendorExtensions(), CodegenConstants.IS_XML_ATTRIBUTE_EXT_NAME));
         Assert.assertEquals(property3.xmlName, "myCreatedAt");
         Assert.assertEquals(property3.xmlNamespace, "myNamespace");
         Assert.assertEquals(property3.xmlPrefix, "my");
@@ -718,8 +720,8 @@ public class JavaModelTest {
         Assert.assertEquals(property2.name, "array");
         Assert.assertEquals(property2.defaultValue, "new ArrayList<String>()");
         Assert.assertEquals(property2.baseType, "List");
-        Assert.assertTrue(property2.isContainer);
-        Assert.assertTrue(property2.isXmlWrapped);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.IS_XML_WRAPPED_EXT_NAME));
         Assert.assertEquals(property2.xmlName, "xmlArray");
         Assert.assertNotNull(property2.xmlNamespace);
         Assert.assertNotNull(property2.items);
@@ -738,8 +740,8 @@ public class JavaModelTest {
         Assert.assertEquals(cp.datatype, "Boolean");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "Boolean");
-        Assert.assertTrue(cp.isNotContainer);
-        Assert.assertTrue(cp.isBoolean);
+        Assert.assertTrue(getBooleanValue(cp.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(cp.getVendorExtensions(), CodegenConstants.IS_BOOLEAN_EXT_NAME));
         Assert.assertEquals(cp.getter, "isProperty");
     }
 

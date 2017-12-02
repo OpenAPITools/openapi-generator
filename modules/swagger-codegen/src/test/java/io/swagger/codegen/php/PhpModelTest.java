@@ -1,5 +1,6 @@
 package io.swagger.codegen.php;
 
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
@@ -23,7 +24,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 
@@ -55,10 +56,10 @@ public class PhpModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "int");
-        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -66,10 +67,10 @@ public class PhpModelTest {
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "string");
-        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -78,9 +79,9 @@ public class PhpModelTest {
         Assert.assertEquals(property3.name, "created_at");
         Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "\\DateTime");
-        Assert.assertFalse(property3.hasMore);
+        Assert.assertTrue(getBooleanValue(property3.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property3.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with list property")
@@ -106,21 +107,21 @@ public class PhpModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "int");
-        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
         Assert.assertEquals(property2.datatype, "string[]");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertEquals(property2.baseType, "array");
-        Assert.assertFalse(property2.hasMore);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
-        Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isContainer);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with a map property")
@@ -145,8 +146,8 @@ public class PhpModelTest {
         Assert.assertEquals(property1.baseType, "map");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isContainer);
-        Assert.assertTrue(property1.isPrimitiveType);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex property")
@@ -168,7 +169,7 @@ public class PhpModelTest {
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex list property")
@@ -192,7 +193,7 @@ public class PhpModelTest {
         Assert.assertEquals(property1.baseType, "array");
         Assert.assertEquals(property1.containerType, "array");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isContainer);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex map property")
@@ -219,8 +220,8 @@ public class PhpModelTest {
         Assert.assertEquals(property1.baseType, "map");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isContainer);
-        Assert.assertFalse(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
+        Assert.assertFalse(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert an array model")
@@ -324,7 +325,7 @@ public class PhpModelTest {
         Assert.assertEquals(prope.datatypeWithEnum, "ENUM_INTEGER");
         Assert.assertEquals(prope.enumName, "ENUM_INTEGER");
         Assert.assertTrue(getBooleanValue(prope.getVendorExtensions(), IS_ENUM_EXT_NAME));
-        Assert.assertFalse(prope.isContainer);
+        Assert.assertFalse(getBooleanValue(prope.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
         Assert.assertNull(prope.items);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));
 

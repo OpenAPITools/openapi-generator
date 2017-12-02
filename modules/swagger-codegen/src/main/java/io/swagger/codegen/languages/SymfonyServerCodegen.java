@@ -27,6 +27,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
     static Logger LOGGER = LoggerFactory.getLogger(SymfonyServerCodegen.class);
@@ -411,7 +413,7 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
                     var.vendorExtensions.put("x-parameterType", typeHint);
                 }
 
-                if (var.isBoolean) {
+                if (getBooleanValue(var.getVendorExtensions(), CodegenConstants.IS_BOOLEAN_EXT_NAME)) {
                     var.getter = var.getter.replaceAll("^get", "is");
                 }
             }

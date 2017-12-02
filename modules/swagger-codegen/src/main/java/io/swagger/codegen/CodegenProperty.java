@@ -36,30 +36,24 @@ public class CodegenProperty implements Cloneable, VendorExtendable {
     public String maximum;
     public boolean exclusiveMinimum;
     public boolean exclusiveMaximum;
-    public boolean hasMore, required, secondaryParam;
-    public boolean hasMoreNonReadOnly; // for model constructor, true if next properyt is not readonly
-    public boolean isPrimitiveType, isContainer, isNotContainer;
-    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime, isUuid;
-    public boolean isListContainer, isMapContainer;
-    public boolean isReadOnly = false;
+    public boolean required, secondaryParam;
+
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
     public Map<String, Object> vendorExtensions = new HashMap<>();
-    public boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
-    public boolean isInherited;
+
     public String nameInCamelCase; // property name in camel case
     // enum name based on the property name, usually use as a prefix (e.g. VAR_NAME) for enum name (e.g. VAR_NAME_VALUE1)
     public String enumName;
     public Integer maxItems;
     public Integer minItems;
 
+
     // XML
-    public boolean isXmlAttribute = false;
     public String xmlPrefix;
     public String xmlName;
     public String xmlNamespace;
-    public boolean isXmlWrapped = false;
 
     public String getBaseName() {
         return baseName;
@@ -269,14 +263,6 @@ public class CodegenProperty implements Cloneable, VendorExtendable {
         this.exclusiveMaximum = exclusiveMaximum;
     }
 
-    public boolean getHasMore() {
-        return hasMore;
-    }
-
-    public void setHasMore(boolean hasMore) {
-        this.hasMore = hasMore;
-    }
-
     public boolean getRequired() {
         return required;
     }
@@ -291,166 +277,6 @@ public class CodegenProperty implements Cloneable, VendorExtendable {
 
     public void setSecondaryParam(boolean secondaryParam) {
         this.secondaryParam = secondaryParam;
-    }
-
-    public boolean getHasMoreNonReadOnly() {
-        return hasMoreNonReadOnly;
-    }
-
-    public void setHasMoreNonReadOnly(boolean hasMoreNonReadOnly) {
-        this.hasMoreNonReadOnly = hasMoreNonReadOnly;
-    }
-
-    public boolean getIsPrimitiveType() {
-        return isPrimitiveType;
-    }
-
-    public void setPrimitiveType(boolean primitiveType) {
-        isPrimitiveType = primitiveType;
-    }
-
-    public boolean getIsContainer() {
-        return isContainer;
-    }
-
-    public void setContainer(boolean container) {
-        isContainer = container;
-    }
-
-    public boolean getIsNotContainer() {
-        return isNotContainer;
-    }
-
-    public void setNotContainer(boolean notContainer) {
-        isNotContainer = notContainer;
-    }
-
-    public boolean getIsString() {
-        return isString;
-    }
-
-    public void setString(boolean string) {
-        isString = string;
-    }
-
-    public boolean getIsNumeric() {
-        return isNumeric;
-    }
-
-    public void setNumeric(boolean numeric) {
-        isNumeric = numeric;
-    }
-
-    public boolean getIsInteger() {
-        return isInteger;
-    }
-
-    public void setInteger(boolean integer) {
-        isInteger = integer;
-    }
-
-    public boolean getIsLong() {
-        return isLong;
-    }
-
-    public void setLong(boolean aLong) {
-        isLong = aLong;
-    }
-
-    public boolean getIsFloat() {
-        return isFloat;
-    }
-
-    public void setFloat(boolean aFloat) {
-        isFloat = aFloat;
-    }
-
-    public boolean getIsDouble() {
-        return isDouble;
-    }
-
-    public void setDouble(boolean aDouble) {
-        isDouble = aDouble;
-    }
-
-    public boolean isByteArray() {
-        return isByteArray;
-    }
-
-    public void setByteArray(boolean byteArray) {
-        isByteArray = byteArray;
-    }
-
-    public boolean isBinary() {
-        return isBinary;
-    }
-
-    public void setBinary(boolean binary) {
-        isBinary = binary;
-    }
-
-    public boolean getIsFile() {
-        return isFile;
-    }
-
-    public void setFile(boolean file) {
-        isFile = file;
-    }
-
-    public boolean getIsBoolean() {
-        return isBoolean;
-    }
-
-    public void setBoolean(boolean aBoolean) {
-        isBoolean = aBoolean;
-    }
-
-    public boolean getIsDate() {
-        return isDate;
-    }
-
-    public void setDate(boolean date) {
-        isDate = date;
-    }
-
-    public boolean getIsDateTime() {
-        return isDateTime;
-    }
-
-    public void setDateTime(boolean dateTime) {
-        isDateTime = dateTime;
-    }
-
-    public boolean getIsUuid() {
-        return isUuid;
-    }
-
-    public void setUuid(boolean uuid) {
-        isUuid = uuid;
-    }
-
-    public boolean getIsListContainer() {
-        return isListContainer;
-    }
-
-    public void setListContainer(boolean listContainer) {
-        isListContainer = listContainer;
-    }
-
-    public boolean getIsMapContainer() {
-        return isMapContainer;
-    }
-
-    public void setMapContainer(boolean mapContainer) {
-        isMapContainer = mapContainer;
-    }
-
-    public boolean getIsReadOnly() {
-        return isReadOnly;
-    }
-
-    public void setReadOnly(boolean readOnly) {
-        isReadOnly = readOnly;
     }
 
     public List<String> get_enum() {
@@ -485,22 +311,6 @@ public class CodegenProperty implements Cloneable, VendorExtendable {
         this.vendorExtensions = vendorExtensions;
     }
 
-    public boolean getHasValidation() {
-        return hasValidation;
-    }
-
-    public void setHasValidation(boolean hasValidation) {
-        this.hasValidation = hasValidation;
-    }
-
-    public boolean isInherited() {
-        return isInherited;
-    }
-
-    public void setInherited(boolean inherited) {
-        isInherited = inherited;
-    }
-
     public String getNameInCamelCase() {
         return nameInCamelCase;
     }
@@ -533,14 +343,6 @@ public class CodegenProperty implements Cloneable, VendorExtendable {
         this.minItems = minItems;
     }
 
-    public boolean getIsXmlAttribute() {
-        return isXmlAttribute;
-    }
-
-    public void setXmlAttribute(boolean xmlAttribute) {
-        isXmlAttribute = xmlAttribute;
-    }
-
     public String getXmlPrefix() {
         return xmlPrefix;
     }
@@ -563,14 +365,6 @@ public class CodegenProperty implements Cloneable, VendorExtendable {
 
     public void setXmlNamespace(String xmlNamespace) {
         this.xmlNamespace = xmlNamespace;
-    }
-
-    public boolean getIsXmlWrapped() {
-        return isXmlWrapped;
-    }
-
-    public void setXmlWrapped(boolean xmlWrapped) {
-        isXmlWrapped = xmlWrapped;
     }
 
     @Override
@@ -601,12 +395,6 @@ public class CodegenProperty implements Cloneable, VendorExtendable {
         result = prime * result + (exclusiveMaximum ? 13:31);
         result = prime * result + (exclusiveMinimum ? 13:31);
         result = prime * result + ((getter == null) ? 0 : getter.hashCode());
-        result = prime * result + (hasMore  ? 13:31);
-        result = prime * result + ((hasMoreNonReadOnly  ? 13:31));
-        result = prime * result + ((isContainer  ? 13:31));
-        result = prime * result + ((isNotContainer ? 13:31));
-        result = prime * result + ((isPrimitiveType  ? 13:31));
-        result = prime * result + ((isReadOnly  ? 13:31));
         result = prime * result + ((items == null) ? 0 : items.hashCode());
         result = prime * result + ((jsonSchema == null) ? 0 : jsonSchema.hashCode());
         result = prime * result + ((max == null) ? 0 : max.hashCode());
@@ -622,33 +410,13 @@ public class CodegenProperty implements Cloneable, VendorExtendable {
         result = prime * result + ((setter == null) ? 0 : setter.hashCode());
         result = prime * result + ((unescapedDescription == null) ? 0 : unescapedDescription.hashCode());
         result = prime * result + ((vendorExtensions == null) ? 0 : vendorExtensions.hashCode());
-        result = prime * result + ((hasValidation  ? 13:31));
-        result = prime * result + ((isString  ? 13:31));
-        result = prime * result + ((isNumeric ? 13:31));
-        result = prime * result + ((isInteger ? 13:31));
-        result = prime * result + ((isLong  ?13:31));
-        result = prime * result + ((isNumber ? 13:31));
-        result = prime * result + ((isFloat ? 13:31));
-        result = prime * result + ((isDouble  ? 13:31));
-        result = prime * result + ((isByteArray  ? 13:31));
-        result = prime * result + ((isBinary  ? 13:31));
-        result = prime * result + ((isFile  ? 13:31));
-        result = prime * result + ((isBoolean  ? 13:31));
-        result = prime * result + ((isDate  ? 13:31));
-        result = prime * result + ((isDateTime ? 13:31));
-        result = prime * result + ((isUuid ? 13:31));
-        result = prime * result + ((isMapContainer ? 13:31));
-        result = prime * result + ((isListContainer  ? 13:31));
-        result = prime * result + Objects.hashCode(isInherited);
         result = prime * result + Objects.hashCode(nameInCamelCase);
         result = prime * result + Objects.hashCode(enumName);
         result = prime * result + ((maxItems == null) ? 0 : maxItems.hashCode());
         result = prime * result + ((minItems == null) ? 0 : minItems.hashCode());
-        result = prime * result + ((isXmlAttribute  ? 13:31));
         result = prime * result + ((xmlPrefix == null) ? 0 : xmlPrefix.hashCode());
         result = prime * result + ((xmlName == null) ? 0 : xmlName.hashCode());
         result = prime * result + ((xmlNamespace == null) ? 0 : xmlNamespace.hashCode());
-        result = prime * result + ((isXmlWrapped  ? 13:31));
         return result;
     }
 
@@ -739,18 +507,6 @@ public class CodegenProperty implements Cloneable, VendorExtendable {
         if (this.secondaryParam != other.secondaryParam) {
             return false;
         }
-        if (this.isPrimitiveType != other.isPrimitiveType) {
-            return false;
-        }
-        if (this.isContainer != other.isContainer) {
-            return false;
-        }
-        if (this.isNotContainer != other.isNotContainer) {
-            return false;
-        }
-        if (this.isReadOnly != other.isReadOnly) {
-            return false;
-        }
         if (this._enum != other._enum && (this._enum == null || !this._enum.equals(other._enum))) {
             return false;
         }
@@ -759,63 +515,6 @@ public class CodegenProperty implements Cloneable, VendorExtendable {
         }
 
         if (this.vendorExtensions != other.vendorExtensions && (this.vendorExtensions == null || !this.vendorExtensions.equals(other.vendorExtensions))) {
-            return false;
-        }
-
-        if (this.hasValidation != other.hasValidation) {
-            return false;
-        }
-
-        if (this.isString != other.isString) {
-            return false;
-        }
-
-        if (this.isNumeric != other.isNumeric) {
-            return false;
-        }
-        if (this.isInteger != other.isInteger) {
-            return false;
-        }
-        if (this.isLong != other.isLong) {
-            return false;
-        }
-        if (this.isNumber != other.isNumber) {
-            return false;
-        }
-        if (this.isFloat != other.isFloat) {
-            return false;
-        }
-        if (this.isDouble != other.isDouble) {
-            return false;
-        }
-        if (this.isByteArray != other.isByteArray) {
-            return false;
-        }
-        if (this.isBoolean != other.isBoolean) {
-            return false;
-        }
-        if (this.isDate != other.isDate) {
-            return false;
-        }
-        if (this.isDateTime != other.isDateTime) {
-            return false;
-        }
-        if (this.isUuid != other.isUuid) {
-            return false;
-        }
-        if (this.isBinary != other.isBinary) {
-            return false;
-        }
-        if (this.isFile != other.isFile) {
-            return false;
-        }
-        if (this.isListContainer != other.isListContainer) {
-            return false;
-        }
-        if (this.isMapContainer != other.isMapContainer) {
-            return false;
-        }
-        if (!Objects.equals(this.isInherited, other.isInherited)) {
             return false;
         }
         if (!Objects.equals(this.nameInCamelCase, other.nameInCamelCase)) {
@@ -830,9 +529,6 @@ public class CodegenProperty implements Cloneable, VendorExtendable {
         if (this.minItems != other.minItems && (this.minItems == null || !this.minItems.equals(other.minItems))) {
             return false;
         }
-        if (!Objects.equals(this.isXmlAttribute, other.isXmlAttribute)) {
-            return false;
-        }
         if (!Objects.equals(this.xmlPrefix, other.xmlPrefix)) {
             return false;
         }
@@ -840,9 +536,6 @@ public class CodegenProperty implements Cloneable, VendorExtendable {
             return false;
         }
         if (!Objects.equals(this.xmlNamespace, other.xmlNamespace)) {
-            return false;
-        }
-        if (!Objects.equals(this.isXmlWrapped, other.isXmlWrapped)) {
             return false;
         }
         return true;

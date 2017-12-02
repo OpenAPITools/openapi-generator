@@ -1,5 +1,6 @@
 package io.swagger.codegen.typescript.typescriptangular;
 
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.oas.models.media.ArraySchema;
 import io.swagger.oas.models.media.DateSchema;
 import io.swagger.oas.models.media.DateTimeSchema;
@@ -16,6 +17,8 @@ import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.TypeScriptAngularClientCodegen;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 @SuppressWarnings("static-method")
 public class TypeScriptAngularModelTest {
@@ -44,9 +47,9 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, "undefined");
         Assert.assertEquals(property1.baseType, "number");
-        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -54,9 +57,9 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property2.defaultValue, "undefined");
         Assert.assertEquals(property2.baseType, "string");
-        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -65,9 +68,9 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.baseType, "Date");
         Assert.assertEquals(property3.defaultValue, "undefined");
-        Assert.assertTrue(property3.hasMore);
+        Assert.assertTrue(getBooleanValue(property3.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property3.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property4 = cm.vars.get(3);
         Assert.assertEquals(property4.baseName, "birthDate");
@@ -76,9 +79,9 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property4.name, "birthDate");
         Assert.assertEquals(property4.baseType, "string");
         Assert.assertEquals(property4.defaultValue, "undefined");
-        Assert.assertFalse(property4.hasMore);
+        Assert.assertFalse(getBooleanValue(property4.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property4.required);
-        Assert.assertTrue(property4.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property4.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with list property")
@@ -102,18 +105,18 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, "undefined");
         Assert.assertEquals(property1.baseType, "number");
-        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
         Assert.assertEquals(property2.datatype, "Array<string>");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertEquals(property2.baseType, "Array");
-        Assert.assertFalse(property2.hasMore);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property2.required);
-        Assert.assertTrue(property2.isContainer);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex property")
@@ -136,7 +139,7 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property1.defaultValue, "undefined");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex list property")
@@ -160,7 +163,7 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Array");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isContainer);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert an array model")

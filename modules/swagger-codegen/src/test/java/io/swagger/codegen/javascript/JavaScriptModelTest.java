@@ -2,6 +2,7 @@ package io.swagger.codegen.javascript;
 
 import java.util.List;
 
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.oas.models.media.ArraySchema;
 import io.swagger.oas.models.media.ByteArraySchema;
 import io.swagger.oas.models.media.DateTimeSchema;
@@ -23,6 +24,8 @@ import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.JavascriptClientCodegen;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 @SuppressWarnings("static-method")
 public class JavaScriptModelTest {
@@ -54,9 +57,9 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "Number");
-        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property2 = vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -67,9 +70,9 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertEquals(property2.example, "Tony");
-        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property2.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property3 = vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -79,9 +82,9 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "Date");
-        Assert.assertFalse(property3.hasMore);
-        Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property3.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(property3.required);
+        Assert.assertTrue(getBooleanValue(property3.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with list property")
@@ -111,7 +114,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.baseType, "Array");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with a map property")
@@ -140,7 +143,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.baseType, "Object");
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with a map with complex list property")
@@ -170,7 +173,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.baseType, "Object");
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with a 2D list property")
@@ -195,7 +198,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.baseType, "Array");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex properties")
@@ -219,7 +222,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "Children");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex list property")
@@ -248,7 +251,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.baseType, "Array");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex map property")
@@ -278,8 +281,8 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.baseType, "Object");
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
-        Assert.assertFalse(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
+        Assert.assertFalse(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert an array model")
@@ -337,9 +340,9 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.name, "NAME");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
+        Assert.assertFalse(getBooleanValue(property.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with a 2nd char uppercase property names")
@@ -363,9 +366,9 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.name, "pId");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
+        Assert.assertFalse(getBooleanValue(property.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert hyphens per issue 503")
@@ -425,9 +428,9 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.name, "inputBinaryData");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "Blob");
-        Assert.assertFalse(property.hasMore);
+        Assert.assertFalse(getBooleanValue(property.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "translate an invalid param name")
@@ -450,8 +453,8 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.name, "u");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(getBooleanValue(property.getVendorExtensions(), CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a parameter")

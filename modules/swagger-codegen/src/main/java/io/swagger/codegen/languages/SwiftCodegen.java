@@ -372,7 +372,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         // TODO skip array/map of enum for the time being,
         // we need to add logic here to handle array/map of enum for any
         // dimensions
-        if (Boolean.TRUE.equals(codegenProperty.isContainer)) {
+        if (getBooleanValue(codegenProperty.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME)) {
             return codegenProperty;
         }
 

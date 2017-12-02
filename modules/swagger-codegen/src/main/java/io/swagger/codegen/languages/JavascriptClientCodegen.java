@@ -790,7 +790,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     private String getJSDocType(CodegenModel cm, CodegenProperty cp) {
-        if (Boolean.TRUE.equals(cp.isContainer)) {
+        if (getBooleanValue(cp.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME)) {
             if (cp.containerType.equals("array"))
                 return "Array.<" + getJSDocType(cm, cp.items) + ">";
             else if (cp.containerType.equals("map"))
@@ -987,7 +987,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 int count = 0, numVars = codegenProperties.size();
                 for(CodegenProperty codegenProperty : codegenProperties) {
                     count += 1;
-                    codegenProperty.hasMore = (count < numVars) ? true : false;
+                    codegenProperty.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, (count < numVars));
                 }
                 codegenModel.vars = codegenProperties;
             }

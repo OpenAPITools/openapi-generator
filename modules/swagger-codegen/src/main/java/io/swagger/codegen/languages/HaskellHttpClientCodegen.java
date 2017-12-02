@@ -643,7 +643,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 if ((boolean)additionalProperties.get(PROP_GENERATE_FORM_URLENCODED_INSTANCES) && mimeTypes.contains("MimeFormUrlEncoded")) {
                     Boolean hasMimeFormUrlEncoded = true;
                     for (CodegenProperty v : m.vars) {
-                        if (!(v.isPrimitiveType || v.isString || v.isDate || v.isDateTime)) {
+                        boolean isPrimitiveType = getBooleanValue(v.getVendorExtensions(), CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME);
+                        boolean isString = getBooleanValue(v.getVendorExtensions(), CodegenConstants.IS_STRING_EXT_NAME);
+                        boolean isDate = getBooleanValue(v.getVendorExtensions(), CodegenConstants.IS_DATE_EXT_NAME);
+                        boolean isDateTime = getBooleanValue(v.getVendorExtensions(), CodegenConstants.IS_DATE_TIME_EXT_NAME);
+                        if (!(isPrimitiveType || isString || isDate || isDateTime)) {
                             hasMimeFormUrlEncoded = false;
                         }
                     }
@@ -1059,7 +1063,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             final boolean isEnum = getBooleanValue(cm.getVendorExtensions(), IS_ENUM_EXT_NAME);
             cm.getVendorExtensions().put(IS_ENUM_EXT_NAME, genEnums && isEnum);
 
-            boolean isAlias = ExtensionHelper.getBooleanValue(cm.getVendorExtensions(), CodegenModel.IS_ALIAS_EXT_NAME);
+            boolean isAlias = ExtensionHelper.getBooleanValue(cm.getVendorExtensions(), CodegenConstants.IS_ALIAS_EXT_NAME);
 
             if(isAlias) {
                 cm.vendorExtensions.put(X_DATA_TYPE, cm.dataType);
@@ -1095,7 +1099,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     protected void updateDataTypeWithEnumForMap(CodegenProperty property) {
         CodegenProperty baseItem = property.items;
-        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMapContainer) || Boolean.TRUE.equals(baseItem.isListContainer))) {
+        boolean isMapContainer = getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_MAP_CONTAINER_EXT_NAME);
+        boolean isListContainer = getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_LIST_CONTAINER_EXT_NAME);
+        while (baseItem != null && (isMapContainer || isListContainer)) {
             baseItem = baseItem.items;
         }
         if (baseItem != null) {

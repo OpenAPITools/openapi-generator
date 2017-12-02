@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.swagger.codegen.CodegenModel.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class CsharpModelEnumTest {

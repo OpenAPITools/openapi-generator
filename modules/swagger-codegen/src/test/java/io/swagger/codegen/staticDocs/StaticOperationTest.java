@@ -1,5 +1,6 @@
 package io.swagger.codegen.staticDocs;
 
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.StaticDocCodegen;
@@ -10,6 +11,8 @@ import io.swagger.oas.models.media.Schema;
 import io.swagger.oas.models.media.StringSchema;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 @SuppressWarnings("static-method")
 public class StaticOperationTest {
@@ -24,7 +27,7 @@ public class StaticOperationTest {
         Assert.assertEquals(cp.datatype, "String");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "string");
-        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertTrue(getBooleanValue(cp.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a boolean parameter")
@@ -37,8 +40,8 @@ public class StaticOperationTest {
         Assert.assertEquals(cp.datatype, "Boolean");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "boolean");
-        Assert.assertTrue(cp.isNotContainer);
-        Assert.assertTrue(cp.isBoolean);
+        Assert.assertTrue(getBooleanValue(cp.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(cp.getVendorExtensions(), CodegenConstants.IS_BOOLEAN_EXT_NAME));
         Assert.assertEquals(cp.getter, "getProperty");
     }
 
@@ -56,7 +59,7 @@ public class StaticOperationTest {
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.defaultValue, "null");
         Assert.assertEquals(cp.baseType, "Children");
-        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertTrue(getBooleanValue(cp.getVendorExtensions(), CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a complex list parameter")
@@ -73,6 +76,6 @@ public class StaticOperationTest {
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "array");
         Assert.assertEquals(cp.containerType, "array");
-        Assert.assertTrue(cp.isContainer);
+        Assert.assertTrue(getBooleanValue(cp.getVendorExtensions(), CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 }

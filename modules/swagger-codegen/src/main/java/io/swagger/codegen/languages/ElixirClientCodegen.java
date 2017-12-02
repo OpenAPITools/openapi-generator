@@ -38,6 +38,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String apiVersion = "1.0.0";
     protected String moduleName;
@@ -680,15 +682,16 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             }
         }
         private void buildTypespec(CodegenProperty property, StringBuilder sb) {
-            if (property.isListContainer) {
+
+            if (getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 sb.append("list(");
                 buildTypespec(property.items, sb);
                 sb.append(")");
-            } else if (property.isMapContainer) {
+            } else if (getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
                 sb.append("%{optional(String.t) => ");
                 buildTypespec(property.items, sb);
                 sb.append("}");
-            } else if (property.isPrimitiveType) {
+            } else if (getBooleanValue(property.getVendorExtensions(), CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME)) {
                 sb.append(property.baseType);
                 sb.append(".t");
             } else {
@@ -772,7 +775,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         public boolean hasComplexVars() {
             for (CodegenProperty p : vars) {
-                if (!p.isPrimitiveType) {
+                if (!getBooleanValue(p.getVendorExtensions(), CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME)) {
                     return true;
                 }
             }

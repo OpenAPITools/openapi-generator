@@ -426,7 +426,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
         for (final CodegenProperty parentProperty : parent.vars) {
             final CodegenProperty duplicatedByParent = childPropertiesByName.get(parentProperty.name);
             if (duplicatedByParent != null) {
-                duplicatedByParent.isInherited = true;
+                duplicatedByParent.getVendorExtensions().put(CodegenConstants.IS_INHERITED_EXT_NAME, Boolean.TRUE);
             }
         }
     }
