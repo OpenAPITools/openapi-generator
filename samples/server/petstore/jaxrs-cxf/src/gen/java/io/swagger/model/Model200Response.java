@@ -21,9 +21,9 @@ public class Model200Response  {
   
   @ApiModelProperty(value = "")
   private Integer name = null;
+
   @ApiModelProperty(value = "")
   private String propertyClass = null;
-
  /**
    * Get name
    * @return name

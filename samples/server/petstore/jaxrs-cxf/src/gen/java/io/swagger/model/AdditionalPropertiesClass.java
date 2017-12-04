@@ -18,10 +18,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AdditionalPropertiesClass  {
   
   @ApiModelProperty(value = "")
-  private Map<String, String> mapProperty = new HashMap<String, String>();
-  @ApiModelProperty(value = "")
-  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
+  private Map<String, String> mapProperty = null;
 
+  @ApiModelProperty(value = "")
+  private Map<String, Map<String, String>> mapOfMapProperty = null;
  /**
    * Get mapProperty
    * @return mapProperty

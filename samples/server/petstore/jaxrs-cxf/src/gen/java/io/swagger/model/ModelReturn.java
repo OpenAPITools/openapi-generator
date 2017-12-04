@@ -21,7 +21,6 @@ public class ModelReturn  {
   
   @ApiModelProperty(value = "")
   private Integer _return = null;
-
  /**
    * Get _return
    * @return _return
