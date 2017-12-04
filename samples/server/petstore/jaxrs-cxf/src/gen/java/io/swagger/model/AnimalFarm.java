@@ -17,8 +17,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AnimalFarm extends ArrayList<Animal> {
   
-
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
