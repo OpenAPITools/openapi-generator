@@ -3,17 +3,14 @@ package io.swagger.codegen.languages.helpers;
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
 import com.github.jknack.handlebars.Options.Buffer;
-import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.VendorExtendable;
 
 import java.io.IOException;
 import java.util.Map;
 
-import static io.swagger.codegen.VendorExtendable.PREFFIX_IS;
+public abstract class ExtensionHelper implements Helper<VendorExtendable> {
 
-public class ExtensionHelper implements Helper<VendorExtendable> {
-
-    public static final String NAME = "is";
+    public abstract String getPreffix();
 
     @Override
     public Object apply(VendorExtendable vendor, Options options) throws IOException {
@@ -24,7 +21,7 @@ public class ExtensionHelper implements Helper<VendorExtendable> {
             return buffer;
         }
         final String param = options.param(0);
-        String extension = PREFFIX_IS + param;
+        String extension = getPreffix() + param;
 
         if (!getBooleanValue(vendor, extension)) {
             buffer.append(options.inverse());

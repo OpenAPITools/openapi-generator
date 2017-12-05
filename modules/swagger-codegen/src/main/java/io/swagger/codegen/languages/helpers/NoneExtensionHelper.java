@@ -5,14 +5,13 @@ import com.github.jknack.handlebars.Options;
 import io.swagger.codegen.VendorExtendable;
 
 import java.io.IOException;
-import java.util.Map;
 
-import static io.swagger.codegen.VendorExtendable.PREFFIX_IS;
+import static io.swagger.codegen.VendorExtendable.PREFIX_IS;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
-public class NoneExtensionHelper implements Helper<VendorExtendable> {
+public abstract class NoneExtensionHelper implements Helper<VendorExtendable> {
 
-    public static final String NAME = "isNot";
+    public abstract String getPreffix();
 
     @Override
     public Object apply(VendorExtendable vendor, Options options) throws IOException {
@@ -22,7 +21,7 @@ public class NoneExtensionHelper implements Helper<VendorExtendable> {
             return buffer;
         }
         final String param = options.param(0);
-        String extension = PREFFIX_IS + param;
+        String extension = getPreffix() + param;
 
         if (!getBooleanValue(vendor, extension)) {
             buffer.append(options.fn());

@@ -1,7 +1,7 @@
 package io.swagger.codegen;
 
-import static io.swagger.codegen.VendorExtendable.PREFFIX_HAS;
-import static io.swagger.codegen.VendorExtendable.PREFFIX_IS;
+import static io.swagger.codegen.VendorExtendable.PREFIX_HAS;
+import static io.swagger.codegen.VendorExtendable.PREFIX_IS;
 
 /**
  * A class for storing constants that are used throughout the project.
@@ -224,42 +224,42 @@ public class CodegenConstants {
     public static final String REMOVE_OPERATION_ID_PREFIX = "removeOperationIdPrefix";
     public static final String REMOVE_OPERATION_ID_PREFIX_DESC = "Remove prefix of operationId, e.g. config_getId => getId";
 
-    public static final String IS_ENUM_EXT_NAME = PREFFIX_IS + "enum";
-    public static final String IS_ALIAS_EXT_NAME = PREFFIX_IS + "alias";
-    public static final String IS_ARRAY_MODEL_EXT_NAME = PREFFIX_IS + "array-model";
-    public static final String HAS_VARS_EXT_NAME = PREFFIX_HAS + "vars";
-    public static final String HAS_ENUMS_EXT_NAME = PREFFIX_HAS + "enums";
-    public static final String HAS_MORE_MODELS_EXT_NAME = PREFFIX_HAS + "more-models";
-    public static final String HAS_REQUIRED_EXT_NAME = PREFFIX_HAS + "required";
-    public static final String HAS_OPTIONAL_EXT_NAME = PREFFIX_HAS + "optional";
-    public static final String HAS_CHILDREN_EXT_NAME = PREFFIX_HAS + "children";
-    public static final String HAS_ONLY_READ_ONLY_EXT_NAME = PREFFIX_HAS + "only-read-only";
+    public static final String IS_ENUM_EXT_NAME = PREFIX_IS + "enum";
+    public static final String IS_ALIAS_EXT_NAME = PREFIX_IS + "alias";
+    public static final String IS_ARRAY_MODEL_EXT_NAME = PREFIX_IS + "array-model";
+    public static final String HAS_VARS_EXT_NAME = PREFIX_HAS + "vars";
+    public static final String HAS_ENUMS_EXT_NAME = PREFIX_HAS + "enums";
+    public static final String HAS_MORE_MODELS_EXT_NAME = PREFIX_HAS + "more-models";
+    public static final String HAS_REQUIRED_EXT_NAME = PREFIX_HAS + "required";
+    public static final String HAS_OPTIONAL_EXT_NAME = PREFIX_HAS + "optional";
+    public static final String HAS_CHILDREN_EXT_NAME = PREFIX_HAS + "children";
+    public static final String HAS_ONLY_READ_ONLY_EXT_NAME = PREFIX_HAS + "only-read-only";
 
-    public static final String IS_PRIMITIVE_TYPE_EXT_NAME = PREFFIX_IS + "primitive-type";
-    public static final String IS_CONTAINER_EXT_NAME = PREFFIX_IS + "container";
-    public static final String IS_NOT_CONTAINER_EXT_NAME = PREFFIX_IS + "not-container";
-    public static final String IS_STRING_EXT_NAME = PREFFIX_IS + "string";
-    public static final String IS_NUMERIC_EXT_NAME = PREFFIX_IS + "numeric";
-    public static final String IS_INTEGER_EXT_NAME = PREFFIX_IS + "integer";
-    public static final String IS_LONG_EXT_NAME = PREFFIX_IS + "long";
-    public static final String IS_NUMBER_EXT_NAME = PREFFIX_IS + "number";
-    public static final String IS_FLOAT_EXT_NAME = PREFFIX_IS + "float";
-    public static final String IS_DOUBLE_EXT_NAME = PREFFIX_IS + "double";
-    public static final String IS_BYTE_ARRAY_EXT_NAME = PREFFIX_IS + "byte-array";
-    public static final String IS_BINARY_EXT_NAME = PREFFIX_IS + "binary";
-    public static final String IS_FILE_EXT_NAME = PREFFIX_IS + "file";
-    public static final String IS_BOOLEAN_EXT_NAME = PREFFIX_IS + "boolean";
-    public static final String IS_DATE_EXT_NAME = PREFFIX_IS + "date";
-    public static final String IS_DATE_TIME_EXT_NAME = PREFFIX_IS + "date-time";
-    public static final String IS_UUID_EXT_NAME = PREFFIX_IS + "uuid";
-    public static final String IS_LIST_CONTAINER_EXT_NAME = PREFFIX_IS + "list-container";
-    public static final String IS_MAP_CONTAINER_EXT_NAME = PREFFIX_IS + "map-container";
-    public static final String IS_READ_ONLY_EXT_NAME = PREFFIX_IS + "read-only";
-    public static final String IS_INHERITED_EXT_NAME = PREFFIX_IS + "inherited";
-    public static final String IS_XML_ATTRIBUTE_EXT_NAME = PREFFIX_IS + "xml-attribute";
-    public static final String IS_XML_WRAPPED_EXT_NAME = PREFFIX_IS + "xml-wrapped";
+    public static final String IS_PRIMITIVE_TYPE_EXT_NAME = PREFIX_IS + "primitive-type";
+    public static final String IS_CONTAINER_EXT_NAME = PREFIX_IS + "container";
+    public static final String IS_NOT_CONTAINER_EXT_NAME = PREFIX_IS + "not-container";
+    public static final String IS_STRING_EXT_NAME = PREFIX_IS + "string";
+    public static final String IS_NUMERIC_EXT_NAME = PREFIX_IS + "numeric";
+    public static final String IS_INTEGER_EXT_NAME = PREFIX_IS + "integer";
+    public static final String IS_LONG_EXT_NAME = PREFIX_IS + "long";
+    public static final String IS_NUMBER_EXT_NAME = PREFIX_IS + "number";
+    public static final String IS_FLOAT_EXT_NAME = PREFIX_IS + "float";
+    public static final String IS_DOUBLE_EXT_NAME = PREFIX_IS + "double";
+    public static final String IS_BYTE_ARRAY_EXT_NAME = PREFIX_IS + "byte-array";
+    public static final String IS_BINARY_EXT_NAME = PREFIX_IS + "binary";
+    public static final String IS_FILE_EXT_NAME = PREFIX_IS + "file";
+    public static final String IS_BOOLEAN_EXT_NAME = PREFIX_IS + "boolean";
+    public static final String IS_DATE_EXT_NAME = PREFIX_IS + "date";
+    public static final String IS_DATE_TIME_EXT_NAME = PREFIX_IS + "date-time";
+    public static final String IS_UUID_EXT_NAME = PREFIX_IS + "uuid";
+    public static final String IS_LIST_CONTAINER_EXT_NAME = PREFIX_IS + "list-container";
+    public static final String IS_MAP_CONTAINER_EXT_NAME = PREFIX_IS + "map-container";
+    public static final String IS_READ_ONLY_EXT_NAME = PREFIX_IS + "read-only";
+    public static final String IS_INHERITED_EXT_NAME = PREFIX_IS + "inherited";
+    public static final String IS_XML_ATTRIBUTE_EXT_NAME = PREFIX_IS + "xml-attribute";
+    public static final String IS_XML_WRAPPED_EXT_NAME = PREFIX_IS + "xml-wrapped";
 
-    public static final String HAS_MORE_EXT_NAME = PREFFIX_HAS + "more";
-    public static final String HAS_MORE_NON_READ_ONLY_EXT_NAME = PREFFIX_HAS + "more-non-read-only";
-    public static final String HAS_VALIDATION_EXT_NAME = PREFFIX_HAS + "validation";
+    public static final String HAS_MORE_EXT_NAME = PREFIX_HAS + "more";
+    public static final String HAS_MORE_NON_READ_ONLY_EXT_NAME = PREFIX_HAS + "more-non-read-only";
+    public static final String HAS_VALIDATION_EXT_NAME = PREFIX_HAS + "validation";
 }
