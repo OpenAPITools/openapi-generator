@@ -60,7 +60,7 @@ public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum
 
     @Override
     public {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} read(final JsonReader jsonReader) throws IOException {
-      {{{dataType}}} value = jsonReader.{{#isInteger}}nextInt(){{/isInteger}}{{^isInteger}}next{{{dataType}}}(){{/isInteger}};
+      {{{dataType}}} value = jsonReader.{{#is this 'integer'}}nextInt(){{/is}}{{#isNot this 'integer'}}next{{{dataType}}}(){{/isNot}};
       return {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.fromValue(String.valueOf(value));
     }
   }

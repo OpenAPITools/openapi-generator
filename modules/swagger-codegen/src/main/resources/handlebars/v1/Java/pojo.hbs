@@ -12,50 +12,50 @@ public class {{{getClassDefinition}}} {
   {{/is~}}
   {{#is this.items 'enum'~}}
   {{#items~}}
-  {{^isContainer~}}
+  {{#isNot this 'container'~}}
 {{>modelInnerEnum}}
-  {{/isContainer~}}
+  {{/isNot~}}
   {{/items~}}
   {{/is~}}
-  {{#jackson}}
+  {{#if jackson}}
   @JsonProperty("{{baseName}}")
-  {{#withXml~}}
-  {{^isContainer~}}@JacksonXmlProperty({{{getJacksonXmlProperty isXmlAttribute xmlNamespace xmlName baseName}}}){{/isContainer}}
-  {{#isContainer~}}
-  {{#isXmlWrapped~}}
+  {{#if withXml~}}
+  {{#isNot this 'container'~}}@JacksonXmlProperty({{{getJacksonXmlProperty this}}}){{/isNot}}
+  {{#is this 'container'~}}
+  {{#is this 'xml-wrapped'~}}
   // items.xmlName={{items.xmlName}}
-  @JacksonXmlElementWrapper({{{getJacksonXmlElementWrapper isXmlWrapped xmlNamespace xmlName baseName}}})
-  {{/isXmlWrapped~}}
-  {{/isContainer~}}
-  {{/withXml~}}
-  {{/jackson~}}
-  {{#withXml~}}
-  {{#isXmlAttribute~}}
+  @JacksonXmlElementWrapper({{{getJacksonXmlElementWrapper this}}})
+  {{/is~}}
+  {{/is~}}
+  {{/if ~}}
+  {{/if~}}
+  {{#if withXml~}}
+  {{#is this 'xml-attribute'~}}
   @XmlAttribute(name = "{{getXmlAttributeName xmlName baseName}}")
-  {{/isXmlAttribute~}}
-  {{^isXmlAttribute~}}
-  {{^isContainer~}}@XmlElement({{{getXmlElementName xmlNamespace xmlName baseName}}}){{/isContainer}}
-  {{#isContainer~}}
+  {{/is~}}
+  {{#isNot this 'xml-attribute'~}}
+  {{#isNot this 'container'~}}@XmlElement({{{getXmlElementName xmlNamespace xmlName baseName}}}){{/isNot}}
+  {{#is this 'container'~}}
   {{#items~}}
   @XmlElement({{{getXmlElementName items.xmlNamespace items.xmlName items.baseName}}})
   {{/items~}}
-  {{#if isXmlWrapped~}}@XmlElementWrapper({{{getXmlElementName xmlNamespace xmlName baseName}}}){{/if}}
-  {{/isContainer~}}
-  {{/isXmlAttribute~}}
-  {{/withXml~}}
+  {{#is this 'xml-wrapped'~}}@XmlElementWrapper({{{getXmlElementName xmlNamespace xmlName baseName}}}){{/is}}
+  {{/is~}}
+  {{/isNot~}}
+  {{/if~}}
   {{#gson~}}
   @SerializedName("{{baseName}}")
   {{/gson~}}
   private {{{getJavaProperty}}};
   {{/vars}}
   {{#vars~}}
-  {{^isReadOnly~}}
+  {{#isNot this 'read-only'~}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
     return this;
   }
 
-  {{#isListContainer}}public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+  {{#is this 'list-container'}}public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{^required}}
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
@@ -64,8 +64,8 @@ public class {{{getClassDefinition}}} {
     this.{{name}}.add({{name}}Item);
     return this;
   }
-  {{/isListContainer~}}
-  {{#isMapContainer}}public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+  {{/is~}}
+  {{#is this 'map-container'}}public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{^required}}
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
@@ -73,8 +73,8 @@ public class {{{getClassDefinition}}} {
     {{/required}}
     this.{{name}}.put(key, {{name}}Item);
     return this;
-  }{{/isMapContainer~}}
-  {{/isReadOnly}}
+  }{{/is~}}
+  {{/isNot}}
   /**
   {{#if description~}}* {{description}}{{else}}* Get {{name}}{{/if}}
   {{#if minimum~}}
@@ -92,11 +92,11 @@ public class {{{getClassDefinition}}} {
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
-  {{^isReadOnly}}
+  {{#isNot this 'read-only'~}}
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
-  {{/isReadOnly}}
+  {{/isNot}}
   {{/vars~}}
   {{^supportJava6~}}
   @Override
@@ -106,17 +106,17 @@ public class {{{getClassDefinition}}} {
     }
     if (o == null || getClass() != o.getClass()) {
       return false;
-    }{{#hasVars}}
+    }{{#has this 'vars'}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
-    return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
-        {{/hasMore}}{{/vars}}{{#parent}} &&
-        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
-    return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
+    return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{#has this 'more'}} &&
+        {{/has}}{{/vars}}{{#parent}} &&
+        super.equals(o){{/parent}};{{/has}}{{#hasNot this 'vars'}}
+    return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasNot}}
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+    return Objects.hash({{#vars}}{{name}}{{#has this 'more'}}, {{/has}}{{/vars}}{{#parent}}{{#has parent 'vars'}}, {{/has}}super.hashCode(){{/parent}});
   }
   {{/supportJava6~}}
   {{#supportJava6~}}
@@ -127,17 +127,17 @@ public class {{{getClassDefinition}}} {
   }
   if (o == null || getClass() != o.getClass()) {
     return false;
-  }{{#hasVars}}
+  }{{#has this 'more'}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
     return {{#vars}}ObjectUtils.equals(this.{{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
     {{/hasMore}}{{/vars}}{{#parent}} &&
-    super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
-    return true;{{/hasVars}}
+    super.equals(o){{/parent}};{{/has}}{{#hasNot this 'vars'}}
+    return true;{{/hasNot}}
   }
 
   @Override
   public int hashCode() {
-    return ObjectUtils.hashCodeMulti({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+    return ObjectUtils.hashCodeMulti({{#vars}}{{name}}{{#has this 'more'}}, {{/has}}{{/vars}}{{#parent}}{{#has this 'vars'}}, {{/has}}super.hashCode(){{/parent}});
   }
   {{/supportJava6~}}
 
@@ -177,8 +177,8 @@ public class {{{getClassDefinition}}} {
   {{classname}}(Parcel in) {
     {{#parent}} super(in); {{/parent}}
     {{#vars~}}
-    {{#isPrimitiveType~}}{{name}} = ({{{datatypeWithEnum}}})in.readValue(null);{{/isPrimitiveType~}}
-    {{^isPrimitiveType~}}{{name}} = ({{{datatypeWithEnum}}})in.readValue({{complexType}}.class.getClassLoader());{{/isPrimitiveType~}}
+    {{#is this 'primitive-type'~}}{{name}} = ({{{datatypeWithEnum}}})in.readValue(null);{{/is~}}
+    {{#isNot this 'primitive-type'~}}{{name}} = ({{{datatypeWithEnum}}})in.readValue({{complexType}}.class.getClassLoader());{{/isNot~}}
     {{/vars}}
   }
 

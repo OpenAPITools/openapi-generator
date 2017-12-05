@@ -123,41 +123,43 @@ public class JavaHelper {
         return builder.toString();
     }
 
-    public CharSequence getJacksonXmlProperty(boolean isXmlAttribute, String xmlNamespace, String xmlName, String baseName) {
+    public CharSequence getJacksonXmlProperty(CodegenProperty codegenProperty) {
+        final boolean isXmlAttribute = getBooleanValue(codegenProperty, CodegenConstants.IS_XML_ATTRIBUTE_EXT_NAME);
         StringBuilder builder = new StringBuilder();
         if (isXmlAttribute) {
             builder.append("isAttribute = true, ");
         }
-        if (StringUtils.isNotBlank(xmlNamespace)) {
+        if (StringUtils.isNotBlank(codegenProperty.getXmlNamespace())) {
             builder.append("namespace=\"");
-            builder.append(xmlNamespace);
+            builder.append(codegenProperty.getXmlNamespace());
             builder.append("\", ");
         }
         builder.append("localName = \"");
-        if (StringUtils.isNotBlank(xmlName)) {
-            builder.append(xmlName);
+        if (StringUtils.isNotBlank(codegenProperty.getXmlName())) {
+            builder.append(codegenProperty.getXmlNamespace());
         } else {
-            builder.append(baseName);
+            builder.append(codegenProperty.getBaseName());
         }
         builder.append("\"");
         return builder.toString();
     }
 
-    public CharSequence getJacksonXmlElementWrapper(boolean isXmlWrapped, String xmlNamespace, String xmlName, String baseName) {
+    public CharSequence getJacksonXmlElementWrapper(CodegenProperty codegenProperty) {
+        final boolean isXmlWrapped = getBooleanValue(codegenProperty, CodegenConstants.IS_XML_WRAPPED_EXT_NAME);
         StringBuilder builder = new StringBuilder();
         builder.append("useWrapping = ");
         builder.append(isXmlWrapped);
         builder.append(", ");
-        if (StringUtils.isNotBlank(xmlNamespace)) {
+        if (StringUtils.isNotBlank(codegenProperty.getXmlNamespace())) {
             builder.append("namespace=\"");
-            builder.append(xmlNamespace);
+            builder.append(codegenProperty.getXmlNamespace());
             builder.append("\", ");
         }
         builder.append("localName = \"");
-        if (StringUtils.isNotBlank(xmlName)) {
-            builder.append(xmlName);
+        if (StringUtils.isNotBlank(codegenProperty.getXmlName())) {
+            builder.append(codegenProperty.getXmlNamespace());
         } else {
-            builder.append(baseName);
+            builder.append(codegenProperty.getBaseName());
         }
         builder.append("\"");
         return builder.toString();
