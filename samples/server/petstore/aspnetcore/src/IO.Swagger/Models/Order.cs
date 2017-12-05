@@ -60,19 +60,19 @@ namespace IO.Swagger.Models
             /// Enum PlacedEnum for "placed"
             /// </summary>
             [EnumMember(Value = "placed")]
-            PlacedEnum,
+            PlacedEnum = 1,
             
             /// <summary>
             /// Enum ApprovedEnum for "approved"
             /// </summary>
             [EnumMember(Value = "approved")]
-            ApprovedEnum,
+            ApprovedEnum = 2,
             
             /// <summary>
             /// Enum DeliveredEnum for "delivered"
             /// </summary>
             [EnumMember(Value = "delivered")]
-            DeliveredEnum
+            DeliveredEnum = 3
         }
 
         /// <summary>
