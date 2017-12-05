@@ -55,4 +55,9 @@ public abstract class FakeApiService {
  ,Integer enumQueryInteger
  ,Double enumQueryDouble
  ) throws NotFoundException;
+    public abstract Response testInlineAdditionalProperties(Object param
+ ) throws NotFoundException;
+    public abstract Response testJsonFormData(String param
+ ,String param2
+ ) throws NotFoundException;
 }

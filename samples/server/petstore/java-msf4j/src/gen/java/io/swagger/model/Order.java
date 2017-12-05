@@ -164,7 +164,7 @@ public class Order   {
    * @return complete
   **/
   @ApiModelProperty(value = "")
-  public Boolean getComplete() {
+  public Boolean isComplete() {
     return complete;
   }
 
