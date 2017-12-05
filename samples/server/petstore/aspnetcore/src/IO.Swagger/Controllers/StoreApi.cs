@@ -41,8 +41,15 @@ namespace IO.Swagger.Controllers
         [Route("/v2/store/order/{orderId}")]
         [ValidateModelState]
         [SwaggerOperation("DeleteOrder")]
-        public virtual void DeleteOrder([FromRoute]string orderId)
+        public virtual IActionResult DeleteOrder([FromRoute]string orderId)
         { 
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404);
+
+
             throw new NotImplementedException();
         }
 
@@ -58,11 +65,15 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(200, typeof(Dictionary<string, int?>), "successful operation")]
         public virtual IActionResult GetInventory()
         { 
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(Dictionary<string, int?>));
+
             string exampleJson = null;
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Dictionary<string, int?>>(exampleJson)
             : default(Dictionary<string, int?>);
+            //TODO: Change the data returned
             return new ObjectResult(example);
         }
 
@@ -83,18 +94,28 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(404, typeof(Order), "Order not found")]
         public virtual IActionResult GetOrderById([FromRoute]long? orderId)
         { 
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(Order));
+
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404);
+
             string exampleJson = null;
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Order>(exampleJson)
             : default(Order);
+            //TODO: Change the data returned
             return new ObjectResult(example);
         }
 
         /// <summary>
         /// Place an order for a pet
         /// </summary>
-        /// <remarks></remarks>
+        
         /// <param name="body">order placed for purchasing the pet</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid Order</response>
@@ -106,11 +127,18 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(400, typeof(Order), "Invalid Order")]
         public virtual IActionResult PlaceOrder([FromBody]Order body)
         { 
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(Order));
+
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+
             string exampleJson = null;
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Order>(exampleJson)
             : default(Order);
+            //TODO: Change the data returned
             return new ObjectResult(example);
         }
     }
