@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-{{#vars}}**{{name}}** | {{#is this 'enum'}}[**{{datatypeWithEnum}}**](#{{datatypeWithEnum}}){{/is}}{{#isNot this 'enum'}}{  {#is this 'primitive-type'}}**{{datatype}}**{{/is}}{{#isNot this 'primitive-type'}}[**{{datatype}}**]({{complexType}}.md){{/isNot}}{{/isNot}} | {{description}} | {{^required}} [optional]{{/required}}{{#readOnly}} [readonly]{{/readOnly}}
+{{#vars}}**{{name}}** | {{#is this 'enum'}}[**{{datatypeWithEnum}}**](#{{datatypeWithEnum}}){{/is}}{{#isNot this 'enum'}}{{#is this 'primitive-type'}}**{{datatype}}**{{/is}}{{#isNot this 'primitive-type'}}[**{{datatype}}**]({{complexType}}.md){{/isNot}}{{/isNot}} | {{description}} | {{^required}} [optional]{{/required}}{{#readOnly}} [readonly]{{/readOnly}}
 {{/vars}}
 {{#vars}}{{#is this 'enum'}}
 
