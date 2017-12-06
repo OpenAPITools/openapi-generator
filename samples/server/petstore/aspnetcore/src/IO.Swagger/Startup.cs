@@ -29,22 +29,17 @@ namespace IO.Swagger
     {
         private readonly IHostingEnvironment _hostingEnv;
 
-        private IConfigurationRoot Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="env"></param>
-        public Startup(IHostingEnvironment env)
+        /// <param name="configuration"></param>
+        public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
             _hostingEnv = env;
-
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
         /// <summary>
@@ -71,7 +66,7 @@ namespace IO.Swagger
                     {
                         Version = "v1",
                         Title = "IO.Swagger",
-                        Description = "IO.Swagger (ASP.NET Core 1.0)"
+                        Description = "IO.Swagger (ASP.NET Core 2.0)"
                     });
                     c.CustomSchemaIds(type => type.FriendlyId(true));
                     c.DescribeAllEnumsAsStrings();
@@ -87,10 +82,6 @@ namespace IO.Swagger
         /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory
-                .AddConsole(Configuration.GetSection("Logging"))
-                .AddDebug();
-
             app
                 .UseMvc()
                 .UseDefaultFiles()
@@ -100,6 +91,16 @@ namespace IO.Swagger
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "IO.Swagger");
                 });
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                //TODO: Enable production exception handling (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/error-handling)
+                // app.UseExceptionHandler("/Home/Error");
+            }
         }
     }
 }
