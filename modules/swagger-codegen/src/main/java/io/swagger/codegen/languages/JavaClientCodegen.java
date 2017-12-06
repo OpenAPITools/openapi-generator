@@ -346,10 +346,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                         sort(operation.allParams, new Comparator<CodegenParameter>() {
                             @Override
                             public int compare(CodegenParameter one, CodegenParameter another) {
-                                if (one.isPathParam && another.isQueryParam) {
+                                if (getBooleanValue(one, CodegenConstants.IS_PATH_PARAM_EXT_NAME)
+                                        && getBooleanValue(another, CodegenConstants.IS_QUERY_PARAM_EXT_NAME)) {
                                     return -1;
                                 }
-                                if (one.isQueryParam && another.isPathParam){
+                                if (getBooleanValue(one, CodegenConstants.IS_QUERY_PARAM_EXT_NAME)
+                                        && getBooleanValue(another, CodegenConstants.IS_PATH_PARAM_EXT_NAME)){
                                     return 1;
                                 }
 
@@ -359,7 +361,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                         Iterator<CodegenParameter> iterator = operation.allParams.iterator();
                         while (iterator.hasNext()){
                             CodegenParameter param = iterator.next();
-                            param.hasMore = iterator.hasNext();
+                            param.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, iterator.hasNext());
                         }
                     }
                 }

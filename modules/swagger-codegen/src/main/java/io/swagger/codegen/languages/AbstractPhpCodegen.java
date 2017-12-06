@@ -28,6 +28,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public abstract class AbstractPhpCodegen extends DefaultCodegen implements CodegenConfig {
 
     static Logger LOGGER = LoggerFactory.getLogger(AbstractPhpCodegen.class);
@@ -544,9 +546,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         if (example == null) {
             example = "NULL";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
             example = "array(" + example + ")";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
             example = "array('key' => " + example + ")";
         }
 

@@ -33,6 +33,8 @@ import java.util.*;
 import java.util.Map.Entry;
 import org.apache.commons.lang3.StringUtils;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
@@ -446,7 +448,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         for (CodegenParameter param : op.allParams) {
             String example = null;
 
-            if (param.isString) {
+            if (getBooleanValue(param, CodegenConstants.IS_STRING_EXT_NAME)) {
                 if (param.dataFormat != null && param.dataFormat.equals("byte")) {
                     param.vendorExtensions.put("formatString", "\\\"{:?}\\\"");
                     example = "swagger::ByteArray(\"" + ((param.example != null) ? param.example : "") + "\".to_string().into_bytes())";
@@ -454,9 +456,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     param.vendorExtensions.put("formatString", "\\\"{}\\\"");
                     example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
                 }
-            } else if (param.isPrimitiveType) {
-                if ((param.isByteArray) ||
-                    (param.isBinary)) {
+            } else if (getBooleanValue(param, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME)) {
+                if (getBooleanValue(param, CodegenConstants.IS_BYTE_ARRAY_EXT_NAME)
+                        || getBooleanValue(param, CodegenConstants.IS_BINARY_EXT_NAME)) {
                     // Binary primitive types don't implement `Display`.
                     param.vendorExtensions.put("formatString", "{:?}");
                     example = "swagger::ByteArray(Vec::from(\"" + ((param.example != null) ? param.example : "") + "\"))";
@@ -464,10 +466,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     param.vendorExtensions.put("formatString", "{}");
                     example = (param.example != null) ? param.example : "";
                 }
-            } else if (param.isListContainer) {
+            } else if (getBooleanValue(param, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 param.vendorExtensions.put("formatString", "{:?}");
                 example = (param.example != null) ? param.example : "&Vec::new()";
-            } else if (param.isFile) {
+            } else if (getBooleanValue(param, CodegenConstants.IS_FILE_EXT_NAME)) {
                 param.vendorExtensions.put("formatString", "{:?}");
                 op.vendorExtensions.put("hasFile", true);
                 additionalProperties.put("apiHasFile", true);
@@ -482,7 +484,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             if (param.required) {
                 if (example != null) {
                     param.vendorExtensions.put("example", example);
-                } else if (param.isListContainer) {
+                } else if (getBooleanValue(param, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                     // Use the empty list if we don't have an example
                     param.vendorExtensions.put("example", "&Vec::new()");
                 }
@@ -497,7 +499,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             } else {
                 // Not required, so override the format string and example
                 param.vendorExtensions.put("formatString", "{:?}");
-                if (param.isFile) {
+                if (getBooleanValue(param, CodegenConstants.IS_FILE_EXT_NAME)) {
                     // Optional file types are wrapped in a future
                     param.vendorExtensions.put("example", (example != null) ? "Box::new(future::ok(Some(" + example + "))) as Box<Future<Item=_, Error=_> + Send>" : "None");
                 } else {

@@ -197,24 +197,24 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public void setParameterExampleValue(CodegenParameter p) {
-        if (Boolean.TRUE.equals(p.isLong)) {
-            p.example = "2147483648L";
-        } else if (Boolean.TRUE.equals(p.isFile)) {
-            p.example = "Blob.valueOf('Sample text file\\nContents')";
-        } else if (Boolean.TRUE.equals(p.isDate)) {
-            p.example = "Date.newInstance(1960, 2, 17)";
-        } else if (Boolean.TRUE.equals(p.isDateTime)) {
-            p.example = "Datetime.newInstanceGmt(2013, 11, 12, 3, 3, 3)";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
-            p.example = "new " + p.dataType + "{" + p.items.example + "}";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
-            p.example = "new " + p.dataType + "{" + p.items.example + "}";
-        } else if (Boolean.TRUE.equals(p.isString)) {
-            p.example = "'" + p.example + "'";
-        } else if ("".equals(p.example) || p.example == null) {
+    public void setParameterExampleValue(CodegenParameter parameter) {
+        if (getBooleanValue(parameter, CodegenConstants.IS_LONG_EXT_NAME)) {
+            parameter.example = "2147483648L";
+        } else if (getBooleanValue(parameter, CodegenConstants.IS_FILE_EXT_NAME)) {
+            parameter.example = "Blob.valueOf('Sample text file\\nContents')";
+        } else if (getBooleanValue(parameter, CodegenConstants.IS_DATE_EXT_NAME)) {
+            parameter.example = "Date.newInstance(1960, 2, 17)";
+        } else if (getBooleanValue(parameter, CodegenConstants.IS_DATE_TIME_EXT_NAME)) {
+            parameter.example = "Datetime.newInstanceGmt(2013, 11, 12, 3, 3, 3)";
+        } else if (getBooleanValue(parameter, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
+            parameter.example = "new " + parameter.dataType + "{" + parameter.items.example + "}";
+        } else if (getBooleanValue(parameter, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
+            parameter.example = "new " + parameter.dataType + "{" + parameter.items.example + "}";
+        } else if (getBooleanValue(parameter, CodegenConstants.IS_STRING_EXT_NAME)) {
+            parameter.example = "'" + parameter.example + "'";
+        } else if ("".equals(parameter.example) || parameter.example == null) {
             // Get an example object from the generated model
-            p.example = p.dataType + ".getExample()";
+            parameter.example = parameter.dataType + ".getExample()";
         }
     }
 
@@ -255,7 +255,8 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
-        if (parameter.isBodyParam && parameter.isListContainer) {
+        if (getBooleanValue(parameter, CodegenConstants.IS_BODY_PARAM_EXT_NAME)
+                && getBooleanValue(parameter, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
             // items of array bodyParams are being nested an extra level too deep for some reason
             parameter.items = parameter.items.items;
             setParameterExampleValue(parameter);

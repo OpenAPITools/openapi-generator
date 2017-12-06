@@ -269,6 +269,14 @@ public class CodegenConstants {
     public static final String IS_RESTFUL_EXT_NAME = PREFIX_IS + "restful";
     public static final String IS_DEPRECATED_EXT_NAME = PREFIX_IS + "deprecated";
 
+    public static final String IS_FORM_PARAM_EXT_NAME = PREFIX_IS + "form-param";
+    public static final String IS_QUERY_PARAM_EXT_NAME = PREFIX_IS + "query-param";
+    public static final String IS_PATH_PARAM_EXT_NAME = PREFIX_IS + "path-param";
+    public static final String IS_HEADER_PARAM_EXT_NAME = PREFIX_IS + "header-param";
+    public static final String IS_COOKIE_PARAM_EXT_NAME = PREFIX_IS + "cookie-param";
+    public static final String IS_BODY_PARAM_EXT_NAME = PREFIX_IS + "body-param";
+    public static final String IS_COLLECTION_FORMAT_MULTI_EXT_NAME = PREFIX_IS + "collection-format-multi";
+
     public static final String HAS_MORE_EXT_NAME = PREFIX_HAS + "more";
     public static final String HAS_MORE_NON_READ_ONLY_EXT_NAME = PREFIX_HAS + "more-non-read-only";
     public static final String HAS_VALIDATION_EXT_NAME = PREFIX_HAS + "validation";

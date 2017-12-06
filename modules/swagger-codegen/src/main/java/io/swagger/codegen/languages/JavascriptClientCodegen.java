@@ -650,9 +650,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         if (example == null) {
             example = "null";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
             example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
             example = "{key: " + example + "}";
         }
 
@@ -816,9 +816,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         String dataType = trimBrackets(cp.dataType);
         if (isModelledType(cp))
             dataType = getModelledType(dataType);
-        if (Boolean.TRUE.equals(cp.isListContainer)) {
+        if (getBooleanValue(cp, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
             return "Array.<" + dataType + ">";
-        } else if (Boolean.TRUE.equals(cp.isMapContainer)) {
+        } else if (getBooleanValue(cp, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
             return "Object.<String, " + dataType + ">";
         }
         return dataType;
@@ -826,7 +826,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     private boolean isModelledType(CodegenParameter cp) {
         // N.B. enums count as modelled types, file is not modelled (SuperAgent uses some 3rd party library).
-        return cp.isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.dataType : cp.baseType);
+        return getBooleanValue(cp, CodegenConstants.IS_ENUM_EXT_NAME) || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.dataType : cp.baseType);
     }
 
     private String getJSDocType(CodegenOperation co) {

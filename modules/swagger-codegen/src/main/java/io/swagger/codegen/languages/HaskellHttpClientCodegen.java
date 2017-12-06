@@ -544,7 +544,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         for (CodegenParameter param : op.allParams) {
             param.vendorExtensions = new LinkedHashMap(); // prevent aliasing/sharing
             param.vendorExtensions.put(X_OPERATION_TYPE, operationType);
-            param.vendorExtensions.put(X_IS_BODY_OR_FORM_PARAM, param.isBodyParam || param.isFormParam);
+            boolean isBodyParam = getBooleanValue(param, CodegenConstants.IS_BODY_PARAM_EXT_NAME);
+            boolean isFormParam = getBooleanValue(param, CodegenConstants.IS_FORM_PARAM_EXT_NAME);
+            param.vendorExtensions.put(X_IS_BODY_OR_FORM_PARAM, isBodyParam || isFormParam);
             if (!StringUtils.isBlank(param.collectionFormat)) {
                 param.vendorExtensions.put(X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
             }
@@ -552,17 +554,22 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 op.vendorExtensions.put(X_HAS_OPTIONAL_PARAMS, true);
             }
 
+            boolean isEnum = getBooleanValue(param, CodegenConstants.IS_ENUM_EXT_NAME);
+
             if (typeMapping.containsKey(param.dataType)
-                    || param.isMapContainer || param.isListContainer
-                    || param.isPrimitiveType || param.isFile || param.isEnum) {
+                    || getBooleanValue(param, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)
+                    || getBooleanValue(param, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)
+                    || getBooleanValue(param, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME)
+                    || getBooleanValue(param, CodegenConstants.IS_FILE_EXT_NAME)
+                    || isEnum) {
 
-                String dataType = genEnums && param.isEnum ? param.datatypeWithEnum : param.dataType;
+                String dataType = genEnums && isEnum ? param.datatypeWithEnum : param.dataType;
 
-                String paramNameType = toDedupedName(toTypeName("Param", param.paramName), dataType, !param.isEnum);
+                String paramNameType = toDedupedName(toTypeName("Param", param.paramName), dataType, !isEnum);
                 param.vendorExtensions.put(X_PARAM_NAME_TYPE, paramNameType);
 
                 HashMap<String, Object> props = new HashMap<>();
-                props.put(X_IS_BODY_PARAM, param.isBodyParam);
+                props.put(X_IS_BODY_PARAM, getBooleanValue(param, CodegenConstants.IS_BODY_PARAM_EXT_NAME));
                 addToUniques(X_NEWTYPE, paramNameType, dataType, props);
             }
         }
@@ -757,7 +764,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 && op.consumes.size() == 1) {
             op.vendorExtensions.put(X_INLINE_CONTENT_TYPE, m);
             for (CodegenParameter param : op.allParams) {
-                if (param.isBodyParam && param.required) {
+                boolean isBodyParam = getBooleanValue(param, CodegenConstants.IS_BODY_PARAM_EXT_NAME);
+                if (isBodyParam && param.required) {
                     param.vendorExtensions.put(X_INLINE_CONTENT_TYPE, m);
                 }
             }
@@ -871,7 +879,13 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             unknownMimeTypes.add(m);
         }
         for (CodegenParameter param : op.allParams) {
-            if (param.isBodyParam || param.isFormParam && (!param.isPrimitiveType && !param.isListContainer && !param.isMapContainer)) {
+            boolean isBodyParam = getBooleanValue(param, CodegenConstants.IS_BODY_PARAM_EXT_NAME);
+            boolean isFormParam = getBooleanValue(param, CodegenConstants.IS_FORM_PARAM_EXT_NAME);
+            boolean isPrimitiveType = getBooleanValue(param, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME);
+            boolean isListContainer = getBooleanValue(param, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME);
+            boolean isMapContainer = getBooleanValue(param, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME);
+
+            if (isBodyParam || isFormParam && (!isPrimitiveType && !isListContainer && !isMapContainer)) {
                 Set<String> mimeTypes = modelMimeTypes.containsKey(param.dataType) ? modelMimeTypes.get(param.dataType) : new HashSet();
                 mimeTypes.add(mimeType);
                 modelMimeTypes.put(param.dataType, mimeTypes);

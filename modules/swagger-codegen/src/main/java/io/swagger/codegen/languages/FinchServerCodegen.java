@@ -20,6 +20,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
@@ -254,10 +256,11 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
             for (CodegenParameter p : op.allParams) {
                 // TODO: This hacky, should be converted to mappings if possible to keep it clean.
                 // This could also be done using template imports
-                if(p.isPathParam && p.isPrimitiveType) {
+                if(getBooleanValue(p, CodegenConstants.IS_PATH_PARAM_EXT_NAME)
+                        && getBooleanValue(p, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME)) {
                     p.vendorExtensions.put("x-codegen-normalized-path-type", p.dataType.toLowerCase());
                     p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
-                } else if(p.isHeaderParam) {
+                } else if(getBooleanValue(p, CodegenConstants.IS_HEADER_PARAM_EXT_NAME)) {
                     if(p.required) {
                         p.vendorExtensions.put("x-codegen-normalized-path-type", "header(\"" + p.baseName + "\")");
                         p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
@@ -265,18 +268,18 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
                         p.vendorExtensions.put("x-codegen-normalized-path-type", "headerOption(\"" + p.baseName + "\")");
                         p.vendorExtensions.put("x-codegen-normalized-input-type", "Option["+ p.dataType + "]");
                     }
-                } else if(p.isQueryParam) {
-                    if(p.isContainer || p.isListContainer) {
+                } else if(getBooleanValue(p, CodegenConstants.IS_QUERY_PARAM_EXT_NAME)) {
+                    if(getBooleanValue(p, CodegenConstants.IS_CONTAINER_EXT_NAME) || getBooleanValue(p, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                         p.vendorExtensions.put("x-codegen-normalized-path-type", "params(\"" + p.baseName + "\")");
                         p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType.replaceAll("^[^\\[]+", "Seq"));
                     } else {
                         p.vendorExtensions.put("x-codegen-normalized-path-type", "param(\"" + p.baseName + "\")");
                         p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
                     }
-                } else if(p.isBodyParam) {
+                } else if(getBooleanValue(p, CodegenConstants.IS_BODY_PARAM_EXT_NAME)) {
                     p.vendorExtensions.put("x-codegen-normalized-path-type", "jsonBody["+ p.dataType + "]");
                     p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
-                } else if(p.isFile) {
+                } else if(getBooleanValue(p, CodegenConstants.IS_FILE_EXT_NAME)) {
                     p.vendorExtensions.put("x-codegen-normalized-path-type", "fileUpload(\""+ p.baseName + "\")");
                     p.vendorExtensions.put("x-codegen-normalized-input-type", "FileUpload");
                 } else {

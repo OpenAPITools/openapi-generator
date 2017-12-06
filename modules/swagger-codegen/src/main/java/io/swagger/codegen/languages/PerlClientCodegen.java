@@ -20,6 +20,8 @@ import io.swagger.oas.models.media.Schema;
 import io.swagger.oas.models.media.StringSchema;
 import org.apache.commons.lang3.StringUtils;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String MODULE_NAME = "moduleName";
     public static final String MODULE_VERSION = "moduleVersion";
@@ -373,15 +375,17 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
-        if (Boolean.TRUE.equals(p.isString) || Boolean.TRUE.equals(p.isBinary) ||
-                Boolean.TRUE.equals(p.isByteArray) || Boolean.TRUE.equals(p.isFile)) {
+        if (getBooleanValue(p, CodegenConstants.IS_STRING_EXT_NAME) || getBooleanValue(p, CodegenConstants.IS_BINARY_EXT_NAME)
+                || getBooleanValue(p, CodegenConstants.IS_BYTE_ARRAY_EXT_NAME)
+                || getBooleanValue(p, CodegenConstants.IS_FILE_EXT_NAME)) {
             p.example = "'" + p.example + "'";
-        } else if (Boolean.TRUE.equals(p.isBoolean)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_BOOLEAN_EXT_NAME)) {
             if (Boolean.parseBoolean(p.example))
                 p.example = "1";
             else
                 p.example = "0";
-        } else if (Boolean.TRUE.equals(p.isDateTime) || Boolean.TRUE.equals(p.isDate)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_DATE_TIME_EXT_NAME)
+                || getBooleanValue(p, CodegenConstants.IS_DATE_EXT_NAME)) {
             p.example = "DateTime->from_epoch(epoch => str2time('" + p.example + "'))";
         }
 

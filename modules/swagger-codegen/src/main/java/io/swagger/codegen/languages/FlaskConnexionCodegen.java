@@ -35,6 +35,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FlaskConnexionCodegen.class);
@@ -592,11 +594,11 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         }
         if (example == null) {
             example = "None";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
-            if (Boolean.TRUE.equals(p.isBodyParam)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
+            if (getBooleanValue(p, CodegenConstants.IS_BODY_PARAM_EXT_NAME)) {
                 example = "[" + example + "]";
             }
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
             example = "{'key': " + example + "}";
         }
 

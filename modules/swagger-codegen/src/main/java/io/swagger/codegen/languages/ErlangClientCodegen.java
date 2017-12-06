@@ -162,7 +162,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     public String qsEncode(Object o) {
         String r = new String();
         CodegenParameter q = (CodegenParameter) o;
-        if (q.isListContainer) {
+        if (getBooleanValue(q, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
             r += "[{<<\"" + q.baseName + "\">>, X} || X <- " + q.paramName + "]";
         } else {
             r += "{<<\"" + q.baseName + "\">>, " + q.paramName + "}";

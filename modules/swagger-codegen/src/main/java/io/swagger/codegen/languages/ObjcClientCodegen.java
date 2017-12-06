@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String CLASS_PREFIX = "classPrefix";
     public static final String POD_NAME = "podName";
@@ -736,9 +738,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (example == null) {
             example = "NULL";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
             example = "@[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
             example = "@{@\"key\" : " + example + "}";
         }
 

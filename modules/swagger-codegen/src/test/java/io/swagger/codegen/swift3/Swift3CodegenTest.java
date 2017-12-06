@@ -1,5 +1,6 @@
 package io.swagger.codegen.swift3;
 
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.Swift3Codegen;
@@ -8,6 +9,8 @@ import io.swagger.oas.models.Operation;
 import io.swagger.parser.v3.OpenAPIV3Parser;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class Swift3CodegenTest {
 
@@ -81,7 +84,7 @@ public class Swift3CodegenTest {
 
         Assert.assertEquals(op.returnType, "Data");
         Assert.assertEquals(op.bodyParam.dataType, "Data");
-        Assert.assertTrue(op.bodyParam.isBinary);
+        Assert.assertTrue(getBooleanValue(op.bodyParam, CodegenConstants.IS_BINARY_EXT_NAME));
         Assert.assertTrue(op.responses.get(0).isBinary);
     }
 

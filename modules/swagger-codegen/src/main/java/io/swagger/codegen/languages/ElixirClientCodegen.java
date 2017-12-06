@@ -638,24 +638,24 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         private void buildTypespec(CodegenParameter param, StringBuilder sb) {
             if (param.dataType == null) {
                 sb.append("nil");
-            } else if (param.isListContainer) {
+            } else if (getBooleanValue(param, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 // list(<subtype>)
                 sb.append("list(");
-                if (param.isBodyParam) {
+                if (getBooleanValue(param, CodegenConstants.IS_BODY_PARAM_EXT_NAME)) {
                     buildTypespec(param.items.items, sb);
                 } else {
                     buildTypespec(param.items, sb);
                 }
                 sb.append(")");
-            } else if (param.isMapContainer) {
+            } else if (getBooleanValue(param, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
                 // %{optional(String.t) => <subtype>}
                 sb.append("%{optional(String.t) => ");
                 buildTypespec(param.items, sb);
                 sb.append("}");
-            } else if (param.isPrimitiveType) {
+            } else if (getBooleanValue(param, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME)) {
                 // like `integer()`, `String.t`
                 sb.append(param.dataType);
-            } else if (param.isFile) {
+            } else if (getBooleanValue(param, CodegenConstants.IS_FILE_EXT_NAME)) {
                 sb.append("String.t");
             } else {
                 // <module>.Model.<type>.t

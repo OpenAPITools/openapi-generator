@@ -223,8 +223,12 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
         super.postProcessParameter(parameter);
 
         boolean isModel = parameter.dataType.startsWith(modelPackage);
-        if (!isModel && !parameter.isPrimitiveType && !parameter.isDate
-                && !parameter.isString && !parameter.isContainer && !parameter.isFile) {
+        boolean isPrimitiveType = getBooleanValue(parameter, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME);
+        boolean isDate = getBooleanValue(parameter, CodegenConstants.IS_DATE_TIME_EXT_NAME);
+        boolean isString = getBooleanValue(parameter, CodegenConstants.IS_STRING_EXT_NAME);
+        boolean isContainer = getBooleanValue(parameter, CodegenConstants.IS_CONTAINER_EXT_NAME);
+        boolean isFile = getBooleanValue(parameter, CodegenConstants.IS_FILE_EXT_NAME);
+        if (!isModel && !isPrimitiveType && !isDate && !isString && !isContainer && !isFile) {
             isModel = true;
         }
         parameter.vendorExtensions.put("x-is-model-type", isModel);

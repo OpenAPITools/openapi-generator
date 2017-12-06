@@ -29,6 +29,8 @@ import io.swagger.oas.models.media.StringSchema;
 import io.swagger.parser.v3.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class RestbedCodegen extends AbstractCppCodegen {
 
   public static final String DECLSPEC = "declspec";
@@ -337,9 +339,9 @@ public class RestbedCodegen extends AbstractCppCodegen {
   public void postProcessParameter(CodegenParameter parameter) {
       super.postProcessParameter(parameter);
 
-      boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
-      boolean isListContainer = parameter.isListContainer == Boolean.TRUE;
-      boolean isString = parameter.isString == Boolean.TRUE;
+      boolean isPrimitiveType = getBooleanValue(parameter, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME);
+      boolean isListContainer = getBooleanValue(parameter, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME);
+      boolean isString = getBooleanValue(parameter, CodegenConstants.IS_STRING_EXT_NAME);
 
       if (!isPrimitiveType && !isListContainer && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
           parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";

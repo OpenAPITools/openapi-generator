@@ -6,23 +6,16 @@ import java.util.Map;
 import java.util.List;
 
 public class CodegenParameter implements VendorExtendable {
-    public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
-            isCookieParam, isBodyParam, hasMore, isContainer,
-            secondaryParam, isCollectionFormatMulti, isPrimitiveType;
+    public boolean secondaryParam, notFile;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
           collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName;
 
     public String example; // example value (x-example)
     public String jsonSchema;
-    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid;
-    public boolean isListContainer, isMapContainer;
-    public boolean isFile, notFile;
-    public boolean isEnum;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
-    public Map<String, Object> vendorExtensions;
-    public boolean hasValidation;
+    public Map<String, Object> vendorExtensions = new HashMap<>();
 
     /**
      * Determines whether this parameter is mandatory. If the parameter is in "path",
@@ -78,10 +71,7 @@ public class CodegenParameter implements VendorExtendable {
     
     public CodegenParameter copy() {
         CodegenParameter output = new CodegenParameter();
-        output.isFile = this.isFile;
         output.notFile = this.notFile;
-        output.hasMore = this.hasMore;
-        output.isContainer = this.isContainer;
         output.secondaryParam = this.secondaryParam;
         output.baseName = this.baseName;
         output.paramName = this.paramName;
@@ -90,17 +80,9 @@ public class CodegenParameter implements VendorExtendable {
         output.enumName = this.enumName;
         output.dataFormat = this.dataFormat;
         output.collectionFormat = this.collectionFormat;
-        output.isCollectionFormatMulti = this.isCollectionFormatMulti;
-        output.isPrimitiveType = this.isPrimitiveType;
         output.description = this.description;
         output.unescapedDescription = this.unescapedDescription;
         output.baseType = this.baseType;
-        output.isFormParam = this.isFormParam;
-        output.isQueryParam = this.isQueryParam;
-        output.isPathParam = this.isPathParam;
-        output.isHeaderParam = this.isHeaderParam;
-        output.isCookieParam = this.isCookieParam;
-        output.isBodyParam = this.isBodyParam;
         output.required = this.required;
         output.maximum = this.maximum;
         output.exclusiveMaximum = this.exclusiveMaximum;
@@ -116,7 +98,6 @@ public class CodegenParameter implements VendorExtendable {
         output.jsonSchema = this.jsonSchema;
         output.defaultValue = this.defaultValue;
         output.example = this.example;
-        output.isEnum = this.isEnum;
         if (this._enum != null) {
             output._enum = new ArrayList<String>(this._enum);
         }
@@ -129,22 +110,6 @@ public class CodegenParameter implements VendorExtendable {
         if(this.vendorExtensions != null){
             output.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
         }
-        output.hasValidation = this.hasValidation;
-        output.isBinary = this.isBinary;
-        output.isByteArray = this.isByteArray;
-        output.isString = this.isString;
-        output.isNumeric = this.isNumeric;
-        output.isInteger = this.isInteger;
-        output.isLong = this.isLong;
-        output.isDouble = this.isDouble;
-        output.isFloat = this.isFloat;
-        output.isNumber = this.isNumber;
-        output.isBoolean = this.isBoolean;
-        output.isDate = this.isDate;
-        output.isDateTime = this.isDateTime;
-        output.isUuid = this.isUuid;
-        output.isListContainer = this.isListContainer;
-        output.isMapContainer = this.isMapContainer;
 
         return output;
     }
@@ -161,28 +126,7 @@ public class CodegenParameter implements VendorExtendable {
 
         CodegenParameter that = (CodegenParameter) o;
 
-        if (isEnum != that.isEnum) return false;
-        if (isFormParam != that.isFormParam)
-            return false;
-        if (isQueryParam != that.isQueryParam)
-            return false;
-        if (isPathParam != that.isPathParam)
-            return false;
-        if (isHeaderParam != that.isHeaderParam)
-            return false;
-        if (isCookieParam != that.isCookieParam)
-            return false;
-        if (isBodyParam != that.isBodyParam)
-            return false;
-        if (hasMore != that.hasMore)
-            return false;
-        if (isContainer != that.isContainer)
-            return false;
         if (secondaryParam != that.secondaryParam)
-            return false;
-        if (isCollectionFormatMulti != that.isCollectionFormatMulti)
-            return false;
-        if (isPrimitiveType != that.isPrimitiveType)
             return false;
         if (baseName != null ? !baseName.equals(that.baseName) : that.baseName != null)
             return false;
@@ -210,38 +154,6 @@ public class CodegenParameter implements VendorExtendable {
             return false;
         if (jsonSchema != null ? !jsonSchema.equals(that.jsonSchema) : that.jsonSchema != null)
             return false;
-        if (isString != that.isString)
-            return false;
-        if (isNumeric != that.isNumeric)
-            return false;
-        if (isInteger != that.isInteger)
-            return false;
-        if (isLong != that.isLong)
-            return false;
-        if (isNumber != that.isNumber)
-            return false;
-        if (isFloat != that.isFloat)
-            return false;
-        if (isDouble != that.isDouble)
-            return false;
-        if (isByteArray != that.isByteArray)
-            return false;
-        if (isBinary != that.isBinary)
-            return false;
-        if (isBoolean != that.isBoolean)
-            return false;
-        if (isDate != that.isDate)
-            return false;
-        if (isDateTime != that.isDateTime)
-            return false;
-        if (isUuid != that.isUuid)
-            return false;
-        if (isListContainer != that.isListContainer)
-            return false;
-        if (isMapContainer != that.isMapContainer)
-            return false;
-        if (isFile != that.isFile)
-            return false;
         if (notFile != that.notFile)
             return false;
         if (_enum != null ? !_enum.equals(that._enum) : that._enum != null)
@@ -251,8 +163,6 @@ public class CodegenParameter implements VendorExtendable {
         if (items != null ? !items.equals(that.items) : that.items != null)
             return false;
         if (vendorExtensions != null ? !vendorExtensions.equals(that.vendorExtensions) : that.vendorExtensions != null)
-            return false;
-        if (hasValidation != that.hasValidation)
             return false;
         if (required != that.required)
             return false;
@@ -282,17 +192,7 @@ public class CodegenParameter implements VendorExtendable {
 
     @Override
     public int hashCode() {
-        int result = isFormParam ? 13:31;
-        result = 31 * result + (isQueryParam ? 13:31);
-        result = 31 * result + (isPathParam ? 13:31);
-        result = 31 * result + (isHeaderParam ? 13:31);
-        result = 31 * result + (isCookieParam ? 13:31);
-        result = 31 * result + (isBodyParam ? 13:31);
-        result = 31 * result + (hasMore ? 13:31);
-        result = 31 * result + (isContainer ? 13:31);
-        result = 31 * result + (secondaryParam ? 13:31);
-        result = 31 * result + (isCollectionFormatMulti ? 13:31);
-        result = 31 * result + (isPrimitiveType ? 13:31);
+        int result = secondaryParam ? 13:31;
         result = 31 * result + (baseName != null ? baseName.hashCode() : 0);
         result = 31 * result + (paramName != null ? paramName.hashCode() : 0);
         result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
@@ -306,29 +206,11 @@ public class CodegenParameter implements VendorExtendable {
         result = 31 * result + (defaultValue != null ? defaultValue.hashCode() : 0);
         result = 31 * result + (example != null ? example.hashCode() : 0);
         result = 31 * result + (jsonSchema != null ? jsonSchema.hashCode() : 0);
-        result = 31 * result + (isString ? 13:31);
-        result = 31 * result + (isNumeric ? 13:31);
-        result = 31 * result + (isInteger ? 13:31);
-        result = 31 * result + (isLong ? 13:31);
-        result = 31 * result + (isFloat ? 13:31);
-        result = 31 * result + (isNumber ? 13:31);
-        result = 31 * result + (isDouble ? 13:31);
-        result = 31 * result + (isByteArray ? 13:31);
-        result = 31 * result + (isBinary ? 13:31);
-        result = 31 * result + (isBoolean ? 13:31);
-        result = 31 * result + (isDate ? 13:31);
-        result = 31 * result + (isDateTime ? 13:31);
-        result = 31 * result + (isUuid ? 13:31);
-        result = 31 * result + (isListContainer ? 13:31);
-        result = 31 * result + (isMapContainer ? 13:31);
-        result = 31 * result + (isFile ? 13:31);
         result = 31 * result + (notFile ? 13:31);
-        result = 31 * result + (isEnum ? 1 : 0);
         result = 31 * result + (_enum != null ? _enum.hashCode() : 0);
         result = 31 * result + (allowableValues != null ? allowableValues.hashCode() : 0);
         result = 31 * result + (items != null ? items.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
-        result = 31 * result + (hasValidation ? 13:31);
         result = 31 * result + (required ? 13:31);
         result = 31 * result + (maximum != null ? maximum.hashCode() : 0);
         result = 31 * result + (exclusiveMaximum ? 13:31);
@@ -344,48 +226,8 @@ public class CodegenParameter implements VendorExtendable {
         return result;
     }
 
-    public boolean getIsFormParam() {
-        return isFormParam;
-    }
-
-    public boolean getIsQueryParam() {
-        return isQueryParam;
-    }
-
-    public boolean getIsPathParam() {
-        return isPathParam;
-    }
-
-    public boolean getIsHeaderParam() {
-        return isHeaderParam;
-    }
-
-    public boolean getIsCookieParam() {
-        return isCookieParam;
-    }
-
-    public boolean getIsBodyParam() {
-        return isBodyParam;
-    }
-
-    public boolean getHasMore() {
-        return hasMore;
-    }
-
-    public boolean getIsContainer() {
-        return isContainer;
-    }
-
     public boolean getSecondaryParam() {
         return secondaryParam;
-    }
-
-    public boolean getIsCollectionFormatMulti() {
-        return isCollectionFormatMulti;
-    }
-
-    public boolean getIsPrimitiveType() {
-        return isPrimitiveType;
     }
 
     public String getBaseName() {
@@ -440,76 +282,8 @@ public class CodegenParameter implements VendorExtendable {
         return jsonSchema;
     }
 
-    public boolean getIsString() {
-        return isString;
-    }
-
-    public boolean getIsNumeric() {
-        return isNumeric;
-    }
-
-    public boolean getIsInteger() {
-        return isInteger;
-    }
-
-    public boolean getIsLong() {
-        return isLong;
-    }
-
-    public boolean getIsNumber() {
-        return isNumber;
-    }
-
-    public boolean getIsFloat() {
-        return isFloat;
-    }
-
-    public boolean getIsDouble() {
-        return isDouble;
-    }
-
-    public boolean getIsByteArray() {
-        return isByteArray;
-    }
-
-    public boolean getIsBinary() {
-        return isBinary;
-    }
-
-    public boolean getIsBoolean() {
-        return isBoolean;
-    }
-
-    public boolean getIsDate() {
-        return isDate;
-    }
-
-    public boolean getIsDateTime() {
-        return isDateTime;
-    }
-
-    public boolean getIsUuid() {
-        return isUuid;
-    }
-
-    public boolean getIsListContainer() {
-        return isListContainer;
-    }
-
-    public boolean getIsMapContainer() {
-        return isMapContainer;
-    }
-
-    public boolean getIsFile() {
-        return isFile;
-    }
-
     public boolean getIsNotFile() {
         return notFile;
-    }
-
-    public boolean getIsEnum() {
-        return isEnum;
     }
 
     public List<String> get_enum() {
@@ -526,10 +300,6 @@ public class CodegenParameter implements VendorExtendable {
 
     public Map<String, Object> getVendorExtensions() {
         return vendorExtensions;
-    }
-
-    public boolean getHasValidation() {
-        return hasValidation;
     }
 
     public boolean getRequired() {

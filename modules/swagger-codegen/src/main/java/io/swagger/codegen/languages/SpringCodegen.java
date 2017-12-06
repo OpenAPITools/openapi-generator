@@ -537,11 +537,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         allParams.clear();
 
         for(CodegenParameter p : copy){
-            if(!p.isHeaderParam){
+            if(!getBooleanValue(p, CodegenConstants.IS_HEADER_PARAM_EXT_NAME)){
                 allParams.add(p);
             }
         }
-        allParams.get(allParams.size()-1).hasMore =false;
+        allParams.get(allParams.size()-1).getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, Boolean.FALSE);
     }
 
     @Override

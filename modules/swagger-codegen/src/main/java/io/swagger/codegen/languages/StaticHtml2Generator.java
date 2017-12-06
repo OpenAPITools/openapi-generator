@@ -23,6 +23,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.client"; // default for Java and Android
     protected String phpInvokerPackage = "Swagger\\Client"; // default for PHP
@@ -219,7 +221,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     public List<CodegenParameter> postProcessParameterEnum(List<CodegenParameter> parameterList) {
         String enumFormatted = "";
         for(CodegenParameter parameter : parameterList) {
-            if (parameter.isEnum) {
+            if (getBooleanValue(parameter, CodegenConstants.IS_ENUM_EXT_NAME)) {
                 for (int i = 0; i < parameter._enum.size(); i++) {
                     String spacer = (i == (parameter._enum.size() - 1)) ? " " : ", ";
 

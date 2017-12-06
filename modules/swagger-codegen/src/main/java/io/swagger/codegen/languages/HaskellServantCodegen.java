@@ -11,6 +11,8 @@ import io.swagger.oas.models.parameters.Parameter;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class HaskellServantCodegen extends DefaultCodegen implements CodegenConfig {
 
     // source folder where to write the files
@@ -396,7 +398,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // Query parameters appended to routes
         for (CodegenParameter param : op.queryParams) {
             String paramType = param.dataType;
-            if (param.isListContainer) {
+            if (getBooleanValue(param, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 paramType = makeQueryListType(paramType, param.collectionFormat);
             }
             path.add("QueryParam \"" + param.baseName + "\" " + paramType);
@@ -427,7 +429,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             path.add("Header \"" + param.baseName + "\" " + param.dataType);
 
             String paramType = param.dataType;
-            if (param.isListContainer) {
+            if (getBooleanValue(param, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 paramType = makeQueryListType(paramType, param.collectionFormat);
             }
             type.add("Maybe " + paramType);

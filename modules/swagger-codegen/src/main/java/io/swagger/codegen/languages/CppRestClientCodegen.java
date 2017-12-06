@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -340,9 +341,9 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
 
-        boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
-        boolean isListContainer = parameter.isListContainer == Boolean.TRUE;
-        boolean isString = parameter.isString == Boolean.TRUE;
+        boolean isPrimitiveType = getBooleanValue(parameter, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME);
+        boolean isListContainer = getBooleanValue(parameter, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME);
+        boolean isString = getBooleanValue(parameter, CodegenConstants.IS_STRING_EXT_NAME);
 
         if (!isPrimitiveType && !isListContainer && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
             parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";

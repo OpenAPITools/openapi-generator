@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenParameter;
@@ -31,6 +32,8 @@ import io.swagger.oas.models.media.StringSchema;
 import io.swagger.oas.models.responses.ApiResponse;
 import io.swagger.parser.v3.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class PistacheServerCodegen extends AbstractCppCodegen {
     protected String implFolder = "impl";
@@ -191,7 +194,8 @@ public class PistacheServerCodegen extends AbstractCppCodegen {
                     op.bodyParam.vendorExtensions = new HashMap<>();
                 }
 
-                op.bodyParam.vendorExtensions.put("x-codegen-pistache-isStringOrDate", op.bodyParam.isString || op.bodyParam.isDate);
+                op.bodyParam.vendorExtensions.put("x-codegen-pistache-isStringOrDate",
+                        getBooleanValue(op.bodyParam, CodegenConstants.IS_STRING_EXT_NAME) ||getBooleanValue(op.bodyParam, CodegenConstants.IS_DATE_EXT_NAME));
             }
             if(op.consumes != null) {
                 for (Map<String, String> consume : op.consumes) {
@@ -204,16 +208,22 @@ public class PistacheServerCodegen extends AbstractCppCodegen {
             op.httpMethod = op.httpMethod.substring(0, 1).toUpperCase() + op.httpMethod.substring(1).toLowerCase();
 
             for(CodegenParameter param : op.allParams){
-                if (param.isFormParam) isParsingSupported=false;
-                if (param.isFile) isParsingSupported=false;
-                if (param.isCookieParam) isParsingSupported=false;
+                if (getBooleanValue(param, CodegenConstants.IS_FORM_PARAM_EXT_NAME)) {
+                    isParsingSupported=false;
+                }
+                if (getBooleanValue(param, CodegenConstants.IS_FILE_EXT_NAME)) {
+                    isParsingSupported=false;
+                }
+                if (getBooleanValue(param, CodegenConstants.IS_COOKIE_PARAM_EXT_NAME)) {
+                    isParsingSupported=false;
+                }
 
                 //TODO: This changes the info about the real type but it is needed to parse the header params
-                if (param.isHeaderParam) {
+                if (getBooleanValue(param, CodegenConstants.IS_HEADER_PARAM_EXT_NAME)) {
                     param.dataType = "Optional<Net::Http::Header::Raw>";
                     param.baseType = "Optional<Net::Http::Header::Raw>";
-                } else if(param.isQueryParam){
-                    if(param.isPrimitiveType) {
+                } else if(getBooleanValue(param, CodegenConstants.IS_QUERY_PARAM_EXT_NAME)){
+                    if(getBooleanValue(param, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME)) {
                         param.dataType = "Optional<" + param.dataType + ">";
                     } else {
                         param.dataType = "Optional<" + param.baseType + ">";
@@ -328,9 +338,9 @@ public class PistacheServerCodegen extends AbstractCppCodegen {
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
 
-        boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
-        boolean isListContainer = parameter.isListContainer == Boolean.TRUE;
-        boolean isString = parameter.isString == Boolean.TRUE;
+        boolean isPrimitiveType = getBooleanValue(parameter, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME);
+        boolean isListContainer = getBooleanValue(parameter, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME);
+        boolean isString = getBooleanValue(parameter, CodegenConstants.IS_STRING_EXT_NAME);
 
         if (!isPrimitiveType && !isListContainer && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
             parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";

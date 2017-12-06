@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenType;
@@ -23,6 +24,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -647,9 +650,9 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
       if (example == null) {
           example = "NULL";
-      } else if (Boolean.TRUE.equals(p.isListContainer)) {
+      } else if (getBooleanValue(p, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
           example = "[" + example + "]";
-      } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+      } else if (getBooleanValue(p, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
           example = "{'key': " + example + "}";
       }
 

@@ -2101,7 +2101,9 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.info("working on Parameter " + parameter.getName());
         }
 
-        codegenParameter.vendorExtensions = parameter.getExtensions();
+        if (parameter.getExtensions() != null && !parameter.getExtensions().isEmpty()) {
+            codegenParameter.vendorExtensions.putAll(parameter.getExtensions());
+        }
 
         if (parameter.getSchema() != null) {
             Schema parameterSchema = parameter.getSchema();
@@ -2121,8 +2123,8 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenProperty codegenProperty = fromProperty("inner", inner);
                 codegenParameter.items = codegenProperty;
                 codegenParameter.baseType = codegenProperty.datatype;
-                codegenParameter.isContainer = true;
-                codegenParameter.isListContainer = true;
+                codegenParameter.getVendorExtensions().put(CodegenConstants.IS_CONTAINER_EXT_NAME, Boolean.TRUE);
+                codegenParameter.getVendorExtensions().put(CodegenConstants.IS_LIST_CONTAINER_EXT_NAME, Boolean.TRUE);
 
                 // recursively add import
                 while (codegenProperty != null) {
@@ -2133,8 +2135,8 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenProperty codegenProperty = fromProperty("inner", parameterSchema.getAdditionalProperties());
                 codegenParameter.items = codegenProperty;
                 codegenParameter.baseType = codegenProperty.datatype;
-                codegenParameter.isContainer = true;
-                codegenParameter.isMapContainer = true;
+                codegenParameter.getVendorExtensions().put(CodegenConstants.IS_CONTAINER_EXT_NAME, Boolean.TRUE);
+                codegenParameter.getVendorExtensions().put(CodegenConstants.IS_MAP_CONTAINER_EXT_NAME, Boolean.TRUE);
                 // recursively add import
                 while (codegenProperty != null) {
                     imports.add(codegenProperty.baseType);
@@ -2168,7 +2170,8 @@ public class DefaultCodegen implements CodegenConfig {
 
             // enum
             updateCodegenPropertyEnum(codegenProperty);
-            codegenParameter.isEnum = isEnum;
+            codegenParameter.getVendorExtensions().put(CodegenConstants.IS_ENUM_EXT_NAME, Boolean.TRUE);
+            codegenParameter.getVendorExtensions().put(CodegenConstants.IS_LIST_CONTAINER_EXT_NAME, Boolean.TRUE);
             codegenParameter._enum = codegenProperty._enum;
             codegenParameter.allowableValues = codegenProperty.allowableValues;
 
@@ -2180,7 +2183,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             codegenParameter.collectionFormat = collectionFormat;
             if(collectionFormat != null && collectionFormat.equals("multi")) {
-                codegenParameter.isCollectionFormatMulti = true;
+                codegenParameter.getVendorExtensions().put(CodegenConstants.IS_COLLECTION_FORMAT_MULTI_EXT_NAME, Boolean.TRUE);
             }
             codegenParameter.paramName = toParamName(parameter.getName());
 
@@ -2214,7 +2217,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.maxLength != null || codegenParameter.minLength != null ||
                     codegenParameter.maxItems != null || codegenParameter.minItems != null ||
                     codegenParameter.pattern != null) {
-                codegenParameter.hasValidation = true;
+                codegenParameter.getVendorExtensions().put(CodegenConstants.HAS_VALIDATION_EXT_NAME, Boolean.TRUE);
             }
 
         }
@@ -2310,14 +2313,14 @@ public class DefaultCodegen implements CodegenConfig {
         // because these values should be set before calling #postProcessParameter.
         // See: https://github.com/swagger-api/swagger-codegen/issues/2561
         if (parameter instanceof QueryParameter) {
-            codegenParameter.isQueryParam = true;
+            codegenParameter.getVendorExtensions().put(CodegenConstants.IS_QUERY_PARAM_EXT_NAME, Boolean.TRUE);
         } else if (parameter instanceof PathParameter) {
             codegenParameter.required = true;
-            codegenParameter.isPathParam = true;
+            codegenParameter.getVendorExtensions().put(CodegenConstants.IS_PATH_PARAM_EXT_NAME, Boolean.TRUE);
         } else if (parameter instanceof HeaderParameter) {
-            codegenParameter.isHeaderParam = true;
+            codegenParameter.getVendorExtensions().put(CodegenConstants.IS_HEADER_PARAM_EXT_NAME, Boolean.TRUE);
         } else if (parameter instanceof CookieParameter) {
-            codegenParameter.isCookieParam = true;
+            codegenParameter.getVendorExtensions().put(CodegenConstants.IS_COOKIE_PARAM_EXT_NAME, Boolean.TRUE);
         }
         /** TODO:
         else if (parameter instanceof BodyParameter) {
@@ -2338,32 +2341,30 @@ public class DefaultCodegen implements CodegenConfig {
         // if not specified in x-example, generate a default value
         if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
             codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
-        } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
+        } else if (getBooleanValue(codegenParameter, CodegenConstants.IS_STRING_EXT_NAME)) {
             codegenParameter.example = codegenParameter.paramName + "_example";
-        } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
+        } else if (getBooleanValue(codegenParameter, CodegenConstants.IS_BOOLEAN_EXT_NAME)) {
             codegenParameter.example = "true";
-        } else if (Boolean.TRUE.equals(codegenParameter.isLong)) {
+        } else if (getBooleanValue(codegenParameter, CodegenConstants.IS_LONG_EXT_NAME)) {
             codegenParameter.example = "789";
-        } else if (Boolean.TRUE.equals(codegenParameter.isInteger)) {
+        } else if (getBooleanValue(codegenParameter, CodegenConstants.IS_INTEGER_EXT_NAME)) {
             codegenParameter.example = "56";
-        } else if (Boolean.TRUE.equals(codegenParameter.isFloat)) {
+        } else if (getBooleanValue(codegenParameter, CodegenConstants.IS_FLOAT_EXT_NAME)) {
             codegenParameter.example = "3.4";
-        } else if (Boolean.TRUE.equals(codegenParameter.isDouble)) {
+        } else if (getBooleanValue(codegenParameter, CodegenConstants.IS_DOUBLE_EXT_NAME)) {
             codegenParameter.example = "1.2";
-        } else if (Boolean.TRUE.equals(codegenParameter.isBinary)) {
+        } else if (getBooleanValue(codegenParameter, CodegenConstants.IS_BINARY_EXT_NAME)) {
             codegenParameter.example = "BINARY_DATA_HERE";
-        } else if (Boolean.TRUE.equals(codegenParameter.isByteArray)) {
+        } else if (getBooleanValue(codegenParameter, CodegenConstants.IS_BYTE_ARRAY_EXT_NAME)) {
             codegenParameter.example = "B";
-        } else if (Boolean.TRUE.equals(codegenParameter.isFile)) {
+        } else if (getBooleanValue(codegenParameter, CodegenConstants.IS_FILE_EXT_NAME)) {
             codegenParameter.example = "/path/to/file.txt";
-        } else if (Boolean.TRUE.equals(codegenParameter.isDate)) {
+        } else if (getBooleanValue(codegenParameter, CodegenConstants.IS_DATE_EXT_NAME)) {
             codegenParameter.example = "2013-10-20";
-        } else if (Boolean.TRUE.equals(codegenParameter.isDateTime)) {
+        } else if (getBooleanValue(codegenParameter, CodegenConstants.IS_DATE_TIME_EXT_NAME)) {
             codegenParameter.example = "2013-10-20T19:20:30+01:00";
-        } else if (Boolean.TRUE.equals(codegenParameter.isUuid)) {
+        } else if (getBooleanValue(codegenParameter, CodegenConstants.IS_UUID_EXT_NAME)) {
             codegenParameter.example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
-        } else if (Boolean.TRUE.equals(codegenParameter.isFile)) {
-            codegenParameter.example = "/path/to/file.txt";
         }
 
         // set the parameter excample value
@@ -2561,7 +2562,7 @@ public class DefaultCodegen implements CodegenConfig {
                     objs.get(i).secondaryParam = true;
                 }
                 if (i < objs.size() - 1) {
-                    objs.get(i).hasMore = true;
+                    objs.get(i).getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, Boolean.TRUE);
                 }
             }
         }
@@ -3229,46 +3230,39 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
 
+        parameter.getVendorExtensions().put(CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME, Boolean.TRUE);
+
         if (getBooleanValue(property, CodegenConstants.IS_UUID_EXT_NAME)
                 && getBooleanValue(property, CodegenConstants.IS_STRING_EXT_NAME)) {
-            parameter.isUuid = true;
+            parameter.getVendorExtensions().put(CodegenConstants.IS_UUID_EXT_NAME, Boolean.TRUE);
+            parameter.getVendorExtensions().put(CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME, Boolean.FALSE);
         } else if (getBooleanValue(property, CodegenConstants.IS_BYTE_ARRAY_EXT_NAME)) {
-            parameter.isByteArray = true;
-            parameter.isPrimitiveType = true;
+            parameter.getVendorExtensions().put(CodegenConstants.IS_BYTE_ARRAY_EXT_NAME, Boolean.TRUE);
         } else if (getBooleanValue(property, CodegenConstants.IS_STRING_EXT_NAME)) {
-            parameter.isString = true;
-            parameter.isPrimitiveType = true;
+            parameter.getVendorExtensions().put(CodegenConstants.IS_STRING_EXT_NAME, Boolean.TRUE);
         } else if (getBooleanValue(property, CodegenConstants.IS_BOOLEAN_EXT_NAME)) {
-            parameter.isBoolean = true;
-            parameter.isPrimitiveType = true;
+            parameter.getVendorExtensions().put(CodegenConstants.IS_BOOLEAN_EXT_NAME, Boolean.TRUE);
         } else if (getBooleanValue(property, CodegenConstants.IS_LONG_EXT_NAME)) {
-            parameter.isLong = true;
-            parameter.isPrimitiveType = true;
+            parameter.getVendorExtensions().put(CodegenConstants.IS_LONG_EXT_NAME, Boolean.TRUE);
         } else if (getBooleanValue(property, CodegenConstants.IS_INTEGER_EXT_NAME)) {
-            parameter.isInteger = true;
-            parameter.isPrimitiveType = true;
+            parameter.getVendorExtensions().put(CodegenConstants.IS_INTEGER_EXT_NAME, Boolean.TRUE);
         } else if (getBooleanValue(property, CodegenConstants.IS_DOUBLE_EXT_NAME)) {
-            parameter.isDouble = true;
-            parameter.isPrimitiveType = true;
+            parameter.getVendorExtensions().put(CodegenConstants.IS_DOUBLE_EXT_NAME, Boolean.TRUE);
         } else if (getBooleanValue(property, CodegenConstants.IS_FLOAT_EXT_NAME)) {
-            parameter.isFloat = true;
-            parameter.isPrimitiveType = true;
+            parameter.getVendorExtensions().put(CodegenConstants.IS_FLOAT_EXT_NAME, Boolean.TRUE);
         }  else if (getBooleanValue(property, CodegenConstants.IS_NUMBER_EXT_NAME)) {
-            parameter.isNumber = true;
-            parameter.isPrimitiveType = true;
+            parameter.getVendorExtensions().put(CodegenConstants.IS_NUMBER_EXT_NAME, Boolean.TRUE);
         } else if (getBooleanValue(property, CodegenConstants.IS_BINARY_EXT_NAME)) {
-            parameter.isByteArray = true;
-            parameter.isPrimitiveType = true;
+            parameter.getVendorExtensions().put(CodegenConstants.IS_BYTE_ARRAY_EXT_NAME, Boolean.TRUE);
         } else if (getBooleanValue(property, CodegenConstants.IS_FILE_EXT_NAME)) {
-            parameter.isFile = true;
+            parameter.getVendorExtensions().put(CodegenConstants.IS_FILE_EXT_NAME, Boolean.TRUE);
         } else if (getBooleanValue(property, CodegenConstants.IS_DATE_EXT_NAME)) {
-            parameter.isDate = true;
-            parameter.isPrimitiveType = true;
+            parameter.getVendorExtensions().put(CodegenConstants.IS_DATE_EXT_NAME, Boolean.TRUE);
         } else if (getBooleanValue(property, CodegenConstants.IS_DATE_TIME_EXT_NAME)) {
-            parameter.isDateTime = true;
-            parameter.isPrimitiveType = true;
+            parameter.getVendorExtensions().put(CodegenConstants.IS_DATE_TIME_EXT_NAME, Boolean.TRUE);
         } else {
             LOGGER.debug("Property type is not primitive: " + property.datatype);
+            parameter.getVendorExtensions().put(CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME, Boolean.FALSE);
         }
     }
 

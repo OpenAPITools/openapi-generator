@@ -338,7 +338,7 @@ public class ObjcModelTest {
 
         Assert.assertEquals(op.returnType, "NSData*");
         Assert.assertEquals(op.bodyParam.dataType, "NSData*");
-        Assert.assertTrue(op.bodyParam.isBinary);
+        Assert.assertTrue(getBooleanValue(op.bodyParam, CodegenConstants.IS_BINARY_EXT_NAME));
         Assert.assertTrue(op.responses.get(0).isBinary);
     }
 

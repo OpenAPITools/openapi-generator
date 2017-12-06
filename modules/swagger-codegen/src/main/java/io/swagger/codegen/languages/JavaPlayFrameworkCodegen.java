@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenParameter;
@@ -18,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
 
@@ -258,13 +261,14 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             for (CodegenOperation operation : ops) {
 
                 for (CodegenParameter param : operation.allParams) {
-                    if (param.isFormParam && param.isFile) {
+                    if (getBooleanValue(param, CodegenConstants.IS_FORM_PARAM_EXT_NAME)
+                            && getBooleanValue(param, CodegenConstants.IS_FILE_EXT_NAME)) {
                         param.dataType = "Http.MultipartFormData.FilePart";
                     }
                 }
 
                 for (CodegenParameter param : operation.formParams) {
-                    if (param.isFile) {
+                    if (getBooleanValue(param, CodegenConstants.IS_FILE_EXT_NAME)) {
                         param.dataType = "Http.MultipartFormData.FilePart";
                     }
                 }
