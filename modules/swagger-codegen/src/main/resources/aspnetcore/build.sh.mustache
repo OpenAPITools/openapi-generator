@@ -5,4 +5,4 @@
 
 dotnet restore src/{{packageName}}/ && \
     dotnet build src/{{packageName}}/ && \
-    echo "Now, run the following to start the project: dotnet run -p src/{{packageName}}/project.json web"
+    echo "Now, run the following to start the project: dotnet run -p src/{{packageName}}/{{packageName}}.csproj --launch-profile web"

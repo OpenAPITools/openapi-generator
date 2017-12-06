@@ -103,7 +103,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         String packageFolder = sourceFolder + File.separator + packageName;
 
         supportingFiles.add(new SupportingFile("NuGet.Config", "", "NuGet.Config"));
-        supportingFiles.add(new SupportingFile("global.json", "", "global.json"));
         supportingFiles.add(new SupportingFile("build.sh.mustache", "", "build.sh"));
         supportingFiles.add(new SupportingFile("build.bat.mustache", "", "build.bat"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -112,13 +111,12 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("gitignore", packageFolder, ".gitignore"));
         supportingFiles.add(new SupportingFile("appsettings.json", packageFolder, "appsettings.json"));
 
-        supportingFiles.add(new SupportingFile("project.json.mustache", packageFolder, "project.json"));
         supportingFiles.add(new SupportingFile("Startup.mustache", packageFolder, "Startup.cs"));
         supportingFiles.add(new SupportingFile("Program.mustache", packageFolder, "Program.cs"));
         supportingFiles.add(new SupportingFile("validateModel.mustache", packageFolder + File.separator + "Attributes", "ValidateModelStateAttribute.cs"));
         supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
 
-        supportingFiles.add(new SupportingFile("Project.xproj.mustache", packageFolder, this.packageName + ".xproj"));
+        supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, this.packageName + ".csproj"));
 
         supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json", packageFolder + File.separator + "Properties", "launchSettings.json"));
 
