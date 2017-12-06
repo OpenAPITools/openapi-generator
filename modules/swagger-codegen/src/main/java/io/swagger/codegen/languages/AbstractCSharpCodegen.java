@@ -416,7 +416,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
 
                         if (this.collectionTypes.contains(typeMapping)) {
-                            operation.isListContainer = true;
+                            operation.getVendorExtensions().put(CodegenConstants.IS_LIST_CONTAINER_EXT_NAME, Boolean.TRUE);
                             operation.returnContainer = operation.returnType;
                             if (this.returnICollection && (
                                     typeMapping.startsWith("List") ||
@@ -429,7 +429,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                             }
                         } else {
                             operation.returnContainer = operation.returnType;
-                            operation.isMapContainer = this.mapTypes.contains(typeMapping);
+                            operation.getVendorExtensions().put(CodegenConstants.IS_MAP_CONTAINER_EXT_NAME, this.mapTypes.contains(typeMapping));
                         }
                     }
 

@@ -525,7 +525,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 c.add(mediaType);
             }
             op.consumes = c;
-            op.hasConsumes = true;
+            op.getVendorExtensions().put(CodegenConstants.HAS_CONSUMES_EXT_NAME, Boolean.TRUE);
         }
 
         Set<String> produces = getConsumesInfo(operation);
@@ -546,7 +546,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 c.add(mediaType);
             }
             op.produces = c;
-            op.hasProduces = true;
+            op.getVendorExtensions().put(CodegenConstants.HAS_PRODUCES_EXT_NAME, Boolean.TRUE);
         }
 
         if (op.bodyParam != null) {

@@ -324,10 +324,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             if (operations != null) {
                 List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
                 for (CodegenOperation operation : ops) {
-                    if (operation.hasConsumes == Boolean.TRUE) {
+                    boolean hasConsumes = getBooleanValue(operation, CodegenConstants.HAS_CONSUMES_EXT_NAME);
+                    if (hasConsumes) {
 
                         if (isMultipartType(operation.consumes)) {
-                            operation.isMultipart = Boolean.TRUE;
+                            operation.getVendorExtensions().put(CodegenConstants.IS_MULTIPART_EXT_NAME, Boolean.TRUE);
                         }
                         else {
                             operation.prioritizedContentTypes = prioritizeContentTypes(operation.consumes);

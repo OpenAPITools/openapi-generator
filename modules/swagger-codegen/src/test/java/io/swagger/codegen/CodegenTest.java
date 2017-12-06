@@ -9,6 +9,8 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class CodegenTest {
 
     @Test(description = "test sanitizeTag")
@@ -65,10 +67,10 @@ public class CodegenTest {
 
         Assert.assertEquals(codegenOperation.operationId, "uploadFile");
         Assert.assertEquals(codegenOperation.httpMethod, "POST");
-        Assert.assertTrue(codegenOperation.hasConsumes);
+        Assert.assertTrue(getBooleanValue(codegenOperation, CodegenConstants.HAS_CONSUMES_EXT_NAME));
         Assert.assertEquals(codegenOperation.consumes.size(), 1);
         Assert.assertEquals(codegenOperation.consumes.get(0).get("mediaType"), "multipart/form-data");
-        Assert.assertFalse(codegenOperation.hasProduces);
+        Assert.assertFalse(getBooleanValue(codegenOperation, CodegenConstants.HAS_PRODUCES_EXT_NAME));
         Assert.assertEquals(codegenOperation.allParams.size(), 1);
     }
     /** todo: uncomment when inline model resolver be implemented on parser

@@ -258,8 +258,26 @@ public class CodegenConstants {
     public static final String IS_INHERITED_EXT_NAME = PREFIX_IS + "inherited";
     public static final String IS_XML_ATTRIBUTE_EXT_NAME = PREFIX_IS + "xml-attribute";
     public static final String IS_XML_WRAPPED_EXT_NAME = PREFIX_IS + "xml-wrapped";
+    public static final String IS_MULTIPART_EXT_NAME = PREFIX_IS + "multipart";
+    public static final String IS_RESPONSE_BINARY_EXT_NAME = PREFIX_IS + "response-binary";
+    public static final String IS_RESPONSE_FILE_EXT_NAME = PREFIX_IS + "response-file";
+    public static final String IS_RESTFUL_INDEX_EXT_NAME = PREFIX_IS + "restful-index";
+    public static final String IS_RESTFUL_SHOW_EXT_NAME = PREFIX_IS + "restful-show";
+    public static final String IS_RESTFUL_CREATE_EXT_NAME = PREFIX_IS + "restful-create";
+    public static final String IS_RESTFUL_UPDATE_EXT_NAME = PREFIX_IS + "restful-update";
+    public static final String IS_RESTFUL_DESTROY_EXT_NAME = PREFIX_IS + "restful-destroy";
+    public static final String IS_RESTFUL_EXT_NAME = PREFIX_IS + "restful";
+    public static final String IS_DEPRECATED_EXT_NAME = PREFIX_IS + "deprecated";
 
     public static final String HAS_MORE_EXT_NAME = PREFIX_HAS + "more";
     public static final String HAS_MORE_NON_READ_ONLY_EXT_NAME = PREFIX_HAS + "more-non-read-only";
     public static final String HAS_VALIDATION_EXT_NAME = PREFIX_HAS + "validation";
+    public static final String HAS_AUTH_METHODS_EXT_NAME = PREFIX_HAS + "auth-methods";
+    public static final String HAS_CONSUMES_EXT_NAME = PREFIX_HAS + "consumes";
+    public static final String HAS_PRODUCES_EXT_NAME = PREFIX_HAS + "produces";
+    public static final String HAS_PARAMS_EXT_NAME = PREFIX_HAS + "params";
+    public static final String HAS_OPTIONAL_PARAMS_EXT_NAME = PREFIX_HAS + "optional-params";
+    public static final String HAS_REQUIRED_PARAMS_EXT_NAME = PREFIX_HAS + "required-params";
+    public static final String HAS_REFERENCE_EXT_NAME = PREFIX_HAS + "reference";
+
 }

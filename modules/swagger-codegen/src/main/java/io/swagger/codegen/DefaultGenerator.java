@@ -887,7 +887,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 if (authMethods != null && !authMethods.isEmpty()) {
                     codegenOperation.authMethods = config.fromSecurity(authMethods);
-                    codegenOperation.hasAuthMethods = true;
+                    codegenOperation.getVendorExtensions().put(CodegenConstants.HAS_AUTH_METHODS_EXT_NAME, Boolean.TRUE);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -962,7 +962,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
             if (os != null && os.size() > 0) {
                 CodegenOperation op = os.get(os.size() - 1);
-                op.hasMore = false;
+                op.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, Boolean.FALSE);
             }
         }
         return operations;

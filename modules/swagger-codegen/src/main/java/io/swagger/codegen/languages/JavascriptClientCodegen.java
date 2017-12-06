@@ -834,9 +834,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (returnType != null) {
             if (isModelledType(co))
                 returnType = getModelledType(returnType);
-            if (Boolean.TRUE.equals(co.isListContainer)) {
+            if (getBooleanValue(co, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 return "Array.<" + returnType + ">";
-            } else if (Boolean.TRUE.equals(co.isMapContainer)) {
+            } else if (getBooleanValue(co, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
                 return "Object.<String, " + returnType + ">";
             }
         }

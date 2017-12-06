@@ -8,6 +8,7 @@ import io.swagger.oas.models.parameters.RequestBody;
 import io.swagger.oas.models.tags.Tag;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +17,7 @@ import java.util.Arrays;
 
 public class CodegenOperation implements VendorExtendable {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
-    public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
-            returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMapContainer,
-            isListContainer, isMultipart, hasMore = true,
-            isResponseBinary = false, isResponseFile = false, hasReference = false,
-            isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated;
+    public boolean returnTypeIsPrimitive, returnSimpleType, subresourceOperation;
     public String path, operationId, returnType, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
     public Discriminator discriminator;
@@ -41,7 +37,7 @@ public class CodegenOperation implements VendorExtendable {
     public List<Map<String, String>> examples;
     public List<Map<String, String>> requestBodyExamples;
     public ExternalDocumentation externalDocs;
-    public Map<String, Object> vendorExtensions;
+    public Map<String, Object> vendorExtensions = new HashMap<>();
     public String nickname; // legacy support
     public String operationIdLowerCase; // for markdown documentation
     public String operationIdCamelCase; // for class names
@@ -207,38 +203,6 @@ public class CodegenOperation implements VendorExtendable {
 
         if (responseHeaders != null ? !responseHeaders.equals(that.responseHeaders) : that.responseHeaders != null)
             return false;
-        if (hasAuthMethods != that.hasAuthMethods)
-            return false;
-        if (hasConsumes != that.hasConsumes)
-            return false;
-        if (hasProduces != that.hasProduces)
-            return false;
-        if (hasParams != that.hasParams)
-            return false;
-        if (hasOptionalParams != that.hasOptionalParams)
-            return false;
-        if (returnTypeIsPrimitive != that.returnTypeIsPrimitive)
-            return false;
-        if (returnSimpleType != that.returnSimpleType)
-            return false;
-        if (subresourceOperation != that.subresourceOperation)
-            return false;
-        if (isMapContainer != that.isMapContainer)
-            return false;
-        if (isListContainer != that.isListContainer)
-            return false;
-        if (isMultipart != that.isMultipart)
-            return false;
-        if (hasMore != that.hasMore)
-            return false;
-        if (isResponseBinary != that.isResponseBinary)
-            return false;
-        if (hasReference != that.hasReference)
-            return false;
-        if (isResponseFile != that.isResponseFile)
-            return false;
-        if (isDeprecated != that.isDeprecated)
-            return false;
         if (path != null ? !path.equals(that.path) : that.path != null)
             return false;
         if (operationId != null ? !operationId.equals(that.operationId) : that.operationId != null)
@@ -308,22 +272,6 @@ public class CodegenOperation implements VendorExtendable {
     @Override
     public int hashCode() {
         int result = responseHeaders.hashCode();
-        result = 31 * result + (hasAuthMethods ? 13:31);
-        result = 31 * result + (hasConsumes ? 13:31);
-        result = 31 * result + (hasProduces ? 13:31);
-        result = 31 * result + (hasParams ? 13:31);
-        result = 31 * result + (hasOptionalParams ? 13:31);
-        result = 31 * result + (returnTypeIsPrimitive ? 13:31);
-        result = 31 * result + (returnSimpleType ? 13:31);
-        result = 31 * result + (subresourceOperation ? 13:31);
-        result = 31 * result + (isMapContainer ? 13:31);
-        result = 31 * result + (isListContainer ? 13:31);
-        result = 31 * result + (isMultipart ? 13:31);
-        result = 31 * result + (hasMore ? 13:31);
-        result = 31 * result + (isResponseBinary ? 13:31);
-        result = 31 * result + (isResponseFile ? 13:31);
-        result = 31 * result + (hasReference ? 13:31);
-        result = 31 * result + (isDeprecated ? 13:31);
         result = 31 * result + (path != null ? path.hashCode() : 0);
         result = 31 * result + (operationId != null ? operationId.hashCode() : 0);
         result = 31 * result + (returnType != null ? returnType.hashCode() : 0);
@@ -361,74 +309,6 @@ public class CodegenOperation implements VendorExtendable {
 
     public List<CodegenProperty> getResponseHeaders() {
         return responseHeaders;
-    }
-
-    public boolean isHasAuthMethods() {
-        return hasAuthMethods;
-    }
-
-    public boolean isHasConsumes() {
-        return hasConsumes;
-    }
-
-    public boolean isHasProduces() {
-        return hasProduces;
-    }
-
-    public boolean isHasParams() {
-        return hasParams;
-    }
-
-    public boolean isHasOptionalParams() {
-        return hasOptionalParams;
-    }
-
-    public boolean isHasRequiredParams() {
-        return hasRequiredParams;
-    }
-
-    public boolean isReturnTypeIsPrimitive() {
-        return returnTypeIsPrimitive;
-    }
-
-    public boolean isReturnSimpleType() {
-        return returnSimpleType;
-    }
-
-    public boolean isSubresourceOperation() {
-        return subresourceOperation;
-    }
-
-    public boolean isMapContainer() {
-        return isMapContainer;
-    }
-
-    public boolean isListContainer() {
-        return isListContainer;
-    }
-
-    public boolean isMultipart() {
-        return isMultipart;
-    }
-
-    public boolean isHasMore() {
-        return hasMore;
-    }
-
-    public boolean isResponseBinary() {
-        return isResponseBinary;
-    }
-
-    public boolean isResponseFile() {
-        return isResponseFile;
-    }
-
-    public boolean isHasReference() {
-        return hasReference;
-    }
-
-    public boolean isDeprecated() {
-        return isDeprecated;
     }
 
     public String getPath() {

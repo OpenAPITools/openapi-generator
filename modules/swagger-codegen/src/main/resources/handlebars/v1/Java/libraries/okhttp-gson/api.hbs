@@ -96,13 +96,13 @@ public class {{classname}} {
         {{localVariablePrefix}}localVarFormParams.put("{{baseName}}", {{paramName}});{{/formParams}}
 
         final String[] {{localVariablePrefix}}localVarAccepts = {
-            {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}
+            {{#if produces}}"{{{mediaType}}}"{{#has this 'more'}}, {{/has}}{{/if}}
         };
         final String {{localVariablePrefix}}localVarAccept = {{localVariablePrefix}}apiClient.selectHeaderAccept({{localVariablePrefix}}localVarAccepts);
         if ({{localVariablePrefix}}localVarAccept != null) {{localVariablePrefix}}localVarHeaderParams.put("Accept", {{localVariablePrefix}}localVarAccept);
 
         final String[] {{localVariablePrefix}}localVarContentTypes = {
-            {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}
+            {{#if consumes}}"{{{mediaType}}}"{{#has this 'more'}}, {{/has}}{{/if}}
         };
         final String {{localVariablePrefix}}localVarContentType = {{localVariablePrefix}}apiClient.selectHeaderContentType({{localVariablePrefix}}localVarContentTypes);
         {{localVariablePrefix}}localVarHeaderParams.put("Content-Type", {{localVariablePrefix}}localVarContentType);
@@ -119,7 +119,7 @@ public class {{classname}} {
             });
         }
 
-        String[] {{localVariablePrefix}}localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+        String[] {{localVariablePrefix}}localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{#has this 'more'}}, {{/has}}{{/authMethods}} };
         return {{localVariablePrefix}}apiClient.buildCall({{localVariablePrefix}}localVarPath, "{{httpMethod}}", {{localVariablePrefix}}localVarQueryParams, {{localVariablePrefix}}localVarCollectionQueryParams, {{localVariablePrefix}}localVarPostBody, {{localVariablePrefix}}localVarHeaderParams, {{localVariablePrefix}}localVarFormParams, {{localVariablePrefix}}localVarAuthNames, progressRequestListener);
     }
     
@@ -142,8 +142,8 @@ public class {{classname}} {
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             ExecutableValidator executableValidator = factory.getValidator().forExecutables();
 
-            Object[] parameterValues = { {{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}} };
-            Method method = this.getClass().getMethod("{{operationId}}WithHttpInfo"{{#allParams}}, {{#isListContainer}}java.util.List{{/isListContainer}}{{#isMapContainer}}java.util.Map{{/isMapContainer}}{{^isListContainer}}{{^isMapContainer}}{{{dataType}}}{{/isMapContainer}}{{/isListContainer}}.class{{/allParams}});
+            Object[] parameterValues = { {{#allParams}}{{paramName}}{{#has this 'more'}}, {{/has}}{{/allParams}} };
+            Method method = this.getClass().getMethod("{{operationId}}WithHttpInfo"{{#allParams}}, {{#is this 'list-container'}}java.util.List{{/is}}{{#is this 'map-container'}}java.util.Map{{/is}}{{#isNot this 'list-container'}}{{#isNot this 'map-container'}}{{{dataType}}}{{/isNot}}{{/isNot}}.class{{/allParams}});
             Set<ConstraintViolation<{{classname}}>> violations = executableValidator.validateParameters(this, method,
                     parameterValues);
 
@@ -180,8 +180,8 @@ public class {{classname}} {
      * @see <a href="{{url}}">{{summary}} Documentation</a>
         {{/externalDocs}}
      */
-    public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
-        {{#returnType}}ApiResponse<{{{returnType}}}> {{localVariablePrefix}}resp = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+    public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#has this 'more'}}, {{/has}}{{/allParams}}) throws ApiException {
+        {{#returnType}}ApiResponse<{{{returnType}}}> {{localVariablePrefix}}resp = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#has this 'more'}}, {{/has}}{{/allParams}});{{#returnType}}
         return {{localVariablePrefix}}resp.getData();{{/returnType}}
     }
 
@@ -196,7 +196,7 @@ public class {{classname}} {
      * @see <a href="{{url}}">{{summary}} Documentation</a>
         {{/externalDocs}}
      */
-    public ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+    public ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}}{{{dataType}}} {{paramName}}{{#has this 'more'}}, {{/has}}{{/allParams}}) throws ApiException {
         com.squareup.okhttp.Call {{localVariablePrefix}}call = {{operationId}}ValidateBeforeCall({{#allParams}}{{paramName}}, {{/allParams}}null, null);
         {{#returnType}}Type {{localVariablePrefix}}localVarReturnType = new TypeToken<{{{returnType}}}>(){}.getType();
         return {{localVariablePrefix}}apiClient.execute({{localVariablePrefix}}call, {{localVariablePrefix}}localVarReturnType);{{/returnType}}{{^returnType}}return {{localVariablePrefix}}apiClient.execute({{localVariablePrefix}}call);{{/returnType}}

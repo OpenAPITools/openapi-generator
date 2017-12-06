@@ -1793,10 +1793,10 @@ public class DefaultCodegen implements CodegenConfig {
         codegenOperation.summary = escapeText(operation.getSummary());
         codegenOperation.unescapedNotes = operation.getDescription();
         codegenOperation.notes = escapeText(operation.getDescription());
-        codegenOperation.hasConsumes = false;
-        codegenOperation.hasProduces = false;
+        codegenOperation.getVendorExtensions().put(CodegenConstants.HAS_CONSUMES_EXT_NAME, Boolean.FALSE);
+        codegenOperation.getVendorExtensions().put(CodegenConstants.HAS_PRODUCES_EXT_NAME, Boolean.FALSE);
         if (operation.getDeprecated() != null) {
-            codegenOperation.isDeprecated = operation.getDeprecated();
+            codegenOperation.getVendorExtensions().put(CodegenConstants.IS_DEPRECATED_EXT_NAME, operation.getDeprecated());
         }
 
         addConsumesInfo(operation, codegenOperation);
@@ -1817,10 +1817,10 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenResponse.isDefault = response == methodResponse;
                 codegenOperation.responses.add(codegenResponse);
                 if (Boolean.TRUE.equals(codegenResponse.isBinary) && Boolean.TRUE.equals(codegenResponse.isDefault)){
-                    codegenOperation.isResponseBinary = Boolean.TRUE;
+                    codegenOperation.getVendorExtensions().put(CodegenConstants.IS_RESPONSE_BINARY_EXT_NAME, Boolean.TRUE);
                 }
                 if (Boolean.TRUE.equals(codegenResponse.isFile) && Boolean.TRUE.equals(codegenResponse.isDefault)){
-                    codegenOperation.isResponseFile = Boolean.TRUE;
+                    codegenOperation.getVendorExtensions().put(CodegenConstants.IS_RESPONSE_FILE_EXT_NAME, Boolean.TRUE);
                 }
             }
             codegenOperation.responses.get(codegenOperation.responses.size() - 1).hasMore = false;
@@ -1848,7 +1848,8 @@ public class DefaultCodegen implements CodegenConfig {
                     //TODO: codegenOperation.examples = new ExampleGenerator(schemas).generate(methodResponse.getExamples(), operation.getProduces(), responseProperty);
                     codegenOperation.defaultResponse = toDefaultValue(responseSchema);
                     codegenOperation.returnType = codegenProperty.datatype;
-                    codegenOperation.hasReference = schemas != null && schemas.containsKey(codegenOperation.returnBaseType);
+                    boolean hasReference = schemas != null && schemas.containsKey(codegenOperation.returnBaseType);
+                    codegenOperation.getVendorExtensions().put(CodegenConstants.HAS_REFERENCE_EXT_NAME, hasReference);
 
                     // lookup discriminator
                     if (schemas != null) {
@@ -1863,11 +1864,11 @@ public class DefaultCodegen implements CodegenConfig {
                     if (isContainer) {
                         codegenOperation.returnContainer = codegenProperty.containerType;
                         if ("map".equals(codegenProperty.containerType)) {
-                            codegenOperation.isMapContainer = true;
+                            codegenOperation.getVendorExtensions().put(CodegenConstants.IS_MAP_CONTAINER_EXT_NAME, Boolean.TRUE);
                         } else if ("list".equalsIgnoreCase(codegenProperty.containerType)) {
-                            codegenOperation.isListContainer = true;
+                            codegenOperation.getVendorExtensions().put(CodegenConstants.IS_LIST_CONTAINER_EXT_NAME, Boolean.TRUE);
                         } else if ("array".equalsIgnoreCase(codegenProperty.containerType)) {
-                            codegenOperation.isListContainer = true;
+                            codegenOperation.getVendorExtensions().put(CodegenConstants.IS_LIST_CONTAINER_EXT_NAME, Boolean.TRUE);
                         }
                     } else {
                         codegenOperation.returnSimpleType = true;
@@ -1932,7 +1933,7 @@ public class DefaultCodegen implements CodegenConfig {
                     cookieParams.add(codegenParameter.copy());
                 }
                 if (!codegenParameter.required) {
-                    codegenOperation.hasOptionalParams = true;
+                    codegenOperation.getVendorExtensions().put(CodegenConstants.HAS_OPTIONAL_PARAMS_EXT_NAME, Boolean.TRUE);
                 } else {
                     requiredParams.add(codegenParameter.copy());
                 }
@@ -1973,17 +1974,18 @@ public class DefaultCodegen implements CodegenConfig {
         codegenOperation.nickname = codegenOperation.operationId;
 
         if (codegenOperation.allParams.size() > 0) {
-            codegenOperation.hasParams = true;
+            codegenOperation.getVendorExtensions().put(CodegenConstants.HAS_PARAMS_EXT_NAME, Boolean.TRUE);
         }
-        codegenOperation.hasRequiredParams = codegenOperation.requiredParams.size() > 0;
+        boolean hasRequiredParams = codegenOperation.requiredParams.size() > 0;
+        codegenOperation.getVendorExtensions().put(CodegenConstants.HAS_REQUIRED_PARAMS_EXT_NAME, hasRequiredParams);
 
         // set Restful Flag
-        codegenOperation.isRestfulShow = codegenOperation.isRestfulShow();
-        codegenOperation.isRestfulIndex = codegenOperation.isRestfulIndex();
-        codegenOperation.isRestfulCreate = codegenOperation.isRestfulCreate();
-        codegenOperation.isRestfulUpdate = codegenOperation.isRestfulUpdate();
-        codegenOperation.isRestfulDestroy = codegenOperation.isRestfulDestroy();
-        codegenOperation.isRestful = codegenOperation.isRestful();
+        codegenOperation.getVendorExtensions().put(CodegenConstants.IS_RESTFUL_SHOW_EXT_NAME, codegenOperation.isRestfulShow());
+        codegenOperation.getVendorExtensions().put(CodegenConstants.IS_RESTFUL_INDEX_EXT_NAME, codegenOperation.isRestfulIndex());
+        codegenOperation.getVendorExtensions().put(CodegenConstants.IS_RESTFUL_CREATE_EXT_NAME, codegenOperation.isRestfulCreate());
+        codegenOperation.getVendorExtensions().put(CodegenConstants.IS_RESTFUL_UPDATE_EXT_NAME, codegenOperation.isRestfulUpdate());
+        codegenOperation.getVendorExtensions().put(CodegenConstants.IS_RESTFUL_DESTROY_EXT_NAME, codegenOperation.isRestfulDestroy());
+        codegenOperation.getVendorExtensions().put(CodegenConstants.IS_RESTFUL_EXT_NAME, codegenOperation.isRestful());
 
         return codegenOperation;
     }
@@ -3402,7 +3404,7 @@ public class DefaultCodegen implements CodegenConfig {
             mediaTypeList.add(mediaType);
         }
         codegenOperation.consumes = mediaTypeList;
-        codegenOperation.hasConsumes = true;
+        codegenOperation.getVendorExtensions().put(CodegenConstants.HAS_CONSUMES_EXT_NAME, Boolean.TRUE);
     }
 
     protected Set<String> getConsumesInfo(Operation operation) {
@@ -3436,7 +3438,7 @@ public class DefaultCodegen implements CodegenConfig {
                 mediaType.put("hasMore", null);
             }
             codegenOperation.produces.add(mediaType);
-            codegenOperation.hasProduces = Boolean.TRUE;
+            codegenOperation.getVendorExtensions().put(CodegenConstants.HAS_PRODUCES_EXT_NAME, Boolean.TRUE);
         }
     }
 

@@ -288,11 +288,12 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             eco.setPathTemplateNames(pathTemplateNames);
 
             // detect multipart form types
-            if (eco.hasConsumes == Boolean.TRUE) {
+            boolean hasConsumes = getBooleanValue(eco, CodegenConstants.HAS_CONSUMES_EXT_NAME);
+            if (hasConsumes == Boolean.TRUE) {
                 Map<String, String> firstType = eco.consumes.get(0);
                 if (firstType != null) {
                     if ("multipart/form-data".equals(firstType.get("mediaType"))) {
-                        eco.isMultipart = Boolean.TRUE;
+                        eco.getVendorExtensions().put(CodegenConstants.IS_MULTIPART_EXT_NAME, Boolean.TRUE);
                     }
                 }
             }
@@ -540,26 +541,9 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
             // Copy all fields of CodegenOperation
             this.responseHeaders.addAll(o.responseHeaders);
-            this.hasAuthMethods = o.hasAuthMethods;
-            this.hasConsumes = o.hasConsumes;
-            this.hasProduces = o.hasProduces;
-            this.hasParams = o.hasParams;
-            this.hasOptionalParams = o.hasOptionalParams;
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
-            this.isMapContainer = o.isMapContainer;
-            this.isListContainer = o.isListContainer;
-            this.isMultipart = o.isMultipart;
-            this.hasMore = o.hasMore;
-            this.isResponseBinary = o.isResponseBinary;
-            this.hasReference = o.hasReference;
-            this.isRestfulIndex = o.isRestfulIndex;
-            this.isRestfulShow = o.isRestfulShow;
-            this.isRestfulCreate = o.isRestfulCreate;
-            this.isRestfulUpdate = o.isRestfulUpdate;
-            this.isRestfulDestroy = o.isRestfulDestroy;
-            this.isRestful = o.isRestful;
             this.path = o.path;
             this.operationId = o.operationId;
             this.returnType = o.returnType;
@@ -704,7 +688,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         public String decodedStruct() {
             // Let Poison decode the entire response into a generic blob
-            if (isMapContainer) {
+            if (getBooleanValue(this, CodegenConstants.IS_MULTIPART_EXT_NAME)) {
                 return "";
             }
             // Primitive return type, don't even try to decode
@@ -712,7 +696,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 return "false";
             }
             StringBuilder sb = new StringBuilder();
-            if (isListContainer) {
+            if (getBooleanValue(this, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 sb.append("[");
             }
             sb.append("%");
@@ -720,7 +704,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             sb.append(".Model.");
             sb.append(returnBaseType);
             sb.append("{}");
-            if (isListContainer) {
+            if (getBooleanValue(this, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 sb.append("]");
             }
             return sb.toString();

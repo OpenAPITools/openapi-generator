@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenResponse;
@@ -284,7 +285,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
             opsByPathEntry.put("path", entry.getKey());
             opsByPathEntry.put("operation", entry.getValue());
             List<CodegenOperation> operationsForThisPath = Lists.newArrayList(entry.getValue());
-            operationsForThisPath.get(operationsForThisPath.size() - 1).hasMore = false;
+            operationsForThisPath.get(operationsForThisPath.size() - 1).getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, Boolean.FALSE);
             if (opsByPathList.size() < opsByPath.asMap().size()) {
                 opsByPathEntry.put("hasMore", "true");
             }

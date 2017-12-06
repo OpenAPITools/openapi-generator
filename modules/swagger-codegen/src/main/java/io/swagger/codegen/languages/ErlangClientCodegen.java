@@ -17,6 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig {
     static Logger LOGGER = LoggerFactory.getLogger(ErlangClientCodegen.class);
 
@@ -259,7 +261,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             // force http method to lower case
             o.httpMethod = o.httpMethod.toLowerCase();
 
-            if (o.isListContainer) {
+            if (getBooleanValue(o, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 o.returnType = "[" + o.returnBaseType + "]";
             }
 
@@ -316,26 +318,9 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
             // Copy all fields of CodegenOperation
             this.responseHeaders.addAll(o.responseHeaders);
-            this.hasAuthMethods = o.hasAuthMethods;
-            this.hasConsumes = o.hasConsumes;
-            this.hasProduces = o.hasProduces;
-            this.hasParams = o.hasParams;
-            this.hasOptionalParams = o.hasOptionalParams;
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
-            this.isMapContainer = o.isMapContainer;
-            this.isListContainer = o.isListContainer;
-            this.isMultipart = o.isMultipart;
-            this.hasMore = o.hasMore;
-            this.isResponseBinary = o.isResponseBinary;
-            this.hasReference = o.hasReference;
-            this.isRestfulIndex = o.isRestfulIndex;
-            this.isRestfulShow = o.isRestfulShow;
-            this.isRestfulCreate = o.isRestfulCreate;
-            this.isRestfulUpdate = o.isRestfulUpdate;
-            this.isRestfulDestroy = o.isRestfulDestroy;
-            this.isRestful = o.isRestful;
             this.path = o.path;
             this.operationId = o.operationId;
             this.returnType = o.returnType;

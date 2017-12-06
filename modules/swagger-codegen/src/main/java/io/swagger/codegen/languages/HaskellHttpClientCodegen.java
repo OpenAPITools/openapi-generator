@@ -707,43 +707,46 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         return dataType != null && dataType.equals("B.ByteString");
     }
 
-    private void processReturnType(CodegenOperation op) {
-        String returnType = op.returnType;
+    private void processReturnType(CodegenOperation codegenOperation) {
+        String returnType = codegenOperation.returnType;
         if (returnType == null || returnType.equals("null")) {
-            if(op.hasProduces) {
+            boolean hasProduces = getBooleanValue(codegenOperation, CodegenConstants.HAS_PRODUCES_EXT_NAME);
+            if(hasProduces) {
                 returnType = "res";
-                op.vendorExtensions.put(X_HAS_UNKNOWN_RETURN, true);
+                codegenOperation.vendorExtensions.put(X_HAS_UNKNOWN_RETURN, true);
             } else {
                 returnType = "NoContent";
-                if(!op.vendorExtensions.containsKey(X_INLINE_ACCEPT)) {
-                    SetNoContent(op, X_INLINE_ACCEPT);
+                if(!codegenOperation.vendorExtensions.containsKey(X_INLINE_ACCEPT)) {
+                    SetNoContent(codegenOperation, X_INLINE_ACCEPT);
                 }
             }
         }
         if (returnType.indexOf(" ") >= 0) {
             returnType = "(" + returnType + ")";
         }
-        op.vendorExtensions.put(X_RETURN_TYPE, returnType);
+        codegenOperation.vendorExtensions.put(X_RETURN_TYPE, returnType);
     }
 
-    private void processProducesConsumes(CodegenOperation op) {
-        if (!(Boolean) op.vendorExtensions.get(X_HAS_BODY_OR_FORM_PARAM)) {
-            SetNoContent(op, X_INLINE_CONTENT_TYPE);
+    private void processProducesConsumes(CodegenOperation codegenOperation) {
+        if (!(Boolean) codegenOperation.vendorExtensions.get(X_HAS_BODY_OR_FORM_PARAM)) {
+            SetNoContent(codegenOperation, X_INLINE_CONTENT_TYPE);
         }
-        if (op.hasConsumes) {
-            for (Map<String, String> m : op.consumes) {
-                processMediaType(op, m);
-                processInlineConsumesContentType(op, m);
+        boolean hasConsumes = getBooleanValue(codegenOperation, CodegenConstants.HAS_CONSUMES_EXT_NAME);
+        if (hasConsumes) {
+            for (Map<String, String> m : codegenOperation.consumes) {
+                processMediaType(codegenOperation, m);
+                processInlineConsumesContentType(codegenOperation, m);
 
             }
-            if (isMultipartOperation(op.consumes)) {
-                op.isMultipart = Boolean.TRUE;
+            if (isMultipartOperation(codegenOperation.consumes)) {
+                codegenOperation.getVendorExtensions().put(CodegenConstants.IS_MULTIPART_EXT_NAME, Boolean.TRUE);
             }
         }
-        if (op.hasProduces) {
-            for (Map<String, String> m : op.produces) {
-                processMediaType(op,m);
-                processInlineProducesContentType(op, m);
+        boolean hasProduces = getBooleanValue(codegenOperation, CodegenConstants.HAS_PRODUCES_EXT_NAME);
+        if (hasProduces) {
+            for (Map<String, String> m : codegenOperation.produces) {
+                processMediaType(codegenOperation,m);
+                processInlineProducesContentType(codegenOperation, m);
             }
         }
     }

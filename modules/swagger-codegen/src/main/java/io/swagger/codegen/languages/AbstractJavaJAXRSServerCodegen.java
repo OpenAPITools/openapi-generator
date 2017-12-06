@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     /**
      * Name of the sub-directory in "src/main/resource" where to find the
@@ -132,11 +134,12 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
             @SuppressWarnings("unchecked")
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for ( CodegenOperation operation : ops ) {
-                if (operation.hasConsumes == Boolean.TRUE) {
+                boolean hasConsumes = getBooleanValue(operation, CodegenConstants.HAS_CONSUMES_EXT_NAME);
+                if (hasConsumes) {
                     Map<String, String> firstType = operation.consumes.get(0);
                     if (firstType != null) {
                         if ("multipart/form-data".equals(firstType.get("mediaType"))) {
-                            operation.isMultipart = Boolean.TRUE;
+                            operation.getVendorExtensions().put(CodegenConstants.IS_MULTIPART_EXT_NAME, Boolean.TRUE);
                         }
                     }
                 }

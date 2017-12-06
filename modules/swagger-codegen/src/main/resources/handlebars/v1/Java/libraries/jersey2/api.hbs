@@ -49,15 +49,15 @@ public class {{classname}} {
    * @return {{returnType}}
    {{/returnType}}
    * @throws ApiException if fails to make API call
-   {{#isDeprecated}}
+   {{#is this 'deprecated'~}}
    * @Deprecated
-   {{/isDeprecated}}
+   {{/is}}
    {{#externalDocs}}
    * {{description}}
    * @see <a href="{{url}}">{{summary}} Documentation</a>
    {{/externalDocs}}
    */
-  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#has this 'more'}}, {{/has}}{{/allParams}}) throws ApiException {
     Object {{localVariablePrefix}}localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
@@ -87,16 +87,16 @@ public class {{classname}} {
     {{/formParams}}
 
     final String[] {{localVariablePrefix}}localVarAccepts = {
-      {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}
+      {{#if produces}}"{{{mediaType}}}"{{#has this 'more'}}, {{/has}}{{/if}}
     };
     final String {{localVariablePrefix}}localVarAccept = {{localVariablePrefix}}apiClient.selectHeaderAccept({{localVariablePrefix}}localVarAccepts);
 
     final String[] {{localVariablePrefix}}localVarContentTypes = {
-      {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}
+      {{#if consumes}}"{{{mediaType}}}"{{#has this 'more'}}, {{/has}}{{/if}}
     };
     final String {{localVariablePrefix}}localVarContentType = {{localVariablePrefix}}apiClient.selectHeaderContentType({{localVariablePrefix}}localVarContentTypes);
 
-    String[] {{localVariablePrefix}}localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+    String[] {{localVariablePrefix}}localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{#has this 'more'}}, {{/has}}{{/authMethods}} };
 
     {{#returnType}}
     GenericType<{{{returnType}}}> {{localVariablePrefix}}localVarReturnType = new GenericType<{{{returnType}}}>() {};
