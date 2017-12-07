@@ -10,7 +10,7 @@ import {{import}}
 case class {{classname}} (
   {{#vars}}
   {{#description}}
-  /* {{{description}}} */
+  // {{{description}}}
   {{/description}}
   {{{name}}}: {{^required}}Option[{{/required}}{{datatype}}{{^required}}] = None{{/required}}{{#hasMore}},{{/hasMore}}
   {{/vars}}
