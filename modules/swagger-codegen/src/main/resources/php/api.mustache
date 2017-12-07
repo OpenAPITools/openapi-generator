@@ -407,7 +407,7 @@ use {{invokerPackage}}\ObjectSerializer;
         {{/bodyParams}}
 
         if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
+            $headers = $this->headerSelector->selectHeadersForMultipart(
                 [{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}]
             );
         } else {
