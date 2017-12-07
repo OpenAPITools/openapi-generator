@@ -1,8 +1,3 @@
-{{#useHttpClient}}
-// RxJS imports are not needed for Angular 4.3 and later
-{{/useHttpClient}}
-
-{{^useHttpClient}}
 // RxJS imports according to https://angular.io/docs/ts/latest/guide/server-communication.html#!#rxjs
 
 // See node_module/rxjs/Rxjs.js
@@ -14,4 +9,3 @@ import 'rxjs/add/observable/throw';
 // Operators
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-{{/useHttpClient}}
