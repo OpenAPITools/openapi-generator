@@ -4,10 +4,10 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
-public class Rust2OptionsProvider implements OptionsProvider {
+public class RustServerOptionsProvider implements OptionsProvider {
     @Override
     public String getLanguage() {
-        return "rust2";
+        return "rust-server";
     }
 
     @Override

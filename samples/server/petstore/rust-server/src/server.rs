@@ -535,10 +535,10 @@ fn add_routes<T>(router: &mut Router, api: T) where T: Api + Send + Sync + Clone
 
 
                 // Form parameters
-                let param_number = 3.4;
+                let param_number = 8.14;
                 let param_double = 1.2;
                 let param_pattern_without_delimiter = "pattern_without_delimiter_example".to_string();
-                let param_byte = swagger::ByteArray("byte_example".to_string().into_bytes());
+                let param_byte = swagger::ByteArray(Vec::from("B"));
                 let param_integer = Some(56);
                 let param_int32 = Some(56);
                 let param_int64 = Some(789);

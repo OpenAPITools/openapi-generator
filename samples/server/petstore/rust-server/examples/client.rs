@@ -129,7 +129,7 @@ fn main() {
         //  },
 
         Some("TestEndpointParameters") => {
-            let result = client.test_endpoint_parameters(3.4, 1.2, "pattern_without_delimiter_example".to_string(), swagger::ByteArray("byte_example".to_string().into_bytes()), Some(56), Some(56), Some(789), Some(3.4), Some("string_example".to_string()), Some(swagger::ByteArray(Vec::from("B"))), None, None, Some("password_example".to_string()), Some("callback_example".to_string())).wait();
+            let result = client.test_endpoint_parameters(8.14, 1.2, "pattern_without_delimiter_example".to_string(), swagger::ByteArray(Vec::from("B")), Some(56), Some(56), Some(789), Some(3.4), Some("string_example".to_string()), Some(swagger::ByteArray(Vec::from("B"))), None, None, Some("password_example".to_string()), Some("callback_example".to_string())).wait();
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
