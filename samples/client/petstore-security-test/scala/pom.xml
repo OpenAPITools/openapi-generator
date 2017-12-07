@@ -216,7 +216,7 @@
     </dependency>
   </dependencies>
   <properties>
-    <scala-version>2.11.11</scala-version>
+    <scala-version>2.11.12</scala-version>
     <joda-version>1.2</joda-version>
     <joda-time-version>2.2</joda-time-version>
     <jersey-version>1.19</jersey-version>
