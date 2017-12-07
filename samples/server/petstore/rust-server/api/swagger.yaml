@@ -139,11 +139,11 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "available"
           enum:
           - "available"
           - "pending"
           - "sold"
-          default: "available"
         collectionFormat: "csv"
         formatString: "{:?}"
         example: "&Vec::new()"
@@ -893,10 +893,10 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "$"
           enum:
           - ">"
           - "$"
-          default: "$"
         formatString: "{:?}"
         example: "Some(&Vec::new())"
       - name: "enum_form_string"
@@ -918,10 +918,10 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "$"
           enum:
           - ">"
           - "$"
-          default: "$"
         formatString: "{:?}"
         example: "Some(&Vec::new())"
       - name: "enum_header_string"
@@ -943,10 +943,10 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "$"
           enum:
           - ">"
           - "$"
-          default: "$"
         formatString: "{:?}"
         example: "Some(&Vec::new())"
       - name: "enum_query_string"
@@ -1047,7 +1047,7 @@ paths:
         maximum: 543.2
         minimum: 32.1
         formatString: "{}"
-        example: "3.4"
+        example: "8.14"
       - name: "float"
         in: "formData"
         description: "None"
@@ -1089,8 +1089,8 @@ paths:
         required: true
         type: "string"
         format: "byte"
-        formatString: "\\\"{:?}\\\""
-        example: "swagger::ByteArray(\"byte_example\".to_string().into_bytes())"
+        formatString: "{:?}"
+        example: "swagger::ByteArray(Vec::from(\"B\"))"
       - name: "binary"
         in: "formData"
         description: "None"
@@ -1465,12 +1465,12 @@ definitions:
         type: "boolean"
         default: false
     example:
-      petId: 6
-      quantity: 1
       id: 0
-      shipDate: "2000-01-23T04:56:07.000+00:00"
+      petId: 6
       complete: false
       status: "placed"
+      quantity: 1
+      shipDate: "2000-01-23T04:56:07.000+00:00"
     xml:
       name: "Order"
     upperCaseName: "ORDER"
@@ -1483,8 +1483,8 @@ definitions:
       name:
         type: "string"
     example:
-      name: "name"
       id: 6
+      name: "name"
     xml:
       name: "Category"
     upperCaseName: "CATEGORY"
@@ -1512,14 +1512,14 @@ definitions:
         format: "int32"
         description: "User Status"
     example:
-      firstName: "firstName"
-      lastName: "lastName"
-      password: "password"
-      userStatus: 6
-      phone: "phone"
       id: 0
-      email: "email"
+      lastName: "lastName"
+      phone: "phone"
       username: "username"
+      email: "email"
+      userStatus: 6
+      firstName: "firstName"
+      password: "password"
     xml:
       name: "User"
     upperCaseName: "USER"
@@ -1532,8 +1532,8 @@ definitions:
       name:
         type: "string"
     example:
-      name: "name"
       id: 1
+      name: "name"
     xml:
       name: "Tag"
     upperCaseName: "TAG"
@@ -1574,20 +1574,20 @@ definitions:
         - "pending"
         - "sold"
     example:
+      tags:
+      - id: 1
+        name: "name"
+      - id: 1
+        name: "name"
+      id: 0
+      category:
+        id: 6
+        name: "name"
+      status: "available"
+      name: "doggie"
       photoUrls:
       - "photoUrls"
       - "photoUrls"
-      name: "doggie"
-      id: 0
-      category:
-        name: "name"
-        id: 6
-      tags:
-      - name: "name"
-        id: 1
-      - name: "name"
-        id: 1
-      status: "available"
     xml:
       name: "Pet"
     upperCaseName: "PET"
@@ -1602,9 +1602,9 @@ definitions:
       message:
         type: "string"
     example:
+      message: "message"
       code: 0
       type: "type"
-      message: "message"
     upperCaseName: "APIRESPONSE"
   $special[model.name]:
     properties:
@@ -1957,8 +1957,8 @@ definitions:
       my_boolean:
         $ref: "#/definitions/OuterBoolean"
     example:
-      my_string: {}
       my_number: {}
+      my_string: {}
       my_boolean: {}
     upperCaseName: "OUTERCOMPOSITE"
   OuterNumber:

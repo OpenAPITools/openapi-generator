@@ -2,6 +2,8 @@
 name = "petstore_api"
 version = "1.0.0"
 authors = ["apiteam@swagger.io"]
+description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"
+license = "Unlicense"
 
 [features]
 default = ["client", "server"]
