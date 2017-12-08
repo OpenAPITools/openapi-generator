@@ -81,14 +81,31 @@ fn main() {
         .arg(Arg::with_name("https")
             .long("https")
             .help("Whether to use HTTPS or not"))
+        .arg(Arg::with_name("host")
+            .long("host")
+            .takes_value(true)
+            .default_value("petstore.swagger.io")
+            .help("Hostname to contact"))
+        .arg(Arg::with_name("port")
+            .long("port")
+            .takes_value(true)
+            .default_value("80")
+            .help("Port to contact"))
         .get_matches();
 
-    let client = if matches.is_present("https") {
+    let is_https = matches.is_present("https");
+    let base_url = format!("{}://{}:{}",
+                           if is_https { "https" } else { "http" },
+                           matches.value_of("host").unwrap(),
+                           matches.value_of("port").unwrap());
+    let client = if is_https {
         // Using Simple HTTPS
-        petstore_api::Client::try_new_https("https://localhost:8080", "examples/ca.pem").expect("Failed to create HTTPS client")
+        petstore_api::Client::try_new_https(&base_url, "examples/ca.pem")
+            .expect("Failed to create HTTPS client")
     } else {
         // Using HTTP
-        petstore_api::Client::try_new_http("http://localhost:8080").expect("Failed to create HTTP client")
+        petstore_api::Client::try_new_http(&base_url)
+            .expect("Failed to create HTTP client")
     };
 
     // Using a non-default `Context` is not required; this is just an example!

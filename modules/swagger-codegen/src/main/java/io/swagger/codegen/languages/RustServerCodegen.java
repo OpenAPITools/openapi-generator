@@ -34,6 +34,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     private HashMap<String, String> modelXmlNames = new HashMap<String, String>();
 
     protected String apiVersion = "1.0.0";
+    protected String serverHost = "localhost";
     protected int serverPort = 8080;
     protected String projectName = "swagger-server";
     protected String apiPath = "rust-server";
@@ -148,7 +149,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("apiVersion", apiVersion);
-        additionalProperties.put("serverPort", serverPort);
         additionalProperties.put("apiPath", apiPath);
 
         /*
@@ -168,6 +168,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("example-server.mustache", "examples", "server.rs"));
         supportingFiles.add(new SupportingFile("example-client.mustache", "examples", "client.rs"));
         supportingFiles.add(new SupportingFile("example-server_lib.mustache", "examples/server_lib", "mod.rs"));
+        supportingFiles.add(new SupportingFile("example-server_server.mustache", "examples/server_lib", "server.rs"));
         supportingFiles.add(new SupportingFile("example-ca.pem", "examples", "ca.pem"));
         supportingFiles.add(new SupportingFile("example-server-chain.pem", "examples", "server-chain.pem"));
         supportingFiles.add(new SupportingFile("example-server-key.pem", "examples", "server-key.pem"));
@@ -257,6 +258,23 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             versionComponents.add("0");
         }
         info.setVersion(StringUtils.join(versionComponents, "."));
+
+        String host = swagger.getHost();
+        if (host != null) {
+            String[] parts = host.split(":");
+            if (parts.length > 1) {
+                serverHost = parts[0];
+                try {
+                    serverPort = Integer.valueOf(parts[1]);
+                } catch (NumberFormatException e) {
+                    LOGGER.warn("Port of Swagger host is not an integer : " + host, e);
+                }
+            } else {
+                serverHost = host;
+            }
+        }
+        additionalProperties.put("serverHost", serverHost);
+        additionalProperties.put("serverPort", serverPort);
     }
 
     @Override
@@ -512,6 +530,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             LOGGER.debug("No consumes defined in operation. Using global consumes (" + swagger.getConsumes() + ") for " + op.operationId);
         }
 
+        boolean consumesPlainText = false;
         boolean consumesXml = false;
         // if "consumes" is defined (per operation or using global definition)
         if (consumes != null && !consumes.isEmpty()) {
@@ -523,6 +542,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 if (mimeType.startsWith("Application/Xml")) {
                     additionalProperties.put("usesXml", true);
                     consumesXml = true;
+                } else if (mimeType.startsWith("Text/Plain")) {
+                    consumesPlainText = true;
                 }
 
                 mediaType.put("mediaType", mimeType);
@@ -545,6 +566,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         boolean producesXml = false;
+        boolean producesPlainText = false;
         if (produces != null && !produces.isEmpty()) {
             List<Map<String, String>> c = new ArrayList<Map<String, String>>();
             for (String key : produces) {
@@ -554,6 +576,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 if (mimeType.startsWith("Application/Xml")) {
                     additionalProperties.put("usesXml", true);
                     producesXml = true;
+                } else if (mimeType.startsWith("Text/Plain")) {
+                    producesPlainText = true;
                 }
 
                 mediaType.put("mediaType", mimeType);
@@ -572,9 +596,14 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 op.bodyParam.vendorExtensions.put("model_key", key);
             }
 
+            // Default to consuming json
             op.bodyParam.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase());
             if (consumesXml) {
                 op.bodyParam.vendorExtensions.put("consumesXml", true);
+            } else if (consumesPlainText) {
+                op.bodyParam.vendorExtensions.put("consumesPlainText", true);
+            } else {
+                op.bodyParam.vendorExtensions.put("consumesJson", true);
             }
 
         }
@@ -586,8 +615,13 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
             param.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase());
 
+            // Default to producing json if nothing else is specified
             if (consumesXml) {
                 param.vendorExtensions.put("consumesXml", true);
+            } else if (consumesPlainText) {
+                param.vendorExtensions.put("consumesPlainText", true);
+            } else {
+                param.vendorExtensions.put("consumesJson", true);
             }
         }
         for (CodegenParameter param : op.headerParams) {
@@ -601,8 +635,13 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             if (rsp.dataType != null) {
                 rsp.vendorExtensions.put("uppercase_data_type", (rsp.dataType.replace("models::", "")).toUpperCase());
 
+                // Default to producing json if nothing else is specified
                 if (producesXml) {
                     rsp.vendorExtensions.put("producesXml", true);
+                } else if (producesPlainText) {
+                    rsp.vendorExtensions.put("producesPlainText", true);
+                } else {
+                    rsp.vendorExtensions.put("producesJson", true);
                 }
 
                 // Check whether we're returning an object with a defined XML namespace.
