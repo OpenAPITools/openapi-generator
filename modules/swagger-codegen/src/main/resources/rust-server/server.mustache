@@ -33,7 +33,8 @@ use std::io::Error;
 #[allow(unused_imports)]
 use std::collections::BTreeSet;
 
-use swagger::auth::{Authorization, AuthData, Scopes};
+pub use swagger::auth::Authorization;
+use swagger::auth::{AuthData, Scopes};
 use swagger::{ApiError, Context, XSpanId};
 
 use {Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
@@ -156,15 +157,15 @@ fn add_routes<T>(router: &mut Router, api: T) where T: Api + Send + Sync + Clone
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
 {{/-first}}{{#required}}
-                let param_{{paramName}}_raw = req.get::<bodyparser::Raw>().map_err(|e| Response::with((status::BadRequest, format!("Couldn't parse body parameter {{baseName}} - not valid UTF-8: {}", e))))?;
+                let param_{{paramName}} = req.get::<bodyparser::Raw>().map_err(|e| Response::with((status::BadRequest, format!("Couldn't parse body parameter {{baseName}} - not valid UTF-8: {}", e))))?;
 {{/required}}{{^required}}
-                let param_{{paramName}}_raw = req.get::<bodyparser::Raw>().unwrap_or(None);
-{{/required}}
+                let param_{{paramName}} = req.get::<bodyparser::Raw>().unwrap_or(None);
+{{/required}}{{#vendorExtensions}}{{^consumesPlainText}}
                 let mut unused_elements = Vec::new();
 
-                let param_{{paramName}} = if let Some(param_{{paramName}}_raw) = param_{{paramName}}_raw { {{#vendorExtensions}}{{#consumesXml}}
-                    let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(param_{{paramName}}_raw.as_bytes());{{/consumesXml}}{{^consumesXml}}
-                    let deserializer = &mut serde_json::Deserializer::from_str(&param_{{paramName}}_raw);{{/consumesXml}}{{/vendorExtensions}}
+                let param_{{paramName}} = if let Some(param_{{paramName}}_raw) = param_{{paramName}} { {{#consumesXml}}
+                    let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(param_{{paramName}}_raw.as_bytes());{{/consumesXml}}{{#consumesJson}}
+                    let deserializer = &mut serde_json::Deserializer::from_str(&param_{{paramName}}_raw);{{/consumesJson}}
 
                     let param_{{paramName}}: Option<{{{dataType}}}> = serde_ignored::deserialize(deserializer, |path| {
                             warn!("Ignoring unknown field in body: {}", path);
@@ -174,7 +175,7 @@ fn add_routes<T>(router: &mut Router, api: T) where T: Api + Send + Sync + Clone
                     param_{{paramName}}
                 } else {
                     None
-                };{{#required}}
+                };{{/consumesPlainText}}{{/vendorExtensions}}{{#required}}
                 let param_{{paramName}} = param_{{paramName}}.ok_or_else(|| Response::with((status::BadRequest, "Missing required body parameter {{baseName}}".to_string())))?{{/required}};
 
 {{/bodyParams}}
@@ -225,13 +226,14 @@ fn add_routes<T>(router: &mut Router, api: T) where T: Api + Send + Sync + Clone
 {{#responses}}
                         {{operationId}}Response::{{message}}{{#dataType}}{{^headers}}(body){{/headers}}{{#headers}}{{#-first}}{ body{{/-first}}{{/headers}}{{/dataType}}{{#headers}}{{#-first}}{{^dataType}}{ {{/dataType}}{{#dataType}}, {{/dataType}}{{/-first}}{{^-first}}, {{/-first}}{{name}}{{#-last}} }{{/-last}}{{/headers}} => {
 {{^isFile}}
-{{#dataType}}{{#vendorExtensions}}{{#producesXml}}
+{{#dataType}}{{#vendorExtensions}}{{#producesPlainText}}                            let body_string = body;
+{{/producesPlainText}}{{#producesXml}}
 {{^has_namespace}}                            let body_string = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");{{/has_namespace}}{{#has_namespace}}
                             let mut namespaces = BTreeMap::new();
                             // An empty string is used to indicate a global namespace in xmltree.
                             namespaces.insert("".to_string(), models::namespaces::{{uppercase_data_type}}.clone());
-                            let body_string = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");{{/has_namespace}}{{/producesXml}}{{^producesXml}}
-                            let body_string = serde_json::to_string(&body).expect("impossible to fail to serialize");{{/producesXml}}{{/vendorExtensions}}{{/dataType}}
+                            let body_string = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");{{/has_namespace}}{{/producesXml}}{{#producesJson}}
+                            let body_string = serde_json::to_string(&body).expect("impossible to fail to serialize");{{/producesJson}}{{/vendorExtensions}}{{/dataType}}
 
                             let mut response = Response::with((status::Status::from_u16({{code}}){{#dataType}}, body_string{{/dataType}}));{{/isFile}}{{#isFile}}                            body.fold(Vec::new(), |mut body, chunk| {
                                 body.extend(chunk.iter());
@@ -257,9 +259,9 @@ fn add_routes<T>(router: &mut Router, api: T) where T: Api + Send + Sync + Clone
 {{#dataType}}{{#isFile}}    {{/isFile}}                            response.headers.set(ContentType(mimetypes::responses::{{#vendorExtensions}}{{uppercase_operation_id}}_{{uppercase_message}}{{/vendorExtensions}}.clone()));{{/dataType}}
 {{/-first}}{{/produces}}
 {{#isFile}}    {{/isFile}}                            context.x_span_id.as_ref().map(|header| response.headers.set(XSpanId(header.clone())));
-{{#bodyParams}}                            if !unused_elements.is_empty() {
+{{#bodyParams}}{{#vendorExtensions}}{{^consumesPlainText}}                            if !unused_elements.is_empty() {
                                 response.headers.set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
-                            }{{/bodyParams}}
+                            }{{/consumesPlainText}}{{/vendorExtensions}}{{/bodyParams}}
                             {{^isFile}}Ok(response){{/isFile}}{{#isFile}}    response
                             }){{/isFile}}
                         },

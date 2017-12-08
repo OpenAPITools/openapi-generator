@@ -1,31 +1,14 @@
-#![allow(missing_docs, unused_extern_crates)]
-extern crate chrono;
-extern crate swagger;
+//! Main library entry point for {{externCrateName}} implementation.
 
-use futures::{self, Future};
-{{#apiHasFile}}use futures::Stream;{{/apiHasFile}}
+mod server;
 
-#[allow(unused_imports)]
-use std::collections::HashMap;
-{{#apiHasFile}}use std::io::Error;{{/apiHasFile}}
+mod errors {
+    error_chain!{}
+}
 
-use {{externCrateName}}::{Api, ApiError, Context{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
-                      {{operationId}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
-};
-#[allow(unused_imports)]
-use {{externCrateName}}::models;
+pub use self::errors::*;
 
-#[derive(Copy, Clone)]
-pub struct Server;
-
-impl Api for Server {
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-{{#summary}}    /// {{{summary}}}{{/summary}}
-    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, {{paramName}}: {{^required}}{{#isFile}}Box<Future<Item={{/isFile}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{#isFile}}, Error=Error> + Send>{{/isFile}}{{/required}}{{/allParams}}, context: &Context) -> Box<Future<Item={{operationId}}Response, Error=ApiError> + Send> {
-        let context = context.clone();
-        println!("{{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}({{#allParams}}{{^isFile}}{{#vendorExtensions}}{{{formatString}}}{{/vendorExtensions}}{{#hasMore}}, {{/hasMore}}{{/isFile}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}{{^isFile}}, {{paramName}}{{/isFile}}{{/allParams}}, context.x_span_id.unwrap_or(String::from("<none>")).clone());{{#allParams}}{{#isFile}}
-        let _ = {{paramName}}; //Suppresses unused param warning{{/isFile}}{{/allParams}}
-        Box::new(futures::failed("Generic failure".into()))
-    }
-{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+/// Instantiate a new server.
+pub fn server() -> Result<server::Server> {
+    Ok(server::Server {})
 }
