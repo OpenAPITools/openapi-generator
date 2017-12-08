@@ -54,9 +54,9 @@ public interface {{classname}} extends ApiClient.Api {
    * used with the {@link {{operationIdCamelCase}}QueryParams} class that allows for
    * building up this map in a fluent style.
       {{#allParams}}
-        {{^isQueryParam}}
+        {{#isNot this 'query-param'}}
    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-        {{/isQueryParam}}
+        {{/isNot}}
       {{/allParams}}
    * @param queryParams Map of query parameters as name-value pairs
    *   <p>The following elements may be specified in the query map:</p>
@@ -80,7 +80,7 @@ public interface {{classname}} extends ApiClient.Api {
       "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{#hasMore}},
       {{/hasMore}}{{/headerParams}}
   })
-  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) Map<String, Object> queryParams);
+  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{#isNot this 'query-param'}}{{^isBodyParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isNot}}{{/allParams}}@QueryMap(encoded=true) Map<String, Object> queryParams);
 
   /**
    * A convenience class for generating query parameters for the
