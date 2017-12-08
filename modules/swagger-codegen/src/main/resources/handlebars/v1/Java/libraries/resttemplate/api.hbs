@@ -84,8 +84,8 @@ public class {{classname}} {
         {{localVariablePrefix}}headerParams.add("{{baseName}}", {{localVariablePrefix}}apiClient.parameterToString({{paramName}}));{{#hasMore}}
         {{/hasMore}}{{/headerParams}}{{/hasHeaderParams}}{{#hasFormParams}}
         
-        {{#formParams}}if ({{paramName}} != null)
-            {{localVariablePrefix}}formParams.add("{{baseName}}", {{#isFile}}new FileSystemResource({{paramName}}){{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});{{#hasMore}}
+        {º{#formParams}}if ({{paramName}} != null)
+            {{localVariablePrefix}}formParams.add("{{baseName}}", {{#is this 'file'}}new FileSystemResource({{paramName}}){{/is}}{{#isNot this 'file'}}{{paramName}}{{/isNot}});{{#hasMore}}
         {{/hasMore}}{{/formParams}}{{/hasFormParams}}
 
         final String[] {{localVariablePrefix}}accepts = { {{#hasProduces}}

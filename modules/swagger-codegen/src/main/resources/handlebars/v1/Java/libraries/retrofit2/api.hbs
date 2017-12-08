@@ -42,17 +42,17 @@ public interface {{classname}} {
 {{/externalDocs}}
    */
   {{#formParams}}
-  {{#-first}}
-  {{#isMultipart}}@retrofit2.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit2.http.FormUrlEncoded{{/isMultipart}}
-  {{/-first}}
+  {{#@first}}
+  {{#is ../../this 'multipart'}}@retrofit2.http.Multipart{{/is}}{{#isNot ../../this 'multipart'}}@retrofit2.http.FormUrlEncoded{{/isNot}}
+  {{/@first}}
   {{/formParams}}
   {{^formParams}}
   {{#prioritizedContentTypes}}
-  {{#-first}}
+  {{#@first}}
   @Headers({
     "Content-Type:{{mediaType}}"
   })
-  {{/-first}}
+  {{/@first}}
   {{/prioritizedContentTypes}}
   {{/formParams}}  
   @{{httpMethod}}("{{{path}}}")

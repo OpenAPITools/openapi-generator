@@ -13,8 +13,8 @@ minLength not set, maxLength set
 }}{{^minItems}}{{#maxItems}} @Size(max={{maxItems}}){{/maxItems}}{{/minItems}}{{! 
 check for integer or long / all others=decimal type with @Decimal*
 isInteger set
-}}{{#isInteger}}{{#minimum}} @Min({{minimum}}){{/minimum}}{{#maximum}} @Max({{maximum}}){{/maximum}}{{/isInteger}}{{!
+}}{{#is this 'integer'}}{{#minimum}} @Min({{minimum}}){{/minimum}}{{#maximum}} @Max({{maximum}}){{/maximum}}{{/is}}{{!
 isLong set 
-}}{{#isLong}}{{#minimum}} @Min({{minimum}}){{/minimum}}{{#maximum}} @Max({{maximum}}){{/maximum}}{{/isLong}}{{!
+}}{{#is this 'long'}}{{#minimum}} @Min({{minimum}}){{/minimum}}{{#maximum}} @Max({{maximum}}){{/maximum}}{{/is}}{{!
 Not Integer, not Long => we have a decimal value!
-}}{{^isInteger}}{{^isLong}}{{#minimum}} @DecimalMin("{{minimum}}"){{/minimum}}{{#maximum}} @DecimalMax("{{maximum}}"){{/maximum}}{{/isLong}}{{/isInteger}}
+}}{{#isNot this 'integer'}}{{#isNot this 'long'}}{{#minimum}} @DecimalMin("{{minimum}}"){{/minimum}}{{#maximum}} @DecimalMax("{{maximum}}"){{/maximum}}{{/isNot}}{{/isNot}}
