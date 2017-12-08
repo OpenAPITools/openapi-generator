@@ -90,11 +90,11 @@ public class {{classname}} {
 
         final String[] {{localVariablePrefix}}accepts = { {{#hasProduces}}
             {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}
-        {{/hasProduces}}};
+        {{/hasProduces}} };
         final List<MediaType> {{localVariablePrefix}}accept = {{localVariablePrefix}}apiClient.selectHeaderAccept({{localVariablePrefix}}accepts);
         final String[] {{localVariablePrefix}}contentTypes = { {{#hasConsumes}}
             {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}
-        {{/hasConsumes}}};
+        {{/hasConsumes}} };
         final MediaType {{localVariablePrefix}}contentType = {{localVariablePrefix}}apiClient.selectHeaderContentType({{localVariablePrefix}}contentTypes);
 
         String[] {{localVariablePrefix}}authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
