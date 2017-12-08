@@ -1,1 +1,1 @@
-{{#isHeaderParam}}@retrofit.http.Header("{{baseName}}") {{{dataType}}} {{paramName}}{{/isHeaderParam}}
+{{#is this 'header-param'}}@retrofit.http.Header("{{baseName}}") {{{dataType}}} {{paramName}}{{/is}}
