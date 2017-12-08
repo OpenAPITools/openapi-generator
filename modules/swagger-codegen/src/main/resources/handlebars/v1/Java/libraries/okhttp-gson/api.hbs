@@ -96,13 +96,13 @@ public class {{classname}} {
         {{localVariablePrefix}}localVarFormParams.put("{{baseName}}", {{paramName}});{{/formParams}}
 
         final String[] {{localVariablePrefix}}localVarAccepts = {
-            {{#if produces}}"{{{mediaType}}}"{{#has this 'more'}}, {{/has}}{{/if}}
+            {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}
         };
         final String {{localVariablePrefix}}localVarAccept = {{localVariablePrefix}}apiClient.selectHeaderAccept({{localVariablePrefix}}localVarAccepts);
         if ({{localVariablePrefix}}localVarAccept != null) {{localVariablePrefix}}localVarHeaderParams.put("Accept", {{localVariablePrefix}}localVarAccept);
 
         final String[] {{localVariablePrefix}}localVarContentTypes = {
-            {{#if consumes}}"{{{mediaType}}}"{{#has this 'more'}}, {{/has}}{{/if}}
+            {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}
         };
         final String {{localVariablePrefix}}localVarContentType = {{localVariablePrefix}}apiClient.selectHeaderContentType({{localVariablePrefix}}localVarContentTypes);
         {{localVariablePrefix}}localVarHeaderParams.put("Content-Type", {{localVariablePrefix}}localVarContentType);

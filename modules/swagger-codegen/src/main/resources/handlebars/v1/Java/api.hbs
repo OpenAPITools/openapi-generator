@@ -89,12 +89,12 @@ public class {{classname}} {
     {{/formParams}}
 
     final String[] {{localVariablePrefix}}localVarAccepts = {
-      {{#if produces}}"{{{mediaType}}}"{{#has this 'more'}}, {{/has}}{{/if}}
+      {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}
     };
     final String {{localVariablePrefix}}localVarAccept = {{localVariablePrefix}}apiClient.selectHeaderAccept({{localVariablePrefix}}localVarAccepts);
 
     final String[] {{localVariablePrefix}}localVarContentTypes = {
-      {{#if consumes}}"{{{mediaType}}}"{{#has this 'more'}}, {{/has}}{{/if}}
+      {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}
     };
     final String {{localVariablePrefix}}localVarContentType = {{localVariablePrefix}}apiClient.selectHeaderContentType({{localVariablePrefix}}localVarContentTypes);
 
