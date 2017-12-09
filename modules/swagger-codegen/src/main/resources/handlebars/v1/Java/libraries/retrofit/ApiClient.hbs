@@ -53,25 +53,25 @@ public class ApiClient {
     public ApiClient(String[] authNames) {
         this();
         for(String authName : authNames) {
-            {{#hasAuthMethods}}
+            {{#has this 'auth-methods'}}
             Interceptor auth;
             {{#authMethods}}if ("{{name}}".equals(authName)) {
-            {{#isBasic}}
+            {{#is this 'basic'}}
                 auth = new HttpBasicAuth();
-            {{/isBasic}}
-            {{#isApiKey}}
-                auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");{{/isApiKey}}
-            {{#isOAuth}}
+            {{/is}}
+            {{#is this 'api-key'}}
+                auth = new ApiKeyAuth({{#is this 'key-in-header'}}"header"{{/is}}{{#isNot 'key-in-header'}}"query"{{/isNot}}, "{{keyParamName}}");{{/is}}
+            {{#is this 'oauth'}}
                 auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");
-            {{/isOAuth}}
+            {{/is}}
             } else {{/authMethods}}{
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
             addAuthorization(authName, auth);
-            {{/hasAuthMethods}}
-            {{^hasAuthMethods}}
+            {{/has}}
+            {{#hasNot this 'auth-methods'}}
             throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
-            {{/hasAuthMethods}}
+            {{/hasNot}}
         }
     }
 

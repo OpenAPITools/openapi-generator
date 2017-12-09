@@ -75,10 +75,10 @@ public class ApiClient {
     setUserAgent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{{artifactVersion}}}/java{{/httpUserAgent}}");
 
     // Setup authentications (key: authentication name, value: authentication).
-    authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}
-    authentications.put("{{name}}", new HttpBasicAuth());{{/isBasic}}{{#isApiKey}}
-    authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
-    authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
+    authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#is this 'basic'}}
+    authentications.put("{{name}}", new HttpBasicAuth());{{/is}}{{#is this 'api-key'}}
+    authentications.put("{{name}}", new ApiKeyAuth({{#is this 'key-in-header'}}"header"{{/is}}{{#isNot 'key-in-header'}}"query"{{/isNot}}, "{{keyParamName}}"));{{/is}}{{#is this 'oauth'}}
+        authentications.put("{{name}}", new OAuth());{{/is}}{{/authMethods}}
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }

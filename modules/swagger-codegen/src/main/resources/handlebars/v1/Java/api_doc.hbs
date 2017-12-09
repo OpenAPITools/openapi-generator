@@ -20,30 +20,30 @@ Method | HTTP request | Description
 
 ### Example
 ```java
-// Import classes:{{#hasAuthMethods}}
-//import {{{invokerPackage}}}.ApiClient;{{/hasAuthMethods}}
-//import {{{invokerPackage}}}.ApiException;{{#hasAuthMethods}}
+// Import classes:{{#has this 'auth-methods'}}
+//import {{{invokerPackage}}}.ApiClient;{{/has}}
+//import {{{invokerPackage}}}.ApiException;{{#has this 'auth-methods'}}
 //import {{{invokerPackage}}}.Configuration;
-//import {{{invokerPackage}}}.auth.*;{{/hasAuthMethods}}
+//import {{{invokerPackage}}}.auth.*;{{/has}}
 //import {{{package}}}.{{{classname}}};
 
-{{#hasAuthMethods}}
+{{#has this 'auth-methods'}}
 ApiClient defaultClient = Configuration.getDefaultApiClient();
-{{#authMethods}}{{#isBasic}}
+{{#authMethods}}{{#is this 'basic'}}
 // Configure HTTP basic authorization: {{{name}}}
 HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
 {{{name}}}.setUsername("YOUR USERNAME");
-{{{name}}}.setPassword("YOUR PASSWORD");{{/isBasic}}{{#isApiKey}}
+{{{name}}}.setPassword("YOUR PASSWORD");{{/is}}{{#is this 'api-key'}}
 // Configure API key authorization: {{{name}}}
 ApiKeyAuth {{{name}}} = (ApiKeyAuth) defaultClient.getAuthentication("{{{name}}}");
 {{{name}}}.setApiKey("YOUR API KEY");
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//{{{name}}}.setApiKeyPrefix("Token");{{/isApiKey}}{{#isOAuth}}
+//{{{name}}}.setApiKeyPrefix("Token");{{/is}}{{#is this 'oauth'}}
 // Configure OAuth2 access token for authorization: {{{name}}}
 OAuth {{{name}}} = (OAuth) defaultClient.getAuthentication("{{{name}}}");
-{{{name}}}.setAccessToken("YOUR ACCESS TOKEN");{{/isOAuth}}
+{{{name}}}.setAccessToken("YOUR ACCESS TOKEN");{{/is}}
 {{/authMethods}}
-{{/hasAuthMethods}}
+{{/has}}
 
 {{{classname}}} apiInstance = new {{{classname}}}();
 {{#allParams}}

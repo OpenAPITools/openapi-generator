@@ -53,9 +53,9 @@ import io.swagger.oas.models.tags.Tag;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-/**
+
 import org.joda.time.DateTime;
- */
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -197,8 +197,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         config.processOpts();
         config.preprocessOpenAPI(this.openAPI);
         config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
-        // TODO uncomment be4 commit: config.additionalProperties().put("generatedDate", DateTime.now().toString());
-        // TODO uncomment be4 commit: config.additionalProperties().put("generatedYear", String.valueOf(DateTime.now().getYear()));
+        config.additionalProperties().put("generatedDate", DateTime.now().toString());
+        config.additionalProperties().put("generatedYear", String.valueOf(DateTime.now().getYear()));
         config.additionalProperties().put("generatorClass", config.getClass().getName());
         config.additionalProperties().put("inputSpec", config.getInputSpec());
         if (this.openAPI.getExtensions() != null) {
