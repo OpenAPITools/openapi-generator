@@ -35,14 +35,14 @@ public interface {{classname}} extends ApiClient.Api {
   * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
    */
-  @RequestLine("{{httpMethod}} {{{path}}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{#hasMore}}&{{/hasMore}}{{/queryParams}}")
+  @RequestLine("{{httpMethod}} {{{path}}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{#has this 'more'}}&{{/has}}{{/queryParams}}")
   @Headers({
     "Content-Type: {{vendorExtensions.x-contentType}}",
     "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
-    "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{#hasMore}},
-    {{/hasMore}}{{/headerParams}}
+    "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{#has this 'more'}},
+    {{/has}}{{/headerParams}}
   })
-  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{#isNot this 'body-param'}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isNot}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{#isNot this 'body-param'}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isNot}}{{{dataType}}} {{paramName}}{{#has this 'more'}}, {{/has}}{{/allParams}});
     {{#hasQueryParams}}
 
   /**
@@ -73,14 +73,14 @@ public interface {{classname}} extends ApiClient.Api {
    * @see <a href="{{url}}">{{summary}} Documentation</a>
       {{/externalDocs}}
    */
-  @RequestLine("{{httpMethod}} {{{path}}}?{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{#hasMore}}&{{/hasMore}}{{/queryParams}}")
+  @RequestLine("{{httpMethod}} {{{path}}}?{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{#has this 'more'}}&{{/has}}{{/queryParams}}")
   @Headers({
   "Content-Type: {{vendorExtensions.x-contentType}}",
   "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
-      "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{#hasMore}},
-      {{/hasMore}}{{/headerParams}}
+      "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{#has this 'more'}},
+      {{/has}}{{/headerParams}}
   })
-  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{#isNot this 'query-param'}}{{^isBodyParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isNot}}{{/allParams}}@QueryMap(encoded=true) Map<String, Object> queryParams);
+  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{#isNot this 'query-param'}}{{#isNot this 'body-param'}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isNot}}{{{dataType}}} {{paramName}}, {{/isNot}}{{/allParams}}@QueryMap(encoded=true) Map<String, Object> queryParams);
 
   /**
    * A convenience class for generating query parameters for the

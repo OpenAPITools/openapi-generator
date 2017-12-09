@@ -36,7 +36,7 @@ public class {{classname}}Test {
         {{#allParams}}
         {{{dataType}}} {{paramName}} = null;
         {{/allParams}}
-        // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{#has this 'more'}}, {{/has}}{{/allParams}});
 
         // TODO: test validations
     }
@@ -59,7 +59,7 @@ public class {{classname}}Test {
           {{/allParams}}
         {{classname}}.{{operationIdCamelCase}}QueryParams queryParams = new {{classname}}.{{operationIdCamelCase}}QueryParams()
           {{#queryParams}}
-            .{{paramName}}(null){{^hasMore}};{{/hasMore}}
+            .{{paramName}}(null){{#hasNot this 'more'}};{{/hasNot}}
           {{/queryParams}}
         // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{#isNot this 'query-param'}}{{paramName}}, {{/isNot}}{{/allParams}}queryParams);
 
