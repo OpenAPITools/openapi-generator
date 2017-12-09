@@ -66,6 +66,42 @@ public class CodegenResponse implements VendorExtendable {
         return result;
     }
 
+    public List<CodegenProperty> getHeaders() {
+        return headers;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public List<Map<String, Object>> getExamples() {
+        return examples;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public String getBaseType() {
+        return baseType;
+    }
+
+    public String getContainerType() {
+        return containerType;
+    }
+
+    public Object getSchema() {
+        return schema;
+    }
+
+    public String getJsonSchema() {
+        return jsonSchema;
+    }
+
     @Override
     public Map<String, Object> getVendorExtensions() {
         return this.vendorExtensions;
