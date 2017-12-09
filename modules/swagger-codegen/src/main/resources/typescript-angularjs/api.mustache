@@ -73,9 +73,11 @@ export class {{classname}} {
         let httpRequestParams: ng.IRequestConfig = {
             method: '{{httpMethod}}',
             url: localVarPath,
-            {{#bodyParam}}data: {{paramName}},
+            {{#bodyParam}}
+            data: {{paramName}},
             {{/bodyParam}}
-            {{#hasFormParams}}data: this.$httpParamSerializer(formParams),
+            {{#hasFormParams}}
+            data: this.$httpParamSerializer(formParams),
             {{/hasFormParams}}
             params: queryParameters,
             headers: headerParams
