@@ -77,7 +77,7 @@ public class ApiClient {
         // Setup authentications (key: authentication name, value: authentication).
         this.authentications = new HashMap<>();{{#authMethods}}{{#is this 'basic'}}
         authentications.put("{{name}}", new HttpBasicAuth());{{/is}}{{#is this 'api-key'}}
-        authentications.put("{{name}}", new ApiKeyAuth({{#is this 'key-in-header'}}"header"{{/is}}{{#isNot 'key-in-header'}}"query"{{/isNot}}, "{{keyParamName}}"));{{/is}}{{#is this 'oauth'}}
+        authentications.put("{{name}}", new ApiKeyAuth({{#is this 'key-in-header'}}"header"{{/is}}{{#isNot this 'key-in-header'}}"query"{{/isNot}}, "{{keyParamName}}"));{{/is}}{{#is this 'oauth'}}
         authentications.put("{{name}}", new OAuth());{{/is}}{{/authMethods}}
         // Prevent the authentications from being modified.
         this.authentications = Collections.unmodifiableMap(authentications);

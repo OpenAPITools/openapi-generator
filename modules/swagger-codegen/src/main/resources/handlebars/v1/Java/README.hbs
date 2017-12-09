@@ -69,7 +69,7 @@ import java.util.*;
 public class {{{classname}}}Example {
 
     public static void main(String[] args) {
-        {{#has this 'auth-methods'}}ApiClient defaultClient = Configuration.getDefaultApiClient();
+        {{#hasAuthMethods}}ApiClient defaultClient = Configuration.getDefaultApiClient();
         {{#authMethods}}{{#is this 'basic'}}
         // Configure HTTP basic authorization: {{{name}}}
         HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
@@ -84,7 +84,7 @@ public class {{{classname}}}Example {
         OAuth {{{name}}} = (OAuth) defaultClient.getAuthentication("{{{name}}}");
         {{{name}}}.setAccessToken("YOUR ACCESS TOKEN");{{/is}}
         {{/authMethods}}
-        {{/has}}
+        {{/hasAuthMethods}}
 
         {{{classname}}} apiInstance = new {{{classname}}}();
         {{#allParams}}

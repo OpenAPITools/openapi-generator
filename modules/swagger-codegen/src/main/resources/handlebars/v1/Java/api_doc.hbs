@@ -20,14 +20,14 @@ Method | HTTP request | Description
 
 ### Example
 ```java
-// Import classes:{{#has this 'auth-methods'}}
-//import {{{invokerPackage}}}.ApiClient;{{/has}}
-//import {{{invokerPackage}}}.ApiException;{{#has this 'auth-methods'}}
+// Import classes:{{#hasAuthMethods}}
+//import {{{invokerPackage}}}.ApiClient;{{/hasAuthMethods}}
+//import {{{invokerPackage}}}.ApiException;{{#hasAuthMethods}}
 //import {{{invokerPackage}}}.Configuration;
-//import {{{invokerPackage}}}.auth.*;{{/has}}
+//import {{{invokerPackage}}}.auth.*;{{/hasAuthMethods}}
 //import {{{package}}}.{{{classname}}};
 
-{{#has this 'auth-methods'}}
+{{#hasAuthMethods}}
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 {{#authMethods}}{{#is this 'basic'}}
 // Configure HTTP basic authorization: {{{name}}}
@@ -43,7 +43,7 @@ ApiKeyAuth {{{name}}} = (ApiKeyAuth) defaultClient.getAuthentication("{{{name}}}
 OAuth {{{name}}} = (OAuth) defaultClient.getAuthentication("{{{name}}}");
 {{{name}}}.setAccessToken("YOUR ACCESS TOKEN");{{/is}}
 {{/authMethods}}
-{{/has}}
+{{/hasAuthMethods}}
 
 {{{classname}}} apiInstance = new {{{classname}}}();
 {{#allParams}}

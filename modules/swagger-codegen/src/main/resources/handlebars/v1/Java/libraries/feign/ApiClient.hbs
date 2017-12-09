@@ -52,14 +52,14 @@ public class ApiClient {
   public ApiClient(String[] authNames) {
     this();
     for(String authName : authNames) {
-      {{#has this 'auth-methods'}}
+      {{#hasAuthMethods}}
       RequestInterceptor auth;
       {{#authMethods}}if ("{{name}}".equals(authName)) {
       {{#is this 'basic'}}
         auth = new HttpBasicAuth();
       {{/is}}
       {{#is this 'api-key'}}
-        auth = new ApiKeyAuth({{#is this 'key-in-header'}}"header"{{/is}}{{#isNot 'key-in-header'}}"query"{{/isNot}}, "{{keyParamName}}");
+        auth = new ApiKeyAuth({{#is this 'key-in-header'}}"header"{{/is}}{{#isNot this 'key-in-header'}}"query"{{/isNot}}, "{{keyParamName}}");
       {{/is}}
       {{#is this 'oauth'}}
         auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");
@@ -68,10 +68,10 @@ public class ApiClient {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
       addAuthorization(authName, auth);
-      {{/has}}
-      {{#hasNot this 'auth-methods'}}
+      {{/hasAuthMethods}}
+      {{^hasAuthMethods}}
       throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
-      {{/hasNot}}
+      {{/hasAuthMethods}}
     }
   }
 
