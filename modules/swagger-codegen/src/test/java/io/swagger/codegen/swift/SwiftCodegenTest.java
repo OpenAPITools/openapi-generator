@@ -68,7 +68,7 @@ public class SwiftCodegenTest {
         Assert.assertEquals(op.returnType, "NSData");
         Assert.assertEquals(op.bodyParam.dataType, "NSData");
         Assert.assertTrue(getBooleanValue(op.bodyParam, CodegenConstants.IS_BINARY_EXT_NAME));
-        Assert.assertTrue(op.responses.get(0).isBinary);
+        Assert.assertTrue(getBooleanValue(op.responses.get(0), CodegenConstants.IS_BINARY_EXT_NAME));
     }
 
     @Test(description = "returns ISOFullDate when response format is date")

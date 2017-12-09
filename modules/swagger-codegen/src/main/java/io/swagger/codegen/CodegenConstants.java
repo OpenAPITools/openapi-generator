@@ -235,9 +235,11 @@ public class CodegenConstants {
     public static final String HAS_CHILDREN_EXT_NAME = PREFIX_HAS + "children";
     public static final String HAS_ONLY_READ_ONLY_EXT_NAME = PREFIX_HAS + "only-read-only";
 
+    public static final String IS_SIMPLE_TYPE_EXT_NAME = PREFIX_IS + "simple-type";
     public static final String IS_PRIMITIVE_TYPE_EXT_NAME = PREFIX_IS + "primitive-type";
     public static final String IS_CONTAINER_EXT_NAME = PREFIX_IS + "container";
     public static final String IS_NOT_CONTAINER_EXT_NAME = PREFIX_IS + "not-container";
+    public static final String IS_DEFAULT_EXT_NAME = PREFIX_IS + "default";
     public static final String IS_STRING_EXT_NAME = PREFIX_IS + "string";
     public static final String IS_NUMERIC_EXT_NAME = PREFIX_IS + "numeric";
     public static final String IS_INTEGER_EXT_NAME = PREFIX_IS + "integer";
@@ -287,5 +289,6 @@ public class CodegenConstants {
     public static final String HAS_OPTIONAL_PARAMS_EXT_NAME = PREFIX_HAS + "optional-params";
     public static final String HAS_REQUIRED_PARAMS_EXT_NAME = PREFIX_HAS + "required-params";
     public static final String HAS_REFERENCE_EXT_NAME = PREFIX_HAS + "reference";
+    public static final String HAS_HEADERS_EXT_NAME = PREFIX_HAS + "headers";
 
 }

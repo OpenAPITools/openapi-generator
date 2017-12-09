@@ -1810,20 +1810,20 @@ public class DefaultCodegen implements CodegenConfig {
                 addProducesInfo(response, codegenOperation);
 
                 CodegenResponse codegenResponse = fromResponse(key, response);
-                codegenResponse.hasMore = true;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, Boolean.TRUE);
                 if (codegenResponse.baseType != null && !defaultIncludes.contains(codegenResponse.baseType) && !languageSpecificPrimitives.contains(codegenResponse.baseType)) {
                     imports.add(codegenResponse.baseType);
                 }
-                codegenResponse.isDefault = response == methodResponse;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_DEFAULT_EXT_NAME, response == methodResponse);
                 codegenOperation.responses.add(codegenResponse);
-                if (Boolean.TRUE.equals(codegenResponse.isBinary) && Boolean.TRUE.equals(codegenResponse.isDefault)){
+                if (getBooleanValue(codegenResponse, CodegenConstants.IS_BINARY_EXT_NAME) && getBooleanValue(codegenResponse, CodegenConstants.IS_DEFAULT_EXT_NAME)) {
                     codegenOperation.getVendorExtensions().put(CodegenConstants.IS_RESPONSE_BINARY_EXT_NAME, Boolean.TRUE);
                 }
-                if (Boolean.TRUE.equals(codegenResponse.isFile) && Boolean.TRUE.equals(codegenResponse.isDefault)){
+                if (getBooleanValue(codegenResponse, CodegenConstants.IS_FILE_EXT_NAME) && getBooleanValue(codegenResponse, CodegenConstants.IS_DEFAULT_EXT_NAME)) {
                     codegenOperation.getVendorExtensions().put(CodegenConstants.IS_RESPONSE_FILE_EXT_NAME, Boolean.TRUE);
                 }
             }
-            codegenOperation.responses.get(codegenOperation.responses.size() - 1).hasMore = false;
+            codegenOperation.responses.get(codegenOperation.responses.size() - 1).getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, Boolean.FALSE);
 
             if (methodResponse != null) {
                 final Schema responseSchema = getSchemaFromResponse(methodResponse);
@@ -2009,9 +2009,11 @@ public class DefaultCodegen implements CodegenConfig {
         codegenResponse.message = escapeText(response.getDescription());
         // TODO: codegenResponse.examples = toExamples(response.getExamples());
         codegenResponse.jsonSchema = Json.pretty(response);
-        codegenResponse.vendorExtensions = response.getExtensions();
+        if (response.getExtensions() != null && !response.getExtensions().isEmpty()) {
+            codegenResponse.vendorExtensions.putAll(response.getExtensions());
+        }
         addHeaders(response, codegenResponse.headers);
-        codegenResponse.hasHeaders = !codegenResponse.headers.isEmpty();
+        codegenResponse.getVendorExtensions().put(CodegenConstants.HAS_HEADERS_EXT_NAME, !codegenResponse.headers.isEmpty());
 
         if (responseSchema != null) {
             CodegenProperty codegenProperty = fromProperty("response", responseSchema);
@@ -2030,52 +2032,54 @@ public class DefaultCodegen implements CodegenConfig {
             codegenResponse.dataType = codegenProperty.datatype;
 
             if (getBooleanValue(codegenProperty, CodegenConstants.IS_STRING_EXT_NAME)) {
-                codegenResponse.isString = true;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_STRING_EXT_NAME, Boolean.TRUE);
             } else if (getBooleanValue(codegenProperty, CodegenConstants.IS_BOOLEAN_EXT_NAME)) {
-                codegenResponse.isBoolean = true;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_BOOLEAN_EXT_NAME, Boolean.TRUE);
             } else if (getBooleanValue(codegenProperty, CodegenConstants.IS_LONG_EXT_NAME)) {
-                codegenResponse.isLong = true;
-                codegenResponse.isNumeric = true;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_LONG_EXT_NAME, Boolean.TRUE);
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_NUMERIC_EXT_NAME, Boolean.TRUE);
             } else if (getBooleanValue(codegenProperty, CodegenConstants.IS_INTEGER_EXT_NAME)) {
-                codegenResponse.isInteger = true;
-                codegenResponse.isNumeric = true;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_INTEGER_EXT_NAME, Boolean.TRUE);
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_NUMERIC_EXT_NAME, Boolean.TRUE);
             } else if (getBooleanValue(codegenProperty, CodegenConstants.IS_DOUBLE_EXT_NAME)) {
-                codegenResponse.isDouble = true;
-                codegenResponse.isNumeric = true;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_DOUBLE_EXT_NAME, Boolean.TRUE);
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_NUMERIC_EXT_NAME, Boolean.TRUE);
             } else if (getBooleanValue(codegenProperty, CodegenConstants.IS_FLOAT_EXT_NAME)) {
-                codegenResponse.isFloat = true;
-                codegenResponse.isNumeric = true;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_FLOAT_EXT_NAME, Boolean.TRUE);
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_NUMERIC_EXT_NAME, Boolean.TRUE);
             } else if (getBooleanValue(codegenProperty, CodegenConstants.IS_BYTE_ARRAY_EXT_NAME)) {
-                codegenResponse.isByteArray = true;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_BYTE_ARRAY_EXT_NAME, Boolean.TRUE);
             } else if (getBooleanValue(codegenProperty, CodegenConstants.IS_BINARY_EXT_NAME)) {
-                codegenResponse.isBinary = true;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_BINARY_EXT_NAME, Boolean.TRUE);
             } else if (getBooleanValue(codegenProperty, CodegenConstants.IS_FILE_EXT_NAME)) {
-                codegenResponse.isFile = true;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_FILE_EXT_NAME, Boolean.TRUE);
             } else if (getBooleanValue(codegenProperty, CodegenConstants.IS_DATE_EXT_NAME)) {
-                codegenResponse.isDate = true;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_DATE_EXT_NAME, Boolean.TRUE);
             } else if (getBooleanValue(codegenProperty, CodegenConstants.IS_DATE_TIME_EXT_NAME)) {
-                codegenResponse.isDateTime = true;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_DATE_TIME_EXT_NAME, Boolean.TRUE);
             } else if (getBooleanValue(codegenProperty, CodegenConstants.IS_UUID_EXT_NAME)) {
-                codegenResponse.isUuid = true;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_UUID_EXT_NAME, Boolean.TRUE);
             } else {
                 LOGGER.debug("Property type is not primitive: " + codegenProperty.datatype);
             }
 
             if (getBooleanValue(codegenProperty, CodegenConstants.IS_CONTAINER_EXT_NAME)) {
-                codegenResponse.simpleType = false;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_SIMPLE_TYPE_EXT_NAME, Boolean.FALSE);
                 codegenResponse.containerType = codegenProperty.containerType;
-                codegenResponse.isMapContainer = "map".equals(codegenProperty.containerType);
-                codegenResponse.isListContainer = "list".equalsIgnoreCase(codegenProperty.containerType) || "array".equalsIgnoreCase(codegenProperty.containerType);
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_MAP_CONTAINER_EXT_NAME, "map".equals(codegenProperty.containerType));
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_LIST_CONTAINER_EXT_NAME,
+                        "list".equalsIgnoreCase(codegenProperty.containerType) || "array".equalsIgnoreCase(codegenProperty.containerType));
             } else {
-                codegenResponse.simpleType = true;
+                codegenResponse.getVendorExtensions().put(CodegenConstants.IS_SIMPLE_TYPE_EXT_NAME, Boolean.TRUE);
             }
-            codegenResponse.primitiveType = (codegenResponse.baseType == null || languageSpecificPrimitives().contains(codegenResponse.baseType));
+            codegenResponse.getVendorExtensions().put(CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME,
+                    (codegenResponse.baseType == null || languageSpecificPrimitives().contains(codegenResponse.baseType)));
         }
         if (codegenResponse.baseType == null) {
-            codegenResponse.isMapContainer = false;
-            codegenResponse.isListContainer = false;
-            codegenResponse.primitiveType = true;
-            codegenResponse.simpleType = true;
+            codegenResponse.getVendorExtensions().put(CodegenConstants.IS_MAP_CONTAINER_EXT_NAME, Boolean.FALSE);
+            codegenResponse.getVendorExtensions().put(CodegenConstants.IS_LIST_CONTAINER_EXT_NAME, Boolean.FALSE);
+            codegenResponse.getVendorExtensions().put(CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME, Boolean.TRUE);
+            codegenResponse.getVendorExtensions().put(CodegenConstants.IS_SIMPLE_TYPE_EXT_NAME, Boolean.TRUE);
         }
         return codegenResponse;
     }

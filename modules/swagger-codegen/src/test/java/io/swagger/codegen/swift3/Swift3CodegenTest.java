@@ -85,7 +85,7 @@ public class Swift3CodegenTest {
         Assert.assertEquals(op.returnType, "Data");
         Assert.assertEquals(op.bodyParam.dataType, "Data");
         Assert.assertTrue(getBooleanValue(op.bodyParam, CodegenConstants.IS_BINARY_EXT_NAME));
-        Assert.assertTrue(op.responses.get(0).isBinary);
+        Assert.assertTrue(getBooleanValue(op.responses.get(0), CodegenConstants.IS_BINARY_EXT_NAME));
     }
 
     @Test(description = "returns ISOFullDate when response format is date")
