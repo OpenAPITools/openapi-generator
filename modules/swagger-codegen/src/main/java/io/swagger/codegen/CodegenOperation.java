@@ -399,6 +399,66 @@ public class CodegenOperation implements VendorExtendable {
         return formParams;
     }
 
+    public boolean getReturnTypeIsPrimitive() {
+        return returnTypeIsPrimitive;
+    }
+
+    public boolean getReturnSimpleType() {
+        return returnSimpleType;
+    }
+
+    public boolean getSubresourceOperation() {
+        return subresourceOperation;
+    }
+
+    public List<CodegenParameter> getRequiredParams() {
+        return requiredParams;
+    }
+
+    public List<CodegenSecurity> getAuthMethods() {
+        return authMethods;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public List<CodegenResponse> getResponses() {
+        return responses;
+    }
+
+    public Set<String> getImports() {
+        return imports;
+    }
+
+    public List<Map<String, String>> getExamples() {
+        return examples;
+    }
+
+    public List<Map<String, String>> getRequestBodyExamples() {
+        return requestBodyExamples;
+    }
+
+    public ExternalDocumentation getExternalDocs() {
+        return externalDocs;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getOperationIdLowerCase() {
+        return operationIdLowerCase;
+    }
+
+    public String getOperationIdCamelCase() {
+        return operationIdCamelCase;
+    }
+
+    public String getOperationIdSnakeCase() {
+        return operationIdSnakeCase;
+    }
+
     @Override
     public Map<String, Object> getVendorExtensions() {
         return this.vendorExtensions;
