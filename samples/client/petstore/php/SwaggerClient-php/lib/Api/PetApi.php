@@ -123,7 +123,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse()->getBody()->getContents()
+                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
                 );
             }
 
@@ -349,7 +349,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse()->getBody()->getContents()
+                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
                 );
             }
 
@@ -586,7 +586,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse()->getBody()->getContents()
+                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
                 );
             }
 
@@ -851,7 +851,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse()->getBody()->getContents()
+                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
                 );
             }
 
@@ -1116,7 +1116,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse()->getBody()->getContents()
+                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
                 );
             }
 
@@ -1382,7 +1382,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse()->getBody()->getContents()
+                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
                 );
             }
 
@@ -1610,7 +1610,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse()->getBody()->getContents()
+                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
                 );
             }
 
@@ -1858,7 +1858,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse()->getBody()->getContents()
+                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
                 );
             }
 
