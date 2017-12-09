@@ -279,6 +279,16 @@ public class CodegenConstants {
     public static final String IS_BODY_PARAM_EXT_NAME = PREFIX_IS + "body-param";
     public static final String IS_COLLECTION_FORMAT_MULTI_EXT_NAME = PREFIX_IS + "collection-format-multi";
 
+    public static final String IS_BASIC_EXT_NAME = PREFIX_IS + "basic";
+    public static final String IS_OAUTH_EXT_NAME = PREFIX_IS + "oauth";
+    public static final String IS_API_KEY_EXT_NAME = PREFIX_IS + "api-key";
+    public static final String IS_KEY_IN_QUERY_EXT_NAME = PREFIX_IS + "key-in-query";
+    public static final String IS_KEY_IN_HEADER_EXT_NAME = PREFIX_IS + "key-in-header";
+    public static final String IS_CODE_EXT_NAME = PREFIX_IS + "code";
+    public static final String IS_PASSWORD_EXT_NAME = PREFIX_IS + "password";
+    public static final String IS_APPLICATION_EXT_NAME = PREFIX_IS + "application";
+    public static final String IS_IMPLICIT_EXT_NAME = PREFIX_IS + "implicit";
+
     public static final String HAS_MORE_EXT_NAME = PREFIX_HAS + "more";
     public static final String HAS_MORE_NON_READ_ONLY_EXT_NAME = PREFIX_HAS + "more-non-read-only";
     public static final String HAS_VALIDATION_EXT_NAME = PREFIX_HAS + "validation";

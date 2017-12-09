@@ -31,6 +31,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String mainPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
@@ -193,7 +195,7 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
         Iterator<CodegenSecurity> it = codegenSecurities.iterator();
         while (it.hasNext()) {
             final CodegenSecurity security = it.next();
-            if (security.isOAuth) {
+            if (getBooleanValue(security, CodegenConstants.IS_OAUTH_EXT_NAME)) {
                 it.remove();
             }
         }
@@ -201,7 +203,7 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
         it = codegenSecurities.iterator();
         while (it.hasNext()) {
             final CodegenSecurity security = it.next();
-            security.hasMore = it.hasNext();
+            security.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, it.hasNext());
         }
 
         if (codegenSecurities.isEmpty()) {

@@ -2414,42 +2414,41 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenSecurity codegenSecurity = CodegenModelFactory.newInstance(CodegenModelType.SECURITY);
             codegenSecurity.name = key;
             codegenSecurity.type = schemeDefinition.getType().toString();
-            codegenSecurity.isCode = codegenSecurity.isPassword = codegenSecurity.isApplication = codegenSecurity.isImplicit = false;
 
             if (SecurityScheme.Type.APIKEY.equals(schemeDefinition.getType())) {
-                codegenSecurity.isBasic = codegenSecurity.isOAuth = false;
-                codegenSecurity.isApiKey = true;
                 codegenSecurity.keyParamName = schemeDefinition.getName();
-                codegenSecurity.isKeyInHeader = schemeDefinition.getIn() == SecurityScheme.In.HEADER;
-                codegenSecurity.isKeyInQuery = !codegenSecurity.isKeyInHeader;
+                codegenSecurity.getVendorExtensions().put(CodegenConstants.IS_API_KEY_EXT_NAME, Boolean.TRUE);
+
+                boolean isKeyInHeader = schemeDefinition.getIn() == SecurityScheme.In.HEADER;
+                codegenSecurity.getVendorExtensions().put(CodegenConstants.IS_KEY_IN_HEADER_EXT_NAME, isKeyInHeader);
+                codegenSecurity.getVendorExtensions().put(CodegenConstants.IS_KEY_IN_QUERY_EXT_NAME, !isKeyInHeader);
+
             } else if (SecurityScheme.Type.HTTP.equals(schemeDefinition.getType())) {
-                codegenSecurity.isKeyInHeader = codegenSecurity.isKeyInQuery = codegenSecurity.isApiKey = codegenSecurity.isOAuth = false;
-                codegenSecurity.isBasic = true;
+                codegenSecurity.getVendorExtensions().put(CodegenConstants.IS_BASIC_EXT_NAME, Boolean.TRUE);
             } else if (SecurityScheme.Type.OAUTH2.equals(schemeDefinition.getType())) {
-                codegenSecurity.isKeyInHeader = codegenSecurity.isKeyInQuery = codegenSecurity.isApiKey = codegenSecurity.isBasic = false;
-                codegenSecurity.isOAuth = true;
+                codegenSecurity.getVendorExtensions().put(CodegenConstants.IS_OAUTH_EXT_NAME, Boolean.TRUE);
                 final OAuthFlows flows = schemeDefinition.getFlows();
                 if (schemeDefinition.getFlows() == null) {
                     throw new RuntimeException("missing oauth flow in " + codegenSecurity.name);
                 }
                 if(flows.getPassword() != null) {
                     setOauth2Info(codegenSecurity, flows.getPassword());
-                    codegenSecurity.isPassword = true;
+                    codegenSecurity.getVendorExtensions().put(CodegenConstants.IS_PASSWORD_EXT_NAME, Boolean.TRUE);
                     codegenSecurity.flow = "password";
                 }
                 else if(flows.getImplicit() != null) {
                     setOauth2Info(codegenSecurity, flows.getImplicit());
-                    codegenSecurity.isImplicit = true;
+                    codegenSecurity.getVendorExtensions().put(CodegenConstants.IS_IMPLICIT_EXT_NAME, Boolean.TRUE);
                     codegenSecurity.flow = "implicit";
                 }
                 else if(flows.getClientCredentials() != null) {
                     setOauth2Info(codegenSecurity, flows.getClientCredentials());
-                    codegenSecurity.isApplication = true;
+                    codegenSecurity.getVendorExtensions().put(CodegenConstants.IS_APPLICATION_EXT_NAME, Boolean.TRUE);
                     codegenSecurity.flow = "application";
                 }
                 else if(flows.getAuthorizationCode() != null) {
                     setOauth2Info(codegenSecurity, flows.getAuthorizationCode());
-                    codegenSecurity.isCode = true;
+                    codegenSecurity.getVendorExtensions().put(CodegenConstants.IS_CODE_EXT_NAME, Boolean.TRUE);
                     codegenSecurity.flow = "accessCode";
                 }
                 else {
@@ -2471,7 +2470,7 @@ public class DefaultCodegen implements CodegenConfig {
         Iterator<CodegenSecurity> it = securities.iterator();
         while (it.hasNext()) {
             final CodegenSecurity security = it.next();
-            security.hasMore = it.hasNext();
+            security.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, it.hasNext());
         }
 
         return securities;

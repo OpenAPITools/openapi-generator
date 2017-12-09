@@ -587,9 +587,15 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         List<CodegenSecurity> secs = super.fromSecurity(schemes);
         for(CodegenSecurity sec : secs) {
            String prefix = "";
-           if(sec.isBasic) prefix = "AuthBasic";
-           if(sec.isApiKey) prefix = "AuthApiKey";
-           if(sec.isOAuth) prefix = "AuthOAuth";
+           if(getBooleanValue(sec, CodegenConstants.IS_BASIC_EXT_NAME)) {
+               prefix = "AuthBasic";
+           }
+           if(getBooleanValue(sec, CodegenConstants.IS_API_KEY_EXT_NAME)) {
+               prefix = "AuthApiKey";
+           }
+           if(getBooleanValue(sec, CodegenConstants.IS_OAUTH_EXT_NAME)) {
+               prefix = "AuthOAuth";
+           }
            sec.name = prefix + toTypeName("",sec.name);
         }
         return secs;
