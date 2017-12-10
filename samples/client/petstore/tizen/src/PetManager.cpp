@@ -74,7 +74,7 @@ static bool addPetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, v
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		handler(error, userData);
 		return false;
@@ -212,7 +212,7 @@ static bool deletePetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		handler(error, userData);
 		return false;
@@ -362,7 +362,7 @@ static bool findPetsByStatusProcessor(MemoryStruct_s p_chunk, long code, char* e
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		 handler(out, error, userData);
 		return false;
@@ -506,7 +506,7 @@ static bool findPetsByTagsProcessor(MemoryStruct_s p_chunk, long code, char* err
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		 handler(out, error, userData);
 		return false;
@@ -658,7 +658,7 @@ static bool getPetByIdProcessor(MemoryStruct_s p_chunk, long code, char* errorms
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		 handler(out, error, userData);
 		return false;
@@ -788,7 +788,7 @@ static bool updatePetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		handler(error, userData);
 		return false;
@@ -926,7 +926,7 @@ static bool updatePetWithFormProcessor(MemoryStruct_s p_chunk, long code, char* 
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		handler(error, userData);
 		return false;
@@ -1078,7 +1078,7 @@ static bool uploadFileProcessor(MemoryStruct_s p_chunk, long code, char* errorms
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		 handler(out, error, userData);
 		return false;

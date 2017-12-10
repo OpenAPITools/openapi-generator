@@ -126,7 +126,7 @@ describes additional constraints and actions on the _addFoo_ operation
 via its typeclass instances. These typeclass instances can be viewed
 in GHCi or via the Haddocks.
 
-* requried parameters are included as function arguments to _addFoo_
+* required parameters are included as function arguments to _addFoo_
 * optional non-body parameters are included by using  `applyOptionalParam`
 * optional body parameters are set by using  `setBodyParam`
 

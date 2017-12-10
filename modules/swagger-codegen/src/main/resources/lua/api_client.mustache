@@ -183,7 +183,7 @@ func (c *APIClient) prepareRequest (
 		}
 	}
 
-	// add form paramters and file if available.
+	// add form parameters and file if available.
 	if len(formParams) > 0 || (len(fileBytes) > 0 && fileName != "") {
 		if body != nil {
 			return nil, errors.New("Cannot specify postBody and multipart form at the same time.")
@@ -223,7 +223,7 @@ func (c *APIClient) prepareRequest (
 		w.Close()
 	}
 
-	// Setup path and query paramters
+	// Setup path and query parameters
 	url, err := url.Parse(path)
 	if err != nil {
 		return nil, err
