@@ -32,7 +32,7 @@ import GHC.Exts (IsString(..))
 
 import qualified Katip as LG
 
--- * Type Aliases (for compatability)
+-- * Type Aliases (for compatibility)
 
 -- | Runs a Katip logging block with the Log environment
 type LogExecWithContext = forall m. P.MonadIO m =>

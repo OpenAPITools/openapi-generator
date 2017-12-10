@@ -50,7 +50,7 @@ public class Play24CallAdapterFactory extends CallAdapter.Factory {
     }
     
     /**
-     * Adpater that coverts values returned by API interface into CompletionStage
+     * Adapter that coverts values returned by API interface into CompletionStage
      */
     private static final class ValueAdapter<R> implements CallAdapter<R, F.Promise<R>> {
 

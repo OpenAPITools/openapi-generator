@@ -32,7 +32,7 @@ use constant VERSION => '1.0.0';
 
         WWW::SwaggerClient::Configuration - holds the configuration for all WWW::SwaggerClient Modules
 
-=head1 new(%paramters)
+=head1 new(%parameters)
 
 =over 4
 

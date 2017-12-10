@@ -339,7 +339,7 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
             // Loop through all input parameters to determine, whether we have to import something to
             // make the input type available.
             for (CodegenParameter param : op.allParams) {
-                // Determine if the paramter type is supported as a type hint and make it available
+                // Determine if the parameter type is supported as a type hint and make it available
                 // to the templating engine
                 String typeHint = getTypeHint(param.dataType);
                 if (!typeHint.isEmpty()) {
@@ -397,7 +397,7 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
         // Simplify model var type
         for (CodegenProperty var : model.vars) {
             if (var.datatype != null) {
-                // Determine if the paramter type is supported as a type hint and make it available
+                // Determine if the parameter type is supported as a type hint and make it available
                 // to the templating engine
                 String typeHint = getTypeHint(var.datatype);
                 if (!typeHint.isEmpty()) {
