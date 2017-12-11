@@ -16,21 +16,21 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 
-public abstract class UserApiService {
-      public abstract Response createUser(User body,SecurityContext securityContext)
+public interface UserApiService {
+      Response createUser(User body,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response createUsersWithArrayInput(List<User> body,SecurityContext securityContext)
+      Response createUsersWithArrayInput(List<User> body,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response createUsersWithListInput(List<User> body,SecurityContext securityContext)
+      Response createUsersWithListInput(List<User> body,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response deleteUser(String username,SecurityContext securityContext)
+      Response deleteUser(String username,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response getUserByName(String username,SecurityContext securityContext)
+      Response getUserByName(String username,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response loginUser(String username,String password,SecurityContext securityContext)
+      Response loginUser(String username,String password,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response logoutUser(SecurityContext securityContext)
+      Response logoutUser(SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response updateUser(String username,User body,SecurityContext securityContext)
+      Response updateUser(String username,User body,SecurityContext securityContext)
       throws NotFoundException;
 }

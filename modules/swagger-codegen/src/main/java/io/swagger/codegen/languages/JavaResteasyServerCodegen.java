@@ -23,7 +23,6 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         outputFolder = "generated-code/JavaJaxRS-Resteasy";
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
-        apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
         apiTestTemplateFiles.clear(); // TODO: add test template
 
         // clear model and api doc template as AbstractJavaJAXRSServerCodegen
