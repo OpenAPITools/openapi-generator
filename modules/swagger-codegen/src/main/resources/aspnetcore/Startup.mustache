@@ -10,6 +10,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using {{packageName}}.Filters;
 
 namespace {{packageName}}
 {
@@ -62,6 +63,12 @@ namespace {{packageName}}
                     c.CustomSchemaIds(type => type.FriendlyId(true));
                     c.DescribeAllEnumsAsStrings();
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
+                    {{#basePathWithoutHost}}
+                    // Sets the basePath property in the Swagger document generated
+                    c.DocumentFilter<BasePathDocumentFilter>("{{{basePathWithoutHost}}}");
+                    {{/basePathWithoutHost}}
+                    // Do validation of path parameters w. DataAnnotation attributes
+                    c.OperationFilter<PathParameterValidationFilter>();
                 });
         }
 
