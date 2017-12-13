@@ -96,7 +96,7 @@ impl Client {
             let mut ssl = openssl::ssl::SslConnectorBuilder::new(openssl::ssl::SslMethod::tls()).unwrap();
 
             // Server authentication
-            ssl.builder_mut().set_ca_file(ca_certificate.clone()).unwrap();
+            ssl.set_ca_file(ca_certificate.clone()).unwrap();
 
             let ssl = hyper_openssl::OpensslClient::from(ssl.build());
             let connector = hyper::net::HttpsConnector::new(ssl);
@@ -128,12 +128,12 @@ impl Client {
             let mut ssl = openssl::ssl::SslConnectorBuilder::new(openssl::ssl::SslMethod::tls()).unwrap();
 
             // Server authentication
-            ssl.builder_mut().set_ca_file(ca_certificate.clone()).unwrap();
+            ssl.set_ca_file(ca_certificate.clone()).unwrap();
 
             // Client authentication
-            ssl.builder_mut().set_private_key_file(client_key.clone(), openssl::x509::X509_FILETYPE_PEM).unwrap();
-            ssl.builder_mut().set_certificate_chain_file(client_certificate.clone()).unwrap();
-            ssl.builder_mut().check_private_key().unwrap();
+            ssl.set_private_key_file(client_key.clone(), openssl::x509::X509_FILETYPE_PEM).unwrap();
+            ssl.set_certificate_chain_file(client_certificate.clone()).unwrap();
+            ssl.check_private_key().unwrap();
 
             let ssl = hyper_openssl::OpensslClient::from(ssl.build());
             let connector = hyper::net::HttpsConnector::new(ssl);
