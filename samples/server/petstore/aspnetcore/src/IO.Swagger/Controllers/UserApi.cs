@@ -123,9 +123,7 @@ namespace IO.Swagger.Controllers
         [Route("/v2/user/{username}")]
         [ValidateModelState]
         [SwaggerOperation("GetUserByName")]
-        [SwaggerResponse(200, typeof(User), "successful operation")]
-        [SwaggerResponse(400, typeof(User), "Invalid username supplied")]
-        [SwaggerResponse(404, typeof(User), "User not found")]
+        [SwaggerResponse(statusCode: 200, type: typeof(User), description: "successful operation")]
         public virtual IActionResult GetUserByName([FromRoute][Required]string username)
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -160,8 +158,7 @@ namespace IO.Swagger.Controllers
         [Route("/v2/user/login")]
         [ValidateModelState]
         [SwaggerOperation("LoginUser")]
-        [SwaggerResponse(200, typeof(string), "successful operation")]
-        [SwaggerResponse(400, typeof(string), "Invalid username/password supplied")]
+        [SwaggerResponse(statusCode: 200, type: typeof(string), description: "successful operation")]
         public virtual IActionResult LoginUser([FromQuery][Required()]string username, [FromQuery][Required()]string password)
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

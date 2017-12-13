@@ -63,7 +63,7 @@ namespace IO.Swagger.Controllers
         [Route("/v2/store/inventory")]
         [ValidateModelState]
         [SwaggerOperation("GetInventory")]
-        [SwaggerResponse(200, typeof(Dictionary<string, int?>), "successful operation")]
+        [SwaggerResponse(statusCode: 200, type: typeof(Dictionary<string, int?>), description: "successful operation")]
         public virtual IActionResult GetInventory()
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -91,9 +91,7 @@ namespace IO.Swagger.Controllers
         [Route("/v2/store/order/{orderId}")]
         [ValidateModelState]
         [SwaggerOperation("GetOrderById")]
-        [SwaggerResponse(200, typeof(Order), "successful operation")]
-        [SwaggerResponse(400, typeof(Order), "Invalid ID supplied")]
-        [SwaggerResponse(404, typeof(Order), "Order not found")]
+        [SwaggerResponse(statusCode: 200, type: typeof(Order), description: "successful operation")]
         public virtual IActionResult GetOrderById([FromRoute][Required][Range(1, 5)]long? orderId)
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -127,8 +125,7 @@ namespace IO.Swagger.Controllers
         [Route("/v2/store/order")]
         [ValidateModelState]
         [SwaggerOperation("PlaceOrder")]
-        [SwaggerResponse(200, typeof(Order), "successful operation")]
-        [SwaggerResponse(400, typeof(Order), "Invalid Order")]
+        [SwaggerResponse(statusCode: 200, type: typeof(Order), description: "successful operation")]
         public virtual IActionResult PlaceOrder([FromBody]Order body)
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

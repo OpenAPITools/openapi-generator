@@ -32,8 +32,8 @@ namespace {{packageName}}.Controllers
         [{{httpMethod}}]
         [Route("{{{basePathWithoutHost}}}{{{path}}}")]
         [ValidateModelState]
-        [SwaggerOperation("{{operationId}}")]{{#responses}}{{#returnType}}
-        [SwaggerResponse({{code}}, typeof({{&returnType}}), "{{message}}")]{{/returnType}}{{/responses}}
+        [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
+        [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}
         public virtual IActionResult {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         { {{#responses}}
 {{#dataType}}
