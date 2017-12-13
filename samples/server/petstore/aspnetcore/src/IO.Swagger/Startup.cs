@@ -70,7 +70,8 @@ namespace IO.Swagger
                         Description = "Swagger Petstore (ASP.NET Core 2.0)",
                         Contact = new Contact()
                         {
-                           Url = "",
+                           Name = "Swagger Codegen Contributors",
+                           Url = "https://github.com/swagger-api/swagger-codegen",
                            Email = "apiteam@swagger.io"
                         },
                         TermsOfService = "http://swagger.io/terms/"
