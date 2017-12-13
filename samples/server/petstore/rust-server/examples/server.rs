@@ -33,9 +33,9 @@ fn ssl() -> Result<OpensslServer, ErrorStack> {
     let mut ssl = SslAcceptorBuilder::mozilla_intermediate_raw(SslMethod::tls())?;
 
     // Server authentication
-    ssl.builder_mut().set_private_key_file("examples/server-key.pem", X509_FILETYPE_PEM)?;
-    ssl.builder_mut().set_certificate_chain_file("examples/server-chain.pem")?;
-    ssl.builder_mut().check_private_key()?;
+    ssl.set_private_key_file("examples/server-key.pem", X509_FILETYPE_PEM)?;
+    ssl.set_certificate_chain_file("examples/server-chain.pem")?;
+    ssl.check_private_key()?;
 
     Ok(OpensslServer::from(ssl.build()))
 }
