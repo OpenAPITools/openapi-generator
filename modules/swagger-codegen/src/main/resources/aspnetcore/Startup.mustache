@@ -61,7 +61,8 @@ namespace {{packageName}}
                         Description = "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} (ASP.NET Core 2.0)",
                         Contact = new Contact()
                         {
-                           Url = "{{#infoUrl}}{{{infoUrl}}}{{/infoUrl}}",
+                           Name = "{{#infoName}}{{{infoName}}}{{/infoName}}{{^infoName}}Swagger Codegen Contributors{{/infoName}}",
+                           Url = "{{#infoUrl}}{{{infoUrl}}}{{/infoUrl}}{{^infoUrl}}https://github.com/swagger-api/swagger-codegen{{/infoUrl}}",
                            Email = "{{#infoEmail}}{{{infoEmail}}}{{/infoEmail}}"
                         },
                         TermsOfService = "{{#termsOfService}}{{{termsOfService}}}{{/termsOfService}}"
