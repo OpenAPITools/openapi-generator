@@ -105,6 +105,7 @@ Class | Method | HTTP request | Description
 偽のエンドポイント
 가짜 엔드 포인트
 *FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
+*FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store

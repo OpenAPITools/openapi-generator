@@ -76,6 +76,7 @@ _petstore-cli()
     operations["testClientModel"]=1
     operations["testEndpointParameters"]=1
     operations["testEnumParameters"]=1
+    operations["testInlineAdditionalProperties"]=1
     operations["testJsonFormData"]=1
     operations["testClassname"]=1
     operations["addPet"]=1
@@ -110,6 +111,7 @@ _petstore-cli()
     operation_parameters["testClientModel"]=""
     operation_parameters["testEndpointParameters"]=""
     operation_parameters["testEnumParameters"]="enum_query_string_array= enum_query_string= enum_query_integer= enum_header_string_array: enum_header_string: "
+    operation_parameters["testInlineAdditionalProperties"]=""
     operation_parameters["testJsonFormData"]=""
     operation_parameters["testClassname"]=""
     operation_parameters["addPet"]=""

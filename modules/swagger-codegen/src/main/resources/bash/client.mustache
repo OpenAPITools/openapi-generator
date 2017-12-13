@@ -978,7 +978,7 @@ case $key in
         body_parameters[${body_key}]=${body_value}
     fi
     ;;
-    +([^=]):*)
+    +\([^=]\):*)
     # Parse header arguments and convert them into curl
     # only after the operation argument
     if [[ "$operation" ]]; then
