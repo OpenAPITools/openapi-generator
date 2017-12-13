@@ -100,7 +100,11 @@ namespace IO.Swagger
                 .UseSwagger()
                 .UseSwaggerUI(c =>
                 {
+                    //TODO: Either use the SwaggerGen generated Swagger contract (generated from C# classes)
                     c.SwaggerEndpoint("/swagger/1.0.0/swagger.json", "Swagger Petstore");
+
+                    //TODO: Or alternatively use the original Swagger contract that's included in the static files
+                    // c.SwaggerEndpoint("/swagger-original.json", "Swagger Petstore Original");
                 });
 
             if (env.IsDevelopment())
