@@ -315,19 +315,13 @@ public class Qt5CPPGenerator extends AbstractCppCodegen implements CodegenConfig
         } else if (p instanceof DecimalProperty) {
             return "0.0";
         } else if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
-            if (!languageSpecificPrimitives.contains(inner)) {
-                inner += "*";
-            }
-            return "new QMap<QString, " + inner + ">()";
+            MapProperty mp = (MapProperty) p;
+            Property inner = mp.getAdditionalProperties();
+            return "new QMap<QString, " + getTypeDeclaration(inner) + ">()";
         } else if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
-            if (!languageSpecificPrimitives.contains(inner)) {
-                inner += "*";
-            }
-            return "new QList<" + inner + ">()";
+            Property inner = ap.getItems();
+            return "new QList<" + getTypeDeclaration(inner) + ">()";
         }
         // else
         if (p instanceof RefProperty) {
