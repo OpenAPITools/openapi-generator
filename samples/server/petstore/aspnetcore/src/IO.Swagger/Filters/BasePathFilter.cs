@@ -8,13 +8,13 @@ namespace IO.Swagger.Filters
     /// <summary>
     /// BasePath Document Filter sets BasePath property of Swagger and removes it from the individual URL paths
     /// </summary>
-    public class BasePathDocumentFilter : IDocumentFilter
+    public class BasePathFilter : IDocumentFilter
     {
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="basePath">BasePath to remove from Operations</param>
-        public BasePathDocumentFilter(string basePath)
+        public BasePathFilter(string basePath)
         {
             BasePath = basePath;
         }
