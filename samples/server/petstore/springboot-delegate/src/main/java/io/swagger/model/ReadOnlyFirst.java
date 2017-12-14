@@ -26,7 +26,7 @@ public class ReadOnlyFirst   {
     return this;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
   **/
@@ -46,7 +46,7 @@ public class ReadOnlyFirst   {
     return this;
   }
 
-   /**
+  /**
    * Get baz
    * @return baz
   **/

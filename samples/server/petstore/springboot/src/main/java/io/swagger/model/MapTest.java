@@ -71,7 +71,7 @@ public class MapTest   {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapOfString
    * @return mapMapOfString
   **/
@@ -100,7 +100,7 @@ public class MapTest   {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfEnumString
    * @return mapOfEnumString
   **/

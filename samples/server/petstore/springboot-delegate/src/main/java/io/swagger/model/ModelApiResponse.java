@@ -29,7 +29,7 @@ public class ModelApiResponse   {
     return this;
   }
 
-   /**
+  /**
    * Get code
    * @return code
   **/
@@ -49,7 +49,7 @@ public class ModelApiResponse   {
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
   **/
@@ -69,7 +69,7 @@ public class ModelApiResponse   {
     return this;
   }
 
-   /**
+  /**
    * Get message
    * @return message
   **/
