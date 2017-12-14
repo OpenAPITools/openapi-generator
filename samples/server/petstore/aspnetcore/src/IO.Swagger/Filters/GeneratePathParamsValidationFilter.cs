@@ -7,9 +7,9 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace IO.Swagger.Filters
 {
     /// <summary>
-    /// Path Parameter Validation Filter
+    /// Path Parameter Validation Rules Filter
     /// </summary>
-    public class PathParameterValidationFilter : IOperationFilter
+    public class GeneratePathParamsValidationFilter : IOperationFilter
     {
         /// <summary>
         /// Constructor
