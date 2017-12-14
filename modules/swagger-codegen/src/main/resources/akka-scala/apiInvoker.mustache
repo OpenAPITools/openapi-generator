@@ -49,8 +49,8 @@ object ApiInvoker {
 
   def addCustomStatusCode(code: CustomStatusCode): Unit = addCustomStatusCode(code.value, code.reason, code.isSuccess)
 
-  def addCustomStatusCode(code: Int, reason: String = "Application defined code", isSuccess: Boolean = true) = {
-    StatusCodes.getForKey(code) foreach { c =>
+  def addCustomStatusCode(code: Int, reason: String = "Application defined code", isSuccess: Boolean = true): Unit = {
+    StatusCodes.getForKey(code) foreach { _ =>
       StatusCodes.registerCustom(code, reason, reason, isSuccess, allowsEntity = true)
     }
   }
@@ -97,16 +97,15 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends Untrust
   import io.swagger.client.core.ApiInvoker._
   import io.swagger.client.core.ParametersMap._
 
-  implicit val ec = system.dispatcher
-  implicit val jsonFormats = formats
+  implicit val ec: ExecutionContextExecutor = system.dispatcher
+  implicit val jsonFormats: Formats = formats
 
   def settings = ApiSettings(system)
 
   import spray.http.MessagePredicate._
 
-  val CompressionFilter = MessagePredicate({ _ => settings.compressionEnabled}) &&
-    Encoder.DefaultFilter &&
-    minEntitySize(settings.compressionSizeThreshold)
+  val CompressionFilter: MessagePredicate= MessagePredicate({ _ => settings.compressionEnabled}) &&
+    Encoder.DefaultFilter && minEntitySize(settings.compressionSizeThreshold)
 
   settings.customCodes.foreach(addCustomStatusCode)
 
@@ -248,22 +247,22 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends Untrust
               case ResponseState.Success =>
                 ApiResponse(response.status.intValue, value, response.headers.map(header => (header.name, header.value)).toMap)
               case ResponseState.Error =>
-                throw new ApiError(response.status.intValue, "Error response received",
+                throw ApiError(response.status.intValue, "Error response received",
                   Some(value),
                   headers = response.headers.map(header => (header.name, header.value)).toMap)
             }
 
           case Left(MalformedContent(error, Some(cause))) ⇒
-            throw new ApiError(response.status.intValue, s"Unable to unmarshall content to [$manifest]", Some(response.entity.toString), cause)
+            throw ApiError(response.status.intValue, s"Unable to unmarshall content to [$manifest]", Some(response.entity.toString), cause)
 
           case Left(MalformedContent(error, None)) ⇒
-            throw new ApiError(response.status.intValue, s"Unable to unmarshall content to [$manifest]", Some(response.entity.toString))
+            throw ApiError(response.status.intValue, s"Unable to unmarshall content to [$manifest]", Some(response.entity.toString))
 
           case Left(ContentExpected) ⇒
-            throw new ApiError(response.status.intValue, s"Unable to unmarshall empty response to [$manifest]", Some(response.entity.toString))
+            throw ApiError(response.status.intValue, s"Unable to unmarshall empty response to [$manifest]", Some(response.entity.toString))
         }
 
-      case _ => throw new ApiError(response.status.intValue, "Unexpected response code", Some(response.entity.toString))
+      case _ => throw ApiError(response.status.intValue, "Unexpected response code", Some(response.entity.toString))
     }
   }
 
