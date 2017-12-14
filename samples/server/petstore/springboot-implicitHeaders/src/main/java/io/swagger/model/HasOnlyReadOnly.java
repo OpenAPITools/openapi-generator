@@ -26,7 +26,7 @@ public class HasOnlyReadOnly   {
     return this;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
   **/
@@ -46,7 +46,7 @@ public class HasOnlyReadOnly   {
     return this;
   }
 
-   /**
+  /**
    * Get foo
    * @return foo
   **/

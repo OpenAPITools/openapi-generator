@@ -39,7 +39,7 @@ public class AdditionalPropertiesClass   {
     return this;
   }
 
-   /**
+  /**
    * Get mapProperty
    * @return mapProperty
   **/
@@ -67,7 +67,7 @@ public class AdditionalPropertiesClass   {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfMapProperty
    * @return mapOfMapProperty
   **/
