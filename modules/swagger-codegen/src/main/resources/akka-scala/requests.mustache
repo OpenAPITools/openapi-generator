@@ -7,20 +7,34 @@ package {{invokerPackage}}
 
 import java.io.File
 import java.net.URLEncoder
+
 import scala.util.Try
 
 sealed trait ApiReturnWithHeaders {
   def headers: Map[String, String]
+
   def header(name: String): Option[String] = headers.get(name)
-  def getStringHeader(name: String) = header(name)
+
+  def getStringHeader(name: String): Option[String] = header(name)
+
   // workaround: return date time header in string instead of datetime object
-  def getDateTimeHeader(name: String) = header(name)
-  def getIntHeader(name: String) = castedHeader(name, java.lang.Integer.parseInt)
-  def getLongHeader(name: String) = castedHeader(name, java.lang.Long.parseLong)
-  def getFloatHeader(name: String) = castedHeader(name, java.lang.Float.parseFloat)
-  def getDoubleHeader(name: String) = castedHeader(name, java.lang.Double.parseDouble)
-  def getBooleanHeader(name: String) = castedHeader(name, java.lang.Boolean.parseBoolean)
-  private def castedHeader[U](name: String, conversion: String => U): Option[U] = { Try { header(name).map( conversion ) }.get }
+  def getDateTimeHeader(name: String): Option[String] = header(name)
+
+  def getIntHeader(name: String): Option[Int] = castedHeader(name, java.lang.Integer.parseInt)
+
+  def getLongHeader(name: String): Option[Long] = castedHeader(name, java.lang.Long.parseLong)
+
+  def getFloatHeader(name: String): Option[Float] = castedHeader(name, java.lang.Float.parseFloat)
+
+  def getDoubleHeader(name: String): Option[Double] = castedHeader(name, java.lang.Double.parseDouble)
+
+  def getBooleanHeader(name: String): Option[Boolean] = castedHeader(name, java.lang.Boolean.parseBoolean)
+
+  private def castedHeader[U](name: String, conversion: String => U): Option[U] = {
+    Try {
+      header(name).map(conversion)
+    }.get
+  }
 }
 
 sealed case class ApiResponse[T](code: Int, content: T, headers: Map[String, String] = Map.empty)
@@ -28,7 +42,7 @@ sealed case class ApiResponse[T](code: Int, content: T, headers: Map[String, Str
 
 sealed case class ApiError[T](code: Int, message: String, responseContent: Option[T], cause: Throwable = null, headers: Map[String, String] = Map.empty)
   extends Throwable(s"($code) $message.${responseContent.map(s => s" Content : $s").getOrElse("")}", cause)
-  with ApiReturnWithHeaders
+    with ApiReturnWithHeaders
 
 sealed case class ApiMethod(value: String)
 
@@ -74,15 +88,17 @@ object ApiKeyLocations {
   case object QUERY extends ApiKeyLocation
 
   case object HEADER extends ApiKeyLocation
+
 }
 
 
 /**
  * Case class used to unapply numeric values only in pattern matching
+ *
  * @param value the string representation of the numeric value
  */
 sealed case class NumericValue(value: String) {
-  override def toString = value
+  override def toString: String = value
 }
 
 object NumericValue {
@@ -144,9 +160,9 @@ object ParametersMap {
    */
   implicit class ParametersMapImprovements(val m: Map[String, Any]) {
 
-    def asFormattedParamsList = m.toList.flatMap(formattedParams)
+    def asFormattedParamsList: List[(String, Any)] = m.toList.flatMap(formattedParams)
 
-    def asFormattedParams = m.flatMap(formattedParams)
+    def asFormattedParams: Map[String, Any] = m.flatMap(formattedParams)
 
     private def urlEncode(v: Any) = URLEncoder.encode(String.valueOf(v), "utf-8").replaceAll("\\+", "%20")
 
@@ -159,15 +175,13 @@ object ParametersMap {
           case format: MergedArrayFormat => Seq((name, arr.values.mkString(format.separator)))
         }
       case None => Seq.empty
-      case Some(opt) =>
-        formattedParams(name, opt)
-      case s: Seq[Any] =>
-        formattedParams(name, ArrayValues(s))
+      case Some(opt) => formattedParams(name, opt)
+      case s: Seq[Any] => formattedParams(name, ArrayValues(s))
       case v: String => Seq((name, urlEncode(v)))
       case NumericValue(v) => Seq((name, urlEncode(v)))
       case f: File => Seq((name, f))
       case m: ApiModel => Seq((name, m))
     }
-
   }
+
 }
