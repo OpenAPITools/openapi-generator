@@ -1,0 +1,13 @@
+controllerPackage: io.swagger.generator.online
+modelPackage: io.swagger.generator.model
+swaggerUrl: ./src/main/resources/openapi.yaml
+modelMappings:
+  GenerationRequest: io.swagger.generator.model
+
+# loads all by default, or pick and choose
+entityProcessors:
+  - json
+  - xml
+  - yaml
+
+rootPath: /v2

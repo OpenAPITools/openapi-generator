@@ -1,0 +1,86 @@
+openapi: 3.0.0
+servers:
+  - url: /v2
+info:
+  description: codegen generator server API
+  version: "1.0.0"
+  title: Generator API
+  contact:
+    email: hugo.mario.mercado@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /generate:
+    get:
+      x-swagger-router-controller: "io.swagger.generator.online.GeneratorController"
+      operationId: generate
+      parameters:
+      - name: language
+        in: query
+        description: language to generate
+        required: true
+        schema:
+          type: string
+      - name: specUrl
+        in: query
+        description: spec url location
+        required: true
+        schema:
+          type: string
+      - name: library
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operatio
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+    post:
+      x-swagger-router-controller: "io.swagger.generator.online.GeneratorController"
+      operationId: generate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerationRequest'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
+components:
+  schemas:
+    GenerationRequest:
+      x-swagger-router-model: "io.swagger.generator.model.GenerationRequest"
+      required:
+      - language
+      - specUrl
+      properties:
+        specUrl:
+          type: "string"
+          description: "spec url location"
+          example: "http://someplace.in.web/v1/oas3.json"
+        language:
+          type: "string"
+          description: "language to generate"
+          example: "java"
+        library:
+          type: "string"
+          example: "jersey2"
+        additionalProperties:
+          type: object
+          additionalProperties:
+            type: object
