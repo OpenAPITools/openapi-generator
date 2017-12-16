@@ -273,11 +273,11 @@ public class FakeApi {
             formParams.add("callback", paramCallback);
 
         final String[] accepts = { 
-            "application/xml; charset&#x3D;utf-8", "application/json; charset&#x3D;utf-8"
+            "application/xml; charset=utf-8", "application/json; charset=utf-8"
         };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
         final String[] contentTypes = { 
-            "application/xml; charset&#x3D;utf-8", "application/json; charset&#x3D;utf-8"
+            "application/xml; charset=utf-8", "application/json; charset=utf-8"
         };
         final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
 

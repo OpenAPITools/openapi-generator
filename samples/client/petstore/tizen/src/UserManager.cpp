@@ -74,7 +74,7 @@ static bool createUserProcessor(MemoryStruct_s p_chunk, long code, char* errorms
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		handler(error, userData);
 		return false;
@@ -211,7 +211,7 @@ static bool createUsersWithArrayInputProcessor(MemoryStruct_s p_chunk, long code
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		handler(error, userData);
 		return false;
@@ -360,7 +360,7 @@ static bool createUsersWithListInputProcessor(MemoryStruct_s p_chunk, long code,
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		handler(error, userData);
 		return false;
@@ -509,7 +509,7 @@ static bool deleteUserProcessor(MemoryStruct_s p_chunk, long code, char* errorms
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		handler(error, userData);
 		return false;
@@ -661,7 +661,7 @@ static bool getUserByNameProcessor(MemoryStruct_s p_chunk, long code, char* erro
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		 handler(out, error, userData);
 		return false;
@@ -808,7 +808,7 @@ static bool loginUserProcessor(MemoryStruct_s p_chunk, long code, char* errormsg
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		 handler(out, error, userData);
 		return false;
@@ -940,7 +940,7 @@ static bool logoutUserProcessor(MemoryStruct_s p_chunk, long code, char* errorms
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		handler(error, userData);
 		return false;
@@ -1064,7 +1064,7 @@ static bool updateUserProcessor(MemoryStruct_s p_chunk, long code, char* errorms
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		handler(error, userData);
 		return false;

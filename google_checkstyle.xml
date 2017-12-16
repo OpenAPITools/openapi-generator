@@ -133,7 +133,7 @@
             <message key="ws.notPreceded" value="GenericWhitespace ''{0}'' is not preceded with whitespace."/>
         </module>
         <module name="Indentation">
-            <!-- Modified defaults for swagger-codegen (multipled Google by 2)-->
+            <!-- Modified defaults for swagger-codegen (multiplied Google by 2)-->
             <property name="basicOffset" value="4"/>
             <property name="braceAdjustment" value="0"/>
             <property name="caseIndent" value="4"/>

@@ -29,10 +29,10 @@ type StoreApiService service
 
 /* StoreApiService Delete purchase order by ID
  For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-
+ * @param ctx context.Context for authentication, logging, tracing, etc.
  @param orderId ID of the order that needs to be deleted
  @return */
-func (a *StoreApiService) DeleteOrder(orderId string) ( *http.Response, error) {
+func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) ( *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Delete")
 		localVarPostBody interface{}
@@ -69,7 +69,7 @@ func (a *StoreApiService) DeleteOrder(orderId string) ( *http.Response, error) {
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	r, err := a.client.prepareRequest(nil, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
 	}
@@ -88,9 +88,9 @@ func (a *StoreApiService) DeleteOrder(orderId string) ( *http.Response, error) {
 
 /* StoreApiService Returns pet inventories by status
  Returns a map of status codes to quantities
- * @param ctx context.Context Authentication Context 
+ * @param ctx context.Context for authentication, logging, tracing, etc.
  @return map[string]int32*/
-func (a *StoreApiService) GetInventory(ctx context.Context, ) (map[string]int32,  *http.Response, error) {
+func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32,  *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody interface{}
@@ -162,10 +162,10 @@ func (a *StoreApiService) GetInventory(ctx context.Context, ) (map[string]int32,
 
 /* StoreApiService Find purchase order by ID
  For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-
+ * @param ctx context.Context for authentication, logging, tracing, etc.
  @param orderId ID of pet that needs to be fetched
  @return Order*/
-func (a *StoreApiService) GetOrderById(orderId int64) (Order,  *http.Response, error) {
+func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Order,  *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody interface{}
@@ -209,7 +209,7 @@ func (a *StoreApiService) GetOrderById(orderId int64) (Order,  *http.Response, e
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	r, err := a.client.prepareRequest(nil, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return successPayload, nil, err
 	}
@@ -233,10 +233,10 @@ func (a *StoreApiService) GetOrderById(orderId int64) (Order,  *http.Response, e
 
 /* StoreApiService Place an order for a pet
  
-
+ * @param ctx context.Context for authentication, logging, tracing, etc.
  @param body order placed for purchasing the pet
  @return Order*/
-func (a *StoreApiService) PlaceOrder(body Order) (Order,  *http.Response, error) {
+func (a *StoreApiService) PlaceOrder(ctx context.Context, body Order) (Order,  *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody interface{}
@@ -275,7 +275,7 @@ func (a *StoreApiService) PlaceOrder(body Order) (Order,  *http.Response, error)
 	}
 	// body params
 	localVarPostBody = &body
-	r, err := a.client.prepareRequest(nil, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return successPayload, nil, err
 	}

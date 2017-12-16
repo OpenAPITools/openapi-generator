@@ -50,7 +50,7 @@ paths:
           type: string
       responses:
         '200':
-          description: Operation *succeded* 
+          description: Operation *succeeded* 
           schema:
             $ref: '#/definitions/RandomNumber'
         '404':

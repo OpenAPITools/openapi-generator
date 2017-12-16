@@ -124,7 +124,7 @@ static bool {{nickname}}Processor(MemoryStruct_s p_chunk, long code, char* error
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		{{#returnType}} handler(out, error, userData);
 		return false;
@@ -169,7 +169,7 @@ static bool {{nickname}}Helper(char * accessToken,
 	headerList = curl_slist_append(headerList, accessHeader.c_str());
 	{{#hasConsumes}}
 	{{#consumes}}
-	headerList = curl_slist_append(headerList, "Content-Type: {{mediaType}}");
+	headerList = curl_slist_append(headerList, "Content-Type: {{{mediaType}}}");
 	{{/consumes}}
 	{{/hasConsumes}}
 	{{^hasConsumes}}

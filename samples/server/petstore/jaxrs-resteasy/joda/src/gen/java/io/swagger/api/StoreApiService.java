@@ -16,13 +16,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 
-public abstract class StoreApiService {
-      public abstract Response deleteOrder(String orderId,SecurityContext securityContext)
+public interface StoreApiService {
+      Response deleteOrder(String orderId,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response getInventory(SecurityContext securityContext)
+      Response getInventory(SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response getOrderById(Long orderId,SecurityContext securityContext)
+      Response getOrderById(Long orderId,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response placeOrder(Order body,SecurityContext securityContext)
+      Response placeOrder(Order body,SecurityContext securityContext)
       throws NotFoundException;
 }

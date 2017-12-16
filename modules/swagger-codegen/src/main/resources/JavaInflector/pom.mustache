@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
@@ -10,23 +11,40 @@
     <packaging>jar</packaging>
     <name>{{artifactId}}</name>
     <version>{{artifactVersion}}</version>
-    <prerequisites>
-        <maven>2.2.0</maven>
-    </prerequisites>
 
     <licenses>
-      <license>
-        <name>{{licenseName}}</name>
-        <url>{{licenseUrl}}</url>
-        <distribution>repo</distribution>
-      </license>
+        <license>
+            <name>{{licenseName}}</name>
+            <url>{{licenseUrl}}</url>
+            <distribution>repo</distribution>
+        </license>
     </licenses>
-    
+
     <build>
         <defaultGoal>install</defaultGoal>
         <directory>target</directory>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>2.2.0</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -40,7 +58,8 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>src/gen/java</source>
+                                <source>
+                                src/gen/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -118,6 +137,7 @@
         </repository>
     </repositories>
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <swagger-inflector-version>1.0.14</swagger-inflector-version>
         <jetty-version>9.2.9.v20150224</jetty-version>

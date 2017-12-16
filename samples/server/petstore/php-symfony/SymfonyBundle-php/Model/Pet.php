@@ -203,7 +203,7 @@ class Pet
      *
      * @return $this
      */
-    public function setPhotoUrls(array $photoUrls)
+    public function setPhotoUrls($photoUrls)
     {
         $this->photoUrls = $photoUrls;
 
@@ -227,7 +227,7 @@ class Pet
      *
      * @return $this
      */
-    public function setTags(array $tags = null)
+    public function setTags(Tag $tags = null)
     {
         $this->tags = $tags;
 

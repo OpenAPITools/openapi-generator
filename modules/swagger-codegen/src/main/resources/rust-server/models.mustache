@@ -16,7 +16,7 @@ use swagger;
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize)]{{#xmlName}}
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Eq, Ord)]{{#xmlName}}
 #[serde(rename = "{{xmlName}}")]{{/xmlName}}
 pub enum {{classname}} { {{#allowableValues}}{{#enumVars}}
     #[serde(rename = {{{value}}})]

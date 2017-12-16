@@ -15,9 +15,7 @@ import io
 import json
 import logging
 import re
-import ssl
 
-import certifi
 # python 2 and python 3 compatibility library
 import six
 from six.moves.urllib.parse import urlencode
@@ -50,30 +48,10 @@ class RESTClientObject(object):
 
     def __init__(self, configuration, pools_size=4, maxsize=4):
         # maxsize is number of requests to host that are allowed in parallel
-        # ca_certs vs cert_file vs key_file
-        # http://stackoverflow.com/a/23957365/2985775
 
-        # ca_certs
-        if configuration.ssl_ca_cert:
-            ca_certs = configuration.ssl_ca_cert
-        else:
-            # if not set certificate file, use Mozilla's root certificates.
-            ca_certs = certifi.where()
-
-        if hasattr(ssl, 'create_default_context'):
-            # require Python 2.7.9+, 3.4+
-            self.ssl_context = ssl.create_default_context()
-            self.ssl_context.load_verify_locations(cafile=ca_certs)
-            if configuration.cert_file:
-                self.ssl_context.load_cert_chain(
-                    configuration.cert_file, keyfile=configuration.key_file
-                )
-
-        elif configuration.cert_file or configuration.ssl_ca_cert:
-            raise NotImplementedError('SSL requires Python 2.7.9+, 3.4+')
-
-        else:
-            self.ssl_context = None
+        self.ca_certs = configuration.ssl_ca_cert
+        self.client_key = configuration.key_file
+        self.client_cert = configuration.cert_file
 
         self.proxy_port = self.proxy_host = None
 
@@ -115,7 +93,9 @@ class RESTClientObject(object):
             )
 
         request = httpclient.HTTPRequest(url)
-        request.ssl_context = self.ssl_context
+        request.ca_certs = self.ca_certs
+        request.client_key = self.client_key
+        request.client_cert = self.client_cert
         request.proxy_host = self.proxy_host
         request.proxy_port = self.proxy_port
         request.method = method

@@ -322,7 +322,7 @@ impl EnumArrays {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Eq, Ord)]
 pub enum EnumClass { 
     #[serde(rename = "_abc")]
     _ABC,
@@ -739,7 +739,7 @@ impl OuterComposite {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Eq, Ord)]
 pub enum OuterEnum { 
     #[serde(rename = "placed")]
     PLACED,

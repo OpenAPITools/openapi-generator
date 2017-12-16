@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **CreateUser**
-> CreateUser(body)
+> CreateUser(ctx, body)
 Create user
 
 This can only be done by the logged in user.
@@ -24,6 +24,7 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
@@ -42,7 +43,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **CreateUsersWithArrayInput**
-> CreateUsersWithArrayInput(body)
+> CreateUsersWithArrayInput(ctx, body)
 Creates list of users with given input array
 
 
@@ -51,6 +52,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **body** | [**[]User**](User.md)| List of user object | 
 
 ### Return type
@@ -69,7 +71,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **CreateUsersWithListInput**
-> CreateUsersWithListInput(body)
+> CreateUsersWithListInput(ctx, body)
 Creates list of users with given input array
 
 
@@ -78,6 +80,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **body** | [**[]User**](User.md)| List of user object | 
 
 ### Return type
@@ -96,7 +99,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **DeleteUser**
-> DeleteUser(username)
+> DeleteUser(ctx, username)
 Delete user
 
 This can only be done by the logged in user.
@@ -105,6 +108,7 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **username** | **string**| The name that needs to be deleted | 
 
 ### Return type
@@ -123,7 +127,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetUserByName**
-> User GetUserByName(username)
+> User GetUserByName(ctx, username)
 Get user by user name
 
 
@@ -132,6 +136,7 @@ Get user by user name
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **username** | **string**| The name that needs to be fetched. Use user1 for testing.  | 
 
 ### Return type
@@ -150,7 +155,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **LoginUser**
-> string LoginUser(username, password)
+> string LoginUser(ctx, username, password)
 Logs user into the system
 
 
@@ -159,6 +164,7 @@ Logs user into the system
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **username** | **string**| The user name for login | 
   **password** | **string**| The password for login in clear text | 
 
@@ -178,7 +184,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **LogoutUser**
-> LogoutUser()
+> LogoutUser(ctx, )
 Logs out current logged in user session
 
 
@@ -202,7 +208,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UpdateUser**
-> UpdateUser(username, body)
+> UpdateUser(ctx, username, body)
 Updated user
 
 This can only be done by the logged in user.
@@ -211,6 +217,7 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **username** | **string**| name that need to be deleted | 
   **body** | [**User**](User.md)| Updated user object | 
 

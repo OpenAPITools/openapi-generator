@@ -16,9 +16,9 @@ public class ReadOnlyFirst  {
   
   @ApiModelProperty(value = "")
   private String bar = null;
+
   @ApiModelProperty(value = "")
   private String baz = null;
-
  /**
    * Get bar
    * @return bar

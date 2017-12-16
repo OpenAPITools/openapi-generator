@@ -36,12 +36,12 @@ func TestOAuth2(t *testing.T) {
 
 	// then a fake tokenSource
 	tokenSource := cfg.TokenSource(createContext(nil), &tok)
-	auth := context.WithValue(oauth2.NoContext, sw.ContextOAuth2, tokenSource)
+	auth := context.WithValue(context.Background(), sw.ContextOAuth2, tokenSource)
 
 	newPet := (sw.Pet{Id: 12992, Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending", Tags: []sw.Tag{sw.Tag{Id: 1, Name: "tag2"}}})
 
-	r, err := client.PetApi.AddPet(nil, newPet)
+	r, err := client.PetApi.AddPet(context.Background(), newPet)
 
 	if err != nil {
 		t.Errorf("Error while adding pet")
@@ -60,7 +60,7 @@ func TestOAuth2(t *testing.T) {
 	if r.StatusCode != 200 {
 		t.Log(r)
 	}
-	reqb, err := httputil.DumpRequest(r.Request, true)
+	reqb, _ := httputil.DumpRequest(r.Request, true)
 
 	if !strings.Contains((string)(reqb), "Authorization: Bearer FAKE") {
 		t.Errorf("OAuth2 Authentication is missing")
@@ -69,7 +69,7 @@ func TestOAuth2(t *testing.T) {
 
 func TestBasicAuth(t *testing.T) {
 
-	auth := context.WithValue(context.TODO(), sw.ContextBasicAuth, sw.BasicAuth{
+	auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
 		UserName: "fakeUser",
 		Password: "f4k3p455",
 	})
@@ -96,14 +96,14 @@ func TestBasicAuth(t *testing.T) {
 	if r.StatusCode != 200 {
 		t.Log(r)
 	}
-	reqb, err := httputil.DumpRequest(r.Request, true)
+	reqb, _ := httputil.DumpRequest(r.Request, true)
 	if !strings.Contains((string)(reqb), "Authorization: Basic ZmFrZVVzZXI6ZjRrM3A0NTU") {
 		t.Errorf("Basic Authentication is missing")
 	}
 }
 
 func TestAccessToken(t *testing.T) {
-	auth := context.WithValue(context.TODO(), sw.ContextAccessToken, "TESTFAKEACCESSTOKENISFAKE")
+	auth := context.WithValue(context.Background(), sw.ContextAccessToken, "TESTFAKEACCESSTOKENISFAKE")
 
 	newPet := (sw.Pet{Id: 12992, Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending", Tags: []sw.Tag{sw.Tag{Id: 1, Name: "tag2"}}})
@@ -127,19 +127,19 @@ func TestAccessToken(t *testing.T) {
 	if r.StatusCode != 200 {
 		t.Log(r)
 	}
-	reqb, err := httputil.DumpRequest(r.Request, true)
+	reqb, _ := httputil.DumpRequest(r.Request, true)
 	if !strings.Contains((string)(reqb), "Authorization: Bearer TESTFAKEACCESSTOKENISFAKE") {
 		t.Errorf("AccessToken Authentication is missing")
 	}
 }
 
 func TestAPIKeyNoPrefix(t *testing.T) {
-	auth := context.WithValue(context.TODO(), sw.ContextAPIKey, sw.APIKey{Key: "TEST123"})
+	auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{Key: "TEST123"})
 
 	newPet := (sw.Pet{Id: 12992, Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending", Tags: []sw.Tag{sw.Tag{Id: 1, Name: "tag2"}}})
 
-	r, err := client.PetApi.AddPet(nil, newPet)
+	r, err := client.PetApi.AddPet(context.Background(), newPet)
 
 	if err != nil {
 		t.Errorf("Error while adding pet")
@@ -155,7 +155,7 @@ func TestAPIKeyNoPrefix(t *testing.T) {
 		t.Log(err)
 	}
 
-	reqb, err := httputil.DumpRequest(r.Request, true)
+	reqb, _ := httputil.DumpRequest(r.Request, true)
 	if !strings.Contains((string)(reqb), "Api_key: TEST123") {
 		t.Errorf("APIKey Authentication is missing")
 	}
@@ -171,7 +171,7 @@ func TestAPIKeyNoPrefix(t *testing.T) {
 }
 
 func TestAPIKeyWithPrefix(t *testing.T) {
-	auth := context.WithValue(context.TODO(), sw.ContextAPIKey, sw.APIKey{Key: "TEST123", Prefix: "Bearer"})
+	auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{Key: "TEST123", Prefix: "Bearer"})
 
 	newPet := (sw.Pet{Id: 12992, Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending", Tags: []sw.Tag{sw.Tag{Id: 1, Name: "tag2"}}})
@@ -192,7 +192,7 @@ func TestAPIKeyWithPrefix(t *testing.T) {
 		t.Log(err)
 	}
 
-	reqb, err := httputil.DumpRequest(r.Request, true)
+	reqb, _ := httputil.DumpRequest(r.Request, true)
 	if !strings.Contains((string)(reqb), "Api_key: Bearer TEST123") {
 		t.Errorf("APIKey Authentication is missing")
 	}
@@ -212,7 +212,7 @@ func TestDefaultHeader(t *testing.T) {
 	newPet := (sw.Pet{Id: 12992, Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending", Tags: []sw.Tag{sw.Tag{Id: 1, Name: "tag2"}}})
 
-	r, err := client.PetApi.AddPet(nil, newPet)
+	r, err := client.PetApi.AddPet(context.Background(), newPet)
 
 	if err != nil {
 		t.Errorf("Error while adding pet")
@@ -222,7 +222,7 @@ func TestDefaultHeader(t *testing.T) {
 		t.Log(r)
 	}
 
-	r, err = client.PetApi.DeletePet(nil, 12992, nil)
+	r, err = client.PetApi.DeletePet(context.Background(), 12992, nil)
 
 	if err != nil {
 		t.Errorf("Error while deleting pet by id")
@@ -231,14 +231,14 @@ func TestDefaultHeader(t *testing.T) {
 	if r.StatusCode != 200 {
 		t.Log(r)
 	}
-	reqb, err := httputil.DumpRequest(r.Request, true)
+	reqb, _ := httputil.DumpRequest(r.Request, true)
 	if !strings.Contains((string)(reqb), "Testheader: testvalue") {
 		t.Errorf("Default Header is missing")
 	}
 }
 
 func TestHostOverride(t *testing.T) {
-	_, r, err := client.PetApi.FindPetsByStatus(nil, nil)
+	_, r, err := client.PetApi.FindPetsByStatus(context.Background(), nil)
 
 	if err != nil {
 		t.Errorf("Error while finding pets by status")

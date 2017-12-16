@@ -47,10 +47,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         modelTemplateFiles.put("model.mustache", ".ts");
         apiTemplateFiles.put("api.service.mustache", ".ts");
         languageSpecificPrimitives.add("Blob");
-        typeMapping.put("file","Blob");
+        typeMapping.put("file", "Blob");
         apiPackage = "api";
         modelPackage = "model";
-
 
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
@@ -79,22 +78,23 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     @Override
     public void processOpts() {
         super.processOpts();
-        supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
-        supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
+        supportingFiles.add(
+                new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
+        supportingFiles
+                .add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
         supportingFiles.add(new SupportingFile("api.module.mustache", getIndexDirectory(), "api.module.ts"));
-        supportingFiles.add(new SupportingFile("rxjs-operators.mustache", getIndexDirectory(), "rxjs-operators.ts"));
         supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
         supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
         supportingFiles.add(new SupportingFile("encoder.mustache", getIndexDirectory(), "encoder.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
-        if(additionalProperties.containsKey(NPM_NAME)) {
+        if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
 
-        if(additionalProperties.containsKey(WITH_INTERFACES)) {
+        if (additionalProperties.containsKey(WITH_INTERFACES)) {
             boolean withInterfaces = Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
             if (withInterfaces) {
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
@@ -114,10 +114,13 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         additionalProperties.put("injectionToken", ngVersion.atLeast("4.0.0") ? "InjectionToken" : "OpaqueToken");
         additionalProperties.put("injectionTokenTyped", ngVersion.atLeast("4.0.0"));
         additionalProperties.put("useHttpClient", ngVersion.atLeast("4.3.0"));
+        if (!ngVersion.atLeast("4.3.0")) {
+            supportingFiles.add(new SupportingFile("rxjs-operators.mustache", getIndexDirectory(), "rxjs-operators.ts"));
+        }
     }
 
     private void addNpmPackageGeneration() {
-        if(additionalProperties.containsKey(NPM_NAME)) {
+        if (additionalProperties.containsKey(NPM_NAME)) {
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());
         }
 
@@ -125,7 +128,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
         }
 
-        if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
+        if (additionalProperties.containsKey(SNAPSHOT)
+                && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
             this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
         }
         additionalProperties.put(NPM_VERSION, npmVersion);
@@ -181,7 +185,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     private String applyLocalTypeMapping(String type) {
-         if (typeMapping.containsKey(type)) {
+        if (typeMapping.containsKey(type)) {
             type = typeMapping.get(type);
         }
         return type;
@@ -192,8 +196,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     private boolean isLanguageGenericType(String type) {
-        for (String genericType: languageGenericTypes) {
-            if (type.startsWith(genericType + "<"))  {
+        for (String genericType : languageGenericTypes) {
+            if (type.startsWith(genericType + "<")) {
                 return true;
             }
         }
@@ -221,29 +225,29 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 // Convert httpMethod to Angular's RequestMethod enum
                 // https://angular.io/docs/ts/latest/api/http/index/RequestMethod-enum.html
                 switch (op.httpMethod) {
-                    case "GET":
-                        op.httpMethod = "RequestMethod.Get";
-                        break;
-                    case "POST":
-                        op.httpMethod = "RequestMethod.Post";
-                        break;
-                    case "PUT":
-                        op.httpMethod = "RequestMethod.Put";
-                        break;
-                    case "DELETE":
-                        op.httpMethod = "RequestMethod.Delete";
-                        break;
-                    case "OPTIONS":
-                        op.httpMethod = "RequestMethod.Options";
-                        break;
-                    case "HEAD":
-                        op.httpMethod = "RequestMethod.Head";
-                        break;
-                    case "PATCH":
-                        op.httpMethod = "RequestMethod.Patch";
-                        break;
-                    default:
-                        throw new RuntimeException("Unknown HTTP Method " + op.httpMethod + " not allowed");
+                case "GET":
+                    op.httpMethod = "RequestMethod.Get";
+                    break;
+                case "POST":
+                    op.httpMethod = "RequestMethod.Post";
+                    break;
+                case "PUT":
+                    op.httpMethod = "RequestMethod.Put";
+                    break;
+                case "DELETE":
+                    op.httpMethod = "RequestMethod.Delete";
+                    break;
+                case "OPTIONS":
+                    op.httpMethod = "RequestMethod.Options";
+                    break;
+                case "HEAD":
+                    op.httpMethod = "RequestMethod.Head";
+                    break;
+                case "PATCH":
+                    op.httpMethod = "RequestMethod.Patch";
+                    break;
+                default:
+                    throw new RuntimeException("Unknown HTTP Method " + op.httpMethod + " not allowed");
                 }
             }
 
@@ -255,41 +259,41 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             boolean foundUnderscore = false;
 
             // Iterate through existing string, one character at a time.
-            for(int i = 0; i < op.path.length(); i++) {
-                switch(op.path.charAt(i)) {
-                    case '{':
-                        // We entered curly braces, so track that.
-                        insideCurly++;
+            for (int i = 0; i < op.path.length(); i++) {
+                switch (op.path.charAt(i)) {
+                case '{':
+                    // We entered curly braces, so track that.
+                    insideCurly++;
 
-                        // Add the more complicated component instead of just the brace.
-                        pathBuffer.append("${encodeURIComponent(String(");
-                        break;
-                    case '}':
-                        // We exited curly braces, so track that.
-                        insideCurly--;
+                    // Add the more complicated component instead of just the brace.
+                    pathBuffer.append("${encodeURIComponent(String(");
+                    break;
+                case '}':
+                    // We exited curly braces, so track that.
+                    insideCurly--;
 
-                        // Add the more complicated component instead of just the brace.
-                        pathBuffer.append("))}");
-                        break;
-                    case '_':
-                        // If we're inside the curly brace, the following character will need to be uppercase.
-                        // Otherwise, just add the character.
-                        if (insideCurly > 0) {
-                            foundUnderscore = true;
-                        } else {
-                            pathBuffer.append(op.path.charAt(i));
-                        }
-                        break;
-                    default:
-                        // If we previously found an underscore, we need an uppercase letter.
-                        // Otherwise, just add the character.
-                        if (foundUnderscore) {
-                            pathBuffer.append(Character.toUpperCase(op.path.charAt(i)));
-                            foundUnderscore = false;
-                        } else {
-                            pathBuffer.append(op.path.charAt(i));
-                        }
-                        break;
+                    // Add the more complicated component instead of just the brace.
+                    pathBuffer.append("))}");
+                    break;
+                case '_':
+                    // If we're inside the curly brace, the following character will need to be uppercase.
+                    // Otherwise, just add the character.
+                    if (insideCurly > 0) {
+                        foundUnderscore = true;
+                    } else {
+                        pathBuffer.append(op.path.charAt(i));
+                    }
+                    break;
+                default:
+                    // If we previously found an underscore, we need an uppercase letter.
+                    // Otherwise, just add the character.
+                    if (foundUnderscore) {
+                        pathBuffer.append(Character.toUpperCase(op.path.charAt(i)));
+                        foundUnderscore = false;
+                    } else {
+                        pathBuffer.append(op.path.charAt(i));
+                    }
+                    break;
                 }
             }
 
@@ -299,7 +303,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         // Add additional filename information for model imports in the services
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
-        for(Map<String, Object> im : imports) {
+        for (Map<String, Object> im : imports) {
             im.put("filename", im.get("import"));
             im.put("classname", getModelnameFromModelFilename(im.get("filename").toString()));
         }
@@ -316,23 +320,23 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
-            mo.put("tsImports", toTsImports(cm,cm.imports));
+            mo.put("tsImports", toTsImports(cm, cm.imports));
         }
 
         return result;
     }
 
     private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
-            List<Map<String, String>> tsImports = new ArrayList<>();
-            for(String im : imports) {
-                if(!im.equals(cm.classname)) {
-                    HashMap<String, String> tsImport = new HashMap<>();
-                    tsImport.put("classname", im);
-                    tsImport.put("filename", toModelFilename(im));
-                    tsImports.add(tsImport);
-                }
+        List<Map<String, String>> tsImports = new ArrayList<>();
+        for (String im : imports) {
+            if (!im.equals(cm.classname)) {
+                HashMap<String, String> tsImport = new HashMap<>();
+                tsImport.put("classname", im);
+                tsImport.put("filename", toModelFilename(im));
+                tsImports.add(tsImport);
             }
-            return tsImports;
+        }
+        return tsImports;
     }
 
     @Override

@@ -251,6 +251,28 @@
       },
       "description": "Example Error object"
     },
+    "ModelStringArray": {
+      "type": "array",
+      "description": "This defines an array of strings.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ModelDoubleArray": {
+      "type": "array",
+      "description": "This defines an array of doubles.",
+      "items": {
+        "type": "number",
+        "format": "double"
+      }
+    },
+    "ModelErrorInfoArray": {
+      "type": "array",
+      "description": "This defines an array of ErrorInfo objects.",
+      "items": {
+        "$ref": "#/definitions/ErrorInfo"
+      }
+    },
     "VariableNameTest": {
       "description": "This object contains property names which we know will be different from their variable name. Examples of this include snake case property names and property names which are Swift 4 reserved words.",
       "type": "object",

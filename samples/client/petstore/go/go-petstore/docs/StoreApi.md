@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **DeleteOrder**
-> DeleteOrder(orderId)
+> DeleteOrder(ctx, orderId)
 Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -20,6 +20,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **orderId** | **string**| ID of the order that needs to be deleted | 
 
 ### Return type
@@ -62,7 +63,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetOrderById**
-> Order GetOrderById(orderId)
+> Order GetOrderById(ctx, orderId)
 Find purchase order by ID
 
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -71,6 +72,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **orderId** | **int64**| ID of pet that needs to be fetched | 
 
 ### Return type
@@ -89,7 +91,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **PlaceOrder**
-> Order PlaceOrder(body)
+> Order PlaceOrder(ctx, body)
 Place an order for a pet
 
 
@@ -98,6 +100,7 @@ Place an order for a pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type

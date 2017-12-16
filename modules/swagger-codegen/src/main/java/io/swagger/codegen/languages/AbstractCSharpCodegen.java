@@ -433,6 +433,20 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
                     }
 
+                    if (operation.examples != null){
+                        for (Map<String, String> example : operation.examples)
+                        {
+                            for (Map.Entry<String, String> entry : example.entrySet())
+                            {
+                                // Replace " with \", \r, \n with \\r, \\n
+                                String val = entry.getValue().replace("\"", "\\\"")
+                                    .replace("\r","\\r")
+                                    .replace("\n","\\n");
+                                entry.setValue(val);
+                            }
+                        }
+                    }
+
                     processOperation(operation);
                 }
             }

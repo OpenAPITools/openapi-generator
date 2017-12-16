@@ -929,9 +929,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         for (String pathname : openAPI.getPaths().keySet()) {
             PathItem pathItem = openAPI.getPaths().get(pathname);
 
-            final Operation[] operations = ModelUtils.createOperationArray(pathItem);
-
-            for (Operation operation : operations) {
+            for (Operation operation : pathItem.readOperations()) {
                 if (operation == null) {
                     continue;
                 }

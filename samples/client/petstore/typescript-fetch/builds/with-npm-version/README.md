@@ -27,11 +27,11 @@ npm run build
 
 ### Publishing
 
-First build the package than run ```npm publish```
+First build the package then run ```npm publish```
 
 ### Consuming
 
-navigate to the folder of your consuming project and run one of next commando's.
+navigate to the folder of your consuming project and run one of the following commands.
 
 _published:_
 

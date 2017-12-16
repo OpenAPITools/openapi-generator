@@ -157,7 +157,7 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
         typeMapping.put("map", "array");
         typeMapping.put("array", "array");
         typeMapping.put("list", "array");
-        typeMapping.put("object", "object");
+        typeMapping.put("object", "array");
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
@@ -356,11 +356,21 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
             // Loop through all input parameters to determine, whether we have to import something to
             // make the input type available.
             for (CodegenParameter param : op.allParams) {
-                // Determine if the paramter type is supported as a type hint and make it available
+                // Determine if the parameter type is supported as a type hint and make it available
                 // to the templating engine
                 String typeHint = getTypeHint(param.dataType);
                 if (!typeHint.isEmpty()) {
                     param.vendorExtensions.put("x-parameterType", typeHint);
+                }
+
+                if (getBooleanValue(param, CodegenConstants.IS_CONTAINER_EXT_NAME)) {
+                    param.vendorExtensions.put("x-parameterType", getTypeHint(param.dataType+"[]"));
+                }
+
+                // Create a variable to display the correct data type in comments for interfaces
+                param.vendorExtensions.put("x-commentType", param.dataType);
+                if (getBooleanValue(param, CodegenConstants.IS_CONTAINER_EXT_NAME)) {
+                    param.vendorExtensions.put("x-commentType", param.dataType+"[]");
                 }
 
                 // Quote default values for strings
@@ -372,16 +382,14 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
                 }
             }
 
-            for (CodegenResponse response : op.responses) {
-                final String exception = SYMFONY_EXCEPTIONS.get(response.code);
-                response.vendorExtensions.put("x-symfonyException", exception);
-                response.vendorExtensions.put("x-symfonyExceptionSimple", extractSimpleName(exception));
-
-                // Add simple return type to response
-                if (response.dataType != null) {
-                    final String dataType = extractSimpleName(response.dataType);
-                    response.vendorExtensions.put("x-simpleName", dataType);
+            // Create a variable to display the correct return type in comments for interfaces
+            if (op.returnType != null) {
+                op.vendorExtensions.put("x-commentType", op.returnType);
+                if (!op.returnTypeIsPrimitive) {
+                    op.vendorExtensions.put("x-commentType", op.returnType+"[]");
                 }
+            } else {
+                op.vendorExtensions.put("x-commentType", "void");
             }
 
             // Add operation's authentication methods to whole interface
@@ -406,13 +414,17 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
         // Simplify model var type
         for (CodegenProperty var : model.vars) {
             if (var.datatype != null) {
-                // Determine if the paramter type is supported as a type hint and make it available
+                // Determine if the parameter type is supported as a type hint and make it available
                 // to the templating engine
                 String typeHint = getTypeHint(var.datatype);
                 if (!typeHint.isEmpty()) {
                     var.vendorExtensions.put("x-parameterType", typeHint);
                 }
-
+                // Create a variable to display the correct data type in comments for models
+                var.vendorExtensions.put("x-commentType", var.datatype);
+                if (getBooleanValue(var, CodegenConstants.IS_CONTAINER_EXT_NAME)) {
+                    var.vendorExtensions.put("x-commentType", var.datatype+"[]");
+                }
                 if (getBooleanValue(var, CodegenConstants.IS_BOOLEAN_EXT_NAME)) {
                     var.getter = var.getter.replaceAll("^get", "is");
                 }

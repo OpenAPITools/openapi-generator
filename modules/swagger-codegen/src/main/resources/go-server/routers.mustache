@@ -1,8 +1,9 @@
 package {{packageName}}
 
 import (
-	"net/http"
 	"fmt"
+	"net/http"
+
 	"github.com/gorilla/mux"
 )
 
@@ -42,13 +43,12 @@ var routes = Routes{
 		"GET",
 		"{{{basePathWithoutHost}}}/",
 		Index,
-	},
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+	},{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+
 	Route{
 		"{{operationId}}",
 		"{{httpMethod}}",
 		"{{{basePathWithoutHost}}}{{{path}}}",
 		{{operationId}},
-	},
-{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+	},{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 }

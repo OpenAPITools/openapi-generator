@@ -20,6 +20,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using IO.Swagger.Attributes;
 using IO.Swagger.Models;
 
@@ -41,8 +42,15 @@ namespace IO.Swagger.Controllers
         [Route("/v2/store/order/{orderId}")]
         [ValidateModelState]
         [SwaggerOperation("DeleteOrder")]
-        public virtual void DeleteOrder([FromRoute]string orderId)
+        public virtual IActionResult DeleteOrder([FromRoute][Required]string orderId)
         { 
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404);
+
+
             throw new NotImplementedException();
         }
 
@@ -55,14 +63,19 @@ namespace IO.Swagger.Controllers
         [Route("/v2/store/inventory")]
         [ValidateModelState]
         [SwaggerOperation("GetInventory")]
-        [SwaggerResponse(200, typeof(Dictionary<string, int?>), "successful operation")]
+        [SwaggerResponse(statusCode: 200, type: typeof(Dictionary<string, int?>), description: "successful operation")]
         public virtual IActionResult GetInventory()
         { 
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(Dictionary<string, int?>));
+
             string exampleJson = null;
+            exampleJson = "{\n  \"key\" : 0\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Dictionary<string, int?>>(exampleJson)
             : default(Dictionary<string, int?>);
+            //TODO: Change the data returned
             return new ObjectResult(example);
         }
 
@@ -78,23 +91,33 @@ namespace IO.Swagger.Controllers
         [Route("/v2/store/order/{orderId}")]
         [ValidateModelState]
         [SwaggerOperation("GetOrderById")]
-        [SwaggerResponse(200, typeof(Order), "successful operation")]
-        [SwaggerResponse(400, typeof(Order), "Invalid ID supplied")]
-        [SwaggerResponse(404, typeof(Order), "Order not found")]
-        public virtual IActionResult GetOrderById([FromRoute]long? orderId)
+        [SwaggerResponse(statusCode: 200, type: typeof(Order), description: "successful operation")]
+        public virtual IActionResult GetOrderById([FromRoute][Required][Range(1, 5)]long? orderId)
         { 
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(Order));
+
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404);
+
             string exampleJson = null;
+            exampleJson = "<Order>\n  <id>123456789</id>\n  <petId>123456789</petId>\n  <quantity>123</quantity>\n  <shipDate>2000-01-23T04:56:07.000Z</shipDate>\n  <status>aeiou</status>\n  <complete>true</complete>\n</Order>";
+            exampleJson = "{\n  \"id\" : 0,\n  \"petId\" : 6,\n  \"complete\" : false,\n  \"status\" : \"placed\",\n  \"quantity\" : 1,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\"\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Order>(exampleJson)
             : default(Order);
+            //TODO: Change the data returned
             return new ObjectResult(example);
         }
 
         /// <summary>
         /// Place an order for a pet
         /// </summary>
-        /// <remarks></remarks>
+        
         /// <param name="body">order placed for purchasing the pet</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid Order</response>
@@ -102,15 +125,23 @@ namespace IO.Swagger.Controllers
         [Route("/v2/store/order")]
         [ValidateModelState]
         [SwaggerOperation("PlaceOrder")]
-        [SwaggerResponse(200, typeof(Order), "successful operation")]
-        [SwaggerResponse(400, typeof(Order), "Invalid Order")]
+        [SwaggerResponse(statusCode: 200, type: typeof(Order), description: "successful operation")]
         public virtual IActionResult PlaceOrder([FromBody]Order body)
         { 
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(Order));
+
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+
             string exampleJson = null;
+            exampleJson = "<Order>\n  <id>123456789</id>\n  <petId>123456789</petId>\n  <quantity>123</quantity>\n  <shipDate>2000-01-23T04:56:07.000Z</shipDate>\n  <status>aeiou</status>\n  <complete>true</complete>\n</Order>";
+            exampleJson = "{\n  \"id\" : 0,\n  \"petId\" : 6,\n  \"complete\" : false,\n  \"status\" : \"placed\",\n  \"quantity\" : 1,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\"\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Order>(exampleJson)
             : default(Order);
+            //TODO: Change the data returned
             return new ObjectResult(example);
         }
     }

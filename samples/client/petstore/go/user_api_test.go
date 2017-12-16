@@ -4,6 +4,8 @@ import (
 	"testing"
 
 	sw "./go-petstore"
+	"golang.org/x/net/context"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -18,7 +20,7 @@ func TestCreateUser(t *testing.T) {
 		Phone:      "5101112222",
 		UserStatus: 1}
 
-	apiResponse, err := client.UserApi.CreateUser(newUser)
+	apiResponse, err := client.UserApi.CreateUser(context.Background(), newUser)
 
 	if err != nil {
 		t.Errorf("Error while adding user")
@@ -54,7 +56,7 @@ func TestCreateUsersWithArrayInput(t *testing.T) {
 		},
 	}
 
-	apiResponse, err := client.UserApi.CreateUsersWithArrayInput(newUsers)
+	apiResponse, err := client.UserApi.CreateUsersWithArrayInput(context.Background(), newUsers)
 	if err != nil {
 		t.Errorf("Error while adding users")
 		t.Log(err)
@@ -64,13 +66,13 @@ func TestCreateUsersWithArrayInput(t *testing.T) {
 	}
 
 	//tear down
-	_, err1 := client.UserApi.DeleteUser("gopher1")
+	_, err1 := client.UserApi.DeleteUser(context.Background(), "gopher1")
 	if err1 != nil {
 		t.Errorf("Error while deleting user")
 		t.Log(err1)
 	}
 
-	_, err2 := client.UserApi.DeleteUser("gopher2")
+	_, err2 := client.UserApi.DeleteUser(context.Background(), "gopher2")
 	if err2 != nil {
 		t.Errorf("Error while deleting user")
 		t.Log(err2)
@@ -80,7 +82,7 @@ func TestCreateUsersWithArrayInput(t *testing.T) {
 func TestGetUserByName(t *testing.T) {
 	assert := assert.New(t)
 
-	resp, apiResponse, err := client.UserApi.GetUserByName("gopher")
+	resp, apiResponse, err := client.UserApi.GetUserByName(context.Background(), "gopher")
 	if err != nil {
 		t.Errorf("Error while getting user by id")
 		t.Log(err)
@@ -96,7 +98,7 @@ func TestGetUserByName(t *testing.T) {
 }
 
 func TestGetUserByNameWithInvalidID(t *testing.T) {
-	resp, apiResponse, err := client.UserApi.GetUserByName("999999999")
+	resp, apiResponse, err := client.UserApi.GetUserByName(context.Background(), "999999999")
 	if apiResponse != nil && apiResponse.StatusCode == 404 {
 		return // This is a pass condition. API will return with a 404 error.
 	} else if err != nil {
@@ -124,7 +126,7 @@ func TestUpdateUser(t *testing.T) {
 		Phone:      "5101112222",
 		UserStatus: 1}
 
-	apiResponse, err := client.UserApi.UpdateUser("gopher", newUser)
+	apiResponse, err := client.UserApi.UpdateUser(context.Background(), "gopher", newUser)
 	if err != nil {
 		t.Errorf("Error while deleting user by id")
 		t.Log(err)
@@ -134,7 +136,7 @@ func TestUpdateUser(t *testing.T) {
 	}
 
 	//verify changings are correct
-	resp, apiResponse, err := client.UserApi.GetUserByName("gopher")
+	resp, apiResponse, err := client.UserApi.GetUserByName(context.Background(), "gopher")
 	if err != nil {
 		t.Errorf("Error while getting user by id")
 		t.Log(err)
@@ -146,7 +148,7 @@ func TestUpdateUser(t *testing.T) {
 }
 
 func TestDeleteUser(t *testing.T) {
-	apiResponse, err := client.UserApi.DeleteUser("gopher")
+	apiResponse, err := client.UserApi.DeleteUser(context.Background(), "gopher")
 
 	if err != nil {
 		t.Errorf("Error while deleting user")

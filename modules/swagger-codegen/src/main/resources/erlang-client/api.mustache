@@ -1,23 +1,27 @@
 -module({{classname}}_api).
 
 -export([{{#operations}}{{#operation}}{{^-first}},
-         {{/-first}}{{operationId}}/{{#length}}{{allParams}}{{/length}}{{/operation}}{{/operations}}]).
+         {{/-first}}{{operationId}}/{{arityRequired}}, {{operationId}}/{{arityOptional}}{{/operation}}{{/operations}}]).
 
 -define(BASE_URL, <<"{{{basePath}}}">>).
 
 {{#operations}}
     {{#operation}}
-%% @doc {{summary}}
+%% @doc {{{summary}}}
 {{^notes.isEmpty}}
-%% {{notes}}
+%% {{{notes}}}
 {{/notes.isEmpty}}
--spec {{operationId}}({{#allParams}}{{^-first}}, {{/-first}}{{dataType}}{{/allParams}}) -> {{#returnType}}{ok, list(), {{returnType}}} | {error, string()}{{/returnType}}{{^returnType}}ok | {error, integer()}{{/returnType}}.
-{{operationId}}({{#allParams}}{{^-first}}, {{/-first}}{{paramName}}{{/allParams}}) ->
+-spec {{operationId}}({{#allParams}}{{#required}}{{^-first}}, {{/-first}}{{{dataType}}}{{/required}}{{/allParams}}{{^bodyParams.isEmpty}}{{#bodyParams}}, term(){{/bodyParams}}{{/bodyParams.isEmpty}}) -> {{#returnType}}{ok, list(), {{{returnType}}}} | {error, string()}{{/returnType}}{{^returnType}}ok | {error, integer()}{{/returnType}}.
+{{operationId}}({{#allParams}}{{#required}}{{^-first}}, {{/-first}}{{paramName}}{{/required}}{{/allParams}}{{^bodyParams.isEmpty}}{{#bodyParams}}, {{paramName}}{{/bodyParams}}{{/bodyParams.isEmpty}}) ->
+    {{operationId}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}, {{/bodyParams}}{{/bodyParams.isEmpty}}#{}).
+
+-spec {{operationId}}({{#allParams}}{{#required}}{{{dataType}}}, {{/required}}{{/allParams}}{{^bodyParams.isEmpty}}{{#bodyParams}}term(), {{/bodyParams}}{{/bodyParams.isEmpty}}maps:map()) -> {{#returnType}}{ok, list(), {{{returnType}}}} | {error, string()}{{/returnType}}{{^returnType}}ok | {error, integer()}{{/returnType}}.
+{{operationId}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}{{/bodyParams}}, {{/bodyParams.isEmpty}}_Optional) ->
     Method = {{httpMethod}},
     Path = ["{{{replacedPathName}}}"],
-    QS = {{#queryParams.isEmpty}}[]{{/queryParams.isEmpty}}{{^queryParams.isEmpty}}lists:flatten([{{#queryParams}}{{^-first}}, {{/-first}}{{#qsEncode}}{{this}}{{/qsEncode}}{{/queryParams}}]){{/queryParams.isEmpty}},
-    Headers = [{{^headerParams.isEmpty}}{{#headerParams}}{{^-first}}, {{/-first}}{<<"{{baseName}}">>, {{paramName}}}{{/headerParams}}{{/headerParams.isEmpty}}],
-    Body1 = {{^formParams.isEmpty}}{form, [{{#formParams}}{{^-first}}, {{/-first}}{<<"{{baseName}}">>, {{paramName}}}{{/formParams}}]}{{/formParams.isEmpty}}{{#formParams.isEmpty}}{{#bodyParams.isEmpty}}[]{{/bodyParams.isEmpty}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/bodyParams.isEmpty}}{{/formParams.isEmpty}},
+    QS = {{#queryParams.isEmpty}}[]{{/queryParams.isEmpty}}{{^queryParams.isEmpty}}lists:flatten([{{#queryParams}}{{#required}}{{^-first}}, {{/-first}}{{#qsEncode}}{{this}}{{/qsEncode}}{{/required}}{{/queryParams}}])++[{X, maps:get(X, _Optional)} || X <- [{{#queryParams}}{{^required}}{{^-first}}, {{/-first}}'{{baseName}}'{{/required}}{{/queryParams}}], maps:is_key(X, _Optional)]{{/queryParams.isEmpty}},
+    Headers = {{#headerParams.isEmpty}}[]{{/headerParams.isEmpty}}{{^headerParams.isEmpty}}[{{#headerParams}}{{#required}}{{^-first}}, {{/-first}}{<<"{{baseName}}">>, {{paramName}}}{{/required}}{{/headerParams}}]++[{X, maps:get(X, _Optional)} || X <- [{{#headerParams}}{{^required}}{{^-first}}, {{/-first}}'{{baseName}}'{{/required}}{{/headerParams}}], maps:is_key(X, _Optional)]{{/headerParams.isEmpty}},
+    Body1 = {{^formParams.isEmpty}}{form, [{{#formParams}}{{#required}}{{^-first}}, {{/-first}}{<<"{{baseName}}">>, {{paramName}}}{{/required}}{{/formParams}}]++[{X, maps:get(X, _Optional)} || X <- [{{#formParams}}{{^required}}{{^-first}}, {{/-first}}'{{baseName}}'{{/required}}{{/formParams}}], maps:is_key(X, _Optional)]}{{/formParams.isEmpty}}{{#formParams.isEmpty}}{{#bodyParams.isEmpty}}[]{{/bodyParams.isEmpty}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/bodyParams.isEmpty}}{{/formParams.isEmpty}},
     Opts = [],
     Url = hackney_url:make_url(?BASE_URL, Path, QS),
 
@@ -26,8 +30,8 @@
         {{#responses}}
 {{#isDefault}}
         {ok, {{code}}, RespHeaders, ClientRef} ->
-            {ok, Body} = hackney:body(ClientRef),
-            {ok, RespHeaders, jsx:decode(Body, [returns_maps, {labels, attempt_atom}])}{{#hasMore}}; {{/hasMore}}
+            {ok, ResponseBody} = hackney:body(ClientRef),
+            {ok, RespHeaders, jsx:decode(ResponseBody, [return_maps])}{{#hasMore}}; {{/hasMore}}
 {{/isDefault}}
 {{^isDefault}}
         {ok, {{code}}, _RespHeaders, _ClientRef} ->

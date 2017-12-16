@@ -36,7 +36,7 @@ Class | Method | HTTP request | Description
 
 Example
 ```
-	auth := context.WithValue(context.TODO(), sw.ContextAPIKey, sw.APIKey{
+	auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
 		Key: "APIKEY",
 		Prefix: "Bearer", // Omit if not necessary.
 	})
@@ -52,7 +52,7 @@ Example
 
 Example
 ```
-	auth := context.WithValue(context.TODO(), sw.ContextAccessToken, "ACCESSTOKENSTRING")
+	auth := context.WithValue(context.Background(), sw.ContextAccessToken, "ACCESSTOKENSTRING")
     r, err := client.Service.Operation(auth, args)
 ```
 

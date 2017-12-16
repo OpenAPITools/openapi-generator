@@ -16,7 +16,6 @@ public class SpecialModelName  {
   
   @ApiModelProperty(value = "")
   private Long specialPropertyName = null;
-
  /**
    * Get specialPropertyName
    * @return specialPropertyName

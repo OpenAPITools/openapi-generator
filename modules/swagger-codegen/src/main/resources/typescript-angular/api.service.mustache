@@ -3,16 +3,21 @@
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 {{#useHttpClient}}
-import { HttpClient, HttpHeaders, HttpParams }               from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams,
+         HttpResponse, HttpEvent }                           from '@angular/common/http';
+import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 {{/useHttpClient}}
 {{^useHttpClient}}
 import { Http, Headers, URLSearchParams }                    from '@angular/http';
 import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import { Response, ResponseContentType }                     from '@angular/http';
+import { CustomQueryEncoderHelper }                          from '../encoder';
 {{/useHttpClient}}
 
 import { Observable }                                        from 'rxjs/Observable';
+{{^useHttpClient}}
 import '../rxjs-operators';
+{{/useHttpClient}}
 
 {{#imports}}
 import { {{classname}} } from '../{{filename}}';
@@ -20,12 +25,6 @@ import { {{classname}} } from '../{{filename}}';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-{{#useHttpClient}}
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
-{{/useHttpClient}}
-{{^useHttpClient}}
-import { CustomQueryEncoderHelper }                          from '../encoder';
-{{/useHttpClient}}
 {{#withInterfaces}}
 import { {{classname}}Interface }                            from './{{classname}}Interface';
 {{/withInterfaces}}
@@ -74,8 +73,8 @@ export class {{classname}} {
     }
 
 {{^useHttpClient}}
-{{! not sure why we used to generate a second method here rather than inlining those few lines of code, 
-    but let's keep it for now for the sake of backwards compatiblity. }}  
+{{! Before HttpClient implementation or method overloading we relied on 2 functions, 1 to return the straight body as json
+    and another to get the full response.}}
 {{#operation}}
     /**
      * {{&notes}}
@@ -109,8 +108,18 @@ export class {{classname}} {
      * {{summary}}
      * {{notes}}
      {{#allParams}}* @param {{paramName}} {{description}}
-     {{/allParams}}*/
-    public {{nickname}}{{^useHttpClient}}WithHttpInfo{{/useHttpClient}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{^useHttpClient}}{{#hasParams}}, {{/hasParams}}extraHttpRequestParams?: RequestOptionsArgs{{/useHttpClient}}): Observable<{{#useHttpClient}}{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}{}{{/returnType}}{{/useHttpClient}}{{^useHttpClient}}Response{{/useHttpClient}}> {
+     {{/allParams}}{{#useHttpClient}}* @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.{{/useHttpClient}}
+     */
+    {{#useHttpClient}}
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe?: 'body', reportProgress?: boolean): Observable<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>;
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    {{/useHttpClient}}
+    {{^useHttpClient}}
+    public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    {{/useHttpClient}}
 {{#allParams}}
 {{#required}}
         if ({{paramName}} === null || {{paramName}} === undefined) {
@@ -151,7 +160,7 @@ export class {{classname}} {
         {{/isListContainer}}
 {{/queryParams}}
 
-{{/hasQueryParams}} 
+{{/hasQueryParams}}
         let headers = {{#useHttpClient}}this.defaultHeaders;{{/useHttpClient}}{{^useHttpClient}}new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845{{/useHttpClient}}
 {{#headerParams}}
         {{#isListContainer}}
@@ -282,17 +291,19 @@ export class {{classname}} {
 
 {{/hasFormParams}}
 {{#useHttpClient}}
-        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<any>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
+        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
             {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
             {
 {{#hasQueryParams}}
                 params: queryParameters,
 {{/hasQueryParams}}
-                headers: headers,
 {{#isResponseFile}}
                 responseType: "blob",
 {{/isResponseFile}}
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
 {{/useHttpClient}}
@@ -320,7 +331,7 @@ export class {{classname}} {
         }
 
         return this.http.request(`${this.basePath}{{{path}}}`, requestOptions);
-{{/useHttpClient}}        
+{{/useHttpClient}}
     }
 
 {{/operation}}}

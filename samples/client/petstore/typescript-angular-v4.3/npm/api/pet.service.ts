@@ -12,17 +12,17 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams }               from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams,
+         HttpResponse, HttpEvent }                           from '@angular/common/http';
+import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
-import '../rxjs-operators';
 
 import { ApiResponse } from '../model/apiResponse';
 import { Pet } from '../model/pet';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 
 @Injectable()
@@ -61,8 +61,13 @@ export class PetService {
      * Add a new pet to the store
      * 
      * @param body Pet object that needs to be added to the store
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public addPet(body: Pet): Observable<{}> {
+    public addPet(body: Pet, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public addPet(body: Pet, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public addPet(body: Pet, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public addPet(body: Pet, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling addPet.');
         }
@@ -100,8 +105,10 @@ export class PetService {
         return this.httpClient.post<any>(`${this.basePath}/pet`,
             body,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -111,8 +118,13 @@ export class PetService {
      * 
      * @param petId Pet id to delete
      * @param apiKey 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public deletePet(petId: number, apiKey?: string): Observable<{}> {
+    public deletePet(petId: number, apiKey?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deletePet(petId: number, apiKey?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deletePet(petId: number, apiKey?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deletePet(petId: number, apiKey?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
@@ -146,8 +158,10 @@ export class PetService {
 
         return this.httpClient.delete<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -156,8 +170,13 @@ export class PetService {
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public findPetsByStatus(status: Array<string>): Observable<Array<Pet>> {
+    public findPetsByStatus(status: Array<string>, observe?: 'body', reportProgress?: boolean): Observable<Array<Pet>>;
+    public findPetsByStatus(status: Array<string>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Pet>>>;
+    public findPetsByStatus(status: Array<string>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Pet>>>;
+    public findPetsByStatus(status: Array<string>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (status === null || status === undefined) {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
@@ -191,11 +210,13 @@ export class PetService {
         let consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/pet/findByStatus`,
+        return this.httpClient.get<Array<Pet>>(`${this.basePath}/pet/findByStatus`,
             {
                 params: queryParameters,
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -204,8 +225,13 @@ export class PetService {
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public findPetsByTags(tags: Array<string>): Observable<Array<Pet>> {
+    public findPetsByTags(tags: Array<string>, observe?: 'body', reportProgress?: boolean): Observable<Array<Pet>>;
+    public findPetsByTags(tags: Array<string>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Pet>>>;
+    public findPetsByTags(tags: Array<string>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Pet>>>;
+    public findPetsByTags(tags: Array<string>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (tags === null || tags === undefined) {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
@@ -239,11 +265,13 @@ export class PetService {
         let consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/pet/findByTags`,
+        return this.httpClient.get<Array<Pet>>(`${this.basePath}/pet/findByTags`,
             {
                 params: queryParameters,
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -252,8 +280,13 @@ export class PetService {
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public getPetById(petId: number): Observable<Pet> {
+    public getPetById(petId: number, observe?: 'body', reportProgress?: boolean): Observable<Pet>;
+    public getPetById(petId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Pet>>;
+    public getPetById(petId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Pet>>;
+    public getPetById(petId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
@@ -279,10 +312,12 @@ export class PetService {
         let consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
+        return this.httpClient.get<Pet>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -291,8 +326,13 @@ export class PetService {
      * Update an existing pet
      * 
      * @param body Pet object that needs to be added to the store
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public updatePet(body: Pet): Observable<{}> {
+    public updatePet(body: Pet, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updatePet(body: Pet, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updatePet(body: Pet, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updatePet(body: Pet, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling updatePet.');
         }
@@ -330,8 +370,10 @@ export class PetService {
         return this.httpClient.put<any>(`${this.basePath}/pet`,
             body,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -342,8 +384,13 @@ export class PetService {
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public updatePetWithForm(petId: number, name?: string, status?: string): Observable<{}> {
+    public updatePetWithForm(petId: number, name?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updatePetWithForm(petId: number, name?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updatePetWithForm(petId: number, name?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updatePetWithForm(petId: number, name?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
@@ -394,8 +441,10 @@ export class PetService {
         return this.httpClient.post<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
             convertFormParamsToString ? formParams.toString() : formParams,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -406,8 +455,13 @@ export class PetService {
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: Blob): Observable<ApiResponse> {
+    public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, observe?: 'body', reportProgress?: boolean): Observable<ApiResponse>;
+    public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ApiResponse>>;
+    public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ApiResponse>>;
+    public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }
@@ -457,11 +511,13 @@ export class PetService {
             formParams = formParams.append('file', <any>file) || formParams;
         }
 
-        return this.httpClient.post<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`,
+        return this.httpClient.post<ApiResponse>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`,
             convertFormParamsToString ? formParams.toString() : formParams,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }

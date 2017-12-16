@@ -74,7 +74,7 @@ static bool deleteOrderProcessor(MemoryStruct_s p_chunk, long code, char* errorm
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		handler(error, userData);
 		return false;
@@ -204,7 +204,7 @@ static bool getInventoryProcessor(MemoryStruct_s p_chunk, long code, char* error
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		 handler(out, error, userData);
 		return false;
@@ -350,7 +350,7 @@ static bool getOrderByIdProcessor(MemoryStruct_s p_chunk, long code, char* error
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		 handler(out, error, userData);
 		return false;
@@ -502,7 +502,7 @@ static bool placeOrderProcessor(MemoryStruct_s p_chunk, long code, char* errorms
 		} else if (p_chunk.memory != NULL) {
 			error = Error(code, string(p_chunk.memory));
 		} else {
-			error = Error(code, string("Unkown Error"));
+			error = Error(code, string("Unknown Error"));
 		}
 		 handler(out, error, userData);
 		return false;

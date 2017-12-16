@@ -1,8 +1,8 @@
 -module(swagger_user).
 
--export_type([swagger_user/0,
-              encode/1,
-              decode/1]).
+-export([encode/1]).
+
+-export_type([swagger_user/0]).
 
 -type swagger_user() ::
     #{ 'id' => integer(),
@@ -32,4 +32,4 @@ encode(#{ 'id' := Id,
        'password' => Password,
        'phone' => Phone,
        'userStatus' => UserStatus
-     }
+     }.

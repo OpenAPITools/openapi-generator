@@ -40,8 +40,10 @@ import scala.concurrent._
 import scala.concurrent.duration._
 import scala.util.{Failure, Success, Try}
 
-class FakeApi(val defBasePath: String = "https://petstore.swagger.io *_/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r",
-                        defApiInvoker: ApiInvoker = ApiInvoker) {
+class FakeApi(
+  val defBasePath: String = "https://petstore.swagger.io *_/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r",
+  defApiInvoker: ApiInvoker = ApiInvoker
+) {
 
   implicit val formats = new org.json4s.DefaultFormats {
     override def dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+0000")
@@ -53,10 +55,13 @@ class FakeApi(val defBasePath: String = "https://petstore.swagger.io *_/ ' \" =e
   implicit val stringWriter = RequestWriters.StringWriter
   implicit val jsonWriter = JsonFormatsWriter
 
-  var basePath = defBasePath
-  var apiInvoker = defApiInvoker
+  var basePath: String = defBasePath
+  var apiInvoker: ApiInvoker = defApiInvoker
 
-  def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value
+  def addHeader(key: String, value: String): mutable.HashMap[String, String] = {
+    apiInvoker.defaultHeaders += key -> value
+  }
+
   val config = SwaggerConfig.forUrl(new URI(defBasePath))
   val client = new RestClient(config)
   val helper = new FakeApiAsyncHelper(client, config)
@@ -84,7 +89,6 @@ class FakeApi(val defBasePath: String = "https://petstore.swagger.io *_/ ' \" =e
   def testCodeInject * &#39; &quot; &#x3D;end  rn n rAsync(testCodeInjectEndRnNR: Option[String] = None) = {
       helper.testCodeInject * &#39; &quot; &#x3D;end  rn n r(testCodeInjectEndRnNR)
   }
-
 
 }
 

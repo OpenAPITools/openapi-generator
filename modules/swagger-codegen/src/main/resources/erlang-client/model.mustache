@@ -2,9 +2,9 @@
 {{#model}}
 -module({{classname}}).
 
--export_type([{{classname}}/0,
-              encode/1,
-              decode/1]).
+-export([encode/1]).
+
+-export_type([{{classname}}/0]).
 
 -type {{classname}}() ::
     #{ {{#vars}}'{{name}}' {{#required}}:={{/required}}{{^required}}=>{{/required}} {{{datatype}}}{{#hasMore}},
@@ -16,6 +16,6 @@ encode(#{ {{#vars}}'{{name}}' := {{{nameInCamelCase}}}{{#hasMore}},
         }) ->
     #{ {{#vars}}'{{baseName}}' => {{{nameInCamelCase}}}{{#hasMore}},
        {{/hasMore}}{{/vars}}
-     }
+     }.
 {{/model}}
 {{/models}}

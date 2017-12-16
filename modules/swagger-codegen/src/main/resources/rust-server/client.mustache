@@ -1,6 +1,7 @@
 #![allow(unused_extern_crates)]
 extern crate hyper_openssl;
 extern crate chrono;
+extern crate url;
 {{#apiHasFile}}extern crate multipart;{{/apiHasFile}}
 
 {{#apiHasFile}}use multipart::client::lazy::Multipart;{{/apiHasFile}}
@@ -11,6 +12,7 @@ use hyper::header::{Headers, ContentType};
 use hyper::mime::{Mime, TopLevel, SubLevel, Attr, Value};
 use hyper::Url;
 use self::hyper_openssl::openssl;
+use self::url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
 use futures;
 use futures::{Future, Stream};
 use futures::{future, stream};
@@ -94,7 +96,7 @@ impl Client {
             let mut ssl = openssl::ssl::SslConnectorBuilder::new(openssl::ssl::SslMethod::tls()).unwrap();
 
             // Server authentication
-            ssl.builder_mut().set_ca_file(ca_certificate.clone()).unwrap();
+            ssl.set_ca_file(ca_certificate.clone()).unwrap();
 
             let ssl = hyper_openssl::OpensslClient::from(ssl.build());
             let connector = hyper::net::HttpsConnector::new(ssl);
@@ -126,12 +128,12 @@ impl Client {
             let mut ssl = openssl::ssl::SslConnectorBuilder::new(openssl::ssl::SslMethod::tls()).unwrap();
 
             // Server authentication
-            ssl.builder_mut().set_ca_file(ca_certificate.clone()).unwrap();
+            ssl.set_ca_file(ca_certificate.clone()).unwrap();
 
             // Client authentication
-            ssl.builder_mut().set_private_key_file(client_key.clone(), openssl::x509::X509_FILETYPE_PEM).unwrap();
-            ssl.builder_mut().set_certificate_chain_file(client_certificate.clone()).unwrap();
-            ssl.builder_mut().check_private_key().unwrap();
+            ssl.set_private_key_file(client_key.clone(), openssl::x509::X509_FILETYPE_PEM).unwrap();
+            ssl.set_certificate_chain_file(client_certificate.clone()).unwrap();
+            ssl.check_private_key().unwrap();
 
             let ssl = hyper_openssl::OpensslClient::from(ssl.build());
             let connector = hyper::net::HttpsConnector::new(ssl);
@@ -174,7 +176,11 @@ impl Api for Client {
 {{/required}}{{^required}}        let query_{{paramName}} = param_{{paramName}}.map_or_else(String::new, |query| format!("{{baseName}}={{=<% %>=}}{<% paramName %>}<%={{ }}=%>&", {{paramName}}=query{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}}));
 {{/required}}{{/queryParams}}
 
-        let url = format!("{}{{basePathWithoutHost}}{{path}}?{{#queryParams}}{{=<% %>=}}{<% paramName %>}<%={{ }}=%>{{/queryParams}}", self.base_path{{#pathParams}}, {{baseName}}=param_{{paramName}}.to_string(){{/pathParams}}{{#queryParams}}, {{paramName}}=query_{{paramName}}{{/queryParams}});
+        let url = format!(
+            "{}{{basePathWithoutHost}}{{path}}{{#queryParams}}{{#-first}}?{{/-first}}{{=<% %>=}}{<% paramName %>}<%={{ }}=%>{{/queryParams}}",
+            self.base_path{{#pathParams}}, {{baseName}}=utf8_percent_encode(&param_{{paramName}}.to_string(), PATH_SEGMENT_ENCODE_SET){{/pathParams}}{{#queryParams}},
+            {{paramName}}=utf8_percent_encode(&query_{{paramName}}, QUERY_ENCODE_SET){{/queryParams}}
+        );
 
 {{#vendorExtensions}}{{#hasFile}}        // Form data body
         let mut multipart = Multipart::new();{{/hasFile}}{{/vendorExtensions}}{{#formParams}}{{#isFile}}
@@ -199,22 +205,23 @@ impl Api for Client {
         let boundary = fields.boundary();
         let multipart_header = Mime(TopLevel::Multipart, SubLevel::FormData, vec![(Attr::Boundary, Value::Ext(boundary.to_string()))]);{{/hasFile}}{{/vendorExtensions}}{{#bodyParam}}{{#-first}}
         // Body parameter
-{{/-first}}{{#required}}{{#vendorExtensions}}{{#consumesXml}}
+{{/-first}}{{#vendorExtensions}}{{#required}}{{#consumesPlainText}}        let body = param_{{paramName}};{{/consumesPlainText}}{{#consumesXml}}
 {{^has_namespace}}        let body = serde_xml_rs::to_string(&param_{{paramName}}).expect("impossible to fail to serialize");{{/has_namespace}}{{#has_namespace}}
         let mut namespaces = BTreeMap::new();
         // An empty string is used to indicate a global namespace in xmltree.
         namespaces.insert("".to_string(), models::namespaces::{{uppercase_data_type}}.clone());
-        let body = serde_xml_rs::to_string_with_namespaces(&param_{{paramName}}, namespaces).expect("impossible to fail to serialize");{{/has_namespace}}{{/consumesXml}}{{^consumesXml}}
-        let body = serde_json::to_string(&param_{{paramName}}).expect("impossible to fail to serialize");{{/consumesXml}}{{/vendorExtensions}}
-{{/required}}{{^required}}        let body = param_{{paramName}}.map(|ref body| {
-{{#vendorExtensions}}{{#consumesXml}}
+        let body = serde_xml_rs::to_string_with_namespaces(&param_{{paramName}}, namespaces).expect("impossible to fail to serialize");{{/has_namespace}}{{/consumesXml}}{{#consumesJson}}
+        let body = serde_json::to_string(&param_{{paramName}}).expect("impossible to fail to serialize");{{/consumesJson}}
+{{/required}}{{^required}}{{#consumesPlainText}}        let body = param_{{paramName}};
+{{/consumesPlainText}}{{^consumesPlainText}}        let body = param_{{paramName}}.map(|ref body| {
+{{#consumesXml}}
 {{^has_namespace}}        serde_xml_rs::to_string(body).expect("impossible to fail to serialize"){{/has_namespace}}{{#has_namespace}}
             let mut namespaces = BTreeMap::new();
             // An empty string is used to indicate a global namespace in xmltree.
             namespaces.insert("".to_string(), models::namespaces::{{uppercase_data_type}}.clone());
-            serde_xml_rs::to_string_with_namespaces(body, namespaces).expect("impossible to fail to serialize"){{/has_namespace}}{{/consumesXml}}{{^consumesXml}}
-            serde_json::to_string(body).expect("impossible to fail to serialize"){{/consumesXml}}{{/vendorExtensions}}
-        });{{/required}}{{/bodyParam}}
+            serde_xml_rs::to_string_with_namespaces(body, namespaces).expect("impossible to fail to serialize"){{/has_namespace}}{{/consumesXml}}{{#consumesJson}}
+            serde_json::to_string(body).expect("impossible to fail to serialize"){{/consumesJson}}
+        });{{/consumesPlainText}}{{/required}}{{/vendorExtensions}}{{/bodyParam}}
         let hyper_client = (self.hyper_client)();
         let request = hyper_client.request(hyper::method::Method::{{#vendorExtensions}}{{HttpMethod}}{{/vendorExtensions}}, &url);
         let mut custom_headers = hyper::header::Headers::new();
@@ -252,13 +259,12 @@ impl Api for Client {
                     // ToDo: this will move to swagger-rs and become a standard From conversion trait
                     // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                     let body = serde_xml_rs::from_str::<{{{dataType}}}>(&buf)
-                        .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;{{/producesXml}}{{^producesXml}}
-                    let body = serde_json::from_str::<{{{dataType}}}>(&buf)?;
-{{/producesXml}}{{/vendorExtensions}}{{/isFile}}{{#isFile}}                    let mut buf = Vec::new();
+                        .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;{{/producesXml}}{{#producesPlainText}}
+                    let body = buf;{{/producesPlainText}}{{#producesJson}}
+                    let body = serde_json::from_str::<{{{dataType}}}>(&buf)?;{{/producesJson}}{{/vendorExtensions}}{{/isFile}}{{#isFile}}
+                    let mut buf = Vec::new();
                     response.read_to_end(&mut buf).map_err(|e| ApiError(format!("Received error reading response: {}", e)))?;
-                    let body = Box::new(stream::once(Ok(buf)));{{/isFile}}
-{{/dataType}}
-
+                    let body = Box::new(stream::once(Ok(buf)));{{/isFile}}{{/dataType}}
 {{#headers}}                    header! { (Response{{nameInCamelCase}}, "{{baseName}}") => [{{{datatype}}}] }
                     let response_{{name}} = response.headers.get::<Response{{nameInCamelCase}}>().ok_or_else(|| "Required response header {{baseName}} for response {{code}} was not found.")?;
 {{/headers}}

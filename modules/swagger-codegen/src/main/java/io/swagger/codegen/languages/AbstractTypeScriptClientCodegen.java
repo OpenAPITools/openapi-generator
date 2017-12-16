@@ -146,28 +146,34 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toParamName(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
-            return name;
-
-        // camelize the variable name
-        // pet_id => petId
-        name = camelize(name, true);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*"))
-            name = escapeReservedWord(name);
-
-        return name;
+        // should be the same as variable name
+        return toVarName(name);
     }
 
     @Override
     public String toVarName(String name) {
-        // should be the same as variable name
-        return getNameUsingModelPropertyNaming(name);
+        // sanitize name
+        name = sanitizeName(name);
+
+        if("_".equals(name)) {
+            name = "_u";
+        }
+
+        // if it's all uppper case, do nothing
+        if (name.matches("^[A-Z_]*$")) {
+            return name;
+        }
+
+        // camelize (lower first character) the variable name
+        // pet_id => petId
+        name = camelize(name, true);
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+
+        return name;
     }
 
     @Override

@@ -91,130 +91,132 @@ fi
 declare -a result_color_table=( "$WHITE" "$WHITE" "$GREEN" "$YELLOW" "$WHITE" "$MAGENTA" "$WHITE" )
 
 ##
-# This array stores the minimum number of required occurences for parameter
+# This array stores the minimum number of required occurrences for parameter
 # 0 - optional
 # 1 - required
-declare -A operation_parameters_minimum_occurences
-operation_parameters_minimum_occurences["testSpecialTags:::body"]=1
-operation_parameters_minimum_occurences["fakeOuterBooleanSerialize:::body"]=0
-operation_parameters_minimum_occurences["fakeOuterCompositeSerialize:::body"]=0
-operation_parameters_minimum_occurences["fakeOuterNumberSerialize:::body"]=0
-operation_parameters_minimum_occurences["fakeOuterStringSerialize:::body"]=0
-operation_parameters_minimum_occurences["testClientModel:::body"]=1
-operation_parameters_minimum_occurences["testEndpointParameters:::number"]=1
-operation_parameters_minimum_occurences["testEndpointParameters:::double"]=1
-operation_parameters_minimum_occurences["testEndpointParameters:::pattern_without_delimiter"]=1
-operation_parameters_minimum_occurences["testEndpointParameters:::byte"]=1
-operation_parameters_minimum_occurences["testEndpointParameters:::integer"]=0
-operation_parameters_minimum_occurences["testEndpointParameters:::int32"]=0
-operation_parameters_minimum_occurences["testEndpointParameters:::int64"]=0
-operation_parameters_minimum_occurences["testEndpointParameters:::float"]=0
-operation_parameters_minimum_occurences["testEndpointParameters:::string"]=0
-operation_parameters_minimum_occurences["testEndpointParameters:::binary"]=0
-operation_parameters_minimum_occurences["testEndpointParameters:::date"]=0
-operation_parameters_minimum_occurences["testEndpointParameters:::dateTime"]=0
-operation_parameters_minimum_occurences["testEndpointParameters:::password"]=0
-operation_parameters_minimum_occurences["testEndpointParameters:::callback"]=0
-operation_parameters_minimum_occurences["testEnumParameters:::enum_form_string_array"]=0
-operation_parameters_minimum_occurences["testEnumParameters:::enum_form_string"]=0
-operation_parameters_minimum_occurences["testEnumParameters:::enum_header_string_array"]=0
-operation_parameters_minimum_occurences["testEnumParameters:::enum_header_string"]=0
-operation_parameters_minimum_occurences["testEnumParameters:::enum_query_string_array"]=0
-operation_parameters_minimum_occurences["testEnumParameters:::enum_query_string"]=0
-operation_parameters_minimum_occurences["testEnumParameters:::enum_query_integer"]=0
-operation_parameters_minimum_occurences["testEnumParameters:::enum_query_double"]=0
-operation_parameters_minimum_occurences["testJsonFormData:::param"]=1
-operation_parameters_minimum_occurences["testJsonFormData:::param2"]=1
-operation_parameters_minimum_occurences["testClassname:::body"]=1
-operation_parameters_minimum_occurences["addPet:::body"]=1
-operation_parameters_minimum_occurences["deletePet:::petId"]=1
-operation_parameters_minimum_occurences["deletePet:::api_key"]=0
-operation_parameters_minimum_occurences["findPetsByStatus:::status"]=1
-operation_parameters_minimum_occurences["findPetsByTags:::tags"]=1
-operation_parameters_minimum_occurences["getPetById:::petId"]=1
-operation_parameters_minimum_occurences["updatePet:::body"]=1
-operation_parameters_minimum_occurences["updatePetWithForm:::petId"]=1
-operation_parameters_minimum_occurences["updatePetWithForm:::name"]=0
-operation_parameters_minimum_occurences["updatePetWithForm:::status"]=0
-operation_parameters_minimum_occurences["uploadFile:::petId"]=1
-operation_parameters_minimum_occurences["uploadFile:::additionalMetadata"]=0
-operation_parameters_minimum_occurences["uploadFile:::file"]=0
-operation_parameters_minimum_occurences["deleteOrder:::order_id"]=1
-operation_parameters_minimum_occurences["getOrderById:::order_id"]=1
-operation_parameters_minimum_occurences["placeOrder:::body"]=1
-operation_parameters_minimum_occurences["createUser:::body"]=1
-operation_parameters_minimum_occurences["createUsersWithArrayInput:::body"]=1
-operation_parameters_minimum_occurences["createUsersWithListInput:::body"]=1
-operation_parameters_minimum_occurences["deleteUser:::username"]=1
-operation_parameters_minimum_occurences["getUserByName:::username"]=1
-operation_parameters_minimum_occurences["loginUser:::username"]=1
-operation_parameters_minimum_occurences["loginUser:::password"]=1
-operation_parameters_minimum_occurences["updateUser:::username"]=1
-operation_parameters_minimum_occurences["updateUser:::body"]=1
+declare -A operation_parameters_minimum_occurrences
+operation_parameters_minimum_occurrences["testSpecialTags:::body"]=1
+operation_parameters_minimum_occurrences["fakeOuterBooleanSerialize:::body"]=0
+operation_parameters_minimum_occurrences["fakeOuterCompositeSerialize:::body"]=0
+operation_parameters_minimum_occurrences["fakeOuterNumberSerialize:::body"]=0
+operation_parameters_minimum_occurrences["fakeOuterStringSerialize:::body"]=0
+operation_parameters_minimum_occurrences["testClientModel:::body"]=1
+operation_parameters_minimum_occurrences["testEndpointParameters:::number"]=1
+operation_parameters_minimum_occurrences["testEndpointParameters:::double"]=1
+operation_parameters_minimum_occurrences["testEndpointParameters:::pattern_without_delimiter"]=1
+operation_parameters_minimum_occurrences["testEndpointParameters:::byte"]=1
+operation_parameters_minimum_occurrences["testEndpointParameters:::integer"]=0
+operation_parameters_minimum_occurrences["testEndpointParameters:::int32"]=0
+operation_parameters_minimum_occurrences["testEndpointParameters:::int64"]=0
+operation_parameters_minimum_occurrences["testEndpointParameters:::float"]=0
+operation_parameters_minimum_occurrences["testEndpointParameters:::string"]=0
+operation_parameters_minimum_occurrences["testEndpointParameters:::binary"]=0
+operation_parameters_minimum_occurrences["testEndpointParameters:::date"]=0
+operation_parameters_minimum_occurrences["testEndpointParameters:::dateTime"]=0
+operation_parameters_minimum_occurrences["testEndpointParameters:::password"]=0
+operation_parameters_minimum_occurrences["testEndpointParameters:::callback"]=0
+operation_parameters_minimum_occurrences["testEnumParameters:::enum_form_string_array"]=0
+operation_parameters_minimum_occurrences["testEnumParameters:::enum_form_string"]=0
+operation_parameters_minimum_occurrences["testEnumParameters:::enum_header_string_array"]=0
+operation_parameters_minimum_occurrences["testEnumParameters:::enum_header_string"]=0
+operation_parameters_minimum_occurrences["testEnumParameters:::enum_query_string_array"]=0
+operation_parameters_minimum_occurrences["testEnumParameters:::enum_query_string"]=0
+operation_parameters_minimum_occurrences["testEnumParameters:::enum_query_integer"]=0
+operation_parameters_minimum_occurrences["testEnumParameters:::enum_query_double"]=0
+operation_parameters_minimum_occurrences["testInlineAdditionalProperties:::param"]=1
+operation_parameters_minimum_occurrences["testJsonFormData:::param"]=1
+operation_parameters_minimum_occurrences["testJsonFormData:::param2"]=1
+operation_parameters_minimum_occurrences["testClassname:::body"]=1
+operation_parameters_minimum_occurrences["addPet:::body"]=1
+operation_parameters_minimum_occurrences["deletePet:::petId"]=1
+operation_parameters_minimum_occurrences["deletePet:::api_key"]=0
+operation_parameters_minimum_occurrences["findPetsByStatus:::status"]=1
+operation_parameters_minimum_occurrences["findPetsByTags:::tags"]=1
+operation_parameters_minimum_occurrences["getPetById:::petId"]=1
+operation_parameters_minimum_occurrences["updatePet:::body"]=1
+operation_parameters_minimum_occurrences["updatePetWithForm:::petId"]=1
+operation_parameters_minimum_occurrences["updatePetWithForm:::name"]=0
+operation_parameters_minimum_occurrences["updatePetWithForm:::status"]=0
+operation_parameters_minimum_occurrences["uploadFile:::petId"]=1
+operation_parameters_minimum_occurrences["uploadFile:::additionalMetadata"]=0
+operation_parameters_minimum_occurrences["uploadFile:::file"]=0
+operation_parameters_minimum_occurrences["deleteOrder:::order_id"]=1
+operation_parameters_minimum_occurrences["getOrderById:::order_id"]=1
+operation_parameters_minimum_occurrences["placeOrder:::body"]=1
+operation_parameters_minimum_occurrences["createUser:::body"]=1
+operation_parameters_minimum_occurrences["createUsersWithArrayInput:::body"]=1
+operation_parameters_minimum_occurrences["createUsersWithListInput:::body"]=1
+operation_parameters_minimum_occurrences["deleteUser:::username"]=1
+operation_parameters_minimum_occurrences["getUserByName:::username"]=1
+operation_parameters_minimum_occurrences["loginUser:::username"]=1
+operation_parameters_minimum_occurrences["loginUser:::password"]=1
+operation_parameters_minimum_occurrences["updateUser:::username"]=1
+operation_parameters_minimum_occurrences["updateUser:::body"]=1
 
 ##
-# This array stores the maximum number of allowed occurences for parameter
+# This array stores the maximum number of allowed occurrences for parameter
 # 1 - single value
 # 2 - 2 values
 # N - N values
 # 0 - unlimited
-declare -A operation_parameters_maximum_occurences
-operation_parameters_maximum_occurences["testSpecialTags:::body"]=0
-operation_parameters_maximum_occurences["fakeOuterBooleanSerialize:::body"]=0
-operation_parameters_maximum_occurences["fakeOuterCompositeSerialize:::body"]=0
-operation_parameters_maximum_occurences["fakeOuterNumberSerialize:::body"]=0
-operation_parameters_maximum_occurences["fakeOuterStringSerialize:::body"]=0
-operation_parameters_maximum_occurences["testClientModel:::body"]=0
-operation_parameters_maximum_occurences["testEndpointParameters:::number"]=0
-operation_parameters_maximum_occurences["testEndpointParameters:::double"]=0
-operation_parameters_maximum_occurences["testEndpointParameters:::pattern_without_delimiter"]=0
-operation_parameters_maximum_occurences["testEndpointParameters:::byte"]=0
-operation_parameters_maximum_occurences["testEndpointParameters:::integer"]=0
-operation_parameters_maximum_occurences["testEndpointParameters:::int32"]=0
-operation_parameters_maximum_occurences["testEndpointParameters:::int64"]=0
-operation_parameters_maximum_occurences["testEndpointParameters:::float"]=0
-operation_parameters_maximum_occurences["testEndpointParameters:::string"]=0
-operation_parameters_maximum_occurences["testEndpointParameters:::binary"]=0
-operation_parameters_maximum_occurences["testEndpointParameters:::date"]=0
-operation_parameters_maximum_occurences["testEndpointParameters:::dateTime"]=0
-operation_parameters_maximum_occurences["testEndpointParameters:::password"]=0
-operation_parameters_maximum_occurences["testEndpointParameters:::callback"]=0
-operation_parameters_maximum_occurences["testEnumParameters:::enum_form_string_array"]=0
-operation_parameters_maximum_occurences["testEnumParameters:::enum_form_string"]=0
-operation_parameters_maximum_occurences["testEnumParameters:::enum_header_string_array"]=0
-operation_parameters_maximum_occurences["testEnumParameters:::enum_header_string"]=0
-operation_parameters_maximum_occurences["testEnumParameters:::enum_query_string_array"]=0
-operation_parameters_maximum_occurences["testEnumParameters:::enum_query_string"]=0
-operation_parameters_maximum_occurences["testEnumParameters:::enum_query_integer"]=0
-operation_parameters_maximum_occurences["testEnumParameters:::enum_query_double"]=0
-operation_parameters_maximum_occurences["testJsonFormData:::param"]=0
-operation_parameters_maximum_occurences["testJsonFormData:::param2"]=0
-operation_parameters_maximum_occurences["testClassname:::body"]=0
-operation_parameters_maximum_occurences["addPet:::body"]=0
-operation_parameters_maximum_occurences["deletePet:::petId"]=0
-operation_parameters_maximum_occurences["deletePet:::api_key"]=0
-operation_parameters_maximum_occurences["findPetsByStatus:::status"]=0
-operation_parameters_maximum_occurences["findPetsByTags:::tags"]=0
-operation_parameters_maximum_occurences["getPetById:::petId"]=0
-operation_parameters_maximum_occurences["updatePet:::body"]=0
-operation_parameters_maximum_occurences["updatePetWithForm:::petId"]=0
-operation_parameters_maximum_occurences["updatePetWithForm:::name"]=0
-operation_parameters_maximum_occurences["updatePetWithForm:::status"]=0
-operation_parameters_maximum_occurences["uploadFile:::petId"]=0
-operation_parameters_maximum_occurences["uploadFile:::additionalMetadata"]=0
-operation_parameters_maximum_occurences["uploadFile:::file"]=0
-operation_parameters_maximum_occurences["deleteOrder:::order_id"]=0
-operation_parameters_maximum_occurences["getOrderById:::order_id"]=0
-operation_parameters_maximum_occurences["placeOrder:::body"]=0
-operation_parameters_maximum_occurences["createUser:::body"]=0
-operation_parameters_maximum_occurences["createUsersWithArrayInput:::body"]=0
-operation_parameters_maximum_occurences["createUsersWithListInput:::body"]=0
-operation_parameters_maximum_occurences["deleteUser:::username"]=0
-operation_parameters_maximum_occurences["getUserByName:::username"]=0
-operation_parameters_maximum_occurences["loginUser:::username"]=0
-operation_parameters_maximum_occurences["loginUser:::password"]=0
-operation_parameters_maximum_occurences["updateUser:::username"]=0
-operation_parameters_maximum_occurences["updateUser:::body"]=0
+declare -A operation_parameters_maximum_occurrences
+operation_parameters_maximum_occurrences["testSpecialTags:::body"]=0
+operation_parameters_maximum_occurrences["fakeOuterBooleanSerialize:::body"]=0
+operation_parameters_maximum_occurrences["fakeOuterCompositeSerialize:::body"]=0
+operation_parameters_maximum_occurrences["fakeOuterNumberSerialize:::body"]=0
+operation_parameters_maximum_occurrences["fakeOuterStringSerialize:::body"]=0
+operation_parameters_maximum_occurrences["testClientModel:::body"]=0
+operation_parameters_maximum_occurrences["testEndpointParameters:::number"]=0
+operation_parameters_maximum_occurrences["testEndpointParameters:::double"]=0
+operation_parameters_maximum_occurrences["testEndpointParameters:::pattern_without_delimiter"]=0
+operation_parameters_maximum_occurrences["testEndpointParameters:::byte"]=0
+operation_parameters_maximum_occurrences["testEndpointParameters:::integer"]=0
+operation_parameters_maximum_occurrences["testEndpointParameters:::int32"]=0
+operation_parameters_maximum_occurrences["testEndpointParameters:::int64"]=0
+operation_parameters_maximum_occurrences["testEndpointParameters:::float"]=0
+operation_parameters_maximum_occurrences["testEndpointParameters:::string"]=0
+operation_parameters_maximum_occurrences["testEndpointParameters:::binary"]=0
+operation_parameters_maximum_occurrences["testEndpointParameters:::date"]=0
+operation_parameters_maximum_occurrences["testEndpointParameters:::dateTime"]=0
+operation_parameters_maximum_occurrences["testEndpointParameters:::password"]=0
+operation_parameters_maximum_occurrences["testEndpointParameters:::callback"]=0
+operation_parameters_maximum_occurrences["testEnumParameters:::enum_form_string_array"]=0
+operation_parameters_maximum_occurrences["testEnumParameters:::enum_form_string"]=0
+operation_parameters_maximum_occurrences["testEnumParameters:::enum_header_string_array"]=0
+operation_parameters_maximum_occurrences["testEnumParameters:::enum_header_string"]=0
+operation_parameters_maximum_occurrences["testEnumParameters:::enum_query_string_array"]=0
+operation_parameters_maximum_occurrences["testEnumParameters:::enum_query_string"]=0
+operation_parameters_maximum_occurrences["testEnumParameters:::enum_query_integer"]=0
+operation_parameters_maximum_occurrences["testEnumParameters:::enum_query_double"]=0
+operation_parameters_maximum_occurrences["testInlineAdditionalProperties:::param"]=0
+operation_parameters_maximum_occurrences["testJsonFormData:::param"]=0
+operation_parameters_maximum_occurrences["testJsonFormData:::param2"]=0
+operation_parameters_maximum_occurrences["testClassname:::body"]=0
+operation_parameters_maximum_occurrences["addPet:::body"]=0
+operation_parameters_maximum_occurrences["deletePet:::petId"]=0
+operation_parameters_maximum_occurrences["deletePet:::api_key"]=0
+operation_parameters_maximum_occurrences["findPetsByStatus:::status"]=0
+operation_parameters_maximum_occurrences["findPetsByTags:::tags"]=0
+operation_parameters_maximum_occurrences["getPetById:::petId"]=0
+operation_parameters_maximum_occurrences["updatePet:::body"]=0
+operation_parameters_maximum_occurrences["updatePetWithForm:::petId"]=0
+operation_parameters_maximum_occurrences["updatePetWithForm:::name"]=0
+operation_parameters_maximum_occurrences["updatePetWithForm:::status"]=0
+operation_parameters_maximum_occurrences["uploadFile:::petId"]=0
+operation_parameters_maximum_occurrences["uploadFile:::additionalMetadata"]=0
+operation_parameters_maximum_occurrences["uploadFile:::file"]=0
+operation_parameters_maximum_occurrences["deleteOrder:::order_id"]=0
+operation_parameters_maximum_occurrences["getOrderById:::order_id"]=0
+operation_parameters_maximum_occurrences["placeOrder:::body"]=0
+operation_parameters_maximum_occurrences["createUser:::body"]=0
+operation_parameters_maximum_occurrences["createUsersWithArrayInput:::body"]=0
+operation_parameters_maximum_occurrences["createUsersWithListInput:::body"]=0
+operation_parameters_maximum_occurrences["deleteUser:::username"]=0
+operation_parameters_maximum_occurrences["getUserByName:::username"]=0
+operation_parameters_maximum_occurrences["loginUser:::username"]=0
+operation_parameters_maximum_occurrences["loginUser:::password"]=0
+operation_parameters_maximum_occurrences["updateUser:::username"]=0
+operation_parameters_maximum_occurrences["updateUser:::body"]=0
 
 ##
 # The type of collection for specifying multiple values for parameter:
@@ -248,6 +250,7 @@ operation_parameters_collection_type["testEnumParameters:::enum_query_string_arr
 operation_parameters_collection_type["testEnumParameters:::enum_query_string"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_query_integer"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_query_double"]=""
+operation_parameters_collection_type["testInlineAdditionalProperties:::param"]=""
 operation_parameters_collection_type["testJsonFormData:::param"]=""
 operation_parameters_collection_type["testJsonFormData:::param2"]=""
 operation_parameters_collection_type["testClassname:::body"]=""
@@ -428,7 +431,7 @@ header_arguments_to_curl() {
 # Converts an associative array into a simple JSON with keys as top
 # level object attributes
 #
-# \todo Add convertion of more complex attributes using paths
+# \todo Add conversion of more complex attributes using paths
 #
 ##############################################################################
 body_parameters_to_json() {
@@ -478,7 +481,7 @@ build_request_path() {
 
 
     #
-    # Check input paramaters count against minimum and maximum required
+    # Check input parameters count against minimum and maximum required
     #
     if [[ "$force" = false ]]; then
         local was_error=""
@@ -489,7 +492,7 @@ build_request_path() {
             #
             # Check if the number of provided values is not less than minimum required
             #
-            if [[ ${#parameter_values[@]} -lt ${operation_parameters_minimum_occurences["${operation}:::${qparam}"]} ]]; then
+            if [[ ${#parameter_values[@]} -lt ${operation_parameters_minimum_occurrences["${operation}:::${qparam}"]} ]]; then
                 echo "ERROR: Too few values provided for '${qparam}' parameter."
                 was_error=true
             fi
@@ -497,8 +500,8 @@ build_request_path() {
             #
             # Check if the number of provided values is not more than maximum
             #
-            if [[ ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} -gt 0 \
-                  && ${#parameter_values[@]} -gt ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} ]]; then
+            if [[ ${operation_parameters_maximum_occurrences["${operation}:::${qparam}"]} -gt 0 \
+                  && ${#parameter_values[@]} -gt ${operation_parameters_maximum_occurrences["${operation}:::${qparam}"]} ]]; then
                 echo "ERROR: Too many values provided for '${qparam}' parameter"
                 was_error=true
             fi
@@ -694,6 +697,7 @@ read -r -d '' ops <<EOF
 偽のエンドポイント
 가짜 엔드 포인트 (AUTH)
   ${CYAN}testEnumParameters${OFF};To test enum parameters
+  ${CYAN}testInlineAdditionalProperties${OFF};test inline additionalProperties
   ${CYAN}testJsonFormData${OFF};test json serialization of form data
 EOF
 echo "  $ops" | column -t -s ';'
@@ -767,7 +771,7 @@ print_about() {
     echo ""
     echo -e "${BOLD}${WHITE}Swagger Petstore command line client (API version 1.0.0)${OFF}"
     echo ""
-    echo -e "License: Apache 2.0"
+    echo -e "License: Apache-2.0"
     echo -e "Contact: apiteam@swagger.io"
     echo ""
 read -r -d '' appdescription <<EOF
@@ -954,6 +958,25 @@ print_testEnumParameters_help() {
     echo -e "${result_color_table[${code:0:1}]}  400;Invalid request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
     code=404
     echo -e "${result_color_table[${code:0:1}]}  404;Not found${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for testInlineAdditionalProperties operation
+#
+##############################################################################
+print_testInlineAdditionalProperties_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}testInlineAdditionalProperties - test inline additionalProperties${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "" | paste -sd' ' | fold -sw 80
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - request body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1895,6 +1918,84 @@ call_testEnumParameters() {
         echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
         eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
+# Call testInlineAdditionalProperties operation
+#
+##############################################################################
+call_testInlineAdditionalProperties() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=()
+    local path
+
+    if ! path=$(build_request_path "/v2/fake/inline-additionalProperties" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="POST"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    local body_json_curl=""
+
+    #
+    # Check if the user provided 'Content-type' headers in the
+    # command line. If not try to set them based on the Swagger specification
+    # if values produces and consumes are defined unambigously
+    #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
+
+
+    if [[ -z $header_content_type && "$force" = false ]]; then
+        :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
+    else
+        headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
+    fi
+
+
+    #
+    # If we have received some body content over pipe, pass it from the
+    # temporary file to cURL
+    #
+    if [[ -n $body_content_temp_file ]]; then
+        if [[ "$print_curl" = true ]]; then
+            echo "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        else
+            eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        fi
+        rm "${body_content_temp_file}"
+    #
+    # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
+    #
+    else
+        body_json_curl=$(body_parameters_to_json)
+        if [[ "$print_curl" = true ]]; then
+            echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        else
+            eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        fi
     fi
 }
 
@@ -2994,7 +3095,7 @@ type column >/dev/null 2>&1 || { echo >&2 "ERROR: You do not have 'bsdmainutils'
 #
 # Process command line
 #
-# Pass all arguemnts before 'operation' to cURL except the ones we override
+# Pass all arguments before 'operation' to cURL except the ones we override
 #
 take_user=false
 take_host=false
@@ -3098,6 +3199,9 @@ case $key in
     testEnumParameters)
     operation="testEnumParameters"
     ;;
+    testInlineAdditionalProperties)
+    operation="testInlineAdditionalProperties"
+    ;;
     testJsonFormData)
     operation="testJsonFormData"
     ;;
@@ -3182,7 +3286,7 @@ case $key in
         body_parameters[${body_key}]=${body_value}
     fi
     ;;
-    +([^=]):*)
+    +\([^=]\):*)
     # Parse header arguments and convert them into curl
     # only after the operation argument
     if [[ "$operation" ]]; then
@@ -3271,6 +3375,9 @@ case $operation in
     ;;
     testEnumParameters)
     call_testEnumParameters
+    ;;
+    testInlineAdditionalProperties)
+    call_testInlineAdditionalProperties
     ;;
     testJsonFormData)
     call_testJsonFormData

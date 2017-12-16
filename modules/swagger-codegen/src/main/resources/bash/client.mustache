@@ -92,16 +92,16 @@ fi
 declare -a result_color_table=( "$WHITE" "$WHITE" "$GREEN" "$YELLOW" "$WHITE" "$MAGENTA" "$WHITE" )
 
 ##
-# This array stores the minimum number of required occurences for parameter
+# This array stores the minimum number of required occurrences for parameter
 # 0 - optional
 # 1 - required
-declare -A operation_parameters_minimum_occurences
+declare -A operation_parameters_minimum_occurrences
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
 {{#operation}}
 {{#allParams}}
-operation_parameters_minimum_occurences["{{operationId}}:::{{baseName}}"]={{#required}}{{#vendorExtensions}}{{#x-codegen-collection-min-items}}{{x-codegen-collection-min-items}}{{/x-codegen-collection-min-items}}{{^x-codegen-collection-min-items}}1{{/x-codegen-collection-min-items}}{{/vendorExtensions}}{{^vendorExtensions}}1{{/vendorExtensions}}{{/required}}{{^required}}0{{/required}}
+operation_parameters_minimum_occurrences["{{operationId}}:::{{baseName}}"]={{#required}}{{#vendorExtensions}}{{#x-codegen-collection-min-items}}{{x-codegen-collection-min-items}}{{/x-codegen-collection-min-items}}{{^x-codegen-collection-min-items}}1{{/x-codegen-collection-min-items}}{{/vendorExtensions}}{{^vendorExtensions}}1{{/vendorExtensions}}{{/required}}{{^required}}0{{/required}}
 {{/allParams}}
 {{/operation}}
 {{/operations}}
@@ -109,18 +109,18 @@ operation_parameters_minimum_occurences["{{operationId}}:::{{baseName}}"]={{#req
 {{/apiInfo}}
 
 ##
-# This array stores the maximum number of allowed occurences for parameter
+# This array stores the maximum number of allowed occurrences for parameter
 # 1 - single value
 # 2 - 2 values
 # N - N values
 # 0 - unlimited
-declare -A operation_parameters_maximum_occurences
+declare -A operation_parameters_maximum_occurrences
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
 {{#operation}}
 {{#allParams}}
-operation_parameters_maximum_occurences["{{operationId}}:::{{baseName}}"]={{#vendorExtensions}}{{#x-codegen-collection-max-items}}{{x-codegen-collection-max-items}}{{/x-codegen-collection-max-items}}{{^x-codegen-collection-max-items}}0{{/x-codegen-collection-max-items}}{{/vendorExtensions}}{{^vendorExtensions}}0{{/vendorExtensions}}
+operation_parameters_maximum_occurrences["{{operationId}}:::{{baseName}}"]={{#vendorExtensions}}{{#x-codegen-collection-max-items}}{{x-codegen-collection-max-items}}{{/x-codegen-collection-max-items}}{{^x-codegen-collection-max-items}}0{{/x-codegen-collection-max-items}}{{/vendorExtensions}}{{^vendorExtensions}}0{{/vendorExtensions}}
 {{/allParams}}
 {{/operation}}
 {{/operations}}
@@ -326,7 +326,7 @@ header_arguments_to_curl() {
 # Converts an associative array into a simple JSON with keys as top
 # level object attributes
 #
-# \todo Add convertion of more complex attributes using paths
+# \todo Add conversion of more complex attributes using paths
 #
 ##############################################################################
 body_parameters_to_json() {
@@ -376,7 +376,7 @@ build_request_path() {
 
 
     #
-    # Check input paramaters count against minimum and maximum required
+    # Check input parameters count against minimum and maximum required
     #
     if [[ "$force" = false ]]; then
         local was_error=""
@@ -387,7 +387,7 @@ build_request_path() {
             #
             # Check if the number of provided values is not less than minimum required
             #
-            if [[ ${#parameter_values[@]} -lt ${operation_parameters_minimum_occurences["${operation}:::${qparam}"]} ]]; then
+            if [[ ${#parameter_values[@]} -lt ${operation_parameters_minimum_occurrences["${operation}:::${qparam}"]} ]]; then
                 echo "ERROR: Too few values provided for '${qparam}' parameter."
                 was_error=true
             fi
@@ -395,8 +395,8 @@ build_request_path() {
             #
             # Check if the number of provided values is not more than maximum
             #
-            if [[ ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} -gt 0 \
-                  && ${#parameter_values[@]} -gt ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} ]]; then
+            if [[ ${operation_parameters_maximum_occurrences["${operation}:::${qparam}"]} -gt 0 \
+                  && ${#parameter_values[@]} -gt ${operation_parameters_maximum_occurrences["${operation}:::${qparam}"]} ]]; then
                 echo "ERROR: Too many values provided for '${qparam}' parameter"
                 was_error=true
             fi
@@ -706,7 +706,7 @@ print_{{operationId}}_help() {
 {{/allParams}}
 {{#allParams}}
 {{#isBodyParam}}
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}${OFF} - {{{description}}}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[{{#consumes}}{{{mediaType}}}{{#hasMore}},{{/hasMore}}{{/consumes}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}${OFF} - {{{description}}}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
 {{#vendorExtensions}}
 {{#x-codegen-body-example}}
@@ -791,7 +791,7 @@ call_{{operationId}}() {
 {{#-first}}
 {{^hasMore}}
     if [[ -z $header_content_type ]]; then
-        header_content_type="{{mediaType}}"
+        header_content_type="{{{mediaType}}}"
     fi
 {{/hasMore}}
 {{/-first}}
@@ -805,7 +805,7 @@ call_{{operationId}}() {
         echo "ERROR: Request's content-type not specified!!!"
         echo "This operation expects content-type in one of the following formats:"
 {{#consumes}}
-        echo -e "\\t- {{mediaType}}"
+        echo -e "\\t- {{{mediaType}}}"
 {{/consumes}}
         echo ""
         echo "Use '--content-type' to set proper content type"
@@ -869,7 +869,7 @@ type column >/dev/null 2>&1 || { echo >&2 "ERROR: You do not have 'bsdmainutils'
 #
 # Process command line
 #
-# Pass all arguemnts before 'operation' to cURL except the ones we override
+# Pass all arguments before 'operation' to cURL except the ones we override
 #
 take_user=false
 take_host=false
@@ -978,7 +978,7 @@ case $key in
         body_parameters[${body_key}]=${body_value}
     fi
     ;;
-    +([^=]):*)
+    +\([^=]\):*)
     # Parse header arguments and convert them into curl
     # only after the operation argument
     if [[ "$operation" ]]; then
