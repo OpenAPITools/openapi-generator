@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using {{packageName}}.Attributes;
 using {{packageName}}.Models;
 
@@ -31,13 +32,26 @@ namespace {{packageName}}.Controllers
         [{{httpMethod}}]
         [Route("{{{basePathWithoutHost}}}{{{path}}}")]
         [ValidateModelState]
-        [SwaggerOperation("{{operationId}}")]{{#responses}}{{#returnType}}
-        [SwaggerResponse({{code}}, typeof({{&returnType}}), "{{message}}")]{{/returnType}}{{/responses}}
-        public virtual {{#returnType}}IActionResult{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
-        { {{#returnType}}
+        [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
+        [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}
+        public virtual IActionResult {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        { {{#responses}}
+{{#dataType}}
+            //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode({{code}}, default({{&dataType}}));
+{{/dataType}}
+{{^dataType}}
+            //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode({{code}});
+{{/dataType}}{{/responses}}
+{{#returnType}}
             string exampleJson = null;
+            {{#examples}}
+            exampleJson = "{{{example}}}";
+            {{/examples}}
             {{#isListCollection}}{{>listReturn}}{{/isListCollection}}{{^isListCollection}}{{#isMapContainer}}{{>mapReturn}}{{/isMapContainer}}{{^isMapContainer}}{{>objectReturn}}{{/isMapContainer}}{{/isListCollection}}
             {{!TODO: defaultResponse, examples, auth, consumes, produces, nickname, externalDocs, imports, security}}
+            //TODO: Change the data returned
             return new ObjectResult(example);{{/returnType}}{{^returnType}}
             throw new NotImplementedException();{{/returnType}}
         }

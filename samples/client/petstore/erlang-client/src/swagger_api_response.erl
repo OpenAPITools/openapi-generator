@@ -1,8 +1,8 @@
 -module(swagger_api_response).
 
--export_type([swagger_api_response/0,
-              encode/1,
-              decode/1]).
+-export([encode/1]).
+
+-export_type([swagger_api_response/0]).
 
 -type swagger_api_response() ::
     #{ 'code' => integer(),
@@ -17,4 +17,4 @@ encode(#{ 'code' := Code,
     #{ 'code' => Code,
        'type' => Type,
        'message' => Message
-     }
+     }.

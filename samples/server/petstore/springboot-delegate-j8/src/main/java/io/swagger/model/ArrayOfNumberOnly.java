@@ -35,7 +35,7 @@ public class ArrayOfNumberOnly   {
     return this;
   }
 
-   /**
+  /**
    * Get arrayNumber
    * @return arrayNumber
   **/

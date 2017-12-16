@@ -15,7 +15,7 @@ To test class name in snake case
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **body** | [**Client**](Client.md)| client model | 
 
 ### Return type

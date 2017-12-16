@@ -20,6 +20,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using IO.Swagger.Attributes;
 using IO.Swagger.Models;
 
@@ -40,38 +41,50 @@ namespace IO.Swagger.Controllers
         [Route("/v2/user")]
         [ValidateModelState]
         [SwaggerOperation("CreateUser")]
-        public virtual void CreateUser([FromBody]User body)
+        public virtual IActionResult CreateUser([FromBody]User body)
         { 
+            //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(0);
+
+
             throw new NotImplementedException();
         }
 
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
-        /// <remarks></remarks>
+        
         /// <param name="body">List of user object</param>
         /// <response code="0">successful operation</response>
         [HttpPost]
         [Route("/v2/user/createWithArray")]
         [ValidateModelState]
         [SwaggerOperation("CreateUsersWithArrayInput")]
-        public virtual void CreateUsersWithArrayInput([FromBody]List<User> body)
+        public virtual IActionResult CreateUsersWithArrayInput([FromBody]List<User> body)
         { 
+            //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(0);
+
+
             throw new NotImplementedException();
         }
 
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
-        /// <remarks></remarks>
+        
         /// <param name="body">List of user object</param>
         /// <response code="0">successful operation</response>
         [HttpPost]
         [Route("/v2/user/createWithList")]
         [ValidateModelState]
         [SwaggerOperation("CreateUsersWithListInput")]
-        public virtual void CreateUsersWithListInput([FromBody]List<User> body)
+        public virtual IActionResult CreateUsersWithListInput([FromBody]List<User> body)
         { 
+            //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(0);
+
+
             throw new NotImplementedException();
         }
 
@@ -86,15 +99,22 @@ namespace IO.Swagger.Controllers
         [Route("/v2/user/{username}")]
         [ValidateModelState]
         [SwaggerOperation("DeleteUser")]
-        public virtual void DeleteUser([FromRoute]string username)
+        public virtual IActionResult DeleteUser([FromRoute][Required]string username)
         { 
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404);
+
+
             throw new NotImplementedException();
         }
 
         /// <summary>
         /// Get user by user name
         /// </summary>
-        /// <remarks></remarks>
+        
         /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid username supplied</response>
@@ -103,23 +123,33 @@ namespace IO.Swagger.Controllers
         [Route("/v2/user/{username}")]
         [ValidateModelState]
         [SwaggerOperation("GetUserByName")]
-        [SwaggerResponse(200, typeof(User), "successful operation")]
-        [SwaggerResponse(400, typeof(User), "Invalid username supplied")]
-        [SwaggerResponse(404, typeof(User), "User not found")]
-        public virtual IActionResult GetUserByName([FromRoute]string username)
+        [SwaggerResponse(statusCode: 200, type: typeof(User), description: "successful operation")]
+        public virtual IActionResult GetUserByName([FromRoute][Required]string username)
         { 
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(User));
+
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404);
+
             string exampleJson = null;
+            exampleJson = "<User>\n  <id>123456789</id>\n  <username>aeiou</username>\n  <firstName>aeiou</firstName>\n  <lastName>aeiou</lastName>\n  <email>aeiou</email>\n  <password>aeiou</password>\n  <phone>aeiou</phone>\n  <userStatus>123</userStatus>\n</User>";
+            exampleJson = "{\n  \"id\" : 0,\n  \"lastName\" : \"lastName\",\n  \"phone\" : \"phone\",\n  \"username\" : \"username\",\n  \"email\" : \"email\",\n  \"userStatus\" : 6,\n  \"firstName\" : \"firstName\",\n  \"password\" : \"password\"\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<User>(exampleJson)
             : default(User);
+            //TODO: Change the data returned
             return new ObjectResult(example);
         }
 
         /// <summary>
         /// Logs user into the system
         /// </summary>
-        /// <remarks></remarks>
+        
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <response code="200">successful operation</response>
@@ -128,29 +158,41 @@ namespace IO.Swagger.Controllers
         [Route("/v2/user/login")]
         [ValidateModelState]
         [SwaggerOperation("LoginUser")]
-        [SwaggerResponse(200, typeof(string), "successful operation")]
-        [SwaggerResponse(400, typeof(string), "Invalid username/password supplied")]
-        public virtual IActionResult LoginUser([FromQuery]string username, [FromQuery]string password)
+        [SwaggerResponse(statusCode: 200, type: typeof(string), description: "successful operation")]
+        public virtual IActionResult LoginUser([FromQuery][Required()]string username, [FromQuery][Required()]string password)
         { 
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(string));
+
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+
             string exampleJson = null;
+            exampleJson = "aeiou";
+            exampleJson = "\"\"";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<string>(exampleJson)
             : default(string);
+            //TODO: Change the data returned
             return new ObjectResult(example);
         }
 
         /// <summary>
         /// Logs out current logged in user session
         /// </summary>
-        /// <remarks></remarks>
+        
         /// <response code="0">successful operation</response>
         [HttpGet]
         [Route("/v2/user/logout")]
         [ValidateModelState]
         [SwaggerOperation("LogoutUser")]
-        public virtual void LogoutUser()
+        public virtual IActionResult LogoutUser()
         { 
+            //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(0);
+
+
             throw new NotImplementedException();
         }
 
@@ -166,8 +208,15 @@ namespace IO.Swagger.Controllers
         [Route("/v2/user/{username}")]
         [ValidateModelState]
         [SwaggerOperation("UpdateUser")]
-        public virtual void UpdateUser([FromRoute]string username, [FromBody]User body)
+        public virtual IActionResult UpdateUser([FromRoute][Required]string username, [FromBody]User body)
         { 
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404);
+
+
             throw new NotImplementedException();
         }
     }

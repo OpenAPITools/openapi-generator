@@ -18,9 +18,9 @@ import javax.ws.rs.core.SecurityContext;
 
 {{>generatedAnnotation}}
 {{#operations}}
-public abstract class {{classname}}Service {
+public interface {{classname}}Service {
   {{#operation}}
-      public abstract Response {{nickname}}({{#isMultipart}}MultipartFormDataInput input,{{/isMultipart}}{{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{^isMultipart}}{{>serviceFormParams}},{{/isMultipart}}{{#isMultipart}}{{^isFormParam}},{{/isFormParam}}{{/isMultipart}}{{/allParams}}SecurityContext securityContext)
+      Response {{nickname}}({{#isMultipart}}MultipartFormDataInput input,{{/isMultipart}}{{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{^isMultipart}}{{>serviceFormParams}},{{/isMultipart}}{{#isMultipart}}{{^isFormParam}},{{/isFormParam}}{{/isMultipart}}{{/allParams}}SecurityContext securityContext)
       throws NotFoundException;
   {{/operation}}
 }

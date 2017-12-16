@@ -27,7 +27,7 @@ public class Tag   {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
   **/
@@ -47,7 +47,7 @@ public class Tag   {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
   **/

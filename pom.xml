@@ -935,10 +935,10 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-parser-version>1.0.32</swagger-parser-version>
+        <swagger-parser-version>1.0.33</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.0</felix-version>
-        <swagger-core-version>1.5.16</swagger-core-version>
+        <swagger-core-version>1.5.17</swagger-core-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
         <junit-version>4.8.1</junit-version>

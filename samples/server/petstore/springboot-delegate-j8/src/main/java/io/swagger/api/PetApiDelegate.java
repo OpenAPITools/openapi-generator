@@ -75,7 +75,7 @@ public interface PetApiDelegate {
             }
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"status\" : \"available\",  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ]}, {  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"status\" : \"available\",  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ]} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}, {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -102,7 +102,7 @@ public interface PetApiDelegate {
             }
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"status\" : \"available\",  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ]}, {  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"status\" : \"available\",  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ]} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}, {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -129,7 +129,7 @@ public interface PetApiDelegate {
             }
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"status\" : \"available\",  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ]}", Pet.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}", Pet.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -174,7 +174,7 @@ public interface PetApiDelegate {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"message\" : \"message\",  \"code\" : 0,  \"type\" : \"type\"}", ModelApiResponse.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}", ModelApiResponse.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

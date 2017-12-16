@@ -8,13 +8,14 @@ Method | HTTP request | Description
 
 
 # **TestCodeInjectEndRnNR**
-> TestCodeInjectEndRnNR(optional)
+> TestCodeInjectEndRnNR(ctx, optional)
 To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
 ### Optional Parameters

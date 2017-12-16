@@ -5,7 +5,7 @@ import io.finch.circe._
 import io.circe.generic.semiauto._
 import io.circe.java8.time._
 import io.swagger._
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 /**
  * An order for a pets from the pet store
@@ -19,7 +19,7 @@ import java.time.LocalDateTime
 case class Order(id: Option[Long],
                 petId: Option[Long],
                 quantity: Option[Int],
-                shipDate: Option[LocalDateTime],
+                shipDate: Option[ZonedDateTime],
                 status: Option[String],
                 complete: Option[Boolean]
                 )

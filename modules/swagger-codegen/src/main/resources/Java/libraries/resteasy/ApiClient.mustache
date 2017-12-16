@@ -589,18 +589,18 @@ public class ApiClient {
 
     Invocation.Builder invocationBuilder = target.request().accept(accept);
 
-    for (String key : headerParams.keySet()) {
-      String value = headerParams.get(key);
+    for (Entry<String, String> headerParamsEnrty : headerParams.entrySet()) {
+      String value = headerParamsEnrty.getValue();
       if (value != null) {
-        invocationBuilder = invocationBuilder.header(key, value);
+        invocationBuilder = invocationBuilder.header(headerParamsEnrty.getKey(), value);
       }
     }
 
-    for (String key : defaultHeaderMap.keySet()) {
-      if (!headerParams.containsKey(key)) {
-        String value = defaultHeaderMap.get(key);
+    for (Entry<String, String> defaultHeaderEnrty: defaultHeaderMap.entrySet()) {
+      if (!headerParams.containsKey(defaultHeaderEnrty.getKey())) {
+        String value = defaultHeaderEnrty.getKey();
         if (value != null) {
-          invocationBuilder = invocationBuilder.header(key, value);
+          invocationBuilder = invocationBuilder.header(defaultHeaderEnrty.getKey(), value);
         }
       }
     }

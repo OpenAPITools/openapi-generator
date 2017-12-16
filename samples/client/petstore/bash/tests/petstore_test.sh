@@ -5,6 +5,13 @@ export PETSTORE_CLI="petstore-cli"
 
 export PETSTORE_HOST="http://petstore.swagger.io"
 
+#
+# Bash syntax check
+#
+@test "Generated script should pass Bash syntax check" {
+    result="$(bash -n $PETSTORE_CLI)"
+    [ "$result" -eq 0 ]
+}
 
 #
 # Tests for parameter handling and validation

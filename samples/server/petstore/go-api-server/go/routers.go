@@ -1,8 +1,9 @@
 package petstoreserver
 
 import (
-	"net/http"
 	"fmt"
+	"net/http"
+
 	"github.com/gorilla/mux"
 )
 
@@ -183,5 +184,4 @@ var routes = Routes{
 		"/v2/user/{username}",
 		UpdateUser,
 	},
-
 }

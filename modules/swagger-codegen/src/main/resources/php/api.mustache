@@ -131,7 +131,7 @@ use {{invokerPackage}}\ObjectSerializer;
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse()->getBody()->getContents()
+                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
                 );
             }
 
@@ -407,7 +407,7 @@ use {{invokerPackage}}\ObjectSerializer;
         {{/bodyParams}}
 
         if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
+            $headers = $this->headerSelector->selectHeadersForMultipart(
                 [{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}]
             );
         } else {

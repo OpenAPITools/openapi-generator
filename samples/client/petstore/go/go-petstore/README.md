@@ -29,6 +29,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **Patch** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**TestEndpointParameters**](docs/FakeApi.md#testendpointparameters) | **Post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**TestEnumParameters**](docs/FakeApi.md#testenumparameters) | **Get** /fake | To test enum parameters
+*FakeApi* | [**TestInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**TestJsonFormData**](docs/FakeApi.md#testjsonformdata) | **Get** /fake/jsonFormData | test json serialization of form data
 *FakeClassnameTags123Api* | [**TestClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **Patch** /fake_classname_test | To test class name in snake case
 *PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **Post** /pet | Add a new pet to the store
@@ -100,7 +101,7 @@ Class | Method | HTTP request | Description
 
 Example
 ```
-	auth := context.WithValue(context.TODO(), sw.ContextAPIKey, sw.APIKey{
+	auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
 		Key: "APIKEY",
 		Prefix: "Bearer", // Omit if not necessary.
 	})
@@ -111,7 +112,7 @@ Example
 
 Example
 ```
-	auth := context.WithValue(context.TODO(), sw.ContextAPIKey, sw.APIKey{
+	auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
 		Key: "APIKEY",
 		Prefix: "Bearer", // Omit if not necessary.
 	})
@@ -122,7 +123,7 @@ Example
 
 Example
 ```
-	auth := context.WithValue(context.TODO(), sw.ContextBasicAuth, sw.BasicAuth{
+	auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
 		UserName: "username",
 		Password: "password",
 	})
@@ -138,11 +139,11 @@ Example
 
 Example
 ```
-	auth := context.WithValue(context.TODO(), sw.ContextAccessToken, "ACCESSTOKENSTRING")
+	auth := context.WithValue(context.Background(), sw.ContextAccessToken, "ACCESSTOKENSTRING")
     r, err := client.Service.Operation(auth, args)
 ```
 
-Or via OAuth2 module to automaticly refresh tokens and perform user authentication.
+Or via OAuth2 module to automatically refresh tokens and perform user authentication.
 ```
 	import 	"golang.org/x/oauth2"
 

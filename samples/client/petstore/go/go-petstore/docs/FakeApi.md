@@ -11,11 +11,12 @@ Method | HTTP request | Description
 [**TestClientModel**](FakeApi.md#TestClientModel) | **Patch** /fake | To test \&quot;client\&quot; model
 [**TestEndpointParameters**](FakeApi.md#TestEndpointParameters) | **Post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**TestEnumParameters**](FakeApi.md#TestEnumParameters) | **Get** /fake | To test enum parameters
+[**TestInlineAdditionalProperties**](FakeApi.md#TestInlineAdditionalProperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 [**TestJsonFormData**](FakeApi.md#TestJsonFormData) | **Get** /fake/jsonFormData | test json serialization of form data
 
 
 # **FakeOuterBooleanSerialize**
-> OuterBoolean FakeOuterBooleanSerialize(optional)
+> OuterBoolean FakeOuterBooleanSerialize(ctx, optional)
 
 
 Test serialization of outer boolean types
@@ -24,6 +25,7 @@ Test serialization of outer boolean types
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -49,7 +51,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FakeOuterCompositeSerialize**
-> OuterComposite FakeOuterCompositeSerialize(optional)
+> OuterComposite FakeOuterCompositeSerialize(ctx, optional)
 
 
 Test serialization of object with outer number type
@@ -58,6 +60,7 @@ Test serialization of object with outer number type
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -83,7 +86,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FakeOuterNumberSerialize**
-> OuterNumber FakeOuterNumberSerialize(optional)
+> OuterNumber FakeOuterNumberSerialize(ctx, optional)
 
 
 Test serialization of outer number types
@@ -92,6 +95,7 @@ Test serialization of outer number types
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -117,7 +121,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FakeOuterStringSerialize**
-> OuterString FakeOuterStringSerialize(optional)
+> OuterString FakeOuterStringSerialize(ctx, optional)
 
 
 Test serialization of outer string types
@@ -126,6 +130,7 @@ Test serialization of outer string types
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -151,7 +156,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **TestClientModel**
-> Client TestClientModel(body)
+> Client TestClientModel(ctx, body)
 To test \"client\" model
 
 To test \"client\" model
@@ -160,6 +165,7 @@ To test \"client\" model
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
@@ -187,7 +193,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **number** | **float32**| None | 
   **double** | **float64**| None | 
   **patternWithoutDelimiter** | **string**| None | 
@@ -230,7 +236,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **TestEnumParameters**
-> TestEnumParameters(optional)
+> TestEnumParameters(ctx, optional)
 To test enum parameters
 
 To test enum parameters
@@ -239,6 +245,7 @@ To test enum parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
  **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -270,8 +277,36 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **TestInlineAdditionalProperties**
+> TestInlineAdditionalProperties(ctx, param)
+test inline additionalProperties
+
+
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **param** | [**interface{}**](interface{}.md)| request body | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **TestJsonFormData**
-> TestJsonFormData(param, param2)
+> TestJsonFormData(ctx, param, param2)
 test json serialization of form data
 
 
@@ -280,6 +315,7 @@ test json serialization of form data
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **param** | **string**| field1 | 
   **param2** | **string**| field2 | 
 

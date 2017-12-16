@@ -391,6 +391,7 @@ paths:
           uppercase_operation_id: "UPLOAD_FILE"
           uppercase_message: "SUCCESSFUL_OPERATION"
           uppercase_data_type: "APIRESPONSE"
+          producesJson: true
       security:
       - petstore_auth:
         - "write:pets"
@@ -422,6 +423,7 @@ paths:
           uppercase_operation_id: "GET_INVENTORY"
           uppercase_message: "SUCCESSFUL_OPERATION"
           uppercase_data_type: "HASHMAP<STRING, I32>"
+          producesJson: true
       security:
       - api_key: []
       operation_id: "get_inventory"
@@ -452,6 +454,7 @@ paths:
         example: "???"
         model_key: "OuterBoolean"
         uppercase_operation_id: "PLACE_ORDER"
+        consumesJson: true
       responses:
         200:
           description: "successful operation"
@@ -570,6 +573,7 @@ paths:
         example: "???"
         model_key: "OuterBoolean"
         uppercase_operation_id: "CREATE_USER"
+        consumesJson: true
       responses:
         default:
           description: "successful operation"
@@ -604,6 +608,7 @@ paths:
         example: "&Vec::new()"
         model_key: "OuterBoolean"
         uppercase_operation_id: "CREATE_USERS_WITH_ARRAY_INPUT"
+        consumesJson: true
       responses:
         default:
           description: "successful operation"
@@ -637,6 +642,7 @@ paths:
         example: "&Vec::new()"
         model_key: "OuterBoolean"
         uppercase_operation_id: "CREATE_USERS_WITH_LIST_INPUT"
+        consumesJson: true
       responses:
         default:
           description: "successful operation"
@@ -789,6 +795,7 @@ paths:
         example: "???"
         model_key: "OuterBoolean"
         uppercase_operation_id: "UPDATE_USER"
+        consumesJson: true
       responses:
         400:
           description: "Invalid user supplied"
@@ -858,6 +865,7 @@ paths:
         example: "???"
         model_key: "OuterBoolean"
         uppercase_operation_id: "TEST_CLASSNAME"
+        consumesJson: true
       responses:
         200:
           description: "successful operation"
@@ -866,6 +874,7 @@ paths:
           uppercase_operation_id: "TEST_CLASSNAME"
           uppercase_message: "SUCCESSFUL_OPERATION"
           uppercase_data_type: "CLIENT"
+          producesJson: true
       security:
       - api_key_query: []
       operation_id: "test_classname"
@@ -1047,7 +1056,7 @@ paths:
         maximum: 543.2
         minimum: 32.1
         formatString: "{}"
-        example: "3.4"
+        example: "8.14"
       - name: "float"
         in: "formData"
         description: "None"
@@ -1089,8 +1098,8 @@ paths:
         required: true
         type: "string"
         format: "byte"
-        formatString: "\\\"{:?}\\\""
-        example: "swagger::ByteArray(\"byte_example\".to_string().into_bytes())"
+        formatString: "{:?}"
+        example: "swagger::ByteArray(Vec::from(\"B\"))"
       - name: "binary"
         in: "formData"
         description: "None"
@@ -1171,6 +1180,7 @@ paths:
         example: "???"
         model_key: "OuterBoolean"
         uppercase_operation_id: "TEST_CLIENT_MODEL"
+        consumesJson: true
       responses:
         200:
           description: "successful operation"
@@ -1179,6 +1189,7 @@ paths:
           uppercase_operation_id: "TEST_CLIENT_MODEL"
           uppercase_message: "SUCCESSFUL_OPERATION"
           uppercase_data_type: "CLIENT"
+          producesJson: true
       operation_id: "test_client_model"
       uppercase_operation_id: "TEST_CLIENT_MODEL"
       path: "/fake"
@@ -1204,6 +1215,7 @@ paths:
         example: "None"
         model_key: "OuterBoolean"
         uppercase_operation_id: "FAKE_OUTER_NUMBER_SERIALIZE"
+        consumesJson: true
       responses:
         200:
           description: "Output number"
@@ -1212,6 +1224,7 @@ paths:
           uppercase_operation_id: "FAKE_OUTER_NUMBER_SERIALIZE"
           uppercase_message: "OUTPUT_NUMBER"
           uppercase_data_type: "OUTERNUMBER"
+          producesJson: true
       operation_id: "fake_outer_number_serialize"
       uppercase_operation_id: "FAKE_OUTER_NUMBER_SERIALIZE"
       path: "/fake/outer/number"
@@ -1236,6 +1249,7 @@ paths:
         example: "None"
         model_key: "OuterBoolean"
         uppercase_operation_id: "FAKE_OUTER_STRING_SERIALIZE"
+        consumesJson: true
       responses:
         200:
           description: "Output string"
@@ -1244,6 +1258,7 @@ paths:
           uppercase_operation_id: "FAKE_OUTER_STRING_SERIALIZE"
           uppercase_message: "OUTPUT_STRING"
           uppercase_data_type: "OUTERSTRING"
+          producesJson: true
       operation_id: "fake_outer_string_serialize"
       uppercase_operation_id: "FAKE_OUTER_STRING_SERIALIZE"
       path: "/fake/outer/string"
@@ -1268,6 +1283,7 @@ paths:
         example: "None"
         model_key: "OuterBoolean"
         uppercase_operation_id: "FAKE_OUTER_BOOLEAN_SERIALIZE"
+        consumesJson: true
       responses:
         200:
           description: "Output boolean"
@@ -1276,6 +1292,7 @@ paths:
           uppercase_operation_id: "FAKE_OUTER_BOOLEAN_SERIALIZE"
           uppercase_message: "OUTPUT_BOOLEAN"
           uppercase_data_type: "OUTERBOOLEAN"
+          producesJson: true
       operation_id: "fake_outer_boolean_serialize"
       uppercase_operation_id: "FAKE_OUTER_BOOLEAN_SERIALIZE"
       path: "/fake/outer/boolean"
@@ -1300,6 +1317,7 @@ paths:
         example: "None"
         model_key: "OuterBoolean"
         uppercase_operation_id: "FAKE_OUTER_COMPOSITE_SERIALIZE"
+        consumesJson: true
       responses:
         200:
           description: "Output composite"
@@ -1308,6 +1326,7 @@ paths:
           uppercase_operation_id: "FAKE_OUTER_COMPOSITE_SERIALIZE"
           uppercase_message: "OUTPUT_COMPOSITE"
           uppercase_data_type: "OUTERCOMPOSITE"
+          producesJson: true
       operation_id: "fake_outer_composite_serialize"
       uppercase_operation_id: "FAKE_OUTER_COMPOSITE_SERIALIZE"
       path: "/fake/outer/composite"
@@ -1371,6 +1390,7 @@ paths:
         example: "???"
         model_key: "OuterBoolean"
         uppercase_operation_id: "TEST_INLINE_ADDITIONAL_PROPERTIES"
+        consumesJson: true
       responses:
         200:
           description: "successful operation"
@@ -1406,6 +1426,7 @@ paths:
         example: "???"
         model_key: "OuterBoolean"
         uppercase_operation_id: "TEST_SPECIAL_TAGS"
+        consumesJson: true
       responses:
         200:
           description: "successful operation"
@@ -1414,6 +1435,7 @@ paths:
           uppercase_operation_id: "TEST_SPECIAL_TAGS"
           uppercase_message: "SUCCESSFUL_OPERATION"
           uppercase_data_type: "CLIENT"
+          producesJson: true
       operation_id: "test_special_tags"
       uppercase_operation_id: "TEST_SPECIAL_TAGS"
       path: "/another-fake/dummy"
@@ -1465,12 +1487,12 @@ definitions:
         type: "boolean"
         default: false
     example:
-      petId: 6
-      quantity: 1
       id: 0
-      shipDate: "2000-01-23T04:56:07.000+00:00"
+      petId: 6
       complete: false
       status: "placed"
+      quantity: 1
+      shipDate: "2000-01-23T04:56:07.000+00:00"
     xml:
       name: "Order"
     upperCaseName: "ORDER"
@@ -1483,8 +1505,8 @@ definitions:
       name:
         type: "string"
     example:
-      name: "name"
       id: 6
+      name: "name"
     xml:
       name: "Category"
     upperCaseName: "CATEGORY"
@@ -1512,14 +1534,14 @@ definitions:
         format: "int32"
         description: "User Status"
     example:
-      firstName: "firstName"
-      lastName: "lastName"
-      password: "password"
-      userStatus: 6
-      phone: "phone"
       id: 0
-      email: "email"
+      lastName: "lastName"
+      phone: "phone"
       username: "username"
+      email: "email"
+      userStatus: 6
+      firstName: "firstName"
+      password: "password"
     xml:
       name: "User"
     upperCaseName: "USER"
@@ -1532,8 +1554,8 @@ definitions:
       name:
         type: "string"
     example:
-      name: "name"
       id: 1
+      name: "name"
     xml:
       name: "Tag"
     upperCaseName: "TAG"
@@ -1574,20 +1596,20 @@ definitions:
         - "pending"
         - "sold"
     example:
+      tags:
+      - id: 1
+        name: "name"
+      - id: 1
+        name: "name"
+      id: 0
+      category:
+        id: 6
+        name: "name"
+      status: "available"
+      name: "doggie"
       photoUrls:
       - "photoUrls"
       - "photoUrls"
-      name: "doggie"
-      id: 0
-      category:
-        name: "name"
-        id: 6
-      tags:
-      - name: "name"
-        id: 1
-      - name: "name"
-        id: 1
-      status: "available"
     xml:
       name: "Pet"
     upperCaseName: "PET"
@@ -1602,9 +1624,9 @@ definitions:
       message:
         type: "string"
     example:
+      message: "message"
       code: 0
       type: "type"
-      message: "message"
     upperCaseName: "APIRESPONSE"
   $special[model.name]:
     properties:
@@ -1957,8 +1979,8 @@ definitions:
       my_boolean:
         $ref: "#/definitions/OuterBoolean"
     example:
-      my_string: {}
       my_number: {}
+      my_string: {}
       my_boolean: {}
     upperCaseName: "OUTERCOMPOSITE"
   OuterNumber:

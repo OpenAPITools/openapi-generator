@@ -52,7 +52,7 @@ public interface PetApi {
         @ApiResponse(code = 400, message = "Invalid pet value") })
     @RequestMapping(value = "/pet/{petId}",
         produces = "application/json",
-        consumes = "application/json",
+        consumes = "",
         method = RequestMethod.DELETE)
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey);
 
@@ -68,7 +68,7 @@ public interface PetApi {
         @ApiResponse(code = 400, message = "Invalid status value") })
     @RequestMapping(value = "/pet/findByStatus",
         produces = "application/json",
-        consumes = "application/json",
+        consumes = "",
         method = RequestMethod.GET)
     com.netflix.hystrix.HystrixCommand<ResponseEntity<List<Pet>>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status);
 
@@ -84,7 +84,7 @@ public interface PetApi {
         @ApiResponse(code = 400, message = "Invalid tag value") })
     @RequestMapping(value = "/pet/findByTags",
         produces = "application/json",
-        consumes = "application/json",
+        consumes = "",
         method = RequestMethod.GET)
     com.netflix.hystrix.HystrixCommand<ResponseEntity<List<Pet>>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags);
 
@@ -98,7 +98,7 @@ public interface PetApi {
         @ApiResponse(code = 404, message = "Pet not found") })
     @RequestMapping(value = "/pet/{petId}",
         produces = "application/json",
-        consumes = "application/json",
+        consumes = "",
         method = RequestMethod.GET)
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Pet>> getPetById(@ApiParam(value = "ID of pet to return",required=true) @PathVariable("petId") Long petId);
 

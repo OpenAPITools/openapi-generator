@@ -70,6 +70,8 @@ interface PetApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
+     * @return void
+     *
      */
     public function addPet(Pet $body, &$responseCode, array &$responseHeaders);
 
@@ -82,6 +84,8 @@ interface PetApiInterface
      * @param  string $apiKey   (optional)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     *
+     * @return void
      *
      */
     public function deletePet($petId, $apiKey = null, &$responseCode, array &$responseHeaders);
@@ -123,7 +127,7 @@ interface PetApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return Swagger\Server\Model\Pet
+     * @return Swagger\Server\Model\Pet[]
      *
      */
     public function getPetById($petId, &$responseCode, array &$responseHeaders);
@@ -136,6 +140,8 @@ interface PetApiInterface
      * @param  Swagger\Server\Model\Pet $body  Pet object that needs to be added to the store (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     *
+     * @return void
      *
      */
     public function updatePet(Pet $body, &$responseCode, array &$responseHeaders);
@@ -151,6 +157,8 @@ interface PetApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
+     * @return void
+     *
      */
     public function updatePetWithForm($petId, $name = null, $status = null, &$responseCode, array &$responseHeaders);
 
@@ -165,7 +173,7 @@ interface PetApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return Swagger\Server\Model\ApiResponse
+     * @return Swagger\Server\Model\ApiResponse[]
      *
      */
     public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null, &$responseCode, array &$responseHeaders);

@@ -21,7 +21,6 @@ public class ClassModel  {
   
   @ApiModelProperty(value = "")
   private String propertyClass = null;
-
  /**
    * Get propertyClass
    * @return propertyClass

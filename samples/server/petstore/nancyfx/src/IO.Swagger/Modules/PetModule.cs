@@ -14,9 +14,9 @@ namespace IO.Swagger.v2.Modules
     /// </summary>
     public enum FindPetsByStatusStatusEnum
     {
-        available, 
-        pending, 
-        sold
+        available = 1, 
+        pending = 2, 
+        sold = 3
     };
 
 

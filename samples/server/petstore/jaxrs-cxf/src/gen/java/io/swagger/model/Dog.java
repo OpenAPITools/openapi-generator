@@ -17,7 +17,6 @@ public class Dog extends Animal {
   
   @ApiModelProperty(value = "")
   private String breed = null;
-
  /**
    * Get breed
    * @return breed

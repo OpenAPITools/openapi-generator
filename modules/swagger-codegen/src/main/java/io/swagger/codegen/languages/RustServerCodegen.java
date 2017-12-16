@@ -1,13 +1,6 @@
 package io.swagger.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 import io.swagger.codegen.*;
 import io.swagger.models.*;
 import io.swagger.models.parameters.BodyParameter;
@@ -21,8 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.Map.Entry;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +24,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private HashMap<String, String> modelXmlNames = new HashMap<String, String>();
 
+    private static final String NO_FORMAT = "%%NO_FORMAT";
+
     protected String apiVersion = "1.0.0";
+    protected String serverHost = "localhost";
     protected int serverPort = 8080;
     protected String projectName = "swagger-server";
     protected String apiPath = "rust-server";
@@ -148,7 +142,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("apiVersion", apiVersion);
-        additionalProperties.put("serverPort", serverPort);
         additionalProperties.put("apiPath", apiPath);
 
         /*
@@ -168,6 +161,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("example-server.mustache", "examples", "server.rs"));
         supportingFiles.add(new SupportingFile("example-client.mustache", "examples", "client.rs"));
         supportingFiles.add(new SupportingFile("example-server_lib.mustache", "examples/server_lib", "mod.rs"));
+        supportingFiles.add(new SupportingFile("example-server_server.mustache", "examples/server_lib", "server.rs"));
         supportingFiles.add(new SupportingFile("example-ca.pem", "examples", "ca.pem"));
         supportingFiles.add(new SupportingFile("example-server-chain.pem", "examples", "server-chain.pem"));
         supportingFiles.add(new SupportingFile("example-server-key.pem", "examples", "server-key.pem"));
@@ -257,6 +251,23 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             versionComponents.add("0");
         }
         info.setVersion(StringUtils.join(versionComponents, "."));
+
+        String host = swagger.getHost();
+        if (host != null) {
+            String[] parts = host.split(":");
+            if (parts.length > 1) {
+                serverHost = parts[0];
+                try {
+                    serverPort = Integer.valueOf(parts[1]);
+                } catch (NumberFormatException e) {
+                    LOGGER.warn("Port of Swagger host is not an integer : " + host, e);
+                }
+            } else {
+                serverHost = host;
+            }
+        }
+        additionalProperties.put("serverHost", serverHost);
+        additionalProperties.put("serverPort", serverPort);
     }
 
     @Override
@@ -512,6 +523,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             LOGGER.debug("No consumes defined in operation. Using global consumes (" + swagger.getConsumes() + ") for " + op.operationId);
         }
 
+        boolean consumesPlainText = false;
         boolean consumesXml = false;
         // if "consumes" is defined (per operation or using global definition)
         if (consumes != null && !consumes.isEmpty()) {
@@ -523,6 +535,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 if (mimeType.startsWith("Application/Xml")) {
                     additionalProperties.put("usesXml", true);
                     consumesXml = true;
+                } else if (mimeType.startsWith("Text/Plain")) {
+                    consumesPlainText = true;
                 }
 
                 mediaType.put("mediaType", mimeType);
@@ -545,6 +559,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         boolean producesXml = false;
+        boolean producesPlainText = false;
         if (produces != null && !produces.isEmpty()) {
             List<Map<String, String>> c = new ArrayList<Map<String, String>>();
             for (String key : produces) {
@@ -554,6 +569,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 if (mimeType.startsWith("Application/Xml")) {
                     additionalProperties.put("usesXml", true);
                     producesXml = true;
+                } else if (mimeType.startsWith("Text/Plain")) {
+                    producesPlainText = true;
                 }
 
                 mediaType.put("mediaType", mimeType);
@@ -572,9 +589,14 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 op.bodyParam.vendorExtensions.put("model_key", key);
             }
 
+            // Default to consuming json
             op.bodyParam.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase());
             if (consumesXml) {
                 op.bodyParam.vendorExtensions.put("consumesXml", true);
+            } else if (consumesPlainText) {
+                op.bodyParam.vendorExtensions.put("consumesPlainText", true);
+            } else {
+                op.bodyParam.vendorExtensions.put("consumesJson", true);
             }
 
         }
@@ -586,8 +608,13 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
             param.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase());
 
+            // Default to producing json if nothing else is specified
             if (consumesXml) {
                 param.vendorExtensions.put("consumesXml", true);
+            } else if (consumesPlainText) {
+                param.vendorExtensions.put("consumesPlainText", true);
+            } else {
+                param.vendorExtensions.put("consumesJson", true);
             }
         }
         for (CodegenParameter param : op.headerParams) {
@@ -601,8 +628,13 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             if (rsp.dataType != null) {
                 rsp.vendorExtensions.put("uppercase_data_type", (rsp.dataType.replace("models::", "")).toUpperCase());
 
+                // Default to producing json if nothing else is specified
                 if (producesXml) {
                     rsp.vendorExtensions.put("producesXml", true);
+                } else if (producesPlainText) {
+                    rsp.vendorExtensions.put("producesPlainText", true);
+                } else {
+                    rsp.vendorExtensions.put("producesJson", true);
                 }
 
                 // Check whether we're returning an object with a defined XML namespace.
@@ -869,12 +901,47 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
 
-        // Handle custom unsigned integer formats.
         if ("integer".equals(property.baseType)) {
+            // custom integer formats (legacy)
             if ("uint32".equals(property.dataFormat)) {
                 property.datatype = "u32";
             } else if ("uint64".equals(property.dataFormat)) {
                 property.datatype = "u64";
+
+            } else {
+                // match int type to schema constraints
+                Long inclusiveMinimum = property.minimum != null ? Long.parseLong(property.minimum): null;
+                if (inclusiveMinimum != null && property.exclusiveMinimum) {
+                    inclusiveMinimum++;
+                }
+
+                // a signed int is required unless a minimum greater than zero is set
+                boolean unsigned = inclusiveMinimum != null && inclusiveMinimum >= 0;
+
+                Long inclusiveMaximum = property.maximum != null ? Long.parseLong(property.maximum): null;
+                if (inclusiveMaximum != null && property.exclusiveMaximum) {
+                    inclusiveMaximum--;
+                }
+
+                switch (property.dataFormat == null ? NO_FORMAT : property.dataFormat) {
+                    // standard swagger formats
+                    case "int32":
+                        property.datatype = unsigned ? "u32" : "i32";
+                        break;
+
+                    case "int64":
+                        property.datatype = unsigned ? "u64" : "i64";
+                        break;
+
+                    case NO_FORMAT:
+                        property.datatype = matchingIntType(unsigned, inclusiveMinimum, inclusiveMaximum);
+                        break;
+
+                    default:
+                        // unknown format
+                        LOGGER.warn("The integer format '{}' is not recognized and will be ignored.", property.dataFormat);
+                        property.datatype = matchingIntType(unsigned, inclusiveMinimum, inclusiveMaximum);
+                }
             }
         }
 
@@ -883,6 +950,46 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (!property.required) {
             property.defaultValue = (property.defaultValue != null) ? "Some(" + property.defaultValue + ")" : "None";
         }
+    }
+
+    static long requiredBits(Long bound, boolean unsigned) {
+        if (bound == null) return 0;
+
+        if (unsigned) {
+            if (bound < 0) {
+                throw new RuntimeException("Unsigned bound is negative: " + bound);
+            }
+            return 65 - Long.numberOfLeadingZeros(bound >> 1);
+        }
+
+        return 65 - Long.numberOfLeadingZeros(
+                // signed bounds go from (-n) to (n - 1), i.e. i8 goes from -128 to 127
+                bound < 0 ? Math.abs(bound) - 1 : bound);
+    }
+
+    static String matchingIntType(boolean unsigned, Long inclusiveMin, Long inclusiveMax) {
+        long requiredMinBits = requiredBits(inclusiveMin, unsigned);
+        long requiredMaxBits = requiredBits(inclusiveMax, unsigned);
+        long requiredBits = Math.max(requiredMinBits, requiredMaxBits);
+
+        if (requiredMaxBits == 0 && requiredMinBits <= 16) {
+            // rust 'size' types are arch-specific and thus somewhat loose
+            // so they are used when no format or maximum are specified
+            // and as long as minimum stays within plausible smallest ptr size (16 bits)
+            // this way all rust types are obtainable without defining custom formats
+            // this behavior (default int size) could also follow a generator flag
+            return unsigned ? "usize" : "isize";
+
+        } else if (requiredBits <= 8) {
+            return unsigned ? "u8" : "i8";
+
+        } else if (requiredBits <= 16) {
+            return unsigned ? "u16" : "i16";
+
+        } else if (requiredBits <= 32) {
+            return unsigned ? "u32" : "i32";
+        }
+        return unsigned ? "u64" : "i64";
     }
 
     @Override

@@ -5,7 +5,6 @@ namespace {{servicePackage}};
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Naming\CamelCaseNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
-use Swagger\Server\Service\StrictJsonDeserializationVisitor;
 use JMS\Serializer\XmlDeserializationVisitor;
 
 class JmsSerializer implements SerializerInterface
@@ -50,6 +49,11 @@ class JmsSerializer implements SerializerInterface
 
     private function deserializeString($data, $type)
     {
+        // Figure out if we have an array format
+        if (1 === preg_match('/array<(csv|ssv|tsv|pipes),(int|string)>/i', $type, $matches)) {
+            return $this->deserializeArrayString($matches[1], $matches[2], $data);
+        }
+
         switch ($type) {
             case 'int':
             case 'integer':
@@ -75,17 +79,37 @@ class JmsSerializer implements SerializerInterface
                 }
 
                 break;
-            case 'array<csv>':
-                return explode(',', $data);
-            case 'array<ssv>':
-                return explode(' ', $data);
-            case 'array<tsv>':
-                return explode("\t", $data);
-            case 'array<pipes>':
-                return explode('|', $data);
         }
 
         // If we end up here, just return data
+        return $data;
+    }
+
+    private function deserializeArrayString($format, $type, $data)
+    {
+        // Parse the string using the correct separator
+        switch ($format) {
+            case 'csv':
+                $data = explode(',', $data);
+                break;
+            case 'ssv':
+                $data = explode(' ', $data);
+                break;
+            case 'tsv':
+                $data = explode("\t", $data);
+                break;
+            case 'pipes':
+                $data = explode('|', $data);
+                break;
+            default;
+                $data = [];
+        }
+
+        // Deserialize each of the array elements
+        foreach ($data as $key => $item) {
+            $data[$key] = $this->deserializeString($item, $type);
+        }
+
         return $data;
     }
 }

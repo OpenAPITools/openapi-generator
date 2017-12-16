@@ -117,7 +117,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Swagger\Server\Model\User[]**](../Model/User.md)| List of user object |
+ **body** | [**Swagger\Server\Model\User**](../Model/User.md)| List of user object |
 
 ### Return type
 
@@ -171,7 +171,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Swagger\Server\Model\User[]**](../Model/User.md)| List of user object |
+ **body** | [**Swagger\Server\Model\User**](../Model/User.md)| List of user object |
 
 ### Return type
 

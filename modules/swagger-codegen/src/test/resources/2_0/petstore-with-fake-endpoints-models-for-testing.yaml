@@ -957,7 +957,7 @@ securityDefinitions:
   api_key_query:
     type: apiKey
     name: api_key_query
-    in: query 
+    in: query
   http_basic_test:
     type: basic
 definitions:

@@ -190,7 +190,7 @@ func (c *APIClient) prepareRequest (
 		}
 	}
 
-	// add form paramters and file if available.
+	// add form parameters and file if available.
 	if len(formParams) > 0 || (len(fileBytes) > 0 && fileName != "") {
 		if body != nil {
 			return nil, errors.New("Cannot specify postBody and multipart form at the same time.")
@@ -230,7 +230,7 @@ func (c *APIClient) prepareRequest (
 		w.Close()
 	}
 
-	// Setup path and query paramters
+	// Setup path and query parameters
 	url, err := url.Parse(path)
 	if err != nil {
 		return nil, err
@@ -274,8 +274,13 @@ func (c *APIClient) prepareRequest (
 	// Add the user agent to the request.
 	localVarRequest.Header.Add("User-Agent", c.cfg.UserAgent)
 	
-	// Walk through any authentication.
+
 	if ctx != nil {
+		// add context to the request
+		localVarRequest = localVarRequest.WithContext(ctx)
+
+		// Walk through any authentication.
+
 		// OAuth2 authentication
 		if tok, ok := ctx.Value(ContextOAuth2).(oauth2.TokenSource); ok {
 			// We were able to grab an oauth2 token from the context

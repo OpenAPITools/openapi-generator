@@ -32,7 +32,7 @@ public interface StoreApi {
         @ApiResponse(code = 404, message = "Order not found") })
     @RequestMapping(value = "/store/order/{orderId}",
         produces = "application/json",
-        consumes = "application/json",
+        consumes = "",
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId);
 
@@ -44,7 +44,7 @@ public interface StoreApi {
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
     @RequestMapping(value = "/store/inventory",
         produces = "application/json",
-        consumes = "application/json",
+        consumes = "",
         method = RequestMethod.GET)
     ResponseEntity<Map<String, Integer>> getInventory();
 
@@ -56,7 +56,7 @@ public interface StoreApi {
         @ApiResponse(code = 404, message = "Order not found") })
     @RequestMapping(value = "/store/order/{orderId}",
         produces = "application/json",
-        consumes = "application/json",
+        consumes = "",
         method = RequestMethod.GET)
     ResponseEntity<Order> getOrderById(@Min(1) @Max(5) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId);
 

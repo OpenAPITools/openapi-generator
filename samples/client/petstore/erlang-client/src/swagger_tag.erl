@@ -1,8 +1,8 @@
 -module(swagger_tag).
 
--export_type([swagger_tag/0,
-              encode/1,
-              decode/1]).
+-export([encode/1]).
+
+-export_type([swagger_tag/0]).
 
 -type swagger_tag() ::
     #{ 'id' => integer(),
@@ -14,4 +14,4 @@ encode(#{ 'id' := Id,
         }) ->
     #{ 'id' => Id,
        'name' => Name
-     }
+     }.

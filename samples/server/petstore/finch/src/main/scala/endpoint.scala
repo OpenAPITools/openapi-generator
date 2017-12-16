@@ -23,7 +23,7 @@ object endpoint {
           Json.obj("error" -> Json.fromString("something_not_parsed"))
       case Error.NotValid(_, _) =>
           Json.obj("error" -> Json.fromString("something_not_valid"))
-      case error: PetstoreError =>
+      case error: CommonError =>
           Json.obj("error" -> Json.fromString(error.message))
   }
 
@@ -42,7 +42,7 @@ object endpoint {
           StoreApi.endpoints(da)  :+:
           UserApi.endpoints(da) 
   ).handle({
-      case e: PetstoreError => NotFound(e)
+      case e: CommonError => NotFound(e)
   }).toService
 
 }

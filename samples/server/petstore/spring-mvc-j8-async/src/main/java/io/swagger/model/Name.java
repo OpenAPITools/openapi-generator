@@ -33,7 +33,7 @@ public class Name   {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
   **/
@@ -54,7 +54,7 @@ public class Name   {
     return this;
   }
 
-   /**
+  /**
    * Get snakeCase
    * @return snakeCase
   **/
@@ -74,7 +74,7 @@ public class Name   {
     return this;
   }
 
-   /**
+  /**
    * Get property
    * @return property
   **/
@@ -94,7 +94,7 @@ public class Name   {
     return this;
   }
 
-   /**
+  /**
    * Get _123Number
    * @return _123Number
   **/

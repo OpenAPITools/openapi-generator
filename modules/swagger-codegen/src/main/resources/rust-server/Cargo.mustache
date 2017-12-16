@@ -2,6 +2,10 @@
 name = "{{packageName}}"
 version = "{{appVersion}}"
 authors = [{{#infoEmail}}"{{infoEmail}}"{{/infoEmail}}]
+{{#appDescription}}
+description = "{{{appDescription}}}"
+{{/appDescription}}
+license = "Unlicense"
 
 [features]
 default = ["client", "server"]
@@ -9,12 +13,19 @@ client = ["serde_json", {{#usesXml}}"serde-xml-rs", {{/usesXml}}"serde_ignored",
 server = ["serde_json", {{#usesXml}}"serde-xml-rs", {{/usesXml}}"serde_ignored", "hyper", "iron", "router", "bodyparser", "urlencoded", "uuid"{{#apiHasFile}}, "multipart"{{/apiHasFile}}]
 
 [dependencies]
-bodyparser = {version = "0.7", optional = true}
+# Required by example server.
+#
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.1"
 hyper = {version = "0.10", optional = true}
 hyper-openssl = {version = "0.2", optional = true }
 iron = {version = "0.5", optional = true}
+swagger = "0.7"
+
+# Not required by example server.
+#
+bodyparser = {version = "0.7", optional = true}
+url = "1.5"
 lazy_static = "0.2"
 log = "0.3.0"
 multipart = {version = "0.13", optional = true}
@@ -23,7 +34,6 @@ serde = "1.0"
 serde_derive = "1.0"
 serde_ignored = {version = "0.0.4", optional = true}
 serde_json = {version = "1.0", optional = true}
-swagger = "0.7"
 urlencoded = {version = "0.5", optional = true}
 uuid = {version = "0.5", optional = true, features = ["serde", "v4"]}
 # ToDo: this should be updated to point at the official crate once
@@ -32,3 +42,4 @@ uuid = {version = "0.5", optional = true, features = ["serde", "v4"]}
 
 [dev-dependencies]
 clap = "2.25"
+error-chain = "0.11"

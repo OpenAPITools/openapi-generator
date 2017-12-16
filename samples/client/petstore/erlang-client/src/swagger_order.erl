@@ -1,8 +1,8 @@
 -module(swagger_order).
 
--export_type([swagger_order/0,
-              encode/1,
-              decode/1]).
+-export([encode/1]).
+
+-export_type([swagger_order/0]).
 
 -type swagger_order() ::
     #{ 'id' => integer(),
@@ -26,4 +26,4 @@ encode(#{ 'id' := Id,
        'shipDate' => ShipDate,
        'status' => Status,
        'complete' => Complete
-     }
+     }.

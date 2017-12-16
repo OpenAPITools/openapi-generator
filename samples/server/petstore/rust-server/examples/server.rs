@@ -1,11 +1,22 @@
+//! Main binary entry point for petstore_api implementation.
+
 #![allow(missing_docs)]
 
+// Imports required by this file.
+// extern crate <name of this crate>;
 extern crate petstore_api;
+extern crate swagger;
 extern crate iron;
-extern crate futures;
 extern crate hyper_openssl;
 extern crate clap;
-extern crate swagger;
+
+// Imports required by server library.
+// extern crate petstore_api;
+// extern crate swagger;
+extern crate futures;
+extern crate chrono;
+#[macro_use]
+extern crate error_chain;
 
 use hyper_openssl::OpensslServer;
 use hyper_openssl::openssl::x509::X509_FILETYPE_PEM;
@@ -15,7 +26,6 @@ use clap::{App, Arg};
 use iron::{Iron, Chain};
 use swagger::auth::AllowAllMiddleware;
 
-// Import the module that defines the Server struct.
 mod server_lib;
 
 /// Builds an SSL implementation for Simple HTTPS from some hard-coded file names
@@ -23,9 +33,9 @@ fn ssl() -> Result<OpensslServer, ErrorStack> {
     let mut ssl = SslAcceptorBuilder::mozilla_intermediate_raw(SslMethod::tls())?;
 
     // Server authentication
-    ssl.builder_mut().set_private_key_file("examples/server-key.pem", X509_FILETYPE_PEM)?;
-    ssl.builder_mut().set_certificate_chain_file("examples/server-chain.pem")?;
-    ssl.builder_mut().check_private_key()?;
+    ssl.set_private_key_file("examples/server-key.pem", X509_FILETYPE_PEM)?;
+    ssl.set_certificate_chain_file("examples/server-chain.pem")?;
+    ssl.check_private_key()?;
 
     Ok(OpensslServer::from(ssl.build()))
 }
@@ -39,7 +49,7 @@ fn main() {
             .help("Whether to use HTTPS or not"))
         .get_matches();
 
-    let server = server_lib::Server{};
+    let server = server_lib::server().unwrap();
     let router = petstore_api::router(server);
 
     let mut chain = Chain::new(router);
@@ -50,9 +60,9 @@ fn main() {
 
     if matches.is_present("https") {
         // Using Simple HTTPS
-        Iron::new(chain).https("localhost:8080", ssl().expect("Failed to load SSL keys")).expect("Failed to start HTTPS server");
+        Iron::new(chain).https("localhost:80", ssl().expect("Failed to load SSL keys")).expect("Failed to start HTTPS server");
     } else {
         // Using HTTP
-        Iron::new(chain).http("localhost:8080").expect("Failed to start HTTP server");
+        Iron::new(chain).http("localhost:80").expect("Failed to start HTTP server");
     }
 }

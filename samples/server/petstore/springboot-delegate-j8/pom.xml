@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.4.RELEASE</version>
+        <version>1.5.9.RELEASE</version>
     </parent>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -40,7 +40,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
         </dependency>
         <!--SpringFox dependencies -->
         <dependency>
@@ -59,11 +58,9 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
     <!-- Bean Validation API support -->
-    <dependency>
-        <groupId>javax.validation</groupId>
-        <artifactId>validation-api</artifactId>
-        <version>1.1.0.Final</version>
-        <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
     </dependencies>
 </project>

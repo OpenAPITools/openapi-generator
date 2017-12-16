@@ -18,10 +18,12 @@ open class VariableNameTest: Codable {
     public var _for: String?
 
 
+    
     public init(exampleName: String?, _for: String?) {
         self.exampleName = exampleName
         self._for = _for
     }
+    
 
     // Encodable protocol methods
 

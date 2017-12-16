@@ -43,7 +43,7 @@ public class ArrayTest   {
     return this;
   }
 
-   /**
+  /**
    * Get arrayOfString
    * @return arrayOfString
   **/
@@ -71,7 +71,7 @@ public class ArrayTest   {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   **/
@@ -100,7 +100,7 @@ public class ArrayTest   {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   **/

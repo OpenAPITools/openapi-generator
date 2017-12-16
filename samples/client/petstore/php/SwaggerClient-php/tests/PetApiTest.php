@@ -373,6 +373,17 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('red', $animal->getColor());
     }
 
+    /**
+     * test invalid argument
+     *
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidArgument()
+    {
+        // the argument is required, and we must specify one or some from 'available', 'pending', 'sold'
+        $this->api->findPetsByStatus([]);
+    }
+
 //    Disabled as currently we don't have any endpoint that would return file
 //    For testing I just replaced url and return type in Api method.
 //    public function testDownloadingLargeFile()

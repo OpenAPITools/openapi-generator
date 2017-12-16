@@ -15,6 +15,7 @@ import { Inject, Injectable, Optional }                      from '@angular/core
 import { Http, Headers, URLSearchParams }                    from '@angular/http';
 import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import { Response, ResponseContentType }                     from '@angular/http';
+import { CustomQueryEncoderHelper }                          from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
 import '../rxjs-operators';
@@ -23,7 +24,6 @@ import { Order } from '../model/order';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { CustomQueryEncoderHelper }                          from '../encoder';
 
 
 @Injectable()
@@ -125,6 +125,7 @@ export class StoreService {
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
+     
      */
     public deleteOrderWithHttpInfo(orderId: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (orderId === null || orderId === undefined) {
@@ -163,6 +164,7 @@ export class StoreService {
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
+     
      */
     public getInventoryWithHttpInfo(extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
 
@@ -203,6 +205,7 @@ export class StoreService {
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
+     
      */
     public getOrderByIdWithHttpInfo(orderId: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (orderId === null || orderId === undefined) {
@@ -242,6 +245,7 @@ export class StoreService {
      * Place an order for a pet
      * 
      * @param body order placed for purchasing the pet
+     
      */
     public placeOrderWithHttpInfo(body: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (body === null || body === undefined) {

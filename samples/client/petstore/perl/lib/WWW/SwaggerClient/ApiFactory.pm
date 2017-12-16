@@ -66,11 +66,11 @@ my %_apis = map { $_ =~ /^WWW::SwaggerClient::(.*)$/; $1 => $_ }
 	
 	create a new WWW::SwaggerClient::ApiFactory instance with the given WWW::SwaggerClient::ApiClient instance.
 
-=head1 new(%paramters)
+=head1 new(%parameters)
 
 	Any parameters are optional, and are passed to and stored on the api_client object.
 	
-	See L<WWW::SwaggerClient::ApiClient> and L<WWW::SwaggerClient::Configuration> for valid paramters
+	See L<WWW::SwaggerClient::ApiClient> and L<WWW::SwaggerClient::Configuration> for valid parameters
 
 =cut	
 

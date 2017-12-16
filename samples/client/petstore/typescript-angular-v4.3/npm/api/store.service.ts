@@ -12,16 +12,16 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams }               from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams,
+         HttpResponse, HttpEvent }                           from '@angular/common/http';
+import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
-import '../rxjs-operators';
 
 import { Order } from '../model/order';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 
 @Injectable()
@@ -60,8 +60,13 @@ export class StoreService {
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public deleteOrder(orderId: string): Observable<{}> {
+    public deleteOrder(orderId: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteOrder(orderId: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteOrder(orderId: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteOrder(orderId: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
@@ -84,8 +89,10 @@ export class StoreService {
 
         return this.httpClient.delete<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -93,8 +100,13 @@ export class StoreService {
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public getInventory(): Observable<{ [key: string]: number; }> {
+    public getInventory(observe?: 'body', reportProgress?: boolean): Observable<{ [key: string]: number; }>;
+    public getInventory(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<{ [key: string]: number; }>>;
+    public getInventory(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<{ [key: string]: number; }>>;
+    public getInventory(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -116,10 +128,12 @@ export class StoreService {
         let consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/store/inventory`,
+        return this.httpClient.get<{ [key: string]: number; }>(`${this.basePath}/store/inventory`,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -128,8 +142,13 @@ export class StoreService {
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public getOrderById(orderId: number): Observable<Order> {
+    public getOrderById(orderId: number, observe?: 'body', reportProgress?: boolean): Observable<Order>;
+    public getOrderById(orderId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Order>>;
+    public getOrderById(orderId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Order>>;
+    public getOrderById(orderId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
@@ -150,10 +169,12 @@ export class StoreService {
         let consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+        return this.httpClient.get<Order>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -162,8 +183,13 @@ export class StoreService {
      * Place an order for a pet
      * 
      * @param body order placed for purchasing the pet
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public placeOrder(body: Order): Observable<Order> {
+    public placeOrder(body: Order, observe?: 'body', reportProgress?: boolean): Observable<Order>;
+    public placeOrder(body: Order, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Order>>;
+    public placeOrder(body: Order, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Order>>;
+    public placeOrder(body: Order, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling placeOrder.');
         }
@@ -188,11 +214,13 @@ export class StoreService {
             headers = headers.set("Content-Type", httpContentTypeSelected);
         }
 
-        return this.httpClient.post<any>(`${this.basePath}/store/order`,
+        return this.httpClient.post<Order>(`${this.basePath}/store/order`,
             body,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }

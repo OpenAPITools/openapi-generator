@@ -77,7 +77,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **getInventory**
-> int[] getInventory()
+> int getInventory()
 
 Returns pet inventories by status
 
@@ -122,7 +122,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**int[]**
+**int**
 
 ### Authorization
 

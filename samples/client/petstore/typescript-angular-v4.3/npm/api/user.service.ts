@@ -12,16 +12,16 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams }               from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams,
+         HttpResponse, HttpEvent }                           from '@angular/common/http';
+import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
-import '../rxjs-operators';
 
 import { User } from '../model/user';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 
 @Injectable()
@@ -60,8 +60,13 @@ export class UserService {
      * Create user
      * This can only be done by the logged in user.
      * @param body Created user object
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public createUser(body: User): Observable<{}> {
+    public createUser(body: User, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createUser(body: User, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createUser(body: User, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createUser(body: User, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling createUser.');
         }
@@ -89,8 +94,10 @@ export class UserService {
         return this.httpClient.post<any>(`${this.basePath}/user`,
             body,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -99,8 +106,13 @@ export class UserService {
      * Creates list of users with given input array
      * 
      * @param body List of user object
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public createUsersWithArrayInput(body: Array<User>): Observable<{}> {
+    public createUsersWithArrayInput(body: Array<User>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createUsersWithArrayInput(body: Array<User>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createUsersWithArrayInput(body: Array<User>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createUsersWithArrayInput(body: Array<User>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling createUsersWithArrayInput.');
         }
@@ -128,8 +140,10 @@ export class UserService {
         return this.httpClient.post<any>(`${this.basePath}/user/createWithArray`,
             body,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -138,8 +152,13 @@ export class UserService {
      * Creates list of users with given input array
      * 
      * @param body List of user object
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public createUsersWithListInput(body: Array<User>): Observable<{}> {
+    public createUsersWithListInput(body: Array<User>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createUsersWithListInput(body: Array<User>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createUsersWithListInput(body: Array<User>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createUsersWithListInput(body: Array<User>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling createUsersWithListInput.');
         }
@@ -167,8 +186,10 @@ export class UserService {
         return this.httpClient.post<any>(`${this.basePath}/user/createWithList`,
             body,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -177,8 +198,13 @@ export class UserService {
      * Delete user
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public deleteUser(username: string): Observable<{}> {
+    public deleteUser(username: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteUser(username: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteUser(username: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteUser(username: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
@@ -201,8 +227,10 @@ export class UserService {
 
         return this.httpClient.delete<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -211,8 +239,13 @@ export class UserService {
      * Get user by user name
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public getUserByName(username: string): Observable<User> {
+    public getUserByName(username: string, observe?: 'body', reportProgress?: boolean): Observable<User>;
+    public getUserByName(username: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<User>>;
+    public getUserByName(username: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<User>>;
+    public getUserByName(username: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
@@ -233,10 +266,12 @@ export class UserService {
         let consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
+        return this.httpClient.get<User>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -246,8 +281,13 @@ export class UserService {
      * 
      * @param username The user name for login
      * @param password The password for login in clear text
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public loginUser(username: string, password: string): Observable<string> {
+    public loginUser(username: string, password: string, observe?: 'body', reportProgress?: boolean): Observable<string>;
+    public loginUser(username: string, password: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
+    public loginUser(username: string, password: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public loginUser(username: string, password: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling loginUser.');
         }
@@ -279,11 +319,13 @@ export class UserService {
         let consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/user/login`,
+        return this.httpClient.get<string>(`${this.basePath}/user/login`,
             {
                 params: queryParameters,
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -291,8 +333,13 @@ export class UserService {
     /**
      * Logs out current logged in user session
      * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public logoutUser(): Observable<{}> {
+    public logoutUser(observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public logoutUser(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public logoutUser(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public logoutUser(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -312,8 +359,10 @@ export class UserService {
 
         return this.httpClient.get<any>(`${this.basePath}/user/logout`,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }
@@ -323,8 +372,13 @@ export class UserService {
      * This can only be done by the logged in user.
      * @param username name that need to be deleted
      * @param body Updated user object
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public updateUser(username: string, body: User): Observable<{}> {
+    public updateUser(username: string, body: User, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateUser(username: string, body: User, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateUser(username: string, body: User, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateUser(username: string, body: User, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
@@ -355,8 +409,10 @@ export class UserService {
         return this.httpClient.put<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
             body,
             {
-                headers: headers,
                 withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
             }
         );
     }

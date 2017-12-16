@@ -2,7 +2,6 @@ package {{package}};
 
 import {{modelPackage}}.*;
 import {{package}}.{{classname}}Service;
-import {{package}}.factories.{{classname}}ServiceFactory;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
@@ -20,6 +19,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
+import javax.inject.Inject;
+
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
@@ -32,7 +33,8 @@ import javax.validation.constraints.*;
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}}  {
-   private final {{classname}}Service delegate = {{classname}}ServiceFactory.get{{classname}}();
+
+    @Inject {{classname}}Service service;
 
 {{#operation}}
     @{{httpMethod}}
@@ -51,7 +53,7 @@ public class {{classname}}  {
         {{/hasMore}}{{/responses}} })
     public Response {{nickname}}({{#isMultipart}}MultipartFormDataInput input,{{/isMultipart}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{^isMultipart}}{{>formParams}},{{/isMultipart}}{{#isMultipart}}{{^isFormParam}},{{/isFormParam}}{{/isMultipart}}{{/allParams}}@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.{{nickname}}({{#isMultipart}}input,{{/isMultipart}}{{#allParams}}{{^isMultipart}}{{paramName}},{{/isMultipart}}{{#isMultipart}}{{^isFormParam}}{{paramName}},{{/isFormParam}}{{/isMultipart}}{{/allParams}}securityContext);
+        return service.{{nickname}}({{#isMultipart}}input,{{/isMultipart}}{{#allParams}}{{^isMultipart}}{{paramName}},{{/isMultipart}}{{#isMultipart}}{{^isFormParam}}{{paramName}},{{/isFormParam}}{{/isMultipart}}{{/allParams}}securityContext);
     }
 {{/operation}}
 }

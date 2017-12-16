@@ -13,13 +13,18 @@ dependencies {
     providedCompile 'org.jboss.resteasy:resteasy-validator-provider-11:3.0.11.Final'
     providedCompile 'org.jboss.resteasy:resteasy-multipart-provider:3.0.11.Final'
     providedCompile 'javax.annotation:javax.annotation-api:1.2'
+    providedCompile 'javax:javaee-api:7.0'
     providedCompile 'org.jboss.spec.javax.servlet:jboss-servlet-api_3.0_spec:1.0.0.Final'
     compile         'io.swagger:swagger-annotations:1.5.10'
     compile         'org.jboss.resteasy:resteasy-jackson2-provider:3.0.11.Final'
-{{#joda}}
+{{#useBeanValidation}}
+    providedCompile 'javax.validation:validation-api:1.1.0.Final'
+{{/useBeanValidation}}
     compile         'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.4.1'
     compile         'joda-time:joda-time:2.7'
-{{/joda}}
+    //TODO: swaggerFeature
+    compile 'io.swagger:swagger-jaxrs:1.5.12'
+
     testCompile     'junit:junit:4.12',
                     'org.hamcrest:hamcrest-core:1.3'
 }

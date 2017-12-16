@@ -6,7 +6,7 @@ name := "finch-sample"
 
 version := "0.1.0-SNAPSHOT"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.11.12"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
@@ -19,6 +19,11 @@ resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/reposi
 resolvers += "Sonatype OSS Releases" at "http://oss.sonatype.org/content/repositories/releases/"
 
 Defaults.itSettings
+
+lazy val circeVersion         = "0.8.0"
+lazy val finagleVersion       = "6.45.0"
+lazy val finchVersion         = "0.15.1"
+lazy val scalaTestVersion     = "3.0.0"
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -33,21 +38,21 @@ scalacOptions ++= Seq(
   "-Ywarn-numeric-widen",
   "-Xfuture",
   "-Xlint",
-//  "-Ywarn-unused-import",
+  "-Ywarn-unused-import",
   "-language:postfixOps"
 )
 
 lazy val `it-config-sbt-project` = project.in(file(".")).configs(IntegrationTest)
 
 libraryDependencies ++= Seq(
-  "com.github.finagle"      %% "finch-core"                     % "0.12.0",
-  "com.github.finagle"      %% "finch-circe"                    % "0.12.0",
-  "io.circe"                %% "circe-generic"                  % "0.7.0",
-  "io.circe"                %% "circe-java8"                    % "0.7.0",
-  "com.twitter"             %% "util-core"                      % "6.40.0",
-  "com.github.finagle"      %% "finch-test"                     % "0.12.0"      % "test",
-  "org.scalacheck"          %% "scalacheck"                     % "1.13.4"     % "test",
-  "org.scalatest"           %% "scalatest"                      % "3.0.0"      % "test"
+  "com.github.finagle"      %% "finch-core"                     % finchVersion,
+  "com.github.finagle"      %% "finch-circe"                    % finchVersion,
+  "io.circe"                %% "circe-generic"                  % circeVersion,
+  "io.circe"                %% "circe-java8"                    % circeVersion,
+  "com.twitter"             %% "util-core"                      % finagleVersion,
+  "com.github.finagle"      %% "finch-test"                     % finchVersion      % "test",
+  "org.scalacheck"          %% "scalacheck"                     % "1.13.4" % "test",
+  "org.scalatest"           %% "scalatest"                      % scalaTestVersion      % "test"
 )
 
 assemblyMergeStrategy in assembly := {
