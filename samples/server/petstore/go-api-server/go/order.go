@@ -10,23 +10,23 @@
 
 package petstoreserver
 
-// A User who is purchasing from the pet store
-type User struct {
+import (
+	"time"
+)
+
+// An order for a pets from the pet store
+type Order struct {
 
 	Id int64 `json:"id,omitempty"`
 
-	Username string `json:"username,omitempty"`
+	PetId int64 `json:"petId,omitempty"`
 
-	FirstName string `json:"firstName,omitempty"`
+	Quantity int32 `json:"quantity,omitempty"`
 
-	LastName string `json:"lastName,omitempty"`
+	ShipDate time.Time `json:"shipDate,omitempty"`
 
-	Email string `json:"email,omitempty"`
+	// Order Status
+	Status string `json:"status,omitempty"`
 
-	Password string `json:"password,omitempty"`
-
-	Phone string `json:"phone,omitempty"`
-
-	// User Status
-	UserStatus int32 `json:"userStatus,omitempty"`
+	Complete bool `json:"complete,omitempty"`
 }

@@ -1,8 +1,10 @@
+{{>partial_header}}
 package {{packageName}}
 
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -47,7 +49,7 @@ var routes = Routes{
 
 	Route{
 		"{{operationId}}",
-		"{{httpMethod}}",
+		strings.ToUpper("{{httpMethod}}"),
 		"{{{basePathWithoutHost}}}{{{path}}}",
 		{{operationId}},
 	},{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
