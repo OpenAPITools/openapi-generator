@@ -10,23 +10,12 @@
 
 package petstoreserver
 
-// A User who is purchasing from the pet store
-type User struct {
+// Describes the result of uploading an image resource
+type ApiResponse struct {
 
-	Id int64 `json:"id,omitempty"`
+	Code int32 `json:"code,omitempty"`
 
-	Username string `json:"username,omitempty"`
+	Type_ string `json:"type,omitempty"`
 
-	FirstName string `json:"firstName,omitempty"`
-
-	LastName string `json:"lastName,omitempty"`
-
-	Email string `json:"email,omitempty"`
-
-	Password string `json:"password,omitempty"`
-
-	Phone string `json:"phone,omitempty"`
-
-	// User Status
-	UserStatus int32 `json:"userStatus,omitempty"`
+	Message string `json:"message,omitempty"`
 }

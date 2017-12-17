@@ -1,12 +1,10 @@
+{{>partial_header}}
 package {{packageName}}
 
 {{#operations}}
 import (
 	"net/http"
-)
-
-type {{classname}} struct {
-}{{#operation}}
+){{#operation}}
 
 func {{nickname}}(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")

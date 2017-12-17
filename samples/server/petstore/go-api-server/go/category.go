@@ -10,23 +10,10 @@
 
 package petstoreserver
 
-// A User who is purchasing from the pet store
-type User struct {
+// A category for a pet
+type Category struct {
 
 	Id int64 `json:"id,omitempty"`
 
-	Username string `json:"username,omitempty"`
-
-	FirstName string `json:"firstName,omitempty"`
-
-	LastName string `json:"lastName,omitempty"`
-
-	Email string `json:"email,omitempty"`
-
-	Password string `json:"password,omitempty"`
-
-	Phone string `json:"phone,omitempty"`
-
-	// User Status
-	UserStatus int32 `json:"userStatus,omitempty"`
+	Name string `json:"name,omitempty"`
 }
