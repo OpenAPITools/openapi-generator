@@ -853,6 +853,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [TaskData](http://www.taskdata.com/)
 - [ThirdWatch.ai](https://www.thirdwatch.ai/)
 - [ThoughtWorks](https://www.thoughtworks.com)
+- [Tpay](https://tpay.com)
 - [Trexle](https://trexle.com/)
 - [Upwork](http://upwork.com/)
 - [uShip](https://www.uship.com/)
