@@ -3,6 +3,7 @@ package {{packageName}}
 
 {{#operations}}
 import (
+	"io/ioutil"
 	"net/url"
 	"net/http"
 	"strings"
@@ -212,7 +213,8 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 	}
 	defer localVarHttpResponse.Body.Close()
 	if localVarHttpResponse.StatusCode >= 300 {
-		return {{#returnType}}successPayload, {{/returnType}}localVarHttpResponse, reportError(localVarHttpResponse.Status)
+		bodyBytes, _ := ioutil.ReadAll(localVarHttpResponse.Body)
+		return {{#returnType}}successPayload, {{/returnType}}localVarHttpResponse, reportError("Status: %v, Body: %s", localVarHttpResponse.Status, bodyBytes)
 	}
 {{#returnType}}
 
