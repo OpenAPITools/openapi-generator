@@ -699,7 +699,7 @@
           "type" : "string"
         }
       },
-      "title" : "Pet catehgry",
+      "title" : "Pet category",
       "description" : "A category for a pet",
       "xml" : {
         "name" : "Category"
