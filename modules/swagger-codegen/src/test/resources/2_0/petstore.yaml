@@ -602,7 +602,7 @@ definitions:
     xml:
       name: Order
   Category:
-    title: Pet catehgry
+    title: Pet category
     description: A category for a pet
     type: object
     properties:
