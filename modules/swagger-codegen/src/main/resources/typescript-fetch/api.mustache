@@ -216,7 +216,7 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
             localVarHeaderParameter['Content-Type'] = 'application/json';
             {{/consumes}}
             {{#consumes.0}}
-            localVarHeaderParameter['Content-Type'] = '{{mediaType}}';
+            localVarHeaderParameter['Content-Type'] = '{{{mediaType}}}';
             {{/consumes.0}}
 
     {{/bodyParam}}
