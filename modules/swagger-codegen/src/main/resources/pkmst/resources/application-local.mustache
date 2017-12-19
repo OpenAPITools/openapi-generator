@@ -1,0 +1,87 @@
+# Discovery Server Access
+{{#eurekaUri}}
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+    hostname: localhost
+    healthCheckUrl: http://localhost:{{serverPort}}/health
+    nonSecurePort: 80
+  client:
+    enabled: true
+    healthcheck:
+      enabled: true
+    registerWithEureka: true
+    #fetchRegistry: true
+    serviceUrl:
+      defaultZone: {{eurekaUri}}/eureka/
+{{/eurekaUri}}
+server:
+  port: {{serverPort}}
+
+# Spring Actuator
+management:
+  health:
+    redis:
+      enabled: false
+  security:
+    enabled: false
+
+
+endpoints:
+  health:
+    sensitive: false
+
+info:
+  app:
+    name: {{serviceName}}
+    description: Microservice developed by PKMST
+    version: {{artifactVersion}}
+
+health:
+  hystrix:
+    enabled: true
+
+security:
+  basic:
+    enabled: false
+# provide rabbitmq configuration
+spring:
+  rabbitmq:
+    host:
+    virtual-host:
+    username:
+    password:
+    port:
+  {{#zipkinUri}}
+  zipkin:
+    base-url: {{zipkinUri}}
+  {{/zipkinUri}}
+
+  {{#springBootAdminUri}}
+  boot:
+    admin:
+      url: {{springBootAdminUri}}
+      client:
+        health-url: http://localhost:{{serverPort}}/health
+        management-url: http://localhost:{{serverPort}}
+        service-url: http://localhost:{{serverPort}}
+  {{/springBootAdminUri}}
+  sleuth:
+    sampler:
+      percentage: 1.0
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          sleuth: DEBUG
+{{#pkmstInterceptor}}    
+interceptor:
+   enable:
+       audit: true
+       body: true
+       rateLimit: true
+       traceability: true
+       correlation: true
+{{/pkmstInterceptor}}          

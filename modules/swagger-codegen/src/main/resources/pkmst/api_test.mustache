@@ -1,0 +1,57 @@
+{{>licenseInfo}}
+
+package {{package}};
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+{{#imports}}import {{import}};
+{{/imports}}
+import org.junit.Test;
+import org.junit.Ignore;
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
+
+/**
+ * API tests for {{classname}}
+ */
+@Ignore
+public class {{classname}}Test {
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    private final {{classname}} api = new {{classname}}Controller(objectMapper);
+
+    private final String accept = "application/json";
+
+    {{#operations}}{{#operation}}
+    /**
+     * {{summary}}
+     *
+     * {{notes}}
+     *
+     * @throws Exception
+     *          if the Api call fails
+     */
+    @Test
+    public void {{operationId}}Test() throws Exception {
+        {{#allParams}}
+        {{^isFile}}
+        {{{dataType}}} {{paramName}} = null;
+        {{/isFile}}
+        {{#isFile}}
+        MultipartFile {{paramName}} = null;
+        {{/isFile}}
+        {{/allParams}}
+    ResponseEntity<{{>returnTypes}}> response = api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}} {{#allParams}}{{^hasMore}},{{/hasMore}}{{/allParams}} accept);
+
+        // TODO: test validations
+    }
+    {{/operation}}{{/operations}}
+}
