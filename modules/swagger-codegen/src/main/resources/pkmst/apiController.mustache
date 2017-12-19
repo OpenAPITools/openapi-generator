@@ -1,0 +1,115 @@
+package {{package}};
+
+{{^jdk8-no-delegate}}
+{{#imports}}import {{import}};
+{{/imports}}
+
+import io.swagger.annotations.*;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+{{/jdk8-no-delegate}}
+import org.springframework.stereotype.Controller;
+{{^jdk8-no-delegate}}
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+{{#useOptional}}
+import java.util.Optional;
+{{/useOptional}}
+{{#async}}
+import java.util.concurrent.Callable;
+{{/async}}
+{{/jdk8-no-delegate}}
+{{^useSpringCloudClient}}
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+{{/useSpringCloudClient}}
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+{{/useBeanValidation}}
+/**
+ * Api implemention
+ * @author pkmst
+ *
+ */
+{{>generatedAnnotation}}
+@Controller
+{{#operations}}
+public class {{classname}}Controller implements {{classname}} {
+    private final ObjectMapper objectMapper;
+@Autowired
+    public {{classname}}Controller(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+{{#isDelegate}}
+    private final {{classname}}Delegate delegate;
+
+    @org.springframework.beans.factory.annotation.Autowired
+    public {{classname}}Controller({{classname}}Delegate delegate) {
+        this.delegate = delegate;
+    }
+
+{{/isDelegate}}
+{{^jdk8-no-delegate}}
+{{#operation}}
+    public {{#async}}Callable<{{/async}}ResponseEntity<{{>returnTypes}}>{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}},
+        {{/allParams}}@RequestHeader(value = "Accept", required = false) String accept) throws Exception {
+        // do some magic!
+{{#useSpringCloudClient}}
+        {{^isDelegate}}
+        {{^async}}
+        return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
+        {{/async}}
+        {{#async}}
+        return new Callable<ResponseEntity<{{>returnTypes}}>>() {
+            @Override
+            public ResponseEntity<{{>returnTypes}}> call() throws Exception {
+                return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
+            }
+        };
+        {{/async}}
+        {{/isDelegate}}
+        {{#isDelegate}}
+        return delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{/isDelegate}}
+{{/useSpringCloudClient}}
+{{^useSpringCloudClient}}
+        {{^isDelegate}}
+        {{^async}}
+        {{#examples}}
+
+        if (accept != null && accept.contains("{{{contentType}}}")) {
+            return new ResponseEntity<{{>returnTypes}}>(objectMapper.readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", {{>exampleReturnTypes}}.class), HttpStatus.OK);
+        }
+
+        {{/examples}}
+        return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
+        {{/async}}
+        {{#async}}
+        return new Callable<ResponseEntity<{{>returnTypes}}>>() {
+            @Override
+            public ResponseEntity<{{>returnTypes}}> call() throws Exception {
+                return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
+            }
+        };
+        {{/async}}
+        {{/isDelegate}}
+        {{#isDelegate}}
+        return delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{/isDelegate}}
+{{/useSpringCloudClient}}
+    }
+
+{{/operation}}
+{{/jdk8-no-delegate}}
+}
+{{/operations}}

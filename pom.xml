@@ -838,7 +838,7 @@
             </activation>
             <modules>
                 <!-- <module>samples/server/petstore/erlang-server</module> note: make sample compilation work -->
-                <!-- clients -->
+				<!-- clients -->
                 <module>samples/client/petstore/php/SwaggerClient-php</module>
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/scala</module>
