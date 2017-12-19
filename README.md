@@ -823,6 +823,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [PostAffiliatePro](https://www.postaffiliatepro.com/)
 - [PracticeBird](https://www.practicebird.com/)
 - [Prill Tecnologia](http://www.prill.com.br)
+- [Prokarma](https://www.prokarma.com)
 - [QAdept](http://qadept.com/)
 - [QuantiModo](https://quantimo.do/)
 - [QuickBlox](https://quickblox.com/)
