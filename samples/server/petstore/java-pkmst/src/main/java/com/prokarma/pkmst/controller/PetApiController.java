@@ -34,24 +34,20 @@ public class PetApiController implements PetApi {
         this.objectMapper = objectMapper;
     }
 
-    public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) Pet body
-,
+    public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )   @RequestBody Pet body,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathParam("petId") Long petId
-,
-        @ApiParam(value = "" )@HeaderParam("api_key") String apiKey
-,
+    public ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true ) @PathVariable("petId") Long petId,
+        @ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Pet>> findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter",required=true, allowableValues="available, pending, sold") @QueryParam("status") List<String> status
-,
+    public ResponseEntity<List<Pet>> findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold")  @RequestParam(value = "status", required = true) List<String> status,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
@@ -67,8 +63,7 @@ public class PetApiController implements PetApi {
         return new ResponseEntity<List<Pet>>(HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Pet>> findPetsByTags(@ApiParam(value = "Tags to filter by",required=true) @QueryParam("tags") List<String> tags
-,
+    public ResponseEntity<List<Pet>> findPetsByTags(@ApiParam(value = "Tags to filter by", required = true)  @RequestParam(value = "tags", required = true) List<String> tags,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
@@ -84,8 +79,7 @@ public class PetApiController implements PetApi {
         return new ResponseEntity<List<Pet>>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return",required=true) @PathParam("petId") Long petId
-,
+    public ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return",required=true ) @PathVariable("petId") Long petId,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
@@ -101,32 +95,23 @@ public class PetApiController implements PetApi {
         return new ResponseEntity<Pet>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) Pet body
-,
+    public ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )   @RequestBody Pet body,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathParam("petId") Long petId
-,
-        @ApiParam(value = "Updated name of the pet")  @FormParam("name")  String name
-,
-        @ApiParam(value = "Updated status of the pet")  @FormParam("status")  String status
-,
+    public ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true ) @PathVariable("petId") Long petId,
+        @ApiParam(value = "Updated name of the pet") @RequestPart(value="name", required=false)  String name,
+        @ApiParam(value = "Updated status of the pet") @RequestPart(value="status", required=false)  String status,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId
-,
-        @ApiParam(value = "Additional data to pass to server")  @FormParam("additionalMetadata")  String additionalMetadata
-,
-        
-            @FormDataParam("file") InputStream fileInputStream,
-            @FormDataParam("file") FormDataContentDisposition fileDetail
-,
+    public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId,
+        @ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,
+        @ApiParam(value = "file detail")  @RequestPart("file") MultipartFile file,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
