@@ -269,8 +269,8 @@ impl Api for Client {
                     let response_{{name}} = response.headers.get::<Response{{nameInCamelCase}}>().ok_or_else(|| "Required response header {{baseName}} for response {{code}} was not found.")?;
 {{/headers}}
 
-{{#dataType}}                    Ok({{operationId}}Response::{{message}}{{^headers}}(body){{/headers}}{{#headers}}{{#-first}}{ body: body, {{/-first}}{{name}}: response_{{name}}.0.clone(){{^-last}}, {{/-last}}{{#-last}} }{{/-last}}{{/headers}})
-{{/dataType}}{{^dataType}}                    Ok({{operationId}}Response::{{message}}{{#headers}}{{#-first}}{ {{/-first}}{{^-first}}, {{/-first}}{{name}}: response_{{name}}.0.clone(){{#-last}} }{{/-last}}{{/headers}})
+{{#dataType}}                    Ok({{operationId}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}{{^headers}}(body){{/headers}}{{#headers}}{{#-first}}{ body: body, {{/-first}}{{name}}: response_{{name}}.0.clone(){{^-last}}, {{/-last}}{{#-last}} }{{/-last}}{{/headers}})
+{{/dataType}}{{^dataType}}                    Ok({{operationId}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}{{#headers}}{{#-first}}{ {{/-first}}{{^-first}}, {{/-first}}{{name}}: response_{{name}}.0.clone(){{#-last}} }{{/-last}}{{/headers}})
 {{/dataType}}
                 },
 {{/responses}}

@@ -224,7 +224,7 @@ fn add_routes<T>(router: &mut Router, api: T) where T: Api + Send + Sync + Clone
                 match api.{{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}({{#allParams}}param_{{paramName}}{{#isListContainer}}.as_ref(){{/isListContainer}}, {{/allParams}}context).wait() {
                     Ok(rsp) => match rsp {
 {{#responses}}
-                        {{operationId}}Response::{{message}}{{#dataType}}{{^headers}}(body){{/headers}}{{#headers}}{{#-first}}{ body{{/-first}}{{/headers}}{{/dataType}}{{#headers}}{{#-first}}{{^dataType}}{ {{/dataType}}{{#dataType}}, {{/dataType}}{{/-first}}{{^-first}}, {{/-first}}{{name}}{{#-last}} }{{/-last}}{{/headers}} => {
+                        {{operationId}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}{{#dataType}}{{^headers}}(body){{/headers}}{{#headers}}{{#-first}}{ body{{/-first}}{{/headers}}{{/dataType}}{{#headers}}{{#-first}}{{^dataType}}{ {{/dataType}}{{#dataType}}, {{/dataType}}{{/-first}}{{^-first}}, {{/-first}}{{name}}{{#-last}} }{{/-last}}{{/headers}} => {
 {{^isFile}}
 {{#dataType}}{{#vendorExtensions}}{{#producesPlainText}}                            let body_string = body;
 {{/producesPlainText}}{{#producesXml}}
@@ -256,7 +256,7 @@ fn add_routes<T>(router: &mut Router, api: T) where T: Api + Send + Sync + Clone
 {{#isFile}}    {{/isFile}}                            response.headers.set(Response{{nameInCamelCase}}({{name}}));
 {{/headers}}
     {{#produces}}{{#-first}}
-{{#dataType}}{{#isFile}}    {{/isFile}}                            response.headers.set(ContentType(mimetypes::responses::{{#vendorExtensions}}{{uppercase_operation_id}}_{{uppercase_message}}{{/vendorExtensions}}.clone()));{{/dataType}}
+{{#dataType}}{{#isFile}}    {{/isFile}}                            response.headers.set(ContentType(mimetypes::responses::{{#vendorExtensions}}{{uppercase_operation_id}}_{{x-uppercaseResponseId}}{{/vendorExtensions}}.clone()));{{/dataType}}
 {{/-first}}{{/produces}}
 {{#isFile}}    {{/isFile}}                            context.x_span_id.as_ref().map(|header| response.headers.set(XSpanId(header.clone())));
 {{#bodyParams}}{{#vendorExtensions}}{{^consumesPlainText}}                            if !unused_elements.is_empty() {
