@@ -117,7 +117,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
     }
 
     public String getName() {
-        return "pkmst";
+        return "java-pkmst";
     }
 
     public String getHelp() {

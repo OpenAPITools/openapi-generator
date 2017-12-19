@@ -24,7 +24,6 @@ import java.io.IOException;
  * @author pkmst
  *
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaPKMSTServerCodegen", date = "2017-12-18T14:05:35.281+05:30")
 
 @Controller
 public class UserApiController implements UserApi {
@@ -34,31 +33,36 @@ public class UserApiController implements UserApi {
         this.objectMapper = objectMapper;
     }
 
-    public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )   @RequestBody User body,
+    public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true) User body
+,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )   @RequestBody List<User> body,
+    public ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true) List<User> body
+,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )   @RequestBody List<User> body,
+    public ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true) List<User> body
+,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true ) @PathVariable("username") String username,
+    public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathParam("username") String username
+,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true ) @PathVariable("username") String username,
+    public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true) @PathParam("username") String username
+,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
@@ -74,8 +78,10 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<User>(HttpStatus.OK);
     }
 
-    public ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login", required = true)  @RequestParam(value = "username", required = true) String username,
-        @ApiParam(value = "The password for login in clear text", required = true)  @RequestParam(value = "password", required = true) String password,
+    public ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login",required=true) @QueryParam("username") String username
+,
+        @ApiParam(value = "The password for login in clear text",required=true) @QueryParam("password") String password
+,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
@@ -96,8 +102,10 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username,
-        @ApiParam(value = "Updated user object" ,required=true )   @RequestBody User body,
+    public ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathParam("username") String username
+,
+        @ApiParam(value = "Updated user object" ,required=true) User body
+,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);

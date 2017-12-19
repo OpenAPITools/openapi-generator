@@ -24,7 +24,6 @@ import java.io.IOException;
  * @author pkmst
  *
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaPKMSTServerCodegen", date = "2017-12-18T14:05:35.281+05:30")
 
 @Controller
 public class StoreApiController implements StoreApi {
@@ -34,7 +33,8 @@ public class StoreApiController implements StoreApi {
         this.objectMapper = objectMapper;
     }
 
-    public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId,
+    public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathParam("orderId") String orderId
+,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
@@ -50,7 +50,8 @@ public class StoreApiController implements StoreApi {
         return new ResponseEntity<Map<String, Integer>>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Order> getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") Long orderId,
+    public ResponseEntity<Order> getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("orderId") Long orderId
+,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
@@ -66,7 +67,8 @@ public class StoreApiController implements StoreApi {
         return new ResponseEntity<Order>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )   @RequestBody Order body,
+    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true) Order body
+,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 

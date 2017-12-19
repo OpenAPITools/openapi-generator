@@ -28,7 +28,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
-
+import java.util.Arrays;
 import org.apache.commons.io.output.TeeOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,7 +80,11 @@ public class HttpLoggingFilter implements Filter {
                 .append(bufferedResponse.getStatus())
                 .append("] [Response Time(ms):").append(elapsedTime)
                 .append("]");
-        log.info(logMessage.toString());
+		String [] nonLoggingPaths = {"/v2/api-docs","/swagger-resources","/configuration/security","/swagger-ui.html","/webjars"};
+        String urlPath = httpServletRequest.getRequestURL().toString();
+        if (! ( Arrays.stream(nonLoggingPaths).parallel().anyMatch(urlPath::contains) )){
+             log.info(logMessage.toString());
+        } 
     } catch (Throwable a) {
         log.error(a.getMessage());
         a.printStackTrace();
