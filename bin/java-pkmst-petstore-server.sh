@@ -26,7 +26,7 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -t modules/swagger-codegen/src/main/resources/JavaJaxRS -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml -l java-pkmst -o samples/server/petstore/java-pkmst/ -DhideGenerationTimestamp=true"
+ags="$@ generate -t modules/swagger-codegen/src/main/resources/java-pkmst -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml -l java-pkmst -o samples/server/petstore/java-pkmst/ -DhideGenerationTimestamp=true"
 
 echo "Removing files and folders under samples/server/petstore/java-pkmst/src/main"
 rm -rf samples/server/petstore/java-pkmst/src/main
