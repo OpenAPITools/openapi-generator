@@ -555,15 +555,15 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 	if localVarTempParam, localVarOk := localVarOptionals["additionalMetadata"].(string); localVarOk {
 		localVarFormParams.Add("additionalMetadata", parameterToString(localVarTempParam, ""))
 	}
-	var file (*os.File)
+	var localVarFile (*os.File)
 	if localVarTempParam, localVarOk := localVarOptionals["file"].(*os.File); localVarOk {
-		file = localVarTempParam
+		localVarFile = localVarTempParam
 	}
-	if file != nil {
-		fbs, _ := ioutil.ReadAll(file)
+	if localVarFile != nil {
+		fbs, _ := ioutil.ReadAll(localVarFile)
 		localVarFileBytes = fbs
-		localVarFileName = file.Name()
-		file.Close()
+		localVarFileName = localVarFile.Name()
+		localVarFile.Close()
 	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {

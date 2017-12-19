@@ -150,16 +150,16 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 {{#formParams}}
 {{#isFile}}
 {{^required}}
-	var file ({{dataType}})
+	var localVarFile ({{dataType}})
 	if localVarTempParam, localVarOk := localVarOptionals["{{paramName}}"].({{dataType}}); localVarOk {
-		file = localVarTempParam
+		localVarFile = localVarTempParam
 	}
 {{/required}}
-	if file != nil {
-		fbs, _ := ioutil.ReadAll(file)
+	if localVarFile != nil {
+		fbs, _ := ioutil.ReadAll(localVarFile)
 		localVarFileBytes = fbs
-		localVarFileName = file.Name()
-		file.Close()
+		localVarFileName = localVarFile.Name()
+		localVarFile.Close()
 	}
 {{/isFile}}
 {{^isFile}}
