@@ -1,0 +1,28 @@
+
+
+type alias {{classname}} =
+    { {{#vars}}{{^-first}}    , {{/-first}}{{name}} : {{^required}}Maybe {{/required}}{{#isContainer}}(List {{/isContainer}}{{#isEnum}}{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{datatype}}{{/isEnum}}{{#isContainer}}){{/isContainer}}
+{{/vars}}    }
+{{#vars}}
+{{#isEnum}}
+
+
+{{>union}}
+{{/isEnum}}
+{{/vars}}
+
+
+{{>aliasDecoder}}
+
+
+{{>aliasEncoder}}
+{{#vars}}
+{{#isEnum}}
+
+
+{{>unionDecoder}}
+
+
+{{>unionEncoder}}
+{{/isEnum}}
+{{/vars}}

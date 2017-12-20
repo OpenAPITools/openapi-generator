@@ -12,6 +12,7 @@ io.swagger.codegen.languages.CppRestClientCodegen
 io.swagger.codegen.languages.CsharpDotNet2ClientCodegen
 io.swagger.codegen.languages.DartClientCodegen
 io.swagger.codegen.languages.ElixirClientCodegen
+io.swagger.codegen.languages.ElmClientCodegen
 io.swagger.codegen.languages.EiffelClientCodegen
 io.swagger.codegen.languages.ErlangClientCodegen
 io.swagger.codegen.languages.ErlangServerCodegen

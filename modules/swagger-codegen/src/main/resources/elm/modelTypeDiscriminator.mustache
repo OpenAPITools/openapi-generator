@@ -1,0 +1,34 @@
+type {{classname}}
+{{#children}}
+    {{#-first}}={{/-first}}{{^-first}}|{{/-first}} {{classname}}Type {{classname}}
+{{/children}}
+
+
+{{classVarName}}Decoder : Decoder {{classname}}
+{{classVarName}}Decoder =
+    Decode.field "{{discriminator}}" Decode.string
+        |> Decode.andThen {{classVarName}}TypeDecoder
+
+
+{{classVarName}}TypeDecoder : String -> Decoder {{classname}}
+{{classVarName}}TypeDecoder {{discriminator}} =
+    case {{discriminator}} of
+{{#children}}
+        "{{vendorExtensions.x-discriminator-value}}" ->
+            Decode.map {{classname}}Type {{classVarName}}Decoder
+
+{{/children}}
+        _ ->
+            Decode.fail <|
+                "Trying to decode {{classname}}, but {{discriminator}} "
+                ++ toString {{discriminator}} ++ " is not supported."
+
+
+{{classVarName}}Encoder : {{classname}} -> Encode.Value
+{{classVarName}}Encoder model =
+    case model of
+{{#children}}
+        {{classname}}Type subModel ->
+            {{classVarName}}Encoder subModel
+
+{{/children}}

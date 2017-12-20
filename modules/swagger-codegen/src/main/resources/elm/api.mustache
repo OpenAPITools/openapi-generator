@@ -1,0 +1,33 @@
+{{>licenseInfo}}
+
+module Request.{{classname}} exposing ({{#operations}}{{#operation}}{{^-first}}, {{/-first}}{{operationId}}{{/operation}}{{/operations}})
+
+{{>imports}}import Http
+import Json.Decode as Decode
+
+
+basePath : String
+basePath =
+    "{{basePath}}"
+
+
+{{#operations}}
+  {{#operation}}
+{-
+   {{notes}}
+-}
+{{operationId}} : {{#pathParams}}{{dataType}} -> {{/pathParams}}{{#bodyParam}}{{dataType}} -> {{/bodyParam}}Http.Request {{#responses}}{{#-first}}{{^dataType}}(){{/dataType}}{{#isListContainer}}(List {{/isListContainer}}{{dataType}}{{#isListContainer}}){{/isListContainer}}{{/-first}}{{/responses}}
+{{operationId}} {{#pathParams}}{{paramName}} {{/pathParams}}{{#bodyParam}}model {{/bodyParam}}=
+    { method = "{{httpMethod}}"
+    , url = basePath ++ {{{path}}}
+    , headers = []
+    , body = {{#bodyParam}}Http.jsonBody <| {{vendorExtensions.x-encoder}} model{{/bodyParam}}{{^bodyParam}}Http.emptyBody{{/bodyParam}}
+    , expect = {{#responses}}{{#-first}}{{^dataType}}Http.expectStringResponse (\_ -> Ok ()){{/dataType}}{{#dataType}}Http.expectJson {{#isListContainer}}(Decode.list {{/isListContainer}}{{#vendorExtensions}}{{x-decoder}}{{/vendorExtensions}}{{#isListContainer}}){{/isListContainer}}{{/dataType}}{{/-first}}{{/responses}}
+    , timeout = Just 30000
+    , withCredentials = False
+    }
+        |> Http.request
+
+
+  {{/operation}}
+{{/operations}}
