@@ -1,0 +1,1 @@
+( "{{baseName}}", {{#discriminatorValue}}Encode.string "{{discriminatorValue}}"{{/discriminatorValue}}{{^discriminatorValue}}{{^required}}withDefault Encode.null (map {{/required}}{{#isContainer}}(Encode.list << List.map {{/isContainer}}{{vendorExtensions.x-encoder}}{{#isContainer}}){{/isContainer}} model.{{name}}{{^required}}){{/required}}{{/discriminatorValue}} )

@@ -1,0 +1,7 @@
+{{classVarName}}Encoder : {{classname}} -> Encode.Value
+{{classVarName}}Encoder model =
+    Encode.object
+{{#allVars}}
+        {{#-first}}[{{/-first}}{{^-first}},{{/-first}} {{>fieldEncoder}}
+{{/allVars}}
+        ]

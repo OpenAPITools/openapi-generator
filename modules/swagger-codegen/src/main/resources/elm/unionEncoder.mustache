@@ -1,0 +1,10 @@
+{{vendorExtensions.x-encoder}} : {{vendorExtensions.x-union-type}} -> Encode.Value
+{{vendorExtensions.x-encoder}} model =
+    case model of
+{{#allowableValues}}
+{{#enumVars}}
+        {{name}} ->
+            Encode.string {{{value}}}
+
+{{/enumVars}}
+{{/allowableValues}}
