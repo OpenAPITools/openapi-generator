@@ -442,16 +442,6 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
      */
     @Override
-    /**
-<<<<<<< HEAD
-    public String getTypeDeclaration(Schema propertySchema) {
-        if (propertySchema instanceof ArraySchema) {
-            Schema inner = ((ArraySchema) propertySchema).getItems();
-            return String.format("%s[%s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
-        } else if (propertySchema instanceof MapSchema) {
-            Schema inner = propertySchema.getAdditionalProperties();
-            return String.format("%s[String, %s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
-=======*/
     public String getTypeDeclaration(Schema propertySchema) {
         // SubClasses of AbstractProperty
         //
