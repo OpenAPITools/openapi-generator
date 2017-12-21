@@ -890,6 +890,7 @@ Presentations/Videos/Tutorials/Books
 - 2016/11/10 - [Building an AEM API clients ecosystem](http://blog.cliffano.com/2016/11/10/adobe-marketing-cloud-community-expo/) by Cliffano Subagio, Michael Diender, Stephen Shim from [Shine Solutions](https://shinesolutions.com/) @ [Adobe Marketing Cloud Community Expo (AMCCE)](https://www.meetup.com/Melbourne-AEM-CQ-Meetup/events/233363101/)
 - 2016/11/18 - [How to generate a REST CXF3 application from Swagger-Contract](https://www.slideshare.net/johannes_fiala/how-to-generate-a-rest-cxf3-application-from-swagger-apacheconeu-2016) by [Johannes Fiala](https://github.com/jfiala) @ ApacheConEU 2016
 - 2016/11/25 - [Swagger Codegen for Swift3 and NodeJS](https://normand1.github.io/blog/swift/swagger/codegen/2016/11/25/Swagger-Codegen-for-Swift3-and-NodeJS.html) by [David Norman](https://github.com/normand1)
+- 2016/12/08 - [Building an API with Swagger](https://www.youtube.com/watch?v=PbwQWw7xSOM)
 - 2016/12/08 - [Generate client side code using Swagger Codegen](https://carra-lucia-ltd.co.uk/2016/12/08/generate-client-side-code-using-swagger-codegen/) by [theFerkel](https://carra-lucia-ltd.co.uk/author/theferkel/)
 - 2017/01/16 - [Zero to API in 4 minutes](https://cidrblock.github.io/zero-to-api-in-4-minutes.html) by [Bradley A. Thornton](https://github.com/cidrblock)
 - 2017/02/09 - [「Swaggerを利用した新規サービス開発」というタイトルで登壇して来ました](https://techblog.recochoku.jp/1055) by [recotech](https://www.slideshare.net/recotech)
