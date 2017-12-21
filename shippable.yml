@@ -22,8 +22,7 @@ build:
     - mix --version
     # test samples defined in pom.xml
     - cp pom.xml.shippable pom.xml
-    # - mvn verify -P samples (TODO: enable this once oas3 samples have been added.)
-    - mvn verify
+    - mvn verify -P samples
     # generate all petstore sampless (client, servers, doc)
     - ./bin/run-all-petstore 2>&1 > run-all-petstore.log
   post_ci:
