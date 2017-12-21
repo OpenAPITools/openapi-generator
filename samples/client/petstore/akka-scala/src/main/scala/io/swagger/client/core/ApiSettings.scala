@@ -20,18 +20,17 @@ class ApiSettings(config: Config) extends Extension {
 
   private def cfg = config.getConfig("io.swagger.client.apiRequest")
 
-  val alwaysTrustCertificates = cfg.getBoolean("trust-certificates")
-  val defaultHeaders = cfg.getConfig("default-headers").entrySet.toList.map(c => RawHeader(c.getKey, c.getValue.render))
+  val alwaysTrustCertificates: Boolean = cfg.getBoolean("trust-certificates")
+  val defaultHeaders: List[RawHeader] = cfg.getConfig("default-headers").entrySet.toList.map(c => RawHeader(c.getKey, c.getValue.render))
   val connectionTimeout = FiniteDuration(cfg.getDuration("connection-timeout", TimeUnit.MILLISECONDS), TimeUnit.MILLISECONDS)
-  val compressionEnabled = cfg.getBoolean("compression.enabled")
-  val compressionSizeThreshold = cfg.getBytes("compression.size-threshold").toInt
-  val customCodes = cfg.getConfigList("custom-codes").toList.map { c => CustomStatusCode(
-    c.getInt("code"),
-    c.getString("reason"),
-    c.getBoolean("success"))
+  val compressionEnabled: Boolean = cfg.getBoolean("compression.enabled")
+  val compressionSizeThreshold: Int = cfg.getBytes("compression.size-threshold").toInt
+  val customCodes: List[CustomStatusCode] = cfg.getConfigList("custom-codes").toList.map { c =>
+    CustomStatusCode(
+      c.getInt("code"),
+      c.getString("reason"),
+      c.getBoolean("success"))
   }
-
-
 }
 
 object ApiSettings extends ExtensionKey[ApiSettings]
