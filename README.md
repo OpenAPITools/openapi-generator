@@ -987,6 +987,7 @@ Here is a list of template creators:
    * Clojure: @xhh
    * Dart: @yissachar
    * Elixir: @niku
+   * Elm: @trenneman
    * Eiffel: @jvelilla
    * Erlang: @tsloughter
    * Groovy: @victorgit
@@ -1093,6 +1094,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | Dart      | @ircecho (2017/07) |
 | Eiffel    | @jvelilla (2017/09) |
 | Elixir    |  |
+| Elm       |  |
 | Erlang    | @tsloughter (2017/11) @bvwells (2017/12) |
 | Groovy    |  |
 | Go        | @antihax (2017/11) |
