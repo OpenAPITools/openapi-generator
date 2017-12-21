@@ -189,7 +189,6 @@ public class Generate implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("i am called?????");
 
         // attempt to read from config file
         CodegenConfigurator configurator = CodegenConfigurator.fromFile(configFile);
