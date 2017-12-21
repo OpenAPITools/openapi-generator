@@ -33,7 +33,7 @@ import spray.httpx.encoding.{Deflate, Encoder, Gzip}
 import spray.httpx.unmarshalling._
 import spray.io.ClientSSLEngineProvider
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutor, Future}
 import scala.reflect.ClassTag
 import scala.util.control.NonFatal
 

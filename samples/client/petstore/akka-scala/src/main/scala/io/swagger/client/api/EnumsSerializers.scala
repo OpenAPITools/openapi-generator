@@ -11,28 +11,25 @@ import scala.reflect.ClassTag
 
 object EnumsSerializers {
 
-  def all = Seq[Serializer[_]]() :+
+  def all: Seq[Serializer[_]] = Seq[Serializer[_]]() :+
     new EnumNameSerializer(OrderEnums.Status) :+
     new EnumNameSerializer(PetEnums.Status)
-
-
 
   private class EnumNameSerializer[E <: Enumeration: ClassTag](enum: E)
     extends Serializer[E#Value] {
     import JsonDSL._
 
-    val EnumerationClass = classOf[E#Value]
+    val EnumerationClass: Class[E#Value] = classOf[E#Value]
 
     def deserialize(implicit format: Formats):
     PartialFunction[(TypeInfo, JValue), E#Value] = {
-      case (t @ TypeInfo(EnumerationClass, _), json) if isValid(json) => {
+      case (t @ TypeInfo(EnumerationClass, _), json) if isValid(json) =>
         json match {
           case JString(value) =>
             enum.withName(value)
           case value =>
             throw new MappingException(s"Can't convert $value to $EnumerationClass")
         }
-      }
     }
 
     private[this] def isValid(json: JValue) = json match {
