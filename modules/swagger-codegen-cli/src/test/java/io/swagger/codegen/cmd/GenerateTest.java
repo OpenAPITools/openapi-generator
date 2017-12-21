@@ -13,6 +13,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("unused")
+@Test(enabled=false)
 public class GenerateTest {
 
     @Mocked
