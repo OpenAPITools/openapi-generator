@@ -65,19 +65,14 @@ public class ExampleGenerator {
                         output.add(kv);
                     }
                 } else if (property != null && mediaType.startsWith(MIME_TYPE_XML)) {
-                    System.out.println("XML.................????");
                     String example = new XmlExampleGenerator(this.examples).toXml(property);
                     if (example != null) {
-                        System.out.println("putting the example.....................");
-                        System.out.println(example);
-                        System.out.println("done..");
                         kv.put(EXAMPLE, example);
                         output.add(kv);
                     }
                 }
             }
         } else {
-            System.out.println("........................................... 00");
             for (Map.Entry<String, Object> entry : examples.entrySet()) {
                 final Map<String, String> kv = new HashMap<>();
                 kv.put(CONTENT_TYPE, entry.getKey());
