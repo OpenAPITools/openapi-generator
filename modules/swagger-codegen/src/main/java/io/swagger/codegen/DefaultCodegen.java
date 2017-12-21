@@ -21,6 +21,7 @@ import io.swagger.oas.models.media.ByteArraySchema;
 import io.swagger.oas.models.media.ComposedSchema;
 import io.swagger.oas.models.media.DateSchema;
 import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.EmailSchema;
 import io.swagger.oas.models.media.FileSchema;
 import io.swagger.oas.models.media.IntegerSchema;
 import io.swagger.oas.models.media.MapSchema;
@@ -1184,7 +1185,8 @@ public class DefaultCodegen implements CodegenConfig {
                 allRequired = null;
             }
             // parent model
-            final Schema parent = detectParent(composed, allDefinitions);
+            final String parentName = getParentName(composed, allDefinitions);
+            final Schema parent = StringUtils.isBlank(parentName) ? null : allDefinitions.get(parentName);
 
             List<Schema> interfaces = getInterfaces(composed);
 
@@ -1215,11 +1217,9 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
             }
-
-            // TODO (there is not parent/child concept
             if (parent != null) {
-                codegenModel.parentSchema = parent.getName();
-                codegenModel.parent = StringUtils.capitalize(modelNamePrefix + parent.getName() + modelNameSuffix);
+                codegenModel.parentSchema = parentName;
+                codegenModel.parent = StringUtils.capitalize(modelNamePrefix + parentName + modelNameSuffix);
                 addImport(codegenModel, codegenModel.parent);
                 if (allDefinitions != null) {
                     if (supportsInheritance) {
@@ -1229,20 +1229,6 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
             }
-            /**
-            // child model (properties owned by the model itself)
-            Model child = composed.getChild();
-            if (child != null && child instanceof RefModel && allDefinitions != null) {
-                final String childRef = ((RefModel) child).getSimpleRef();
-                child = allDefinitions.get(childRef);
-            }
-            if (child != null && child instanceof ModelImpl) {
-                addProperties(properties, required, child, allDefinitions);
-                if (supportsInheritance) {
-                    addProperties(allProperties, allRequired, child, allDefinitions);
-                }
-            }
-             */
             addProperties(properties, required, composed, allDefinitions);
             addVars(codegenModel, properties, required, allProperties, allRequired);
         } else {
@@ -1379,9 +1365,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (propertySchema instanceof IntegerSchema) {
             codegenProperty.getVendorExtensions().put(CodegenConstants.IS_NUMERIC_EXT_NAME, Boolean.TRUE);
             if(SchemaTypeUtil.INTEGER64_FORMAT.equals(propertySchema.getFormat())) {
-                codegenProperty.getVendorExtensions().put(CodegenConstants.IS_INTEGER_EXT_NAME, Boolean.TRUE);
-            } else {
                 codegenProperty.getVendorExtensions().put(CodegenConstants.IS_LONG_EXT_NAME, Boolean.TRUE);
+            } else {
+                codegenProperty.getVendorExtensions().put(CodegenConstants.IS_INTEGER_EXT_NAME, Boolean.TRUE);
             }
             if (propertySchema.getMinimum() != null) {
                 codegenProperty.minimum = String.valueOf(propertySchema.getMinimum().longValue());
@@ -1452,9 +1438,14 @@ public class DefaultCodegen implements CodegenConfig {
         }
         if (propertySchema instanceof BinarySchema) {
             codegenProperty.getVendorExtensions().put(CodegenConstants.IS_BINARY_EXT_NAME, Boolean.TRUE);
+            codegenProperty.getVendorExtensions().put(CodegenConstants.IS_STRING_EXT_NAME, Boolean.TRUE);
         }
         if (propertySchema instanceof FileSchema) {
             codegenProperty.getVendorExtensions().put(CodegenConstants.IS_FILE_EXT_NAME, Boolean.TRUE);
+            codegenProperty.getVendorExtensions().put(CodegenConstants.IS_STRING_EXT_NAME, Boolean.TRUE);
+        }
+        if (propertySchema instanceof EmailSchema) {
+            codegenProperty.getVendorExtensions().put(CodegenConstants.IS_STRING_EXT_NAME, Boolean.TRUE);
         }
         if (propertySchema instanceof UUIDSchema) {
             codegenProperty.getVendorExtensions().put(CodegenConstants.IS_UUID_EXT_NAME, Boolean.TRUE);
@@ -1777,7 +1768,9 @@ public class DefaultCodegen implements CodegenConfig {
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> schemas, OpenAPI openAPI) {
         CodegenOperation codegenOperation = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
         Set<String> imports = new HashSet<String>();
-        codegenOperation.vendorExtensions = operation.getExtensions();
+        if (operation.getExtensions() != null && !operation.getExtensions().isEmpty()) {
+            codegenOperation.vendorExtensions.putAll(operation.getExtensions());
+        }
 
         String operationId = getOrGenerateOperationId(operation, path, httpMethod);
         // remove prefix in operationId
@@ -3366,9 +3359,8 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private List<Schema> getInterfaces(ComposedSchema composed) {
-        List<Schema> interfaces;
-        if(composed.getAllOf() != null && !composed.getAllOf().isEmpty()) {
-            return composed.getAllOf();
+        if(composed.getAllOf() != null && composed.getAllOf().size() > 1) {
+            return composed.getAllOf().subList(1, composed.getAllOf().size());
         } else if(composed.getAnyOf() != null && !composed.getAnyOf().isEmpty()) {
             return composed.getAnyOf();
         } else if(composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
@@ -3456,6 +3448,18 @@ public class DefaultCodegen implements CodegenConfig {
             }
             ref = getSimpleRef(ref);
             return allSchemas.get(ref);
+        }
+        return null;
+    }
+
+    protected String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
+        if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
+            Schema schema = composedSchema.getAllOf().get(0);
+            String ref = schema.get$ref();
+            if (StringUtils.isBlank(ref)) {
+                return null;
+            }
+            return getSimpleRef(ref);
         }
         return null;
     }

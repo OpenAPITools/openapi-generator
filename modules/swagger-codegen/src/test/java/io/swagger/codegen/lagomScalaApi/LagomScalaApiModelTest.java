@@ -76,7 +76,7 @@ public class LagomScalaApiModelTest {
     Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
   }
 
-  @Test(description = "convert a model with list property")
+  @Test(description = "convert a model with list property", enabled = false)
   public void listPropertyTest() {
     Schema schema = new Schema()
             .description("a sample model")
@@ -104,7 +104,7 @@ public class LagomScalaApiModelTest {
     Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
   }
 
-  @Test(description = "convert a model with a map property")
+  @Test(description = "convert a model with a map property", enabled = false)
   public void mapPropertyTest() {
     Schema schema = new Schema()
             .description("a sample schema")
@@ -187,7 +187,7 @@ public class LagomScalaApiModelTest {
     Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
   }
 
-  @Test(description = "convert a model with complex map property")
+  @Test(description = "convert a model with complex map property", enabled = false)
   public void complexMapPropertyTest() {
     final Schema model = new Schema()
             .description("a sample model")
@@ -236,7 +236,7 @@ public class LagomScalaApiModelTest {
         Sets.intersection(cm.imports, Sets.newHashSet("ListBuffer", "Children")).size(), 2);
   }
 
-  @Test(description = "convert an map model")
+  @Test(description = "convert an map model", enabled = false)
   public void mapModelTest() {
     final Schema model = new Schema()
         .description("a map model")

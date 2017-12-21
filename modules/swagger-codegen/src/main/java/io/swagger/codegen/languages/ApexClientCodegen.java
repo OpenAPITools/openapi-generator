@@ -24,6 +24,7 @@ import io.swagger.oas.models.parameters.Parameter;
 import io.swagger.oas.models.responses.ApiResponse;
 import io.swagger.parser.v3.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -376,24 +377,34 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
             propertySchema.setExample(example);
             example = String.format("EncodingUtil.base64Decode('%s')", example);
         } else if (propertySchema instanceof DateSchema) {
-            if (example.matches("^\\d{4}(-\\d{2}){2}")) {
-                example = example.substring(0, 10).replaceAll("-0?", ", ");
-            } else if (example.isEmpty()) {
-                example = "2000, 1, 23";
+            if (propertySchema.getExample() != null) {
+                example = DateFormatUtils.format((Date) propertySchema.getExample(), DateFormatUtils.ISO_DATE_FORMAT.getPattern());
+                if (example.matches("^\\d{4}(-\\d{2}){2}")) {
+                    example = example.substring(0, 10).replaceAll("-0?", ", ");
+                } else if (example.isEmpty()) {
+                    example = "2000, 1, 23";
+                } else {
+                    LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 date. Defaulting to '2000-01-23'. [%s]", propertySchema
+                            .getName(), example));
+                    example = "2000, 1, 23";
+                }
             } else {
-                LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 date. Defaulting to '2000-01-23'. [%s]", propertySchema
-                    .getName(), example));
                 example = "2000, 1, 23";
             }
             example = String.format("Date.newInstance(%s)", example);
         } else if (propertySchema instanceof DateTimeSchema) {
-            if (example.matches("^\\d{4}([-T:]\\d{2}){5}.+")) {
-                example = example.substring(0, 19).replaceAll("[-T:]0?", ", ");
-            } else if (example.isEmpty()) {
-                example = "2000, 1, 23, 4, 56, 7";
+            if (propertySchema.getExample() != null) {
+                example = DateFormatUtils.format((Date) propertySchema.getExample(), "yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
+                if (example.matches("^\\d{4}([-T:]\\d{2}){5}.+")) {
+                    example = example.substring(0, 19).replaceAll("[-T:]0?", ", ");
+                } else if (example.isEmpty()) {
+                    example = "2000, 1, 23, 4, 56, 7";
+                } else {
+                    LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 datetime. Defaulting to '2000-01-23T04-56-07Z'. [%s]", propertySchema
+                        .getName(), example));
+                    example = "2000, 1, 23, 4, 56, 7";
+                }
             } else {
-                LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 datetime. Defaulting to '2000-01-23T04-56-07Z'. [%s]", propertySchema
-                    .getName(), example));
                 example = "2000, 1, 23, 4, 56, 7";
             }
             example = String.format("Datetime.newInstanceGmt(%s)", example);
@@ -421,7 +432,7 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
         } else if (propertySchema instanceof PasswordSchema) {
             example = example.isEmpty() ? "password123" : escapeText(example);
             propertySchema.setExample(example);
-            example = String.format("'&s'", example);
+            example = String.format("'%s'", example);
         } else if (StringUtils.isNotBlank(propertySchema.get$ref()) ) {
             example = getTypeDeclaration(propertySchema) + ".getExample()";
         } else if (propertySchema instanceof StringSchema) {
@@ -439,7 +450,7 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
         } else if (propertySchema instanceof UUIDSchema) {
             example = example.isEmpty()
                 ? "'046b6c7f-0b8a-43b9-b35d-6489e6daee91'"
-                : String.format("'&s'", escapeText(example));
+                : String.format("'%s'", escapeText(example));
         } else if (propertySchema instanceof IntegerSchema) {
             example = example.matches("^-?\\d+$") ? example : "123";
         }

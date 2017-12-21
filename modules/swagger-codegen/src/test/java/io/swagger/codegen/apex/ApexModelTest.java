@@ -7,6 +7,7 @@ import io.swagger.codegen.languages.ApexClientCodegen;
 import io.swagger.oas.models.media.BinarySchema;
 import io.swagger.oas.models.media.BooleanSchema;
 import io.swagger.oas.models.media.ByteArraySchema;
+import io.swagger.oas.models.media.DateSchema;
 import io.swagger.oas.models.media.DateTimeSchema;
 import io.swagger.oas.models.media.EmailSchema;
 import io.swagger.oas.models.media.IntegerSchema;
@@ -15,9 +16,13 @@ import io.swagger.oas.models.media.PasswordSchema;
 import io.swagger.oas.models.media.Schema;
 import io.swagger.oas.models.media.StringSchema;
 import io.swagger.oas.models.media.UUIDSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Date;
 import java.util.List;
 
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
@@ -26,21 +31,22 @@ import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanVal
 public class ApexModelTest {
 
     @Test(description = "convert a simple apex model with provided examples")
-    public void examplesProvidedTest() {
+    public void examplesProvidedTest() throws Exception {
         Schema integerSchema = new IntegerSchema().example(5);
         Schema passwordSchema = new PasswordSchema().example("password");
         Schema uuidSchema = new UUIDSchema().example("793574b2-3a8e-4f6c-bfa5-c6929dc29f8a");
 
         final Schema schema = new Schema()
             .addProperties("boolProp", new BooleanSchema().example(false))
-            .addProperties("dateProp", new DateTimeSchema().example("1985-04-12"))
-            .addProperties("dateTimeProp", new DateTimeSchema().example("1985-04-12T23:20:50.52Z"))
+            .addProperties("dateProp", new DateSchema().example(DateUtils.parseDate("1985-04-12", DateFormatUtils.ISO_DATE_FORMAT.getPattern())))
+            .addProperties("dateTimeProp", new DateTimeSchema().example(DateUtils.parseDate("1985-04-12 23:20:50.52", "yyyy-MM-dd HH:mm:ss.SSS")))
+
             .addProperties("decimalProp", new NumberSchema().example("19.99"))
             .addProperties("doubleProp", new NumberSchema().example(2.95))
             .addProperties("emailProp", new EmailSchema().example("info@example.com"))
             .addProperties("floatProp", new NumberSchema().format("float").example(3.49f))
             .addProperties("intProp", new IntegerSchema().example(10))
-            .addProperties("longProp", new IntegerSchema().example(100000L))
+            .addProperties("longProp", new IntegerSchema().example(100000L).format(SchemaTypeUtil.INTEGER64_FORMAT))
             .addProperties("stringProp", new StringSchema().example("foo"))
             .addProperties("baseIntProp", integerSchema)
             .addProperties("passwordProp", passwordSchema)
@@ -214,14 +220,14 @@ public class ApexModelTest {
     public void defaultExamplesTest() {
         final Schema schema = new Schema()
             .addProperties("boolProp", new BooleanSchema())
-            .addProperties("dateProp", new DateTimeSchema())
+            .addProperties("dateProp", new DateSchema())
             .addProperties("dateTimeProp", new DateTimeSchema())
             .addProperties("decimalProp", new NumberSchema())
             .addProperties("doubleProp", new NumberSchema())
             .addProperties("emailProp", new EmailSchema())
-            .addProperties("floatProp", new NumberSchema())
+            .addProperties("floatProp", new NumberSchema().format(SchemaTypeUtil.FLOAT_FORMAT))
             .addProperties("intProp", new IntegerSchema())
-            .addProperties("longProp", new IntegerSchema())
+            .addProperties("longProp", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
             .addProperties("stringProp", new StringSchema())
             .addProperties("baseIntProp", new IntegerSchema())
             .addProperties("passwordProp", new PasswordSchema())
@@ -249,7 +255,7 @@ public class ApexModelTest {
         Assert.assertTrue(getBooleanValue(property1, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
         Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
-        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_INTEGER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_BOOLEAN_EXT_NAME));
 
         final CodegenProperty property2 = vars.get(1);
         Assert.assertEquals(property2.name, "dateProp");
@@ -411,7 +417,7 @@ public class ApexModelTest {
         Assert.assertEquals(property15.baseType, "String");
         Assert.assertEquals(property15.example, "");
         Assert.assertNull(property15.defaultValue);
-        Assert.assertTrue(getBooleanValue(property15, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertFalse(getBooleanValue(property15, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(getBooleanValue(property15, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
         Assert.assertTrue(getBooleanValue(property15, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
         Assert.assertTrue(getBooleanValue(property15, CodegenConstants.IS_BINARY_EXT_NAME));

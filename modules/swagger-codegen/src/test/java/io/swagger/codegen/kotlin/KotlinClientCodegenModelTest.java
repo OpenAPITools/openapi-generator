@@ -23,6 +23,7 @@ public class KotlinClientCodegenModelTest {
 
     private Schema getArrayTestModel() {
         return new Schema()
+                .type("object")
                 .description("a sample model")
                 .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
                 .addProperties("examples", new ArraySchema().items(new StringSchema()))
@@ -31,6 +32,7 @@ public class KotlinClientCodegenModelTest {
 
     private Schema getSimpleModel() {
         return new Schema()
+                .type("object")
                 .description("a sample model")
                 .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
                 .addProperties("name", new StringSchema())
@@ -41,6 +43,7 @@ public class KotlinClientCodegenModelTest {
 
     private Schema getMapModel() {
         return new Schema()
+                .type("object")
                 .description("a sample model")
                 .addProperties("mapping", new MapSchema()
                         .additionalProperties(new StringSchema()))
@@ -49,8 +52,9 @@ public class KotlinClientCodegenModelTest {
 
     private Schema getComplexModel() {
         return new Schema()
+                .type("object")
                 .description("a sample model")
-                .addProperties("child", new Schema().$ref("#/definitions/Child"));
+                .addProperties("child", new Schema().$ref("#/components/schemas/Child"));
     }
 
     @Test(description = "convert a simple model")

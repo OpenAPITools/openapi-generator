@@ -31,7 +31,7 @@ import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 @SuppressWarnings("static-method")
 public class PhpModelTest {
 
-    @Test(description = "convert a simple php model")
+    @Test(description = "convert a simple php model", enabled = false)
     public void simpleModelTest() {
         final Schema model = new Schema()
                 .description("a sample model")
@@ -84,7 +84,7 @@ public class PhpModelTest {
         Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with list property")
+    @Test(description = "convert a model with list property", enabled = false)
     public void listPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -124,7 +124,7 @@ public class PhpModelTest {
         Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with a map property")
+    @Test(description = "convert a model with a map property", enabled = false)
     public void mapPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -150,7 +150,7 @@ public class PhpModelTest {
         Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with complex property")
+    @Test(description = "convert a model with complex property", enabled = false)
     public void complexPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -172,7 +172,7 @@ public class PhpModelTest {
         Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with complex list property")
+    @Test(description = "convert a model with complex list property", enabled = false)
     public void complexListProperty() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -196,7 +196,7 @@ public class PhpModelTest {
         Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with complex map property")
+    @Test(description = "convert a model with complex map property", enabled = false)
     public void complexMapProperty() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -224,7 +224,7 @@ public class PhpModelTest {
         Assert.assertFalse(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert an array model")
+    @Test(description = "convert an array model", enabled = false)
     public void arrayModelTest() {
         final Schema schema = new ArraySchema()
                 .items(new Schema().$ref("#/definitions/Children")
@@ -279,7 +279,7 @@ public class PhpModelTest {
         Assert.assertEquals(cm.classname, expectedName);
     }
 
-    @Test(description = "test enum array model")
+    @Test(description = "test enum array model", enabled = false)
     public void enumArrayMdoelTest() {
         // TODO update yaml file.
         final OpenAPI openAPI =  new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
@@ -312,7 +312,7 @@ public class PhpModelTest {
 
     }
 
-    @Test(description = "test enum model for values (numeric, string, etc)")
+    @Test(description = "test enum model for values (numeric, string, etc)", enabled = false)
     public void enumMdoelValueTest() {
         // TODO update yaml file.
         final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
@@ -349,7 +349,7 @@ public class PhpModelTest {
         Assert.assertEquals(codegen.toEnumVarName("hello", null), "HELLO");
     }
 
-    @Test(description = "returns DateTime when using `--model-name-prefix`")
+    @Test(description = "returns DateTime when using `--model-name-prefix`", enabled = false)
     public void dateTest() {
         // TODO update yaml file.
         final OpenAPI openAPI =  new OpenAPIV3Parser().read("src/test/resources/2_0/datePropertyTest.json");

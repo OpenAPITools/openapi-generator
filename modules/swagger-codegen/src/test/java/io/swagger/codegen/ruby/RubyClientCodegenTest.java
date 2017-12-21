@@ -38,7 +38,7 @@ public class RubyClientCodegenTest {
       folder.delete();
   }
 
-  @Test
+  @Test(enabled = false)
   public void testGenerateRubyClientWithHtmlEntity() throws Exception {
       final File output = folder.getRoot();
 

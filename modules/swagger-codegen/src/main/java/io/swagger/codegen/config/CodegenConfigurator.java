@@ -12,6 +12,7 @@ import io.swagger.codegen.auth.AuthParser;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.parser.models.AuthorizationValue;
+import io.swagger.parser.models.ParseOptions;
 import io.swagger.parser.v3.OpenAPIV3Parser;
 import io.swagger.util.Json;
 import org.apache.commons.lang3.Validate;

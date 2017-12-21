@@ -362,7 +362,14 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 return toModelName(type);
             }
         } else {
-            type = swaggerType;
+            if ("Array".equalsIgnoreCase(swaggerType)) {
+                return swaggerType.toLowerCase();
+            }
+            else if ("Map".equalsIgnoreCase(swaggerType)) {
+                return swaggerType.toLowerCase();
+            } else {
+                type = swaggerType;
+            }
         }
         return toModelName(type);
     }

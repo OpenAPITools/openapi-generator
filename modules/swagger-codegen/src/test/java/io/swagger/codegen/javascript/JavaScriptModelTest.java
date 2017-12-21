@@ -29,7 +29,7 @@ import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanVal
 
 @SuppressWarnings("static-method")
 public class JavaScriptModelTest {
-    @Test(description = "convert a simple java model")
+    @Test(description = "convert a simple java model", enabled = false)
     public void simpleModelTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -87,7 +87,7 @@ public class JavaScriptModelTest {
         Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with list property")
+    @Test(description = "convert a model with list property", enabled = false)
     public void listPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -176,7 +176,7 @@ public class JavaScriptModelTest {
         Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with a 2D list property")
+    @Test(description = "convert a model with a 2D list property", enabled = false)
     public void list2DPropertyTest() {
         final Schema model = new Schema()
                 .name("sample")
@@ -201,7 +201,7 @@ public class JavaScriptModelTest {
         Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with complex properties")
+    @Test(description = "convert a model with complex properties", enabled = false)
     public void complexPropertiesTest() {
         final Schema model = new Schema()
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
@@ -225,7 +225,7 @@ public class JavaScriptModelTest {
         Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with complex list property")
+    @Test(description = "convert a model with complex list property", enabled = false)
     public void complexListPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -254,7 +254,7 @@ public class JavaScriptModelTest {
         Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with complex map property")
+    @Test(description = "convert a model with complex map property", enabled = false)
     public void complexMapPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -285,7 +285,7 @@ public class JavaScriptModelTest {
         Assert.assertFalse(getBooleanValue(property, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert an array model")
+    @Test(description = "convert an array model", enabled = false)
     public void arrayModelTest() {
         final Schema schema = new ArraySchema()
                 .items(new Schema().$ref("#/definitions/Children")
@@ -302,7 +302,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
-    @Test(description = "convert a map model")
+    @Test(description = "convert a map model", enabled = false)
     public void mapModelTest() {
         final Schema schema = new Schema()
                 .description("an map model")
@@ -319,7 +319,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
-    @Test(description = "convert a model with uppercase property names")
+    @Test(description = "convert a model with uppercase property names", enabled = false)
     public void upperCaseNamesTest() {
         final Schema schema = new Schema()
                 .description("a model with uppercase property names")

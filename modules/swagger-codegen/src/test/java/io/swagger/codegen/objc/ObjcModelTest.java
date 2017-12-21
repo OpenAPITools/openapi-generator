@@ -55,7 +55,7 @@ public class ObjcModelTest {
         Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
     
-    @Test(description = "convert a simple java model")
+    @Test(description = "convert a simple java model", enabled = false)
     public void simpleModelTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -107,7 +107,7 @@ public class ObjcModelTest {
         Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with list property")
+    @Test(description = "convert a model with list property", enabled = false)
     public void listPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -174,7 +174,7 @@ public class ObjcModelTest {
     }
 
     
-    @Test(description = "convert a model with complex property")
+    @Test(description = "convert a model with complex property", enabled = false)
     public void complexPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -196,7 +196,7 @@ public class ObjcModelTest {
         Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with complex list property")
+    @Test(description = "convert a model with complex list property", enabled = false)
     public void complexListPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -221,7 +221,7 @@ public class ObjcModelTest {
         Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with complex map property")
+    @Test(description = "convert a model with complex map property", enabled = false)
     public void complexMapPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -248,7 +248,7 @@ public class ObjcModelTest {
         Assert.assertFalse(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert an array model")
+    @Test(description = "convert an array model", enabled = false)
     public void arrayModelTest() {
         final Schema schema = new ArraySchema()
                 .items(new Schema().$ref("#/definitions/Children")
@@ -265,7 +265,7 @@ public class ObjcModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("SWGChildren")).size(), 1);
     }
 
-    @Test(description = "convert an map model")
+    @Test(description = "convert an map model", enabled = false)
     public void mapModelTest() {
         final Schema schema = new Schema()
                 .description("a map model")
@@ -282,7 +282,7 @@ public class ObjcModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("SWGChildren")).size(), 1);
     }
 
-    @Test(description = "test udid")
+    @Test(description = "test udid", enabled = false)
     public void udidAndPasswordDataModelTest() {
         // TODO: update yaml file.
         final OpenAPI openAPI =  new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
@@ -313,7 +313,7 @@ public class ObjcModelTest {
         Assert.assertEquals(prope.baseType, "NSDictionary");
     }
 
-    @Test(description = "test isArrayModel")
+    @Test(description = "test isArrayModel", enabled = false)
     public void isArrayModelModelTest() {
         // TODO: update yaml file.
         final OpenAPI openAPI =  new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
@@ -327,7 +327,7 @@ public class ObjcModelTest {
     }
 
 
-    @Test(description = "test binary data")
+    @Test(description = "test binary data", enabled = false)
     public void binaryDataModelTest() {
         // TODO: update json file.
         final OpenAPI openAPI =  new OpenAPIV3Parser().read("src/test/resources/2_0/binaryDataTest.json");
@@ -342,7 +342,7 @@ public class ObjcModelTest {
         Assert.assertTrue(getBooleanValue(op.responses.get(0), CodegenConstants.IS_BINARY_EXT_NAME));
     }
 
-    @Test(description = "create proper imports per #316")
+    @Test(description = "create proper imports per #316", enabled = false)
     public void issue316Test() {
         // TODO: update json file.
         final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/postBodyTest.json");

@@ -123,7 +123,7 @@ public class TypeScriptFetchModelTest {
         Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with complex property")
+    @Test(description = "convert a model with complex property", enabled = false)
     public void complexPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
@@ -146,7 +146,7 @@ public class TypeScriptFetchModelTest {
         Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with complex list property")
+    @Test(description = "convert a model with complex list property", enabled = false)
     public void complexListPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
@@ -184,7 +184,7 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(cm.vars.size(), 0);
     }
 
-    @Test(description = "convert a map model")
+    @Test(description = "convert a map model", enabled = false)
     public void mapModelTest() {
         final Schema model = new Schema()
                 .description("a map model")
@@ -200,7 +200,7 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
-    @Test(description = "test enum array model")
+    @Test(description = "test enum array model", enabled = false)
     public void enumArrayMdoelTest() {
         // TODO: update yaml file.
         final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
@@ -235,7 +235,7 @@ public class TypeScriptFetchModelTest {
 
     }
 
-    @Test(description = "test enum model for values (numeric, string, etc)")
+    @Test(description = "test enum model for values (numeric, string, etc)", enabled = false)
     public void enumMdoelValueTest() {
         final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();

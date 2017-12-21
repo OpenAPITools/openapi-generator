@@ -152,7 +152,7 @@ public class CSharpModelTest {
         Assert.assertEquals(property3.name, "CreatedAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "DateTime?");
-        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertFalse(getBooleanValue(property3, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property3.required);
         Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
@@ -190,7 +190,7 @@ public class CSharpModelTest {
         Assert.assertEquals(property2.name, "Urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "List");
-        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertFalse(getBooleanValue(property2, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
         Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
@@ -227,7 +227,7 @@ public class CSharpModelTest {
     public void complexPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
-                .addProperties("children", new Schema().$ref("#/definitions/Children"));
+                .addProperties("children", new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new CSharpClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
@@ -250,7 +250,7 @@ public class CSharpModelTest {
         final Schema schema = new Schema()
                 .description("a sample model")
                 .addProperties("children", new ArraySchema()
-                        .items(new Schema().$ref("#/definitions/Children")));
+                        .items(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new CSharpClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
@@ -275,7 +275,7 @@ public class CSharpModelTest {
         final Schema schema = new Schema()
                 .description("a sample model")
                 .addProperties("children", new MapSchema()
-                        .additionalProperties(new Schema().$ref("#/definitions/Children")));
+                        .additionalProperties(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new CSharpClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
@@ -300,9 +300,8 @@ public class CSharpModelTest {
     @Test(description = "convert an array model")
     public void arrayModelTest() {
         final Schema schema = new ArraySchema()
-                .items(new Schema()
-                        .$ref("#/definitions/Children")
-                        .description("an array model"));
+                .items(new Schema().$ref("#/components/schemas/Children"))
+                .description("an array model");
         final DefaultCodegen codegen = new CSharpClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
@@ -319,7 +318,7 @@ public class CSharpModelTest {
     public void mapModelTest() {
         final Schema schema = new Schema()
                 .description("a map model")
-                .additionalProperties(new Schema().$ref("#/definitions/Children"));
+                .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new CSharpClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", schema);
 

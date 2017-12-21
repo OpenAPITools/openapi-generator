@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.codegen.*;
+import io.swagger.codegen.utils.URLPathUtil;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.oas.models.Operation;
 import io.swagger.oas.models.info.Info;
@@ -260,7 +261,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
         info.setVersion(StringUtils.join(versionComponents, "."));
 
-        String host = swagger.getHost();
+        String host = URLPathUtil.getHost(openAPI);
         if (host != null) {
             String[] parts = host.split(":");
             if (parts.length > 1) {

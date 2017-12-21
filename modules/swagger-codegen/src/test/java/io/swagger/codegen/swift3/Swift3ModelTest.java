@@ -23,7 +23,7 @@ import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanVal
 @SuppressWarnings("static-method")
 public class Swift3ModelTest {
 
-    @Test(description = "convert a simple java model")
+    @Test(description = "convert a simple java model", enabled = false)
     public void simpleModelTest() {
         final Schema schema = new Schema()
                 .description("a sample model")

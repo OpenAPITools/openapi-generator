@@ -116,7 +116,7 @@ public class TypeScriptAngularJsModelTest {
         Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with complex property")
+    @Test(description = "convert a model with complex property", enabled = false)
     public void complexPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -139,7 +139,7 @@ public class TypeScriptAngularJsModelTest {
         Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with complex list property")
+    @Test(description = "convert a model with complex list property", enabled = false)
     public void complexListPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -177,7 +177,7 @@ public class TypeScriptAngularJsModelTest {
         Assert.assertEquals(cm.vars.size(), 0);
     }
 
-    @Test(description = "convert a map model")
+    @Test(description = "convert a map model", enabled = false)
     public void mapModelTest() {
         final Schema schema = new Schema()
                 .description("a map model")
