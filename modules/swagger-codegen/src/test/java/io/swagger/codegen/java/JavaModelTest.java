@@ -747,10 +747,8 @@ public class JavaModelTest {
 
     @Test
     public void generateModel() throws Exception {
-        //folder.create();
-        //final File output = folder.getRoot();
-        final File output = new File("/Users/hugomercado/Documents/tempo/v3");
-        System.out.println(output);
+        folder.create();
+        final File output = folder.getRoot();
         getClass().getClassLoader().getResourceAsStream("src/test/resources/3_0_0/petstore.json");
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -767,7 +765,7 @@ public class JavaModelTest {
 
         File orderFile = new File(output, "src/main/java/io/swagger/client/model/Order.java");
         Assert.assertTrue(orderFile.exists());
-        //folder.delete();
+        folder.delete();
     }
 
 }
