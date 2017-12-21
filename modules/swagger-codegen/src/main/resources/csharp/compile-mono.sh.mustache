@@ -33,10 +33,10 @@ esac
 
 echo "[INFO] Target framework: ${frameworkVersion}"
 
-if [ ! type nuget &>/dev/null ]; then
+if ! type nuget &>/dev/null; then
     echo "[INFO] Download nuget and packages"
     wget -nc https://dist.nuget.org/win-x86-commandline/latest/nuget.exe;
-    nuget_cmd="mono nuget"
+    nuget_cmd="mono nuget.exe"
 fi
 
 mozroots --import --sync
@@ -46,6 +46,7 @@ echo "[INFO] Copy DLLs to the 'bin' folder"
 mkdir -p bin;
 cp packages/Newtonsoft.Json.10.0.3/lib/{{targetFrameworkNuget}}/Newtonsoft.Json.dll bin/Newtonsoft.Json.dll;
 cp packages/RestSharp.105.1.0/lib/{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{targetFrameworkNuget}}{{/isNet40}}/RestSharp.dll bin/RestSharp.dll;
+cp packages/JsonSubTypes.1.2.0/lib/{{targetFrameworkNuget}}/JsonSubTypes.dll bin/JsonSubTypes.dll
 {{#generatePropertyChanged}}
 cp packages/Fody.1.29.4/Fody.dll bin/Fody.dll
 cp packages/PropertyChanged.Fody.1.51.3/PropertyChanged.Fody.dll bin/PropertyChanged.Fody.dll
@@ -53,7 +54,7 @@ cp packages/PropertyChanged.Fody.1.51.3/Lib/dotnet/PropertyChanged.dll bin/Prope
 {{/generatePropertyChanged}}
 
 echo "[INFO] Run 'mcs' to build bin/{{{packageName}}}.dll"
-mcs -langversion:${langversion} -sdk:${sdk} -r:bin/Newtonsoft.Json.dll,\
+mcs -langversion:${langversion} -sdk:${sdk} -r:bin/Newtonsoft.Json.dll,bin/JsonSubTypes.dll,\
 {{#generatePropertyChanged}}
 bin/Fody.dll,\
 bin/PropertyChanged.Fody.dll,\
