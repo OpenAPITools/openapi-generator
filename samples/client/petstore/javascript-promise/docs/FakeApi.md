@@ -254,13 +254,13 @@ http_basic_test.password = 'YOUR PASSWORD';
 
 var apiInstance = new SwaggerPetstore.FakeApi();
 
-var _number = 3.4; // Number | None
+var _number = 8.14; // Number | None
 
 var _double = 1.2; // Number | None
 
 var patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
 
-var _byte = _byte_example; // Blob | None
+var _byte = B; // Blob | None
 
 var opts = { 
   'integer': 56, // Number | None
