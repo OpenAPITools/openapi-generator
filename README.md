@@ -1093,7 +1093,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | Dart      | @ircecho (2017/07) |
 | Eiffel    | @jvelilla (2017/09) |
 | Elixir    |  |
-| Erlang    | @tsloughter (2017/11) |
+| Erlang    | @tsloughter (2017/11) @bvwells (2017/12) |
 | Groovy    |  |
 | Go        | @antihax (2017/11) |
 | Haskell   | |
