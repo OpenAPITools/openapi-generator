@@ -10,7 +10,8 @@ if not exist ".\nuget.exe" powershell -Command "(new-object System.Net.WebClient
 
 if not exist ".\bin" mkdir bin
 
-copy packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll bin\Newtonsoft.Json.dll
+copy packages\Newtonsoft.Json.10.0.3\lib\net40\Newtonsoft.Json.dll bin\Newtonsoft.Json.dll
+copy packages\JsonSubTypes.1.2.0\lib\net40\JsonSubTypes.dll bin\JsonSubTypes.dll
 copy packages\RestSharp.105.1.0\lib\net4\RestSharp.dll bin\RestSharp.dll
-%CSCPATH%\csc  /reference:bin\Newtonsoft.Json.dll;bin\RestSharp.dll;System.ComponentModel.DataAnnotations.dll  /target:library /out:bin\IO.Swagger.dll /recurse:src\IO.Swagger\*.cs /doc:bin\IO.Swagger.xml
+%CSCPATH%\csc  /reference:bin\Newtonsoft.Json.dll;bin\JsonSubTypes.dll;bin\RestSharp.dll;System.ComponentModel.DataAnnotations.dll  /target:library /out:bin\IO.Swagger.dll /recurse:src\IO.Swagger\*.cs /doc:bin\IO.Swagger.xml
 
