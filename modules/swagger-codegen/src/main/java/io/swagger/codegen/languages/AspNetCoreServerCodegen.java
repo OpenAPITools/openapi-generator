@@ -1,20 +1,15 @@
 package io.swagger.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import com.samskivert.mustache.Mustache;
-
-import io.swagger.codegen.*;
-import io.swagger.models.*;
-import io.swagger.util.Json;
-
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
-import java.util.Map.Entry;
+import java.util.Arrays;
 
 import static java.util.UUID.randomUUID;
 
@@ -161,21 +156,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator  + "Models";
     }
-
-
-    @Override
-    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Swagger swagger = (Swagger)objs.get("swagger");
-        if(swagger != null) {
-            try {
-                objs.put("swagger-json", Json.pretty().writeValueAsString(swagger).replace("\r\n", "\n"));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        }
-        return super.postProcessSupportingFileData(objs);
-    }
-
 
     @Override
     protected void processOperation(CodegenOperation operation) {

@@ -6,19 +6,6 @@ import com.samskivert.mustache.Template;
 
 import io.swagger.codegen.*;
 
-import io.swagger.models.auth.SecuritySchemeDefinition;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;

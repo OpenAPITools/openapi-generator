@@ -1,25 +1,22 @@
 package io.swagger.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
-import io.swagger.codegen.*;
-import io.swagger.models.*;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.oas.models.OpenAPI;
 import io.swagger.util.Json;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
-import java.util.Map.Entry;
-import org.apache.commons.lang3.StringUtils;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -233,10 +230,10 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Swagger swagger = (Swagger)objs.get("swagger");
-        if(swagger != null) {
+        OpenAPI openAPI = (OpenAPI) objs.get("openapi");
+        if(openAPI != null) {
             try {
-                objs.put("swagger-json", Json.pretty().writeValueAsString(swagger).replace("\r\n", "\n"));
+                objs.put("swagger-json", Json.pretty().writeValueAsString(openAPI).replace("\r\n", "\n"));
             } catch (JsonProcessingException e) {
                 LOGGER.error(e.getMessage(), e);
             }

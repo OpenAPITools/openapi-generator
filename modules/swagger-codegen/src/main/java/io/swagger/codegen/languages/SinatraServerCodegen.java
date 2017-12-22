@@ -6,10 +6,10 @@ import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.Swagger;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
 import io.swagger.util.Yaml;
 
 import java.io.File;
@@ -118,30 +118,28 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "[string," + getTypeDeclaration(inner) + "]";
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) propertySchema).getItems();
+            return String.format("%s[%s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return String.format("%s[string, %s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(propertySchema);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema propertySchema) {
+        String schemaType = super.getSchemaType(propertySchema);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type)) {
-                return type;
+                return toModelName(type);
             }
         } else {
-            type = swaggerType;
+            type = schemaType;
         }
         if (type == null) {
             return null;
@@ -150,7 +148,7 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public String toDefaultValue(Property p) {
+    public String toDefaultValue(Schema p) {
         return "null";
     }
 
@@ -240,10 +238,10 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Swagger swagger = (Swagger)objs.get("swagger");
-        if(swagger != null) {
+        OpenAPI openAPI = (OpenAPI) objs.get("openapi");
+        if(openAPI != null) {
             try {
-                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
+                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(openAPI));
             } catch (JsonProcessingException e) {
                 LOGGER.error(e.getMessage(), e);
             }

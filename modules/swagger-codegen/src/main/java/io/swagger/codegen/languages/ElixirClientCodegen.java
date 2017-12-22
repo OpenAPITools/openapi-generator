@@ -2,11 +2,34 @@ package io.swagger.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.swagger.codegen.*;
-import io.swagger.models.properties.*;
-import io.swagger.models.Info;
-import io.swagger.models.Model;
-import io.swagger.models.Swagger;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.info.Info;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BinarySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.ByteArraySchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.EmailSchema;
+import io.swagger.oas.models.media.FileSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.NumberSchema;
+import io.swagger.oas.models.media.ObjectSchema;
+import io.swagger.oas.models.media.PasswordSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.oas.models.media.UUIDSchema;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -14,6 +37,8 @@ import java.io.Writer;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String apiVersion = "1.0.0";
@@ -209,8 +234,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-         Info info = swagger.getInfo();
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+         Info info = openAPI.getInfo();
          if (moduleName == null) {
              if (info.getTitle() != null) {
                  // default to the appName (from title field)
@@ -263,11 +288,12 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             eco.setPathTemplateNames(pathTemplateNames);
 
             // detect multipart form types
-            if (eco.hasConsumes == Boolean.TRUE) {
+            boolean hasConsumes = getBooleanValue(eco, CodegenConstants.HAS_CONSUMES_EXT_NAME);
+            if (hasConsumes == Boolean.TRUE) {
                 Map<String, String> firstType = eco.consumes.get(0);
                 if (firstType != null) {
                     if ("multipart/form-data".equals(firstType.get("mediaType"))) {
-                        eco.isMultipart = Boolean.TRUE;
+                        eco.getVendorExtensions().put(CodegenConstants.IS_MULTIPART_EXT_NAME, Boolean.TRUE);
                     }
                 }
             }
@@ -279,8 +305,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
-        CodegenModel cm = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allSchemas) {
+        CodegenModel cm = super.fromModel(name, schema, allSchemas);
         return new ExtendedCodegenModel(cm);
     }
 
@@ -416,7 +442,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
      */
     @Override
-    public String getTypeDeclaration(Property p) {
+    public String getTypeDeclaration(Schema propertySchema) {
         // SubClasses of AbstractProperty
         //
         // ArrayProperty
@@ -440,56 +466,40 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         // BooleanProperty
         // RefProperty
         // FileProperty
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+        if (propertySchema instanceof ArraySchema) {
+            ArraySchema ap = (ArraySchema) propertySchema;
+            Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
             return "%{optional(String.t) => " + getTypeDeclaration(inner) + "}";
-        } else if (p instanceof PasswordProperty) {
+        } else if (propertySchema instanceof PasswordSchema
+                || propertySchema instanceof EmailSchema
+                || propertySchema instanceof StringSchema
+                || propertySchema instanceof UUIDSchema
+                || propertySchema instanceof FileSchema
+                ) {
             return "String.t";
-        } else if (p instanceof EmailProperty) {
-            return "String.t";
-        } else if (p instanceof ByteArrayProperty) {
+        } else if (propertySchema instanceof ByteArraySchema
+                || propertySchema instanceof BinarySchema) {
             return "binary()";
-        } else if (p instanceof StringProperty) {
-            return "String.t";
-        } else if (p instanceof DateProperty) {
+        } else if (propertySchema instanceof DateSchema) {
             return "Date.t";
-        } else if (p instanceof UUIDProperty) {
-            return "String.t";
-        } else if (p instanceof DateTimeProperty) {
+        } else if (propertySchema instanceof DateTimeSchema) {
             return "DateTime.t";
-        } else if (p instanceof ObjectProperty) {
+        } else if (propertySchema instanceof ObjectSchema) {
             // How to map it?
-            return super.getTypeDeclaration(p);
-        } else if (p instanceof IntegerProperty) {
-            return "integer()";
-        } else if (p instanceof LongProperty) {
-            return "integer()";
-        } else if (p instanceof BaseIntegerProperty) {
-            return "integer()";
-        } else if (p instanceof DoubleProperty) {
+            return super.getTypeDeclaration(propertySchema);
+        } else if (propertySchema instanceof IntegerSchema) {
+        } else if (propertySchema instanceof NumberSchema) {
             return "float()";
-        } else if (p instanceof FloatProperty) {
-            return "float()";
-        } else if (p instanceof DecimalProperty) {
-            return "float()";
-        } else if (p instanceof AbstractNumericProperty) {
-            return "number()";
-        } else if (p instanceof BinaryProperty) {
-            return "binary()";
-        } else if (p instanceof BooleanProperty) {
+        } else if (propertySchema instanceof BooleanSchema) {
             return "boolean()";
-        } else if (p instanceof RefProperty) {
+        } else if (StringUtils.isNotBlank(propertySchema.get$ref())) {
             // How to map it?
-            return super.getTypeDeclaration(p);
-        } else if (p instanceof FileProperty) {
-            return "String.t";
+            return super.getTypeDeclaration(propertySchema);
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(propertySchema);
     }
 
     /**
@@ -497,11 +507,11 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      * either language specific types via `typeMapping` or into complex models if there is not a mapping.
      *
      * @return a string value of the type or complex model for this property
-     * @see io.swagger.models.properties.Property
+     * @see io.swagger.oas.models.media.Schema
      */
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema propertySchema) {
+        String swaggerType = super.getSchemaType(propertySchema);
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
@@ -521,26 +531,9 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
             // Copy all fields of CodegenOperation
             this.responseHeaders.addAll(o.responseHeaders);
-            this.hasAuthMethods = o.hasAuthMethods;
-            this.hasConsumes = o.hasConsumes;
-            this.hasProduces = o.hasProduces;
-            this.hasParams = o.hasParams;
-            this.hasOptionalParams = o.hasOptionalParams;
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
-            this.isMapContainer = o.isMapContainer;
-            this.isListContainer = o.isListContainer;
-            this.isMultipart = o.isMultipart;
-            this.hasMore = o.hasMore;
-            this.isResponseBinary = o.isResponseBinary;
-            this.hasReference = o.hasReference;
-            this.isRestfulIndex = o.isRestfulIndex;
-            this.isRestfulShow = o.isRestfulShow;
-            this.isRestfulCreate = o.isRestfulCreate;
-            this.isRestfulUpdate = o.isRestfulUpdate;
-            this.isRestfulDestroy = o.isRestfulDestroy;
-            this.isRestful = o.isRestful;
             this.path = o.path;
             this.operationId = o.operationId;
             this.returnType = o.returnType;
@@ -635,24 +628,24 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         private void buildTypespec(CodegenParameter param, StringBuilder sb) {
             if (param.dataType == null) {
                 sb.append("nil");
-            } else if (param.isListContainer) {
+            } else if (getBooleanValue(param, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 // list(<subtype>)
                 sb.append("list(");
-                if (param.isBodyParam) {
+                if (getBooleanValue(param, CodegenConstants.IS_BODY_PARAM_EXT_NAME)) {
                     buildTypespec(param.items.items, sb);
                 } else {
                     buildTypespec(param.items, sb);
                 }
                 sb.append(")");
-            } else if (param.isMapContainer) {
+            } else if (getBooleanValue(param, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
                 // %{optional(String.t) => <subtype>}
                 sb.append("%{optional(String.t) => ");
                 buildTypespec(param.items, sb);
                 sb.append("}");
-            } else if (param.isPrimitiveType) {
+            } else if (getBooleanValue(param, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME)) {
                 // like `integer()`, `String.t`
                 sb.append(param.dataType);
-            } else if (param.isFile) {
+            } else if (getBooleanValue(param, CodegenConstants.IS_FILE_EXT_NAME)) {
                 sb.append("String.t");
             } else {
                 // <module>.Model.<type>.t
@@ -663,15 +656,16 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             }
         }
         private void buildTypespec(CodegenProperty property, StringBuilder sb) {
-            if (property.isListContainer) {
+
+            if (getBooleanValue(property, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 sb.append("list(");
                 buildTypespec(property.items, sb);
                 sb.append(")");
-            } else if (property.isMapContainer) {
+            } else if (getBooleanValue(property, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
                 sb.append("%{optional(String.t) => ");
                 buildTypespec(property.items, sb);
                 sb.append("}");
-            } else if (property.isPrimitiveType) {
+            } else if (getBooleanValue(property, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME)) {
                 sb.append(property.baseType);
                 sb.append(".t");
             } else {
@@ -684,7 +678,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         public String decodedStruct() {
             // Let Poison decode the entire response into a generic blob
-            if (isMapContainer) {
+            if (getBooleanValue(this, CodegenConstants.IS_MULTIPART_EXT_NAME)) {
                 return "";
             }
             // Primitive return type, don't even try to decode
@@ -692,7 +686,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 return "false";
             }
             StringBuilder sb = new StringBuilder();
-            if (isListContainer) {
+            if (getBooleanValue(this, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 sb.append("[");
             }
             sb.append("%");
@@ -700,7 +694,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             sb.append(".Model.");
             sb.append(returnBaseType);
             sb.append("{}");
-            if (isListContainer) {
+            if (getBooleanValue(this, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 sb.append("]");
             }
             return sb.toString();
@@ -733,7 +727,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.discriminator = cm.discriminator;
             this.defaultValue = cm.defaultValue;
             this.arrayModelType = cm.arrayModelType;
-            this.isAlias = cm.isAlias;
+            // TODO: use vendor extension this.isAlias = cm.isAlias;
             this.vars = cm.vars;
             this.requiredVars = cm.requiredVars;
             this.optionalVars = cm.optionalVars;
@@ -745,17 +739,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.mandatory = cm.mandatory;
             this.allMandatory = cm.allMandatory;
             this.imports = cm.imports;
-            this.hasVars = cm.hasVars;
             this.emptyVars = cm.emptyVars;
-            this.hasMoreModels = cm.hasMoreModels;
-            this.hasEnums = cm.hasEnums;
-            this.isEnum = cm.isEnum;
-            this.hasRequired = cm.hasRequired;
-            this.hasOptional = cm.hasOptional;
-            this.isArrayModel = cm.isArrayModel;
-            this.hasChildren = cm.hasChildren;
-            this.hasOnlyReadOnly = cm.hasOnlyReadOnly;
-            this.externalDocs = cm.externalDocs;
+            this.externalDocumentation = cm.externalDocumentation;
             this.vendorExtensions = cm.vendorExtensions;
             this.additionalPropertiesType = cm.additionalPropertiesType;
 
@@ -764,7 +749,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         public boolean hasComplexVars() {
             for (CodegenProperty p : vars) {
-                if (!p.isPrimitiveType) {
+                if (!getBooleanValue(p, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME)) {
                     return true;
                 }
             }

@@ -1,52 +1,65 @@
 package io.swagger.codegen.kotlin;
 
-import io.swagger.codegen.*;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.KotlinClientCodegen;
-import io.swagger.models.*;
-import io.swagger.models.properties.*;
-
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 @SuppressWarnings("static-method")
 public class KotlinClientCodegenModelTest {
 
-    private Model getArrayTestModel() {
-        return new ModelImpl()
+    private Schema getArrayTestModel() {
+        return new Schema()
+                .type("object")
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("examples", new ArrayProperty().items(new StringProperty()))
-                .required("id");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("examples", new ArraySchema().items(new StringSchema()))
+                .addRequiredItem("id");
     }
 
-    private Model getSimpleModel() {
-        return new ModelImpl()
+    private Schema getSimpleModel() {
+        return new Schema()
+                .type("object")
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("name", new StringProperty())
-                .property("createdAt", new DateTimeProperty())
-                .required("id")
-                .required("name");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema())
+                .addProperties("createdAt", new DateTimeSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name");
     }
 
-    private Model getMapModel() {
-        return new ModelImpl()
+    private Schema getMapModel() {
+        return new Schema()
+                .type("object")
                 .description("a sample model")
-                .property("mapping", new MapProperty()
-                        .additionalProperties(new StringProperty()))
-                .required("id");
+                .addProperties("mapping", new MapSchema()
+                        .additionalProperties(new StringSchema()))
+                .addRequiredItem("id");
     }
 
-    private Model getComplexModel() {
-        return new ModelImpl()
+    private Schema getComplexModel() {
+        return new Schema()
+                .type("object")
                 .description("a sample model")
-                .property("child", new RefProperty("#/definitions/Child"));
+                .addProperties("child", new Schema().$ref("#/components/schemas/Child"));
     }
 
     @Test(description = "convert a simple model")
     public void simpleModelTest() {
-        final Model model = getSimpleModel();
+        final Schema model = getSimpleModel();
         final DefaultCodegen codegen = new KotlinClientCodegen();
 
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -62,10 +75,10 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, "null");
         Assert.assertEquals(property1.baseType, "kotlin.Long");
-        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -73,10 +86,10 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property2.defaultValue, "null");
         Assert.assertEquals(property2.baseType, "kotlin.String");
-        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -84,14 +97,14 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
         Assert.assertEquals(property3.baseType, "java.time.LocalDateTime");
-        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(getBooleanValue(property3, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with array property to default kotlin.Array")
     public void arrayPropertyTest() {
-        final Model model = getArrayTestModel();
+        final Schema model = getArrayTestModel();
 
         final DefaultCodegen codegen = new KotlinClientCodegen();
         final CodegenModel generated = codegen.fromModel("sample", model);
@@ -111,11 +124,11 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property.baseType, "kotlin.Array");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
-        final Model model = getMapModel();
+        final Schema model = getMapModel();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -131,13 +144,13 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property1.baseType, "kotlin.collections.Map");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isContainer);
-        Assert.assertTrue(property1.isPrimitiveType);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
-        final Model model = getComplexModel();
+        final Schema model = getComplexModel();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -152,7 +165,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property1.name, "child");
         Assert.assertEquals(property1.baseType, "Child");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @DataProvider(name = "modelNames")
@@ -168,9 +181,9 @@ public class KotlinClientCodegenModelTest {
 
     @Test(dataProvider = "modelNames", description = "sanitize model names")
     public void sanitizeModelNames(final String name, final ModelNameTest testCase) {
-        final Model model = getComplexModel();
+        final Schema schema = getComplexModel();
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final CodegenModel cm = codegen.fromModel(name, model);
+        final CodegenModel cm = codegen.fromModel(name, schema);
 
         Assert.assertEquals(cm.name, testCase.expectedName);
         Assert.assertEquals(cm.classname, testCase.expectedClassName);

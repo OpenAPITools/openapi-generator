@@ -1,45 +1,59 @@
 package io.swagger.codegen.java;
 
 import com.google.common.collect.Sets;
+import io.swagger.codegen.ClientOptInput;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.DefaultGenerator;
+import io.swagger.codegen.config.CodegenConfigurator;
+import io.swagger.codegen.languages.AbstractJavaCodegen;
 import io.swagger.codegen.languages.JavaClientCodegen;
-import io.swagger.models.ArrayModel;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.Xml;
-import io.swagger.models.parameters.QueryParameter;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.ByteArrayProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DecimalProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.ByteArraySchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.NumberSchema;
+import io.swagger.oas.models.media.ObjectSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.oas.models.media.XML;
+import io.swagger.oas.models.parameters.Parameter;
+import io.swagger.oas.models.parameters.QueryParameter;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.junit.rules.TemporaryFolder;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 @SuppressWarnings("static-method")
 public class JavaModelTest {
 
+    private TemporaryFolder folder = new TemporaryFolder();
+
     @Test(description = "convert a simple java model")
     public void simpleModelTest() {
-        final Model model = new ModelImpl()
+        final Schema model = new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("name", new StringProperty()
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema()
                         .example("Tony"))
-                .property("createdAt", new DateTimeProperty())
-                .required("id")
-                .required("name");
+                .addProperties("createdAt", new DateTimeSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name");
         final DefaultCodegen codegen = new JavaClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -58,9 +72,9 @@ public class JavaModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, "null");
         Assert.assertEquals(property1.baseType, "Long");
-        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property2 = vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -71,9 +85,9 @@ public class JavaModelTest {
         Assert.assertEquals(property2.defaultValue, "null");
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertEquals(property2.example, "Tony");
-        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property3 = vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -83,21 +97,21 @@ public class JavaModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
         Assert.assertEquals(property3.baseType, "Date");
-        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(getBooleanValue(property3, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("urls", new ArrayProperty()
-                        .items(new StringProperty()))
-                .required("id");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("urls", new ArraySchema()
+                        .items(new StringSchema()))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -114,18 +128,18 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("translations", new MapProperty()
-                        .additionalProperties(new StringProperty()))
-                .required("id");
+                .addProperties("translations", new MapSchema()
+                        .additionalProperties(new StringSchema()))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -142,18 +156,18 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "Map");
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with a map with complex list property")
     public void mapWithListPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("translations",
-                        new MapProperty().additionalProperties(new ArrayProperty().items(new RefProperty("Pet"))))
-                .required("id");
+                .addProperties("translations", new MapSchema()
+                        .additionalProperties(new ArraySchema().items(new Schema().$ref("Pet"))))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -170,13 +184,15 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "Map");
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with a 2D list property")
     public void list2DPropertyTest() {
-        final Model model = new ModelImpl().name("sample").property("list2D", new ArrayProperty().items(
-                new ArrayProperty().items(new RefProperty("Pet"))));
+        final Schema model = new Schema()
+                .name("sample")
+                .addProperties("list2D", new ArraySchema().items(
+                new ArraySchema().items(new Schema().$ref("Pet"))));
         final DefaultCodegen codegen = new JavaClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -192,15 +208,16 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex properties")
     public void complexPropertiesTest() {
-        final Model model = new ModelImpl().description("a sample model")
-                .property("children", new RefProperty("#/definitions/Children"));
+        final Schema schema = new Schema()
+                .description("a sample model")
+                .addProperties("children", new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -216,16 +233,17 @@ public class JavaModelTest {
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "Children");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex list property")
     public void complexListPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("children", new ArrayProperty().items(new RefProperty("#/definitions/Children")));
+                .addProperties("children", new ArraySchema()
+                        .items(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -243,16 +261,17 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex map property")
     public void complexMapPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("children", new MapProperty().additionalProperties(new RefProperty("#/definitions/Children")));
+                .addProperties("children", new MapSchema()
+                        .additionalProperties(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -271,21 +290,25 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "Map");
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
-        Assert.assertFalse(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
+        Assert.assertFalse(getBooleanValue(property, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
     }
 
     @Test(description = "convert a model with an array property with item name")
     public void arrayModelWithItemNameTest() {
-        final Model model = new ModelImpl()
+        final Schema propertySchema = new ArraySchema()
+                .items(new Schema().$ref("#/components/schemas/Child"))
+                .description("an array property");
+        propertySchema.addExtension("x-item-name", "child");
+        final Schema schema = new Schema()
+            .type("object")
             .description("a sample model")
-            .property("children", new ArrayProperty()
-                .description("an array property")
-                .items(new RefProperty("#/definitions/Child"))
-                .vendorExtension("x-item-name", "child"));
+            .addProperties("children", propertySchema);
+
+
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -304,8 +327,8 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
-        Assert.assertFalse(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
+        Assert.assertFalse(getBooleanValue(property, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty itemsProperty = property.items;
         Assert.assertEquals(itemsProperty.baseName,"child");
@@ -314,11 +337,12 @@ public class JavaModelTest {
 
     @Test(description = "convert an array model")
     public void arrayModelTest() {
-        final Model model = new ArrayModel()
-                .description("an array model")
-                .items(new RefProperty("#/definitions/Children"));
+        final Schema schema = new ArraySchema()
+                .items(new Schema().name("elobjeto").$ref("#/components/schemas/Children"))
+                .name("arraySchema")
+                .description("an array model");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -331,11 +355,11 @@ public class JavaModelTest {
 
     @Test(description = "convert an map model")
     public void mapModelTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("an map model")
-                .additionalProperties(new RefProperty("#/definitions/Children"));
+                .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -348,12 +372,12 @@ public class JavaModelTest {
 
     @Test(description = "convert a model with upper-case property names")
     public void upperCaseNamesTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a model with upper-case property names")
-                .property("NAME", new StringProperty())
-                .required("NAME");
+                .addProperties("NAME", new StringSchema())
+                .addRequiredItem("NAME");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -367,19 +391,19 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "NAME");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
+        Assert.assertFalse(getBooleanValue(property, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with a 2nd char upper-case property names")
     public void secondCharUpperCaseNamesTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a model with a 2nd char upper-case property names")
-                .property("pId", new StringProperty())
-                .required("pId");
+                .addProperties("pId", new StringSchema())
+                .addRequiredItem("pId");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -393,19 +417,19 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "pId");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
+        Assert.assertFalse(getBooleanValue(property, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model starting with two upper-case letter property names")
     public void firstTwoUpperCaseLetterNamesTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a model with a property name starting with two upper-case letters")
-                .property("ATTName", new StringProperty())
-                .required("ATTName");
+                .addProperties("ATTName", new StringSchema())
+                .addRequiredItem("ATTName");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -419,18 +443,18 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "atTName");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
+        Assert.assertFalse(getBooleanValue(property, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert hyphens per issue 503")
     public void hyphensTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("created-at", new DateTimeProperty());
+                .addProperties("created-at", new DateTimeSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property = cm.vars.get(0);
         Assert.assertEquals(property.baseName, "created-at");
@@ -441,11 +465,11 @@ public class JavaModelTest {
 
     @Test(description = "convert query[password] to queryPassword")
     public void squareBracketsTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("query[password]", new StringProperty());
+                .addProperties("query[password]", new StringSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property = cm.vars.get(0);
         Assert.assertEquals(property.baseName, "query[password]");
@@ -456,22 +480,22 @@ public class JavaModelTest {
 
     @Test(description = "properly escape names per 567")
     public void escapeNamesTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("created-at", new DateTimeProperty());
+                .addProperties("created-at", new DateTimeSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("with.dots", model);
+        final CodegenModel cm = codegen.fromModel("with.dots", schema);
 
         Assert.assertEquals(cm.classname, "WithDots");
     }
 
     @Test(description = "convert a model with binary data")
     public void binaryDataTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("model with binary")
-                .property("inputBinaryData", new ByteArrayProperty());
+                .addProperties("inputBinaryData", new ByteArraySchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property = cm.vars.get(0);
         Assert.assertEquals(property.baseName, "inputBinaryData");
@@ -481,18 +505,18 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "inputBinaryData");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "byte[]");
-        Assert.assertFalse(property.hasMore);
+        Assert.assertFalse(getBooleanValue(property, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "translate an invalid param name")
     public void invalidParamNameTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a model with a 2nd char upper-case property names")
-                .property("_", new StringProperty());
+                .addProperties("_", new StringSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -506,14 +530,13 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "u");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertFalse(property.hasMore);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(getBooleanValue(property, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a parameter")
     public void convertParameterTest() {
-        final QueryParameter parameter = new QueryParameter()
-                .property(new IntegerProperty())
+        final Parameter parameter = new QueryParameter()
                 .name("limit")
                 .required(true);
         final DefaultCodegen codegen = new JavaClientCodegen();
@@ -524,15 +547,18 @@ public class JavaModelTest {
 
     @Test(description = "types used by inner properties should be imported")
     public void mapWithAnListOfBigDecimalTest() {
-        final CodegenModel cm1 = new JavaClientCodegen().fromModel("sample", new ModelImpl()
+        final CodegenModel cm1 = new JavaClientCodegen().fromModel("sample", new Schema()
                 .description("model with Map<String, List<BigDecimal>>")
-                .property("map", new MapProperty().additionalProperties(new ArrayProperty(new DecimalProperty()))));
+                .addProperties("map", new MapSchema()
+                        .additionalProperties(new ArraySchema().items(new NumberSchema()))));
         Assert.assertEquals(cm1.vars.get(0).datatype, "Map<String, List<BigDecimal>>");
         Assert.assertTrue(cm1.imports.contains("BigDecimal"));
 
-        final CodegenModel cm2 = new JavaClientCodegen().fromModel("sample", new ModelImpl()
+        final CodegenModel cm2 = new JavaClientCodegen().fromModel("sample", new Schema()
                 .description("model with Map<String, Map<String, List<BigDecimal>>>")
-                .property("map", new MapProperty().additionalProperties(new MapProperty().additionalProperties(new ArrayProperty(new DecimalProperty())))));
+                .addProperties("map", new MapSchema()
+                        .additionalProperties(new MapSchema()
+                                .additionalProperties(new ArraySchema().items(new NumberSchema())))));
         Assert.assertEquals(cm2.vars.get(0).datatype, "Map<String, Map<String, List<BigDecimal>>>");
         Assert.assertTrue(cm2.imports.contains("BigDecimal"));
     }
@@ -553,9 +579,9 @@ public class JavaModelTest {
 
     @Test(dataProvider = "modelNames", description = "avoid inner class")
     public void modelNameTest(String name, String expectedName) {
-        final Model model = new ModelImpl();
+        final Schema schema = new Schema();
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel(name, model);
+        final CodegenModel cm = codegen.fromModel(name, schema);
 
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);
@@ -572,11 +598,11 @@ public class JavaModelTest {
 
     @Test(dataProvider = "classProperties", description = "handle 'class' properties")
     public void classPropertyTest(String baseName, String getter, String setter, String name) {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property(baseName, new StringProperty());
+                .addProperties(baseName, new StringSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property = cm.vars.get(0);
         Assert.assertEquals(property.baseName, baseName);
@@ -588,28 +614,28 @@ public class JavaModelTest {
 
     @Test(description = "test models with xml")
     public void modelWithXmlTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .xml(new Xml()
+                .xml(new XML()
                   .prefix("my")
                   .namespace("xmlNamespace")
                   .name("customXmlName"))
-                .property("id", new LongProperty())
-                .property("name", new StringProperty()
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema()
                   .example("Tony")
-                  .xml(new Xml()
+                  .xml(new XML()
                     .attribute(true)
                     .prefix("my")
                     .name("myName")))
-                .property("createdAt", new DateTimeProperty()
-                   .xml(new Xml()
+                .addProperties("createdAt", new DateTimeSchema()
+                   .xml(new XML()
                      .prefix("my")
                      .namespace("myNamespace")
                      .name("myCreatedAt")))
-                .required("id")
-                .required("name");
+                .addRequiredItem("id")
+                .addRequiredItem("name");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -630,10 +656,10 @@ public class JavaModelTest {
         Assert.assertEquals(property2.defaultValue, "null");
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertEquals(property2.example, "Tony");
-        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
-        Assert.assertTrue(property2.isXmlAttribute);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_XML_ATTRIBUTE_EXT_NAME));
         Assert.assertEquals(property2.xmlName, "myName");
         Assert.assertNull(property2.xmlNamespace);
 
@@ -645,10 +671,10 @@ public class JavaModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
         Assert.assertEquals(property3.baseType, "Date");
-        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(getBooleanValue(property3, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
-        Assert.assertFalse(property3.isXmlAttribute);
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertFalse(getBooleanValue(property3, CodegenConstants.IS_XML_ATTRIBUTE_EXT_NAME));
         Assert.assertEquals(property3.xmlName, "myCreatedAt");
         Assert.assertEquals(property3.xmlNamespace, "myNamespace");
         Assert.assertEquals(property3.xmlPrefix, "my");
@@ -656,24 +682,25 @@ public class JavaModelTest {
 
     @Test(description = "test models with wrapped xml")
     public void modelWithWrappedXmlTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .xml(new Xml()
+                .xml(new XML()
                   .prefix("my")
                   .namespace("xmlNamespace")
                   .name("customXmlName"))
-                .property("id", new LongProperty())
-                .property("array", new ArrayProperty()
-                   .xml(new Xml()
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("array", new ArraySchema()
+                        .items(new StringSchema()
+                            .xml(new XML()
+                                    .name("i")))
+                   .xml(new XML()
                      .prefix("my")
                      .wrapped(true)
                      .namespace("myNamespace")
-                     .name("xmlArray")).items(new StringProperty()
-                      .xml(new Xml()
-                        .name("i"))))
-                .required("id");
+                     .name("xmlArray")))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -693,8 +720,8 @@ public class JavaModelTest {
         Assert.assertEquals(property2.name, "array");
         Assert.assertEquals(property2.defaultValue, "new ArrayList<String>()");
         Assert.assertEquals(property2.baseType, "List");
-        Assert.assertTrue(property2.isContainer);
-        Assert.assertTrue(property2.isXmlWrapped);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_XML_WRAPPED_EXT_NAME));
         Assert.assertEquals(property2.xmlName, "xmlArray");
         Assert.assertNotNull(property2.xmlNamespace);
         Assert.assertNotNull(property2.items);
@@ -705,7 +732,7 @@ public class JavaModelTest {
 
     @Test(description = "convert a boolean parameter")
     public void booleanParameterTest() {
-        final BooleanProperty property = new BooleanProperty();
+        final BooleanSchema property = new BooleanSchema();
         final DefaultCodegen codegen = new JavaClientCodegen();
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
@@ -713,9 +740,32 @@ public class JavaModelTest {
         Assert.assertEquals(cp.datatype, "Boolean");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "Boolean");
-        Assert.assertTrue(cp.isNotContainer);
-        Assert.assertTrue(cp.isBoolean);
+        Assert.assertTrue(getBooleanValue(cp, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(cp, CodegenConstants.IS_BOOLEAN_EXT_NAME));
         Assert.assertEquals(cp.getter, "isProperty");
+    }
+
+    @Test
+    public void generateModel() throws Exception {
+        folder.create();
+        final File output = folder.getRoot();
+        getClass().getClassLoader().getResourceAsStream("src/test/resources/3_0_0/petstore.json");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setLang("java")
+                .setLibrary("jersey2")
+                .setTemplateEngine("handlebars")
+                //.addAdditionalProperty("withXml", true)
+                .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)
+                .setInputSpec("src/test/resources/3_0_0/petstore.json")
+                .setOutputDir(output.getAbsolutePath());
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        File orderFile = new File(output, "src/main/java/io/swagger/client/model/Order.java");
+        Assert.assertTrue(orderFile.exists());
+        folder.delete();
     }
 
 }

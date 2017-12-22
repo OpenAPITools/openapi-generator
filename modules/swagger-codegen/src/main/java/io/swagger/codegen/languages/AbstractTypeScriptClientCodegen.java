@@ -1,5 +1,21 @@
 package io.swagger.codegen.languages;
 
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.DefaultCodegen;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.NumberSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -10,25 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import io.swagger.codegen.CliOption;
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConstants;
-import io.swagger.codegen.CodegenModel;
-import io.swagger.codegen.CodegenProperty;
-import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.DefaultCodegen;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FileProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String UNDEFINED_VALUE = "undefined";
@@ -221,57 +220,41 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return "{ [key: string]: "+ getTypeDeclaration(inner) + "; }";
-        } else if (p instanceof FileProperty) {
-            return "any";
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) propertySchema).getItems();
+            return String.format("%s<%s>", getSchemaType(propertySchema), getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return String.format("{ [key, string]: %s;}", getTypeDeclaration(inner));
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(propertySchema);
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty sp = (StringProperty) p;
+    public String toDefaultValue(Schema propertySchema) {
+        if (propertySchema instanceof StringSchema) {
+            StringSchema sp = (StringSchema) propertySchema;
             if (sp.getDefault() != null) {
                 return "\"" + sp.getDefault() + "\"";
             }
             return UNDEFINED_VALUE;
-        } else if (p instanceof BooleanProperty) {
+        } else if (propertySchema instanceof BooleanSchema) {
             return UNDEFINED_VALUE;
-        } else if (p instanceof DateProperty) {
+        } else if (propertySchema instanceof DateSchema) {
             return UNDEFINED_VALUE;
-        } else if (p instanceof DateTimeProperty) {
+        } else if (propertySchema instanceof DateTimeSchema) {
             return UNDEFINED_VALUE;
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
+        } else if (propertySchema instanceof NumberSchema) {
+            NumberSchema dp = (NumberSchema) propertySchema;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
             return UNDEFINED_VALUE;
-        } else if (p instanceof FloatProperty) {
-            FloatProperty fp = (FloatProperty) p;
-            if (fp.getDefault() != null) {
-                return fp.getDefault().toString();
-            }
-            return UNDEFINED_VALUE;
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty ip = (IntegerProperty) p;
+        } else if (propertySchema instanceof IntegerSchema) {
+            IntegerSchema ip = (IntegerSchema) propertySchema;
             if (ip.getDefault() != null) {
                 return ip.getDefault().toString();
-            }
-            return UNDEFINED_VALUE;
-        } else if (p instanceof LongProperty) {
-            LongProperty lp = (LongProperty) p;
-            if (lp.getDefault() != null) {
-                return lp.getDefault().toString();
             }
             return UNDEFINED_VALUE;
         } else {
@@ -280,8 +263,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema schema) {
+        String swaggerType = super.getSchemaType(schema);
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
@@ -408,7 +391,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             cm.imports = new TreeSet(cm.imports);
             for (CodegenProperty var : cm.vars) {
                 // name enum with model name, e.g. StatuEnum => Pet.StatusEnum
-                if (Boolean.TRUE.equals(var.isEnum)) {
+                boolean isEnum = getBooleanValue(var, IS_ENUM_EXT_NAME);
+                if (Boolean.TRUE.equals(isEnum)) {
                     var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + "." + var.enumName);
                 }
             }

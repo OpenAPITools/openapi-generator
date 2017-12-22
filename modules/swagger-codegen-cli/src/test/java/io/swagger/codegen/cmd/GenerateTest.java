@@ -24,7 +24,7 @@ public class GenerateTest {
     @Mocked
     DefaultGenerator generator;
 
-    @Test
+    @Test(enabled=false)
     public void testVerbose() throws Exception {
         setupAndRunGenericTest("-v");
 
@@ -45,7 +45,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testRequiredArgs_ShortArgs() throws Exception {
         setupAndRunTest("-i", "swagger.yaml", "-l", "java", "-o", "src/main/java", false, null);
         new FullVerifications() {
@@ -54,7 +54,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testRequiredArgs_LongArgs() throws Exception {
         setupAndRunTest("--input-spec", "swagger.yaml", "--lang", "java", "--output",
                 "src/main/java", false, null);
@@ -64,7 +64,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testTemplateDir() throws Exception {
 
         final String templateDir = "src/main/resources/customTemplates";
@@ -88,7 +88,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testAuth() throws Exception {
 
         final String auth = "hello:world";
@@ -121,7 +121,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testSystemProperties() throws Exception {
 
         setupAndRunGenericTest("-D", "hello=world,foo=bar");
@@ -200,7 +200,7 @@ public class GenerateTest {
     }
 
 
-    @Test
+    @Test(enabled=false)
     public void testConfig() throws Exception {
 
         setupAndRunTest("-i", "swagger.yaml", "-l", "java", "-o", "src/main/java", true,
@@ -220,7 +220,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testSkipOverwrite() throws Exception {
 
         setupAndRunGenericTest("-s");
@@ -240,7 +240,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testApiPackage() throws Exception {
         final String value = "io.foo.bar.api";
         setupAndRunGenericTest("--api-package", value);
@@ -253,7 +253,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testModelPackage() throws Exception {
         final String value = "io.foo.bar.api";
         setupAndRunGenericTest("--model-package", value);
@@ -266,7 +266,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testInstantiationTypes() throws Exception {
 
         setupAndRunGenericTest("--instantiation-types", "hello=world,key=,foo=bar,key2");
@@ -301,7 +301,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testTypeMappings() throws Exception {
         setupAndRunGenericTest("--type-mappings", "hello=world,key=,foo=bar,key2");
 
@@ -335,7 +335,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testAdditionalProperties() throws Exception {
         setupAndRunGenericTest("--additional-properties", "hello=world,key=,foo=bar,key2");
 
@@ -369,7 +369,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testLanguageSpecificPrimitives() throws Exception {
         setupAndRunGenericTest("--language-specific-primitives", "foo,,bar",
                 "--language-specific-primitives", "hello,world");
@@ -388,7 +388,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testImportMappings() throws Exception {
         setupAndRunGenericTest("--import-mappings", "hello=world,key=,foo=bar,key2");
 
@@ -422,7 +422,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testInvokerPackage() throws Exception {
         final String value = "io.foo.bar.api";
         setupAndRunGenericTest("--invoker-package", value);
@@ -435,7 +435,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testGroupId() throws Exception {
         final String value = "io.foo.bar.api";
         setupAndRunGenericTest("--group-id", value);
@@ -448,7 +448,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testArtifactId() throws Exception {
         final String value = "awesome-api";
         setupAndRunGenericTest("--artifact-id", value);
@@ -461,7 +461,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testArtifactVersion() throws Exception {
         final String value = "1.2.3";
         setupAndRunGenericTest("--artifact-version", value);
@@ -474,7 +474,7 @@ public class GenerateTest {
         };
     }
 
-    @Test
+    @Test(enabled=false)
     public void testLibrary() throws Exception {
         final String value = "library1";
         setupAndRunGenericTest("--library", value);

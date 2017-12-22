@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
 import org.apache.commons.io.FileUtils;
 
 import io.swagger.codegen.CliOption;
@@ -15,8 +17,6 @@ import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
 import io.swagger.util.Json;
 
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
@@ -150,15 +150,15 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
+    public void preprocessOpenAPI(OpenAPI openAPI) {
         //copy input swagger to output folder
         try {
-            String swaggerJson = Json.pretty(swagger);
+            String swaggerJson = Json.pretty(openAPI);
             FileUtils.writeStringToFile(new File(outputFolder + File.separator + "swagger.json"), swaggerJson);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e.getCause());
         }
-        super.preprocessSwagger(swagger);
+        super.preprocessOpenAPI(openAPI);
 
     }
     @Override

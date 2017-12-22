@@ -1,9 +1,16 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.*;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -328,49 +335,43 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     /**
      * returns the swagger type for the property
      *
-     * @param p Swagger property object
+     * @param propertySchema Schema property object
      * @return string presentation of the type
      **/
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
-        String type;
-
-        // This maps, for example, long -> Long based on hashes in this type's constructor
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+    public String getSchemaType(Schema propertySchema) {
+        String schemaType = super.getSchemaType(propertySchema);
+        String type = null;
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type)) {
-                return type;
+                return toModelName(type);
             }
         } else {
-            type = swaggerType;
+            type = schemaType;
         }
-
-        // model/object
         return toModelName(type);
     }
 
     /**
      * Output the type declaration of the property
      *
-     * @param p Swagger Property object
+     * @param propertySchema Swagger Property object
      * @return a string presentation of the property type
      */
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) propertySchema;
+            Schema inner = arraySchema.getItems();
             return getTypeDeclaration(inner) + "[]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+        } else if (propertySchema instanceof MapSchema) {
             // TODO not sure if the following map/hash declaration is correct
-            return "{String, " + getTypeDeclaration(inner) + "}";
-        } else if (!languageSpecificPrimitives.contains(getSwaggerType(p))) {
-            return packageName + ".Model." + super.getTypeDeclaration(p);
+            return "{String, " + getTypeDeclaration(propertySchema.getAdditionalProperties()) + "}";
+        } else if (!languageSpecificPrimitives.contains(getSchemaType(propertySchema))) {
+            return packageName + ".Model." + super.getTypeDeclaration(propertySchema);
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(propertySchema);
     }
 
     @Override

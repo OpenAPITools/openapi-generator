@@ -1,19 +1,27 @@
 package io.swagger.codegen;
 
 import io.swagger.codegen.examples.ExampleGenerator;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.Xml;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
+/**
+ import io.swagger.models.Model;
+ import io.swagger.models.ModelImpl;
+ import io.swagger.models.Xml;
+ import io.swagger.models.properties.ArrayProperty;
+ import io.swagger.models.properties.RefProperty;
+ import io.swagger.models.properties.StringProperty;
+ */
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.oas.models.media.XML;
+import io.swagger.util.RefUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,24 +34,35 @@ public class ExampleGeneratorTest {
         final String JSON = "application/json";
         final String XML = "application/xml";
         final String nodeType = "Node";
-        final RefProperty ref = new RefProperty(nodeType);
-        final Model node = new ModelImpl().name(nodeType).property("name", new StringProperty())
-                .property("parent", ref)
-                .property("children", new ArrayProperty(ref))
-                .property("wrappedChildren", new ArrayProperty(ref).xml(new Xml().wrapped(true)));
         final String pairType = "Pair";
-        final ModelImpl pair = new ModelImpl().name(pairType);
-        for (Map.Entry<String, String> item : ImmutableMap.of("first", "First", "second", "Second").entrySet()) {
-            final RefProperty property = new RefProperty(nodeType);
-            property.setXml(new Xml().name(item.getValue()));
-            pair.property(item.getKey(), property);
+        final Schema refSchema = new Schema()
+                .$ref(nodeType)
+                .type("ref");
+        final Schema nodeSchema = new Schema()
+                .name(nodeType)
+                .addProperties("parent", refSchema)
+                .addProperties("name", new StringSchema())
+                .addProperties("children", new ArraySchema().items(refSchema))
+                .addProperties("wrappedChildren", new ArraySchema()
+                        .items(refSchema)
+                        .xml(new XML().wrapped(true)));
+        final Schema pairSchema = new Schema()
+                .name(pairType)
+                .properties(new LinkedHashMap<String, Schema>());
 
+        for (Map.Entry<String, String> item : ImmutableMap.of("first", "First", "second", "Second").entrySet()) {
+            final Schema property = new Schema().type("ref").$ref(nodeType);
+            property.setXml(new XML().name(item.getValue()));
+            pairSchema.getProperties().put(item.getKey(), property);
         }
+
         final Set<String> types = Sets.newHashSet();
         final List<String> expectedTypes = Arrays.asList(JSON, XML);
 
-        final ExampleGenerator eg = new ExampleGenerator(ImmutableMap.of(nodeType, node, pairType, pair));
-        for (Map<String, String> item : eg.generate(null, expectedTypes, new RefProperty(pairType))) {
+        final ExampleGenerator eg = new ExampleGenerator(
+                ImmutableMap.of(RefUtils.constructRef(nodeType), nodeSchema, RefUtils.constructRef(pairType), pairSchema));
+
+        for (Map<String, String> item : eg.generate(null, expectedTypes, new Schema().type("ref").$ref(pairType))) {
             final String example = item.get("example");
             final String contentType = item.get("contentType");
             if (XML.equals(contentType)) {

@@ -9,9 +9,11 @@ import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConfigLoader;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.auth.AuthParser;
-import io.swagger.models.Swagger;
-import io.swagger.models.auth.AuthorizationValue;
-import io.swagger.parser.SwaggerParser;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.parser.models.AuthorizationValue;
+import io.swagger.parser.models.ParseOptions;
+import io.swagger.parser.v3.OpenAPIV3Parser;
 import io.swagger.util.Json;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -46,6 +48,8 @@ public class CodegenConfigurator implements Serializable {
     private boolean skipOverwrite;
     private boolean removeOperationIdPrefix;
     private String templateDir;
+    private String templateEngine;
+    private String templateFileExtension;
     private String auth;
     private String apiPackage;
     private String modelPackage;
@@ -170,6 +174,24 @@ public class CodegenConfigurator implements Serializable {
         }
 
         this.templateDir = f.getAbsolutePath();
+        return this;
+    }
+
+    public String getTemplateEngine() {
+        return templateEngine;
+    }
+
+    public CodegenConfigurator setTemplateEngine(String templateEngine) {
+        this.templateEngine = templateEngine;
+        return this;
+    }
+
+    public String getTemplateFileExtension() {
+        return templateFileExtension;
+    }
+
+    public CodegenConfigurator setTemplateFileExtension(String templateFileExtension) {
+        this.templateFileExtension = templateFileExtension;
         return this;
     }
 
@@ -408,6 +430,8 @@ public class CodegenConfigurator implements Serializable {
         checkAndSetAdditionalProperty(artifactId, CodegenConstants.ARTIFACT_ID);
         checkAndSetAdditionalProperty(artifactVersion, CodegenConstants.ARTIFACT_VERSION);
         checkAndSetAdditionalProperty(templateDir, toAbsolutePathStr(templateDir), CodegenConstants.TEMPLATE_DIR);
+        checkAndSetAdditionalProperty(templateEngine, CodegenConstants.TEMPLATE_ENGINE);
+        checkAndSetAdditionalProperty(templateFileExtension, CodegenConstants.TEMPLATE_FILE_EXTENSION);
         checkAndSetAdditionalProperty(modelNamePrefix, CodegenConstants.MODEL_NAME_PREFIX);
         checkAndSetAdditionalProperty(modelNameSuffix, CodegenConstants.MODEL_NAME_SUFFIX);
         checkAndSetAdditionalProperty(gitUserId, CodegenConstants.GIT_USER_ID);
@@ -428,10 +452,10 @@ public class CodegenConfigurator implements Serializable {
 
         final List<AuthorizationValue> authorizationValues = AuthParser.parse(auth);
 
-        Swagger swagger = new SwaggerParser().read(inputSpec, authorizationValues, true);
+        OpenAPI openAPI = new OpenAPIV3Parser().read(inputSpec, authorizationValues, null);
 
         input.opts(new ClientOpts())
-                .swagger(swagger);
+                .openAPI(openAPI);
 
         return input;
     }

@@ -1,4 +1,12 @@
 package io.swagger.codegen.eiffel;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -6,29 +14,23 @@ import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.EiffelClientCodegen;
-import io.swagger.codegen.languages.KotlinClientCodegen;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.StringProperty;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 @SuppressWarnings("static-method")
 public class EiffelModelTest {
 
     @Test(description = "convert a simple Eiffel model")
     public void simpleModelTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("name", new StringProperty())
-                .property("createdAt", new DateTimeProperty())
-                .required("id")
-                .required("name");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema())
+                .addProperties("createdAt", new DateTimeSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name");
         final DefaultCodegen codegen = new EiffelClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "SAMPLE");
@@ -42,10 +44,10 @@ public class EiffelModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, "null");
         Assert.assertEquals(property1.baseType, "INTEGER_64");
-        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -53,10 +55,10 @@ public class EiffelModelTest {
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property1.defaultValue, "null");
         Assert.assertEquals(property2.baseType, "STRING_32");
-        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property2.required);
-        Assert.assertFalse(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertFalse(getBooleanValue(property2, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -65,21 +67,21 @@ public class EiffelModelTest {
         Assert.assertEquals(property3.name, "created_at");
         Assert.assertEquals(property1.defaultValue, "null");
         Assert.assertEquals(property3.baseType, "DATE_TIME");
-        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(getBooleanValue(property3, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
     
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("urls", new ArrayProperty()
-                        .items(new StringProperty()))
-                .required("id");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("urls", new ArraySchema()
+                        .items(new StringSchema()))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new EiffelClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "SAMPLE");
@@ -92,30 +94,30 @@ public class EiffelModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, "null");
         Assert.assertEquals(property1.baseType, "INTEGER_64");
-        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
         Assert.assertEquals(property2.datatype, "LIST [STRING_32]");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertEquals(property2.baseType, "LIST");
-        Assert.assertFalse(property2.hasMore);
+        Assert.assertFalse(getBooleanValue(property2, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
-        Assert.assertFalse(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isContainer);
+        Assert.assertFalse(getBooleanValue(property2, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
 
     
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
-        final Model model = getMapModel();
+        final Schema schema = getMapSchema();
         final DefaultCodegen codegen = new EiffelClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "SAMPLE");
@@ -129,16 +131,16 @@ public class EiffelModelTest {
         Assert.assertEquals(property1.baseType, "STRING_TABLE");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isContainer);
-        Assert.assertFalse(property1.isPrimitiveType);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
+        Assert.assertFalse(getBooleanValue(property1, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
     }
     
-    private Model getMapModel() {
-        return new ModelImpl()
+    private Schema getMapSchema() {
+        return new Schema()
                 .description("a sample model")
-                .property("mapping", new MapProperty()
-                        .additionalProperties(new StringProperty()))
-                .required("id");
+                .addProperties("mapping", new MapSchema()
+                        .additionalProperties(new StringSchema()))
+                .addRequiredItem("id");
     }
 
 }

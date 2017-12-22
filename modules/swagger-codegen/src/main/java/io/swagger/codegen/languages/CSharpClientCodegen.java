@@ -1,15 +1,29 @@
 package io.swagger.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.oas.models.media.Schema;
 import com.samskivert.mustache.Mustache;
-import io.swagger.codegen.*;
-import io.swagger.models.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
+import static io.swagger.codegen.CodegenConstants.HAS_ENUMS_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 public class CSharpClientCodegen extends AbstractCSharpCodegen {
@@ -502,13 +516,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions) {
+        CodegenModel codegenModel = super.fromModel(name, schema, allDefinitions);
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
-            final Model parentModel = allDefinitions.get(toModelName(codegenModel.parent));
+            final Schema parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             if (parentModel != null) {
                 final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
-                if (codegenModel.hasEnums) {
+                boolean hasEnums = getBooleanValue(codegenModel, HAS_ENUMS_EXT_NAME);
+                if (hasEnums) {
                     codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
                 }
 
@@ -528,8 +543,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     // helper list of parentVars simplifies templating
                     if (!propertyHash.containsKey(property.name)) {
                         final CodegenProperty parentVar = property.clone();
-                        parentVar.isInherited = true;
-                        parentVar.hasMore = true;
+                        parentVar.getVendorExtensions().put(CodegenConstants.IS_INHERITED_EXT_NAME, Boolean.TRUE);
+                        parentVar.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, Boolean.TRUE);
                         last = parentVar;
                         LOGGER.info("adding parent variable {}", property.name);
                         codegenModel.parentVars.add(parentVar);
@@ -537,7 +552,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 }
 
                 if (last != null) {
-                    last.hasMore = false;
+                    last.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, Boolean.FALSE);
                 }
             }
         }
@@ -631,7 +646,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         // Because the child models extend the parents, the enums will be available via the parent.
 
         // Only bother with reconciliation if the parent model has enums.
-        if (parentCodegenModel.hasEnums) {
+        boolean hasEnums = getBooleanValue(parentCodegenModel, HAS_ENUMS_EXT_NAME);
+        if (hasEnums) {
 
             // Get the properties for the parent and child models
             final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
@@ -641,13 +657,15 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             boolean removedChildEnum = false;
             for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
                 // Look for enums
-                if (parentModelCodegenPropery.isEnum) {
+                boolean isEnum = getBooleanValue(parentModelCodegenPropery, IS_ENUM_EXT_NAME);
+                if (isEnum) {
                     // Now that we have found an enum in the parent class,
                     // and search the child class for the same enum.
                     Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                     while (iterator.hasNext()) {
                         CodegenProperty codegenProperty = iterator.next();
-                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
+                        isEnum = getBooleanValue(codegenProperty, IS_ENUM_EXT_NAME);
+                        if (isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
                             // We found an enum in the child class that is
                             // a duplicate of the one in the parent, so remove it.
                             iterator.remove();
@@ -662,7 +680,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 int count = 0, numVars = codegenProperties.size();
                 for (CodegenProperty codegenProperty : codegenProperties) {
                     count += 1;
-                    codegenProperty.hasMore = count < numVars;
+                    codegenProperty.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, count < numVars);
                 }
                 codegenModel.vars = codegenProperties;
             }

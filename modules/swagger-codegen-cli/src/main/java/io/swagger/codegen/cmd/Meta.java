@@ -5,8 +5,6 @@ import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-import io.airlift.airline.Command;
-import io.airlift.airline.Option;
 import io.swagger.codegen.DefaultGenerator;
 import io.swagger.codegen.SupportingFile;
 import org.apache.commons.io.FileUtils;
@@ -25,10 +23,6 @@ import static com.google.common.base.Joiner.on;
 /**
  * User: lanwen Date: 24.03.15 Time: 20:22
  */
-
-@Command(name = "meta", description = "MetaGenerator. Generator for creating a new template set "
-        + "and configuration for Codegen.  The output will be based on the language you "
-        + "specify, and includes default templates to include.")
 public class Meta implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Meta.class);
@@ -36,17 +30,21 @@ public class Meta implements Runnable {
     private static final String TEMPLATE_DIR_CLASSPATH = "codegen";
     private static final String MUSTACHE_EXTENSION = ".mustache";
 
-    @Option(name = {"-o", "--output"}, title = "output directory",
-            description = "where to write the generated files (current dir by default)")
     private String outputFolder = "";
-
-    @Option(name = {"-n", "--name"}, title = "name",
-            description = "the human-readable name of the generator")
     private String name = "default";
-
-    @Option(name = {"-p", "--package"}, title = "package",
-            description = "the package to put the main class into (defaults to io.swagger.codegen)")
     private String targetPackage = "io.swagger.codegen";
+
+    public void setOutputFolder(String outputFolder) {
+        this.outputFolder = outputFolder;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTargetPackage(String targetPackage) {
+        this.targetPackage = targetPackage;
+    }
 
     @Override
     public void run() {

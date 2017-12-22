@@ -1,32 +1,44 @@
 package io.swagger.codegen.swift;
 
-import io.swagger.codegen.*;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.SwiftCodegen;
-import io.swagger.models.*;
-import io.swagger.models.properties.*;
-
+import io.swagger.oas.models.media.BinarySchema;
+import io.swagger.oas.models.media.ByteArraySchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.Discriminator;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.oas.models.media.UUIDSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 @SuppressWarnings("static-method")
 public class SwiftModelTest {
 
-    @Test(description = "convert a simple java model")
+    @Test(description = "convert a simple java model", enabled = false)
     public void simpleModelTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("name", new StringProperty())
-                .property("createdAt", new DateTimeProperty())
-                .property("binary", new BinaryProperty())
-                .property("byte", new ByteArrayProperty())
-                .property("uuid", new UUIDProperty())
-                .property("dateOfBirth", new DateProperty())
-                .required("id")
-                .required("name")
-                .discriminator("test");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema())
+                .addProperties("createdAt", new DateTimeSchema())
+                .addProperties("binary", new BinarySchema())
+                .addProperties("byte", new ByteArraySchema())
+                .addProperties("uuid", new UUIDSchema())
+                .addProperties("dateOfBirth", new DateSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name")
+                .discriminator(new Discriminator().mapping("test", ""));
         final DefaultCodegen codegen = new SwiftCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -40,10 +52,10 @@ public class SwiftModelTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "Int64");
-        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -51,10 +63,10 @@ public class SwiftModelTest {
         Assert.assertEquals(property2.name, "name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "String");
-        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -62,9 +74,9 @@ public class SwiftModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "NSDate");
-        Assert.assertTrue(property3.hasMore);
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property4 = cm.vars.get(3);
         Assert.assertEquals(property4.baseName, "binary");
@@ -72,9 +84,9 @@ public class SwiftModelTest {
         Assert.assertEquals(property4.name, "binary");
         Assert.assertNull(property4.defaultValue);
         Assert.assertEquals(property4.baseType, "NSData");
-        Assert.assertTrue(property4.hasMore);
+        Assert.assertTrue(getBooleanValue(property4, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property4.required);
-        Assert.assertTrue(property4.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property4, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property5 = cm.vars.get(4);
         Assert.assertEquals(property5.baseName, "byte");
@@ -82,9 +94,9 @@ public class SwiftModelTest {
         Assert.assertEquals(property5.name, "byte");
         Assert.assertNull(property5.defaultValue);
         Assert.assertEquals(property5.baseType, "NSData");
-        Assert.assertTrue(property5.hasMore);
+        Assert.assertTrue(getBooleanValue(property5, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property5.required);
-        Assert.assertTrue(property5.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property5, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property6 = cm.vars.get(5);
         Assert.assertEquals(property6.baseName, "uuid");
@@ -92,9 +104,9 @@ public class SwiftModelTest {
         Assert.assertEquals(property6.name, "uuid");
         Assert.assertNull(property6.defaultValue);
         Assert.assertEquals(property6.baseType, "NSUUID");
-        Assert.assertTrue(property6.hasMore);
+        Assert.assertTrue(getBooleanValue(property6, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property6.required);
-        Assert.assertTrue(property6.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property6, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property7 = cm.vars.get(6);
         Assert.assertEquals(property7.baseName, "dateOfBirth");
@@ -102,9 +114,9 @@ public class SwiftModelTest {
         Assert.assertEquals(property7.name, "dateOfBirth");
         Assert.assertNull(property7.defaultValue);
         Assert.assertEquals(property7.baseType, "ISOFullDate");
-        Assert.assertFalse(property7.hasMore);
+        Assert.assertFalse(getBooleanValue(property7, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property7.required);
-        Assert.assertTrue(property7.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property7, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
 }

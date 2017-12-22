@@ -5,10 +5,10 @@ import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.RefProperty;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -136,36 +136,34 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema schema) {
+        if (schema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) schema;
+            Schema inner = arraySchema.getItems();
             return getTypeDeclaration(inner) + "[]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "[string," + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof RefProperty) {
-            String type = super.getTypeDeclaration(p);
+        } else if (schema instanceof MapSchema) {
+            return getSchemaType(schema) + "[string," + getTypeDeclaration(schema.getAdditionalProperties()) + "]";
+        } else if (StringUtils.isNotBlank(schema.get$ref())) {
+            String type = super.getTypeDeclaration(schema);
             return (!languageSpecificPrimitives.contains(type))
                     ? "\\" + modelPackage + "\\" + type : type;
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(schema);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema schema) {
+        String schemaType = super.getSchemaType(schema);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             } else if (instantiationTypes.containsKey(type)) {
                 return type;
             }
         } else {
-            type = swaggerType;
+            type = schemaType;
         }
         if (type == null) {
             return null;
@@ -182,7 +180,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
-    public String toDefaultValue(Property p) {
+    public String toDefaultValue(Schema schema) {
         return "null";
     }
 

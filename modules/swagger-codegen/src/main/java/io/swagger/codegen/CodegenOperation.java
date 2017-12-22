@@ -1,25 +1,26 @@
 package io.swagger.codegen;
 
-import io.swagger.models.ExternalDocs;
-import io.swagger.models.Tag;
+
+
+import io.swagger.oas.models.ExternalDocumentation;
+import io.swagger.oas.models.media.Discriminator;
+import io.swagger.oas.models.parameters.RequestBody;
+import io.swagger.oas.models.tags.Tag;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Arrays;
 
-public class CodegenOperation {
+public class CodegenOperation implements VendorExtendable {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
-    public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
-            returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMapContainer,
-            isListContainer, isMultipart, hasMore = true,
-            isResponseBinary = false, isResponseFile = false, hasReference = false,
-            isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated;
+    public boolean returnTypeIsPrimitive, returnSimpleType, subresourceOperation;
     public String path, operationId, returnType, httpMethod, returnBaseType,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator;
+            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
+    public Discriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public CodegenParameter bodyParam;
     public List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
@@ -35,8 +36,8 @@ public class CodegenOperation {
     public Set<String> imports = new HashSet<String>();
     public List<Map<String, String>> examples;
     public List<Map<String, String>> requestBodyExamples;
-    public ExternalDocs externalDocs;
-    public Map<String, Object> vendorExtensions;
+    public ExternalDocumentation externalDocs;
+    public Map<String, Object> vendorExtensions = new HashMap<>();
     public String nickname; // legacy support
     public String operationIdLowerCase; // for markdown documentation
     public String operationIdCamelCase; // for class names
@@ -202,38 +203,6 @@ public class CodegenOperation {
 
         if (responseHeaders != null ? !responseHeaders.equals(that.responseHeaders) : that.responseHeaders != null)
             return false;
-        if (hasAuthMethods != that.hasAuthMethods)
-            return false;
-        if (hasConsumes != that.hasConsumes)
-            return false;
-        if (hasProduces != that.hasProduces)
-            return false;
-        if (hasParams != that.hasParams)
-            return false;
-        if (hasOptionalParams != that.hasOptionalParams)
-            return false;
-        if (returnTypeIsPrimitive != that.returnTypeIsPrimitive)
-            return false;
-        if (returnSimpleType != that.returnSimpleType)
-            return false;
-        if (subresourceOperation != that.subresourceOperation)
-            return false;
-        if (isMapContainer != that.isMapContainer)
-            return false;
-        if (isListContainer != that.isListContainer)
-            return false;
-        if (isMultipart != that.isMultipart)
-            return false;
-        if (hasMore != that.hasMore)
-            return false;
-        if (isResponseBinary != that.isResponseBinary)
-            return false;
-        if (hasReference != that.hasReference)
-            return false;
-        if (isResponseFile != that.isResponseFile)
-            return false;
-        if (isDeprecated != that.isDeprecated)
-            return false;
         if (path != null ? !path.equals(that.path) : that.path != null)
             return false;
         if (operationId != null ? !operationId.equals(that.operationId) : that.operationId != null)
@@ -303,22 +272,6 @@ public class CodegenOperation {
     @Override
     public int hashCode() {
         int result = responseHeaders.hashCode();
-        result = 31 * result + (hasAuthMethods ? 13:31);
-        result = 31 * result + (hasConsumes ? 13:31);
-        result = 31 * result + (hasProduces ? 13:31);
-        result = 31 * result + (hasParams ? 13:31);
-        result = 31 * result + (hasOptionalParams ? 13:31);
-        result = 31 * result + (returnTypeIsPrimitive ? 13:31);
-        result = 31 * result + (returnSimpleType ? 13:31);
-        result = 31 * result + (subresourceOperation ? 13:31);
-        result = 31 * result + (isMapContainer ? 13:31);
-        result = 31 * result + (isListContainer ? 13:31);
-        result = 31 * result + (isMultipart ? 13:31);
-        result = 31 * result + (hasMore ? 13:31);
-        result = 31 * result + (isResponseBinary ? 13:31);
-        result = 31 * result + (isResponseFile ? 13:31);
-        result = 31 * result + (hasReference ? 13:31);
-        result = 31 * result + (isDeprecated ? 13:31);
         result = 31 * result + (path != null ? path.hashCode() : 0);
         result = 31 * result + (operationId != null ? operationId.hashCode() : 0);
         result = 31 * result + (returnType != null ? returnType.hashCode() : 0);
@@ -352,5 +305,162 @@ public class CodegenOperation {
         result = 31 * result + (operationIdLowerCase != null ? operationIdLowerCase.hashCode() : 0);
         result = 31 * result + (operationIdCamelCase != null ? operationIdCamelCase.hashCode() : 0);
         return result;
+    }
+
+    public List<CodegenProperty> getResponseHeaders() {
+        return responseHeaders;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getOperationId() {
+        return operationId;
+    }
+
+    public String getReturnType() {
+        return returnType;
+    }
+
+    public String getHttpMethod() {
+        return httpMethod;
+    }
+
+    public String getReturnBaseType() {
+        return returnBaseType;
+    }
+
+    public String getReturnContainer() {
+        return returnContainer;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public String getUnescapedNotes() {
+        return unescapedNotes;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public String getBaseName() {
+        return baseName;
+    }
+
+    public String getDefaultResponse() {
+        return defaultResponse;
+    }
+
+    public Discriminator getDiscriminator() {
+        return discriminator;
+    }
+
+    public List<Map<String, String>> getConsumes() {
+        return consumes;
+    }
+
+    public List<Map<String, String>> getProduces() {
+        return produces;
+    }
+
+    public List<Map<String, String>> getPrioritizedContentTypes() {
+        return prioritizedContentTypes;
+    }
+
+    public CodegenParameter getBodyParam() {
+        return bodyParam;
+    }
+
+    public List<CodegenParameter> getAllParams() {
+        return allParams;
+    }
+
+    public List<CodegenParameter> getBodyParams() {
+        return bodyParams;
+    }
+
+    public List<CodegenParameter> getPathParams() {
+        return pathParams;
+    }
+
+    public List<CodegenParameter> getQueryParams() {
+        return queryParams;
+    }
+
+    public List<CodegenParameter> getHeaderParams() {
+        return headerParams;
+    }
+
+    public List<CodegenParameter> getFormParams() {
+        return formParams;
+    }
+
+    public boolean getReturnTypeIsPrimitive() {
+        return returnTypeIsPrimitive;
+    }
+
+    public boolean getReturnSimpleType() {
+        return returnSimpleType;
+    }
+
+    public boolean getSubresourceOperation() {
+        return subresourceOperation;
+    }
+
+    public List<CodegenParameter> getRequiredParams() {
+        return requiredParams;
+    }
+
+    public List<CodegenSecurity> getAuthMethods() {
+        return authMethods;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public List<CodegenResponse> getResponses() {
+        return responses;
+    }
+
+    public Set<String> getImports() {
+        return imports;
+    }
+
+    public List<Map<String, String>> getExamples() {
+        return examples;
+    }
+
+    public List<Map<String, String>> getRequestBodyExamples() {
+        return requestBodyExamples;
+    }
+
+    public ExternalDocumentation getExternalDocs() {
+        return externalDocs;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getOperationIdLowerCase() {
+        return operationIdLowerCase;
+    }
+
+    public String getOperationIdCamelCase() {
+        return operationIdCamelCase;
+    }
+
+    public String getOperationIdSnakeCase() {
+        return operationIdSnakeCase;
+    }
+
+    @Override
+    public Map<String, Object> getVendorExtensions() {
+        return this.vendorExtensions;
     }
 }

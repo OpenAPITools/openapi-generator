@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import static io.swagger.codegen.languages.JavaClientCodegen.RETROFIT_2;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.codegen.CodegenConstants;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -102,22 +104,22 @@ public class JavaClientCodegenTest {
         javaClientCodegen.postProcessOperations(objs);
 
         Assert.assertEquals(Arrays.asList(pathParam1, pathParam2, queryParamRequired, queryParamOptional), codegenOperation.allParams);
-        Assert.assertTrue(pathParam1.hasMore);
-        Assert.assertTrue(pathParam2.hasMore);
-        Assert.assertTrue(queryParamRequired.hasMore);
-        Assert.assertFalse(queryParamOptional.hasMore);
+        Assert.assertTrue(getBooleanValue(pathParam1, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(pathParam2, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(queryParamRequired, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertFalse(getBooleanValue(queryParamOptional, CodegenConstants.HAS_MORE_EXT_NAME));
 
     }
 
     private CodegenParameter createPathParam(String name) {
         CodegenParameter codegenParameter = createStringParam(name);
-        codegenParameter.isPathParam = true;
+        codegenParameter.getVendorExtensions().put(CodegenConstants.IS_PATH_PARAM_EXT_NAME, true);
         return codegenParameter;
     }
 
     private CodegenParameter createQueryParam(String name, boolean required) {
         CodegenParameter codegenParameter = createStringParam(name);
-        codegenParameter.isQueryParam = true;
+        codegenParameter.getVendorExtensions().put(CodegenConstants.IS_QUERY_PARAM_EXT_NAME, true);
         codegenParameter.required = required;
         return codegenParameter;
     }

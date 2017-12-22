@@ -1,37 +1,36 @@
 package io.swagger.codegen.csharp;
 
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.CSharpClientCodegen;
-import io.swagger.models.ArrayModel;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
-import io.swagger.parser.SwaggerParser;
 
 import com.google.common.collect.Sets;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 @SuppressWarnings("static-method")
 public class CSharpModelTest {
 
     @Test(description = "convert a model with array property to default List<T>")
     public void arrayPropertyTest() {
-        final Model model = getArrayTestModel();
+        final Schema schema = getArrayTestSchema();
 
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel generated = codegen.fromModel("sample", model);
+        final CodegenModel generated = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.classname, "Sample");
@@ -48,17 +47,17 @@ public class CSharpModelTest {
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with array property to Collection<T>")
     public void arrayPropertyCollectionOptionTest() {
-        final Model model = getArrayTestModel();
+        final Schema schema = getArrayTestSchema();
 
         final CSharpClientCodegen codegen = new CSharpClientCodegen();
         codegen.setUseCollection(true);
 
-        final CodegenModel generated = codegen.fromModel("sample", model);
+        final CodegenModel generated = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.vars.size(), 2);
@@ -71,18 +70,18 @@ public class CSharpModelTest {
         Assert.assertEquals(property.baseType, "Collection");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with array property to Collection<T>")
     public void arrayPropertyICollectionOptionTest() {
-        final Model model = getArrayTestModel();
+        final Schema schema = getArrayTestSchema();
 
         final CSharpClientCodegen codegen = new CSharpClientCodegen();
         codegen.setUseCollection(true);
         codegen.setReturnICollection(true);
 
-        final CodegenModel generated = codegen.fromModel("sample", model);
+        final CodegenModel generated = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.vars.size(), 2);
@@ -97,26 +96,26 @@ public class CSharpModelTest {
                 "returnICollection option should not modify property baseType");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isContainer);
+        Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    private Model getArrayTestModel() {
-        return new ModelImpl()
+    private Schema getArrayTestSchema() {
+        return new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("examples", new ArrayProperty().items(new StringProperty()))
-                .required("id");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("examples", new ArraySchema().items(new StringSchema()))
+                .addRequiredItem("id");
     }
 
     @Test(description = "convert a simple model")
     public void simpleModelTest() {
-        final Model model = new ModelImpl()
+        final Schema model = new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("name", new StringProperty())
-                .property("createdAt", new DateTimeProperty())
-                .required("id")
-                .required("name");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema())
+                .addProperties("createdAt", new DateTimeSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name");
         final DefaultCodegen codegen = new CSharpClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -131,10 +130,10 @@ public class CSharpModelTest {
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "long?");
-        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -142,10 +141,10 @@ public class CSharpModelTest {
         Assert.assertEquals(property2.name, "Name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "string");
-        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -153,19 +152,19 @@ public class CSharpModelTest {
         Assert.assertEquals(property3.name, "CreatedAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "DateTime?");
-        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(getBooleanValue(property3, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema model = new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("urls", new ArrayProperty()
-                        .items(new StringProperty()))
-                .required("id");
+                .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("urls", new ArraySchema()
+                        .items(new StringSchema()))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new CSharpClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -180,10 +179,10 @@ public class CSharpModelTest {
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "long?");
-        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
@@ -191,22 +190,22 @@ public class CSharpModelTest {
         Assert.assertEquals(property2.name, "Urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "List");
-        Assert.assertFalse(property2.hasMore);
+        Assert.assertFalse(getBooleanValue(property2, CodegenConstants.HAS_MORE_EXT_NAME));
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
-        Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isContainer);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("translations", new MapProperty()
-                        .additionalProperties(new StringProperty()))
-                .required("id");
+                .addProperties("translations", new MapSchema()
+                        .additionalProperties(new StringSchema()))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -220,17 +219,17 @@ public class CSharpModelTest {
         Assert.assertEquals(property1.baseType, "Dictionary");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isContainer);
-        Assert.assertTrue(property1.isPrimitiveType);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("children", new RefProperty("#/definitions/Children"));
+                .addProperties("children", new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -243,17 +242,17 @@ public class CSharpModelTest {
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex list property")
     public void complexListPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("children", new ArrayProperty()
-                        .items(new RefProperty("#/definitions/Children")));
+                .addProperties("children", new ArraySchema()
+                        .items(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -268,17 +267,17 @@ public class CSharpModelTest {
         Assert.assertEquals(property1.baseType, "List");
         Assert.assertEquals(property1.containerType, "array");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isContainer);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert a model with complex map property")
     public void complexMapPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("children", new MapProperty()
-                        .additionalProperties(new RefProperty("#/definitions/Children")));
+                .addProperties("children", new MapSchema()
+                        .additionalProperties(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -294,17 +293,17 @@ public class CSharpModelTest {
         Assert.assertEquals(property1.baseType, "Dictionary");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isContainer);
-        Assert.assertFalse(property1.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
+        Assert.assertFalse(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
     @Test(description = "convert an array model")
     public void arrayModelTest() {
-        final Model model = new ArrayModel()
-                .description("an array model")
-                .items(new RefProperty("#/definitions/Children"));
+        final Schema schema = new ArraySchema()
+                .items(new Schema().$ref("#/components/schemas/Children"))
+                .description("an array model");
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -317,11 +316,11 @@ public class CSharpModelTest {
 
     @Test(description = "convert an map model")
     public void mapModelTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a map model")
-                .additionalProperties(new RefProperty("#/definitions/Children"));
+                .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

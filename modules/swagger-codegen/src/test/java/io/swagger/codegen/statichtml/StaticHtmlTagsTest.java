@@ -12,6 +12,10 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.PathItem;
+import io.swagger.parser.v3.OpenAPIV3Parser;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.rules.TemporaryFolder;
 import org.testng.annotations.AfterMethod;
@@ -26,10 +30,6 @@ import io.swagger.codegen.ClientOpts;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.DefaultGenerator;
 import io.swagger.codegen.languages.StaticHtmlGenerator;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
 
 public class StaticHtmlTagsTest {
 
@@ -47,13 +47,14 @@ public class StaticHtmlTagsTest {
     
     @Test 
     public void testApiTags() throws Exception {
-        final Swagger swagger = new SwaggerParser().read("src/test/resources/2_0/petstore.json");
+        // TODO: update json file.
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/petstore.json");
 
         final int maxTagsToTest = 2; // how to flip it randomly from 2 to 1, and shuffle ops?
         // if an op has a few tags it will be duplicated here, but it's exactly what we expect in doc
         final List<Operation> expectedOperations = new ArrayList<Operation>();
         
-        final String capitalCommatizedTags = pickupFewTagsAndOps(swagger,
+        final String capitalCommatizedTags = pickupFewTagsAndOps(openAPI,
                 maxTagsToTest, expectedOperations);
         
         final Collection<Object> seenOperations = new ArrayList<Object>();
@@ -71,7 +72,7 @@ public class StaticHtmlTagsTest {
         };
         codegenConfig.setOutputDir(folder.getRoot().getAbsolutePath());
             
-        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger)
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI)
                 .config(codegenConfig);
 
         final String apisBackup = System.setProperty("apis", capitalCommatizedTags);
@@ -90,11 +91,10 @@ public class StaticHtmlTagsTest {
         }
     }
 
-    protected String pickupFewTagsAndOps(final Swagger swagger,
-            final int maxTagsToTest, final Collection<Operation> expectedOperations) {
+    protected String pickupFewTagsAndOps(final OpenAPI openAPI, final int maxTagsToTest, final Collection<Operation> expectedOperations) {
         Set<String> expectedTags = new HashSet<String>();
-        for ( Path path:swagger.getPaths().values() ) {
-            for ( Operation op : path.getOperations() ) {
+        for (PathItem path:openAPI.getPaths().values() ) {
+            for ( Operation op : path.readOperations() ) {
                 for ( String tag : op.getTags() ) {
                     if (expectedTags.size() < maxTagsToTest) {
                         expectedTags.add(tag);

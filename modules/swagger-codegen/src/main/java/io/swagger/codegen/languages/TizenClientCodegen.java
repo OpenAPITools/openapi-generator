@@ -4,19 +4,15 @@ import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DecimalProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.NumberSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -129,10 +125,10 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public String toInstantiationType(Property p) {
-        if (p instanceof MapProperty) {
+    public String toInstantiationType(Schema schema) {
+        if (schema instanceof MapSchema) {
             return instantiationTypes.get("map");
-        } else if (p instanceof ArrayProperty) {
+        } else if (schema instanceof ArraySchema) {
             return instantiationTypes.get("array");
         } else {
             return null;
@@ -149,8 +145,8 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema schema) {
+        String swaggerType = super.getSchemaType(schema);
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
@@ -164,8 +160,8 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        String swaggerType = getSwaggerType(p);
+    public String getTypeDeclaration(Schema schema) {
+        String swaggerType = getSchemaType(schema);
         if (languageSpecificPrimitives.contains(swaggerType)) {
             return toModelName(swaggerType);
         } else {
@@ -200,30 +196,29 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     //Might not be needed
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
+    public String toDefaultValue(Schema schema) {
+        if (schema instanceof StringSchema) {
             return "std::string()";
-        } else if (p instanceof BooleanProperty) {
+        } else if (schema instanceof BooleanSchema) {
             return "bool(false)";
-        } else if (p instanceof DoubleProperty) {
+        }  else if (schema instanceof NumberSchema) {
+            if(SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) {
+                return "float(0)";
+            }
             return "double(0)";
-        } else if (p instanceof FloatProperty) {
-            return "float(0)";
-        } else if (p instanceof IntegerProperty) {
+        } else if (schema instanceof IntegerSchema) {
+            if(SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
+                return "long(0)";
+            }
             return "int(0)";
-        } else if (p instanceof LongProperty) {
-            return "long(0)";
-        } else if (p instanceof DecimalProperty) {
-            return "long(0)";
-        } else if (p instanceof MapProperty) {
+        } else if (schema instanceof MapSchema) {
             return "new std::map()";
-        } else if (p instanceof ArrayProperty) {
+        } else if (schema instanceof ArraySchema) {
             return "new std::list()";
         }
         // else
-        if (p instanceof RefProperty) {
-            RefProperty rp = (RefProperty) p;
-            return "new " + toModelName(rp.getSimpleRef()) + "()";
+        if (StringUtils.isNotBlank(schema.get$ref())) {
+            return "new " + toModelName(schema.get$ref()) + "()";
         }
         return "null";
     }

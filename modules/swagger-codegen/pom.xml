@@ -205,11 +205,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-compat-spec-parser</artifactId>
-            <version>${swagger-parser-version}</version>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>swagger-core</artifactId>
             <version>${swagger-core-version}</version>
@@ -250,6 +245,11 @@
             <version>${commons-cli-version}</version>
         </dependency>
         <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.9.7</version>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
 <!--             <version>${testng-version}</version> -->
@@ -283,6 +283,11 @@
             <artifactId>mockito-core</artifactId>
             <version>2.8.47</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jknack</groupId>
+            <artifactId>handlebars</artifactId>
+            <version>4.0.6</version>
         </dependency>
 
     </dependencies>

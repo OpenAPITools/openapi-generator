@@ -1,15 +1,15 @@
 package io.swagger.codegen;
 
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.Property;
-import io.swagger.parser.SwaggerParser;
-
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.parser.models.ParseOptions;
+import io.swagger.parser.v3.OpenAPIV3Parser;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class CodegenTest {
 
@@ -55,30 +55,25 @@ public class CodegenTest {
         Assert.assertEquals(codegen.camelize("foo-bar-xyzzy"), "FooBarXyzzy");
     }
 
+
     @Test(description = "read a file upload param from a 2.0 spec")
+    // TODO: add more assertions.
     public void fileUploadParamTest() {
-        final Swagger model = parseAndPrepareSwagger("src/test/resources/2_0/petstore.json");
+        final OpenAPI openAPI = parseOpenAPI("src/test/resources/3_0_0/petstore.json");
         final DefaultCodegen codegen = new DefaultCodegen();
         final String path = "/pet/{petId}/uploadImage";
-        final Operation p = model.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, model.getDefinitions());
+        final Operation operation = openAPI.getPaths().get(path).getPost();
+        final CodegenOperation codegenOperation = codegen.fromOperation(path, "post", operation, openAPI.getComponents().getSchemas());
 
-        Assert.assertEquals(op.operationId, "uploadFile");
-        Assert.assertEquals(op.httpMethod, "POST");
-        Assert.assertTrue(op.hasConsumes);
-        Assert.assertEquals(op.consumes.size(), 1);
-        Assert.assertEquals(op.consumes.get(0).get("mediaType"), "multipart/form-data");
-        Assert.assertTrue(op.hasProduces);
-        Assert.assertEquals(op.allParams.size(), 3);
-        Assert.assertEquals(op.formParams.size(), 2);
-
-        final CodegenParameter file = op.formParams.get(1);
-        Assert.assertTrue(file.isFormParam);
-        Assert.assertEquals(file.dataType, "File");
-        Assert.assertFalse(file.required);
-        Assert.assertTrue(file.isFile);
-        Assert.assertFalse(file.hasMore);
+        Assert.assertEquals(codegenOperation.operationId, "uploadFile");
+        Assert.assertEquals(codegenOperation.httpMethod, "POST");
+        Assert.assertTrue(getBooleanValue(codegenOperation, CodegenConstants.HAS_CONSUMES_EXT_NAME));
+        Assert.assertEquals(codegenOperation.consumes.size(), 1);
+        Assert.assertEquals(codegenOperation.consumes.get(0).get("mediaType"), "multipart/form-data");
+        Assert.assertFalse(getBooleanValue(codegenOperation, CodegenConstants.HAS_PRODUCES_EXT_NAME));
+        Assert.assertEquals(codegenOperation.allParams.size(), 1);
     }
+    /** todo: uncomment when inline model resolver be implemented on parser
 
     @Test(description = "read formParam values from a 2.0 spec")
     public void formParamTest() {
@@ -430,5 +425,14 @@ public class CodegenTest {
         final CodegenOperation op = codegen.fromOperation(path, "get", p, model.getDefinitions());
 
         Assert.assertTrue(op.isDeprecated);
+    }
+    */
+
+    private static OpenAPI parseOpenAPI(String path) {
+        final ParseOptions options = new ParseOptions();
+        options.setFlatten(Boolean.TRUE);
+        return new OpenAPIV3Parser()
+                .readLocation(path, null, options)
+                .getOpenAPI();
     }
 }

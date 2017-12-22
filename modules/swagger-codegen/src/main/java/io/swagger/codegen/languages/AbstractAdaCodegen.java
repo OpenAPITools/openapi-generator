@@ -3,7 +3,7 @@ package io.swagger.codegen.languages;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
-import io.swagger.models.properties.Property;
+import io.swagger.oas.models.media.Schema;
 
 import java.util.Arrays;
 
@@ -153,8 +153,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Property p) {
-        CodegenProperty property = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema schema) {
+        CodegenProperty property = super.fromProperty(name, schema);
         String nameInCamelCase = property.nameInCamelCase;
         nameInCamelCase = sanitizeName(nameInCamelCase);
         property.nameInCamelCase = nameInCamelCase;

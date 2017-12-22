@@ -6,8 +6,8 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
 import io.swagger.util.Yaml;
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static io.swagger.codegen.CodegenConstants.HAS_ENUMS_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
@@ -148,10 +152,11 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         super.postProcessModelProperty(model, property);
 
         //Add imports for Jackson
-        if(!BooleanUtils.toBoolean(model.isEnum)) {
+        boolean isEnum = getBooleanValue(model, IS_ENUM_EXT_NAME);
+        if(!BooleanUtils.toBoolean(isEnum)) {
             model.imports.add("JsonProperty");
-
-            if(BooleanUtils.toBoolean(model.hasEnums)) {
+            boolean hasEnums = getBooleanValue(model, HAS_ENUMS_EXT_NAME);
+            if(BooleanUtils.toBoolean(hasEnums)) {
                 model.imports.add("JsonValue");
             }
         }
@@ -168,7 +173,8 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
             // for enum model
-            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+            boolean isEnum = getBooleanValue(cm, IS_ENUM_EXT_NAME);
+            if (Boolean.TRUE.equals(isEnum) && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));
                 Map<String, String> item = new HashMap<String, String>();
                 item.put("import", importMapping.get("JsonValue"));
@@ -199,10 +205,10 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Swagger swagger = (Swagger)objs.get("swagger");
-        if(swagger != null) {
+        OpenAPI openAPI = (OpenAPI) objs.get("openapi");
+        if(openAPI != null) {
             try {
-                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
+                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(openAPI));
             } catch (JsonProcessingException e) {
                 LOGGER.error(e.getMessage(), e);
             }

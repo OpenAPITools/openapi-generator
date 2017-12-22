@@ -1,11 +1,20 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.*;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.SupportingFile;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -94,7 +103,7 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
             // Collect models to be imported
             for (CodegenParameter param : op.allParams) {
-                if (!param.isPrimitiveType) {
+                if (!getBooleanValue(param, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME)) {
                     modelImports.add(param.dataType);
                 }
             }
@@ -118,7 +127,8 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
             cm.imports = new TreeSet(cm.imports);
             for (CodegenProperty var : cm.vars) {
                 // name enum with model name, e.g. StatuEnum => PetStatusEnum
-                if (Boolean.TRUE.equals(var.isEnum)) {
+                boolean isEnum = getBooleanValue(var, IS_ENUM_EXT_NAME);
+                if (Boolean.TRUE.equals(isEnum)) {
                     var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                     var.enumName = cm.classname + var.enumName;
                 }

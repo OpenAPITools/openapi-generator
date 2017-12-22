@@ -1,0 +1,70 @@
+{{>licenseInfo}}
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import {{invokerPackage}}.Configuration;
+
+import org.junit.Test;
+import org.junit.Ignore;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.runner.RunWith;
+
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.Vertx;
+import io.vertx.ext.unit.junit.VertxUnitRunner;
+import io.vertx.ext.unit.junit.RunTestOnContext;
+import io.vertx.ext.unit.TestContext;
+import io.vertx.ext.unit.Async;
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+/**
+ * API tests for {{classname}}
+ */
+@RunWith(VertxUnitRunner.class)
+@Ignore
+public class {{classname}}Test {
+
+    private {{classname}} api;
+
+    @Rule
+    public RunTestOnContext rule = new RunTestOnContext();
+
+    @BeforeClass
+    public void setupApiClient() {
+        JsonObject config = new JsonObject();
+        Vertx vertx = rule.vertx();
+        Configuration.setupDefaultApiClient(vertx, config);
+
+        api = new {{classname}}Impl();
+    }
+    {{#operations}}{{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     *
+     * @param context Vertx test context for doing assertions
+     */
+    @Test
+    public void {{operationId}}Test(TestContext context) {
+        Async async = context.async();
+        {{#allParams}}
+        {{{dataType}}} {{paramName}} = null;
+        {{/allParams}}
+        api.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}result -> {
+            // TODO: test validations
+            async.complete();
+        });
+    }
+    {{/operation}}{{/operations}}
+}

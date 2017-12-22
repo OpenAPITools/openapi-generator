@@ -1,48 +1,60 @@
 package io.swagger.codegen.apex;
 
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.languages.ApexClientCodegen;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.*;
+import io.swagger.oas.models.media.BinarySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.ByteArraySchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.EmailSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.NumberSchema;
+import io.swagger.oas.models.media.PasswordSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.oas.models.media.UUIDSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Date;
 import java.util.List;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 @SuppressWarnings("static-method")
 public class ApexModelTest {
 
     @Test(description = "convert a simple apex model with provided examples")
-    public void examplesProvidedTest() {
-        BaseIntegerProperty baseIntProp = new BaseIntegerProperty();
-        baseIntProp.setExample(5);
+    public void examplesProvidedTest() throws Exception {
+        Schema integerSchema = new IntegerSchema().example(5);
+        Schema passwordSchema = new PasswordSchema().example("password");
+        Schema uuidSchema = new UUIDSchema().example("793574b2-3a8e-4f6c-bfa5-c6929dc29f8a");
 
-        PasswordProperty passwordProp = new PasswordProperty();
-        passwordProp.setExample("password");
+        final Schema schema = new Schema()
+            .addProperties("boolProp", new BooleanSchema().example(false))
+            .addProperties("dateProp", new DateSchema().example(DateUtils.parseDate("1985-04-12", DateFormatUtils.ISO_DATE_FORMAT.getPattern())))
+            .addProperties("dateTimeProp", new DateTimeSchema().example(DateUtils.parseDate("1985-04-12 23:20:50.52", "yyyy-MM-dd HH:mm:ss.SSS")))
 
-        UUIDProperty uuidProp = new UUIDProperty();
-        uuidProp.setExample("793574b2-3a8e-4f6c-bfa5-c6929dc29f8a");
-
-        final Model model = new ModelImpl()
-            .property("boolProp", new BooleanProperty().example(false))
-            .property("dateProp", new DateProperty().example("1985-04-12"))
-            .property("dateTimeProp", new DateTimeProperty().example("1985-04-12T23:20:50.52Z"))
-            .property("decimalProp", new DecimalProperty().example("19.99"))
-            .property("doubleProp", new DoubleProperty().example(2.95))
-            .property("emailProp", new EmailProperty().example("info@example.com"))
-            .property("floatProp", new FloatProperty().example(3.49f))
-            .property("intProp", new IntegerProperty().example(10))
-            .property("longProp", new LongProperty().example(100000L))
-            .property("stringProp", new StringProperty().example("foo"))
-            .property("baseIntProp", baseIntProp)
-            .property("passwordProp", passwordProp)
-            .property("uuidProp", uuidProp);
+            .addProperties("decimalProp", new NumberSchema().example("19.99"))
+            .addProperties("doubleProp", new NumberSchema().example(2.95))
+            .addProperties("emailProp", new EmailSchema().example("info@example.com"))
+            .addProperties("floatProp", new NumberSchema().format("float").example(3.49f))
+            .addProperties("intProp", new IntegerSchema().example(10))
+            .addProperties("longProp", new IntegerSchema().example(100000L).format(SchemaTypeUtil.INTEGER64_FORMAT))
+            .addProperties("stringProp", new StringSchema().example("foo"))
+            .addProperties("baseIntProp", integerSchema)
+            .addProperties("passwordProp", passwordSchema)
+            .addProperties("uuidProp", uuidSchema);
 
         final ApexClientCodegen codegen = new ApexClientCodegen();
         codegen.setClassPrefix("Prefix");
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "PrefixSample");
@@ -57,10 +69,10 @@ public class ApexModelTest {
         Assert.assertEquals(property1.baseType, "Boolean");
         Assert.assertEquals(property1.example, "false");
         Assert.assertNull(property1.defaultValue);
-        Assert.assertTrue(property1.hasMore);
-        Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
-        Assert.assertTrue(property1.isBoolean);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_BOOLEAN_EXT_NAME));
 
         final CodegenProperty property2 = vars.get(1);
         Assert.assertEquals(property2.name, "dateProp");
@@ -69,10 +81,10 @@ public class ApexModelTest {
         Assert.assertEquals(property2.baseType, "Date");
         Assert.assertEquals(property2.example, "Date.newInstance(1985, 4, 12)");
         Assert.assertNull(property2.defaultValue);
-        Assert.assertTrue(property2.hasMore);
-        Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isNotContainer);
-        Assert.assertTrue(property2.isDate);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_DATE_EXT_NAME));
 
         final CodegenProperty property3 = vars.get(2);
         Assert.assertEquals(property3.name, "dateTimeProp");
@@ -81,10 +93,10 @@ public class ApexModelTest {
         Assert.assertEquals(property3.baseType, "Datetime");
         Assert.assertEquals(property3.example, "Datetime.newInstanceGmt(1985, 4, 12, 23, 20, 50)");
         Assert.assertNull(property3.defaultValue);
-        Assert.assertTrue(property3.hasMore);
-        Assert.assertTrue(property3.isPrimitiveType);
-        Assert.assertTrue(property3.isNotContainer);
-        Assert.assertTrue(property3.isDateTime);
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_DATE_TIME_EXT_NAME));
 
         final CodegenProperty property4 = vars.get(3);
         Assert.assertEquals(property4.name, "decimalProp");
@@ -93,9 +105,9 @@ public class ApexModelTest {
         Assert.assertEquals(property4.baseType, "Double");
         Assert.assertEquals(property4.example, "19.99");
         Assert.assertNull(property4.defaultValue);
-        Assert.assertTrue(property4.hasMore);
-        Assert.assertTrue(property4.isPrimitiveType);
-        Assert.assertTrue(property4.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property4, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property4, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property4, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property5 = vars.get(4);
         Assert.assertEquals(property5.name, "doubleProp");
@@ -104,10 +116,10 @@ public class ApexModelTest {
         Assert.assertEquals(property5.baseType, "Double");
         Assert.assertEquals(property5.example, "2.95");
         Assert.assertNull(property5.defaultValue);
-        Assert.assertTrue(property5.hasMore);
-        Assert.assertTrue(property5.isPrimitiveType);
-        Assert.assertTrue(property5.isNotContainer);
-        Assert.assertTrue(property5.isDouble);
+        Assert.assertTrue(getBooleanValue(property5, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property5, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property5, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property5, CodegenConstants.IS_DOUBLE_EXT_NAME));
 
         final CodegenProperty property6 = vars.get(5);
         Assert.assertEquals(property6.name, "emailProp");
@@ -116,10 +128,10 @@ public class ApexModelTest {
         Assert.assertEquals(property6.baseType, "String");
         Assert.assertEquals(property6.example, "'info@example.com'");
         Assert.assertNull(property6.defaultValue);
-        Assert.assertTrue(property6.hasMore);
-        Assert.assertTrue(property6.isPrimitiveType);
-        Assert.assertTrue(property6.isNotContainer);
-        Assert.assertTrue(property6.isString);
+        Assert.assertTrue(getBooleanValue(property6, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property6, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property6, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property6, CodegenConstants.IS_STRING_EXT_NAME));
 
         final CodegenProperty property7 = vars.get(6);
         Assert.assertEquals(property7.name, "floatProp");
@@ -128,10 +140,10 @@ public class ApexModelTest {
         Assert.assertEquals(property7.baseType, "Double");
         Assert.assertEquals(property7.example, "3.49");
         Assert.assertNull(property7.defaultValue);
-        Assert.assertTrue(property7.hasMore);
-        Assert.assertTrue(property7.isPrimitiveType);
-        Assert.assertTrue(property7.isNotContainer);
-        Assert.assertTrue(property7.isFloat);
+        Assert.assertTrue(getBooleanValue(property7, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property7, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property7, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property7, CodegenConstants.IS_FLOAT_EXT_NAME));
 
         final CodegenProperty property8 = vars.get(7);
         Assert.assertEquals(property8.name, "intProp");
@@ -140,10 +152,10 @@ public class ApexModelTest {
         Assert.assertEquals(property8.baseType, "Integer");
         Assert.assertEquals(property8.example, "10");
         Assert.assertNull(property8.defaultValue);
-        Assert.assertTrue(property8.hasMore);
-        Assert.assertTrue(property8.isPrimitiveType);
-        Assert.assertTrue(property8.isNotContainer);
-        Assert.assertTrue(property8.isInteger);
+        Assert.assertTrue(getBooleanValue(property8, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property8, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property8, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property8, CodegenConstants.IS_INTEGER_EXT_NAME));
 
         final CodegenProperty property9 = vars.get(8);
         Assert.assertEquals(property9.name, "longProp");
@@ -152,10 +164,10 @@ public class ApexModelTest {
         Assert.assertEquals(property9.baseType, "Long");
         Assert.assertEquals(property9.example, "100000L");
         Assert.assertNull(property9.defaultValue);
-        Assert.assertTrue(property9.hasMore);
-        Assert.assertTrue(property9.isPrimitiveType);
-        Assert.assertTrue(property9.isNotContainer);
-        Assert.assertTrue(property9.isLong);
+        Assert.assertTrue(getBooleanValue(property9, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property9, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property9, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property9, CodegenConstants.IS_LONG_EXT_NAME));
 
         final CodegenProperty property10 = vars.get(9);
         Assert.assertEquals(property10.name, "stringProp");
@@ -164,10 +176,10 @@ public class ApexModelTest {
         Assert.assertEquals(property10.baseType, "String");
         Assert.assertEquals(property10.example, "'foo'");
         Assert.assertNull(property10.defaultValue);
-        Assert.assertTrue(property10.hasMore);
-        Assert.assertTrue(property10.isPrimitiveType);
-        Assert.assertTrue(property10.isNotContainer);
-        Assert.assertTrue(property10.isString);
+        Assert.assertTrue(getBooleanValue(property10, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property10, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property10, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property10, CodegenConstants.IS_STRING_EXT_NAME));
 
         final CodegenProperty property11 = vars.get(10);
         Assert.assertEquals(property11.name, "baseIntProp");
@@ -176,10 +188,10 @@ public class ApexModelTest {
         Assert.assertEquals(property11.baseType, "Integer");
         Assert.assertEquals(property11.example, "5");
         Assert.assertNull(property11.defaultValue);
-        Assert.assertTrue(property11.hasMore);
-        Assert.assertTrue(property11.isPrimitiveType);
-        Assert.assertTrue(property11.isNotContainer);
-        Assert.assertTrue(property11.isInteger);
+        Assert.assertTrue(getBooleanValue(property11, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property11, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property11, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property11, CodegenConstants.IS_INTEGER_EXT_NAME));
 
         final CodegenProperty property12 = vars.get(11);
         Assert.assertEquals(property12.name, "passwordProp");
@@ -188,9 +200,9 @@ public class ApexModelTest {
         Assert.assertEquals(property12.baseType, "String");
         Assert.assertEquals(property12.example, "'password'");
         Assert.assertNull(property12.defaultValue);
-        Assert.assertTrue(property12.hasMore);
-        Assert.assertTrue(property12.isPrimitiveType);
-        Assert.assertTrue(property12.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property12, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property12, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property12, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property13 = vars.get(12);
         Assert.assertEquals(property13.name, "uuidProp");
@@ -199,33 +211,33 @@ public class ApexModelTest {
         Assert.assertEquals(property13.baseType, "String");
         Assert.assertEquals(property13.example, "'793574b2-3a8e-4f6c-bfa5-c6929dc29f8a'");
         Assert.assertNull(property13.defaultValue);
-        Assert.assertFalse(property13.hasMore);
-        Assert.assertTrue(property13.isPrimitiveType);
-        Assert.assertTrue(property13.isNotContainer);
+        Assert.assertFalse(getBooleanValue(property13, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property13, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property13, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
     
     @Test(description = "convert a simple apex model with default examples")
     public void defaultExamplesTest() {
-        final Model model = new ModelImpl()
-            .property("boolProp", new BooleanProperty())
-            .property("dateProp", new DateProperty())
-            .property("dateTimeProp", new DateTimeProperty())
-            .property("decimalProp", new DecimalProperty())
-            .property("doubleProp", new DoubleProperty())
-            .property("emailProp", new EmailProperty())
-            .property("floatProp", new FloatProperty())
-            .property("intProp", new IntegerProperty())
-            .property("longProp", new LongProperty())
-            .property("stringProp", new StringProperty())
-            .property("baseIntProp", new BaseIntegerProperty())
-            .property("passwordProp", new PasswordProperty())
-            .property("uuidProp", new UUIDProperty())
-            .property("byteArrProp", new ByteArrayProperty())
-            .property("binaryProp", new BinaryProperty());
+        final Schema schema = new Schema()
+            .addProperties("boolProp", new BooleanSchema())
+            .addProperties("dateProp", new DateSchema())
+            .addProperties("dateTimeProp", new DateTimeSchema())
+            .addProperties("decimalProp", new NumberSchema())
+            .addProperties("doubleProp", new NumberSchema())
+            .addProperties("emailProp", new EmailSchema())
+            .addProperties("floatProp", new NumberSchema().format(SchemaTypeUtil.FLOAT_FORMAT))
+            .addProperties("intProp", new IntegerSchema())
+            .addProperties("longProp", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+            .addProperties("stringProp", new StringSchema())
+            .addProperties("baseIntProp", new IntegerSchema())
+            .addProperties("passwordProp", new PasswordSchema())
+            .addProperties("uuidProp", new UUIDSchema())
+            .addProperties("byteArrProp", new ByteArraySchema())
+            .addProperties("binaryProp", new BinarySchema());
 
         final ApexClientCodegen codegen = new ApexClientCodegen();
         codegen.setClassPrefix("Prefix");
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "PrefixSample");
@@ -240,10 +252,10 @@ public class ApexModelTest {
         Assert.assertEquals(property1.baseType, "Boolean");
         Assert.assertEquals(property1.example, "true");
         Assert.assertNull(property1.defaultValue);
-        Assert.assertTrue(property1.hasMore);
-        Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
-        Assert.assertTrue(property1.isBoolean);
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_BOOLEAN_EXT_NAME));
 
         final CodegenProperty property2 = vars.get(1);
         Assert.assertEquals(property2.name, "dateProp");
@@ -252,10 +264,10 @@ public class ApexModelTest {
         Assert.assertEquals(property2.baseType, "Date");
         Assert.assertEquals(property2.example, "Date.newInstance(2000, 1, 23)");
         Assert.assertNull(property2.defaultValue);
-        Assert.assertTrue(property2.hasMore);
-        Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isNotContainer);
-        Assert.assertTrue(property2.isDate);
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_DATE_EXT_NAME));
 
         final CodegenProperty property3 = vars.get(2);
         Assert.assertEquals(property3.name, "dateTimeProp");
@@ -264,10 +276,10 @@ public class ApexModelTest {
         Assert.assertEquals(property3.baseType, "Datetime");
         Assert.assertEquals(property3.example, "Datetime.newInstanceGmt(2000, 1, 23, 4, 56, 7)");
         Assert.assertNull(property3.defaultValue);
-        Assert.assertTrue(property3.hasMore);
-        Assert.assertTrue(property3.isPrimitiveType);
-        Assert.assertTrue(property3.isNotContainer);
-        Assert.assertTrue(property3.isDateTime);
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_DATE_TIME_EXT_NAME));
 
         final CodegenProperty property4 = vars.get(3);
         Assert.assertEquals(property4.name, "decimalProp");
@@ -276,9 +288,9 @@ public class ApexModelTest {
         Assert.assertEquals(property4.baseType, "Double");
         Assert.assertEquals(property4.example, "1.3579");
         Assert.assertNull(property4.defaultValue);
-        Assert.assertTrue(property4.hasMore);
-        Assert.assertTrue(property4.isPrimitiveType);
-        Assert.assertTrue(property4.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property4, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property4, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property4, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property5 = vars.get(4);
         Assert.assertEquals(property5.name, "doubleProp");
@@ -287,10 +299,10 @@ public class ApexModelTest {
         Assert.assertEquals(property5.baseType, "Double");
         Assert.assertEquals(property5.example, "1.3579");
         Assert.assertNull(property5.defaultValue);
-        Assert.assertTrue(property5.hasMore);
-        Assert.assertTrue(property5.isPrimitiveType);
-        Assert.assertTrue(property5.isNotContainer);
-        Assert.assertTrue(property5.isDouble);
+        Assert.assertTrue(getBooleanValue(property5, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property5, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property5, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property5, CodegenConstants.IS_DOUBLE_EXT_NAME));
 
         final CodegenProperty property6 = vars.get(5);
         Assert.assertEquals(property6.name, "emailProp");
@@ -299,10 +311,10 @@ public class ApexModelTest {
         Assert.assertEquals(property6.baseType, "String");
         Assert.assertEquals(property6.example, "'example@example.com'");
         Assert.assertNull(property6.defaultValue);
-        Assert.assertTrue(property6.hasMore);
-        Assert.assertTrue(property6.isPrimitiveType);
-        Assert.assertTrue(property6.isNotContainer);
-        Assert.assertTrue(property6.isString);
+        Assert.assertTrue(getBooleanValue(property6, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property6, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property6, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property6, CodegenConstants.IS_STRING_EXT_NAME));
 
         final CodegenProperty property7 = vars.get(6);
         Assert.assertEquals(property7.name, "floatProp");
@@ -311,10 +323,10 @@ public class ApexModelTest {
         Assert.assertEquals(property7.baseType, "Double");
         Assert.assertEquals(property7.example, "1.3579");
         Assert.assertNull(property7.defaultValue);
-        Assert.assertTrue(property7.hasMore);
-        Assert.assertTrue(property7.isPrimitiveType);
-        Assert.assertTrue(property7.isNotContainer);
-        Assert.assertTrue(property7.isFloat);
+        Assert.assertTrue(getBooleanValue(property7, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property7, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property7, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property7, CodegenConstants.IS_FLOAT_EXT_NAME));
 
         final CodegenProperty property8 = vars.get(7);
         Assert.assertEquals(property8.name, "intProp");
@@ -323,10 +335,10 @@ public class ApexModelTest {
         Assert.assertEquals(property8.baseType, "Integer");
         Assert.assertEquals(property8.example, "123");
         Assert.assertNull(property8.defaultValue);
-        Assert.assertTrue(property8.hasMore);
-        Assert.assertTrue(property8.isPrimitiveType);
-        Assert.assertTrue(property8.isNotContainer);
-        Assert.assertTrue(property8.isInteger);
+        Assert.assertTrue(getBooleanValue(property8, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property8, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property8, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property8, CodegenConstants.IS_INTEGER_EXT_NAME));
 
         final CodegenProperty property9 = vars.get(8);
         Assert.assertEquals(property9.name, "longProp");
@@ -335,10 +347,10 @@ public class ApexModelTest {
         Assert.assertEquals(property9.baseType, "Long");
         Assert.assertEquals(property9.example, "123456789L");
         Assert.assertNull(property9.defaultValue);
-        Assert.assertTrue(property9.hasMore);
-        Assert.assertTrue(property9.isPrimitiveType);
-        Assert.assertTrue(property9.isNotContainer);
-        Assert.assertTrue(property9.isLong);
+        Assert.assertTrue(getBooleanValue(property9, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property9, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property9, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property9, CodegenConstants.IS_LONG_EXT_NAME));
 
         final CodegenProperty property10 = vars.get(9);
         Assert.assertEquals(property10.name, "stringProp");
@@ -347,10 +359,10 @@ public class ApexModelTest {
         Assert.assertEquals(property10.baseType, "String");
         Assert.assertEquals(property10.example, "'aeiou'");
         Assert.assertNull(property10.defaultValue);
-        Assert.assertTrue(property10.hasMore);
-        Assert.assertTrue(property10.isPrimitiveType);
-        Assert.assertTrue(property10.isNotContainer);
-        Assert.assertTrue(property10.isString);
+        Assert.assertTrue(getBooleanValue(property10, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property10, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property10, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property10, CodegenConstants.IS_STRING_EXT_NAME));
 
         final CodegenProperty property11 = vars.get(10);
         Assert.assertEquals(property11.name, "baseIntProp");
@@ -359,10 +371,10 @@ public class ApexModelTest {
         Assert.assertEquals(property11.baseType, "Integer");
         Assert.assertEquals(property11.example, "123");
         Assert.assertNull(property11.defaultValue);
-        Assert.assertTrue(property11.hasMore);
-        Assert.assertTrue(property11.isPrimitiveType);
-        Assert.assertTrue(property11.isNotContainer);
-        Assert.assertTrue(property11.isInteger);
+        Assert.assertTrue(getBooleanValue(property11, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property11, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property11, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property11, CodegenConstants.IS_INTEGER_EXT_NAME));
 
         final CodegenProperty property12 = vars.get(11);
         Assert.assertEquals(property12.name, "passwordProp");
@@ -371,9 +383,9 @@ public class ApexModelTest {
         Assert.assertEquals(property12.baseType, "String");
         Assert.assertEquals(property12.example, "'password123'");
         Assert.assertNull(property12.defaultValue);
-        Assert.assertTrue(property12.hasMore);
-        Assert.assertTrue(property12.isPrimitiveType);
-        Assert.assertTrue(property12.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property12, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property12, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property12, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property13 = vars.get(12);
         Assert.assertEquals(property13.name, "uuidProp");
@@ -382,9 +394,9 @@ public class ApexModelTest {
         Assert.assertEquals(property13.baseType, "String");
         Assert.assertEquals(property13.example, "'046b6c7f-0b8a-43b9-b35d-6489e6daee91'");
         Assert.assertNull(property13.defaultValue);
-        Assert.assertTrue(property13.hasMore);
-        Assert.assertTrue(property13.isPrimitiveType);
-        Assert.assertTrue(property13.isNotContainer);
+        Assert.assertTrue(getBooleanValue(property13, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property13, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property13, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
 
         final CodegenProperty property14 = vars.get(13);
         Assert.assertEquals(property14.name, "byteArrProp");
@@ -393,10 +405,10 @@ public class ApexModelTest {
         Assert.assertEquals(property14.baseType, "Blob");
         Assert.assertEquals(property14.example, "EncodingUtil.base64Decode('VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2cu')");
         Assert.assertNull(property14.defaultValue);
-        Assert.assertTrue(property14.hasMore);
-        Assert.assertTrue(property14.isPrimitiveType);
-        Assert.assertTrue(property14.isNotContainer);
-        Assert.assertTrue(property14.isByteArray);
+        Assert.assertTrue(getBooleanValue(property14, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property14, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property14, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property14, CodegenConstants.IS_BYTE_ARRAY_EXT_NAME));
 
         final CodegenProperty property15 = vars.get(14);
         Assert.assertEquals(property15.name, "binaryProp");
@@ -405,10 +417,10 @@ public class ApexModelTest {
         Assert.assertEquals(property15.baseType, "String");
         Assert.assertEquals(property15.example, "");
         Assert.assertNull(property15.defaultValue);
-        Assert.assertFalse(property15.hasMore);
-        Assert.assertTrue(property15.isPrimitiveType);
-        Assert.assertTrue(property15.isNotContainer);
-        Assert.assertTrue(property15.isBinary);
+        Assert.assertFalse(getBooleanValue(property15, CodegenConstants.HAS_MORE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property15, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property15, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
+        Assert.assertTrue(getBooleanValue(property15, CodegenConstants.IS_BINARY_EXT_NAME));
     }
 //
 //    @Test(description = "convert a model with list property")

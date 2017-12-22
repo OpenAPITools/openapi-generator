@@ -1,12 +1,19 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.*;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.*;
-import java.util.*;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.DefaultCodegen;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.PathItem;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+
 import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -83,7 +90,7 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
     /*
      * Reserved words.  Override this with reserved words specific to your language
      */
-    reservedWords = new HashSet<String> (
+    reservedWords = new HashSet<String>(
       Arrays.asList(
         "sample1",  // replace with static values
         "sample2")
@@ -99,14 +106,15 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   @Override
-  public void preprocessSwagger(Swagger swagger) {
-    if (swagger != null && swagger.getPaths() != null) {
-      for (String pathname : swagger.getPaths().keySet()) {
-        Path path = swagger.getPath(pathname);
-        if (path.getOperations() != null) {
-          for (Operation operation : path.getOperations()) {
+  public void preprocessOpenAPI(OpenAPI openAPI) {
+    if (openAPI != null && openAPI.getPaths() != null) {
+      for (String pathname : openAPI.getPaths().keySet()) {
+        PathItem path = openAPI.getPaths().get(pathname);
+        List<Operation> operations = path.readOperations();
+        if (operations != null && !operations.isEmpty()) {
+          for (Operation operation : operations) {
             String pathWithDollars = pathname.replaceAll("\\{", "\\$\\{");
-            operation.setVendorExtension("x-path", pathWithDollars);
+            operation.addExtension("x-path", pathWithDollars);
           }
         }
       }
@@ -152,18 +160,15 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
    * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
    */
   @Override
-  public String getTypeDeclaration(Property p) {
-    if(p instanceof ArrayProperty) {
-      ArrayProperty ap = (ArrayProperty) p;
-      Property inner = ap.getItems();
-      return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
+  public String getTypeDeclaration(Schema propertySchema) {
+    if (propertySchema instanceof ArraySchema) {
+      Schema inner = ((ArraySchema) propertySchema).getItems();
+      return String.format("%s[%s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
+    } else if (propertySchema instanceof MapSchema) {
+      Schema inner = propertySchema.getAdditionalProperties();
+      return String.format("%s[String, %s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
     }
-    else if (p instanceof MapProperty) {
-      MapProperty mp = (MapProperty) p;
-      Property inner = mp.getAdditionalProperties();
-      return getSwaggerType(p) + "[String, " + getTypeDeclaration(inner) + "]";
-    }
-    return super.getTypeDeclaration(p);
+    return super.getTypeDeclaration(propertySchema);
   }
 
   /**
@@ -171,19 +176,20 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
    * either language specific types via `typeMapping` or into complex models if there is not a mapping.
    *
    * @return a string value of the type or complex model for this property
-   * @see io.swagger.models.properties.Property
+   * @see io.swagger.oas.models.media.Schema
    */
   @Override
-  public String getSwaggerType(Property p) {
-    String swaggerType = super.getSwaggerType(p);
+  public String getSchemaType(Schema propertySchema) {
+    String schemaType = super.getSchemaType(propertySchema);
     String type = null;
-    if(typeMapping.containsKey(swaggerType)) {
-      type = typeMapping.get(swaggerType);
-      if(languageSpecificPrimitives.contains(type))
+    if (typeMapping.containsKey(schemaType)) {
+      type = typeMapping.get(schemaType);
+      if (languageSpecificPrimitives.contains(type)) {
         return toModelName(type);
+      }
+    } else {
+      type = schemaType;
     }
-    else
-      type = swaggerType;
     return toModelName(type);
   }
 

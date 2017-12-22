@@ -1,10 +1,17 @@
 package io.swagger.codegen.languages;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.swagger.codegen.*;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.languages.features.BeanValidationFeatures;
-import io.swagger.models.Model;
-import io.swagger.models.Swagger;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.media.Schema;
 import io.swagger.util.Json;
 
 import java.io.File;
@@ -12,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
 
@@ -202,8 +211,8 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allSchemas) {
+        CodegenModel codegenModel = super.fromModel(name, schema, allSchemas);
         if(codegenModel.description != null) {
             codegenModel.imports.remove("ApiModel");
         }
@@ -252,13 +261,14 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             for (CodegenOperation operation : ops) {
 
                 for (CodegenParameter param : operation.allParams) {
-                    if (param.isFormParam && param.isFile) {
+                    if (getBooleanValue(param, CodegenConstants.IS_FORM_PARAM_EXT_NAME)
+                            && getBooleanValue(param, CodegenConstants.IS_FILE_EXT_NAME)) {
                         param.dataType = "Http.MultipartFormData.FilePart";
                     }
                 }
 
                 for (CodegenParameter param : operation.formParams) {
-                    if (param.isFile) {
+                    if (getBooleanValue(param, CodegenConstants.IS_FILE_EXT_NAME)) {
                         param.dataType = "Http.MultipartFormData.FilePart";
                     }
                 }
@@ -318,11 +328,11 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Swagger swagger = (Swagger)objs.get("swagger");
-        System.out.println("swagger" + swagger.toString());
-        if(swagger != null) {
+        OpenAPI openAPI = (OpenAPI) objs.get("openapi");
+        System.out.println("openapi" + openAPI.toString());
+        if(openAPI != null) {
             try {
-                objs.put("swagger-json", Json.pretty().writeValueAsString(swagger));
+                objs.put("swagger-json", Json.pretty().writeValueAsString(openAPI));
             } catch (JsonProcessingException e) {
                 LOGGER.error(e.getMessage(), e);
             }

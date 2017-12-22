@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenParameter;
@@ -16,25 +17,23 @@ import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Response;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BaseIntegerProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DecimalProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FileProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.FileSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.NumberSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.oas.models.responses.ApiResponse;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
+import org.apache.commons.lang3.StringUtils;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class PistacheServerCodegen extends AbstractCppCodegen {
     protected String implFolder = "impl";
@@ -137,8 +136,8 @@ public class PistacheServerCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allSchemas) {
+        CodegenModel codegenModel = super.fromModel(name, schema, allSchemas);
 
         Set<String> oldImports = codegenModel.imports;
         codegenModel.imports = new HashSet<>();
@@ -154,27 +153,28 @@ public class PistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
-                                          Map<String, Model> definitions, Swagger swagger) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, swagger);
+                                          Map<String, Schema> schemas, OpenAPI openAPI) {
+        CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, schemas, openAPI);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
-            Response methodResponse = findMethodResponse(operation.getResponses());
+            ApiResponse methodResponse = findMethodResponse(operation.getResponses());
 
             if (methodResponse != null) {
-                if (methodResponse.getSchema() != null) {
-                    CodegenProperty cm = fromProperty("response", methodResponse.getSchema());
-                    op.vendorExtensions.put("x-codegen-response", cm);
+                Schema schemaResponse = getSchemaFromResponse(methodResponse);
+                if (schemaResponse != null) {
+                    CodegenProperty cm = fromProperty("response", schemaResponse);
+                    codegenOperation.vendorExtensions.put("x-codegen-response", cm);
                     if(cm.datatype == "HttpContent") {
-                        op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
+                        codegenOperation.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
                     }
                 }
             }
         }
 
         String pathForPistache = path.replaceAll("\\{(.*?)}", ":$1");
-        op.vendorExtensions.put("x-codegen-pistache-path", pathForPistache);
+        codegenOperation.vendorExtensions.put("x-codegen-pistache-path", pathForPistache);
 
-        return op;
+        return codegenOperation;
     }
 
     @SuppressWarnings("unchecked")
@@ -194,7 +194,8 @@ public class PistacheServerCodegen extends AbstractCppCodegen {
                     op.bodyParam.vendorExtensions = new HashMap<>();
                 }
 
-                op.bodyParam.vendorExtensions.put("x-codegen-pistache-isStringOrDate", op.bodyParam.isString || op.bodyParam.isDate);
+                op.bodyParam.vendorExtensions.put("x-codegen-pistache-isStringOrDate",
+                        getBooleanValue(op.bodyParam, CodegenConstants.IS_STRING_EXT_NAME) ||getBooleanValue(op.bodyParam, CodegenConstants.IS_DATE_EXT_NAME));
             }
             if(op.consumes != null) {
                 for (Map<String, String> consume : op.consumes) {
@@ -207,16 +208,22 @@ public class PistacheServerCodegen extends AbstractCppCodegen {
             op.httpMethod = op.httpMethod.substring(0, 1).toUpperCase() + op.httpMethod.substring(1).toLowerCase();
 
             for(CodegenParameter param : op.allParams){
-                if (param.isFormParam) isParsingSupported=false;
-                if (param.isFile) isParsingSupported=false;
-                if (param.isCookieParam) isParsingSupported=false;
+                if (getBooleanValue(param, CodegenConstants.IS_FORM_PARAM_EXT_NAME)) {
+                    isParsingSupported=false;
+                }
+                if (getBooleanValue(param, CodegenConstants.IS_FILE_EXT_NAME)) {
+                    isParsingSupported=false;
+                }
+                if (getBooleanValue(param, CodegenConstants.IS_COOKIE_PARAM_EXT_NAME)) {
+                    isParsingSupported=false;
+                }
 
                 //TODO: This changes the info about the real type but it is needed to parse the header params
-                if (param.isHeaderParam) {
+                if (getBooleanValue(param, CodegenConstants.IS_HEADER_PARAM_EXT_NAME)) {
                     param.dataType = "Optional<Net::Http::Header::Raw>";
                     param.baseType = "Optional<Net::Http::Header::Raw>";
-                } else if(param.isQueryParam){
-                    if(param.isPrimitiveType) {
+                } else if(getBooleanValue(param, CodegenConstants.IS_QUERY_PARAM_EXT_NAME)){
+                    if(getBooleanValue(param, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME)) {
                         param.dataType = "Optional<" + param.dataType + ">";
                     } else {
                         param.dataType = "Optional<" + param.baseType + ">";
@@ -274,62 +281,55 @@ public class PistacheServerCodegen extends AbstractCppCodegen {
      *         `returnType` for api templates
      */
     @Override
-    public String getTypeDeclaration(Property p) {
-        String swaggerType = getSwaggerType(p);
-
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
+    public String getTypeDeclaration(Schema propertySchema) {
+        String schemaType = getSchemaType(propertySchema);
+        if (propertySchema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) propertySchema).getItems();
+            return String.format("%s<%s>", schemaType, getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return String.format("%s<std::string, %s>", schemaType, getTypeDeclaration(inner));
         }
-        if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
+        if (propertySchema instanceof StringSchema || propertySchema instanceof DateSchema
+                || propertySchema instanceof DateTimeSchema || propertySchema instanceof FileSchema
+                || languageSpecificPrimitives.contains(schemaType)) {
+            return toModelName(schemaType);
         }
-        if (p instanceof StringProperty || p instanceof DateProperty
-                || p instanceof DateTimeProperty || p instanceof FileProperty
-                || languageSpecificPrimitives.contains(swaggerType)) {
-            return toModelName(swaggerType);
-        }
-
-        return "std::shared_ptr<" + swaggerType + ">";
+        return super.getTypeDeclaration(propertySchema);
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
+    public String toDefaultValue(Schema propertySchema) {
+        if (propertySchema instanceof StringSchema) {
             return "\"\"";
-        } else if (p instanceof BooleanProperty) {
+        } else if (propertySchema instanceof BooleanSchema) {
             return "false";
-        } else if (p instanceof DateProperty) {
+        } else if (propertySchema instanceof DateSchema) {
             return "\"\"";
-        } else if (p instanceof DateTimeProperty) {
+        } else if (propertySchema instanceof DateTimeSchema) {
             return "\"\"";
-        } else if (p instanceof DoubleProperty) {
+        } else if (propertySchema instanceof NumberSchema) {
+            if(SchemaTypeUtil.FLOAT_FORMAT.equals(propertySchema.getFormat())) {
+                return "0.0f";
+            }
             return "0.0";
-        } else if (p instanceof FloatProperty) {
-            return "0.0f";
-        } else if (p instanceof LongProperty) {
-            return "0L";
-        } else if (p instanceof IntegerProperty || p instanceof BaseIntegerProperty) {
+        } else if (propertySchema instanceof IntegerSchema) {
+            if(SchemaTypeUtil.INTEGER64_FORMAT.equals(propertySchema.getFormat())) {
+                return "0L";
+            }
             return "0";
-        } else if (p instanceof DecimalProperty) {
-            return "0.0";
-        } else if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
+        } else if (propertySchema instanceof MapSchema) {
+            String inner = getSchemaType(propertySchema.getAdditionalProperties());
             return "std::map<std::string, " + inner + ">()";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
+        } else if (propertySchema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) propertySchema;
+            String inner = getSchemaType(arraySchema.getItems());
             if (!languageSpecificPrimitives.contains(inner)) {
                 inner = "std::shared_ptr<" + inner + ">";
             }
             return "std::vector<" + inner + ">()";
-        } else if (p instanceof RefProperty) {
-            RefProperty rp = (RefProperty) p;
-            return "new " + toModelName(rp.getSimpleRef()) + "()";
+        } else if (StringUtils.isNotBlank(propertySchema.get$ref())) {
+            return "new " + toModelName(propertySchema.get$ref()) + "()";
         }
         return "nullptr";
     }
@@ -338,9 +338,9 @@ public class PistacheServerCodegen extends AbstractCppCodegen {
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
 
-        boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
-        boolean isListContainer = parameter.isListContainer == Boolean.TRUE;
-        boolean isString = parameter.isString == Boolean.TRUE;
+        boolean isPrimitiveType = getBooleanValue(parameter, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME);
+        boolean isListContainer = getBooleanValue(parameter, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME);
+        boolean isString = getBooleanValue(parameter, CodegenConstants.IS_STRING_EXT_NAME);
 
         if (!isPrimitiveType && !isListContainer && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
             parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
@@ -374,18 +374,20 @@ public class PistacheServerCodegen extends AbstractCppCodegen {
      * into complex models if there is not a mapping.
      *
      * @return a string value of the type or complex model for this property
-     * @see io.swagger.models.properties.Property
+     * @see io.swagger.oas.models.media.Schema
      */
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema propertySchema) {
+        String schemaType = super.getSchemaType(propertySchema);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type))
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
+            if (languageSpecificPrimitives.contains(type)) {
                 return toModelName(type);
-        } else
-            type = swaggerType;
+            }
+        } else {
+            type = schemaType;
+        }
         return toModelName(type);
     }
 

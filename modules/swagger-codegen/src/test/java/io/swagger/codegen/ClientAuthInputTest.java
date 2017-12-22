@@ -1,7 +1,8 @@
 package io.swagger.codegen;
 
-import io.swagger.models.auth.AuthorizationValue;
 
+
+import io.swagger.parser.models.AuthorizationValue;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

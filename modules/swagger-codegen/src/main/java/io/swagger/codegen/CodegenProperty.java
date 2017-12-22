@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class CodegenProperty implements Cloneable {
+public class CodegenProperty implements Cloneable, VendorExtendable {
     public String baseName, complexType, getter, setter, description, datatype,
           datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
           baseType, containerType, title;
@@ -36,32 +36,336 @@ public class CodegenProperty implements Cloneable {
     public String maximum;
     public boolean exclusiveMinimum;
     public boolean exclusiveMaximum;
-    public boolean hasMore, required, secondaryParam;
-    public boolean hasMoreNonReadOnly; // for model constructor, true if next properyt is not readonly
-    public boolean isPrimitiveType, isContainer, isNotContainer;
-    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime, isUuid;
-    public boolean isListContainer, isMapContainer;
-    public boolean isEnum;
-    public boolean isReadOnly = false;
+    public boolean required, secondaryParam;
+
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
-    public Map<String, Object> vendorExtensions;
-    public boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
-    public boolean isInherited;
+    public Map<String, Object> vendorExtensions = new HashMap<>();
+
     public String nameInCamelCase; // property name in camel case
     // enum name based on the property name, usually use as a prefix (e.g. VAR_NAME) for enum name (e.g. VAR_NAME_VALUE1)
     public String enumName;
     public Integer maxItems;
     public Integer minItems;
 
+
     // XML
-    public boolean isXmlAttribute = false;
     public String xmlPrefix;
     public String xmlName;
     public String xmlNamespace;
-    public boolean isXmlWrapped = false;
 
+    public String getBaseName() {
+        return baseName;
+    }
+
+    public void setBaseName(String baseName) {
+        this.baseName = baseName;
+    }
+
+    public String getComplexType() {
+        return complexType;
+    }
+
+    public void setComplexType(String complexType) {
+        this.complexType = complexType;
+    }
+
+    public String getGetter() {
+        return getter;
+    }
+
+    public void setGetter(String getter) {
+        this.getter = getter;
+    }
+
+    public String getSetter() {
+        return setter;
+    }
+
+    public void setSetter(String setter) {
+        this.setter = setter;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDatatype() {
+        return datatype;
+    }
+
+    public void setDatatype(String datatype) {
+        this.datatype = datatype;
+    }
+
+    public String getDatatypeWithEnum() {
+        return datatypeWithEnum;
+    }
+
+    public void setDatatypeWithEnum(String datatypeWithEnum) {
+        this.datatypeWithEnum = datatypeWithEnum;
+    }
+
+    public String getDataFormat() {
+        return dataFormat;
+    }
+
+    public void setDataFormat(String dataFormat) {
+        this.dataFormat = dataFormat;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMin() {
+        return min;
+    }
+
+    public void setMin(String min) {
+        this.min = min;
+    }
+
+    public String getMax() {
+        return max;
+    }
+
+    public void setMax(String max) {
+        this.max = max;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    public String getDefaultValueWithParam() {
+        return defaultValueWithParam;
+    }
+
+    public void setDefaultValueWithParam(String defaultValueWithParam) {
+        this.defaultValueWithParam = defaultValueWithParam;
+    }
+
+    public String getBaseType() {
+        return baseType;
+    }
+
+    public void setBaseType(String baseType) {
+        this.baseType = baseType;
+    }
+
+    public String getContainerType() {
+        return containerType;
+    }
+
+    public void setContainerType(String containerType) {
+        this.containerType = containerType;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUnescapedDescription() {
+        return unescapedDescription;
+    }
+
+    public void setUnescapedDescription(String unescapedDescription) {
+        this.unescapedDescription = unescapedDescription;
+    }
+
+    public Integer getMaxLength() {
+        return maxLength;
+    }
+
+    public void setMaxLength(Integer maxLength) {
+        this.maxLength = maxLength;
+    }
+
+    public Integer getMinLength() {
+        return minLength;
+    }
+
+    public void setMinLength(Integer minLength) {
+        this.minLength = minLength;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
+    }
+
+    public String getExample() {
+        return example;
+    }
+
+    public void setExample(String example) {
+        this.example = example;
+    }
+
+    public String getJsonSchema() {
+        return jsonSchema;
+    }
+
+    public void setJsonSchema(String jsonSchema) {
+        this.jsonSchema = jsonSchema;
+    }
+
+    public String getMinimum() {
+        return minimum;
+    }
+
+    public void setMinimum(String minimum) {
+        this.minimum = minimum;
+    }
+
+    public String getMaximum() {
+        return maximum;
+    }
+
+    public void setMaximum(String maximum) {
+        this.maximum = maximum;
+    }
+
+    public boolean getExclusiveMinimum() {
+        return exclusiveMinimum;
+    }
+
+    public void setExclusiveMinimum(boolean exclusiveMinimum) {
+        this.exclusiveMinimum = exclusiveMinimum;
+    }
+
+    public boolean getIExclusiveMaximum() {
+        return exclusiveMaximum;
+    }
+
+    public void setExclusiveMaximum(boolean exclusiveMaximum) {
+        this.exclusiveMaximum = exclusiveMaximum;
+    }
+
+    public boolean getRequired() {
+        return required;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
+
+    public boolean getSecondaryParam() {
+        return secondaryParam;
+    }
+
+    public void setSecondaryParam(boolean secondaryParam) {
+        this.secondaryParam = secondaryParam;
+    }
+
+    public List<String> get_enum() {
+        return _enum;
+    }
+
+    public void set_enum(List<String> _enum) {
+        this._enum = _enum;
+    }
+
+    public Map<String, Object> getAllowableValues() {
+        return allowableValues;
+    }
+
+    public void setAllowableValues(Map<String, Object> allowableValues) {
+        this.allowableValues = allowableValues;
+    }
+
+    public CodegenProperty getItems() {
+        return items;
+    }
+
+    public void setItems(CodegenProperty items) {
+        this.items = items;
+    }
+
+    public Map<String, Object> getVendorExtensions() {
+        return vendorExtensions;
+    }
+
+    public void setVendorExtensions(Map<String, Object> vendorExtensions) {
+        this.vendorExtensions = vendorExtensions;
+    }
+
+    public String getNameInCamelCase() {
+        return nameInCamelCase;
+    }
+
+    public void setNameInCamelCase(String nameInCamelCase) {
+        this.nameInCamelCase = nameInCamelCase;
+    }
+
+    public String getEnumName() {
+        return enumName;
+    }
+
+    public void setEnumName(String enumName) {
+        this.enumName = enumName;
+    }
+
+    public Integer getMaxItems() {
+        return maxItems;
+    }
+
+    public void setMaxItems(Integer maxItems) {
+        this.maxItems = maxItems;
+    }
+
+    public Integer getMinItems() {
+        return minItems;
+    }
+
+    public void setMinItems(Integer minItems) {
+        this.minItems = minItems;
+    }
+
+    public String getXmlPrefix() {
+        return xmlPrefix;
+    }
+
+    public void setXmlPrefix(String xmlPrefix) {
+        this.xmlPrefix = xmlPrefix;
+    }
+
+    public String getXmlName() {
+        return xmlName;
+    }
+
+    public void setXmlName(String xmlName) {
+        this.xmlName = xmlName;
+    }
+
+    public String getXmlNamespace() {
+        return xmlNamespace;
+    }
+
+    public void setXmlNamespace(String xmlNamespace) {
+        this.xmlNamespace = xmlNamespace;
+    }
 
     @Override
     public String toString() {
@@ -91,13 +395,6 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + (exclusiveMaximum ? 13:31);
         result = prime * result + (exclusiveMinimum ? 13:31);
         result = prime * result + ((getter == null) ? 0 : getter.hashCode());
-        result = prime * result + (hasMore  ? 13:31);
-        result = prime * result + ((hasMoreNonReadOnly  ? 13:31));
-        result = prime * result + ((isContainer  ? 13:31));
-        result = prime * result + (isEnum ? 1231 : 1237);
-        result = prime * result + ((isNotContainer ? 13:31));
-        result = prime * result + ((isPrimitiveType  ? 13:31));
-        result = prime * result + ((isReadOnly  ? 13:31));
         result = prime * result + ((items == null) ? 0 : items.hashCode());
         result = prime * result + ((jsonSchema == null) ? 0 : jsonSchema.hashCode());
         result = prime * result + ((max == null) ? 0 : max.hashCode());
@@ -113,33 +410,13 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((setter == null) ? 0 : setter.hashCode());
         result = prime * result + ((unescapedDescription == null) ? 0 : unescapedDescription.hashCode());
         result = prime * result + ((vendorExtensions == null) ? 0 : vendorExtensions.hashCode());
-        result = prime * result + ((hasValidation  ? 13:31));
-        result = prime * result + ((isString  ? 13:31));
-        result = prime * result + ((isNumeric ? 13:31));
-        result = prime * result + ((isInteger ? 13:31));
-        result = prime * result + ((isLong  ?13:31));
-        result = prime * result + ((isNumber ? 13:31));
-        result = prime * result + ((isFloat ? 13:31));
-        result = prime * result + ((isDouble  ? 13:31));
-        result = prime * result + ((isByteArray  ? 13:31));
-        result = prime * result + ((isBinary  ? 13:31));
-        result = prime * result + ((isFile  ? 13:31));
-        result = prime * result + ((isBoolean  ? 13:31));
-        result = prime * result + ((isDate  ? 13:31));
-        result = prime * result + ((isDateTime ? 13:31));
-        result = prime * result + ((isUuid ? 13:31));
-        result = prime * result + ((isMapContainer ? 13:31));
-        result = prime * result + ((isListContainer  ? 13:31));
-        result = prime * result + Objects.hashCode(isInherited);
         result = prime * result + Objects.hashCode(nameInCamelCase);
         result = prime * result + Objects.hashCode(enumName);
         result = prime * result + ((maxItems == null) ? 0 : maxItems.hashCode());
         result = prime * result + ((minItems == null) ? 0 : minItems.hashCode());
-        result = prime * result + ((isXmlAttribute  ? 13:31));
         result = prime * result + ((xmlPrefix == null) ? 0 : xmlPrefix.hashCode());
         result = prime * result + ((xmlName == null) ? 0 : xmlName.hashCode());
         result = prime * result + ((xmlNamespace == null) ? 0 : xmlNamespace.hashCode());
-        result = prime * result + ((isXmlWrapped  ? 13:31));
         return result;
     }
 
@@ -230,21 +507,6 @@ public class CodegenProperty implements Cloneable {
         if (this.secondaryParam != other.secondaryParam) {
             return false;
         }
-        if (this.isPrimitiveType != other.isPrimitiveType) {
-            return false;
-        }
-        if (this.isContainer != other.isContainer) {
-            return false;
-        }
-        if (this.isNotContainer != other.isNotContainer) {
-            return false;
-        }
-        if (this.isEnum != other.isEnum) {
-            return false;
-        }
-        if (this.isReadOnly != other.isReadOnly) {
-            return false;
-        }
         if (this._enum != other._enum && (this._enum == null || !this._enum.equals(other._enum))) {
             return false;
         }
@@ -253,63 +515,6 @@ public class CodegenProperty implements Cloneable {
         }
 
         if (this.vendorExtensions != other.vendorExtensions && (this.vendorExtensions == null || !this.vendorExtensions.equals(other.vendorExtensions))) {
-            return false;
-        }
-
-        if (this.hasValidation != other.hasValidation) {
-            return false;
-        }
-
-        if (this.isString != other.isString) {
-            return false;
-        }
-
-        if (this.isNumeric != other.isNumeric) {
-            return false;
-        }
-        if (this.isInteger != other.isInteger) {
-            return false;
-        }
-        if (this.isLong != other.isLong) {
-            return false;
-        }
-        if (this.isNumber != other.isNumber) {
-            return false;
-        }
-        if (this.isFloat != other.isFloat) {
-            return false;
-        }
-        if (this.isDouble != other.isDouble) {
-            return false;
-        }
-        if (this.isByteArray != other.isByteArray) {
-            return false;
-        }
-        if (this.isBoolean != other.isBoolean) {
-            return false;
-        }
-        if (this.isDate != other.isDate) {
-            return false;
-        }
-        if (this.isDateTime != other.isDateTime) {
-            return false;
-        }
-        if (this.isUuid != other.isUuid) {
-            return false;
-        }
-        if (this.isBinary != other.isBinary) {
-            return false;
-        }
-        if (this.isFile != other.isFile) {
-            return false;
-        }
-        if (this.isListContainer != other.isListContainer) {
-            return false;
-        }
-        if (this.isMapContainer != other.isMapContainer) {
-            return false;
-        }
-        if (!Objects.equals(this.isInherited, other.isInherited)) {
             return false;
         }
         if (!Objects.equals(this.nameInCamelCase, other.nameInCamelCase)) {
@@ -324,9 +529,6 @@ public class CodegenProperty implements Cloneable {
         if (this.minItems != other.minItems && (this.minItems == null || !this.minItems.equals(other.minItems))) {
             return false;
         }
-        if (!Objects.equals(this.isXmlAttribute, other.isXmlAttribute)) {
-            return false;
-        }
         if (!Objects.equals(this.xmlPrefix, other.xmlPrefix)) {
             return false;
         }
@@ -334,9 +536,6 @@ public class CodegenProperty implements Cloneable {
             return false;
         }
         if (!Objects.equals(this.xmlNamespace, other.xmlNamespace)) {
-            return false;
-        }
-        if (!Objects.equals(this.isXmlWrapped, other.isXmlWrapped)) {
             return false;
         }
         return true;

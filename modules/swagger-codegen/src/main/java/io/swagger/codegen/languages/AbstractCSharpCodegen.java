@@ -1,14 +1,24 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
 import io.swagger.codegen.utils.ModelUtils;
-import io.swagger.models.properties.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -356,7 +366,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         Map<String, CodegenModel> enumRefs = new HashMap<String, CodegenModel>();
         for (Map.Entry<String, Object> entry : models.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
-            if (model.isEnum) {
+            boolean isEnum = getBooleanValue(model, IS_ENUM_EXT_NAME);
+            if (isEnum) {
                 enumRefs.put(entry.getKey(), model);
             }
         }
@@ -375,8 +386,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         updateCodegenPropertyEnum(var);
 
                         // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
-                        var.isPrimitiveType = true;
-                        var.isEnum = true;
+                        var.getVendorExtensions().put(CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME, Boolean.TRUE);
+                        var.getVendorExtensions().put(IS_ENUM_EXT_NAME, Boolean.TRUE);
                     }
                 }
             } else {
@@ -405,7 +416,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
 
                         if (this.collectionTypes.contains(typeMapping)) {
-                            operation.isListContainer = true;
+                            operation.getVendorExtensions().put(CodegenConstants.IS_LIST_CONTAINER_EXT_NAME, Boolean.TRUE);
                             operation.returnContainer = operation.returnType;
                             if (this.returnICollection && (
                                     typeMapping.startsWith("List") ||
@@ -418,7 +429,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                             }
                         } else {
                             operation.returnContainer = operation.returnType;
-                            operation.isMapContainer = this.mapTypes.contains(typeMapping);
+                            operation.getVendorExtensions().put(CodegenConstants.IS_MAP_CONTAINER_EXT_NAME, this.mapTypes.contains(typeMapping));
                         }
                     }
 
@@ -538,110 +549,67 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     /**
      * Return the example value of the property
      *
-     * @param p Swagger property object
+     * @param schema Schema property object
      * @return string presentation of the example value of the property
      */
     @Override
-    public String toExampleValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty dp = (StringProperty) p;
-            if (dp.getExample() != null) {
-                return "\"" + dp.getExample().toString() + "\"";
-            }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty dp = (BooleanProperty) p;
-            if (dp.getExample() != null) {
-                return dp.getExample().toString();
-            }
-        } else if (p instanceof DateProperty) {
-            // TODO
-        } else if (p instanceof DateTimeProperty) {
-            // TODO
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getExample() != null) {
-                return dp.getExample().toString();
-            }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getExample() != null) {
-                return dp.getExample().toString();
-            }
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getExample() != null) {
-                return dp.getExample().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getExample() != null) {
-                return dp.getExample().toString();
+    public String toExampleValue(Schema schema) {
+        if (schema instanceof StringSchema) {
+            if (schema.getExample() != null) {
+                return String.format("\"%s\"", schema.getExample().toString());
             }
         }
-
+        if (schema instanceof DateSchema || schema instanceof DateTimeSchema) {
+            // TODO still...
+            return null;
+        } else {
+            if (schema.getExample() != null) {
+                return schema.getExample().toString();
+            }
+        }
         return null;
     }
 
     /**
      * Return the default value of the property
      *
-     * @param p Swagger property object
+     * @param schema Schema property object
      * @return string presentation of the default value of the property
      */
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty dp = (StringProperty) p;
-            if (dp.getDefault() != null) {
-               String _default = dp.getDefault();
-               if (dp.getEnum() == null) {
-                   return "\"" + _default + "\"";
+    public String toDefaultValue(Schema schema) {
+        if (schema instanceof StringSchema) {
+            if (schema.getDefault() != null) {
+               String _default = schema.getDefault().toString();
+               if (schema.getEnum() == null) {
+                   return String.format("\"%s\"", _default);
                } else {
                    // convert to enum var name later in postProcessModels
                    return _default;
                }
             }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty dp = (BooleanProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof DateProperty) {
-            // TODO
-        } else if (p instanceof DateTimeProperty) {
-            // TODO
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return String.format("%1$sF", dp.getDefault());
-            }
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        }
+        if (schema instanceof DateSchema || schema instanceof DateTimeSchema) {
+            // TODO still...
+            return null;
+        } else {
+            if (schema.getDefault() != null) {
+                if(SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
+                    return String.format("%1$sF", schema.getDefault());
+                }
+                return schema.getDefault().toString();
             }
         }
-
         return null;
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema propertySchema) {
+        String swaggerType = super.getSchemaType(propertySchema);
         String type;
 
         if (swaggerType == null) {
-            swaggerType = ""; // set swagger type to empty string if null
+            swaggerType = StringUtils.EMPTY; // set swagger type to empty string if null
         }
 
         // TODO avoid using toLowerCase as typeMapping should be case-sensitive
@@ -657,18 +625,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-
-            return getSwaggerType(p) + "<string, " + getTypeDeclaration(inner) + ">";
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) propertySchema).getItems();
+            return String.format("%s<%s>", getSchemaType(propertySchema), getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return String.format("%s<string, %s>", getSchemaType(propertySchema), getTypeDeclaration(inner));
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(propertySchema);
     }
 
     @Override

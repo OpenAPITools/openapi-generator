@@ -3,10 +3,6 @@ package io.swagger.codegen.languages;
 import io.swagger.codegen.*;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.parameters.Parameter;
 
 import java.io.File;
 import java.util.*;
@@ -15,10 +11,13 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.swagger.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig {
     static Logger LOGGER = LoggerFactory.getLogger(ErlangClientCodegen.class);
@@ -95,8 +94,8 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        String swaggerType = getSwaggerType(p);
+    public String getTypeDeclaration(Schema propertySchema) {
+        String swaggerType = getSchemaType(propertySchema);
         if (typeMapping.containsKey(swaggerType)) {
             return typeMapping.get(swaggerType);
         }
@@ -104,8 +103,8 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema propertySchema) {
+        String swaggerType = super.getSchemaType(propertySchema);
         String type = null;
         if(typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
@@ -164,7 +163,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         String r = new String();
         CodegenParameter q = (CodegenParameter) o;
         if (q.required) {
-            if (q.isListContainer) {
+            if (getBooleanValue(q, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 r += "[{<<\"" + q.baseName + "\">>, X} || X <- " + q.paramName + "]";
             } else {
                 r += "{<<\"" + q.baseName + "\">>, " + q.paramName + "}";
@@ -264,7 +263,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             // force http method to lower case
             o.httpMethod = o.httpMethod.toLowerCase();
 
-            if (o.isListContainer) {
+            if (getBooleanValue(o, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 o.returnType = "[" + o.returnBaseType + "]";
             }
 
@@ -314,7 +313,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         int l = 0;
         for (CodegenParameter o : allParams) {
             CodegenParameter q = (CodegenParameter) o;
-            if (q.required || q.isBodyParam)
+            if (q.required)
                 l++;
         }
 
@@ -343,26 +342,9 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
             // Copy all fields of CodegenOperation
             this.responseHeaders.addAll(o.responseHeaders);
-            this.hasAuthMethods = o.hasAuthMethods;
-            this.hasConsumes = o.hasConsumes;
-            this.hasProduces = o.hasProduces;
-            this.hasParams = o.hasParams;
-            this.hasOptionalParams = o.hasOptionalParams;
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
-            this.isMapContainer = o.isMapContainer;
-            this.isListContainer = o.isListContainer;
-            this.isMultipart = o.isMultipart;
-            this.hasMore = o.hasMore;
-            this.isResponseBinary = o.isResponseBinary;
-            this.hasReference = o.hasReference;
-            this.isRestfulIndex = o.isRestfulIndex;
-            this.isRestfulShow = o.isRestfulShow;
-            this.isRestfulCreate = o.isRestfulCreate;
-            this.isRestfulUpdate = o.isRestfulUpdate;
-            this.isRestfulDestroy = o.isRestfulDestroy;
-            this.isRestful = o.isRestful;
             this.path = o.path;
             this.operationId = o.operationId;
             this.returnType = o.returnType;

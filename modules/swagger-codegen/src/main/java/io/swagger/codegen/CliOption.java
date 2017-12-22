@@ -1,10 +1,7 @@
 package io.swagger.codegen;
 
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.StringProperty;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -17,7 +14,7 @@ public class CliOption {
     private Map<String, String> enumValues;
 
     public CliOption(String opt, String description) {
-        this(opt, description, StringProperty.TYPE);
+        this(opt, description, SchemaTypeUtil.STRING_TYPE);
     }
 
     public CliOption(String opt, String description, String type) {
@@ -26,7 +23,6 @@ public class CliOption {
         this.type = type;
     }
 
-    @ApiModelProperty(name = "optionName")
     public String getOpt() {
         return opt;
     }
@@ -39,7 +35,6 @@ public class CliOption {
         this.description = description;
     }
 
-    @ApiModelProperty(value = "Data type is based on the types supported by the JSON-Schema")
     public String getType() {
         return type;
     }
@@ -80,11 +75,11 @@ public class CliOption {
     }
 
     public static CliOption newBoolean(String opt, String description) {
-        return new CliOption(opt, description, BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString());
+        return new CliOption(opt, description, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString());
     }
 
     public static CliOption newString(String opt, String description) {
-        return new CliOption(opt, description, StringProperty.TYPE);
+        return new CliOption(opt, description, SchemaTypeUtil.STRING_TYPE);
     }
 
     @JsonIgnore

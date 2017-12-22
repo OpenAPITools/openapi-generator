@@ -5,6 +5,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
+
 public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
 
   private String authScheme = "";
@@ -233,7 +236,8 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
       CodegenModel cm = (CodegenModel) mo.get("model");
 
       for (CodegenProperty var : cm.vars) {
-        if (var.isEnum) {
+        boolean isEnum = getBooleanValue(var, IS_ENUM_EXT_NAME);
+        if (isEnum) {
           List<Object> enumValues = (List<Object>) var.allowableValues.get("values");
 
           for (final ListIterator<Object> i = enumValues.listIterator(); i.hasNext(); ) {
@@ -252,7 +256,8 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         Map<String, Object> mo = (Map<String, Object>) _mo;
         CodegenModel cm = (CodegenModel) mo.get("model");
         // for enum model
-        if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+        boolean isEnum = getBooleanValue(cm, IS_ENUM_EXT_NAME);
+        if (Boolean.TRUE.equals(isEnum) && cm.allowableValues != null) {
           cm.imports.add(importMapping.get("SerializedName"));
           Map<String, String> item = new HashMap<String, String>();
           item.put("import", importMapping.get("SerializedName"));

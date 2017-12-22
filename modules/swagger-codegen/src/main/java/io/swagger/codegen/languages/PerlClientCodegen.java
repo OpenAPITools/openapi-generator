@@ -7,27 +7,20 @@ import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CliOption;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.BinaryProperty;
-import io.swagger.models.properties.ByteArrayProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DateProperty;
-
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
 import org.apache.commons.lang3.StringUtils;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String MODULE_NAME = "moduleName";
@@ -208,30 +201,28 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "[string," + getTypeDeclaration(inner) + "]";
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) propertySchema).getItems();
+            return String.format("%s[%s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return String.format("%s[String, %s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(propertySchema);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema propertySchema) {
+        String schemaType = super.getSchemaType(propertySchema);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
         } else {
-            type = swaggerType;
+            type = schemaType;
         }
         if (type == null) {
             return null;
@@ -240,43 +231,19 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty dp = (StringProperty) p;
-            if (dp.getDefault() != null) {
-                return "'" + dp.getDefault() + "'";
-            }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty dp = (BooleanProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof DateProperty) {
-            // TODO
-        } else if (p instanceof DateTimeProperty) {
-            // TODO
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+    public String toDefaultValue(Schema schema) {
+        if(schema instanceof StringSchema) {
+            if (schema.getDefault() != null) {
+                return String.format("'%s'", schema.getDefault());
             }
         }
-
+        if (schema instanceof DateSchema || schema instanceof DateTimeSchema) {
+            // TODO
+            return null;
+        }
+        if (schema.getDefault() != null) {
+            return schema.getDefault().toString();
+        }
         return null;
     }
 
@@ -408,15 +375,17 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
-        if (Boolean.TRUE.equals(p.isString) || Boolean.TRUE.equals(p.isBinary) ||
-                Boolean.TRUE.equals(p.isByteArray) || Boolean.TRUE.equals(p.isFile)) {
+        if (getBooleanValue(p, CodegenConstants.IS_STRING_EXT_NAME) || getBooleanValue(p, CodegenConstants.IS_BINARY_EXT_NAME)
+                || getBooleanValue(p, CodegenConstants.IS_BYTE_ARRAY_EXT_NAME)
+                || getBooleanValue(p, CodegenConstants.IS_FILE_EXT_NAME)) {
             p.example = "'" + p.example + "'";
-        } else if (Boolean.TRUE.equals(p.isBoolean)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_BOOLEAN_EXT_NAME)) {
             if (Boolean.parseBoolean(p.example))
                 p.example = "1";
             else
                 p.example = "0";
-        } else if (Boolean.TRUE.equals(p.isDateTime) || Boolean.TRUE.equals(p.isDate)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_DATE_TIME_EXT_NAME)
+                || getBooleanValue(p, CodegenConstants.IS_DATE_EXT_NAME)) {
             p.example = "DateTime->from_epoch(epoch => str2time('" + p.example + "'))";
         }
 

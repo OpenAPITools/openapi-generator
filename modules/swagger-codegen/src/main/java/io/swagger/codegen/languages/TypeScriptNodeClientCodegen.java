@@ -1,7 +1,8 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.models.properties.FileProperty;
-import io.swagger.models.properties.Property;
+import io.swagger.oas.models.media.FileSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +12,6 @@ import java.util.Date;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.properties.BooleanProperty;
 
 public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNodeClientCodegen.class);
@@ -41,7 +41,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
 
@@ -101,11 +101,11 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof FileProperty) {
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof FileSchema) {
             return "Buffer";
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(propertySchema);
     }
 
 

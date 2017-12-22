@@ -9,20 +9,25 @@ import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.*;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
@@ -263,8 +268,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, swagger);
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> schemas, OpenAPI openAPI) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, schemas, openAPI);
         // Set vendor-extension to be used in template:
         //     x-codegen-hasMoreRequired
         //     x-codegen-hasMoreOptional
@@ -368,59 +373,33 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "<String, " + getTypeDeclaration(inner) + ">";
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) propertySchema).getItems();
+            return String.format("%s[%s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return String.format("%s[String, %s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(propertySchema);
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty bp = (BooleanProperty) p;
-            if (bp.getDefault() != null) {
-                return bp.getDefault().toString();
-            }
-        } else if (p instanceof StringProperty) {
-            StringProperty sp = (StringProperty) p;
-            if (sp.getDefault() != null) {
-                return "\"" + escapeText(sp.getDefault()) + "\"";
+    public String toDefaultValue(Schema schema) {
+        if(schema instanceof StringSchema) {
+            if (schema.getDefault() != null) {
+                return String.format("\"%s\"", schema.getDefault());
             }
         }
-
+        if (schema.getDefault() != null) {
+            return schema.getDefault().toString();
+        }
         return null;
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema schema) {
+        String swaggerType = super.getSchemaType(schema);
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
@@ -693,9 +672,9 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (example == null) {
             example = "nil";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
             example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
             example = "{'key' => " + example + "}";
         }
 

@@ -1,6 +1,9 @@
 package io.swagger.codegen.languages;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static io.swagger.codegen.CodegenConstants.HAS_ENUMS_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,6 +15,9 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -26,10 +32,6 @@ import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.utils.ModelUtils;
-import io.swagger.models.Model;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
 import io.swagger.util.Json;
 
 public abstract class AbstractEiffelCodegen extends DefaultCodegen implements CodegenConfig {
@@ -264,40 +266,38 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return "LIST [" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+    public String getTypeDeclaration(Schema schema) {
+        if (schema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) schema).getItems();
+            return String.format("LIST [%s]", getTypeDeclaration(inner));
 
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
+        } else if (schema instanceof MapSchema) {
+            Schema inner = schema.getAdditionalProperties();
+            return String.format("%s[%s]", getSchemaType(schema), getTypeDeclaration(inner));
         }
         // return super.getTypeDeclaration(p);
 
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
-        String swaggerType = getSwaggerType(p);
-        if (typeMapping.containsKey(swaggerType)) {
-            return typeMapping.get(swaggerType);
+        String schemaType = getSchemaType(schema);
+        if (typeMapping.containsKey(schemaType)) {
+            return typeMapping.get(schemaType);
         }
 
-        if (typeMapping.containsValue(swaggerType)) {
-            return swaggerType;
+        if (typeMapping.containsValue(schemaType)) {
+            return schemaType;
         }
 
-        if (languageSpecificPrimitives.contains(swaggerType)) {
-            return swaggerType;
+        if (languageSpecificPrimitives.contains(schemaType)) {
+            return schemaType;
         }
 
-        return toModelName(swaggerType);
+        return toModelName(schemaType);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema propertySchema) {
+        String swaggerType = super.getSchemaType(propertySchema);
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
@@ -446,17 +446,18 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             for (final CodegenProperty parentProperty : parent.vars) {
                 final CodegenProperty duplicatedByParent = childPropertiesByName.get(parentProperty.name);
                 if (duplicatedByParent != null) {
-                    duplicatedByParent.isInherited = true;
+                    duplicatedByParent.getVendorExtensions().put(CodegenConstants.IS_INHERITED_EXT_NAME, Boolean.TRUE);
                 }
             }
         }
     }
     
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
-        if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
-            final Model parentModel = allDefinitions.get(codegenModel.parentSchema);
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allSchemas) {
+        CodegenModel codegenModel = super.fromModel(name, schema, allSchemas);
+        boolean hasEnums = getBooleanValue(codegenModel, HAS_ENUMS_EXT_NAME);
+        if (allSchemas != null && codegenModel.parentSchema != null && hasEnums) {
+            final Schema parentModel = allSchemas.get(codegenModel.parentSchema);
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
             codegenModel = AbstractEiffelCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
@@ -471,7 +472,8 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         // Because the child models extend the parents, the enums will be available via the parent.
 
         // Only bother with reconciliation if the parent model has enums.
-        if  (!parentCodegenModel.hasEnums) {
+        boolean hasEnums = getBooleanValue(parentCodegenModel, HAS_ENUMS_EXT_NAME);
+        if  (!hasEnums) {
             return codegenModel;
         }
 
@@ -483,13 +485,15 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         boolean removedChildEnum = false;
         for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
             // Look for enums
-            if (parentModelCodegenPropery.isEnum) {
+            boolean isEnum = getBooleanValue(parentModelCodegenPropery, IS_ENUM_EXT_NAME);
+            if (isEnum) {
                 // Now that we have found an enum in the parent class,
                 // and search the child class for the same enum.
                 Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                 while (iterator.hasNext()) {
                     CodegenProperty codegenProperty = iterator.next();
-                    if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
+                    isEnum = getBooleanValue(codegenProperty, IS_ENUM_EXT_NAME);
+                    if (isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
                         // We found an enum in the child class that is
                         // a duplicate of the one in the parent, so remove it.
                         iterator.remove();
@@ -504,7 +508,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             int count = 0, numVars = codegenProperties.size();
             for(CodegenProperty codegenProperty : codegenProperties) {
                 count += 1;
-                codegenProperty.hasMore = (count < numVars) ? true : false;
+                codegenProperty.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, (count < numVars) ? true : false);
             }
             codegenModel.vars = codegenProperties;
         }
@@ -536,21 +540,21 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     }
     
     @Override
-    public String toInstantiationType(Property p) {
-        if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            Property additionalProperties2 = ap.getAdditionalProperties();
+    public String toInstantiationType(Schema schema) {
+        if (schema instanceof MapSchema) {
+            Schema additionalProperties2 = schema.getAdditionalProperties();
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Property " + additionalProperties2 + "\n" //
-                      + "\tIn Property: " + p);
+                      + "\tIn Property: " + schema);
             }
-            String inner = toModelName(getSwaggerType(additionalProperties2));
-            return instantiationTypes.get("map") + " [" + inner + "]";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = toModelName(getSwaggerType(ap.getItems()));
-            return instantiationTypes.get("array") + " [" + inner + "]";
+            String inner = toModelName(getSchemaType(additionalProperties2));
+            return String.format("%s [%s]", instantiationTypes.get("map"), inner);
+        } else if (schema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) schema;
+            String inner = toModelName(getSchemaType(arraySchema.getItems()));
+            //return instantiationTypes.get("array") + " [" + inner + "]";
+            return String.format("%s [%s]", instantiationTypes.get("array"), inner);
         } else {
             return null;
         }
@@ -583,7 +587,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         if (!languageSpecificPrimitives.contains(innerProperty.baseType)) {
             property.complexType = innerProperty.baseType;
         } else {
-            property.isPrimitiveType = true;
+            property.getVendorExtensions().put(CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME, Boolean.TRUE);
         }
         property.items = innerProperty;
         // inner item is Enum

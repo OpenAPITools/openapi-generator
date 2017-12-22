@@ -1,7 +1,6 @@
 package io.swagger.codegen.languages;
 
 import com.google.common.base.Strings;
-
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
@@ -10,28 +9,19 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.DefaultCodegen;
-import io.swagger.models.ArrayModel;
-import io.swagger.models.Info;
-import io.swagger.models.License;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
-
+import io.swagger.codegen.SupportingFile;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.info.Info;
+import io.swagger.oas.models.info.License;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +33,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import static io.swagger.codegen.CodegenConstants.HAS_ENUMS_EXT_NAME;
+import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
@@ -273,11 +267,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        super.preprocessSwagger(swagger);
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
 
-        if (swagger.getInfo() != null) {
-            Info info = swagger.getInfo();
+        if (openAPI.getInfo() != null) {
+            Info info = openAPI.getInfo();
             if (StringUtils.isBlank(projectName) && info.getTitle() != null) {
                 // when projectName is not specified, generate it from info.title
                 projectName = sanitizeName(dashize(info.getTitle()));
@@ -568,67 +562,42 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return "{String: " + getTypeDeclaration(inner) + "}";
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) propertySchema;
+            Schema inner = arraySchema.getItems();
+            return String.format("[%s]", getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return String.format("{String: " + getTypeDeclaration(inner) + "}");
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(propertySchema);
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty dp = (StringProperty) p;
-            if (dp.getDefault() != null) {
-                return "'" + dp.getDefault() + "'";
-            }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty dp = (BooleanProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof DateProperty) {
-            // TODO
-        } else if (p instanceof DateTimeProperty) {
-            // TODO
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+    public String toDefaultValue(Schema propertySchema) {
+        if (propertySchema instanceof StringSchema) {
+            if (propertySchema.getDefault() != null) {
+                return String.format("'%s'", propertySchema.getDefault());
             }
         }
-
+        if (propertySchema instanceof DateSchema || propertySchema instanceof DateTimeSchema) {
+            // TODO
+            return null;
+        }
+        if (propertySchema.getDefault() != null) {
+            return propertySchema.getDefault().toString();
+        }
         return null;
     }
 
     @Override
-    public String toDefaultValueWithParam(String name, Property p) {
-        String type = normalizeType(getTypeDeclaration(p));
-        if (p instanceof RefProperty) {
-            return " = " + type + ".constructFromObject(data['" + name + "']);";
+    public String toDefaultValueWithParam(String name, Schema propertySchema) {
+        String type = normalizeType(getTypeDeclaration(propertySchema));
+        if (StringUtils.isNotBlank(propertySchema.get$ref())) {
+            return String.format(" = %s.constructFromObject(data['%s']);", type, name);
         } else {
-          return " = ApiClient.convertToType(data['" + name + "'], " + type + ");";
+          return String.format(" = ApiClient.convertToType(data['%s'], %s);", name, type);
         }
     }
 
@@ -681,9 +650,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         if (example == null) {
             example = "null";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
             example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (getBooleanValue(p, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
             example = "{key: " + example + "}";
         }
 
@@ -701,19 +670,19 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema propertySchema) {
+        String schemaType = super.getSchemaType(propertySchema);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (!needToImport(type)) {
                 return type;
             }
         } else {
-            type = swaggerType;
+            type = schemaType;
         }
         if (null == type) {
-            LOGGER.error("No Type defined for Property " + p);
+            LOGGER.error("No Type defined for Property " + propertySchema);
         }
         return toModelName(type);
     }
@@ -738,8 +707,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
-      CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, swagger);
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> schemas, OpenAPI openAPI) {
+      CodegenOperation op = super.fromOperation(path, httpMethod, operation, schemas, openAPI);
       if (op.returnType != null) {
         op.returnType = normalizeType(op.returnType);
       }
@@ -776,26 +745,24 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
-
-        if (allDefinitions != null && codegenModel != null && codegenModel.parent != null && codegenModel.hasEnums) {
-            final Model parentModel = allDefinitions.get(codegenModel.parentSchema);
-            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allSchemas) {
+        CodegenModel codegenModel = super.fromModel(name, schema, allSchemas);
+        boolean hasEnums = getBooleanValue(codegenModel, HAS_ENUMS_EXT_NAME);
+        if (allSchemas != null && codegenModel != null && codegenModel.parent != null && hasEnums) {
+            final Schema parentModel = allSchemas.get(codegenModel.parentSchema);
+            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allSchemas);
             codegenModel = JavascriptClientCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
-        if (model instanceof ArrayModel) {
-            ArrayModel am = (ArrayModel) model;
-            if (am.getItems() != null) {
+        if (schema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) schema;
+            if (arraySchema.getItems() != null) {
                 codegenModel.vendorExtensions.put("x-isArray", true);
-                codegenModel.vendorExtensions.put("x-itemType", getSwaggerType(am.getItems()));
+                codegenModel.vendorExtensions.put("x-itemType", getSchemaType(arraySchema.getItems()));
             }
-        } else if (model instanceof ModelImpl) {
-            ModelImpl mm = (ModelImpl)model;
-            if (mm.getAdditionalProperties() != null) {
-                codegenModel.vendorExtensions.put("x-isMap", true);
-                codegenModel.vendorExtensions.put("x-itemType", getSwaggerType(mm.getAdditionalProperties()));
-            }
+        }
+        if (schema.getAdditionalProperties() != null) {
+            codegenModel.vendorExtensions.put("x-isMap", true);
+            codegenModel.vendorExtensions.put("x-itemType", getSchemaType(schema.getAdditionalProperties()));
         }
 
         return codegenModel;
@@ -823,14 +790,15 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     private String getJSDocType(CodegenModel cm, CodegenProperty cp) {
-        if (Boolean.TRUE.equals(cp.isContainer)) {
+        if (getBooleanValue(cp, CodegenConstants.IS_CONTAINER_EXT_NAME)) {
             if (cp.containerType.equals("array"))
                 return "Array.<" + getJSDocType(cm, cp.items) + ">";
             else if (cp.containerType.equals("map"))
                 return "Object.<String, " + getJSDocType(cm, cp.items) + ">";
         }
         String dataType = trimBrackets(cp.datatypeWithEnum);
-        if (cp.isEnum) {
+        boolean isEnum = getBooleanValue(cp, IS_ENUM_EXT_NAME);
+        if (isEnum) {
             dataType = cm.classname + '.' + dataType;
         }
         if (isModelledType(cp))
@@ -840,16 +808,17 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     private boolean isModelledType(CodegenProperty cp) {
         // N.B. enums count as modelled types, file is not modelled (SuperAgent uses some 3rd party library).
-        return cp.isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.datatype : cp.baseType);
+        boolean isEnum = getBooleanValue(cp, IS_ENUM_EXT_NAME);
+        return isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.datatype : cp.baseType);
     }
 
     private String getJSDocType(CodegenParameter cp) {
         String dataType = trimBrackets(cp.dataType);
         if (isModelledType(cp))
             dataType = getModelledType(dataType);
-        if (Boolean.TRUE.equals(cp.isListContainer)) {
+        if (getBooleanValue(cp, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
             return "Array.<" + dataType + ">";
-        } else if (Boolean.TRUE.equals(cp.isMapContainer)) {
+        } else if (getBooleanValue(cp, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
             return "Object.<String, " + dataType + ">";
         }
         return dataType;
@@ -857,7 +826,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     private boolean isModelledType(CodegenParameter cp) {
         // N.B. enums count as modelled types, file is not modelled (SuperAgent uses some 3rd party library).
-        return cp.isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.dataType : cp.baseType);
+        return getBooleanValue(cp, CodegenConstants.IS_ENUM_EXT_NAME) || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.dataType : cp.baseType);
     }
 
     private String getJSDocType(CodegenOperation co) {
@@ -865,9 +834,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (returnType != null) {
             if (isModelledType(co))
                 returnType = getModelledType(returnType);
-            if (Boolean.TRUE.equals(co.isListContainer)) {
+            if (getBooleanValue(co, CodegenConstants.IS_LIST_CONTAINER_EXT_NAME)) {
                 return "Array.<" + returnType + ">";
-            } else if (Boolean.TRUE.equals(co.isMapContainer)) {
+            } else if (getBooleanValue(co, CodegenConstants.IS_MAP_CONTAINER_EXT_NAME)) {
                 return "Object.<String, " + returnType + ">";
             }
         }
@@ -984,7 +953,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         // Because the child models extend the parents, the enums will be available via the parent.
 
         // Only bother with reconciliation if the parent model has enums.
-        if (parentCodegenModel.hasEnums) {
+        boolean hasEnums = getBooleanValue(parentCodegenModel, HAS_ENUMS_EXT_NAME);
+        if (hasEnums) {
 
             // Get the properties for the parent and child models
             final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
@@ -994,13 +964,15 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             boolean removedChildEnum = false;
             for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
                 // Look for enums
-                if (parentModelCodegenPropery.isEnum) {
+                boolean isEnum = getBooleanValue(parentModelCodegenPropery, IS_ENUM_EXT_NAME);
+                if (isEnum) {
                     // Now that we have found an enum in the parent class,
                     // and search the child class for the same enum.
                     Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                     while (iterator.hasNext()) {
                         CodegenProperty codegenProperty = iterator.next();
-                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
+                        isEnum = getBooleanValue(codegenProperty, IS_ENUM_EXT_NAME);
+                        if (isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
                             // We found an enum in the child class that is
                             // a duplicate of the one in the parent, so remove it.
                             iterator.remove();
@@ -1015,7 +987,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 int count = 0, numVars = codegenProperties.size();
                 for(CodegenProperty codegenProperty : codegenProperties) {
                     count += 1;
-                    codegenProperty.hasMore = (count < numVars) ? true : false;
+                    codegenProperty.getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, (count < numVars));
                 }
                 codegenModel.vars = codegenProperties;
             }

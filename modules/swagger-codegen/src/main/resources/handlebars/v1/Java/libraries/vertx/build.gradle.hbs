@@ -1,0 +1,53 @@
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+group = '{{groupId}}'
+version = '{{artifactVersion}}'
+
+repositories {
+    jcenter()
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+install {
+    repositories.mavenInstaller {
+        pom.artifactId = '{{artifactId}}'
+    }
+}
+
+task execute(type:JavaExec) {
+   main = System.getProperty('mainClass')
+   classpath = sourceSets.main.runtimeClasspath
+}
+
+ext {
+    swagger_annotations_version = "1.5.15"
+    jackson_version = "{{^threetenbp}}2.8.9{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}"
+    vertx_version = "3.4.2"
+    junit_version = "4.12"
+}
+
+dependencies {
+    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "io.vertx:vertx-web-client:$vertx_version"
+    compile "io.vertx:vertx-rx-java:$vertx_version"
+    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    {{#joda}}
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
+    {{/joda}}
+    {{#java8}}
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    {{/java8}}
+    {{#threetenbp}}
+    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_version"
+    {{/threetenbp}}
+    testCompile "junit:junit:$junit_version"
+    testCompile "io.vertx:vertx-unit:$vertx_version"
+}
