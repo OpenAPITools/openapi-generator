@@ -16,17 +16,17 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.oas.models.media.ArraySchema;
-import io.swagger.oas.models.media.BooleanSchema;
-import io.swagger.oas.models.media.DateSchema;
-import io.swagger.oas.models.media.DateTimeSchema;
-import io.swagger.oas.models.media.FileSchema;
-import io.swagger.oas.models.media.IntegerSchema;
-import io.swagger.oas.models.media.MapSchema;
-import io.swagger.oas.models.media.NumberSchema;
-import io.swagger.oas.models.media.Schema;
-import io.swagger.oas.models.media.StringSchema;
-import io.swagger.parser.v3.util.SchemaTypeUtil;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.BooleanSchema;
+import io.swagger.v3.oas.models.media.DateSchema;
+import io.swagger.v3.oas.models.media.DateTimeSchema;
+import io.swagger.v3.oas.models.media.FileSchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
@@ -354,7 +354,7 @@ public class RestbedCodegen extends AbstractCppCodegen {
    * into complex models if there is not a mapping.
    *
    * @return a string value of the type or complex model for this property
-   * @see io.swagger.oas.models.media.Schema
+   * @see io.swagger.v3.oas.models.media.Schema
    */
   @Override
   public String getSchemaType(Schema schema) {

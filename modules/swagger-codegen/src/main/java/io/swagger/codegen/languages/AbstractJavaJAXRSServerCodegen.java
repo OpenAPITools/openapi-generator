@@ -9,9 +9,9 @@ import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.codegen.utils.URLPathUtil;
-import io.swagger.oas.models.OpenAPI;
-import io.swagger.oas.models.Operation;
-import io.swagger.oas.models.PathItem;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

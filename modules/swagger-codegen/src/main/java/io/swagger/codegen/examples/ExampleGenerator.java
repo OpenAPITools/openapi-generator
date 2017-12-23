@@ -1,19 +1,19 @@
 package io.swagger.codegen.examples;
 
-import io.swagger.oas.models.media.ArraySchema;
-import io.swagger.oas.models.media.BooleanSchema;
-import io.swagger.oas.models.media.DateSchema;
-import io.swagger.oas.models.media.DateTimeSchema;
-import io.swagger.oas.models.media.FileSchema;
-import io.swagger.oas.models.media.IntegerSchema;
-import io.swagger.oas.models.media.MapSchema;
-import io.swagger.oas.models.media.NumberSchema;
-import io.swagger.oas.models.media.ObjectSchema;
-import io.swagger.oas.models.media.Schema;
-import io.swagger.oas.models.media.StringSchema;
-import io.swagger.oas.models.media.UUIDSchema;
-import io.swagger.parser.v3.util.SchemaTypeUtil;
-import io.swagger.util.Json;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.BooleanSchema;
+import io.swagger.v3.oas.models.media.DateSchema;
+import io.swagger.v3.oas.models.media.DateTimeSchema;
+import io.swagger.v3.oas.models.media.FileSchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.UUIDSchema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+import io.swagger.v3.core.util.Json;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

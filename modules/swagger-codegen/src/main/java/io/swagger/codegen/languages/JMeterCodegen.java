@@ -3,12 +3,12 @@ package io.swagger.codegen.languages;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
-import io.swagger.oas.models.OpenAPI;
-import io.swagger.oas.models.Operation;
-import io.swagger.oas.models.PathItem;
-import io.swagger.oas.models.media.ArraySchema;
-import io.swagger.oas.models.media.MapSchema;
-import io.swagger.oas.models.media.Schema;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.Schema;
 
 import java.io.File;
 import java.util.Arrays;
@@ -176,7 +176,7 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
    * either language specific types via `typeMapping` or into complex models if there is not a mapping.
    *
    * @return a string value of the type or complex model for this property
-   * @see io.swagger.oas.models.media.Schema
+   * @see io.swagger.v3.oas.models.media.Schema
    */
   @Override
   public String getSchemaType(Schema propertySchema) {

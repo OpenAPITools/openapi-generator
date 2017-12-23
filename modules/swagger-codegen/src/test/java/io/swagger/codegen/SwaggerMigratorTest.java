@@ -1,6 +1,6 @@
 package io.swagger.codegen;
 
-import io.swagger.parser.v3.OpenAPIV3Parser;
+import io.swagger.v3.parser.OpenAPIV3Parser;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("static-method")

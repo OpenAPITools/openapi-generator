@@ -4,7 +4,7 @@ import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.oas.models.Operation;
+import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;

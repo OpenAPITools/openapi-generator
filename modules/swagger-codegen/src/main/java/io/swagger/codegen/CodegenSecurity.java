@@ -1,6 +1,6 @@
 package io.swagger.codegen;
 
-import io.swagger.oas.models.security.Scopes;
+import io.swagger.v3.oas.models.security.Scopes;
 
 import java.util.HashMap;
 import java.util.List;

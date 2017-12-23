@@ -3,16 +3,16 @@ package io.swagger.codegen.languages;
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.oas.models.media.ArraySchema;
-import io.swagger.oas.models.media.FileSchema;
-import io.swagger.oas.models.media.MapSchema;
-import io.swagger.oas.models.media.ObjectSchema;
-import io.swagger.oas.models.media.Schema;
-import io.swagger.parser.v3.util.SchemaTypeUtil;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.FileSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
 
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");

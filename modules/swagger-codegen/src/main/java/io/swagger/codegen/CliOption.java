@@ -1,7 +1,7 @@
 package io.swagger.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.parser.v3.util.SchemaTypeUtil;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

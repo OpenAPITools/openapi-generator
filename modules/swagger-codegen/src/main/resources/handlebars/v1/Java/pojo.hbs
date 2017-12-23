@@ -116,7 +116,7 @@ public class {{{getClassDefinition}}} {
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{name}}{{#has this 'more'}}, {{/has}}{{/vars}}{{#parent}}{{#has parent 'vars'}}, {{/has}}super.hashCode(){{/parent}});
+    return Objects.hash({{#vars}}{{name}}{{#has this 'more'}}, {{/has}}{{/vars}}{{#if parent}}{{#has this 'vars'}}, {{/has}}super.hashCode(){{/if}});
   }
   {{/supportJava6~}}
   {{#supportJava6~}}

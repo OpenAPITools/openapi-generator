@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.swagger.oas.models.Operation;
+import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.BooleanUtils;
 
 import io.swagger.codegen.CliOption;

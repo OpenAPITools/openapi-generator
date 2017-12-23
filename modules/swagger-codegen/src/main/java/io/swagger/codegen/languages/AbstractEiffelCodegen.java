@@ -15,9 +15,9 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
-import io.swagger.oas.models.media.ArraySchema;
-import io.swagger.oas.models.media.MapSchema;
-import io.swagger.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -32,7 +32,7 @@ import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.utils.ModelUtils;
-import io.swagger.util.Json;
+import io.swagger.v3.core.util.Json;
 
 public abstract class AbstractEiffelCodegen extends DefaultCodegen implements CodegenConfig {
 

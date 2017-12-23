@@ -10,9 +10,9 @@ import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.languages.features.BeanValidationFeatures;
-import io.swagger.oas.models.OpenAPI;
-import io.swagger.oas.models.media.Schema;
-import io.swagger.util.Json;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.core.util.Json;
 
 import java.io.File;
 import java.util.List;

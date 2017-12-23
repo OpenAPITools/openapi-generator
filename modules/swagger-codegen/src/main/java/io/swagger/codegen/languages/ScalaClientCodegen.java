@@ -1,12 +1,16 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.*;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
 import org.apache.commons.lang3.StringUtils;
 
 public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenConfig {

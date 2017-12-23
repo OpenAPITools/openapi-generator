@@ -7,10 +7,10 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.oas.models.OpenAPI;
-import io.swagger.oas.models.info.Contact;
-import io.swagger.oas.models.info.Info;
-import io.swagger.oas.models.info.License;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;

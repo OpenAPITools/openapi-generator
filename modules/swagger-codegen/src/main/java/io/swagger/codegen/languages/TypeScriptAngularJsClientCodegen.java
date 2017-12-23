@@ -4,7 +4,7 @@ import java.io.File;
 
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenParameter;
-import io.swagger.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.Schema;
 
 public class TypeScriptAngularJsClientCodegen extends AbstractTypeScriptClientCodegen {
 

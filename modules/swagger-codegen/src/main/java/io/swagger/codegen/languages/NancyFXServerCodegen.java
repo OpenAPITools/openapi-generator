@@ -27,9 +27,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import io.swagger.codegen.utils.URLPathUtil;
-import io.swagger.oas.models.OpenAPI;
-import io.swagger.oas.models.media.Schema;
-import io.swagger.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

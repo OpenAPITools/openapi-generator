@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 
-import io.swagger.oas.models.OpenAPI;
-import io.swagger.parser.v3.OpenAPIV3Parser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.OpenAPIV3Parser;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;

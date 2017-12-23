@@ -1,9 +1,9 @@
 package io.swagger.codegen;
 
-import io.swagger.oas.models.OpenAPI;
-import io.swagger.oas.models.Operation;
-import io.swagger.parser.models.ParseOptions;
-import io.swagger.parser.v3.OpenAPIV3Parser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import io.swagger.v3.parser.OpenAPIV3Parser;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

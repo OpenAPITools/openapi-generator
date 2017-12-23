@@ -2,7 +2,7 @@ package io.swagger.codegen.languages;
 
 import java.io.File;
 
-import io.swagger.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.OpenAPI;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.util.Json;
+import io.swagger.v3.core.util.Json;
 
 public class SwaggerGenerator extends DefaultCodegen implements CodegenConfig {
 

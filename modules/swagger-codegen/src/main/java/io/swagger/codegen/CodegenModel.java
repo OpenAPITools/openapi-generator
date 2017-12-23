@@ -1,7 +1,7 @@
 package io.swagger.codegen;
 
-import io.swagger.oas.models.ExternalDocumentation;
-import io.swagger.oas.models.media.Discriminator;
+import io.swagger.v3.oas.models.ExternalDocumentation;
+import io.swagger.v3.oas.models.media.Discriminator;
 
 import java.util.ArrayList;
 import java.util.HashMap;

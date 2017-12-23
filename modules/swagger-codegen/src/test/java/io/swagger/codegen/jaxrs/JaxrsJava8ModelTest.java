@@ -2,12 +2,12 @@ package io.swagger.codegen.jaxrs;
 
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.languages.JavaJerseyServerCodegen;
-import io.swagger.oas.models.media.DateSchema;
-import io.swagger.oas.models.media.DateTimeSchema;
-import io.swagger.oas.models.media.IntegerSchema;
-import io.swagger.oas.models.media.Schema;
-import io.swagger.parser.v3.util.SchemaTypeUtil;
-import io.swagger.util.Json;
+import io.swagger.v3.oas.models.media.DateSchema;
+import io.swagger.v3.oas.models.media.DateTimeSchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+import io.swagger.v3.core.util.Json;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;

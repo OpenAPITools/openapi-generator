@@ -2,8 +2,8 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenParameter;
-import io.swagger.oas.models.media.Schema;
-import io.swagger.parser.v3.util.SchemaTypeUtil;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

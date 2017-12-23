@@ -5,9 +5,9 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.Swift4Codegen;
 import io.swagger.codegen.languages.helpers.ExtensionHelper;
-import io.swagger.oas.models.OpenAPI;
-import io.swagger.oas.models.Operation;
-import io.swagger.parser.v3.OpenAPIV3Parser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.parser.OpenAPIV3Parser;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

@@ -21,11 +21,11 @@ import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache.Compiler;
 
 import io.swagger.codegen.utils.Markdown;
-import io.swagger.oas.models.OpenAPI;
-import io.swagger.oas.models.info.Info;
-import io.swagger.oas.models.media.ArraySchema;
-import io.swagger.oas.models.media.MapSchema;
-import io.swagger.oas.models.media.Schema;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.Schema;
 
 public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.client";

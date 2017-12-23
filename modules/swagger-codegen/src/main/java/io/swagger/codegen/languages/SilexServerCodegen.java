@@ -14,9 +14,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import io.swagger.oas.models.media.ArraySchema;
-import io.swagger.oas.models.media.MapSchema;
-import io.swagger.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 
 public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig {

@@ -1,6 +1,6 @@
 package io.swagger.codegen.auth;
 
-import io.swagger.parser.models.AuthorizationValue;
+import io.swagger.v3.parser.core.models.AuthorizationValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

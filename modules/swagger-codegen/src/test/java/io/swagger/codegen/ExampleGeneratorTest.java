@@ -1,22 +1,14 @@
 package io.swagger.codegen;
 
 import io.swagger.codegen.examples.ExampleGenerator;
-/**
- import io.swagger.models.Model;
- import io.swagger.models.ModelImpl;
- import io.swagger.models.Xml;
- import io.swagger.models.properties.ArrayProperty;
- import io.swagger.models.properties.RefProperty;
- import io.swagger.models.properties.StringProperty;
- */
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
-import io.swagger.oas.models.media.ArraySchema;
-import io.swagger.oas.models.media.Schema;
-import io.swagger.oas.models.media.StringSchema;
-import io.swagger.oas.models.media.XML;
-import io.swagger.util.RefUtils;
+import io.swagger.v3.core.util.RefUtils;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.XML;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
