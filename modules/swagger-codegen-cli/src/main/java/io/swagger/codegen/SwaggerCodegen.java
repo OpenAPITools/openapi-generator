@@ -1,10 +1,10 @@
 package io.swagger.codegen;
 
-import io.swagger.oas.models.OpenAPI;
-import io.swagger.oas.models.media.ArraySchema;
-import io.swagger.oas.models.media.BooleanSchema;
-import io.swagger.oas.models.media.Schema;
-import io.swagger.parser.v3.OpenAPIV3Parser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.BooleanSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.OpenAPIV3Parser;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.Argument;
 import net.sourceforge.argparse4j.inf.ArgumentParser;

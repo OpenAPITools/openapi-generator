@@ -1,12 +1,12 @@
 package io.swagger.codegen;
 
 import com.google.common.io.Resources;
-import io.swagger.oas.models.media.ArraySchema;
-import io.swagger.oas.models.media.BooleanSchema;
-import io.swagger.oas.models.media.IntegerSchema;
-import io.swagger.oas.models.media.NumberSchema;
-import io.swagger.oas.models.media.Schema;
-import io.swagger.parser.v3.util.SchemaTypeUtil;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.BooleanSchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.lang3.StringUtils;
 
