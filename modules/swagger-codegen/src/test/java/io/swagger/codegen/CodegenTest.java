@@ -1,13 +1,18 @@
 package io.swagger.codegen;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
@@ -427,6 +432,24 @@ public class CodegenTest {
         Assert.assertTrue(op.isDeprecated);
     }
     */
+
+    @Test
+    public void testRefParameter() {
+        final Parameter testParameter = new Parameter()
+                .in("query")
+                .name("test")
+                .required(true)
+                .schema(new StringSchema());
+        final Map<String, Parameter> parameterMap = new HashMap<>();
+        parameterMap.put("TestParameter", testParameter);
+        final OpenAPI openAPI = new OpenAPI().components(new Components().parameters(parameterMap));
+
+        Parameter parameter = new DefaultCodegen().getParameterFromRef("#/components/parameters/TestParameter", openAPI);
+
+        Assert.assertNotNull(parameter);
+        Assert.assertEquals(parameter.getIn(), "query");
+        Assert.assertEquals(parameter.getName(), "test");
+    }
 
     private static OpenAPI parseOpenAPI(String path) {
         final ParseOptions options = new ParseOptions();

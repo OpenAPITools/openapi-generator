@@ -1887,6 +1887,9 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (parameters != null) {
             for (Parameter param : parameters) {
+                if (StringUtils.isNotBlank(param.get$ref())) {
+                    param = getParameterFromRef(param.get$ref(), openAPI);
+                }
                 CodegenParameter codegenParameter = fromParameter(param, imports);
                 // rename parameters to make sure all of them have unique names
                 if (ensureUniqueParams) {
@@ -3350,6 +3353,12 @@ public class DefaultCodegen implements CodegenConfig {
             break;
         }
         return schema;
+    }
+
+    protected Parameter getParameterFromRef(String ref, OpenAPI openAPI) {
+        String parameterName = ref.substring(ref.lastIndexOf('/') + 1);
+        Map<String, Parameter> parameterMap = openAPI.getComponents().getParameters();
+        return parameterMap.get(parameterName);
     }
 
     private void setOauth2Info(CodegenSecurity codegenSecurity, OAuthFlow flow) {
