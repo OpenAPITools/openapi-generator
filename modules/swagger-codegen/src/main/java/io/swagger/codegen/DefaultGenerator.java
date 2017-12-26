@@ -574,27 +574,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
 
                 if(ignoreProcessor.allowsFile(new File(outputFilename))) {
-                    if (templateFile.endsWith("mustache") || templateFile.endsWith("hbs")) {
-                        String template = readTemplate(templateFile);
-                        String rendered = null;
-                        if (DefaultCodegen.HANDLEBARS_TEMPLATE.equals(config.templateEngine())) {
-                            String templateName = templateFile.replace("\\", "/");
-                            final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateName.replace(config.templateDir(), StringUtils.EMPTY));
-                            rendered = hTemplate.apply(bundle);
-                        } else {
-                            Mustache.Compiler compiler = Mustache.compiler();
-                            compiler = config.processCompiler(compiler);
-                            Template tmpl = compiler
-                                    .withLoader(new Mustache.TemplateLoader() {
-                                        @Override
-                                        public Reader getTemplate(String name) {
-                                            return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
-                                        }
-                                    })
-                                    .defaultValue("")
-                                    .compile(template);
-                            rendered = tmpl.execute(bundle);
-                        }
+                    if (templateFile.endsWith("mustache")) {
+                        String templateName = templateFile.replace("\\", "/");
+                        final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateName.replace(config.templateDir(), StringUtils.EMPTY));
+                        String rendered = hTemplate.apply(bundle);
                         writeToFile(outputFilename, rendered);
 
                         // writeToFile(outputFilename, tmpl.execute(bundle));
@@ -751,26 +734,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
         if(ignoreProcessor.allowsFile(new File(adjustedOutputFilename))) {
             String templateFile = getFullTemplateFile(config, templateName);
-            String template = readTemplate(templateFile);
-
-            String rendered = null;
-            if (DefaultCodegen.HANDLEBARS_TEMPLATE.equals(config.templateEngine())) {
-                final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateFile);
-                rendered = hTemplate.apply(templateData);
-            } else {
-                Mustache.Compiler compiler = Mustache.compiler();
-                compiler = config.processCompiler(compiler);
-                Template tmpl = compiler
-                        .withLoader(new Mustache.TemplateLoader() {
-                            @Override
-                            public Reader getTemplate(String name) {
-                                return getTemplateReader(getFullTemplateFile(config, name + config.resolveExtension()));
-                            }
-                        })
-                        .defaultValue("")
-                        .compile(template);
-                rendered = tmpl.execute(templateData);
-            }
+            final com.github.jknack.handlebars.Template hTemplate = getHandlebars(templateFile);
+            String rendered = hTemplate.apply(templateData);
             writeToFile(adjustedOutputFilename, rendered);
             return new File(adjustedOutputFilename);
         }
@@ -1040,10 +1005,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (templateFile.startsWith(config.templateDir())) {
             templateFile = templateFile.replaceFirst(config.templateDir(), StringUtils.EMPTY);
         }
-        final TemplateLoader templateLoader = new ClassPathTemplateLoader("/" + config.templateDir(), config.resolveExtension());
+        final TemplateLoader templateLoader = new ClassPathTemplateLoader("/" + config.templateDir(), ".mustache");
         final Handlebars handlebars = new Handlebars(templateLoader);
         config.addHandlebarHelpers(handlebars);
 
-        return handlebars.compile(templateFile.replace(config.resolveExtension(), StringUtils.EMPTY));
+        return handlebars.compile(templateFile.replace(".mustache", StringUtils.EMPTY));
     }
 }

@@ -39,12 +39,6 @@ public interface CodegenConfig {
 
     String templateDir();
 
-    String templateEngine();
-
-    String templateFileExtension();
-
-    String resolveExtension();
-
     String embeddedTemplateDir();
 
     String modelFileFolder();

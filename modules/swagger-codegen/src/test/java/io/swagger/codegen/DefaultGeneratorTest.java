@@ -217,7 +217,7 @@ public class DefaultGeneratorTest {
         return false;
     }
 
-    @Test
+    @Test(enabled = false)
     public void testOverloadingTemplateFiles() throws Exception {
         final File output = folder.getRoot();
 
