@@ -754,7 +754,6 @@ public class JavaModelTest {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setLang("java")
                 .setLibrary("jersey2")
-                .setTemplateEngine("handlebars")
                 //.addAdditionalProperty("withXml", true)
                 .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)
                 .setInputSpec("src/test/resources/3_0_0/petstore.json")
