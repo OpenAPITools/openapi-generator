@@ -820,6 +820,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [PagerDuty](https://www.pagerduty.com)
 - [PagerTree](https://pagertree.com)
 - [Pepipost](https://www.pepipost.com)
+- [Peatio Tech](https://www.peatio.tech)
 - [Plexxi](http://www.plexxi.com)
 - [Pixoneye](http://www.pixoneye.com/)
 - [PostAffiliatePro](https://www.postaffiliatepro.com/)
