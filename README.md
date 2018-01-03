@@ -788,6 +788,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [HashData](http://www.hashdata.cn/)
 - [Hewlett Packard Enterprise](https://hpe.com)
 - [High Technologies Center](http://htc-cs.com)
+- [Hootsuite](https://hootsuite.com/)
 - [IBM](https://www.ibm.com)
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
 - [Individual Standard IVS](http://www.individual-standard.com)
