@@ -789,7 +789,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Hewlett Packard Enterprise](https://hpe.com)
 - [High Technologies Center](http://htc-cs.com)
 - [Hootsuite](https://hootsuite.com/)
-- [Huawei Cloud](https://www.huaweicloud.com) - [Cloud Stream Serivce](http://www.huaweicloud.com/en-us/product/cs.html)
+- [Huawei Cloud](https://www.huaweicloud.com) - [Cloud Stream Service](http://www.huaweicloud.com/en-us/product/cs.html)
 - [IBM](https://www.ibm.com)
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
 - [Individual Standard IVS](http://www.individual-standard.com)
@@ -1133,7 +1133,7 @@ When code is generated from this project, it shall be considered **AS IS** and o
 License
 -------
 
-Copyright 2017 SmartBear Software
+Copyright 2018 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
