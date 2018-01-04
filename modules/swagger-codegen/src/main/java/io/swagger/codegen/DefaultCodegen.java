@@ -82,6 +82,7 @@ import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 public class DefaultCodegen implements CodegenConfig {
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
     public static final String DEFAULT_CONTENT_TYPE = "application/json";
+    public static final String REQUEST_BODY_NAME = "body";
 
     protected String inputSpec;
     protected String outputFolder = "";
@@ -1842,6 +1843,12 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
         List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
 
+        if (operation.getRequestBody() != null) {
+            bodyParam = fromRequestBody(operation.getRequestBody(), schemas, imports);
+            bodyParams.add(bodyParam);
+            allParams.add(bodyParam);
+        }
+
         if (parameters != null) {
             for (Parameter param : parameters) {
                 if (StringUtils.isNotBlank(param.get$ref())) {
@@ -2178,92 +2185,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
         }
-        /** TODO move logic to RequestBody handle)
-        if (true /** is requestbody * /) {
-            if (!(parameter instanceof BodyParameter)) {
-                LOGGER.error("Cannot use Parameter " + parameter + " as Body Parameter");
-            }
-
-            BodyParameter bp = (BodyParameter) parameter;
-            Model model = bp.getSchema();
-
-            if (model instanceof ModelImpl) {
-                ModelImpl impl = (ModelImpl) model;
-                CodegenModel cm = fromModel(bp.getName(), impl);
-                if (!cm.emptyVars) {
-                    codegenParameter.dataType = getTypeDeclaration(cm.classname);
-                    imports.add(codegenParameter.dataType);
-                } else {
-                    Property prop = PropertyBuilder.build(impl.getType(), impl.getFormat(), null);
-                    prop.setRequired(bp.getRequired());
-                    CodegenProperty cp = fromProperty("property", prop);
-                    if (cp != null) {
-                        codegenParameter.baseType = cp.baseType;
-                        codegenParameter.dataType = cp.datatype;
-                        codegenParameter.isPrimitiveType = cp.isPrimitiveType;
-                        codegenParameter.isBinary = isDataTypeBinary(cp.datatype);
-                        codegenParameter.isFile = isDataTypeFile(cp.datatype);
-                        if (cp.complexType != null) {
-                            imports.add(cp.complexType);
-                        }
-                    }
-
-                    // set boolean flag (e.g. isString)
-                    setParameterBooleanFlagWithCodegenProperty(codegenParameter, cp);
-                }
-            } else if (model instanceof ArrayModel) {
-                // to use the built-in model parsing, we unwrap the ArrayModel
-                // and get a single property from it
-                ArrayModel impl = (ArrayModel) model;
-                // get the single property
-                ArrayProperty ap = new ArrayProperty().items(impl.getItems());
-                ap.setRequired(parameter.getRequired());
-                CodegenProperty cp = fromProperty("inner", ap);
-                if (cp.complexType != null) {
-                    imports.add(cp.complexType);
-                }
-                imports.add(cp.baseType);
-
-                // recursively add import
-                CodegenProperty innerCp = cp;
-                while(innerCp != null) {
-                    if(innerCp.complexType != null) {
-                        imports.add(innerCp.complexType);
-                    }
-                    innerCp = innerCp.items;
-                }
-
-                codegenParameter.items = cp;
-                codegenParameter.dataType = cp.datatype;
-                codegenParameter.baseType = cp.complexType;
-                codegenParameter.isPrimitiveType = cp.isPrimitiveType;
-                codegenParameter.isContainer = true;
-                codegenParameter.isListContainer = true;
-
-                // set boolean flag (e.g. isString)
-                setParameterBooleanFlagWithCodegenProperty(codegenParameter, cp);
-            } else {
-                Model sub = bp.getSchema();
-                if (sub instanceof RefModel) {
-                    String name = ((RefModel) sub).getSimpleRef();
-                    name = getAlias(name);
-                    if (typeMapping.containsKey(name)) {
-                        name = typeMapping.get(name);
-                        codegenParameter.baseType = name;
-                    } else {
-                        name = toModelName(name);
-                        codegenParameter.baseType = name;
-                        if (defaultIncludes.contains(name)) {
-                            imports.add(name);
-                        }
-                        imports.add(name);
-                        name = getTypeDeclaration(name);
-                    }
-                    codegenParameter.dataType = name;
-                }
-            }
-            codegenParameter.paramName = toParamName(bp.getName());
-        } */
 
         // Issue #2561 (neilotoole) : Set the is<TYPE>Param flags.
         // This code has been moved to here from #fromOperation
@@ -2329,6 +2250,89 @@ public class DefaultCodegen implements CodegenConfig {
         setParameterExampleValue(codegenParameter);
 
         postProcessParameter(codegenParameter);
+        return codegenParameter;
+    }
+
+    public CodegenParameter fromRequestBody(RequestBody body, Map<String, Schema> schemas, Set<String> imports) {
+        CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+        codegenParameter.baseName = REQUEST_BODY_NAME;
+        codegenParameter.paramName = REQUEST_BODY_NAME;
+        codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
+        codegenParameter.getVendorExtensions().put(CodegenConstants.IS_BODY_PARAM_EXT_NAME, Boolean.TRUE);
+
+        String name = null;
+        Schema schema = getSchemaFromBody(body);
+        if (StringUtils.isNotBlank(schema.get$ref())) {
+            name = getSimpleRef(schema.get$ref());
+            schema = schemas.get(name);
+        }
+        if ((SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType())
+                || (schema.getType() == null && schema.getProperties() != null && !schema.getProperties().isEmpty()))
+                && !(schema instanceof MapSchema)) {
+            CodegenModel codegenModel = null;
+            if (StringUtils.isNotBlank(name)) {
+                schema.setName(name);
+                codegenModel = fromModel(name, schema, schemas);
+            }
+            if (codegenModel != null && !codegenModel.emptyVars) {
+                codegenParameter.paramName = codegenModel.classname.toLowerCase();
+                codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
+                imports.add(codegenParameter.dataType);
+            } else {
+                CodegenProperty codegenProperty = fromProperty("property", schema);
+                if (codegenProperty != null) {
+                    codegenParameter.baseType = codegenProperty.baseType;
+                    codegenParameter.dataType = codegenProperty.datatype;
+
+                    boolean isPrimitiveType = getBooleanValue(codegenProperty, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME);
+                    boolean isBinary = getBooleanValue(codegenProperty, CodegenConstants.IS_BINARY_EXT_NAME);
+                    boolean isFile = getBooleanValue(codegenProperty, CodegenConstants.IS_FILE_EXT_NAME);
+
+                    codegenParameter.getVendorExtensions().put(CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME, isPrimitiveType);
+                    codegenParameter.getVendorExtensions().put(CodegenConstants.IS_BINARY_EXT_NAME, isBinary);
+                    codegenParameter.getVendorExtensions().put(CodegenConstants.IS_FILE_EXT_NAME, isFile);
+
+                    if (codegenProperty.complexType != null) {
+                        imports.add(codegenProperty.complexType);
+                    }
+                }
+                setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+            }
+        }
+        else if (schema instanceof ArraySchema) {
+            final ArraySchema arraySchema = (ArraySchema) schema;
+            Schema inner = arraySchema.getItems();
+            if (inner == null) {
+                inner = new StringSchema().description("//TODO automatically added by swagger-codegen");
+                arraySchema.setItems(inner);
+            }
+            CodegenProperty codegenProperty = fromProperty("inner", inner);
+            if (codegenProperty.complexType != null) {
+                imports.add(codegenProperty.complexType);
+            }
+            imports.add(codegenProperty.baseType);
+            CodegenProperty innerCp = codegenProperty;
+            while(innerCp != null) {
+                if(innerCp.complexType != null) {
+                    imports.add(innerCp.complexType);
+                }
+                innerCp = innerCp.items;
+            }
+            codegenParameter.items = codegenProperty;
+            codegenParameter.dataType = codegenProperty.datatype;
+            codegenParameter.baseType = codegenProperty.complexType;
+            boolean isPrimitiveType = getBooleanValue(codegenProperty, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME);
+            codegenParameter.getVendorExtensions().put(CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME, isPrimitiveType);
+            codegenParameter.getVendorExtensions().put(CodegenConstants.IS_CONTAINER_EXT_NAME, Boolean.TRUE);
+            codegenParameter.getVendorExtensions().put(CodegenConstants.IS_LIST_CONTAINER_EXT_NAME, Boolean.TRUE);
+
+            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+
+            while (codegenProperty != null) {
+                imports.add(codegenProperty.baseType);
+                codegenProperty = codegenProperty.items;
+            }
+        }
         return codegenParameter;
     }
 
@@ -3077,8 +3081,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         // better error handling when map/array type is invalid
         if (name == null) {
-            LOGGER.error("String to be sanitized is null. Default to ERROR_UNKNOWN");
-            return "ERROR_UNKNOWN";
+            LOGGER.error("String to be sanitized is null. Default to " + Object.class.getSimpleName());
+            return Object.class.getSimpleName();
         }
 
         // if the name is just '$', map it to 'value' for the time being.
@@ -3298,6 +3302,12 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
         return new ArrayList<>(requestBody.getContent().keySet()).get(0);
+    }
+
+    protected Schema getSchemaFromBody(RequestBody requestBody) {
+        String contentType = new ArrayList<>(requestBody.getContent().keySet()).get(0);
+        MediaType mediaType = requestBody.getContent().get(contentType);
+        return mediaType.getSchema();
     }
 
     protected Schema getSchemaFromResponse(ApiResponse response) {

@@ -33,7 +33,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
         sourceFolder = "src/gen/java";
         apiTestTemplateFiles.clear(); // TODO: add test template
-        embeddedTemplateDir = templateDir = "JavaInflector";
+        embeddedTemplateDir = templateDir = "v2/JavaInflector";
         invokerPackage = "io.swagger.controllers";
         artifactId = "swagger-inflector-server";
         dateLibrary = "legacy"; //TODO: add joda support
@@ -76,9 +76,9 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
         writeOptional(outputFolder, new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml"));
         writeOptional(outputFolder, new SupportingFile("inflector.mustache", "", "inflector.yaml"));
-        supportingFiles.add(new SupportingFile("swagger.mustache",
-                        "src/main/swagger",
-                        "swagger.yaml")
+        supportingFiles.add(new SupportingFile("openapi3.mustache",
+                        "src/main/resources",
+                        "openapi3.yaml")
         );
         supportingFiles.add(new SupportingFile("StringUtil.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "StringUtil.java"));
@@ -205,10 +205,10 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        OpenAPI openAPI = (OpenAPI) objs.get("openapi");
+        OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
         if(openAPI != null) {
             try {
-                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(openAPI));
+                objs.put("openapi3-yaml", Yaml.mapper().writeValueAsString(openAPI));
             } catch (JsonProcessingException e) {
                 LOGGER.error(e.getMessage(), e);
             }
