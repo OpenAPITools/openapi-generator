@@ -76,7 +76,7 @@ public class CodegenTest {
         Assert.assertEquals(codegenOperation.consumes.size(), 1);
         Assert.assertEquals(codegenOperation.consumes.get(0).get("mediaType"), "multipart/form-data");
         Assert.assertFalse(getBooleanValue(codegenOperation, CodegenConstants.HAS_PRODUCES_EXT_NAME));
-        Assert.assertEquals(codegenOperation.allParams.size(), 1);
+        Assert.assertEquals(codegenOperation.allParams.size(), 2);
     }
     /** todo: uncomment when inline model resolver be implemented on parser
 
