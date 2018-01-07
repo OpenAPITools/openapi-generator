@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.swagger</groupId>
         <artifactId>swagger-codegen-project</artifactId>
-        <version>2.3.0</version>
+        <version>2.3.1-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
     <artifactId>swagger-generator</artifactId>
@@ -112,9 +112,8 @@
                         </goals>
                         <configuration>
                             <url>https://github.com/swagger-api/swagger-ui/archive/master.tar.gz</url>
-
                             <unpack>true</unpack>
-                            <skipCache>true</skipCache>
+                            <!--<skipCache>true</skipCache>-->
                             <outputDirectory>${project.build.directory}</outputDirectory>
                         </configuration>
                     </execution>
