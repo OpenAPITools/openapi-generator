@@ -21,7 +21,7 @@ case class User (
   email: Option[String] = None,
   password: Option[String] = None,
   phone: Option[String] = None,
-  /* User Status */
+  // User Status
   userStatus: Option[Integer] = None
 )
 

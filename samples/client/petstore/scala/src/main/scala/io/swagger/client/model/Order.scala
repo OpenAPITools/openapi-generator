@@ -19,7 +19,7 @@ case class Order (
   petId: Option[Long] = None,
   quantity: Option[Integer] = None,
   shipDate: Option[Date] = None,
-  /* Order Status */
+  // Order Status
   status: Option[String] = None,
   complete: Option[Boolean] = None
 )
