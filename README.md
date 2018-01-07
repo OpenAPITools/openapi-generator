@@ -66,7 +66,7 @@ Check out [OpenAPI-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
     - [Gradle Integration](#gradle-integration)
   - [Github Integration](#github-integration)
   - [Online Generators](#online-generators)
-  - [Guidelines for Contribution](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
+  - [Guidelines for Contribution](https://github.com/swagger-api/swagger-codegen/blob/master/CONTRIBUTING.md#guidelines-for-contributing)
   - [Companies/Projects using Swagger Codegen](#companiesprojects-using-swagger-codegen)
   - [Presentations/Videos/Tutorials/Books](#presentationsvideostutorialsbooks)
   - [Swagger Codegen Core Team](#swagger-codegen-core-team)
