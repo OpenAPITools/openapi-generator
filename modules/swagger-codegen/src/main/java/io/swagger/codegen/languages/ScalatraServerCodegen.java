@@ -151,11 +151,4 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         return objs;
     }
 
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
 }

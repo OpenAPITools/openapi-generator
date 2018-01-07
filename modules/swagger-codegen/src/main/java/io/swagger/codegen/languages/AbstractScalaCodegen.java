@@ -211,4 +211,10 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         int lastIndexOfDot = input.lastIndexOf(".");
         return input.substring(lastIndexOfDot + 1);
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
 }
