@@ -1,0 +1,147 @@
+package {{package}}
+
+import {{modelPackage}}._
+import com.typesafe.config.ConfigFactory
+
+import io.gatling.core.Predef._
+import io.gatling.http.Predef._
+import io.gatling.core.structure.PopulationBuilder
+
+import java.io.File
+
+import scala.collection.mutable
+
+class {{classname}}Simulation extends Simulation {
+
+    def getCurrentDirectory = new File("").getAbsolutePath
+    def userDataDirectory = getCurrentDirectory + "/src/gatling/resources/data"
+
+    // basic test setup
+    val configName = System.getProperty("testConfig", "baseline")
+    val config = ConfigFactory.load(configName).withFallback(ConfigFactory.load("default"))
+    val durationSeconds = config.getInt("performance.durationSeconds")
+    val rampUpSeconds = config.getInt("performance.rampUpSeconds")
+    val rampDownSeconds = config.getInt("performance.rampDownSeconds")
+    val authentication = config.getString("performance.authorizationHeader")
+    val acceptHeader = config.getString("performance.acceptType")
+    val contentTypeHeader = config.getString("performance.contentType")
+    val rateMultiplier = config.getDouble("performance.rateMultiplier")
+    val instanceMultiplier = config.getDouble("performance.instanceMultiplier")
+
+    // global assertion data
+    val globalResponseTimeMinLTE = config.getInt("performance.global.assertions.responseTime.min.lte")
+    val globalResponseTimeMinGTE = config.getInt("performance.global.assertions.responseTime.min.gte")
+    val globalResponseTimeMaxLTE = config.getInt("performance.global.assertions.responseTime.max.lte")
+    val globalResponseTimeMaxGTE = config.getInt("performance.global.assertions.responseTime.max.gte")
+    val globalResponseTimeMeanLTE = config.getInt("performance.global.assertions.responseTime.mean.lte")
+    val globalResponseTimeMeanGTE = config.getInt("performance.global.assertions.responseTime.mean.gte")
+    val globalResponseTimeFailedRequestsPercentLTE = config.getDouble("performance.global.assertions.failedRequests.percent.lte")
+    val globalResponseTimeFailedRequestsPercentGTE = config.getDouble("performance.global.assertions.failedRequests.percent.gte")
+    val globalResponseTimeSuccessfulRequestsPercentLTE = config.getDouble("performance.global.assertions.successfulRequests.percent.lte")
+    val globalResponseTimeSuccessfulRequestsPercentGTE = config.getDouble("performance.global.assertions.successfulRequests.percent.gte")
+
+// Setup http protocol configuration
+    val httpConf = http
+        .baseURL("{{basePath}}")
+        .doNotTrackHeader("1")
+        .acceptLanguageHeader("en-US,en;q=0.5")
+        .acceptEncodingHeader("gzip, deflate")
+        .userAgentHeader("Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0")
+        .acceptHeader(acceptHeader)
+        .contentTypeHeader(contentTypeHeader)
+
+    // set authorization header if it has been modified from config
+    if(!authentication.equals("~MANUAL_ENTRY")){
+        httpConf.authorizationHeader(authentication)
+    }
+
+    // Setup all the operations per second for the test to ultimately be generated from configs
+{{#operations}}
+{{#operation}}
+    val {{operationId}}PerSecond = config.getDouble("performance.operationsPerSecond.{{operationId}}") * rateMultiplier * instanceMultiplier
+{{/operation}}
+{{/operations}}
+
+    val scenarioBuilders: mutable.MutableList[PopulationBuilder] = new mutable.MutableList[PopulationBuilder]()
+
+    // Set up CSV feeders
+{{#operations}}
+{{#operation}}
+    {{#vendorExtensions.x-gatling-query-feeder}}
+    val {{vendorExtensions.x-gatling-query-feeder}} = csv(userDataDirectory + File.separator + "{{operationId}}-queryParams.csv").random
+    {{/vendorExtensions.x-gatling-query-feeder}}
+    {{#vendorExtensions.x-gatling-header-feeder}}
+    val {{vendorExtensions.x-gatling-header-feeder}} = csv(userDataDirectory + File.separator + "{{operationId}}-headerParams.csv").random
+    {{/vendorExtensions.x-gatling-header-feeder}}
+    {{#vendorExtensions.x-gatling-form-feeder}}
+    val {{vendorExtensions.x-gatling-form-feeder}} = csv(userDataDirectory + File.separator + "{{operationId}}-formParams.csv").random
+    {{/vendorExtensions.x-gatling-form-feeder}}
+    {{#vendorExtensions.x-gatling-path-feeder}}
+    val {{vendorExtensions.x-gatling-path-feeder}} = csv(userDataDirectory + File.separator + "{{operationId}}-pathParams.csv").random
+    {{/vendorExtensions.x-gatling-path-feeder}}
+    {{#vendorExtensions.x-gatling-body-feeder}}
+    val {{vendorExtensions.x-gatling-body-feeder}} = csv(userDataDirectory + File.separator + "{{operationId}}-bodyParams.csv", escapeChar = '\\').random
+    {{/vendorExtensions.x-gatling-body-feeder}}
+{{/operation}}
+{{/operations}}
+
+    // Setup all scenarios
+
+{{#operations}}
+{{#operation}}
+    {{#description}}/* {{{description}}} */{{/description}}
+    val scn{{operationId}} = scenario("{{operationId}}Simulation")
+    {{#vendorExtensions.x-gatling-query-feeder}}
+        .feed({{vendorExtensions.x-gatling-query-feeder}})
+    {{/vendorExtensions.x-gatling-query-feeder}}
+    {{#vendorExtensions.x-gatling-header-feeder}}
+        .feed({{vendorExtensions.x-gatling-header-feeder}})
+    {{/vendorExtensions.x-gatling-header-feeder}}
+    {{#vendorExtensions.x-gatling-form-feeder}}
+        .feed({{vendorExtensions.x-gatling-form-feeder}})
+    {{/vendorExtensions.x-gatling-form-feeder}}
+    {{#vendorExtensions.x-gatling-body-feeder}}
+        .feed({{vendorExtensions.x-gatling-body-feeder}})
+    {{/vendorExtensions.x-gatling-body-feeder}}
+    {{#vendorExtensions.x-gatling-path-feeder}}
+        .feed({{vendorExtensions.x-gatling-path-feeder}})
+    {{/vendorExtensions.x-gatling-path-feeder}}
+        .exec(http("{{operationId}}")
+        .httpRequest("{{httpMethod}}","{{{vendorExtensions.x-gatling-path}}}")
+        {{#vendorExtensions.x-gatling-query-params}}
+        .queryParam("{{gatlingParamName}}","{{gatlingParamValue}}")
+        {{/vendorExtensions.x-gatling-query-params}}
+        {{#vendorExtensions.x-gatling-header-params}}
+        .header("{{gatlingParamName}}","{{gatlingParamValue}}")
+        {{/vendorExtensions.x-gatling-header-params}}
+        {{#vendorExtensions.x-gatling-form-params}}
+        .formParam("{{gatlingParamName}}","{{gatlingParamValue}}")
+        {{/vendorExtensions.x-gatling-form-params}}
+        {{#vendorExtensions.x-gatling-body-object}}
+        .body(StringBody({{{vendorExtensions.x-gatling-body-object}}}{{#vendorExtensions.x-gatling-body-feeder-params}}({{{vendorExtensions.x-gatling-body-feeder-params}}}){{/vendorExtensions.x-gatling-body-feeder-params}}))
+        {{/vendorExtensions.x-gatling-body-object}})
+
+    // Run scn{{operationId}} with warm up and reach a constant rate for entire duration
+    scenarioBuilders += scn{{operationId}}.inject(
+        rampUsersPerSec(1) to({{operationId}}PerSecond) during(rampUpSeconds),
+        constantUsersPerSec({{operationId}}PerSecond) during(durationSeconds),
+        rampUsersPerSec({{operationId}}PerSecond) to(1) during(rampDownSeconds)
+    )
+
+{{/operation}}
+{{/operations}}
+    setUp(
+        scenarioBuilders.toList
+    ).protocols(httpConf).assertions(
+        global.responseTime.min.lte(globalResponseTimeMinLTE),
+        global.responseTime.min.gte(globalResponseTimeMinGTE),
+        global.responseTime.max.lte(globalResponseTimeMaxLTE),
+        global.responseTime.max.gte(globalResponseTimeMaxGTE),
+        global.responseTime.mean.lte(globalResponseTimeMeanLTE),
+        global.responseTime.mean.gte(globalResponseTimeMeanGTE),
+        global.failedRequests.percent.lte(globalResponseTimeFailedRequestsPercentLTE),
+        global.failedRequests.percent.gte(globalResponseTimeFailedRequestsPercentGTE),
+        global.successfulRequests.percent.lte(globalResponseTimeSuccessfulRequestsPercentLTE),
+        global.successfulRequests.percent.gte(globalResponseTimeSuccessfulRequestsPercentGTE)
+    )
+}
