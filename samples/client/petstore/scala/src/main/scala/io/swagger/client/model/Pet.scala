@@ -19,7 +19,7 @@ case class Pet (
   name: String,
   photoUrls: List[String],
   tags: Option[List[Tag]] = None,
-  /* pet status in the store */
+  // pet status in the store
   status: Option[String] = None
 )
 

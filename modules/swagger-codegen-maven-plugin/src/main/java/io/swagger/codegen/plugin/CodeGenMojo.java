@@ -405,28 +405,28 @@ public class CodeGenMojo extends AbstractMojo {
 
         // Set generation options
         if (null != generateApis && generateApis) {
-            System.setProperty("apis", "");
+            System.setProperty(CodegenConstants.APIS, "");
         } else {
-            System.clearProperty("apis");
+            System.clearProperty(CodegenConstants.APIS);
         }
 
         if (null != generateModels && generateModels) {
-            System.setProperty("models", modelsToGenerate);
+            System.setProperty(CodegenConstants.MODELS, modelsToGenerate);
         } else {
-            System.clearProperty("models");
+            System.clearProperty(CodegenConstants.MODELS);
         }
 
         if (null != generateSupportingFiles && generateSupportingFiles) {
-            System.setProperty("supportingFiles", supportingFilesToGenerate);
+            System.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesToGenerate);
         } else {
-            System.clearProperty("supportingFiles");
+            System.clearProperty(CodegenConstants.SUPPORTING_FILES);
         }
 
-        System.setProperty("modelTests", generateModelTests.toString());
-        System.setProperty("modelDocs", generateModelDocumentation.toString());
-        System.setProperty("apiTests", generateApiTests.toString());
-        System.setProperty("apiDocs", generateApiDocumentation.toString());
-        System.setProperty("withXml", withXml.toString());
+        System.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.toString());
+        System.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.toString());
+        System.setProperty(CodegenConstants.API_TESTS, generateApiTests.toString());
+        System.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.toString());
+        System.setProperty(CodegenConstants.WITH_XML, withXml.toString());
 
         if (configOptions != null) {
             // Retained for backwards-compataibility with configOptions -> instantiation-types

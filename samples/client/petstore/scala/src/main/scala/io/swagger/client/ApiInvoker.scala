@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation._
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 
 object ScalaJsonUtil {
-  def getJsonMapper = {
+  def getJsonMapper: ObjectMapper = {
     val mapper = new ObjectMapper()
     mapper.registerModule(new DefaultScalaModule())
     mapper.registerModule(new JodaModule())
@@ -130,9 +130,8 @@ class ApiInvoker(val mapper: ObjectMapper = ScalaJsonUtil.getJsonMapper,
     val builder = client.resource(host + path + querystring).accept(contentType)
     headerParams.map(p => builder.header(p._1, p._2))
     defaultHeaders.foreach(p => {
-      headerParams.contains(p._1) match {
-        case true => // override default with supplied header
-        case false => if (p._2 != null) builder.header(p._1, p._2)
+      if (!headerParams.contains(p._1) && p._2 != null) {
+        builder.header(p._1, p._2)
       }
     })
     var formData: MultivaluedMapImpl = null
@@ -142,7 +141,7 @@ class ApiInvoker(val mapper: ObjectMapper = ScalaJsonUtil.getJsonMapper,
     }
 
     val response: ClientResponse = method match {
-      case "GET" => builder.get(classOf[ClientResponse]).asInstanceOf[ClientResponse]
+      case "GET" => builder.get(classOf[ClientResponse])
       case "POST" =>
         if (formData != null && formData.size() > 0) {
             builder.post(classOf[ClientResponse], formData)
@@ -181,46 +180,48 @@ class ApiInvoker(val mapper: ObjectMapper = ScalaJsonUtil.getJsonMapper,
     response.getStatusInfo.getStatusCode match {
       case 204 => ""
       case code: Int if Range(200, 299).contains(code) =>
-        response.hasEntity match {
-          case true => response.getEntity(classOf[String])
-          case false => ""
+        if (response.hasEntity) {
+          response.getEntity(classOf[String])
+        } else {
+          ""
         }
       case _ =>
-        val entity = response.hasEntity match {
-          case true => response.getEntity(classOf[String])
-          case false => "no data"
+        val entity = if (response.hasEntity) {
+          response.getEntity(classOf[String])
+        } else {
+          "no data"
         }
         throw new ApiException(response.getStatusInfo.getStatusCode, entity)
     }
   }
 
   def getClient(host: String): Client = {
-    hostMap.contains(host) match {
-      case true => hostMap(host)
-      case false =>
-        val client = newClient(host)
-        // client.addFilter(new LoggingFilter())
-        hostMap += host -> client
-        client
-      }
+    if (hostMap.contains(host)) {
+      hostMap(host)
+    } else {
+      val client = newClient(host)
+      // client.addFilter(new LoggingFilter())
+      hostMap += host -> client
+      client
+    }
   }
 
-  def newClient(host: String): Client = asyncHttpClient match {
-    case true =>
-      import org.sonatype.spice.jersey.client.ahc.config.DefaultAhcConfig
-      import org.sonatype.spice.jersey.client.ahc.AhcHttpClient
-      import com.ning.http.client.Realm
+  def newClient(host: String): Client = if (asyncHttpClient) {
+    import com.ning.http.client.Realm
+    import org.sonatype.spice.jersey.client.ahc.AhcHttpClient
+    import org.sonatype.spice.jersey.client.ahc.config.DefaultAhcConfig
 
-      val config: DefaultAhcConfig = new DefaultAhcConfig()
-      if (!authScheme.isEmpty) {
-        val authSchemeEnum = Realm.AuthScheme.valueOf(authScheme)
-        config
-          .getAsyncHttpClientConfigBuilder
-          .setRealm(new Realm.RealmBuilder().setScheme(authSchemeEnum)
-          .setUsePreemptiveAuth(authPreemptive).build)
-      }
-      AhcHttpClient.create(config)
-    case _ => Client.create()
+    val config: DefaultAhcConfig = new DefaultAhcConfig()
+    if (!authScheme.isEmpty) {
+      val authSchemeEnum = Realm.AuthScheme.valueOf(authScheme)
+      config
+        .getAsyncHttpClientConfigBuilder
+        .setRealm(new Realm.RealmBuilder().setScheme(authSchemeEnum)
+        .setUsePreemptiveAuth(authPreemptive).build)
+    }
+    AhcHttpClient.create(config)
+  } else {
+     Client.create()
   }
 }
 

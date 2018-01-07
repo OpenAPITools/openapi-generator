@@ -5,11 +5,11 @@ with Swagger.Streams;
 with Ada.Containers.Vectors;
 package {{package}}.Models is
 
-{{#orderedModels}}{{#model}}
-   --  ------------------------------
-   --  {{title}}
-   --  {{description}}
-   --  ------------------------------
+{{#orderedModels}}{{#model}}{{^isArrayModel}}
+{{#title}}   --  ------------------------------
+   --  {{title}}{{#description}}
+   --  {{#lambdaAdaComment}}{{description}}{{/lambdaAdaComment}}{{/description}}
+   --  ------------------------------{{/title}}
    type {{classname}} is
      record
        {{#vars}}
@@ -37,7 +37,9 @@ package {{package}}.Models is
                           Name  : in String;
                           Value : out {{classname}}_Vectors.Vector);
 
-{{/model}}
+{{/isArrayModel}}{{#isArrayModel}}
+   subtype {{classname}} is {{arrayModelType}}_Type_Vectors.Vector;
+{{/isArrayModel}}{{/model}}
 {{/orderedModels}}
 
 end {{package}}.Models;

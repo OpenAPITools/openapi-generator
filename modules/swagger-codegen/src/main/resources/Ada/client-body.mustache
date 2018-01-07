@@ -7,7 +7,7 @@ package body {{package}}.Clients is
 {{#operation}}
 
    --  {{summary}}{{#vendorExtensions.x-has-notes}}
-   --  {{unescapedNotes}}{{/vendorExtensions.x-has-notes}}
+   --  {{#lambdaAdaComment}}{{unescapedNotes}}{{/lambdaAdaComment}}{{/vendorExtensions.x-has-notes}}
    procedure {{operationId}}
       (Client : in out Client_Type{{#hasParams}};{{/hasParams}}{{#allParams}}
        {{paramName}} : in {{^isFile}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}{{package}}.Models.{{/isContainer}}{{/isPrimitiveType}}{{/isString}}{{/isFile}}{{dataType}}{{#hasMore}};{{/hasMore}}{{/allParams}}{{#returnType}};
@@ -19,8 +19,9 @@ package body {{package}}.Clients is
       Reply : Swagger.Value_Type;
       {{/returnType}}
    begin
-      Client.Set_Accept (({{#hasProduces}}{{#produces}}{{#vendorExtensions.x-has-uniq-produces}}1 => {{/vendorExtensions.x-has-uniq-produces}}Swagger.Clients.{{adaMediaType}}{{#hasMore}},
-                          {{/hasMore}}{{/produces}}{{/hasProduces}}));{{#hasBodyParam}}
+{{#hasProduces}}
+      Client.Set_Accept (({{#produces}}{{#vendorExtensions.x-has-uniq-produces}}1 => {{/vendorExtensions.x-has-uniq-produces}}Swagger.Clients.{{adaMediaType}}{{#hasMore}},
+                          {{/hasMore}}{{/produces}}));{{/hasProduces}}{{#hasBodyParam}}
       Client.Initialize (Req, ({{#hasConsumes}}{{#consumes}}{{#vendorExtensions.x-has-uniq-consumes}}1 -> {{/vendorExtensions.x-has-uniq-consumes}}Swagger.Clients.{{adaMediaType}}{{#hasMore}},
                                {{/hasMore}}{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}1 => Swagger.Clients.APPLICATION_JSON{{/hasConsumes}}));{{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
       {{package}}.Models.Serialize (Req.Stream, "{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{#isFile}}
