@@ -3,19 +3,19 @@
 # ~~~~
 
 {{#useSwaggerUI}}
-    GET     /api                        controllers.ApiDocController.api
+GET     /api                        controllers.ApiDocController.api
 {{/useSwaggerUI}}
 
 {{#apiInfo}}
-    {{#apis}}
+{{#apis}}
 
-        #Functions for {{{baseName}}} API
-        {{#operations}}
-            {{#operation}}
-                {{httpMethod}}     {{{contextPath}}}{{{path}}}                     controllers.{{classname}}Controller.{{operationId}}({{#pathParams}}{{paramName}}: {{#isUuid}}java.util.UUID{{/isUuid}}{{^isUuid}}{{{dataType}}}{{/isUuid}}{{#hasMore}}, {{/hasMore}}{{/pathParams}})
-            {{/operation}}
-        {{/operations}}
-    {{/apis}}
+#Functions for {{{baseName}}} API
+{{#operations}}
+{{#operation}}
+{{httpMethod}}     {{{contextPath}}}{{{path}}}                     controllers.{{classname}}Controller.{{operationId}}({{#pathParams}}{{paramName}}: {{#isUuid}}java.util.UUID{{/isUuid}}{{^isUuid}}{{{dataType}}}{{/isUuid}}{{#hasMore}}, {{/hasMore}}{{/pathParams}})
+{{/operation}}
+{{/operations}}
+{{/apis}}
 {{/apiInfo}}
 
 # Map static resources from the /public folder to the /assets URL path
