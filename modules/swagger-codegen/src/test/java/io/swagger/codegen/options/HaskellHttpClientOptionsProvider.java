@@ -14,6 +14,7 @@ public class HaskellHttpClientOptionsProvider implements OptionsProvider {
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String HIDE_GENERATION_TIMESTAMP  = "true";
 
+    public static final String ALLOW_NONUNIQUE_OPERATION_IDS = "false";
     public static final String ALLOW_FROMJSON_NULLS = "true";
     public static final String ALLOW_TOJSON_NULLS = "false";
     public static final String DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S%Q%z";
@@ -42,6 +43,7 @@ public class HaskellHttpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, HIDE_GENERATION_TIMESTAMP)
 
+                .put(HaskellHttpClientCodegen.PROP_ALLOW_NONUNIQUE_OPERATION_IDS, ALLOW_NONUNIQUE_OPERATION_IDS)
                 .put(HaskellHttpClientCodegen.PROP_ALLOW_FROMJSON_NULLS, ALLOW_FROMJSON_NULLS)
                 .put(HaskellHttpClientCodegen.PROP_ALLOW_TOJSON_NULLS, ALLOW_TOJSON_NULLS)
                 .put(HaskellHttpClientCodegen.PROP_DATETIME_FORMAT, DATETIME_FORMAT)

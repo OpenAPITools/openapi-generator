@@ -30,6 +30,8 @@ public class HaskellHttpClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(HaskellHttpClientOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
+            clientCodegen.setAllowNonUniqueOperationIds(Boolean.valueOf(HaskellHttpClientOptionsProvider.ALLOW_NONUNIQUE_OPERATION_IDS));
+            times = 1;
             clientCodegen.setAllowFromJsonNulls(Boolean.valueOf(HaskellHttpClientOptionsProvider.ALLOW_FROMJSON_NULLS));
             times = 1;
             clientCodegen.setAllowToJsonNulls(Boolean.valueOf(HaskellHttpClientOptionsProvider.ALLOW_TOJSON_NULLS));

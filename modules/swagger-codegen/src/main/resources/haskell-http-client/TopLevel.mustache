@@ -4,8 +4,8 @@ Module : {{title}}
 -}
 
 module {{title}}
-  ( module {{title}}.API
-  , module {{title}}.Client
+  ( {{^x-allowNonUniqueOperationIds}} module {{title}}.API
+  ,{{/x-allowNonUniqueOperationIds}} module {{title}}.Client
   , module {{title}}.Core
   , module {{title}}.Logging
   , module {{title}}.MimeTypes
@@ -13,7 +13,7 @@ module {{title}}
   , module {{title}}.ModelLens
   ) where
 
-import {{title}}.API
+{{^x-allowNonUniqueOperationIds}}import {{title}}.API{{/x-allowNonUniqueOperationIds}}
 import {{title}}.Client
 import {{title}}.Core
 import {{title}}.Logging
