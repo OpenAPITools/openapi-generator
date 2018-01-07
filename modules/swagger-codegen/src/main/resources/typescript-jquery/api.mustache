@@ -22,14 +22,18 @@ import { Configuration } from '../configuration';
 export class {{classname}} {
     protected basePath = '{{{basePath}}}';
     public defaultHeaders: Array<string> = [];
+    public defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings = null;
     public configuration: Configuration = new Configuration();
 
-    constructor(basePath?: string, configuration?: Configuration) {
+    constructor(basePath?: string, configuration?: Configuration, defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings) {
         if (basePath) {
             this.basePath = basePath;
         }
         if (configuration) {
             this.configuration = configuration;
+        }
+        if (defaultExtraJQueryAjaxSettings) {
+            this.defaultExtraJQueryAjaxSettings = defaultExtraJQueryAjaxSettings;
         }
     }
 
@@ -52,7 +56,7 @@ export class {{classname}} {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): JQueryPromise<{ response: JQueryXHR; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
         let localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}.replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
 
         let queryParameters: any = {};
@@ -216,6 +220,14 @@ export class {{classname}} {
             requestOptions.contentType = false;
         }
 {{/hasFormParams}}
+
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+        }
 
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(

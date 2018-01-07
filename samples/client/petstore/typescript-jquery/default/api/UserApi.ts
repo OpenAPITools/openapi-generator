@@ -22,14 +22,18 @@ import { Configuration } from '../configuration';
 export class UserApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Array<string> = [];
+    public defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings = null;
     public configuration: Configuration = new Configuration();
 
-    constructor(basePath?: string, configuration?: Configuration) {
+    constructor(basePath?: string, configuration?: Configuration, defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings) {
         if (basePath) {
             this.basePath = basePath;
         }
         if (configuration) {
             this.configuration = configuration;
+        }
+        if (defaultExtraJQueryAjaxSettings) {
+            this.defaultExtraJQueryAjaxSettings = defaultExtraJQueryAjaxSettings;
         }
     }
 
@@ -47,7 +51,7 @@ export class UserApi {
      * @summary Create user
      * @param body Created user object
      */
-    public createUser(body: models.User): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
+    public createUser(body: models.User, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
         let localVarPath = this.basePath + '/user';
 
         let queryParameters: any = {};
@@ -84,6 +88,14 @@ export class UserApi {
             requestOptions.contentType = headerParams['Content-Type'];
         }
 
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+        }
+
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
             (data: any, textStatus: string, jqXHR: JQueryXHR) =>
@@ -99,7 +111,7 @@ export class UserApi {
      * @summary Creates list of users with given input array
      * @param body List of user object
      */
-    public createUsersWithArrayInput(body: Array<models.User>): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
+    public createUsersWithArrayInput(body: Array<models.User>, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
         let localVarPath = this.basePath + '/user/createWithArray';
 
         let queryParameters: any = {};
@@ -136,6 +148,14 @@ export class UserApi {
             requestOptions.contentType = headerParams['Content-Type'];
         }
 
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+        }
+
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
             (data: any, textStatus: string, jqXHR: JQueryXHR) =>
@@ -151,7 +171,7 @@ export class UserApi {
      * @summary Creates list of users with given input array
      * @param body List of user object
      */
-    public createUsersWithListInput(body: Array<models.User>): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
+    public createUsersWithListInput(body: Array<models.User>, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
         let localVarPath = this.basePath + '/user/createWithList';
 
         let queryParameters: any = {};
@@ -188,6 +208,14 @@ export class UserApi {
             requestOptions.contentType = headerParams['Content-Type'];
         }
 
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+        }
+
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
             (data: any, textStatus: string, jqXHR: JQueryXHR) =>
@@ -203,7 +231,7 @@ export class UserApi {
      * @summary Delete user
      * @param username The name that needs to be deleted
      */
-    public deleteUser(username: string): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
+    public deleteUser(username: string, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
         let localVarPath = this.basePath + '/user/{username}'.replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters: any = {};
@@ -237,6 +265,14 @@ export class UserApi {
             requestOptions.contentType = headerParams['Content-Type'];
         }
 
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+        }
+
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
             (data: any, textStatus: string, jqXHR: JQueryXHR) =>
@@ -252,7 +288,7 @@ export class UserApi {
      * @summary Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
-    public getUserByName(username: string): JQueryPromise<{ response: JQueryXHR; body: models.User;  }> {
+    public getUserByName(username: string, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body: models.User;  }> {
         let localVarPath = this.basePath + '/user/{username}'.replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters: any = {};
@@ -286,6 +322,14 @@ export class UserApi {
             requestOptions.contentType = headerParams['Content-Type'];
         }
 
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+        }
+
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
             (data: models.User, textStatus: string, jqXHR: JQueryXHR) =>
@@ -302,7 +346,7 @@ export class UserApi {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    public loginUser(username: string, password: string): JQueryPromise<{ response: JQueryXHR; body: string;  }> {
+    public loginUser(username: string, password: string, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body: string;  }> {
         let localVarPath = this.basePath + '/user/login';
 
         let queryParameters: any = {};
@@ -347,6 +391,14 @@ export class UserApi {
             requestOptions.contentType = headerParams['Content-Type'];
         }
 
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+        }
+
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
             (data: string, textStatus: string, jqXHR: JQueryXHR) =>
@@ -361,7 +413,7 @@ export class UserApi {
      * 
      * @summary Logs out current logged in user session
      */
-    public logoutUser(): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
+    public logoutUser(extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
         let localVarPath = this.basePath + '/user/logout';
 
         let queryParameters: any = {};
@@ -390,6 +442,14 @@ export class UserApi {
             requestOptions.contentType = headerParams['Content-Type'];
         }
 
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+        }
+
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
             (data: any, textStatus: string, jqXHR: JQueryXHR) =>
@@ -406,7 +466,7 @@ export class UserApi {
      * @param username name that need to be deleted
      * @param body Updated user object
      */
-    public updateUser(username: string, body: models.User): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
+    public updateUser(username: string, body: models.User, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
         let localVarPath = this.basePath + '/user/{username}'.replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters: any = {};
@@ -446,6 +506,14 @@ export class UserApi {
         requestOptions.data = JSON.stringify(body);
         if (headerParams['Content-Type']) {
             requestOptions.contentType = headerParams['Content-Type'];
+        }
+
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
         }
 
         let dfd = $.Deferred();
