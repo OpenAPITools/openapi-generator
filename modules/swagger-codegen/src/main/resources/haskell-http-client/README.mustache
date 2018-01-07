@@ -58,6 +58,7 @@ These options allow some customization of the code generation process.
 
 | OPTION                          | DESCRIPTION                                                                                                                   | DEFAULT  | ACTUAL                                |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------- |
+| allowNonUniqueOperationIds      | allow *different* API modules to contain the same operationId. Each API must be imported qualified                            | false    | {{{x-allowNonUniqueOperationIds}}}    |
 | allowFromJsonNulls              | allow JSON Null during model decoding from JSON                                                                               | true     | {{{allowFromJsonNulls}}}              |
 | allowToJsonNulls                | allow emitting JSON Null during model encoding to JSON                                                                        | false    | {{{allowToJsonNulls}}}                |
 | dateFormat                      | format string used to parse/render a date                                                                                     | %Y-%m-%d | {{{dateFormat}}}                      |

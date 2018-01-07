@@ -14,7 +14,7 @@ Module : SwaggerPetstore
 -}
 
 module SwaggerPetstore
-  ( module SwaggerPetstore.API
+  (  module SwaggerPetstore.API
   , module SwaggerPetstore.Client
   , module SwaggerPetstore.Core
   , module SwaggerPetstore.Logging

@@ -21,7 +21,7 @@ dependencies:
 - containers >=0.5.0.0 && <0.6
 - aeson >=1.0 && <2.0
 - bytestring >=0.10.0 && <0.11
-- http-types >=0.8 && <0.10
+- http-types >=0.8 && <0.12
 - http-client >=0.5 && <0.6
 - http-client-tls
 - http-api-data >= 0.3.4 && <0.4

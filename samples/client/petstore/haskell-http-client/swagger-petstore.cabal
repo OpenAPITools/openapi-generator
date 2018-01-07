@@ -32,34 +32,40 @@ library
       lib
   ghc-options: -Wall -funbox-strict-fields
   build-depends:
-      base >=4.7 && <5.0
-    , transformers >=0.4.0.0
-    , mtl >=2.2.1
-    , unordered-containers
-    , aeson >=1.0 && <2.0
-    , bytestring >=0.10.0 && <0.11
+      aeson >=1.0 && <2.0
+    , base >=4.7 && <5.0
     , base64-bytestring >1.0 && <2.0
+    , bytestring >=0.10.0 && <0.11
+    , case-insensitive
     , containers >=0.5.0.0 && <0.6
-    , http-types >=0.8 && <0.11
+    , deepseq >= 1.4 && <1.6
+    , exceptions >= 0.4
+    , http-api-data >= 0.3.4 && <0.4
     , http-client >=0.5 && <0.6
     , http-client-tls
-    , http-api-data >= 0.3.4 && <0.4
     , http-media >= 0.4 && < 0.8
-    , text >=0.11 && <1.3
-    , time >=1.5 && <1.9
+    , http-types >=0.8 && <0.12
     , iso8601-time >=0.1.3 && <0.2.0
-    , vector >=0.10.9 && <0.13
+    , microlens >= 0.4.3 && <0.5
+    , mtl >=2.2.1
     , network >=2.6.2 && <2.7
     , random >=1.1
-    , exceptions >= 0.4
-    , katip >=0.4 && < 0.6
     , safe-exceptions <0.2
-    , case-insensitive
-    , microlens >= 0.4.3 && <0.5
-    , deepseq >= 1.4 && <1.6
+    , text >=0.11 && <1.3
+    , time >=1.5 && <1.9
+    , transformers >=0.4.0.0
+    , unordered-containers
+    , vector >=0.10.9 && <0.13
+    , katip >=0.4 && < 0.6
   exposed-modules:
       SwaggerPetstore
       SwaggerPetstore.API
+      SwaggerPetstore.API.AnotherFake
+      SwaggerPetstore.API.Fake
+      SwaggerPetstore.API.FakeClassnameTags123
+      SwaggerPetstore.API.Pet
+      SwaggerPetstore.API.Store
+      SwaggerPetstore.API.User
       SwaggerPetstore.Client
       SwaggerPetstore.Core
       SwaggerPetstore.Logging
@@ -77,21 +83,21 @@ test-suite tests
       tests
   ghc-options: -Wall -fno-warn-orphans
   build-depends:
-      base >=4.7 && <5.0
-    , transformers >=0.4.0.0
-    , mtl >=2.2.1
-    , unordered-containers
-    , swagger-petstore
+      swagger-petstore
+    , QuickCheck
+    , aeson
+    , base >=4.7 && <5.0
     , bytestring >=0.10.0 && <0.11
     , containers
     , hspec >=1.8
+    , iso8601-time
+    , mtl >=2.2.1
+    , semigroups
     , text
     , time
-    , iso8601-time
-    , aeson
+    , transformers >=0.4.0.0
+    , unordered-containers
     , vector
-    , semigroups
-    , QuickCheck
   other-modules:
       ApproxEq
       Instances
