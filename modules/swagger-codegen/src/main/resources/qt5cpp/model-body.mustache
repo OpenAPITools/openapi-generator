@@ -120,13 +120,11 @@ QJsonObject*
     obj->insert("{{baseName}}", {{name}}JsonArray);
     {{/isListContainer}}
     {{#isMapContainer}}
-    QJsonArray {{name}}JsonArray;
+    QJsonObject {{name}}_jobj;
     for(auto keyval : {{name}}->keys()){
-	    QJsonObject {{name}}_jobj;
-	    toJsonValue(keyval, ((*{{name}})[keyval]), &{{name}}_jobj, "{{complexType}}");
-	    {{name}}JsonArray.append({{name}}_jobj);
-	}   
-    obj->insert("{{baseName}}", {{name}}JsonArray);
+        toJsonValue(keyval, ((*{{name}})[keyval]), &{{name}}_jobj, "{{complexType}}");
+    }   
+    obj->insert("{{baseName}}", {{name}}_jobj);
     {{/isMapContainer}}
     {{/complexType}}
     {{^complexType}}
@@ -139,13 +137,11 @@ QJsonObject*
     obj->insert("{{baseName}}", {{name}}JsonArray);
     {{/isListContainer}}
     {{#isMapContainer}}
-    QJsonArray {{name}}JsonArray;
+    QJsonObject {{name}}_jobj;
     for(auto keyval : {{name}}->keys()){
-	    QJsonObject {{name}}_jobj;
-	    toJsonValue(keyval, ((*{{name}})[keyval]), &{{name}}_jobj, "{{items.baseType}}");
-	    {{name}}JsonArray.append(portsobj);
-	}     
-    obj->insert("{{baseName}}", {{name}}JsonArray);
+        toJsonValue(keyval, ((*{{name}})[keyval]), &{{name}}_jobj, "{{items.baseType}}");
+    }     
+    obj->insert("{{baseName}}", {{name}}_jobj);
     {{/isMapContainer}}
     {{/complexType}}
     {{/vars}}
