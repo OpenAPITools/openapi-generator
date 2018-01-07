@@ -235,10 +235,4 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
         return formatIdentifier(stripPackageName(property.baseName), true);
     }
 
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
 }

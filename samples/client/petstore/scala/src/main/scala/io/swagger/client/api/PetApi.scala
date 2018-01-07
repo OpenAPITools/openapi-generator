@@ -340,6 +340,7 @@ class PetApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends 
     val headerParams = new mutable.HashMap[String, String]
 
     if (status == null) throw new Exception("Missing required parameter 'status' when calling PetApi->findPetsByStatus")
+
     queryParams += "status" -> status.toString
 
     val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
@@ -357,6 +358,7 @@ class PetApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends 
     val headerParams = new mutable.HashMap[String, String]
 
     if (tags == null) throw new Exception("Missing required parameter 'tags' when calling PetApi->findPetsByTags")
+
     queryParams += "tags" -> tags.toString
 
     val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")

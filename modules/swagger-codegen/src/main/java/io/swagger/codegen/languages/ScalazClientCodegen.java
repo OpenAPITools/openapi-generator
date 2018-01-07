@@ -235,12 +235,6 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         public abstract String formatFragment(String fragment);
     }
 
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-    
     private class EnumEntryLambda extends CustomLambda {
         @Override
         public String formatFragment(String fragment) {

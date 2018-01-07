@@ -219,12 +219,6 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
   }
 
   @Override
-  public String escapeQuotationMark(String input) {
-    // remove " to avoid code injection
-    return input.replace("\"", "");
-  }
-
-  @Override
   public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
     objs = super.postProcessModelsEnum(objs);
     List<Object> models = (List<Object>) objs.get("models");
