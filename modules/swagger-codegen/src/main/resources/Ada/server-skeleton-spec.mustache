@@ -1,0 +1,115 @@
+{{>licenseInfo}}
+{{#imports}}with {{import}};
+{{/imports}}
+with Swagger.Servers;
+with {{package}}.Models;
+with Security.Permissions;
+package {{package}}.Skeletons is
+   use {{package}}.Models;
+   type Server_Type is limited interface;
+{{#authMethods}}{{#scopes}}
+   --  {{description}}
+   package ACL_{{ident}} is new Security.Permissions.Definition ("{{scope}}");
+{{/scopes}}{{/authMethods}}
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+
+   --  {{summary}}{{#vendorExtensions.x-has-notes}}
+   --  {{#lambdaAdaComment}}{{unescapedNotes}}{{/lambdaAdaComment}}{{/vendorExtensions.x-has-notes}}
+   procedure {{operationId}}
+      (Server : in out Server_Type{{#hasParams}};{{/hasParams}}
+       {{#allParams}}{{paramName}} : in {{dataType}}{{#hasMore}};
+       {{/hasMore}}{{/allParams}}{{#returnType}};
+       Result  : out {{returnType}}{{/returnType}};
+       Context : in out Swagger.Servers.Context_Type) is abstract;
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+   generic
+      type Implementation_Type is limited new Server_Type with private;
+   package Skeleton is
+
+      procedure Register (Server : in out Swagger.Servers.Application_Type'Class);
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+
+      --  {{summary}}
+      procedure {{operationId}}
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type);
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+   end Skeleton;
+
+   generic
+      type Implementation_Type is limited new Server_Type with private;
+   package Shared_Instance is
+
+      procedure Register (Server : in out Swagger.Servers.Application_Type'Class);
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+
+      --  {{summary}}
+      procedure {{operationId}}
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type);
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+   private
+      protected Server is
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+         --  {{summary}}
+         {{#hasParams}}
+         procedure {{operationId}}
+            ({{#allParams}}{{paramName}} : in {{dataType}}{{#hasMore}};
+             {{/hasMore}}{{/allParams}}{{#returnType}};
+             Result  : out {{returnType}}{{/returnType}};
+             Context : in out Swagger.Servers.Context_Type);
+         {{/hasParams}}
+         {{^hasParams}}
+         {{#returnType}}
+         procedure {{operationId}}
+            (Result  : out {{returnType}};
+             Context : in out Swagger.Servers.Context_Type);
+         {{/returnType}}
+         {{^returnType}}
+         procedure {{operationId}} (Context : in out Swagger.Servers.Context_Type);
+         {{/returnType}}
+         {{/hasParams}}
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+      private
+         Impl : Implementation_Type;
+      end Server;
+   end Shared_Instance;
+
+end {{package}}.Skeletons;

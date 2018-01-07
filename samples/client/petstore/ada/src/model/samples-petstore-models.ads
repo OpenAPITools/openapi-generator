@@ -1,5 +1,5 @@
 --  Swagger Petstore
---  This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+--  This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special_key` to test the authorization filters.
 --
 --  OpenAPI spec version: 1.0.0
 --  Contact: apiteam@swagger.io
@@ -18,9 +18,9 @@ package Samples.Petstore.Models is
    --  ------------------------------
    type ApiResponse_Type is
      record
-       Code : Integer;
-       P_Type : Swagger.UString;
-       Message : Swagger.UString;
+       Code : Swagger.Nullable_Integer;
+       P_Type : Swagger.Nullable_UString;
+       Message : Swagger.Nullable_UString;
      end record;
 
    package ApiResponse_Type_Vectors is
@@ -44,14 +44,15 @@ package Samples.Petstore.Models is
                           Value : out ApiResponse_Type_Vectors.Vector);
 
 
+
    --  ------------------------------
    --  Pet category
    --  A category for a pet
    --  ------------------------------
    type Category_Type is
      record
-       Id : Swagger.Long;
-       Name : Swagger.UString;
+       Id : Swagger.Nullable_Long;
+       Name : Swagger.Nullable_UString;
      end record;
 
    package Category_Type_Vectors is
@@ -75,14 +76,15 @@ package Samples.Petstore.Models is
                           Value : out Category_Type_Vectors.Vector);
 
 
+
    --  ------------------------------
    --  Pet Tag
    --  A tag for a pet
    --  ------------------------------
    type Tag_Type is
      record
-       Id : Swagger.Long;
-       Name : Swagger.UString;
+       Id : Swagger.Nullable_Long;
+       Name : Swagger.Nullable_UString;
      end record;
 
    package Tag_Type_Vectors is
@@ -106,20 +108,21 @@ package Samples.Petstore.Models is
                           Value : out Tag_Type_Vectors.Vector);
 
 
+
    --  ------------------------------
    --  a User
    --  A User who is purchasing from the pet store
    --  ------------------------------
    type User_Type is
      record
-       Id : Swagger.Long;
-       Username : Swagger.UString;
-       First_Name : Swagger.UString;
-       Last_Name : Swagger.UString;
-       Email : Swagger.UString;
-       Password : Swagger.UString;
-       Phone : Swagger.UString;
-       User_Status : Integer;
+       Id : Swagger.Nullable_Long;
+       Username : Swagger.Nullable_UString;
+       First_Name : Swagger.Nullable_UString;
+       Last_Name : Swagger.Nullable_UString;
+       Email : Swagger.Nullable_UString;
+       Password : Swagger.Nullable_UString;
+       Phone : Swagger.Nullable_UString;
+       User_Status : Swagger.Nullable_Integer;
      end record;
 
    package User_Type_Vectors is
@@ -143,18 +146,19 @@ package Samples.Petstore.Models is
                           Value : out User_Type_Vectors.Vector);
 
 
+
    --  ------------------------------
    --  Pet Order
    --  An order for a pets from the pet store
    --  ------------------------------
    type Order_Type is
      record
-       Id : Swagger.Long;
-       Pet_Id : Swagger.Long;
-       Quantity : Integer;
-       Ship_Date : Swagger.Datetime;
-       Status : Swagger.UString;
-       Complete : Boolean;
+       Id : Swagger.Nullable_Long;
+       Pet_Id : Swagger.Nullable_Long;
+       Quantity : Swagger.Nullable_Integer;
+       Ship_Date : Swagger.Nullable_Date;
+       Status : Swagger.Nullable_UString;
+       Complete : Swagger.Nullable_Boolean;
      end record;
 
    package Order_Type_Vectors is
@@ -178,18 +182,19 @@ package Samples.Petstore.Models is
                           Value : out Order_Type_Vectors.Vector);
 
 
+
    --  ------------------------------
    --  a Pet
    --  A pet for sale in the pet store
    --  ------------------------------
    type Pet_Type is
      record
-       Id : Swagger.Long;
+       Id : Swagger.Nullable_Long;
        Category : Samples.Petstore.Models.Category_Type;
        Name : Swagger.UString;
-       Photo_Urls : Swagger.UString_Vectors.Vector;
+       Photo_Urls : Swagger.Nullable_UString_Vectors.Vector;
        Tags : Samples.Petstore.Models.Tag_Type_Vectors.Vector;
-       Status : Swagger.UString;
+       Status : Swagger.Nullable_UString;
      end record;
 
    package Pet_Type_Vectors is
@@ -211,6 +216,7 @@ package Samples.Petstore.Models is
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
                           Value : out Pet_Type_Vectors.Vector);
+
 
 
 end Samples.Petstore.Models;

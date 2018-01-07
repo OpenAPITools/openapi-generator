@@ -1,5 +1,5 @@
 --  Swagger Petstore
---  This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+--  This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special_key` to test the authorization filters.
 --
 --  OpenAPI spec version: 1.0.0
 --  Contact: apiteam@swagger.io
@@ -11,6 +11,7 @@
 package body Samples.Petstore.Models is
 
    use Swagger.Streams;
+
 
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
@@ -61,6 +62,8 @@ package body Samples.Petstore.Models is
    end Deserialize;
 
 
+
+
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
                         Value : in Category_Type) is
@@ -107,6 +110,8 @@ package body Samples.Petstore.Models is
    end Deserialize;
 
 
+
+
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
                         Value : in Tag_Type) is
@@ -151,6 +156,8 @@ package body Samples.Petstore.Models is
          Value.Append (Item);
       end loop;
    end Deserialize;
+
+
 
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
@@ -211,6 +218,8 @@ package body Samples.Petstore.Models is
    end Deserialize;
 
 
+
+
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
                         Value : in Order_Type) is
@@ -265,6 +274,8 @@ package body Samples.Petstore.Models is
    end Deserialize;
 
 
+
+
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
                         Value : in Pet_Type) is
@@ -317,6 +328,7 @@ package body Samples.Petstore.Models is
          Value.Append (Item);
       end loop;
    end Deserialize;
+
 
 
 end Samples.Petstore.Models;
