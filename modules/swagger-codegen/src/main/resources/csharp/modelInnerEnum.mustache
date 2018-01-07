@@ -1,19 +1,21 @@
         {{^isContainer}}
         /// <summary>
-        /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// {{^description}}Defines {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
         /// </summary>
         {{#description}}
         /// <value>{{description}}</value>
         {{/description}}
+        {{#isString}}
         [JsonConverter(typeof(StringEnumConverter))]
-        {{>visibility}} enum {{#datatypeWithEnum}}{{&.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
+        {{/isString}}
+        {{>visibility}} enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}
         {
             {{#allowableValues}}{{#enumVars}}
             /// <summary>
-            /// Enum {{name}} for {{{value}}}
+            /// Enum {{name}} for value: {{{value}}}
             /// </summary>
-            [EnumMember(Value = {{#isLong}}"{{/isLong}}{{#isInteger}}"{{/isInteger}}{{#isFloat}}"{{/isFloat}}{{#isDouble}}"{{/isDouble}}{{{value}}}{{#isLong}}"{{/isLong}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isFloat}}"{{/isFloat}})]
-            {{name}}{{#isLong}} = {{{value}}}{{/isLong}}{{#isInteger}} = {{{value}}}{{/isInteger}}{{^isInteger}} = {{-index}}{{/isInteger}}{{^-last}},
+            {{#isString}}[EnumMember(Value = "{{{value}}}")]{{/isString}}
+            {{name}}{{^isString}} = {{{value}}}{{/isString}}{{#isString}} = {{-index}}{{/isString}}{{^-last}},
             {{/-last}}{{/enumVars}}{{/allowableValues}}
         }
         {{/isContainer}}

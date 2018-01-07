@@ -551,7 +551,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             return;
         }
         Set<String> supportingFilesToGenerate = null;
-        String supportingFiles = System.getProperty("supportingFiles");
+        String supportingFiles = System.getProperty(CodegenConstants.SUPPORTING_FILES);
         if (supportingFiles != null && !supportingFiles.isEmpty()) {
             supportingFilesToGenerate = new HashSet<String>(Arrays.asList(supportingFiles.split(",")));
         }

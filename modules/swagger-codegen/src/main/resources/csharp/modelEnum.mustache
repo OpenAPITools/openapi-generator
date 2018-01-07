@@ -4,14 +4,16 @@
     {{#description}}
     /// <value>{{description}}</value>
     {{/description}}
+    {{#allowableValues}}{{#enumVars}}{{#-first}}{{#isString}}
     [JsonConverter(typeof(StringEnumConverter))]
-    {{>visibility}} enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
+    {{/isString}}{{/-first}}{{/enumVars}}{{/allowableValues}}
+    {{>visibility}} enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}
     {
         {{#allowableValues}}{{#enumVars}}
         /// <summary>
-        /// Enum {{name}} for {{{value}}}
+        /// Enum {{name}} for value: {{{value}}}
         /// </summary>
-        [EnumMember(Value = {{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{{value}}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}})]
-        {{name}}{{#isInteger}} = {{{value}}}{{/isInteger}}{{^isInteger}} = {{-index}}{{/isInteger}}{{^-last}},
+        {{#isString}}[EnumMember(Value = "{{{value}}}")]{{/isString}}
+        {{name}}{{^isString}} = {{{value}}}{{/isString}}{{#isString}} = {{-index}}{{/isString}}{{^-last}},
         {{/-last}}{{/enumVars}}{{/allowableValues}}
-    }
+    }{{! NOTE: This model's enumVars is modified to look like CodegenProperty}}
