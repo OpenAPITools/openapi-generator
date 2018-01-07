@@ -9,26 +9,34 @@ import com.github.phiz71.vertx.swagger.router.SwaggerRouter;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Context;
 import io.vertx.core.Future;
 import io.vertx.core.file.FileSystem;
 import io.vertx.core.json.Json;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 
 public class MainApiVerticle extends AbstractVerticle {
     final static Logger LOGGER = LoggerFactory.getLogger(MainApiVerticle.class); 
     
-    final Router router = Router.router(vertx);
-    
+    protected Router router;
+
+    @Override
+    public void init(Vertx vertx, Context context) {
+        super.init(vertx, context);
+        router = Router.router(vertx);
+    }
+
     @Override
     public void start(Future<Void> startFuture) throws Exception {
         Json.mapper.registerModule(new JavaTimeModule());
-    	FileSystem vertxFileSystem = vertx.fileSystem();
+        FileSystem vertxFileSystem = vertx.fileSystem();
         vertxFileSystem.readFile("swagger.json", readFile -> {
             if (readFile.succeeded()) {
                 Swagger swagger = new SwaggerParser().parse(readFile.result().toString(Charset.forName("utf-8")));
-                Router swaggerRouter = SwaggerRouter.swaggerRouter(Router.router(vertx), swagger, vertx.eventBus(), new OperationIdServiceIdResolver());
+                Router swaggerRouter = SwaggerRouter.swaggerRouter(router, swagger, vertx.eventBus(), new OperationIdServiceIdResolver());
             
                 deployVerticles(startFuture);
                 
@@ -49,7 +57,7 @@ public class MainApiVerticle extends AbstractVerticle {
                 LOGGER.info("PetApiVerticle : Deployed");
             } else {
                 startFuture.fail(res.cause());
-                LOGGER.error("PetApiVerticle : Deployement failed");
+                LOGGER.error("PetApiVerticle : Deployment failed");
             }
         });
         
@@ -58,7 +66,7 @@ public class MainApiVerticle extends AbstractVerticle {
                 LOGGER.info("StoreApiVerticle : Deployed");
             } else {
                 startFuture.fail(res.cause());
-                LOGGER.error("StoreApiVerticle : Deployement failed");
+                LOGGER.error("StoreApiVerticle : Deployment failed");
             }
         });
         
@@ -67,7 +75,7 @@ public class MainApiVerticle extends AbstractVerticle {
                 LOGGER.info("UserApiVerticle : Deployed");
             } else {
                 startFuture.fail(res.cause());
-                LOGGER.error("UserApiVerticle : Deployement failed");
+                LOGGER.error("UserApiVerticle : Deployment failed");
             }
         });
         
