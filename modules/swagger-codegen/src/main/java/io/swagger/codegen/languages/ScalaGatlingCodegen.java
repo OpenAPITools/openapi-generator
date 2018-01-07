@@ -47,7 +47,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      * @return A string value for the help message
      */
     public String getHelp() {
-        return "Generates a gatling simulation library.";
+        return "Generates a gatling simulation library (beta).";
     }
 
     public ScalaGatlingCodegen() {
@@ -71,7 +71,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        templateDir = "ScalaGatling";
+        templateDir = "scala-gatling";
 
         /**
          * Api Package.  Optional, if needed, this can be used in templates
