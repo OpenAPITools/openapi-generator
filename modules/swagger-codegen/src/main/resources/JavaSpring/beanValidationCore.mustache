@@ -15,6 +15,6 @@ check for integer or long / all others=decimal type with @Decimal*
 isInteger set
 }}{{#isInteger}}{{#minimum}}@Min({{minimum}}){{/minimum}}{{#maximum}} @Max({{maximum}}) {{/maximum}}{{/isInteger}}{{!
 isLong set
-}}{{#isLong}}{{#minimum}}@Min({{minimum}}){{/minimum}}{{#maximum}} @Max({{maximum}}) {{/maximum}}{{/isLong}}{{!
+}}{{#isLong}}{{#minimum}}@Min({{minimum}}L){{/minimum}}{{#maximum}} @Max({{maximum}}L) {{/maximum}}{{/isLong}}{{!
 Not Integer, not Long => we have a decimal value!
 }}{{^isInteger}}{{^isLong}}{{#minimum}}@DecimalMin("{{minimum}}"){{/minimum}}{{#maximum}} @DecimalMax("{{maximum}}") {{/maximum}}{{/isLong}}{{/isInteger}}
