@@ -82,8 +82,13 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         // Middleware config
         this.cliOptions.add(new CliOption("pkmstInterceptor", "PKMST Interceptor"));
         this.apiTestTemplateFiles.put("api_test.mustache", ".java");
-        this.modelDocTemplateFiles.remove("model_doc.mustache", ".md");
-        this.apiDocTemplateFiles.remove("api_doc.mustache", ".md");
+        
+        if (".md".equals(this.modelDocTemplateFiles.get("model_doc.mustache"))) {
+            this.modelDocTemplateFiles.remove("model_doc.mustache");
+        }
+        if (".md".equals(this.apiDocTemplateFiles.get("api_doc.mustache"))) {
+            this.apiDocTemplateFiles.remove("api_doc.mustache");
+        }
     }
 
     private static String getAccept(Operation operation) {
