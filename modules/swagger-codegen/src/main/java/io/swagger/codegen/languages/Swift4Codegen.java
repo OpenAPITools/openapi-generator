@@ -139,19 +139,52 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                     // name used by swift client
                     "ErrorResponse", "Response",
 
-                    // swift keywords
-                    "Int", "Int32", "Int64", "Int64", "Float", "Double", "Bool", "Void", "String",
-                    "Character", "AnyObject", "Any", "Error", "URL", "class", "Class", "break",
-                    "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum",
-                    "continue", "false", "dynamic", "extension", "default", "is", "didSet",
-                    "func", "do", "nil", "final", "import", "else", "self", "get", "init",
-                    "fallthrough", "Self", "infix", "internal", "for", "super", "inout", "let",
-                    "if", "true", "lazy", "operator", "in", "COLUMN", "left", "private", "return",
-                    "FILE", "mutating", "protocol", "switch", "FUNCTION", "none", "public",
-                    "where", "LINE", "nonmutating", "static", "while", "optional", "struct",
-                    "override", "subscript", "postfix", "typealias", "precedence", "var",
-                    "prefix", "Protocol", "required", "right", "set", "throw", "Type", "unowned", "weak",
-                    "Data", "Codable", "Encodable", "Decodable")
+                    // Added for Objective-C compatibility
+                    "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
+                    "NSError", "NSDictionary", 
+
+                    //
+                    // Swift keywords. This list is taken from here:
+                    // https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/LexicalStructure.html#//apple_ref/doc/uid/TP40014097-CH30-ID410
+                    //
+                    // Keywords used in declarations
+                    "associatedtype", "class", "deinit", "enum", "extension", "fileprivate", "func", "import", "init",
+                    "inout", "internal", "let", "open", "operator", "private", "protocol", "public", "static", "struct",
+                    "subscript", "typealias", "var",
+                    // Keywords uses in statements
+                    "break", "case", "continue", "default", "defer", "do", "else", "fallthrough", "for", "guard", "if",
+                    "in", "repeat", "return", "switch", "where", "while",
+                    // Keywords used in expressions and types
+                    "as", "Any", "catch", "false", "is", "nil", "rethrows", "super", "self", "Self", "throw", "throws", "true", "try",
+                    // Keywords used in patterns
+                    "_",
+                    // Keywords that begin with a number sign
+                    "#available", "#colorLiteral", "#column", "#else", "#elseif", "#endif", "#file", "#fileLiteral", "#function", "#if",
+                    "#imageLiteral", "#line", "#selector", "#sourceLocation",
+                    // Keywords reserved in particular contexts
+                    "associativity", "convenience", "dynamic", "didSet", "final", "get", "infix", "indirect", "lazy", "left",
+                    "mutating", "none", "nonmutating", "optional", "override", "postfix", "precedence", "prefix", "Protocol",
+                    "required", "right", "set", "Type", "unowned", "weak", "willSet",
+
+                    //
+                    // Swift Standard Library types
+                    // https://developer.apple.com/documentation/swift
+                    //
+                    // Numbers and Basic Values
+                    "Bool", "Int", "Double", "Float", "Range", "ClosedRange", "Error", "Optional",
+                    // Special-Use Numeric Types
+                    "UInt", "UInt8", "UInt16", "UInt32", "UInt64", "Int8", "Int16", "Int32", "Int64", "Float80", "Float32", "Float64",
+                    // Strings and Text
+                    "String", "Character", "Unicode", "StaticString",
+                    // Collections
+                    "Array", "Dictionary", "Set", "OptionSet", "CountableRange", "CountableClosedRange",
+
+                    // The following are commonly-used Foundation types
+                    "URL", "Data", "Codable", "Encodable", "Decodable",
+
+                    // The following are other words we want to reserve
+                    "Void", "AnyObject", "Class", "dynamicType", "COLUMN", "FILE", "FUNCTION", "LINE"
+                    )
         );
 
         typeMapping = new HashMap<>();
