@@ -352,6 +352,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      * those vars referencing RefModel'd enums to work the same as inlined enums rather than as objects.
      * @param models
      */
+    @SuppressWarnings({ "unchecked" })
     private void postProcessEnumRefs(final Map<String, Object> models) {
         Map<String, CodegenModel> enumRefs = new HashMap<String, CodegenModel>();
         for (Map.Entry<String, Object> entry : models.entrySet()) {
@@ -372,15 +373,97 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         // while enums in many other languages are true objects.
                         CodegenModel refModel = enumRefs.get(var.datatype);
                         var.allowableValues = refModel.allowableValues;
+                        var.isEnum = true;
+
                         updateCodegenPropertyEnum(var);
 
                         // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
                         var.isPrimitiveType = true;
-                        var.isEnum = true;
+                    }
+                }
+
+                // We're looping all models here.
+                if (model.isEnum) {
+                    // We now need to make allowableValues.enumVars look like the context of CodegenProperty
+                    Boolean isString = false;
+                    Boolean isInteger = false;
+                    Boolean isLong = false;
+                    Boolean isByte = false;
+
+                    if (model.dataType.startsWith("byte")) {
+                        // C# Actually supports byte and short enums, swagger spec only supports byte.
+                        isByte = true;
+                        model.vendorExtensions.put("x-enum-byte", true);
+                    } else if (model.dataType.startsWith("int32")) {
+                        isInteger = true;
+                        model.vendorExtensions.put("x-enum-integer", true);
+                    } else if (model.dataType.startsWith("int64")) {
+                        isLong = true;
+                        model.vendorExtensions.put("x-enum-long", true);
+                    } else {
+                        // C# doesn't support non-integral enums, so we need to treat everything else as strings (e.g. to not lose precision or data integrity)
+                        isString = true;
+                        model.vendorExtensions.put("x-enum-string", true);
+                    }
+
+                    // Since we iterate enumVars for modelnnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
+                    // we can take advantage of Mustache's contextual lookup to add the same "properties" to the model's enumVars scope rather than CodegenProperty's scope.
+                    List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>)model.allowableValues.get("enumVars");
+                    List<Map<String, Object>> newEnumVars = new ArrayList<Map<String, Object>>();
+                    for (Map<String, String> enumVar : enumVars) {
+                        Map<String, Object> mixedVars = new HashMap<String, Object>();
+                        mixedVars.putAll(enumVar);
+
+                        mixedVars.put("isString", isString);
+                        mixedVars.put("isLong", isLong);
+                        mixedVars.put("isInteger", isInteger);
+                        mixedVars.put("isByte", isByte);
+
+                        newEnumVars.add(mixedVars);
+                    }
+
+                    if (!newEnumVars.isEmpty()) {
+                        model.allowableValues.put("enumVars", newEnumVars);
                     }
                 }
             } else {
                 LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", swaggerName);
+            }
+        }
+    }
+
+    /**
+     * Update codegen property's enum by adding "enumVars" (with name and value)
+     *
+     * @param var list of CodegenProperty
+     */
+    @Override
+    public void updateCodegenPropertyEnum(CodegenProperty var) {
+        if (var.vendorExtensions == null) {
+            var.vendorExtensions = new HashMap<>();
+        }
+
+        super.updateCodegenPropertyEnum(var);
+
+        // Because C# uses nullable primitives for datatype, and datatype is used in DefaultCodegen for determining enum-ness, guard against weirdness here.
+        if (var.isEnum) {
+            if ("byte".equals(var.dataFormat)) {// C# Actually supports byte and short enums.
+                var.vendorExtensions.put("x-enum-byte", true);
+                var.isString = false;
+                var.isLong = false;
+                var.isInteger = false;
+            } else if ("int32".equals(var.dataFormat)) {
+                var.isInteger = true;
+                var.isString = false;
+                var.isLong = false;
+            } else if ("int64".equals(var.dataFormat)) {
+                var.isLong = true;
+                var.isString = false;
+                var.isInteger = false;
+            } else {// C# doesn't support non-integral enums, so we need to treat everything else as strings (e.g. to not lose precision or data integrity)
+                var.isString = true;
+                var.isInteger = false;
+                var.isLong = false;
             }
         }
     }
@@ -770,6 +853,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public String toEnumValue(String value, String datatype) {
+        // C# only supports enums as literals for int, int?, long, long?, byte, and byte?. All else must be treated as strings.
+        // Per: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/enum
+        // The approved types for an enum are byte, sbyte, short, ushort, int, uint, long, or ulong.
+        // but we're not supporting unsigned integral types or shorts.
+        if(datatype.startsWith("int") || datatype.startsWith("long") || datatype.startsWith("byte")) {
+            return value;
+        }
+
+        return escapeText(value);
+    }
+
+    @Override
     public String toEnumVarName(String name, String datatype) {
         if (name.length() == 0) {
             return "Empty";
@@ -799,32 +895,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return sanitizeName(camelize(property.name)) + "Enum";
     }
 
-    /*
-    @Override
-    public String toEnumName(CodegenProperty property) {
-        String enumName = sanitizeName(property.name);
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
-            enumName = modelNamePrefix + "_" + enumName;
-        }
-
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
-            enumName = enumName + "_" + modelNameSuffix;
-        }
-
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(enumName)) {
-            LOGGER.warn(enumName + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + enumName));
-            enumName = "model_" + enumName; // e.g. return => ModelReturn (after camelize)
-        }
-
-        if (enumName.matches("\\d.*")) { // starts with number
-            return "_" + enumName;
-        } else {
-            return enumName;
-        }
-    }
-    */
-
     public String testPackageName() {
         return this.packageName + ".Test";
     }
@@ -839,5 +909,4 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*").replace("--", "- -");
     }
-
 }
