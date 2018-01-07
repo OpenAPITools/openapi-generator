@@ -91,7 +91,7 @@ Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 
 
 ### Prerequisites
-If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
+If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 7 runtime at a minimum):
 
 ```sh
 wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.3.0/swagger-codegen-cli-2.3.0.jar -O swagger-codegen-cli.jar
@@ -108,12 +108,12 @@ brew install swagger-codegen
 
 To build from source, you need the following installed and available in your $PATH:
 
-* [Java 8](http://java.oracle.com)
+* [Java 7 or 8](http://java.oracle.com)
 
 * [Apache maven 3.3.3 or greater](http://maven.apache.org/)
 
 #### OS X Users
-Don't forget to install Java 8. You probably have 1.6.
+Don't forget to install Java 7 or 8. You probably have 1.6.
 
 Export JAVA_HOME in order to use the supported Java version:
 ```sh
@@ -919,7 +919,7 @@ Presentations/Videos/Tutorials/Books
 - 2017/09/21 - [Generating an Elastic Cloud Enterprise Client](https://www.elastic.co/blog/generating-an-elastic-cloud-enterprise-client) by [Greg Marzouka](https://github.com/gmarz) ([Elastic](https://www.elastic.co/))
 - 2017/09/26 - [How to Use IoT Application Enablement Api Hub JSON Descriptor in Postman and How to Generate Client Code](https://www.linkedin.com/in/radu-simen/) by [Radu Simen](https://www.linkedin.com/in/radu-simen/) ([SAP](https://www.sap.com/))
 - 2017/09/28 - [Swagger Codegenで APIクライアントgem 自動生成 #m3kt](https://speakerdeck.com/juntaki/swagger-codegende-apikuraiantogem-zi-dong-sheng-cheng-number-m3kt) by [Jumpei Takiyasu](https://github.com/juntaki)
-- 2017/09/30 - [Swaggerのテンプレートを魔改造した話 #渋谷java](https://www.slideshare.net/int128/swagger-80309224) by [Hidetake Iwata](https://github.com/int128) ([NTT DATA Corporation](http://www.nttdata.com/global/en/))
+- 2017/09/30 - [Swaggerのテンプレートを魔改造した話 #渋谷java](https://www.slideshare.net/int128/swagger-80309224) by [Hidetake Iwata](https://github.com/int128) ([NTT DATA Corporation](http://www.nttdata.com/global/en/))
 - 2017/10/04 - [Enterprise-friendly Java client for Microsoft Machine Learning Server](https://blogs.msdn.microsoft.com/mlserver/2017/10/04/enterprise-friendly-java-client-for-microsoft-machine-learning-server/) by [Pratik Palnitkar](https://www.linkedin.com/in/pratikpalnitkar/) ([Microsoft](https://www.microsoft.com/))
 - 2017/10/08 - [Generating a REST Ada client with OpenAPI and Swagger Codegen](https://blog.vacs.fr/vacs/blogs/post.html?post=2017/10/08/Generating-a-REST-Ada-client-with-OpenAPI-and-Swagger-Codegen) by [Stephane Carrez](https://github.com/stcarrez)
 - 2017/11/08 - [A Beginner's Guide to Code Generation for REST APIs](https://gum.co/swagger_codegen_beginner)(eBook) by [William Cheng](https://twitter.com/wing328)
