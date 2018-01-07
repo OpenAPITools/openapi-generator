@@ -12,8 +12,8 @@ package petstore
 
 import (
 	"io/ioutil"
-	"net/url"
 	"net/http"
+	"net/url"
 	"strings"
 	"golang.org/x/net/context"
 	"encoding/json"
@@ -27,18 +27,17 @@ var (
 
 type StoreApiService service
 
-
 /* StoreApiService Delete purchase order by ID
- For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
  * @param ctx context.Context for authentication, logging, tracing, etc.
- @param orderId ID of the order that needs to be deleted
- @return */
-func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) ( *http.Response, error) {
+@param orderId ID of the order that needs to be deleted
+@return */
+func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Delete")
-		localVarPostBody interface{}
-		localVarFileName string
-		localVarFileBytes []byte
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
 	)
 
 	// create path and map variables
@@ -49,9 +48,8 @@ func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) ( *ht
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{  }
+	localVarHttpContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -60,10 +58,7 @@ func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) ( *ht
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{
-		"application/xml",
-		"application/json",
-		}
+	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -84,21 +79,20 @@ func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) ( *ht
 		bodyBytes, _ := ioutil.ReadAll(localVarHttpResponse.Body)
 		return localVarHttpResponse, reportError("Status: %v, Body: %s", localVarHttpResponse.Status, bodyBytes)
 	}
-
 	return localVarHttpResponse, err
 }
 
 /* StoreApiService Returns pet inventories by status
- Returns a map of status codes to quantities
+Returns a map of status codes to quantities
  * @param ctx context.Context for authentication, logging, tracing, etc.
- @return map[string]int32*/
-func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32,  *http.Response, error) {
+@return map[string]int32*/
+func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
-		localVarPostBody interface{}
-		localVarFileName string
-		localVarFileBytes []byte
-	 	successPayload  map[string]int32
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		successPayload     map[string]int32
 	)
 
 	// create path and map variables
@@ -108,9 +102,8 @@ func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32,  
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{  }
+	localVarHttpContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -119,9 +112,7 @@ func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32,  
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{
-		"application/json",
-		}
+	localVarHttpHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -159,22 +150,21 @@ func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32,  
 		return successPayload, localVarHttpResponse, err
 	}
 
-
 	return successPayload, localVarHttpResponse, err
 }
 
 /* StoreApiService Find purchase order by ID
- For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
  * @param ctx context.Context for authentication, logging, tracing, etc.
- @param orderId ID of pet that needs to be fetched
- @return Order*/
-func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Order,  *http.Response, error) {
+@param orderId ID of pet that needs to be fetched
+@return Order*/
+func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Order, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
-		localVarPostBody interface{}
-		localVarFileName string
-		localVarFileBytes []byte
-	 	successPayload  Order
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		successPayload     Order
 	)
 
 	// create path and map variables
@@ -184,7 +174,6 @@ func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Orde
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-
 	if orderId < 1 {
 		return successPayload, nil, reportError("orderId must be greater than 1")
 	}
@@ -193,7 +182,7 @@ func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Orde
 	}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{  }
+	localVarHttpContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -202,10 +191,7 @@ func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Orde
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{
-		"application/xml",
-		"application/json",
-		}
+	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -231,22 +217,21 @@ func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Orde
 		return successPayload, localVarHttpResponse, err
 	}
 
-
 	return successPayload, localVarHttpResponse, err
 }
 
 /* StoreApiService Place an order for a pet
- 
+
  * @param ctx context.Context for authentication, logging, tracing, etc.
- @param body order placed for purchasing the pet
- @return Order*/
-func (a *StoreApiService) PlaceOrder(ctx context.Context, body Order) (Order,  *http.Response, error) {
+@param body order placed for purchasing the pet
+@return Order*/
+func (a *StoreApiService) PlaceOrder(ctx context.Context, body Order) (Order, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
-		localVarPostBody interface{}
-		localVarFileName string
-		localVarFileBytes []byte
-	 	successPayload  Order
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		successPayload     Order
 	)
 
 	// create path and map variables
@@ -256,9 +241,8 @@ func (a *StoreApiService) PlaceOrder(ctx context.Context, body Order) (Order,  *
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{  }
+	localVarHttpContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -267,10 +251,7 @@ func (a *StoreApiService) PlaceOrder(ctx context.Context, body Order) (Order,  *
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{
-		"application/xml",
-		"application/json",
-		}
+	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -298,7 +279,5 @@ func (a *StoreApiService) PlaceOrder(ctx context.Context, body Order) (Order,  *
 		return successPayload, localVarHttpResponse, err
 	}
 
-
 	return successPayload, localVarHttpResponse, err
 }
-

@@ -12,6 +12,5 @@ package petstore
 
 // Model for testing model with \"_class\" property
 type ClassModel struct {
-
 	Class string `json:"_class,omitempty"`
 }

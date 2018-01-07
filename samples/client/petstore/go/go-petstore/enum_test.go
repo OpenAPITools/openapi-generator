@@ -11,7 +11,6 @@
 package petstore
 
 type EnumTest struct {
-
 	EnumString string `json:"enum_string,omitempty"`
 
 	EnumInteger int32 `json:"enum_integer,omitempty"`
