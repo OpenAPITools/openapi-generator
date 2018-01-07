@@ -5,10 +5,12 @@ with Util.Http.Clients.Curl;
 with Ada.Text_IO;
 with Ada.Command_Line;
 with Ada.Calendar.Formatting;
+with Ada.Strings.Unbounded;
 with Ada.Exceptions;
 procedure Test is
 
    use Ada.Text_IO;
+   use type Ada.Strings.Unbounded.Unbounded_String;
 
    procedure Usage;
    procedure Print_Pet (Pet : in Samples.Petstore.Models.Pet_Type);
@@ -48,14 +50,14 @@ procedure Test is
    procedure Print_Pet (Pet : in Samples.Petstore.Models.Pet_Type) is
       Need_Indent : Boolean := False;
    begin
-      Put_Line ("Id      : " & Swagger.Long'Image (Pet.Id));
+      Put_Line ("Id      : " & Swagger.Long'Image (Pet.Id.Value));
       Put_Line ("Name    : " & Swagger.To_String (Pet.Name));
-      Put_Line ("Status  : " & Swagger.To_String (Pet.Status));
+      Put_Line ("Status  : " & Swagger.To_String (Pet.Status.Value));
       if not Pet.Tags.Is_Empty then
          Put ("Tags    : ");
          for Tag of Pet.Tags loop
             Put_Line ((if Need_Indent then "          " else "")
-                      & Swagger.To_String (Tag.Name));
+                      & Swagger.To_String (Tag.Name.Value));
             Need_Indent := True;
          end loop;
       end if;
@@ -63,7 +65,7 @@ procedure Test is
          Need_Indent := False;
          Put ("URLs    : ");
          for Url of Pet.Photo_Urls loop
-            Put_Line ((if Need_Indent then "          " else "") & Url);
+            Put_Line ((if Need_Indent then "          " else "") & Swagger.To_String (Url.Value));
             Need_Indent := True;
          end loop;
       end if;
@@ -71,12 +73,12 @@ procedure Test is
 
    procedure Print_Order (Order : in Samples.Petstore.Models.Order_Type) is
    begin
-      Put_Line ("Id          : " & Swagger.Long'Image (Order.Id));
-      Put_Line ("Pet id      : " & Swagger.Long'Image (Order.Pet_Id));
-      Put_Line ("Quantity    : " & Integer'Image (Order.Quantity));
-      Put_Line ("Status      : " & Swagger.To_String (Order.Status));
-      Put_Line ("Ship date   : " & Ada.Calendar.Formatting.Image (Order.Ship_Date));
-      Put_Line ("Complete    : " & Boolean'Image (Order.Complete));
+      Put_Line ("Id          : " & Swagger.Long'Image (Order.Id.Value));
+      Put_Line ("Pet id      : " & Swagger.Long'Image (Order.Pet_Id.Value));
+      Put_Line ("Quantity    : " & Integer'Image (Order.Quantity.Value));
+      Put_Line ("Status      : " & Swagger.To_String (Order.Status.Value));
+      Put_Line ("Ship date   : " & Ada.Calendar.Formatting.Image (Order.Ship_Date.Value));
+      Put_Line ("Complete    : " & Boolean'Image (Order.Complete.Value));
    end Print_Order;
 
    procedure Get_User (C : in out Samples.Petstore.Clients.Client_Type) is
@@ -85,13 +87,13 @@ procedure Test is
    begin
       for I in Arg .. Arg_Count loop
          C.Get_User_By_Name (Swagger.To_UString (Ada.Command_Line.Argument (I)), User);
-         Put_Line ("Id       : " & Swagger.Long'Image (User.Id));
-         Put_Line ("Username : " & Swagger.To_String (User.Username));
-         Put_Line ("Firstname: " & Swagger.To_String (User.First_Name));
-         Put_Line ("Lastname : " & Swagger.To_String (User.Last_Name));
-         Put_Line ("Email    : " & Swagger.To_String (User.Email));
-         Put_Line ("Password : " & Swagger.To_String (User.Password));
-         Put_Line ("Phone    : " & Swagger.To_String (User.Phone));
+         Put_Line ("Id       : " & Swagger.Long'Image (User.Id.Value));
+         Put_Line ("Username : " & Swagger.To_String (User.Username.Value));
+         Put_Line ("Firstname: " & Swagger.To_String (User.First_Name.Value));
+         Put_Line ("Lastname : " & Swagger.To_String (User.Last_Name.Value));
+         Put_Line ("Email    : " & Swagger.To_String (User.Email.Value));
+         Put_Line ("Password : " & Swagger.To_String (User.Password.Value));
+         Put_Line ("Phone    : " & Swagger.To_String (User.Phone.Value));
       end loop;
    end Get_User;
 
@@ -128,10 +130,10 @@ procedure Test is
    begin
       for I in Arg .. Arg_Count loop
          declare
-            Status  : Swagger.UString_Vectors.Vector;
+            Status  : Swagger.Nullable_UString_Vectors.Vector;
             P : constant String := Ada.Command_Line.Argument (I);
          begin
-            Status.Append (P);
+            Status.Append ((Is_Null => False, Value => Swagger.To_UString (P)));
             C.Find_Pets_By_Status (Status, Pets);
             for Pet of Pets loop
                Print_Pet (Pet);
@@ -141,17 +143,17 @@ procedure Test is
    end List_Pet;
 
    procedure List_Inventory (C : in out Samples.Petstore.Clients.Client_Type) is
-      List : Swagger.Integer_Map;
-      Iter : Swagger.Integer_Maps.Cursor;
+      List : Swagger.Nullable_Integer_Map;
+      Iter : Swagger.Nullable_Integer_Maps.Cursor;
    begin
       C.Get_Inventory (List);
       Ada.Text_IO.Put_Line ("Inventory size " & Natural'Image (Natural (List.Length)));
       Iter := List.First;
-      while Swagger.Integer_Maps.Has_Element (Iter) loop
-         Put (Swagger.Integer_Maps.Key (Iter));
+      while Swagger.Nullable_Integer_Maps.Has_Element (Iter) loop
+         Put (Swagger.Nullable_Integer_Maps.Key (Iter));
          Set_Col (70);
-         Put_Line (Natural'Image (Swagger.Integer_Maps.Element (Iter)));
-         Swagger.Integer_Maps.Next (Iter);
+         Put_Line (Natural'Image (Swagger.Nullable_Integer_Maps.Element (Iter).Value));
+         Swagger.Nullable_Integer_Maps.Next (Iter);
       end loop;
    end List_Inventory;
 
@@ -174,11 +176,14 @@ procedure Test is
          Usage;
          return;
       end if;
-      Pet.Id := Swagger.Long'Value (Ada.Command_Line.Argument (Arg));
+      Pet.Id := (Is_Null => False, Value => Swagger.Long'Value (Ada.Command_Line.Argument (Arg)));
       Pet.Name := Swagger.To_UString (Ada.Command_Line.Argument (Arg + 1));
-      Pet.Status := Swagger.To_UString (Ada.Command_Line.Argument (Arg + 2));
-      Pet.Category.Id := Swagger.Long'Value (Ada.Command_Line.Argument (Arg + 3));
-      Pet.Category.Name := Swagger.To_UString (Ada.Command_Line.Argument (Arg + 4));
+      Pet.Status := (Is_Null => False,
+                     Value   => Swagger.To_UString (Ada.Command_Line.Argument (Arg + 2)));
+      Pet.Category.Id := (Is_Null => False,
+                          Value   => Swagger.Long'Value (Ada.Command_Line.Argument (Arg + 3)));
+      Pet.Category.Name := (Is_Null => False,
+                            Value   => Swagger.To_UString (Ada.Command_Line.Argument (Arg + 4)));
       C.Add_Pet (Pet);
    end Add_Pet;
 
@@ -201,7 +206,8 @@ procedure Test is
    begin
       Arg := Arg + 1;
       for I in Arg .. Arg_Count loop
-         C.Delete_Pet (Swagger.Long'Value (Ada.Command_Line.Argument (I)), Key);
+         C.Delete_Pet (Swagger.Long'Value (Ada.Command_Line.Argument (I)),
+                       (Is_Null => False, Value => Key));
       end loop;
    end Delete_Pet;
 

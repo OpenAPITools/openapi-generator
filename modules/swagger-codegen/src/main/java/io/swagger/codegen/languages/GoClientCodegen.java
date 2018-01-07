@@ -87,6 +87,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         modelPackage = packageName;
         apiPackage = packageName;
 
+        supportingFiles.add(new SupportingFile("swagger.mustache", "api", "swagger.yaml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));

@@ -1,0 +1,231 @@
+{{>licenseInfo}}
+with Swagger.Streams;
+with Swagger.Servers.Operation;
+package body {{package}}.Skeletons is
+
+   package body Skeleton is
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+
+      package API_{{operationId}} is
+         new Swagger.Servers.Operation (Handler => {{operationId}},
+                                        Method  => Swagger.Servers.{{httpMethod}},
+                                        URI     => "{{path}}");
+
+      --  {{summary}}
+      procedure {{operationId}}
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         {{#hasBodyParam}}
+         Input   : Swagger.Value_Type;
+         {{/hasBodyParam}}
+         Impl : Implementation_Type;
+         {{#allParams}}
+         {{paramName}} : {{dataType}};
+         {{/allParams}}
+         {{#returnType}}
+         Result : {{returnType}};
+         {{/returnType}}
+      begin
+         {{#authMethods}}
+         {{#scopes}}
+         if not Context.Has_Permission (ACL_{{ident}}.Permission) then
+            Context.Set_Error (403, "Permission denied");
+            return;
+         end if;
+         {{/scopes}}
+         {{/authMethods}}
+         {{#queryParams}}
+         Swagger.Servers.Get_Query_Parameter (Req, "{{baseName}}", {{paramName}});
+         {{/queryParams}}
+         {{#pathParams}}
+         Swagger.Servers.Get_Path_Parameter (Req, {{vendorExtensions.x-path-index}}, {{paramName}});
+         {{/pathParams}}
+         {{#hasFormParams}}
+         {{#formParams}}
+         Swagger.Servers.Get_Parameter (Req, "{{baseName}}", {{paramName}});
+         {{/formParams}}
+         {{/hasFormParams}}
+         {{#hasParams}}
+         {{#hasBodyParam}}
+         Swagger.Servers.Read (Req, Input);
+         {{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
+         {{package}}.Models.Deserialize (Input, "{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{#isFile}}
+         --  TODO: Serialize (Input.Stream, "{{basename}}", {{paramName}});{{/isFile}}{{^isFile}}{{^isLong}}
+         Deserialize (Input, "{{baseName}}", {{paramName}});{{/isLong}}{{#isLong}}
+         Deserialize (Input, "{{baseName}}", {{paramName}});{{/isLong}}{{/isFile}}{{/vendorExtensions.x-is-model-type}}{{/bodyParams}}
+         {{/hasBodyParam}}
+         Impl.{{operationId}}
+            ({{#allParams}}{{paramName}}{{#hasMore}},
+             {{/hasMore}}{{/allParams}}{{#returnType}}{{#hasParams}}, {{/hasParams}}Result{{/returnType}}, Context);
+         {{/hasParams}}
+         {{^hasParams}}
+         {{#returnType}}
+         Impl.{{operationId}} (Result, Context);
+         {{/returnType}}
+         {{^returnType}}
+         Impl.{{operationId}} (Context);
+         {{/returnType}}
+         {{/hasParams}}
+         {{#returnType}}
+         Stream.Start_Document;{{#vendorExtensions.x-codegen-response.isString}}
+         Swagger.Streams.Serialize (Stream, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
+         Swagger.Streams.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
+         {{package}}.Models.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{/vendorExtensions.x-codegen-response.isString}}
+         Stream.End_Document;{{/returnType}}
+      end {{operationId}};
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+      procedure Register (Server : in out Swagger.Servers.Application_Type'Class) is
+      begin
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+         Swagger.Servers.Register (Server, API_{{operationId}}.Definition);
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+      end Register;
+
+   end Skeleton;
+
+   package body Shared_Instance is
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+
+      --  {{summary}}
+      procedure {{operationId}}
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         {{#hasBodyParam}}
+         Input   : Swagger.Value_Type;
+         {{/hasBodyParam}}
+         {{#allParams}}
+         {{paramName}} : {{dataType}};
+         {{/allParams}}
+         {{#returnType}}
+         Result : {{returnType}};
+         {{/returnType}}
+      begin
+         {{#queryParams}}
+         Swagger.Servers.Get_Query_Parameter (Req, "{{baseName}}", {{paramName}});
+         {{/queryParams}}
+         {{#pathParams}}
+         Swagger.Servers.Get_Path_Parameter (Req, {{vendorExtensions.x-path-index}}, {{paramName}});
+         {{/pathParams}}
+         {{#hasFormParams}}
+         {{#formParams}}
+         Swagger.Servers.Get_Parameter (Req, "{{baseName}}", {{paramName}});
+         {{/formParams}}
+         {{/hasFormParams}}
+         {{#hasParams}}
+         {{#hasBodyParam}}
+         Swagger.Servers.Read (Req, Input);
+         {{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
+         {{package}}.Models.Deserialize (Input, "{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{#isFile}}
+         --  TODO: Serialize (Input.Stream, "{{basename}}", {{paramName}});{{/isFile}}{{^isFile}}{{^isLong}}
+         Deserialize (Input, "{{baseName}}", {{paramName}});{{/isLong}}{{#isLong}}
+         Deserialize (Input, "{{baseName}}", {{paramName}});{{/isLong}}{{/isFile}}{{/vendorExtensions.x-is-model-type}}{{/bodyParams}}
+         {{/hasBodyParam}}
+         Server.{{operationId}}
+            ({{#allParams}}{{paramName}}{{#hasMore}},
+             {{/hasMore}}{{/allParams}}{{#returnType}}{{#hasParams}}, {{/hasParams}}Result{{/returnType}}, Context);
+         {{/hasParams}}
+         {{^hasParams}}
+         {{#returnType}}
+         Server.{{operationId}} (Result, Context);
+         {{/returnType}}
+         {{^returnType}}
+         Server.{{operationId}} (Context);
+         {{/returnType}}
+         {{/hasParams}}
+         {{#returnType}}
+         Stream.Start_Document;{{#vendorExtensions.x-codegen-response.isString}}
+         Swagger.Streams.Serialize (Stream, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
+         Swagger.Streams.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
+         {{package}}.Models.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{/vendorExtensions.x-codegen-response.isString}}
+         Stream.End_Document;{{/returnType}}
+      end {{operationId}};
+
+      package API_{{operationId}} is
+         new Swagger.Servers.Operation (Handler => {{operationId}},
+                                        Method  => Swagger.Servers.{{httpMethod}},
+                                        URI     => "{{path}}");
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+      procedure Register (Server : in out Swagger.Servers.Application_Type'Class) is
+      begin
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+         Swagger.Servers.Register (Server, API_{{operationId}}.Definition);
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+      end Register;
+
+      protected body Server is
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+         --  {{summary}}
+         {{#hasParams}}
+         procedure {{operationId}}
+            ({{#allParams}}{{paramName}} : in {{dataType}}{{#hasMore}};
+             {{/hasMore}}{{/allParams}}{{#returnType}};
+             Result : out {{returnType}}{{/returnType}};
+             Context : in out Swagger.Servers.Context_Type) is
+         begin
+            Impl.{{operationId}}
+               ({{#allParams}}{{paramName}}{{#hasMore}},
+                {{/hasMore}}{{/allParams}}{{#returnType}},
+                Result{{/returnType}},
+                Context);
+         end {{operationId}};
+         {{/hasParams}}
+         {{^hasParams}}
+         {{#returnType}}
+         procedure {{operationId}} (Result : out {{returnType}};
+         Context : in out Swagger.Servers.Context_Type) is
+         begin
+            Impl.{{operationId}} (Result, Context);
+         end {{operationId}};
+         {{/returnType}}
+         {{^returnType}}
+         procedure {{operationId}} (Context : in out Swagger.Servers.Context_Type) is
+         begin
+            Impl.{{operationId}} (Context);
+         end {{operationId}};
+         {{/returnType}}
+         {{/hasParams}}
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+      end Server;
+
+   end Shared_Instance;
+
+end {{package}}.Skeletons;

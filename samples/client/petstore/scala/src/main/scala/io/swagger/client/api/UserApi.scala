@@ -41,6 +41,8 @@ import scala.concurrent._
 import scala.concurrent.duration._
 import scala.util.{Failure, Success, Try}
 
+import org.json4s._
+
 class UserApi(
   val defBasePath: String = "http://petstore.swagger.io/v2",
   defApiInvoker: ApiInvoker = ApiInvoker
@@ -49,12 +51,12 @@ class UserApi(
   implicit val formats = new org.json4s.DefaultFormats {
     override def dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+0000")
   }
-  implicit val stringReader = ClientResponseReaders.StringReader
-  implicit val unitReader = ClientResponseReaders.UnitReader
-  implicit val jvalueReader = ClientResponseReaders.JValueReader
-  implicit val jsonReader = JsonFormatsReader
-  implicit val stringWriter = RequestWriters.StringWriter
-  implicit val jsonWriter = JsonFormatsWriter
+  implicit val stringReader: ClientResponseReader[String] = ClientResponseReaders.StringReader
+  implicit val unitReader: ClientResponseReader[Unit] = ClientResponseReaders.UnitReader
+  implicit val jvalueReader: ClientResponseReader[JValue] = ClientResponseReaders.JValueReader
+  implicit val jsonReader: ClientResponseReader[Nothing] = JsonFormatsReader
+  implicit val stringWriter: RequestWriter[String] = RequestWriters.StringWriter
+  implicit val jsonWriter: RequestWriter[Nothing] = JsonFormatsWriter
 
   var basePath: String = defBasePath
   var apiInvoker: ApiInvoker = defApiInvoker
@@ -63,13 +65,14 @@ class UserApi(
     apiInvoker.defaultHeaders += key -> value
   }
 
-  val config = SwaggerConfig.forUrl(new URI(defBasePath))
+  val config: SwaggerConfig = SwaggerConfig.forUrl(new URI(defBasePath))
   val client = new RestClient(config)
   val helper = new UserApiAsyncHelper(client, config)
 
   /**
    * Create user
    * This can only be done by the logged in user.
+   *
    * @param body Created user object 
    * @return void
    */
@@ -84,9 +87,10 @@ class UserApi(
   /**
    * Create user asynchronously
    * This can only be done by the logged in user.
+   *
    * @param body Created user object 
    * @return Future(void)
-  */
+   */
   def createUserAsync(body: User) = {
       helper.createUser(body)
   }
@@ -94,6 +98,7 @@ class UserApi(
   /**
    * Creates list of users with given input array
    * 
+   *
    * @param body List of user object 
    * @return void
    */
@@ -108,9 +113,10 @@ class UserApi(
   /**
    * Creates list of users with given input array asynchronously
    * 
+   *
    * @param body List of user object 
    * @return Future(void)
-  */
+   */
   def createUsersWithArrayInputAsync(body: List[User]) = {
       helper.createUsersWithArrayInput(body)
   }
@@ -118,6 +124,7 @@ class UserApi(
   /**
    * Creates list of users with given input array
    * 
+   *
    * @param body List of user object 
    * @return void
    */
@@ -132,9 +139,10 @@ class UserApi(
   /**
    * Creates list of users with given input array asynchronously
    * 
+   *
    * @param body List of user object 
    * @return Future(void)
-  */
+   */
   def createUsersWithListInputAsync(body: List[User]) = {
       helper.createUsersWithListInput(body)
   }
@@ -142,6 +150,7 @@ class UserApi(
   /**
    * Delete user
    * This can only be done by the logged in user.
+   *
    * @param username The name that needs to be deleted 
    * @return void
    */
@@ -156,9 +165,10 @@ class UserApi(
   /**
    * Delete user asynchronously
    * This can only be done by the logged in user.
+   *
    * @param username The name that needs to be deleted 
    * @return Future(void)
-  */
+   */
   def deleteUserAsync(username: String) = {
       helper.deleteUser(username)
   }
@@ -166,6 +176,7 @@ class UserApi(
   /**
    * Get user by user name
    * 
+   *
    * @param username The name that needs to be fetched. Use user1 for testing.  
    * @return User
    */
@@ -180,9 +191,10 @@ class UserApi(
   /**
    * Get user by user name asynchronously
    * 
+   *
    * @param username The name that needs to be fetched. Use user1 for testing.  
    * @return Future(User)
-  */
+   */
   def getUserByNameAsync(username: String): Future[User] = {
       helper.getUserByName(username)
   }
@@ -190,6 +202,7 @@ class UserApi(
   /**
    * Logs user into the system
    * 
+   *
    * @param username The user name for login 
    * @param password The password for login in clear text 
    * @return String
@@ -205,10 +218,11 @@ class UserApi(
   /**
    * Logs user into the system asynchronously
    * 
+   *
    * @param username The user name for login 
    * @param password The password for login in clear text 
    * @return Future(String)
-  */
+   */
   def loginUserAsync(username: String, password: String): Future[String] = {
       helper.loginUser(username, password)
   }
@@ -216,6 +230,7 @@ class UserApi(
   /**
    * Logs out current logged in user session
    * 
+   *
    * @return void
    */
   def logoutUser() = {
@@ -229,8 +244,9 @@ class UserApi(
   /**
    * Logs out current logged in user session asynchronously
    * 
+   *
    * @return Future(void)
-  */
+   */
   def logoutUserAsync() = {
       helper.logoutUser()
   }
@@ -238,6 +254,7 @@ class UserApi(
   /**
    * Updated user
    * This can only be done by the logged in user.
+   *
    * @param username name that need to be deleted 
    * @param body Updated user object 
    * @return void
@@ -253,10 +270,11 @@ class UserApi(
   /**
    * Updated user asynchronously
    * This can only be done by the logged in user.
+   *
    * @param username name that need to be deleted 
    * @param body Updated user object 
    * @return Future(void)
-  */
+   */
   def updateUserAsync(username: String, body: User) = {
       helper.updateUser(username, body)
   }
@@ -316,7 +334,7 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
   def deleteUser(username: String)(implicit reader: ClientResponseReader[Unit]): Future[Unit] = {
     // create path and map variables
     val path = (addFmt("/user/{username}")
-      replaceAll ("\\{" + "username" + "\\}",username.toString))
+      replaceAll("\\{" + "username" + "\\}", username.toString))
 
     // query params
     val queryParams = new mutable.HashMap[String, String]
@@ -334,7 +352,7 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
   def getUserByName(username: String)(implicit reader: ClientResponseReader[User]): Future[User] = {
     // create path and map variables
     val path = (addFmt("/user/{username}")
-      replaceAll ("\\{" + "username" + "\\}",username.toString))
+      replaceAll("\\{" + "username" + "\\}", username.toString))
 
     // query params
     val queryParams = new mutable.HashMap[String, String]
@@ -390,7 +408,7 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
     body: User)(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[User]): Future[Unit] = {
     // create path and map variables
     val path = (addFmt("/user/{username}")
-      replaceAll ("\\{" + "username" + "\\}",username.toString))
+      replaceAll("\\{" + "username" + "\\}", username.toString))
 
     // query params
     val queryParams = new mutable.HashMap[String, String]

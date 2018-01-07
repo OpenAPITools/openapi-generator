@@ -27,48 +27,50 @@ namespace IO.Swagger.Model
     /// <summary>
     /// Defines WeekDays
     /// </summary>
+    
     [JsonConverter(typeof(StringEnumConverter))]
+    
     public enum WeekDays
     {
         
         /// <summary>
-        /// Enum Sun for "sun"
+        /// Enum Sun for value: sun
         /// </summary>
         [EnumMember(Value = "sun")]
         Sun = 1,
         
         /// <summary>
-        /// Enum Mon for "mon"
+        /// Enum Mon for value: mon
         /// </summary>
         [EnumMember(Value = "mon")]
         Mon = 2,
         
         /// <summary>
-        /// Enum Tue for "tue"
+        /// Enum Tue for value: tue
         /// </summary>
         [EnumMember(Value = "tue")]
         Tue = 3,
         
         /// <summary>
-        /// Enum Wed for "wed"
+        /// Enum Wed for value: wed
         /// </summary>
         [EnumMember(Value = "wed")]
         Wed = 4,
         
         /// <summary>
-        /// Enum Thu for "thu"
+        /// Enum Thu for value: thu
         /// </summary>
         [EnumMember(Value = "thu")]
         Thu = 5,
         
         /// <summary>
-        /// Enum Fri for "fri"
+        /// Enum Fri for value: fri
         /// </summary>
         [EnumMember(Value = "fri")]
         Fri = 6,
         
         /// <summary>
-        /// Enum Sat for "sat"
+        /// Enum Sat for value: sat
         /// </summary>
         [EnumMember(Value = "sat")]
         Sat = 7
