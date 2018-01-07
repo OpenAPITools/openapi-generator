@@ -31,6 +31,8 @@ import scala.concurrent._
 import scala.concurrent.duration._
 import scala.util.{Failure, Success, Try}
 
+import org.json4s._
+
 {{#operations}}
 class {{classname}}(
   val defBasePath: String = "{{{basePath}}}",
