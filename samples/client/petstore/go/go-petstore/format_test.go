@@ -15,7 +15,6 @@ import (
 )
 
 type FormatTest struct {
-
 	Integer int32 `json:"integer,omitempty"`
 
 	Int32_ int32 `json:"int32,omitempty"`

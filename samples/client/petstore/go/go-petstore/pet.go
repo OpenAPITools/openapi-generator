@@ -11,7 +11,6 @@
 package petstore
 
 type Pet struct {
-
 	Id int64 `json:"id,omitempty"`
 
 	Category *Category `json:"category,omitempty"`

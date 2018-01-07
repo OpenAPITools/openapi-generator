@@ -11,7 +11,6 @@
 package petstore
 
 type EnumArrays struct {
-
 	JustSymbol string `json:"just_symbol,omitempty"`
 
 	ArrayEnum []string `json:"array_enum,omitempty"`

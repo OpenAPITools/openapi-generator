@@ -12,8 +12,8 @@ package petstore
 
 import (
 	"io/ioutil"
-	"net/url"
 	"net/http"
+	"net/url"
 	"strings"
 	"golang.org/x/net/context"
 	"encoding/json"
@@ -26,19 +26,18 @@ var (
 
 type AnotherFakeApiService service
 
-
 /* AnotherFakeApiService To test special tags
- To test special tags
+To test special tags
  * @param ctx context.Context for authentication, logging, tracing, etc.
- @param body client model
- @return Client*/
-func (a *AnotherFakeApiService) TestSpecialTags(ctx context.Context, body Client) (Client,  *http.Response, error) {
+@param body client model
+@return Client*/
+func (a *AnotherFakeApiService) TestSpecialTags(ctx context.Context, body Client) (Client, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Patch")
-		localVarPostBody interface{}
-		localVarFileName string
-		localVarFileBytes []byte
-	 	successPayload  Client
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		successPayload     Client
 	)
 
 	// create path and map variables
@@ -48,9 +47,8 @@ func (a *AnotherFakeApiService) TestSpecialTags(ctx context.Context, body Client
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ "application/json",  }
+	localVarHttpContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -59,9 +57,7 @@ func (a *AnotherFakeApiService) TestSpecialTags(ctx context.Context, body Client
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{
-		"application/json",
-		}
+	localVarHttpHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -89,7 +85,5 @@ func (a *AnotherFakeApiService) TestSpecialTags(ctx context.Context, body Client
 		return successPayload, localVarHttpResponse, err
 	}
 
-
 	return successPayload, localVarHttpResponse, err
 }
-

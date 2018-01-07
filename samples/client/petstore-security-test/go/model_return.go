@@ -12,7 +12,6 @@ package swagger
 
 // Model for testing reserved words  *_/ ' \" =end -- \\r\\n \\n \\r
 type ModelReturn struct {
-
 	// property description  *_/ ' \" =end -- \\r\\n \\n \\r
 	Return_ int32 `json:"return,omitempty"`
 }
