@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-#ifndef SWGHELPERS_H
-#define SWGHELPERS_H
+#ifndef SWG_HELPERS_H
+#define SWG_HELPERS_H
 
 #include <QJsonValue>
 
@@ -28,4 +28,4 @@ namespace Swagger {
 
 }
 
-#endif // SWGHELPERS_H
+#endif // SWG_HELPERS_H

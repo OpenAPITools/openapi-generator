@@ -2,7 +2,7 @@
 {{#models}}{{#model}}
 #include "{{classname}}.h"
 
-#include "SWGHelpers.h"
+#include "{{prefix}}Helpers.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -30,6 +30,7 @@ void
 {{classname}}::init() {
     {{#vars}}
     {{name}} = {{{defaultValue}}};
+    m_{{name}}_isSet = false;
     {{/vars}}
 }
 
@@ -106,7 +107,18 @@ QJsonObject*
     {{#complexType}}
     {{^isContainer}}
     {{#complexType}}
-    toJsonValue(QString("{{baseName}}"), {{name}}, obj, QString("{{complexType}}"));
+    {{^isString}}
+    {{^isDateTime}}
+    if({{name}}->isSet()){
+        toJsonValue(QString("{{baseName}}"), {{name}}, obj, QString("{{complexType}}"));
+    }
+    {{/isDateTime}}
+    {{/isString}}
+    {{#isString}}
+    if({{name}} != nullptr && *{{name}} != QString("")){
+        toJsonValue(QString("{{baseName}}"), {{name}}, obj, QString("{{complexType}}"));
+    }
+    {{/isString}}
     {{/complexType}}
     {{^complexType}}
     if({{name}} != nullptr && *{{name}} != nullptr) { 
@@ -115,33 +127,52 @@ QJsonObject*
     {{/complexType}}
     {{/isContainer}}
     {{#isListContainer}}
-    QJsonArray {{name}}JsonArray;
-    toJsonArray((QList<void*>*){{name}}, &{{name}}JsonArray, "{{name}}", "{{complexType}}");
-    obj->insert("{{baseName}}", {{name}}JsonArray);
+    if({{name}}->size() > 0){
+        QJsonArray {{name}}JsonArray;
+        toJsonArray((QList<void*>*){{name}}, &{{name}}JsonArray, "{{name}}", "{{complexType}}");
+        obj->insert("{{baseName}}", {{name}}JsonArray);
+    }
     {{/isListContainer}}
     {{#isMapContainer}}
-    QJsonObject {{name}}_jobj;
-    for(auto keyval : {{name}}->keys()){
-        toJsonValue(keyval, ((*{{name}})[keyval]), &{{name}}_jobj, "{{complexType}}");
-    }   
-    obj->insert("{{baseName}}", {{name}}_jobj);
+    if({{name}}->size() > 0) {
+        QJsonObject {{name}}_jobj;
+        for(auto keyval : {{name}}->keys()){
+            toJsonValue(keyval, ((*{{name}})[keyval]), &{{name}}_jobj, "{{complexType}}");
+        }   
+        obj->insert("{{baseName}}", {{name}}_jobj);
+    }
     {{/isMapContainer}}
     {{/complexType}}
     {{^complexType}}
     {{^isContainer}}
-    obj->insert("{{baseName}}", QJsonValue({{name}}));
+    {{^isString}}
+    {{^isDateTime}}
+    if(m_{{name}}_isSet){
+        obj->insert("{{baseName}}", QJsonValue({{name}}));
+    }
+    {{/isDateTime}}
+    {{/isString}}
+    {{#isString}}
+    if({{name}} != nullptr && *{{name}} != QString("")) { 
+        obj->insert("{{name}}", QJsonValue(*{{name}}));
+    }
+    {{/isString}}
     {{/isContainer}}
     {{#isListContainer}}
-    QJsonArray {{name}}JsonArray;
-    toJsonArray((QList<void*>*){{name}}, &{{name}}JsonArray, "{{name}}", "{{items.baseType}}");
-    obj->insert("{{baseName}}", {{name}}JsonArray);
+    if({{name}}->size() > 0){
+        QJsonArray {{name}}JsonArray;
+        toJsonArray((QList<void*>*){{name}}, &{{name}}JsonArray, "{{name}}", "{{items.baseType}}");
+        obj->insert("{{baseName}}", {{name}}JsonArray);
+    }
     {{/isListContainer}}
     {{#isMapContainer}}
-    QJsonObject {{name}}_jobj;
-    for(auto keyval : {{name}}->keys()){
-        toJsonValue(keyval, ((*{{name}})[keyval]), &{{name}}_jobj, "{{items.baseType}}");
-    }     
-    obj->insert("{{baseName}}", {{name}}_jobj);
+    if({{name}}->size() > 0){
+        QJsonObject {{name}}_jobj;
+        for(auto keyval : {{name}}->keys()){
+            toJsonValue(keyval, ((*{{name}})[keyval]), &{{name}}_jobj, "{{items.baseType}}");
+        }     
+        obj->insert("{{baseName}}", {{name}}_jobj);
+    }
     {{/isMapContainer}}
     {{/complexType}}
     {{/vars}}
@@ -157,10 +188,21 @@ QJsonObject*
 void
 {{classname}}::{{setter}}({{{datatype}}} {{name}}) {
     this->{{name}} = {{name}};
+    this->m_{{name}}_isSet = true;
 }
 
 {{/vars}}
 
+bool 
+{{classname}}::isSet(){
+    bool isObjectUpdated = false;
+    do{
+    {{#vars}}
+        {{#isPrimitiveType}}if(m_{{name}}_isSet){ isObjectUpdated = true; break;}{{/isPrimitiveType}}{{#isContainer}}if({{name}}->size() > 0){ isObjectUpdated = true; break;}{{/isContainer}}{{^isContainer}}{{#complexType}}{{^isString}}{{^isDateTime}}if({{name}} != nullptr && {{name}}->isSet()){ isObjectUpdated = true; break;}{{/isDateTime}}{{/isString}}{{#isString}}if({{name}} != nullptr && *{{name}} != QString("")){ isObjectUpdated = true; break;}{{/isString}}{{/complexType}}{{/isContainer}}
+    {{/vars}}
+    }while(false);
+    return isObjectUpdated;
+}
 {{#cppNamespaceDeclarations}}
 }
 {{/cppNamespaceDeclarations}}

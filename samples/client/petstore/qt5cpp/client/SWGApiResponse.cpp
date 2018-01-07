@@ -38,8 +38,11 @@ SWGApiResponse::~SWGApiResponse() {
 void
 SWGApiResponse::init() {
     code = 0;
+    m_code_isSet = false;
     type = new QString("");
+    m_type_isSet = false;
     message = new QString("");
+    m_message_isSet = false;
 }
 
 void
@@ -82,9 +85,15 @@ SWGApiResponse::asJson ()
 QJsonObject*
 SWGApiResponse::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
-    obj->insert("code", QJsonValue(code));
-    toJsonValue(QString("type"), type, obj, QString("QString"));
-    toJsonValue(QString("message"), message, obj, QString("QString"));
+    if(m_code_isSet){
+        obj->insert("code", QJsonValue(code));
+    }
+    if(type != nullptr && *type != QString("")){
+        toJsonValue(QString("type"), type, obj, QString("QString"));
+    }
+    if(message != nullptr && *message != QString("")){
+        toJsonValue(QString("message"), message, obj, QString("QString"));
+    }
 
     return obj;
 }
@@ -96,6 +105,7 @@ SWGApiResponse::getCode() {
 void
 SWGApiResponse::setCode(qint32 code) {
     this->code = code;
+    this->m_code_isSet = true;
 }
 
 QString*
@@ -105,6 +115,7 @@ SWGApiResponse::getType() {
 void
 SWGApiResponse::setType(QString* type) {
     this->type = type;
+    this->m_type_isSet = true;
 }
 
 QString*
@@ -114,8 +125,19 @@ SWGApiResponse::getMessage() {
 void
 SWGApiResponse::setMessage(QString* message) {
     this->message = message;
+    this->m_message_isSet = true;
 }
 
 
+bool 
+SWGApiResponse::isSet(){
+    bool isObjectUpdated = false;
+    do{
+        if(m_code_isSet){ isObjectUpdated = true; break;}
+        if(type != nullptr && *type != QString("")){ isObjectUpdated = true; break;}
+        if(message != nullptr && *message != QString("")){ isObjectUpdated = true; break;}
+    }while(false);
+    return isObjectUpdated;
+}
 }
 

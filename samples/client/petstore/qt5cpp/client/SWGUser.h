@@ -66,15 +66,33 @@ public:
     void setUserStatus(qint32 user_status);
 
 
+    virtual bool isSet() override;
+
 private:
     qint64 id;
+    bool m_id_isSet;
+    
     QString* username;
+    bool m_username_isSet;
+    
     QString* first_name;
+    bool m_first_name_isSet;
+    
     QString* last_name;
+    bool m_last_name_isSet;
+    
     QString* email;
+    bool m_email_isSet;
+    
     QString* password;
+    bool m_password_isSet;
+    
     QString* phone;
+    bool m_phone_isSet;
+    
     qint32 user_status;
+    bool m_user_status_isSet;
+    
 };
 
 }

@@ -38,11 +38,17 @@ SWGPet::~SWGPet() {
 void
 SWGPet::init() {
     id = 0L;
+    m_id_isSet = false;
     category = new SWGCategory();
+    m_category_isSet = false;
     name = new QString("");
+    m_name_isSet = false;
     photo_urls = new QList<QString*>();
+    m_photo_urls_isSet = false;
     tags = new QList<SWGTag*>();
+    m_tags_isSet = false;
     status = new QString("");
+    m_status_isSet = false;
 }
 
 void
@@ -105,16 +111,28 @@ SWGPet::asJson ()
 QJsonObject*
 SWGPet::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
-    obj->insert("id", QJsonValue(id));
-    toJsonValue(QString("category"), category, obj, QString("SWGCategory"));
-    toJsonValue(QString("name"), name, obj, QString("QString"));
-    QJsonArray photo_urlsJsonArray;
-    toJsonArray((QList<void*>*)photo_urls, &photo_urlsJsonArray, "photo_urls", "QString");
-    obj->insert("photoUrls", photo_urlsJsonArray);
-    QJsonArray tagsJsonArray;
-    toJsonArray((QList<void*>*)tags, &tagsJsonArray, "tags", "SWGTag");
-    obj->insert("tags", tagsJsonArray);
-    toJsonValue(QString("status"), status, obj, QString("QString"));
+    if(m_id_isSet){
+        obj->insert("id", QJsonValue(id));
+    }
+    if(category->isSet()){
+        toJsonValue(QString("category"), category, obj, QString("SWGCategory"));
+    }
+    if(name != nullptr && *name != QString("")){
+        toJsonValue(QString("name"), name, obj, QString("QString"));
+    }
+    if(photo_urls->size() > 0){
+        QJsonArray photo_urlsJsonArray;
+        toJsonArray((QList<void*>*)photo_urls, &photo_urlsJsonArray, "photo_urls", "QString");
+        obj->insert("photoUrls", photo_urlsJsonArray);
+    }
+    if(tags->size() > 0){
+        QJsonArray tagsJsonArray;
+        toJsonArray((QList<void*>*)tags, &tagsJsonArray, "tags", "SWGTag");
+        obj->insert("tags", tagsJsonArray);
+    }
+    if(status != nullptr && *status != QString("")){
+        toJsonValue(QString("status"), status, obj, QString("QString"));
+    }
 
     return obj;
 }
@@ -126,6 +144,7 @@ SWGPet::getId() {
 void
 SWGPet::setId(qint64 id) {
     this->id = id;
+    this->m_id_isSet = true;
 }
 
 SWGCategory*
@@ -135,6 +154,7 @@ SWGPet::getCategory() {
 void
 SWGPet::setCategory(SWGCategory* category) {
     this->category = category;
+    this->m_category_isSet = true;
 }
 
 QString*
@@ -144,6 +164,7 @@ SWGPet::getName() {
 void
 SWGPet::setName(QString* name) {
     this->name = name;
+    this->m_name_isSet = true;
 }
 
 QList<QString*>*
@@ -153,6 +174,7 @@ SWGPet::getPhotoUrls() {
 void
 SWGPet::setPhotoUrls(QList<QString*>* photo_urls) {
     this->photo_urls = photo_urls;
+    this->m_photo_urls_isSet = true;
 }
 
 QList<SWGTag*>*
@@ -162,6 +184,7 @@ SWGPet::getTags() {
 void
 SWGPet::setTags(QList<SWGTag*>* tags) {
     this->tags = tags;
+    this->m_tags_isSet = true;
 }
 
 QString*
@@ -171,8 +194,22 @@ SWGPet::getStatus() {
 void
 SWGPet::setStatus(QString* status) {
     this->status = status;
+    this->m_status_isSet = true;
 }
 
 
+bool 
+SWGPet::isSet(){
+    bool isObjectUpdated = false;
+    do{
+        if(m_id_isSet){ isObjectUpdated = true; break;}
+        if(category != nullptr && category->isSet()){ isObjectUpdated = true; break;}
+        if(name != nullptr && *name != QString("")){ isObjectUpdated = true; break;}
+        if(photo_urls->size() > 0){ isObjectUpdated = true; break;}
+        if(tags->size() > 0){ isObjectUpdated = true; break;}
+        if(status != nullptr && *status != QString("")){ isObjectUpdated = true; break;}
+    }while(false);
+    return isObjectUpdated;
+}
 }
 

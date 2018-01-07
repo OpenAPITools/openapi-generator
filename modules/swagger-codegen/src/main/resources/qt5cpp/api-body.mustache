@@ -87,8 +87,8 @@ void
     {{/collectionFormat}}
     {{/queryParams}}
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "{{httpMethod}}");
+    {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker();
+    {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
 
     {{#formParams}}
     if ({{paramName}} != nullptr) {
@@ -99,15 +99,16 @@ void
     {{#bodyParams}}
     {{#isContainer}}
     QJsonArray* {{paramName}}Array = new QJsonArray();
-    toJsonArray((QList<void*>*){{paramName}}, {{paramName}}Array, QString("body"), QString("SWGUser*"));
+    toJsonArray((QList<void*>*){{paramName}}, {{paramName}}Array, QString("body"), QString("{{prefix}}User*"));
 
     QJsonDocument doc(*{{paramName}}Array);
     QByteArray bytes = doc.toJson();
 
     input.request_body.append(bytes);
     {{/isContainer}}
-    {{^isContainer}}
-    QString output = {{paramName}}.asJson();
+    {{^isContainer}}{{#isString}}
+    QString output(*{{paramName}});{{/isString}}{{^isString}}
+    QString output = {{paramName}}.asJson();{{/isString}}
     input.request_body.append(output);
     {{/isContainer}}{{/bodyParams}}
 
@@ -122,7 +123,7 @@ void
     }
 
     connect(worker,
-            &HttpRequestWorker::on_execution_finished,
+            &{{prefix}}HttpRequestWorker::on_execution_finished,
             this,
             &{{classname}}::{{nickname}}Callback);
 
@@ -130,7 +131,7 @@ void
 }
 
 void
-{{classname}}::{{nickname}}Callback(HttpRequestWorker * worker) {
+{{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -159,10 +160,10 @@ void
     }
     {{/isListContainer}}
 
-    {{^isListContainer}}
+    {{^isListContainer}}{{^isMapContainer}}
     {{#returnTypeIsPrimitive}}
     {{{returnType}}} output;  // TODO add primitive output support
-    {{/returnTypeIsPrimitive}}
+    {{/returnTypeIsPrimitive}}{{/isMapContainer}}
     {{#isMapContainer}} 
     {{{returnType}}} output = {{{defaultResponse}}};
     QString json(worker->response);
