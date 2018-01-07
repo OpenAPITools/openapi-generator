@@ -11,18 +11,21 @@ namespace {{this}} {
 class {{prefix}}Object {
   public:
     virtual QJsonObject* asJsonObject() {
-      return nullptr;
+      return new QJsonObject();
     }
-    virtual ~SWGObject() {}
-    virtual SWGObject* fromJson(QString &jsonString) {
+    virtual ~{{prefix}}Object() {}
+    virtual {{prefix}}Object* fromJson(QString &jsonString) {
         Q_UNUSED(jsonString);
-        return nullptr;
+        return new {{prefix}}Object();
     }
     virtual void fromJsonObject(QJsonObject &json) {
         Q_UNUSED(json);
     }
     virtual QString asJson() {
         return QString("");
+    }
+    virtual bool isSet() {
+        return false;
     }
 };
 

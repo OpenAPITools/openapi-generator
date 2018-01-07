@@ -16,8 +16,8 @@
  *
  **/
 
-#ifndef HTTPREQUESTWORKER_H
-#define HTTPREQUESTWORKER_H
+#ifndef SWG_HTTPREQUESTWORKER_H
+#define SWG_HTTPREQUESTWORKER_H
 
 #include <QObject>
 #include <QString>
@@ -25,9 +25,11 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
-enum HttpRequestVarLayout {NOT_SET, ADDRESS, URL_ENCODED, MULTIPART};
+
 
 namespace Swagger {
+
+enum SWGHttpRequestVarLayout {NOT_SET, ADDRESS, URL_ENCODED, MULTIPART};
 
 class SWGHttpRequestInputFileElement {
 
@@ -40,19 +42,19 @@ public:
 };
 
 
-class HttpRequestInput {
+class SWGHttpRequestInput {
 
 public:
     QString url_str;
     QString http_method;
-    HttpRequestVarLayout var_layout;
+    SWGHttpRequestVarLayout var_layout;
     QMap<QString, QString> vars;
     QMap<QString, QString> headers;
     QList<SWGHttpRequestInputFileElement> files;
     QByteArray request_body;
 
-    HttpRequestInput();
-    HttpRequestInput(QString v_url_str, QString v_http_method);
+    SWGHttpRequestInput();
+    SWGHttpRequestInput(QString v_url_str, QString v_http_method);
     void initialize();
     void add_var(QString key, QString value);
     void add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type);
@@ -60,7 +62,7 @@ public:
 };
 
 
-class HttpRequestWorker : public QObject {
+class SWGHttpRequestWorker : public QObject {
     Q_OBJECT
 
 public:
@@ -68,15 +70,15 @@ public:
     QNetworkReply::NetworkError error_type;
     QString error_str;
 
-    explicit HttpRequestWorker(QObject *parent = 0);
-    virtual ~HttpRequestWorker();
+    explicit SWGHttpRequestWorker(QObject *parent = 0);
+    virtual ~SWGHttpRequestWorker();
 
     QString http_attribute_encode(QString attribute_name, QString input);
-    void execute(HttpRequestInput *input);
+    void execute(SWGHttpRequestInput *input);
     static QSslConfiguration* sslDefaultConfiguration;
 
 signals:
-    void on_execution_finished(HttpRequestWorker *worker);
+    void on_execution_finished(SWGHttpRequestWorker *worker);
 
 private:
     QNetworkAccessManager *manager;
@@ -88,4 +90,4 @@ private slots:
 
 }
 
-#endif // HTTPREQUESTWORKER_H
+#endif // SWG_HTTPREQUESTWORKER_H

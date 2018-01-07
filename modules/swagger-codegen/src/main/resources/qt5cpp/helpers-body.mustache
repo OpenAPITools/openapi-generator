@@ -1,7 +1,7 @@
 {{>licenseInfo}}
-#include "SWGHelpers.h"
-#include "SWGModelFactory.h"
-#include "SWGObject.h"
+#include "{{prefix}}Helpers.h"
+#include "{{prefix}}ModelFactory.h"
+#include "{{prefix}}Object.h"
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonValue>
@@ -119,31 +119,31 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             qDebug() << "Can't set value because the target pointer is nullptr";
         }
     }
-    else if(type.startsWith("SWG") && obj.isObject()) {
+    else if(type.startsWith("{{prefix}}") && obj.isObject()) {
         // complex type
         QJsonObject jsonObj = obj.toObject();
-        SWGObject * so = (SWGObject*)::{{cppNamespace}}::create(type);
+        {{prefix}}Object * so = ({{prefix}}Object*)::{{cppNamespace}}::create(type);
         if(so != nullptr) {
             so->fromJsonObject(jsonObj);
-            SWGObject **val = static_cast<SWGObject**>(value);
+            {{prefix}}Object **val = static_cast<{{prefix}}Object**>(value);
             delete *val;
             *val = so;
         }
     }
     else if(type.startsWith("QList") && QString("").compare(complexType) != 0 && obj.isArray()) {
         // list of values
-        if(complexType.startsWith("SWG")) {
-            QList<SWGObject*>* output = new QList<SWGObject*>();
+        if(complexType.startsWith("{{prefix}}")) {
+            QList<{{prefix}}Object*>* output = new QList<{{prefix}}Object*>();
             QJsonArray arr = obj.toArray();
             for (const QJsonValue & jval : arr) {
                 // it's an object
-                SWGObject * val = (SWGObject*)create(complexType);
+                {{prefix}}Object * val = ({{prefix}}Object*)create(complexType);
                 QJsonObject t = jval.toObject();
 
                 val->fromJsonObject(t);
                 output->append(val);
             }
-            QList<SWGObject*> **val = static_cast<QList<SWGObject*>**>(value);
+            QList<{{prefix}}Object*> **val = static_cast<QList<{{prefix}}Object*>**>(value);
             for (auto item : **val) {
                 delete item;
             }
@@ -247,10 +247,10 @@ toJsonValue(QString name, void* value, QJsonObject* output, QString type) {
     if(value == nullptr) {
         return;
     }
-    if(type.startsWith("SWG")) {
-        SWGObject *swgObject = reinterpret_cast<SWGObject *>(value);
-        if(swgObject != nullptr) {
-            QJsonObject* o = (*swgObject).asJsonObject();
+    if(type.startsWith("{{prefix}}")) {
+        {{prefix}}Object *{{prefix}}object = reinterpret_cast<{{prefix}}Object *>(value);
+        if({{prefix}}object != nullptr) {
+            QJsonObject* o = (*{{prefix}}object).asJsonObject();
             if(name != nullptr) {
                 output->insert(name, *o);
                 delete o;
@@ -303,11 +303,11 @@ toJsonValue(QString name, void* value, QJsonObject* output, QString type) {
 
 void
 toJsonArray(QList<void*>* value, QJsonArray* output, QString innerName, QString innerType) {
-    if(innerType.startsWith("SWG")){
+    if(innerType.startsWith("{{prefix}}")){
         for(void* obj : *value) {
-            SWGObject *swgObject = reinterpret_cast<SWGObject *>(obj);
-            if(swgObject != nullptr) {
-                output->append(*(swgObject->asJsonObject()));
+            {{prefix}}Object *{{prefix}}object = reinterpret_cast<{{prefix}}Object *>(obj);
+            if({{prefix}}object != nullptr) {
+                output->append(*({{prefix}}object->asJsonObject()));
             }
         }
     }

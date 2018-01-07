@@ -48,9 +48,15 @@ public:
     void setName(QString* name);
 
 
+    virtual bool isSet() override;
+
 private:
     qint64 id;
+    bool m_id_isSet;
+    
     QString* name;
+    bool m_name_isSet;
+    
 };
 
 }
