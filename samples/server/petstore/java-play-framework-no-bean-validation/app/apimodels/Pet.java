@@ -24,7 +24,7 @@ public class Pet   {
   private String name = null;
 
   @JsonProperty("photoUrls")
-  private List<String> photoUrls = new ArrayList<String>();
+  private List<String> photoUrls = new ArrayList<>();
 
   @JsonProperty("tags")
   private List<Tag> tags = null;
@@ -145,7 +145,7 @@ public class Pet   {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (tags == null) {
-      tags = new ArrayList<Tag>();
+      tags = new ArrayList<>();
     }
     tags.add(tagsItem);
     return this;
