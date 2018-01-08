@@ -94,7 +94,7 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    oltu_version = "1.0.0"
+    oltu_version = "1.0.1"
     retrofit_version = "2.3.0"
     jackson_version = "2.7.8"
     play_version = "2.5.14"
@@ -109,7 +109,9 @@ dependencies {
     compile "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
+    compile ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"){
+        exclude group:'org.apache.oltu.oauth2' , module: 'org.apache.oltu.oauth2.common'
+    }
     compile "io.gsonfire:gson-fire:$json_fire_version"
     compile "org.threeten:threetenbp:$threetenbp_version"
     compile "com.typesafe.play:play-java-ws_2.11:$play_version"
