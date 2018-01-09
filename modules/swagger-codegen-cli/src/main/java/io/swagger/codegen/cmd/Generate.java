@@ -1,14 +1,29 @@
 package io.swagger.codegen.cmd;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.codegen.CLIHelper;
 import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.DefaultGenerator;
 import io.swagger.codegen.config.CodegenConfigurator;
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.core.util.Yaml;
+import io.swagger.v3.parser.util.RemoteUrl;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import static io.swagger.codegen.CLIHelper.isValidJson;
+import static io.swagger.codegen.CLIHelper.isValidURL;
+import static io.swagger.codegen.CLIHelper.isValidYaml;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyAdditionalPropertiesKvpList;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyImportMappingsKvpList;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyInstantiationTypesKvpList;
@@ -26,36 +41,37 @@ public class Generate implements Runnable {
 
     public static final Logger LOG = LoggerFactory.getLogger(Generate.class);
 
-    private Boolean verbose;
-    private String lang;
-    private String output = "";
-    private String spec;
-    private String templateDir;
-    private String auth;
-    private List<String> systemProperties = new ArrayList<>();
-    private String configFile;
-    private Boolean skipOverwrite;
-    private String apiPackage;
-    private String modelPackage;
-    private String modelNamePrefix;
-    private String modelNameSuffix;
-    private List<String> instantiationTypes = new ArrayList<>();
-    private List<String> typeMappings = new ArrayList<>();
-    private List<String> additionalProperties = new ArrayList<>();
-    private List<String> languageSpecificPrimitives = new ArrayList<>();
-    private List<String> importMappings = new ArrayList<>();
-    private String invokerPackage;
-    private String groupId;
-    private String artifactId;
-    private String artifactVersion;
-    private String library;
-    private String gitUserId;
-    private String gitRepoId;
-    private String releaseNote;
-    private String httpUserAgent;
-    private List<String> reservedWordsMappings = new ArrayList<>();
-    private String ignoreFileOverride;
-    private Boolean removeOperationIdPrefix;
+    protected Boolean verbose;
+    protected String lang;
+    protected String output = "";
+    protected String spec;
+    protected String templateDir;
+    protected String auth;
+    protected List<String> systemProperties = new ArrayList<>();
+    protected String configFile;
+    protected Boolean skipOverwrite;
+    protected String apiPackage;
+    protected String modelPackage;
+    protected String modelNamePrefix;
+    protected String modelNameSuffix;
+    protected List<String> instantiationTypes = new ArrayList<>();
+    protected List<String> typeMappings = new ArrayList<>();
+    protected List<String> additionalProperties = new ArrayList<>();
+    protected List<String> languageSpecificPrimitives = new ArrayList<>();
+    protected List<String> importMappings = new ArrayList<>();
+    protected String invokerPackage;
+    protected String groupId;
+    protected String artifactId;
+    protected String artifactVersion;
+    protected String library;
+    protected String gitUserId;
+    protected String gitRepoId;
+    protected String releaseNote;
+    protected String httpUserAgent;
+    protected List<String> reservedWordsMappings = new ArrayList<>();
+    protected String ignoreFileOverride;
+    protected Boolean removeOperationIdPrefix;
+    private String url;
 
     public void setVerbose(Boolean verbose) {
         this.verbose = verbose;
@@ -177,8 +193,14 @@ public class Generate implements Runnable {
         this.removeOperationIdPrefix = removeOperationIdPrefix;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public void run() {
+
+        loadArguments();
 
         // attempt to read from config file
         CodegenConfigurator configurator = CodegenConfigurator.fromFile(configFile);
@@ -288,5 +310,63 @@ public class Generate implements Runnable {
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
         new DefaultGenerator().opts(clientOptInput).generate();
+    }
+
+    private void loadArguments() {
+        if (StringUtils.isBlank(this.url)) {
+            return;
+        }
+        final String content;
+        File file = new File(this.url);
+        if (file.exists() && file.isFile()) {
+            try {
+                content = FileUtils.readFileToString(file);
+            } catch (IOException e) {
+                LOG.error("Unable to read file: " + this.url, e);
+                return;
+            }
+        } else if (isValidURL(this.url)) {
+            try {
+                content = RemoteUrl.urlToString(this.url, null);
+            } catch (Exception e) {
+                LOG.error("Unable to read url: " + this.url, e);
+                return;
+            }
+        } else {
+            return;
+        }
+
+        if (StringUtils.isBlank(content)) {
+            return;
+        }
+
+        JsonNode node = null;
+
+        if (isValidJson(content)) {
+            try {
+                node = Json.mapper().readTree(content.getBytes());
+            } catch (IOException e) {
+                LOG.error("Unable to deserialize json from: " + this.url, e);
+                node = null;
+            }
+        } else if (isValidYaml(content)) {
+            try {
+                node = Yaml.mapper().readTree(content.getBytes());
+            } catch (IOException e) {
+                LOG.error("Unable to deserialize yaml from: " + this.url, e);
+                node = null;
+            }
+        }
+
+        if (node == null) {
+            return;
+        }
+
+        final Map<String, Object> optionValueMap = CLIHelper.createOptionValueMap(node);
+        try {
+            BeanUtils.populate(this, optionValueMap);
+        } catch (Exception e) {
+            LOG.error("Error setting values to object.", e);
+        }
     }
 }

@@ -173,6 +173,12 @@ components:
           title: "remove prefix of the operationId"
           description: "Remove prefix of operationId, e.g. config_getId => getId"
           x-option: "--remove-operation-id-prefix"
+        url:
+          type: "string"
+          title: "URL for arguments"
+          description: "load arguments from a local file or remote URL. Arguments found will replace any one placed on command."
+          x-option: "--url"
+          x-short-version: "-u"
     ConfigHelp:
       x-command: "config-help"
       x-command-description: "Config help for chosen lang"

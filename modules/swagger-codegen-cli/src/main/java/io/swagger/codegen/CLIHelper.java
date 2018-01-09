@@ -1,5 +1,8 @@
 package io.swagger.codegen;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.google.common.io.Resources;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.BooleanSchema;
@@ -11,14 +14,16 @@ import org.apache.commons.io.Charsets;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-class CLIHelper {
+public class CLIHelper {
 
     static String loadResourceOAS3File() {
         URL url = Resources.getResource("oas3.yaml");
@@ -81,7 +86,7 @@ class CLIHelper {
         return null;
     }
 
-    static Map<String, Object> createOptionValueMap(Schema schema, Map<String, Object> inputArgs) {
+    public static Map<String, Object> createOptionValueMap(Schema schema, Map<String, Object> inputArgs) {
         if(inputArgs == null || inputArgs.isEmpty()) {
             return null;
         }
@@ -138,6 +143,43 @@ class CLIHelper {
         return optionValueMap;
     }
 
+    public static Map<String, Object> createOptionValueMap(JsonNode node) {
+        final Map<String, Object> optionValueMap = new HashMap<>();
+        Iterator<String> fieldNames = node.fieldNames();
+        while (fieldNames.hasNext()) {
+            String argument = fieldNames.next();
+            JsonNode valueNode = node.findValue(argument);
+            if (valueNode.isBoolean()) {
+                optionValueMap.put(argument, valueNode.booleanValue());
+            }
+            else if (valueNode.isShort() || valueNode.isInt()) {
+                optionValueMap.put(argument, valueNode.intValue());
+            }
+            else if (valueNode.isLong()) {
+                optionValueMap.put(argument, valueNode.longValue());
+            }
+            else if (valueNode.isFloat()) {
+                optionValueMap.put(argument, valueNode.floatValue());
+            }
+            else if (valueNode.isDouble()) {
+                optionValueMap.put(argument, valueNode.doubleValue());
+            }
+            else if (valueNode.isArray()) {
+                String inputElements = valueNode.toString()
+                        .replace("[", StringUtils.EMPTY)
+                        .replace("]", StringUtils.EMPTY)
+                        .replace("\"", StringUtils.EMPTY)
+                        .replace(" ", StringUtils.EMPTY);
+                final List<String> values = new ArrayList<>(Arrays.asList(inputElements.split(",")));
+                optionValueMap.put(argument, values);
+            } else {
+                optionValueMap.put(argument, valueNode.toString()
+                        .replace("\"", StringUtils.EMPTY));
+            }
+        }
+        return optionValueMap;
+    }
+
     private static String fixOptionName(String option) {
         option = option.substring(countDashes(option));
         return option.replace("-", "_");
@@ -150,5 +192,43 @@ class CLIHelper {
             }
         }
         return 0;
+    }
+
+    public static boolean isValidJson(String content) {
+
+        if (StringUtils.isBlank(content)) {
+            return false;
+        }
+        try {
+            new ObjectMapper().readTree(content);
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+
+    public static boolean isValidYaml(String content) {
+        if (StringUtils.isBlank(content)) {
+            return false;
+        }
+        try {
+            new YAMLMapper().readTree(content);
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+
+    public static boolean isValidURL(String urlStr) {
+        if (StringUtils.isBlank(urlStr)) {
+            return false;
+        }
+        try {
+            URI uri = new URI(urlStr);
+            return uri.getScheme().toLowerCase().startsWith("http");
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 }

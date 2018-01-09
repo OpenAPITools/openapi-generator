@@ -1,0 +1,7 @@
+lang: java
+library: jersey2
+additionalProperties:
+  - "serializableModel=true"
+  - "withXml=true"
+spec: "/some/place/locally"
+output: "/some/place/locally"

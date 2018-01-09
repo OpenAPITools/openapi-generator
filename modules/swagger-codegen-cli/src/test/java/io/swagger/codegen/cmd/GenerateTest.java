@@ -1,16 +1,26 @@
 package io.swagger.codegen.cmd;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.codegen.CLIHelper;
 import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.DefaultGenerator;
 import io.swagger.codegen.SwaggerCodegen;
 import io.swagger.codegen.config.CodegenConfigurator;
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.core.util.Yaml;
 import mockit.Expectations;
 import mockit.FullVerifications;
 import mockit.Injectable;
 import mockit.Mocked;
 import mockit.Verifications;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("unused")
 public class GenerateTest {
@@ -550,6 +560,85 @@ public class GenerateTest {
                 configurator.setOutputDir(outputDir);
             }
         };
+    }
+
+    @Test
+    public void testExternalArguments() throws Exception {
+        String content = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("args.json"));
+        JsonNode node = Json.mapper().readTree(content.getBytes());
+
+        Map<String, Object> valueMap = CLIHelper.createOptionValueMap(node);
+        Assert.assertNotNull(valueMap);
+
+        Assert.assertTrue(valueMap.containsKey("lang"));
+        Assert.assertTrue(valueMap.containsKey("library"));
+        Assert.assertTrue(valueMap.containsKey("additionalProperties"));
+        Assert.assertTrue(valueMap.containsKey("spec"));
+        Assert.assertTrue(valueMap.containsKey("output"));
+
+
+        Assert.assertEquals(valueMap.get("lang"), "java");
+        Assert.assertEquals(valueMap.get("library"), "jersey2");
+        Assert.assertNotNull(valueMap.get("additionalProperties"));
+        Assert.assertTrue(valueMap.get("additionalProperties") instanceof ArrayList);
+
+        List<String> properties = (List<String>) valueMap.get("additionalProperties");
+        Assert.assertEquals(properties.size(), 2);
+        Assert.assertEquals(properties.get(0), "serializableModel=true");
+        Assert.assertEquals(properties.get(1), "withXml=true");
+
+
+        content = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("args.yaml"));
+        node = Yaml.mapper().readTree(content.getBytes());
+
+        valueMap = CLIHelper.createOptionValueMap(node);
+        Assert.assertNotNull(valueMap);
+
+        Assert.assertTrue(valueMap.containsKey("lang"));
+        Assert.assertTrue(valueMap.containsKey("library"));
+        Assert.assertTrue(valueMap.containsKey("additionalProperties"));
+        Assert.assertTrue(valueMap.containsKey("spec"));
+        Assert.assertTrue(valueMap.containsKey("output"));
+
+
+        Assert.assertEquals(valueMap.get("lang"), "java");
+        Assert.assertEquals(valueMap.get("library"), "jersey2");
+        Assert.assertNotNull(valueMap.get("additionalProperties"));
+        Assert.assertTrue(valueMap.get("additionalProperties") instanceof ArrayList);
+
+        properties = (List<String>) valueMap.get("additionalProperties");
+        Assert.assertEquals(properties.size(), 2);
+        Assert.assertEquals(properties.get(0), "serializableModel=true");
+        Assert.assertEquals(properties.get(1), "withXml=true");
+    }
+
+    @Test
+    public void testExternalArgumentsFromFile() throws Exception {
+        String location = "src/test/resources/args.json";
+
+        Generate generate = new Generate();
+        generate.setUrl(location);
+
+        generate.run();
+
+        Assert.assertEquals(generate.lang, "java");
+        Assert.assertEquals(generate.library, "jersey2");
+        Assert.assertEquals(generate.additionalProperties.size(), 2);
+        Assert.assertEquals(generate.additionalProperties.get(0), "serializableModel=true");
+        Assert.assertEquals(generate.additionalProperties.get(1), "withXml=true");
+
+        location = "src/test/resources/args.yaml";
+
+        generate = new Generate();
+        generate.setUrl(location);
+
+        generate.run();
+
+        Assert.assertEquals(generate.lang, "java");
+        Assert.assertEquals(generate.library, "jersey2");
+        Assert.assertEquals(generate.additionalProperties.size(), 2);
+        Assert.assertEquals(generate.additionalProperties.get(0), "serializableModel=true");
+        Assert.assertEquals(generate.additionalProperties.get(1), "withXml=true");
     }
 
     private void setupAndRunGenericTest(String... additionalParameters) {
