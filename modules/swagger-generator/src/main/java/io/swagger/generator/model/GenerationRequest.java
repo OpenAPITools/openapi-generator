@@ -7,35 +7,35 @@ import java.util.Objects;
 public class GenerationRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String specUrl = null;
-    private String language = null;
+    private String spec = null;
+    private String lang = null;
     private String library = null;
     private Map<String, Object> additionalProperties = null;
 
-    public GenerationRequest specUrl(String specUrl) {
-        this.specUrl = specUrl;
+    public GenerationRequest spec(String spec) {
+        this.spec = spec;
         return this;
     }
 
-    public String getSpecUrl() {
-        return specUrl;
+    public String getSpec() {
+        return spec;
     }
 
-    public void setSpecUrl(String specUrl) {
-        this.specUrl = specUrl;
+    public void setSpec(String spec) {
+        this.spec = spec;
     }
 
-    public GenerationRequest language(String language) {
-        this.language = language;
+    public GenerationRequest lang(String lang) {
+        this.lang = lang;
         return this;
     }
 
-    public String getLanguage() {
-        return language;
+    public String getLang() {
+        return lang;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 
     public GenerationRequest library(String library) {
@@ -78,7 +78,7 @@ public class GenerationRequest implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(specUrl, language, library, additionalProperties);
+        return Objects.hash(spec, lang, library, additionalProperties);
     }
 
 
@@ -87,8 +87,8 @@ public class GenerationRequest implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("class GenerationRequest {\n");
 
-        sb.append("    specUrl: ").append(toIndentedString(specUrl)).append("\n");
-        sb.append("    language: ").append(toIndentedString(language)).append("\n");
+        sb.append("    spec: ").append(toIndentedString(spec)).append("\n");
+        sb.append("    lang: ").append(toIndentedString(lang)).append("\n");
         sb.append("    library: ").append(toIndentedString(library)).append("\n");
         sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
         sb.append("}");

@@ -17,10 +17,28 @@ paths:
   /generate:
     get:
       x-swagger-router-controller: "io.swagger.generator.online.GeneratorController"
+      operationId: generateFiles
+      parameters:
+      - name: argumentsUrl
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  /generate/{language}:
+    get:
+      x-swagger-router-controller: "io.swagger.generator.online.GeneratorController"
       operationId: generate
       parameters:
       - name: language
-        in: query
+        in: path
         description: language to generate
         required: true
         schema:
@@ -38,7 +56,7 @@ paths:
           type: string
       responses:
         200:
-          description: successful operatio
+          description: successful operation
           content:
             application/octet-stream:
               schema:
@@ -69,11 +87,11 @@ components:
       - language
       - specUrl
       properties:
-        specUrl:
+        spec:
           type: "string"
           description: "spec url location"
           example: "http://someplace.in.web/v1/oas3.json"
-        language:
+        lang:
           type: "string"
           description: "language to generate"
           example: "java"
