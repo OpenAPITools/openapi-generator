@@ -168,7 +168,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         if(this.useSwaggerUI) {
             //App/Controllers
             supportingFiles.add(new SupportingFile("swagger.mustache", "public", "swagger.json"));
-            supportingFiles.add(new SupportingFile("apiDocController.mustache", "app/controllers", "ApiDocController.java"));
+            supportingFiles.add(new SupportingFile("apiDocController.mustache", String.format("app/%s", apiPackage.replace(".", File.separator)), "ApiDocController.java"));
         }
 
         //We remove the default api.mustache that is used
