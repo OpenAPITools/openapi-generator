@@ -1,4 +1,4 @@
-package {{apiPackage}};
+package com.puppies.store.apis;
 
 import javax.inject.*;
 import play.mvc.*;
