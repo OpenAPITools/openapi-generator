@@ -24,6 +24,7 @@ import javax.ws.rs.core.MediaType
 
 import java.io.File
 import java.util.Date
+import java.util.TimeZone
 
 import scala.collection.mutable.HashMap
 
@@ -47,9 +48,18 @@ class StoreApi(
   val defBasePath: String = "http://petstore.swagger.io/v2",
   defApiInvoker: ApiInvoker = ApiInvoker
 ) {
-
+  private lazy val dateTimeFormatter = {
+    val formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    formatter.setTimeZone(TimeZone.getTimeZone("UTC"))
+    formatter
+  }
+  private val dateFormatter = {
+    val formatter = new SimpleDateFormat("yyyy-MM-dd")
+    formatter.setTimeZone(TimeZone.getTimeZone("UTC"))
+    formatter
+  }
   implicit val formats = new org.json4s.DefaultFormats {
-    override def dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+0000")
+    override def dateFormatter = dateTimeFormatter
   }
   implicit val stringReader: ClientResponseReader[String] = ClientResponseReaders.StringReader
   implicit val unitReader: ClientResponseReader[Unit] = ClientResponseReaders.UnitReader
