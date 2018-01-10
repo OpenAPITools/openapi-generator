@@ -26,7 +26,7 @@ io.swagger.codegen.languages.HaskellServantCodegen
 io.swagger.codegen.languages.JMeterCodegen
 io.swagger.codegen.languages.JavaCXFClientCodegen
 io.swagger.codegen.languages.JavaCXFServerCodegen
-io.swagger.codegen.languages.JavaClientCodegen
+io.swagger.codegen.languages.java.JavaClientCodegen
 io.swagger.codegen.languages.JavaInflectorServerCodegen
 io.swagger.codegen.languages.JavaJAXRSCXFCDIServerCodegen
 io.swagger.codegen.languages.JavaJAXRSSpecServerCodegen

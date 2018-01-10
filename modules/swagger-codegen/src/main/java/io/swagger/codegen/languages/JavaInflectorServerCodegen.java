@@ -22,6 +22,10 @@ import static io.swagger.codegen.CodegenConstants.HAS_ENUMS_EXT_NAME;
 import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
+/**
+ * new version of this class can be found on: https://github.com/swagger-api/swagger-codegen-templates
+ */
+@Deprecated
 public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);

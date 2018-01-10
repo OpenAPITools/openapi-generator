@@ -16,8 +16,8 @@ import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanVal
 public class JavaHelper {
 
     public CharSequence getClassDefinition(CodegenModel codegenModel, Options options) throws IOException {
-        final Boolean serializableModel = Boolean.valueOf(String.valueOf(options.get(CodegenConstants.SERIALIZABLE_MODEL)));
-        final Boolean parceableModel = Boolean.valueOf(String.valueOf(options.get(JavaClientCodegen.PARCELABLE_MODEL)));
+        final Boolean serializableModel = options.get(CodegenConstants.SERIALIZABLE_MODEL) != null ? options.get(CodegenConstants.SERIALIZABLE_MODEL) : Boolean.FALSE;
+        final Boolean parceableModel = options.get(JavaClientCodegen.PARCELABLE_MODEL) != null ? options.get(JavaClientCodegen.PARCELABLE_MODEL) : Boolean.FALSE;
         final StringBuilder builder = new StringBuilder();
         builder.append(codegenModel.classname);
         if (StringUtils.isNotBlank(codegenModel.parent)) {

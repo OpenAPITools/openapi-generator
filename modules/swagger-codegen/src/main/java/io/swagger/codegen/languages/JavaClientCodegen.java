@@ -20,6 +20,10 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
 
+/**
+ * new version of this class can be found on: https://github.com/swagger-api/swagger-codegen-templates
+ */
+@Deprecated
 public class JavaClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures,
                    GzipFeatures
