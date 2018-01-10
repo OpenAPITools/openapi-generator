@@ -1,1 +1,0 @@
-{{#is this 'query-param'}}@retrofit2.http.Query("{{baseName}}") {{#if collectionFormat}}{{#is this 'collection-format-multi'}}{{{dataType}}}{{/is}}{{#isNot this 'collection-format-multi'}}{{{collectionFormat.toUpperCase}}}Params{{/isNot}}{{else}}{{{dataType}}}{{/if}} {{paramName}}{{/is}}
