@@ -22,8 +22,17 @@ public class StoreApiVerticle extends AbstractVerticle {
     final static String GETORDERBYID_SERVICE_ID = "getOrderById";
     final static String PLACEORDER_SERVICE_ID = "placeOrder";
     
-    //TODO : create Implementation
-    StoreApi service = new StoreApiImpl();
+    final StoreApi service;
+
+    public StoreApiVerticle() {
+        try {
+            Class serviceImplClass = getClass().getClassLoader().loadClass("io.swagger.server.api.verticle.StoreApiImpl");
+            service = (StoreApi)serviceImplClass.newInstance();
+        } catch (Exception e) {
+            logUnexpectedError("StoreApiVerticle constructor", e);
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void start() throws Exception {
