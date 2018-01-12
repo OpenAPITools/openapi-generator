@@ -104,7 +104,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
                 PathItem pathItem = openAPI.getPaths().get(pathname);
                 final Operation[] operations = ModelUtils.createOperationArray(pathItem);
                 for (Operation operation : operations) {
-                    if (operation.getTags() != null) {
+                    if (operation != null && operation.getTags() != null) {
                         List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
                         for (String tag : operation.getTags()) {
                             Map<String, String> value = new HashMap<String, String>();
