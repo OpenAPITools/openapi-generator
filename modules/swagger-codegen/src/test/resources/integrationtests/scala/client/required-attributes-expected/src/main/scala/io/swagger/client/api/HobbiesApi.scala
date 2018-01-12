@@ -86,6 +86,7 @@ class HobbiesApi(
    * Query hobbies with some additional optional meaningless parameters
    *
    * @param s a string (optional, default to some string)
+   * @param `class` a string, testing keyword escaping (optional, default to some string)
    * @param i an integer (optional, default to 1)
    * @param l a long (optional, default to 2)
    * @param bool a bool (optional, default to true)
@@ -97,8 +98,8 @@ class HobbiesApi(
    * @param bin an octet string (optional, default to DEADBEEF)
    * @return Hobby
    */
-  def getHobbies(s: Option[String] = Option("some string"), i: Option[Integer] = Option(1), l: Option[Long] = Option(2), bool: Option[Boolean] = Option(true), f: Option[Float] = Option(0.1), d: Option[Double] = Option(10.005), datetime: Option[Date] = Option(dateTimeFormatter.parse("2018-01-01T08:30:00Z-04:00")), date: Option[Date] = Option(dateFormatter.parse("2018-01-01")), b: Option[ArrayByte] = Option("c3dhZ2dlciBjb2RlZ2Vu".getBytes), bin: Option[ArrayByte] = Option("DEADBEEF".getBytes)): Option[Hobby] = {
-    val await = Try(Await.result(getHobbiesAsync(s, i, l, bool, f, d, datetime, date, b, bin), Duration.Inf))
+  def getHobbies(s: Option[String] = Option("some string"), `class`: Option[String] = Option("some string"), i: Option[Integer] = Option(1), l: Option[Long] = Option(2), bool: Option[Boolean] = Option(true), f: Option[Float] = Option(0.1), d: Option[Double] = Option(10.005), datetime: Option[Date] = Option(dateTimeFormatter.parse("2018-01-01T08:30:00Z-04:00")), date: Option[Date] = Option(dateFormatter.parse("2018-01-01")), b: Option[Array[Byte]] = Option("c3dhZ2dlciBjb2RlZ2Vu".getBytes), bin: Option[Array[Byte]] = Option("DEADBEEF".getBytes)): Option[Hobby] = {
+    val await = Try(Await.result(getHobbiesAsync(s, `class`, i, l, bool, f, d, datetime, date, b, bin), Duration.Inf))
     await match {
       case Success(i) => Some(await.get)
       case Failure(t) => None
@@ -110,6 +111,7 @@ class HobbiesApi(
    * Query hobbies with some additional optional meaningless parameters
    *
    * @param s a string (optional, default to some string)
+   * @param `class` a string, testing keyword escaping (optional, default to some string)
    * @param i an integer (optional, default to 1)
    * @param l a long (optional, default to 2)
    * @param bool a bool (optional, default to true)
@@ -121,8 +123,8 @@ class HobbiesApi(
    * @param bin an octet string (optional, default to DEADBEEF)
    * @return Future(Hobby)
    */
-  def getHobbiesAsync(s: Option[String] = Option("some string"), i: Option[Integer] = Option(1), l: Option[Long] = Option(2), bool: Option[Boolean] = Option(true), f: Option[Float] = Option(0.1), d: Option[Double] = Option(10.005), datetime: Option[Date] = Option(dateTimeFormatter.parse("2018-01-01T08:30:00Z-04:00")), date: Option[Date] = Option(dateFormatter.parse("2018-01-01")), b: Option[ArrayByte] = Option("c3dhZ2dlciBjb2RlZ2Vu".getBytes), bin: Option[ArrayByte] = Option("DEADBEEF".getBytes)): Future[Hobby] = {
-      helper.getHobbies(s, i, l, bool, f, d, datetime, date, b, bin)
+  def getHobbiesAsync(s: Option[String] = Option("some string"), `class`: Option[String] = Option("some string"), i: Option[Integer] = Option(1), l: Option[Long] = Option(2), bool: Option[Boolean] = Option(true), f: Option[Float] = Option(0.1), d: Option[Double] = Option(10.005), datetime: Option[Date] = Option(dateTimeFormatter.parse("2018-01-01T08:30:00Z-04:00")), date: Option[Date] = Option(dateFormatter.parse("2018-01-01")), b: Option[Array[Byte]] = Option("c3dhZ2dlciBjb2RlZ2Vu".getBytes), bin: Option[Array[Byte]] = Option("DEADBEEF".getBytes)): Future[Hobby] = {
+      helper.getHobbies(s, `class`, i, l, bool, f, d, datetime, date, b, bin)
   }
 
 }
@@ -130,6 +132,7 @@ class HobbiesApi(
 class HobbiesApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
 
   def getHobbies(s: Option[String] = Option("some string"),
+    `class`: Option[String] = Option("some string"),
     i: Option[Integer] = Option(1),
     l: Option[Long] = Option(2),
     bool: Option[Boolean] = Option(true),
@@ -137,8 +140,8 @@ class HobbiesApiAsyncHelper(client: TransportClient, config: SwaggerConfig) exte
     d: Option[Double] = Option(10.005),
     datetime: Option[Date] = Option(dateTimeFormatter.parse("2018-01-01T08:30:00Z-04:00")),
     date: Option[Date] = Option(dateFormatter.parse("2018-01-01")),
-    b: Option[ArrayByte] = Option("c3dhZ2dlciBjb2RlZ2Vu".getBytes),
-    bin: Option[ArrayByte] = Option("DEADBEEF".getBytes)
+    b: Option[Array[Byte]] = Option("c3dhZ2dlciBjb2RlZ2Vu".getBytes),
+    bin: Option[Array[Byte]] = Option("DEADBEEF".getBytes)
     )(implicit reader: ClientResponseReader[Hobby]): Future[Hobby] = {
     // create path and map variables
     val path = (addFmt("/hobbies"))
@@ -149,6 +152,10 @@ class HobbiesApiAsyncHelper(client: TransportClient, config: SwaggerConfig) exte
 
     s match {
       case Some(param) => queryParams += "s" -> param.toString
+      case _ => queryParams
+    }
+    `class` match {
+      case Some(param) => queryParams += "class" -> param.toString
       case _ => queryParams
     }
     i match {

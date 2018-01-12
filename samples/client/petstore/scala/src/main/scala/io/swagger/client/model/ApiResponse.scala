@@ -15,7 +15,7 @@ package io.swagger.client.model
 
 case class ApiResponse (
   code: Option[Integer] = None,
-  _type: Option[String] = None,
+  `type`: Option[String] = None,
   message: Option[String] = None
 )
 
