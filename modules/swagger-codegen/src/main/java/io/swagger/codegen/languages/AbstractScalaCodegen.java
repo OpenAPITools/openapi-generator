@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.samskivert.mustache.Escapers;
+import com.samskivert.mustache.Mustache;
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.DefaultCodegen;
@@ -44,7 +46,50 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 "Any",
                 "List",
                 "Seq",
-                "Map"));
+                "Map",
+                "Array"));
+
+        reservedWords.addAll(Arrays.asList(
+                "abstract",
+                "case",
+                "catch",
+                "class",
+                "def",
+                "do",
+                "else",
+                "extends",
+                "false",
+                "final",
+                "finally",
+                "for",
+                "forSome",
+                "if",
+                "implicit",
+                "import",
+                "lazy",
+                "match",
+                "new",
+                "null",
+                "object",
+                "override",
+                "package",
+                "private",
+                "protected",
+                "return",
+                "sealed",
+                "super",
+                "this",
+                "throw",
+                "trait",
+                "try",
+                "true",
+                "type",
+                "val",
+                "var",
+                "while",
+                "with",
+                "yield"
+        ));
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -80,7 +125,30 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return "_" + name;
+        // Reserved words will be further escaped at the mustache compiler level.
+        // Scala escaping done here (via `, without compiler escaping) would otherwise be HTML encoded.
+        return "`" + name + "`";
+    }
+
+    @Override
+    public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
+        Mustache.Escaper SCALA = new Mustache.Escaper() {
+            @Override public String escape (String text) {
+                // Fix included as suggested by akkie in #6393
+                // The given text is a reserved word which is escaped by enclosing it with grave accents. If we would
+                // escape that with the default Mustache `HTML` escaper, then the escaper would also escape our grave
+                // accents. So we remove the grave accents before the escaping and add it back after the escaping.
+                if (text.startsWith("`") && text.endsWith("`")) {
+                    String unescaped =  text.substring(1, text.length() - 1);
+                    return "`" + Escapers.HTML.escape(unescaped) + "`";
+                }
+
+                // All none reserved words will be escaped with the default Mustache `HTML` escaper
+                return Escapers.HTML.escape(text);
+            }
+        };
+
+        return compiler.withEscaper(SCALA);
     }
 
     @Override
