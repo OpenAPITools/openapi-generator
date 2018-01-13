@@ -90,6 +90,16 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+    @POST
+    @Path("/inline-additionalProperties")
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "test inline additionalProperties", notes = "", response = Void.class, tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+    public Response testInlineAdditionalProperties(@Valid Object param) {
+        return Response.ok().entity("magic!").build();
+    }
+
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/json" })

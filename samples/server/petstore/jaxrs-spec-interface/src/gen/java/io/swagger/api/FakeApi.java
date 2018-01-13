@@ -76,6 +76,14 @@ public interface FakeApi {
         @ApiResponse(code = 404, message = "Not found", response = Void.class) })
     void testEnumParameters(@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString,@HeaderParam("enum_header_string_array")   @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@HeaderParam("enum_header_string")  @DefaultValue("-efg")  @ApiParam("Header parameter enum test (string)") String enumHeaderString,@QueryParam("enum_query_string_array")   @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string")  @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")   @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@FormParam(value = "enum_query_double")  Double enumQueryDouble) throws Exception;
 
+    @POST
+    @Path("/inline-additionalProperties")
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "test inline additionalProperties", notes = "", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+    void testInlineAdditionalProperties(@Valid Object param) throws Exception;
+
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/json" })

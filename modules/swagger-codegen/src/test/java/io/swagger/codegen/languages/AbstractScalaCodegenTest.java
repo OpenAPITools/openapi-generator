@@ -37,7 +37,8 @@ public class AbstractScalaCodegenTest {
 
         String result = abstractScalaCodegen.formatIdentifier(className, true);
 
-        Assert.assertTrue("_ReservedWord".equals(result));
+        // NOTE: reserved words are further escaped at the compiler level.
+        Assert.assertTrue("`ReservedWord`".equals(result));
     }
 
     @Test

@@ -168,6 +168,14 @@
             "default": "some string"
           },
           {
+            "type": "string",
+            "description": "a string, testing keyword escaping",
+            "name": "class",
+            "required": false,
+            "in": "query",
+            "default": "some string"
+          },
+          {
             "type": "integer",
             "format": "int32",
             "description": "an integer",

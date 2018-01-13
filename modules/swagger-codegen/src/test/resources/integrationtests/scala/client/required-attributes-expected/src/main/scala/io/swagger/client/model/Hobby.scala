@@ -23,7 +23,7 @@ case class Hobby (
   enabled: Option[Boolean] = None,
   created: Option[Date] = None,
   timestamp: Option[Date] = None,
-  bytes: Option[ArrayByte] = None,
+  bytes: Option[Array[Byte]] = None,
   binary: Option[String] = None
 )
 

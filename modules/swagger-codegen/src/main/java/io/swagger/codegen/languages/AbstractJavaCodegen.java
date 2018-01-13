@@ -1269,13 +1269,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     /**
-     * Output the Getter name for boolean property, e.g. isActive
+     * Output the partial Getter name for boolean property, e.g. Active
      *
      * @param name the name of the property
-     * @return getter name based on naming convention
+     * @return partial getter name based on naming convention
      */
     public String toBooleanGetter(String name) {
-        return "is" + getterAndSetterCapitalize(name);
+        return getterAndSetterCapitalize(name);
     }
 
     @Override
