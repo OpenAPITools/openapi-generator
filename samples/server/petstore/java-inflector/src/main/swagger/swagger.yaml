@@ -128,7 +128,6 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-contentType: "application/json"
       x-accepts: "application/json"
   /pet/findByTags:
     get:
@@ -164,7 +163,6 @@ paths:
         - "write:pets"
         - "read:pets"
       deprecated: true
-      x-contentType: "application/json"
       x-accepts: "application/json"
   /pet/{petId}:
     get:
@@ -194,7 +192,6 @@ paths:
           description: "Pet not found"
       security:
       - api_key: []
-      x-contentType: "application/json"
       x-accepts: "application/json"
     post:
       tags:
@@ -260,7 +257,6 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-contentType: "application/json"
       x-accepts: "application/json"
   /pet/{petId}/uploadImage:
     post:
@@ -321,7 +317,6 @@ paths:
               format: "int32"
       security:
       - api_key: []
-      x-contentType: "application/json"
       x-accepts: "application/json"
   /store/order:
     post:
@@ -378,7 +373,6 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Order not found"
-      x-contentType: "application/json"
       x-accepts: "application/json"
     delete:
       tags:
@@ -401,7 +395,6 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Order not found"
-      x-contentType: "application/json"
       x-accepts: "application/json"
   /user:
     post:
@@ -510,7 +503,6 @@ paths:
               description: "date in UTC when toekn expires"
         400:
           description: "Invalid username/password supplied"
-      x-contentType: "application/json"
       x-accepts: "application/json"
   /user/logout:
     get:
@@ -526,7 +518,6 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-contentType: "application/json"
       x-accepts: "application/json"
   /user/{username}:
     get:
@@ -553,7 +544,6 @@ paths:
           description: "Invalid username supplied"
         404:
           description: "User not found"
-      x-contentType: "application/json"
       x-accepts: "application/json"
     put:
       tags:
@@ -603,7 +593,6 @@ paths:
           description: "Invalid username supplied"
         404:
           description: "User not found"
-      x-contentType: "application/json"
       x-accepts: "application/json"
   /fake_classname_test:
     patch:

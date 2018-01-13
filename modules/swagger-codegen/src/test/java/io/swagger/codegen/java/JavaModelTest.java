@@ -715,7 +715,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.baseType, "Boolean");
         Assert.assertTrue(cp.isNotContainer);
         Assert.assertTrue(cp.isBoolean);
-        Assert.assertEquals(cp.getter, "isProperty");
+        Assert.assertEquals(cp.getter, "Property");
     }
 
 }

@@ -78,11 +78,11 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   {{/maximum}}
    * @return {{name}}
   **/
- {{#vendorExtensions.extraAnnotation}}
+  {{#vendorExtensions.extraAnnotation}}
   {{{vendorExtensions.extraAnnotation}}}
   {{/vendorExtensions.extraAnnotation}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
-  public {{{datatypeWithEnum}}} {{getter}}() {
+  public {{{datatypeWithEnum}}} {{#isBoolean}}is{{/isBoolean}}{{getter}}() {
     return {{name}};
   }
   {{^isReadOnly}}

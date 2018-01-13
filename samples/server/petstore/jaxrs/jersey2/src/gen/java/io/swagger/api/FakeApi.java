@@ -167,6 +167,18 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testEnumParameters(enumFormStringArray,enumFormString,enumHeaderStringArray,enumHeaderString,enumQueryStringArray,enumQueryString,enumQueryInteger,enumQueryDouble,securityContext);
     }
+    @POST
+    @Path("/inline-additionalProperties")
+    @Consumes({ "application/json" })
+    
+    @io.swagger.annotations.ApiOperation(value = "test inline additionalProperties", notes = "", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+    public Response testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true) Object param
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testInlineAdditionalProperties(param,securityContext);
+    }
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/json" })
