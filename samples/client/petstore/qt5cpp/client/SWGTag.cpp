@@ -46,7 +46,7 @@ SWGTag::init() {
 void
 SWGTag::cleanup() {
 
-    if(name != nullptr) {
+    if(name != nullptr) { 
         delete name;
     }
 }
@@ -63,7 +63,9 @@ SWGTag::fromJson(QString &json) {
 void
 SWGTag::fromJsonObject(QJsonObject &pJson) {
     ::Swagger::setValue(&id, pJson["id"], "qint64", "");
+    
     ::Swagger::setValue(&name, pJson["name"], "QString", "QString");
+    
 }
 
 QString
@@ -79,9 +81,11 @@ SWGTag::asJson ()
 QJsonObject*
 SWGTag::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
+    
     if(m_id_isSet){
         obj->insert("id", QJsonValue(id));
     }
+    
     if(name != nullptr && *name != QString("")){
         toJsonValue(QString("name"), name, obj, QString("QString"));
     }

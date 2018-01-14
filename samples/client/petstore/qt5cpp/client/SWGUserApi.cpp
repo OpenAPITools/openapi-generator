@@ -29,7 +29,7 @@ SWGUserApi::SWGUserApi(QString host, QString basePath) {
 }
 
 void
-SWGUserApi::createUser(SWGUser body) {
+SWGUserApi::createUser(SWGUser& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user");
 
@@ -81,7 +81,7 @@ SWGUserApi::createUserCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGUserApi::createUsersWithArrayInput(QList<SWGUser*>* body) {
+SWGUserApi::createUsersWithArrayInput(QList<SWGUser*>*& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithArray");
 
@@ -91,10 +91,10 @@ SWGUserApi::createUsersWithArrayInput(QList<SWGUser*>* body) {
     SWGHttpRequestInput input(fullPath, "POST");
 
 
-    QJsonArray* bodyArray = new QJsonArray();
-    toJsonArray((QList<void*>*)body, bodyArray, QString("body"), QString("SWGUser*"));
+    auto body_jobj = new QJsonObject();
+    toJsonArray((QList<void*>*)body, body_jobj, QString("body"), QString("SWGUser*"));
 
-    QJsonDocument doc(*bodyArray);
+    QJsonDocument doc(*body_jobj);
     QByteArray bytes = doc.toJson();
 
     input.request_body.append(bytes);
@@ -137,7 +137,7 @@ SWGUserApi::createUsersWithArrayInputCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGUserApi::createUsersWithListInput(QList<SWGUser*>* body) {
+SWGUserApi::createUsersWithListInput(QList<SWGUser*>*& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithList");
 
@@ -147,10 +147,10 @@ SWGUserApi::createUsersWithListInput(QList<SWGUser*>* body) {
     SWGHttpRequestInput input(fullPath, "POST");
 
 
-    QJsonArray* bodyArray = new QJsonArray();
-    toJsonArray((QList<void*>*)body, bodyArray, QString("body"), QString("SWGUser*"));
+    auto body_jobj = new QJsonObject();
+    toJsonArray((QList<void*>*)body, body_jobj, QString("body"), QString("SWGUser*"));
 
-    QJsonDocument doc(*bodyArray);
+    QJsonDocument doc(*body_jobj);
     QByteArray bytes = doc.toJson();
 
     input.request_body.append(bytes);
@@ -419,7 +419,7 @@ SWGUserApi::logoutUserCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGUserApi::updateUser(QString* username, SWGUser body) {
+SWGUserApi::updateUser(QString* username, SWGUser& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
 

@@ -198,7 +198,7 @@ SWGStoreApi::getOrderByIdCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGStoreApi::placeOrder(SWGOrder body) {
+SWGStoreApi::placeOrder(SWGOrder& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order");
 
