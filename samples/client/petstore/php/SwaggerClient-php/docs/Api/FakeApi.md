@@ -379,11 +379,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enum_form_string_array** | [**string[]**](../Model/string.md)| Form parameter enum test (string array) | [optional]
+ **enum_form_string_array** | **string[]**| Form parameter enum test (string array) | [optional]
  **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to -efg]
- **enum_header_string_array** | [**string[]**](../Model/string.md)| Header parameter enum test (string array) | [optional]
+ **enum_header_string_array** | **string[]**| Header parameter enum test (string array) | [optional]
  **enum_header_string** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
- **enum_query_string_array** | [**string[]**](../Model/string.md)| Query parameter enum test (string array) | [optional]
+ **enum_query_string_array** | **string[]**| Query parameter enum test (string array) | [optional]
  **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional]
