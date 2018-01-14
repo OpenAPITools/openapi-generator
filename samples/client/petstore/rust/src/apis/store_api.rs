@@ -10,11 +10,14 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+use std::borrow::Cow;
 
 use hyper;
 use serde_json;
 use futures;
 use futures::{Future, Stream};
+
+use hyper::header::UserAgent;
 
 use super::{Error, configuration};
 
@@ -53,6 +56,10 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
 
+        if let Some(ref user_agent) = configuration.user_agent {
+            req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
+        }
+
 
 
         // send request
@@ -76,6 +83,10 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+
+        if let Some(ref user_agent) = configuration.user_agent {
+            req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
+        }
 
 
 
@@ -104,6 +115,10 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
 
+        if let Some(ref user_agent) = configuration.user_agent {
+            req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
+        }
+
 
 
         // send request
@@ -130,6 +145,10 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
         //     return Box::new(futures::future::err(e));
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
+
+        if let Some(ref user_agent) = configuration.user_agent {
+            req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
+        }
 
 
         let serialized = serde_json::to_string(&body).unwrap();
