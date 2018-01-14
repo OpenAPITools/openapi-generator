@@ -92,8 +92,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.go"));
-        supportingFiles.add(new SupportingFile("api_client.mustache", "", "api_client.go"));
-        supportingFiles.add(new SupportingFile("api_response.mustache", "", "api_response.go"));
+        supportingFiles.add(new SupportingFile("client.mustache", "", "client.go"));
+        supportingFiles.add(new SupportingFile("response.mustache", "", "response.go"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
     }
 
