@@ -13,28 +13,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
-    static Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
+public class GoClientCodegen extends AbstractGoCodegen {
 
-    protected String packageName = "swagger";
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
-    public CodegenType getTag() {
-        return CodegenType.CLIENT;
-    }
-
-    public String getName() {
-        return "go";
-    }
-
-    public String getHelp() {
-        return "Generates a Go client library (beta).";
-    }
-
     public GoClientCodegen() {
         super();
+
         outputFolder = "generated-code/go";
         modelTemplateFiles.put("model.mustache", ".go");
         apiTemplateFiles.put("api.mustache", ".go");
@@ -59,66 +46,8 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 // Added "error" as it's used so frequently that it may as well be a keyword
         );
 
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList(
-                    "map",
-                    "array")
-                );
-
-        languageSpecificPrimitives = new HashSet<String>(
-            Arrays.asList(
-                "string",
-                "bool",
-                "uint",
-                "uint32",
-                "uint64",
-                "int",
-                "int32",
-                "int64",
-                "float32",
-                "float64",
-                "complex64",
-                "complex128",
-                "rune",
-                "byte")
-            );
-
-        instantiationTypes.clear();
-        /*instantiationTypes.put("array", "GoArray");
-        instantiationTypes.put("map", "GoMap");*/
-
-        typeMapping.clear();
-        typeMapping.put("integer", "int32");
-        typeMapping.put("long", "int64");
-        typeMapping.put("number", "float32");
-        typeMapping.put("float", "float32");
-        typeMapping.put("double", "float64");
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("string", "string");
-        typeMapping.put("UUID", "string");
-        typeMapping.put("date", "string");
-        typeMapping.put("DateTime", "time.Time");
-        typeMapping.put("password", "string");
-        typeMapping.put("File", "*os.File");
-        typeMapping.put("file", "*os.File");
-        // map binary to string as a workaround
-        // the correct solution is to use []byte
-        typeMapping.put("binary", "string");
-        typeMapping.put("ByteArray", "string");
-        typeMapping.put("object", "interface{}");
-
-        importMapping = new HashMap<String, String>();
-        importMapping.put("time.Time", "time");
-        importMapping.put("*os.File", "os");
-        importMapping.put("os", "io/ioutil");
-
-        cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Go package name (convention: lowercase).")
-                .defaultValue("swagger"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Go package version.")
                 .defaultValue("1.0.0"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
-                .defaultValue(Boolean.TRUE.toString()));
 
     }
 
@@ -157,6 +86,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelPackage = packageName;
         apiPackage = packageName;
 
+        supportingFiles.add(new SupportingFile("swagger.mustache", "api", "swagger.yaml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
@@ -166,138 +96,51 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
     }
 
+    /**
+     * Configures the type of generator.
+     *
+     * @return the CodegenType for this generator
+     * @see io.swagger.codegen.CodegenType
+     */
     @Override
-    public String escapeReservedWord(String name)
-    {
-        // Can't start with an underscore, as our fields need to start with an
-        // UppercaseLetter so that Go treats them as public/visible.
-
-        // Options?
-        // - MyName
-        // - AName
-        // - TheName
-        // - XName
-        // - X_Name
-        // ... or maybe a suffix?
-        // - Name_ ... think this will work.
-        if(this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return camelize(name) + '_';
+    public CodegenType getTag() {
+        return CodegenType.CLIENT;
     }
 
+    /**
+     * Configures a friendly name for the generator.  This will be used by the generator
+     * to select the library with the -l flag.
+     *
+     * @return the friendly name for the generator
+     */
+    @Override
+    public String getName() {
+        return "go";
+    }
+
+    /**
+     * Returns human-friendly help for the generator.  Provide the consumer with help
+     * tips, parameters here
+     *
+     * @return A string value for the help message
+     */
+    @Override
+    public String getHelp() {
+        return "Generates a Go client library (beta).";
+    }
+
+    /**
+     * Location to write api files.  You can use the apiPackage() as defined when the class is
+     * instantiated
+     */
     @Override
     public String apiFileFolder() {
         return outputFolder + File.separator;
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator;
-    }
-
-    @Override
-    public String toVarName(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = sanitizeName(name.replaceAll("-", "_"));
-
-        // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
-            return name;
-
-        // camelize (lower first character) the variable name
-        // pet_id => PetId
-        name = camelize(name);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name))
-            name = escapeReservedWord(name);
-
-        // for reserved word or word starting with number, append _
-        if (name.matches("^\\d.*"))
-            name = "Var" + name;
-
-        return name;
-    }
-
-    @Override
-    public String toParamName(String name) {
-        // params should be lowerCamelCase. E.g. "person Person", instead of
-        // "Person Person".
-        //
-        // REVISIT: Actually, for idiomatic go, the param name should
-        // really should just be a letter, e.g. "p Person"), but we'll get
-        // around to that some other time... Maybe.
-        return camelize(toVarName(name), true);
-    }
-
-    @Override
-    public String toModelName(String name) {
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(toModelFilename(name));
-    }
-
-    @Override
-    public String toModelFilename(String name) {
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
-        }
-
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
-        }
-
-        name = sanitizeName(name);
-
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
-            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
-        }
-
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + ("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
-        }
-
-        return underscore(name);
-    }
-
-    @Override
-    public String toApiFilename(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        // e.g. PetApi.go => pet_api.go
-        return underscore(name) + "_api";
-    }
-
-    /**
-     * Overrides postProcessParameter to add a vendor extension "x-exportParamName".
-     * This is useful when paramName starts with a lowercase letter, but we need that
-     * param to be exportable (starts with an Uppercase letter).
-     *
-     * @param parameter CodegenParameter object to be processed.
-     */
-    @Override
-    public void postProcessParameter(CodegenParameter parameter){
-
-        // Give the base class a chance to process
-        super.postProcessParameter(parameter);
-
-        char firstChar = parameter.paramName.charAt(0);
-
-        if (Character.isUpperCase(firstChar)) {
-            // First char is already uppercase, just use paramName.
-            parameter.vendorExtensions.put("x-exportParamName", parameter.paramName);
-
-        }
-
-        // It's a lowercase first char, let's convert it to uppercase
-        StringBuilder sb = new StringBuilder(parameter.paramName);
-        sb.setCharAt(0, Character.toUpperCase(firstChar));
-        parameter.vendorExtensions.put("x-exportParamName", sb.toString());
     }
 
     @Override
@@ -488,82 +331,4 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.packageVersion = packageVersion;
     }
 
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
-
-    public Map<String, String> createMapping(String key, String value){
-        Map<String, String> customImport = new HashMap<String, String>();
-        customImport.put(key, value);
-
-        return customImport;
-    }
-
-
-    @Override
-    public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
-            return value;
-        } else {
-            return escapeText(value);
-        }
-    }
-
-    @Override
-    public String toEnumDefaultValue(String value, String datatype) {
-        return datatype + "_" + value;
-    }
-
-    @Override
-    public String toEnumVarName(String name, String datatype) {
-        if (name.length() == 0) {
-            return "EMPTY";
-        }
-
-        // number
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
-            String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
-        }
-
-        // for symbol, e.g. $, #
-        if (getSymbolName(name) != null) {
-            return getSymbolName(name).toUpperCase();
-        }
-
-        // string
-        String enumName = sanitizeName(underscore(name).toUpperCase());
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
-
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
-            return escapeReservedWord(enumName);
-        } else {
-            return enumName;
-        }
-    }
-
-    @Override
-    public String toEnumName(CodegenProperty property) {
-        String enumName = underscore(toModelName(property.name)).toUpperCase();
-
-        // remove [] for array or map of enum
-        enumName = enumName.replace("[]", "");
-
-        if (enumName.matches("\\d.*")) { // starts with number
-            return "_" + enumName;
-        } else {
-            return enumName;
-        }
-    }
 }

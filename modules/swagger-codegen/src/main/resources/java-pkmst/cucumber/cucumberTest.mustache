@@ -1,0 +1,15 @@
+package {{basePackage}}.cucumber;
+
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ActiveProfiles;
+import cucumber.api.CucumberOptions;
+import cucumber.api.junit.Cucumber;
+
+@RunWith(Cucumber.class)
+@ActiveProfiles("test")
+@CucumberOptions(format = { "pretty", "html:target/cucumber-html-report",
+{{#resourcePaths}}
+ "json:./report/{{path}}-report-json/{{path}}.json",
+{{/resourcePaths}} })
+public class {{serviceName}}Test {
+}

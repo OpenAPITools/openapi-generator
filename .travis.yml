@@ -77,6 +77,7 @@ script:
   # fail if generators contain tab '\t'
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
+  - mvn clean install
   - mvn -q --batch-mode verify -Psamples
   # Below has been moved to CircleCI
   # docker: build generator image and push to Docker Hub
@@ -84,12 +85,12 @@ script:
   ## docker: build cli image and push to Docker Hub
   #- if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/swagger-codegen-cli && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME; fi; fi
 
-after_success:
-  # push a snapshot version to maven repo
-  - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_BRANCH" = "3.0.0" ]; then
-      mvn clean deploy --settings .travis/settings.xml;
-      echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
-    fi;
+#after_success:
+#  # push a snapshot version to maven repo
+#  - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_BRANCH" = "master" ]; then
+#      mvn clean deploy --settings .travis/settings.xml;
+#      echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
+#    fi;
 
 env:
   - DOCKER_GENERATOR_IMAGE_NAME=swaggerapi/swagger-generator DOCKER_CODEGEN_CLI_IMAGE_NAME=swaggerapi/swagger-codegen-cli

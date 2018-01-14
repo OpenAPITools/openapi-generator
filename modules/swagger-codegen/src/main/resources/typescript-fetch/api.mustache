@@ -212,7 +212,12 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
 
     {{/hasFormParams}}
     {{#bodyParam}}
+            {{^consumes}}
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            {{/consumes}}
+            {{#consumes.0}}
+            localVarHeaderParameter['Content-Type'] = '{{{mediaType}}}';
+            {{/consumes.0}}
 
     {{/bodyParam}}
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
@@ -223,7 +228,8 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
             localVarRequestOptions.body = localVarFormParams.toString();
     {{/hasFormParams}}
     {{#bodyParam}}
-            localVarRequestOptions.body = JSON.stringify({{paramName}} || {});
+            const needsSerialization = (<any>"{{dataType}}" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify({{paramName}} || {}) : ({{paramName}} || "");
     {{/bodyParam}}
 
             return {

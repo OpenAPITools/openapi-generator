@@ -42,6 +42,7 @@ public class CodegenProperty implements Cloneable, VendorExtendable {
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
     public Map<String, Object> vendorExtensions = new HashMap<>();
+    public String discriminatorValue;
 
     public String nameInCamelCase; // property name in camel case
     // enum name based on the property name, usually use as a prefix (e.g. VAR_NAME) for enum name (e.g. VAR_NAME_VALUE1)

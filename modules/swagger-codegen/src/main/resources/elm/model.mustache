@@ -1,0 +1,24 @@
+{{>licenseInfo}}
+
+module Data.{{classname}} exposing ({{#models}}{{#model}}{{classname}}{{#hasChildren}}(..){{/hasChildren}}{{#isEnum}}(..){{/isEnum}}{{^isEnum}}{{#vars}}{{#isEnum}}, {{vendorExtensions.x-union-type}}(..){{/isEnum}}{{/vars}}{{/isEnum}}, {{classVarName}}Decoder, {{classVarName}}Encoder{{/model}}{{/models}})
+
+{{>imports}}import Json.Decode as Decode exposing (Decoder)
+import Json.Decode.Pipeline exposing (decode, optional, required)
+import Json.Encode as Encode
+import Maybe exposing (map, withDefault)
+
+
+{{#models}}
+{{#model}}
+{{#description}}
+{-
+   {{{description}}}
+-}
+{{/description}}
+{{#isEnum}}{{>modelTypeUnion}}{{/isEnum}}{{^isEnum}}{{#hasChildren}}{{>modelTypeDiscriminator}}{{/hasChildren}}{{^hasChildren}}{{#isAlias}}{{>modelTypePrimitive}}{{/isAlias}}{{^isAlias}}{{>modelTypeAlias}}{{/isAlias}}{{/hasChildren}}{{/isEnum}}
+{{/model}}
+{{^-last}}
+
+
+{{/-last}}
+{{/models}}

@@ -11,9 +11,6 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,9 +19,10 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
+public class GoServerCodegen extends AbstractGoCodegen {
 
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
@@ -43,7 +41,9 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
          * for multiple files for model, just put another entry in the `modelTemplateFiles` with
          * a different extension
          */
-        modelTemplateFiles.clear();
+        modelTemplateFiles.put(
+                "model.mustache",
+                ".go");
 
         /*
          * Api classes.  You can write classes for each Api file with the apiTemplateFiles map.
@@ -51,7 +51,7 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
          * class
          */
         apiTemplateFiles.put(
-                "controller.mustache",   // the template to use
+                "controller-api.mustache",   // the template to use
                 ".go");       // the extension for each file to write
 
         /*
@@ -74,70 +74,21 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
                 "case", "defer", "go", "map", "struct",
                 "chan", "else", "goto", "package", "switch",
                 "const", "fallthrough", "if", "range", "type",
-                "continue", "for", "import", "return", "var", "error", "ApiResponse",
-                "nil")
+                "continue", "for", "import", "return", "var", "error", "nil")
                 // Added "error" as it's used so frequently that it may as well be a keyword
         );
+    }
 
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList(
-                    "map",
-                    "array")
-                );
+    @Override
+    public void processOpts() {
+        super.processOpts();
 
-        languageSpecificPrimitives = new HashSet<String>(
-            Arrays.asList(
-                "string",
-                "bool",
-                "uint",
-                "uint32",
-                "uint64",
-                "int",
-                "int32",
-                "int64",
-                "float32",
-                "float64",
-                "complex64",
-                "complex128",
-                "rune",
-                "byte")
-            );
-
-        instantiationTypes.clear();
-        /*instantiationTypes.put("array", "GoArray");
-        instantiationTypes.put("map", "GoMap");*/
-
-        typeMapping.clear();
-        typeMapping.put("integer", "int32");
-        typeMapping.put("long", "int64");
-        typeMapping.put("number", "float32");
-        typeMapping.put("float", "float32");
-        typeMapping.put("double", "float64");
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("string", "string");
-        typeMapping.put("UUID", "string");
-        typeMapping.put("date", "string");
-        typeMapping.put("DateTime", "time.Time");
-        typeMapping.put("password", "string");
-        typeMapping.put("File", "*os.File");
-        typeMapping.put("file", "*os.File");
-        // map binary to string as a workaround
-        // the correct solution is to use []byte
-        typeMapping.put("binary", "string");
-        typeMapping.put("ByteArray", "string");
-        typeMapping.put("object", "interface{}");
-        typeMapping.put("UUID", "string");
-
-        importMapping = new HashMap<String, String>();
-        importMapping.put("time.Time", "time");
-        importMapping.put("*os.File", "os");
-        importMapping.put("os", "io/ioutil");
-
-        cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Go package name (convention: lowercase).")
-                .defaultValue("swagger"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
-                .defaultValue(Boolean.TRUE.toString()));
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        }
+        else {
+            setPackageName("swagger");
+        }
 
         /*
          * Additional Properties.  These values can be passed to the templates and
@@ -146,19 +97,20 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("apiVersion", apiVersion);
         additionalProperties.put("serverPort", serverPort);
         additionalProperties.put("apiPath", apiPath);
+        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+
+        modelPackage = packageName;
+        apiPackage = packageName;
+
         /*
          * Supporting Files.  You can write single files for the generator with the
          * entire object tree available.  If the input file has a suffix of `.mustache
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
-        supportingFiles.add(new SupportingFile("swagger.mustache",
-                        "api",
-                        "swagger.yaml")
-        );
+        supportingFiles.add(new SupportingFile("swagger.mustache", "api", "swagger.yaml"));
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
         supportingFiles.add(new SupportingFile("routers.mustache", apiPath, "routers.go"));
         supportingFiles.add(new SupportingFile("logger.mustache", apiPath, "logger.go"));
-        supportingFiles.add(new SupportingFile("app.mustache", apiPath, "app.yaml"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", apiPath, "README.md"));
     }
 
@@ -199,28 +151,6 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
     public String getHelp() {
         return "Generates a Go server library using the swagger-tools project.  By default, " +
                 "it will also generate service classes--which you can disable with the `-Dnoservice` environment variable.";
-    }
-
-    @Override
-    public String toApiName(String name) {
-        if (name.length() == 0) {
-            return "DefaultController";
-        }
-        return initialCaps(name);
-    }
-
-    /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reserved words
-     *
-     * @return the escaped term
-     */
-    @Override
-    public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return "_" + name;  // add an underscore to the name
     }
 
     /**
@@ -392,9 +322,8 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        // process enum in models
-        return postProcessModelsEnum(objs);
+    public String modelFileFolder() {
+        return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
+
 }

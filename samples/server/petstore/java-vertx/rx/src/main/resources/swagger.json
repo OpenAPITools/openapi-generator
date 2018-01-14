@@ -112,8 +112,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "enum" : [ "available", "pending", "sold" ],
-            "default" : "available"
+            "default" : "available",
+            "enum" : [ "available", "pending", "sold" ]
           },
           "collectionFormat" : "csv"
         } ],
@@ -134,7 +134,6 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -174,7 +173,6 @@
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
         "deprecated" : true,
-        "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -210,7 +208,6 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       },
       "post" : {
@@ -278,7 +275,6 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -348,7 +344,6 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -414,7 +409,6 @@
             "description" : "Order not found"
           }
         },
-        "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       },
       "delete" : {
@@ -438,7 +432,6 @@
             "description" : "Order not found"
           }
         },
-        "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -566,7 +559,6 @@
             "description" : "Invalid username/password supplied"
           }
         },
-        "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -583,7 +575,6 @@
             "description" : "successful operation"
           }
         },
-        "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -615,7 +606,6 @@
             "description" : "User not found"
           }
         },
-        "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       },
       "put" : {
@@ -671,7 +661,6 @@
             "description" : "User not found"
           }
         },
-        "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
     }
@@ -739,7 +728,7 @@
           "type" : "string"
         }
       },
-      "title" : "Pet catehgry",
+      "title" : "Pet category",
       "description" : "A category for a pet",
       "xml" : {
         "name" : "Category"

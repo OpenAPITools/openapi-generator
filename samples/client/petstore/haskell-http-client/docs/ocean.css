@@ -88,6 +88,11 @@ pre, code, kbd, samp, tt, .src {
   font-size: 182%; /* 24pt */
 }
 
+#module-header .caption sup {
+  font-size: 70%;
+  font-weight: normal;
+}
+
 .info  {
   font-size: 85%; /* 11pt */
 }
@@ -322,10 +327,6 @@ div#style-menu-holder {
 }
 
 #synopsis {
-  display: none;
-}
-
-.no-frame #synopsis {
   display: block;
   position: fixed;
   right: 0;
@@ -393,6 +394,7 @@ div#style-menu-holder {
   background: #f0f0f0;
   padding: 0 0.5em 0.2em;
   margin: 0 -0.5em 0 0;
+  -moz-user-select: none;
 }
 #interface .src .selflink {
   border-left: 1px solid #919191;
@@ -607,6 +609,10 @@ div#style-menu-holder {
 
 #module-list .package {
   float: right;
+}
+
+:target {
+  background-color: #ffff00;
 }
 
 /* @end */

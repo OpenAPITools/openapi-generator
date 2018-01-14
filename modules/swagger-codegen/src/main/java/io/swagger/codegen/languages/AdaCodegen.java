@@ -9,7 +9,6 @@ import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.codegen.languages.helpers.ExtensionHelper;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -24,59 +23,24 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
+
+import java.io.IOException;
+import java.io.Writer;
+
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 
 import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
-    protected String packageName = "swagger";
-    protected String projectName = "Swagger";
-    protected List<Map<String, Object>> orderedModels;
-    protected Map<String, List<String>> modelDepends;
 
     public AdaCodegen() {
         super();
-
-        modelNameSuffix = "_Type";
-        orderedModels = new ArrayList<Map<String, Object>>();
-        modelDepends = new HashMap<String, List<String>>();
-        embeddedTemplateDir = templateDir = "Ada";
-
-        // CLI options
-        addOption(CodegenConstants.PROJECT_NAME, "GNAT project name",
-                  this.projectName);
-        addOption(CodegenConstants.PACKAGE_NAME, "Ada package name (convention: name.space.model).",
-                  this.modelPackage);
-        addOption(CodegenConstants.MODEL_PACKAGE, "Ada package for models (convention: name.space.model).",
-                  this.modelPackage);
-        addOption(CodegenConstants.API_PACKAGE, "Ada package for apis (convention: name.space.api).",
-                  this.apiPackage);
-
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList("integer", "boolean", "Integer", "Character", "Boolean", "long", "float", "double", "int32_t", "int64_t"));
-
-        typeMapping = new HashMap<String, String>();
-        typeMapping.put("date", "Swagger.Date");
-        typeMapping.put("DateTime", "Swagger.Datetime");
-        typeMapping.put("string", "Swagger.UString");
-        typeMapping.put("integer", "Integer");
-        typeMapping.put("long", "Swagger.Long");
-        typeMapping.put("boolean", "Boolean");
-        typeMapping.put("array", "Swagger.Vector");
-        typeMapping.put("map", "Swagger.Map");
-        typeMapping.put("object", "Swagger.Object");
-        typeMapping.put("number", "Swagger.Number");
-        typeMapping.put("UUID", "Swagger.UString");
-        typeMapping.put("file", "Swagger.Http_Content_Type");
-        typeMapping.put("binary", "Swagger.Binary");
-
-        super.importMapping = new HashMap<String, String>();
     }
 
     @Override
@@ -94,36 +58,22 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
         return "Generates an Ada client implementation (beta).";
     }
 
-    protected void addOption(String key, String description, String defaultValue) {
-        CliOption option = new CliOption(key, description);
-        if (defaultValue != null)
-            option.defaultValue(defaultValue);
-        cliOptions.add(option);
-    }
-
-    public String toFilename(String name) {
-        return name.replace(".", "-").toLowerCase();
-    }
-
     @Override
     public void processOpts() {
         super.processOpts();
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             packageName = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
         }
-        String serverPrefix = "src" + File.separator + "server" + File.separator + toFilename(modelPackage);
-        String clientPrefix = "src" + File.separator + "client" + File.separator + toFilename(modelPackage);
-        supportingFiles.add(new SupportingFile("model-spec.mustache", null, clientPrefix + "-models.ads"));
-        supportingFiles.add(new SupportingFile("model-body.mustache", null, clientPrefix + "-models.adb"));
-        supportingFiles.add(new SupportingFile("model-spec.mustache", null, serverPrefix + "-models.ads"));
-        supportingFiles.add(new SupportingFile("model-body.mustache", null, serverPrefix + "-models.adb"));
+        if (packageName == "") {
+            packageName = modelPackage;
+        }
+        String srcPrefix = "src" + File.separator;
+        String modelPrefix = srcPrefix + "model" + File.separator + toFilename(modelPackage);
+        String clientPrefix = srcPrefix + "client" + File.separator + toFilename(modelPackage);
+        supportingFiles.add(new SupportingFile("model-spec.mustache", null, modelPrefix + "-models.ads"));
+        supportingFiles.add(new SupportingFile("model-body.mustache", null, modelPrefix + "-models.adb"));
         supportingFiles.add(new SupportingFile("client-spec.mustache", null, clientPrefix + "-clients.ads"));
         supportingFiles.add(new SupportingFile("client-body.mustache", null, clientPrefix + "-clients.adb"));
-        supportingFiles.add(new SupportingFile("server-spec.mustache", null, serverPrefix + "-servers.ads"));
-        supportingFiles.add(new SupportingFile("server-body.mustache", null, serverPrefix + "-servers.adb"));
-
-        // String title = swagger.getInfo().getTitle();
-        supportingFiles.add(new SupportingFile("gnat-project.mustache", "", "project.gpr"));
 
         if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
             projectName = (String) additionalProperties.get(CodegenConstants.PROJECT_NAME);
@@ -132,13 +82,46 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
             // e.g. petstore.api (package name) => petstore_api (project name)
             projectName = packageName.replaceAll("\\.", "_");
         }
+        String configBaseName = modelPackage.toLowerCase();
+        supportingFiles.add(new SupportingFile("gnat-project.mustache", "", toFilename(projectName) + ".gpr"));
+        // supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("config.gpr", "", "config.gpr"));
 
         /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("package", this.modelPackage);
+        additionalProperties.put("packageConfig", configBaseName);
+        additionalProperties.put("packageDir", "client");
+        additionalProperties.put("mainName", "client");
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
+        String names[] = this.modelPackage.split("\\.");
+        String pkgName = names[0];
+        additionalProperties.put("packageLevel1", pkgName);
+        supportingFiles.add(new SupportingFile("package-spec-level1.mustache", null,
+                "src" + File.separator + toFilename(names[0]) + ".ads"));
+        if (names.length > 1) {
+            String fileName = toFilename(names[0]) + "-" + toFilename(names[1]) + ".ads";
+            pkgName = names[0] + "." + names[1];
+            additionalProperties.put("packageLevel2", pkgName);
+            supportingFiles.add(new SupportingFile("package-spec-level2.mustache", null,
+                    "src" + File.separator + fileName));
+        }
+        pkgName = this.modelPackage;
+        supportingFiles.add(new SupportingFile("client.mustache", null,
+                "src" + File.separator + toFilename(pkgName) + "-client.adb"));
+        additionalProperties.put("packageName", toFilename(pkgName));
+        // add lambda for mustache templates
+        additionalProperties.put("lambdaAdaComment", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String content = fragment.execute();
+                content = content.trim().replaceAll("\n$", "");
+                writer.write(content.replaceAll("\n", "\n   --  "));
+            }
+        });
+
     }
 
     @Override
@@ -231,30 +214,6 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
             isModel = true;
         }
         parameter.vendorExtensions.put("x-is-model-type", isModel);
-    }
-
-    /**
-     * Post process the media types (produces and consumes) for Ada code generator.
-     *
-     * For each media type, add a adaMediaType member that gives the Ada enum constant
-     * for the corresponding type.
-     *
-     * @param types the list of media types.
-     * @return the number of media types.
-     */
-    protected int postProcessMediaTypes(List<Map<String, String>> types) {
-        int count = 0;
-        if (types != null) {
-            for (Map<String, String> media : types) {
-                String mt = media.get("mediaType");
-                if (mt != null) {
-                    mt = mt.replace('/', '_');
-                    media.put("adaMediaType", mt.toUpperCase());
-                    count++;
-                }
-            }
-        }
-        return count;
     }
 
     @Override
@@ -384,11 +343,5 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
             }
         }*/
         return postProcessModelsEnum(objs);
-    }
-
-    @Override
-    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        objs.put("orderedModels", orderedModels);
-        return super.postProcessSupportingFileData(objs);
     }
 }

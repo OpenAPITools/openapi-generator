@@ -19,8 +19,17 @@ public class {{classname}}Verticle extends AbstractVerticle {
     
     {{#operations}}{{#operation}}{{#vendorExtensions}}final static String {{x-serviceid-varname}} = "{{x-serviceid}}";
     {{/vendorExtensions}}{{/operation}}{{/operations}}
-    //TODO : create Implementation
-    {{classname}} service = new {{classname}}Impl();
+    final {{classname}} service;
+
+    public {{classname}}Verticle() {
+        try {
+            Class serviceImplClass = getClass().getClassLoader().loadClass("{{package}}.{{classname}}Impl");
+            service = ({{classname}})serviceImplClass.newInstance();
+        } catch (Exception e) {
+            logUnexpectedError("{{classname}}Verticle constructor", e);
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void start() throws Exception {

@@ -7,8 +7,8 @@ import com.wordnik.swagger.client._
 import java.io.Closeable
 
 class AsyncClient(config: SwaggerConfig) extends Closeable {
-  val locator = config.locator
-  val name = config.name
+  lazy val locator: ServiceLocator = config.locator
+  lazy val name: String = config.name
 
   private[this] val client = transportClient
 

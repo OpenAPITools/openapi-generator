@@ -690,19 +690,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public String toEnumValue(String value, String datatype) {
-        if ("int?".equalsIgnoreCase(datatype) || "long?".equalsIgnoreCase(datatype) ||
-                "double?".equalsIgnoreCase(datatype) || "float?".equalsIgnoreCase(datatype)) {
-            return value;
-        } else if ("float?".equalsIgnoreCase(datatype)) {
-            // for float in C#, append "f". e.g. 3.14 => 3.14f
-            return value + "f";
-        } else {
-            return "\"" + escapeText(value) + "\"";
-        }
-    }
-
-    @Override
     public String toEnumVarName(String value, String datatype) {
         if (value.length() == 0) {
             return "Empty";
@@ -714,8 +701,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         // number
-        if ("int?".equals(datatype) || "long?".equals(datatype) ||
-                "double?".equals(datatype) || "float?".equals(datatype)) {
+        if(datatype.startsWith("int") || datatype.startsWith("long") ||
+                datatype.startsWith("double") || datatype.startsWith("float")) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");

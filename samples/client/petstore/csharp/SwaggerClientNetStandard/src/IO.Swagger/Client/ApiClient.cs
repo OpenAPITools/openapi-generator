@@ -98,7 +98,7 @@ namespace IO.Swagger.Client
         /// <value>An instance of the IReadableConfiguration.</value>
         /// <remarks>
         /// <see cref="IReadableConfiguration"/> helps us to avoid modifying possibly global
-        /// configuration values from within a given client. It does not gaurantee thread-safety
+        /// configuration values from within a given client. It does not guarantee thread-safety
         /// of the <see cref="Configuration"/> instance in any way.
         /// </remarks>
         public IReadableConfiguration Configuration { get; set; }

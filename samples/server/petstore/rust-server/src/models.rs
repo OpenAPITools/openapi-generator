@@ -392,11 +392,11 @@ impl EnumTest {
 pub struct FormatTest {
     #[serde(rename = "integer")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub integer: Option<i32>,
+    pub integer: Option<u8>,
 
     #[serde(rename = "int32")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub int32: Option<i32>,
+    pub int32: Option<u32>,
 
     #[serde(rename = "int64")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -603,7 +603,7 @@ pub struct Name {
 
     #[serde(rename = "123Number")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub _123_number: Option<i32>,
+    pub _123_number: Option<isize>,
 
 }
 

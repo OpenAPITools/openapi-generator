@@ -14,3 +14,5 @@ call .\bin\windows\csharp-petstore-netcore-project.bat
 call .\bin\windows\csharp-property-changed-petstore.bat
 
 call .\bin\windows\csharp-petstore-net-40.bat
+
+call .\bin\windows\csharp-petstore-net-35.bat

@@ -89,7 +89,7 @@
                     <lineEnding>LF</lineEnding>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.17</version>
@@ -99,7 +99,7 @@
                         <phase>validate</phase>
                         <configuration>
                             <configLocation>google_checkstyle.xml</configLocation>
-                            <!-- Don't include generated sources a la http://stackoverflow.com/a/30406454 -->
+                            Don't include generated sources a la http://stackoverflow.com/a/30406454
                             <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
                             <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
@@ -108,7 +108,7 @@
                             <!-- 
                                  remove "skip" later after fixing shippable issue
                                  error msg: google_checkstyle.xml: Could not find resource 'google_checkstyle.xml'
-                            -->
+                            --><!--
                             <skip>true</skip>
                         </configuration>
                         <goals>
@@ -123,7 +123,7 @@
                         <version>6.19</version>
                     </dependency>
                 </dependencies>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -843,7 +843,7 @@
             </activation>
             <modules>
                 <!-- <module>samples/server/petstore/erlang-server</module> note: make sample compilation work -->
-                <!-- clients -->
+				<!-- clients -->
                 <module>samples/client/petstore/php/SwaggerClient-php</module>
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/scala</module>

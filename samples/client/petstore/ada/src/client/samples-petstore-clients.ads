@@ -1,5 +1,5 @@
 --  Swagger Petstore
---  This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+--  This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special_key` to test the authorization filters.
 --
 --  OpenAPI spec version: 1.0.0
 --  Contact: apiteam@swagger.io
@@ -22,20 +22,20 @@ package Samples.Petstore.Clients is
    procedure Delete_Pet
       (Client : in out Client_Type;
        Pet_Id : in Swagger.Long;
-       Api_Key : in Swagger.UString);
+       Api_Key : in Swagger.Nullable_UString);
 
    --  Finds Pets by status
    --  Multiple status values can be provided with comma separated strings
    procedure Find_Pets_By_Status
       (Client : in out Client_Type;
-       Status : in Swagger.UString_Vectors.Vector;
+       Status : in Swagger.Nullable_UString_Vectors.Vector;
        Result : out Samples.Petstore.Models.Pet_Type_Vectors.Vector);
 
    --  Finds Pets by tags
    --  Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    procedure Find_Pets_By_Tags
       (Client : in out Client_Type;
-       Tags : in Swagger.UString_Vectors.Vector;
+       Tags : in Swagger.Nullable_UString_Vectors.Vector;
        Result : out Samples.Petstore.Models.Pet_Type_Vectors.Vector);
 
    --  Find pet by ID
@@ -54,19 +54,19 @@ package Samples.Petstore.Clients is
    procedure Update_Pet_With_Form
       (Client : in out Client_Type;
        Pet_Id : in Swagger.Long;
-       Name : in Swagger.UString;
-       Status : in Swagger.UString);
+       Name : in Swagger.Nullable_UString;
+       Status : in Swagger.Nullable_UString);
 
    --  uploads an image
    procedure Upload_File
       (Client : in out Client_Type;
        Pet_Id : in Swagger.Long;
-       Additional_Metadata : in Swagger.UString;
-       File : in Swagger.Http_Content_Type;
+       Additional_Metadata : in Swagger.Nullable_UString;
+       File : in Swagger.File_Part_Type;
        Result : out Samples.Petstore.Models.ApiResponse_Type);
 
    --  Delete purchase order by ID
-   --  For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   --  For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
    procedure Delete_Order
       (Client : in out Client_Type;
        Order_Id : in Swagger.UString);
@@ -75,10 +75,10 @@ package Samples.Petstore.Clients is
    --  Returns a map of status codes to quantities
    procedure Get_Inventory
       (Client : in out Client_Type;
-       Result : out Swagger.Integer_Map);
+       Result : out Swagger.Nullable_Integer_Map);
 
    --  Find purchase order by ID
-   --  For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+   --  For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
    procedure Get_Order_By_Id
       (Client : in out Client_Type;
        Order_Id : in Swagger.Long;

@@ -164,9 +164,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return name;
         }
 
-        // camelize (lower first character) the variable name
-        // pet_id => petId
-        name = camelize(name, true);
+        name = getNameUsingModelPropertyNaming(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {

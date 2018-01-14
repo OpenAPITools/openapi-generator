@@ -28,8 +28,17 @@ public class PetApiVerticle extends AbstractVerticle {
     final static String UPDATEPETWITHFORM_SERVICE_ID = "updatePetWithForm";
     final static String UPLOADFILE_SERVICE_ID = "uploadFile";
     
-    //TODO : create Implementation
-    PetApi service = new PetApiImpl();
+    final PetApi service;
+
+    public PetApiVerticle() {
+        try {
+            Class serviceImplClass = getClass().getClassLoader().loadClass("io.swagger.server.api.verticle.PetApiImpl");
+            service = (PetApi)serviceImplClass.newInstance();
+        } catch (Exception e) {
+            logUnexpectedError("PetApiVerticle constructor", e);
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void start() throws Exception {
