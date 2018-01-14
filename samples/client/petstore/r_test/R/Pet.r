@@ -127,7 +127,7 @@ Pet <- R6::R6Class(
     fromJSONString = function(PetJson) {
       PetObject <- jsonlite::fromJSON(PetJson)
       self$`id` <- PetObject$`id`
-      CategoryObject -> Category$new()
+      CategoryObject <- Category$new()
       self$`category` <- CategoryObject$fromJSON(jsonlite::toJSON(PetObject$category, auto_unbox = TRUE))
       self$`name` <- PetObject$`name`
       self$`photoUrls` <- PetObject$`photoUrls`
