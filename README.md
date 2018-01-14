@@ -115,7 +115,7 @@ To build from source, you need the following installed and available in your `$P
 #### OS X Users
 Don't forget to install Java 7 or 8. You probably have 1.6.
 
-Export `JAVA_HOME in order to use the supported Java version:
+Export `JAVA_HOME` in order to use the supported Java version:
 ```sh
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export PATH=${JAVA_HOME}/bin:$PATH
@@ -789,8 +789,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Hewlett Packard Enterprise](https://hpe.com)
 - [High Technologies Center](http://htc-cs.com)
 - [Hootsuite](https://hootsuite.com/)
-- [Huawei Cloud](https://www.huaweicloud.com) 
-- [Cloud Stream Service](http://www.huaweicloud.com/en-us/product/cs.html)
+- [Huawei Cloud](http://www.huaweicloud.com/en-us/product/cs.html) 
 - [IBM](https://www.ibm.com)
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
 - [Individual Standard IVS](http://www.individual-standard.com)
