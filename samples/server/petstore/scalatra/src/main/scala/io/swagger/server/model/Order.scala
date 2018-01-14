@@ -10,12 +10,15 @@
  * Do not edit the class manually.
  */
 
+package io.swagger.server.model
+import java.util.Date
 
-package com.wordnik.client.model
-
-
-case class ApiResponse (
-  code: Option[Int],
-  _type: Option[String],
-  message: Option[String]
-)
+case class Order(
+  id: Option[Long],
+    petId: Option[Long],
+    quantity: Option[Int],
+    shipDate: Option[Date],
+  /* Order Status */
+  status: Option[String],
+    complete: Option[Boolean]
+  )
