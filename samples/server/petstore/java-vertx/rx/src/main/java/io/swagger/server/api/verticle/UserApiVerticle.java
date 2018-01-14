@@ -26,8 +26,17 @@ public class UserApiVerticle extends AbstractVerticle {
     final static String LOGOUTUSER_SERVICE_ID = "logoutUser";
     final static String UPDATEUSER_SERVICE_ID = "updateUser";
     
-    //TODO : create Implementation
-    UserApi service = new UserApiImpl();
+    final UserApi service;
+
+    public UserApiVerticle() {
+        try {
+            Class serviceImplClass = getClass().getClassLoader().loadClass("io.swagger.server.api.verticle.UserApiImpl");
+            service = (UserApi)serviceImplClass.newInstance();
+        } catch (Exception e) {
+            logUnexpectedError("UserApiVerticle constructor", e);
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void start() throws Exception {
