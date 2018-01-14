@@ -20,7 +20,7 @@ impl<C: hyper::client::Connect> Configuration<C> {
   pub fn new(client: hyper::client::Client<C>) -> Configuration<C> {
     Configuration {
       base_path: "http://petstore.swagger.io/v2".to_owned(),
-      user_agent: None,
+      user_agent: Some("Swagger-Codegen/1.0.0/rust".to_owned()),
       client: client,
     }
   }
