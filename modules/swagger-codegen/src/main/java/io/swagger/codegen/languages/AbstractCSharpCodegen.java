@@ -447,7 +447,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      *
      * @param var list of CodegenProperty
      */
-    @Override
     public void updateCodegenPropertyEnum(CodegenProperty var) {
         if (var.vendorExtensions == null) {
             var.vendorExtensions = new HashMap<>();
