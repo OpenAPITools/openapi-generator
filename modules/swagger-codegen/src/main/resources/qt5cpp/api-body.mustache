@@ -22,7 +22,7 @@ namespace {{this}} {
 {{#operations}}
 {{#operation}}
 void
-{{classname}}::{{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+{{classname}}::{{nickname}}({{#allParams}}{{{dataType}}}{{#isBodyParam}}&{{/isBodyParam}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("{{{path}}}");
 
@@ -98,17 +98,17 @@ void
 
     {{#bodyParams}}
     {{#isContainer}}
-    QJsonArray* {{paramName}}Array = new QJsonArray();
-    toJsonArray((QList<void*>*){{paramName}}, {{paramName}}Array, QString("body"), QString("{{prefix}}User*"));
+    auto {{paramName}}_jobj = new QJsonObject();
+    toJsonArray((QList<void*>*){{paramName}}, {{paramName}}_jobj, QString("body"), QString("{{prefix}}User*"));
 
-    QJsonDocument doc(*{{paramName}}Array);
+    QJsonDocument doc(*{{paramName}}_jobj);
     QByteArray bytes = doc.toJson();
 
     input.request_body.append(bytes);
     {{/isContainer}}
     {{^isContainer}}{{#isString}}
-    QString output(*{{paramName}});{{/isString}}{{^isString}}
-    QString output = {{paramName}}.asJson();{{/isString}}
+    QString output(*{{paramName}});{{/isString}}{{#isByteArray}}QString output(*{{paramName}});{{/isByteArray}}{{^isString}}{{^isByteArray}}
+    QString output = {{paramName}}.asJson();{{/isByteArray}}{{/isString}}
     input.request_body.append(output);
     {{/isContainer}}{{/bodyParams}}
 

@@ -56,10 +56,10 @@ SWGOrder::cleanup() {
 
 
 
-    if(ship_date != nullptr) {
+    if(ship_date != nullptr) { 
         delete ship_date;
     }
-    if(status != nullptr) {
+    if(status != nullptr) { 
         delete status;
     }
 
@@ -77,11 +77,17 @@ SWGOrder::fromJson(QString &json) {
 void
 SWGOrder::fromJsonObject(QJsonObject &pJson) {
     ::Swagger::setValue(&id, pJson["id"], "qint64", "");
+    
     ::Swagger::setValue(&pet_id, pJson["petId"], "qint64", "");
+    
     ::Swagger::setValue(&quantity, pJson["quantity"], "qint32", "");
+    
     ::Swagger::setValue(&ship_date, pJson["shipDate"], "QDateTime", "QDateTime");
+    
     ::Swagger::setValue(&status, pJson["status"], "QString", "QString");
+    
     ::Swagger::setValue(&complete, pJson["complete"], "bool", "");
+    
 }
 
 QString
@@ -97,18 +103,27 @@ SWGOrder::asJson ()
 QJsonObject*
 SWGOrder::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
+    
     if(m_id_isSet){
         obj->insert("id", QJsonValue(id));
     }
+    
     if(m_pet_id_isSet){
         obj->insert("petId", QJsonValue(pet_id));
     }
+    
     if(m_quantity_isSet){
         obj->insert("quantity", QJsonValue(quantity));
     }
+       
+    if(ship_date != nullptr) { 
+        toJsonValue(QString("shipDate"), ship_date, obj, QString("QDateTime"));
+    }
+    
     if(status != nullptr && *status != QString("")){
         toJsonValue(QString("status"), status, obj, QString("QString"));
     }
+    
     if(m_complete_isSet){
         obj->insert("complete", QJsonValue(complete));
     }

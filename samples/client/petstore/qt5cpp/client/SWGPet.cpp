@@ -54,27 +54,27 @@ SWGPet::init() {
 void
 SWGPet::cleanup() {
 
-    if(category != nullptr) {
+    if(category != nullptr) { 
         delete category;
     }
-    if(name != nullptr) {
+    if(name != nullptr) { 
         delete name;
     }
-    if(photo_urls != nullptr) {
-        QList<QString*>* arr = photo_urls;
-        foreach(QString* o, *arr) {
+    if(photo_urls != nullptr) { 
+        auto arr = photo_urls;
+        for(auto o: *arr) { 
             delete o;
         }
         delete photo_urls;
     }
-    if(tags != nullptr) {
-        QList<SWGTag*>* arr = tags;
-        foreach(SWGTag* o, *arr) {
+    if(tags != nullptr) { 
+        auto arr = tags;
+        for(auto o: *arr) { 
             delete o;
         }
         delete tags;
     }
-    if(status != nullptr) {
+    if(status != nullptr) { 
         delete status;
     }
 }
@@ -91,11 +91,17 @@ SWGPet::fromJson(QString &json) {
 void
 SWGPet::fromJsonObject(QJsonObject &pJson) {
     ::Swagger::setValue(&id, pJson["id"], "qint64", "");
+    
     ::Swagger::setValue(&category, pJson["category"], "SWGCategory", "SWGCategory");
+    
     ::Swagger::setValue(&name, pJson["name"], "QString", "QString");
+    
+    
     ::Swagger::setValue(&photo_urls, pJson["photoUrls"], "QList", "QString");
+    
     ::Swagger::setValue(&tags, pJson["tags"], "QList", "SWGTag");
     ::Swagger::setValue(&status, pJson["status"], "QString", "QString");
+    
 }
 
 QString
@@ -111,25 +117,27 @@ SWGPet::asJson ()
 QJsonObject*
 SWGPet::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
+    
     if(m_id_isSet){
         obj->insert("id", QJsonValue(id));
     }
+     
     if(category->isSet()){
         toJsonValue(QString("category"), category, obj, QString("SWGCategory"));
     }
+    
     if(name != nullptr && *name != QString("")){
         toJsonValue(QString("name"), name, obj, QString("QString"));
     }
+    
     if(photo_urls->size() > 0){
-        QJsonArray photo_urlsJsonArray;
-        toJsonArray((QList<void*>*)photo_urls, &photo_urlsJsonArray, "photo_urls", "QString");
-        obj->insert("photoUrls", photo_urlsJsonArray);
+        toJsonArray((QList<void*>*)photo_urls, obj, "photoUrls", "QString");
     }
+    
     if(tags->size() > 0){
-        QJsonArray tagsJsonArray;
-        toJsonArray((QList<void*>*)tags, &tagsJsonArray, "tags", "SWGTag");
-        obj->insert("tags", tagsJsonArray);
+        toJsonArray((QList<void*>*)tags, obj, "tags", "SWGTag");
     }
+    
     if(status != nullptr && *status != QString("")){
         toJsonValue(QString("status"), status, obj, QString("QString"));
     }

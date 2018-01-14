@@ -35,14 +35,14 @@ public:
     QString basePath;
     QMap<QString, QString> defaultHeaders;
 
-    void createUser(SWGUser body);
-    void createUsersWithArrayInput(QList<SWGUser*>* body);
-    void createUsersWithListInput(QList<SWGUser*>* body);
+    void createUser(SWGUser& body);
+    void createUsersWithArrayInput(QList<SWGUser*>*& body);
+    void createUsersWithListInput(QList<SWGUser*>*& body);
     void deleteUser(QString* username);
     void getUserByName(QString* username);
     void loginUser(QString* username, QString* password);
     void logoutUser();
-    void updateUser(QString* username, SWGUser body);
+    void updateUser(QString* username, SWGUser& body);
     
 private:
     void createUserCallback (SWGHttpRequestWorker * worker);

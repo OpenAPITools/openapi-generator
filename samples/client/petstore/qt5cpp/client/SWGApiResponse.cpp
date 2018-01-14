@@ -48,10 +48,10 @@ SWGApiResponse::init() {
 void
 SWGApiResponse::cleanup() {
 
-    if(type != nullptr) {
+    if(type != nullptr) { 
         delete type;
     }
-    if(message != nullptr) {
+    if(message != nullptr) { 
         delete message;
     }
 }
@@ -68,8 +68,11 @@ SWGApiResponse::fromJson(QString &json) {
 void
 SWGApiResponse::fromJsonObject(QJsonObject &pJson) {
     ::Swagger::setValue(&code, pJson["code"], "qint32", "");
+    
     ::Swagger::setValue(&type, pJson["type"], "QString", "QString");
+    
     ::Swagger::setValue(&message, pJson["message"], "QString", "QString");
+    
 }
 
 QString
@@ -85,12 +88,15 @@ SWGApiResponse::asJson ()
 QJsonObject*
 SWGApiResponse::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
+    
     if(m_code_isSet){
         obj->insert("code", QJsonValue(code));
     }
+    
     if(type != nullptr && *type != QString("")){
         toJsonValue(QString("type"), type, obj, QString("QString"));
     }
+    
     if(message != nullptr && *message != QString("")){
         toJsonValue(QString("message"), message, obj, QString("QString"));
     }
