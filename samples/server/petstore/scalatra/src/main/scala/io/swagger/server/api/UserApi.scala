@@ -11,29 +11,28 @@
  */
 
 
-package com.wordnik.client.api
+package io.swagger.server.api
 
-import com.wordnik.client.model.User
+import io.swagger.server.model.User
 
 import java.io.File
 
-import org.scalatra.{ TypedParamSupport, ScalatraServlet }
+import org.scalatra.ScalatraServlet
 import org.scalatra.swagger._
 import org.json4s._
 import org.json4s.JsonDSL._
 import org.scalatra.json.{ JValueResult, JacksonJsonSupport }
-import org.scalatra.servlet.{FileUploadSupport, MultipartConfig, SizeConstraintExceededException}
+import org.scalatra.servlet.{ FileUploadSupport, MultipartConfig, SizeConstraintExceededException }
 
 import scala.collection.JavaConverters._
 
-class UserApi (implicit val swagger: Swagger) extends ScalatraServlet
-    with FileUploadSupport
-    with JacksonJsonSupport
-    with SwaggerSupport {
+class UserApi(implicit val swagger: Swagger) extends ScalatraServlet
+  with FileUploadSupport
+  with JacksonJsonSupport
+  with SwaggerSupport {
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "UserApi"
-  override protected val applicationName: Option[String] = Some("/v2/User")
 
   before() {
     contentType = formats("json")

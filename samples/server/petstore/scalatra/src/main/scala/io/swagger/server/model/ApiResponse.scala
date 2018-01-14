@@ -10,11 +10,10 @@
  * Do not edit the class manually.
  */
 
+package io.swagger.server.model
 
-package com.wordnik.client.model
-
-
-case class Tag (
-  id: Option[Long],
-  name: Option[String]
-)
+case class ApiResponse(
+  code: Option[Int],
+    _type: Option[String],
+    message: Option[String]
+  )

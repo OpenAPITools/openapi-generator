@@ -10,18 +10,14 @@
  * Do not edit the class manually.
  */
 
+package io.swagger.server.model
 
-package com.wordnik.client.model
-
-
-case class User (
+case class Pet(
   id: Option[Long],
-  username: Option[String],
-  firstName: Option[String],
-  lastName: Option[String],
-  email: Option[String],
-  password: Option[String],
-  phone: Option[String],
-  /* User Status */
-  userStatus: Option[Int]
-)
+    category: Option[Category],
+    name: String,
+    photoUrls: List[String],
+    tags: Option[List[Tag]],
+  /* pet status in the store */
+  status: Option[String]
+  )

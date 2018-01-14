@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 
-
 import org.eclipse.jetty.server._
 import org.eclipse.jetty.webapp.WebAppContext
 import org.scalatra.servlet.ScalatraListener

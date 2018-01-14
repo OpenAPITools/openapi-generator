@@ -10,11 +10,16 @@
  * Do not edit the class manually.
  */
 
+package io.swagger.server.model
 
-package com.wordnik.client.model
-
-
-case class Category (
+case class User(
   id: Option[Long],
-  name: Option[String]
-)
+    username: Option[String],
+    firstName: Option[String],
+    lastName: Option[String],
+    email: Option[String],
+    password: Option[String],
+    phone: Option[String],
+  /* User Status */
+  userStatus: Option[Int]
+  )

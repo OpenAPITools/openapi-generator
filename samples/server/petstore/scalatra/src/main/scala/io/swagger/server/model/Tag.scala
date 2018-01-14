@@ -10,16 +10,9 @@
  * Do not edit the class manually.
  */
 
+package io.swagger.server.model
 
-package com.wordnik.client.model
-
-
-case class Pet (
+case class Tag(
   id: Option[Long],
-  category: Option[Category],
-  name: String,
-  photoUrls: List[String],
-  tags: Option[List[Tag]],
-  /* pet status in the store */
-  status: Option[String]
-)
+    name: Option[String]
+  )
