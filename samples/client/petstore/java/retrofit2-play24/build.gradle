@@ -108,7 +108,9 @@ dependencies {
     compile "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
+    compile ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"){
+        exclude group:'org.apache.oltu.oauth2' , module: 'org.apache.oltu.oauth2.common'
+    }
     compile "io.gsonfire:gson-fire:$json_fire_version"
     compile "com.typesafe.play:play-java-ws_2.11:$play_version"
     compile "com.squareup.retrofit2:converter-jackson:$retrofit_version"
