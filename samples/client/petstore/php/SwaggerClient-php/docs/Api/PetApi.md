@@ -156,7 +156,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**string[]**](../Model/string.md)| Status values that need to be considered for filter |
+ **status** | **string[]**| Status values that need to be considered for filter |
 
 ### Return type
 
@@ -209,7 +209,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**string[]**](../Model/string.md)| Tags to filter by |
+ **tags** | **string[]**| Tags to filter by |
 
 ### Return type
 
