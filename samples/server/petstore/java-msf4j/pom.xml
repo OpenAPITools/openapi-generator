@@ -43,23 +43,6 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.6.0</version>
-        <executions>
-            <execution>
-                <id>Play Test</id>
-                <phase>integration-test</phase>
-                <goals>
-                    <goal>exec</goal>
-                </goals>
-                <configuration>
-                    <executable>./mvn_test_jdk8_only.sh</executable>
-                </configuration>
-            </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
   <dependencies>
