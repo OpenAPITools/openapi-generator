@@ -127,6 +127,20 @@ public interface FakeApi {
   );
 
   /**
+   * test inline additionalProperties
+   * 
+   * @param param request body (required)
+   * @return Call&lt;Void&gt;
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("fake/inline-additionalProperties")
+  CompletionStage<Response<Void>> testInlineAdditionalProperties(
+    @retrofit2.http.Body Object param
+  );
+
+  /**
    * test json serialization of form data
    * 
    * @param param field1 (required)
