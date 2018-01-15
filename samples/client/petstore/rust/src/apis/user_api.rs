@@ -34,19 +34,19 @@ impl<C: hyper::client::Connect> UserApiClient<C> {
 }
 
 pub trait UserApi {
-    fn create_user(&self, body: ::models::User) -> Box<Future<Item = (), Error = Error>>;
-    fn create_users_with_array_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>>;
-    fn create_users_with_list_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>>;
-    fn delete_user(&self, username: &str) -> Box<Future<Item = (), Error = Error>>;
-    fn get_user_by_name(&self, username: &str) -> Box<Future<Item = ::models::User, Error = Error>>;
-    fn login_user(&self, username: &str, password: &str) -> Box<Future<Item = String, Error = Error>>;
-    fn logout_user(&self, ) -> Box<Future<Item = (), Error = Error>>;
-    fn update_user(&self, username: &str, body: ::models::User) -> Box<Future<Item = (), Error = Error>>;
+    fn create_user(&self, body: ::models::User) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn create_users_with_array_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn create_users_with_list_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn delete_user(&self, username: &str) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn get_user_by_name(&self, username: &str) -> Box<Future<Item = ::models::User, Error = Error<serde_json::Value>>>;
+    fn login_user(&self, username: &str, password: &str) -> Box<Future<Item = String, Error = Error<serde_json::Value>>>;
+    fn logout_user(&self, ) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn update_user(&self, username: &str, body: ::models::User) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
 }
 
 
 impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
-    fn create_user(&self, body: ::models::User) -> Box<Future<Item = (), Error = Error>> {
+    fn create_user(&self, body: ::models::User) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;
@@ -72,13 +72,26 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         // send request
         Box::new(
-            configuration.client.request(req).and_then(|res| { res.body().concat2() })
+        configuration.client.request(req)
             .map_err(|e| Error::from(e))
+            .and_then(|resp| {
+                let status = resp.status();
+                resp.body().concat2()
+                    .and_then(move |body| Ok((status, body)))
+                    .map_err(|e| Error::from(e))
+            })
+            .and_then(|(status, body)| {
+                if status.is_success() {
+                    Ok(body)
+                } else {
+                    Err(Error::from((status, &*body)))
+                }
+            })
             .and_then(|_| futures::future::ok(()))
         )
     }
 
-    fn create_users_with_array_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>> {
+    fn create_users_with_array_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;
@@ -104,13 +117,26 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         // send request
         Box::new(
-            configuration.client.request(req).and_then(|res| { res.body().concat2() })
+        configuration.client.request(req)
             .map_err(|e| Error::from(e))
+            .and_then(|resp| {
+                let status = resp.status();
+                resp.body().concat2()
+                    .and_then(move |body| Ok((status, body)))
+                    .map_err(|e| Error::from(e))
+            })
+            .and_then(|(status, body)| {
+                if status.is_success() {
+                    Ok(body)
+                } else {
+                    Err(Error::from((status, &*body)))
+                }
+            })
             .and_then(|_| futures::future::ok(()))
         )
     }
 
-    fn create_users_with_list_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>> {
+    fn create_users_with_list_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;
@@ -136,13 +162,26 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         // send request
         Box::new(
-            configuration.client.request(req).and_then(|res| { res.body().concat2() })
+        configuration.client.request(req)
             .map_err(|e| Error::from(e))
+            .and_then(|resp| {
+                let status = resp.status();
+                resp.body().concat2()
+                    .and_then(move |body| Ok((status, body)))
+                    .map_err(|e| Error::from(e))
+            })
+            .and_then(|(status, body)| {
+                if status.is_success() {
+                    Ok(body)
+                } else {
+                    Err(Error::from((status, &*body)))
+                }
+            })
             .and_then(|_| futures::future::ok(()))
         )
     }
 
-    fn delete_user(&self, username: &str) -> Box<Future<Item = (), Error = Error>> {
+    fn delete_user(&self, username: &str) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Delete;
@@ -164,13 +203,26 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         // send request
         Box::new(
-            configuration.client.request(req).and_then(|res| { res.body().concat2() })
+        configuration.client.request(req)
             .map_err(|e| Error::from(e))
+            .and_then(|resp| {
+                let status = resp.status();
+                resp.body().concat2()
+                    .and_then(move |body| Ok((status, body)))
+                    .map_err(|e| Error::from(e))
+            })
+            .and_then(|(status, body)| {
+                if status.is_success() {
+                    Ok(body)
+                } else {
+                    Err(Error::from((status, &*body)))
+                }
+            })
             .and_then(|_| futures::future::ok(()))
         )
     }
 
-    fn get_user_by_name(&self, username: &str) -> Box<Future<Item = ::models::User, Error = Error>> {
+    fn get_user_by_name(&self, username: &str) -> Box<Future<Item = ::models::User, Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
@@ -192,16 +244,29 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         // send request
         Box::new(
-            configuration.client.request(req).and_then(|res| { res.body().concat2() })
+        configuration.client.request(req)
             .map_err(|e| Error::from(e))
+            .and_then(|resp| {
+                let status = resp.status();
+                resp.body().concat2()
+                    .and_then(move |body| Ok((status, body)))
+                    .map_err(|e| Error::from(e))
+            })
+            .and_then(|(status, body)| {
+                if status.is_success() {
+                    Ok(body)
+                } else {
+                    Err(Error::from((status, &*body)))
+                }
+            })
             .and_then(|body| {
                 let parsed: Result<::models::User, _> = serde_json::from_slice(&body);
                 parsed.map_err(|e| Error::from(e))
-            }).map_err(|e| Error::from(e))
+            })
         )
     }
 
-    fn login_user(&self, username: &str, password: &str) -> Box<Future<Item = String, Error = Error>> {
+    fn login_user(&self, username: &str, password: &str) -> Box<Future<Item = String, Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
@@ -227,16 +292,29 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         // send request
         Box::new(
-            configuration.client.request(req).and_then(|res| { res.body().concat2() })
+        configuration.client.request(req)
             .map_err(|e| Error::from(e))
+            .and_then(|resp| {
+                let status = resp.status();
+                resp.body().concat2()
+                    .and_then(move |body| Ok((status, body)))
+                    .map_err(|e| Error::from(e))
+            })
+            .and_then(|(status, body)| {
+                if status.is_success() {
+                    Ok(body)
+                } else {
+                    Err(Error::from((status, &*body)))
+                }
+            })
             .and_then(|body| {
                 let parsed: Result<String, _> = serde_json::from_slice(&body);
                 parsed.map_err(|e| Error::from(e))
-            }).map_err(|e| Error::from(e))
+            })
         )
     }
 
-    fn logout_user(&self, ) -> Box<Future<Item = (), Error = Error>> {
+    fn logout_user(&self, ) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
@@ -258,13 +336,26 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         // send request
         Box::new(
-            configuration.client.request(req).and_then(|res| { res.body().concat2() })
+        configuration.client.request(req)
             .map_err(|e| Error::from(e))
+            .and_then(|resp| {
+                let status = resp.status();
+                resp.body().concat2()
+                    .and_then(move |body| Ok((status, body)))
+                    .map_err(|e| Error::from(e))
+            })
+            .and_then(|(status, body)| {
+                if status.is_success() {
+                    Ok(body)
+                } else {
+                    Err(Error::from((status, &*body)))
+                }
+            })
             .and_then(|_| futures::future::ok(()))
         )
     }
 
-    fn update_user(&self, username: &str, body: ::models::User) -> Box<Future<Item = (), Error = Error>> {
+    fn update_user(&self, username: &str, body: ::models::User) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Put;
@@ -290,8 +381,21 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         // send request
         Box::new(
-            configuration.client.request(req).and_then(|res| { res.body().concat2() })
+        configuration.client.request(req)
             .map_err(|e| Error::from(e))
+            .and_then(|resp| {
+                let status = resp.status();
+                resp.body().concat2()
+                    .and_then(move |body| Ok((status, body)))
+                    .map_err(|e| Error::from(e))
+            })
+            .and_then(|(status, body)| {
+                if status.is_success() {
+                    Ok(body)
+                } else {
+                    Err(Error::from((status, &*body)))
+                }
+            })
             .and_then(|_| futures::future::ok(()))
         )
     }
