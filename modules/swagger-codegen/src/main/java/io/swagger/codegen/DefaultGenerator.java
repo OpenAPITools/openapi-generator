@@ -709,8 +709,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     @Override
     public List<File> generate() {
 
-        if (openAPI == null || config == null) {
-            throw new RuntimeException("missing swagger input or config!");
+        if (openAPI == null) {
+            throw new RuntimeException("missing OpenAPI input!");
+        }
+        if (config == null) {
+            throw new RuntimeException("missing configuration input!");
         }
         configureGeneratorProperties();
         configureSwaggerInfo();
