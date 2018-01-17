@@ -79,8 +79,8 @@ public class ConfluenceWikiGenerator extends DefaultCodegen implements CodegenCo
         if (propertySchema instanceof ArraySchema) {
             Schema inner = ((ArraySchema) propertySchema).getItems();
             return String.format("%s[%s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
-        } else if (propertySchema instanceof MapSchema) {
-            Schema inner = propertySchema.getAdditionalProperties();
+        } else if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            Schema inner = (Schema) propertySchema.getAdditionalProperties();
             return String.format("%s[String, %s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
         }
         return super.getTypeDeclaration(propertySchema);

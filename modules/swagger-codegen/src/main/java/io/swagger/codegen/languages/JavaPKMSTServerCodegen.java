@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConstants;
@@ -16,12 +17,13 @@ import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenResponse;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
-import io.swagger.models.Tag;
-import io.swagger.models.parameters.FormParameter;
-import io.swagger.models.parameters.Parameter;
+import io.swagger.codegen.utils.URLPathUtil;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.tags.Tag;
+
+import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanValue;
 
 /**
  * Created by prokarma on 04/09/17.
@@ -94,9 +96,10 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
     private static String getAccept(Operation operation) {
         String accepts = null;
         String defaultContentType = "application/json";
-        if (operation.getProduces() != null && !operation.getProduces().isEmpty()) {
+        final Set<String> producesInfo = getProducesInfo(operation);
+        if (producesInfo != null && !producesInfo.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            for (String produces : operation.getProduces()) {
+            for (String produces : producesInfo) {
                 if (defaultContentType.equalsIgnoreCase(produces)) {
                     accepts = defaultContentType;
                     break;
@@ -396,12 +399,13 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         final ArrayList<CodegenParameter> copy = new ArrayList<>(allParams);
         allParams.clear();
 
-        for (CodegenParameter p : copy) {
-            if (!p.isHeaderParam) {
-                allParams.add(p);
+        for (CodegenParameter codegenParameter : copy) {
+            boolean isHeaderParam = getBooleanValue(codegenParameter, CodegenConstants.IS_HEADER_PARAM_EXT_NAME);
+            if (!isHeaderParam) {
+                allParams.add(codegenParameter);
             }
         }
-        allParams.get(allParams.size() - 1).hasMore = false;
+        allParams.get(allParams.size() - 1).getVendorExtensions().put(CodegenConstants.HAS_MORE_EXT_NAME, Boolean.FALSE);
     }
 
     /**
@@ -444,11 +448,13 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             property.example = null;
         }
 
+        boolean isEnum = getBooleanValue(model, CodegenConstants.IS_ENUM_EXT_NAME);
         // Add imports for Jackson
-        if (!Boolean.TRUE.equals(model.isEnum)) {
+        if (!Boolean.TRUE.equals(isEnum)) {
             model.imports.add("JsonProperty");
 
-            if (Boolean.TRUE.equals(model.hasEnums)) {
+            boolean hasEnums = getBooleanValue(model, CodegenConstants.HAS_ENUMS_EXT_NAME);
+            if (Boolean.TRUE.equals(hasEnums)) {
                 model.imports.add("JsonValue");
             }
         } else { // enum class
@@ -470,10 +476,11 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+            CodegenModel codegenModel = (CodegenModel) mo.get("model");
             // for enum model
-            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
-                cm.imports.add(this.importMapping.get("JsonValue"));
+            boolean isEnum = getBooleanValue(codegenModel, CodegenConstants.IS_ENUM_EXT_NAME);
+            if (Boolean.TRUE.equals(isEnum) && codegenModel.allowableValues != null) {
+                codegenModel.imports.add(this.importMapping.get("JsonValue"));
                 Map<String, String> item = new HashMap<String, String>();
                 item.put("import", this.importMapping.get("JsonValue"));
                 imports.add(item);
@@ -485,14 +492,14 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        super.preprocessSwagger(swagger);
-        if (swagger == null || swagger.getPaths() == null) {
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+        if (openAPI == null || openAPI.getPaths() == null) {
             return;
         }
-        if (swagger.getTags() != null) {
+        if (openAPI.getTags() != null) {
             List<ResourcePath> resourcePaths = new ArrayList<>();
-            for (Tag tag : swagger.getTags()) {
+            for (Tag tag : openAPI.getTags()) {
                 ResourcePath resourcePath = new ResourcePath();
                 resourcePath.setPath(tag.getName());
                 resourcePaths.add(resourcePath);
@@ -501,7 +508,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         }
         // get vendor extensions
 
-        Map<String, Object> vendorExt = swagger.getInfo().getVendorExtensions();
+        Map<String, Object> vendorExt = openAPI.getInfo().getExtensions();
         if (vendorExt != null && !vendorExt.toString().equals("")) {
             if (vendorExt.containsKey("x-codegen")) {
 
@@ -525,39 +532,40 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             }
         }
 
-        for (String pathname : swagger.getPaths().keySet()) {
-            Path path = swagger.getPath(pathname);
-            if (path.getOperations() == null) {
+        for (String pathname : openAPI.getPaths().keySet()) {
+            PathItem path = openAPI.getPaths().get(pathname);
+            List<Operation> operations = path.readOperations();
+            if (operations == null) {
                 continue;
             }
-            for (Operation operation : path.getOperations()) {
+            for (Operation operation : operations) {
                 boolean hasFormParameters = false;
-                for (Parameter parameter : operation.getParameters()) {
-                    if (parameter instanceof FormParameter) {
-                        hasFormParameters = true;
-                    }
+
+                final Set<String> consumesInfo = getConsumesInfo(operation);
+                if (consumesInfo != null && !consumesInfo.isEmpty()) {
+                    hasFormParameters = consumesInfo
+                            .stream()
+                            .anyMatch(contentType -> contentType.equalsIgnoreCase("application/x-www-form-urlencoded")
+                                || contentType.equalsIgnoreCase("multipart/form-data"));
                 }
+
                 // only add content-Type if its no a GET-Method
                 if (path.getGet() != null || !operation.equals(path.getGet())) {
                     String defaultContentType = hasFormParameters ? "application/x-www-form-urlencoded"
                             : "application/json";
-                    String contentType = operation.getConsumes() == null || operation.getConsumes().isEmpty()
-                            ? defaultContentType : operation.getConsumes().get(0);
-                    operation.setVendorExtension("x-contentType", contentType);
+                    String contentType = consumesInfo == null || consumesInfo.isEmpty()
+                            ? defaultContentType : consumesInfo.stream().findFirst().get();
+                    operation.addExtension("x-contentType", contentType);
                 }
                 String accepts = getAccept(operation);
-                operation.setVendorExtension("x-accepts", accepts);
+                operation.addExtension("x-accepts", accepts);
             }
-        }
-
-        if ("/".equals(swagger.getBasePath())) {
-            swagger.setBasePath("");
         }
 
         if (!additionalProperties.containsKey(TITLE)) {
             // From the title, compute a reasonable name for the package and the
             // API
-            String title = swagger.getInfo().getTitle();
+            String title = openAPI.getInfo().getTitle();
 
             // Drop any API suffix
             if (title != null) {
@@ -571,7 +579,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             additionalProperties.put(TITLE, this.title);
         }
 
-        String host = swagger.getHost();
+        String host = URLPathUtil.getHost(openAPI);
         String port = "8008";
         if (host != null) {
             String[] parts = host.split(":");
@@ -581,11 +589,12 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         }
 
         this.additionalProperties.put("serverPort", port);
-        if (swagger.getPaths() != null) {
-            for (String pathname : swagger.getPaths().keySet()) {
-                Path path = swagger.getPath(pathname);
-                if (path.getOperations() != null) {
-                    for (Operation operation : path.getOperations()) {
+        if (openAPI.getPaths() != null) {
+            for (String pathname : openAPI.getPaths().keySet()) {
+                PathItem path = openAPI.getPaths().get(pathname);
+                List<Operation> operations = path.readOperations();
+                if (operations != null) {
+                    for (Operation operation : operations) {
                         if (operation.getTags() != null) {
                             List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
                             for (String tag : operation.getTags()) {
@@ -601,7 +610,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                                 String tag = operation.getTags().get(0);
                                 operation.setTags(Arrays.asList(tag));
                             }
-                            operation.setVendorExtension("x-tags", tags);
+                            operation.addExtension("x-tags", tags);
                         }
                     }
                 }

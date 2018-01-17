@@ -486,8 +486,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (propertySchema instanceof ArraySchema) {
             Schema inner = ((ArraySchema) propertySchema).getItems();
             return String.format("[%s]", getTypeDeclaration(inner));
-        } else if (propertySchema instanceof MapSchema) {
-            Schema inner = propertySchema.getAdditionalProperties();
+        } else if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            Schema inner = (Schema) propertySchema.getAdditionalProperties();
             return String.format("(Map.Map String %s)", getTypeDeclaration(inner));
         }
         return super.getTypeDeclaration(propertySchema);
@@ -510,8 +510,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String toInstantiationType(Schema propertySchema) {
-        if (propertySchema instanceof MapSchema) {
-            Schema additionalProperties2 = propertySchema.getAdditionalProperties();
+        if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            Schema additionalProperties2 = (Schema) propertySchema.getAdditionalProperties();
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Property " + additionalProperties2 + "\n" //

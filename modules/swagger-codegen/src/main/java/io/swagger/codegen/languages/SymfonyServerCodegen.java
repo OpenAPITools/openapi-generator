@@ -480,8 +480,8 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
             return getTypeDeclaration(inner) + "[]";
         }
 
-        if (schema instanceof MapSchema) {
-            Schema inner = schema.getAdditionalProperties();
+        if (schema instanceof MapSchema && hasSchemaProperties(schema)) {
+            Schema inner = (Schema) schema.getAdditionalProperties();
             return getTypeDeclaration(inner) + "[]";
         }
         

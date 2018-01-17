@@ -74,7 +74,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        final Schema additionalProperties = schema.getAdditionalProperties();
+        final Schema additionalProperties = (Schema) schema.getAdditionalProperties();
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
         }
@@ -341,8 +341,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = arraySchema.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (schema instanceof MapSchema) {
-            return "[String:" + getTypeDeclaration(schema.getAdditionalProperties()) + "]";
+        } else if (schema instanceof MapSchema && hasSchemaProperties(schema)) {
+            return "[String:" + getTypeDeclaration((Schema) schema.getAdditionalProperties()) + "]";
         }
         return super.getTypeDeclaration(schema);
     }
@@ -436,8 +436,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toInstantiationType(Schema schema) {
-        if (schema instanceof MapSchema) {
-            return getSchemaType(schema.getAdditionalProperties());
+        if (schema instanceof MapSchema && hasSchemaProperties(schema)) {
+            return getSchemaType((Schema) schema.getAdditionalProperties());
         } else if (schema instanceof ArraySchema) {
             ArraySchema arraySchema = (ArraySchema) schema;
             String inner = getSchemaType(arraySchema.getItems());

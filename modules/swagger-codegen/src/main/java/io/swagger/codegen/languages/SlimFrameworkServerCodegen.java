@@ -141,8 +141,8 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
             ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = arraySchema.getItems();
             return getTypeDeclaration(inner) + "[]";
-        } else if (schema instanceof MapSchema) {
-            return getSchemaType(schema) + "[string," + getTypeDeclaration(schema.getAdditionalProperties()) + "]";
+        } else if (schema instanceof MapSchema && hasSchemaProperties(schema)) {
+            return getSchemaType(schema) + "[string," + getTypeDeclaration((Schema) schema.getAdditionalProperties()) + "]";
         } else if (StringUtils.isNotBlank(schema.get$ref())) {
             String type = super.getTypeDeclaration(schema);
             return (!languageSpecificPrimitives.contains(type))

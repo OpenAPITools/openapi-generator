@@ -1,15 +1,14 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.Swagger;
-import io.swagger.util.Yaml;
 
 import java.util.*;
 
+import io.swagger.v3.core.util.Yaml;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -219,41 +218,41 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if(p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema schema) {
+        if(schema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) schema;
+            Schema inner = arraySchema.getItems();
             return "[]" + getTypeDeclaration(inner);
         }
-        else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+        else if (schema instanceof MapSchema && hasSchemaProperties(schema)) {
+            MapSchema mapSchema = (MapSchema) schema;
+            Schema inner = (Schema) mapSchema.getAdditionalProperties();
 
-            return getSwaggerType(p) + "[string]" + getTypeDeclaration(inner);
+            return getSchemaType(schema) + "[string]" + getTypeDeclaration(inner);
         }
         //return super.getTypeDeclaration(p);
 
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
-        String swaggerType = getSwaggerType(p);
-        if (typeMapping.containsKey(swaggerType)) {
-            return typeMapping.get(swaggerType);
+        String schemaType = getSchemaType(schema);
+        if (typeMapping.containsKey(schemaType)) {
+            return typeMapping.get(schemaType);
         }
 
-        if(typeMapping.containsValue(swaggerType)) {
-            return swaggerType;
+        if(typeMapping.containsValue(schemaType)) {
+            return schemaType;
         }
 
-        if(languageSpecificPrimitives.contains(swaggerType)) {
-            return swaggerType;
+        if(languageSpecificPrimitives.contains(schemaType)) {
+            return schemaType;
         }
 
-        return toModelName(swaggerType);
+        return toModelName(schemaType);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema schema) {
+        String swaggerType = super.getSchemaType(schema);
         String type = null;
         if(typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
@@ -367,10 +366,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Swagger swagger = (Swagger)objs.get("swagger");
-        if(swagger != null) {
+        OpenAPI openAPI = (OpenAPI)objs.get("openapi");
+        if(openAPI != null) {
             try {
-                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
+                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(openAPI));
             } catch (JsonProcessingException e) {
                 LOGGER.error(e.getMessage(), e);
             }

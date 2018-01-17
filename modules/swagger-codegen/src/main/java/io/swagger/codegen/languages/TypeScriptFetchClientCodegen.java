@@ -44,7 +44,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(schema.getAdditionalProperties());
+        if (!hasSchemaProperties(schema)) {
+            return;
+        }
+        codegenModel.additionalPropertiesType = getTypeDeclaration((Schema) schema.getAdditionalProperties());
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -70,8 +73,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             ArraySchema arraySchema = (ArraySchema)propertySchema;
             inner = arraySchema.getItems();
             return this.getSchemaType(propertySchema) + "<" + this.getTypeDeclaration(inner) + ">";
-        } else if(propertySchema instanceof MapSchema) {
-            inner = propertySchema.getAdditionalProperties();
+        } else if(propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            inner = (Schema) propertySchema.getAdditionalProperties();
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
         } else if(propertySchema instanceof FileSchema || propertySchema instanceof ObjectSchema) {
             return "any";

@@ -696,8 +696,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
             typeDeclaration.append(innerType).append(">");
             return typeDeclaration.toString();
-        } else if (propertySchema instanceof MapSchema) {
-            Schema inner = propertySchema.getAdditionalProperties();
+        } else if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            Schema inner = (Schema) propertySchema.getAdditionalProperties();
             String innerType = getTypeDeclaration(inner);
             StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
             if (StringUtils.isNotBlank(inner.get$ref())) {
@@ -739,8 +739,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             ArraySchema ap = (ArraySchema) propertySchema;
             Schema inner = ap.getItems();
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
-        } else if (propertySchema instanceof MapSchema) {
-            Schema inner = propertySchema.getAdditionalProperties();
+        } else if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            Schema inner = (Schema) propertySchema.getAdditionalProperties();
             return instantiationTypes.get("map") + "<" + typeMapping.get("string") + ", " + getSchemaType(inner) + ">";
         } else {
             return null;

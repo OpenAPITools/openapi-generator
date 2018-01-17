@@ -290,7 +290,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
             Schema inner = ((ArraySchema) propertySchema).getItems();
             return String.format("%s<%s>", schemaType, getTypeDeclaration(inner));
         } else if (propertySchema instanceof MapSchema) {
-            Schema inner = propertySchema.getAdditionalProperties();
+            Schema inner = (Schema) propertySchema.getAdditionalProperties();
             return String.format("%s<utility::string_t, %s>", schemaType, getTypeDeclaration(inner));
         }
         if (propertySchema instanceof StringSchema || propertySchema instanceof DateSchema
@@ -321,8 +321,8 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
                 return "0L";
             }
             return "0";
-        } else if (propertySchema instanceof MapSchema) {
-            String inner = getSchemaType(propertySchema.getAdditionalProperties());
+        } else if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            String inner = getSchemaType((Schema) propertySchema.getAdditionalProperties());
             return String.format("std::map<utility::string_t, %s>()", inner);
         } else if (propertySchema instanceof ArraySchema) {
             ArraySchema arraySchema = (ArraySchema) propertySchema;

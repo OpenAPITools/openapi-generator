@@ -288,8 +288,8 @@ public class RestbedCodegen extends AbstractCppCodegen {
           Schema inner = arraySchema.getItems();
           return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
       }
-      if (schema instanceof MapSchema) {
-          return getSchemaType(schema) + "<std::string, " + getTypeDeclaration(schema.getAdditionalProperties()) + ">";
+      if (schema instanceof MapSchema && hasSchemaProperties(schema)) {
+          return getSchemaType(schema) + "<std::string, " + getTypeDeclaration((Schema) schema.getAdditionalProperties()) + ">";
       }
       if (schema instanceof StringSchema || schema instanceof DateSchema
               || schema instanceof DateTimeSchema || schema instanceof FileSchema

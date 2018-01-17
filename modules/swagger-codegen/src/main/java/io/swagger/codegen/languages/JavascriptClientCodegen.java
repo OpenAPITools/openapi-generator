@@ -567,8 +567,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             ArraySchema arraySchema = (ArraySchema) propertySchema;
             Schema inner = arraySchema.getItems();
             return String.format("[%s]", getTypeDeclaration(inner));
-        } else if (propertySchema instanceof MapSchema) {
-            Schema inner = propertySchema.getAdditionalProperties();
+        } else if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            Schema inner = (Schema) propertySchema.getAdditionalProperties();
             return String.format("{String: " + getTypeDeclaration(inner) + "}");
         }
         return super.getTypeDeclaration(propertySchema);
@@ -760,9 +760,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 codegenModel.vendorExtensions.put("x-itemType", getSchemaType(arraySchema.getItems()));
             }
         }
-        if (schema.getAdditionalProperties() != null) {
+        if (schema.getAdditionalProperties() != null && hasSchemaProperties(schema)) {
             codegenModel.vendorExtensions.put("x-isMap", true);
-            codegenModel.vendorExtensions.put("x-itemType", getSchemaType(schema.getAdditionalProperties()));
+            codegenModel.vendorExtensions.put("x-itemType", getSchemaType((Schema) schema.getAdditionalProperties()));
         }
 
         return codegenModel;

@@ -273,8 +273,8 @@ public class Qt5CPPGenerator extends AbstractCppCodegen implements CodegenConfig
         if (propertySchema instanceof ArraySchema) {
             Schema inner = ((ArraySchema) propertySchema).getItems();
             return String.format("%s<%s>", schematype, getTypeDeclaration(inner));
-        } else if (propertySchema instanceof MapSchema) {
-            Schema inner = propertySchema.getAdditionalProperties();
+        } else if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            Schema inner = (Schema) propertySchema.getAdditionalProperties();
             return String.format("%s<QString, %s>", schematype, getTypeDeclaration(inner));
         }
         if (foundationClasses.contains(schematype)) {
@@ -307,8 +307,8 @@ public class Qt5CPPGenerator extends AbstractCppCodegen implements CodegenConfig
                 return "0.0L";
             }
             return "0";
-        } else if (schema instanceof MapSchema) {
-            String inner = getSchemaType(schema.getAdditionalProperties());
+        } else if (schema instanceof MapSchema && hasSchemaProperties(schema)) {
+            String inner = getSchemaType((Schema) schema.getAdditionalProperties());
             if (!languageSpecificPrimitives.contains(inner)) {
                 inner += "*";
             }

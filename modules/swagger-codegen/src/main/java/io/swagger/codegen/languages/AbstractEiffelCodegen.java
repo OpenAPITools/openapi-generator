@@ -271,8 +271,8 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             Schema inner = ((ArraySchema) schema).getItems();
             return String.format("LIST [%s]", getTypeDeclaration(inner));
 
-        } else if (schema instanceof MapSchema) {
-            Schema inner = schema.getAdditionalProperties();
+        } else if (schema instanceof MapSchema && hasSchemaProperties(schema)) {
+            Schema inner = (Schema) schema.getAdditionalProperties();
             return String.format("%s[%s]", getSchemaType(schema), getTypeDeclaration(inner));
         }
         // return super.getTypeDeclaration(p);
@@ -541,8 +541,8 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     
     @Override
     public String toInstantiationType(Schema schema) {
-        if (schema instanceof MapSchema) {
-            Schema additionalProperties2 = schema.getAdditionalProperties();
+        if (schema instanceof MapSchema && hasSchemaProperties(schema)) {
+            Schema additionalProperties2 = (Schema) schema.getAdditionalProperties();
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Property " + additionalProperties2 + "\n" //

@@ -197,14 +197,14 @@ public class ExampleGenerator {
                 return (long) randomNumber(min, max);
             }
             return (int) randomNumber(min, max);
-        } else if (property instanceof MapSchema) {
+        } else if (property instanceof MapSchema && property.getAdditionalProperties() != null && property.getAdditionalProperties() instanceof Schema) {
             Map<String, Object> mp = new HashMap<String, Object>();
             if (property.getName() != null) {
                 mp.put(property.getName(),
-                        resolvePropertyToExample(propertyName, mediaType, property.getAdditionalProperties(), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels));
             } else {
                 mp.put("key",
-                        resolvePropertyToExample(propertyName, mediaType, property.getAdditionalProperties(), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels));
             }
             return mp;
         } else if (property instanceof ObjectSchema) {

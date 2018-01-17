@@ -241,8 +241,8 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String toDefaultValue(Schema propertySchema) {
-        if (propertySchema instanceof MapSchema) {
-            String inner = getSchemaType(propertySchema.getAdditionalProperties());
+        if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            String inner = getSchemaType((Schema) propertySchema.getAdditionalProperties());
             return String.format("Map[String, %s].empty", inner);
         } else if(propertySchema instanceof ArraySchema) {
             ArraySchema arraySchema = (ArraySchema) propertySchema;

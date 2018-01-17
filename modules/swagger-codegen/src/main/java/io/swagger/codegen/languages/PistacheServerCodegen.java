@@ -286,8 +286,8 @@ public class PistacheServerCodegen extends AbstractCppCodegen {
         if (propertySchema instanceof ArraySchema) {
             Schema inner = ((ArraySchema) propertySchema).getItems();
             return String.format("%s<%s>", schemaType, getTypeDeclaration(inner));
-        } else if (propertySchema instanceof MapSchema) {
-            Schema inner = propertySchema.getAdditionalProperties();
+        } else if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            Schema inner = (Schema) propertySchema.getAdditionalProperties();
             return String.format("%s<std::string, %s>", schemaType, getTypeDeclaration(inner));
         }
         if (propertySchema instanceof StringSchema || propertySchema instanceof DateSchema
@@ -318,8 +318,8 @@ public class PistacheServerCodegen extends AbstractCppCodegen {
                 return "0L";
             }
             return "0";
-        } else if (propertySchema instanceof MapSchema) {
-            String inner = getSchemaType(propertySchema.getAdditionalProperties());
+        } else if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            String inner = getSchemaType((Schema) propertySchema.getAdditionalProperties());
             return "std::map<std::string, " + inner + ">()";
         } else if (propertySchema instanceof ArraySchema) {
             ArraySchema arraySchema = (ArraySchema) propertySchema;

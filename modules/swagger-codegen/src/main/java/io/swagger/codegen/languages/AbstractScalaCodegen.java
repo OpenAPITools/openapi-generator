@@ -150,8 +150,8 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (propertySchema instanceof ArraySchema) {
             Schema inner = ((ArraySchema) propertySchema).getItems();
             return String.format("%s[%s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
-        } else if (propertySchema instanceof MapSchema) {
-            Schema inner = propertySchema.getAdditionalProperties();
+        } else if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            Schema inner = (Schema) propertySchema.getAdditionalProperties();
             return String.format("%s[String, %s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
         }
         return super.getTypeDeclaration(propertySchema);
@@ -172,8 +172,8 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String toInstantiationType(Schema schemaProperty) {
-        if (schemaProperty instanceof MapSchema) {
-            String inner = getSchemaType(schemaProperty.getAdditionalProperties());
+        if (schemaProperty instanceof MapSchema && hasSchemaProperties(schemaProperty)) {
+            String inner = getSchemaType((Schema) schemaProperty.getAdditionalProperties());
             return String.format("%s[%s]", instantiationTypes.get("map"), inner);
         } else if (schemaProperty instanceof ArraySchema) {
             ArraySchema arraySchema = (ArraySchema) schemaProperty;
@@ -186,8 +186,8 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String toDefaultValue(Schema propertySchema) {
-        if (propertySchema instanceof MapSchema) {
-            String inner = getSchemaType(propertySchema.getAdditionalProperties());
+        if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            String inner = getSchemaType((Schema) propertySchema.getAdditionalProperties());
             return String.format("new HashMap[String, %s]()", inner);
         } else if(propertySchema instanceof ArraySchema) {
             ArraySchema arraySchema = (ArraySchema) propertySchema;

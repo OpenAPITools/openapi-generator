@@ -314,9 +314,9 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             Schema inner = arraySchema.getItems();
             return getTypeDeclaration(inner) + "_Vectors.Vector";
         }
-        if (property instanceof MapSchema) {
+        if (property instanceof MapSchema && hasSchemaProperties(property)) {
             MapSchema mapSchema = (MapSchema) property;
-            Schema inner = mapSchema.getAdditionalProperties();
+            Schema inner = (Schema) mapSchema.getAdditionalProperties();
             String name = getTypeDeclaration(inner) + "_Map";
             if (name.startsWith("Swagger.")) {
                 return name;

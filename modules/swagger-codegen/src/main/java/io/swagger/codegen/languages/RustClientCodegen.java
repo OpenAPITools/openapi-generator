@@ -284,8 +284,8 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             ArraySchema arraySchemap = (ArraySchema) schema;
             Schema inner = arraySchemap.getItems();
             return "Vec<" + getTypeDeclaration(inner) + ">";
-        } else if (schema instanceof MapSchema) {
-            return "::std::collections::HashMap<String, " + getTypeDeclaration(schema.getAdditionalProperties()) + ">";
+        } else if (schema instanceof MapSchema && hasSchemaProperties(schema)) {
+            return "::std::collections::HashMap<String, " + getTypeDeclaration((Schema) schema.getAdditionalProperties()) + ">";
         }
 
         // Not using the supertype invocation, because we want to UpperCamelize

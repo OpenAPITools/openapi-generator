@@ -365,9 +365,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             ArraySchema arraySchema = (ArraySchema) propertySchema;
             Schema inner = arraySchema.getItems();
             return getTypeDeclaration(inner) + "[]";
-        } else if (propertySchema instanceof MapSchema) {
+        } else if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
             // TODO not sure if the following map/hash declaration is correct
-            return "{String, " + getTypeDeclaration(propertySchema.getAdditionalProperties()) + "}";
+            return "{String, " + getTypeDeclaration((Schema) propertySchema.getAdditionalProperties()) + "}";
         } else if (!languageSpecificPrimitives.contains(getSchemaType(propertySchema))) {
             return packageName + ".Model." + super.getTypeDeclaration(propertySchema);
         }

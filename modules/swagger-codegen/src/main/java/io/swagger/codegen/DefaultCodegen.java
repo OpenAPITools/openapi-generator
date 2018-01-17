@@ -4,12 +4,10 @@ import com.github.jknack.handlebars.Handlebars;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.samskivert.mustache.Mustache.Compiler;
-import io.swagger.codegen.languages.helpers.ExtensionHelper;
 import io.swagger.codegen.languages.helpers.HasHelper;
 import io.swagger.codegen.languages.helpers.HasNotHelper;
 import io.swagger.codegen.languages.helpers.IsHelper;
 import io.swagger.codegen.languages.helpers.IsNotHelper;
-import io.swagger.codegen.languages.helpers.NoneExtensionHelper;
 import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -43,6 +41,7 @@ import io.swagger.v3.oas.models.security.OAuthFlow;
 import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -52,6 +51,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -64,6 +64,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static io.swagger.codegen.CodegenHelper.getDefaultIncludes;
 import static io.swagger.codegen.CodegenHelper.getImportMappings;
@@ -811,8 +812,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @return string presentation of the instantiation type of the property
      */
     public String toInstantiationType(Schema property) {
-        if (property instanceof MapSchema || property.getAdditionalProperties() != null) {
-            Schema additionalProperties = property.getAdditionalProperties();
+        if (property instanceof MapSchema || property.getAdditionalProperties() != null && property.getAdditionalProperties() instanceof Schema) {
+            Schema additionalProperties = (Schema) property.getAdditionalProperties();
             String type = additionalProperties.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Property " + additionalProperties + "\n" //
@@ -1506,7 +1507,7 @@ public class DefaultCodegen implements CodegenConfig {
             Schema items = ((ArraySchema) propertySchema).getItems();
             CodegenProperty innerCodegenProperty = fromProperty(itemName, items);
             updatePropertyForArray(codegenProperty, innerCodegenProperty);
-        } else if (propertySchema instanceof MapSchema || propertySchema.getAdditionalProperties() != null) {
+        } else if (propertySchema instanceof MapSchema || (propertySchema.getAdditionalProperties() != null && propertySchema.getAdditionalProperties() instanceof Schema)) {
 
             codegenProperty.getVendorExtensions().put(CodegenConstants.IS_CONTAINER_EXT_NAME, Boolean.TRUE);
             codegenProperty.getVendorExtensions().put(CodegenConstants.IS_MAP_CONTAINER_EXT_NAME, Boolean.TRUE);
@@ -1516,7 +1517,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenProperty.maxItems = propertySchema.getMaxProperties();
 
             // handle inner property
-            CodegenProperty cp = fromProperty("inner", propertySchema.getAdditionalProperties());
+            CodegenProperty cp = fromProperty("inner", (Schema) propertySchema.getAdditionalProperties());
             updatePropertyForMap(codegenProperty, cp);
         } else {
             if (StringUtils.isNotBlank(propertySchema.get$ref())) {
@@ -1789,7 +1790,7 @@ public class DefaultCodegen implements CodegenConfig {
                         codegenOperation.returnBaseType = innerProperty.baseType;
                     } else if (responseSchema instanceof MapSchema) {
                         MapSchema mapSchema = (MapSchema) responseSchema;
-                        CodegenProperty innerProperty = fromProperty("response", mapSchema.getAdditionalProperties());
+                        CodegenProperty innerProperty = fromProperty("response", (Schema) mapSchema.getAdditionalProperties());
                         codegenOperation.returnBaseType = innerProperty.baseType;
                     } else {
                         if (codegenProperty.complexType != null) {
@@ -2098,7 +2099,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenProperty = codegenProperty.items;
                 }
             } else if (parameterSchema instanceof MapSchema) { // for map parameter
-                CodegenProperty codegenProperty = fromProperty("inner", parameterSchema.getAdditionalProperties());
+                CodegenProperty codegenProperty = fromProperty("inner", (Schema) parameterSchema.getAdditionalProperties());
                 codegenParameter.items = codegenProperty;
                 codegenParameter.baseType = codegenProperty.datatype;
                 codegenParameter.getVendorExtensions().put(CodegenConstants.IS_CONTAINER_EXT_NAME, Boolean.TRUE);
@@ -3374,7 +3375,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenOperation.getVendorExtensions().put(CodegenConstants.HAS_CONSUMES_EXT_NAME, Boolean.TRUE);
     }
 
-    protected Set<String> getConsumesInfo(Operation operation) {
+    public static Set<String> getConsumesInfo(Operation operation) {
         if(operation.getRequestBody() == null || operation.getRequestBody().getContent() == null || operation.getRequestBody().getContent().isEmpty()) {
             return null;
         }
@@ -3410,7 +3411,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
 
-    protected Set<String> getProducesInfo(Operation operation) {
+    public static Set<String> getProducesInfo(Operation operation) {
         if(operation.getResponses() == null || operation.getResponses().isEmpty()) {
             return null;
         }
@@ -3466,6 +3467,11 @@ public class DefaultCodegen implements CodegenConfig {
         else {
             return null;
         }
+    }
+
+    protected static boolean hasSchemaProperties(Schema schema) {
+        final Object additionalProperties = schema.getAdditionalProperties();
+        return additionalProperties != null && additionalProperties instanceof Schema;
     }
 
     public CodegenType getTag() {

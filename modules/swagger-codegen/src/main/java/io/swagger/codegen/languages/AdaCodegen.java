@@ -173,8 +173,8 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
             ArraySchema arraySchema = (ArraySchema) propertySchema;
             return String.format("%s_Vectors.Vector", getTypeDeclaration(arraySchema.getItems()));
         }
-        if (propertySchema instanceof MapSchema) {
-            return String.format("Swagger._Map", getTypeDeclaration(propertySchema.getAdditionalProperties()));
+        if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            return String.format("Swagger._Map", getTypeDeclaration((Schema) propertySchema.getAdditionalProperties()));
         }
         if (typeMapping.containsKey(swaggerType)) {
             return typeMapping.get(swaggerType);

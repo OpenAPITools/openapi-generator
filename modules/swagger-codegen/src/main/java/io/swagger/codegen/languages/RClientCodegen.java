@@ -287,8 +287,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             ArraySchema arraySchema = (ArraySchema) propertySchema;
             Schema inner = arraySchema.getItems();
             return getTypeDeclaration(inner);
-        } else if (propertySchema instanceof MapSchema) {
-            return getTypeDeclaration(propertySchema.getAdditionalProperties());
+        } else if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            return getTypeDeclaration((Schema) propertySchema.getAdditionalProperties());
         }
 
         // Not using the supertype invocation, because we want to UpperCamelize

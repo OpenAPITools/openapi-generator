@@ -632,13 +632,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return String.format("%s<%s>", getSchemaType(propertySchema), getTypeDeclaration(inner));
             // return getSwaggerType(propertySchema) + "<" + getTypeDeclaration(inner) + ">";
         } else if (propertySchema instanceof MapSchema || propertySchema.getAdditionalProperties() != null) {
-            Schema inner = propertySchema.getAdditionalProperties();
-            if (inner == null) {
-                LOGGER.warn(propertySchema.getName() + "(map property) does not have a proper inner type defined");
-                // TODO maybe better defaulting to StringProperty than returning null
-                return null;
+            if (hasSchemaProperties(propertySchema)) {
+                Schema inner = (Schema) propertySchema.getAdditionalProperties();
+                if (inner == null) {
+                    LOGGER.warn(propertySchema.getName() + "(map property) does not have a proper inner type defined");
+                    // TODO maybe better defaulting to StringProperty than returning null
+                    return null;
+                }
+                return getSchemaType(propertySchema) + "<String, " + getTypeDeclaration(inner) + ">";
             }
-            return getSchemaType(propertySchema) + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(propertySchema);
     }
@@ -675,7 +677,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
 
             return String.format(pattern, typeDeclaration);
-        } else if (schema instanceof MapSchema) {
+        } else if (schema instanceof MapSchema && hasSchemaProperties(schema)) {
             final String pattern;
             if (fullJavaUtil) {
                 pattern = "new java.util.HashMap<%s>()";
@@ -686,7 +688,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
-            String typeDeclaration = String.format("String, %s", getTypeDeclaration(schema.getAdditionalProperties()));
+            String typeDeclaration = String.format("String, %s", getTypeDeclaration((Schema) schema.getAdditionalProperties()));
             Object java8obj = additionalProperties.get("java8");
             if (java8obj != null) {
                 Boolean java8 = Boolean.valueOf(java8obj.toString());

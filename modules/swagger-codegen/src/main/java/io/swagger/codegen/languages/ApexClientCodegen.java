@@ -180,7 +180,7 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
             Long def = propertySchema.getDefault() != null ? Long.valueOf(propertySchema.getDefault().toString()) : null;
             out = def == null ? out : def.toString() + "L";
         } else if (propertySchema instanceof MapSchema) {
-            Schema inner = propertySchema.getAdditionalProperties();
+            Schema inner = (Schema) propertySchema.getAdditionalProperties();
             String s = inner == null ? "Object" : getTypeDeclaration(inner);
             out = String.format("new Map<String, %s>()", s);
         } else if (propertySchema instanceof StringSchema) {
@@ -425,8 +425,8 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
             example = "'" + example + "'";
         } else if (propertySchema instanceof IntegerSchema && SchemaTypeUtil.INTEGER64_FORMAT.equals(propertySchema.getFormat())) {
             example = example.isEmpty() ? "123456789L" : example + "L";
-        } else if (propertySchema instanceof MapSchema) {
-            example = String.format("new %s {'key'=>%s}", getTypeDeclaration(propertySchema), toExampleValue(propertySchema.getAdditionalProperties()));
+        } else if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            example = String.format("new %s {'key'=>%s}", getTypeDeclaration(propertySchema), toExampleValue((Schema) propertySchema.getAdditionalProperties()));
         } else if (propertySchema instanceof ObjectSchema) {
             example = example.isEmpty() ? "null" : example;
         } else if (propertySchema instanceof PasswordSchema) {

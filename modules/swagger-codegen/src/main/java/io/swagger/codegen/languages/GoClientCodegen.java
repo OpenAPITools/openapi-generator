@@ -170,8 +170,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
             Schema inner = arraySchema.getItems();
             return "[]" + getTypeDeclaration(inner);
         }
-        else if (propertySchema instanceof MapSchema) {
-            Schema inner = propertySchema.getAdditionalProperties();
+        else if (propertySchema instanceof MapSchema && hasSchemaProperties(propertySchema)) {
+            Schema inner = (Schema) propertySchema.getAdditionalProperties();
 
             return getSchemaType(propertySchema) + "[string]" + getTypeDeclaration(inner);
         }

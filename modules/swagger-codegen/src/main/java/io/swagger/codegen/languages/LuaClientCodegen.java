@@ -327,8 +327,8 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
             ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = arraySchema.getItems();
             return getTypeDeclaration(inner);
-        } else if (schema instanceof MapSchema) {
-            return getTypeDeclaration(schema.getAdditionalProperties());
+        } else if (schema instanceof MapSchema && hasSchemaProperties(schema)) {
+            return getTypeDeclaration((Schema) schema.getAdditionalProperties());
         }
 
         // Not using the supertype invocation, because we want to UpperCamelize the type.
