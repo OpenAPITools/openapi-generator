@@ -105,7 +105,7 @@ QJsonObject*
     QJsonObject* obj = new QJsonObject();
     {{#vars}}
     {{^isContainer}}{{#complexType}}{{^isString}}{{^isDate}}{{^isDateTime}}{{^isByteArray}} 
-    if({{name}}->isSet()){
+    if(({{name}} != nullptr) && ({{name}}->isSet())){
         toJsonValue(QString("{{baseName}}"), {{name}}, obj, QString("{{complexType}}"));
     }{{/isByteArray}}{{/isDateTime}}{{/isDate}}{{/isString}}{{#isString}}
     if({{name}} != nullptr && *{{name}} != QString("")){

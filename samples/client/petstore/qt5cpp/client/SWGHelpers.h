@@ -14,6 +14,8 @@
 #define SWG_HELPERS_H
 
 #include <QJsonValue>
+#include <QList>
+#include <QMap>
 
 namespace Swagger {
 
