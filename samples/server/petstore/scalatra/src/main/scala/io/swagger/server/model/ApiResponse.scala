@@ -14,6 +14,6 @@ package io.swagger.server.model
 
 case class ApiResponse(
   code: Option[Int],
-    _type: Option[String],
+    `type`: Option[String],
     message: Option[String]
   )
