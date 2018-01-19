@@ -122,7 +122,7 @@ SWGPet::asJsonObject() {
         obj->insert("id", QJsonValue(id));
     }
      
-    if(category->isSet()){
+    if((category != nullptr) && (category->isSet())){
         toJsonValue(QString("category"), category, obj, QString("SWGCategory"));
     }
     
