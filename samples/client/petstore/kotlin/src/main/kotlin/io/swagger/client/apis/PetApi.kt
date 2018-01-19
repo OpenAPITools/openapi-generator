@@ -59,7 +59,7 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
     fun deletePet(petId: kotlin.Long, apiKey: kotlin.String) : Unit {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf()
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf("apiKey" to apiKey)
+        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf("api_key" to apiKey)
         val localVariableConfig = RequestConfig(
             RequestMethod.DELETE,
             "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
