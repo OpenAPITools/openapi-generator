@@ -46,7 +46,14 @@ public class PetApiVerticle extends AbstractVerticle {
         //Consumer for addPet
         vertx.eventBus().<JsonObject> consumer(ADDPET_SERVICE_ID).handler(message -> {
             try {
-                Pet body = Json.mapper.readValue(message.body().getJsonObject("body").encode(), Pet.class);
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "addPet";
+                JsonObject bodyParam = message.body().getJsonObject("body");
+                if (bodyParam == null) {
+                    manageError(message, new MainApiException(400, "body is required"), serviceId);
+                    return;
+                }
+                Pet body = Json.mapper.readValue(bodyParam.encode(), Pet.class);
                 service.addPet(body).subscribe(
                     () -> {
                         message.reply(null);
@@ -63,8 +70,16 @@ public class PetApiVerticle extends AbstractVerticle {
         //Consumer for deletePet
         vertx.eventBus().<JsonObject> consumer(DELETEPET_SERVICE_ID).handler(message -> {
             try {
-                Long petId = Json.mapper.readValue(message.body().getString("petId"), Long.class);
-                String apiKey = message.body().getString("api_key");
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "deletePet";
+                String petIdParam = message.body().getString("petId");
+                if(petIdParam == null) {
+                    manageError(message, new MainApiException(400, "petId is required"), serviceId);
+                    return;
+                }
+                Long petId = Json.mapper.readValue(petIdParam, Long.class);
+                String apiKeyParam = message.body().getString("api_key");
+                String apiKey = (apiKeyParam == null) ? null : apiKeyParam;
                 service.deletePet(petId, apiKey).subscribe(
                     () -> {
                         message.reply(null);
@@ -81,8 +96,15 @@ public class PetApiVerticle extends AbstractVerticle {
         //Consumer for findPetsByStatus
         vertx.eventBus().<JsonObject> consumer(FINDPETSBYSTATUS_SERVICE_ID).handler(message -> {
             try {
-                List<String> status = Json.mapper.readValue(message.body().getJsonArray("status").encode(),
-                        Json.mapper.getTypeFactory().constructCollectionType(List.class, String.class));
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "findPetsByStatus";
+                JsonArray statusParam = message.body().getJsonArray("status");
+                if(statusParam == null) {
+                    manageError(message, new MainApiException(400, "status is required"), serviceId);
+                    return;
+                }
+                List<String> status = Json.mapper.readValue(statusParam.encode(),
+                    Json.mapper.getTypeFactory().constructCollectionType(List.class, String.class));
                 service.findPetsByStatus(status).subscribe(
                     result -> {
                         message.reply(new JsonArray(Json.encode(result)).encodePrettily());
@@ -99,8 +121,15 @@ public class PetApiVerticle extends AbstractVerticle {
         //Consumer for findPetsByTags
         vertx.eventBus().<JsonObject> consumer(FINDPETSBYTAGS_SERVICE_ID).handler(message -> {
             try {
-                List<String> tags = Json.mapper.readValue(message.body().getJsonArray("tags").encode(),
-                        Json.mapper.getTypeFactory().constructCollectionType(List.class, String.class));
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "findPetsByTags";
+                JsonArray tagsParam = message.body().getJsonArray("tags");
+                if(tagsParam == null) {
+                    manageError(message, new MainApiException(400, "tags is required"), serviceId);
+                    return;
+                }
+                List<String> tags = Json.mapper.readValue(tagsParam.encode(),
+                    Json.mapper.getTypeFactory().constructCollectionType(List.class, String.class));
                 service.findPetsByTags(tags).subscribe(
                     result -> {
                         message.reply(new JsonArray(Json.encode(result)).encodePrettily());
@@ -117,7 +146,14 @@ public class PetApiVerticle extends AbstractVerticle {
         //Consumer for getPetById
         vertx.eventBus().<JsonObject> consumer(GETPETBYID_SERVICE_ID).handler(message -> {
             try {
-                Long petId = Json.mapper.readValue(message.body().getString("petId"), Long.class);
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "getPetById";
+                String petIdParam = message.body().getString("petId");
+                if(petIdParam == null) {
+                    manageError(message, new MainApiException(400, "petId is required"), serviceId);
+                    return;
+                }
+                Long petId = Json.mapper.readValue(petIdParam, Long.class);
                 service.getPetById(petId).subscribe(
                     result -> {
                         message.reply(new JsonObject(Json.encode(result)).encodePrettily());
@@ -134,7 +170,14 @@ public class PetApiVerticle extends AbstractVerticle {
         //Consumer for updatePet
         vertx.eventBus().<JsonObject> consumer(UPDATEPET_SERVICE_ID).handler(message -> {
             try {
-                Pet body = Json.mapper.readValue(message.body().getJsonObject("body").encode(), Pet.class);
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "updatePet";
+                JsonObject bodyParam = message.body().getJsonObject("body");
+                if (bodyParam == null) {
+                    manageError(message, new MainApiException(400, "body is required"), serviceId);
+                    return;
+                }
+                Pet body = Json.mapper.readValue(bodyParam.encode(), Pet.class);
                 service.updatePet(body).subscribe(
                     () -> {
                         message.reply(null);
@@ -151,9 +194,18 @@ public class PetApiVerticle extends AbstractVerticle {
         //Consumer for updatePetWithForm
         vertx.eventBus().<JsonObject> consumer(UPDATEPETWITHFORM_SERVICE_ID).handler(message -> {
             try {
-                Long petId = Json.mapper.readValue(message.body().getString("petId"), Long.class);
-                String name = message.body().getString("name");
-                String status = message.body().getString("status");
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "updatePetWithForm";
+                String petIdParam = message.body().getString("petId");
+                if(petIdParam == null) {
+                    manageError(message, new MainApiException(400, "petId is required"), serviceId);
+                    return;
+                }
+                Long petId = Json.mapper.readValue(petIdParam, Long.class);
+                String nameParam = message.body().getString("name");
+                String name = (nameParam == null) ? null : nameParam;
+                String statusParam = message.body().getString("status");
+                String status = (statusParam == null) ? null : statusParam;
                 service.updatePetWithForm(petId, name, status).subscribe(
                     () -> {
                         message.reply(null);
@@ -170,9 +222,22 @@ public class PetApiVerticle extends AbstractVerticle {
         //Consumer for uploadFile
         vertx.eventBus().<JsonObject> consumer(UPLOADFILE_SERVICE_ID).handler(message -> {
             try {
-                Long petId = Json.mapper.readValue(message.body().getString("petId"), Long.class);
-                String additionalMetadata = message.body().getString("additionalMetadata");
-                File file = Json.mapper.readValue(message.body().getJsonObject("file").encode(), File.class);
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "uploadFile";
+                String petIdParam = message.body().getString("petId");
+                if(petIdParam == null) {
+                    manageError(message, new MainApiException(400, "petId is required"), serviceId);
+                    return;
+                }
+                Long petId = Json.mapper.readValue(petIdParam, Long.class);
+                String additionalMetadataParam = message.body().getString("additionalMetadata");
+                String additionalMetadata = (additionalMetadataParam == null) ? null : additionalMetadataParam;
+                JsonObject fileParam = message.body().getJsonObject("file");
+                if (fileParam == null) {
+                    manageError(message, new MainApiException(400, "file is required"), serviceId);
+                    return;
+                }
+                File file = Json.mapper.readValue(fileParam.encode(), File.class);
                 service.uploadFile(petId, additionalMetadata, file).subscribe(
                     result -> {
                         message.reply(new JsonObject(Json.encode(result)).encodePrettily());
