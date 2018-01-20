@@ -16,10 +16,12 @@ public enum {{datatypeWithEnum}} {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static {{datatypeWithEnum}} fromValue(String v) {
         for ({{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
             if (String.valueOf(b.value).equals(v)) {
