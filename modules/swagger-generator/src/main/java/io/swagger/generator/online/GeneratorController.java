@@ -2,6 +2,8 @@ package io.swagger.generator.online;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.codegen.ClientOptInput;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultGenerator;
 import io.swagger.codegen.config.CodegenConfigurator;
 import io.swagger.generator.model.GenerationRequest;
@@ -17,15 +19,49 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 
 public class GeneratorController {
 
     static Logger LOGGER = LoggerFactory.getLogger(GeneratorController.class);
+    static List<String> CLIENTS = new ArrayList<>();
+    static List<String> SERVERS = new ArrayList<>();
+
+    static {
+        final ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class);
+
+        loader.forEach(config -> {
+            if (config.getTag().equals(CodegenType.CLIENT) || config.getTag().equals(CodegenType.DOCUMENTATION)) {
+                CLIENTS.add(config.getName());
+            } else if (config.getTag().equals(CodegenType.SERVER)) {
+                SERVERS.add(config.getName());
+            }
+        });
+        Collections.sort(CLIENTS, String.CASE_INSENSITIVE_ORDER);
+        Collections.sort(SERVERS, String.CASE_INSENSITIVE_ORDER);
+    }
+
+    public ResponseContext getClients(RequestContext requestContext) {
+        return new ResponseContext()
+                .status(Response.Status.OK.getStatusCode())
+                .entity(CLIENTS);
+
+    }
+
+    public ResponseContext getServers(RequestContext requestContext) {
+        return new ResponseContext()
+                .status(Response.Status.OK.getStatusCode())
+                .entity(SERVERS);
+    }
 
     public ResponseContext generateFiles(RequestContext context, String argumentsUrl) {
         final String content;
