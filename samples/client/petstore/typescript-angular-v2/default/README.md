@@ -1,4 +1,4 @@
-## @swagger/angular2-typescript-petstore@0.0.1
+## @
 
 ### Building
 
@@ -19,7 +19,7 @@ navigate to the folder of your consuming project and run one of next commando's.
 _published:_
 
 ```
-npm install @swagger/angular2-typescript-petstore@0.0.1 --save
+npm install @ --save
 ```
 
 _unPublished (not recommended):_
@@ -37,7 +37,7 @@ npm link
 
 In your project:
 ```
-npm link @swagger/angular2-typescript-petstore@0.0.1
+npm link @
 ```
 
 In your Angular project:
@@ -45,16 +45,14 @@ In your Angular project:
 
 ```
 // without configuring providers
-import { ApiModule } from '@swagger/angular2-typescript-petstore';
-import { HttpClientModule } from '@angular/common/http';
+import { ApiModule } from '';
 
+import { HttpModule } from '@angular/http';
 
 @NgModule({
     imports: [
         ApiModule,
-        // make sure to import the HttpClientModule in the AppModule only,
-        // see https://github.com/angular/angular/issues/20575
-        HttpClientModule
+        HttpModule
     ],
     declarations: [ AppComponent ],
     providers: [],
@@ -65,7 +63,7 @@ export class AppModule {}
 
 ```
 // configuring providers
-import { ApiModule, Configuration, ConfigurationParameters } from '@swagger/angular2-typescript-petstore';
+import { ApiModule, Configuration, ConfigurationParameters } from '';
 
 export function apiConfigFactory (): Configuration => {
   const params: ConfigurationParameters = {
@@ -84,7 +82,7 @@ export class AppModule {}
 ```
 
 ```
-import { DefaultApi } from '@swagger/angular2-typescript-petstore';
+import { DefaultApi } from '';
 
 export class AppComponent {
 	 constructor(private apiGateway: DefaultApi) { }
@@ -101,16 +99,14 @@ in order to avoid naming conflicts:
 ```
 import { ApiModule } from 'my-api-path';
 import { ApiModule as OtherApiModule } from 'my-other-api-path';
-import { HttpClientModule } from '@angular/common/http';
 
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   imports: [
     ApiModule,
     OtherApiModule,
-    // make sure to import the HttpClientModule in the AppModule only,
-    // see https://github.com/angular/angular/issues/20575
-    HttpClientModule
+    HttpModule
   ]
 })
 export class AppModule {
@@ -123,7 +119,7 @@ export class AppModule {
 If different than the generated base path, during app bootstrap, you can provide the base path to your service. 
 
 ```
-import { BASE_PATH } from '@swagger/angular2-typescript-petstore';
+import { BASE_PATH } from '';
 
 bootstrap(AppComponent, [
     { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
@@ -132,7 +128,7 @@ bootstrap(AppComponent, [
 or
 
 ```
-import { BASE_PATH } from '@swagger/angular2-typescript-petstore';
+import { BASE_PATH } from '';
 
 @NgModule({
     imports: [],
@@ -156,7 +152,7 @@ export const environment = {
 
 In the src/app/app.module.ts:
 ```
-import { BASE_PATH } from '@swagger/angular2-typescript-petstore';
+import { BASE_PATH } from '';
 import { environment } from '../environments/environment';
 
 @NgModule({
