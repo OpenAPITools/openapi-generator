@@ -206,8 +206,24 @@ mimeUnrender' :: MimeUnrender mtype o => mtype -> ByteString -> Either String o
 -- | <pre>
 --   P.Right . P.const NoContent
 --   </pre>
+data MimeJsonCharsetutf8
+MimeJsonCharsetutf8 :: MimeJsonCharsetutf8
+
+-- | <pre>
+--   application/json; charset=utf-8
+--   </pre>
+data MimeXmlCharsetutf8
+MimeXmlCharsetutf8 :: MimeXmlCharsetutf8
+
+-- | <pre>
+--   application/xml; charset=utf-8
+--   </pre>
 instance GHC.Classes.Eq SwaggerPetstore.MimeTypes.NoContent
 instance GHC.Show.Show SwaggerPetstore.MimeTypes.NoContent
+instance SwaggerPetstore.MimeTypes.MimeType SwaggerPetstore.MimeTypes.MimeXmlCharsetutf8
+instance SwaggerPetstore.MimeTypes.MimeType SwaggerPetstore.MimeTypes.MimeJsonCharsetutf8
+instance Data.Aeson.Types.ToJSON.ToJSON a => SwaggerPetstore.MimeTypes.MimeRender SwaggerPetstore.MimeTypes.MimeJsonCharsetutf8 a
+instance Data.Aeson.Types.FromJSON.FromJSON a => SwaggerPetstore.MimeTypes.MimeUnrender SwaggerPetstore.MimeTypes.MimeJsonCharsetutf8 a
 instance Data.Aeson.Types.FromJSON.FromJSON a => SwaggerPetstore.MimeTypes.MimeUnrender SwaggerPetstore.MimeTypes.MimeJSON a
 instance Web.Internal.FormUrlEncoded.FromForm a => SwaggerPetstore.MimeTypes.MimeUnrender SwaggerPetstore.MimeTypes.MimeFormUrlEncoded a
 instance SwaggerPetstore.MimeTypes.MimeUnrender SwaggerPetstore.MimeTypes.MimePlainText Data.ByteString.Lazy.Internal.ByteString
@@ -613,6 +629,114 @@ instance GHC.Classes.Eq SwaggerPetstore.Client.MimeError
 
 
 module SwaggerPetstore.Model
+newtype AdditionalMetadata
+AdditionalMetadata :: Text -> AdditionalMetadata
+[unAdditionalMetadata] :: AdditionalMetadata -> Text
+newtype ApiKey
+ApiKey :: Text -> ApiKey
+[unApiKey] :: ApiKey -> Text
+newtype Body
+Body :: [User] -> Body
+[unBody] :: Body -> [User]
+newtype Byte
+Byte :: ByteArray -> Byte
+[unByte] :: Byte -> ByteArray
+newtype Callback
+Callback :: Text -> Callback
+[unCallback] :: Callback -> Text
+newtype EnumFormString
+EnumFormString :: E'EnumFormString -> EnumFormString
+[unEnumFormString] :: EnumFormString -> E'EnumFormString
+newtype EnumFormStringArray
+EnumFormStringArray :: [E'Inner2] -> EnumFormStringArray
+[unEnumFormStringArray] :: EnumFormStringArray -> [E'Inner2]
+newtype EnumHeaderString
+EnumHeaderString :: E'EnumFormString -> EnumHeaderString
+[unEnumHeaderString] :: EnumHeaderString -> E'EnumFormString
+newtype EnumHeaderStringArray
+EnumHeaderStringArray :: [E'Inner2] -> EnumHeaderStringArray
+[unEnumHeaderStringArray] :: EnumHeaderStringArray -> [E'Inner2]
+newtype EnumQueryDouble
+EnumQueryDouble :: E'EnumNumber -> EnumQueryDouble
+[unEnumQueryDouble] :: EnumQueryDouble -> E'EnumNumber
+newtype EnumQueryInteger
+EnumQueryInteger :: E'EnumQueryInteger -> EnumQueryInteger
+[unEnumQueryInteger] :: EnumQueryInteger -> E'EnumQueryInteger
+newtype EnumQueryString
+EnumQueryString :: E'EnumFormString -> EnumQueryString
+[unEnumQueryString] :: EnumQueryString -> E'EnumFormString
+newtype EnumQueryStringArray
+EnumQueryStringArray :: [E'Inner2] -> EnumQueryStringArray
+[unEnumQueryStringArray] :: EnumQueryStringArray -> [E'Inner2]
+newtype File
+File :: FilePath -> File
+[unFile] :: File -> FilePath
+newtype Int32
+Int32 :: Int -> Int32
+[unInt32] :: Int32 -> Int
+newtype Int64
+Int64 :: Integer -> Int64
+[unInt64] :: Int64 -> Integer
+newtype Name2
+Name2 :: Text -> Name2
+[unName2] :: Name2 -> Text
+newtype Number
+Number :: Double -> Number
+[unNumber] :: Number -> Double
+newtype OrderId
+OrderId :: Integer -> OrderId
+[unOrderId] :: OrderId -> Integer
+newtype OrderIdText
+OrderIdText :: Text -> OrderIdText
+[unOrderIdText] :: OrderIdText -> Text
+newtype Param
+Param :: Text -> Param
+[unParam] :: Param -> Text
+newtype Param2
+Param2 :: Text -> Param2
+[unParam2] :: Param2 -> Text
+newtype ParamBinary
+ParamBinary :: Binary -> ParamBinary
+[unParamBinary] :: ParamBinary -> Binary
+newtype ParamDate
+ParamDate :: Date -> ParamDate
+[unParamDate] :: ParamDate -> Date
+newtype ParamDateTime
+ParamDateTime :: DateTime -> ParamDateTime
+[unParamDateTime] :: ParamDateTime -> DateTime
+newtype ParamDouble
+ParamDouble :: Double -> ParamDouble
+[unParamDouble] :: ParamDouble -> Double
+newtype ParamFloat
+ParamFloat :: Float -> ParamFloat
+[unParamFloat] :: ParamFloat -> Float
+newtype ParamInteger
+ParamInteger :: Int -> ParamInteger
+[unParamInteger] :: ParamInteger -> Int
+newtype ParamString
+ParamString :: Text -> ParamString
+[unParamString] :: ParamString -> Text
+newtype Password
+Password :: Text -> Password
+[unPassword] :: Password -> Text
+newtype PatternWithoutDelimiter
+PatternWithoutDelimiter :: Text -> PatternWithoutDelimiter
+[unPatternWithoutDelimiter] :: PatternWithoutDelimiter -> Text
+newtype PetId
+PetId :: Integer -> PetId
+[unPetId] :: PetId -> Integer
+newtype Status
+Status :: [E'Status2] -> Status
+[unStatus] :: Status -> [E'Status2]
+newtype StatusText
+StatusText :: Text -> StatusText
+[unStatusText] :: StatusText -> Text
+newtype Tags
+Tags :: [Text] -> Tags
+[unTags] :: Tags -> [Text]
+newtype Username
+Username :: Text -> Username
+[unUsername] :: Username -> Text
 
 -- | AdditionalPropertiesClass
 data AdditionalPropertiesClass
@@ -1551,6 +1675,30 @@ fromOuterEnum :: OuterEnum -> Text
 
 -- | parse <a>OuterEnum</a> enum
 toOuterEnum :: Text -> Either String OuterEnum
+data AuthApiKeyApiKey
+
+-- | secret
+AuthApiKeyApiKey :: Text -> AuthApiKeyApiKey
+data AuthApiKeyApiKeyQuery
+
+-- | secret
+AuthApiKeyApiKeyQuery :: Text -> AuthApiKeyApiKeyQuery
+data AuthBasicHttpBasicTest
+
+-- | username password
+AuthBasicHttpBasicTest :: ByteString -> ByteString -> AuthBasicHttpBasicTest
+data AuthOAuthPetstoreAuth
+
+-- | secret
+AuthOAuthPetstoreAuth :: Text -> AuthOAuthPetstoreAuth
+instance GHC.Show.Show SwaggerPetstore.Model.AuthOAuthPetstoreAuth
+instance GHC.Classes.Eq SwaggerPetstore.Model.AuthOAuthPetstoreAuth
+instance GHC.Show.Show SwaggerPetstore.Model.AuthBasicHttpBasicTest
+instance GHC.Classes.Eq SwaggerPetstore.Model.AuthBasicHttpBasicTest
+instance GHC.Show.Show SwaggerPetstore.Model.AuthApiKeyApiKeyQuery
+instance GHC.Classes.Eq SwaggerPetstore.Model.AuthApiKeyApiKeyQuery
+instance GHC.Show.Show SwaggerPetstore.Model.AuthApiKeyApiKey
+instance GHC.Classes.Eq SwaggerPetstore.Model.AuthApiKeyApiKey
 instance GHC.Classes.Eq SwaggerPetstore.Model.EnumTest
 instance GHC.Show.Show SwaggerPetstore.Model.EnumTest
 instance GHC.Enum.Enum SwaggerPetstore.Model.OuterEnum
@@ -1563,6 +1711,8 @@ instance GHC.Enum.Bounded SwaggerPetstore.Model.EnumClass
 instance GHC.Classes.Ord SwaggerPetstore.Model.EnumClass
 instance GHC.Classes.Eq SwaggerPetstore.Model.EnumClass
 instance GHC.Show.Show SwaggerPetstore.Model.EnumClass
+instance GHC.Show.Show SwaggerPetstore.Model.Status
+instance GHC.Classes.Eq SwaggerPetstore.Model.Status
 instance GHC.Classes.Eq SwaggerPetstore.Model.Pet
 instance GHC.Show.Show SwaggerPetstore.Model.Pet
 instance GHC.Enum.Enum SwaggerPetstore.Model.E'Status2
@@ -1584,6 +1734,12 @@ instance GHC.Enum.Bounded SwaggerPetstore.Model.E'JustSymbol
 instance GHC.Classes.Ord SwaggerPetstore.Model.E'JustSymbol
 instance GHC.Classes.Eq SwaggerPetstore.Model.E'JustSymbol
 instance GHC.Show.Show SwaggerPetstore.Model.E'JustSymbol
+instance GHC.Show.Show SwaggerPetstore.Model.EnumFormStringArray
+instance GHC.Classes.Eq SwaggerPetstore.Model.EnumFormStringArray
+instance GHC.Show.Show SwaggerPetstore.Model.EnumHeaderStringArray
+instance GHC.Classes.Eq SwaggerPetstore.Model.EnumHeaderStringArray
+instance GHC.Show.Show SwaggerPetstore.Model.EnumQueryStringArray
+instance GHC.Classes.Eq SwaggerPetstore.Model.EnumQueryStringArray
 instance GHC.Enum.Enum SwaggerPetstore.Model.E'Inner2
 instance GHC.Enum.Bounded SwaggerPetstore.Model.E'Inner2
 instance GHC.Classes.Ord SwaggerPetstore.Model.E'Inner2
@@ -1601,11 +1757,15 @@ instance GHC.Enum.Bounded SwaggerPetstore.Model.E'EnumString
 instance GHC.Classes.Ord SwaggerPetstore.Model.E'EnumString
 instance GHC.Classes.Eq SwaggerPetstore.Model.E'EnumString
 instance GHC.Show.Show SwaggerPetstore.Model.E'EnumString
+instance GHC.Show.Show SwaggerPetstore.Model.EnumQueryInteger
+instance GHC.Classes.Eq SwaggerPetstore.Model.EnumQueryInteger
 instance GHC.Enum.Enum SwaggerPetstore.Model.E'EnumQueryInteger
 instance GHC.Enum.Bounded SwaggerPetstore.Model.E'EnumQueryInteger
 instance GHC.Classes.Ord SwaggerPetstore.Model.E'EnumQueryInteger
 instance GHC.Classes.Eq SwaggerPetstore.Model.E'EnumQueryInteger
 instance GHC.Show.Show SwaggerPetstore.Model.E'EnumQueryInteger
+instance GHC.Show.Show SwaggerPetstore.Model.EnumQueryDouble
+instance GHC.Classes.Eq SwaggerPetstore.Model.EnumQueryDouble
 instance GHC.Enum.Enum SwaggerPetstore.Model.E'EnumNumber
 instance GHC.Enum.Bounded SwaggerPetstore.Model.E'EnumNumber
 instance GHC.Classes.Ord SwaggerPetstore.Model.E'EnumNumber
@@ -1616,6 +1776,12 @@ instance GHC.Enum.Bounded SwaggerPetstore.Model.E'EnumInteger
 instance GHC.Classes.Ord SwaggerPetstore.Model.E'EnumInteger
 instance GHC.Classes.Eq SwaggerPetstore.Model.E'EnumInteger
 instance GHC.Show.Show SwaggerPetstore.Model.E'EnumInteger
+instance GHC.Show.Show SwaggerPetstore.Model.EnumFormString
+instance GHC.Classes.Eq SwaggerPetstore.Model.EnumFormString
+instance GHC.Show.Show SwaggerPetstore.Model.EnumHeaderString
+instance GHC.Classes.Eq SwaggerPetstore.Model.EnumHeaderString
+instance GHC.Show.Show SwaggerPetstore.Model.EnumQueryString
+instance GHC.Classes.Eq SwaggerPetstore.Model.EnumQueryString
 instance GHC.Enum.Enum SwaggerPetstore.Model.E'EnumFormString
 instance GHC.Enum.Bounded SwaggerPetstore.Model.E'EnumFormString
 instance GHC.Classes.Ord SwaggerPetstore.Model.E'EnumFormString
@@ -1630,6 +1796,9 @@ instance GHC.Classes.Eq SwaggerPetstore.Model.Dog
 instance GHC.Show.Show SwaggerPetstore.Model.Dog
 instance GHC.Classes.Eq SwaggerPetstore.Model.Cat
 instance GHC.Show.Show SwaggerPetstore.Model.Cat
+instance Data.Aeson.Types.ToJSON.ToJSON SwaggerPetstore.Model.Body
+instance GHC.Show.Show SwaggerPetstore.Model.Body
+instance GHC.Classes.Eq SwaggerPetstore.Model.Body
 instance GHC.Classes.Eq SwaggerPetstore.Model.User
 instance GHC.Show.Show SwaggerPetstore.Model.User
 instance GHC.Classes.Eq SwaggerPetstore.Model.Tag
@@ -1696,6 +1865,62 @@ instance GHC.Classes.Eq SwaggerPetstore.Model.Animal
 instance GHC.Show.Show SwaggerPetstore.Model.Animal
 instance GHC.Classes.Eq SwaggerPetstore.Model.AdditionalPropertiesClass
 instance GHC.Show.Show SwaggerPetstore.Model.AdditionalPropertiesClass
+instance GHC.Show.Show SwaggerPetstore.Model.Username
+instance GHC.Classes.Eq SwaggerPetstore.Model.Username
+instance GHC.Show.Show SwaggerPetstore.Model.Tags
+instance GHC.Classes.Eq SwaggerPetstore.Model.Tags
+instance GHC.Show.Show SwaggerPetstore.Model.StatusText
+instance GHC.Classes.Eq SwaggerPetstore.Model.StatusText
+instance GHC.Show.Show SwaggerPetstore.Model.PetId
+instance GHC.Classes.Eq SwaggerPetstore.Model.PetId
+instance GHC.Show.Show SwaggerPetstore.Model.PatternWithoutDelimiter
+instance GHC.Classes.Eq SwaggerPetstore.Model.PatternWithoutDelimiter
+instance GHC.Show.Show SwaggerPetstore.Model.Password
+instance GHC.Classes.Eq SwaggerPetstore.Model.Password
+instance GHC.Show.Show SwaggerPetstore.Model.ParamString
+instance GHC.Classes.Eq SwaggerPetstore.Model.ParamString
+instance GHC.Show.Show SwaggerPetstore.Model.ParamInteger
+instance GHC.Classes.Eq SwaggerPetstore.Model.ParamInteger
+instance GHC.Show.Show SwaggerPetstore.Model.ParamFloat
+instance GHC.Classes.Eq SwaggerPetstore.Model.ParamFloat
+instance GHC.Show.Show SwaggerPetstore.Model.ParamDouble
+instance GHC.Classes.Eq SwaggerPetstore.Model.ParamDouble
+instance GHC.Show.Show SwaggerPetstore.Model.ParamDateTime
+instance GHC.Classes.Eq SwaggerPetstore.Model.ParamDateTime
+instance GHC.Show.Show SwaggerPetstore.Model.ParamDate
+instance GHC.Classes.Eq SwaggerPetstore.Model.ParamDate
+instance GHC.Show.Show SwaggerPetstore.Model.ParamBinary
+instance GHC.Classes.Eq SwaggerPetstore.Model.ParamBinary
+instance GHC.Show.Show SwaggerPetstore.Model.Param2
+instance GHC.Classes.Eq SwaggerPetstore.Model.Param2
+instance GHC.Show.Show SwaggerPetstore.Model.Param
+instance GHC.Classes.Eq SwaggerPetstore.Model.Param
+instance GHC.Show.Show SwaggerPetstore.Model.OrderIdText
+instance GHC.Classes.Eq SwaggerPetstore.Model.OrderIdText
+instance GHC.Show.Show SwaggerPetstore.Model.OrderId
+instance GHC.Classes.Eq SwaggerPetstore.Model.OrderId
+instance GHC.Show.Show SwaggerPetstore.Model.Number
+instance GHC.Classes.Eq SwaggerPetstore.Model.Number
+instance GHC.Show.Show SwaggerPetstore.Model.Name2
+instance GHC.Classes.Eq SwaggerPetstore.Model.Name2
+instance GHC.Show.Show SwaggerPetstore.Model.Int64
+instance GHC.Classes.Eq SwaggerPetstore.Model.Int64
+instance GHC.Show.Show SwaggerPetstore.Model.Int32
+instance GHC.Classes.Eq SwaggerPetstore.Model.Int32
+instance GHC.Show.Show SwaggerPetstore.Model.File
+instance GHC.Classes.Eq SwaggerPetstore.Model.File
+instance GHC.Show.Show SwaggerPetstore.Model.Callback
+instance GHC.Classes.Eq SwaggerPetstore.Model.Callback
+instance GHC.Show.Show SwaggerPetstore.Model.Byte
+instance GHC.Classes.Eq SwaggerPetstore.Model.Byte
+instance GHC.Show.Show SwaggerPetstore.Model.ApiKey
+instance GHC.Classes.Eq SwaggerPetstore.Model.ApiKey
+instance GHC.Show.Show SwaggerPetstore.Model.AdditionalMetadata
+instance GHC.Classes.Eq SwaggerPetstore.Model.AdditionalMetadata
+instance SwaggerPetstore.Core.AuthMethod SwaggerPetstore.Model.AuthOAuthPetstoreAuth
+instance SwaggerPetstore.Core.AuthMethod SwaggerPetstore.Model.AuthBasicHttpBasicTest
+instance SwaggerPetstore.Core.AuthMethod SwaggerPetstore.Model.AuthApiKeyApiKeyQuery
+instance SwaggerPetstore.Core.AuthMethod SwaggerPetstore.Model.AuthApiKeyApiKey
 instance Data.Aeson.Types.FromJSON.FromJSON SwaggerPetstore.Model.EnumTest
 instance Data.Aeson.Types.ToJSON.ToJSON SwaggerPetstore.Model.EnumTest
 instance Data.Aeson.Types.ToJSON.ToJSON SwaggerPetstore.Model.OuterEnum
@@ -1825,227 +2050,269 @@ instance Data.Aeson.Types.FromJSON.FromJSON SwaggerPetstore.Model.AdditionalProp
 instance Data.Aeson.Types.ToJSON.ToJSON SwaggerPetstore.Model.AdditionalPropertiesClass
 
 
-module SwaggerPetstore.API
+module SwaggerPetstore.API.User
 
 -- | <pre>
---   PATCH /another-fake/dummy
+--   POST /user
 --   </pre>
 --   
---   To test special tags
+--   Create user
 --   
---   To test special tags
-testSpecialTags :: (Consumes TestSpecialTags contentType, MimeRender contentType Client) => ContentType contentType -> Accept accept -> Client -> SwaggerPetstoreRequest TestSpecialTags contentType Client accept
-data TestSpecialTags
-
--- | <i>Body Param</i> "body" - client model
-
--- | <pre>
---   application/json
---   </pre>
-
--- | <pre>
---   application/json
---   </pre>
-
--- | <pre>
---   POST /fake/outer/boolean
---   </pre>
---   
---   Test serialization of outer boolean types
-fakeOuterBooleanSerialize :: (Consumes FakeOuterBooleanSerialize contentType) => ContentType contentType -> Accept accept -> SwaggerPetstoreRequest FakeOuterBooleanSerialize contentType OuterBoolean accept
-data FakeOuterBooleanSerialize
-
--- | <i>Body Param</i> "body" - Input boolean as post body
-
--- | <pre>
---   POST /fake/outer/composite
---   </pre>
---   
---   Test serialization of object with outer number type
-fakeOuterCompositeSerialize :: (Consumes FakeOuterCompositeSerialize contentType) => ContentType contentType -> Accept accept -> SwaggerPetstoreRequest FakeOuterCompositeSerialize contentType OuterComposite accept
-data FakeOuterCompositeSerialize
-
--- | <i>Body Param</i> "body" - Input composite as post body
-
--- | <pre>
---   POST /fake/outer/number
---   </pre>
---   
---   Test serialization of outer number types
-fakeOuterNumberSerialize :: (Consumes FakeOuterNumberSerialize contentType) => ContentType contentType -> Accept accept -> SwaggerPetstoreRequest FakeOuterNumberSerialize contentType OuterNumber accept
-data FakeOuterNumberSerialize
-
--- | <i>Body Param</i> "body" - Input number as post body
-
--- | <pre>
---   POST /fake/outer/string
---   </pre>
---   
---   Test serialization of outer string types
-fakeOuterStringSerialize :: (Consumes FakeOuterStringSerialize contentType) => ContentType contentType -> Accept accept -> SwaggerPetstoreRequest FakeOuterStringSerialize contentType OuterString accept
-data FakeOuterStringSerialize
-
--- | <i>Body Param</i> "body" - Input string as post body
-
--- | <pre>
---   PATCH /fake
---   </pre>
---   
---   To test "client" model
---   
---   To test "client" model
-testClientModel :: (Consumes TestClientModel contentType, MimeRender contentType Client) => ContentType contentType -> Accept accept -> Client -> SwaggerPetstoreRequest TestClientModel contentType Client accept
-data TestClientModel
-
--- | <i>Body Param</i> "body" - client model
-
--- | <pre>
---   application/json
---   </pre>
-
--- | <pre>
---   application/json
---   </pre>
-
--- | <pre>
---   POST /fake
---   </pre>
---   
---   Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
---   
---   Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
---   
---   AuthMethod: <a>AuthBasicHttpBasicTest</a>
+--   This can only be done by the logged in user.
 --   
 --   Note: Has <a>Produces</a> instances, but no response schema
-testEndpointParameters :: (Consumes TestEndpointParameters contentType) => ContentType contentType -> Accept accept -> Number -> ParamDouble -> PatternWithoutDelimiter -> Byte -> SwaggerPetstoreRequest TestEndpointParameters contentType res accept
-data TestEndpointParameters
+createUser :: (Consumes CreateUser contentType, MimeRender contentType User) => ContentType contentType -> Accept accept -> User -> SwaggerPetstoreRequest CreateUser contentType res accept
+data CreateUser
 
--- | <i>Optional Param</i> "integer" - None
-
--- | <i>Optional Param</i> "int32" - None
-
--- | <i>Optional Param</i> "int64" - None
-
--- | <i>Optional Param</i> "float" - None
-
--- | <i>Optional Param</i> "string" - None
-
--- | <i>Optional Param</i> "binary" - None
-
--- | <i>Optional Param</i> "date" - None
-
--- | <i>Optional Param</i> "dateTime" - None
-
--- | <i>Optional Param</i> "password" - None
-
--- | <i>Optional Param</i> "callback" - None
+-- | <i>Body Param</i> "body" - Created user object
 
 -- | <pre>
---   application/xml; charset=utf-8
+--   application/xml
 --   </pre>
 
 -- | <pre>
---   application/json; charset=utf-8
+--   application/json
 --   </pre>
 
 -- | <pre>
---   application/xml; charset=utf-8
---   </pre>
-
--- | <pre>
---   application/json; charset=utf-8
---   </pre>
-
--- | <pre>
---   GET /fake
+--   POST /user/createWithArray
 --   </pre>
 --   
---   To test enum parameters
---   
---   To test enum parameters
+--   Creates list of users with given input array
 --   
 --   Note: Has <a>Produces</a> instances, but no response schema
-testEnumParameters :: (Consumes TestEnumParameters contentType) => ContentType contentType -> Accept accept -> SwaggerPetstoreRequest TestEnumParameters contentType res accept
-data TestEnumParameters
+createUsersWithArrayInput :: (Consumes CreateUsersWithArrayInput contentType, MimeRender contentType Body) => ContentType contentType -> Accept accept -> Body -> SwaggerPetstoreRequest CreateUsersWithArrayInput contentType res accept
+data CreateUsersWithArrayInput
 
--- | <i>Optional Param</i> "enum_form_string_array" - Form parameter enum
---   test (string array)
-
--- | <i>Optional Param</i> "enum_form_string" - Form parameter enum test
---   (string)
-
--- | <i>Optional Param</i> "enum_header_string_array" - Header parameter
---   enum test (string array)
-
--- | <i>Optional Param</i> "enum_header_string" - Header parameter enum
---   test (string)
-
--- | <i>Optional Param</i> "enum_query_string_array" - Query parameter enum
---   test (string array)
-
--- | <i>Optional Param</i> "enum_query_string" - Query parameter enum test
---   (string)
-
--- | <i>Optional Param</i> "enum_query_integer" - Query parameter enum test
---   (double)
-
--- | <i>Optional Param</i> "enum_query_double" - Query parameter enum test
---   (double)
+-- | <i>Body Param</i> "body" - List of user object
 
 -- | <pre>
---   */*
+--   application/xml
 --   </pre>
 
 -- | <pre>
---   */*
+--   application/json
 --   </pre>
 
 -- | <pre>
---   POST /fake/inline-additionalProperties
+--   POST /user/createWithList
 --   </pre>
 --   
---   test inline additionalProperties
-testInlineAdditionalProperties :: (Consumes TestInlineAdditionalProperties contentType, MimeRender contentType Value) => ContentType contentType -> Value -> SwaggerPetstoreRequest TestInlineAdditionalProperties contentType NoContent MimeNoContent
-data TestInlineAdditionalProperties
+--   Creates list of users with given input array
+--   
+--   Note: Has <a>Produces</a> instances, but no response schema
+createUsersWithListInput :: (Consumes CreateUsersWithListInput contentType, MimeRender contentType Body) => ContentType contentType -> Accept accept -> Body -> SwaggerPetstoreRequest CreateUsersWithListInput contentType res accept
+data CreateUsersWithListInput
 
--- | <i>Body Param</i> "param" - request body
+-- | <i>Body Param</i> "body" - List of user object
+
+-- | <pre>
+--   application/xml
+--   </pre>
 
 -- | <pre>
 --   application/json
 --   </pre>
 
 -- | <pre>
---   GET /fake/jsonFormData
+--   DELETE /user/{username}
 --   </pre>
 --   
---   test json serialization of form data
-testJsonFormData :: (Consumes TestJsonFormData contentType) => ContentType contentType -> Param -> Param2 -> SwaggerPetstoreRequest TestJsonFormData contentType NoContent MimeNoContent
-data TestJsonFormData
+--   Delete user
+--   
+--   This can only be done by the logged in user.
+--   
+--   Note: Has <a>Produces</a> instances, but no response schema
+deleteUser :: Accept accept -> Username -> SwaggerPetstoreRequest DeleteUser MimeNoContent res accept
+data DeleteUser
+
+-- | <pre>
+--   application/xml
+--   </pre>
 
 -- | <pre>
 --   application/json
 --   </pre>
 
 -- | <pre>
---   PATCH /fake_classname_test
+--   GET /user/{username}
 --   </pre>
 --   
---   To test class name in snake case
---   
---   AuthMethod: <a>AuthApiKeyApiKeyQuery</a>
-testClassname :: (Consumes TestClassname contentType, MimeRender contentType Client) => ContentType contentType -> Accept accept -> Client -> SwaggerPetstoreRequest TestClassname contentType Client accept
-data TestClassname
+--   Get user by user name
+getUserByName :: Accept accept -> Username -> SwaggerPetstoreRequest GetUserByName MimeNoContent User accept
+data GetUserByName
 
--- | <i>Body Param</i> "body" - client model
+-- | <pre>
+--   application/xml
+--   </pre>
 
 -- | <pre>
 --   application/json
 --   </pre>
 
 -- | <pre>
+--   GET /user/login
+--   </pre>
+--   
+--   Logs user into the system
+loginUser :: Accept accept -> Username -> Password -> SwaggerPetstoreRequest LoginUser MimeNoContent Text accept
+data LoginUser
+
+-- | <pre>
+--   application/xml
+--   </pre>
+
+-- | <pre>
 --   application/json
 --   </pre>
+
+-- | <pre>
+--   GET /user/logout
+--   </pre>
+--   
+--   Logs out current logged in user session
+--   
+--   Note: Has <a>Produces</a> instances, but no response schema
+logoutUser :: Accept accept -> SwaggerPetstoreRequest LogoutUser MimeNoContent res accept
+data LogoutUser
+
+-- | <pre>
+--   application/xml
+--   </pre>
+
+-- | <pre>
+--   application/json
+--   </pre>
+
+-- | <pre>
+--   PUT /user/{username}
+--   </pre>
+--   
+--   Updated user
+--   
+--   This can only be done by the logged in user.
+--   
+--   Note: Has <a>Produces</a> instances, but no response schema
+updateUser :: (Consumes UpdateUser contentType, MimeRender contentType User) => ContentType contentType -> Accept accept -> Username -> User -> SwaggerPetstoreRequest UpdateUser contentType res accept
+data UpdateUser
+
+-- | <i>Body Param</i> "body" - Updated user object
+
+-- | <pre>
+--   application/xml
+--   </pre>
+
+-- | <pre>
+--   application/json
+--   </pre>
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.User.UpdateUser SwaggerPetstore.Model.User
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.UpdateUser SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.UpdateUser SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.LogoutUser SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.LogoutUser SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.LoginUser SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.LoginUser SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.GetUserByName SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.GetUserByName SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.DeleteUser SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.DeleteUser SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.User.CreateUsersWithListInput SwaggerPetstore.Model.Body
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.CreateUsersWithListInput SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.CreateUsersWithListInput SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.User.CreateUsersWithArrayInput SwaggerPetstore.Model.Body
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.CreateUsersWithArrayInput SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.CreateUsersWithArrayInput SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.User.CreateUser SwaggerPetstore.Model.User
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.CreateUser SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.User.CreateUser SwaggerPetstore.MimeTypes.MimeJSON
+
+
+module SwaggerPetstore.API.Store
+
+-- | <pre>
+--   DELETE /store/order/{order_id}
+--   </pre>
+--   
+--   Delete purchase order by ID
+--   
+--   For valid response try integer IDs with value &lt; 1000. Anything
+--   above 1000 or nonintegers will generate API errors
+--   
+--   Note: Has <a>Produces</a> instances, but no response schema
+deleteOrder :: Accept accept -> OrderIdText -> SwaggerPetstoreRequest DeleteOrder MimeNoContent res accept
+data DeleteOrder
+
+-- | <pre>
+--   application/xml
+--   </pre>
+
+-- | <pre>
+--   application/json
+--   </pre>
+
+-- | <pre>
+--   GET /store/inventory
+--   </pre>
+--   
+--   Returns pet inventories by status
+--   
+--   Returns a map of status codes to quantities
+--   
+--   AuthMethod: <a>AuthApiKeyApiKey</a>
+getInventory :: Accept accept -> SwaggerPetstoreRequest GetInventory MimeNoContent ((Map String Int)) accept
+data GetInventory
+
+-- | <pre>
+--   application/json
+--   </pre>
+
+-- | <pre>
+--   GET /store/order/{order_id}
+--   </pre>
+--   
+--   Find purchase order by ID
+--   
+--   For valid response try integer IDs with value <a>5 or</a> 10. Other
+--   values will generated exceptions
+getOrderById :: Accept accept -> OrderId -> SwaggerPetstoreRequest GetOrderById MimeNoContent Order accept
+data GetOrderById
+
+-- | <pre>
+--   application/xml
+--   </pre>
+
+-- | <pre>
+--   application/json
+--   </pre>
+
+-- | <pre>
+--   POST /store/order
+--   </pre>
+--   
+--   Place an order for a pet
+placeOrder :: (Consumes PlaceOrder contentType, MimeRender contentType Order) => ContentType contentType -> Accept accept -> Order -> SwaggerPetstoreRequest PlaceOrder contentType Order accept
+data PlaceOrder
+
+-- | <i>Body Param</i> "body" - order placed for purchasing the pet
+
+-- | <pre>
+--   application/xml
+--   </pre>
+
+-- | <pre>
+--   application/json
+--   </pre>
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.Store.PlaceOrder SwaggerPetstore.Model.Order
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Store.PlaceOrder SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Store.PlaceOrder SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Store.GetOrderById SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Store.GetOrderById SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Store.GetInventory SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Store.DeleteOrder SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Store.DeleteOrder SwaggerPetstore.MimeTypes.MimeJSON
+
+
+module SwaggerPetstore.API.Pet
 
 -- | <pre>
 --   POST /pet
@@ -2242,555 +2509,306 @@ data UploadFile
 -- | <pre>
 --   application/json
 --   </pre>
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Pet.UploadFile SwaggerPetstore.Model.AdditionalMetadata
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Pet.UploadFile SwaggerPetstore.Model.File
+instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.Pet.UploadFile SwaggerPetstore.MimeTypes.MimeMultipartFormData
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.UploadFile SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Pet.UpdatePetWithForm SwaggerPetstore.Model.Name2
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Pet.UpdatePetWithForm SwaggerPetstore.Model.StatusText
+instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.Pet.UpdatePetWithForm SwaggerPetstore.MimeTypes.MimeFormUrlEncoded
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.UpdatePetWithForm SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.UpdatePetWithForm SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.Pet.UpdatePet SwaggerPetstore.Model.Pet
+instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.Pet.UpdatePet SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.Pet.UpdatePet SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.UpdatePet SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.UpdatePet SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.GetPetById SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.GetPetById SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.FindPetsByTags SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.FindPetsByTags SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.FindPetsByStatus SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.FindPetsByStatus SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Pet.DeletePet SwaggerPetstore.Model.ApiKey
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.DeletePet SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.DeletePet SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.Pet.AddPet SwaggerPetstore.Model.Pet
+instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.Pet.AddPet SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.Pet.AddPet SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.AddPet SwaggerPetstore.MimeTypes.MimeXML
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Pet.AddPet SwaggerPetstore.MimeTypes.MimeJSON
+
+
+module SwaggerPetstore.API.FakeClassnameTags123
 
 -- | <pre>
---   DELETE /store/order/{order_id}
+--   PATCH /fake_classname_test
 --   </pre>
 --   
---   Delete purchase order by ID
+--   To test class name in snake case
 --   
---   For valid response try integer IDs with value &lt; 1000. Anything
---   above 1000 or nonintegers will generate API errors
+--   AuthMethod: <a>AuthApiKeyApiKeyQuery</a>
+testClassname :: (Consumes TestClassname contentType, MimeRender contentType Client) => ContentType contentType -> Accept accept -> Client -> SwaggerPetstoreRequest TestClassname contentType Client accept
+data TestClassname
+
+-- | <i>Body Param</i> "body" - client model
+
+-- | <pre>
+--   application/json
+--   </pre>
+
+-- | <pre>
+--   application/json
+--   </pre>
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.FakeClassnameTags123.TestClassname SwaggerPetstore.Model.Client
+instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.FakeClassnameTags123.TestClassname SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.FakeClassnameTags123.TestClassname SwaggerPetstore.MimeTypes.MimeJSON
+
+
+module SwaggerPetstore.API.Fake
+
+-- | <pre>
+--   POST /fake/outer/boolean
+--   </pre>
+--   
+--   Test serialization of outer boolean types
+fakeOuterBooleanSerialize :: (Consumes FakeOuterBooleanSerialize contentType) => ContentType contentType -> Accept accept -> SwaggerPetstoreRequest FakeOuterBooleanSerialize contentType OuterBoolean accept
+data FakeOuterBooleanSerialize
+
+-- | <i>Body Param</i> "body" - Input boolean as post body
+
+-- | <pre>
+--   POST /fake/outer/composite
+--   </pre>
+--   
+--   Test serialization of object with outer number type
+fakeOuterCompositeSerialize :: (Consumes FakeOuterCompositeSerialize contentType) => ContentType contentType -> Accept accept -> SwaggerPetstoreRequest FakeOuterCompositeSerialize contentType OuterComposite accept
+data FakeOuterCompositeSerialize
+
+-- | <i>Body Param</i> "body" - Input composite as post body
+
+-- | <pre>
+--   POST /fake/outer/number
+--   </pre>
+--   
+--   Test serialization of outer number types
+fakeOuterNumberSerialize :: (Consumes FakeOuterNumberSerialize contentType) => ContentType contentType -> Accept accept -> SwaggerPetstoreRequest FakeOuterNumberSerialize contentType OuterNumber accept
+data FakeOuterNumberSerialize
+
+-- | <i>Body Param</i> "body" - Input number as post body
+
+-- | <pre>
+--   POST /fake/outer/string
+--   </pre>
+--   
+--   Test serialization of outer string types
+fakeOuterStringSerialize :: (Consumes FakeOuterStringSerialize contentType) => ContentType contentType -> Accept accept -> SwaggerPetstoreRequest FakeOuterStringSerialize contentType OuterString accept
+data FakeOuterStringSerialize
+
+-- | <i>Body Param</i> "body" - Input string as post body
+
+-- | <pre>
+--   PATCH /fake
+--   </pre>
+--   
+--   To test "client" model
+--   
+--   To test "client" model
+testClientModel :: (Consumes TestClientModel contentType, MimeRender contentType Client) => ContentType contentType -> Accept accept -> Client -> SwaggerPetstoreRequest TestClientModel contentType Client accept
+data TestClientModel
+
+-- | <i>Body Param</i> "body" - client model
+
+-- | <pre>
+--   application/json
+--   </pre>
+
+-- | <pre>
+--   application/json
+--   </pre>
+
+-- | <pre>
+--   POST /fake
+--   </pre>
+--   
+--   Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+--   
+--   Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+--   
+--   AuthMethod: <a>AuthBasicHttpBasicTest</a>
 --   
 --   Note: Has <a>Produces</a> instances, but no response schema
-deleteOrder :: Accept accept -> OrderIdText -> SwaggerPetstoreRequest DeleteOrder MimeNoContent res accept
-data DeleteOrder
+testEndpointParameters :: (Consumes TestEndpointParameters contentType) => ContentType contentType -> Accept accept -> Number -> ParamDouble -> PatternWithoutDelimiter -> Byte -> SwaggerPetstoreRequest TestEndpointParameters contentType res accept
+data TestEndpointParameters
 
--- | <pre>
---   application/xml
---   </pre>
+-- | <i>Optional Param</i> "integer" - None
 
--- | <pre>
---   application/json
---   </pre>
+-- | <i>Optional Param</i> "int32" - None
 
--- | <pre>
---   GET /store/inventory
---   </pre>
---   
---   Returns pet inventories by status
---   
---   Returns a map of status codes to quantities
---   
---   AuthMethod: <a>AuthApiKeyApiKey</a>
-getInventory :: Accept accept -> SwaggerPetstoreRequest GetInventory MimeNoContent ((Map String Int)) accept
-data GetInventory
+-- | <i>Optional Param</i> "int64" - None
 
--- | <pre>
---   application/json
---   </pre>
+-- | <i>Optional Param</i> "float" - None
 
--- | <pre>
---   GET /store/order/{order_id}
---   </pre>
---   
---   Find purchase order by ID
---   
---   For valid response try integer IDs with value <a>5 or</a> 10. Other
---   values will generated exceptions
-getOrderById :: Accept accept -> OrderId -> SwaggerPetstoreRequest GetOrderById MimeNoContent Order accept
-data GetOrderById
+-- | <i>Optional Param</i> "string" - None
 
--- | <pre>
---   application/xml
---   </pre>
+-- | <i>Optional Param</i> "binary" - None
 
--- | <pre>
---   application/json
---   </pre>
+-- | <i>Optional Param</i> "date" - None
 
--- | <pre>
---   POST /store/order
---   </pre>
---   
---   Place an order for a pet
-placeOrder :: (Consumes PlaceOrder contentType, MimeRender contentType Order) => ContentType contentType -> Accept accept -> Order -> SwaggerPetstoreRequest PlaceOrder contentType Order accept
-data PlaceOrder
+-- | <i>Optional Param</i> "dateTime" - None
 
--- | <i>Body Param</i> "body" - order placed for purchasing the pet
+-- | <i>Optional Param</i> "password" - None
 
--- | <pre>
---   application/xml
---   </pre>
-
--- | <pre>
---   application/json
---   </pre>
-
--- | <pre>
---   POST /user
---   </pre>
---   
---   Create user
---   
---   This can only be done by the logged in user.
---   
---   Note: Has <a>Produces</a> instances, but no response schema
-createUser :: (Consumes CreateUser contentType, MimeRender contentType User) => ContentType contentType -> Accept accept -> User -> SwaggerPetstoreRequest CreateUser contentType res accept
-data CreateUser
-
--- | <i>Body Param</i> "body" - Created user object
-
--- | <pre>
---   application/xml
---   </pre>
-
--- | <pre>
---   application/json
---   </pre>
-
--- | <pre>
---   POST /user/createWithArray
---   </pre>
---   
---   Creates list of users with given input array
---   
---   Note: Has <a>Produces</a> instances, but no response schema
-createUsersWithArrayInput :: (Consumes CreateUsersWithArrayInput contentType, MimeRender contentType Body) => ContentType contentType -> Accept accept -> Body -> SwaggerPetstoreRequest CreateUsersWithArrayInput contentType res accept
-data CreateUsersWithArrayInput
-
--- | <i>Body Param</i> "body" - List of user object
-
--- | <pre>
---   application/xml
---   </pre>
-
--- | <pre>
---   application/json
---   </pre>
-
--- | <pre>
---   POST /user/createWithList
---   </pre>
---   
---   Creates list of users with given input array
---   
---   Note: Has <a>Produces</a> instances, but no response schema
-createUsersWithListInput :: (Consumes CreateUsersWithListInput contentType, MimeRender contentType Body) => ContentType contentType -> Accept accept -> Body -> SwaggerPetstoreRequest CreateUsersWithListInput contentType res accept
-data CreateUsersWithListInput
-
--- | <i>Body Param</i> "body" - List of user object
-
--- | <pre>
---   application/xml
---   </pre>
-
--- | <pre>
---   application/json
---   </pre>
-
--- | <pre>
---   DELETE /user/{username}
---   </pre>
---   
---   Delete user
---   
---   This can only be done by the logged in user.
---   
---   Note: Has <a>Produces</a> instances, but no response schema
-deleteUser :: Accept accept -> Username -> SwaggerPetstoreRequest DeleteUser MimeNoContent res accept
-data DeleteUser
-
--- | <pre>
---   application/xml
---   </pre>
-
--- | <pre>
---   application/json
---   </pre>
-
--- | <pre>
---   GET /user/{username}
---   </pre>
---   
---   Get user by user name
-getUserByName :: Accept accept -> Username -> SwaggerPetstoreRequest GetUserByName MimeNoContent User accept
-data GetUserByName
-
--- | <pre>
---   application/xml
---   </pre>
-
--- | <pre>
---   application/json
---   </pre>
-
--- | <pre>
---   GET /user/login
---   </pre>
---   
---   Logs user into the system
-loginUser :: Accept accept -> Username -> Password -> SwaggerPetstoreRequest LoginUser MimeNoContent Text accept
-data LoginUser
-
--- | <pre>
---   application/xml
---   </pre>
-
--- | <pre>
---   application/json
---   </pre>
-
--- | <pre>
---   GET /user/logout
---   </pre>
---   
---   Logs out current logged in user session
---   
---   Note: Has <a>Produces</a> instances, but no response schema
-logoutUser :: Accept accept -> SwaggerPetstoreRequest LogoutUser MimeNoContent res accept
-data LogoutUser
-
--- | <pre>
---   application/xml
---   </pre>
-
--- | <pre>
---   application/json
---   </pre>
-
--- | <pre>
---   PUT /user/{username}
---   </pre>
---   
---   Updated user
---   
---   This can only be done by the logged in user.
---   
---   Note: Has <a>Produces</a> instances, but no response schema
-updateUser :: (Consumes UpdateUser contentType, MimeRender contentType User) => ContentType contentType -> Accept accept -> Username -> User -> SwaggerPetstoreRequest UpdateUser contentType res accept
-data UpdateUser
-
--- | <i>Body Param</i> "body" - Updated user object
-
--- | <pre>
---   application/xml
---   </pre>
-
--- | <pre>
---   application/json
---   </pre>
-newtype AdditionalMetadata
-AdditionalMetadata :: Text -> AdditionalMetadata
-[unAdditionalMetadata] :: AdditionalMetadata -> Text
-newtype ApiKey
-ApiKey :: Text -> ApiKey
-[unApiKey] :: ApiKey -> Text
-newtype Body
-Body :: [User] -> Body
-[unBody] :: Body -> [User]
-newtype Byte
-Byte :: ByteArray -> Byte
-[unByte] :: Byte -> ByteArray
-newtype Callback
-Callback :: Text -> Callback
-[unCallback] :: Callback -> Text
-newtype EnumFormString
-EnumFormString :: E'EnumFormString -> EnumFormString
-[unEnumFormString] :: EnumFormString -> E'EnumFormString
-newtype EnumFormStringArray
-EnumFormStringArray :: [E'Inner2] -> EnumFormStringArray
-[unEnumFormStringArray] :: EnumFormStringArray -> [E'Inner2]
-newtype EnumHeaderString
-EnumHeaderString :: E'EnumFormString -> EnumHeaderString
-[unEnumHeaderString] :: EnumHeaderString -> E'EnumFormString
-newtype EnumHeaderStringArray
-EnumHeaderStringArray :: [E'Inner2] -> EnumHeaderStringArray
-[unEnumHeaderStringArray] :: EnumHeaderStringArray -> [E'Inner2]
-newtype EnumQueryDouble
-EnumQueryDouble :: E'EnumNumber -> EnumQueryDouble
-[unEnumQueryDouble] :: EnumQueryDouble -> E'EnumNumber
-newtype EnumQueryInteger
-EnumQueryInteger :: E'EnumQueryInteger -> EnumQueryInteger
-[unEnumQueryInteger] :: EnumQueryInteger -> E'EnumQueryInteger
-newtype EnumQueryString
-EnumQueryString :: E'EnumFormString -> EnumQueryString
-[unEnumQueryString] :: EnumQueryString -> E'EnumFormString
-newtype EnumQueryStringArray
-EnumQueryStringArray :: [E'Inner2] -> EnumQueryStringArray
-[unEnumQueryStringArray] :: EnumQueryStringArray -> [E'Inner2]
-newtype File
-File :: FilePath -> File
-[unFile] :: File -> FilePath
-newtype Int32
-Int32 :: Int -> Int32
-[unInt32] :: Int32 -> Int
-newtype Int64
-Int64 :: Integer -> Int64
-[unInt64] :: Int64 -> Integer
-newtype Name2
-Name2 :: Text -> Name2
-[unName2] :: Name2 -> Text
-newtype Number
-Number :: Double -> Number
-[unNumber] :: Number -> Double
-newtype OrderId
-OrderId :: Integer -> OrderId
-[unOrderId] :: OrderId -> Integer
-newtype OrderIdText
-OrderIdText :: Text -> OrderIdText
-[unOrderIdText] :: OrderIdText -> Text
-newtype Param
-Param :: Text -> Param
-[unParam] :: Param -> Text
-newtype Param2
-Param2 :: Text -> Param2
-[unParam2] :: Param2 -> Text
-newtype ParamBinary
-ParamBinary :: Binary -> ParamBinary
-[unParamBinary] :: ParamBinary -> Binary
-newtype ParamDate
-ParamDate :: Date -> ParamDate
-[unParamDate] :: ParamDate -> Date
-newtype ParamDateTime
-ParamDateTime :: DateTime -> ParamDateTime
-[unParamDateTime] :: ParamDateTime -> DateTime
-newtype ParamDouble
-ParamDouble :: Double -> ParamDouble
-[unParamDouble] :: ParamDouble -> Double
-newtype ParamFloat
-ParamFloat :: Float -> ParamFloat
-[unParamFloat] :: ParamFloat -> Float
-newtype ParamInteger
-ParamInteger :: Int -> ParamInteger
-[unParamInteger] :: ParamInteger -> Int
-newtype ParamString
-ParamString :: Text -> ParamString
-[unParamString] :: ParamString -> Text
-newtype Password
-Password :: Text -> Password
-[unPassword] :: Password -> Text
-newtype PatternWithoutDelimiter
-PatternWithoutDelimiter :: Text -> PatternWithoutDelimiter
-[unPatternWithoutDelimiter] :: PatternWithoutDelimiter -> Text
-newtype PetId
-PetId :: Integer -> PetId
-[unPetId] :: PetId -> Integer
-newtype Status
-Status :: [E'Status2] -> Status
-[unStatus] :: Status -> [E'Status2]
-newtype StatusText
-StatusText :: Text -> StatusText
-[unStatusText] :: StatusText -> Text
-newtype Tags
-Tags :: [Text] -> Tags
-[unTags] :: Tags -> [Text]
-newtype Username
-Username :: Text -> Username
-[unUsername] :: Username -> Text
-data AuthApiKeyApiKey
-
--- | secret
-AuthApiKeyApiKey :: Text -> AuthApiKeyApiKey
-data AuthApiKeyApiKeyQuery
-
--- | secret
-AuthApiKeyApiKeyQuery :: Text -> AuthApiKeyApiKeyQuery
-data AuthBasicHttpBasicTest
-
--- | username password
-AuthBasicHttpBasicTest :: ByteString -> ByteString -> AuthBasicHttpBasicTest
-data AuthOAuthPetstoreAuth
-
--- | secret
-AuthOAuthPetstoreAuth :: Text -> AuthOAuthPetstoreAuth
-data MimeJsonCharsetutf8
-MimeJsonCharsetutf8 :: MimeJsonCharsetutf8
-
--- | <pre>
---   application/json; charset=utf-8
---   </pre>
-data MimeXmlCharsetutf8
-MimeXmlCharsetutf8 :: MimeXmlCharsetutf8
+-- | <i>Optional Param</i> "callback" - None
 
 -- | <pre>
 --   application/xml; charset=utf-8
 --   </pre>
-instance GHC.Show.Show SwaggerPetstore.API.AuthOAuthPetstoreAuth
-instance GHC.Classes.Eq SwaggerPetstore.API.AuthOAuthPetstoreAuth
-instance GHC.Show.Show SwaggerPetstore.API.AuthBasicHttpBasicTest
-instance GHC.Classes.Eq SwaggerPetstore.API.AuthBasicHttpBasicTest
-instance GHC.Show.Show SwaggerPetstore.API.AuthApiKeyApiKeyQuery
-instance GHC.Classes.Eq SwaggerPetstore.API.AuthApiKeyApiKeyQuery
-instance GHC.Show.Show SwaggerPetstore.API.AuthApiKeyApiKey
-instance GHC.Classes.Eq SwaggerPetstore.API.AuthApiKeyApiKey
-instance GHC.Show.Show SwaggerPetstore.API.Username
-instance GHC.Classes.Eq SwaggerPetstore.API.Username
-instance GHC.Show.Show SwaggerPetstore.API.Tags
-instance GHC.Classes.Eq SwaggerPetstore.API.Tags
-instance GHC.Show.Show SwaggerPetstore.API.StatusText
-instance GHC.Classes.Eq SwaggerPetstore.API.StatusText
-instance GHC.Show.Show SwaggerPetstore.API.Status
-instance GHC.Classes.Eq SwaggerPetstore.API.Status
-instance GHC.Show.Show SwaggerPetstore.API.PetId
-instance GHC.Classes.Eq SwaggerPetstore.API.PetId
-instance GHC.Show.Show SwaggerPetstore.API.PatternWithoutDelimiter
-instance GHC.Classes.Eq SwaggerPetstore.API.PatternWithoutDelimiter
-instance GHC.Show.Show SwaggerPetstore.API.Password
-instance GHC.Classes.Eq SwaggerPetstore.API.Password
-instance GHC.Show.Show SwaggerPetstore.API.ParamString
-instance GHC.Classes.Eq SwaggerPetstore.API.ParamString
-instance GHC.Show.Show SwaggerPetstore.API.ParamInteger
-instance GHC.Classes.Eq SwaggerPetstore.API.ParamInteger
-instance GHC.Show.Show SwaggerPetstore.API.ParamFloat
-instance GHC.Classes.Eq SwaggerPetstore.API.ParamFloat
-instance GHC.Show.Show SwaggerPetstore.API.ParamDouble
-instance GHC.Classes.Eq SwaggerPetstore.API.ParamDouble
-instance GHC.Show.Show SwaggerPetstore.API.ParamDateTime
-instance GHC.Classes.Eq SwaggerPetstore.API.ParamDateTime
-instance GHC.Show.Show SwaggerPetstore.API.ParamDate
-instance GHC.Classes.Eq SwaggerPetstore.API.ParamDate
-instance GHC.Show.Show SwaggerPetstore.API.ParamBinary
-instance GHC.Classes.Eq SwaggerPetstore.API.ParamBinary
-instance GHC.Show.Show SwaggerPetstore.API.Param2
-instance GHC.Classes.Eq SwaggerPetstore.API.Param2
-instance GHC.Show.Show SwaggerPetstore.API.Param
-instance GHC.Classes.Eq SwaggerPetstore.API.Param
-instance GHC.Show.Show SwaggerPetstore.API.OrderIdText
-instance GHC.Classes.Eq SwaggerPetstore.API.OrderIdText
-instance GHC.Show.Show SwaggerPetstore.API.OrderId
-instance GHC.Classes.Eq SwaggerPetstore.API.OrderId
-instance GHC.Show.Show SwaggerPetstore.API.Number
-instance GHC.Classes.Eq SwaggerPetstore.API.Number
-instance GHC.Show.Show SwaggerPetstore.API.Name2
-instance GHC.Classes.Eq SwaggerPetstore.API.Name2
-instance GHC.Show.Show SwaggerPetstore.API.Int64
-instance GHC.Classes.Eq SwaggerPetstore.API.Int64
-instance GHC.Show.Show SwaggerPetstore.API.Int32
-instance GHC.Classes.Eq SwaggerPetstore.API.Int32
-instance GHC.Show.Show SwaggerPetstore.API.File
-instance GHC.Classes.Eq SwaggerPetstore.API.File
-instance GHC.Show.Show SwaggerPetstore.API.EnumQueryStringArray
-instance GHC.Classes.Eq SwaggerPetstore.API.EnumQueryStringArray
-instance GHC.Show.Show SwaggerPetstore.API.EnumQueryString
-instance GHC.Classes.Eq SwaggerPetstore.API.EnumQueryString
-instance GHC.Show.Show SwaggerPetstore.API.EnumQueryInteger
-instance GHC.Classes.Eq SwaggerPetstore.API.EnumQueryInteger
-instance GHC.Show.Show SwaggerPetstore.API.EnumQueryDouble
-instance GHC.Classes.Eq SwaggerPetstore.API.EnumQueryDouble
-instance GHC.Show.Show SwaggerPetstore.API.EnumHeaderStringArray
-instance GHC.Classes.Eq SwaggerPetstore.API.EnumHeaderStringArray
-instance GHC.Show.Show SwaggerPetstore.API.EnumHeaderString
-instance GHC.Classes.Eq SwaggerPetstore.API.EnumHeaderString
-instance GHC.Show.Show SwaggerPetstore.API.EnumFormStringArray
-instance GHC.Classes.Eq SwaggerPetstore.API.EnumFormStringArray
-instance GHC.Show.Show SwaggerPetstore.API.EnumFormString
-instance GHC.Classes.Eq SwaggerPetstore.API.EnumFormString
-instance GHC.Show.Show SwaggerPetstore.API.Callback
-instance GHC.Classes.Eq SwaggerPetstore.API.Callback
-instance GHC.Show.Show SwaggerPetstore.API.Byte
-instance GHC.Classes.Eq SwaggerPetstore.API.Byte
-instance Data.Aeson.Types.ToJSON.ToJSON SwaggerPetstore.API.Body
-instance GHC.Show.Show SwaggerPetstore.API.Body
-instance GHC.Classes.Eq SwaggerPetstore.API.Body
-instance GHC.Show.Show SwaggerPetstore.API.ApiKey
-instance GHC.Classes.Eq SwaggerPetstore.API.ApiKey
-instance GHC.Show.Show SwaggerPetstore.API.AdditionalMetadata
-instance GHC.Classes.Eq SwaggerPetstore.API.AdditionalMetadata
-instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.TestEndpointParameters SwaggerPetstore.API.MimeXmlCharsetutf8
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.TestEndpointParameters SwaggerPetstore.API.MimeXmlCharsetutf8
-instance SwaggerPetstore.MimeTypes.MimeType SwaggerPetstore.API.MimeXmlCharsetutf8
-instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.TestEndpointParameters SwaggerPetstore.API.MimeJsonCharsetutf8
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.TestEndpointParameters SwaggerPetstore.API.MimeJsonCharsetutf8
-instance SwaggerPetstore.MimeTypes.MimeType SwaggerPetstore.API.MimeJsonCharsetutf8
-instance Data.Aeson.Types.ToJSON.ToJSON a => SwaggerPetstore.MimeTypes.MimeRender SwaggerPetstore.API.MimeJsonCharsetutf8 a
-instance Data.Aeson.Types.FromJSON.FromJSON a => SwaggerPetstore.MimeTypes.MimeUnrender SwaggerPetstore.API.MimeJsonCharsetutf8 a
-instance SwaggerPetstore.Core.AuthMethod SwaggerPetstore.API.AuthOAuthPetstoreAuth
-instance SwaggerPetstore.Core.AuthMethod SwaggerPetstore.API.AuthBasicHttpBasicTest
-instance SwaggerPetstore.Core.AuthMethod SwaggerPetstore.API.AuthApiKeyApiKeyQuery
-instance SwaggerPetstore.Core.AuthMethod SwaggerPetstore.API.AuthApiKeyApiKey
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.UpdatePetWithForm SwaggerPetstore.API.StatusText
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEndpointParameters SwaggerPetstore.API.Password
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEndpointParameters SwaggerPetstore.API.ParamString
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEndpointParameters SwaggerPetstore.API.ParamInteger
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEndpointParameters SwaggerPetstore.API.ParamFloat
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEndpointParameters SwaggerPetstore.API.ParamDateTime
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEndpointParameters SwaggerPetstore.API.ParamDate
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEndpointParameters SwaggerPetstore.API.ParamBinary
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.UpdatePetWithForm SwaggerPetstore.API.Name2
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEndpointParameters SwaggerPetstore.API.Int64
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEndpointParameters SwaggerPetstore.API.Int32
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.UploadFile SwaggerPetstore.API.File
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEnumParameters SwaggerPetstore.API.EnumQueryStringArray
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEnumParameters SwaggerPetstore.API.EnumQueryString
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEnumParameters SwaggerPetstore.API.EnumQueryInteger
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEnumParameters SwaggerPetstore.API.EnumQueryDouble
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEnumParameters SwaggerPetstore.API.EnumHeaderStringArray
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEnumParameters SwaggerPetstore.API.EnumHeaderString
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEnumParameters SwaggerPetstore.API.EnumFormStringArray
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEnumParameters SwaggerPetstore.API.EnumFormString
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.TestEndpointParameters SwaggerPetstore.API.Callback
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.CreateUsersWithArrayInput SwaggerPetstore.API.Body
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.CreateUsersWithListInput SwaggerPetstore.API.Body
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.DeletePet SwaggerPetstore.API.ApiKey
-instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.UploadFile SwaggerPetstore.API.AdditionalMetadata
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.UpdateUser SwaggerPetstore.Model.User
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.UpdateUser SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.UpdateUser SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.LogoutUser SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.LogoutUser SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.LoginUser SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.LoginUser SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.GetUserByName SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.GetUserByName SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.DeleteUser SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.DeleteUser SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.CreateUsersWithListInput SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.CreateUsersWithListInput SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.CreateUsersWithArrayInput SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.CreateUsersWithArrayInput SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.CreateUser SwaggerPetstore.Model.User
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.CreateUser SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.CreateUser SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.PlaceOrder SwaggerPetstore.Model.Order
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.PlaceOrder SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.PlaceOrder SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.GetOrderById SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.GetOrderById SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.GetInventory SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.DeleteOrder SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.DeleteOrder SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.UploadFile SwaggerPetstore.MimeTypes.MimeMultipartFormData
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.UploadFile SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.UpdatePetWithForm SwaggerPetstore.MimeTypes.MimeFormUrlEncoded
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.UpdatePetWithForm SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.UpdatePetWithForm SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.UpdatePet SwaggerPetstore.Model.Pet
-instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.UpdatePet SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.UpdatePet SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.UpdatePet SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.UpdatePet SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.GetPetById SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.GetPetById SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.FindPetsByTags SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.FindPetsByTags SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.FindPetsByStatus SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.FindPetsByStatus SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.DeletePet SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.DeletePet SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.AddPet SwaggerPetstore.Model.Pet
-instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.AddPet SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.AddPet SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.AddPet SwaggerPetstore.MimeTypes.MimeXML
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.AddPet SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.TestClassname SwaggerPetstore.Model.Client
-instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.TestClassname SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.TestClassname SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.TestJsonFormData SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.TestInlineAdditionalProperties Data.Aeson.Types.Internal.Value
-instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.TestInlineAdditionalProperties SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.TestEnumParameters SwaggerPetstore.MimeTypes.MimeAny
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.TestEnumParameters SwaggerPetstore.MimeTypes.MimeAny
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.TestClientModel SwaggerPetstore.Model.Client
-instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.TestClientModel SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.TestClientModel SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.FakeOuterStringSerialize SwaggerPetstore.Model.OuterString
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.FakeOuterNumberSerialize SwaggerPetstore.Model.OuterNumber
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.FakeOuterCompositeSerialize SwaggerPetstore.Model.OuterComposite
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.FakeOuterBooleanSerialize SwaggerPetstore.Model.OuterBoolean
-instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.TestSpecialTags SwaggerPetstore.Model.Client
-instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.TestSpecialTags SwaggerPetstore.MimeTypes.MimeJSON
-instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.TestSpecialTags SwaggerPetstore.MimeTypes.MimeJSON
+
+-- | <pre>
+--   application/json; charset=utf-8
+--   </pre>
+
+-- | <pre>
+--   application/xml; charset=utf-8
+--   </pre>
+
+-- | <pre>
+--   application/json; charset=utf-8
+--   </pre>
+
+-- | <pre>
+--   GET /fake
+--   </pre>
+--   
+--   To test enum parameters
+--   
+--   To test enum parameters
+--   
+--   Note: Has <a>Produces</a> instances, but no response schema
+testEnumParameters :: (Consumes TestEnumParameters contentType) => ContentType contentType -> Accept accept -> SwaggerPetstoreRequest TestEnumParameters contentType res accept
+data TestEnumParameters
+
+-- | <i>Optional Param</i> "enum_form_string_array" - Form parameter enum
+--   test (string array)
+
+-- | <i>Optional Param</i> "enum_form_string" - Form parameter enum test
+--   (string)
+
+-- | <i>Optional Param</i> "enum_header_string_array" - Header parameter
+--   enum test (string array)
+
+-- | <i>Optional Param</i> "enum_header_string" - Header parameter enum
+--   test (string)
+
+-- | <i>Optional Param</i> "enum_query_string_array" - Query parameter enum
+--   test (string array)
+
+-- | <i>Optional Param</i> "enum_query_string" - Query parameter enum test
+--   (string)
+
+-- | <i>Optional Param</i> "enum_query_integer" - Query parameter enum test
+--   (double)
+
+-- | <i>Optional Param</i> "enum_query_double" - Query parameter enum test
+--   (double)
+
+-- | <pre>
+--   */*
+--   </pre>
+
+-- | <pre>
+--   */*
+--   </pre>
+
+-- | <pre>
+--   POST /fake/inline-additionalProperties
+--   </pre>
+--   
+--   test inline additionalProperties
+testInlineAdditionalProperties :: (Consumes TestInlineAdditionalProperties contentType, MimeRender contentType Value) => ContentType contentType -> Value -> SwaggerPetstoreRequest TestInlineAdditionalProperties contentType NoContent MimeNoContent
+data TestInlineAdditionalProperties
+
+-- | <i>Body Param</i> "param" - request body
+
+-- | <pre>
+--   application/json
+--   </pre>
+
+-- | <pre>
+--   GET /fake/jsonFormData
+--   </pre>
+--   
+--   test json serialization of form data
+testJsonFormData :: (Consumes TestJsonFormData contentType) => ContentType contentType -> Param -> Param2 -> SwaggerPetstoreRequest TestJsonFormData contentType NoContent MimeNoContent
+data TestJsonFormData
+
+-- | <pre>
+--   application/json
+--   </pre>
+instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.Fake.TestJsonFormData SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.Fake.TestInlineAdditionalProperties Data.Aeson.Types.Internal.Value
+instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.Fake.TestInlineAdditionalProperties SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEnumParameters SwaggerPetstore.Model.EnumFormStringArray
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEnumParameters SwaggerPetstore.Model.EnumFormString
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEnumParameters SwaggerPetstore.Model.EnumHeaderStringArray
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEnumParameters SwaggerPetstore.Model.EnumHeaderString
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEnumParameters SwaggerPetstore.Model.EnumQueryStringArray
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEnumParameters SwaggerPetstore.Model.EnumQueryString
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEnumParameters SwaggerPetstore.Model.EnumQueryInteger
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEnumParameters SwaggerPetstore.Model.EnumQueryDouble
+instance SwaggerPetstore.MimeTypes.MimeType mtype => SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.Fake.TestEnumParameters mtype
+instance SwaggerPetstore.MimeTypes.MimeType mtype => SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Fake.TestEnumParameters mtype
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEndpointParameters SwaggerPetstore.Model.ParamInteger
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEndpointParameters SwaggerPetstore.Model.Int32
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEndpointParameters SwaggerPetstore.Model.Int64
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEndpointParameters SwaggerPetstore.Model.ParamFloat
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEndpointParameters SwaggerPetstore.Model.ParamString
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEndpointParameters SwaggerPetstore.Model.ParamBinary
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEndpointParameters SwaggerPetstore.Model.ParamDate
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEndpointParameters SwaggerPetstore.Model.ParamDateTime
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEndpointParameters SwaggerPetstore.Model.Password
+instance SwaggerPetstore.Core.HasOptionalParam SwaggerPetstore.API.Fake.TestEndpointParameters SwaggerPetstore.Model.Callback
+instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.Fake.TestEndpointParameters SwaggerPetstore.MimeTypes.MimeXmlCharsetutf8
+instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.Fake.TestEndpointParameters SwaggerPetstore.MimeTypes.MimeJsonCharsetutf8
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Fake.TestEndpointParameters SwaggerPetstore.MimeTypes.MimeXmlCharsetutf8
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Fake.TestEndpointParameters SwaggerPetstore.MimeTypes.MimeJsonCharsetutf8
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.Fake.TestClientModel SwaggerPetstore.Model.Client
+instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.Fake.TestClientModel SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.Fake.TestClientModel SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.Fake.FakeOuterStringSerialize SwaggerPetstore.Model.OuterString
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.Fake.FakeOuterNumberSerialize SwaggerPetstore.Model.OuterNumber
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.Fake.FakeOuterCompositeSerialize SwaggerPetstore.Model.OuterComposite
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.Fake.FakeOuterBooleanSerialize SwaggerPetstore.Model.OuterBoolean
+
+
+module SwaggerPetstore.API.AnotherFake
+
+-- | <pre>
+--   PATCH /another-fake/dummy
+--   </pre>
+--   
+--   To test special tags
+--   
+--   To test special tags
+testSpecialTags :: (Consumes TestSpecialTags contentType, MimeRender contentType Client) => ContentType contentType -> Accept accept -> Client -> SwaggerPetstoreRequest TestSpecialTags contentType Client accept
+data TestSpecialTags
+
+-- | <i>Body Param</i> "body" - client model
+
+-- | <pre>
+--   application/json
+--   </pre>
+
+-- | <pre>
+--   application/json
+--   </pre>
+instance SwaggerPetstore.Core.HasBodyParam SwaggerPetstore.API.AnotherFake.TestSpecialTags SwaggerPetstore.Model.Client
+instance SwaggerPetstore.MimeTypes.Consumes SwaggerPetstore.API.AnotherFake.TestSpecialTags SwaggerPetstore.MimeTypes.MimeJSON
+instance SwaggerPetstore.MimeTypes.Produces SwaggerPetstore.API.AnotherFake.TestSpecialTags SwaggerPetstore.MimeTypes.MimeJSON
+
+
+module SwaggerPetstore.API
 
 
 module SwaggerPetstore.ModelLens

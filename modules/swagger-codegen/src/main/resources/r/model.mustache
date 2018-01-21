@@ -127,7 +127,7 @@
       self$`{{baseName}}` <- lapply({{classname}}Object$`{{baseName}}`, function(x) {{datatype}}$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
       {{/isListContainer}}
       {{^isListContainer}}
-      {{datatype}}Object -> {{datatype}}$new()
+      {{datatype}}Object <- {{datatype}}$new()
       self$`{{baseName}}` <- {{datatype}}Object$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
       {{/isListContainer}}
       {{/isPrimitiveType}}

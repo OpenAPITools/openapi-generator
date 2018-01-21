@@ -1,0 +1,83 @@
+
+open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{/parent}} {
+
+{{#vars}}
+{{#isEnum}}
+{{> modelInlineEnumDeclaration}}
+{{/isEnum}}
+{{/vars}}
+{{#vars}}
+{{#isEnum}}
+    {{#description}}/** {{description}} */
+    {{/description}}public var {{name}}: {{{datatypeWithEnum}}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
+{{/isEnum}}
+{{^isEnum}}
+    {{#description}}/** {{description}} */
+    {{/description}}public var {{name}}: {{{datatype}}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#objcCompatible}}{{#vendorExtensions.x-swift-optional-scalar}}
+    public var {{name}}Num: NSNumber? {
+        get {
+            return {{name}}.map({ return NSNumber(value: $0) })
+        }
+    }{{/vendorExtensions.x-swift-optional-scalar}}{{/objcCompatible}}
+{{/isEnum}}
+{{/vars}}
+
+{{#additionalPropertiesType}}
+    public var additionalProperties: [String:{{{additionalPropertiesType}}}] = [:]
+
+    public subscript(key: String) -> {{{additionalPropertiesType}}}? {
+        get {
+            if let value = additionalProperties[key] {
+                return value
+            }
+            return nil
+        }
+
+        set {
+            additionalProperties[key] = newValue
+        }
+    }
+{{/additionalPropertiesType}}
+
+    {{^parent}}{{#hasVars}}
+    public init({{#vars}}{{name}}: {{{datatypeWithEnum}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/vars}}) {
+        {{#vars}}
+        self.{{name}} = {{name}}
+        {{/vars}}
+    }
+    {{/hasVars}}{{/parent}}
+
+    // Encodable protocol methods
+
+    public {{#parent}}override {{/parent}}func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: String.self)
+
+        {{#vars}}
+        try container.encode{{^required}}IfPresent{{/required}}({{{name}}}, forKey: "{{{baseName}}}")
+        {{/vars}}
+        {{#additionalPropertiesType}}
+        try container.encodeMap(additionalProperties)
+        {{/additionalPropertiesType}}
+    }
+
+    // Decodable protocol methods
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: String.self)
+
+        {{#vars}}
+        {{name}} = try container.decode{{^required}}IfPresent{{/required}}({{{datatypeWithEnum}}}.self, forKey: "{{{baseName}}}")
+        {{/vars}}
+        {{#additionalPropertiesType}}
+        var nonAdditionalPropertyKeys = Set<String>()
+        {{#vars}}
+        nonAdditionalPropertyKeys.insert("{{{baseName}}}")
+        {{/vars}}
+        additionalProperties = try container.decodeMap({{{additionalPropertiesType}}}.self, excludedKeys: nonAdditionalPropertyKeys)
+        {{/additionalPropertiesType}}
+        {{#parent}}
+        try super.init(from: decoder)
+        {{/parent}}
+    }
+}

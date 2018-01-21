@@ -38,13 +38,15 @@ SWGCategory::~SWGCategory() {
 void
 SWGCategory::init() {
     id = 0L;
+    m_id_isSet = false;
     name = new QString("");
+    m_name_isSet = false;
 }
 
 void
 SWGCategory::cleanup() {
 
-    if(name != nullptr) {
+    if(name != nullptr) { 
         delete name;
     }
 }
@@ -61,7 +63,9 @@ SWGCategory::fromJson(QString &json) {
 void
 SWGCategory::fromJsonObject(QJsonObject &pJson) {
     ::Swagger::setValue(&id, pJson["id"], "qint64", "");
+    
     ::Swagger::setValue(&name, pJson["name"], "QString", "QString");
+    
 }
 
 QString
@@ -77,8 +81,14 @@ SWGCategory::asJson ()
 QJsonObject*
 SWGCategory::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
-    obj->insert("id", QJsonValue(id));
-    toJsonValue(QString("name"), name, obj, QString("QString"));
+    
+    if(m_id_isSet){
+        obj->insert("id", QJsonValue(id));
+    }
+    
+    if(name != nullptr && *name != QString("")){
+        toJsonValue(QString("name"), name, obj, QString("QString"));
+    }
 
     return obj;
 }
@@ -90,6 +100,7 @@ SWGCategory::getId() {
 void
 SWGCategory::setId(qint64 id) {
     this->id = id;
+    this->m_id_isSet = true;
 }
 
 QString*
@@ -99,8 +110,18 @@ SWGCategory::getName() {
 void
 SWGCategory::setName(QString* name) {
     this->name = name;
+    this->m_name_isSet = true;
 }
 
 
+bool 
+SWGCategory::isSet(){
+    bool isObjectUpdated = false;
+    do{
+        if(m_id_isSet){ isObjectUpdated = true; break;}
+        if(name != nullptr && *name != QString("")){ isObjectUpdated = true; break;}
+    }while(false);
+    return isObjectUpdated;
+}
 }
 

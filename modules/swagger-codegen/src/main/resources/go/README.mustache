@@ -19,8 +19,8 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 ## Installation
 Put the package under your project folder and add the following in import:
-```
-    "./{{packageName}}"
+```golang
+import "./{{packageName}}"
 ```
 
 ## Documentation for API Endpoints
@@ -45,23 +45,23 @@ Class | Method | HTTP request | Description
 {{#isApiKey}}- **Type**: API key 
 
 Example
-```
-	auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
-		Key: "APIKEY",
-		Prefix: "Bearer", // Omit if not necessary.
-	})
-    r, err := client.Service.Operation(auth, args)
+```golang
+auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
+	Key: "APIKEY",
+	Prefix: "Bearer", // Omit if not necessary.
+})
+r, err := client.Service.Operation(auth, args)
 ```
 {{/isApiKey}}
 {{#isBasic}}- **Type**: HTTP basic authentication
 
 Example
-```
-	auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
-		UserName: "username",
-		Password: "password",
-	})
-    r, err := client.Service.Operation(auth, args)
+```golang
+auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
+	UserName: "username",
+	Password: "password",
+})
+r, err := client.Service.Operation(auth, args)
 ```
 {{/isBasic}}
 {{#isOAuth}}- **Type**: OAuth
@@ -72,20 +72,20 @@ Example
 {{/scopes}}
 
 Example
-```
-	auth := context.WithValue(context.Background(), sw.ContextAccessToken, "ACCESSTOKENSTRING")
-    r, err := client.Service.Operation(auth, args)
+```golang
+auth := context.WithValue(context.Background(), sw.ContextAccessToken, "ACCESSTOKENSTRING")
+r, err := client.Service.Operation(auth, args)
 ```
 
 Or via OAuth2 module to automatically refresh tokens and perform user authentication.
-```
-	import 	"golang.org/x/oauth2"
+```golang
+import "golang.org/x/oauth2"
 
-    / .. Perform OAuth2 round trip request and obtain a token .. //
+/* Perform OAuth2 round trip request and obtain a token */
 
-    tokenSource := oauth2cfg.TokenSource(createContext(httpClient), &token)
-	auth := context.WithValue(oauth2.NoContext, sw.ContextOAuth2, tokenSource)
-    r, err := client.Service.Operation(auth, args)
+tokenSource := oauth2cfg.TokenSource(createContext(httpClient), &token)
+auth := context.WithValue(oauth2.NoContext, sw.ContextOAuth2, tokenSource)
+r, err := client.Service.Operation(auth, args)
 ```
 {{/isOAuth}}
 {{/authMethods}}

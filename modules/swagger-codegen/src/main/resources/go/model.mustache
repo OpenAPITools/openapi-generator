@@ -11,14 +11,22 @@ type {{{name}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/form
 const (
 	{{#allowableValues}}
 	{{#enumVars}}
+	{{^-first}}
+
+	{{/-first}}
 	{{name}} {{{classname}}} = "{{{value}}}"
 	{{/enumVars}}
 	{{/allowableValues}}
 ){{/isEnum}}{{^isEnum}}{{#description}}
 // {{{description}}}{{/description}}
 type {{classname}} struct {
-{{#vars}}{{#description}}
-	// {{{description}}}{{/description}}
+{{#vars}}
+{{^-first}}
+
+{{/-first}}
+{{#description}}
+	// {{{description}}}
+{{/description}}
 	{{name}} {{^isEnum}}{{^isPrimitiveType}}{{^isContainer}}{{^isDateTime}}*{{/isDateTime}}{{/isContainer}}{{/isPrimitiveType}}{{/isEnum}}{{{datatype}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"`
 {{/vars}}
 }{{/isEnum}}{{/model}}{{/models}}

@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 6233ad93037d69c4bbb5f6f8e45ea1d080dbbe33175102b471d19e5b32691ca2
+-- hash: 0a40afd0e6e2b593c40ae1588479e70d4f35af6ece13bf83bdf3c166c5ea4e7b
 
 name:           swagger-petstore-app
 version:        0.1.0.0
@@ -33,7 +33,7 @@ executable swagger-petstore-app
     , http-client >=0.5 && <0.6
     , http-client-tls
     , http-media >=0.4 && <0.8
-    , http-types >=0.8 && <0.10
+    , http-types >=0.8 && <0.12
     , microlens >=0.4.3 && <0.5
     , mtl >=2.2.1
     , swagger-petstore

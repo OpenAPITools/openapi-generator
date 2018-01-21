@@ -16,7 +16,7 @@ import java.util.Map;
 public class ScalatraServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
 
     protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-client";
+    protected String artifactId = "swagger-server";
     protected String artifactVersion = "1.0.0";
 
     public ScalatraServerCodegen() {
@@ -25,8 +25,8 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
         embeddedTemplateDir = templateDir = "scalatra";
-        apiPackage = "com.wordnik.client.api";
-        modelPackage = "com.wordnik.client.model";
+        apiPackage = "io.swagger.server.api";
+        modelPackage = "io.swagger.server.model";
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -79,6 +79,8 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt", "", "build.sbt"));
         supportingFiles.add(new SupportingFile("web.xml", "/src/main/webapp/WEB-INF", "web.xml"));
+        supportingFiles.add(new SupportingFile("logback.xml", "/src/main/resources", "logback.xml"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("JettyMain.mustache", sourceFolder, "JettyMain.scala"));
         supportingFiles.add(new SupportingFile("Bootstrap.mustache", sourceFolder, "ScalatraBootstrap.scala"));
         supportingFiles.add(new SupportingFile("ServletApp.mustache", sourceFolder, "ServletApp.scala"));
@@ -149,13 +151,6 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         }
 
         return objs;
-    }
-
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
     }
 
 }

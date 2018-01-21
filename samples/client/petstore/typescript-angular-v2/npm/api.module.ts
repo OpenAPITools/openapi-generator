@@ -1,6 +1,5 @@
 import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpModule } from '@angular/http';
 import { Configuration } from './configuration';
 
 import { PetService } from './api/pet.service';
@@ -8,7 +7,7 @@ import { StoreService } from './api/store.service';
 import { UserService } from './api/user.service';
 
 @NgModule({
-  imports:      [ CommonModule, HttpModule ],
+  imports:      [],
   declarations: [],
   exports:      [],
   providers: [
@@ -26,7 +25,7 @@ export class ApiModule {
 
     constructor( @Optional() @SkipSelf() parentModule: ApiModule) {
         if (parentModule) {
-            throw new Error('ApiModule is already loaded. Import your base AppModule only.');
+            throw new Error('ApiModule is already loaded. Import in your base AppModule only.');
         }
     }
 }

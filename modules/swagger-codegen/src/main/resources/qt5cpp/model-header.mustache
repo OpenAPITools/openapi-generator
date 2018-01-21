@@ -14,7 +14,7 @@
 {{#imports}}{{{import}}}
 {{/imports}}
 
-#include "SWGObject.h"
+#include "{{prefix}}Object.h"
 
 {{#models}}
 {{#model}}
@@ -22,7 +22,7 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-class {{classname}}: public SWGObject {
+class {{classname}}: public {{prefix}}Object {
 public:
     {{classname}}();
     {{classname}}(QString* json);
@@ -41,9 +41,13 @@ public:
 
     {{/vars}}
 
+    virtual bool isSet() override;
+
 private:
     {{#vars}}
     {{{datatype}}} {{name}};
+    bool m_{{name}}_isSet;
+    
     {{/vars}}
 };
 

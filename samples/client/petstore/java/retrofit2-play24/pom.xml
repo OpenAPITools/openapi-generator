@@ -212,6 +212,12 @@
             <groupId>org.apache.oltu.oauth2</groupId>
             <artifactId>org.apache.oltu.oauth2.client</artifactId>
             <version>${oltu-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.oltu.oauth2</groupId>
+                    <artifactId>common</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.gsonfire</groupId>
