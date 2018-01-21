@@ -107,7 +107,7 @@ On a mac, it's even easier with `brew`:
 brew install swagger-codegen
 ```
 
-To build from source, you need the following installed and available in your $PATH:
+To build from source, you need the following installed and available in your `$PATH:`
 
 * [Java 7 or 8](http://java.oracle.com)
 
@@ -116,7 +116,7 @@ To build from source, you need the following installed and available in your $PA
 #### OS X Users
 Don't forget to install Java 7 or 8. You probably have 1.6.
 
-Export JAVA_HOME in order to use the supported Java version:
+Export `JAVA_HOME` in order to use the supported Java version:
 ```sh
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export PATH=${JAVA_HOME}/bin:$PATH
@@ -264,7 +264,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/client/petstore/java
 ```
 
-with a number of options. You can get the options with the `help generate` command (below only shows partal results):
+with a number of options. You can get the options with the `help generate` command (below only shows partial results):
 
 ```
 NAME
@@ -340,7 +340,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar meta \
   -o output/myLibrary -n myClientCodegen -p com.my.company.codegen
 ```
 
-This will write, in the folder `output/myLibrary`, all the files you need to get started, including a README.md. Once modified and compiled, you can load your library with the codegen and generate clients with your own, custom-rolled logic.
+This will write, in the folder `output/myLibrary`, all the files you need to get started, including a `README.md. Once modified and compiled, you can load your library with the codegen and generate clients with your own, custom-rolled logic.
 
 You would then compile your library in the `output/myLibrary` folder with `mvn package` and execute the codegen like such:
 
@@ -541,7 +541,7 @@ Your config file for Java can look like
 For all the unspecified options default values will be used.
 
 Another way to override default options is to extend the config class for the specific language.
-To change, for example, the prefix for the Objective-C generated files, simply subclass the ObjcClientCodegen.java:
+To change, for example, the prefix for the Objective-C generated files, simply subclass the `ObjcClientCodegen.java`:
 
 ```java
 package com.mycompany.swagger.codegen;
@@ -790,7 +790,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Hewlett Packard Enterprise](https://hpe.com)
 - [High Technologies Center](http://htc-cs.com)
 - [Hootsuite](https://hootsuite.com/)
-- [Huawei Cloud](https://www.huaweicloud.com) - [Cloud Stream Service](http://www.huaweicloud.com/en-us/product/cs.html)
+- [Huawei Cloud](http://www.huaweicloud.com/en-us/product/cs.html) 
 - [IBM](https://www.ibm.com)
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
 - [Individual Standard IVS](http://www.individual-standard.com)

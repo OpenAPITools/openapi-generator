@@ -22,14 +22,18 @@ import { Configuration } from '../configuration';
 export class StoreApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Array<string> = [];
+    public defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings = null;
     public configuration: Configuration = new Configuration();
 
-    constructor(basePath?: string, configuration?: Configuration) {
+    constructor(basePath?: string, configuration?: Configuration, defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings) {
         if (basePath) {
             this.basePath = basePath;
         }
         if (configuration) {
             this.configuration = configuration;
+        }
+        if (defaultExtraJQueryAjaxSettings) {
+            this.defaultExtraJQueryAjaxSettings = defaultExtraJQueryAjaxSettings;
         }
     }
 
@@ -47,7 +51,7 @@ export class StoreApi {
      * @summary Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    public deleteOrder(orderId: string): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
+    public deleteOrder(orderId: string, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
         let localVarPath = this.basePath + '/store/order/{orderId}'.replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         let queryParameters: any = {};
@@ -81,6 +85,14 @@ export class StoreApi {
             requestOptions.contentType = headerParams['Content-Type'];
         }
 
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+        }
+
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
             (data: any, textStatus: string, jqXHR: JQueryXHR) =>
@@ -95,7 +107,7 @@ export class StoreApi {
      * Returns a map of status codes to quantities
      * @summary Returns pet inventories by status
      */
-    public getInventory(): JQueryPromise<{ response: JQueryXHR; body: { [key: string]: number; };  }> {
+    public getInventory(extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body: { [key: string]: number; };  }> {
         let localVarPath = this.basePath + '/store/inventory';
 
         let queryParameters: any = {};
@@ -128,6 +140,14 @@ export class StoreApi {
             requestOptions.contentType = headerParams['Content-Type'];
         }
 
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+        }
+
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
             (data: { [key: string]: number; }, textStatus: string, jqXHR: JQueryXHR) =>
@@ -143,7 +163,7 @@ export class StoreApi {
      * @summary Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
-    public getOrderById(orderId: number): JQueryPromise<{ response: JQueryXHR; body: models.Order;  }> {
+    public getOrderById(orderId: number, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body: models.Order;  }> {
         let localVarPath = this.basePath + '/store/order/{orderId}'.replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         let queryParameters: any = {};
@@ -177,6 +197,14 @@ export class StoreApi {
             requestOptions.contentType = headerParams['Content-Type'];
         }
 
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+        }
+
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
             (data: models.Order, textStatus: string, jqXHR: JQueryXHR) =>
@@ -192,7 +220,7 @@ export class StoreApi {
      * @summary Place an order for a pet
      * @param body order placed for purchasing the pet
      */
-    public placeOrder(body: models.Order): JQueryPromise<{ response: JQueryXHR; body: models.Order;  }> {
+    public placeOrder(body: models.Order, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body: models.Order;  }> {
         let localVarPath = this.basePath + '/store/order';
 
         let queryParameters: any = {};
@@ -227,6 +255,14 @@ export class StoreApi {
         requestOptions.data = JSON.stringify(body);
         if (headerParams['Content-Type']) {
             requestOptions.contentType = headerParams['Content-Type'];
+        }
+
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
         }
 
         let dfd = $.Deferred();

@@ -1,22 +1,16 @@
 {{>partial_header}}
 {-|
-Module : {{title}}.API
+Module : {{title}}.API.{{classname}}
 -}
 
-{-# LANGUAGE ConstraintKinds #-}
-{-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE InstanceSigs #-}
+{-# LANGUAGE MonoLocalBinds #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
-module {{title}}.API where
+module {{title}}.API.{{classname}} where
 
 import {{title}}.Core
 import {{title}}.MimeTypes
@@ -24,8 +18,6 @@ import {{title}}.Model as M
 
 import qualified Data.Aeson as A
 import qualified Data.ByteString as B
-import qualified Data.ByteString.Base64 as B64
-import qualified Data.ByteString.Char8 as BC
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.Data as P (Typeable, TypeRep, typeOf, typeRep)
 import qualified Data.Foldable as P
@@ -39,16 +31,12 @@ import qualified Data.Text.Encoding as T
 import qualified Data.Text.Lazy as TL
 import qualified Data.Text.Lazy.Encoding as TL
 import qualified Data.Time as TI
-import qualified GHC.Base as P (Alternative)
-import qualified Lens.Micro as L
 import qualified Network.HTTP.Client.MultipartFormData as NH
 import qualified Network.HTTP.Media as ME
 import qualified Network.HTTP.Types as NH
 import qualified Web.FormUrlEncoded as WH
 import qualified Web.HttpApiData as WH
 
-import Data.Monoid ((<>))
-import Data.Function ((&))
 import Data.Text (Text)
 import GHC.Base ((<|>))
 
@@ -56,7 +44,7 @@ import Prelude ((==),(/=),($), (.),(<$>),(<*>),(>>=),Maybe(..),Bool(..),Char,Dou
 import qualified Prelude as P
 
 -- * Operations
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#vendorExtensions.x-hasNewTag}}
+{{#operations}}{{#operation}}{{#vendorExtensions.x-hasNewTag}}
 
 -- ** {{baseName}}{{/vendorExtensions.x-hasNewTag}}
 
@@ -100,75 +88,11 @@ instance HasOptionalParam {{{vendorExtensions.x-operationType}}} {{{vendorExtens
   applyOptionalParam req ({{{vendorExtensions.x-paramNameType}}} xs) =
     {{#isHeaderParam}}req `setHeader` {{>_headerColl}} ("{{{baseName}}}", xs){{/isHeaderParam}}{{#isQueryParam}}req `setQuery` {{>_queryColl}} ("{{{baseName}}}", Just xs){{/isQueryParam}}{{#isFormParam}}{{#isFile}}req `_addMultiFormPart` NH.partFileSource "{{{baseName}}}" xs{{/isFile}}{{^isFile}}{{#isMultipart}}req `_addMultiFormPart` NH.partLBS "{{{baseName}}}" (mimeRender' MimeMultipartFormData xs){{/isMultipart}}{{^isMultipart}}req `addForm` {{>_formColl}} ("{{{baseName}}}", xs){{/isMultipart}}{{/isFile}}{{/isFormParam}}{{/required}}{{/isBodyParam}}{{/allParams}}{{/vendorExtensions.x-hasOptionalParams}}{{#hasConsumes}}
 
-{{#consumes}}-- | @{{{mediaType}}}@
-instance Consumes {{{vendorExtensions.x-operationType}}} {{{x-mediaDataType}}}
+{{#consumes}}-- | @{{{mediaType}}}@{{^x-mediaIsWildcard}}
+instance Consumes {{{vendorExtensions.x-operationType}}} {{{x-mediaDataType}}}{{/x-mediaIsWildcard}}{{#x-mediaIsWildcard}}
+instance MimeType mtype => Consumes {{{vendorExtensions.x-operationType}}} mtype{{/x-mediaIsWildcard}}
 {{/consumes}}{{/hasConsumes}}{{#hasProduces}}
-{{#produces}}-- | @{{{mediaType}}}@
-instance Produces {{{vendorExtensions.x-operationType}}} {{{x-mediaDataType}}}
-{{/produces}}{{/hasProduces}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
-
-
--- * Parameter newtypes
-{{#x-allUniqueParams}}{{#x-newtype}}
-newtype {{{x-paramNameType}}} = {{{x-paramNameType}}} { un{{{x-paramNameType}}} :: {{{x-dataType}}} } deriving (P.Eq, P.Show{{#x-isBodyParam}}, A.ToJSON{{/x-isBodyParam}}){{/x-newtype}}{{/x-allUniqueParams}}
-
-{{#authMethods}}{{#-first}}-- * Auth Methods
-
-{{/-first}}{{#isBasic}}-- ** {{name}}
-data {{name}} =
-  {{name}} B.ByteString B.ByteString -- ^ username password
-  deriving (P.Eq, P.Show, P.Typeable)
-
-instance AuthMethod {{name}} where
-  applyAuthMethod _ a@({{name}} user pw) req =
-    P.pure $
-    if (P.typeOf a `P.elem` rAuthTypes req)
-      then req `setHeader` toHeader ("Authorization", T.decodeUtf8 cred)
-           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
-      else req
-    where cred = BC.append "Basic " (B64.encode $ BC.concat [ user, ":", pw ])
-
-{{/isBasic}}{{#isApiKey}}-- ** {{name}}
-data {{name}} =
-  {{name}} Text -- ^ secret
-  deriving (P.Eq, P.Show, P.Typeable)
-
-instance AuthMethod {{name}} where
-  applyAuthMethod _ a@({{name}} secret) req =
-    P.pure $
-    if (P.typeOf a `P.elem` rAuthTypes req)
-      then req {{#isKeyInHeader}}`setHeader` toHeader ("{{keyParamName}}", secret){{/isKeyInHeader}}{{^isKeyInHeader}}`setQuery` toQuery ("{{keyParamName}}", Just secret){{/isKeyInHeader}}
-           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
-      else req
-
-{{/isApiKey}}{{#isOAuth}}-- ** {{name}}
-data {{name}} =
-  {{name}} Text -- ^ secret
-  deriving (P.Eq, P.Show, P.Typeable)
-
-instance AuthMethod {{name}} where
-  applyAuthMethod _ a@({{name}} secret) req =
-    P.pure $
-    if (P.typeOf a `P.elem` rAuthTypes req)
-      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret) 
-           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
-      else req
-
-{{/isOAuth}}{{/authMethods}}
-
-{{#x-hasUnknownMimeTypes}}
--- * Custom Mime Types
-
-{{#x-unknownMimeTypes}}-- ** {{{x-mediaDataType}}}
-
-data {{{x-mediaDataType}}} = {{{x-mediaDataType}}} deriving (P.Typeable)
-
--- | @{{{mediaType}}}@
-instance MimeType {{{x-mediaDataType}}} where
-  mimeType _ = Just $ P.fromString "{{{mediaType}}}"{{#x-mediaIsJson}}
-instance A.ToJSON a => MimeRender {{{x-mediaDataType}}} a where mimeRender _ = A.encode
-instance A.FromJSON a => MimeUnrender {{{x-mediaDataType}}} a where mimeUnrender _ = A.eitherDecode{{/x-mediaIsJson}}
--- instance MimeRender {{{x-mediaDataType}}} T.Text where mimeRender _ = undefined
--- instance MimeUnrender {{{x-mediaDataType}}} T.Text where mimeUnrender _ = undefined
-
-{{/x-unknownMimeTypes}}{{/x-hasUnknownMimeTypes}}
+{{#produces}}-- | @{{{mediaType}}}@{{^x-mediaIsWildcard}}
+instance Produces {{{vendorExtensions.x-operationType}}} {{{x-mediaDataType}}}{{/x-mediaIsWildcard}}{{#x-mediaIsWildcard}}
+instance MimeType mtype => Produces {{{vendorExtensions.x-operationType}}} mtype{{/x-mediaIsWildcard}}
+{{/produces}}{{/hasProduces}}{{/operation}}{{/operations}}

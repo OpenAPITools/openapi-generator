@@ -37,23 +37,61 @@ public class {{classname}}Verticle extends AbstractVerticle {
         //Consumer for {{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}
         vertx.eventBus().<JsonObject> consumer({{#vendorExtensions}}{{x-serviceid-varname}}{{/vendorExtensions}}).handler(message -> {
             try {
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "{{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}";
                 {{#hasParams}}
                     {{#allParams}}
                         {{#isListContainer}}
-                {{{dataType}}} {{paramName}} = Json.mapper.readValue(message.body().getJsonArray("{{baseName}}").encode(),
-                        Json.mapper.getTypeFactory().constructCollectionType(List.class, {{{baseType}}}.class));
+                JsonArray {{paramName}}Param = message.body().getJsonArray("{{baseName}}");
+                {{#required}}
+                if({{paramName}}Param == null) {
+                    manageError(message, new MainApiException(400, "{{baseName}} is required"), serviceId);
+                    return;
+                }
+                {{{dataType}}} {{paramName}} = Json.mapper.readValue({{paramName}}Param.encode(),
+                    Json.mapper.getTypeFactory().constructCollectionType(List.class, {{{baseType}}}.class));
+                {{/required}}
+                {{^required}}
+                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param.encode(),
+                    Json.mapper.getTypeFactory().constructCollectionType(List.class, {{{baseType}}}.class));
+                {{/required}}
                         {{/isListContainer}}
                         {{^isListContainer}}
                             {{#isPrimitiveType}}
                                 {{#isString}}
-                {{{dataType}}} {{paramName}} = message.body().getString("{{baseName}}");
+                String {{paramName}}Param = message.body().getString("{{baseName}}");
+                {{#required}}
+                if({{paramName}}Param == null) {
+                    manageError(message, new MainApiException(400, "{{baseName}} is required"), serviceId);
+                    return;
+                }
+                {{{dataType}}} {{paramName}} = {{paramName}}Param;
+                {{/required}}
+                {{^required}}
+                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : {{paramName}}Param;
+                {{/required}}
                                 {{/isString}}
                                 {{^isString}}
-                {{{dataType}}} {{paramName}} = Json.mapper.readValue(message.body().getString("{{baseName}}"), {{{dataType}}}.class);
+                String {{paramName}}Param = message.body().getString("{{baseName}}");
+                {{#required}}
+                if({{paramName}}Param == null) {
+                    manageError(message, new MainApiException(400, "{{baseName}} is required"), serviceId);
+                    return;
+                }
+                {{{dataType}}} {{paramName}} = Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
+                {{/required}}
+                {{^required}}
+                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
+                {{/required}}
                                 {{/isString}}
                             {{/isPrimitiveType}}
                             {{^isPrimitiveType}}
-                {{{dataType}}} {{paramName}} = Json.mapper.readValue(message.body().getJsonObject("{{baseName}}").encode(), {{{dataType}}}.class);
+                JsonObject {{paramName}}Param = message.body().getJsonObject("{{baseName}}");
+                if ({{paramName}}Param == null) {
+                    manageError(message, new MainApiException(400, "{{baseName}} is required"), serviceId);
+                    return;
+                }
+                {{{dataType}}} {{paramName}} = Json.mapper.readValue({{paramName}}Param.encode(), {{{dataType}}}.class);
                             {{/isPrimitiveType}}
                         {{/isListContainer}}
                     {{/allParams}}

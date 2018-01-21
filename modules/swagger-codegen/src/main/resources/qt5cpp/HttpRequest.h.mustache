@@ -5,8 +5,8 @@
  *
  **/
 
-#ifndef HTTPREQUESTWORKER_H
-#define HTTPREQUESTWORKER_H
+#ifndef {{prefix}}_HTTPREQUESTWORKER_H
+#define {{prefix}}_HTTPREQUESTWORKER_H
 
 #include <QObject>
 #include <QString>
@@ -14,13 +14,15 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
-enum HttpRequestVarLayout {NOT_SET, ADDRESS, URL_ENCODED, MULTIPART};
+
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-class SWGHttpRequestInputFileElement {
+enum {{prefix}}HttpRequestVarLayout {NOT_SET, ADDRESS, URL_ENCODED, MULTIPART};
+
+class {{prefix}}HttpRequestInputFileElement {
 
 public:
     QString variable_name;
@@ -31,19 +33,19 @@ public:
 };
 
 
-class HttpRequestInput {
+class {{prefix}}HttpRequestInput {
 
 public:
     QString url_str;
     QString http_method;
-    HttpRequestVarLayout var_layout;
+    {{prefix}}HttpRequestVarLayout var_layout;
     QMap<QString, QString> vars;
     QMap<QString, QString> headers;
-    QList<SWGHttpRequestInputFileElement> files;
+    QList<{{prefix}}HttpRequestInputFileElement> files;
     QByteArray request_body;
 
-    HttpRequestInput();
-    HttpRequestInput(QString v_url_str, QString v_http_method);
+    {{prefix}}HttpRequestInput();
+    {{prefix}}HttpRequestInput(QString v_url_str, QString v_http_method);
     void initialize();
     void add_var(QString key, QString value);
     void add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type);
@@ -51,7 +53,7 @@ public:
 };
 
 
-class HttpRequestWorker : public QObject {
+class {{prefix}}HttpRequestWorker : public QObject {
     Q_OBJECT
 
 public:
@@ -59,15 +61,15 @@ public:
     QNetworkReply::NetworkError error_type;
     QString error_str;
 
-    explicit HttpRequestWorker(QObject *parent = 0);
-    virtual ~HttpRequestWorker();
+    explicit {{prefix}}HttpRequestWorker(QObject *parent = 0);
+    virtual ~{{prefix}}HttpRequestWorker();
 
     QString http_attribute_encode(QString attribute_name, QString input);
-    void execute(HttpRequestInput *input);
+    void execute({{prefix}}HttpRequestInput *input);
     static QSslConfiguration* sslDefaultConfiguration;
 
 signals:
-    void on_execution_finished(HttpRequestWorker *worker);
+    void on_execution_finished({{prefix}}HttpRequestWorker *worker);
 
 private:
     QNetworkAccessManager *manager;
@@ -81,4 +83,4 @@ private slots:
 }
 {{/cppNamespaceDeclarations}}
 
-#endif // HTTPREQUESTWORKER_H
+#endif // {{prefix}}_HTTPREQUESTWORKER_H

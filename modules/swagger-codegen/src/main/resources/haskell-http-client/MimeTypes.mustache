@@ -190,3 +190,21 @@ instance MimeUnrender MimeOctetStream String where mimeUnrender _ = P.Right . BC
 
 -- | @P.Right . P.const NoContent@
 instance MimeUnrender MimeNoContent NoContent where mimeUnrender _ = P.Right . P.const NoContent
+
+
+{{#x-hasUnknownMimeTypes}}
+-- * Custom Mime Types
+
+{{#x-unknownMimeTypes}}-- ** {{{x-mediaDataType}}}
+
+data {{{x-mediaDataType}}} = {{{x-mediaDataType}}} deriving (P.Typeable)
+
+-- | @{{{mediaType}}}@
+instance MimeType {{{x-mediaDataType}}} where
+  mimeType _ = Just $ P.fromString "{{{mediaType}}}"{{#x-mediaIsJson}}
+instance A.ToJSON a => MimeRender {{{x-mediaDataType}}} a where mimeRender _ = A.encode
+instance A.FromJSON a => MimeUnrender {{{x-mediaDataType}}} a where mimeUnrender _ = A.eitherDecode{{/x-mediaIsJson}}
+-- instance MimeRender {{{x-mediaDataType}}} T.Text where mimeRender _ = undefined
+-- instance MimeUnrender {{{x-mediaDataType}}} T.Text where mimeUnrender _ = undefined
+
+{{/x-unknownMimeTypes}}{{/x-hasUnknownMimeTypes}}

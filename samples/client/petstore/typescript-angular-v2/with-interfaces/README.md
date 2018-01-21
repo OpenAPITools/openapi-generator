@@ -47,8 +47,13 @@ In your Angular project:
 // without configuring providers
 import { ApiModule } from '@swagger/angular2-typescript-petstore';
 
+import { HttpModule } from '@angular/http';
+
 @NgModule({
-    imports: [ ApiModule ],
+    imports: [
+        ApiModule,
+        HttpModule
+    ],
     declarations: [ AppComponent ],
     providers: [],
     bootstrap: [ AppComponent ]
@@ -86,6 +91,29 @@ export class AppComponent {
 
 Note: The ApiModule is restricted to being instantiated once app wide.
 This is to ensure that all services are treated as singletons.
+
+#### Using multiple swagger files / APIs / ApiModules
+In order to use multiple `ApiModules` generated from different swagger files,
+you can create an alias name when importing the modules
+in order to avoid naming conflicts:
+```
+import { ApiModule } from 'my-api-path';
+import { ApiModule as OtherApiModule } from 'my-other-api-path';
+
+import { HttpModule } from '@angular/http';
+
+@NgModule({
+  imports: [
+    ApiModule,
+    OtherApiModule,
+    HttpModule
+  ]
+})
+export class AppModule {
+
+}
+```
+
 
 ### Set service base path
 If different than the generated base path, during app bootstrap, you can provide the base path to your service. 

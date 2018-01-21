@@ -1,0 +1,10 @@
+{{>partial_header}}
+{-|
+Module : {{title}}.API
+-}
+
+module {{title}}.API
+  ( {{#apiInfo}}{{#apis}}module {{title}}.API.{{classname}}
+  {{#hasMore}}, {{/hasMore}}{{/apis}}{{/apiInfo}}) where
+{{#apiInfo}}{{#apis}}
+import {{title}}.API.{{classname}}{{/apis}}{{/apiInfo}}

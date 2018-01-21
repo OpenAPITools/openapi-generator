@@ -38,13 +38,13 @@ public:
     void deleteOrder(QString* order_id);
     void getInventory();
     void getOrderById(qint64 order_id);
-    void placeOrder(SWGOrder body);
+    void placeOrder(SWGOrder& body);
     
 private:
-    void deleteOrderCallback (HttpRequestWorker * worker);
-    void getInventoryCallback (HttpRequestWorker * worker);
-    void getOrderByIdCallback (HttpRequestWorker * worker);
-    void placeOrderCallback (HttpRequestWorker * worker);
+    void deleteOrderCallback (SWGHttpRequestWorker * worker);
+    void getInventoryCallback (SWGHttpRequestWorker * worker);
+    void getOrderByIdCallback (SWGHttpRequestWorker * worker);
+    void placeOrderCallback (SWGHttpRequestWorker * worker);
     
 signals:
     void deleteOrderSignal();
@@ -57,10 +57,10 @@ signals:
     void getOrderByIdSignalE(SWGOrder* summary, QNetworkReply::NetworkError error_type, QString& error_str);
     void placeOrderSignalE(SWGOrder* summary, QNetworkReply::NetworkError error_type, QString& error_str);
     
-    void deleteOrderSignalEFull(HttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getInventorySignalEFull(HttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getOrderByIdSignalEFull(HttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void placeOrderSignalEFull(HttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
+    void deleteOrderSignalEFull(SWGHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getInventorySignalEFull(SWGHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getOrderByIdSignalEFull(SWGHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
+    void placeOrderSignalEFull(SWGHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
     
 };
 

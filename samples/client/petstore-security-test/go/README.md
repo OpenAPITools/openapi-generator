@@ -56,7 +56,7 @@ Example
     r, err := client.Service.Operation(auth, args)
 ```
 
-Or via OAuth2 module to automaticly refresh tokens and perform user authentication.
+Or via OAuth2 module to automatically refresh tokens and perform user authentication.
 ```
 	import 	"golang.org/x/oauth2"
 

@@ -20,27 +20,27 @@
 
 namespace Swagger {
 
-HttpRequestInput::HttpRequestInput() {
+SWGHttpRequestInput::SWGHttpRequestInput() {
     initialize();
 }
 
-HttpRequestInput::HttpRequestInput(QString v_url_str, QString v_http_method) {
+SWGHttpRequestInput::SWGHttpRequestInput(QString v_url_str, QString v_http_method) {
     initialize();
     url_str = v_url_str;
     http_method = v_http_method;
 }
 
-void HttpRequestInput::initialize() {
+void SWGHttpRequestInput::initialize() {
     var_layout = NOT_SET;
     url_str = "";
     http_method = "GET";
 }
 
-void HttpRequestInput::add_var(QString key, QString value) {
+void SWGHttpRequestInput::add_var(QString key, QString value) {
     vars[key] = value;
 }
 
-void HttpRequestInput::add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type) {
+void SWGHttpRequestInput::add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type) {
     SWGHttpRequestInputFileElement file;
     file.variable_name = variable_name;
     file.local_filename = local_filename;
@@ -50,7 +50,7 @@ void HttpRequestInput::add_file(QString variable_name, QString local_filename, Q
 }
 
 
-HttpRequestWorker::HttpRequestWorker(QObject *parent)
+SWGHttpRequestWorker::SWGHttpRequestWorker(QObject *parent)
     : QObject(parent), manager(nullptr)
 {
     qsrand(QDateTime::currentDateTime().toTime_t());
@@ -59,10 +59,10 @@ HttpRequestWorker::HttpRequestWorker(QObject *parent)
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(on_manager_finished(QNetworkReply*)));
 }
 
-HttpRequestWorker::~HttpRequestWorker() {
+SWGHttpRequestWorker::~SWGHttpRequestWorker() {
 }
 
-QString HttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
+QString SWGHttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
     // result structure follows RFC 5987
     bool need_utf_encoding = false;
     QString result = "";
@@ -110,7 +110,7 @@ QString HttpRequestWorker::http_attribute_encode(QString attribute_name, QString
     return QString("%1=\"%2\"; %1*=utf-8''%3").arg(attribute_name, result, result_utf8);
 }
 
-void HttpRequestWorker::execute(HttpRequestInput *input) {
+void SWGHttpRequestWorker::execute(SWGHttpRequestInput *input) {
 
     // reset variables
 
@@ -262,8 +262,8 @@ void HttpRequestWorker::execute(HttpRequestInput *input) {
     // prepare connection
 
     QNetworkRequest request = QNetworkRequest(QUrl(input->url_str));
-    if (HttpRequestWorker::sslDefaultConfiguration != nullptr) {
-        request.setSslConfiguration(*HttpRequestWorker::sslDefaultConfiguration);
+    if (SWGHttpRequestWorker::sslDefaultConfiguration != nullptr) {
+        request.setSslConfiguration(*SWGHttpRequestWorker::sslDefaultConfiguration);
     }
     request.setRawHeader("User-Agent", "Swagger-Client");
     foreach(QString key, input->headers.keys()) {
@@ -310,7 +310,7 @@ void HttpRequestWorker::execute(HttpRequestInput *input) {
 
 }
 
-void HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
+void SWGHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
     error_type = reply->error();
     response = reply->readAll();
     error_str = reply->errorString();
@@ -319,7 +319,7 @@ void HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
 
     emit on_execution_finished(this);
 }
-QSslConfiguration* HttpRequestWorker::sslDefaultConfiguration;
+QSslConfiguration* SWGHttpRequestWorker::sslDefaultConfiguration;
 
 
 }

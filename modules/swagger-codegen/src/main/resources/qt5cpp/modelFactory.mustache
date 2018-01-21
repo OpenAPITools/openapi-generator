@@ -20,7 +20,7 @@ namespace {{this}} {
   inline void* create(QString json, QString type) {
     void* val = create(type);
     if(val != nullptr) {
-      SWGObject* obj = static_cast<SWGObject*>(val);
+      {{prefix}}Object* obj = static_cast<{{prefix}}Object*>(val);
       return obj->fromJson(json);
     }
     if(type.startsWith("QString")) {

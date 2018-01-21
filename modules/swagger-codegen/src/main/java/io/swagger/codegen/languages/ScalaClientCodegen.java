@@ -49,6 +49,7 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
         additionalProperties.put("authScheme", authScheme);
         additionalProperties.put("authPreemptive", authPreemptive);
         additionalProperties.put("clientName", clientName);
+        additionalProperties.put(CodegenConstants.STRIP_PACKAGE_NAME, stripPackageName);
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("apiInvoker.mustache",
@@ -228,12 +229,6 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
     @Override
     public String toEnumName(CodegenProperty property) {
         return formatIdentifier(stripPackageName(property.baseName), true);
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
     }
 
 }

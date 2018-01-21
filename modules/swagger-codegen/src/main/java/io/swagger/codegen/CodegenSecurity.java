@@ -7,6 +7,7 @@ public class CodegenSecurity {
     public String name;
     public String type;
     public Boolean hasMore, isBasic, isOAuth, isApiKey;
+    public Map<String, Object> vendorExtensions;
     // ApiKey specific
     public String keyParamName;
     public Boolean isKeyInQuery, isKeyInHeader;
@@ -38,6 +39,8 @@ public class CodegenSecurity {
         if (isOAuth != null ? !isOAuth.equals(that.isOAuth) : that.isOAuth != null)
             return false;
         if (isApiKey != null ? !isApiKey.equals(that.isApiKey) : that.isApiKey != null)
+            return false;
+        if (vendorExtensions != null ? !vendorExtensions.equals(that.vendorExtensions) : that.vendorExtensions != null)
             return false;
         if (keyParamName != null ? !keyParamName.equals(that.keyParamName) : that.keyParamName != null)
             return false;
@@ -71,6 +74,7 @@ public class CodegenSecurity {
         result = 31 * result + (isBasic != null ? isBasic.hashCode() : 0);
         result = 31 * result + (isOAuth != null ? isOAuth.hashCode() : 0);
         result = 31 * result + (isApiKey != null ? isApiKey.hashCode() : 0);
+        result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         result = 31 * result + (keyParamName != null ? keyParamName.hashCode() : 0);
         result = 31 * result + (isKeyInQuery != null ? isKeyInQuery.hashCode() : 0);
         result = 31 * result + (isKeyInHeader != null ? isKeyInHeader.hashCode() : 0);

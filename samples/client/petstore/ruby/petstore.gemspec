@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/swagger-api/swagger-codegen"
   s.summary     = "Swagger Petstore Ruby Gem"
   s.description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"
-  # TODO uncommnet and update below with a proper license 
+  # TODO uncomment and update below with a proper license
   #s.license     = "Apache 2.0"
   s.required_ruby_version = ">= 1.9"
 

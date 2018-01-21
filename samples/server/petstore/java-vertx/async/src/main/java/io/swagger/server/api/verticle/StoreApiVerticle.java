@@ -40,7 +40,14 @@ public class StoreApiVerticle extends AbstractVerticle {
         //Consumer for deleteOrder
         vertx.eventBus().<JsonObject> consumer(DELETEORDER_SERVICE_ID).handler(message -> {
             try {
-                String orderId = message.body().getString("orderId");
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "deleteOrder";
+                String orderIdParam = message.body().getString("orderId");
+                if(orderIdParam == null) {
+                    manageError(message, new MainApiException(400, "orderId is required"), serviceId);
+                    return;
+                }
+                String orderId = orderIdParam;
                 service.deleteOrder(orderId, result -> {
                     if (result.succeeded())
                         message.reply(null);
@@ -58,6 +65,8 @@ public class StoreApiVerticle extends AbstractVerticle {
         //Consumer for getInventory
         vertx.eventBus().<JsonObject> consumer(GETINVENTORY_SERVICE_ID).handler(message -> {
             try {
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "getInventory";
                 service.getInventory(result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
@@ -75,7 +84,14 @@ public class StoreApiVerticle extends AbstractVerticle {
         //Consumer for getOrderById
         vertx.eventBus().<JsonObject> consumer(GETORDERBYID_SERVICE_ID).handler(message -> {
             try {
-                Long orderId = Json.mapper.readValue(message.body().getString("orderId"), Long.class);
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "getOrderById";
+                String orderIdParam = message.body().getString("orderId");
+                if(orderIdParam == null) {
+                    manageError(message, new MainApiException(400, "orderId is required"), serviceId);
+                    return;
+                }
+                Long orderId = Json.mapper.readValue(orderIdParam, Long.class);
                 service.getOrderById(orderId, result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
@@ -93,7 +109,14 @@ public class StoreApiVerticle extends AbstractVerticle {
         //Consumer for placeOrder
         vertx.eventBus().<JsonObject> consumer(PLACEORDER_SERVICE_ID).handler(message -> {
             try {
-                Order body = Json.mapper.readValue(message.body().getJsonObject("body").encode(), Order.class);
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "placeOrder";
+                JsonObject bodyParam = message.body().getJsonObject("body");
+                if (bodyParam == null) {
+                    manageError(message, new MainApiException(400, "body is required"), serviceId);
+                    return;
+                }
+                Order body = Json.mapper.readValue(bodyParam.encode(), Order.class);
                 service.placeOrder(body, result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());

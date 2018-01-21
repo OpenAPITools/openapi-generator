@@ -152,11 +152,15 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public String toModelName(String name) {
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(toModelFilename(name));
+        return camelize(toModel(name));
     }
 
     @Override
     public String toModelFilename(String name) {
+      return toModel("model_" + name);
+    }
+
+    public String toModel(String name) {
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -188,7 +192,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PetApi.go => pet_api.go
-        return underscore(name) + "_api";
+        return "api_" + underscore(name);
     }
 
     /**

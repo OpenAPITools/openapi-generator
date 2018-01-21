@@ -61,13 +61,27 @@ public:
     void setComplete(bool complete);
 
 
+    virtual bool isSet() override;
+
 private:
     qint64 id;
+    bool m_id_isSet;
+    
     qint64 pet_id;
+    bool m_pet_id_isSet;
+    
     qint32 quantity;
+    bool m_quantity_isSet;
+    
     QDateTime* ship_date;
+    bool m_ship_date_isSet;
+    
     QString* status;
+    bool m_status_isSet;
+    
     bool complete;
+    bool m_complete_isSet;
+    
 };
 
 }

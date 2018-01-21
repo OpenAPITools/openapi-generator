@@ -111,7 +111,7 @@ public class CodegenOperation {
      * @return true if act as Restful index method, false otherwise
      */
     public boolean isRestfulIndex() {
-        return "GET".equals(httpMethod) && "".equals(pathWithoutBaseName());
+        return "GET".equalsIgnoreCase(httpMethod) && "".equals(pathWithoutBaseName());
     }
 
     /**
