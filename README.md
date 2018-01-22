@@ -941,51 +941,10 @@ Presentations/Videos/Tutorials/Books
 
 Swagger Codegen core team members are contributors who have been making significant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
 
-## API Clients
-| Languages     | Core Team (join date) |
-|:-------------|:-------------|
-| ActionScript | |
-| C++      |  |
-| C#      | @jimschubert (2016/05/01) |
-| Clojure | @xhh (2016/05/01) |
-| Dart      |  |
-| Groovy     |  |
-| Go     |  @guohuang (2016/05/01) @neilotoole (2016/05/01) |
-| Java      | @cbornet (2016/05/01) @xhh (2016/05/01) @epaul (2016/06/04) |
-| Java (Spring Cloud) | @cbornet (2016/07/19) |
-| Kotlin      | @jimschubert (2016/05/01) |
-| NodeJS/Javascript | @xhh (2016/05/01) |
-| ObjC      | @mateuszmackowiak (2016/05/09) |
-| Perl      | @wing328 (2016/05/01) |
-| PHP      | @arnested (2016/05/01) |
-| Python   | @scottrw93 (2016/05/01) |
-| Ruby      | @wing328 (2016/05/01) @zlx (2016/05/22) |
-| Scala     |  |
-| Swift     | @jaz-ah (2016/05/01)  @Edubits (2016/05/01) |
-| TypeScript (Node) | @Vrolijkx (2016/05/01) |
-| TypeScript (Angular1) | @Vrolijkx (2016/05/01) |
-| TypeScript (Angular2) | @Vrolijkx (2016/05/01) |
-| TypeScript (Fetch) |  |
-## Server Stubs
-| Languages     | Core Team (date joined) |
-|:------------- |:-------------|
-| C# ASP.NET5 |  @jimschubert (2016/05/01) |
-| Go Server | @guohuang (2016/06/13) |
-| Haskell Servant |  |
-| Java Spring Boot | @cbornet (2016/07/19) |
-| Java Spring MVC | @kolyjjj (2016/05/01) @cbornet (2016/07/19) |
-| Java JAX-RS |  |
-| Java Play Framework |  |
-| NancyFX |  |
-| NodeJS | @kolyjjj (2016/05/01) |
-| PHP Lumen | @abcsun (2016/05/01) |
-| PHP Silex |  |
-| PHP Slim  |  |
-| Python Flask  |  |
-| Ruby Sinatra     | @wing328 (2016/05/01) |  |
-| Scala Scalatra |  |  |
-| Scala Finch | @jimschubert (2017/01/28) |
-
+## Core Team Members
+* [@jimschubert](https://github.com/jimschubert)
+* [@cbornet](https://github.com/cbornet)
+* [@jaz-ah](https://github.com/jaz-ah)
 
 ## Template Creator
 Here is a list of template creators:
