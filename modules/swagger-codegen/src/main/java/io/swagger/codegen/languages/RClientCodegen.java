@@ -146,6 +146,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("response.mustache", "/R", "Response.r"));
         supportingFiles.add(new SupportingFile("element.mustache", "/R", "Element.r"));
         supportingFiles.add(new SupportingFile("api_client.mustache", "/R", "ApiClient.r"));
+        supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
     }
 
     @Override
