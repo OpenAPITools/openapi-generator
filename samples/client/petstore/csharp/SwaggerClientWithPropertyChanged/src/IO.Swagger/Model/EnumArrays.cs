@@ -34,20 +34,20 @@ namespace IO.Swagger.Model
     public partial class EnumArrays :  IEquatable<EnumArrays>, IValidatableObject
     {
         /// <summary>
-        /// Gets or Sets JustSymbol
+        /// Defines JustSymbol
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum JustSymbolEnum
         {
             
             /// <summary>
-            /// Enum GreaterThanOrEqualTo for ">="
+            /// Enum GreaterThanOrEqualTo for value: >=
             /// </summary>
             [EnumMember(Value = ">=")]
             GreaterThanOrEqualTo = 1,
             
             /// <summary>
-            /// Enum Dollar for "$"
+            /// Enum Dollar for value: $
             /// </summary>
             [EnumMember(Value = "$")]
             Dollar = 2
@@ -59,20 +59,20 @@ namespace IO.Swagger.Model
         [DataMember(Name="just_symbol", EmitDefaultValue=false)]
         public JustSymbolEnum? JustSymbol { get; set; }
         /// <summary>
-        /// Gets or Sets ArrayEnum
+        /// Defines ArrayEnum
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum ArrayEnumEnum
         {
             
             /// <summary>
-            /// Enum Fish for "fish"
+            /// Enum Fish for value: fish
             /// </summary>
             [EnumMember(Value = "fish")]
             Fish = 1,
             
             /// <summary>
-            /// Enum Crab for "crab"
+            /// Enum Crab for value: crab
             /// </summary>
             [EnumMember(Value = "crab")]
             Crab = 2
