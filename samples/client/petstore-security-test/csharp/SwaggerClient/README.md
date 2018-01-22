@@ -101,7 +101,7 @@ Class | Method | HTTP request | Description
 <a name="documentation-for-models"></a>
 ## Documentation for Models
 
- - [Model.ModelReturn](docs/ModelReturn.md)
+ - [Model.Return](docs/Return.md)
 
 
 <a name="documentation-for-authorization"></a>

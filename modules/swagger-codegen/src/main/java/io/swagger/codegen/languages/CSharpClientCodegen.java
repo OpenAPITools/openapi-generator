@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.codegen.*;
 import io.swagger.models.Model;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.Property;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

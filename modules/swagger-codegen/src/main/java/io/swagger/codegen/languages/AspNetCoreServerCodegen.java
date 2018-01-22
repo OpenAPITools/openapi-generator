@@ -35,7 +35,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         apiTemplateFiles.put("controller.mustache", ".cs");
 
         // contextually reserved words
-        setReservedWordsLowerCase(
+        // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
+        reservedWords.addAll(
             Arrays.asList("var", "async", "await", "dynamic", "yield")
         );
 

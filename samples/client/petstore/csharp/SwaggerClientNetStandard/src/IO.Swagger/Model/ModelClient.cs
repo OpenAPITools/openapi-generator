@@ -31,17 +31,17 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
-        /// <param name="_Client">_Client.</param>
-        public ModelClient(string _Client = default(string))
+        /// <param name="__Client">__Client.</param>
+        public ModelClient(string __Client = default(string))
         {
-            this._Client = _Client;
+            this.__Client = __Client;
         }
         
         /// <summary>
-        /// Gets or Sets _Client
+        /// Gets or Sets __Client
         /// </summary>
         [DataMember(Name="client", EmitDefaultValue=false)]
-        public string _Client { get; set; }
+        public string __Client { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -51,7 +51,7 @@ namespace IO.Swagger.Model
         {
             var sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  _Client: ").Append(_Client).Append("\n");
+            sb.Append("  __Client: ").Append(__Client).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -87,9 +87,9 @@ namespace IO.Swagger.Model
 
             return 
                 (
-                    this._Client == input._Client ||
-                    (this._Client != null &&
-                    this._Client.Equals(input._Client))
+                    this.__Client == input.__Client ||
+                    (this.__Client != null &&
+                    this.__Client.Equals(input.__Client))
                 );
         }
 
@@ -102,8 +102,8 @@ namespace IO.Swagger.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this._Client != null)
-                    hashCode = hashCode * 59 + this._Client.GetHashCode();
+                if (this.__Client != null)
+                    hashCode = hashCode * 59 + this.__Client.GetHashCode();
                 return hashCode;
             }
         }

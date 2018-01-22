@@ -67,12 +67,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 Arrays.asList("IDictionary")
         );
 
-        setReservedWordsLowerCase(
+        // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
+        reservedWords.addAll(
                 Arrays.asList(
                         // set "client" as a reserved word to avoid conflicts with IO.Swagger.Client
                         // this is a workaround and can be removed if c# api client is updated to use
                         // fully qualified name
-                        "client", "parameter",
+                        "Client", "client", "parameter",
                         // local variable names in API methods (endpoints)
                         "localVarPath", "localVarPathParams", "localVarQueryParams", "localVarHeaderParams", 
                         "localVarFormParams", "localVarFileParams", "localVarStatusCode", "localVarResponse",
@@ -719,6 +720,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    protected boolean isReservedWord(String word) {
+        // NOTE: This differs from super's implementation in that C# does _not_ want case insensitive matching.
+        return reservedWords.contains(word);
+    }
+
+    @Override
     public String getSwaggerType(Property p) {
         String swaggerType = super.getSwaggerType(p);
         String type;
@@ -727,6 +734,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             swaggerType = ""; // set swagger type to empty string if null
         }
 
+        // NOTE: typeMapping here supports things like string/String, long/Long, datetime/DateTime as lowercase keys.
+        //       Should we require explicit casing here (values are not insensitive).
         // TODO avoid using toLowerCase as typeMapping should be case-sensitive
         if (typeMapping.containsKey(swaggerType.toLowerCase())) {
             type = typeMapping.get(swaggerType.toLowerCase());
@@ -739,16 +748,39 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return toModelName(type);
     }
 
+    /**
+     * Provides C# strongly typed declaration for simple arrays of some type and arrays of arrays of some type.
+     * @param arr
+     * @return
+     */
+    private String getArrayTypeDeclaration(ArrayProperty arr) {
+        // TODO: collection type here should be fully qualified namespace to avoid model conflicts
+        // This supports arrays of arrays.
+        String arrayType = typeMapping.get("array");
+        StringBuilder instantiationType = new StringBuilder(arrayType);
+        Property items = arr.getItems();
+        String nestedType = getTypeDeclaration(items);
+        // TODO: We may want to differentiate here between generics and primitive arrays.
+        instantiationType.append("<").append(nestedType).append(">");
+        return instantiationType.toString();
+    }
+
+    @Override
+    public String toInstantiationType(Property p) {
+        if (p instanceof ArrayProperty) {
+            return getArrayTypeDeclaration((ArrayProperty) p);
+        }
+        return super.toInstantiationType(p);
+    }
+
     @Override
     public String getTypeDeclaration(Property p) {
         if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
+            return getArrayTypeDeclaration((ArrayProperty) p);
         } else if (p instanceof MapProperty) {
+            // Should we also support maps of maps?
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
-
             return getSwaggerType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
