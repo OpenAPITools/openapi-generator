@@ -78,6 +78,42 @@ package Samples.Petstore.Models is
 
 
    --  ------------------------------
+   --  Pet Order
+   --  An order for a pets from the pet store
+   --  ------------------------------
+   type Order_Type is
+     record
+       Id : Swagger.Nullable_Long;
+       Pet_Id : Swagger.Nullable_Long;
+       Quantity : Swagger.Nullable_Integer;
+       Ship_Date : Swagger.Nullable_Date;
+       Status : Swagger.Nullable_UString;
+       Complete : Swagger.Nullable_Boolean;
+     end record;
+
+   package Order_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => Order_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Order_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Order_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Order_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Order_Type_Vectors.Vector);
+
+
+
+   --  ------------------------------
    --  Pet Tag
    --  A tag for a pet
    --  ------------------------------
@@ -106,6 +142,42 @@ package Samples.Petstore.Models is
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
                           Value : out Tag_Type_Vectors.Vector);
+
+
+
+   --  ------------------------------
+   --  a Pet
+   --  A pet for sale in the pet store
+   --  ------------------------------
+   type Pet_Type is
+     record
+       Id : Swagger.Nullable_Long;
+       Category : Samples.Petstore.Models.Category_Type;
+       Name : Swagger.UString;
+       Photo_Urls : Swagger.Nullable_UString_Vectors.Vector;
+       Tags : Samples.Petstore.Models.Tag_Type_Vectors.Vector;
+       Status : Swagger.Nullable_UString;
+     end record;
+
+   package Pet_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => Pet_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Pet_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Pet_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Pet_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Pet_Type_Vectors.Vector);
 
 
 
@@ -144,78 +216,6 @@ package Samples.Petstore.Models is
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
                           Value : out User_Type_Vectors.Vector);
-
-
-
-   --  ------------------------------
-   --  Pet Order
-   --  An order for a pets from the pet store
-   --  ------------------------------
-   type Order_Type is
-     record
-       Id : Swagger.Nullable_Long;
-       Pet_Id : Swagger.Nullable_Long;
-       Quantity : Swagger.Nullable_Integer;
-       Ship_Date : Swagger.Nullable_Date;
-       Status : Swagger.Nullable_UString;
-       Complete : Swagger.Nullable_Boolean;
-     end record;
-
-   package Order_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => Order_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Order_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Order_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Order_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Order_Type_Vectors.Vector);
-
-
-
-   --  ------------------------------
-   --  a Pet
-   --  A pet for sale in the pet store
-   --  ------------------------------
-   type Pet_Type is
-     record
-       Id : Swagger.Nullable_Long;
-       Category : Samples.Petstore.Models.Category_Type;
-       Name : Swagger.UString;
-       Photo_Urls : Swagger.Nullable_UString_Vectors.Vector;
-       Tags : Samples.Petstore.Models.Tag_Type_Vectors.Vector;
-       Status : Swagger.Nullable_UString;
-     end record;
-
-   package Pet_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => Pet_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Pet_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Pet_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Pet_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Pet_Type_Vectors.Vector);
 
 
 
