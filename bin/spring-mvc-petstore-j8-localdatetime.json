@@ -1,0 +1,5 @@
+{
+    "library": "spring-mvc",
+    "dateLibrary": "java8-localdatetime",
+    "artifactId": "swagger-spring-mvc-j8-localdatetime"
+}
