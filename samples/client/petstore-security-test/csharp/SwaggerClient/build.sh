@@ -33,10 +33,10 @@ esac
 
 echo "[INFO] Target framework: ${frameworkVersion}"
 
-if [ ! type nuget &>/dev/null ]; then
+if ! type nuget &>/dev/null; then
     echo "[INFO] Download nuget and packages"
     wget -nc https://dist.nuget.org/win-x86-commandline/latest/nuget.exe;
-    nuget_cmd="mono nuget"
+    nuget_cmd="mono nuget.exe"
 fi
 
 mozroots --import --sync
@@ -46,9 +46,10 @@ echo "[INFO] Copy DLLs to the 'bin' folder"
 mkdir -p bin;
 cp packages/Newtonsoft.Json.10.0.3/lib/net45/Newtonsoft.Json.dll bin/Newtonsoft.Json.dll;
 cp packages/RestSharp.105.1.0/lib/net45/RestSharp.dll bin/RestSharp.dll;
+cp packages/JsonSubTypes.1.2.0/lib/net45/JsonSubTypes.dll bin/JsonSubTypes.dll
 
 echo "[INFO] Run 'mcs' to build bin/IO.Swagger.dll"
-mcs -langversion:${langversion} -sdk:${sdk} -r:bin/Newtonsoft.Json.dll,\
+mcs -langversion:${langversion} -sdk:${sdk} -r:bin/Newtonsoft.Json.dll,bin/JsonSubTypes.dll,\
 bin/RestSharp.dll,\
 System.ComponentModel.DataAnnotations.dll,\
 System.Runtime.Serialization.dll \
