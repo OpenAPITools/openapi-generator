@@ -3,7 +3,7 @@
 -export([{{#operations}}{{#operation}}{{^-first}},
          {{/-first}}{{operationId}}/{{arityRequired}}, {{operationId}}/{{arityOptional}}{{/operation}}{{/operations}}]).
 
--define(BASE_URL, <<"{{{basePath}}}">>).
+-define(BASE_URL, "{{{basePathWithoutHost}}}").
 
 {{#operations}}
     {{#operation}}
@@ -11,41 +11,24 @@
 {{^notes.isEmpty}}
 %% {{{notes}}}
 {{/notes.isEmpty}}
--spec {{operationId}}({{#allParams}}{{#required}}{{^-first}}, {{/-first}}{{{dataType}}}{{/required}}{{/allParams}}{{^bodyParams.isEmpty}}{{#bodyParams}}, term(){{/bodyParams}}{{/bodyParams.isEmpty}}) -> {{#returnType}}{ok, list(), {{{returnType}}}} | {error, string()}{{/returnType}}{{^returnType}}ok | {error, integer()}{{/returnType}}.
-{{operationId}}({{#allParams}}{{#required}}{{^-first}}, {{/-first}}{{paramName}}{{/required}}{{/allParams}}{{^bodyParams.isEmpty}}{{#bodyParams}}, {{paramName}}{{/bodyParams}}{{/bodyParams.isEmpty}}) ->
-    {{operationId}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}, {{/bodyParams}}{{/bodyParams.isEmpty}}#{}).
+-spec {{operationId}}(ctx:ctx(){{#allParams}}{{#required}}, {{{dataType}}}{{/required}}{{/allParams}}) -> {ok, {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}[]{{/returnType}}, {{packageName}}_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), {{packageName}}_utils:response_info()}.
+{{operationId}}(Ctx{{#allParams}}{{#required}}, {{paramName}}{{/required}}{{/allParams}}) ->
+    {{operationId}}(Ctx{{#allParams}}{{#required}}, {{paramName}}{{/required}}{{/allParams}}, #{}).
 
--spec {{operationId}}({{#allParams}}{{#required}}{{{dataType}}}, {{/required}}{{/allParams}}{{^bodyParams.isEmpty}}{{#bodyParams}}term(), {{/bodyParams}}{{/bodyParams.isEmpty}}maps:map()) -> {{#returnType}}{ok, list(), {{{returnType}}}} | {error, string()}{{/returnType}}{{^returnType}}ok | {error, integer()}{{/returnType}}.
-{{operationId}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}{{/bodyParams}}, {{/bodyParams.isEmpty}}_Optional) ->
+-spec {{operationId}}(ctx:ctx(){{#allParams}}{{#required}}, {{{dataType}}}{{/required}}{{/allParams}}, maps:map()) -> {ok, {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}[]{{/returnType}}, {{packageName}}_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), {{packageName}}_utils:response_info()}.
+{{operationId}}(Ctx{{#allParams}}{{#required}}, {{paramName}}{{/required}}{{/allParams}}, Optional) ->
+    _OptionalParams = maps:get(params, Optional, #{}),
+    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+
     Method = {{httpMethod}},
     Path = ["{{{replacedPathName}}}"],
-    QS = {{#queryParams.isEmpty}}[]{{/queryParams.isEmpty}}{{^queryParams.isEmpty}}lists:flatten([{{#queryParams}}{{#required}}{{^-first}}, {{/-first}}{{#qsEncode}}{{this}}{{/qsEncode}}{{/required}}{{/queryParams}}])++[{X, maps:get(X, _Optional)} || X <- [{{#queryParams}}{{^required}}{{^-first}}, {{/-first}}'{{baseName}}'{{/required}}{{/queryParams}}], maps:is_key(X, _Optional)]{{/queryParams.isEmpty}},
-    Headers = {{#headerParams.isEmpty}}[]{{/headerParams.isEmpty}}{{^headerParams.isEmpty}}[{{#headerParams}}{{#required}}{{^-first}}, {{/-first}}{<<"{{baseName}}">>, {{paramName}}}{{/required}}{{/headerParams}}]++[{X, maps:get(X, _Optional)} || X <- [{{#headerParams}}{{^required}}{{^-first}}, {{/-first}}'{{baseName}}'{{/required}}{{/headerParams}}], maps:is_key(X, _Optional)]{{/headerParams.isEmpty}},
-    Body1 = {{^formParams.isEmpty}}{form, [{{#formParams}}{{#required}}{{^-first}}, {{/-first}}{<<"{{baseName}}">>, {{paramName}}}{{/required}}{{/formParams}}]++[{X, maps:get(X, _Optional)} || X <- [{{#formParams}}{{^required}}{{^-first}}, {{/-first}}'{{baseName}}'{{/required}}{{/formParams}}], maps:is_key(X, _Optional)]}{{/formParams.isEmpty}}{{#formParams.isEmpty}}{{#bodyParams.isEmpty}}[]{{/bodyParams.isEmpty}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/bodyParams.isEmpty}}{{/formParams.isEmpty}},
-    Opts = [],
-    Url = hackney_url:make_url(?BASE_URL, Path, QS),
+    QS = {{#queryParams.isEmpty}}[]{{/queryParams.isEmpty}}{{^queryParams.isEmpty}}lists:flatten([{{#queryParams}}{{#required}}{{^-first}}, {{/-first}}{{#qsEncode}}{{this}}{{/qsEncode}}{{/required}}{{/queryParams}}])++{{packageName}}_utils:optional_params([{{#queryParams}}{{^required}}{{^-first}}, {{/-first}}'{{baseName}}'{{/required}}{{/queryParams}}], _OptionalParams){{/queryParams.isEmpty}},
+    Headers = {{#headerParams.isEmpty}}[]{{/headerParams.isEmpty}}{{^headerParams.isEmpty}}[{{#headerParams}}{{#required}}{{^-first}}, {{/-first}}{<<"{{baseName}}">>, {{paramName}}}{{/required}}{{/headerParams}}]++{{packageName}}_utils:optional_params([{{#headerParams}}{{^required}}{{^-first}}, {{/-first}}'{{baseName}}'{{/required}}{{/headerParams}}], _OptionalParams){{/headerParams.isEmpty}},
+    Body1 = {{^formParams.isEmpty}}{form, [{{#formParams}}{{#required}}{{^-first}}, {{/-first}}{<<"{{baseName}}">>, {{paramName}}}{{/required}}{{/formParams}}]++{{packageName}}_utils:optional_params([{{#formParams}}{{^required}}{{^-first}}, {{/-first}}'{{baseName}}'{{/required}}{{/formParams}}], _OptionalParams)}{{/formParams.isEmpty}}{{#formParams.isEmpty}}{{#bodyParams.isEmpty}}[]{{/bodyParams.isEmpty}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/bodyParams.isEmpty}}{{/formParams.isEmpty}},
+    ContentTypeHeader = {{packageName}}_utils:select_header_content_type([{{#consumes}}{{^-first}}, {{/-first}}<<"{{mediaType}}">>{{/consumes}}]),
+    Opts = maps:get(hackney_opts, Optional, []),
 
-    case hackney:request(Method, Url, Headers, Body1, Opts) of
-{{#returnType}}
-        {{#responses}}
-{{#isDefault}}
-        {ok, {{code}}, RespHeaders, ClientRef} ->
-            {ok, ResponseBody} = hackney:body(ClientRef),
-            {ok, RespHeaders, jsx:decode(ResponseBody, [return_maps])}{{#hasMore}}; {{/hasMore}}
-{{/isDefault}}
-{{^isDefault}}
-        {ok, {{code}}, _RespHeaders, _ClientRef} ->
-            {error, "{{message}}"}{{#hasMore}}; {{/hasMore}}
-{{/isDefault}}
-        {{/responses}}
-{{/returnType}}
-{{^returnType}}
-        {ok, 200, _RespHeaders, _ClientRef} ->
-             ok;
-        {ok, Status, _RespHeaders, _ClientRef} ->
-             {error, Status}
-{{/returnType}}
-    end.
+    {{packageName}}_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
     {{/operation}}
 

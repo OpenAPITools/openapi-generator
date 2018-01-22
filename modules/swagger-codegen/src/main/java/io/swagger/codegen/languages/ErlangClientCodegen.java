@@ -157,6 +157,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
         supportingFiles.add(new SupportingFile("rebar.config.mustache","", "rebar.config"));
         supportingFiles.add(new SupportingFile("app.src.mustache", "", "src" + File.separator + this.packageName + ".app.src"));
+        supportingFiles.add(new SupportingFile("utils.mustache", "", "src" + File.separator + this.packageName + "_utils.erl"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
@@ -221,23 +222,24 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelName(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("-", "_"));
+        return this.packageName + "_" + underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
     }
 
     @Override
     public String toApiName(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("-", "_"));
+        return this.packageName + "_" + underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
     }
 
     @Override
     public String toModelFilename(String name) {
-        return this.packageName + "_" + underscore(name);
+        return this.packageName + "_" + underscore(name.replaceAll("\\.", "_"));
     }
 
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = name.replaceAll("-", "_").replaceAll("\\.", "_");
 
         // e.g. PetApi.erl => pet_api.erl
         return this.packageName + "_" + underscore(name) + "_api";
@@ -247,11 +249,11 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
             operationId = "call_" + operationId;
         }
 
-        return underscore(operationId);
+        return underscore(operationId.replaceAll("\\.", "_"));
     }
 
     @Override
@@ -379,8 +381,8 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             this.produces = o.produces;
             this.bodyParam = o.bodyParam;
             this.allParams = o.allParams;
-            this.arityRequired = Integer.toString(lengthRequired(o.allParams));
-            this.arityOptional = Integer.toString(lengthRequired(o.allParams)+1);
+            this.arityRequired = Integer.toString(lengthRequired(o.allParams)+1);
+            this.arityOptional = Integer.toString(lengthRequired(o.allParams)+2);
             this.bodyParams = o.bodyParams;
             this.pathParams = o.pathParams;
             this.queryParams = o.queryParams;

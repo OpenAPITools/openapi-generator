@@ -1,14 +1,14 @@
--module(swagger_order).
+-module(petstore_order).
 
 -export([encode/1]).
 
--export_type([swagger_order/0]).
+-export_type([petstore_order/0]).
 
--type swagger_order() ::
+-type petstore_order() ::
     #{ 'id' => integer(),
        'petId' => integer(),
        'quantity' => integer(),
-       'shipDate' => swagger_date_time:swagger_date_time(),
+       'shipDate' => petstore_date_time:petstore_date_time(),
        'status' => binary(),
        'complete' => boolean()
      }.
