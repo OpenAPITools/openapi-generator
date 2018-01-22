@@ -29,26 +29,26 @@ namespace IO.Swagger.Model
     public partial class EnumTest :  IEquatable<EnumTest>
     {
         /// <summary>
-        /// Gets or Sets EnumString
+        /// Defines EnumString
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum EnumStringEnum
         {
             
             /// <summary>
-            /// Enum UPPER for "UPPER"
+            /// Enum UPPER for value: UPPER
             /// </summary>
             [EnumMember(Value = "UPPER")]
             UPPER = 1,
             
             /// <summary>
-            /// Enum Lower for "lower"
+            /// Enum Lower for value: lower
             /// </summary>
             [EnumMember(Value = "lower")]
             Lower = 2,
             
             /// <summary>
-            /// Enum Empty for ""
+            /// Enum Empty for value: 
             /// </summary>
             [EnumMember(Value = "")]
             Empty = 3
@@ -60,22 +60,21 @@ namespace IO.Swagger.Model
         [DataMember(Name="enum_string", EmitDefaultValue=false)]
         public EnumStringEnum? EnumString { get; set; }
         /// <summary>
-        /// Gets or Sets EnumInteger
+        /// Defines EnumInteger
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
         public enum EnumIntegerEnum
         {
             
             /// <summary>
-            /// Enum NUMBER_1 for 1
+            /// Enum NUMBER_1 for value: 1
             /// </summary>
-            [EnumMember(Value = "1")]
+            
             NUMBER_1 = 1,
             
             /// <summary>
-            /// Enum NUMBER_MINUS_1 for -1
+            /// Enum NUMBER_MINUS_1 for value: -1
             /// </summary>
-            [EnumMember(Value = "-1")]
+            
             NUMBER_MINUS_1 = -1
         }
 
@@ -85,20 +84,20 @@ namespace IO.Swagger.Model
         [DataMember(Name="enum_integer", EmitDefaultValue=false)]
         public EnumIntegerEnum? EnumInteger { get; set; }
         /// <summary>
-        /// Gets or Sets EnumNumber
+        /// Defines EnumNumber
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum EnumNumberEnum
         {
             
             /// <summary>
-            /// Enum NUMBER_1_DOT_1 for 1.1
+            /// Enum NUMBER_1_DOT_1 for value: 1.1
             /// </summary>
             [EnumMember(Value = "1.1")]
             NUMBER_1_DOT_1 = 1,
             
             /// <summary>
-            /// Enum NUMBER_MINUS_1_DOT_2 for -1.2
+            /// Enum NUMBER_MINUS_1_DOT_2 for value: -1.2
             /// </summary>
             [EnumMember(Value = "-1.2")]
             NUMBER_MINUS_1_DOT_2 = 2

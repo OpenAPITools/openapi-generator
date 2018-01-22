@@ -31,20 +31,20 @@ namespace IO.Swagger.Model
     public partial class MapTest :  IEquatable<MapTest>, IValidatableObject
     {
         /// <summary>
-        /// Gets or Sets Inner
+        /// Defines Inner
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum InnerEnum
         {
             
             /// <summary>
-            /// Enum UPPER for "UPPER"
+            /// Enum UPPER for value: UPPER
             /// </summary>
             [EnumMember(Value = "UPPER")]
             UPPER = 1,
             
             /// <summary>
-            /// Enum Lower for "lower"
+            /// Enum Lower for value: lower
             /// </summary>
             [EnumMember(Value = "lower")]
             Lower = 2
