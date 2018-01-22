@@ -459,6 +459,32 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         return objs;
     }
 
+    /**
+     * Check if type1 depends on type2 recursively.
+     *
+     * @param type1 first model type name
+     * @param type2 second model type name
+     * @return true if type1 depends on type2
+     */
+    private Boolean dependsOn(String type1, String type2) {
+        final String fullTypeName = modelPackage + ".Models." + type2;
+        if (type1.equals(type2) || type1.equals(fullTypeName)) {
+            return true;
+        }
+        final List<String> lhsList = modelDepends.get(type1);
+        if (lhsList != null) {
+            for (final String S : lhsList) {
+                if (S.equals(type2) || S.equals(fullTypeName)) {
+                    return true;
+                }
+                if (dependsOn(S, type2)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // Collect the model dependencies.
@@ -483,7 +509,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                     }
                     p.vendorExtensions.put("x-is-model-type", isModel);
                 }
-                modelDepends.put(m.name, d);
+                modelDepends.put(m.classname, d);
+                modelDepends.put(modelPackage + ".Models." + m.classname, d);
                 orderedModels.add(model);
             }
         }
@@ -495,14 +522,18 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             @Override
             public int compare(Map<String, Object> lhs, Map<String, Object> rhs) {
                 Object v = lhs.get("model");
-                String lhsName = ((CodegenModel) v).name;
+                String lhsName = ((CodegenModel) v).classname;
                 v = rhs.get("model");
-                String rhsName = ((CodegenModel) v).name;
+                String rhsName = ((CodegenModel) v).classname;
                 List<String> lhsList = deps.get(lhsName);
                 List<String> rhsList = deps.get(rhsName);
-                if (lhsList == rhsList) {
-                    // LOGGER.info("First compare " + lhsName + "<" + rhsName);
-                    return lhsName.compareTo(rhsName);
+                if (dependsOn(lhsName, rhsName)) {
+                    // LOGGER.info("Type " + lhsName + " depends on " + rhsName);
+                    return 1;
+                }
+                if (dependsOn(rhsName, lhsName)) {
+                    // LOGGER.info("Type " + rhsName + " depends on " + lhsName);
+                    return -1;
                 }
                 // Put models without dependencies first.
                 if (lhsList == null) {
@@ -511,24 +542,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 }
                 if (rhsList == null) {
                     // LOGGER.info("  No check " + lhsName + ", empty " + rhsName);
-                    return 1;
-                }
-                // Put models that depend on another after.
-                if (lhsList.contains(rhsName)) {
-                    // LOGGER.info("  LSH " + lhsName + " uses " + rhsName);
-                    return 1;
-                }
-                if (rhsList.contains(lhsName)) {
-                    // LOGGER.info("  RHS " + rhsName + " uses " + lhsName);
-                    return -1;
-                }
-                // Put models with less dependencies first.
-                if (lhsList.size() < rhsList.size()) {
-                    // LOGGER.info("  LSH size " + lhsName + " < RHS size " + rhsName);
-                    return -1;
-                }
-                if (lhsList.size() > rhsList.size()) {
-                    // LOGGER.info("  LSH size " + lhsName + " > RHS size " + rhsName);
                     return 1;
                 }
                 // Sort models on their name.
@@ -542,7 +555,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 CodegenModel m = (CodegenModel) v;
                 LOGGER.info("Order: " + m.name);
             }
-        }*/
+        } */
         return postProcessModelsEnum(objs);
     }
 

@@ -114,6 +114,62 @@ package body Samples.Petstore.Models is
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
+                        Value : in Order_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Serialize (Into, "id", Value.Id);
+      Serialize (Into, "petId", Value.Pet_Id);
+      Into.Write_Entity ("quantity", Value.Quantity);
+      Into.Write_Entity ("shipDate", Value.Ship_Date);
+      Into.Write_Entity ("status", Value.Status);
+      Into.Write_Entity ("complete", Value.Complete);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Order_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Order_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "id", Value.Id);
+      Swagger.Streams.Deserialize (Object, "petId", Value.Pet_Id);
+      Swagger.Streams.Deserialize (Object, "quantity", Value.Quantity);
+      Deserialize (Object, "shipDate", Value.Ship_Date);
+      Swagger.Streams.Deserialize (Object, "status", Value.Status);
+      Swagger.Streams.Deserialize (Object, "complete", Value.Complete);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Order_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : Order_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
                         Value : in Tag_Type) is
    begin
       Into.Start_Entity (Name);
@@ -148,6 +204,62 @@ package body Samples.Petstore.Models is
                           Value : out Tag_Type_Vectors.Vector) is
       List : Swagger.Value_Array_Type;
       Item : Tag_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Pet_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Serialize (Into, "id", Value.Id);
+      Serialize (Into, "category", Value.Category);
+      Into.Write_Entity ("name", Value.Name);
+      Serialize (Into, "photoUrls", Value.Photo_Urls);
+      Serialize (Into, "tags", Value.Tags);
+      Into.Write_Entity ("status", Value.Status);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Pet_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Pet_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "id", Value.Id);
+      Deserialize (Object, "category", Value.Category);
+      Swagger.Streams.Deserialize (Object, "name", Value.Name);
+      Swagger.Streams.Deserialize (Object, "photoUrls", Value.Photo_Urls);
+      Deserialize (Object, "tags", Value.Tags);
+      Swagger.Streams.Deserialize (Object, "status", Value.Status);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Pet_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : Pet_Type;
    begin
       Value.Clear;
       Swagger.Streams.Deserialize (From, Name, List);
@@ -208,118 +320,6 @@ package body Samples.Petstore.Models is
                           Value : out User_Type_Vectors.Vector) is
       List : Swagger.Value_Array_Type;
       Item : User_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Order_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Serialize (Into, "id", Value.Id);
-      Serialize (Into, "petId", Value.Pet_Id);
-      Into.Write_Entity ("quantity", Value.Quantity);
-      Into.Write_Entity ("shipDate", Value.Ship_Date);
-      Into.Write_Entity ("status", Value.Status);
-      Into.Write_Entity ("complete", Value.Complete);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Order_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Order_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "id", Value.Id);
-      Swagger.Streams.Deserialize (Object, "petId", Value.Pet_Id);
-      Swagger.Streams.Deserialize (Object, "quantity", Value.Quantity);
-      Deserialize (Object, "shipDate", Value.Ship_Date);
-      Swagger.Streams.Deserialize (Object, "status", Value.Status);
-      Swagger.Streams.Deserialize (Object, "complete", Value.Complete);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Order_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : Order_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Pet_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Serialize (Into, "id", Value.Id);
-      Serialize (Into, "category", Value.Category);
-      Into.Write_Entity ("name", Value.Name);
-      Serialize (Into, "photoUrls", Value.Photo_Urls);
-      Serialize (Into, "tags", Value.Tags);
-      Into.Write_Entity ("status", Value.Status);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Pet_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Pet_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "id", Value.Id);
-      Deserialize (Object, "category", Value.Category);
-      Swagger.Streams.Deserialize (Object, "name", Value.Name);
-      Swagger.Streams.Deserialize (Object, "photoUrls", Value.Photo_Urls);
-      Deserialize (Object, "tags", Value.Tags);
-      Swagger.Streams.Deserialize (Object, "status", Value.Status);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Pet_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : Pet_Type;
    begin
       Value.Clear;
       Swagger.Streams.Deserialize (From, Name, List);
