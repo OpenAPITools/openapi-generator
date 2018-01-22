@@ -7,6 +7,7 @@ import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultGenerator;
 import io.swagger.codegen.config.CodegenConfigurator;
 import io.swagger.generator.model.GenerationRequest;
+import io.swagger.generator.util.GeneratorUtil;
 import io.swagger.generator.util.ZipUtil;
 import io.swagger.oas.inflector.models.RequestContext;
 import io.swagger.oas.inflector.models.ResponseContext;
@@ -25,9 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ServiceLoader;
 
 public class GeneratorController {
@@ -114,56 +113,50 @@ public class GeneratorController {
                     .entity("property 'spec' not found on: " + argumentsUrl);
         }
 
-        GenerationRequest generationRequest = new GenerationRequest()
-                .lang(node.findValue("lang").textValue())
-                .spec(node.findValue("spec").textValue());
+        File outputRootFolder = getTmpFolder();
+        File outputContentFolder = new File(outputRootFolder, "content");
+        File outputFile = new File(outputRootFolder, node.findValue("lang").textValue() + "-bundle.zip");
 
-        if (node.has("library")) {
-            generationRequest.setLibrary(node.findValue("library").textValue());
-        }
-        JsonNode propertiesNode = node.findValue("additionalProperties");
-        if (propertiesNode != null && propertiesNode.isArray()) {
-            Map<String, Object> additionalProperties = new HashMap();
-            for (JsonNode jsonNode : propertiesNode) {
-                String value = jsonNode.textValue();
-                if (value.contains("=")) {
-                    String[] values = value.split("=");
-                    additionalProperties.put(values[0], values[1]);
-                } else {
-                    additionalProperties.put(value, Boolean.TRUE);
-                }
-            }
-        }
-        return generate(context, generationRequest);
+        final ClientOptInput clientOptInput = GeneratorUtil.getClientOptInput(node, outputContentFolder.getAbsolutePath());
+        return generate(clientOptInput, outputRootFolder, outputContentFolder, outputFile);
     }
 
     public ResponseContext generate(RequestContext context, String language, String specUrl, String library) {
-        return generate(context, new GenerationRequest()
-                .lang(language)
-                .library(library)
-                .spec(specUrl));
+        File outputRootFolder = getTmpFolder();
+        File outputContentFolder = new File(outputRootFolder, "content");
+        File outputFile = new File(outputRootFolder, language + "-bundle.zip");
+
+        ClientOptInput clientOptInput = new CodegenConfigurator()
+                .setLang(language)
+                .setInputSpec(specUrl)
+                .setOutputDir(outputContentFolder.getAbsolutePath())
+                .setLibrary(library)
+                .toClientOptInput();
+        return generate(clientOptInput, outputRootFolder, outputContentFolder, outputFile);
     }
 
     public ResponseContext generate(RequestContext context, GenerationRequest generationRequest) {
-
         File outputRootFolder = getTmpFolder();
         File outputContentFolder = new File(outputRootFolder, "content");
-        File outputFile = new File(outputRootFolder, generationRequest.getLang() + "-bundle.zip");
+        File outputFile = new File(outputRootFolder, generationRequest.getOptions().getLang() + "-bundle.zip");
+        final ClientOptInput clientOptInput = GeneratorUtil.getClientOptInput(generationRequest, outputContentFolder.getAbsolutePath());
+        return generate(clientOptInput, outputRootFolder, outputContentFolder, outputFile);
+    }
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setLang(generationRequest.getLang())
-                .setLibrary(generationRequest.getLibrary())
-                .setInputSpec(generationRequest.getSpec())
-                .setOutputDir(outputContentFolder.getAbsolutePath());
-
-        if (generationRequest.getAdditionalProperties() != null && !generationRequest.getAdditionalProperties().isEmpty()) {
-            for (String key : generationRequest.getAdditionalProperties().keySet()) {
-                final Object value = generationRequest.getAdditionalProperties().get(key);
-                configurator.addAdditionalProperty(key, value);
-            }
+    protected static File getTmpFolder() {
+        try {
+            File outputFolder = File.createTempFile("codegen-", "-tmp");
+            outputFolder.delete();
+            outputFolder.mkdir();
+            outputFolder.deleteOnExit();
+            return outputFolder;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
+    }
 
-        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+    private ResponseContext generate(ClientOptInput clientOptInput, File outputRootFolder, File outputContentFolder, File outputFile) {
         new DefaultGenerator().opts(clientOptInput).generate();
 
         final ZipUtil zipUtil = new ZipUtil();
@@ -206,18 +199,5 @@ public class GeneratorController {
                 .status(500)
                 .contentType(MediaType.APPLICATION_JSON_TYPE)
                 .entity("Could not generate files.");
-    }
-
-    protected static File getTmpFolder() {
-        try {
-            File outputFolder = File.createTempFile("codegen-", "-tmp");
-            outputFolder.delete();
-            outputFolder.mkdir();
-            outputFolder.deleteOnExit();
-            return outputFolder;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }

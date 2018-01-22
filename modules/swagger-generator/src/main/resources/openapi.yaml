@@ -32,6 +32,23 @@ paths:
               schema:
                 type: string
                 format: binary
+    post:
+      x-swagger-router-controller: "io.swagger.generator.online.GeneratorController"
+      operationId: generate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerationRequest'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
   /generate/{language}:
     get:
       x-swagger-router-controller: "io.swagger.generator.online.GeneratorController"
@@ -62,22 +79,6 @@ paths:
               schema:
                 type: string
                 format: binary
-    post:
-      x-swagger-router-controller: "io.swagger.generator.online.GeneratorController"
-      operationId: generate
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GenerationRequest'
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/octet-stream:
-              schema:
-                type: string
-                format: binary
 
   /clients:
     get:
@@ -92,7 +93,6 @@ paths:
                 type: array
                 items:
                   type: string
-
   /servers:
     get:
       x-swagger-router-controller: "io.swagger.generator.online.GeneratorController"
@@ -112,21 +112,121 @@ components:
     GenerationRequest:
       x-swagger-router-model: "io.swagger.generator.model.GenerationRequest"
       required:
-      - language
-      - specUrl
+      - spec
+      - options
       properties:
         spec:
-          type: "string"
-          description: "spec url location"
-          example: "http://someplace.in.web/v1/oas3.json"
+          type: "object"
+          description: "spec in json format."
+        options:
+          $ref: '#/components/schemas/Options'
+    Options:
+      x-swagger-router-model: "io.swagger.generator.model.Options"
+      required:
+      - lang
+      properties:
         lang:
           type: "string"
-          description: "language to generate"
+          title: "language"
+          description: "client language to generate (maybe class name in classpath, required)"
           example: "java"
+        auth:
+          type: "string"
+          title: "authorization"
+          description: "adds authorization headers when fetching the open api 3 definitions remotely. Pass in a URL-encoded string of name:header with a comma separating multiple values"
+        apiPackage:
+          type: "string"
+          title: "api package"
+          description: "package for generated api classes"
+        modelPackage:
+          type: "string"
+          title: "model package"
+          description: "package for generated models"
+        modelNamePrefix:
+          type: "string"
+          title: "model name prefix"
+          description: "Prefix that will be prepended to all model names. Default is the empty string."
+        modelNameSuffix:
+          type: "string"
+          title: "model name suffix"
+          description: "PrefixSuffix that will be appended to all model names. Default is the empty string."
+        instantiationTypes:
+          type: "array"
+          items:
+            type: string
+          title: "instantiation types"
+          description: "sets instantiation type mappings in the format of type=instantiatedType,type=instantiatedType. For example (in Java): array=ArrayList,map=HashMap. In other words array types will get instantiated as ArrayList in generated code. You can also have multiple occurrences of this option."
+        typeMappings:
+          type: "array"
+          items:
+            type: string
+          title: "type mappings"
+          description: "sets mappings between swagger spec types and generated code types in the format of swaggerType=generatedType,swaggerType=generatedType. For example: array=List,map=Map,string=String. You can also have multiple occurrences of this option."
+        additionalProperties:
+          type: "array"
+          items:
+            type: string
+          title: "additional properties"
+          description: "sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value. You can also have multiple occurrences of this option."
+        languageSpecificPrimitives:
+          type: "array"
+          items:
+            type: string
+          title: "language specific primitives"
+          description: "specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double. You can also have multiple occurrences of this option."
+        importMappings:
+          type: "array"
+          items:
+            type: string
+          title: "import mappings"
+          description: "specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import. You can also have multiple occurrences of this option."
+        invokerPackage:
+          type: "string"
+          title: "invoker package"
+          description: "root package for generated code"
+        groupId:
+          type: "string"
+          title: "group id"
+          description: "groupId in generated pom.xml"
+        artifactId:
+          type: "string"
+          title: "artifact id"
+          description: "artifactId in generated pom.xml"
+        artifactVersion:
+          type: "string"
+          title: "artifact version"
+          description: "artifact version generated in pom.xml"
         library:
           type: "string"
-          example: "jersey2"
-        additionalProperties:
-          type: object
-          additionalProperties:
-            type: object
+          title: "library"
+          description: "library template (sub-template)"
+        gitUserId:
+          type: "string"
+          title: "git user id"
+          description: "Git user ID, e.g. swagger-api."
+        gitRepoId:
+          type: "string"
+          title: "git repo id"
+          description: "Git repo ID, e.g. swagger-codegen."
+        releaseNote:
+          type: "string"
+          title: "release note"
+          description: "Release note, default to 'Minor update'."
+        httpUserAgent:
+          type: "string"
+          title: "http user agent"
+          description: "HTTP user agent, e.g. codegen_csharp_api_client, default to 'Swagger-Codegen/{packageVersion}}/{language}'"
+        reservedWordsMappings:
+          type: "array"
+          items:
+            type: string
+          title: "reserved words mappings"
+          description: "pecifies how a reserved name should be escaped to. Otherwise, the default _<name> is used. For example id=identifier. You can also have multiple occurrences of this option."
+        ignoreFileOverride:
+          type: "string"
+          title: "ignore file override location"
+          description: "Specifies an override location for the .swagger-codegen-ignore file. Most useful on initial generation."
+        removeOperationIdPrefix:
+          type: "boolean"
+          title: "remove prefix of the operationId"
+          description: "Remove prefix of operationId, e.g. config_getId => getId"
