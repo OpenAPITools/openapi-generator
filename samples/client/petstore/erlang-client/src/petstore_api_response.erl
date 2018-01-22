@@ -1,10 +1,10 @@
--module(swagger_api_response).
+-module(petstore_api_response).
 
 -export([encode/1]).
 
--export_type([swagger_api_response/0]).
+-export_type([petstore_api_response/0]).
 
--type swagger_api_response() ::
+-type petstore_api_response() ::
     #{ 'code' => integer(),
        'type' => binary(),
        'message' => binary()

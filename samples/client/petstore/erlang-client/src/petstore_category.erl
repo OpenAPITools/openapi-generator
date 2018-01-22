@@ -1,10 +1,10 @@
--module(swagger_tag).
+-module(petstore_category).
 
 -export([encode/1]).
 
--export_type([swagger_tag/0]).
+-export_type([petstore_category/0]).
 
--type swagger_tag() ::
+-type petstore_category() ::
     #{ 'id' => integer(),
        'name' => binary()
      }.

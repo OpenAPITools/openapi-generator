@@ -1,10 +1,10 @@
--module(swagger_user).
+-module(petstore_user).
 
 -export([encode/1]).
 
--export_type([swagger_user/0]).
+-export_type([petstore_user/0]).
 
--type swagger_user() ::
+-type petstore_user() ::
     #{ 'id' => integer(),
        'username' => binary(),
        'firstName' => binary(),

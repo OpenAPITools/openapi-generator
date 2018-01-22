@@ -1,14 +1,15 @@
 {application, {{packageName}},
  [{description, {{#appDescription}}"{{appDescription}}"{{/appDescription}}{{^appDescription}}"Swagger client library"{{/appDescription}}},
-  {vsn, "{{apiVersion}}"},
+  {vsn, "{{#apiVersion}}{{apiVersion}}{{/apiVersion}}{{^apiVersion}}0.1.0{{/apiVersion}}"},
   {registered, []},
   {applications,
     [kernel,
      stdlib,
      ssl,
-     hackney
+     hackney,
+     ctx
     ]},
-  {env, []},
+  {env, [{host, "{{#host}}{{{host}}}{{/host}}{{^host}}localhost{{/host}}"}]},
   {modules, []},
 
   {maintainers, []},
