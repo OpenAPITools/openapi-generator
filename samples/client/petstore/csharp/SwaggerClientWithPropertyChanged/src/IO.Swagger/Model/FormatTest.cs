@@ -45,16 +45,16 @@ namespace IO.Swagger.Model
         /// <param name="Int32">Int32.</param>
         /// <param name="Int64">Int64.</param>
         /// <param name="Number">Number (required).</param>
-        /// <param name="_Float">_Float.</param>
-        /// <param name="_Double">_Double.</param>
-        /// <param name="_String">_String.</param>
-        /// <param name="_Byte">_Byte (required).</param>
+        /// <param name="Float">Float.</param>
+        /// <param name="Double">Double.</param>
+        /// <param name="String">String.</param>
+        /// <param name="Byte">Byte (required).</param>
         /// <param name="Binary">Binary.</param>
         /// <param name="Date">Date (required).</param>
         /// <param name="DateTime">DateTime.</param>
         /// <param name="Uuid">Uuid.</param>
         /// <param name="Password">Password (required).</param>
-        public FormatTest(int? Integer = default(int?), int? Int32 = default(int?), long? Int64 = default(long?), decimal? Number = default(decimal?), float? _Float = default(float?), double? _Double = default(double?), string _String = default(string), byte[] _Byte = default(byte[]), byte[] Binary = default(byte[]), DateTime? Date = default(DateTime?), DateTime? DateTime = default(DateTime?), Guid? Uuid = default(Guid?), string Password = default(string))
+        public FormatTest(int? Integer = default(int?), int? Int32 = default(int?), long? Int64 = default(long?), decimal? Number = default(decimal?), float? Float = default(float?), double? Double = default(double?), string String = default(string), byte[] Byte = default(byte[]), byte[] Binary = default(byte[]), DateTime? Date = default(DateTime?), DateTime? DateTime = default(DateTime?), Guid? Uuid = default(Guid?), string Password = default(string))
         {
             // to ensure "Number" is required (not null)
             if (Number == null)
@@ -65,14 +65,14 @@ namespace IO.Swagger.Model
             {
                 this.Number = Number;
             }
-            // to ensure "_Byte" is required (not null)
-            if (_Byte == null)
+            // to ensure "Byte" is required (not null)
+            if (Byte == null)
             {
-                throw new InvalidDataException("_Byte is a required property for FormatTest and cannot be null");
+                throw new InvalidDataException("Byte is a required property for FormatTest and cannot be null");
             }
             else
             {
-                this._Byte = _Byte;
+                this.Byte = Byte;
             }
             // to ensure "Date" is required (not null)
             if (Date == null)
@@ -95,9 +95,9 @@ namespace IO.Swagger.Model
             this.Integer = Integer;
             this.Int32 = Int32;
             this.Int64 = Int64;
-            this._Float = _Float;
-            this._Double = _Double;
-            this._String = _String;
+            this.Float = Float;
+            this.Double = Double;
+            this.String = String;
             this.Binary = Binary;
             this.DateTime = DateTime;
             this.Uuid = Uuid;
@@ -128,28 +128,28 @@ namespace IO.Swagger.Model
         public decimal? Number { get; set; }
 
         /// <summary>
-        /// Gets or Sets _Float
+        /// Gets or Sets Float
         /// </summary>
         [DataMember(Name="float", EmitDefaultValue=false)]
-        public float? _Float { get; set; }
+        public float? Float { get; set; }
 
         /// <summary>
-        /// Gets or Sets _Double
+        /// Gets or Sets Double
         /// </summary>
         [DataMember(Name="double", EmitDefaultValue=false)]
-        public double? _Double { get; set; }
+        public double? Double { get; set; }
 
         /// <summary>
-        /// Gets or Sets _String
+        /// Gets or Sets String
         /// </summary>
         [DataMember(Name="string", EmitDefaultValue=false)]
-        public string _String { get; set; }
+        public string String { get; set; }
 
         /// <summary>
-        /// Gets or Sets _Byte
+        /// Gets or Sets Byte
         /// </summary>
         [DataMember(Name="byte", EmitDefaultValue=false)]
-        public byte[] _Byte { get; set; }
+        public byte[] Byte { get; set; }
 
         /// <summary>
         /// Gets or Sets Binary
@@ -194,10 +194,10 @@ namespace IO.Swagger.Model
             sb.Append("  Int32: ").Append(Int32).Append("\n");
             sb.Append("  Int64: ").Append(Int64).Append("\n");
             sb.Append("  Number: ").Append(Number).Append("\n");
-            sb.Append("  _Float: ").Append(_Float).Append("\n");
-            sb.Append("  _Double: ").Append(_Double).Append("\n");
-            sb.Append("  _String: ").Append(_String).Append("\n");
-            sb.Append("  _Byte: ").Append(_Byte).Append("\n");
+            sb.Append("  Float: ").Append(Float).Append("\n");
+            sb.Append("  Double: ").Append(Double).Append("\n");
+            sb.Append("  String: ").Append(String).Append("\n");
+            sb.Append("  Byte: ").Append(Byte).Append("\n");
             sb.Append("  Binary: ").Append(Binary).Append("\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
@@ -258,24 +258,24 @@ namespace IO.Swagger.Model
                     this.Number.Equals(input.Number))
                 ) && 
                 (
-                    this._Float == input._Float ||
-                    (this._Float != null &&
-                    this._Float.Equals(input._Float))
+                    this.Float == input.Float ||
+                    (this.Float != null &&
+                    this.Float.Equals(input.Float))
                 ) && 
                 (
-                    this._Double == input._Double ||
-                    (this._Double != null &&
-                    this._Double.Equals(input._Double))
+                    this.Double == input.Double ||
+                    (this.Double != null &&
+                    this.Double.Equals(input.Double))
                 ) && 
                 (
-                    this._String == input._String ||
-                    (this._String != null &&
-                    this._String.Equals(input._String))
+                    this.String == input.String ||
+                    (this.String != null &&
+                    this.String.Equals(input.String))
                 ) && 
                 (
-                    this._Byte == input._Byte ||
-                    (this._Byte != null &&
-                    this._Byte.Equals(input._Byte))
+                    this.Byte == input.Byte ||
+                    (this.Byte != null &&
+                    this.Byte.Equals(input.Byte))
                 ) && 
                 (
                     this.Binary == input.Binary ||
@@ -321,14 +321,14 @@ namespace IO.Swagger.Model
                     hashCode = hashCode * 59 + this.Int64.GetHashCode();
                 if (this.Number != null)
                     hashCode = hashCode * 59 + this.Number.GetHashCode();
-                if (this._Float != null)
-                    hashCode = hashCode * 59 + this._Float.GetHashCode();
-                if (this._Double != null)
-                    hashCode = hashCode * 59 + this._Double.GetHashCode();
-                if (this._String != null)
-                    hashCode = hashCode * 59 + this._String.GetHashCode();
-                if (this._Byte != null)
-                    hashCode = hashCode * 59 + this._Byte.GetHashCode();
+                if (this.Float != null)
+                    hashCode = hashCode * 59 + this.Float.GetHashCode();
+                if (this.Double != null)
+                    hashCode = hashCode * 59 + this.Double.GetHashCode();
+                if (this.String != null)
+                    hashCode = hashCode * 59 + this.String.GetHashCode();
+                if (this.Byte != null)
+                    hashCode = hashCode * 59 + this.Byte.GetHashCode();
                 if (this.Binary != null)
                     hashCode = hashCode * 59 + this.Binary.GetHashCode();
                 if (this.Date != null)
@@ -406,35 +406,35 @@ namespace IO.Swagger.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
-            // _Float (float?) maximum
-            if(this._Float > (float?)987.6)
+            // Float (float?) maximum
+            if(this.Float > (float?)987.6)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for _Float, must be a value less than or equal to 987.6.", new [] { "_Float" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value less than or equal to 987.6.", new [] { "Float" });
             }
 
-            // _Float (float?) minimum
-            if(this._Float < (float?)54.3)
+            // Float (float?) minimum
+            if(this.Float < (float?)54.3)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for _Float, must be a value greater than or equal to 54.3.", new [] { "_Float" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
             }
 
-            // _Double (double?) maximum
-            if(this._Double > (double?)123.4)
+            // Double (double?) maximum
+            if(this.Double > (double?)123.4)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for _Double, must be a value less than or equal to 123.4.", new [] { "_Double" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value less than or equal to 123.4.", new [] { "Double" });
             }
 
-            // _Double (double?) minimum
-            if(this._Double < (double?)67.8)
+            // Double (double?) minimum
+            if(this.Double < (double?)67.8)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for _Double, must be a value greater than or equal to 67.8.", new [] { "_Double" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
             }
 
-            // _String (string) pattern
-            Regex regex_String = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-            if (false == regex_String.Match(this._String).Success)
+            // String (string) pattern
+            Regex regexString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            if (false == regexString.Match(this.String).Success)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for _String, must match a pattern of " + regex_String, new [] { "_String" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for String, must match a pattern of " + regexString, new [] { "String" });
             }
 
             // Password (string) maxLength

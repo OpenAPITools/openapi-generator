@@ -9,18 +9,15 @@ import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.models.properties.*;
 import io.swagger.parser.SwaggerParser;
 
 import com.google.common.collect.Sets;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("static-method")
@@ -330,5 +327,52 @@ public class CSharpModelTest {
         Assert.assertEquals(cm.parent, "Dictionary<String, Children>");
         Assert.assertEquals(cm.imports.size(), 1);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+    }
+
+    @Test(description = "convert an array of array models")
+    public void arraysOfArraysModelTest() {
+        final Model model = new ArrayModel()
+                .description("a sample geolocation model")
+                .items(
+                        new ArrayProperty().items(new DoubleProperty())
+                );
+
+        final DefaultCodegen codegen = new CSharpClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.parent, "List<List<double?>>");
+    }
+
+    @Test(description = "convert an array of array properties")
+    public void arraysOfArraysPropertyTest() {
+        final Model model = new ModelImpl()
+                .description("a sample geolocation model")
+                .property("points", new ArrayProperty()
+                    .items(
+                            new ArrayProperty().items(new DoubleProperty())
+                    )
+                );
+
+        final DefaultCodegen codegen = new CSharpClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertNull(cm.parent);
+
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "points");
+        Assert.assertNull(property1.complexType);
+        Assert.assertEquals(property1.datatype, "List<List<double?>>");
+        Assert.assertEquals(property1.name, "Points");
+        Assert.assertEquals(property1.baseType, "List");
+        Assert.assertEquals(property1.containerType, "array");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isContainer);
+        Assert.assertFalse(property1.isNotContainer);
     }
 }

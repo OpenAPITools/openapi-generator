@@ -33,17 +33,17 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>
-        /// <param name="_Class">_Class.</param>
-        public ClassModel(string _Class = default(string))
+        /// <param name="Class">Class.</param>
+        public ClassModel(string Class = default(string))
         {
-            this._Class = _Class;
+            this.Class = Class;
         }
         
         /// <summary>
-        /// Gets or Sets _Class
+        /// Gets or Sets Class
         /// </summary>
         [DataMember(Name="_class", EmitDefaultValue=false)]
-        public string _Class { get; set; }
+        public string Class { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,7 +53,7 @@ namespace IO.Swagger.Model
         {
             var sb = new StringBuilder();
             sb.Append("class ClassModel {\n");
-            sb.Append("  _Class: ").Append(_Class).Append("\n");
+            sb.Append("  Class: ").Append(Class).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -89,9 +89,9 @@ namespace IO.Swagger.Model
 
             return 
                 (
-                    this._Class == input._Class ||
-                    (this._Class != null &&
-                    this._Class.Equals(input._Class))
+                    this.Class == input.Class ||
+                    (this.Class != null &&
+                    this.Class.Equals(input.Class))
                 );
         }
 
@@ -104,8 +104,8 @@ namespace IO.Swagger.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this._Class != null)
-                    hashCode = hashCode * 59 + this._Class.GetHashCode();
+                if (this.Class != null)
+                    hashCode = hashCode * 59 + this.Class.GetHashCode();
                 return hashCode;
             }
         }

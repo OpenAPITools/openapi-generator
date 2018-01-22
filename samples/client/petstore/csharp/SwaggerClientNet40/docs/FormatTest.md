@@ -7,10 +7,10 @@ Name | Type | Description | Notes
 **Int32** | **int?** |  | [optional] 
 **Int64** | **long?** |  | [optional] 
 **Number** | **decimal?** |  | 
-**_Float** | **float?** |  | [optional] 
-**_Double** | **double?** |  | [optional] 
-**_String** | **string** |  | [optional] 
-**_Byte** | **byte[]** |  | 
+**Float** | **float?** |  | [optional] 
+**Double** | **double?** |  | [optional] 
+**String** | **string** |  | [optional] 
+**Byte** | **byte[]** |  | 
 **Binary** | **byte[]** |  | [optional] 
 **Date** | **DateTime?** |  | 
 **DateTime** | **DateTime?** |  | [optional] 

@@ -1,10 +1,9 @@
-# IO.Swagger.Model.Model200Response
+# IO.Swagger.Model.Return
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **int?** |  | [optional] 
-**Class** | **string** |  | [optional] 
+**_Return** | **int?** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

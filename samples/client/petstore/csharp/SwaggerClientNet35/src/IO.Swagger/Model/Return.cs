@@ -25,25 +25,25 @@ using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// ModelClient
+    /// Model for testing reserved words
     /// </summary>
     [DataContract]
-    public partial class ModelClient :  IEquatable<ModelClient>, IValidatableObject
+    public partial class Return :  IEquatable<Return>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ModelClient" /> class.
+        /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
-        /// <param name="__Client">__Client.</param>
-        public ModelClient(string __Client = default(string))
+        /// <param name="_Return">_Return.</param>
+        public Return(int? _Return = default(int?))
         {
-            this.__Client = __Client;
+            this._Return = _Return;
         }
         
         /// <summary>
-        /// Gets or Sets __Client
+        /// Gets or Sets _Return
         /// </summary>
-        [DataMember(Name="client", EmitDefaultValue=false)]
-        public string __Client { get; set; }
+        [DataMember(Name="return", EmitDefaultValue=false)]
+        public int? _Return { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -52,8 +52,8 @@ namespace IO.Swagger.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class ModelClient {\n");
-            sb.Append("  __Client: ").Append(__Client).Append("\n");
+            sb.Append("class Return {\n");
+            sb.Append("  _Return: ").Append(_Return).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -74,24 +74,24 @@ namespace IO.Swagger.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as ModelClient);
+            return this.Equals(input as Return);
         }
 
         /// <summary>
-        /// Returns true if ModelClient instances are equal
+        /// Returns true if Return instances are equal
         /// </summary>
-        /// <param name="input">Instance of ModelClient to be compared</param>
+        /// <param name="input">Instance of Return to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ModelClient input)
+        public bool Equals(Return input)
         {
             if (input == null)
                 return false;
 
             return 
                 (
-                    this.__Client == input.__Client ||
-                    (this.__Client != null &&
-                    this.__Client.Equals(input.__Client))
+                    this._Return == input._Return ||
+                    (this._Return != null &&
+                    this._Return.Equals(input._Return))
                 );
         }
 
@@ -104,21 +104,12 @@ namespace IO.Swagger.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.__Client != null)
-                    hashCode = hashCode * 59 + this.__Client.GetHashCode();
+                if (this._Return != null)
+                    hashCode = hashCode * 59 + this._Return.GetHashCode();
                 return hashCode;
             }
         }
 
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 
 }
