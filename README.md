@@ -129,6 +129,11 @@ After cloning the project, you can build it from source with this command:
 mvn clean package
 ```
 
+If you don't have maven installed, you may directly use the included [maven wrapper](https://github.com/takari/maven-wrapper), and build with the command:
+```sh
+./mvnw clean package
+```
+
 ### Homebrew
 
 To install, run `brew install swagger-codegen`
