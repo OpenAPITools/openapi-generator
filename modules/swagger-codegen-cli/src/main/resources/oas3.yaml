@@ -57,6 +57,13 @@ components:
           description: Path to json configuration file.  File content should be in a json format {"optionKey":"optionValue", "optionKey1":"optionValue1"...} Supported options can be different for each language. Run config-help -l {lang} command for language specific config options.
           x-option: "--config"
           x-short-version: "-c"
+        systemProperties:
+          type: "array"
+          items:
+            type: string
+          title: "System Properties"
+          description: "sets specified system properties in the format of name=value,name=value (or multiple options, each with name=value)"
+          x-option: "-D"
         skipOverwrite:
           type: "string"
           title: "skip overwrite"
