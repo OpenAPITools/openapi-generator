@@ -11,6 +11,7 @@ public class Options {
     private String modelPackage;
     private String modelNamePrefix;
     private String modelNameSuffix;
+    protected List<String> systemProperties;
     private List<String> instantiationTypes;
     private List<String> typeMappings;
     private List<String> additionalProperties;
@@ -99,6 +100,19 @@ public class Options {
     }
     public void setModelNameSuffix(String modelNameSuffix) {
         this.modelNameSuffix = modelNameSuffix;
+    }
+
+    public Options systemProperties(List<String> systemProperties) {
+        this.systemProperties = systemProperties;
+        return this;
+    }
+
+    public List<String> getSystemProperties() {
+        return systemProperties;
+    }
+
+    public void setSystemProperties(List<String> systemProperties) {
+        this.systemProperties = systemProperties;
     }
 
     public Options instantiationTypes(List<String> instantiationTypes) {

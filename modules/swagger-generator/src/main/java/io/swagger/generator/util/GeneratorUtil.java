@@ -16,6 +16,7 @@ import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyImportMapp
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyInstantiationTypesKvpList;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyLanguageSpecificPrimitivesCsvList;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyReservedWordsMappingsKvpList;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applySystemPropertiesKvpList;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyTypeMappingsKvpList;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -79,6 +80,9 @@ public class GeneratorUtil {
         }
         if (options.getRemoveOperationIdPrefix() != null) {
             configurator.setRemoveOperationIdPrefix(options.getRemoveOperationIdPrefix());
+        }
+        if (options.getSystemProperties() != null) {
+            applySystemPropertiesKvpList(options.getSystemProperties(), configurator);
         }
         if (options.getInstantiationTypes() != null) {
             applyInstantiationTypesKvpList(options.getInstantiationTypes(), configurator);
@@ -155,6 +159,15 @@ public class GeneratorUtil {
         }
         if (node.has("removeOperationIdPrefix")) {
             configurator.setRemoveOperationIdPrefix(node.findValue("removeOperationIdPrefix").booleanValue());
+        }
+
+        JsonNode systemPropertiesNode = node.findValue("systemProperties");
+        if (systemPropertiesNode != null && systemPropertiesNode.isArray()) {
+            List<String> systemProperties = new ArrayList<>();
+            for (JsonNode jsonNode : systemPropertiesNode) {
+                systemProperties.add(jsonNode.textValue());
+            }
+            applySystemPropertiesKvpList(systemProperties, configurator);
         }
 
         JsonNode instantiationTypesNode = node.findValue("instantiationTypes");

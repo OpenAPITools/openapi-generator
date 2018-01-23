@@ -150,6 +150,12 @@ components:
           type: "string"
           title: "model name suffix"
           description: "PrefixSuffix that will be appended to all model names. Default is the empty string."
+        systemProperties:
+          type: "array"
+          items:
+            type: string
+          title: "System Properties"
+          description: "sets specified system properties in the format of name=value,name=value (or multiple options, each with name=value)"
         instantiationTypes:
           type: "array"
           items:
