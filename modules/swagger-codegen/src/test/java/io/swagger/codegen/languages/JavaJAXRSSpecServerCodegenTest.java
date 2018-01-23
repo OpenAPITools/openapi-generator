@@ -9,7 +9,7 @@ import org.testng.Assert;
 public class JavaJAXRSSpecServerCodegenTest {
 
     private JavaJAXRSSpecServerCodegen generator = new JavaJAXRSSpecServerCodegen();
-
+/** disabled test for currently not supported languages.
     @Test
     public void do_not_process_RestApplication_when_interfaceOnly_is_true() {
         generator.additionalProperties().put(JavaJAXRSSpecServerCodegen.INTERFACE_ONLY, "true");
@@ -74,4 +74,5 @@ public class JavaJAXRSSpecServerCodegenTest {
         }
         Assert.fail("Missing " + JavaJAXRSSpecServerCodegen.INTERFACE_ONLY);
     }
+    */
 }

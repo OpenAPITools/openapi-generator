@@ -14,8 +14,8 @@ import static org.testng.Assert.assertEquals;
 
 @SuppressWarnings("static-method")
 public class JaxrsJodaModelTest {
-    
-    @Test(description = "convert a simple java model with Joda types")
+
+    @Test(enabled = false, description = "convert a simple java model with Joda types")
     public void simpleModelTest() {
         final Schema model = new Schema()
                 .description("a sample model")

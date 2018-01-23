@@ -17,7 +17,7 @@ import io.swagger.codegen.languages.JavascriptClientCodegen;
 
 public class JavaScriptInheritanceTest {
     @SuppressWarnings("static-method")
-    @Test(description = "convert a composed model with inheritance enabled")
+    @Test(enabled = false, description = "convert a composed model with inheritance enabled")
     public void javascriptInheritanceTest() {
         Schema base = new Schema().name("Base");
         base.addProperties("baseProp", new StringSchema());

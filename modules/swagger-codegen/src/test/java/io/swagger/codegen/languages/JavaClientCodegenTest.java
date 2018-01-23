@@ -26,7 +26,7 @@ public class JavaClientCodegenTest {
     private static final String JSON_MIME_TYPE = "application/json";
     private static final String TEXT_MIME_TYPE = "text/plain";
 
-    @Test
+    @Test(enabled = false)
     public void testJsonMime() {
         Assert.assertTrue(JavaClientCodegen.isJsonMimeType(JSON_MIME_TYPE));
         Assert.assertFalse(JavaClientCodegen.isJsonMimeType(XML_MIME_TYPE));
@@ -40,7 +40,7 @@ public class JavaClientCodegenTest {
 
     }
 
-    @Test
+    @Test(enabled = false)
     public void testContentTypePrioritization() {
         Map<String, String> jsonMimeType = new HashMap<>();
         jsonMimeType.put(JavaClientCodegen.MEDIA_TYPE, JSON_MIME_TYPE);
@@ -85,7 +85,7 @@ public class JavaClientCodegenTest {
         Assert.assertNull(priContentTypes.get(3).get("hasMore"));
     }
 
-    @Test
+    @Test(enabled = false)
     public void testParametersAreCorrectlyOrderedWhenUsingRetrofit(){
         JavaClientCodegen javaClientCodegen = new JavaClientCodegen();
         javaClientCodegen.setLibrary(RETROFIT_2);

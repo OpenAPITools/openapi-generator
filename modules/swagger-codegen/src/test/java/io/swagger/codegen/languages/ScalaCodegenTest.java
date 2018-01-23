@@ -20,7 +20,7 @@ public class ScalaCodegenTest {
         this.scalaClientCodegen = new ScalaClientCodegen();
     }
 
-    @Test
+    @Test(enabled = false)
     public void shouldCallFormatIdentifierOnGetModelName() {
         String className = "models.WebsiteBodyModel";
 
@@ -32,7 +32,7 @@ public class ScalaCodegenTest {
         Assert.assertEquals("WebsiteBodyModel", result);
     }
 
-    @Test
+    @Test(enabled = false)
     public void shouldCallFormatIdentifierOnToEnumName() {
         String className = "models.WebsiteBodyModel";
         ScalaClientCodegen scalaClientCodegenSpy = Mockito.spy(this.scalaClientCodegen);

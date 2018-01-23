@@ -35,7 +35,7 @@ public class BooleanOptionsTest {
         return codegenList.iterator();
     }
 
-    @Test(dataProvider = OPTIONS_PROVIDER)
+    @Test(enabled = false, dataProvider = OPTIONS_PROVIDER)
     public void booleanOptionsTest(DefaultCodegen codegen) {
         for (CliOption option : codegen.cliOptions()) {
             if (option.getType().equals(SchemaTypeUtil.BOOLEAN_TYPE)) {

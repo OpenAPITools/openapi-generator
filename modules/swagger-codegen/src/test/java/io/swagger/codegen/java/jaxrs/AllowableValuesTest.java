@@ -55,7 +55,7 @@ public class AllowableValuesTest {
         };
     }
 
-    @Test(dataProvider = PROVIDER_NAME)
+    @Test(enabled = false, dataProvider = PROVIDER_NAME)
     public void annotationsTest(CodegenParameter parameter, String expected) throws IOException {
         final Template template = Mustache.compiler().compile(loadClassResource(this.getClass(), TEMPLATE_FILE));
 

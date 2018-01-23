@@ -18,7 +18,7 @@ import java.util.Map;
 public class JavaInheritanceTest {
 
     @SuppressWarnings("static-method")
-    @Test(description = "convert a composed model with parent")
+    @Test(enabled = false, description = "convert a composed model with parent")
     public void javaInheritanceTest() {
         final Schema parentModel = new Schema().name("Base");
 
@@ -41,7 +41,7 @@ public class JavaInheritanceTest {
     }
 
     @SuppressWarnings("static-method")
-    @Test(description = "convert a composed model with discriminator")
+    @Test(enabled = false, description = "convert a composed model with discriminator")
     public void javaInheritanceWithDiscriminatorTest() {
         final Schema base = new Schema().name("Base");
         base.setDiscriminator(new Discriminator().mapping("name", StringUtils.EMPTY));

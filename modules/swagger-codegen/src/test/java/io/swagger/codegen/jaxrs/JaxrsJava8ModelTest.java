@@ -14,8 +14,8 @@ import static org.testng.Assert.assertEquals;
 
 @SuppressWarnings("static-method")
 public class JaxrsJava8ModelTest {
-    
-    @Test(description = "convert a simple java model with java8 types")
+
+    @Test(enabled = false, description = "convert a simple java model with java8 types")
     public void simpleModelTest() {
         final Schema model = new Schema()
                 .description("a sample model")

@@ -102,7 +102,7 @@ public class PythonTest {
         Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with list property")
+    @Test(enabled = false, description = "convert a model with list property")
     public void listPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")

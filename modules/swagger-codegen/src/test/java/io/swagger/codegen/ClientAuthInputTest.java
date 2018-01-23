@@ -11,7 +11,7 @@ import java.util.List;
 @SuppressWarnings("static-method")
 public class ClientAuthInputTest {
 
-    @Test(description = "read a file upload param from a 2.0 spec")
+    @Test(enabled = false, description = "read a file upload param from a 2.0 spec")
     public void clientAuthInputTest() {
         final ClientOptInput input = new ClientOptInput();
 

@@ -117,7 +117,7 @@ public class JavaScriptModelTest {
         Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with a map property")
+    @Test(enabled = false, description = "convert a model with a map property")
     public void mapPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
@@ -146,7 +146,7 @@ public class JavaScriptModelTest {
         Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with a map with complex list property")
+    @Test(enabled = false, description = "convert a model with a map with complex list property")
     public void mapWithListPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -345,7 +345,7 @@ public class JavaScriptModelTest {
         Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with a 2nd char uppercase property names")
+    @Test(enabled = false, description = "convert a model with a 2nd char uppercase property names")
     public void secondCharUpperCaseNamesTest() {
         final Schema schema = new Schema()
                 .description("a model with a 2nd char uppercase property names")
@@ -371,7 +371,7 @@ public class JavaScriptModelTest {
         Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert hyphens per issue 503")
+    @Test(enabled = false, description = "convert hyphens per issue 503")
     public void hyphensTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -386,7 +386,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.name, "createdAt");
     }
 
-    @Test(description = "convert query[password] to queryPassword")
+    @Test(enabled = false, description = "convert query[password] to queryPassword")
     public void squareBracketsTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -401,7 +401,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.name, "queryPassword");
     }
 
-    @Test(description = "properly escape names per 567")
+    @Test(enabled = false,description = "properly escape names per 567")
     public void escapeNamesTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -412,7 +412,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(cm.classname, "WithDots");
     }
 
-    @Test(description = "convert a model with binary data")
+    @Test(enabled = false, description = "convert a model with binary data")
     public void binaryDataTest() {
         final Schema schema = new Schema()
                 .description("model with binary")
@@ -433,7 +433,7 @@ public class JavaScriptModelTest {
         Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "translate an invalid param name")
+    @Test(enabled = false, description = "translate an invalid param name")
     public void invalidParamNameTest() {
         final Schema schema = new Schema()
                 .description("a model with a 2nd char uppercase property name")
@@ -457,7 +457,7 @@ public class JavaScriptModelTest {
         Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a parameter")
+    @Test(enabled = false, description = "convert a parameter")
     public void convertParameterTest() {
         final Parameter parameter = new QueryParameter()
                 .name("limit")
@@ -482,7 +482,7 @@ public class JavaScriptModelTest {
         };
     }
 
-    @Test(dataProvider = "modelNames", description = "avoid inner class")
+    @Test(enabled = false, dataProvider = "modelNames", description = "avoid inner class")
     public void modelNameTest(String name, String expectedName) {
         final Schema schema = new Schema();
         final DefaultCodegen codegen = new JavascriptClientCodegen();

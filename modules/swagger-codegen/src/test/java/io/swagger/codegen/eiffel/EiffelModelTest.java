@@ -20,7 +20,7 @@ import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanVal
 @SuppressWarnings("static-method")
 public class EiffelModelTest {
 
-    @Test(description = "convert a simple Eiffel model")
+    @Test(enabled = false, description = "convert a simple Eiffel model")
     public void simpleModelTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -72,7 +72,7 @@ public class EiffelModelTest {
         Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
     
-    @Test(description = "convert a model with list property")
+    @Test(enabled = false, description = "convert a model with list property")
     public void listPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -113,7 +113,7 @@ public class EiffelModelTest {
 
 
     
-    @Test(description = "convert a model with a map property")
+    @Test(enabled = false, description = "convert a model with a map property")
     public void mapPropertyTest() {
         final Schema schema = getMapSchema();
         final DefaultCodegen codegen = new EiffelClientCodegen();

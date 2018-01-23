@@ -17,57 +17,57 @@ public class Swift4CodegenTest {
 
     Swift4Codegen swiftCodegen = new Swift4Codegen();
 
-    @Test
+    @Test(enabled = false)
     public void testCapitalizedReservedWord() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("AS", null), "_as");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testReservedWord() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("Public", null), "_public");
     }
 
-    @Test
+    @Test(enabled = false)
     public void shouldNotBreakNonReservedWord() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("Error", null), "error");
     }
 
-    @Test
+    @Test(enabled = false)
     public void shouldNotBreakCorrectName() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("EntryName", null), "entryName");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testSingleWordAllCaps() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("VALUE", null), "value");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testSingleWordLowercase() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("value", null), "value");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testCapitalsWithUnderscore() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("ENTRY_NAME", null), "entryName");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testCapitalsWithDash() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("ENTRY-NAME", null), "entryName");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testCapitalsWithSpace() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("ENTRY NAME", null), "entryName");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testLowercaseWithUnderscore() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("entry_name", null), "entryName");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testStartingWithNumber() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("123EntryName", null), "_123entryName");
         Assert.assertEquals(swiftCodegen.toEnumVarName("123Entry_name", null), "_123entryName");
@@ -102,7 +102,7 @@ public class Swift4CodegenTest {
         Assert.assertEquals(op.bodyParam.dataType, "Date");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testDefaultPodAuthors() throws Exception {
         // Given
 
@@ -114,7 +114,7 @@ public class Swift4CodegenTest {
         Assert.assertEquals(podAuthors, Swift4Codegen.DEFAULT_POD_AUTHORS);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testPodAuthors() throws Exception {
         // Given
         final String swaggerDevs = "Swagger Devs";

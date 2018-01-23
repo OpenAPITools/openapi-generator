@@ -23,7 +23,7 @@ public abstract class AbstractOptionsTest {
     }
 
     @SuppressWarnings("unused")
-    @Test
+    @Test(enabled = false)
     public void checkOptionsProcessing() {
         getCodegenConfig().additionalProperties().putAll(optionsProvider.createOptions());
         setExpectations();
@@ -34,7 +34,7 @@ public abstract class AbstractOptionsTest {
         }};
     }
 
-    @Test(description = "check if all options described in documentation are presented in test case")
+    @Test(enabled = false, description = "check if all options described in documentation are presented in test case")
     public void checkOptionsHelp() {
         final List<String> cliOptions = Lists.transform(getCodegenConfig().cliOptions(), getCliOptionTransformer());
         final Set<String> testOptions = optionsProvider.createOptions().keySet();

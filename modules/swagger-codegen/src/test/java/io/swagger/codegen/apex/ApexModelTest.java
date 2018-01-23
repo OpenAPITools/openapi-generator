@@ -30,7 +30,7 @@ import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanVal
 @SuppressWarnings("static-method")
 public class ApexModelTest {
 
-    @Test(description = "convert a simple apex model with provided examples")
+    @Test(enabled = false, description = "convert a simple apex model with provided examples")
     public void examplesProvidedTest() throws Exception {
         Schema integerSchema = new IntegerSchema().example(5);
         Schema passwordSchema = new PasswordSchema().example("password");
@@ -216,7 +216,7 @@ public class ApexModelTest {
         Assert.assertTrue(getBooleanValue(property13, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
     
-    @Test(description = "convert a simple apex model with default examples")
+    @Test(enabled = false, description = "convert a simple apex model with default examples")
     public void defaultExamplesTest() {
         final Schema schema = new Schema()
             .addProperties("boolProp", new BooleanSchema())

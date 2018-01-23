@@ -7,7 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class PhpClientExampleTest {
-    @Test(description = "sets example value")
+    @Test(enabled = false, description = "sets example value")
     public void exampleValueTest() {
         PhpClientCodegen clientCodegen = new PhpClientCodegen();
         CodegenParameter p = new CodegenParameter();

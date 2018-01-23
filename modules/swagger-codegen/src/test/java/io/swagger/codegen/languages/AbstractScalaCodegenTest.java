@@ -13,7 +13,7 @@ public class AbstractScalaCodegenTest {
         this.abstractScalaCodegen = new FakeScalaCodeGen();
     }
 
-    @Test
+    @Test(enabled = false)
     public void shouldCamelCase() {
         String className = "models.WebsiteBodyModel";
 
@@ -22,7 +22,7 @@ public class AbstractScalaCodegenTest {
         Assert.assertTrue("modelsWebsiteBodyModel".equals(result));
     }
 
-    @Test
+    @Test(enabled = false)
     public void shouldCamelCaseAndUpperCase() {
         String className = "models.WebsiteBodyModel";
 
@@ -31,7 +31,7 @@ public class AbstractScalaCodegenTest {
         Assert.assertTrue("ModelsWebsiteBodyModel".equals(result));
     }
 
-    @Test
+    @Test(enabled = false)
     public void shouldEscapeReservedWords() {
         String className = "ReservedWord";
 
@@ -41,14 +41,14 @@ public class AbstractScalaCodegenTest {
         Assert.assertTrue("`ReservedWord`".equals(result));
     }
 
-    @Test
+    @Test(enabled = false)
     public void shouldReturnSameInputWhenNull() {
         String result = abstractScalaCodegen.stripPackageName(null);
 
         Assert.assertNull(result);
     }
 
-    @Test
+    @Test(enabled = false)
     public void shouldReturnSameInputWhenEmpty() {
         String input = "";
         String result = abstractScalaCodegen.stripPackageName(input);
@@ -56,7 +56,7 @@ public class AbstractScalaCodegenTest {
         Assert.assertSame(result, input);
     }
 
-    @Test
+    @Test(enabled = false)
     public void shouldReturnSameInputWhenValid() {
         String input = "WebsiteBodyModel";
         String result = abstractScalaCodegen.stripPackageName(input);
@@ -64,7 +64,7 @@ public class AbstractScalaCodegenTest {
         Assert.assertSame(result, input);
     }
 
-    @Test
+    @Test(enabled = false)
     public void shouldStripPackageName() {
         String input = "models.WebsiteBodyModel";
         String result = abstractScalaCodegen.stripPackageName(input);

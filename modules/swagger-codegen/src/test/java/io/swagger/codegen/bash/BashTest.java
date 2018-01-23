@@ -39,7 +39,7 @@ public class BashTest {
     }
 
 
-    @Test(description = "test Bash client codegen escapeText method")
+    @Test(enabled = false, description = "test Bash client codegen escapeText method")
     public void escapeTextTest() {
         final DefaultCodegen codegen = new BashClientCodegen();
 
@@ -92,7 +92,7 @@ public class BashTest {
                                 "\n---\nnice -n 100 mvn test\n---"); 
     }
 
-    @Test(description = "test Bash client codegen escapeUnsafeCharacters method")
+    @Test(enabled = false, description = "test Bash client codegen escapeUnsafeCharacters method")
     public void escapeUnsafeCharactersTest() {
         final DefaultCodegen codegen = new BashClientCodegen();
 
@@ -102,7 +102,7 @@ public class BashTest {
 
     }
     
-    @Test(description = "test Bash client codegen escapeReservedWord method")
+    @Test(enabled = false, description = "test Bash client codegen escapeReservedWord method")
     public void escapeReservedWordTest() {
         final DefaultCodegen codegen = new BashClientCodegen();
 

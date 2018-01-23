@@ -23,7 +23,7 @@ import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 
 @SuppressWarnings("static-method")
 public class JavaScriptModelEnumTest {
-    @Test(description = "convert a JavaScript model with an enum")
+    @Test(enabled = false, description = "convert a JavaScript model with an enum")
     public void converterTest() {
         final StringSchema enumProperty = new StringSchema();
         enumProperty.setEnum(Arrays.asList("VALUE1", "VALUE2", "VALUE3"));

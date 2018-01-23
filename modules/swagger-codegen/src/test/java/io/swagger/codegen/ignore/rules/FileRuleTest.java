@@ -8,7 +8,7 @@ import java.util.List;
 import static org.testng.Assert.*;
 
 public class FileRuleTest {
-    @Test
+    @Test(enabled = false)
     public void testMatchComplex() throws Exception {
         // Arrange
         final String definition = "path/to/**/complex/*.txt";
@@ -38,7 +38,7 @@ public class FileRuleTest {
         assertTrue(actual);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testNonMatchComplex() throws Exception {
         // Arrange
         final String definition = "path/to/**/complex/*.txt";
@@ -67,7 +67,7 @@ public class FileRuleTest {
         assertFalse(actual);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGlobbingRecursive() throws Exception {
         // Arrange
         final String definition = "*.txt";
@@ -88,7 +88,7 @@ public class FileRuleTest {
         assertTrue(actual);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGlobbingNotRecursive() throws Exception {
         // Arrange
         final String definition = "*.txt";

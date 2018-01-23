@@ -57,7 +57,7 @@ public class KotlinClientCodegenModelTest {
                 .addProperties("child", new Schema().$ref("#/components/schemas/Child"));
     }
 
-    @Test(description = "convert a simple model")
+    @Test(enabled = false,description = "convert a simple model")
     public void simpleModelTest() {
         final Schema model = getSimpleModel();
         final DefaultCodegen codegen = new KotlinClientCodegen();
@@ -102,7 +102,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertTrue(getBooleanValue(property3, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with array property to default kotlin.Array")
+    @Test(enabled = false, description = "convert a model with array property to default kotlin.Array")
     public void arrayPropertyTest() {
         final Schema model = getArrayTestModel();
 
@@ -126,7 +126,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertFalse(property.required);
         Assert.assertTrue(getBooleanValue(property, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
-    @Test(description = "convert a model with a map property")
+    @Test(enabled = false, description = "convert a model with a map property")
     public void mapPropertyTest() {
         final Schema model = getMapModel();
         final DefaultCodegen codegen = new KotlinClientCodegen();
@@ -148,7 +148,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_PRIMITIVE_TYPE_EXT_NAME));
     }
 
-    @Test(description = "convert a model with complex property")
+    @Test(enabled = false, description = "convert a model with complex property")
     public void complexPropertyTest() {
         final Schema model = getComplexModel();
         final DefaultCodegen codegen = new KotlinClientCodegen();
@@ -179,7 +179,7 @@ public class KotlinClientCodegenModelTest {
         };
     }
 
-    @Test(dataProvider = "modelNames", description = "sanitize model names")
+    @Test(enabled = false, dataProvider = "modelNames", description = "sanitize model names")
     public void sanitizeModelNames(final String name, final ModelNameTest testCase) {
         final Schema schema = getComplexModel();
         final DefaultCodegen codegen = new KotlinClientCodegen();

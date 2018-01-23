@@ -22,7 +22,7 @@ import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanVal
 @SuppressWarnings("static-method")
 public class LagomScalaApiModelTest {
 
-  @Test(description = "convert a simple scala model")
+  @Test(enabled = false, description = "convert a simple scala model")
   public void simpleModelTest() {
     final Schema model = new Schema()
         .description("a sample model")
@@ -132,7 +132,7 @@ public class LagomScalaApiModelTest {
     Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
   }
 
-  @Test(description = "convert a model with complex properties")
+  @Test(enabled = false, description = "convert a model with complex properties")
   public void complexPropertyTest() {
     final Schema model = new Schema()
         .description("a sample model")
@@ -159,7 +159,7 @@ public class LagomScalaApiModelTest {
     Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
   }
 
-  @Test(description = "convert a model with complex list property")
+  @Test(enabled = false, description = "convert a model with complex list property")
   public void complexListPropertyTest() {
     final Schema model = new Schema()
         .description("a sample model")
@@ -217,7 +217,7 @@ public class LagomScalaApiModelTest {
     Assert.assertFalse(getBooleanValue(property1, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
   }
 
-  @Test(description = "convert an array model")
+  @Test(enabled = false, description = "convert an array model")
   public void arrayModelTest() {
     final Schema model = new ArraySchema()
             .items(new Schema().$ref("#/components/schemas/Children"))

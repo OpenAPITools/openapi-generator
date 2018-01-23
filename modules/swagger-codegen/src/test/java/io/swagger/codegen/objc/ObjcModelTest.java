@@ -30,7 +30,7 @@ import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanVal
 @SuppressWarnings("static-method")
 public class ObjcModelTest {
 
-    @Test(description = "convert a model with a advanced map property")
+    @Test(enabled = false, description = "convert a model with a advanced map property")
     public void advancedMapPropertyTest() {
         final Schema schema = new Schema()
         .description("a sample model")
@@ -147,7 +147,7 @@ public class ObjcModelTest {
         Assert.assertTrue(getBooleanValue(property2, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with a map property")
+    @Test(enabled = false, description = "convert a model with a map property")
     public void mapPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")

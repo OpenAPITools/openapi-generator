@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 public class ClojureClientCodegenTest {
     ClojureClientCodegen codegen = new ClojureClientCodegen();
 
-    @Test
+    @Test(enabled = false)
     public void testSanitizeTag() throws Exception {
         Assert.assertEquals(codegen.sanitizeTag("users-api"), "users_api");
         Assert.assertEquals(codegen.sanitizeTag("users_api"), "users_api");
@@ -18,7 +18,7 @@ public class ClojureClientCodegenTest {
         Assert.assertEquals(codegen.sanitizeTag("Usersapi"), "Usersapi");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testToApiName() throws Exception {
         Assert.assertEquals(codegen.toApiName("users_api"), "users-api");
         Assert.assertEquals(codegen.toApiName("Users_Api"), "users-api");
@@ -27,7 +27,7 @@ public class ClojureClientCodegenTest {
         Assert.assertEquals(codegen.toApiName("Usersapi"), "usersapi");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testToApiFilename() throws Exception {
         Assert.assertEquals(codegen.toApiFilename("users_api"), "users_api");
         Assert.assertEquals(codegen.toApiFilename("Users_Api"), "users_api");

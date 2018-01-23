@@ -239,7 +239,7 @@ public class PhpModelTest {
         // skip import test as import is not used by PHP codegen
     }
 
-    @Test(description = "convert an map model")
+    @Test(enabled = false, description = "convert an map model")
     public void mapModelTest() {
         final Schema schema = new Schema()
                 .description("a map model")
@@ -339,7 +339,7 @@ public class PhpModelTest {
 
     }
 
-    @Test(description = "test enum variable names for reserved words")
+    @Test(enabled = false, description = "test enum variable names for reserved words")
     public void testReservedWord() throws Exception {
         final DefaultCodegen codegen = new PhpClientCodegen();
         Assert.assertEquals(codegen.toEnumVarName("public", null), "_PUBLIC");

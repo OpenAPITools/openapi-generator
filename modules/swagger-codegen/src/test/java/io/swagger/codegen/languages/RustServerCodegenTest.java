@@ -6,7 +6,7 @@ import static org.testng.Assert.assertEquals;
 
 public class RustServerCodegenTest {
 
-    @Test
+    @Test(enabled = false)
     public void testRustIntSize() {
         assertEquals(RustServerCodegen.matchingIntType(true, null, null), "usize");
         assertEquals(RustServerCodegen.matchingIntType(true, 0L, null), "usize");

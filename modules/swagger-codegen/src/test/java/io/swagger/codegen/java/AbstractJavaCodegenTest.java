@@ -29,32 +29,32 @@ public class AbstractJavaCodegenTest {
         }
     };
 
-    @Test
+    @Test(enabled = false)
     public void toEnumVarNameShouldNotShortenUnderScore() throws Exception {
         Assert.assertEquals("UNDERSCORE", fakeJavaCodegen.toEnumVarName("_", "String"));
         Assert.assertEquals("__", fakeJavaCodegen.toEnumVarName("__", "String"));
         Assert.assertEquals("__", fakeJavaCodegen.toEnumVarName("_,.", "String"));
     }
 
-    @Test
+    @Test(enabled = false)
     public void toVarNameShouldAvoidOverloadingGetClassMethod() throws Exception {
         Assert.assertEquals("propertyClass", fakeJavaCodegen.toVarName("class"));
         Assert.assertEquals("propertyClass", fakeJavaCodegen.toVarName("_class"));
         Assert.assertEquals("propertyClass", fakeJavaCodegen.toVarName("__class"));
     }
 
-    @Test
+    @Test(enabled = false)
     public void toModelNameShouldUseProvidedMapping() throws Exception {
         fakeJavaCodegen.importMapping().put("json_myclass", "com.test.MyClass");
         Assert.assertEquals("com.test.MyClass", fakeJavaCodegen.toModelName("json_myclass"));
     }
 
-    @Test
+    @Test(enabled = false)
     public void toModelNameUsesPascalCase() throws Exception {
         Assert.assertEquals("JsonAnotherclass", fakeJavaCodegen.toModelName("json_anotherclass"));
     }
 
-    @Test
+    @Test(enabled = false)
     public void preprocessSwaggerWithFormParamsSetsContentType() {
         PathItem dummyPath = new PathItem()
                 .post(new Operation().requestBody(new RequestBody()))
@@ -69,7 +69,7 @@ public class AbstractJavaCodegenTest {
         // TODO: Assert.assertEquals(openAPI.getPath("dummy").getPost().getVendorExtensions().get("x-contentType"), "application/x-www-form-urlencoded");
     }
 
-    @Test
+    @Test(enabled = false)
     public void preprocessSwaggerWithBodyParamsSetsContentType() {
         PathItem dummyPath = new PathItem()
                 .post(new Operation().requestBody(new RequestBody()))
@@ -84,7 +84,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(openAPI.getPaths().get("dummy").getPost().getExtensions().get("x-contentType"), "application/json");
     }
 
-    @Test
+    @Test(enabled = false)
     public void preprocessSwaggerWithNoFormOrBodyParamsDoesNotSetContentType() {
         PathItem dummyPath = new PathItem()
                 .post(new Operation())

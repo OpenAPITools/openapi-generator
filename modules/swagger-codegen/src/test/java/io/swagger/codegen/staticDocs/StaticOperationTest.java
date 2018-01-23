@@ -17,7 +17,7 @@ import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanVal
 @SuppressWarnings("static-method")
 public class StaticOperationTest {
 
-    @Test(description = "convert a string parameter")
+    @Test(enabled = false, description = "convert a string parameter")
     public void stringParameterTest() {
         final StringSchema property = new StringSchema();
         final DefaultCodegen codegen = new StaticDocCodegen();
@@ -30,7 +30,7 @@ public class StaticOperationTest {
         Assert.assertTrue(getBooleanValue(cp, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a boolean parameter")
+    @Test(enabled = false, description = "convert a boolean parameter")
     public void booleanParameterTest() {
         final BooleanSchema property = new BooleanSchema();
         final DefaultCodegen codegen = new StaticDocCodegen();
@@ -45,7 +45,7 @@ public class StaticOperationTest {
         Assert.assertEquals(cp.getter, "getProperty");
     }
 
-    @Test(description = "convert a complex parameter")
+    @Test(enabled = false, description = "convert a complex parameter")
     public void complexParameterTest() {
         final Schema property = new Schema().$ref("Children");
         final DefaultCodegen codegen = new StaticDocCodegen();
@@ -62,7 +62,7 @@ public class StaticOperationTest {
         Assert.assertTrue(getBooleanValue(cp, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a complex list parameter")
+    @Test(enabled = false, description = "convert a complex list parameter")
     public void listParameterTest() {
         final ArraySchema property = new ArraySchema().items(new Schema().$ref("Children"));
         final DefaultCodegen codegen = new StaticDocCodegen();

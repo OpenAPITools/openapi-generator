@@ -28,7 +28,7 @@ import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 @SuppressWarnings("static-method")
 public class TypeScriptFetchModelTest {
 
-    @Test(description = "convert a simple TypeScript Angular model")
+    @Test(enabled = false, description = "convert a simple TypeScript Angular model")
     public void simpleModelTest() {
         final Schema model = new Schema()
                 .description("a sample model")
@@ -88,7 +88,7 @@ public class TypeScriptFetchModelTest {
         Assert.assertTrue(getBooleanValue(property4, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with list property")
+    @Test(enabled = false, description = "convert a model with list property")
     public void listPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
@@ -170,7 +170,7 @@ public class TypeScriptFetchModelTest {
         Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert an array model")
+    @Test(enabled = false, description = "convert an array model")
     public void arrayModelTest() {
         final Schema model = new ArraySchema()
                 .items(new Schema().$ref("#/definitions/Children"))

@@ -78,7 +78,7 @@ public class CodegenIgnoreProcessorTest {
         }
     }
 
-    @Test
+    @Test(enabled = false)
     public void evaluate() {
         if(this.skip) {
             return;

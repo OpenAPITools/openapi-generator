@@ -16,42 +16,42 @@ public class SwiftCodegenTest {
 
     SwiftCodegen swiftCodegen = new SwiftCodegen();
 
-    @Test
+    @Test(enabled = false)
     public void shouldNotBreakCorrectName() throws Exception {
         Assert.assertEquals(swiftCodegen.toSwiftyEnumName("EntryName"), "EntryName");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testSingleWordAllCaps() throws Exception {
         Assert.assertEquals(swiftCodegen.toSwiftyEnumName("VALUE"), "Value");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testSingleWordLowercase() throws Exception {
         Assert.assertEquals(swiftCodegen.toSwiftyEnumName("value"), "Value");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testCapitalsWithUnderscore() throws Exception {
         Assert.assertEquals(swiftCodegen.toSwiftyEnumName("ENTRY_NAME"), "EntryName");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testCapitalsWithDash() throws Exception {
         Assert.assertEquals(swiftCodegen.toSwiftyEnumName("ENTRY-NAME"), "EntryName");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testCapitalsWithSpace() throws Exception {
         Assert.assertEquals(swiftCodegen.toSwiftyEnumName("ENTRY NAME"), "EntryName");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testLowercaseWithUnderscore() throws Exception {
         Assert.assertEquals(swiftCodegen.toSwiftyEnumName("entry_name"), "EntryName");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testSlash() throws Exception {
         Assert.assertEquals(swiftCodegen.toSwiftyEnumName("application/x-tar"), "ApplicationXTar");
     }
@@ -84,7 +84,7 @@ public class SwiftCodegenTest {
         Assert.assertEquals(op.bodyParam.dataType, "ISOFullDate");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testDefaultPodAuthors() throws Exception {
         // Given
 
@@ -96,7 +96,7 @@ public class SwiftCodegenTest {
         Assert.assertEquals(podAuthors, SwiftCodegen.DEFAULT_POD_AUTHORS);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testPodAuthors() throws Exception {
         // Given
         final String swaggerDevs = "Swagger Devs";

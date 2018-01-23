@@ -37,7 +37,7 @@ public class NodeJSServerOptionsTest extends AbstractOptionsTest {
     }
 
 
-    @Test
+    @Test(enabled = false)
     public void testCleanTitle() {
         String dirtyTitle = "safe-title";
         String clean = dirtyTitle.replaceAll("[^a-zA-Z0-9]", "-")
@@ -48,7 +48,7 @@ public class NodeJSServerOptionsTest extends AbstractOptionsTest {
         assertEquals(clean, "safe-title");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testDirtyTitleCleansing() {
         String dirtyTitle = "_it's-$ooo//////////---_//dirty!!!!";
         String clean = dirtyTitle.replaceAll("[^a-zA-Z0-9]", "-")

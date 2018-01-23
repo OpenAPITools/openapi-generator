@@ -22,7 +22,7 @@ import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanVal
 @SuppressWarnings("static-method")
 public class TypeScriptAngularJsModelTest {
 
-    @Test(description = "convert a simple TypeScript Angular model")
+    @Test(enabled = false, description = "convert a simple TypeScript Angular model")
     public void simpleModelTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -81,7 +81,7 @@ public class TypeScriptAngularJsModelTest {
         Assert.assertTrue(getBooleanValue(property4, CodegenConstants.IS_NOT_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert a model with list property")
+    @Test(enabled = false, description = "convert a model with list property")
     public void listPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -163,7 +163,7 @@ public class TypeScriptAngularJsModelTest {
         Assert.assertTrue(getBooleanValue(property1, CodegenConstants.IS_CONTAINER_EXT_NAME));
     }
 
-    @Test(description = "convert an array model")
+    @Test(enabled = false, description = "convert an array model")
     public void arrayModelTest() {
         final Schema schema = new ArraySchema()
                 .items(new Schema().$ref("#/definitions/Children"))

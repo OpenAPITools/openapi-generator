@@ -21,7 +21,7 @@ import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanVal
 @SuppressWarnings("static-method")
 public class JavaModelEnumTest {
 
-    @Test(description = "convert a java model with an enum")
+    @Test(enabled = false, description = "convert a java model with an enum")
     public void converterTest() {
         final StringSchema enumSchema = new StringSchema();
         enumSchema.setEnum(Arrays.asList("VALUE1", "VALUE2", "VALUE3"));
@@ -42,7 +42,7 @@ public class JavaModelEnumTest {
         Assert.assertTrue(getBooleanValue(enumVar, IS_ENUM_EXT_NAME));
     }
 
-    @Test(description = "not override identical parent enums")
+    @Test(enabled = false, description = "not override identical parent enums")
     public void overrideEnumTest() {
         final StringSchema identicalEnumProperty = new StringSchema();
         identicalEnumProperty.setEnum(Arrays.asList("VALUE1", "VALUE2", "VALUE3"));

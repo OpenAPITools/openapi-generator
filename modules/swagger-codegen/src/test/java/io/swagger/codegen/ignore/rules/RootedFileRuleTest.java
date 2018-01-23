@@ -8,7 +8,7 @@ import java.util.List;
 import static org.testng.Assert.*;
 
 public class RootedFileRuleTest {
-    @Test
+    @Test(enabled = false)
     public void testMatchFilenameOnly() throws Exception {
         // Arrange
         final String definition = "/foo";
@@ -27,7 +27,7 @@ public class RootedFileRuleTest {
         assertTrue(actual);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testNonMatchFilenameOnly() throws Exception {
         // Arrange
         final String definition = "/foo";
@@ -46,7 +46,7 @@ public class RootedFileRuleTest {
         assertFalse(actual);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testMatchFilenameAndExtension() throws Exception {
         // Arrange
         final String definition = "/foo.txt";
@@ -65,7 +65,7 @@ public class RootedFileRuleTest {
         assertTrue(actual);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testNonMatchFilenameAndExtension() throws Exception {
         // Arrange
         final String definition = "/foo.txt";
@@ -84,7 +84,7 @@ public class RootedFileRuleTest {
         assertFalse(actual);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testMatchFilenameWithGlob() throws Exception {
         // Arrange
         final String definition = "/foo*";
@@ -106,7 +106,7 @@ public class RootedFileRuleTest {
         assertTrue(actual);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testNonMatchFilenameWithGlob() throws Exception {
         // Arrange
         final String definition = "/foo*";
@@ -193,7 +193,7 @@ public class RootedFileRuleTest {
         assertTrue(actual);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testMatchFilenameAndExtensionWithMultiplePeriods() throws Exception {
         // Arrange
         final String definition = "/foo*.xyzzy.txt";
@@ -235,7 +235,7 @@ public class RootedFileRuleTest {
         assertFalse(actual);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testMatchWithoutLeadingForwardSlash() throws Exception {
         // Arrange
         final String definition = "foo*.xyzzy.txt";
@@ -256,7 +256,7 @@ public class RootedFileRuleTest {
         assertTrue(actual);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testMatchesOnlyRooted() throws Exception {
         // Arrange
         final String definition = "/path/to/some/foo*.xyzzy.txt";
