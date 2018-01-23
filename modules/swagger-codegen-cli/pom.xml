@@ -3,7 +3,7 @@
     <parent>
         <groupId>io.swagger</groupId>
         <artifactId>swagger-codegen-project</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>3.0.0-rc0</version>
         <relativePath>../..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -135,5 +135,9 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <properties>
+        <swagger-codegen-generators-version>1.0.0-rc0</swagger-codegen-generators-version>
+    </properties>
 
 </project>
