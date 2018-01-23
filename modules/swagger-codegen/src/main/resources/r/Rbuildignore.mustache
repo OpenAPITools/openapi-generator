@@ -1,2 +1,0 @@
-^.*\.Rproj$
-^\.Rproj\.user$
