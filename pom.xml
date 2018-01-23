@@ -948,5 +948,6 @@
         <surefire-version>2.19.1</surefire-version>
         <jmockit-version>1.25</jmockit-version>
         <reflections-version>0.9.10</reflections-version>
+        <swagger-codegen-generators-version>1.0.0-SNAPSHOT</swagger-codegen-generators-version>
     </properties>
 </project>

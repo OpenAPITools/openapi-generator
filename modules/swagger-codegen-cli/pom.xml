@@ -81,8 +81,8 @@
         </dependency>
         <dependency>
             <groupId>io.swagger</groupId>
-            <artifactId>swagger-codegen-templates</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <artifactId>swagger-codegen-generators</artifactId>
+            <version>${swagger-codegen-generators-version}</version>
         </dependency>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
