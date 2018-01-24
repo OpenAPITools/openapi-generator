@@ -10,6 +10,9 @@ use Articus\PathHandler\Attribute as PHAttribute;
 use Articus\PathHandler\Exception as PHException;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * @PHA\Route(pattern="/pet/{petId}")
+ */
 class PetPetId implements Operation\DeleteInterface, Operation\GetInterface, Operation\PostInterface
 {
     /**

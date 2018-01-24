@@ -1,187 +1,74 @@
-path_handler:
-  routes:
-    routes:
-      'fake':
-        type: Literal
-        options:
-          route: /fake
-          defaults:
-            handler: Fake
-        may_terminate: true
-        child_routes:
-          'jsonFormData':
-            type: Literal
-            options:
-              route: /jsonFormData
-              defaults:
-                handler: FakeJsonFormData
-          'outer':
-            type: Literal
-            options:
-              route: /outer
-            child_routes:
-              'boolean':
-                type: Literal
-                options:
-                  route: /boolean
-                  defaults:
-                    handler: FakeOuterBoolean
-              'composite':
-                type: Literal
-                options:
-                  route: /composite
-                  defaults:
-                    handler: FakeOuterComposite
-              'number':
-                type: Literal
-                options:
-                  route: /number
-                  defaults:
-                    handler: FakeOuterNumber
-              'string':
-                type: Literal
-                options:
-                  route: /string
-                  defaults:
-                    handler: FakeOuterString
-      'fake_classname_test':
-        type: Literal
-        options:
-          route: /fake_classname_test
-          defaults:
-            handler: FakeClassnameTest
-      'pet':
-        type: Literal
-        options:
-          route: /pet
-          defaults:
-            handler: Pet
-        may_terminate: true
-        child_routes:
-          'findByStatus':
-            type: Literal
-            options:
-              route: /findByStatus
-              defaults:
-                handler: PetFindByStatus
-          'findByTags':
-            type: Literal
-            options:
-              route: /findByTags
-              defaults:
-                handler: PetFindByTags
-          '{petId}':
-            type: Segment
-            options:
-              route: /:petId
-              defaults:
-                handler: PetPetId
-            may_terminate: true
-            child_routes:
-              'uploadImage':
-                type: Literal
-                options:
-                  route: /uploadImage
-                  defaults:
-                    handler: PetPetIdUploadImage
-      'store':
-        type: Literal
-        options:
-          route: /store
-        child_routes:
-          'inventory':
-            type: Literal
-            options:
-              route: /inventory
-              defaults:
-                handler: StoreInventory
-          'order':
-            type: Literal
-            options:
-              route: /order
-              defaults:
-                handler: StoreOrder
-            may_terminate: true
-            child_routes:
-              '{order_id}':
-                type: Segment
-                options:
-                  route: /:order_id
-                  defaults:
-                    handler: StoreOrderOrderId
-      'user':
-        type: Literal
-        options:
-          route: /user
-          defaults:
-            handler: User
-        may_terminate: true
-        child_routes:
-          'createWithArray':
-            type: Literal
-            options:
-              route: /createWithArray
-              defaults:
-                handler: UserCreateWithArray
-          'createWithList':
-            type: Literal
-            options:
-              route: /createWithList
-              defaults:
-                handler: UserCreateWithList
-          'login':
-            type: Literal
-            options:
-              route: /login
-              defaults:
-                handler: UserLogin
-          'logout':
-            type: Literal
-            options:
-              route: /logout
-              defaults:
-                handler: UserLogout
-          '{username}':
-            type: Segment
-            options:
-              route: /:username
-              defaults:
-                handler: UserUsername
+dependencies:
+  factories:
+    Zend\Expressive\Router\RouterInterface: Articus\PathHandler\Router\Factory\FastRouteAnnotation
 
-    default_params:
-      middleware: ''
+Articus\PathHandler\Middleware:
   metadata_cache:
     adapter:
       name: blackhole
-#    adapter:
-#      name: filesystem
-#      options:
-#        cache_dir: data/cache/path_handler
-#        namespace: ph
-
   handlers:
-    invokables:
-      Fake: App\Handler\Fake
-      FakeJsonFormData: App\Handler\FakeJsonFormData
-      FakeOuterBoolean: App\Handler\FakeOuterBoolean
-      FakeOuterComposite: App\Handler\FakeOuterComposite
-      FakeOuterNumber: App\Handler\FakeOuterNumber
-      FakeOuterString: App\Handler\FakeOuterString
-      FakeClassnameTest: App\Handler\FakeClassnameTest
-      Pet: App\Handler\Pet
-      PetFindByStatus: App\Handler\PetFindByStatus
-      PetFindByTags: App\Handler\PetFindByTags
-      PetPetId: App\Handler\PetPetId
-      PetPetIdUploadImage: App\Handler\PetPetIdUploadImage
-      StoreInventory: App\Handler\StoreInventory
-      StoreOrder: App\Handler\StoreOrder
-      StoreOrderOrderId: App\Handler\StoreOrderOrderId
-      User: App\Handler\User
-      UserCreateWithArray: App\Handler\UserCreateWithArray
-      UserCreateWithList: App\Handler\UserCreateWithList
-      UserLogin: App\Handler\UserLogin
-      UserLogout: App\Handler\UserLogout
-      UserUsername: App\Handler\UserUsername
+    abstract_factories:
+      - Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory
 #  consumers:
+#    factories:
+#    invokables:
 #  attributes:
+#    factories:
+#    invokables:
 #  producers:
+#    factories:
+#    invokables:
+
+Articus\PathHandler\Router\FastRouteAnnotation:
+  metadata_cache:
+    adapter:
+      name: blackhole
+  handlers:
+    - App\Handler\AnotherFakeDummy
+    - App\Handler\Fake
+    - App\Handler\FakeInlineAdditionalProperties
+    - App\Handler\FakeJsonFormData
+    - App\Handler\FakeOuterBoolean
+    - App\Handler\FakeOuterComposite
+    - App\Handler\FakeOuterNumber
+    - App\Handler\FakeOuterString
+    - App\Handler\FakeClassnameTest
+    - App\Handler\Pet
+    - App\Handler\PetFindByStatus
+    - App\Handler\PetFindByTags
+    - App\Handler\PetPetId
+    - App\Handler\PetPetIdUploadImage
+    - App\Handler\StoreInventory
+    - App\Handler\StoreOrder
+    - App\Handler\StoreOrderOrderId
+    - App\Handler\User
+    - App\Handler\UserCreateWithArray
+    - App\Handler\UserCreateWithList
+    - App\Handler\UserLogin
+    - App\Handler\UserLogout
+    - App\Handler\UserUsername
+
+Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
+  App\Handler\AnotherFakeDummy: []
+  App\Handler\Fake: []
+  App\Handler\FakeInlineAdditionalProperties: []
+  App\Handler\FakeJsonFormData: []
+  App\Handler\FakeOuterBoolean: []
+  App\Handler\FakeOuterComposite: []
+  App\Handler\FakeOuterNumber: []
+  App\Handler\FakeOuterString: []
+  App\Handler\FakeClassnameTest: []
+  App\Handler\Pet: []
+  App\Handler\PetFindByStatus: []
+  App\Handler\PetFindByTags: []
+  App\Handler\PetPetId: []
+  App\Handler\PetPetIdUploadImage: []
+  App\Handler\StoreInventory: []
+  App\Handler\StoreOrder: []
+  App\Handler\StoreOrderOrderId: []
+  App\Handler\User: []
+  App\Handler\UserCreateWithArray: []
+  App\Handler\UserCreateWithList: []
+  App\Handler\UserLogin: []
+  App\Handler\UserLogout: []
+  App\Handler\UserUsername: []

@@ -10,10 +10,13 @@ use Articus\PathHandler\Attribute as PHAttribute;
 use Articus\PathHandler\Exception as PHException;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * @PHA\Route(pattern="/fake/outer/boolean")
+ */
 class FakeOuterBoolean implements Operation\PostInterface
 {
     /**
-     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\OuterBoolean::class,"objectAttr":"body"})
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\OuterBoolean::class,"objectAttr":"bodyData"})
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 500 if the method is not implemented
@@ -23,8 +26,8 @@ class FakeOuterBoolean implements Operation\PostInterface
     public function handlePost(ServerRequestInterface $request)
     {
         //TODO implement method
-        /** @var \App\DTO\OuterBoolean $body */
-        $body = $request->getAttribute("body");
+        /** @var \App\DTO\OuterBoolean $bodyData */
+        $bodyData = $request->getAttribute("bodyData");
         throw new PHException\HttpCode(500, "Not implemented");
     }
 }

@@ -1,0 +1,64 @@
+{{^isPrimitiveType}}
+{{^isContainer}}
+{{^isDate}}
+{{^isDateTime}}
+     * @DTA\Strategy(name="Object", options={"type":{{datatype}}::class})
+     * @DTA\Validator(name="Dictionary", options={"type":{{datatype}}::class})
+{{/isDateTime}}
+{{/isDate}}
+{{#isDate}}
+     * @DTA\Strategy(name="Date")
+     * @DTA\Validator(name="Date")
+{{/isDate}}
+{{#isDateTime}}
+     * @DTA\Strategy(name="DateTime")
+     * @DTA\Validator(name="Date", options={"format": \DateTime::RFC3339})
+{{/isDateTime}}
+{{/isContainer}}
+{{#isContainer}}
+     * TODO check validator and strategy are correct and can handle container item type
+     * @DTA\Strategy(name="ObjectArray", options={"type":{{#items}}{{datatype}}{{/items}}::class})
+     * @DTA\Validator(name="Collection", options={"validators":{
+     *     {"name":"Dictionary", "options":{"type":{{#items}}{{datatype}}{{/items}}::class}}
+     * }})
+{{/isContainer}}
+{{/isPrimitiveType}}
+{{#isPrimitiveType}}
+{{#isContainer}}
+{{#items}}
+     * TODO check validator and strategy are correct and can handle container item type
+     * @DTA\Validator(name="Collection", options={"validators":{
+     *     {"name":"Type", "options":{"type":"{{datatype}}"}}
+     * }})
+{{/items}}
+{{/isContainer}}
+{{^isContainer}}
+     * @DTA\Validator(name="Type", options={"type":"{{datatype}}"})
+{{/isContainer}}
+{{/isPrimitiveType}}
+{{#hasValidation}}
+{{#minLength}}
+{{#maxLength}}
+     * @DTA\Validator(name="StringLength", options={"min":{{minLength}}, "max":{{maxLength}}})
+{{/maxLength}}
+{{/minLength}}
+{{^minLength}}
+{{#maxLength}}
+     * @DTA\Validator(name="StringLength", options={"max":{{maxLength}}})
+{{/maxLength}}
+{{/minLength}}
+{{#minLength}}
+{{^maxLength}}
+     * @DTA\Validator(name="StringLength", options={"min":{{minLength}}})
+{{/maxLength}}
+{{/minLength}}
+{{#minimum}}
+     * @DTA\Validator(name="GreaterThan", options={"min":{{minimum}}{{^exclusiveMinimum}}, "inclusive":true{{/exclusiveMinimum}}})
+{{/minimum}}
+{{#maximum}}
+     * @DTA\Validator(name="LessThan", options={"max":{{maximum}}{{^exclusiveMaximum}}, "inclusive":true{{/exclusiveMaximum}}})
+{{/maximum}}
+{{#pattern}}
+     * @DTA\Validator(name="Regex", options={"pattern":"{{{pattern}}}"})
+{{/pattern}}
+{{/hasValidation}}

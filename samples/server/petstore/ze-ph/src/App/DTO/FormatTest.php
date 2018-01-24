@@ -51,7 +51,7 @@ class FormatTest
      * @DTA\Validator(name="Type", options={"type":"float"})
      * @DTA\Validator(name="GreaterThan", options={"min":67.8, "inclusive":true})
      * @DTA\Validator(name="LessThan", options={"max":123.4, "inclusive":true})
-     * @var double
+     * @var float
      */
     public $double;
     /**
@@ -70,6 +70,7 @@ class FormatTest
     public $byte;
     /**
      * @DTA\Data(field="binary", nullable=true)
+     * @DTA\Validator(name="Type", options={"type":"string"})
      * @var string
      */
     public $binary;

@@ -11,11 +11,12 @@ use Articus\PathHandler\Exception as PHException;
 use Psr\Http\Message\ServerRequestInterface;
 
 {{#operations}}
-{{#description}}
 /**
+{{#description}}
  * {{&description}}
- */
 {{/description}}
+ * @PHA\Route(pattern="{{pathPattern}}")
+ */
 class {{classname}} implements {{interfacesToImplement}}
 {
 {{#operation}}
@@ -26,13 +27,25 @@ class {{classname}} implements {{interfacesToImplement}}
 {{#description}}
      * {{description}}
 {{/description}}
+{{#vendorExtensions}}
+{{#internal.ze-ph.hasQueryData}}
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={
+     *     "type":{{internal.ze-ph.queryDataType}}::class,
+     *     "objectAttr":"queryData",
+     *     "source": PHAttribute\Transfer::SOURCE_GET
+     * })
+{{/internal.ze-ph.hasQueryData}}
+{{/vendorExtensions}}
 {{#bodyParam}}
 {{#consumes}}
      * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Consumer(name=PHConsumer\Json::class, mediaType="{{{mediaType}}}")
 {{/consumes}}
 {{^isPrimitiveType}}
-     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":{{dataType}}::class,"objectAttr":"{{paramName}}"})
+{{#isContainer}}
+     * TODO check if attribute is valid and can handle your container type
+{{/isContainer}}
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":{{dataType}}::class,"objectAttr":"bodyData"})
 {{/isPrimitiveType}}
 {{/bodyParam}}
 {{#produces}}
@@ -50,10 +63,16 @@ class {{classname}} implements {{interfacesToImplement}}
     public function {{httpMethod}}(ServerRequestInterface $request)
     {
         //TODO implement method
+{{#vendorExtensions}}
+{{#internal.ze-ph.hasQueryData}}
+        /** @var {{internal.ze-ph.queryDataType}} $queryData */
+        $queryData = $request->getAttribute("queryData");
+{{/internal.ze-ph.hasQueryData}}
+{{/vendorExtensions}}
 {{#bodyParam}}
 {{^isPrimitiveType}}
-        /** @var {{dataType}} ${{paramName}} */
-        ${{paramName}} = $request->getAttribute("{{paramName}}");
+        /** @var {{dataType}} $bodyData */
+        $bodyData = $request->getAttribute("bodyData");
 {{/isPrimitiveType}}
 {{/bodyParam}}
         throw new PHException\HttpCode(500, "Not implemented");
