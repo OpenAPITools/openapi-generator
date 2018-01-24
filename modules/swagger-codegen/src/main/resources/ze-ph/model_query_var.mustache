@@ -1,0 +1,54 @@
+{{^isPrimitiveType}}
+{{^isContainer}}
+{{#isDate}}
+     * @DTA\Strategy(name="Date")
+     * @DTA\Validator(name="Date")
+{{/isDate}}
+{{#isDateTime}}
+     * @DTA\Strategy(name="DateTime")
+     * @DTA\Validator(name="Date", options={"format": \DateTime::RFC3339})
+{{/isDateTime}}
+{{/isContainer}}
+{{#isContainer}}
+     * TODO add validator(s) and strategy for {{datatype}} and collection format {{internal.ze-ph.collectionFormat}}
+{{/isContainer}}
+{{/isPrimitiveType}}
+{{#isPrimitiveType}}
+{{#isContainer}}
+{{#items}}
+     * TODO check validator and strategy are correct and can handle container item type
+     * @DTA\Strategy(name="QueryParameterArray", options={"type":"{{datatype}}", "format":"{{internal.ze-ph.collectionFormat}}"})
+     * @DTA\Validator(name="QueryParameterArrayType", options={"type":"{{datatype}}", "format":"{{internal.ze-ph.collectionFormat}}"})
+{{/items}}
+{{/isContainer}}
+{{^isContainer}}
+     * @DTA\Strategy(name="QueryParameter", options={"type":"{{datatype}}"})
+     * @DTA\Validator(name="QueryParameterType", options={"type":"{{datatype}}"})
+{{/isContainer}}
+{{/isPrimitiveType}}
+{{#hasValidation}}
+{{#minLength}}
+{{#maxLength}}
+     * @DTA\Validator(name="StringLength", options={"min":{{minLength}}, "max":{{maxLength}}})
+{{/maxLength}}
+{{/minLength}}
+{{^minLength}}
+{{#maxLength}}
+     * @DTA\Validator(name="StringLength", options={"max":{{maxLength}}})
+{{/maxLength}}
+{{/minLength}}
+{{#minLength}}
+{{^maxLength}}
+     * @DTA\Validator(name="StringLength", options={"min":{{minLength}}})
+{{/maxLength}}
+{{/minLength}}
+{{#minimum}}
+     * @DTA\Validator(name="GreaterThan", options={"min":{{minimum}}{{^exclusiveMinimum}}, "inclusive":true{{/exclusiveMinimum}}})
+{{/minimum}}
+{{#maximum}}
+     * @DTA\Validator(name="LessThan", options={"max":{{maximum}}{{^exclusiveMaximum}}, "inclusive":true{{/exclusiveMaximum}}})
+{{/maximum}}
+{{#pattern}}
+     * @DTA\Validator(name="Regex", options={"pattern":"{{{pattern}}}"})
+{{/pattern}}
+{{/hasValidation}}

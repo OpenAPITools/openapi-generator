@@ -1,27 +1,42 @@
-path_handler:
-  routes:
-    routes:
-{{#routes}}{{>route}}{{/routes}}
-    default_params:
-      middleware: ''
+dependencies:
+  factories:
+    Zend\Expressive\Router\RouterInterface: Articus\PathHandler\Router\Factory\FastRouteAnnotation
+
+Articus\PathHandler\Middleware:
   metadata_cache:
     adapter:
       name: blackhole
-#    adapter:
-#      name: filesystem
-#      options:
-#        cache_dir: data/cache/path_handler
-#        namespace: ph
-
   handlers:
-    invokables:
+    abstract_factories:
+      - Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory
+#  consumers:
+#    factories:
+#    invokables:
+#  attributes:
+#    factories:
+#    invokables:
+#  producers:
+#    factories:
+#    invokables:
+
+Articus\PathHandler\Router\FastRouteAnnotation:
+  metadata_cache:
+    adapter:
+      name: blackhole
+  handlers:
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
-      {{classname}}: {{package}}\{{classname}}
+    - {{package}}\{{classname}}
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
-#  consumers:
-#  attributes:
-#  producers:
+
+Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+  {{package}}\{{classname}}: []
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

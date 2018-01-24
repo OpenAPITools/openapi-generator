@@ -10,6 +10,9 @@ use Articus\PathHandler\Attribute as PHAttribute;
 use Articus\PathHandler\Exception as PHException;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * @PHA\Route(pattern="/store/order/{order_id}")
+ */
 class StoreOrderOrderId implements Operation\DeleteInterface, Operation\GetInterface
 {
     /**
