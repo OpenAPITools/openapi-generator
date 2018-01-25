@@ -14,13 +14,12 @@
   "typings": "./dist/index.d.ts",
   "scripts" : {
     "build": "tsc --outDir dist/",
-    "postinstall": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "portable-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "@types/isomorphic-fetch": "0.0.34",
     "@types/node": "^8.0.9",
     "typescript": "^2.0"
   },
