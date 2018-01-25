@@ -16,12 +16,12 @@ local dkjson = require "dkjson"
 local basexx = require "basexx"
 
 -- model import
-local petstore_user_api = require "petstore.api.user_api"
+local petstore_user = require "petstore.model.user"
 
-local petstore= {}
-local petstore_mt = {
+local user_api = {}
+local user_api_mt = {
 	__name = "user_api";
-	__index = petstore;
+	__index = user_api;
 }
 
 local function new_user_api(host, basePath, schemes)
@@ -39,7 +39,7 @@ local function new_user_api(host, basePath, schemes)
 		http_password = nil;
 		api_key = {};
 		access_token = nil;
-	}, petstore_mt)
+	}, user_api_mt)
 end
 
 function user_api:create_user(body)
@@ -222,7 +222,7 @@ function user_api:get_user_by_name(username)
 		if result == nil then
 			return nil, err3
 		end
-		return cast_user(result), headers
+		return petstore_user.cast(result), headers
 	else
 		local body, err, errno2 = stream:get_body_as_string()
 		if not body then
@@ -351,4 +351,8 @@ function user_api:update_user(username, body)
 		return nil, http_status, body
 	end
 end
+
+return {
+	new = new_user_api;
+}
 
