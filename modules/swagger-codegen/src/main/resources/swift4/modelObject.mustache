@@ -1,12 +1,12 @@
 
-open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{/parent}} {
+public struct {{classname}}: Codable {
 
-{{#vars}}
+{{#allVars}}
 {{#isEnum}}
 {{> modelInlineEnumDeclaration}}
 {{/isEnum}}
-{{/vars}}
-{{#vars}}
+{{/allVars}}
+{{#allVars}}
 {{#isEnum}}
     {{#description}}/** {{description}} */
     {{/description}}public var {{name}}: {{{datatypeWithEnum}}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
@@ -20,7 +20,7 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{
         }
     }{{/vendorExtensions.x-swift-optional-scalar}}{{/objcCompatible}}
 {{/isEnum}}
-{{/vars}}
+{{/allVars}}
 
 {{#additionalPropertiesType}}
     public var additionalProperties: [String:{{{additionalPropertiesType}}}] = [:]
@@ -37,47 +37,39 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{
             additionalProperties[key] = newValue
         }
     }
-{{/additionalPropertiesType}}
-
-    {{^parent}}{{#hasVars}}
-    public init({{#vars}}{{name}}: {{{datatypeWithEnum}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/vars}}) {
-        {{#vars}}
-        self.{{name}} = {{name}}
-        {{/vars}}
-    }
-    {{/hasVars}}{{/parent}}
 
     // Encodable protocol methods
 
-    public {{#parent}}override {{/parent}}func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
 
         var container = encoder.container(keyedBy: String.self)
 
-        {{#vars}}
+        {{#allVars}}
         try container.encode{{^required}}IfPresent{{/required}}({{{name}}}, forKey: "{{{baseName}}}")
-        {{/vars}}
-        {{#additionalPropertiesType}}
+        {{/allVars}}
         try container.encodeMap(additionalProperties)
-        {{/additionalPropertiesType}}
     }
 
     // Decodable protocol methods
 
-    public required init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        {{#vars}}
+        {{#allVars}}
         {{name}} = try container.decode{{^required}}IfPresent{{/required}}({{{datatypeWithEnum}}}.self, forKey: "{{{baseName}}}")
-        {{/vars}}
-        {{#additionalPropertiesType}}
+        {{/allVars}}
         var nonAdditionalPropertyKeys = Set<String>()
-        {{#vars}}
+        {{#allVars}}
         nonAdditionalPropertyKeys.insert("{{{baseName}}}")
-        {{/vars}}
+        {{/allVars}}
         additionalProperties = try container.decodeMap({{{additionalPropertiesType}}}.self, excludedKeys: nonAdditionalPropertyKeys)
-        {{/additionalPropertiesType}}
-        {{#parent}}
-        try super.init(from: decoder)
-        {{/parent}}
     }
+
+{{/additionalPropertiesType}}
+{{^additionalPropertiesType}}{{#vendorExtensions.x-codegen-has-escaped-property-names}}
+    public enum CodingKeys: String, CodingKey { {{#allVars}}
+        case {{name}}{{#vendorExtensions.x-codegen-escaped-property-name}} = "{{{baseName}}}"{{/vendorExtensions.x-codegen-escaped-property-name}}{{/allVars}}
+    }
+{{/vendorExtensions.x-codegen-has-escaped-property-names}}{{/additionalPropertiesType}}
+
 }

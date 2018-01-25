@@ -284,6 +284,10 @@
         "for": {
           "description": "This property name is a reserved word in most languages, including Swift 4.",
           "type": "string"
+        },
+        "normalName": {
+          "description": "This model object property name should be unchanged from the JSON property name.",
+          "type": "string"
         }
       }
     },
@@ -370,6 +374,93 @@
       "additionalProperties": {
         "type": "string"
       }
+    },
+    "SampleBase": {
+      "type": "object",
+      "description": "This is an base class object from which other classes will derive.",
+      "properties": {
+        "baseClassStringProp": {
+          "type": "string"
+        },
+        "baseClassIntegerProp": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "SampleSubClass": {
+      "description": "This is an subclass defived from the SampleBase class.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SampleBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "subClassStringProp": {
+              "type": "string"
+            },
+            "subClassIntegerProp": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "BaseCard": {
+      "type": "object",
+      "description": "This is a base card object which uses a 'cardType' discriminator.",
+      "x-unit-tests": ["B45"],
+      "discriminator": "cardType",
+      "required": [
+        "cardType"
+      ],
+      "properties": {
+        "cardType": {
+          "type": "string"
+        }
+      }
+    },
+    "PersonCard": {
+      "description": "This is an card object for a Person derived from BaseCard.",
+      "x-unit-tests": ["B45"],
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseCard"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "PlaceCard": {
+      "description": "This is an card object for a Person derived from BaseCard.",
+      "x-unit-tests": ["B45"],
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseCard"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "placeName": {
+              "type": "string"
+            },
+            "placeAddress": {
+              "type": "string"
+            }
+          }
+        }
+      ]
     }
   }
 }

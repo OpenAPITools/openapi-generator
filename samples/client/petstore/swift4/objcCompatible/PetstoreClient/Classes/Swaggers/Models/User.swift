@@ -9,12 +9,12 @@ import Foundation
 
 
 
-open class User: Codable {
+public struct User: Codable {
 
-    public var id: Int64?
-    public var idNum: NSNumber? {
+    public var _id: Int64?
+    public var _idNum: NSNumber? {
         get {
-            return id.map({ return NSNumber(value: $0) })
+            return _id.map({ return NSNumber(value: $0) })
         }
     }
     public var username: String?
@@ -32,48 +32,17 @@ open class User: Codable {
     }
 
 
-    
-    public init(id: Int64?, username: String?, firstName: String?, lastName: String?, email: String?, password: String?, phone: String?, userStatus: Int?) {
-        self.id = id
-        self.username = username
-        self.firstName = firstName
-        self.lastName = lastName
-        self.email = email
-        self.password = password
-        self.phone = phone
-        self.userStatus = userStatus
-    }
-    
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-
-        var container = encoder.container(keyedBy: String.self)
-
-        try container.encodeIfPresent(id, forKey: "id")
-        try container.encodeIfPresent(username, forKey: "username")
-        try container.encodeIfPresent(firstName, forKey: "firstName")
-        try container.encodeIfPresent(lastName, forKey: "lastName")
-        try container.encodeIfPresent(email, forKey: "email")
-        try container.encodeIfPresent(password, forKey: "password")
-        try container.encodeIfPresent(phone, forKey: "phone")
-        try container.encodeIfPresent(userStatus, forKey: "userStatus")
+    public enum CodingKeys: String, CodingKey { 
+        case _id = "id"
+        case username
+        case firstName
+        case lastName
+        case email
+        case password
+        case phone
+        case userStatus
     }
 
-    // Decodable protocol methods
 
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
-
-        id = try container.decodeIfPresent(Int64.self, forKey: "id")
-        username = try container.decodeIfPresent(String.self, forKey: "username")
-        firstName = try container.decodeIfPresent(String.self, forKey: "firstName")
-        lastName = try container.decodeIfPresent(String.self, forKey: "lastName")
-        email = try container.decodeIfPresent(String.self, forKey: "email")
-        password = try container.decodeIfPresent(String.self, forKey: "password")
-        phone = try container.decodeIfPresent(String.self, forKey: "phone")
-        userStatus = try container.decodeIfPresent(Int.self, forKey: "userStatus")
-    }
 }
 

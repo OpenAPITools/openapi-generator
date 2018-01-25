@@ -21,7 +21,8 @@ class TestClientAppTests: XCTestCase {
         let jsonData = """
         {
            "example_name": "Test example name",
-           "for": "Some reason"
+           "for": "Some reason",
+           "normalName": "Some normal name value"
         }
         """.data(using: .utf8)!
 

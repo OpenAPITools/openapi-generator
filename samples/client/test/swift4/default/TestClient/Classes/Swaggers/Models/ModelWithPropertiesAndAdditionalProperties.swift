@@ -10,7 +10,7 @@ import Foundation
 
 /** This is an empty model with no properties and only additionalProperties of type int32 */
 
-open class ModelWithPropertiesAndAdditionalProperties: Codable {
+public struct ModelWithPropertiesAndAdditionalProperties: Codable {
 
     public var myIntegerReq: Int
     public var myIntegerOpt: Int?
@@ -36,19 +36,6 @@ open class ModelWithPropertiesAndAdditionalProperties: Codable {
         }
     }
 
-    
-    public init(myIntegerReq: Int, myIntegerOpt: Int?, myPrimitiveReq: AllPrimitives, myPrimitiveOpt: AllPrimitives?, myStringArrayReq: [String], myStringArrayOpt: [String]?, myPrimitiveArrayReq: [AllPrimitives], myPrimitiveArrayOpt: [AllPrimitives]?) {
-        self.myIntegerReq = myIntegerReq
-        self.myIntegerOpt = myIntegerOpt
-        self.myPrimitiveReq = myPrimitiveReq
-        self.myPrimitiveOpt = myPrimitiveOpt
-        self.myStringArrayReq = myStringArrayReq
-        self.myStringArrayOpt = myStringArrayOpt
-        self.myPrimitiveArrayReq = myPrimitiveArrayReq
-        self.myPrimitiveArrayOpt = myPrimitiveArrayOpt
-    }
-    
-
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -68,7 +55,7 @@ open class ModelWithPropertiesAndAdditionalProperties: Codable {
 
     // Decodable protocol methods
 
-    public required init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
         myIntegerReq = try container.decode(Int.self, forKey: "myIntegerReq")
@@ -90,5 +77,8 @@ open class ModelWithPropertiesAndAdditionalProperties: Codable {
         nonAdditionalPropertyKeys.insert("myPrimitiveArrayOpt")
         additionalProperties = try container.decodeMap(String.self, excludedKeys: nonAdditionalPropertyKeys)
     }
+
+
+
 }
 

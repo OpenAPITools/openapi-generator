@@ -9,32 +9,15 @@ import Foundation
 
 
 
-open class ArrayOfArrayOfNumberOnly: Codable {
+public struct ArrayOfArrayOfNumberOnly: Codable {
 
     public var arrayArrayNumber: [[Double]]?
 
 
-    
-    public init(arrayArrayNumber: [[Double]]?) {
-        self.arrayArrayNumber = arrayArrayNumber
-    }
-    
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-
-        var container = encoder.container(keyedBy: String.self)
-
-        try container.encodeIfPresent(arrayArrayNumber, forKey: "ArrayArrayNumber")
+    public enum CodingKeys: String, CodingKey { 
+        case arrayArrayNumber = "ArrayArrayNumber"
     }
 
-    // Decodable protocol methods
 
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
-
-        arrayArrayNumber = try container.decodeIfPresent([[Double]].self, forKey: "ArrayArrayNumber")
-    }
 }
 

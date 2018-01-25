@@ -9,40 +9,19 @@ import Foundation
 
 
 
-open class OuterComposite: Codable {
+public struct OuterComposite: Codable {
 
     public var myNumber: OuterNumber?
     public var myString: OuterString?
     public var myBoolean: OuterBoolean?
 
 
-    
-    public init(myNumber: OuterNumber?, myString: OuterString?, myBoolean: OuterBoolean?) {
-        self.myNumber = myNumber
-        self.myString = myString
-        self.myBoolean = myBoolean
-    }
-    
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-
-        var container = encoder.container(keyedBy: String.self)
-
-        try container.encodeIfPresent(myNumber, forKey: "my_number")
-        try container.encodeIfPresent(myString, forKey: "my_string")
-        try container.encodeIfPresent(myBoolean, forKey: "my_boolean")
+    public enum CodingKeys: String, CodingKey { 
+        case myNumber = "my_number"
+        case myString = "my_string"
+        case myBoolean = "my_boolean"
     }
 
-    // Decodable protocol methods
 
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
-
-        myNumber = try container.decodeIfPresent(OuterNumber.self, forKey: "my_number")
-        myString = try container.decodeIfPresent(OuterString.self, forKey: "my_string")
-        myBoolean = try container.decodeIfPresent(OuterBoolean.self, forKey: "my_boolean")
-    }
 }
 
