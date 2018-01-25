@@ -68,8 +68,10 @@ public class PetApiController extends Controller {
         List<String> statusList = SwaggerUtils.parametersToList("csv", statusArray);
         List<String> status = new ArrayList<String>();
         for (String curParam : statusList) {
-            //noinspection UseBulkOperation
-            status.add(curParam);
+            if (!curParam.isEmpty()) {
+                //noinspection UseBulkOperation
+                status.add(curParam);
+            }
         }
         List<Pet> obj = imp.findPetsByStatus(status);
         JsonNode result = mapper.valueToTree(obj);
@@ -85,8 +87,10 @@ public class PetApiController extends Controller {
         List<String> tagsList = SwaggerUtils.parametersToList("csv", tagsArray);
         List<String> tags = new ArrayList<String>();
         for (String curParam : tagsList) {
-            //noinspection UseBulkOperation
-            tags.add(curParam);
+            if (!curParam.isEmpty()) {
+                //noinspection UseBulkOperation
+                tags.add(curParam);
+            }
         }
         List<Pet> obj = imp.findPetsByTags(tags);
         JsonNode result = mapper.valueToTree(obj);

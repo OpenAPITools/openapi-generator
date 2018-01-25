@@ -71,8 +71,10 @@ public class PetApiController extends Controller {
         List<String> statusList = SwaggerUtils.parametersToList("csv", statusArray);
         List<String> status = new ArrayList<String>();
         for (String curParam : statusList) {
-            //noinspection UseBulkOperation
-            status.add(curParam);
+            if (!curParam.isEmpty()) {
+                //noinspection UseBulkOperation
+                status.add(curParam);
+            }
         }
         return ok();
     }
@@ -86,8 +88,10 @@ public class PetApiController extends Controller {
         List<String> tagsList = SwaggerUtils.parametersToList("csv", tagsArray);
         List<String> tags = new ArrayList<String>();
         for (String curParam : tagsList) {
-            //noinspection UseBulkOperation
-            tags.add(curParam);
+            if (!curParam.isEmpty()) {
+                //noinspection UseBulkOperation
+                tags.add(curParam);
+            }
         }
         return ok();
     }
