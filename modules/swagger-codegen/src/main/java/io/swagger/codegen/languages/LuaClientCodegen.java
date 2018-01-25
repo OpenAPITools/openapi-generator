@@ -89,7 +89,8 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "string");
         typeMapping.put("password", "string");
-        typeMapping.put("file", "TODO_FILE_MAPPING");
+        // TODO fix file mapping
+        typeMapping.put("file", "string");
         // map binary to string as a workaround
         // the correct solution is to use []byte
         typeMapping.put("binary", "string");
@@ -181,11 +182,11 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + "api" + File.separator;
+        return outputFolder + File.separator + packageName + File.separator + "api" + File.separator;
     }
 
     public String modelFileFolder() {
-        return outputFolder + File.separator + "model" + File.separator;
+        return outputFolder + File.separator + packageName + File.separator + "model" + File.separator;
     }
 
     @Override
@@ -518,5 +519,14 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             return enumName;
         }
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        if (needToImport(toModelName(name))) {
+            return toModelName(name);
+        }
+
+        return name;
     }
 }

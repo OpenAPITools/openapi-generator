@@ -8,12 +8,14 @@ local dkjson = require "dkjson"
 local basexx = require "basexx"
 
 -- model import
-local {{{packageName}}}_{{classname}} = require "{{{packageName}}}.api.{{classname}}"
+{{#imports}}
+local {{{packageName}}}_{{import}} = require "{{{packageName}}}.model.{{import}}"
+{{/imports}}
 
-local {{{packageName}}}= {}
-local {{{packageName}}}_mt = {
+local {{{classname}}} = {}
+local {{{classname}}}_mt = {
 	__name = "{{{classname}}}";
-	__index = {{{packageName}}};
+	__index = {{{classname}}};
 }
 
 local function new_{{classname}}(host, basePath, schemes)
@@ -31,7 +33,7 @@ local function new_{{classname}}(host, basePath, schemes)
 		http_password = nil;
 		api_key = {};
 		access_token = nil;
-	}, {{{packageName}}}_mt)
+	}, {{{classname}}}_mt)
 end
 
 {{#operation}}
@@ -60,7 +62,9 @@ function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, 
 
 	{{/hasProduces}}
 	{{#headerParams}}
-	req.headers:upsert("{{baseName}}", {{paramName}})
+	if {{paramName}} then
+		req.headers:upsert("{{baseName}}", {{paramName}})
+	end
 	{{/headerParams}}
 	{{#formParams}}
 	{{#-first}}
@@ -79,7 +83,9 @@ function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, 
 	{{#isApiKey}}
 	{{#isKeyInHeader}}
 	-- api key in headers '{{keyParamName}}'
-	req.headers:upsert("{{{name}}}", api_key['{{{keyParamName}}}'])
+	if self.api_key['{{{keyParamName}}}'] then
+		req.headers:upsert("{{{name}}}", self.api_key['{{{keyParamName}}}'])
+	end
 	{{/isKeyInHeader}}
 	{{#isKeyInQuery}}
 	-- TODO: api key in query '{{keyParamName}}'
@@ -91,7 +97,9 @@ function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, 
 	{{/isBasic}}
 	{{#isOAuth}}
 	-- oAuth
-	req.headers:upsert("authorization", "Bearer " .. self.access_token)
+	if self.access_token then
+		req.headers:upsert("authorization", "Bearer " .. self.access_token)
+	end
 	{{/isOAuth}}
 	{{/authMethods}}
 
@@ -120,7 +128,7 @@ function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, 
 		{{^returnTypeIsPrimitive}}
 		{{#isListContainer}}
 		for _, ob in ipairs(result) do
-			cast_{{returnType}}(ob)
+			{{packageName}}_{{returnType}}.cast(ob)
 		end
 		return result, headers
 		{{/isListContainer}}
@@ -129,7 +137,7 @@ function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, 
 		{{/isMapContainer}}
 		{{^isMapContainer}}
 		{{^isListContainer}}
-		return cast_{{returnType}}(result), headers
+		return {{packageName}}_{{returnType}}.cast(result), headers
 		{{/isListContainer}}
 		{{/isMapContainer}}
 		{{/returnTypeIsPrimitive}}
@@ -149,4 +157,8 @@ function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, 
 end
 
 {{/operation}}
+return {
+	new = new_{{classname}};
+}
 {{/operations}}
+
