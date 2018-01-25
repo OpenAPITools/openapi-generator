@@ -1,14 +1,54 @@
-@Entity()
 class {{classname}} {
   {{#vars}}{{#description}}/* {{{description}}} */{{/description}}
-  @Property(name: '{{baseName}}')
   {{{datatype}}} {{name}} = {{{defaultValue}}};
   {{#allowableValues}}{{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}{{/allowableValues}}
   {{/vars}}
   {{classname}}();
 
   @override
-  String toString()  {
+  String toString() {
     return '{{classname}}[{{#vars}}{{name}}=${{name}}, {{/vars}}]';
+  }
+
+  {{classname}}.fromJson(Map<String, dynamic> json) {
+    if (json == null) return;
+  {{#vars}}
+  {{#isDateTime}}
+    {{name}} = json['{{name}}'] == null ? null : DateTime.parse(json['{{name}}']);
+  {{/isDateTime}}
+  {{^isDateTime}}
+    {{name}} =
+    {{#complexType}}
+        {{#isListContainer}}{{complexType}}.listFromJson(json['{{name}}']){{/isListContainer}}{{^isListContainer}}
+        {{#isMapContainer}}{{complexType}}.mapFromJson(json['{{name}}']){{/isMapContainer}}
+        {{^isMapContainer}}new {{complexType}}.fromJson(json['{{name}}']){{/isMapContainer}}{{/isListContainer}}
+    {{/complexType}}
+    {{^complexType}}json['{{name}}']{{/complexType}};
+  {{/isDateTime}}
+  {{/vars}}
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+    {{#vars}}
+      {{#isDateTime}}'{{name}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}{{/isDateTime}}{{^isDateTime}}'{{name}}': {{name}}{{^-last}},{{/-last}}{{/isDateTime}}
+    {{/vars}}
+     };
+  }
+
+  static List<{{classname}}> listFromJson(List<Map<String, dynamic>> json) {
+    var list = new List<{{classname}}>();
+    if (json != null && json.length > 0) {
+      json.forEach((Map<String, dynamic> value) => list.add(new {{classname}}.fromJson(value)));
+    }
+    return list;
+  }
+
+  static Map<String, {{classname}}> mapFromJson(Map<String, Map<String, dynamic>> json) {
+    var map = new Map<String, {{classname}}>();
+    if (json != null && json.length > 0) {
+      json.forEach((String key, Map<String, dynamic> value) => map[key] = new {{classname}}.fromJson(value));
+    }
+    return map;
   }
 }
