@@ -11,7 +11,7 @@ Iterable<QueryParam> _convertParametersForCollectionFormat(
   if (name == null || name.isEmpty || value == null) return params;
 
   if (value is! List) {
-    params.add(new QueryParam(name, _parameterToString(value)));
+    params.add(new QueryParam(name, parameterToString(value)));
     return params;
   }
 
@@ -23,17 +23,17 @@ Iterable<QueryParam> _convertParametersForCollectionFormat(
                      : collectionFormat; // default: csv
 
   if (collectionFormat == "multi") {
-    return values.map((v) => new QueryParam(name, _parameterToString(v)));
+    return values.map((v) => new QueryParam(name, parameterToString(v)));
   }
 
   String delimiter = _delimiters[collectionFormat] ?? ",";
 
-  params.add(new QueryParam(name, values.map((v)=>_parameterToString(v)).join(delimiter)));
+  params.add(new QueryParam(name, values.map((v) => parameterToString(v)).join(delimiter)));
   return params;
 }
 
 /// Format the given parameter object into string.
-String _parameterToString(dynamic value) {
+String parameterToString(dynamic value) {
   if (value == null) {
     return '';
   } else if (value is DateTime) {

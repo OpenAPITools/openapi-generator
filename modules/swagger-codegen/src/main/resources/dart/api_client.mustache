@@ -15,16 +15,6 @@ class ApiClient {
   Map<String, String> _defaultHeaderMap = {};
   Map<String, Authentication> _authentications = {};
 
-  final dson = new Dartson.JSON()
-  {{#models}}
-    {{#model}}
-      {{#isEnum}}
-      ..addTransformer(new {{classname}}TypeTransformer(), {{classname}})
-      {{/isEnum}}
-    {{/model}}
-  {{/models}}
-      ..addTransformer(new DateTimeParser(), DateTime);
-
   final _RegList = new RegExp(r'^List<(.*)>$');
   final _RegMap = new RegExp(r'^Map<String,(.*)>$');
 
@@ -61,7 +51,7 @@ class ApiClient {
           return listResult[0];
             {{/isEnum}}
             {{^isEnum}}
-          return dson.map(value, new {{classname}}());
+          return new {{classname}}.fromJson(value);
             {{/isEnum}}
           {{/model}}
         {{/models}}
@@ -100,10 +90,8 @@ class ApiClient {
     String serialized = '';
     if (obj == null) {
       serialized = '';
-    } else if (obj is String) {
-      serialized = obj;
     } else {
-      serialized = dson.encode(obj);
+      serialized = JSON.encode(obj);
     }
     return serialized;
   }

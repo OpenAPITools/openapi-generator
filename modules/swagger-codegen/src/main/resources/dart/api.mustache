@@ -54,7 +54,7 @@ class {{classname}} {
       {{#formParams}}{{#notFile}}
       if ({{paramName}} != null) {
         hasFields = true;
-        mp.fields['{{baseName}}'] = apiClient.parameterToString({{paramName}});
+        mp.fields['{{baseName}}'] = parameterToString({{paramName}});
       }
       {{/notFile}}{{#isFile}}
       if ({{paramName}} != null) {
@@ -68,7 +68,7 @@ class {{classname}} {
     }
     else {
       {{#formParams}}{{#notFile}}if ({{paramName}} != null)
-        formParams['{{baseName}}'] = apiClient.parameterToString({{paramName}});{{/notFile}}
+        formParams['{{baseName}}'] = parameterToString({{paramName}});{{/notFile}}
       {{/formParams}}
     }
 
