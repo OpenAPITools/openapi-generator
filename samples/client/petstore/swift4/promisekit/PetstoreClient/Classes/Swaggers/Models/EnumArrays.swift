@@ -9,7 +9,7 @@ import Foundation
 
 
 
-open class EnumArrays: Codable {
+public struct EnumArrays: Codable {
 
     public enum JustSymbol: String, Codable { 
         case greaterThanOrEqualTo = ">="
@@ -23,30 +23,11 @@ open class EnumArrays: Codable {
     public var arrayEnum: [ArrayEnum]?
 
 
-    
-    public init(justSymbol: JustSymbol?, arrayEnum: [ArrayEnum]?) {
-        self.justSymbol = justSymbol
-        self.arrayEnum = arrayEnum
-    }
-    
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-
-        var container = encoder.container(keyedBy: String.self)
-
-        try container.encodeIfPresent(justSymbol, forKey: "just_symbol")
-        try container.encodeIfPresent(arrayEnum, forKey: "array_enum")
+    public enum CodingKeys: String, CodingKey { 
+        case justSymbol = "just_symbol"
+        case arrayEnum = "array_enum"
     }
 
-    // Decodable protocol methods
 
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
-
-        justSymbol = try container.decodeIfPresent(JustSymbol.self, forKey: "just_symbol")
-        arrayEnum = try container.decodeIfPresent([ArrayEnum].self, forKey: "array_enum")
-    }
 }
 

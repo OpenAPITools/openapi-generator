@@ -10,7 +10,7 @@ import Foundation
 
 /** This is an empty model with no properties and only additionalProperties of type string */
 
-open class ModelWithStringAdditionalPropertiesOnly: Codable {
+public struct ModelWithStringAdditionalPropertiesOnly: Codable {
 
 
     public var additionalProperties: [String:String] = [:]
@@ -28,8 +28,6 @@ open class ModelWithStringAdditionalPropertiesOnly: Codable {
         }
     }
 
-    
-
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -41,11 +39,14 @@ open class ModelWithStringAdditionalPropertiesOnly: Codable {
 
     // Decodable protocol methods
 
-    public required init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
         var nonAdditionalPropertyKeys = Set<String>()
         additionalProperties = try container.decodeMap(String.self, excludedKeys: nonAdditionalPropertyKeys)
     }
+
+
+
 }
 

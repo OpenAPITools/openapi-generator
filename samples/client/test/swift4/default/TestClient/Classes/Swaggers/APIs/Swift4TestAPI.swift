@@ -57,6 +57,7 @@ open class Swift4TestAPI {
     "myUUIDArray" : [ "046b6c7f-0b8a-43b9-b35d-6489e6daee91", "046b6c7f-0b8a-43b9-b35d-6489e6daee91" ]
   },
   "myVariableNameTest" : {
+    "normalName" : "normalName",
     "for" : "for",
     "example_name" : "example_name"
   },

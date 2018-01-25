@@ -9,7 +9,7 @@ import Foundation
 
 
 
-open class EnumTest: Codable {
+public struct EnumTest: Codable {
 
     public enum EnumString: String, Codable { 
         case upper = "UPPER"
@@ -30,36 +30,13 @@ open class EnumTest: Codable {
     public var outerEnum: OuterEnum?
 
 
-    
-    public init(enumString: EnumString?, enumInteger: EnumInteger?, enumNumber: EnumNumber?, outerEnum: OuterEnum?) {
-        self.enumString = enumString
-        self.enumInteger = enumInteger
-        self.enumNumber = enumNumber
-        self.outerEnum = outerEnum
-    }
-    
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-
-        var container = encoder.container(keyedBy: String.self)
-
-        try container.encodeIfPresent(enumString, forKey: "enum_string")
-        try container.encodeIfPresent(enumInteger, forKey: "enum_integer")
-        try container.encodeIfPresent(enumNumber, forKey: "enum_number")
-        try container.encodeIfPresent(outerEnum, forKey: "outerEnum")
+    public enum CodingKeys: String, CodingKey { 
+        case enumString = "enum_string"
+        case enumInteger = "enum_integer"
+        case enumNumber = "enum_number"
+        case outerEnum
     }
 
-    // Decodable protocol methods
 
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
-
-        enumString = try container.decodeIfPresent(EnumString.self, forKey: "enum_string")
-        enumInteger = try container.decodeIfPresent(EnumInteger.self, forKey: "enum_integer")
-        enumNumber = try container.decodeIfPresent(EnumNumber.self, forKey: "enum_number")
-        outerEnum = try container.decodeIfPresent(OuterEnum.self, forKey: "outerEnum")
-    }
 }
 

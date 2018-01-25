@@ -10,36 +10,17 @@ import Foundation
 
 /** Model for testing model name starting with number */
 
-open class Model200Response: Codable {
+public struct Model200Response: Codable {
 
     public var name: Int?
     public var _class: String?
 
 
-    
-    public init(name: Int?, _class: String?) {
-        self.name = name
-        self._class = _class
-    }
-    
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-
-        var container = encoder.container(keyedBy: String.self)
-
-        try container.encodeIfPresent(name, forKey: "name")
-        try container.encodeIfPresent(_class, forKey: "class")
+    public enum CodingKeys: String, CodingKey { 
+        case name
+        case _class = "class"
     }
 
-    // Decodable protocol methods
 
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
-
-        name = try container.decodeIfPresent(Int.self, forKey: "name")
-        _class = try container.decodeIfPresent(String.self, forKey: "class")
-    }
 }
 

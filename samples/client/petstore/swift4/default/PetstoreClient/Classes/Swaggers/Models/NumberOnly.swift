@@ -9,32 +9,15 @@ import Foundation
 
 
 
-open class NumberOnly: Codable {
+public struct NumberOnly: Codable {
 
     public var justNumber: Double?
 
 
-    
-    public init(justNumber: Double?) {
-        self.justNumber = justNumber
-    }
-    
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-
-        var container = encoder.container(keyedBy: String.self)
-
-        try container.encodeIfPresent(justNumber, forKey: "JustNumber")
+    public enum CodingKeys: String, CodingKey { 
+        case justNumber = "JustNumber"
     }
 
-    // Decodable protocol methods
 
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
-
-        justNumber = try container.decodeIfPresent(Double.self, forKey: "JustNumber")
-    }
 }
 

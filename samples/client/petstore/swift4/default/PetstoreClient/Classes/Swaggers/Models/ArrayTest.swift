@@ -9,40 +9,19 @@ import Foundation
 
 
 
-open class ArrayTest: Codable {
+public struct ArrayTest: Codable {
 
     public var arrayOfString: [String]?
     public var arrayArrayOfInteger: [[Int64]]?
     public var arrayArrayOfModel: [[ReadOnlyFirst]]?
 
 
-    
-    public init(arrayOfString: [String]?, arrayArrayOfInteger: [[Int64]]?, arrayArrayOfModel: [[ReadOnlyFirst]]?) {
-        self.arrayOfString = arrayOfString
-        self.arrayArrayOfInteger = arrayArrayOfInteger
-        self.arrayArrayOfModel = arrayArrayOfModel
-    }
-    
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-
-        var container = encoder.container(keyedBy: String.self)
-
-        try container.encodeIfPresent(arrayOfString, forKey: "array_of_string")
-        try container.encodeIfPresent(arrayArrayOfInteger, forKey: "array_array_of_integer")
-        try container.encodeIfPresent(arrayArrayOfModel, forKey: "array_array_of_model")
+    public enum CodingKeys: String, CodingKey { 
+        case arrayOfString = "array_of_string"
+        case arrayArrayOfInteger = "array_array_of_integer"
+        case arrayArrayOfModel = "array_array_of_model"
     }
 
-    // Decodable protocol methods
 
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
-
-        arrayOfString = try container.decodeIfPresent([String].self, forKey: "array_of_string")
-        arrayArrayOfInteger = try container.decodeIfPresent([[Int64]].self, forKey: "array_array_of_integer")
-        arrayArrayOfModel = try container.decodeIfPresent([[ReadOnlyFirst]].self, forKey: "array_array_of_model")
-    }
 }
 

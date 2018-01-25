@@ -9,40 +9,13 @@ import Foundation
 
 
 
-open class ApiResponse: Codable {
+public struct ApiResponse: Codable {
 
     public var code: Int?
     public var type: String?
     public var message: String?
 
 
-    
-    public init(code: Int?, type: String?, message: String?) {
-        self.code = code
-        self.type = type
-        self.message = message
-    }
-    
 
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-
-        var container = encoder.container(keyedBy: String.self)
-
-        try container.encodeIfPresent(code, forKey: "code")
-        try container.encodeIfPresent(type, forKey: "type")
-        try container.encodeIfPresent(message, forKey: "message")
-    }
-
-    // Decodable protocol methods
-
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
-
-        code = try container.decodeIfPresent(Int.self, forKey: "code")
-        type = try container.decodeIfPresent(String.self, forKey: "type")
-        message = try container.decodeIfPresent(String.self, forKey: "message")
-    }
 }
 
