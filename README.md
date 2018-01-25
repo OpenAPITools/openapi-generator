@@ -960,6 +960,7 @@ Here is a list of template creators:
    * C# (.NET 4.5 refactored): @jimschubert
    * Clojure: @xhh
    * Dart: @yissachar
+   * Dart (refactored in 2.4.0): @joernahrens
    * Elixir: @niku
    * Elm: @trenneman
    * Eiffel: @jvelilla
