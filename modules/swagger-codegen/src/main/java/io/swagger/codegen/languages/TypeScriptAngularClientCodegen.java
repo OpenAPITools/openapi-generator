@@ -17,12 +17,7 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.utils.SemVer;
 import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.FileProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.ObjectProperty;
-import io.swagger.models.properties.Property;
+import io.swagger.models.properties.*;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
@@ -161,16 +156,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getTypeDeclaration(Property p) {
-        Property inner;
-        if (p instanceof ArrayProperty) {
-            ArrayProperty mp1 = (ArrayProperty) p;
-            inner = mp1.getItems();
-            return this.getSwaggerType(p) + "<" + this.getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            inner = mp.getAdditionalProperties();
-            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
-        } else if (p instanceof FileProperty) {
+        if (p instanceof FileProperty) {
             return "Blob";
         } else if (p instanceof ObjectProperty) {
             return "any";
@@ -178,6 +164,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             return super.getTypeDeclaration(p);
         }
     }
+
 
     @Override
     public String getSwaggerType(Property p) {

@@ -19,6 +19,7 @@ import {
   any,
   Pet,
   ApiResponse,
+  Array&lt;&#39;available&#39; | &#39;pending&#39; | &#39;sold&#39;&gt;,
 } from './models';
 
 /**
@@ -40,7 +41,7 @@ export interface IDeletePetParams {
  * findPetsByStatus - parameters interface
  */
 export interface IFindPetsByStatusParams {
-  status: Array<string>;
+  status: Array<'available' | 'pending' | 'sold'>;
 }
 
 /**

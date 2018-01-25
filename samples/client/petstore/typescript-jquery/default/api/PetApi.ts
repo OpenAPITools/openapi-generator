@@ -191,7 +191,7 @@ export class PetApi {
      * @summary Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus(status: Array<string>, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body: Array<models.Pet>;  }> {
+    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body: Array<models.Pet>;  }> {
         let localVarPath = this.basePath + '/pet/findByStatus';
 
         let queryParameters: any = {};
