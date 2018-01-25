@@ -38,6 +38,9 @@ public class Animal implements Parcelable {
   @SerializedName("color")
   private String color = "red";
 
+  public Animal() {
+    this.className = this.getClass().getSimpleName();
+  }
   public Animal className(String className) {
     this.className = className;
     return this;

@@ -9,7 +9,7 @@ lazy val root = (project in file(".")).
     publishArtifact in (Compile, packageDoc) := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
-      "io.swagger" % "swagger-annotations" % "1.5.15",
+      "io.swagger" % "swagger-annotations" % "1.5.17",
       "com.google.api-client" % "google-api-client" % "1.23.0",
       "org.glassfish.jersey.core" % "jersey-common" % "2.25.1",
       "com.fasterxml.jackson.core" % "jackson-core" % "2.8.9" % "compile",
