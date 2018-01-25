@@ -99,8 +99,10 @@ public class {{classname}}Controller extends Controller {
         List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
-            //noinspection UseBulkOperation
-            {{paramName}}.add({{>itemConversionBegin}}curParam{{>itemConversionEnd}});
+            if (!curParam.isEmpty()) {
+                //noinspection UseBulkOperation
+                {{paramName}}.add({{>itemConversionBegin}}curParam{{>itemConversionEnd}});
+            }
         }
         {{/collectionFormat}}
         {{^collectionFormat}}
@@ -138,8 +140,10 @@ public class {{classname}}Controller extends Controller {
         List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
-            //noinspection UseBulkOperation
-            {{paramName}}.add({{>itemConversionBegin}}curParam{{>itemConversionEnd}});
+            if (!curParam.isEmpty()) {
+                //noinspection UseBulkOperation
+                {{paramName}}.add({{>itemConversionBegin}}curParam{{>itemConversionEnd}});
+            }
         }
         {{/collectionFormat}}
         {{^collectionFormat}}
@@ -169,8 +173,10 @@ public class {{classname}}Controller extends Controller {
         List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
-            //noinspection UseBulkOperation
-            {{paramName}}.add({{>itemConversionBegin}}curParam{{>itemConversionEnd}});
+            if (!curParam.isEmpty()) {
+                //noinspection UseBulkOperation
+                {{paramName}}.add({{>itemConversionBegin}}curParam{{>itemConversionEnd}});
+            }
         }
         {{/collectionFormat}}
         {{^collectionFormat}}

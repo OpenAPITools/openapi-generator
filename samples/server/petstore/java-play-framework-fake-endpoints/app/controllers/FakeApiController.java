@@ -243,8 +243,10 @@ public class FakeApiController extends Controller {
         List<String> enumQueryStringArrayList = SwaggerUtils.parametersToList("csv", enumQueryStringArrayArray);
         List<String> enumQueryStringArray = new ArrayList<String>();
         for (String curParam : enumQueryStringArrayList) {
-            //noinspection UseBulkOperation
-            enumQueryStringArray.add(curParam);
+            if (!curParam.isEmpty()) {
+                //noinspection UseBulkOperation
+                enumQueryStringArray.add(curParam);
+            }
         }
         String valueenumQueryString = request().getQueryString("enum_query_string");
         String enumQueryString;
@@ -264,8 +266,10 @@ public class FakeApiController extends Controller {
         List<String> enumFormStringArrayList = SwaggerUtils.parametersToList("csv", enumFormStringArrayArray);
         List<String> enumFormStringArray = new ArrayList<String>();
         for (String curParam : enumFormStringArrayList) {
-            //noinspection UseBulkOperation
-            enumFormStringArray.add(curParam);
+            if (!curParam.isEmpty()) {
+                //noinspection UseBulkOperation
+                enumFormStringArray.add(curParam);
+            }
         }
         String valueenumFormString = (request().body().asMultipartFormData().asFormUrlEncoded().get("enum_form_string"))[0];
         String enumFormString;
@@ -285,8 +289,10 @@ public class FakeApiController extends Controller {
         List<String> enumHeaderStringArrayList = SwaggerUtils.parametersToList("csv", enumHeaderStringArrayArray);
         List<String> enumHeaderStringArray = new ArrayList<String>();
         for (String curParam : enumHeaderStringArrayList) {
-            //noinspection UseBulkOperation
-            enumHeaderStringArray.add(curParam);
+            if (!curParam.isEmpty()) {
+                //noinspection UseBulkOperation
+                enumHeaderStringArray.add(curParam);
+            }
         }
         String valueenumHeaderString = request().getHeader("enum_header_string");
         String enumHeaderString;
