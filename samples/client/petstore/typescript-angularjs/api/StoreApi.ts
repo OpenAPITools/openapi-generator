@@ -45,7 +45,7 @@ export class StoreApi {
         let httpRequestParams: ng.IRequestConfig = {
             method: 'DELETE',
             url: localVarPath,
-                                    params: queryParameters,
+            params: queryParameters,
             headers: headerParams
         };
 
@@ -67,7 +67,7 @@ export class StoreApi {
         let httpRequestParams: ng.IRequestConfig = {
             method: 'GET',
             url: localVarPath,
-                                    params: queryParameters,
+            params: queryParameters,
             headers: headerParams
         };
 
@@ -96,7 +96,7 @@ export class StoreApi {
         let httpRequestParams: ng.IRequestConfig = {
             method: 'GET',
             url: localVarPath,
-                                    params: queryParameters,
+            params: queryParameters,
             headers: headerParams
         };
 
@@ -125,7 +125,7 @@ export class StoreApi {
             method: 'POST',
             url: localVarPath,
             data: body,
-                        params: queryParameters,
+            params: queryParameters,
             headers: headerParams
         };
 

@@ -45,7 +45,7 @@ export class PetApi {
             method: 'POST',
             url: localVarPath,
             data: body,
-                        params: queryParameters,
+            params: queryParameters,
             headers: headerParams
         };
 
@@ -77,7 +77,7 @@ export class PetApi {
         let httpRequestParams: ng.IRequestConfig = {
             method: 'DELETE',
             url: localVarPath,
-                                    params: queryParameters,
+            params: queryParameters,
             headers: headerParams
         };
 
@@ -92,7 +92,7 @@ export class PetApi {
      * @summary Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus (status: Array<string>, extraHttpRequestParams?: any ) : ng.IHttpPromise<Array<models.Pet>> {
+    public findPetsByStatus (status: Array<'available' | 'pending' | 'sold'>, extraHttpRequestParams?: any ) : ng.IHttpPromise<Array<models.Pet>> {
         const localVarPath = this.basePath + '/pet/findByStatus';
 
         let queryParameters: any = {};
@@ -109,7 +109,7 @@ export class PetApi {
         let httpRequestParams: ng.IRequestConfig = {
             method: 'GET',
             url: localVarPath,
-                                    params: queryParameters,
+            params: queryParameters,
             headers: headerParams
         };
 
@@ -141,7 +141,7 @@ export class PetApi {
         let httpRequestParams: ng.IRequestConfig = {
             method: 'GET',
             url: localVarPath,
-                                    params: queryParameters,
+            params: queryParameters,
             headers: headerParams
         };
 
@@ -170,7 +170,7 @@ export class PetApi {
         let httpRequestParams: ng.IRequestConfig = {
             method: 'GET',
             url: localVarPath,
-                                    params: queryParameters,
+            params: queryParameters,
             headers: headerParams
         };
 
@@ -199,7 +199,7 @@ export class PetApi {
             method: 'PUT',
             url: localVarPath,
             data: body,
-                        params: queryParameters,
+            params: queryParameters,
             headers: headerParams
         };
 
@@ -238,7 +238,7 @@ export class PetApi {
         let httpRequestParams: ng.IRequestConfig = {
             method: 'POST',
             url: localVarPath,
-                        data: this.$httpParamSerializer(formParams),
+            data: this.$httpParamSerializer(formParams),
             params: queryParameters,
             headers: headerParams
         };
@@ -278,7 +278,7 @@ export class PetApi {
         let httpRequestParams: ng.IRequestConfig = {
             method: 'POST',
             url: localVarPath,
-                        data: this.$httpParamSerializer(formParams),
+            data: this.$httpParamSerializer(formParams),
             params: queryParameters,
             headers: headerParams
         };
