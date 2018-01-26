@@ -87,11 +87,11 @@ public class StoreApiTest {
         order.setComplete(true);
 
         try {
-          Field idField = Order.class.getDeclaredField("id");
-          idField.setAccessible(true);
-          idField.set(order, TestUtils.nextId());
+            Field idField = Order.class.getDeclaredField("id");
+            idField.setAccessible(true);
+            idField.set(order, TestUtils.nextId());
         } catch (Exception e) {
-          throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
 
         return order;

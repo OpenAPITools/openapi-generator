@@ -6,6 +6,7 @@ import io.swagger.client.model.Order;
 
 import java.lang.Exception;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,6 +14,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import okio.ByteString;
 import org.junit.*;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
@@ -41,7 +43,7 @@ public class JSONTest {
 
         assertEquals(str, json.serialize(date));
         assertEquals(json.deserialize(str, java.sql.Date.class), date);
-        assertEquals(json.deserialize("\"2015-11-07T03:49:09.356+00:00\"", java.sql.Date.class).toString(), date.toString());
+        assertEquals(json.deserialize("\"2015-11-07T03:49:09.356" + getCurrentTimezoneOffset() + "\"", java.sql.Date.class).toString(), date.toString());
 
         // custom date format: without day
         DateFormat format = new SimpleDateFormat("yyyy-MM");
@@ -145,5 +147,55 @@ public class JSONTest {
         Type type = new TypeToken<Order>() { }.getType();
         Order o = json.deserialize(str, type);
         assertEquals(dateStr, datetimeFormat.format(o.getShipDate()));
+    }
+
+    @Test
+    public void testByteArrayTypeAdapterSerialization() {
+        // Arrange
+        final String expectedBytesAsString = "Let's pretend this a jpg or something";
+        final byte[] expectedBytes = expectedBytesAsString.getBytes(StandardCharsets.UTF_8);
+
+        // Act
+        String serializedBytesWithQuotes = json.serialize(expectedBytes);
+
+        // Assert
+        String serializedBytes = serializedBytesWithQuotes.substring(1, serializedBytesWithQuotes.length() - 1);
+        if (json.getGson().htmlSafe()) {
+            serializedBytes = serializedBytes.replaceAll("\\\\u003d", "=");
+        }
+        ByteString actualAsByteString = ByteString.decodeBase64(serializedBytes);
+        byte[] actualBytes = actualAsByteString.toByteArray();
+        assertEquals(expectedBytesAsString, new String(actualBytes, StandardCharsets.UTF_8));
+    }
+
+    @Test
+    public void testByteArrayTypeAdapterDeserialization() {
+        // Arrange
+        final String expectedBytesAsString = "Let's pretend this a jpg or something";
+        final byte[] expectedBytes = expectedBytesAsString.getBytes(StandardCharsets.UTF_8);
+        final ByteString expectedByteString = ByteString.of(expectedBytes);
+        final String serializedBytes = expectedByteString.base64();
+        final String serializedBytesWithQuotes = "\"" + serializedBytes + "\"";
+        Type type = new TypeToken<byte[]>() { }.getType();
+
+        // Act
+        byte[] actualDeserializedBytes = json.deserialize(serializedBytesWithQuotes, type);
+
+        // Assert
+        assertEquals(expectedBytesAsString, new String(actualDeserializedBytes, StandardCharsets.UTF_8));
+    }
+
+    // Obtained 22JAN2018 from stackoverflow answer by PuguaSoft https://stackoverflow.com/questions/11399491/java-timezone-offset
+    // Direct link https://stackoverflow.com/a/16680815/3166133
+    public static String getCurrentTimezoneOffset() {
+
+        TimeZone tz = TimeZone.getDefault();
+        Calendar cal = GregorianCalendar.getInstance(tz);
+        int offsetInMillis = tz.getOffset(cal.getTimeInMillis());
+
+        String offset = String.format("%02d:%02d", Math.abs(offsetInMillis / 3600000), Math.abs((offsetInMillis / 60000) % 60));
+        offset = (offsetInMillis >= 0 ? "+" : "-") + offset;
+
+        return offset;
     }
 }
