@@ -91,14 +91,6 @@ if(hasProperty('target') && target == 'android') {
        main = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
-
-    compileJava {
-        options.encoding = "UTF8"
-    }
-
-    compileTestJava {
-        options.encoding = "UTF8"
-    }
 }
 
 dependencies {
