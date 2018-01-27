@@ -18,7 +18,7 @@ public class Markdown {
     /** 
      * Convert input markdown text to HTML.
      * Simple text is not wrapped in <p>...</p>.
-     * @param markdown text with Markdown styles. If <code>null<code>, </code>""</code> is returned.
+     * @param markdown text with Markdown styles. If <code>null</code>, <code>""</code> is returned.
      * @return HTML rendering from the Markdown
      */
     public String toHtml(String markdown) {

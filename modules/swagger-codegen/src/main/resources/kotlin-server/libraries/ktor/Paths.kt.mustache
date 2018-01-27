@@ -1,0 +1,43 @@
+{{>licenseInfo}}
+package {{packageName}}
+
+import io.ktor.application.ApplicationCall
+import io.ktor.http.HttpMethod
+import io.ktor.locations.*
+import io.ktor.pipeline.PipelineContext
+import io.ktor.routing.Route
+import io.ktor.routing.method
+import {{modelPackage}}.*
+
+{{#imports}}
+import {{import}}
+{{/imports}}
+
+// NOTE: ktor-location@0.9.0 is missing extension for Route.delete. This includes it.
+inline fun <reified T : Any> Route.delete(noinline body: suspend PipelineContext<Unit, ApplicationCall>.(T) -> Unit): Route {
+    return location(T::class) {
+        method(HttpMethod.Delete) {
+            handle(body)
+        }
+    }
+}
+
+{{#apiInfo}}
+object Paths {
+{{#apis}}
+{{#operations}}
+    {{#operation}}
+    {{^bodyAllowed}}
+    /**
+     * {{summary}}
+     * {{#unescapedNotes}}{{.}}{{/unescapedNotes}}
+     {{#allParams}}* @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     {{/allParams}}*/
+    @Location("{{path}}") class {{operationId}}({{#allParams}}val {{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+
+    {{/bodyAllowed}}
+    {{/operation}}
+{{/operations}}
+{{/apis}}
+}
+{{/apiInfo}}
