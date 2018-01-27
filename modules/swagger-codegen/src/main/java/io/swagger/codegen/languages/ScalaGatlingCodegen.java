@@ -196,7 +196,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
     /**
      * Modifies the swagger doc to make mustache easier to use
      *
-     * @param swagger
+     * @param swagger input swagger document
      */
     @Override
     public void preprocessSwagger(Swagger swagger) {

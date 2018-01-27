@@ -1,0 +1,9 @@
+/**
+* {{{description}}}
+* Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+*/
+enum class {{classname}}(val value: {{dataType}}){
+{{#allowableValues}}{{#enumVars}}
+    {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+{{/enumVars}}{{/allowableValues}}
+}

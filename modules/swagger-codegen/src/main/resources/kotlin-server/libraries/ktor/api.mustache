@@ -1,0 +1,114 @@
+{{>licenseInfo}}
+package {{apiPackage}}
+
+import com.google.gson.Gson
+import io.ktor.application.call
+import io.ktor.auth.UserIdPrincipal
+import io.ktor.auth.authentication
+import io.ktor.auth.basicAuthentication
+import io.ktor.auth.oauth
+import io.ktor.auth.OAuthAccessTokenResponse
+import io.ktor.auth.OAuthServerSettings
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.locations.*
+import io.ktor.response.respond
+import io.ktor.response.respondText
+import io.ktor.routing.*
+
+import kotlinx.coroutines.experimental.asCoroutineDispatcher
+
+import {{packageName}}.ApplicationAuthProviders
+import {{packageName}}.Paths
+import {{packageName}}.ApplicationExecutors
+import {{packageName}}.HTTP.client
+import {{packageName}}.infrastructure.ApiPrincipal
+import {{packageName}}.infrastructure.apiKeyAuth
+
+// ktor 0.9.x is missing io.ktor.locations.DELETE, this adds it.
+// see https://github.com/ktorio/ktor/issues/288
+import {{packageName}}.delete
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#operations}}
+fun Route.{{classname}}() {
+    val gson = Gson()
+    val empty = mutableMapOf<String, Any?>()
+{{#operation}}
+    {{#bodyAllowed}}
+
+    route("{{path}}") {
+        {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}} {
+            {{#lambda.indented_12}}{{>libraries/ktor/_api_body}}{{/lambda.indented_12}}
+        }
+    }
+    {{/bodyAllowed}}
+    {{^bodyAllowed}}
+
+    {{! NOTE: Locations can be used on routes without body parameters.}}
+    {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}<Paths.{{operationId}}> {  it: Paths.{{operationId}} ->
+        {{#lambda.indented_8}}{{>libraries/ktor/_api_body}}{{/lambda.indented_8}}
+    }
+    {{/bodyAllowed}}
+    {{! THis looks a little weird, but it's completely valid Kotlin code, and simplifies templated route logic above. }}
+    {{#hasAuthMethods}}.apply {
+      // TODO: ktor doesn't allow different authentication registrations for endpoints sharing the same path but different methods.
+      //       It could be the authentication block is being abused here. Until this is resolved, swallow duplicate exceptions.
+
+        try {
+            authentication {
+                {{#authMethods}}
+                {{#isBasic}}
+                basicAuthentication("{{{name}}}") { credentials ->
+                    // TODO: "Apply your basic authentication functionality."
+                    // Accessible in-method via call.principal<UserIdPrincipal>()
+                    if (credentials.name == "Swagger" && "Codegen" == credentials.password) {
+                         UserIdPrincipal(credentials.name)
+                    } else {
+                        null
+                    }
+                }
+                {{/isBasic}}
+                {{#isApiKey}}
+                // "Implement API key auth ({{{name}}}) for parameter name '{{{keyParamName}}}'."
+                apiKeyAuth("{{{keyParamName}}}", {{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInHeader}}"header"{{/isKeyInHeader}}) {
+                    // TODO: "Verify key here , accessible as it.value"
+                    if (it.value == "keyboardcat") {
+                         ApiPrincipal(it)
+                    } else {
+                        null
+                    }
+                }
+                {{/isApiKey}}
+                {{#isOAuth}}
+                {{#bodyAllowed}}
+                oauth(client, ApplicationExecutors.asCoroutineDispatcher(), { ApplicationAuthProviders["{{{name}}}"] }, {
+                    // TODO: define a callback url here.
+                    "/"
+                })
+                {{/bodyAllowed}}
+                {{^bodyAllowed}}
+                oauthAtLocation<Paths.{{operationId}}>(client, ApplicationExecutors.asCoroutineDispatcher(),
+                        providerLookup = { ApplicationAuthProviders["{{{name}}}"] },
+                        urlProvider = { currentLocation, provider ->
+                           // TODO: define a callback url here.
+                           "/"
+                        })
+                {{/bodyAllowed}}
+                {{/isOAuth}}
+                {{/authMethods}}
+            }
+        } catch(e: io.ktor.application.DuplicateApplicationFeatureException){
+            application.environment.log.warn("authentication block for '{{path}}' is duplicated in code. " +
+            "Generated endpoints may need to be merged under a 'route' entry.")
+        }
+    }
+    {{/hasAuthMethods}}
+    {{^hasAuthMethods}}
+
+    {{/hasAuthMethods}}
+{{/operation}}
+}
+{{/operations}}

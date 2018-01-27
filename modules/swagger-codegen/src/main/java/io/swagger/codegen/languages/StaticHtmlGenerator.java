@@ -74,7 +74,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     
     /**
      * Convert Markdown (CommonMark) to HTML. This class also disables normal HTML
-     * escaping in the Mustache engine (see {@link #processCompiler(Compiler)} above.)
+     * escaping in the Mustache engine (see {@link DefaultCodegen#processCompiler(Compiler)} above.)
      */
    @Override
     public String escapeText(String input) {

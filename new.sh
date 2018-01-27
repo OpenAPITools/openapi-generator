@@ -1,34 +1,76 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
+set -o noclobber
 
 usage() {
-    echo "Stubs out files for new generators" && \
-    echo "usage:" && \
-    echo "$0 [options]" && \
-    echo "    Options:"
-    grep "[[:space:]].)\ #" $0 | tr -d "#" | sed -r 's/( \| \*)//' | sed -r 's/([a-z])\)/-\1/';
+cat <<EOF
+Stubs out files for new generators
+
+Usage:
+$0 [options]
+    Options:
+$(grep "[[:space:]].)\ #" $0 | tr -d "#" | sed -E 's/( \| \*)//' | sed -E 's/([a-z])\)/-\1/')
+
+Examples:
+  Create a server generator for ktor:
+  $0 -n kotlin -s
+
+    Creates:
+    modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/KotlinServerCodegen.java
+    modules/swagger-codegen/src/main/resources/kotlin-server/README.md
+    modules/swagger-codegen/src/main/resources/kotlin-server/model.mustache
+    modules/swagger-codegen/src/main/resources/kotlin-server/api.mustache
+    bin/windows/kotlin-server-petstore.bat
+    bin/kotlin-server-petstore.sh
+
+  Create a generic C# server generator:
+  $0 -n csharp -s -t
+    Creates:
+    modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/CsharpServerCodegen.java
+    modules/swagger-codegen/src/main/resources/csharp-server/README.md
+    modules/swagger-codegen/src/main/resources/csharp-server/model.mustache
+    modules/swagger-codegen/src/main/resources/csharp-server/api.mustache
+    bin/windows/csharp-server-petstore.bat
+    bin/csharp-server-petstore.sh
+    modules/swagger-codegen/src/test/java/io/swagger/codegen/csharp/CsharpServerCodegenTest.java
+    modules/swagger-codegen/src/test/java/io/swagger/codegen/csharp/CsharpServerCodegenModelTest.java
+    modules/swagger-codegen/src/test/java/io/swagger/codegen/csharp/CsharpServerCodegenOptionsTest.java
+    modules/swagger-codegen/src/test/java/io/swagger/codegen/options/CsharpServerCodegenOptionsProvider.java
+EOF
     exit 0;
 }
 
-root=$(cd $(dirname "${BASH_SOURCE}") && pwd)
-gen_type=client
-tests=0
-gen_name=
+declare os=${OSTYPE//[0-9.]/}
+declare root=$(cd $(dirname "${BASH_SOURCE}") && pwd)
+declare gen_type=
+declare tests=0
+declare gen_name
+
+checkPreviousGenType() {
+    if [ "a" != "a$gen_type" ]; then
+        echo "[error] You may only set a single generator type at a time!" >&2
+        usage >&2
+        exit 1
+    fi
+}
 
 [ $# -eq 0 ] && usage
 while getopts ":hcsdtn:" arg; do
   case ${arg} in
-    n) # Required. Specify generator name.
+    n) # Required. Specify generator name, should be kebab-cased.
       gen_name=${OPTARG}
       ;;
     c) # Create a client generator
+        checkPreviousGenType
         gen_type=client
         ;;
     s) # Create a server generator
+        checkPreviousGenType
         gen_type=server
         ;;
     d) # Create a documentation generator
+        checkPreviousGenType
         gen_type=documentation
         ;;
     t) # When specified, creates test file(s) for the generator.
@@ -43,9 +85,26 @@ done
 
 [ -z "${gen_name}" ] && usage
 
-lang_classname=$(echo "${gen_name}-${gen_type}Codegen" | sed -r 's/(^|_|-)([a-z])/\U\2/g')
-gen_name_camel=$(echo "${gen_name}" | sed -r 's/(^|_|-)([a-z])/\U\2/g' | sed 's/^./\L&/')
-codegen_type_enum=$(echo "${gen_type}" | sed -r 's/(.)/\U\1/g')
+titleCase() {
+  if [ "$os" == "darwin" ]; then
+    echo $1 | tr '-' ' ' | tr '_' ' ' | ruby -e "print STDIN.gets.split.map(&:capitalize).join(' ')" | tr -d ' '
+  else
+    read -ra words <<< $(echo $1 | tr '-' ' ' | tr '_' ' ')
+    echo "${words[@]^}" | tr -d ' '
+  fi
+}
+
+kebabCase() {
+  echo $1 | tr '-' ' ' | tr '_' ' ' | tr '[:upper:]' '[:lower:]' | tr ' ' '-'
+}
+
+upperCase() {
+  echo $1 | tr '[[:lower:]]' '[[:upper:]]'
+}
+
+declare lang_classname=$(titleCase "${gen_name}-${gen_type}-Codegen")
+declare gen_name_camel=$(kebabCase "${gen_name}")
+declare codegen_type_enum=$(upperCase "${gen_type}")
 
 # Step 1: Add Language Generator
 [ -f "${root}/modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/${lang_classname}.java" ] && \
@@ -109,7 +168,7 @@ echo "Creating modules/swagger-codegen/src/main/resources/${gen_name}-${gen_type
     touch "${root}/modules/swagger-codegen/src/main/resources/${gen_name}-${gen_type}/README.md"
 echo "Creating modules/swagger-codegen/src/main/resources/${gen_name}-${gen_type}/model.mustache" && \
     touch "${root}/modules/swagger-codegen/src/main/resources/${gen_name}-${gen_type}/model.mustache"
-echo "Creating /modules/swagger-codegen/src/main/resources/${gen_name}-${gen_type}/api.mustache" && \
+echo "Creating modules/swagger-codegen/src/main/resources/${gen_name}-${gen_type}/api.mustache" && \
     touch "${root}/modules/swagger-codegen/src/main/resources/${gen_name}-${gen_type}/api.mustache"
 
 # Step 4: Create bash/batch scripts

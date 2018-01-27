@@ -1,0 +1,74 @@
+package {{packageName}}
+
+import com.codahale.metrics.*
+import com.typesafe.config.ConfigFactory
+import io.ktor.application.*
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.apache.Apache
+import io.ktor.config.HoconApplicationConfig
+import io.ktor.features.*
+import io.ktor.gson.GsonConverter
+import io.ktor.http.ContentType
+import io.ktor.locations.*
+import io.ktor.metrics.*
+import io.ktor.routing.*
+import java.util.concurrent.*
+{{#generateApis}}
+import {{apiPackage}}.*
+{{/generateApis}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+internal val settings = HoconApplicationConfig(ConfigFactory.defaultApplication(HTTP::class.java.classLoader))
+
+object HTTP {
+    val client = HttpClient(Apache)
+}
+
+fun Application.main() {
+    install(DefaultHeaders)
+    install(Metrics) {
+        val reporter = Slf4jReporter.forRegistry(registry)
+                .outputTo(log)
+                .convertRatesTo(TimeUnit.SECONDS)
+                .convertDurationsTo(TimeUnit.MILLISECONDS)
+                .build()
+        reporter.start(10, TimeUnit.SECONDS)
+    }
+{{#generateApis}}
+    install(ContentNegotiation) {
+        register(ContentType.Application.Json, GsonConverter())
+    }
+    {{#featureAutoHead}}
+    install(AutoHeadResponse) // see http://ktor.io/features/autoheadresponse.html
+    {{/featureAutoHead}}
+    {{#featureConditionalHeaders}}
+    install(ConditionalHeaders) // see http://ktor.io/features/conditional-headers.html
+    {{/featureConditionalHeaders}}
+    {{#featureHSTS}}
+    install(HSTS, ApplicationHstsConfiguration()) // see http://ktor.io/features/hsts.html
+    {{/featureHSTS}}
+    {{#featureCORS}}
+    install(CORS, ApplicationCORSConfiguration()) // see http://ktor.io/features/cors.html
+    {{/featureCORS}}
+    {{#featureCompression}}
+    install(Compression, ApplicationCompressionConfiguration()) // see http://ktor.io/features/compression.html
+    {{/featureCompression}}
+    install(Locations) // see http://ktor.io/features/locations.html
+    install(Routing) {
+    {{#apiInfo}}
+    {{#apis}}
+    {{#operations}}
+        {{classname}}()
+    {{/operations}}
+    {{/apis}}
+    {{/apiInfo}}
+    }
+{{/generateApis}}
+
+    environment.monitor.subscribe(ApplicationStopping)
+    {
+        HTTP.client.close()
+    }
+}

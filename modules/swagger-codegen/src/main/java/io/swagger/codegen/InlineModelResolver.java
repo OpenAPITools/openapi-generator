@@ -434,7 +434,7 @@ public class InlineModelResolver {
      *
      * @param ref new property name
      * @param property Property
-     * @return
+     * @return {@link Property} A constructed Swagger property
      */
     public Property makeRefProperty(String ref, Property property) {
         RefProperty newProperty = new RefProperty(ref);
