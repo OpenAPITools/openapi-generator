@@ -1,6 +1,6 @@
 {{>partial_header}}
 {-|
-Module : {{title}}.API.{{classname}}
+Module : {{baseModule}}.API.{{classname}}
 -}
 
 {-# LANGUAGE FlexibleContexts #-}
@@ -10,11 +10,11 @@ Module : {{title}}.API.{{classname}}
 {-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
-module {{title}}.API.{{classname}} where
+module {{baseModule}}.API.{{classname}} where
 
-import {{title}}.Core
-import {{title}}.MimeTypes
-import {{title}}.Model as M
+import {{baseModule}}.Core
+import {{baseModule}}.MimeTypes
+import {{baseModule}}.Model as M
 
 import qualified Data.Aeson as A
 import qualified Data.ByteString as B

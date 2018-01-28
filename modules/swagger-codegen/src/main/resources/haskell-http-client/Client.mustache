@@ -1,6 +1,6 @@
 {{>partial_header}}
 {-|
-Module : {{title}}.Client
+Module : {{baseModule}}.Client
 -}
 
 {-# LANGUAGE OverloadedStrings #-}
@@ -13,11 +13,11 @@ Module : {{title}}.Client
 {-# LANGUAGE DeriveTraversable #-}
 {-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
-module {{title}}.Client where
+module {{baseModule}}.Client where
 
-import {{title}}.Core
-import {{title}}.Logging
-import {{title}}.MimeTypes
+import {{baseModule}}.Core
+import {{baseModule}}.Logging
+import {{baseModule}}.MimeTypes
 
 import qualified Control.Exception.Safe as E
 import qualified Control.Monad.IO.Class as P

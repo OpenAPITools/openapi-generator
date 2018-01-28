@@ -1,6 +1,6 @@
 {{>partial_header}}
 {-|
-Module : {{title}}.Lens
+Module : {{baseModule}}.Lens
 -}
 
 {-# LANGUAGE KindSignatures #-}
@@ -9,7 +9,7 @@ Module : {{title}}.Lens
 {-# LANGUAGE RecordWildCards #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
-module {{title}}.ModelLens where
+module {{baseModule}}.ModelLens where
 
 import qualified Data.Aeson as A
 import qualified Data.ByteString.Lazy as BL
@@ -23,8 +23,8 @@ import Data.Text (Text)
 import Prelude (($), (.),(<$>),(<*>),(=<<),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
 import qualified Prelude as P
 
-import {{title}}.Model
-import {{title}}.Core
+import {{baseModule}}.Model
+import {{baseModule}}.Core
 
 {{#models}}
 {{#model}}

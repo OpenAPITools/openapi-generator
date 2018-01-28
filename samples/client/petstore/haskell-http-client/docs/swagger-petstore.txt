@@ -4,7 +4,7 @@
 
 -- | Auto-generated swagger-petstore API Client
 --   
---   . Client library for calling the swagger-petstore API based on
+--   . Client library for calling the Swagger Petstore API based on
 --   http-client.
 --   
 --   host: petstore.swagger.io:80
@@ -296,7 +296,7 @@ SwaggerPetstoreConfig :: ByteString -> Text -> LogExecWithContext -> LogContext 
 --   configUserAgent:
 --   
 --   <pre>
---   "swagger-haskell-http-client/1.0.0"
+--   "swagger-petstore/0.1.0.0"
 --   </pre>
 newConfig :: IO SwaggerPetstoreConfig
 

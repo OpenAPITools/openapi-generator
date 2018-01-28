@@ -1,6 +1,6 @@
 {{>partial_header}}
 {-|
-Module : {{title}}.Logging
+Module : {{baseModule}}.Logging
 Katip Logging functions
 -}
 
@@ -8,7 +8,7 @@ Katip Logging functions
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module {{title}}.Logging where
+module {{baseModule}}.Logging where
 
 import qualified Control.Exception.Safe as E
 import qualified Control.Monad.IO.Class as P
@@ -41,7 +41,7 @@ type LogLevel = LG.Severity
 
 -- | the default log environment
 initLogContext :: IO LogContext
-initLogContext = LG.initLogEnv "{{title}}" "dev"
+initLogContext = LG.initLogEnv "{{baseModule}}" "dev"
 
 -- | Runs a Katip logging block with the Log environment
 runDefaultLogExecWithContext :: LogExecWithContext

@@ -1,6 +1,6 @@
-## Swagger Auto-Generated [http-client](https://www.stackage.org/lts-9.0/package/http-client-0.5.7.0) Bindings to `{{title}}` 
+## Swagger Auto-Generated [http-client](https://www.stackage.org/lts-9.0/package/http-client-0.5.7.0) Bindings to `{{baseModule}}` 
 
-The library in `lib` provides auto-generated-from-Swagger [http-client](https://www.stackage.org/lts-9.0/package/http-client-0.5.7.0) bindings to the {{title}} API.
+The library in `lib` provides auto-generated-from-Swagger [http-client](https://www.stackage.org/lts-9.0/package/http-client-0.5.7.0) bindings to the {{baseModule}} API.
 
 Targeted swagger version: {{swaggerVersion}}
 
@@ -58,9 +58,13 @@ These options allow some customization of the code generation process.
 
 | OPTION                          | DESCRIPTION                                                                                                                   | DEFAULT  | ACTUAL                                |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------- |
-| allowNonUniqueOperationIds      | allow *different* API modules to contain the same operationId. Each API must be imported qualified                            | false    | {{{x-allowNonUniqueOperationIds}}}    |
 | allowFromJsonNulls              | allow JSON Null during model decoding from JSON                                                                               | true     | {{{allowFromJsonNulls}}}              |
+| allowNonUniqueOperationIds      | allow *different* API modules to contain the same operationId. Each API must be imported qualified                            | false    | {{{x-allowNonUniqueOperationIds}}}    |
 | allowToJsonNulls                | allow emitting JSON Null during model encoding to JSON                                                                        | false    | {{{allowToJsonNulls}}}                |
+| baseModule                      | Set the base module namespace                                                                                                 |          | {{{baseModule}}}                      |
+| cabalPackage                    | Set the cabal package name, which consists of one or more alphanumeric words separated by hyphens                             |          | {{{cabalPackage}}}                    |
+| cabalVersion                    | Set the cabal version number, consisting of a sequence of one or more integers separated by dots                              | 0.1.0.0  | {{{cabalVersion}}}                    |
+| configType                      | Set the name of the type used for configuration                                                                               |          | {{{configType}}}                      |
 | dateFormat                      | format string used to parse/render a date                                                                                     | %Y-%m-%d | {{{dateFormat}}}                      |
 | dateTimeFormat                  | format string used to parse/render a datetime. (Defaults to [formatISO8601Millis][1] when not provided)                       |          | {{{dateTimeFormat}}}                  |
 | generateEnums                   | Generate specific datatypes for swagger enums                                                                                 | true     | {{{generateEnums}}}                   |
@@ -69,6 +73,7 @@ These options allow some customization of the code generation process.
 | generateModelConstructors       | Generate smart constructors (only supply required fields) for models                                                          | true     | {{{generateModelConstructors}}}       |
 | inlineMimeTypes                 | Inline (hardcode) the content-type and accept parameters on operations, when there is only 1 option                           | false    | {{{inlineMimeTypes}}}                 |
 | modelDeriving                   | Additional classes to include in the deriving() clause of Models                                                              |          | {{{modelDeriving}}}                   |
+| requestType                     | Set the name of the type used to generate requests                                                                            |          | {{{requestType}}}                     |
 | strictFields                    | Add strictness annotations to all model fields                                                                                | true     | {{{x-strictFields}}}                  |
 | useMonadLogger                  | Use the monad-logger package to provide logging (if instead false, use the katip logging package)                             | false    | {{{x-useMonadLogger}}}                |
 
@@ -106,13 +111,13 @@ This library is intended to be imported qualified.
 
 | MODULE              | NOTES                                               |
 | ------------------- | --------------------------------------------------- |
-| {{title}}.Client    | use the "dispatch" functions to send requests       |
-| {{title}}.Core      | core funcions, config and request types             |
-| {{title}}.API       | construct api requests                              |
-| {{title}}.Model     | describes api models                                |
-| {{title}}.MimeTypes | encoding/decoding MIME types (content-types/accept) |
-| {{title}}.ModelLens | lenses for model fields                             |
-| {{title}}.Logging   | logging functions and utils                         |
+| {{baseModule}}.Client    | use the "dispatch" functions to send requests       |
+| {{baseModule}}.Core      | core funcions, config and request types             |
+| {{baseModule}}.API       | construct api requests                              |
+| {{baseModule}}.Model     | describes api models                                |
+| {{baseModule}}.MimeTypes | encoding/decoding MIME types (content-types/accept) |
+| {{baseModule}}.ModelLens | lenses for model fields                             |
+| {{baseModule}}.Logging   | logging functions and utils                         |
 
 
 ### MimeTypes
