@@ -33,6 +33,10 @@ package body {{package}}.Skeletons is
          {{/returnType}}
       begin
          {{#authMethods}}
+         if not Context.Is_Authenticated then
+            Context.Set_Error (401, "Not authenticated");
+            return;
+         end if;
          {{#scopes}}
          if not Context.Has_Permission (ACL_{{ident}}.Permission) then
             Context.Set_Error (403, "Permission denied");
@@ -48,7 +52,7 @@ package body {{package}}.Skeletons is
          {{/pathParams}}
          {{#hasFormParams}}
          {{#formParams}}
-         Swagger.Servers.Get_Parameter (Req, "{{baseName}}", {{paramName}});
+         Swagger.Servers.Get_Parameter (Context, "{{baseName}}", {{paramName}});
          {{/formParams}}
          {{/hasFormParams}}
          {{#hasParams}}
@@ -122,6 +126,18 @@ package body {{package}}.Skeletons is
          Result : {{returnType}};
          {{/returnType}}
       begin
+         {{#authMethods}}
+         if not Context.Is_Authenticated then
+            Context.Set_Error (401, "Not authenticated");
+            return;
+         end if;
+         {{#scopes}}
+         if not Context.Has_Permission (ACL_{{ident}}.Permission) then
+            Context.Set_Error (403, "Permission denied");
+            return;
+         end if;
+         {{/scopes}}
+         {{/authMethods}}
          {{#queryParams}}
          Swagger.Servers.Get_Query_Parameter (Req, "{{baseName}}", {{paramName}});
          {{/queryParams}}
@@ -130,7 +146,7 @@ package body {{package}}.Skeletons is
          {{/pathParams}}
          {{#hasFormParams}}
          {{#formParams}}
-         Swagger.Servers.Get_Parameter (Req, "{{baseName}}", {{paramName}});
+         Swagger.Servers.Get_Parameter (Context, "{{baseName}}", {{paramName}});
          {{/formParams}}
          {{/hasFormParams}}
          {{#hasParams}}
