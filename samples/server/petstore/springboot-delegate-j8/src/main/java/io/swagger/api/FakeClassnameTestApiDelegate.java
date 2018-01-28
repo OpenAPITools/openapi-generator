@@ -38,7 +38,7 @@ public interface FakeClassnameTestApiDelegate {
     /**
      * @see FakeClassnameTestApi#testClassname
      */
-    default ResponseEntity<Client> testClassname(Client body) {
+    default ResponseEntity<Client> testClassname( Client  body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

@@ -40,7 +40,7 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#addPet
      */
-    default ResponseEntity<Void> addPet(Pet body) {
+    default ResponseEntity<Void> addPet( Pet  body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default PetApi interface so no example is generated");
@@ -51,8 +51,8 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#deletePet
      */
-    default ResponseEntity<Void> deletePet(Long petId,
-        String apiKey) {
+    default ResponseEntity<Void> deletePet( Long  petId,
+         String  apiKey) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default PetApi interface so no example is generated");
@@ -63,7 +63,7 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#findPetsByStatus
      */
-    default ResponseEntity<List<Pet>> findPetsByStatus(List<String> status) {
+    default ResponseEntity<List<Pet>> findPetsByStatus( List<String>  status) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/xml")) {
                 try {
@@ -90,7 +90,7 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#findPetsByTags
      */
-    default ResponseEntity<List<Pet>> findPetsByTags(List<String> tags) {
+    default ResponseEntity<List<Pet>> findPetsByTags( List<String>  tags) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/xml")) {
                 try {
@@ -117,7 +117,7 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#getPetById
      */
-    default ResponseEntity<Pet> getPetById(Long petId) {
+    default ResponseEntity<Pet> getPetById( Long  petId) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/xml")) {
                 try {
@@ -144,7 +144,7 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#updatePet
      */
-    default ResponseEntity<Void> updatePet(Pet body) {
+    default ResponseEntity<Void> updatePet( Pet  body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default PetApi interface so no example is generated");
@@ -155,9 +155,9 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#updatePetWithForm
      */
-    default ResponseEntity<Void> updatePetWithForm(Long petId,
-        String name,
-        String status) {
+    default ResponseEntity<Void> updatePetWithForm( Long  petId,
+         String  name,
+         String  status) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default PetApi interface so no example is generated");
@@ -168,8 +168,8 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#uploadFile
      */
-    default ResponseEntity<ModelApiResponse> uploadFile(Long petId,
-        String additionalMetadata,
+    default ResponseEntity<ModelApiResponse> uploadFile( Long  petId,
+         String  additionalMetadata,
         MultipartFile file) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {

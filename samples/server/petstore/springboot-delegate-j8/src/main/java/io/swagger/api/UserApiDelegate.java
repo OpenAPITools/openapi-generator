@@ -39,7 +39,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUser
      */
-    default ResponseEntity<Void> createUser(User body) {
+    default ResponseEntity<Void> createUser( User  body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
@@ -50,7 +50,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithArrayInput
      */
-    default ResponseEntity<Void> createUsersWithArrayInput(List<User> body) {
+    default ResponseEntity<Void> createUsersWithArrayInput( List<User>  body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
@@ -61,7 +61,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithListInput
      */
-    default ResponseEntity<Void> createUsersWithListInput(List<User> body) {
+    default ResponseEntity<Void> createUsersWithListInput( List<User>  body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
@@ -72,7 +72,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#deleteUser
      */
-    default ResponseEntity<Void> deleteUser(String username) {
+    default ResponseEntity<Void> deleteUser( String  username) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
@@ -83,7 +83,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#getUserByName
      */
-    default ResponseEntity<User> getUserByName(String username) {
+    default ResponseEntity<User> getUserByName( String  username) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/xml")) {
                 try {
@@ -110,8 +110,8 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#loginUser
      */
-    default ResponseEntity<String> loginUser(String username,
-        String password) {
+    default ResponseEntity<String> loginUser( String  username,
+         String  password) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/xml")) {
                 try {
@@ -149,8 +149,8 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#updateUser
      */
-    default ResponseEntity<Void> updateUser(String username,
-        User body) {
+    default ResponseEntity<Void> updateUser( String  username,
+         User  body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
