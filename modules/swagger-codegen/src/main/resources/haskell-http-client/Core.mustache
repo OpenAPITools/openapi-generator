@@ -1,6 +1,6 @@
 {{>partial_header}}
 {-|
-Module : {{title}}.Core
+Module : {{baseModule}}.Core
 -}
 
 {-# LANGUAGE DeriveDataTypeable #-}
@@ -16,10 +16,10 @@ Module : {{title}}.Core
 {-# LANGUAGE TypeFamilies #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds #-}
 
-module {{title}}.Core where
+module {{baseModule}}.Core where
 
-import {{title}}.MimeTypes
-import {{title}}.Logging
+import {{baseModule}}.MimeTypes
+import {{baseModule}}.Logging
 
 import qualified Control.Arrow as P (left)
 import qualified Control.DeepSeq as NF
@@ -86,14 +86,14 @@ instance P.Show {{configType}} where
 --
 -- configUserAgent:
 --
--- @"{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}{{{artifactId}}}/{{{artifactVersion}}}{{/httpUserAgent}}"@
+-- @"{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}{{{cabalName}}}/{{{cabalVersion}}}{{/httpUserAgent}}"@
 --
 newConfig :: IO {{configType}}
 newConfig = do
     logCxt <- initLogContext
     return $ {{configType}}
         { configHost = "{{{basePath}}}"
-        , configUserAgent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}{{{artifactId}}}/{{{artifactVersion}}}{{/httpUserAgent}}"
+        , configUserAgent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}{{{cabalName}}}/{{{cabalVersion}}}{{/httpUserAgent}}"
         , configLogExecWithContext = runDefaultLogExecWithContext
         , configLogContext = logCxt
         , configAuthMethods = []

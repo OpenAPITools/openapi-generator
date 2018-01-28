@@ -2,7 +2,7 @@ name:           swagger-petstore
 version:        0.1.0.0
 synopsis:       Auto-generated swagger-petstore API Client
 description:    .
-                Client library for calling the swagger-petstore API based on http-client.
+                Client library for calling the Swagger Petstore API based on http-client.
                 .
                 host: petstore.swagger.io:80
                 .
@@ -57,6 +57,8 @@ library
     , unordered-containers
     , vector >=0.10.9 && <0.13
     , katip >=0.4 && < 0.6
+  other-modules:
+      Paths_swagger_petstore
   exposed-modules:
       SwaggerPetstore
       SwaggerPetstore.API
@@ -72,8 +74,6 @@ library
       SwaggerPetstore.MimeTypes
       SwaggerPetstore.Model
       SwaggerPetstore.ModelLens
-  other-modules:
-      Paths_swagger_petstore
   default-language: Haskell2010
 
 test-suite tests

@@ -58,9 +58,13 @@ These options allow some customization of the code generation process.
 
 | OPTION                          | DESCRIPTION                                                                                                                   | DEFAULT  | ACTUAL                                |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------- |
-| allowNonUniqueOperationIds      | allow *different* API modules to contain the same operationId. Each API must be imported qualified                            | false    | false    |
 | allowFromJsonNulls              | allow JSON Null during model decoding from JSON                                                                               | true     | true              |
+| allowNonUniqueOperationIds      | allow *different* API modules to contain the same operationId. Each API must be imported qualified                            | false    | false    |
 | allowToJsonNulls                | allow emitting JSON Null during model encoding to JSON                                                                        | false    | false                |
+| baseModule                      | Set the base module namespace                                                                                                 |          | SwaggerPetstore                      |
+| cabalPackage                    | Set the cabal package name, which consists of one or more alphanumeric words separated by hyphens                             |          | swagger-petstore                    |
+| cabalVersion                    | Set the cabal version number, consisting of a sequence of one or more integers separated by dots                              | 0.1.0.0  | 0.1.0.0                    |
+| configType                      | Set the name of the type used for configuration                                                                               |          | SwaggerPetstoreConfig                      |
 | dateFormat                      | format string used to parse/render a date                                                                                     | %Y-%m-%d | %Y-%m-%d                      |
 | dateTimeFormat                  | format string used to parse/render a datetime. (Defaults to [formatISO8601Millis][1] when not provided)                       |          |                   |
 | generateEnums                   | Generate specific datatypes for swagger enums                                                                                 | true     | true                   |
@@ -69,6 +73,7 @@ These options allow some customization of the code generation process.
 | generateModelConstructors       | Generate smart constructors (only supply required fields) for models                                                          | true     | true       |
 | inlineMimeTypes                 | Inline (hardcode) the content-type and accept parameters on operations, when there is only 1 option                           | false    | false                 |
 | modelDeriving                   | Additional classes to include in the deriving() clause of Models                                                              |          |                    |
+| requestType                     | Set the name of the type used to generate requests                                                                            |          | SwaggerPetstoreRequest                     |
 | strictFields                    | Add strictness annotations to all model fields                                                                                | true     | true                  |
 | useMonadLogger                  | Use the monad-logger package to provide logging (if instead false, use the katip logging package)                             | false    | false                |
 

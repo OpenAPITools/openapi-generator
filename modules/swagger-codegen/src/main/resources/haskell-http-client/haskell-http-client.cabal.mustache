@@ -1,8 +1,8 @@
-name:           {{package}}
-version:        0.1.0.0
-synopsis:       Auto-generated {{package}} API Client
+name:           {{cabalPackage}}
+version:        {{cabalVersion}}
+synopsis:       Auto-generated {{cabalPackage}} API Client
 description:    .
-                Client library for calling the {{package}} API based on http-client.
+                Client library for calling the {{appName}} API based on http-client.
                 .
                 host: {{host}}
                 .
@@ -61,18 +61,18 @@ library
     , unordered-containers
     , vector >=0.10.9 && <0.13
     , {{^x-useMonadLogger}}katip >=0.4 && < 0.6{{/x-useMonadLogger}}{{#x-useMonadLogger}}monad-logger >=0.3 && <0.4{{/x-useMonadLogger}}
-  exposed-modules:
-      {{title}}{{^x-allowNonUniqueOperationIds}}
-      {{title}}.API{{/x-allowNonUniqueOperationIds}}{{#apiInfo}}{{#apis}}
-      {{title}}.API.{{classname}}{{/apis}}{{/apiInfo}}
-      {{title}}.Client
-      {{title}}.Core
-      {{title}}.Logging
-      {{title}}.MimeTypes
-      {{title}}.Model
-      {{title}}.ModelLens
   other-modules:
       Paths_{{pathsName}}
+  exposed-modules:
+      {{baseModule}}{{^x-allowNonUniqueOperationIds}}
+      {{baseModule}}.API{{/x-allowNonUniqueOperationIds}}{{#apiInfo}}{{#apis}}
+      {{baseModule}}.API.{{classname}}{{/apis}}{{/apiInfo}}
+      {{baseModule}}.Client
+      {{baseModule}}.Core
+      {{baseModule}}.Logging
+      {{baseModule}}.MimeTypes
+      {{baseModule}}.Model
+      {{baseModule}}.ModelLens
   default-language: Haskell2010
 
 test-suite tests
@@ -82,7 +82,7 @@ test-suite tests
       tests
   ghc-options: -Wall -fno-warn-orphans
   build-depends:
-      {{package}}
+      {{cabalPackage}}
     , QuickCheck
     , aeson
     , base >=4.7 && <5.0

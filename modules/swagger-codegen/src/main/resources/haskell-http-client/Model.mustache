@@ -1,6 +1,6 @@
 {{>partial_header}}
 {-|
-Module : {{title}}.Model
+Module : {{baseModule}}.Model
 -}
 
 {-# LANGUAGE DeriveDataTypeable #-}
@@ -17,10 +17,10 @@ Module : {{title}}.Model
 {-# LANGUAGE TypeFamilies #-}
 {-# OPTIONS_GHC -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
-module {{title}}.Model where
+module {{baseModule}}.Model where
 
-import {{title}}.Core
-import {{title}}.MimeTypes
+import {{baseModule}}.Core
+import {{baseModule}}.MimeTypes
 
 import Data.Aeson ((.:),(.:!),(.:?),(.=))
 

@@ -31,10 +31,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     // source folder where to write the files
     protected String sourceFolder = "lib";
 
-    protected String artifactId = "swagger-haskell-http-client";
-    protected String artifactVersion = "1.0.0";
-
     protected String defaultDateFormat = "%Y-%m-%d";
+    protected String defaultCabalVersion = "0.1.0.0";
+    protected String modulePath = null;
 
     protected Boolean useMonadLogger = false;
     protected Boolean allowNonUniqueOperationIds = false;
@@ -42,8 +41,12 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     // CLI PROPS
     public static final String PROP_ALLOW_FROMJSON_NULLS = "allowFromJsonNulls";
-    public static final String PROP_ALLOW_TOJSON_NULLS = "allowToJsonNulls";
     public static final String PROP_ALLOW_NONUNIQUE_OPERATION_IDS = "allowNonUniqueOperationIds";
+    public static final String PROP_ALLOW_TOJSON_NULLS = "allowToJsonNulls";
+    public static final String PROP_BASE_MODULE = "baseModule";
+    public static final String PROP_CABAL_PACKAGE = "cabalPackage";
+    public static final String PROP_CABAL_VERSION = "cabalVersion";
+    public static final String PROP_CONFIG_TYPE = "configType";
     public static final String PROP_DATETIME_FORMAT = "dateTimeFormat";
     public static final String PROP_DATE_FORMAT = "dateFormat";
     public static final String PROP_GENERATE_ENUMS = "generateEnums";
@@ -52,6 +55,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public static final String PROP_GENERATE_MODEL_CONSTRUCTORS = "generateModelConstructors";
     public static final String PROP_INLINE_MIME_TYPES = "inlineMimeTypes";
     public static final String PROP_MODEL_DERIVING = "modelDeriving";
+    public static final String PROP_REQUEST_TYPE = "requestType";
     public static final String PROP_STRICT_FIELDS = "strictFields";
     public static final String PROP_USE_MONAD_LOGGER = "useMonadLogger";
 
@@ -134,7 +138,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         outputFolder = "generated-code/haskell-http-client";
 
         embeddedTemplateDir = templateDir = "haskell-http-client";
-        //apiPackage = "API";
+        apiPackage = "API";
         //modelPackage = "Model";
 
         // Haskell keywords and reserved function names, taken mostly from https://wiki.haskell.org/Keywords
@@ -154,9 +158,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                         "Accept", "ContentType"
                 )
         );
-
-        additionalProperties.put("artifactId", artifactId);
-        additionalProperties.put("artifactVersion", artifactVersion);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("stack.mustache", "", "stack.yaml"));
@@ -218,8 +219,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
         importMapping.clear();
 
-        cliOptions.add(CliOption.newString(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
-        cliOptions.add(CliOption.newString(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+        //cliOptions.add(CliOption.newString(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
+        //cliOptions.add(CliOption.newString(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+
+        cliOptions.add(CliOption.newString(PROP_CABAL_PACKAGE, "Set the cabal package name, which consists of one or more alphanumeric words separated by hyphens"));
+        cliOptions.add(CliOption.newString(PROP_CABAL_VERSION, "Set the cabal version number, consisting of a sequence of one or more integers separated by dots"));
+        cliOptions.add(CliOption.newString(PROP_BASE_MODULE, "Set the base module namespace"));
+        cliOptions.add(CliOption.newString(PROP_REQUEST_TYPE, "Set the name of the type used to generate requests"));
+        cliOptions.add(CliOption.newString(PROP_CONFIG_TYPE, "Set the name of the type used for configuration"));
 
         cliOptions.add(CliOption.newBoolean(PROP_ALLOW_FROMJSON_NULLS, "allow JSON Null during model decoding from JSON").defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(PROP_ALLOW_TOJSON_NULLS, "allow emitting JSON Null during model encoding to JSON").defaultValue(Boolean.FALSE.toString()));
@@ -281,20 +288,31 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     public void setDateTimeFormat(String value) {
-        if (StringUtils.isBlank(value)) {
-            additionalProperties.remove(PROP_DATETIME_FORMAT);
-        } else {
-            additionalProperties.put(PROP_DATETIME_FORMAT, value);
-        }
-
+        setStringProp(PROP_DATETIME_FORMAT, value);
     }
 
     public void setDateFormat(String value) {
-        if (StringUtils.isBlank(value)) {
-            additionalProperties.remove(PROP_DATE_FORMAT);
-        } else {
-            additionalProperties.put(PROP_DATE_FORMAT, value);
-        }
+        setStringProp(PROP_DATE_FORMAT, value);
+    }
+
+    public void setCabalPackage(String value) {
+        setStringProp(PROP_CABAL_PACKAGE, value);
+    }
+
+    public void setCabalVersion(String value) {
+        setStringProp(PROP_CABAL_VERSION, value);
+    }
+
+    public void setBaseModule(String value) {
+        setStringProp(PROP_BASE_MODULE, value);
+    }
+
+    public void setRequestType(String value) {
+        setStringProp(PROP_REQUEST_TYPE, value);
+    }
+
+    public void setConfigType(String value) {
+        setStringProp(PROP_CONFIG_TYPE, value);
     }
 
     public void setStrictFields(Boolean value) {
@@ -304,6 +322,18 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public void setUseMonadLogger(Boolean value) {
         additionalProperties.put(X_USE_MONAD_LOGGER, value);
         this.useMonadLogger = value;
+    }
+
+    private void setStringProp(String key, String value) {
+        if (StringUtils.isBlank(value)) {
+            additionalProperties.remove(key);
+        } else {
+            additionalProperties.put(key, value);
+        }
+    }
+
+    private String getStringProp(String key) {
+        return (String)additionalProperties.get(key);
     }
 
     @Override
@@ -393,75 +423,99 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             setUseMonadLogger(false);
         }
 
+        if (additionalProperties.containsKey(PROP_CABAL_PACKAGE)) {
+            setCabalPackage(additionalProperties.get(PROP_CABAL_PACKAGE).toString());
+        }
+        if (additionalProperties.containsKey(PROP_CABAL_VERSION)) {
+            setCabalVersion(additionalProperties.get(PROP_CABAL_VERSION).toString());
+        } else {
+            setCabalVersion(defaultCabalVersion);
+        }
+        if (additionalProperties.containsKey(PROP_BASE_MODULE)) {
+            setBaseModule(additionalProperties.get(PROP_BASE_MODULE).toString());
+        }
+        if (additionalProperties.containsKey(PROP_REQUEST_TYPE)) {
+            setRequestType(additionalProperties.get(PROP_REQUEST_TYPE).toString());
+        }
+        if (additionalProperties.containsKey(PROP_CONFIG_TYPE)) {
+            setConfigType(additionalProperties.get(PROP_CONFIG_TYPE).toString());
+        }
     }
 
     @Override
     public void preprocessSwagger(Swagger swagger) {
-        // From the title, compute a reasonable name for the package and the API
-        String title = swagger.getInfo().getTitle();
+        String baseTitle = swagger.getInfo().getTitle();
 
-        // Drop any API suffix
-        if (title == null) {
-            title = "Swagger";
+        if (baseTitle == null) {
+            baseTitle = "Swagger";
         } else {
-            title = title.trim();
-            if (title.toUpperCase().endsWith("API")) {
-                title = title.substring(0, title.length() - 3);
+            baseTitle = baseTitle.trim();
+            // Drop any API suffix
+            if (baseTitle.toUpperCase().endsWith("API")) {
+                baseTitle = baseTitle.substring(0, baseTitle.length() - 3);
             }
         }
 
-        String[] words = title.split(" ");
-
-        // The package name is made by appending the lowercased words of the title interspersed with dashes
-        List<String> wordsLower = new ArrayList<String>();
-        for (String word : words) {
-            wordsLower.add(word.toLowerCase());
+        if (!additionalProperties.containsKey(PROP_CABAL_PACKAGE)) {
+            List<String> words = new ArrayList<>();
+            for (String word : baseTitle.split(" ")) {
+                words.add(word.toLowerCase());
+            }
+            setCabalPackage(StringUtils.join(words, "-"));
         }
-        String cabalName = StringUtils.join(wordsLower, "-");
-        String pathsName = StringUtils.join(wordsLower, "_");
 
-        // The API name is made by appending the capitalized words of the title
-        List<String> wordsCaps = new ArrayList<String>();
-        for (String word : words) {
-            wordsCaps.add(firstLetterToUpper(word));
+        if (!additionalProperties.containsKey(PROP_BASE_MODULE)) {
+            List<String> wordsCaps = new ArrayList<String>();
+            for (String word : baseTitle.split(" ")) {
+                wordsCaps.add(firstLetterToUpper(word));
+            }
+            setBaseModule(StringUtils.join(wordsCaps, ""));
         }
-        apiPackage = StringUtils.join(wordsCaps, "");
 
-        // Set the filenames to write for the API
+        modulePath = sourceFolder + File.separator + getStringProp(PROP_BASE_MODULE).replace('.', File.separatorChar);
+
+        String topLevelPath = StringUtils.substringBeforeLast(modulePath, String.valueOf(File.separatorChar));
+        String lastPath = StringUtils.substringAfterLast(modulePath, String.valueOf(File.separatorChar));
+
+        if (!additionalProperties.containsKey(PROP_REQUEST_TYPE)) {
+            setRequestType(lastPath + "Request");
+        }
+
+        if (!additionalProperties.containsKey(PROP_CONFIG_TYPE)) {
+            setConfigType(lastPath + "Config");
+        }
 
         // root
-        supportingFiles.add(new SupportingFile("haskell-http-client.cabal.mustache", "", cabalName + ".cabal"));
+        supportingFiles.add(new SupportingFile("haskell-http-client.cabal.mustache", "", getStringProp(PROP_CABAL_PACKAGE) + ".cabal"));
         supportingFiles.add(new SupportingFile("swagger.mustache", "", "swagger.yaml"));
 
         // lib
-        supportingFiles.add(new SupportingFile("TopLevel.mustache", sourceFolder + File.separator, apiPackage + ".hs"));
-        supportingFiles.add(new SupportingFile("Client.mustache", sourceFolder + File.separator + apiPackage, "Client.hs"));
+        supportingFiles.add(new SupportingFile("TopLevel.mustache", topLevelPath, lastPath + ".hs"));
+        supportingFiles.add(new SupportingFile("Client.mustache", modulePath, "Client.hs"));
 
 
         if(!allowNonUniqueOperationIds) {
-            supportingFiles.add(new SupportingFile("APIS.mustache", sourceFolder + File.separator + apiPackage, "API.hs"));
+            supportingFiles.add(new SupportingFile("APIS.mustache", modulePath, "API.hs"));
         }
-        supportingFiles.add(new SupportingFile("Core.mustache", sourceFolder + File.separator + apiPackage, "Core.hs"));
-        supportingFiles.add(new SupportingFile("Model.mustache", sourceFolder + File.separator + apiPackage, "Model.hs"));
-        supportingFiles.add(new SupportingFile("MimeTypes.mustache", sourceFolder + File.separator + apiPackage, "MimeTypes.hs"));
+        supportingFiles.add(new SupportingFile("Core.mustache", modulePath, "Core.hs"));
+        supportingFiles.add(new SupportingFile("Model.mustache", modulePath, "Model.hs"));
+        supportingFiles.add(new SupportingFile("MimeTypes.mustache", modulePath, "MimeTypes.hs"));
 
         // logger
-        supportingFiles.add(new SupportingFile(useMonadLogger ? "LoggingMonadLogger.mustache" : "LoggingKatip.mustache", sourceFolder + File.separator + apiPackage, "Logging.hs"));
+        supportingFiles.add(new SupportingFile(useMonadLogger ? "LoggingMonadLogger.mustache" : "LoggingKatip.mustache", modulePath, "Logging.hs"));
 
         apiTemplateFiles.put("API.mustache", ".hs");
         // modelTemplateFiles.put("Model.mustache", ".hs");
 
         // lens
         if ((boolean)additionalProperties.get(PROP_GENERATE_LENSES)) {
-            supportingFiles.add(new SupportingFile("ModelLens.mustache", sourceFolder + File.separator + apiPackage, "ModelLens.hs"));
+            supportingFiles.add(new SupportingFile("ModelLens.mustache", modulePath, "ModelLens.hs"));
         }
 
-        additionalProperties.put("title", apiPackage);
-        additionalProperties.put("titleLower", firstLetterToLower(apiPackage));
-        additionalProperties.put("package", cabalName);
-        additionalProperties.put("pathsName", pathsName);
-        additionalProperties.put("requestType", apiPackage + "Request");
-        additionalProperties.put("configType", apiPackage + "Config");
+        additionalProperties.put("cabalName", getStringProp(PROP_CABAL_PACKAGE));
+        additionalProperties.put("pathsName", getStringProp(PROP_CABAL_PACKAGE).replace('-','_'));
+        additionalProperties.put("requestType", getStringProp(PROP_REQUEST_TYPE));
+        additionalProperties.put("configType", getStringProp(PROP_CONFIG_TYPE));
         additionalProperties.put("swaggerVersion", swagger.getSwagger());
 
         super.preprocessSwagger(swagger);
@@ -1035,7 +1089,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar) + File.separator + "API";
+        return outputFolder + File.separator + this.modulePath + File.separator + "API";
     }
     public String toTypeName(String prefix, String name) {
         name =  escapeIdentifier(prefix, camelize(sanitizeName(name)));

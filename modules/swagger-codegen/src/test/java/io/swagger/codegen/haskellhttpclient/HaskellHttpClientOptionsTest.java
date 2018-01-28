@@ -24,10 +24,6 @@ public class HaskellHttpClientOptionsTest extends AbstractOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
-            clientCodegen.setModelPackage(HaskellHttpClientOptionsProvider.MODEL_PACKAGE_VALUE);
-            times = 1;
-            clientCodegen.setApiPackage(HaskellHttpClientOptionsProvider.API_PACKAGE_VALUE);
-            times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(HaskellHttpClientOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
             clientCodegen.setAllowNonUniqueOperationIds(Boolean.valueOf(HaskellHttpClientOptionsProvider.ALLOW_NONUNIQUE_OPERATION_IDS));
@@ -56,7 +52,16 @@ public class HaskellHttpClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setUseMonadLogger(Boolean.valueOf(HaskellHttpClientOptionsProvider.USE_MONAD_LOGGER));
             times = 1;
-
+            clientCodegen.setCabalPackage(HaskellHttpClientOptionsProvider.CABAL_PACKAGE);
+            times = 1;
+            clientCodegen.setCabalVersion(HaskellHttpClientOptionsProvider.CABAL_VERSION);
+            times = 1;
+            clientCodegen.setBaseModule(HaskellHttpClientOptionsProvider.BASE_MODULE);
+            times = 1;
+            clientCodegen.setRequestType(HaskellHttpClientOptionsProvider.REQUEST_TYPE);
+            times = 1;
+            clientCodegen.setConfigType(HaskellHttpClientOptionsProvider.CONFIG_TYPE);
+            times = 1;
         }};
     }
 }
