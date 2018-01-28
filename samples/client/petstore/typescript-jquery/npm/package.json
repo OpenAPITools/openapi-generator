@@ -1,7 +1,7 @@
 {
-    "name": "@swagger/angular2-typescript-petstore",
+    "name": "@swagger/jquery-typescript-petstore",
     "version": "0.0.1",
-    "description": "JQuery client for @swagger/angular2-typescript-petstore",
+    "description": "JQuery client for @swagger/jquery-typescript-petstore",
     "main": "api.js",
     "scripts": {
         "build": "tsc"
