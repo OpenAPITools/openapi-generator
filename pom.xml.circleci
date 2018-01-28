@@ -840,6 +840,7 @@
                 <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
+                <module>samples/client/petstore/java/rest-assured</module>
                 <module>samples/client/petstore/kotlin/</module>
                 <module>samples/client/petstore/kotlin-threetenbp/</module>
                 <module>samples/client/petstore/kotlin-string/</module>

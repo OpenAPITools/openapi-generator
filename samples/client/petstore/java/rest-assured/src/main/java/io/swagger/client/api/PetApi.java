@@ -635,7 +635,7 @@ public class PetApi {
          /**
          * It will assume that the control name is file and the <content-type> is <application/octet-stream>
          * @see #reqSpec for customise
-         * @param file(File) file to upload (optional)
+         * @param file (File) file to upload (optional)
          */
          public UploadFileOper fileMultiPart(File file) {
             reqSpec.addMultiPart(file);
