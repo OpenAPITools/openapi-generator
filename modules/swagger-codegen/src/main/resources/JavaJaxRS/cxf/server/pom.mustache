@@ -169,12 +169,20 @@
         <version>${jackson-jaxrs-version}</version>
         <scope>compile</scope>
     </dependency>
+{{#java8}}
     <dependency>
-       <groupId>com.fasterxml.jackson.datatype</groupId>
-       <artifactId>jackson-datatype-joda</artifactId>
-       <version>${jackson-jaxrs-version}</version>
-       <scope>compile</scope>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jsr310</artifactId>
+        <version>${jackson-jaxrs-version}</version>
     </dependency>
+{{/java8}}
+{{^java8}}
+    <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-joda</artifactId>
+        <version>${jackson-jaxrs-version}</version>
+    </dependency>
+{{/java8}}
 {{#generateSpringApplication}}    
     <!-- Spring -->
     <dependency>
