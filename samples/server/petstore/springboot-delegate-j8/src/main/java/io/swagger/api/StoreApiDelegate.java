@@ -39,7 +39,7 @@ public interface StoreApiDelegate {
     /**
      * @see StoreApi#deleteOrder
      */
-    default ResponseEntity<Void> deleteOrder(String orderId) {
+    default ResponseEntity<Void> deleteOrder( String  orderId) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default StoreApi interface so no example is generated");
@@ -69,7 +69,7 @@ public interface StoreApiDelegate {
     /**
      * @see StoreApi#getOrderById
      */
-    default ResponseEntity<Order> getOrderById(Long orderId) {
+    default ResponseEntity<Order> getOrderById( Long  orderId) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/xml")) {
                 try {
@@ -96,7 +96,7 @@ public interface StoreApiDelegate {
     /**
      * @see StoreApi#placeOrder
      */
-    default ResponseEntity<Order> placeOrder(Order body) {
+    default ResponseEntity<Order> placeOrder( Order  body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/xml")) {
                 try {

@@ -17,6 +17,6 @@ public interface FakeClassnameTestApiDelegate {
     /**
      * @see FakeClassnameTestApi#testClassname
      */
-    ResponseEntity<Client> testClassname(Client body);
+    ResponseEntity<Client> testClassname( Client  body);
 
 }

@@ -17,6 +17,6 @@ public interface AnotherFakeApiDelegate {
     /**
      * @see AnotherFakeApi#testSpecialTags
      */
-    ResponseEntity<Client> testSpecialTags(Client body);
+    ResponseEntity<Client> testSpecialTags( Client  body);
 
 }

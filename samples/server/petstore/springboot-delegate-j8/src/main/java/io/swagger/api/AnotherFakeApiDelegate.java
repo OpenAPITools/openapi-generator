@@ -38,7 +38,7 @@ public interface AnotherFakeApiDelegate {
     /**
      * @see AnotherFakeApi#testSpecialTags
      */
-    default ResponseEntity<Client> testSpecialTags(Client body) {
+    default ResponseEntity<Client> testSpecialTags( Client  body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
