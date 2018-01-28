@@ -130,7 +130,7 @@ package body Samples.Petstore.Clients is
 
       URI.Set_Path ("/pet/{petId}");
       URI.Set_Path_Param ("petId", Swagger.To_String (Pet_Id));
-      Client.Call (Swagger.Clients.POST, URI);
+      Client.Call (Swagger.Clients.POST, URI, Req);
    end Update_Pet_With_Form;
 
    --  uploads an image
@@ -151,7 +151,7 @@ package body Samples.Petstore.Clients is
 
       URI.Set_Path ("/pet/{petId}/uploadImage");
       URI.Set_Path_Param ("petId", Swagger.To_String (Pet_Id));
-      Client.Call (Swagger.Clients.POST, URI, Reply);
+      Client.Call (Swagger.Clients.POST, URI, Req, Reply);
       Samples.Petstore.Models.Deserialize (Reply, "", Result);
    end Upload_File;
 
