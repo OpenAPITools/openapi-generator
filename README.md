@@ -979,6 +979,7 @@ Here is a list of template creators:
    * Java (RESTEasy): @gayathrigs
    * Java (Vertx): @lopesmcc
    * Java (Google APIs Client Library): @charlescapps
+   * Java (Rest-assured): @viclovsky
    * Javascript/NodeJS: @jfiala
    * Javascript (Closure-annotated Angular) @achew22
    * JMeter: @davidkiss
