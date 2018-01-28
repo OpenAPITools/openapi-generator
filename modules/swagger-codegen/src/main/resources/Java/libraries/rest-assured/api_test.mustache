@@ -1,0 +1,65 @@
+{{>licenseInfo}}
+
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+import {{invokerPackage}}.ApiClient;
+import {{apiPackage}}.{{classname}};
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.log.ErrorLoggingFilter;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
+import static io.restassured.config.RestAssuredConfig.config;
+import static {{invokerPackage}}.GsonObjectMapper.gson;
+
+/**
+ * API tests for {{classname}}
+ */
+@Ignore
+public class {{classname}}Test {
+
+    private {{classname}} api;
+
+    @Before
+    public void createApi() {
+        api = ApiClient.api(ApiClient.Config.apiConfig().reqSpecSupplier(
+                () -> new RequestSpecBuilder().setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())))
+                        .addFilter(new ErrorLoggingFilter())
+                        .setBaseUri("{{{basePath}}}"))).{{classVarName}}();
+    }
+{{#operations}}
+{{#operation}}
+
+    {{#responses}}
+    /**
+     * {{message}}
+     */
+    @Test
+    public void shouldSee{{code}}After{{operationIdCamelCase}}() {
+        {{#allParams}}
+        {{#isHeaderParam}}String {{paramName}} = null;{{/isHeaderParam}}{{^isHeaderParam}}{{{dataType}}} {{paramName}} = null;{{/isHeaderParam}}
+        {{/allParams}}
+        api.{{operationId}}(){{#allParams}}{{#required}}{{#isPathParam}}
+                .{{paramName}}Path({{paramName}}){{/isPathParam}}{{#isQueryParam}}
+                .{{paramName}}Query({{paramName}}){{/isQueryParam}}{{#isFormParam}}{{^isFile}}
+                .{{paramName}}Form({{paramName}}){{/isFile}}{{/isFormParam}}{{#isFormParam}}{{#isFile}}
+                .{{paramName}}MultiPart({{paramName}}){{/isFile}}{{/isFormParam}}{{#isHeaderParam}}
+                .{{paramName}}Header({{paramName}}){{/isHeaderParam}}{{#isBodyParam}}
+                .body({{paramName}}){{/isBodyParam}}{{/required}}{{/allParams}}.execute(r -> r.prettyPeek());
+        // TODO: test validations
+    }
+
+    {{/responses}}
+{{/operation}}
+{{/operations}}
+}
