@@ -5,6 +5,9 @@ package {{apiPackage}}
 {{/imports}}
 
 import {{packageName}}.infrastructure.*
+{{#threetenbp}}
+import org.threeten.bp.LocalDateTime
+{{/threetenbp}}
 
 {{#operations}}
 class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(basePath) {
