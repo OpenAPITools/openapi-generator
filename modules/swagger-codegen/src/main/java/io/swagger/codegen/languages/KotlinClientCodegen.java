@@ -1,23 +1,19 @@
 package io.swagger.codegen.languages;
 
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String DATE_LIBRARY = "dateLibrary";
-
-    protected String groupId = "io.swagger";
-    protected String artifactId = "kotlin-client";
-    protected String artifactVersion = "1.0.0";
-    protected String sourceFolder = "src/main/kotlin";
-    protected String packageName = "io.swagger.client";
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
     protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
     static Logger LOGGER = LoggerFactory.getLogger(KotlinClientCodegen.class);
 
