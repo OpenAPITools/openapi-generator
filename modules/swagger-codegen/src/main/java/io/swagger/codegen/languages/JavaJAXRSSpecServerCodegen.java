@@ -23,9 +23,11 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
 {
 
     public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String RETURN_RESPONSE = "returnResponse";
     public static final String GENERATE_POM = "generatePom";
 
     private boolean interfaceOnly = false;
+    private boolean returnResponse = false;
     private boolean generatePom = true;
 
     public JavaJAXRSSpecServerCodegen()
@@ -75,6 +77,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
         cliOptions.add(library);
         cliOptions.add(CliOption.newBoolean(GENERATE_POM, "Whether to generate pom.xml if the file does not already exist.").defaultValue(String.valueOf(generatePom)));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
+        cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
     }
 
     @Override
@@ -87,6 +90,12 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
             interfaceOnly = Boolean.valueOf(additionalProperties.get(INTERFACE_ONLY).toString());
             if (!interfaceOnly) {
                 additionalProperties.remove(INTERFACE_ONLY);
+            }
+        }
+        if (additionalProperties.containsKey(RETURN_RESPONSE)) {
+            returnResponse = Boolean.valueOf(additionalProperties.get(RETURN_RESPONSE).toString());
+            if (!returnResponse) {
+                additionalProperties.remove(RETURN_RESPONSE);
             }
         }
         if (interfaceOnly) {
