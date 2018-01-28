@@ -1,0 +1,59 @@
+{{>licenseInfo}}
+
+package {{invokerPackage}};
+
+import {{apiPackage}}.*;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.response.Response;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
+{{/fullJavaUtil}}
+
+public class ApiClient {
+
+    private final Config config;
+
+    private ApiClient(Config config) {
+        this.config = config;
+    }
+
+    public static ApiClient api(Config config) {
+        return new ApiClient(config);
+    }
+
+     {{#apiInfo}}
+     {{#apis}}
+    public {{classname}} {{classVarName}}() {
+        return {{classname}}.{{classVarName}}(config.baseReqSpec.get());
+    }
+     {{/apis}}
+     {{/apiInfo}}
+
+    public static class Config {
+        private Supplier<RequestSpecBuilder> baseReqSpec;
+
+        /**
+         * Use common specification for all operations
+         */
+        public Config reqSpecSupplier(Supplier<RequestSpecBuilder> supplier) {
+            this.baseReqSpec = supplier;
+            return this;
+        }
+
+        public static Config apiConfig() {
+            return new Config();
+        }
+    }
+}
