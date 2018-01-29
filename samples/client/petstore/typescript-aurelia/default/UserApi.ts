@@ -85,6 +85,7 @@ export class UserApi extends Api {
    * Creates a new UserApi class.
    *
    * @param httpClient The Aurelia HTTP client to be injected.
+   * @param authStorage A storage for authentication data.
    */
   constructor(httpClient: HttpClient, authStorage: AuthStorage) {
     super(httpClient, authStorage);
