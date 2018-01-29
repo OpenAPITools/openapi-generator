@@ -16,7 +16,6 @@ import { Api } from './Api';
 import { AuthStorage } from './AuthStorage';
 import {
   User,
-  Array&lt;User&gt;,
 } from './models';
 
 /**
@@ -192,7 +191,7 @@ export class UserApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/user/{username}`
-      .replace(`{${'username'}}`, encodeURIComponent(String(${params['username']})));
+      .replace(`{${'username'}}`, encodeURIComponent(`${params['username']}`));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method
@@ -220,7 +219,7 @@ export class UserApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/user/{username}`
-      .replace(`{${'username'}}`, encodeURIComponent(String(${params['username']})));
+      .replace(`{${'username'}}`, encodeURIComponent(`${params['username']}`));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method
@@ -309,7 +308,7 @@ export class UserApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/user/{username}`
-      .replace(`{${'username'}}`, encodeURIComponent(String(${params['username']})));
+      .replace(`{${'username'}}`, encodeURIComponent(`${params['username']}`));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method

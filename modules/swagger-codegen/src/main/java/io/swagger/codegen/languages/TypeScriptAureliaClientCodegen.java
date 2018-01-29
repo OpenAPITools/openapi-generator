@@ -94,7 +94,7 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
             // Collect models to be imported
             for (CodegenParameter param : op.allParams) {
-                if (!param.isPrimitiveType) {
+                if (!param.isPrimitiveType && !param.isListContainer && !param.dataType.equals("any")) {
                     modelImports.add(param.dataType);
                 }
             }

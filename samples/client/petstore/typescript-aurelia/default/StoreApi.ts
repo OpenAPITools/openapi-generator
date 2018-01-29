@@ -71,7 +71,7 @@ export class StoreApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/store/order/{orderId}`
-      .replace(`{${'orderId'}}`, encodeURIComponent(String(${params['orderId']})));
+      .replace(`{${'orderId'}}`, encodeURIComponent(`${params['orderId']}`));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method
@@ -126,7 +126,7 @@ export class StoreApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/store/order/{orderId}`
-      .replace(`{${'orderId'}}`, encodeURIComponent(String(${params['orderId']})));
+      .replace(`{${'orderId'}}`, encodeURIComponent(`${params['orderId']}`));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method
