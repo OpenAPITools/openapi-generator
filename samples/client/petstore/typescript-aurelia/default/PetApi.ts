@@ -15,11 +15,8 @@ import { HttpClient } from 'aurelia-http-client';
 import { Api } from './Api';
 import { AuthStorage } from './AuthStorage';
 import {
-  Array&lt;string&gt;,
-  any,
   Pet,
   ApiResponse,
-  Array&lt;&#39;available&#39; | &#39;pending&#39; | &#39;sold&#39;&gt;,
 } from './models';
 
 /**
@@ -141,7 +138,7 @@ export class PetApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/pet/{petId}`
-      .replace(`{${'petId'}}`, encodeURIComponent(String(${params['petId']})));
+      .replace(`{${'petId'}}`, encodeURIComponent(`${params['petId']}`));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method
@@ -234,7 +231,7 @@ export class PetApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/pet/{petId}`
-      .replace(`{${'petId'}}`, encodeURIComponent(String(${params['petId']})));
+      .replace(`{${'petId'}}`, encodeURIComponent(`${params['petId']}`));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method
@@ -297,7 +294,7 @@ export class PetApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/pet/{petId}`
-      .replace(`{${'petId'}}`, encodeURIComponent(String(${params['petId']})));
+      .replace(`{${'petId'}}`, encodeURIComponent(`${params['petId']}`));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method
@@ -334,7 +331,7 @@ export class PetApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/pet/{petId}/uploadImage`
-      .replace(`{${'petId'}}`, encodeURIComponent(String(${params['petId']})));
+      .replace(`{${'petId'}}`, encodeURIComponent(`${params['petId']}`));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method
