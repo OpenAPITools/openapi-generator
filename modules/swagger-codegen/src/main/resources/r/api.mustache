@@ -13,11 +13,11 @@
 #' \describe{
 {{#operation}}
 #'
-#' {{operationId}} {{summary}} 
+#' {{operationId}} {{summary}}
 #'
 {{/operation}}
 #' }
-#' 
+#'
 #' @export
 {{classname}} <- R6::R6Class(
   '{{classname}}',
@@ -90,11 +90,11 @@
                                  method = "{{httpMethod}}",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
-                                 body = body, 
+                                 body = body,
                                  ...)
       
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        {{#returnType}} 
+        {{#returnType}}
         returnObject <- {{returnType}}$new()
         result <- returnObject$fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
         Response$new(returnObject, resp)
@@ -111,5 +111,5 @@
     }{{#hasMore}},{{/hasMore}}
     {{/operation}}
   )
-) 
+)
 {{/operations}}
