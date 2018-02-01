@@ -9,19 +9,18 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams }               from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams,
+         HttpResponse, HttpEvent }                           from '@angular/common/http';
+import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
-import '../rxjs-operators';
 
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 
 @Injectable()
@@ -56,21 +55,36 @@ export class FakeService {
     }
 
 
-
     /**
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * 
-     * @param test code inject * &#39; &quot; &#x3D;end  rn n r To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+     * @param testCodeInjectEndRnNR To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
      */
-    public testCodeInjectEndRnNR(test code inject * &#39; &quot; &#x3D;end  rn n r?: string): Observable<{}> {
+    public testCodeInjectEndRnNR(testCodeInjectEndRnNR?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public testCodeInjectEndRnNR(testCodeInjectEndRnNR?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public testCodeInjectEndRnNR(testCodeInjectEndRnNR?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public testCodeInjectEndRnNR(testCodeInjectEndRnNR?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json',
+            '*_/   =end --       '
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
 
         // to determine the Content-Type header
         let consumes: string[] = [
             'application/json',
             '*_/   =end --       '
         ];
+
         const canConsumeForm = this.canConsumeForm(consumes);
 
         let formParams: { append(param: string, value: any): void; };
@@ -82,17 +96,19 @@ export class FakeService {
             formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         }
 
-
-
-        if (test code inject * &#39; &quot; &#x3D;end  rn n r !== undefined) {
-            formParams = formParams.append('test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r', <any>test code inject * &#39; &quot; &#x3D;end  rn n r) || formParams;
+        if (testCodeInjectEndRnNR !== undefined) {
+            formParams = formParams.append('test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r', <any>testCodeInjectEndRnNR) || formParams;
         }
 
-        return this.httpClient.put<any>(`${this.basePath}/fake`, 
-        convertFormParamsToString ? formParams.toString() : formParams, {
-            headers: headers,
-            withCredentials: this.configuration.withCredentials,
-        });
+        return this.httpClient.put<any>(`${this.basePath}/fake`,
+            convertFormParamsToString ? formParams.toString() : formParams,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
     }
 
 }

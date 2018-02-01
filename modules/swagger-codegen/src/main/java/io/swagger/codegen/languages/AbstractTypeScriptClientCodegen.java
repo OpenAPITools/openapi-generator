@@ -27,6 +27,7 @@ import io.swagger.models.properties.Property;
 import io.swagger.models.properties.StringProperty;
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static final String UNDEFINED_VALUE = "undefined";
 
     protected String modelPropertyNaming= "camelCase";
@@ -330,7 +331,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         if (p instanceof StringProperty) {
             StringProperty sp = (StringProperty) p;
             if (sp.getDefault() != null) {
-                return "\"" + sp.getDefault() + "\"";
+                return "'" + sp.getDefault() + "'";
             }
             return UNDEFINED_VALUE;
         } else if (p instanceof BooleanProperty) {
@@ -495,15 +496,42 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
             cm.imports = new TreeSet(cm.imports);
+            // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
-                // name enum with model name, e.g. StatuEnum => Pet.StatusEnum
                 if (Boolean.TRUE.equals(var.isEnum)) {
                     var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + "." + var.enumName);
+                }
+            }
+            if (cm.parent != null) {
+                for (CodegenProperty var : cm.allVars) {
+                    if (Boolean.TRUE.equals(var.isEnum)) {
+                        var.datatypeWithEnum = var.datatypeWithEnum
+                            .replace(var.enumName, cm.classname + "." + var.enumName);
+                    }
                 }
             }
         } 
 
         return objs;
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        Map<String, Object> result = super.postProcessAllModels(objs);
+
+        for (Map.Entry<String, Object> entry : result.entrySet()) {
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> mo : models) {
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                if (cm.discriminator != null && cm.children != null) {
+                    for (CodegenModel child : cm.children) {
+                        this.setDiscriminatorValue(child, cm.discriminator, this.getDiscriminatorValue(child));
+                    }
+                }
+            }
+        }
+        return result;
     }
 
     public void setSupportsES6(Boolean value) {
@@ -512,6 +540,25 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     public Boolean getSupportsES6() {
         return supportsES6;
+    }
+
+    private void setDiscriminatorValue(CodegenModel model, String baseName, String value) {
+        for (CodegenProperty prop : model.allVars) {
+            if (prop.baseName.equals(baseName)) {
+                prop.discriminatorValue = value;
+            }
+        }
+        if (model.children != null) {
+            final boolean newDiscriminator = model.discriminator != null;
+            for (CodegenModel child : model.children) {
+                this.setDiscriminatorValue(child, baseName, newDiscriminator ? value : this.getDiscriminatorValue(child));
+            }
+        }
+    }
+
+    private String getDiscriminatorValue(CodegenModel model) {
+        return model.vendorExtensions.containsKey(X_DISCRIMINATOR_TYPE) ?
+            (String) model.vendorExtensions.get(X_DISCRIMINATOR_TYPE) : model.classname;
     }
 
     @Override
