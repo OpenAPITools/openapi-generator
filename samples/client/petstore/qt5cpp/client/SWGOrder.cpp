@@ -94,7 +94,7 @@ QString
 SWGOrder::asJson ()
 {
     QJsonObject* obj = this->asJsonObject();
-    
+
     QJsonDocument doc(*obj);
     QByteArray bytes = doc.toJson();
     return QString(bytes);
@@ -103,27 +103,21 @@ SWGOrder::asJson ()
 QJsonObject*
 SWGOrder::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
-    
     if(m_id_isSet){
         obj->insert("id", QJsonValue(id));
     }
-    
     if(m_pet_id_isSet){
         obj->insert("petId", QJsonValue(pet_id));
     }
-    
     if(m_quantity_isSet){
         obj->insert("quantity", QJsonValue(quantity));
     }
-       
     if(ship_date != nullptr) { 
         toJsonValue(QString("shipDate"), ship_date, obj, QString("QDateTime"));
     }
-    
     if(status != nullptr && *status != QString("")){
         toJsonValue(QString("status"), status, obj, QString("QString"));
     }
-    
     if(m_complete_isSet){
         obj->insert("complete", QJsonValue(complete));
     }
@@ -192,7 +186,7 @@ SWGOrder::setComplete(bool complete) {
 }
 
 
-bool 
+bool
 SWGOrder::isSet(){
     bool isObjectUpdated = false;
     do{

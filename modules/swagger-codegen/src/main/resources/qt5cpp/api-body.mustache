@@ -33,9 +33,9 @@ void
 
     {{#queryParams}}
     {{^collectionFormat}}
-    if (fullPath.indexOf("?") > 0) 
+    if (fullPath.indexOf("?") > 0)
       fullPath.append("&");
-    else 
+    else
       fullPath.append("?");
     fullPath.append(QUrl::toPercentEncoding("{{baseName}}"))
         .append("=")
@@ -49,7 +49,7 @@ void
         foreach({{{baseType}}} t, *{{paramName}}) {
           if (fullPath.indexOf("?") > 0)
             fullPath.append("&");
-          else 
+          else
             fullPath.append("?");
           fullPath.append("{{{baseName}}}=").append(stringValue(t));
         }
@@ -57,7 +57,7 @@ void
       else if (QString("{{collectionFormat}}").indexOf("ssv") == 0) {
         if (fullPath.indexOf("?") > 0)
           fullPath.append("&");
-        else 
+        else
           fullPath.append("?");
         fullPath.append("{{baseName}}=");
         qint32 count = 0;
@@ -71,7 +71,7 @@ void
       else if (QString("{{collectionFormat}}").indexOf("tsv") == 0) {
         if (fullPath.indexOf("?") > 0)
           fullPath.append("&");
-        else 
+        else
           fullPath.append("?");
         fullPath.append("{{baseName}}=");
         qint32 count = 0;
@@ -160,11 +160,13 @@ void
     }
     {{/isListContainer}}
 
-    {{^isListContainer}}{{^isMapContainer}}
+    {{^isListContainer}}
+    {{^isMapContainer}}
     {{#returnTypeIsPrimitive}}
     {{{returnType}}} output;  // TODO add primitive output support
-    {{/returnTypeIsPrimitive}}{{/isMapContainer}}
-    {{#isMapContainer}} 
+    {{/returnTypeIsPrimitive}}
+    {{/isMapContainer}}
+    {{#isMapContainer}}
     {{{returnType}}} output = {{{defaultResponse}}};
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());

@@ -12,7 +12,7 @@
 
 /*
  * SWGPet.h
- * 
+ *
  * A pet for sale in the pet store
  */
 
@@ -68,22 +68,22 @@ public:
 private:
     qint64 id;
     bool m_id_isSet;
-    
+
     SWGCategory* category;
     bool m_category_isSet;
-    
+
     QString* name;
     bool m_name_isSet;
-    
+
     QList<QString*>* photo_urls;
     bool m_photo_urls_isSet;
-    
+
     QList<SWGTag*>* tags;
     bool m_tags_isSet;
-    
+
     QString* status;
     bool m_status_isSet;
-    
+
 };
 
 }

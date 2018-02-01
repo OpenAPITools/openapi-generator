@@ -79,7 +79,7 @@ QString
 SWGApiResponse::asJson ()
 {
     QJsonObject* obj = this->asJsonObject();
-    
+
     QJsonDocument doc(*obj);
     QByteArray bytes = doc.toJson();
     return QString(bytes);
@@ -88,15 +88,12 @@ SWGApiResponse::asJson ()
 QJsonObject*
 SWGApiResponse::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
-    
     if(m_code_isSet){
         obj->insert("code", QJsonValue(code));
     }
-    
     if(type != nullptr && *type != QString("")){
         toJsonValue(QString("type"), type, obj, QString("QString"));
     }
-    
     if(message != nullptr && *message != QString("")){
         toJsonValue(QString("message"), message, obj, QString("QString"));
     }
@@ -135,7 +132,7 @@ SWGApiResponse::setMessage(QString* message) {
 }
 
 
-bool 
+bool
 SWGApiResponse::isSet(){
     bool isObjectUpdated = false;
     do{

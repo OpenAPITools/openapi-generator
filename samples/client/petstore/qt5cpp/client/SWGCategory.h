@@ -12,7 +12,7 @@
 
 /*
  * SWGCategory.h
- * 
+ *
  * A category for a pet
  */
 
@@ -53,10 +53,10 @@ public:
 private:
     qint64 id;
     bool m_id_isSet;
-    
+
     QString* name;
     bool m_name_isSet;
-    
+
 };
 
 }

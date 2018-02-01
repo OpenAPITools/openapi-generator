@@ -108,7 +108,7 @@ QString
 SWGPet::asJson ()
 {
     QJsonObject* obj = this->asJsonObject();
-    
+
     QJsonDocument doc(*obj);
     QByteArray bytes = doc.toJson();
     return QString(bytes);
@@ -117,27 +117,21 @@ SWGPet::asJson ()
 QJsonObject*
 SWGPet::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
-    
     if(m_id_isSet){
         obj->insert("id", QJsonValue(id));
     }
-     
     if((category != nullptr) && (category->isSet())){
         toJsonValue(QString("category"), category, obj, QString("SWGCategory"));
     }
-    
     if(name != nullptr && *name != QString("")){
         toJsonValue(QString("name"), name, obj, QString("QString"));
     }
-    
     if(photo_urls->size() > 0){
         toJsonArray((QList<void*>*)photo_urls, obj, "photoUrls", "QString");
     }
-    
     if(tags->size() > 0){
         toJsonArray((QList<void*>*)tags, obj, "tags", "SWGTag");
     }
-    
     if(status != nullptr && *status != QString("")){
         toJsonValue(QString("status"), status, obj, QString("QString"));
     }
@@ -206,7 +200,7 @@ SWGPet::setStatus(QString* status) {
 }
 
 
-bool 
+bool
 SWGPet::isSet(){
     bool isObjectUpdated = false;
     do{
