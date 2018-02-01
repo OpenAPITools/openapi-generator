@@ -21,17 +21,21 @@ import io.swagger.models.properties.*;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
+    private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
 
     public static final String NPM_NAME = "npmName";
     public static final String NPM_VERSION = "npmVersion";
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String SNAPSHOT = "snapshot";
     public static final String WITH_INTERFACES = "withInterfaces";
+    public static final String TAGGED_UNIONS ="taggedUnions";
     public static final String NG_VERSION = "ngVersion";
 
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
     protected String npmRepository = null;
+
+    private boolean taggedUnions = false;
 
     public TypeScriptAngularClientCodegen() {
         super();
@@ -55,6 +59,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(WITH_INTERFACES,
                 "Setting this property to true will generate interfaces next to the default class implementations.",
                 BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(TAGGED_UNIONS,
+            "Use discriminators to create tagged unions instead of extending interfaces.",
+            BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '4.3'"));
     }
 
@@ -99,6 +106,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             if (withInterfaces) {
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
+        }
+
+        if (additionalProperties.containsKey(TAGGED_UNIONS)) {
+            taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
         }
 
         // determine NG version
@@ -295,14 +306,33 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         Map<String, Object> result = super.postProcessModels(objs);
 
-        // Add additional filename information for imports
-        List<Object> models = (List<Object>) postProcessModelsEnum(result).get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            mo.put("tsImports", toTsImports(cm, cm.imports));
-        }
+        return postProcessModelsEnum(result);
+    }
 
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        Map<String, Object> result = super.postProcessAllModels(objs);
+
+        for (Map.Entry<String, Object> entry : result.entrySet()) {
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> mo : models) {
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                if (taggedUnions) {
+                    mo.put(TAGGED_UNIONS, true);
+                    if (cm.discriminator != null && cm.children != null) {
+                        for (CodegenModel child : cm.children) {
+                            cm.imports.add(child.classname);
+                        }
+                    }
+                    if (cm.parent != null) {
+                        cm.imports.remove(cm.parent);
+                    }
+                }
+                // Add additional filename information for imports
+                mo.put("tsImports", toTsImports(cm, cm.imports));
+            }
+        }
         return result;
     }
 

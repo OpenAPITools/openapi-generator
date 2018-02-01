@@ -14,7 +14,7 @@
 /**
  * A User who is purchasing from the pet store
  */
-export interface User {
+export interface User { 
     id?: number;
     username?: string;
     firstName?: string;
