@@ -12,7 +12,7 @@
 
 /*
  * SWGApiResponse.h
- * 
+ *
  * Describes the result of uploading an image resource
  */
 
@@ -56,13 +56,13 @@ public:
 private:
     qint32 code;
     bool m_code_isSet;
-    
+
     QString* type;
     bool m_type_isSet;
-    
+
     QString* message;
     bool m_message_isSet;
-    
+
 };
 
 }

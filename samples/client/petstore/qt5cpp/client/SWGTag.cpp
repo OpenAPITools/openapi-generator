@@ -72,7 +72,7 @@ QString
 SWGTag::asJson ()
 {
     QJsonObject* obj = this->asJsonObject();
-    
+
     QJsonDocument doc(*obj);
     QByteArray bytes = doc.toJson();
     return QString(bytes);
@@ -81,11 +81,9 @@ SWGTag::asJson ()
 QJsonObject*
 SWGTag::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
-    
     if(m_id_isSet){
         obj->insert("id", QJsonValue(id));
     }
-    
     if(name != nullptr && *name != QString("")){
         toJsonValue(QString("name"), name, obj, QString("QString"));
     }
@@ -114,7 +112,7 @@ SWGTag::setName(QString* name) {
 }
 
 
-bool 
+bool
 SWGTag::isSet(){
     bool isObjectUpdated = false;
     do{

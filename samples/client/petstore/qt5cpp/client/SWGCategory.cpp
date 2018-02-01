@@ -72,7 +72,7 @@ QString
 SWGCategory::asJson ()
 {
     QJsonObject* obj = this->asJsonObject();
-    
+
     QJsonDocument doc(*obj);
     QByteArray bytes = doc.toJson();
     return QString(bytes);
@@ -81,11 +81,9 @@ SWGCategory::asJson ()
 QJsonObject*
 SWGCategory::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
-    
     if(m_id_isSet){
         obj->insert("id", QJsonValue(id));
     }
-    
     if(name != nullptr && *name != QString("")){
         toJsonValue(QString("name"), name, obj, QString("QString"));
     }
@@ -114,7 +112,7 @@ SWGCategory::setName(QString* name) {
 }
 
 
-bool 
+bool
 SWGCategory::isSet(){
     bool isObjectUpdated = false;
     do{

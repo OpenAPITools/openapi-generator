@@ -285,8 +285,6 @@ SWGUserApi::getUserByNameCallback(SWGHttpRequestWorker * worker) {
     }
 
 
-    
-
     QString json(worker->response);
     SWGUser* output = static_cast<SWGUser*>(create(json, QString("SWGUser")));
     worker->deleteLater();
@@ -305,17 +303,17 @@ SWGUserApi::loginUser(QString* username, QString* password) {
     fullPath.append(this->host).append(this->basePath).append("/user/login");
 
 
-    if (fullPath.indexOf("?") > 0) 
+    if (fullPath.indexOf("?") > 0)
       fullPath.append("&");
-    else 
+    else
       fullPath.append("?");
     fullPath.append(QUrl::toPercentEncoding("username"))
         .append("=")
         .append(QUrl::toPercentEncoding(stringValue(username)));
 
-    if (fullPath.indexOf("?") > 0) 
+    if (fullPath.indexOf("?") > 0)
       fullPath.append("&");
-    else 
+    else
       fullPath.append("?");
     fullPath.append(QUrl::toPercentEncoding("password"))
         .append("=")
@@ -354,8 +352,6 @@ SWGUserApi::loginUserCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-
-    
 
     QString json(worker->response);
     QString* output = static_cast<QString*>(create(json, QString("QString")));

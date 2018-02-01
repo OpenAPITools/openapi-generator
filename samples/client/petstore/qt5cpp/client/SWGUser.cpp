@@ -112,7 +112,7 @@ QString
 SWGUser::asJson ()
 {
     QJsonObject* obj = this->asJsonObject();
-    
+
     QJsonDocument doc(*obj);
     QByteArray bytes = doc.toJson();
     return QString(bytes);
@@ -121,35 +121,27 @@ SWGUser::asJson ()
 QJsonObject*
 SWGUser::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
-    
     if(m_id_isSet){
         obj->insert("id", QJsonValue(id));
     }
-    
     if(username != nullptr && *username != QString("")){
         toJsonValue(QString("username"), username, obj, QString("QString"));
     }
-    
     if(first_name != nullptr && *first_name != QString("")){
         toJsonValue(QString("firstName"), first_name, obj, QString("QString"));
     }
-    
     if(last_name != nullptr && *last_name != QString("")){
         toJsonValue(QString("lastName"), last_name, obj, QString("QString"));
     }
-    
     if(email != nullptr && *email != QString("")){
         toJsonValue(QString("email"), email, obj, QString("QString"));
     }
-    
     if(password != nullptr && *password != QString("")){
         toJsonValue(QString("password"), password, obj, QString("QString"));
     }
-    
     if(phone != nullptr && *phone != QString("")){
         toJsonValue(QString("phone"), phone, obj, QString("QString"));
     }
-    
     if(m_user_status_isSet){
         obj->insert("userStatus", QJsonValue(user_status));
     }
@@ -238,7 +230,7 @@ SWGUser::setUserStatus(qint32 user_status) {
 }
 
 
-bool 
+bool
 SWGUser::isSet(){
     bool isObjectUpdated = false;
     do{

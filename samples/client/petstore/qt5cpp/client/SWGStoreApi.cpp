@@ -119,7 +119,6 @@ SWGStoreApi::getInventoryCallback(SWGHttpRequestWorker * worker) {
     }
 
 
-    
     QMap<QString, qint32>* output = new QMap<QString, qint32>();
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
@@ -183,8 +182,6 @@ SWGStoreApi::getOrderByIdCallback(SWGHttpRequestWorker * worker) {
     }
 
 
-    
-
     QString json(worker->response);
     SWGOrder* output = static_cast<SWGOrder*>(create(json, QString("SWGOrder")));
     worker->deleteLater();
@@ -239,8 +236,6 @@ SWGStoreApi::placeOrderCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-
-    
 
     QString json(worker->response);
     SWGOrder* output = static_cast<SWGOrder*>(create(json, QString("SWGOrder")));
