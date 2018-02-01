@@ -39,7 +39,8 @@ before_install:
   - npm install -g typescript
   - npm install -g npm
   - npm config set registry http://registry.npmjs.org/
-  - sudo pip install virtualenv
+  # set python 3.6.3 as default
+  - source ~/virtualenv/python3.6/bin/activate
   # to run petstore server locally via docker
   - docker pull swaggerapi/petstore
   - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
