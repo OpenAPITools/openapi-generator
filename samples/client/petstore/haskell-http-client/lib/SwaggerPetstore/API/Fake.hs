@@ -143,12 +143,10 @@ instance HasBodyParam FakeOuterStringSerialize OuterString
 -- To test \"client\" model
 -- 
 testClientModel 
-  :: (Consumes TestClientModel contentType, MimeRender contentType Client)
-  => ContentType contentType -- ^ request content-type ('MimeType')
-  -> Accept accept -- ^ request accept ('MimeType')
-  -> Client -- ^ "body" -  client model
-  -> SwaggerPetstoreRequest TestClientModel contentType Client accept
-testClientModel _  _ body =
+  :: (Consumes TestClientModel MimeJSON, MimeRender MimeJSON Client)
+  => Client -- ^ "body" -  client model
+  -> SwaggerPetstoreRequest TestClientModel MimeJSON Client MimeJSON
+testClientModel body =
   _mkRequest "PATCH" ["/fake"]
     `setBodyParam` body
 
@@ -332,11 +330,10 @@ instance MimeType mtype => Produces TestEnumParameters mtype
 -- 
 -- 
 testInlineAdditionalProperties 
-  :: (Consumes TestInlineAdditionalProperties contentType, MimeRender contentType A.Value)
-  => ContentType contentType -- ^ request content-type ('MimeType')
-  -> A.Value -- ^ "param" -  request body
-  -> SwaggerPetstoreRequest TestInlineAdditionalProperties contentType NoContent MimeNoContent
-testInlineAdditionalProperties _ param =
+  :: (Consumes TestInlineAdditionalProperties MimeJSON, MimeRender MimeJSON A.Value)
+  => A.Value -- ^ "param" -  request body
+  -> SwaggerPetstoreRequest TestInlineAdditionalProperties MimeJSON NoContent MimeNoContent
+testInlineAdditionalProperties param =
   _mkRequest "POST" ["/fake/inline-additionalProperties"]
     `setBodyParam` param
 
@@ -358,12 +355,11 @@ instance Consumes TestInlineAdditionalProperties MimeJSON
 -- 
 -- 
 testJsonFormData 
-  :: (Consumes TestJsonFormData contentType)
-  => ContentType contentType -- ^ request content-type ('MimeType')
-  -> Param -- ^ "param" -  field1
+  :: (Consumes TestJsonFormData MimeJSON)
+  => Param -- ^ "param" -  field1
   -> Param2 -- ^ "param2" -  field2
-  -> SwaggerPetstoreRequest TestJsonFormData contentType NoContent MimeNoContent
-testJsonFormData _ (Param param) (Param2 param2) =
+  -> SwaggerPetstoreRequest TestJsonFormData MimeJSON NoContent MimeNoContent
+testJsonFormData (Param param) (Param2 param2) =
   _mkRequest "GET" ["/fake/jsonFormData"]
     `addForm` toForm ("param", param)
     `addForm` toForm ("param2", param2)

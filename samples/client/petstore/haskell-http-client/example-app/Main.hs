@@ -128,13 +128,13 @@ runPet mgr config = do
         --   -- Defined in ‘SwaggerPetstore.API’
         -- instance S.HasOptionalParam S.UpdatePetWithForm S.Status
         --   -- Defined in ‘SwaggerPetstore.API’
-        let updatePetWithFormRequest = S.updatePetWithForm (S.ContentType S.MimeFormUrlEncoded) (S.Accept S.MimeJSON) (S.PetId pid)
+        let updatePetWithFormRequest = S.updatePetWithForm (S.Accept S.MimeJSON) (S.PetId pid)
                 `S.applyOptionalParam` S.Name2 "petName"
                 `S.applyOptionalParam` S.StatusText "pending"
         _ <- S.dispatchLbs mgr config updatePetWithFormRequest 
 
         -- multipart/form-data file uploads are just a different content-type
-        let uploadFileRequest = S.uploadFile (S.ContentType S.MimeMultipartFormData) (S.Accept S.MimeJSON) (S.PetId pid)
+        let uploadFileRequest = S.uploadFile (S.PetId pid)
                 `S.applyOptionalParam` S.File "package.yaml" -- the file contents of the path are read when dispatched
                 `S.applyOptionalParam` S.AdditionalMetadata "a package.yaml file"
         uploadFileRequestResult <- S.dispatchMime mgr config uploadFileRequest 
@@ -163,7 +163,7 @@ runStore :: NH.Manager -> S.SwaggerPetstoreConfig -> IO ()
 runStore mgr config = do
 
   -- we can set arbitrary headers with setHeader
-  let getInventoryRequest = S.getInventory (S.Accept S.MimeJSON) 
+  let getInventoryRequest = S.getInventory
         `S.setHeader` [("random-header","random-value")] 
   getInventoryRequestRequestResult <- S.dispatchMime mgr config getInventoryRequest
   mapM_ (\r -> putStrLn $ "getInventoryRequest: found " <> (show . length) r <> " results") getInventoryRequestRequestResult

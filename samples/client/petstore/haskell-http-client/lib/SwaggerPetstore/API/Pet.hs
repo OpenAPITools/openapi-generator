@@ -258,12 +258,11 @@ instance Produces UpdatePet MimeJSON
 -- Note: Has 'Produces' instances, but no response schema
 -- 
 updatePetWithForm 
-  :: (Consumes UpdatePetWithForm contentType)
-  => ContentType contentType -- ^ request content-type ('MimeType')
-  -> Accept accept -- ^ request accept ('MimeType')
+  :: (Consumes UpdatePetWithForm MimeFormUrlEncoded)
+  => Accept accept -- ^ request accept ('MimeType')
   -> PetId -- ^ "petId" -  ID of pet that needs to be updated
-  -> SwaggerPetstoreRequest UpdatePetWithForm contentType res accept
-updatePetWithForm _  _ (PetId petId) =
+  -> SwaggerPetstoreRequest UpdatePetWithForm MimeFormUrlEncoded res accept
+updatePetWithForm  _ (PetId petId) =
   _mkRequest "POST" ["/pet/",toPath petId]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
 
@@ -299,12 +298,10 @@ instance Produces UpdatePetWithForm MimeJSON
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
 uploadFile 
-  :: (Consumes UploadFile contentType)
-  => ContentType contentType -- ^ request content-type ('MimeType')
-  -> Accept accept -- ^ request accept ('MimeType')
-  -> PetId -- ^ "petId" -  ID of pet to update
-  -> SwaggerPetstoreRequest UploadFile contentType ApiResponse accept
-uploadFile _  _ (PetId petId) =
+  :: (Consumes UploadFile MimeMultipartFormData)
+  => PetId -- ^ "petId" -  ID of pet to update
+  -> SwaggerPetstoreRequest UploadFile MimeMultipartFormData ApiResponse MimeJSON
+uploadFile (PetId petId) =
   _mkRequest "POST" ["/pet/",toPath petId,"/uploadImage"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
 

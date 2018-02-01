@@ -67,12 +67,10 @@ import qualified Prelude as P
 -- AuthMethod: 'AuthApiKeyApiKeyQuery'
 -- 
 testClassname 
-  :: (Consumes TestClassname contentType, MimeRender contentType Client)
-  => ContentType contentType -- ^ request content-type ('MimeType')
-  -> Accept accept -- ^ request accept ('MimeType')
-  -> Client -- ^ "body" -  client model
-  -> SwaggerPetstoreRequest TestClassname contentType Client accept
-testClassname _  _ body =
+  :: (Consumes TestClassname MimeJSON, MimeRender MimeJSON Client)
+  => Client -- ^ "body" -  client model
+  -> SwaggerPetstoreRequest TestClassname MimeJSON Client MimeJSON
+testClassname body =
   _mkRequest "PATCH" ["/fake_classname_test"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyApiKeyQuery)
     `setBodyParam` body

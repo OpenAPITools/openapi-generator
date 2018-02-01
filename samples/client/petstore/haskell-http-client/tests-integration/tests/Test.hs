@@ -140,7 +140,7 @@ testPetOps mgr config =
     it "updatePetWithFormRequest" $ do
       readIORef _pet >>= \case
         Just S.Pet {S.petId = Just petId} -> do
-          let updatePetWithFormRequest = S.updatePetWithForm (S.ContentType S.MimeFormUrlEncoded) (S.Accept S.MimeJSON)
+          let updatePetWithFormRequest = S.updatePetWithForm (S.Accept S.MimeJSON)
                 (S.PetId petId)
                 `S.applyOptionalParam` S.Name2 "petName"
                 `S.applyOptionalParam` S.StatusText "pending"
@@ -153,8 +153,7 @@ testPetOps mgr config =
         Just pet@S.Pet {S.petId = Just petId} -> go petId
         _ -> pendingWith "no petId") $
       it "uploadFile" $ \petId -> do
-          let uploadFileRequest = S.uploadFile (S.ContentType S.MimeMultipartFormData) (S.Accept S.MimeJSON)
-                  (S.PetId petId)
+          let uploadFileRequest = S.uploadFile (S.PetId petId)
                   `S.applyOptionalParam` S.File "package.yaml"
                   `S.applyOptionalParam` S.AdditionalMetadata "a package.yaml file"
           uploadFileRequestResult <- S.dispatchMime mgr config uploadFileRequest 
@@ -184,7 +183,7 @@ testStoreOps mgr config = do
     _order <- runIO $ newIORef (Nothing :: Maybe S.Order)
 
     it "getInventory" $ do
-      let getInventoryRequest = S.getInventory (S.Accept S.MimeJSON)
+      let getInventoryRequest = S.getInventory
             `S.setHeader` [("api_key","special-key")] 
       getInventoryRequestRequestResult <- S.dispatchMime mgr config getInventoryRequest 
       NH.responseStatus (S.mimeResultResponse getInventoryRequestRequestResult) `shouldBe` NH.status200

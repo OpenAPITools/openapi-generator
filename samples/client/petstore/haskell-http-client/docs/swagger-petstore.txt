@@ -2259,7 +2259,7 @@ data DeleteOrder
 --   Returns a map of status codes to quantities
 --   
 --   AuthMethod: <a>AuthApiKeyApiKey</a>
-getInventory :: Accept accept -> SwaggerPetstoreRequest GetInventory MimeNoContent ((Map String Int)) accept
+getInventory :: SwaggerPetstoreRequest GetInventory MimeNoContent ((Map String Int)) MimeJSON
 data GetInventory
 
 -- | <pre>
@@ -2468,7 +2468,7 @@ data UpdatePet
 --   AuthMethod: <a>AuthOAuthPetstoreAuth</a>
 --   
 --   Note: Has <a>Produces</a> instances, but no response schema
-updatePetWithForm :: (Consumes UpdatePetWithForm contentType) => ContentType contentType -> Accept accept -> PetId -> SwaggerPetstoreRequest UpdatePetWithForm contentType res accept
+updatePetWithForm :: (Consumes UpdatePetWithForm MimeFormUrlEncoded) => Accept accept -> PetId -> SwaggerPetstoreRequest UpdatePetWithForm MimeFormUrlEncoded res accept
 data UpdatePetWithForm
 
 -- | <i>Optional Param</i> "name" - Updated name of the pet
@@ -2494,7 +2494,7 @@ data UpdatePetWithForm
 --   uploads an image
 --   
 --   AuthMethod: <a>AuthOAuthPetstoreAuth</a>
-uploadFile :: (Consumes UploadFile contentType) => ContentType contentType -> Accept accept -> PetId -> SwaggerPetstoreRequest UploadFile contentType ApiResponse accept
+uploadFile :: (Consumes UploadFile MimeMultipartFormData) => PetId -> SwaggerPetstoreRequest UploadFile MimeMultipartFormData ApiResponse MimeJSON
 data UploadFile
 
 -- | <i>Optional Param</i> "additionalMetadata" - Additional data to pass
@@ -2548,7 +2548,7 @@ module SwaggerPetstore.API.FakeClassnameTags123
 --   To test class name in snake case
 --   
 --   AuthMethod: <a>AuthApiKeyApiKeyQuery</a>
-testClassname :: (Consumes TestClassname contentType, MimeRender contentType Client) => ContentType contentType -> Accept accept -> Client -> SwaggerPetstoreRequest TestClassname contentType Client accept
+testClassname :: (Consumes TestClassname MimeJSON, MimeRender MimeJSON Client) => Client -> SwaggerPetstoreRequest TestClassname MimeJSON Client MimeJSON
 data TestClassname
 
 -- | <i>Body Param</i> "body" - client model
@@ -2614,7 +2614,7 @@ data FakeOuterStringSerialize
 --   To test "client" model
 --   
 --   To test "client" model
-testClientModel :: (Consumes TestClientModel contentType, MimeRender contentType Client) => ContentType contentType -> Accept accept -> Client -> SwaggerPetstoreRequest TestClientModel contentType Client accept
+testClientModel :: (Consumes TestClientModel MimeJSON, MimeRender MimeJSON Client) => Client -> SwaggerPetstoreRequest TestClientModel MimeJSON Client MimeJSON
 data TestClientModel
 
 -- | <i>Body Param</i> "body" - client model
@@ -2726,7 +2726,7 @@ data TestEnumParameters
 --   </pre>
 --   
 --   test inline additionalProperties
-testInlineAdditionalProperties :: (Consumes TestInlineAdditionalProperties contentType, MimeRender contentType Value) => ContentType contentType -> Value -> SwaggerPetstoreRequest TestInlineAdditionalProperties contentType NoContent MimeNoContent
+testInlineAdditionalProperties :: (Consumes TestInlineAdditionalProperties MimeJSON, MimeRender MimeJSON Value) => Value -> SwaggerPetstoreRequest TestInlineAdditionalProperties MimeJSON NoContent MimeNoContent
 data TestInlineAdditionalProperties
 
 -- | <i>Body Param</i> "param" - request body
@@ -2740,7 +2740,7 @@ data TestInlineAdditionalProperties
 --   </pre>
 --   
 --   test json serialization of form data
-testJsonFormData :: (Consumes TestJsonFormData contentType) => ContentType contentType -> Param -> Param2 -> SwaggerPetstoreRequest TestJsonFormData contentType NoContent MimeNoContent
+testJsonFormData :: (Consumes TestJsonFormData MimeJSON) => Param -> Param2 -> SwaggerPetstoreRequest TestJsonFormData MimeJSON NoContent MimeNoContent
 data TestJsonFormData
 
 -- | <pre>
@@ -2791,7 +2791,7 @@ module SwaggerPetstore.API.AnotherFake
 --   To test special tags
 --   
 --   To test special tags
-testSpecialTags :: (Consumes TestSpecialTags contentType, MimeRender contentType Client) => ContentType contentType -> Accept accept -> Client -> SwaggerPetstoreRequest TestSpecialTags contentType Client accept
+testSpecialTags :: (Consumes TestSpecialTags MimeJSON, MimeRender MimeJSON Client) => Client -> SwaggerPetstoreRequest TestSpecialTags MimeJSON Client MimeJSON
 data TestSpecialTags
 
 -- | <i>Body Param</i> "body" - client model
