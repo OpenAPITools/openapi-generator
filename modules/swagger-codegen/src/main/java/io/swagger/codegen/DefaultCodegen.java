@@ -2023,6 +2023,9 @@ public class DefaultCodegen {
         Set<String> imports = new HashSet<String>();
         op.vendorExtensions = operation.getVendorExtensions();
 
+        // store the original operationId for plug-in
+        op.operationIdOriginal = operation.getOperationId();
+
         String operationId = getOrGenerateOperationId(operation, path, httpMethod);
         // remove prefix in operationId
         if (removeOperationIdPrefix) {
