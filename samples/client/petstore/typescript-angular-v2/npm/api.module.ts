@@ -1,6 +1,7 @@
 import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Configuration } from './configuration';
+
+import { Http } from '@angular/http';
 
 import { PetService } from './api/pet.service';
 import { StoreService } from './api/store.service';
@@ -23,9 +24,14 @@ export class ApiModule {
         }
     }
 
-    constructor( @Optional() @SkipSelf() parentModule: ApiModule) {
+    constructor( @Optional() @SkipSelf() parentModule: ApiModule,
+                 @Optional() http: Http) {
         if (parentModule) {
             throw new Error('ApiModule is already loaded. Import in your base AppModule only.');
+        }
+        if (!http) {
+            throw new Error('You need to import the HttpModule in your AppModule! \n' +
+            'See also https://github.com/angular/angular/issues/20575');
         }
     }
 }
