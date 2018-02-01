@@ -93,9 +93,8 @@ instance Produces DeleteOrder MimeJSON
 -- AuthMethod: 'AuthApiKeyApiKey'
 -- 
 getInventory 
-  :: Accept accept -- ^ request accept ('MimeType')
-  -> SwaggerPetstoreRequest GetInventory MimeNoContent ((Map.Map String Int)) accept
-getInventory  _ =
+  :: SwaggerPetstoreRequest GetInventory MimeNoContent ((Map.Map String Int)) MimeJSON
+getInventory =
   _mkRequest "GET" ["/store/inventory"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyApiKey)
 

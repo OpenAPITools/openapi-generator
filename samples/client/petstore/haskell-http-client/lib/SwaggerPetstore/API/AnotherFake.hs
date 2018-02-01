@@ -67,12 +67,10 @@ import qualified Prelude as P
 -- To test special tags
 -- 
 testSpecialTags 
-  :: (Consumes TestSpecialTags contentType, MimeRender contentType Client)
-  => ContentType contentType -- ^ request content-type ('MimeType')
-  -> Accept accept -- ^ request accept ('MimeType')
-  -> Client -- ^ "body" -  client model
-  -> SwaggerPetstoreRequest TestSpecialTags contentType Client accept
-testSpecialTags _  _ body =
+  :: (Consumes TestSpecialTags MimeJSON, MimeRender MimeJSON Client)
+  => Client -- ^ "body" -  client model
+  -> SwaggerPetstoreRequest TestSpecialTags MimeJSON Client MimeJSON
+testSpecialTags body =
   _mkRequest "PATCH" ["/another-fake/dummy"]
     `setBodyParam` body
 
