@@ -100,6 +100,7 @@ ext {
     gson_version = "2.6.1"
     gson_fire_version = "1.8.2"
     threetenbp_version = "1.3.5"
+    okio_version = "1.13.0"
 }
 
 dependencies {
@@ -107,5 +108,6 @@ dependencies {
     compile "io.rest-assured:scala-support:$rest_assured_version"
     compile "io.gsonfire:gson-fire:$gson_fire_version"
     compile "org.threeten:threetenbp:$threetenbp_version"
+    compile "com.squareup.okio:okio:$okio_version"
     testCompile "junit:junit:$junit_version"
 }
