@@ -23,14 +23,14 @@ dependencies = {
 build = {
 	type = "builtin",
 	modules = {
-		["pet_api"] = "petstore/api/pet_api.lua";
-		["store_api"] = "petstore/api/store_api.lua";
-		["user_api"] = "petstore/api/user_api.lua";
-		["api_response"] = "petstore/model/api_response.lua";
-		["category"] = "petstore/model/category.lua";
-		["order"] = "petstore/model/order.lua";
-		["pet"] = "petstore/model/pet.lua";
-		["tag"] = "petstore/model/tag.lua";
-		["user"] = "petstore/model/user.lua";
+		["petstore.api.pet_api"] = "petstore/api/pet_api.lua";
+		["petstore.api.store_api"] = "petstore/api/store_api.lua";
+		["petstore.api.user_api"] = "petstore/api/user_api.lua";
+		["petstore.model.api_response"] = "petstore/model/api_response.lua";
+		["petstore.model.category"] = "petstore/model/category.lua";
+		["petstore.model.order"] = "petstore/model/order.lua";
+		["petstore.model.pet"] = "petstore/model/pet.lua";
+		["petstore.model.tag"] = "petstore/model/tag.lua";
+		["petstore.model.user"] = "petstore/model/user.lua";
 	}
 }

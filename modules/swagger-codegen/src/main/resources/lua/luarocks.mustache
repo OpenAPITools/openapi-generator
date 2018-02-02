@@ -28,7 +28,7 @@ build = {
 		{{#operations}}
 		{{#operation}}
 		{{#-first}}
-		["{{{classname}}}"] = "{{{packageName}}}/api/{{{classname}}}.lua";
+		["{{{packageName}}}.api.{{{classname}}}"] = "{{{packageName}}}/api/{{{classname}}}.lua";
 		{{/-first}}
 		{{/operation}}
 		{{/operations}}
@@ -36,7 +36,7 @@ build = {
 		{{/apiInfo}}
 		{{#models}}
 		{{#model}}
-		["{{{classname}}}"] = "{{{packageName}}}/model/{{{classname}}}.lua";
+		["{{{packageName}}}.model.{{{classname}}}"] = "{{{packageName}}}/model/{{{classname}}}.lua";
 		{{/model}}
 		{{/models}}
 	}
