@@ -3,6 +3,7 @@ package io.swagger.client.api;
 import io.swagger.client.CollectionFormats.*;
 
 import io.reactivex.Observable;
+import io.reactivex.Completable;
 import retrofit2.http.*;
 
 import okhttp3.RequestBody;
@@ -20,10 +21,10 @@ public interface UserApi {
    * Create user
    * This can only be done by the logged in user.
    * @param body Created user object (required)
-   * @return Call&lt;Void&gt;
+   * @return Completable
    */
   @POST("user")
-  Observable<Void> createUser(
+  Completable createUser(
     @retrofit2.http.Body User body
   );
 
@@ -31,10 +32,10 @@ public interface UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object (required)
-   * @return Call&lt;Void&gt;
+   * @return Completable
    */
   @POST("user/createWithArray")
-  Observable<Void> createUsersWithArrayInput(
+  Completable createUsersWithArrayInput(
     @retrofit2.http.Body List<User> body
   );
 
@@ -42,10 +43,10 @@ public interface UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object (required)
-   * @return Call&lt;Void&gt;
+   * @return Completable
    */
   @POST("user/createWithList")
-  Observable<Void> createUsersWithListInput(
+  Completable createUsersWithListInput(
     @retrofit2.http.Body List<User> body
   );
 
@@ -53,10 +54,10 @@ public interface UserApi {
    * Delete user
    * This can only be done by the logged in user.
    * @param username The name that needs to be deleted (required)
-   * @return Call&lt;Void&gt;
+   * @return Completable
    */
   @DELETE("user/{username}")
-  Observable<Void> deleteUser(
+  Completable deleteUser(
     @retrofit2.http.Path("username") String username
   );
 
@@ -64,7 +65,7 @@ public interface UserApi {
    * Get user by user name
    * 
    * @param username The name that needs to be fetched. Use user1 for testing.  (required)
-   * @return Call&lt;User&gt;
+   * @return Observable&lt;User&gt;
    */
   @GET("user/{username}")
   Observable<User> getUserByName(
@@ -76,7 +77,7 @@ public interface UserApi {
    * 
    * @param username The user name for login (required)
    * @param password The password for login in clear text (required)
-   * @return Call&lt;String&gt;
+   * @return Observable&lt;String&gt;
    */
   @GET("user/login")
   Observable<String> loginUser(
@@ -86,10 +87,10 @@ public interface UserApi {
   /**
    * Logs out current logged in user session
    * 
-   * @return Call&lt;Void&gt;
+   * @return Completable
    */
   @GET("user/logout")
-  Observable<Void> logoutUser();
+  Completable logoutUser();
     
 
   /**
@@ -97,10 +98,10 @@ public interface UserApi {
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
    * @param body Updated user object (required)
-   * @return Call&lt;Void&gt;
+   * @return Completable
    */
   @PUT("user/{username}")
-  Observable<Void> updateUser(
+  Completable updateUser(
     @retrofit2.http.Path("username") String username, @retrofit2.http.Body User body
   );
 

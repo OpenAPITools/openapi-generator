@@ -8,6 +8,11 @@ import rx.Observable;
 {{#useRxJava2}}
 import io.reactivex.Observable;
 {{/useRxJava2}}
+{{^returnType}}
+{{#useRxJava2}}
+import io.reactivex.Completable;
+{{/useRxJava2}}
+{{/returnType}}
 {{#doNotUseRx}}
 import retrofit2.Call;
 {{/doNotUseRx}}
@@ -35,7 +40,7 @@ public interface {{classname}} {
 {{#allParams}}
    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
-   * @return Call&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Object{{/returnType}}&gt;
+   * @return {{^doNotUseRx}}{{#useRxJava}}Observable&lt;{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Void{{/returnType}}{{/isResponseFile}}&gt;{{/useRxJava}}{{#useRxJava2}}{{#returnType}}Observable&lt;{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{returnType}}{{/isResponseFile}}&gt;{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava2}}{{/doNotUseRx}}{{#doNotUseRx}}Call&lt;{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Void{{/returnType}}{{/isResponseFile}}&gt;{{/doNotUseRx}}
 {{#isDeprecated}}
    * @deprecated
 {{/isDeprecated}}
@@ -60,9 +65,9 @@ public interface {{classname}} {
   })
   {{/-first}}
   {{/prioritizedContentTypes}}
-  {{/formParams}}  
+  {{/formParams}}
   @{{httpMethod}}("{{{path}}}")
-  {{^doNotUseRx}}Observable{{/doNotUseRx}}{{#doNotUseRx}}Call{{/doNotUseRx}}<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}{{/isResponseFile}}> {{operationId}}({{^allParams}});{{/allParams}}
+  {{^doNotUseRx}}{{#useRxJava}}Observable<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}{{/isResponseFile}}>{{/useRxJava}}{{#useRxJava2}}{{#returnType}}Observable<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava2}}{{/doNotUseRx}}{{#doNotUseRx}}Call<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}{{/isResponseFile}}>{{/doNotUseRx}} {{operationId}}({{^allParams}});{{/allParams}}
     {{#allParams}}{{>libraries/retrofit2/queryParams}}{{>libraries/retrofit2/pathParams}}{{>libraries/retrofit2/headerParams}}{{>libraries/retrofit2/bodyParams}}{{>libraries/retrofit2/formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}
   );{{/hasMore}}{{/allParams}}
 
