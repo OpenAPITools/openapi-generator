@@ -14,8 +14,8 @@ import io.swagger.util.Json;
 import java.util.*;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String packageName = "swagger";
-    protected String projectName = "Swagger";
+    protected String packageName = "defaultPackage";
+    protected String projectName = "defaultProject";
     protected List<Map<String, Object>> orderedModels;
     protected Map<String, List<String>> modelDepends;
     protected Map<String, String> nullableTypeMapping;
