@@ -129,7 +129,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setUsePlayWS(Boolean.valueOf(additionalProperties.get(USE_PLAY_WS).toString()));
         }
         additionalProperties.put(USE_PLAY_WS, usePlayWS);
-        
+
         if (additionalProperties.containsKey(PLAY_VERSION)) {
             this.setPlayVersion(additionalProperties.get(PLAY_VERSION).toString());
         }
@@ -260,7 +260,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         if (usePlayWS) {
-            // remove unsupported auth 
+            // remove unsupported auth
             Iterator<SupportingFile> iter = supportingFiles.iterator();
             while (iter.hasNext()) {
                 SupportingFile sf = iter.next();
@@ -270,11 +270,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
 
             apiTemplateFiles.remove("api.mustache");
-            
+
             if (PLAY_24.equals(playVersion)) {
                 additionalProperties.put(PLAY_24, true);
                 apiTemplateFiles.put("play24/api.mustache", ".java");
-                
+
                 supportingFiles.add(new SupportingFile("play24/ApiClient.mustache", invokerFolder, "ApiClient.java"));
                 supportingFiles.add(new SupportingFile("play24/Play24CallFactory.mustache", invokerFolder, "Play24CallFactory.java"));
                 supportingFiles.add(new SupportingFile("play24/Play24CallAdapterFactory.mustache", invokerFolder,
@@ -282,7 +282,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             } else {
                 additionalProperties.put(PLAY_25, true);
                 apiTemplateFiles.put("play25/api.mustache", ".java");
-                
+
                 supportingFiles.add(new SupportingFile("play25/ApiClient.mustache", invokerFolder, "ApiClient.java"));
                 supportingFiles.add(new SupportingFile("play25/Play25CallFactory.mustache", invokerFolder, "Play25CallFactory.java"));
                 supportingFiles.add(new SupportingFile("play25/Play25CallAdapterFactory.mustache", invokerFolder,
@@ -293,7 +293,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("play-common/auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
             supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
-            
+
             additionalProperties.put("jackson", "true");
             additionalProperties.remove("gson");
         }
@@ -331,9 +331,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                         else {
                             operation.prioritizedContentTypes = prioritizeContentTypes(operation.consumes);
                         }
-                    }
-                    if (operation.returnType == null) {
-                        operation.returnType = "Void";
                     }
                     if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")){
                         operation.path = operation.path.substring(1);

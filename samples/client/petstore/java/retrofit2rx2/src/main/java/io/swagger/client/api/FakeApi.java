@@ -3,6 +3,7 @@ package io.swagger.client.api;
 import io.swagger.client.CollectionFormats.*;
 
 import io.reactivex.Observable;
+import io.reactivex.Completable;
 import retrofit2.http.*;
 
 import okhttp3.RequestBody;
@@ -24,7 +25,7 @@ public interface FakeApi {
    * 
    * Test serialization of outer boolean types
    * @param body Input boolean as post body (optional)
-   * @return Call&lt;Boolean&gt;
+   * @return Observable&lt;Boolean&gt;
    */
   @POST("fake/outer/boolean")
   Observable<Boolean> fakeOuterBooleanSerialize(
@@ -35,7 +36,7 @@ public interface FakeApi {
    * 
    * Test serialization of object with outer number type
    * @param body Input composite as post body (optional)
-   * @return Call&lt;OuterComposite&gt;
+   * @return Observable&lt;OuterComposite&gt;
    */
   @POST("fake/outer/composite")
   Observable<OuterComposite> fakeOuterCompositeSerialize(
@@ -46,7 +47,7 @@ public interface FakeApi {
    * 
    * Test serialization of outer number types
    * @param body Input number as post body (optional)
-   * @return Call&lt;BigDecimal&gt;
+   * @return Observable&lt;BigDecimal&gt;
    */
   @POST("fake/outer/number")
   Observable<BigDecimal> fakeOuterNumberSerialize(
@@ -57,7 +58,7 @@ public interface FakeApi {
    * 
    * Test serialization of outer string types
    * @param body Input string as post body (optional)
-   * @return Call&lt;String&gt;
+   * @return Observable&lt;String&gt;
    */
   @POST("fake/outer/string")
   Observable<String> fakeOuterStringSerialize(
@@ -68,7 +69,7 @@ public interface FakeApi {
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
    * @param body client model (required)
-   * @return Call&lt;Client&gt;
+   * @return Observable&lt;Client&gt;
    */
   @Headers({
     "Content-Type:application/json"
@@ -95,11 +96,11 @@ public interface FakeApi {
    * @param dateTime None (optional)
    * @param password None (optional)
    * @param paramCallback None (optional)
-   * @return Call&lt;Void&gt;
+   * @return Completable
    */
   @retrofit2.http.FormUrlEncoded
   @POST("fake")
-  Observable<Void> testEndpointParameters(
+  Completable testEndpointParameters(
     @retrofit2.http.Field("number") BigDecimal number, @retrofit2.http.Field("double") Double _double, @retrofit2.http.Field("pattern_without_delimiter") String patternWithoutDelimiter, @retrofit2.http.Field("byte") byte[] _byte, @retrofit2.http.Field("integer") Integer integer, @retrofit2.http.Field("int32") Integer int32, @retrofit2.http.Field("int64") Long int64, @retrofit2.http.Field("float") Float _float, @retrofit2.http.Field("string") String string, @retrofit2.http.Field("binary") byte[] binary, @retrofit2.http.Field("date") LocalDate date, @retrofit2.http.Field("dateTime") OffsetDateTime dateTime, @retrofit2.http.Field("password") String password, @retrofit2.http.Field("callback") String paramCallback
   );
 
@@ -114,11 +115,11 @@ public interface FakeApi {
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
-   * @return Call&lt;Void&gt;
+   * @return Completable
    */
   @retrofit2.http.FormUrlEncoded
   @GET("fake")
-  Observable<Void> testEnumParameters(
+  Completable testEnumParameters(
     @retrofit2.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit2.http.Field("enum_form_string") String enumFormString, @retrofit2.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit2.http.Header("enum_header_string") String enumHeaderString, @retrofit2.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit2.http.Query("enum_query_string") String enumQueryString, @retrofit2.http.Query("enum_query_integer") Integer enumQueryInteger, @retrofit2.http.Field("enum_query_double") Double enumQueryDouble
   );
 
@@ -126,13 +127,13 @@ public interface FakeApi {
    * test inline additionalProperties
    * 
    * @param param request body (required)
-   * @return Call&lt;Void&gt;
+   * @return Completable
    */
   @Headers({
     "Content-Type:application/json"
   })
   @POST("fake/inline-additionalProperties")
-  Observable<Void> testInlineAdditionalProperties(
+  Completable testInlineAdditionalProperties(
     @retrofit2.http.Body Object param
   );
 
@@ -141,11 +142,11 @@ public interface FakeApi {
    * 
    * @param param field1 (required)
    * @param param2 field2 (required)
-   * @return Call&lt;Void&gt;
+   * @return Completable
    */
   @retrofit2.http.FormUrlEncoded
   @GET("fake/jsonFormData")
-  Observable<Void> testJsonFormData(
+  Completable testJsonFormData(
     @retrofit2.http.Field("param") String param, @retrofit2.http.Field("param2") String param2
   );
 

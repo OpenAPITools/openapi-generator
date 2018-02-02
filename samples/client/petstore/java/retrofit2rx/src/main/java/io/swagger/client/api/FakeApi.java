@@ -24,7 +24,7 @@ public interface FakeApi {
    * 
    * Test serialization of outer boolean types
    * @param body Input boolean as post body (optional)
-   * @return Call&lt;Boolean&gt;
+   * @return Observable&lt;Boolean&gt;
    */
   @POST("fake/outer/boolean")
   Observable<Boolean> fakeOuterBooleanSerialize(
@@ -35,7 +35,7 @@ public interface FakeApi {
    * 
    * Test serialization of object with outer number type
    * @param body Input composite as post body (optional)
-   * @return Call&lt;OuterComposite&gt;
+   * @return Observable&lt;OuterComposite&gt;
    */
   @POST("fake/outer/composite")
   Observable<OuterComposite> fakeOuterCompositeSerialize(
@@ -46,7 +46,7 @@ public interface FakeApi {
    * 
    * Test serialization of outer number types
    * @param body Input number as post body (optional)
-   * @return Call&lt;BigDecimal&gt;
+   * @return Observable&lt;BigDecimal&gt;
    */
   @POST("fake/outer/number")
   Observable<BigDecimal> fakeOuterNumberSerialize(
@@ -57,7 +57,7 @@ public interface FakeApi {
    * 
    * Test serialization of outer string types
    * @param body Input string as post body (optional)
-   * @return Call&lt;String&gt;
+   * @return Observable&lt;String&gt;
    */
   @POST("fake/outer/string")
   Observable<String> fakeOuterStringSerialize(
@@ -68,7 +68,7 @@ public interface FakeApi {
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
    * @param body client model (required)
-   * @return Call&lt;Client&gt;
+   * @return Observable&lt;Client&gt;
    */
   @Headers({
     "Content-Type:application/json"
@@ -95,7 +95,7 @@ public interface FakeApi {
    * @param dateTime None (optional)
    * @param password None (optional)
    * @param paramCallback None (optional)
-   * @return Call&lt;Void&gt;
+   * @return Observable&lt;Void&gt;
    */
   @retrofit2.http.FormUrlEncoded
   @POST("fake")
@@ -114,7 +114,7 @@ public interface FakeApi {
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
-   * @return Call&lt;Void&gt;
+   * @return Observable&lt;Void&gt;
    */
   @retrofit2.http.FormUrlEncoded
   @GET("fake")
@@ -126,7 +126,7 @@ public interface FakeApi {
    * test inline additionalProperties
    * 
    * @param param request body (required)
-   * @return Call&lt;Void&gt;
+   * @return Observable&lt;Void&gt;
    */
   @Headers({
     "Content-Type:application/json"
@@ -141,7 +141,7 @@ public interface FakeApi {
    * 
    * @param param field1 (required)
    * @param param2 field2 (required)
-   * @return Call&lt;Void&gt;
+   * @return Observable&lt;Void&gt;
    */
   @retrofit2.http.FormUrlEncoded
   @GET("fake/jsonFormData")
