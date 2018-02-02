@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     static Logger LOGGER = LoggerFactory.getLogger(LuaClientCodegen.class);
 
+    protected String specFolder = "spec";
     protected String packageName = "swagger-client";
     protected String packageVersion = "1.0.0-1";
     protected String apiDocPath = "docs/";
@@ -142,8 +143,8 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        apiTestTemplateFiles.clear(); // TODO: add api test template
-        modelTestTemplateFiles.clear(); // TODO: add model test template
+        apiTestTemplateFiles.put("api_test.mustache", ".lua");
+        modelTestTemplateFiles.put("model_test.mustache", ".lua");
 
         apiDocTemplateFiles.clear(); // TODO: add api doc template
         modelDocTemplateFiles.clear(); // TODO: add model doc template
@@ -260,6 +261,16 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         return underscore(name) + "_api";
     }
 
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiFilename(name) + "_spec";
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        return toModelFilename(name) + "_spec";
+    }
+
     /**
      * Overrides postProcessParameter to add a vendor extension "x-exportParamName".
      * This is useful when paramName starts with a lowercase letter, but we need that
@@ -270,21 +281,16 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void postProcessParameter(CodegenParameter parameter){
 
-        //// Give the base class a chance to process
-        //super.postProcessParameter(parameter);
+    }
 
-        //char firstChar = parameter.paramName.charAt(0);
+    @Override
+    public String apiTestFileFolder() {
+        return outputFolder + File.separator + apiPackage + File.separator + specFolder.replace("/", File.separator);
+    }
 
-        //if (Character.isUpperCase(firstChar)) {
-        //    // First char is already uppercase, just use paramName.
-        //    parameter.vendorExtensions.put("x-exportParamName", parameter.paramName);
-
-        //}
-
-        //// It's a lowercase first char, let's convert it to uppercase
-        //StringBuilder sb = new StringBuilder(parameter.paramName);
-        //sb.setCharAt(0, Character.toUpperCase(firstChar));
-        //parameter.vendorExtensions.put("x-exportParamName", sb.toString());
+    @Override
+    public String modelTestFileFolder() {
+        return outputFolder + File.separator + modelPackage + File.separator + specFolder.replace("/", File.separator);
     }
 
     @Override
