@@ -8,7 +8,6 @@
 with "config";
 with "util";
 with "util_http";
-with "asf";
 with "security";
 with "swagger";
 project Petstore is

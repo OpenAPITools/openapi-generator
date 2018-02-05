@@ -77,11 +77,13 @@ package body {{package}}.Skeletons is
          {{/returnType}}
          {{/hasParams}}
          {{#returnType}}
-         Stream.Start_Document;{{#vendorExtensions.x-codegen-response.isString}}
-         Swagger.Streams.Serialize (Stream, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
-         Swagger.Streams.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
-         {{package}}.Models.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{/vendorExtensions.x-codegen-response.isString}}
-         Stream.End_Document;{{/returnType}}
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;{{#vendorExtensions.x-codegen-response.isString}}
+            Swagger.Streams.Serialize (Stream, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
+            Swagger.Streams.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
+            {{package}}.Models.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{/vendorExtensions.x-codegen-response.isString}}
+            Stream.End_Document;
+         end if;{{/returnType}}
       end {{operationId}};
 {{/operation}}
 {{/operations}}
@@ -171,11 +173,13 @@ package body {{package}}.Skeletons is
          {{/returnType}}
          {{/hasParams}}
          {{#returnType}}
-         Stream.Start_Document;{{#vendorExtensions.x-codegen-response.isString}}
-         Swagger.Streams.Serialize (Stream, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
-         Swagger.Streams.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
-         {{package}}.Models.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{/vendorExtensions.x-codegen-response.isString}}
-         Stream.End_Document;{{/returnType}}
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;{{#vendorExtensions.x-codegen-response.isString}}
+            Swagger.Streams.Serialize (Stream, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
+            Swagger.Streams.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
+            {{package}}.Models.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{/vendorExtensions.x-codegen-response.isString}}
+            Stream.End_Document;
+         end if;{{/returnType}}
       end {{operationId}};
 
       package API_{{operationId}} is
