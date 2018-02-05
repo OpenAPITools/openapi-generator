@@ -939,6 +939,8 @@ Presentations/Videos/Tutorials/Books
 - 2017/12/21 - [Using Protocol Buffer to Generate SDK at Hootsuite](http://code.hootsuite.com/using-protocol-buffer-to-generate-sdk-at-hoosuite/?lipi=urn%3Ali%3Apage%3Ad_flagship3_messaging%3By4ATz3SDRXyvXJJ14LQysQ%3D%3D) by [Joy Zhang](https://www.linkedin.com/in/joy8zhang/)
 - 2018/01/11 - [Swagger 工具箱介绍及代码自动生成示例](https://github.com/qct/swagger-example) by [qct](https://github.com/qct)
 - 2018/01/19 - [Generowanie kodu usług REST - przewodnik dla początkujących](https://gum.co/swagger_codegen_beginner_pl)(eBook) by [William Cheng](https://github.com/wing328), [Tomasz Prus](https://github.com/tomplus), [Bartek Kryza](https://github.com/bkryza)
+- 2018/02/03 - [Writing REST APIs with OpenAPI and Swagger Ada](https://www.slideshare.net/StephaneCarrez1/writing-rest-apis-with-openapi-and-swagger-ada/StephaneCarrez1/writing-rest-apis-with-openapi-and-swagger-ada) by [Stephane Carrez](https://github.com/stcarrez) at [FOSDEM 2018](https://fosdem.org/2018)
+
 
 # Swagger Codegen Core Team
 
