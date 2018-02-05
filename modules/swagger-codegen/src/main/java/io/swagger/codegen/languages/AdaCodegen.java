@@ -66,6 +66,7 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
         additionalProperties.put("packageConfig", configBaseName);
         additionalProperties.put("packageDir", "client");
         additionalProperties.put("mainName", "client");
+        additionalProperties.put("isServer", false);
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
 
         String names[] = this.modelPackage.split("\\.");

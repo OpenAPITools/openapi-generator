@@ -8,9 +8,10 @@
 with "config";
 with "util";
 with "util_http";
-with "asf";
 with "security";
-with "swagger";
+with "swagger";{{#isServer}}
+with "servlet";
+with "swagger_server";{{/isServer}}
 project {{{projectName}}} is
 
     Mains := ("{{{packageName}}}-{{{mainName}}}.adb");
