@@ -36,20 +36,20 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Capitalization" /> class.
         /// </summary>
-        /// <param name="SmallCamel">SmallCamel.</param>
-        /// <param name="CapitalCamel">CapitalCamel.</param>
-        /// <param name="SmallSnake">SmallSnake.</param>
-        /// <param name="CapitalSnake">CapitalSnake.</param>
-        /// <param name="SCAETHFlowPoints">SCAETHFlowPoints.</param>
-        /// <param name="ATT_NAME">Name of the pet .</param>
-        public Capitalization(string SmallCamel = default(string), string CapitalCamel = default(string), string SmallSnake = default(string), string CapitalSnake = default(string), string SCAETHFlowPoints = default(string), string ATT_NAME = default(string))
+        /// <param name="smallCamel">smallCamel.</param>
+        /// <param name="capitalCamel">capitalCamel.</param>
+        /// <param name="smallSnake">smallSnake.</param>
+        /// <param name="capitalSnake">capitalSnake.</param>
+        /// <param name="sCAETHFlowPoints">sCAETHFlowPoints.</param>
+        /// <param name="aTTNAME">Name of the pet .</param>
+        public Capitalization(string smallCamel = default(string), string capitalCamel = default(string), string smallSnake = default(string), string capitalSnake = default(string), string sCAETHFlowPoints = default(string), string aTTNAME = default(string))
         {
-            this.SmallCamel = SmallCamel;
-            this.CapitalCamel = CapitalCamel;
-            this.SmallSnake = SmallSnake;
-            this.CapitalSnake = CapitalSnake;
-            this.SCAETHFlowPoints = SCAETHFlowPoints;
-            this.ATT_NAME = ATT_NAME;
+            this.SmallCamel = smallCamel;
+            this.CapitalCamel = capitalCamel;
+            this.SmallSnake = smallSnake;
+            this.CapitalSnake = capitalSnake;
+            this.SCAETHFlowPoints = sCAETHFlowPoints;
+            this.ATT_NAME = aTTNAME;
         }
         
         /// <summary>

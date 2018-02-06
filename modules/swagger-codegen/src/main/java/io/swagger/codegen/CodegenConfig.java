@@ -216,4 +216,6 @@ public interface CodegenConfig {
 
     String toGetter(String name);
 
+    String sanitizeName(String name);
+
 }

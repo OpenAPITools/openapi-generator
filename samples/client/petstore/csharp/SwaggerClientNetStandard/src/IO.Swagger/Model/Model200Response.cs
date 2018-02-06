@@ -31,12 +31,12 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
         /// </summary>
-        /// <param name="Name">Name.</param>
-        /// <param name="Class">Class.</param>
-        public Model200Response(int? Name = default(int?), string Class = default(string))
+        /// <param name="name">name.</param>
+        /// <param name="_class">_class.</param>
+        public Model200Response(int? name = default(int?), string _class = default(string))
         {
-            this.Name = Name;
-            this.Class = Class;
+            this.Name = name;
+            this.Class = _class;
         }
         
         /// <summary>
