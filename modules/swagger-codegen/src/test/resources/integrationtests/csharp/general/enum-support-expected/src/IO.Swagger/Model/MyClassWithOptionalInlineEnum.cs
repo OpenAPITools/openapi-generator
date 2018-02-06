@@ -88,14 +88,14 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="MyClassWithOptionalInlineEnum" /> class.
         /// </summary>
-        /// <param name="Quarantine">Quarantine.</param>
-        /// <param name="Grayware">Grayware.</param>
-        /// <param name="Days">Days.</param>
-        public MyClassWithOptionalInlineEnum(bool? Quarantine = default(bool?), bool? Grayware = default(bool?), DaysEnum? Days = default(DaysEnum?))
+        /// <param name="quarantine">quarantine.</param>
+        /// <param name="grayware">grayware.</param>
+        /// <param name="days">days.</param>
+        public MyClassWithOptionalInlineEnum(bool? quarantine = default(bool?), bool? grayware = default(bool?), DaysEnum? days = default(DaysEnum?))
         {
-            this.Quarantine = Quarantine;
-            this.Grayware = Grayware;
-            this.Days = Days;
+            this.Quarantine = quarantine;
+            this.Grayware = grayware;
+            this.Days = days;
         }
         
         /// <summary>

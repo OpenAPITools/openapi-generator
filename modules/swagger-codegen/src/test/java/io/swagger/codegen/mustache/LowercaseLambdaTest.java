@@ -1,5 +1,6 @@
 package io.swagger.codegen.mustache;
 
+import io.swagger.codegen.languages.CSharpClientCodegen;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
@@ -27,5 +28,22 @@ public class LowercaseLambdaTest extends MustacheTestBase {
         // Assert
         assertEquals(lowercaseResult, "lowercase input");
         assertEquals(uppercaseResult, "uppercase input");
+    }
+
+    @Test(description = "lowercase escapes reserved words")
+    public void testEscapingReservedWords() {
+        // Arrange
+        String template = "{{#lowercase}}{{value}}{{/lowercase}}";
+        String expected = "_class";
+        Object ctx = context(
+                "lowercase", new LowercaseLambda().generator(new CSharpClientCodegen()),
+                "value", "CLASS"
+        );
+
+        // Act
+        String actual = compile(template, ctx);
+
+        // Assert
+        assertEquals(actual, expected);
     }
 }

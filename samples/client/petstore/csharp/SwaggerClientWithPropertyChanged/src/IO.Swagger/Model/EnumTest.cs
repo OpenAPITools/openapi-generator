@@ -121,16 +121,16 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
-        /// <param name="EnumString">EnumString.</param>
-        /// <param name="EnumInteger">EnumInteger.</param>
-        /// <param name="EnumNumber">EnumNumber.</param>
-        /// <param name="OuterEnum">OuterEnum.</param>
-        public EnumTest(EnumStringEnum? EnumString = default(EnumStringEnum?), EnumIntegerEnum? EnumInteger = default(EnumIntegerEnum?), EnumNumberEnum? EnumNumber = default(EnumNumberEnum?), OuterEnum? OuterEnum = default(OuterEnum?))
+        /// <param name="enumString">enumString.</param>
+        /// <param name="enumInteger">enumInteger.</param>
+        /// <param name="enumNumber">enumNumber.</param>
+        /// <param name="outerEnum">outerEnum.</param>
+        public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum? outerEnum = default(OuterEnum?))
         {
-            this.EnumString = EnumString;
-            this.EnumInteger = EnumInteger;
-            this.EnumNumber = EnumNumber;
-            this.OuterEnum = OuterEnum;
+            this.EnumString = enumString;
+            this.EnumInteger = enumInteger;
+            this.EnumNumber = enumNumber;
+            this.OuterEnum = outerEnum;
         }
         
 

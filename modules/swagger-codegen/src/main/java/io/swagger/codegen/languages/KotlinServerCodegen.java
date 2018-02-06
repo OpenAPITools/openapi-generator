@@ -2,21 +2,18 @@ package io.swagger.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
-import io.swagger.codegen.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.*;
-
-import io.swagger.codegen.mustache.IndentedLambda;
-import io.swagger.codegen.mustache.LowercaseLambda;
-import io.swagger.codegen.mustache.TitlecaseLambda;
-import io.swagger.codegen.mustache.UppercaseLambda;
-import org.apache.commons.lang3.StringUtils;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.mustache.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class KotlinServerCodegen extends AbstractKotlinCodegen {
 
@@ -191,9 +188,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
     private void addMustacheLambdas(Map<String, Object> objs) {
 
         Map<String, Mustache.Lambda> lambdas = new ImmutableMap.Builder<String, Mustache.Lambda>()
-                .put("lowercase", new LowercaseLambda())
+                .put("lowercase", new LowercaseLambda().generator(this))
                 .put("uppercase", new UppercaseLambda())
                 .put("titlecase", new TitlecaseLambda())
+                .put("camelcase", new CamelCaseLambda().generator(this))
                 .put("indented", new IndentedLambda())
                 .put("indented_8", new IndentedLambda(8, " "))
                 .put("indented_12", new IndentedLambda(12, " "))

@@ -31,14 +31,14 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedPropertiesAndAdditionalPropertiesClass" /> class.
         /// </summary>
-        /// <param name="Uuid">Uuid.</param>
-        /// <param name="DateTime">DateTime.</param>
-        /// <param name="Map">Map.</param>
-        public MixedPropertiesAndAdditionalPropertiesClass(Guid? Uuid = default(Guid?), DateTime? DateTime = default(DateTime?), Dictionary<string, Animal> Map = default(Dictionary<string, Animal>))
+        /// <param name="uuid">uuid.</param>
+        /// <param name="dateTime">dateTime.</param>
+        /// <param name="map">map.</param>
+        public MixedPropertiesAndAdditionalPropertiesClass(Guid? uuid = default(Guid?), DateTime? dateTime = default(DateTime?), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
         {
-            this.Uuid = Uuid;
-            this.DateTime = DateTime;
-            this.Map = Map;
+            this.Uuid = uuid;
+            this.DateTime = dateTime;
+            this.Map = map;
         }
         
         /// <summary>

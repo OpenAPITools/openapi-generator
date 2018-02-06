@@ -69,36 +69,36 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
-        /// <param name="Id">Id.</param>
-        /// <param name="Category">Category.</param>
-        /// <param name="Name">Name (required).</param>
-        /// <param name="PhotoUrls">PhotoUrls (required).</param>
-        /// <param name="Tags">Tags.</param>
-        /// <param name="Status">pet status in the store.</param>
-        public Pet(long? Id = default(long?), Category Category = default(Category), string Name = default(string), List<string> PhotoUrls = default(List<string>), List<Tag> Tags = default(List<Tag>), StatusEnum? Status = default(StatusEnum?))
+        /// <param name="id">id.</param>
+        /// <param name="category">category.</param>
+        /// <param name="name">name (required).</param>
+        /// <param name="photoUrls">photoUrls (required).</param>
+        /// <param name="tags">tags.</param>
+        /// <param name="status">pet status in the store.</param>
+        public Pet(long? id = default(long?), Category category = default(Category), string name = default(string), List<string> photoUrls = default(List<string>), List<Tag> tags = default(List<Tag>), StatusEnum? status = default(StatusEnum?))
         {
-            // to ensure "Name" is required (not null)
-            if (Name == null)
+            // to ensure "name" is required (not null)
+            if (name == null)
             {
-                throw new InvalidDataException("Name is a required property for Pet and cannot be null");
+                throw new InvalidDataException("name is a required property for Pet and cannot be null");
             }
             else
             {
-                this.Name = Name;
+                this.Name = name;
             }
-            // to ensure "PhotoUrls" is required (not null)
-            if (PhotoUrls == null)
+            // to ensure "photoUrls" is required (not null)
+            if (photoUrls == null)
             {
-                throw new InvalidDataException("PhotoUrls is a required property for Pet and cannot be null");
+                throw new InvalidDataException("photoUrls is a required property for Pet and cannot be null");
             }
             else
             {
-                this.PhotoUrls = PhotoUrls;
+                this.PhotoUrls = photoUrls;
             }
-            this.Id = Id;
-            this.Category = Category;
-            this.Tags = Tags;
-            this.Status = Status;
+            this.Id = id;
+            this.Category = category;
+            this.Tags = tags;
+            this.Status = status;
         }
         
         /// <summary>

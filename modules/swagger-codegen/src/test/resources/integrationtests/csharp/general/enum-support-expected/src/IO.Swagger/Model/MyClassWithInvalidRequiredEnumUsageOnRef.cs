@@ -38,12 +38,12 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="MyClassWithInvalidRequiredEnumUsageOnRef" /> class.
         /// </summary>
-        /// <param name="First">First.</param>
-        /// <param name="Days">Days.</param>
-        public MyClassWithInvalidRequiredEnumUsageOnRef(bool? First = default(bool?), WeekDays? Days = default(WeekDays?))
+        /// <param name="first">first.</param>
+        /// <param name="days">days.</param>
+        public MyClassWithInvalidRequiredEnumUsageOnRef(bool? first = default(bool?), WeekDays? days = default(WeekDays?))
         {
-            this.First = First;
-            this.Days = Days;
+            this.First = first;
+            this.Days = days;
         }
         
         /// <summary>
