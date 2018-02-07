@@ -66,16 +66,12 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                         switch v {
                         case let fileURL as NSURL:
                             mpForm.appendBodyPart(fileURL: fileURL, name: k)
-                            break
                         case let string as NSString:
                             mpForm.appendBodyPart(data: string.dataUsingEncoding(NSUTF8StringEncoding)!, name: k)
-                            break
                         case let number as NSNumber:
                             mpForm.appendBodyPart(data: number.stringValue.dataUsingEncoding(NSUTF8StringEncoding)!, name: k)
-                            break
                         default:
                             fatalError("Unprocessable value \(v) with key \(k)")
-                            break
                         }
                     }
                 },
