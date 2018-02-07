@@ -1,0 +1,69 @@
+sudo: required
+language: objective-c
+osx_image: xcode8.1
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/.ivy2
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+  - $HOME/.stack
+  - $HOME/samples/client/petstore/php/SwaggerClient-php/vendor
+  - $HOME/samples/client/petstore/ruby/venodr/bundle
+  - $HOME/samples/client/petstore/python/.venv/
+  - $HOME/samples/client/petstore/typescript-node/npm/node_modules
+  - $HOME/samples/client/petstore/typescript-node/npm/typings/
+  - $HOME/samples/client/petstore/typescript-fetch/tests/default/node_modules
+  - $HOME/samples/client/petstore/typescript-fetch/tests/default/typings
+  - $HOME/samples/client/petstore/typescript-fetch/builds/default/node_modules
+  - $HOME/samples/client/petstore/typescript-fetch/builds/default/typings
+  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/node_modules
+  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/typings
+  - $HOME/samples/client/petstore/typescript-fetch/builds/with-npm-version/node_modules
+  - $HOME/samples/client/petstore/typescript-fetch/npm/with-npm-version/typings
+  - $HOME/samples/client/petstore/typescript-angularjs/node_modules
+  - $HOME/samples/client/petstore/typescript-angularjs/typings
+  - $HOME/.cocoapods/repos/master
+  timeout: 1000
+
+# comment out the host table change to use the public petstore server
+addons:
+  hosts:
+    - petstore.swagger.io
+
+before_install:
+  - export SW=`pwd`
+  - rvm list
+  - rvm use 2.3.0
+  - gem environment
+  - gem install bundler -N --no-ri --no-rdoc
+  - gem install cocoapods -v 1.2.1 -N --no-ri --no-rdoc
+  - gem install xcpretty -N --no-ri --no-rdoc
+  - pod --version
+  # comment out below to avoid errors
+  #- pod repo update
+  - pod setup --silent > /dev/null
+  - mkdir -p ~/.local/bin
+  - export PATH=$HOME/.local/bin:$PATH
+  # start local petstore server
+  - git clone -b docker --single-branch https://github.com/wing328/swagger-samples
+  - cd swagger-samples/java/java-jersey-jaxrs
+  - sudo mvn jetty:run &
+  - cd $SW
+
+  # show host table to confirm petstore.swagger.io is mapped to localhost
+  - cat /etc/hosts
+  # show java version
+  - java -version
+  # show brew version
+  - brew --version
+  # show xcpretty version
+  - xcpretty -v
+  # show go version
+  - go version
+  # show stack version
+  - stack --version
+
+script:
+  # run integration tests defined in maven pom.xml
+  - mvn -q --batch-mode verify -Psamples

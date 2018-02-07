@@ -26,6 +26,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -v -t modules/swagger-codegen/src/main/resources/swift3 -i modules/swagger-codegen/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -l swift3 -c ./bin/swift3-petstore-objcCompatible.json -o samples/client/petstore/swift3/objcCompatible $@"
+ags="generate -v -t modules/swagger-codegen/src/main/resources/swift3 -i modules/swagger-codegen/src/test/resources/2_0/swift/petstore-with-fake-endpoints-models-for-testing.yaml -l swift3 -c ./bin/swift3-petstore-objcCompatible.json -o samples/client/petstore/swift3/objcCompatible $@"
 
 java $JAVA_OPTS -jar $executable $ags
