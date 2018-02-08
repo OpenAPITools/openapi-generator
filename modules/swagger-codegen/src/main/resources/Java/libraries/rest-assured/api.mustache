@@ -73,6 +73,14 @@ public class {{classname}} {
         return this;
     }
 
+    /**
+    * Customise request specification
+    */
+    public {{classname}} reqSpec(Consumer<RequestSpecBuilder> consumer) {
+        consumer.accept(reqSpec);
+        return this;
+    }
+
     {{#operations}}
     {{#operation}}
     /**

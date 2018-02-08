@@ -103,6 +103,14 @@ public class UserApi {
     }
 
     /**
+    * Customise request specification
+    */
+    public UserApi reqSpec(Consumer<RequestSpecBuilder> consumer) {
+        consumer.accept(reqSpec);
+        return this;
+    }
+
+    /**
      * Create user
      * This can only be done by the logged in user.
      *
