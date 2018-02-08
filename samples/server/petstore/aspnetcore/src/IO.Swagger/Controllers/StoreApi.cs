@@ -105,7 +105,7 @@ namespace IO.Swagger.Controllers
 
             string exampleJson = null;
             exampleJson = "<Order>\n  <id>123456789</id>\n  <petId>123456789</petId>\n  <quantity>123</quantity>\n  <shipDate>2000-01-23T04:56:07.000Z</shipDate>\n  <status>aeiou</status>\n  <complete>true</complete>\n</Order>";
-            exampleJson = "{\n  \"id\" : 0,\n  \"petId\" : 6,\n  \"complete\" : false,\n  \"status\" : \"placed\",\n  \"quantity\" : 1,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\"\n}";
+            exampleJson = "{\n  \"petId\" : 6,\n  \"quantity\" : 1,\n  \"id\" : 0,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"complete\" : false,\n  \"status\" : \"placed\"\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Order>(exampleJson)
@@ -136,7 +136,7 @@ namespace IO.Swagger.Controllers
 
             string exampleJson = null;
             exampleJson = "<Order>\n  <id>123456789</id>\n  <petId>123456789</petId>\n  <quantity>123</quantity>\n  <shipDate>2000-01-23T04:56:07.000Z</shipDate>\n  <status>aeiou</status>\n  <complete>true</complete>\n</Order>";
-            exampleJson = "{\n  \"id\" : 0,\n  \"petId\" : 6,\n  \"complete\" : false,\n  \"status\" : \"placed\",\n  \"quantity\" : 1,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\"\n}";
+            exampleJson = "{\n  \"petId\" : 6,\n  \"quantity\" : 1,\n  \"id\" : 0,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"complete\" : false,\n  \"status\" : \"placed\"\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Order>(exampleJson)
