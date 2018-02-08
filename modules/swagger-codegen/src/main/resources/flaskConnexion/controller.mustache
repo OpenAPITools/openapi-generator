@@ -19,12 +19,17 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
             {{#isPrimitiveType}}
     :type {{paramName}}: {{>param_type}}
             {{/isPrimitiveType}}
+            {{#isUuid}}
+    :type {{paramName}}: {{>param_type}}
+            {{/isUuid}}
             {{^isPrimitiveType}}
                 {{#isFile}}
     :type {{paramName}}: werkzeug.datastructures.FileStorage
                 {{/isFile}}
                 {{^isFile}}
+                    {{^isUuid}}
     :type {{paramName}}: dict | bytes
+                    {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
         {{/isContainer}}
@@ -62,8 +67,10 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
             {{/isDateTime}}
             {{^isPrimitiveType}}
                 {{^isFile}}
+                    {{^isUuid}}
     if connexion.request.is_json:
         {{paramName}} = {{baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
+                    {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
         {{/isContainer}}
