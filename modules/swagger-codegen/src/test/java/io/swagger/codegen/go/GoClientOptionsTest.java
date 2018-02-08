@@ -30,6 +30,8 @@ public class GoClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setPackageName(GoClientOptionsProvider.PACKAGE_NAME_VALUE);
             times = 1;
+            clientCodegen.setWithXml(GoClientOptionsProvider.WITH_XML_VALUE);
+            times = 1;
         }};
     }
 }

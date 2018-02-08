@@ -215,6 +215,16 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 		return {{#returnType}}successPayload, {{/returnType}}localVarHttpResponse, reportError("Status: %v, Body: %s", localVarHttpResponse.Status, bodyBytes)
 	}
 {{#returnType}}
+	{{#withXml}}
+	contentType := localVarHttpResponse.Header.Get("content-type")
+	if strings.Contains(contentType, "application/xml") {
+		if err = xml.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
+			return successPayload, localVarHttpResponse, err
+		}
+
+		return successPayload, localVarHttpResponse, err
+	}
+	{{/withXml}}
 
 	if err = json.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
 		return {{#returnType}}successPayload, {{/returnType}}localVarHttpResponse, err
