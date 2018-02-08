@@ -87,6 +87,14 @@ public class StoreApi {
     }
 
     /**
+    * Customise request specification
+    */
+    public StoreApi reqSpec(Consumer<RequestSpecBuilder> consumer) {
+        consumer.accept(reqSpec);
+        return this;
+    }
+
+    /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      *

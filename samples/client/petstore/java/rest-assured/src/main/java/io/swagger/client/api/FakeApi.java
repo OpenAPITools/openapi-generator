@@ -111,6 +111,14 @@ public class FakeApi {
     }
 
     /**
+    * Customise request specification
+    */
+    public FakeApi reqSpec(Consumer<RequestSpecBuilder> consumer) {
+        consumer.accept(reqSpec);
+        return this;
+    }
+
+    /**
      * 
      * Test serialization of outer boolean types
      *

@@ -106,6 +106,14 @@ public class PetApi {
     }
 
     /**
+    * Customise request specification
+    */
+    public PetApi reqSpec(Consumer<RequestSpecBuilder> consumer) {
+        consumer.accept(reqSpec);
+        return this;
+    }
+
+    /**
      * Add a new pet to the store
      * 
      *

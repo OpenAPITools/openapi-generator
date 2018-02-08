@@ -75,6 +75,14 @@ public class AnotherFakeApi {
     }
 
     /**
+    * Customise request specification
+    */
+    public AnotherFakeApi reqSpec(Consumer<RequestSpecBuilder> consumer) {
+        consumer.accept(reqSpec);
+        return this;
+    }
+
+    /**
      * To test special tags
      * To test special tags
      *
