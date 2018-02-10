@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -154,7 +155,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     public String apiFilename(String templateName, String tag) {
         String result = super.apiFilename(templateName, tag);
 
-        if ( templateName.equals("service.mustache") ) {
+        if (templateName.equals("service.mustache")) {
             String stringToMatch = File.separator + "controllers" + File.separator;
             String replacement = File.separator + implFolder + File.separator;
             result = result.replaceAll(Pattern.quote(stringToMatch), replacement);
@@ -173,7 +174,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
      * @return the escaped term
      */
     @Override
-    public String escapeReservedWord(String name) {           
+    public String escapeReservedWord(String name) {
         if(this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
@@ -318,12 +319,18 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     public void preprocessSwagger(Swagger swagger) {
         String host = swagger.getHost();
         String port = "8080";
-        if (host != null) {
+
+        if (!StringUtils.isEmpty(host)) {
             String[] parts = host.split(":");
             if (parts.length > 1) {
                 port = parts[1];
             }
+        } else {
+            // host is empty, default to https://localhost
+            host = "http://localhost";
+            LOGGER.warn("'host' in the specification is empty or undefined. Default to http://localhost.");
         }
+
         this.additionalProperties.put("serverPort", port);
 
         if (swagger.getInfo() != null) {
