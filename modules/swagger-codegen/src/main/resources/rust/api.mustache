@@ -75,7 +75,7 @@ impl<C: hyper::client::Connect>{{classname}} for {{classname}}Client<C> {
 
         {{#hasBodyParam}}
         {{#bodyParams}}
-        let serialized = serde_json::to_string(&body).unwrap();
+        let serialized = serde_json::to_string(&{{paramName}}).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
         req.headers_mut().set(hyper::header::ContentLength(serialized.len() as u64));
         req.set_body(serialized);
