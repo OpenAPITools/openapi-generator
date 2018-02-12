@@ -43,11 +43,11 @@ describe {{moduleName}}::ApiClient do
     end
   end
 
-  describe "params_encoding in #build_request" do
+  describe 'params_encoding in #build_request' do
     let(:config) { {{moduleName}}::Configuration.new }
     let(:api_client) { {{moduleName}}::ApiClient.new(config) }
 
-    it "defaults to nil" do
+    it 'defaults to nil' do
       expect({{moduleName}}::Configuration.default.params_encoding).to eq(nil)
       expect(config.params_encoding).to eq(nil)
 
@@ -55,18 +55,18 @@ describe {{moduleName}}::ApiClient do
       expect(request.options[:params_encoding]).to eq(nil)
     end
 
-    it "can be customized" do
+    it 'can be customized' do
       config.params_encoding = :multi
       request = api_client.build_request(:get, '/test')
       expect(request.options[:params_encoding]).to eq(:multi)
     end
   end
 
-  describe "timeout in #build_request" do
+  describe 'timeout in #build_request' do
     let(:config) { {{moduleName}}::Configuration.new }
     let(:api_client) { {{moduleName}}::ApiClient.new(config) }
 
-    it "defaults to 0" do
+    it 'defaults to 0' do
       expect({{moduleName}}::Configuration.default.timeout).to eq(0)
       expect(config.timeout).to eq(0)
 
@@ -74,88 +74,88 @@ describe {{moduleName}}::ApiClient do
       expect(request.options[:timeout]).to eq(0)
     end
 
-    it "can be customized" do
+    it 'can be customized' do
       config.timeout = 100
       request = api_client.build_request(:get, '/test')
       expect(request.options[:timeout]).to eq(100)
     end
   end
 
-  describe "#deserialize" do
+  describe '#deserialize' do
     it "handles Array<Integer>" do
       api_client = {{moduleName}}::ApiClient.new
-      headers = {'Content-Type' => 'application/json'}
+      headers = { 'Content-Type' => 'application/json' }
       response = double('response', headers: headers, body: '[12, 34]')
       data = api_client.deserialize(response, 'Array<Integer>')
       expect(data).to be_instance_of(Array)
       expect(data).to eq([12, 34])
     end
 
-    it "handles Array<Array<Integer>>" do
+    it 'handles Array<Array<Integer>>' do
       api_client = {{moduleName}}::ApiClient.new
-      headers = {'Content-Type' => 'application/json'}
+      headers = { 'Content-Type' => 'application/json' }
       response = double('response', headers: headers, body: '[[12, 34], [56]]')
       data = api_client.deserialize(response, 'Array<Array<Integer>>')
       expect(data).to be_instance_of(Array)
       expect(data).to eq([[12, 34], [56]])
     end
 
-    it "handles Hash<String, String>" do
+    it 'handles Hash<String, String>' do
       api_client = {{moduleName}}::ApiClient.new
-      headers = {'Content-Type' => 'application/json'}
+      headers = { 'Content-Type' => 'application/json' }
       response = double('response', headers: headers, body: '{"message": "Hello"}')
       data = api_client.deserialize(response, 'Hash<String, String>')
       expect(data).to be_instance_of(Hash)
-      expect(data).to eq({:message => 'Hello'})
+      expect(data).to eq(:message => 'Hello')
     end
   end
 
   describe "#object_to_hash" do
-    it "ignores nils and includes empty arrays" do
+    it 'ignores nils and includes empty arrays' do
       # uncomment below to test object_to_hash for model
-      #api_client = {{moduleName}}::ApiClient.new
-      #_model = {{moduleName}}::ModelName.new
+      # api_client = {{moduleName}}::ApiClient.new
+      # _model = {{moduleName}}::ModelName.new
       # update the model attribute below
-      #_model.id = 1 
+      # _model.id = 1
       # update the expected value (hash) below
-      #expected = {id: 1, name: '', tags: []}
-      #expect(api_client.object_to_hash(_model)).to eq(expected)
+      # expected = {id: 1, name: '', tags: []}
+      # expect(api_client.object_to_hash(_model)).to eq(expected)
     end
   end
 
-  describe "#build_collection_param" do
+  describe '#build_collection_param' do
     let(:param) { ['aa', 'bb', 'cc'] }
     let(:api_client) { {{moduleName}}::ApiClient.new }
 
-    it "works for csv" do
+    it 'works for csv' do
       expect(api_client.build_collection_param(param, :csv)).to eq('aa,bb,cc')
     end
 
-    it "works for ssv" do
+    it 'works for ssv' do
       expect(api_client.build_collection_param(param, :ssv)).to eq('aa bb cc')
     end
 
-    it "works for tsv" do
+    it 'works for tsv' do
       expect(api_client.build_collection_param(param, :tsv)).to eq("aa\tbb\tcc")
     end
 
-    it "works for pipes" do
+    it 'works for pipes' do
       expect(api_client.build_collection_param(param, :pipes)).to eq('aa|bb|cc')
     end
 
-    it "works for multi" do
+    it 'works for multi' do
       expect(api_client.build_collection_param(param, :multi)).to eq(['aa', 'bb', 'cc'])
     end
 
-    it "fails for invalid collection format" do
+    it 'fails for invalid collection format' do
       expect(proc { api_client.build_collection_param(param, :INVALID) }).to raise_error(RuntimeError, 'unknown collection format: :INVALID')
     end
   end
 
-  describe "#json_mime?" do
+  describe '#json_mime?' do
     let(:api_client) { {{moduleName}}::ApiClient.new }
 
-    it "works" do
+    it 'works' do
       expect(api_client.json_mime?(nil)).to eq false
       expect(api_client.json_mime?('')).to eq false
 
@@ -169,10 +169,10 @@ describe {{moduleName}}::ApiClient do
     end
   end
 
-  describe "#select_header_accept" do
+  describe '#select_header_accept' do
     let(:api_client) { {{moduleName}}::ApiClient.new }
 
-    it "works" do
+    it 'works' do
       expect(api_client.select_header_accept(nil)).to be_nil
       expect(api_client.select_header_accept([])).to be_nil
 
@@ -185,10 +185,10 @@ describe {{moduleName}}::ApiClient do
     end
   end
 
-  describe "#select_header_content_type" do
+  describe '#select_header_content_type' do
     let(:api_client) { {{moduleName}}::ApiClient.new }
 
-    it "works" do
+    it 'works' do
       expect(api_client.select_header_content_type(nil)).to eq('application/json')
       expect(api_client.select_header_content_type([])).to eq('application/json')
 
@@ -200,10 +200,10 @@ describe {{moduleName}}::ApiClient do
     end
   end
 
-  describe "#sanitize_filename" do
+  describe '#sanitize_filename' do
     let(:api_client) { {{moduleName}}::ApiClient.new }
 
-    it "works" do
+    it 'works' do
       expect(api_client.sanitize_filename('sun')).to eq('sun')
       expect(api_client.sanitize_filename('sun.gif')).to eq('sun.gif')
       expect(api_client.sanitize_filename('../sun.gif')).to eq('sun.gif')

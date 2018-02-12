@@ -25,7 +25,7 @@ module {{moduleName}}
       @config = config
       @user_agent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/#{VERSION}/ruby{{/httpUserAgent}}"
       @default_headers = {
-        'Content-Type' => "application/json",
+        'Content-Type' => 'application/json',
         'User-Agent' => @user_agent
       }
     end
@@ -131,7 +131,7 @@ module {{moduleName}}
     # @param [String] mime MIME
     # @return [Boolean] True if the MIME is application/json
     def json_mime?(mime)
-       (mime == "*/*") || !(mime =~ /Application\/.*json(?!p)(;.*)?/i).nil?
+      (mime == '*/*') || !(mime =~ /Application\/.*json(?!p)(;.*)?/i).nil?
     end
 
     # Deserialize the response to the given return type.
@@ -195,12 +195,12 @@ module {{moduleName}}
       when /\AArray<(.+)>\z/
         # e.g. Array<Pet>
         sub_type = $1
-        data.map {|item| convert_to_type(item, sub_type) }
+        data.map { |item| convert_to_type(item, sub_type) }
       when /\AHash\<String, (.+)\>\z/
         # e.g. Hash<String, Integer>
         sub_type = $1
         {}.tap do |hash|
-          data.each {|k, v| hash[k] = convert_to_type(v, sub_type) }
+          data.each { |k, v| hash[k] = convert_to_type(v, sub_type) }
         end
       else
         # models, e.g. Pet
@@ -222,7 +222,7 @@ module {{moduleName}}
       encoding = nil
       request.on_headers do |response|
         content_disposition = response.headers['Content-Disposition']
-        if content_disposition and content_disposition =~ /filename=/i
+        if content_disposition && content_disposition =~ /filename=/i
           filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
           prefix = sanitize_filename(filename)
         else
@@ -321,7 +321,7 @@ module {{moduleName}}
       return nil if accepts.nil? || accepts.empty?
       # use JSON when present, otherwise use all of the provided
       json_accept = accepts.find { |s| json_mime?(s) }
-      return json_accept || accepts.join(',')
+      json_accept || accepts.join(',')
     end
 
     # Return Content-Type header based on an array of content types provided.
@@ -332,7 +332,7 @@ module {{moduleName}}
       return 'application/json' if content_types.nil? || content_types.empty?
       # use JSON when present, otherwise use the first one
       json_content_type = content_types.find { |s| json_mime?(s) }
-      return json_content_type || content_types.first
+      json_content_type || content_types.first
     end
 
     # Convert object (array, hash, object, etc) to JSON string.
@@ -342,7 +342,7 @@ module {{moduleName}}
       return model if model.nil? || model.is_a?(String)
       local_body = nil
       if model.is_a?(Array)
-        local_body = model.map{|m| object_to_hash(m) }
+        local_body = model.map { |m| object_to_hash(m) }
       else
         local_body = object_to_hash(model)
       end

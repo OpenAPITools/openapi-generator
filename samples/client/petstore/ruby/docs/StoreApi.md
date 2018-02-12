@@ -24,7 +24,7 @@ require 'petstore'
 
 api_instance = Petstore::StoreApi.new
 
-order_id = "order_id_example" # String | ID of the order that needs to be deleted
+order_id = 'order_id_example' # String | ID of the order that needs to be deleted
 
 
 begin

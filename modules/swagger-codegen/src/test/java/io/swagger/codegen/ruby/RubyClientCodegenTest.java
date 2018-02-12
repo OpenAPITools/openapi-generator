@@ -55,7 +55,7 @@ public class RubyClientCodegenTest {
         if (file.getName().equals("default_api.rb")) {
           apiFileGenerated = true;
           // Ruby client should set the path unescaped in the api file
-          assertTrue(FileUtils.readFileToString(file, StandardCharsets.UTF_8).contains("local_var_path = \"/foo=bar\""));
+          assertTrue(FileUtils.readFileToString(file, StandardCharsets.UTF_8).contains("local_var_path = '/foo=bar'"));
         }
       }
       if (!apiFileGenerated) {

@@ -1,9 +1,14 @@
-{{#description}}  # {{{description}}}{{/description}}
-  class {{classname}}{{#vars}}{{#description}}
-    # {{{description}}}{{/description}}
+  {{#description}}
+  # {{{description}}}
+  {{/description}}
+  class {{classname}}
+  {{#vars}}
+    {{#description}}
+    # {{{description}}}
+    {{/description}}
     attr_accessor :{{{name}}}
-  {{/vars}}
 
+  {{/vars}}
 {{#hasEnums}}
     class EnumAttributeValidator
       attr_reader :datatype
@@ -26,8 +31,8 @@
         !value || allowable_values.include?(value)
       end
     end
-{{/hasEnums}}
 
+{{/hasEnums}}
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -52,9 +57,9 @@
       return unless attributes.is_a?(Hash)
 
       # convert string to symbol for hash key
-      attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
-
+      attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
       {{#vars}}
+
       if attributes.has_key?(:'{{{baseName}}}')
         {{#isListContainer}}
         if (value = attributes[:'{{{baseName}}}']).is_a?(Array)
@@ -74,7 +79,6 @@
         self.{{{name}}} = {{{defaultValue}}}
       {{/defaultValue}}
       end
-
       {{/vars}}
     end
 
@@ -85,56 +89,56 @@
       {{#vars}}
       {{#required}}
       if @{{{name}}}.nil?
-        invalid_properties.push("invalid value for '{{{name}}}', {{{name}}} cannot be nil.")
+        invalid_properties.push('invalid value for "{{{name}}}", {{{name}}} cannot be nil.')
       end
 
       {{/required}}
       {{#hasValidation}}
       {{#maxLength}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.length > {{{maxLength}}}
-        invalid_properties.push("invalid value for '{{{name}}}', the character length must be smaller than or equal to {{{maxLength}}}.")
+        invalid_properties.push('invalid value for "{{{name}}}", the character length must be smaller than or equal to {{{maxLength}}}.')
       end
 
       {{/maxLength}}
       {{#minLength}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.length < {{{minLength}}}
-        invalid_properties.push("invalid value for '{{{name}}}', the character length must be great than or equal to {{{minLength}}}.")
+        invalid_properties.push('invalid value for "{{{name}}}", the character length must be great than or equal to {{{minLength}}}.')
       end
 
       {{/minLength}}
       {{#maximum}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
-        invalid_properties.push("invalid value for '{{{name}}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.")
+        invalid_properties.push('invalid value for "{{{name}}}", must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.')
       end
 
       {{/maximum}}
       {{#minimum}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
-        invalid_properties.push("invalid value for '{{{name}}}', must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.")
+        invalid_properties.push('invalid value for "{{{name}}}", must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.')
       end
 
       {{/minimum}}
       {{#pattern}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} !~ Regexp.new({{{pattern}}})
-        invalid_properties.push("invalid value for '{{{name}}}', must conform to the pattern {{{pattern}}}.")
+        invalid_properties.push('invalid value for "{{{name}}}", must conform to the pattern {{{pattern}}}.')
       end
 
       {{/pattern}}
       {{#maxItems}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.length > {{{maxItems}}}
-        invalid_properties.push("invalid value for '{{{name}}}', number of items must be less than or equal to {{{maxItems}}}."
+        invalid_properties.push('invalid value for "{{{name}}}", number of items must be less than or equal to {{{maxItems}}}.'
       end
 
       {{/maxItems}}
       {{#minItems}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.length < {{{minItems}}}
-        invalid_properties.push("invalid value for '{{{name}}}', number of items must be greater than or equal to {{{minItems}}}."
+        invalid_properties.push('invalid value for "{{{name}}}", number of items must be greater than or equal to {{{minItems}}}.'
       end
 
       {{/minItems}}
       {{/hasValidation}}
       {{/vars}}
-      return invalid_properties
+      invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
@@ -146,7 +150,7 @@
       {{/required}}
       {{#isEnum}}
       {{^isContainer}}
-      {{{name}}}_validator = EnumAttributeValidator.new('{{{datatype}}}', [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
+      {{{name}}}_validator = EnumAttributeValidator.new('{{{datatype}}}', [{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
       return false unless {{{name}}}_validator.valid?(@{{{name}}})
       {{/isContainer}}
       {{/isEnum}}
@@ -174,7 +178,7 @@
       {{/minItems}}
       {{/hasValidation}}
       {{/vars}}
-      return true
+      true
     end
 
     {{#vars}}
@@ -183,9 +187,9 @@
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
     def {{{name}}}=({{{name}}})
-      validator = EnumAttributeValidator.new('{{{datatype}}}', [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
+      validator = EnumAttributeValidator.new('{{{datatype}}}', [{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
       unless validator.valid?({{{name}}})
-        fail ArgumentError, "invalid value for '{{{name}}}', must be one of #{validator.allowable_values}."
+        fail ArgumentError, 'invalid value for "{{{name}}}", must be one of #{validator.allowable_values}.'
       end
       @{{{name}}} = {{{name}}}
     end
@@ -199,49 +203,49 @@
     def {{{name}}}=({{{name}}})
       {{#required}}
       if {{{name}}}.nil?
-        fail ArgumentError, "{{{name}}} cannot be nil"
+        fail ArgumentError, '{{{name}}} cannot be nil'
       end
-      {{/required}}
 
+      {{/required}}
       {{#maxLength}}
       if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.length > {{{maxLength}}}
-        fail ArgumentError, "invalid value for '{{{name}}}', the character length must be smaller than or equal to {{{maxLength}}}."
+        fail ArgumentError, 'invalid value for "{{{name}}}", the character length must be smaller than or equal to {{{maxLength}}}.'
       end
 
       {{/maxLength}}
       {{#minLength}}
       if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.length < {{{minLength}}}
-        fail ArgumentError, "invalid value for '{{{name}}}', the character length must be great than or equal to {{{minLength}}}."
+        fail ArgumentError, 'invalid value for "{{{name}}}", the character length must be great than or equal to {{{minLength}}}.'
       end
 
       {{/minLength}}
       {{#maximum}}
       if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
-        fail ArgumentError, "invalid value for '{{{name}}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}."
+        fail ArgumentError, 'invalid value for "{{{name}}}", must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.'
       end
 
       {{/maximum}}
       {{#minimum}}
       if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
-        fail ArgumentError, "invalid value for '{{{name}}}', must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}."
+        fail ArgumentError, 'invalid value for "{{{name}}}", must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.'
       end
 
       {{/minimum}}
       {{#pattern}}
       if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} !~ Regexp.new({{{pattern}}})
-        fail ArgumentError, "invalid value for '{{{name}}}', must conform to the pattern {{{pattern}}}."
+        fail ArgumentError, 'invalid value for "{{{name}}}", must conform to the pattern {{{pattern}}}.'
       end
 
       {{/pattern}}
       {{#maxItems}}
       if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.length > {{{maxItems}}}
-        fail ArgumentError, "invalid value for '{{{name}}}', number of items must be less than or equal to {{{maxItems}}}."
+        fail ArgumentError, 'invalid value for "{{{name}}}", number of items must be less than or equal to {{{maxItems}}}.'
       end
 
       {{/maxItems}}
       {{#minItems}}
       if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.length < {{{minItems}}}
-        fail ArgumentError, "invalid value for '{{{name}}}', number of items must be greater than or equal to {{{minItems}}}."
+        fail ArgumentError, 'invalid value for "{{{name}}}", number of items must be greater than or equal to {{{minItems}}}.'
       end
 
       {{/minItems}}
