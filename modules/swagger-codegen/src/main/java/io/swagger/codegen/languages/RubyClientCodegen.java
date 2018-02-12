@@ -252,6 +252,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("Rakefile.mustache", "", "Rakefile"));
         supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
+        supportingFiles.add(new SupportingFile("rubocop.mustache", "", ".rubocop.yml"));
 
         // test files should not be overwritten
         writeOptional(outputFolder, new SupportingFile("rspec.mustache", "", ".rspec"));
@@ -411,7 +412,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (p instanceof StringProperty) {
             StringProperty sp = (StringProperty) p;
             if (sp.getDefault() != null) {
-                return "\"" + escapeText(sp.getDefault()) + "\"";
+                return "'" + escapeText(sp.getDefault()) + "'";
             }
         }
 
@@ -565,7 +566,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
         } else {
-            return "\"" + escapeText(value) + "\"";
+            return "'" + escapeText(value) + "'";
         }
     }
 
@@ -658,7 +659,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (example == null) {
                 example = p.paramName + "_example";
             }
-            example = "\"" + escapeText(example) + "\"";
+            example = "'" + escapeText(example) + "'";
         } else if ("Integer".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -675,17 +676,17 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (example == null) {
                 example = "/path/to/file";
             }
-            example = "File.new(\"" + escapeText(example) + "\")";
+            example = "File.new('" + escapeText(example) + "')";
         } else if ("Date".equals(type)) {
             if (example == null) {
                 example = "2013-10-20";
             }
-            example = "Date.parse(\"" + escapeText(example) + "\")";
+            example = "Date.parse('" + escapeText(example) + "')";
         } else if ("DateTime".equals(type)) {
             if (example == null) {
                 example = "2013-10-20T19:20:30+01:00";
             }
-            example = "DateTime.parse(\"" + escapeText(example) + "\")";
+            example = "DateTime.parse('" + escapeText(example) + "')";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             example = moduleName + "::" + type + ".new";

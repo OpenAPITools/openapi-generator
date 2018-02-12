@@ -501,7 +501,7 @@ paths:
       parameters:
         - name: username
           in: path
-          description: 'The name that needs to be fetched. Use user1 for testing. '
+          description: 'The name that needs to be fetched. Use user1 for testing.'
           required: true
           type: string
       responses:

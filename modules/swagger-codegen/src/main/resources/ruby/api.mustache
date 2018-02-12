@@ -2,7 +2,7 @@
 {{> api_info}}
 =end
 
-require "uri"
+require 'uri'
 
 module {{moduleName}}
 {{#operations}}
@@ -13,27 +13,34 @@ module {{moduleName}}
       @api_client = api_client
     end
 {{#operation}}
-{{newline}}
+    {{#summary}}
     # {{{summary}}}
+    {{/summary}}
+    {{#notes}}
     # {{{notes}}}
+    {{/notes}}
 {{#allParams}}{{#required}}    # @param {{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
 {{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 {{/required}}{{/allParams}}    # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
     def {{operationId}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
       {{#returnType}}data, _status_code, _headers = {{/returnType}}{{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts)
-      {{#returnType}}return data{{/returnType}}{{^returnType}}return nil{{/returnType}}
+      {{#returnType}}data{{/returnType}}{{^returnType}}nil{{/returnType}}
     end
 
+    {{#summary}}
     # {{summary}}
+    {{/summary}}
+    {{#notes}}
     # {{notes}}
+    {{/notes}}
 {{#allParams}}{{#required}}    # @param {{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
 {{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @return [Array<({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}, Fixnum, Hash)>] {{#returnType}}{{{returnType}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
     def {{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: {{classname}}.{{operationId}} ..."
+        @api_client.config.logger.debug 'Calling API: {{classname}}.{{operationId}} ...'
       end
       {{#allParams}}
       {{#required}}
@@ -53,7 +60,7 @@ module {{moduleName}}
       {{^required}}
       {{#isEnum}}
       {{#collectionFormat}}
-      if @api_client.config.client_side_validation && opts[:'{{{paramName}}}'] && !opts[:'{{{paramName}}}'].all?{|item| [{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}].include?(item)}
+      if @api_client.config.client_side_validation && opts[:'{{{paramName}}}'] && !opts[:'{{{paramName}}}'].all? { |item| [{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}].include?(item) }
         fail ArgumentError, 'invalid value for "{{{paramName}}}", must include one of {{#allowableValues}}{{#values}}{{{this}}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}'
       end
       {{/collectionFormat}}
@@ -110,7 +117,7 @@ module {{moduleName}}
       {{/hasValidation}}
       {{/allParams}}
       # resource path
-      local_var_path = "{{{path}}}"{{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
+      local_var_path = '{{{path}}}'{{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
 
       # query parameters
       query_params = {}
@@ -150,12 +157,12 @@ module {{moduleName}}
       form_params = {}
       {{#formParams}}
       {{#required}}
-      form_params["{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
+      form_params['{{baseName}}'] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
       {{/required}}
       {{/formParams}}
       {{#formParams}}
       {{^required}}
-      form_params["{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param(opts[:'{{{paramName}}}'], :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}opts[:'{{{paramName}}}']{{/collectionFormat}} if !opts[:'{{paramName}}'].nil?
+      form_params['{{baseName}}'] = {{#collectionFormat}}@api_client.build_collection_param(opts[:'{{{paramName}}}'], :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}opts[:'{{{paramName}}}']{{/collectionFormat}} if !opts[:'{{paramName}}'].nil?
       {{/required}}
       {{/formParams}}
 

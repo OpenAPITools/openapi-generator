@@ -166,7 +166,7 @@ require 'petstore'
 
 api_instance = Petstore::UserApi.new
 
-username = "username_example" # String | The name that needs to be deleted
+username = 'username_example' # String | The name that needs to be deleted
 
 
 begin
@@ -212,7 +212,7 @@ require 'petstore'
 
 api_instance = Petstore::UserApi.new
 
-username = "username_example" # String | The name that needs to be fetched. Use user1 for testing. 
+username = 'username_example' # String | The name that needs to be fetched. Use user1 for testing.
 
 
 begin
@@ -228,7 +228,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing.  | 
+ **username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
 
@@ -259,9 +259,9 @@ require 'petstore'
 
 api_instance = Petstore::UserApi.new
 
-username = "username_example" # String | The user name for login
+username = 'username_example' # String | The user name for login
 
-password = "password_example" # String | The password for login in clear text
+password = 'password_example' # String | The password for login in clear text
 
 
 begin
@@ -349,7 +349,7 @@ require 'petstore'
 
 api_instance = Petstore::UserApi.new
 
-username = "username_example" # String | name that need to be deleted
+username = 'username_example' # String | name that need to be deleted
 
 body = Petstore::User.new # User | Updated user object
 
