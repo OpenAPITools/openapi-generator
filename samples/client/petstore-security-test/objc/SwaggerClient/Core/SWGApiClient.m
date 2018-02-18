@@ -90,7 +90,7 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
 - (NSURLSessionDataTask*) taskWithCompletionBlock: (NSURLRequest *)request completionBlock: (void (^)(id, NSError *))completionBlock {
 
-    NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+    NSURLSessionDataTask *task = [self dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         SWGDebugLogResponse(response, responseObject,request,error);
         if(!error) {
             completionBlock(responseObject, nil);
@@ -112,7 +112,7 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
     __block NSString * tempFolderPath = [self.configuration.tempFolderPath copy];
 
-    NSURLSessionDataTask* task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+    NSURLSessionDataTask* task = [self dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
         SWGDebugLogResponse(response, responseObject,request,error);
 
         if(error) {
