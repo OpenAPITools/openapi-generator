@@ -2,6 +2,7 @@ package {{package}};
 
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiClient;
+import {{invokerPackage}}.ApiResponse;
 import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
 
@@ -61,6 +62,35 @@ public class {{classname}} {
   @Deprecated
   {{/isDeprecated}}
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+    {{#returnType}}
+    return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).getData();
+    {{/returnType}}{{^returnType}}
+    {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{/returnType}}
+  }
+
+  /**
+   * {{summary}}
+   * {{notes}}
+   {{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+   {{/allParams}}
+   {{#returnType}}
+   * @return ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Void{{/returnType}}&gt;
+   {{/returnType}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     Object {{localVariablePrefix}}localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
@@ -105,7 +135,7 @@ public class {{classname}} {
     GenericType<{{{returnType}}}> {{localVariablePrefix}}localVarReturnType = new GenericType<{{{returnType}}}>() {};
     return {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}localVarPath, "{{httpMethod}}", {{localVariablePrefix}}localVarQueryParams, {{localVariablePrefix}}localVarPostBody, {{localVariablePrefix}}localVarHeaderParams, {{localVariablePrefix}}localVarFormParams, {{localVariablePrefix}}localVarAccept, {{localVariablePrefix}}localVarContentType, {{localVariablePrefix}}localVarAuthNames, {{localVariablePrefix}}localVarReturnType);
     {{/returnType}}{{^returnType}}
-    {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}localVarPath, "{{httpMethod}}", {{localVariablePrefix}}localVarQueryParams, {{localVariablePrefix}}localVarPostBody, {{localVariablePrefix}}localVarHeaderParams, {{localVariablePrefix}}localVarFormParams, {{localVariablePrefix}}localVarAccept, {{localVariablePrefix}}localVarContentType, {{localVariablePrefix}}localVarAuthNames, null);
+    return {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}localVarPath, "{{httpMethod}}", {{localVariablePrefix}}localVarQueryParams, {{localVariablePrefix}}localVarPostBody, {{localVariablePrefix}}localVarHeaderParams, {{localVariablePrefix}}localVarFormParams, {{localVariablePrefix}}localVarAccept, {{localVariablePrefix}}localVarContentType, {{localVariablePrefix}}localVarAuthNames, null);
     {{/returnType}}
   }
   {{/operation}}

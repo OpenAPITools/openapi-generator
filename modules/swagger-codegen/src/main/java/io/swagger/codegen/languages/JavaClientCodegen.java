@@ -229,7 +229,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             if ("retrofit2".equals(getLibrary()) && !usePlayWS) {
                 supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             }
-        } else if ("jersey2".equals(getLibrary()) || "resteasy".equals(getLibrary()))  {
+        } else if ("jersey2".equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+            supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
+            additionalProperties.put("jackson", "true");
+        } else if ("resteasy".equals(getLibrary()))  {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             additionalProperties.put("jackson", "true");
         } else if("jersey1".equals(getLibrary())) {
