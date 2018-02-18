@@ -278,7 +278,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
     private void generateModelDocumentation(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         for (String templateName : config.modelDocTemplateFiles().keySet()) {
-            String suffix = config.modelDocTemplateFiles().get(templateName);
+            String docExtension = config.getDocExtension();
+            String suffix = docExtension!=null ? docExtension : config.modelDocTemplateFiles().get(templateName);
             String filename = config.modelDocFileFolder() + File.separator + config.toModelDocFilename(modelName) + suffix;
             if (!config.shouldOverwrite(filename)) {
                 LOGGER.info("Skipped overwriting " + filename);

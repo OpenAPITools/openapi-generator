@@ -115,7 +115,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> typeAliases = null;
     protected Boolean prependFormOrBodyParameters = false;
     // The extension of the generated documentation files (defaults to markdown .md)
-    protected String docExtension = ".md";
+    protected String docExtension;
 
     protected String ignoreFilePathOverride;
 
@@ -3422,7 +3422,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the API documentation file name with full path
      */
     public String apiDocFilename(String templateName, String tag) {
-        String suffix = apiDocTemplateFiles().get(templateName);
+        String docExtension = getDocExtension();
+        String suffix = docExtension != null ? docExtension: apiDocTemplateFiles().get(templateName);
         return apiDocFileFolder() + File.separator + toApiDocFilename(tag) + suffix;
     }
 
