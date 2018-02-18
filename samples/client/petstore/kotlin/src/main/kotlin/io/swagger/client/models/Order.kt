@@ -35,7 +35,7 @@ data class Order (
     * Order Status
     * Values: placed,approved,delivered
     */
-    enum class Status(val value: kotlin.Any){
+    enum class Status(val value: kotlin.String){
     
         placed("placed"),
     
