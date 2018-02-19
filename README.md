@@ -784,6 +784,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Finder](http://en.finder.pl/)
 - [Fitwell](https://fitwell.co/)
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
+- [FormAPI](https://formapi.io/)
 - [Fotition](https://www.fotition.com/)
 - [Gear Zero Network](https://www.gearzero.ca)
 - [General Electric](https://www.ge.com/)
