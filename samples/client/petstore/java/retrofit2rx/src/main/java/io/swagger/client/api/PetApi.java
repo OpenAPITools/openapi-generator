@@ -7,6 +7,7 @@ import retrofit2.http.*;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okhttp3.MultipartBody;
 
 import java.io.File;
 import io.swagger.client.model.ModelApiResponse;
@@ -118,7 +119,7 @@ public interface PetApi {
   @retrofit2.http.Multipart
   @POST("pet/{petId}/uploadImage")
   Observable<ModelApiResponse> uploadFile(
-    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part("file\"; filename=\"file") RequestBody file
+    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part MultipartBody.Part file
   );
 
 }

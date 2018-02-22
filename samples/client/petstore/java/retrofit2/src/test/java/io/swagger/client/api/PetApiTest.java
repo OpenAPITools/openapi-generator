@@ -19,6 +19,7 @@ import retrofit2.Response;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import okhttp3.MultipartBody;
 
 import static org.junit.Assert.*;
 
@@ -139,9 +140,9 @@ public class PetApiTest {
         File file = new File("hello.txt");
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         writer.write("Hello world!");
-        writer.close();
-
-        api.uploadFile(pet.getId(), null, RequestBody.create(MediaType.parse("text/plain"), file)).execute();
+        writer.close();        
+        final RequestBody body = RequestBody.create(MediaType.parse("text/plain"), file);
+        api.uploadFile(pet.getId(), null, MultipartBody.Part.createFormData("datafile", file.getName(), body)).execute();
     }
 
     @Test

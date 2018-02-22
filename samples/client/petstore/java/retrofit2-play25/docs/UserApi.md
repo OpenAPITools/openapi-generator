@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createUser"></a>
 # **createUser**
-> Void createUser(body)
+> createUser(body)
 
 Create user
 
@@ -32,8 +32,7 @@ This can only be done by the logged in user.
 UserApi apiInstance = new UserApi();
 User body = new User(); // User | Created user object
 try {
-    Void result = apiInstance.createUser(body);
-    System.out.println(result);
+    apiInstance.createUser(body);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#createUser");
     e.printStackTrace();
@@ -48,7 +47,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Void**](.md)
+null (empty response body)
 
 ### Authorization
 
@@ -61,7 +60,7 @@ No authorization required
 
 <a name="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> Void createUsersWithArrayInput(body)
+> createUsersWithArrayInput(body)
 
 Creates list of users with given input array
 
@@ -77,8 +76,7 @@ Creates list of users with given input array
 UserApi apiInstance = new UserApi();
 List<User> body = Arrays.asList(new User()); // List<User> | List of user object
 try {
-    Void result = apiInstance.createUsersWithArrayInput(body);
-    System.out.println(result);
+    apiInstance.createUsersWithArrayInput(body);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
     e.printStackTrace();
@@ -93,7 +91,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Void**](.md)
+null (empty response body)
 
 ### Authorization
 
@@ -106,7 +104,7 @@ No authorization required
 
 <a name="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> Void createUsersWithListInput(body)
+> createUsersWithListInput(body)
 
 Creates list of users with given input array
 
@@ -122,8 +120,7 @@ Creates list of users with given input array
 UserApi apiInstance = new UserApi();
 List<User> body = Arrays.asList(new User()); // List<User> | List of user object
 try {
-    Void result = apiInstance.createUsersWithListInput(body);
-    System.out.println(result);
+    apiInstance.createUsersWithListInput(body);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#createUsersWithListInput");
     e.printStackTrace();
@@ -138,7 +135,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Void**](.md)
+null (empty response body)
 
 ### Authorization
 
@@ -151,7 +148,7 @@ No authorization required
 
 <a name="deleteUser"></a>
 # **deleteUser**
-> Void deleteUser(username)
+> deleteUser(username)
 
 Delete user
 
@@ -167,8 +164,7 @@ This can only be done by the logged in user.
 UserApi apiInstance = new UserApi();
 String username = "username_example"; // String | The name that needs to be deleted
 try {
-    Void result = apiInstance.deleteUser(username);
-    System.out.println(result);
+    apiInstance.deleteUser(username);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#deleteUser");
     e.printStackTrace();
@@ -183,7 +179,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Void**](.md)
+null (empty response body)
 
 ### Authorization
 
@@ -210,7 +206,7 @@ Get user by user name
 
 
 UserApi apiInstance = new UserApi();
-String username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing. 
+String username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing.
 try {
     User result = apiInstance.getUserByName(username);
     System.out.println(result);
@@ -224,7 +220,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing.  |
+ **username** | **String**| The name that needs to be fetched. Use user1 for testing. |
 
 ### Return type
 
@@ -288,7 +284,7 @@ No authorization required
 
 <a name="logoutUser"></a>
 # **logoutUser**
-> Void logoutUser()
+> logoutUser()
 
 Logs out current logged in user session
 
@@ -303,8 +299,7 @@ Logs out current logged in user session
 
 UserApi apiInstance = new UserApi();
 try {
-    Void result = apiInstance.logoutUser();
-    System.out.println(result);
+    apiInstance.logoutUser();
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#logoutUser");
     e.printStackTrace();
@@ -316,7 +311,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**Void**](.md)
+null (empty response body)
 
 ### Authorization
 
@@ -329,7 +324,7 @@ No authorization required
 
 <a name="updateUser"></a>
 # **updateUser**
-> Void updateUser(username, body)
+> updateUser(username, body)
 
 Updated user
 
@@ -346,8 +341,7 @@ UserApi apiInstance = new UserApi();
 String username = "username_example"; // String | name that need to be deleted
 User body = new User(); // User | Updated user object
 try {
-    Void result = apiInstance.updateUser(username, body);
-    System.out.println(result);
+    apiInstance.updateUser(username, body);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#updateUser");
     e.printStackTrace();
@@ -363,7 +357,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Void**](.md)
+null (empty response body)
 
 ### Authorization
 
