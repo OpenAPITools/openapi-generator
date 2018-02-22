@@ -9,6 +9,7 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import java.util.Optional;
 
 
 @Configuration
@@ -34,6 +35,7 @@ public class SwaggerDocumentationConfig {
                     .build()
                 .directModelSubstitute(org.threeten.bp.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(org.threeten.bp.OffsetDateTime.class, java.util.Date.class)
+                .genericModelSubstitutes(Optional.class)
                 .apiInfo(apiInfo());
     }
 
