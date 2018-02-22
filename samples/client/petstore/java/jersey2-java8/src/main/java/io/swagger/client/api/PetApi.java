@@ -2,6 +2,7 @@ package io.swagger.client.api;
 
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
+import io.swagger.client.ApiResponse;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 
@@ -43,6 +44,17 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public void addPet(Pet body) throws ApiException {
+
+    addPetWithHttpInfo(body);
+  }
+
+  /**
+   * Add a new pet to the store
+   * 
+   * @param body Pet object that needs to be added to the store (required)
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
     Object localVarPostBody = body;
     
     // verify the required parameter 'body' is set
@@ -74,7 +86,7 @@ public class PetApi {
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
 
-    apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
    * Deletes a pet
@@ -84,6 +96,18 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public void deletePet(Long petId, String apiKey) throws ApiException {
+
+    deletePetWithHttpInfo(petId, apiKey);
+  }
+
+  /**
+   * Deletes a pet
+   * 
+   * @param petId Pet id to delete (required)
+   * @param apiKey  (optional)
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
@@ -118,7 +142,7 @@ public class PetApi {
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
 
-    apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
    * Finds Pets by status
@@ -128,6 +152,17 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
+    return findPetsByStatusWithHttpInfo(status).getData();
+      }
+
+  /**
+   * Finds Pets by status
+   * Multiple status values can be provided with comma separated strings
+   * @param status Status values that need to be considered for filter (required)
+   * @return ApiResponse&lt;List&lt;Pet&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'status' is set
@@ -172,6 +207,19 @@ public class PetApi {
    */
   @Deprecated
   public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
+    return findPetsByTagsWithHttpInfo(tags).getData();
+      }
+
+  /**
+   * Finds Pets by tags
+   * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+   * @param tags Tags to filter by (required)
+   * @return ApiResponse&lt;List&lt;Pet&gt;&gt;
+   * @throws ApiException if fails to make API call
+   * @deprecated
+   */
+  @Deprecated
+  public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'tags' is set
@@ -214,6 +262,17 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public Pet getPetById(Long petId) throws ApiException {
+    return getPetByIdWithHttpInfo(petId).getData();
+      }
+
+  /**
+   * Find pet by ID
+   * Returns a single pet
+   * @param petId ID of pet to return (required)
+   * @return ApiResponse&lt;Pet&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
@@ -255,6 +314,17 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public void updatePet(Pet body) throws ApiException {
+
+    updatePetWithHttpInfo(body);
+  }
+
+  /**
+   * Update an existing pet
+   * 
+   * @param body Pet object that needs to be added to the store (required)
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
     Object localVarPostBody = body;
     
     // verify the required parameter 'body' is set
@@ -286,7 +356,7 @@ public class PetApi {
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
 
-    apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
    * Updates a pet in the store with form data
@@ -297,6 +367,19 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
+
+    updatePetWithFormWithHttpInfo(petId, name, status);
+  }
+
+  /**
+   * Updates a pet in the store with form data
+   * 
+   * @param petId ID of pet that needs to be updated (required)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
@@ -333,7 +416,7 @@ if (status != null)
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
 
-    apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
    * uploads an image
@@ -345,6 +428,19 @@ if (status != null)
    * @throws ApiException if fails to make API call
    */
   public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
+    return uploadFileWithHttpInfo(petId, additionalMetadata, file).getData();
+      }
+
+  /**
+   * uploads an image
+   * 
+   * @param petId ID of pet to update (required)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
+   * @return ApiResponse&lt;ModelApiResponse&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set

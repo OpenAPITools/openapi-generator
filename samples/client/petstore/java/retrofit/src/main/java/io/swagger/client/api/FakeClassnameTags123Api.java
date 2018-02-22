@@ -17,7 +17,7 @@ public interface FakeClassnameTags123Api {
   /**
    * To test class name in snake case
    * Sync method
-   * 
+   * To test class name in snake case
    * @param body client model (required)
    * @return Client
    */

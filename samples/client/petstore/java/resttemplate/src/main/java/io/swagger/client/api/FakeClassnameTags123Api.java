@@ -47,7 +47,7 @@ public class FakeClassnameTags123Api {
 
     /**
      * To test class name in snake case
-     * 
+     * To test class name in snake case
      * <p><b>200</b> - successful operation
      * @param body client model
      * @return Client

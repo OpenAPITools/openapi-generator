@@ -65,7 +65,7 @@ public interface UserApi extends ApiClient.Api {
   /**
    * Get user by user name
    * 
-    * @param username The name that needs to be fetched. Use user1 for testing.  (required)
+    * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return User
    */
   @RequestLine("GET /user/{username}")

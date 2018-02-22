@@ -114,7 +114,7 @@ public interface UserApi {
    * Get user by user name
    * Sync method
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing.  (required)
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return User
    */
   
@@ -126,7 +126,7 @@ public interface UserApi {
   /**
    * Get user by user name
    * Async method
-   * @param username The name that needs to be fetched. Use user1 for testing.  (required)
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @param cb callback method
    */
   

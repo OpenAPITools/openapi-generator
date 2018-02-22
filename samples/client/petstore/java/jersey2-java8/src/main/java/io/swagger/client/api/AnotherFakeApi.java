@@ -2,6 +2,7 @@ package io.swagger.client.api;
 
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
+import io.swagger.client.ApiResponse;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 
@@ -42,6 +43,17 @@ public class AnotherFakeApi {
    * @throws ApiException if fails to make API call
    */
   public Client testSpecialTags(Client body) throws ApiException {
+    return testSpecialTagsWithHttpInfo(body).getData();
+      }
+
+  /**
+   * To test special tags
+   * To test special tags
+   * @param body client model (required)
+   * @return ApiResponse&lt;Client&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Client> testSpecialTagsWithHttpInfo(Client body) throws ApiException {
     Object localVarPostBody = body;
     
     // verify the required parameter 'body' is set
