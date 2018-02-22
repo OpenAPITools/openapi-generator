@@ -423,7 +423,7 @@ class UserApi(object):
         >>> result = thread.get()
 
         :param async bool
-        :param str username: The name that needs to be fetched. Use user1 for testing.  (required)
+        :param str username: The name that needs to be fetched. Use user1 for testing. (required)
         :return: User
                  If the method is called asynchronously,
                  returns the request thread.
@@ -445,7 +445,7 @@ class UserApi(object):
         >>> result = thread.get()
 
         :param async bool
-        :param str username: The name that needs to be fetched. Use user1 for testing.  (required)
+        :param str username: The name that needs to be fetched. Use user1 for testing. (required)
         :return: User
                  If the method is called asynchronously,
                  returns the request thread.

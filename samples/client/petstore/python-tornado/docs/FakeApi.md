@@ -273,10 +273,10 @@ configuration.password = 'YOUR_PASSWORD'
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi(petstore_api.ApiClient(configuration))
-number = 3.4 # float | None
+number = 8.14 # float | None
 double = 1.2 # float | None
 pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
-byte = 'byte_example' # str | None
+byte = 'B' # str | None
 integer = 56 # int | None (optional)
 int32 = 56 # int | None (optional)
 int64 = 789 # int | None (optional)

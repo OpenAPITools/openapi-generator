@@ -219,7 +219,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
-username = 'username_example' # str | The name that needs to be fetched. Use user1 for testing. 
+username = 'username_example' # str | The name that needs to be fetched. Use user1 for testing.
 
 try:
     # Get user by user name
@@ -233,7 +233,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **str**| The name that needs to be fetched. Use user1 for testing.  | 
+ **username** | **str**| The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
 

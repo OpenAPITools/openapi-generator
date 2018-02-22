@@ -36,6 +36,7 @@ class FakeClassnameTags123Api(object):
     def test_classname(self, body, **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
+        To test class name in snake case  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async=True
         >>> thread = api.test_classname(body, async=True)
@@ -57,6 +58,7 @@ class FakeClassnameTags123Api(object):
     def test_classname_with_http_info(self, body, **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
+        To test class name in snake case  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async=True
         >>> thread = api.test_classname_with_http_info(body, async=True)

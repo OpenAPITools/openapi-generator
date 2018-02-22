@@ -92,7 +92,7 @@ class RESTClientObject(object):
                 "body parameter cannot be used with post_params parameter."
             )
 
-        request = httpclient.HTTPRequest(url)
+        request = httpclient.HTTPRequest(url, allow_nonstandard_methods=True)
         request.ca_certs = self.ca_certs
         request.client_key = self.client_key
         request.client_cert = self.client_cert

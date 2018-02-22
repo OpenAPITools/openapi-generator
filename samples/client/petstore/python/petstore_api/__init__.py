@@ -46,7 +46,7 @@ from petstore_api.models.has_only_read_only import HasOnlyReadOnly
 from petstore_api.models.list import List
 from petstore_api.models.map_test import MapTest
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
-from petstore_api.models.model_200_response import Model200Response
+from petstore_api.models.model200_response import Model200Response
 from petstore_api.models.model_return import ModelReturn
 from petstore_api.models.name import Name
 from petstore_api.models.number_only import NumberOnly
