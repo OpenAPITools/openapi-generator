@@ -14,6 +14,7 @@ import java.util.List;
 import org.junit.*;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 import static org.junit.Assert.*;
@@ -200,8 +201,8 @@ public class PetApiTest {
         Pet pet = createRandomPet();
         api.addPet(pet).subscribe(SkeletonSubscriber.failTestOnError());
 
-        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), file);
-        api.uploadFile(pet.getId(), "a test file", body).subscribe(new SkeletonSubscriber<ModelApiResponse>() {
+        final RequestBody body = RequestBody.create(MediaType.parse("text/plain"), file);
+        api.uploadFile(pet.getId(), "a test file", MultipartBody.Part.createFormData("datafile", file.getName(), body)).subscribe(new SkeletonSubscriber<ModelApiResponse>() {
             @Override
             public void onError(Throwable e) {
                 // this also yields a 400 for other tests, so I guess it's okay...
