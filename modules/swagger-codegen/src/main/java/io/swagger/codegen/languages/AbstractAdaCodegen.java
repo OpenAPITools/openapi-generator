@@ -478,8 +478,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                         if (!d.contains(item.datatype)) {
                             // LOGGER.info("Model " + m.name + " uses " + p.datatype);
                             d.add(item.datatype);
-                            isModel = true;
                         }
+                        isModel = true;
                     }
                     p.vendorExtensions.put("x-is-model-type", isModel);
                 }
