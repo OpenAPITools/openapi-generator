@@ -114,6 +114,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             hostBuilder.append(swagger.getHost());
         } else {
             hostBuilder.append("localhost");
+            LOGGER.warn("'host' not defined in the spec. Default to 'localhost'.");
         }
         if (!StringUtils.isEmpty(swagger.getBasePath()) && !swagger.getBasePath().equals("/")) {
             hostBuilder.append(swagger.getBasePath());
