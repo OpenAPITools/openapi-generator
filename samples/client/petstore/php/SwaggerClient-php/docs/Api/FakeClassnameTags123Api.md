@@ -12,6 +12,8 @@ Method | HTTP request | Description
 
 To test class name in snake case
 
+To test class name in snake case
+
 ### Example
 ```php
 <?php
