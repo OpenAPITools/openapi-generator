@@ -248,7 +248,7 @@ module Petstore
         @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
                             "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
                             "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-                            'explicitly with `tempfile.delete`'
+                            "explicitly with `tempfile.delete`"
       end
     end
 

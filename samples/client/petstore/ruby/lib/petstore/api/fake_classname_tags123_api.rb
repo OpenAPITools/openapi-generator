@@ -20,6 +20,7 @@ module Petstore
       @api_client = api_client
     end
     # To test class name in snake case
+    # To test class name in snake case
     # @param body client model
     # @param [Hash] opts the optional parameters
     # @return [Client]
@@ -28,6 +29,7 @@ module Petstore
       data
     end
 
+    # To test class name in snake case
     # To test class name in snake case
     # @param body client model
     # @param [Hash] opts the optional parameters
