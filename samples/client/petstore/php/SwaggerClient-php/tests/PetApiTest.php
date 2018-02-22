@@ -377,6 +377,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
      * test invalid argument
      *
      * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Missing the required parameter $status when calling findPetsByStatus
      */
     public function testInvalidArgument()
     {

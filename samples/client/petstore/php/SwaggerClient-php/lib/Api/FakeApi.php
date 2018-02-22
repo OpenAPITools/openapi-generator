@@ -1250,7 +1250,7 @@ class FakeApi
     protected function testClientModelRequest($body)
     {
         // verify the required parameter 'body' is set
-        if ($body === null) {
+        if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $body when calling testClientModel'
             );
@@ -1535,7 +1535,7 @@ class FakeApi
     protected function testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
         // verify the required parameter 'number' is set
-        if ($number === null) {
+        if ($number === null || (is_array($number) && count($number) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $number when calling testEndpointParameters'
             );
@@ -1548,7 +1548,7 @@ class FakeApi
         }
 
         // verify the required parameter 'double' is set
-        if ($double === null) {
+        if ($double === null || (is_array($double) && count($double) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $double when calling testEndpointParameters'
             );
@@ -1561,7 +1561,7 @@ class FakeApi
         }
 
         // verify the required parameter 'pattern_without_delimiter' is set
-        if ($pattern_without_delimiter === null) {
+        if ($pattern_without_delimiter === null || (is_array($pattern_without_delimiter) && count($pattern_without_delimiter) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $pattern_without_delimiter when calling testEndpointParameters'
             );
@@ -1571,7 +1571,7 @@ class FakeApi
         }
 
         // verify the required parameter 'byte' is set
-        if ($byte === null) {
+        if ($byte === null || (is_array($byte) && count($byte) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $byte when calling testEndpointParameters'
             );
@@ -2161,7 +2161,7 @@ class FakeApi
     protected function testInlineAdditionalPropertiesRequest($param)
     {
         // verify the required parameter 'param' is set
-        if ($param === null) {
+        if ($param === null || (is_array($param) && count($param) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $param when calling testInlineAdditionalProperties'
             );
@@ -2386,13 +2386,13 @@ class FakeApi
     protected function testJsonFormDataRequest($param, $param2)
     {
         // verify the required parameter 'param' is set
-        if ($param === null) {
+        if ($param === null || (is_array($param) && count($param) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $param when calling testJsonFormData'
             );
         }
         // verify the required parameter 'param2' is set
-        if ($param2 === null) {
+        if ($param2 === null || (is_array($param2) && count($param2) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $param2 when calling testJsonFormData'
             );

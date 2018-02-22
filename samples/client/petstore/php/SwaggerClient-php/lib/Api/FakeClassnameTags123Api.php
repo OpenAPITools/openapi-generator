@@ -262,7 +262,7 @@ class FakeClassnameTags123Api
     protected function testClassnameRequest($body)
     {
         // verify the required parameter 'body' is set
-        if ($body === null) {
+        if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $body when calling testClassname'
             );

@@ -225,7 +225,7 @@ class PetApi
     protected function addPetRequest($body)
     {
         // verify the required parameter 'body' is set
-        if ($body === null) {
+        if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $body when calling addPet'
             );
@@ -454,7 +454,7 @@ class PetApi
     protected function deletePetRequest($pet_id, $api_key = null)
     {
         // verify the required parameter 'pet_id' is set
-        if ($pet_id === null) {
+        if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $pet_id when calling deletePet'
             );
@@ -724,7 +724,7 @@ class PetApi
     protected function findPetsByStatusRequest($status)
     {
         // verify the required parameter 'status' is set
-        if ($status === null) {
+        if ($status === null || (is_array($status) && count($status) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $status when calling findPetsByStatus'
             );
@@ -989,7 +989,7 @@ class PetApi
     protected function findPetsByTagsRequest($tags)
     {
         // verify the required parameter 'tags' is set
-        if ($tags === null) {
+        if ($tags === null || (is_array($tags) && count($tags) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $tags when calling findPetsByTags'
             );
@@ -1254,7 +1254,7 @@ class PetApi
     protected function getPetByIdRequest($pet_id)
     {
         // verify the required parameter 'pet_id' is set
-        if ($pet_id === null) {
+        if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $pet_id when calling getPetById'
             );
@@ -1484,7 +1484,7 @@ class PetApi
     protected function updatePetRequest($body)
     {
         // verify the required parameter 'body' is set
-        if ($body === null) {
+        if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $body when calling updatePet'
             );
@@ -1718,7 +1718,7 @@ class PetApi
     protected function updatePetWithFormRequest($pet_id, $name = null, $status = null)
     {
         // verify the required parameter 'pet_id' is set
-        if ($pet_id === null) {
+        if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $pet_id when calling updatePetWithForm'
             );
@@ -2002,7 +2002,7 @@ class PetApi
     protected function uploadFileRequest($pet_id, $additional_metadata = null, $file = null)
     {
         // verify the required parameter 'pet_id' is set
-        if ($pet_id === null) {
+        if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $pet_id when calling uploadFile'
             );

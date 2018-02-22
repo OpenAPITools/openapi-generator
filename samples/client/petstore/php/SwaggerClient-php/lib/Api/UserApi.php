@@ -225,7 +225,7 @@ class UserApi
     protected function createUserRequest($body)
     {
         // verify the required parameter 'body' is set
-        if ($body === null) {
+        if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $body when calling createUser'
             );
@@ -445,7 +445,7 @@ class UserApi
     protected function createUsersWithArrayInputRequest($body)
     {
         // verify the required parameter 'body' is set
-        if ($body === null) {
+        if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $body when calling createUsersWithArrayInput'
             );
@@ -665,7 +665,7 @@ class UserApi
     protected function createUsersWithListInputRequest($body)
     {
         // verify the required parameter 'body' is set
-        if ($body === null) {
+        if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $body when calling createUsersWithListInput'
             );
@@ -885,7 +885,7 @@ class UserApi
     protected function deleteUserRequest($username)
     {
         // verify the required parameter 'username' is set
-        if ($username === null) {
+        if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $username when calling deleteUser'
             );
@@ -1147,7 +1147,7 @@ class UserApi
     protected function getUserByNameRequest($username)
     {
         // verify the required parameter 'username' is set
-        if ($username === null) {
+        if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $username when calling getUserByName'
             );
@@ -1414,13 +1414,13 @@ class UserApi
     protected function loginUserRequest($username, $password)
     {
         // verify the required parameter 'username' is set
-        if ($username === null) {
+        if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $username when calling loginUser'
             );
         }
         // verify the required parameter 'password' is set
-        if ($password === null) {
+        if ($password === null || (is_array($password) && count($password) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $password when calling loginUser'
             );
@@ -1856,13 +1856,13 @@ class UserApi
     protected function updateUserRequest($username, $body)
     {
         // verify the required parameter 'username' is set
-        if ($username === null) {
+        if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $username when calling updateUser'
             );
         }
         // verify the required parameter 'body' is set
-        if ($body === null) {
+        if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $body when calling updateUser'
             );

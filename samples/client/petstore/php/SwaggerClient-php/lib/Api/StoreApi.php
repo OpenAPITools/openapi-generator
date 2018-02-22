@@ -225,7 +225,7 @@ class StoreApi
     protected function deleteOrderRequest($order_id)
     {
         // verify the required parameter 'order_id' is set
-        if ($order_id === null) {
+        if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $order_id when calling deleteOrder'
             );
@@ -735,7 +735,7 @@ class StoreApi
     protected function getOrderByIdRequest($order_id)
     {
         // verify the required parameter 'order_id' is set
-        if ($order_id === null) {
+        if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $order_id when calling getOrderById'
             );
@@ -1004,7 +1004,7 @@ class StoreApi
     protected function placeOrderRequest($body)
     {
         // verify the required parameter 'body' is set
-        if ($body === null) {
+        if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $body when calling placeOrder'
             );
