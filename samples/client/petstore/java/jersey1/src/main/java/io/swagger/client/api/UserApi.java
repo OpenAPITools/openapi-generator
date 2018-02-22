@@ -216,7 +216,7 @@ public class UserApi {
   /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing.  (required)
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return User
    * @throws ApiException if fails to make API call
    */

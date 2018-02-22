@@ -2,6 +2,7 @@ package io.swagger.client.api;
 
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
+import io.swagger.client.ApiResponse;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 
@@ -36,12 +37,23 @@ public class FakeClassnameTags123Api {
 
   /**
    * To test class name in snake case
-   * 
+   * To test class name in snake case
    * @param body client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
    */
   public Client testClassname(Client body) throws ApiException {
+    return testClassnameWithHttpInfo(body).getData();
+      }
+
+  /**
+   * To test class name in snake case
+   * To test class name in snake case
+   * @param body client model (required)
+   * @return ApiResponse&lt;Client&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Client> testClassnameWithHttpInfo(Client body) throws ApiException {
     Object localVarPostBody = body;
     
     // verify the required parameter 'body' is set

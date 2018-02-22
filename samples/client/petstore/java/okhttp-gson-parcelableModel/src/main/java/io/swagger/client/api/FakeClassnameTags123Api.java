@@ -119,7 +119,7 @@ public class FakeClassnameTags123Api {
 
     /**
      * To test class name in snake case
-     * 
+     * To test class name in snake case
      * @param body client model (required)
      * @return Client
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -131,7 +131,7 @@ public class FakeClassnameTags123Api {
 
     /**
      * To test class name in snake case
-     * 
+     * To test class name in snake case
      * @param body client model (required)
      * @return ApiResponse&lt;Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -144,7 +144,7 @@ public class FakeClassnameTags123Api {
 
     /**
      * To test class name in snake case (asynchronously)
-     * 
+     * To test class name in snake case
      * @param body client model (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call

@@ -187,7 +187,7 @@ public class UserApi {
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
-     * @param username The name that needs to be fetched. Use user1 for testing. 
+     * @param username The name that needs to be fetched. Use user1 for testing.
      * @return User
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
