@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-#
+
 =begin
 #Swagger Petstore
 
@@ -24,8 +24,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/swagger-api/swagger-codegen"
   s.summary     = "Swagger Petstore Ruby Gem"
   s.description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"
-  # TODO uncomment and update below with a proper license
-  #s.license     = "Apache 2.0"
+  s.license     = "Unlicense"
   s.required_ruby_version = ">= 1.9"
 
   s.add_runtime_dependency 'typhoeus', '~> 1.0', '>= 1.0.1'
@@ -39,7 +38,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'autotest-growl', '~> 0.2', '>= 0.2.16'
   s.add_development_dependency 'autotest-fsevent', '~> 0.2', '>= 0.2.12'
 
-  s.files         = `find *`.split("\n").uniq.sort.select{|f| !f.empty? }
+  s.files         = `find *`.split("\n").uniq.sort.select { |f| !f.empty? }
   s.test_files    = `find spec/*`.split("\n")
   s.executables   = []
   s.require_paths = ["lib"]
