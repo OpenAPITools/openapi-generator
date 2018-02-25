@@ -952,9 +952,10 @@ Presentations/Videos/Tutorials/Books
 Swagger Codegen core team members are contributors who have been making significant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
 
 ## Core Team Members
-* [@jimschubert](https://github.com/jimschubert)
-* [@cbornet](https://github.com/cbornet)
-* [@jaz-ah](https://github.com/jaz-ah)
+* [@jimschubert](https://github.com/jimschubert) (2016/05)
+* [@cbornet](https://github.com/cbornet) (2016/05)
+* [@jaz-ah](https://github.com/jaz-ah) (2016/05)
+* [@ackintosh](https://github.com/ackintosh) (2018/02)
 
 ## Template Creator
 Here is a list of template creators:
