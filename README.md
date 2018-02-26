@@ -1073,6 +1073,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | Languages     | Member (join date) |
 |:-------------|:-------------|
 | ActionScript |      |
+| Ada | @stcarrez (2018/02) @micheleISEP (2018/02) |
 | Android | @jaz-ah (2017/09) |
 | Apex  |     |
 | Bash  | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09) |
