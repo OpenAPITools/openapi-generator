@@ -9,6 +9,8 @@ import io.swagger.codegen.CodegenResponse;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.models.ArrayModel;
+import io.swagger.models.Model;
 import io.swagger.models.Response;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.ArrayProperty;
@@ -103,6 +105,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         );
 
         instantiationTypes.clear();
+        instantiationTypes.put("array", "List");
 
         typeMapping.clear();
         typeMapping.put("integer", "Int");
@@ -182,6 +185,17 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String toInstantiationType(Property p) {
+        if (p instanceof ArrayProperty) {
+            ArrayProperty ap = (ArrayProperty) p;
+            String inner = getSwaggerType(ap.getItems());
+            return instantiationTypes.get("array") + " " + inner;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public String escapeReservedWord(String name) {
         return name + "_";
     }
@@ -194,6 +208,20 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String modelFileFolder() {
         return outputFolder + "/src/Data/" + modelPackage().replace('.', File.separatorChar);
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+        CodegenModel m = super.fromModel(name, model, allDefinitions);
+
+        if (model instanceof ArrayModel) {
+            ArrayModel am = (ArrayModel) model;
+            ArrayProperty arrayProperty = new ArrayProperty(am.getItems());
+            CodegenProperty codegenProperty = fromProperty(name, arrayProperty);
+            m.vendorExtensions.putAll(codegenProperty.vendorExtensions);
+        }
+
+        return m;
     }
 
     @SuppressWarnings({ "static-method", "unchecked" })
@@ -243,6 +271,20 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 for (CodegenProperty property : cm.allVars) {
                     if (property.complexType != null) {
                         elmImports.add(createPropertyImport(property));
+                    }
+                }
+                if (cm.isArrayModel) {
+                    if (cm.arrayModelType != null) {
+                        // add type imports
+                        final ElmImport elmImport = new ElmImport();
+                        final String modulePrefix = customPrimitives.contains(cm.arrayModelType) ? "" : "Data.";
+                        elmImport.moduleName = modulePrefix + cm.arrayModelType;
+                        elmImport.exposures = new TreeSet<>();
+                        elmImport.exposures.add(cm.arrayModelType);
+                        elmImport.exposures.add(camelize(cm.arrayModelType, true) + "Decoder");
+                        elmImport.exposures.add(camelize(cm.arrayModelType, true) + "Encoder");
+                        elmImport.hasExposures = true;
+                        elmImports.add(elmImport);
                     }
                 }
                 if (cm.discriminator != null) {
@@ -418,7 +460,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             return toOptionalValue(null);
         }
     }
-    
+
     private String toOptionalValue(String value) {
         if (value == null) {
             return "Nothing";
