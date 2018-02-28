@@ -945,7 +945,7 @@ Presentations/Videos/Tutorials/Books
 - 2018/01/11 - [Swagger 工具箱介绍及代码自动生成示例](https://github.com/qct/swagger-example) by [qct](https://github.com/qct)
 - 2018/01/19 - [Generowanie kodu usług REST - przewodnik dla początkujących](https://gum.co/swagger_codegen_beginner_pl)(eBook) by [William Cheng](https://github.com/wing328), [Tomasz Prus](https://github.com/tomplus), [Bartek Kryza](https://github.com/bkryza)
 - 2018/02/03 - [Writing REST APIs with OpenAPI and Swagger Ada](https://www.slideshare.net/StephaneCarrez1/writing-rest-apis-with-openapi-and-swagger-ada/StephaneCarrez1/writing-rest-apis-with-openapi-and-swagger-ada) by [Stephane Carrez](https://github.com/stcarrez) at [FOSDEM 2018](https://fosdem.org/2018)
-
+- 2018/02/28 - [OpenAPI–An eBay Perspective](https://www.ebayinc.com/stories/blogs/tech/openapi-an-ebay-perspective/) by Shekhar Banerjee (eBay)
 
 # Swagger Codegen Core Team
 
