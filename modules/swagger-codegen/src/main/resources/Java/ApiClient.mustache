@@ -646,12 +646,12 @@ public class ApiClient {
       builder = httpClient.resource(url).accept(accept);
     }
 
-    for (String key : headerParams.keySet()) {
-      builder = builder.header(key, headerParams.get(key));
+    for (Entry<String, String> keyValue : headerParams.entrySet()) {
+      builder = builder.header(keyValue.getKey(), keyValue.getValue());
     }
-    for (String key : defaultHeaderMap.keySet()) {
-      if (!headerParams.containsKey(key)) {
-        builder = builder.header(key, defaultHeaderMap.get(key));
+    for (Map.Entry<String,String> keyValue : defaultHeaderMap.entrySet()) {
+      if (!headerParams.containsKey(keyValue.getKey())) {
+        builder = builder.header(keyValue.getKey(), keyValue.getValue());
       }
     }
 
