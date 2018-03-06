@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # grep for '<<<<<<< HEAD' in swagger codegen
-grep -RUIl '<<<<<<< HEAD' modules/swagger-codegen/src
+grep -RUIl '<<<<<<< HEAD' modules/openapi-generator/src
 
 if [ $? -ne 1 ]; then
-    echo "modules/swagger-codegen/src contain merge conflicts '<<<<<<< HEAD'. Please remove it and try again."
+    echo "modules/openapi-generator/src contain merge conflicts '<<<<<<< HEAD'. Please remove it and try again."
     exit 1;
 fi
 

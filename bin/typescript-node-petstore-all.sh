@@ -17,7 +17,7 @@ if [ ! -d "${APP_DIR}" ]; then
   APP_DIR=`cd "${APP_DIR}"; pwd`
 fi
 
-executable="./modules/swagger-codegen-cli/target/swagger-codegen-cli.jar"
+executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
 if [ ! -f "$executable" ]
 then
@@ -28,9 +28,9 @@ fi
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
 
 echo "Typescript node Petstore API client (default setting)"
-ags="$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml -l typescript-node -o samples/client/petstore/typescript-node/default"
+ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l typescript-node -o samples/client/petstore/typescript-node/default"
 java $JAVA_OPTS -jar $executable $ags
 
 echo "Typescript node Petstore API client with npm setting"
-ags="$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml -l typescript-node -c bin/typescript-petstore-npm.json -o samples/client/petstore/typescript-node/npm"
+ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l typescript-node -c bin/typescript-petstore-npm.json -o samples/client/petstore/typescript-node/npm"
 java $JAVA_OPTS -jar $executable $ags
