@@ -956,6 +956,7 @@ Swagger Codegen core team members are contributors who have been making signific
 * [@cbornet](https://github.com/cbornet) (2016/05)
 * [@jaz-ah](https://github.com/jaz-ah) (2016/05)
 * [@ackintosh](https://github.com/ackintosh) (2018/02)
+* [@JFCote](https://github.com/JFCote) (2018/03)
 
 ## Template Creator
 Here is a list of template creators:
