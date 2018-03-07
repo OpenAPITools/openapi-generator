@@ -860,8 +860,8 @@
     <modules>
         <module>modules/openapi-generator</module>
         <module>modules/openapi-generator-cli</module>
-        <!--<module>modules/swagger-codegen-maven-plugin</module>
-        <module>modules/swagger-generator</module>-->
+        <module>modules/openapi-generator-maven-plugin</module>
+        <module>modules/openapi-generator-online</module>
     </modules>
     <reporting>
         <outputDirectory>target/site</outputDirectory>
