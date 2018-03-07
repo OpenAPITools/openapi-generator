@@ -2,6 +2,7 @@
 #ifndef ModelFactory_H_
 #define ModelFactory_H_
 
+#include "{{prefix}}Object.h"
 {{#models}}{{#model}}
 #include "{{classname}}.h"{{/model}}{{/models}}
 
@@ -18,13 +19,12 @@ namespace {{this}} {
   }
 
   inline void* create(QString json, QString type) {
-    void* val = create(type);
-    if(val != nullptr) {
-      {{prefix}}Object* obj = static_cast<{{prefix}}Object*>(val);
-      return obj->fromJson(json);
-    }
     if(type.startsWith("QString")) {
       return new QString();
+    }    
+    auto val = static_cast<{{prefix}}Object*>(create(type));
+    if(val != nullptr) {
+      return val->fromJson(json);
     }
     return nullptr;
   }

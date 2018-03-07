@@ -127,7 +127,7 @@ SWGStoreApi::getInventoryCallback(SWGHttpRequestWorker * worker) {
 
     foreach(QString key, obj.keys()) {
         qint32* val;
-        setValue(&val, obj[key], "qint32", "");
+        setValue(&val, obj[key], "qint32", QString());
         output->insert(key, *val);
     }
     worker->deleteLater();

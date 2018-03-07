@@ -25,15 +25,15 @@ namespace {{this}} {
 class {{classname}}: public {{prefix}}Object {
 public:
     {{classname}}();
-    {{classname}}(QString* json);
-    virtual ~{{classname}}();
+    {{classname}}(QString json);
+    ~{{classname}}();
     void init();
     void cleanup();
 
     QString asJson ();
-    QJsonObject* asJsonObject();
-    void fromJsonObject(QJsonObject &json);
-    {{classname}}* fromJson(QString &jsonString);
+    QJsonObject asJsonObject();
+    void fromJsonObject(QJsonObject json);
+    {{classname}}* fromJson(QString jsonString);
 
     {{#vars}}
     {{{datatype}}} {{getter}}();

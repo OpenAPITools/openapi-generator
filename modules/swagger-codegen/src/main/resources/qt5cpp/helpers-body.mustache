@@ -32,7 +32,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
     }
     else if(QStringLiteral("float").compare(type) == 0) {
         float *val = static_cast<float*>(value);
-        *val = obj.toDouble();
+        *val = static_cast<float>(obj.toDouble());
     }
     else if(QStringLiteral("double").compare(type) == 0) {
         double *val = static_cast<double*>(value);
@@ -42,19 +42,13 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
         QString **val = static_cast<QString**>(value);
         if(val != nullptr) {
             if(!obj.isNull()) {
-                // create a new value and return
-                if(*val != nullptr) delete *val;
-                *val = new QString(obj.toString());
+                (*val)->clear();
+                (*val)->append(obj.toString());
                 return;
             }
             else {
-                // set target to nullptr
-                if(*val != nullptr) delete *val;
-                *val = nullptr;
+                (*val)->clear();
             }
-        }
-        else {
-            qDebug() << "Can't set value because the target pointer is nullptr";
         }
     }
     else if (QStringLiteral("QDateTime").compare(type) == 0) {
@@ -371,67 +365,66 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
 }
 
 void
-toJsonValue(QString name, void* value, QJsonObject* output, QString type) {
+toJsonValue(QString name, void* value, QJsonObject& output, QString type) {
     if(value == nullptr) {
         return;
     }
     if(type.startsWith("{{prefix}}")) {
         {{prefix}}Object *{{prefix}}object = reinterpret_cast<{{prefix}}Object *>(value);
         if({{prefix}}object != nullptr) {
-            QJsonObject* o = (*{{prefix}}object).asJsonObject();
-            if(name != nullptr) {
-                output->insert(name, *o);
-                if(o != nullptr) delete o;
+            QJsonObject o = {{prefix}}object->asJsonObject();
+            if(!name.isNull()) {
+                output.insert(name, o);
             }
             else {
-                output->empty();
-                for(QString key : o->keys()) {
-                    output->insert(key, o->value(key));
+                output.empty();
+                for(QString key : o.keys()) {
+                    output.insert(key, o.value(key));
                 }
             }
         }
     }
     else if(QStringLiteral("QString").compare(type) == 0) {
         QString* str = static_cast<QString*>(value);
-        output->insert(name, QJsonValue(*str));
+        output.insert(name, QJsonValue(*str));
     }
     else if(QStringLiteral("qint32").compare(type) == 0) {
         qint32* str = static_cast<qint32*>(value);
-        output->insert(name, QJsonValue(*str));
+        output.insert(name, QJsonValue(*str));
     }
     else if(QStringLiteral("qint64").compare(type) == 0) {
         qint64* str = static_cast<qint64*>(value);
-        output->insert(name, QJsonValue(*str));
+        output.insert(name, QJsonValue(*str));
     }
     else if(QStringLiteral("bool").compare(type) == 0) {
         bool* str = static_cast<bool*>(value);
-        output->insert(name, QJsonValue(*str));
+        output.insert(name, QJsonValue(*str));
     }
     else if(QStringLiteral("float").compare(type) == 0) {
         float* str = static_cast<float*>(value);
-        output->insert(name, QJsonValue((double)*str));
+        output.insert(name, QJsonValue((double)*str));
     }
     else if(QStringLiteral("double").compare(type) == 0) {
         double* str = static_cast<double*>(value);
-        output->insert(name, QJsonValue(*str));
+        output.insert(name, QJsonValue(*str));
     }
     else if(QStringLiteral("QDate").compare(type) == 0) {
         QDate* date = static_cast<QDate*>(value);
-        output->insert(name, QJsonValue(date->toString(Qt::ISODate)));
+        output.insert(name, QJsonValue(date->toString(Qt::ISODate)));
     }
     else if(QStringLiteral("QDateTime").compare(type) == 0) {
         QDateTime* datetime = static_cast<QDateTime*>(value);
-        output->insert(name, QJsonValue(datetime->toString(Qt::ISODate)));
+        output.insert(name, QJsonValue(datetime->toString(Qt::ISODate)));
     }
     else if(QStringLiteral("QByteArray").compare(type) == 0) {
         QByteArray* byteArray = static_cast<QByteArray*>(value);
-        output->insert(name, QJsonValue(QString(byteArray->toBase64())));
+        output.insert(name, QJsonValue(QString(byteArray->toBase64())));
     }
 }
 
 void
-toJsonArray(QList<void*>* value, QJsonObject* output, QString innerName, QString innerType) {
-    if((value == nullptr) || (output == nullptr)) {
+toJsonArray(QList<void*>* value, QJsonObject& output, QString innerName, QString innerType) {
+    if(value == nullptr) {
         return;
     }
     QJsonArray outputarray;
@@ -439,7 +432,7 @@ toJsonArray(QList<void*>* value, QJsonObject* output, QString innerName, QString
         for(void* obj : *value) {
             {{prefix}}Object *{{prefix}}object = reinterpret_cast<{{prefix}}Object *>(obj);
             if({{prefix}}object != nullptr) {
-                outputarray.append(*({{prefix}}object->asJsonObject()));
+                outputarray.append({{prefix}}object->asJsonObject());
             }
         }
     }
@@ -482,81 +475,81 @@ toJsonArray(QList<void*>* value, QJsonObject* output, QString innerName, QString
         for(double obj : *(reinterpret_cast<QList<double>*>(value)))
             outputarray.append(QJsonValue(obj));
     }
-    output->insert(innerName, outputarray);
+    output.insert(innerName, outputarray);
 }
 
 void
-toJsonMap(QMap<QString, void*>* value, QJsonObject* output, QString innerName, QString innerType) {
-    if((value == nullptr) || (output == nullptr)) {
+toJsonMap(QMap<QString, void*>* value, QJsonObject& output, QString innerName, QString innerType) {
+    if(value == nullptr)  {
         return;
     }
     QJsonObject mapobj;
     if(innerType.startsWith("{{prefix}}")){
         auto items = reinterpret_cast< QMap<QString, {{prefix}}Object*> *>(value);
         for(auto itemkey: items->keys()) {
-            ::{{cppNamespace}}::toJsonValue(itemkey, items->value(itemkey), &mapobj, innerType);
+            ::{{cppNamespace}}::toJsonValue(itemkey, items->value(itemkey),mapobj, innerType);
         }
     }
     else if(QStringLiteral("QString").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, QString*> *>(value);
         for(auto itemkey: items->keys()) {
-            ::{{cppNamespace}}::toJsonValue(itemkey, items->value(itemkey), &mapobj, innerType);
+            ::{{cppNamespace}}::toJsonValue(itemkey, items->value(itemkey), mapobj, innerType);
         }
     }
     else if(QStringLiteral("QDate").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, QDate*> *>(value);
         for(auto itemkey: items->keys()) {
-            ::{{cppNamespace}}::toJsonValue(itemkey, items->value(itemkey), &mapobj, innerType);
+            ::{{cppNamespace}}::toJsonValue(itemkey, items->value(itemkey), mapobj, innerType);
         }
     }
     else if(QStringLiteral("QDateTime").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, QDateTime*> *>(value);
         for(auto itemkey: items->keys()) {
-            ::{{cppNamespace}}::toJsonValue(itemkey, items->value(itemkey), &mapobj, innerType);
+            ::{{cppNamespace}}::toJsonValue(itemkey, items->value(itemkey), mapobj, innerType);
         }
     }
     else if(QStringLiteral("QByteArray").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, QByteArray*> *>(value);
         for(auto itemkey: items->keys()) {
-            ::{{cppNamespace}}::toJsonValue(itemkey, items->value(itemkey), &mapobj, innerType);
+            ::{{cppNamespace}}::toJsonValue(itemkey, items->value(itemkey), mapobj, innerType);
         }
     }
     else if(QStringLiteral("qint32").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, qint32> *>(value);
         for(auto itemkey: items->keys()) {
             auto val = items->value(itemkey);
-            ::{{cppNamespace}}::toJsonValue(itemkey, &val, &mapobj, innerType);
+            ::{{cppNamespace}}::toJsonValue(itemkey, &val, mapobj, innerType);
         }
     }
     else if(QStringLiteral("qint64").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, qint64> *>(value);
         for(auto itemkey: items->keys()) {
             auto val = items->value(itemkey);
-            ::{{cppNamespace}}::toJsonValue(itemkey, &val, &mapobj, innerType);
+            ::{{cppNamespace}}::toJsonValue(itemkey, &val, mapobj, innerType);
         }
     }
     else if(QStringLiteral("bool").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, bool> *>(value);
         for(auto itemkey: items->keys()) {
             auto val = items->value(itemkey);
-            ::{{cppNamespace}}::toJsonValue(itemkey, &val, &mapobj, innerType);
+            ::{{cppNamespace}}::toJsonValue(itemkey, &val, mapobj, innerType);
         }
     }
     else if(QStringLiteral("float").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, float> *>(value);
         for(auto itemkey: items->keys()) {
             auto val = items->value(itemkey);
-            ::{{cppNamespace}}::toJsonValue(itemkey, &val, &mapobj, innerType);
+            ::{{cppNamespace}}::toJsonValue(itemkey, &val, mapobj, innerType);
         }
     }
     else if(QStringLiteral("double").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, double> *>(value);
         for(auto itemkey: items->keys() ) {
             auto val = items->value(itemkey);
-            ::{{cppNamespace}}::toJsonValue(itemkey, &val, &mapobj, innerType);
+            ::{{cppNamespace}}::toJsonValue(itemkey, &val, mapobj, innerType);
         }
     }
-    output->insert(innerName, mapobj);
+    output.insert(innerName, mapobj);
 }
 
 QString

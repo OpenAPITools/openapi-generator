@@ -19,15 +19,15 @@ namespace Swagger {
 
 class SWGObject {
   public:
-    virtual QJsonObject* asJsonObject() {
-      return new QJsonObject();
+    virtual QJsonObject asJsonObject() {
+      return QJsonObject();
     }
     virtual ~SWGObject() {}
-    virtual SWGObject* fromJson(QString &jsonString) {
+    virtual SWGObject* fromJson(QString jsonString) {
         Q_UNUSED(jsonString);
         return new SWGObject();
     }
-    virtual void fromJsonObject(QJsonObject &json) {
+    virtual void fromJsonObject(QJsonObject json) {
         Q_UNUSED(json);
     }
     virtual QString asJson() {

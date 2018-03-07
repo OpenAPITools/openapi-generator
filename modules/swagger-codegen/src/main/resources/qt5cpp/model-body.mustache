@@ -13,9 +13,9 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-{{classname}}::{{classname}}(QString* json) {
+{{classname}}::{{classname}}(QString json) {
     init();
-    this->fromJson(*json);
+    this->fromJson(json);
 }
 
 {{classname}}::{{classname}}() {
@@ -52,7 +52,7 @@ void
 }
 
 {{classname}}*
-{{classname}}::fromJson(QString &json) {
+{{classname}}::fromJson(QString json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -61,7 +61,7 @@ void
 }
 
 void
-{{classname}}::fromJsonObject(QJsonObject &pJson) {
+{{classname}}::fromJsonObject(QJsonObject pJson) {
     {{#vars}}
     {{^isContainer}}::{{cppNamespace}}::setValue(&{{name}}, pJson["{{baseName}}"], "{{baseType}}", "{{complexType}}");{{/isContainer}}
     {{#isContainer}}{{^items.isContainer}}::{{cppNamespace}}::setValue(&{{name}}, pJson["{{baseName}}"], "{{baseType}}", "{{items.baseType}}");{{/items.isContainer}}{{#items.isContainer}}{{#isListContainer}}
@@ -94,16 +94,15 @@ void
 QString
 {{classname}}::asJson ()
 {
-    QJsonObject* obj = this->asJsonObject();
-
-    QJsonDocument doc(*obj);
+    QJsonObject obj = this->asJsonObject();
+    QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
     return QString(bytes);
 }
 
-QJsonObject*
+QJsonObject
 {{classname}}::asJsonObject() {
-    QJsonObject* obj = new QJsonObject();
+    QJsonObject obj;
     {{#vars}}
     {{^isContainer}}
     {{#complexType}}
@@ -129,7 +128,7 @@ QJsonObject*
     {{^isDate}}
     {{^isByteArray}}
     if(m_{{name}}_isSet){
-        obj->insert("{{baseName}}", QJsonValue({{name}}));
+        obj.insert("{{baseName}}", QJsonValue({{name}}));
     }
     {{/isByteArray}}
     {{/isDate}}
@@ -142,7 +141,7 @@ QJsonObject*
     {{/isDate}}
     {{#isByteArray}}    
     if({{name}} != nullptr) { 
-        obj->insert("{{name}}", QJsonValue(*{{name}}));
+        obj.insert("{{name}}", QJsonValue(*{{name}}));
     }
     {{/isByteArray}}
     {{#isDateTime}}   
@@ -162,14 +161,14 @@ QJsonObject*
         for(auto items : *{{name}}){
             QJsonObject jobj;
             {{#items.isListContainer}}
-            toJsonArray((QList<void*>*)items, &jobj, "{{baseName}}", "{{items.items.baseType}}");
+            toJsonArray((QList<void*>*)items, jobj, "{{baseName}}", "{{items.items.baseType}}");
             {{/items.isListContainer}}
             {{#items.isMapContainer}}
-            toJsonMap((QMap<QString, void*>*)items, &jobj, "{{baseName}}", "{{items.items.baseType}}");
+            toJsonMap((QMap<QString, void*>*)items, jobj, "{{baseName}}", "{{items.items.baseType}}");
             {{/items.isMapContainer}}
             jarray.append(jobj.value("{{baseName}}"));
         }
-        obj->insert("{{baseName}}", jarray);
+        obj.insert("{{baseName}}", jarray);
         {{/items.isContainer}}
     }
     {{/isListContainer}}
@@ -180,14 +179,14 @@ QJsonObject*
         for(auto itemkey : {{name}}->keys()){
             QJsonObject jobj;
             {{#items.isListContainer}}
-            toJsonArray((QList<void*>*){{name}}->value(itemkey), &jobj, itemkey, "{{items.items.baseType}}");
+            toJsonArray((QList<void*>*){{name}}->value(itemkey), jobj, itemkey, "{{items.items.baseType}}");
             {{/items.isListContainer}}
             {{#items.isMapContainer}}
-            toJsonMap((QMap<QString, void*>*){{name}}->value(itemkey), &jobj, itemkey, "{{items.items.baseType}}");
+            toJsonMap((QMap<QString, void*>*){{name}}->value(itemkey), jobj, itemkey, "{{items.items.baseType}}");
             {{/items.isMapContainer}}
             mapobj.insert(itemkey, jobj);
         }
-        obj->insert("{{baseName}}", mapobj);{{/items.isContainer}}
+        obj.insert("{{baseName}}", mapobj);{{/items.isContainer}}
     }
     {{/isMapContainer}}
     {{/isContainer}}

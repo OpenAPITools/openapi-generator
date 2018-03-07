@@ -47,13 +47,12 @@ namespace Swagger {
   }
 
   inline void* create(QString json, QString type) {
-    void* val = create(type);
-    if(val != nullptr) {
-      SWGObject* obj = static_cast<SWGObject*>(val);
-      return obj->fromJson(json);
-    }
     if(type.startsWith("QString")) {
       return new QString();
+    }    
+    auto val = static_cast<SWGObject*>(create(type));
+    if(val != nullptr) {
+      return val->fromJson(json);
     }
     return nullptr;
   }
