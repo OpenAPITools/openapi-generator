@@ -98,10 +98,10 @@ void
 
     {{#bodyParams}}
     {{#isContainer}}
-    auto {{paramName}}_jobj = new QJsonObject();
+    QJsonObject {{paramName}}_jobj;
     toJsonArray((QList<void*>*){{paramName}}, {{paramName}}_jobj, QString("body"), QString("{{prefix}}User*"));
 
-    QJsonDocument doc(*{{paramName}}_jobj);
+    QJsonDocument doc({{paramName}}_jobj);
     QByteArray bytes = doc.toJson();
 
     input.request_body.append(bytes);
@@ -175,7 +175,7 @@ void
 
     foreach(QString key, obj.keys()) {
         qint32* val;
-        setValue(&val, obj[key], "{{returnBaseType}}", "");
+        setValue(&val, obj[key], "{{returnBaseType}}", QString());
         output->insert(key, *val);
     }
     {{/isMapContainer}}

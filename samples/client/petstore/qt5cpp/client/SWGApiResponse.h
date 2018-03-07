@@ -31,15 +31,15 @@ namespace Swagger {
 class SWGApiResponse: public SWGObject {
 public:
     SWGApiResponse();
-    SWGApiResponse(QString* json);
-    virtual ~SWGApiResponse();
+    SWGApiResponse(QString json);
+    ~SWGApiResponse();
     void init();
     void cleanup();
 
     QString asJson ();
-    QJsonObject* asJsonObject();
-    void fromJsonObject(QJsonObject &json);
-    SWGApiResponse* fromJson(QString &jsonString);
+    QJsonObject asJsonObject();
+    void fromJsonObject(QJsonObject json);
+    SWGApiResponse* fromJson(QString jsonString);
 
     qint32 getCode();
     void setCode(qint32 code);

@@ -32,15 +32,15 @@ namespace Swagger {
 class SWGOrder: public SWGObject {
 public:
     SWGOrder();
-    SWGOrder(QString* json);
-    virtual ~SWGOrder();
+    SWGOrder(QString json);
+    ~SWGOrder();
     void init();
     void cleanup();
 
     QString asJson ();
-    QJsonObject* asJsonObject();
-    void fromJsonObject(QJsonObject &json);
-    SWGOrder* fromJson(QString &jsonString);
+    QJsonObject asJsonObject();
+    void fromJsonObject(QJsonObject json);
+    SWGOrder* fromJson(QString jsonString);
 
     qint64 getId();
     void setId(qint64 id);

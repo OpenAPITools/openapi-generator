@@ -22,9 +22,9 @@
 
 namespace Swagger {
 
-SWGTag::SWGTag(QString* json) {
+SWGTag::SWGTag(QString json) {
     init();
-    this->fromJson(*json);
+    this->fromJson(json);
 }
 
 SWGTag::SWGTag() {
@@ -52,7 +52,7 @@ SWGTag::cleanup() {
 }
 
 SWGTag*
-SWGTag::fromJson(QString &json) {
+SWGTag::fromJson(QString json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -61,7 +61,7 @@ SWGTag::fromJson(QString &json) {
 }
 
 void
-SWGTag::fromJsonObject(QJsonObject &pJson) {
+SWGTag::fromJsonObject(QJsonObject pJson) {
     ::Swagger::setValue(&id, pJson["id"], "qint64", "");
     
     ::Swagger::setValue(&name, pJson["name"], "QString", "QString");
@@ -71,18 +71,17 @@ SWGTag::fromJsonObject(QJsonObject &pJson) {
 QString
 SWGTag::asJson ()
 {
-    QJsonObject* obj = this->asJsonObject();
-
-    QJsonDocument doc(*obj);
+    QJsonObject obj = this->asJsonObject();
+    QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
     return QString(bytes);
 }
 
-QJsonObject*
+QJsonObject
 SWGTag::asJsonObject() {
-    QJsonObject* obj = new QJsonObject();
+    QJsonObject obj;
     if(m_id_isSet){
-        obj->insert("id", QJsonValue(id));
+        obj.insert("id", QJsonValue(id));
     }
     if(name != nullptr && *name != QString("")){
         toJsonValue(QString("name"), name, obj, QString("QString"));

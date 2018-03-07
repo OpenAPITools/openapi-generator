@@ -22,9 +22,9 @@
 
 namespace Swagger {
 
-SWGOrder::SWGOrder(QString* json) {
+SWGOrder::SWGOrder(QString json) {
     init();
-    this->fromJson(*json);
+    this->fromJson(json);
 }
 
 SWGOrder::SWGOrder() {
@@ -66,7 +66,7 @@ SWGOrder::cleanup() {
 }
 
 SWGOrder*
-SWGOrder::fromJson(QString &json) {
+SWGOrder::fromJson(QString json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -75,7 +75,7 @@ SWGOrder::fromJson(QString &json) {
 }
 
 void
-SWGOrder::fromJsonObject(QJsonObject &pJson) {
+SWGOrder::fromJsonObject(QJsonObject pJson) {
     ::Swagger::setValue(&id, pJson["id"], "qint64", "");
     
     ::Swagger::setValue(&pet_id, pJson["petId"], "qint64", "");
@@ -93,24 +93,23 @@ SWGOrder::fromJsonObject(QJsonObject &pJson) {
 QString
 SWGOrder::asJson ()
 {
-    QJsonObject* obj = this->asJsonObject();
-
-    QJsonDocument doc(*obj);
+    QJsonObject obj = this->asJsonObject();
+    QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
     return QString(bytes);
 }
 
-QJsonObject*
+QJsonObject
 SWGOrder::asJsonObject() {
-    QJsonObject* obj = new QJsonObject();
+    QJsonObject obj;
     if(m_id_isSet){
-        obj->insert("id", QJsonValue(id));
+        obj.insert("id", QJsonValue(id));
     }
     if(m_pet_id_isSet){
-        obj->insert("petId", QJsonValue(pet_id));
+        obj.insert("petId", QJsonValue(pet_id));
     }
     if(m_quantity_isSet){
-        obj->insert("quantity", QJsonValue(quantity));
+        obj.insert("quantity", QJsonValue(quantity));
     }
     if(ship_date != nullptr) { 
         toJsonValue(QString("shipDate"), ship_date, obj, QString("QDateTime"));
@@ -119,7 +118,7 @@ SWGOrder::asJsonObject() {
         toJsonValue(QString("status"), status, obj, QString("QString"));
     }
     if(m_complete_isSet){
-        obj->insert("complete", QJsonValue(complete));
+        obj.insert("complete", QJsonValue(complete));
     }
 
     return obj;

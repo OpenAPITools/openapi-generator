@@ -22,9 +22,9 @@
 
 namespace Swagger {
 
-SWGApiResponse::SWGApiResponse(QString* json) {
+SWGApiResponse::SWGApiResponse(QString json) {
     init();
-    this->fromJson(*json);
+    this->fromJson(json);
 }
 
 SWGApiResponse::SWGApiResponse() {
@@ -57,7 +57,7 @@ SWGApiResponse::cleanup() {
 }
 
 SWGApiResponse*
-SWGApiResponse::fromJson(QString &json) {
+SWGApiResponse::fromJson(QString json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -66,7 +66,7 @@ SWGApiResponse::fromJson(QString &json) {
 }
 
 void
-SWGApiResponse::fromJsonObject(QJsonObject &pJson) {
+SWGApiResponse::fromJsonObject(QJsonObject pJson) {
     ::Swagger::setValue(&code, pJson["code"], "qint32", "");
     
     ::Swagger::setValue(&type, pJson["type"], "QString", "QString");
@@ -78,18 +78,17 @@ SWGApiResponse::fromJsonObject(QJsonObject &pJson) {
 QString
 SWGApiResponse::asJson ()
 {
-    QJsonObject* obj = this->asJsonObject();
-
-    QJsonDocument doc(*obj);
+    QJsonObject obj = this->asJsonObject();
+    QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
     return QString(bytes);
 }
 
-QJsonObject*
+QJsonObject
 SWGApiResponse::asJsonObject() {
-    QJsonObject* obj = new QJsonObject();
+    QJsonObject obj;
     if(m_code_isSet){
-        obj->insert("code", QJsonValue(code));
+        obj.insert("code", QJsonValue(code));
     }
     if(type != nullptr && *type != QString("")){
         toJsonValue(QString("type"), type, obj, QString("QString"));

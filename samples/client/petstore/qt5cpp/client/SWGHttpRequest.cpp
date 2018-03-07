@@ -56,7 +56,7 @@ SWGHttpRequestWorker::SWGHttpRequestWorker(QObject *parent)
     qsrand(QDateTime::currentDateTime().toTime_t());
 
     manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(on_manager_finished(QNetworkReply*)));
+    connect(manager, &QNetworkAccessManager::finished, this, &SWGHttpRequestWorker::on_manager_finished);
 }
 
 SWGHttpRequestWorker::~SWGHttpRequestWorker() {

@@ -47,7 +47,7 @@ void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_f
     qsrand(QDateTime::currentDateTime().toTime_t());
 
     manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(on_manager_finished(QNetworkReply*)));
+    connect(manager, &QNetworkAccessManager::finished, this, &{{prefix}}HttpRequestWorker::on_manager_finished);
 }
 
 {{prefix}}HttpRequestWorker::~{{prefix}}HttpRequestWorker() {

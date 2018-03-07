@@ -91,10 +91,10 @@ SWGUserApi::createUsersWithArrayInput(QList<SWGUser*>*& body) {
     SWGHttpRequestInput input(fullPath, "POST");
 
 
-    auto body_jobj = new QJsonObject();
+    QJsonObject body_jobj;
     toJsonArray((QList<void*>*)body, body_jobj, QString("body"), QString("SWGUser*"));
 
-    QJsonDocument doc(*body_jobj);
+    QJsonDocument doc(body_jobj);
     QByteArray bytes = doc.toJson();
 
     input.request_body.append(bytes);
@@ -147,10 +147,10 @@ SWGUserApi::createUsersWithListInput(QList<SWGUser*>*& body) {
     SWGHttpRequestInput input(fullPath, "POST");
 
 
-    auto body_jobj = new QJsonObject();
+    QJsonObject body_jobj;
     toJsonArray((QList<void*>*)body, body_jobj, QString("body"), QString("SWGUser*"));
 
-    QJsonDocument doc(*body_jobj);
+    QJsonDocument doc(body_jobj);
     QByteArray bytes = doc.toJson();
 
     input.request_body.append(bytes);
