@@ -7,8 +7,10 @@ import io.swagger.client.model.Client;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpContent;
+import com.google.api.client.http.InputStreamContent;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.HttpResponse;
+import com.google.api.client.json.Json;
 
 import javax.ws.rs.core.UriBuilder;
 import java.io.IOException;
@@ -77,9 +79,25 @@ public class AnotherFakeApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = body == null ? null : apiClient.new JacksonJsonHttpContent(body);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
     }
+
+      public HttpResponse testSpecialTagsForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
+          // verify the required parameter 'body' is set
+              if (body == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'body' when calling testSpecialTags");
+              }
+              UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/another-fake/dummy");
+
+              String url = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(url);
+
+              HttpContent content = body == null ?
+                apiClient.new JacksonJsonHttpContent(null) :
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
+              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+      }
 
     public HttpResponse testSpecialTagsForHttpResponse(Client body, Map<String, Object> params) throws IOException {
         // verify the required parameter 'body' is set
@@ -98,6 +116,8 @@ public class AnotherFakeApi {
             if (key != null && value != null) {
                 if (value instanceof Collection) {
                     uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+                } else if (value instanceof Object[]) {
+                    uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
                 } else {
                     uriBuilder = uriBuilder.queryParam(key, value);
                 }
@@ -107,7 +127,7 @@ public class AnotherFakeApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = body == null ? null : apiClient.new JacksonJsonHttpContent(body);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
     }
 
