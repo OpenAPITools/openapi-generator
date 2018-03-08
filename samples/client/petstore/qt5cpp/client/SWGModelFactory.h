@@ -13,6 +13,7 @@
 #ifndef ModelFactory_H_
 #define ModelFactory_H_
 
+#include "SWGObject.h"
 
 #include "SWGApiResponse.h"
 #include "SWGCategory.h"

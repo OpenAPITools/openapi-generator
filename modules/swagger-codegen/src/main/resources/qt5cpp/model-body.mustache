@@ -47,7 +47,14 @@ void
             delete o;
         }{{/isContainer}}
         delete {{name}};
-    }{{/complexType}}
+    }{{/complexType}}{{^complexType}}{{#isContainer}}
+    if({{name}} != nullptr) { {{#items.isContainer}}
+        auto arr = {{name}};
+        for(auto o: *arr) { 
+            delete o;
+        }{{/items.isContainer}}
+        delete {{name}};
+    }{{/isContainer}}{{/complexType}}
     {{/vars}}
 }
 
