@@ -23,7 +23,7 @@ namespace Swagger {
 
 void
 setValue(void* value, QJsonValue obj, QString type, QString complexType) {
-    if(value == nullptr) {
+    if((value == nullptr) || (obj.isUndefined())) {
         // can't set value with a null pointer
         return;
     }

@@ -13,7 +13,7 @@
 #ifndef _SWG_OBJECT_H_
 #define _SWG_OBJECT_H_
 
-#include <QJsonValue>
+#include <QJsonObject>
 
 namespace Swagger {
 
