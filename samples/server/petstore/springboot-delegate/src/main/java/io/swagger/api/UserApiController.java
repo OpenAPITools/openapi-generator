@@ -44,7 +44,7 @@ public class UserApiController implements UserApi {
         return delegate.deleteUser(username);
     }
 
-    public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true) @PathVariable("username") String username) {
+    public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username) {
         return delegate.getUserByName(username);
     }
 
