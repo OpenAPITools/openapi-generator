@@ -113,8 +113,14 @@ public class OAuth implements Interceptor {
 
             // 401/403 most likely indicates that access token has expired. Unless it happens two times in a row.
             if ( response != null && (response.code() == HTTP_UNAUTHORIZED || response.code() == HTTP_FORBIDDEN) && updateTokenAndRetryOnAuthorizationFailure ) {
-                if (updateAccessToken(requestAccessToken)) {
-                    return retryingIntercept( chain, false );
+                try {
+                    if (updateAccessToken(requestAccessToken)) {
+                        response.body().close();
+                        return retryingIntercept( chain, false );
+                    }
+                } catch (Exception e) {
+                    response.body().close();
+                    throw e;
                 }
             }
             return response;
