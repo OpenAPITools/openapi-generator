@@ -68,6 +68,7 @@ Please follow the [installation procedure](#installation--usage) and then run th
 require_once(__DIR__ . '/vendor/autoload.php');
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}{{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
 // Configure HTTP basic authorization: {{{name}}}
+$config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()
     ->setUsername('YOUR_USERNAME')
     ->setPassword('YOUR_PASSWORD');{{/isBasic}}{{#isApiKey}}
 // Configure API key authorization: {{{name}}}
