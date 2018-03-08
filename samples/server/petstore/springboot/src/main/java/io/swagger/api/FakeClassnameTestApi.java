@@ -25,7 +25,7 @@ import java.util.List;
 @Api(value = "fake_classname_test", description = "the fake_classname_test API")
 public interface FakeClassnameTestApi {
 
-    @ApiOperation(value = "To test class name in snake case", nickname = "testClassname", notes = "", response = Client.class, authorizations = {
+    @ApiOperation(value = "To test class name in snake case", nickname = "testClassname", notes = "To test class name in snake case", response = Client.class, authorizations = {
         @Authorization(value = "api_key_query")
     }, tags={ "fake_classname_tags 123#$%^", })
     @ApiResponses(value = { 
