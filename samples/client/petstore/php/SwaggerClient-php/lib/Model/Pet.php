@@ -243,7 +243,7 @@ class Pet implements ModelInterface, ArrayAccess
             $invalidProperties[] = "'photo_urls' can't be null";
         }
         $allowedValues = $this->getStatusAllowableValues();
-        if (!in_array($this->container['status'], $allowedValues)) {
+        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues)) {
             $invalidProperties[] = sprintf(
                 "invalid value for 'status', must be one of '%s'",
                 implode("', '", $allowedValues)
@@ -269,7 +269,7 @@ class Pet implements ModelInterface, ArrayAccess
             return false;
         }
         $allowedValues = $this->getStatusAllowableValues();
-        if (!in_array($this->container['status'], $allowedValues)) {
+        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues)) {
             return false;
         }
         return true;
