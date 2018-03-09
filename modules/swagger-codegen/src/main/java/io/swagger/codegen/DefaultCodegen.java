@@ -263,21 +263,25 @@ public class DefaultCodegen {
     }
 
     /**
-     * Returns the common prefix of variables for enum naming
+     * Returns the common prefix of variables for enum naming if 
+     * two or more variables are present
      *
      * @param vars List of variable names
      * @return the common prefix for naming
      */
     public String findCommonPrefixOfVars(List<Object> vars) {
-        try {
-            String[] listStr = vars.toArray(new String[vars.size()]);
-            String prefix = StringUtils.getCommonPrefix(listStr);
-            // exclude trailing characters that should be part of a valid variable
-            // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
-            return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
-        } catch (ArrayStoreException e) {
-            return "";
+        if (vars.size() > 1) {
+            try {
+                String[] listStr = vars.toArray(new String[vars.size()]);
+                String prefix = StringUtils.getCommonPrefix(listStr);
+                // exclude trailing characters that should be part of a valid variable
+                // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
+                return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
+            } catch (ArrayStoreException e) {
+                // do nothing, just return default value
+            }
         }
+        return "";
     }
 
     /**
