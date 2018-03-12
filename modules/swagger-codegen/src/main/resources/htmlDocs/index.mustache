@@ -65,7 +65,7 @@
 
     {{#hasConsumes}}
     <h3 class="field-label">Consumes</h3>
-    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
     <ul>
     {{#consumes}}
       <li><code>{{{mediaType}}}</code></li>
@@ -122,7 +122,7 @@
     {{#hasProduces}}
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
     <ul>
     {{#produces}}
       <li><code>{{{mediaType}}}</code></li>
