@@ -61,21 +61,21 @@ exports.deleteUser = function(username) {
  * Get user by user name
  * 
  *
- * username String The name that needs to be fetched. Use user1 for testing. 
+ * username String The name that needs to be fetched. Use user1 for testing.
  * returns User
  **/
 exports.getUserByName = function(username) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "firstName" : "aeiou",
-  "lastName" : "aeiou",
-  "password" : "aeiou",
+  "firstName" : "firstName",
+  "lastName" : "lastName",
+  "password" : "password",
   "userStatus" : 6,
-  "phone" : "aeiou",
+  "phone" : "phone",
   "id" : 0,
-  "email" : "aeiou",
-  "username" : "aeiou"
+  "email" : "email",
+  "username" : "username"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -97,7 +97,7 @@ exports.getUserByName = function(username) {
 exports.loginUser = function(username,password) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = "aeiou";
+    examples['application/json'] = "";
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {

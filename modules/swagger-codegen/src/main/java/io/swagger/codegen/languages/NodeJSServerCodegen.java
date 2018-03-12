@@ -85,7 +85,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put("serverPort", serverPort);
         additionalProperties.put("implFolder", implFolder);
 
-        supportingFiles.add(new SupportingFile("writer.mustache", ("utils").replace(".", "/"), "writer.js"));
+        supportingFiles.add(new SupportingFile("writer.mustache", ("utils").replace(".", File.separator), "writer.js"));
 
         cliOptions.add(CliOption.newBoolean(GOOGLE_CLOUD_FUNCTIONS,
                 "When specified, it will generate the code which runs within Google Cloud Functions "
@@ -164,7 +164,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     private String implFileFolder(String output) {
-        return outputFolder + "/" + output + "/" + apiPackage().replace('.', '/');
+        return outputFolder + File.separator + output + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
     /**

@@ -61,7 +61,7 @@ exports.deleteUser = function(username) {
  * Get user by user name
  * 
  *
- * username String The name that needs to be fetched. Use user1 for testing. 
+ * username String The name that needs to be fetched. Use user1 for testing.
  * returns User
  **/
 exports.getUserByName = function(username) {
