@@ -50,6 +50,7 @@ samples/server/petstore/nodejs/node_modules
 samples/server/petstore/nodejs-server/node_modules
 
 # qt5 cpp
+*.pro.user
 samples/client/petstore/qt5cpp/PetStore/moc_*
 samples/client/petstore/qt5cpp/PetStore/*.o
 samples/client/petstore/qt5cpp/build-*
