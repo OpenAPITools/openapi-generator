@@ -30,10 +30,10 @@ public:
     void init();
     void cleanup();
 
-    QString asJson ();
-    QJsonObject asJsonObject();
-    void fromJsonObject(QJsonObject json);
-    {{classname}}* fromJson(QString jsonString);
+    QString asJson () override;
+    QJsonObject asJsonObject() override;
+    void fromJsonObject(QJsonObject json) override;
+    {{classname}}* fromJson(QString jsonString) override;
 
     {{#vars}}
     {{{datatype}}} {{getter}}();
