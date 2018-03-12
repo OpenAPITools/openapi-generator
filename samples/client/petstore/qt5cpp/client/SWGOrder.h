@@ -37,10 +37,10 @@ public:
     void init();
     void cleanup();
 
-    QString asJson ();
-    QJsonObject asJsonObject();
-    void fromJsonObject(QJsonObject json);
-    SWGOrder* fromJson(QString jsonString);
+    QString asJson () override;
+    QJsonObject asJsonObject() override;
+    void fromJsonObject(QJsonObject json) override;
+    SWGOrder* fromJson(QString jsonString) override;
 
     qint64 getId();
     void setId(qint64 id);
