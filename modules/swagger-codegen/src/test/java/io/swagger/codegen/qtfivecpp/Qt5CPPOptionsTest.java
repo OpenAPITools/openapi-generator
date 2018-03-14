@@ -28,6 +28,8 @@ public class Qt5CPPOptionsTest extends AbstractOptionsTest {
         new Expectations(clientCodegen) {{
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(Qt5CPPOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
+            clientCodegen.setOptionalProjectFileFlag(true);
+            times = 1;
         }};
     }
 }
