@@ -13,6 +13,7 @@ import Foundation
 public struct ModelWithStringAdditionalPropertiesOnly: Codable {
 
 
+
     public var additionalProperties: [String:String] = [:]
 
     public subscript(key: String) -> String? {

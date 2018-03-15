@@ -24,6 +24,15 @@ public struct Order: Codable {
     public var status: Status?
     public var complete: Bool?
 
+    public init(_id: Int64?, petId: Int64?, quantity: Int?, shipDate: Date?, status: Status?, complete: Bool?) {
+        self._id = _id
+        self.petId = petId
+        self.quantity = quantity
+        self.shipDate = shipDate
+        self.status = status
+        self.complete = complete
+    }
+
 
     public enum CodingKeys: String, CodingKey { 
         case _id = "id"

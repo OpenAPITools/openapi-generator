@@ -22,6 +22,14 @@ public struct {{classname}}: Codable {
 {{/isEnum}}
 {{/allVars}}
 
+{{#hasVars}}
+    public init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allVars}}) {
+        {{#allVars}}
+        self.{{name}} = {{name}}
+        {{/allVars}}
+    }
+{{/hasVars}}
+
 {{#additionalPropertiesType}}
     public var additionalProperties: [String:{{{additionalPropertiesType}}}] = [:]
 

@@ -22,6 +22,11 @@ public struct EnumArrays: Codable {
     public var justSymbol: JustSymbol?
     public var arrayEnum: [ArrayEnum]?
 
+    public init(justSymbol: JustSymbol?, arrayEnum: [ArrayEnum]?) {
+        self.justSymbol = justSymbol
+        self.arrayEnum = arrayEnum
+    }
+
 
     public enum CodingKeys: String, CodingKey { 
         case justSymbol = "just_symbol"

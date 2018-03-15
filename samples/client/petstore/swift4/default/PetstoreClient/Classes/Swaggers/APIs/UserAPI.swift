@@ -157,7 +157,7 @@ open class UserAPI {
     /**
      Get user by user name
      
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getUserByName(username: String, completion: @escaping ((_ data: User?,_ error: Error?) -> Void)) {
@@ -210,7 +210,7 @@ open class UserAPI {
   "username" : "username"
 }}]
      
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
 
      - returns: RequestBuilder<User> 
      */

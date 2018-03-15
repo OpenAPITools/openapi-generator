@@ -31,6 +31,17 @@ public struct User: Codable {
         }
     }
 
+    public init(_id: Int64?, username: String?, firstName: String?, lastName: String?, email: String?, password: String?, phone: String?, userStatus: Int?) {
+        self._id = _id
+        self.username = username
+        self.firstName = firstName
+        self.lastName = lastName
+        self.email = email
+        self.password = password
+        self.phone = phone
+        self.userStatus = userStatus
+    }
+
 
     public enum CodingKeys: String, CodingKey { 
         case _id = "id"

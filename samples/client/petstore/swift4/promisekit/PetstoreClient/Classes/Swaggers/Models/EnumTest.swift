@@ -29,6 +29,13 @@ public struct EnumTest: Codable {
     public var enumNumber: EnumNumber?
     public var outerEnum: OuterEnum?
 
+    public init(enumString: EnumString?, enumInteger: EnumInteger?, enumNumber: EnumNumber?, outerEnum: OuterEnum?) {
+        self.enumString = enumString
+        self.enumInteger = enumInteger
+        self.enumNumber = enumNumber
+        self.outerEnum = outerEnum
+    }
+
 
     public enum CodingKeys: String, CodingKey { 
         case enumString = "enum_string"

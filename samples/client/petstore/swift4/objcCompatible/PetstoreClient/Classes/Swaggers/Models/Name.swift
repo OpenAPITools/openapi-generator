@@ -32,6 +32,13 @@ public struct Name: Codable {
         }
     }
 
+    public init(name: Int, snakeCase: Int?, property: String?, _123Number: Int?) {
+        self.name = name
+        self.snakeCase = snakeCase
+        self.property = property
+        self._123Number = _123Number
+    }
+
 
     public enum CodingKeys: String, CodingKey { 
         case name

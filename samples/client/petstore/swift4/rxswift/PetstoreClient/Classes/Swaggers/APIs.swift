@@ -16,10 +16,10 @@ open class PetstoreClientAPI {
 open class RequestBuilder<T> {
     var credential: URLCredential?
     var headers: [String:String]
-    let parameters: [String:Any]?
-    let isBody: Bool
-    let method: String
-    let URLString: String
+    public let parameters: [String:Any]?
+    public let isBody: Bool
+    public let method: String
+    public let URLString: String
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     public var onProgressReady: ((Progress) -> ())?

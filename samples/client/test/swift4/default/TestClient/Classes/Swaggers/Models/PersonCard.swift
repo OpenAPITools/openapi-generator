@@ -16,6 +16,12 @@ public struct PersonCard: Codable {
     public var firstName: String?
     public var lastName: String?
 
+    public init(cardType: String, firstName: String?, lastName: String?) {
+        self.cardType = cardType
+        self.firstName = firstName
+        self.lastName = lastName
+    }
+
 
 
 }

@@ -18,6 +18,11 @@ public struct MapTest: Codable {
     public var mapMapOfString: [String:[String:String]]?
     public var mapOfEnumString: [String:String]?
 
+    public init(mapMapOfString: [String:[String:String]]?, mapOfEnumString: [String:String]?) {
+        self.mapMapOfString = mapMapOfString
+        self.mapOfEnumString = mapOfEnumString
+    }
+
 
     public enum CodingKeys: String, CodingKey { 
         case mapMapOfString = "map_map_of_string"

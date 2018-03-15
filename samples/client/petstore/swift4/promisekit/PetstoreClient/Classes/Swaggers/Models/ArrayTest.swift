@@ -15,6 +15,12 @@ public struct ArrayTest: Codable {
     public var arrayArrayOfInteger: [[Int64]]?
     public var arrayArrayOfModel: [[ReadOnlyFirst]]?
 
+    public init(arrayOfString: [String]?, arrayArrayOfInteger: [[Int64]]?, arrayArrayOfModel: [[ReadOnlyFirst]]?) {
+        self.arrayOfString = arrayOfString
+        self.arrayArrayOfInteger = arrayArrayOfInteger
+        self.arrayArrayOfModel = arrayArrayOfModel
+    }
+
 
     public enum CodingKeys: String, CodingKey { 
         case arrayOfString = "array_of_string"
