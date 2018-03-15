@@ -16,6 +16,12 @@ public struct GetAllModelsResult: Codable {
     public var myPrimitive: AllPrimitives?
     public var myVariableNameTest: VariableNameTest?
 
+    public init(myPrimitiveArray: [AllPrimitives]?, myPrimitive: AllPrimitives?, myVariableNameTest: VariableNameTest?) {
+        self.myPrimitiveArray = myPrimitiveArray
+        self.myPrimitive = myPrimitive
+        self.myVariableNameTest = myVariableNameTest
+    }
+
 
 
 }

@@ -19,6 +19,12 @@ public struct VariableNameTest: Codable {
     /** This model object property name should be unchanged from the JSON property name. */
     public var normalName: String?
 
+    public init(exampleName: String?, _for: String?, normalName: String?) {
+        self.exampleName = exampleName
+        self._for = _for
+        self.normalName = normalName
+    }
+
 
     public enum CodingKeys: String, CodingKey { 
         case exampleName = "example_name"

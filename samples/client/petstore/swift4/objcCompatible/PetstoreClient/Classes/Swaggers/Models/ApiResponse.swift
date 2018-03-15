@@ -20,6 +20,12 @@ public struct ApiResponse: Codable {
     public var type: String?
     public var message: String?
 
+    public init(code: Int?, type: String?, message: String?) {
+        self.code = code
+        self.type = type
+        self.message = message
+    }
+
 
 
 }

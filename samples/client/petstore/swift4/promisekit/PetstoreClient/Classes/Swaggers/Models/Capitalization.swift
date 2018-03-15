@@ -19,6 +19,15 @@ public struct Capitalization: Codable {
     /** Name of the pet  */
     public var ATT_NAME: String?
 
+    public init(smallCamel: String?, capitalCamel: String?, smallSnake: String?, capitalSnake: String?, sCAETHFlowPoints: String?, ATT_NAME: String?) {
+        self.smallCamel = smallCamel
+        self.capitalCamel = capitalCamel
+        self.smallSnake = smallSnake
+        self.capitalSnake = capitalSnake
+        self.sCAETHFlowPoints = sCAETHFlowPoints
+        self.ATT_NAME = ATT_NAME
+    }
+
 
     public enum CodingKeys: String, CodingKey { 
         case smallCamel

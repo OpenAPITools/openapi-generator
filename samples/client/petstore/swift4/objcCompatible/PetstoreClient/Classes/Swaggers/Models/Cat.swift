@@ -20,6 +20,12 @@ public struct Cat: Codable {
         }
     }
 
+    public init(className: String, color: String?, declawed: Bool?) {
+        self.className = className
+        self.color = color
+        self.declawed = declawed
+    }
+
 
 
 }

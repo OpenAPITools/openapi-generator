@@ -15,6 +15,11 @@ public struct Model200Response: Codable {
     public var name: Int?
     public var _class: String?
 
+    public init(name: Int?, _class: String?) {
+        self.name = name
+        self._class = _class
+    }
+
 
     public enum CodingKeys: String, CodingKey { 
         case name

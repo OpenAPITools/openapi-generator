@@ -17,6 +17,13 @@ public struct SampleSubClass: Codable {
     public var subClassStringProp: String?
     public var subClassIntegerProp: Int?
 
+    public init(baseClassStringProp: String?, baseClassIntegerProp: Int?, subClassStringProp: String?, subClassIntegerProp: Int?) {
+        self.baseClassStringProp = baseClassStringProp
+        self.baseClassIntegerProp = baseClassIntegerProp
+        self.subClassStringProp = subClassStringProp
+        self.subClassIntegerProp = subClassIntegerProp
+    }
+
 
 
 }

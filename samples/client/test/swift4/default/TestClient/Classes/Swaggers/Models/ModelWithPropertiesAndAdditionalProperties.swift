@@ -21,6 +21,17 @@ public struct ModelWithPropertiesAndAdditionalProperties: Codable {
     public var myPrimitiveArrayReq: [AllPrimitives]
     public var myPrimitiveArrayOpt: [AllPrimitives]?
 
+    public init(myIntegerReq: Int, myIntegerOpt: Int?, myPrimitiveReq: AllPrimitives, myPrimitiveOpt: AllPrimitives?, myStringArrayReq: [String], myStringArrayOpt: [String]?, myPrimitiveArrayReq: [AllPrimitives], myPrimitiveArrayOpt: [AllPrimitives]?) {
+        self.myIntegerReq = myIntegerReq
+        self.myIntegerOpt = myIntegerOpt
+        self.myPrimitiveReq = myPrimitiveReq
+        self.myPrimitiveOpt = myPrimitiveOpt
+        self.myStringArrayReq = myStringArrayReq
+        self.myStringArrayOpt = myStringArrayOpt
+        self.myPrimitiveArrayReq = myPrimitiveArrayReq
+        self.myPrimitiveArrayOpt = myPrimitiveArrayOpt
+    }
+
     public var additionalProperties: [String:String] = [:]
 
     public subscript(key: String) -> String? {

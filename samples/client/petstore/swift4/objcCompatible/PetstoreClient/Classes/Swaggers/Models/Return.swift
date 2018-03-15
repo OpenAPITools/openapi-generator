@@ -19,6 +19,10 @@ public struct Return: Codable {
         }
     }
 
+    public init(_return: Int?) {
+        self._return = _return
+    }
+
 
     public enum CodingKeys: String, CodingKey { 
         case _return = "return"

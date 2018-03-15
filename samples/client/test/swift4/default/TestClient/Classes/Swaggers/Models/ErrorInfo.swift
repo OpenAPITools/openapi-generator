@@ -16,6 +16,12 @@ public struct ErrorInfo: Codable {
     public var message: String?
     public var details: [String]?
 
+    public init(code: Int?, message: String?, details: [String]?) {
+        self.code = code
+        self.message = message
+        self.details = details
+    }
+
 
 
 }

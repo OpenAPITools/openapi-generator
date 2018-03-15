@@ -24,6 +24,15 @@ public struct Pet: Codable {
     /** pet status in the store */
     public var status: Status?
 
+    public init(_id: Int64?, category: Category?, name: String, photoUrls: [String], tags: [Tag]?, status: Status?) {
+        self._id = _id
+        self.category = category
+        self.name = name
+        self.photoUrls = photoUrls
+        self.tags = tags
+        self.status = status
+    }
+
 
     public enum CodingKeys: String, CodingKey { 
         case _id = "id"
