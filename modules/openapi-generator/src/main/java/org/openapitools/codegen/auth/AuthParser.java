@@ -1,16 +1,13 @@
 package org.openapitools.codegen.auth;
 
-import io.swagger.models.auth.AuthorizationValue;
+import io.swagger.v3.parser.core.models.AuthorizationValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import config.ConfigParser;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 

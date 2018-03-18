@@ -1,9 +1,12 @@
 package org.openapitools.codegen;
 
-import io.swagger.models.ExternalDocs;
-import io.swagger.models.Tag;
+import io.swagger.v3.oas.models.ExternalDocumentation;
+import io.swagger.v3.oas.models.media.Discriminator;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.tags.Tag;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +22,8 @@ public class CodegenOperation {
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isDeprecated;
     public String path, operationId, returnType, httpMethod, returnBaseType,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator;
+            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse; 
+    public Discriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public CodegenParameter bodyParam;
     public List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
@@ -35,8 +39,8 @@ public class CodegenOperation {
     public Set<String> imports = new HashSet<String>();
     public List<Map<String, String>> examples;
     public List<Map<String, String>> requestBodyExamples;
-    public ExternalDocs externalDocs;
-    public Map<String, Object> vendorExtensions;
+    public ExternalDocumentation externalDocs;
+    public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public String nickname; // legacy support
     public String operationIdOriginal; // for plug-in
     public String operationIdLowerCase; // for markdown documentation

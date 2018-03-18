@@ -1,20 +1,18 @@
 package org.openapitools.codegen;
 
-import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.codegen.auth.AuthParser;
-import io.swagger.models.Swagger;
-import io.swagger.models.auth.AuthorizationValue;
-
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.core.models.AuthorizationValue;
 import java.util.List;
+import org.openapitools.codegen.auth.AuthParser;
 
 public class ClientOptInput {
     private CodegenConfig config;
     private ClientOpts opts;
-    private Swagger swagger;
+    private OpenAPI openAPI;
     private List<AuthorizationValue> auths;
 
-    public ClientOptInput swagger(Swagger swagger) {
-        this.setSwagger(swagger);
+    public ClientOptInput openAPI(OpenAPI openAPI) {
+        this.setOpenAPI(openAPI);
         return this;
     }
 
@@ -65,12 +63,11 @@ public class ClientOptInput {
         this.opts = opts;
     }
 
-    @ApiModelProperty(dataType = "Object")
-    public Swagger getSwagger() {
-        return swagger;
+    public OpenAPI getOpenAPI() {
+        return openAPI;
     }
 
-    public void setSwagger(Swagger swagger) {
-        this.swagger = swagger;
+    public void setOpenAPI(OpenAPI openAPI) {
+        this.openAPI = openAPI;
     }
 }

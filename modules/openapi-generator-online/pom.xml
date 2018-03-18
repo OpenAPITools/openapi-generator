@@ -133,7 +133,7 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-jersey2-jaxrs</artifactId>
-            <version>${swagger-core-version}</version>
+            <version>1.5.18</version>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
