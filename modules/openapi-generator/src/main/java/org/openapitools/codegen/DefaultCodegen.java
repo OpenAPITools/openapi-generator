@@ -1459,13 +1459,9 @@ public class DefaultCodegen {
     }
 
     protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Map<String, Schema> allSchemas) {
-        if (schema == null) {
-            throw new RuntimeException("schema cannot be null in addProperties");
-        }
-
         if (schema instanceof ComposedSchema) {
             ComposedSchema composedSchema = (ComposedSchema) schema;
-            if(composedSchema.getAllOf() == null) {
+            if (composedSchema.getAllOf() == null) {
                 return;
             }
 
@@ -1476,7 +1472,7 @@ public class DefaultCodegen {
         }
       
         if (StringUtils.isNotBlank(schema.get$ref())) {
-            Schema interfaceSchema = allSchemas.get(schema.get$ref());
+            Schema interfaceSchema = allSchemas.get(getSimpleRef(schema.get$ref()));
             addProperties(properties, required, interfaceSchema, allSchemas);
             return;
         }
@@ -1646,11 +1642,11 @@ public class DefaultCodegen {
             } else { // type is number and without format
                 property.isNumber = Boolean.TRUE;
             }
-
+            /* TODO fix Could not process model 'Enum_Test'.Please make sure that your schema is correct!
             if (p.getEnum() != null) {
                 List<Double> _enum = p.getEnum();
                 property._enum = new ArrayList<String>();
-                for (Double i : _enum) {
+                for (Double i : _enum) { <<<<< line throwing exception
                     property._enum.add(i.toString());
 				}
                 property.isEnum = true;
@@ -1659,7 +1655,7 @@ public class DefaultCodegen {
                 Map<String, Object> allowableValues = new HashMap<String, Object>();
                 allowableValues.put("values", _enum);
                 property.allowableValues = allowableValues;
-			}
+			} */
 		}
 
         if (p instanceof DateSchema) {
