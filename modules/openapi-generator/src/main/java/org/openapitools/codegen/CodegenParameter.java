@@ -343,5 +343,128 @@ public class CodegenParameter {
         result = 31 * result + (multipleOf != null ? multipleOf.hashCode() : 0);
         return result;
     }
+    public boolean getSecondaryParam() {
+        return secondaryParam;
+    }
+
+    public String getBaseName() {
+        return baseName;
+    }
+
+    public String getParamName() {
+        return paramName;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public String getDatatypeWithEnum() {
+        return datatypeWithEnum;
+    }
+
+    public String getDataFormat() {
+        return dataFormat;
+    }
+
+    public String getCollectionFormat() {
+        return collectionFormat;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getUnescapedDescription() {
+        return unescapedDescription;
+    }
+
+    public String getBaseType() {
+        return baseType;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public String getEnumName() {
+        return enumName;
+    }
+
+    public String getExample() {
+        return example;
+    }
+
+    public String getJsonSchema() {
+        return jsonSchema;
+    }
+
+    public boolean getIsNotFile() {
+        return notFile;
+    }
+
+    public List<String> get_enum() {
+        return _enum;
+    }
+
+    public Map<String, Object> getAllowableValues() {
+        return allowableValues;
+    }
+
+    public CodegenProperty getItems() {
+        return items;
+    }
+
+    public Map<String, Object> getVendorExtensions() {
+        return vendorExtensions;
+    }
+
+    public boolean getRequired() {
+        return required;
+    }
+
+    public String getMaximum() {
+        return maximum;
+    }
+
+    public boolean getExclusiveMaximum() {
+        return exclusiveMaximum;
+    }
+
+    public String getMinimum() {
+        return minimum;
+    }
+
+    public boolean getExclusiveMinimum() {
+        return exclusiveMinimum;
+    }
+
+    public Integer getMaxLength() {
+        return maxLength;
+    }
+
+    public Integer getMinLength() {
+        return minLength;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public Integer getMaxItems() {
+        return maxItems;
+    }
+
+    public Integer getMinItems() {
+        return minItems;
+    }
+
+    public boolean getUniqueItems() {
+        return uniqueItems;
+    }
+
+    public Number getMultipleOf() {
+        return multipleOf;
+    }
 }
 

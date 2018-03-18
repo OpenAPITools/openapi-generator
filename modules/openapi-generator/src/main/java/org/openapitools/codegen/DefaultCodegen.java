@@ -1955,6 +1955,9 @@ public class DefaultCodegen {
             op.vendorExtensions.putAll(operation.getExtensions());
         }
 
+        if (operation == null)
+            throw new RuntimeException("operation cannnot be null in fromOperation");
+
         // store the original operationId for plug-in
         op.operationIdOriginal = operation.getOperationId();
 
@@ -2282,7 +2285,7 @@ public class DefaultCodegen {
         codegenParameter.baseName = parameter.getName();
         codegenParameter.description = escapeText(parameter.getDescription());
         codegenParameter.unescapedDescription = parameter.getDescription();
-        if (parameter.getRequired()) {
+        if (parameter.getRequired() != null) {
             codegenParameter.required = parameter.getRequired();
         }
         codegenParameter.jsonSchema = Json.pretty(parameter);
