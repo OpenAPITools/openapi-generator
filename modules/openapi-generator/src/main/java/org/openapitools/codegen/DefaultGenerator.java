@@ -1011,6 +1011,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Set<String> allImports = new LinkedHashSet<String>();
         for (String key : definitions.keySet()) {
             Schema schema = definitions.get(key);
+            if (schema == null)
+                throw new RuntimeException("schema cannnot be null in processMoels");
             CodegenModel cm = config.fromModel(key, schema, allDefinitions);
             Map<String, Object> mo = new HashMap<String, Object>();
             mo.put("model", cm);
