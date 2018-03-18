@@ -21,7 +21,7 @@ public class CodegenParameter {
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
-    public Map<String, Object> vendorExtensions;
+    public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation;
 
     /**

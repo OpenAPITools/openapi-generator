@@ -7,60 +7,50 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.samskivert.mustache.Mustache.Compiler;
 
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.headers.Header;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.BinarySchema;
+import io.swagger.v3.oas.models.media.BooleanSchema;
+import io.swagger.v3.oas.models.media.ByteArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.DateSchema;
+import io.swagger.v3.oas.models.media.DateTimeSchema;
+import io.swagger.v3.oas.models.media.EmailSchema;
+import io.swagger.v3.oas.models.media.FileSchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.UUIDSchema;
+import io.swagger.v3.oas.models.parameters.CookieParameter;
+import io.swagger.v3.oas.models.parameters.HeaderParameter;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.PathParameter;
+import io.swagger.v3.oas.models.parameters.QueryParameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.responses.ApiResponses;
+import io.swagger.v3.oas.models.security.OAuthFlow;
+import io.swagger.v3.oas.models.security.OAuthFlows;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.examples.ExampleGenerator;
-import io.swagger.models.ArrayModel;
-import io.swagger.models.ComposedModel;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.Operation;
-import io.swagger.models.RefModel;
-import io.swagger.models.Response;
-import io.swagger.models.Swagger;
-import io.swagger.models.auth.ApiKeyAuthDefinition;
-import io.swagger.models.auth.BasicAuthDefinition;
-import io.swagger.models.auth.In;
-import io.swagger.models.auth.OAuth2Definition;
-import io.swagger.models.auth.SecuritySchemeDefinition;
-import io.swagger.models.parameters.BodyParameter;
-import io.swagger.models.parameters.CookieParameter;
-import io.swagger.models.parameters.FormParameter;
-import io.swagger.models.parameters.HeaderParameter;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.parameters.PathParameter;
-import io.swagger.models.parameters.QueryParameter;
-import io.swagger.models.parameters.SerializableParameter;
-import io.swagger.models.properties.AbstractNumericProperty;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BaseIntegerProperty;
-import io.swagger.models.properties.BinaryProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.ByteArrayProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DecimalProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FileProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.PropertyBuilder;
-import io.swagger.models.properties.PropertyBuilder.PropertyId;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
-import io.swagger.models.properties.UUIDProperty;
-import io.swagger.util.Json;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DefaultCodegen {
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
@@ -361,12 +351,12 @@ public class DefaultCodegen {
 
     //override with any special handling of the entire swagger spec
     @SuppressWarnings("unused")
-    public void preprocessSwagger(Swagger swagger) {
+    public void preprocessOpenAPI(OpenAPI openAPI) {
     }
 
     // override with any special handling of the entire swagger spec
     @SuppressWarnings("unused")
-    public void processSwagger(Swagger swagger) {
+    public void processOpenAPI(OpenAPI openAPI) {
     }
 
     // override with any special handling of the JMustache compiler
@@ -775,8 +765,8 @@ public class DefaultCodegen {
 
     /**
      * Default constructor.
-     * This method will map between Swagger type and language-specified type, as well as mapping
-     * between Swagger type and the corresponding import statement for the language. This will
+     * This method will map between OAS type and language-specified type, as well as mapping
+     * between OAS type and the corresponding import statement for the language. This will
      * also add some language specified CLI options, if any.
      *
      *
@@ -918,7 +908,7 @@ public class DefaultCodegen {
      * Return the example path
      *
      * @param path the path of the operation
-     * @param operation Swagger operation object
+     * @param operation OAS operation object
      * @return string presentation of the example path
      */
     @SuppressWarnings("static-method")
@@ -945,6 +935,8 @@ public class DefaultCodegen {
                     }
                     paramPart.append(param.getName()).append("=");
                     paramPart.append("{");
+                    // TODO the following needs to be commented out?
+                    /*
                     if (qp.getCollectionFormat() != null) {
                         paramPart.append(param.getName()).append("1");
                         if ("csv".equals(qp.getCollectionFormat())) {
@@ -958,8 +950,10 @@ public class DefaultCodegen {
                             paramPart.append(param.getName()).append("2");
                         }
                     } else {
-                        paramPart.append(param.getName());
-                    }
+                    paramPart.append(param.getName());
+                    } */
+                    paramPart.append(param.getName());
+                    // TODO --END
                     paramPart.append("}");
                     if (!param.getRequired()) {
                         paramPart.append("]");
@@ -975,23 +969,22 @@ public class DefaultCodegen {
     /**
      * Return the instantiation type of the property, especially for map and array
      *
-     * @param p Swagger property object
+     * @param schema property schema
      * @return string presentation of the instantiation type of the property
      */
-    public String toInstantiationType(Property p) {
-        if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            Property additionalProperties2 = ap.getAdditionalProperties();
-            String type = additionalProperties2.getType();
+    public String toInstantiationType(Schema schema) {
+        if (schema instanceof MapSchema || schema.getAdditionalProperties() != null && schema.getAdditionalProperties() instanceof Schema) {
+            Schema additionalProperties = (Schema) schema.getAdditionalProperties();
+            String type = additionalProperties.getType();
             if (null == type) {
-                LOGGER.error("No Type defined for Additional Property " + additionalProperties2 + "\n" //
-                        + "\tIn Property: " + p);
+                LOGGER.error("No Type defined for Additional Property " + additionalProperties + "\n" //
+                        + "\tIn Property: " + schema);
             }
-            String inner = getSwaggerType(additionalProperties2);
+            String inner = getSchemaType(additionalProperties);
             return instantiationTypes.get("map") + "<String, " + inner + ">";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
+        } else if (schema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) schema;
+            String inner = getSchemaType(arraySchema.getItems());
             return instantiationTypes.get("array") + "<" + inner + ">";
         } else {
             return null;
@@ -1001,7 +994,7 @@ public class DefaultCodegen {
     /**
      * Return the example value of the parameter.
      *
-     * @param p Swagger property object
+     * @param p Codegen parameter
      */
     public void setParameterExampleValue(CodegenParameter p) {
 
@@ -1010,44 +1003,27 @@ public class DefaultCodegen {
     /**
      * Return the example value of the property
      *
-     * @param p Swagger property object
+     * @param schema Property schema
      * @return string presentation of the example value of the property
      */
-    public String toExampleValue(Property p) {
-        if(p.getExample() != null) {
-            return p.getExample().toString();
+    public String toExampleValue(Schema schema) {
+        if (schema.getExample() != null) {
+            return schema.getExample().toString();
         }
-        if (p instanceof StringProperty) {
+
+        if (schema instanceof StringSchema) {
             return "null";
-        } else if (p instanceof BooleanProperty) {
+        } else if (schema instanceof BooleanSchema) {
             return "null";
-        } else if (p instanceof DateProperty) {
+        } else if (schema instanceof DateSchema) {
             return "null";
-        } else if (p instanceof DateTimeProperty) {
+        } else if (schema instanceof DateTimeSchema) {
             return "null";
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getExample() != null) {
-                return dp.getExample().toString();
-            }
+        } else if (schema instanceof NumberSchema) {
             return "null";
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getExample() != null) {
-                return dp.getExample().toString();
-            }
+        } else if (schema instanceof IntegerSchema) {
             return "null";
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getExample() != null) {
-                return dp.getExample().toString();
-            }
-            return "null";
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getExample() != null) {
-                return dp.getExample().toString();
-            }
+        } else if (schema instanceof ObjectSchema) {
             return "null";
         } else {
             return "null";
@@ -1057,42 +1033,24 @@ public class DefaultCodegen {
     /**
      * Return the default value of the property
      *
-     * @param p Swagger property object
+     * @param schema Property schema 
      * @return string presentation of the default value of the property
      */
     @SuppressWarnings("static-method")
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
+    public String toDefaultValue(Schema schema) {
+        if (schema instanceof StringSchema) {
             return "null";
-        } else if (p instanceof BooleanProperty) {
+        } else if (schema instanceof BooleanSchema) {
             return "null";
-        } else if (p instanceof DateProperty) {
+        } else if (schema instanceof DateSchema) {
             return "null";
-        } else if (p instanceof DateTimeProperty) {
+        } else if (schema instanceof DateTimeSchema) {
             return "null";
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
+        } else if (schema instanceof NumberSchema) {
             return "null";
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
+        } else if (schema instanceof IntegerSchema) {
             return "null";
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-            return "null";
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
+        } else if (schema instanceof ObjectSchema) {
             return "null";
         } else {
             return "null";
@@ -1104,69 +1062,78 @@ public class DefaultCodegen {
      * Useful for initialization with a plain object in Javascript
      *
      * @param name Name of the property object
-     * @param p Swagger property object
+     * @param schema Property schema 
      * @return string presentation of the default value of the property
      */
     @SuppressWarnings("static-method")
-    public String toDefaultValueWithParam(String name, Property p) {
+    public String toDefaultValueWithParam(String name, Schema schema) {
         return " = data." + name + ";";
     }
 
     /**
-     * returns the swagger type for the property
-     * @param p Swagger property object
+     * returns the OpenAPI type for the property
+     * @param schema property schema 
      * @return string presentation of the type
      **/
     @SuppressWarnings("static-method")
-    public String getSwaggerType(Property p) {
+    public String getSchemaType(Schema schema) {
         String datatype = null;
-        if (p instanceof StringProperty && "number".equals(p.getFormat())) {
-            datatype = "BigDecimal";
-        } else if ((p instanceof ByteArrayProperty) || (p instanceof StringProperty && "byte".equals(p.getFormat()))) {
-            datatype = "ByteArray";
-        } else if (p instanceof BinaryProperty) {
-            datatype = "binary";
-        } else if (p instanceof FileProperty) {
-            datatype = "file";
-        } else if (p instanceof BooleanProperty) {
-            datatype = "boolean";
-        } else if (p instanceof DateProperty) {
-            datatype = "date";
-        } else if (p instanceof DateTimeProperty) {
-            datatype = "DateTime";
-        } else if (p instanceof DoubleProperty) {
-            datatype = "double";
-        } else if (p instanceof FloatProperty) {
-            datatype = "float";
-        } else if (p instanceof IntegerProperty) {
-            datatype = "integer";
-        } else if (p instanceof LongProperty) {
-            datatype = "long";
-        } else if (p instanceof MapProperty) {
-            datatype = "map";
-        } else if (p instanceof DecimalProperty) {
-            datatype = "number";
-        } else if ( p instanceof UUIDProperty) {
-            datatype = "UUID";
-        } else if (p instanceof RefProperty) {
+
+        if (StringUtils.isNotBlank(schema.get$ref())) { // object
             try {
-                RefProperty r = (RefProperty) p;
-                datatype = r.get$ref();
-                if (datatype.indexOf("#/definitions/") == 0) {
-                    datatype = datatype.substring("#/definitions/".length());
+                datatype = schema.get$ref();
+                if (datatype.indexOf("#/components/schemas/") == 0) {
+                    datatype = datatype.substring("#/components/schemas/".length());
                 }
             } catch (Exception e) {
-                LOGGER.warn("Error obtaining the datatype from RefProperty:" + p + ". Datatype default to Object");
+                LOGGER.warn("Error obtaining the datatype from ref:" + schema + ". Datatype default to Object");
                 datatype = "Object";
-                LOGGER.error(e.getMessage(), e);
-            }
-        } else if (p instanceof StringProperty) {
-            datatype = "string";
-        } else {
-            if (p != null) {
-                datatype = p.getType();
             }
         }
+
+        if (schema instanceof ByteArraySchema) {
+            datatype = "ByteArray";
+        } else if (schema instanceof BinarySchema) {
+            datatype = SchemaTypeUtil.BINARY_FORMAT;
+        } else if (schema instanceof FileSchema) {
+            datatype = "file";
+        } else if (schema instanceof BooleanSchema) {
+            datatype = SchemaTypeUtil.BOOLEAN_TYPE;
+        } else if (schema instanceof DateSchema) {
+            datatype = SchemaTypeUtil.DATE_FORMAT;
+        } else if (schema instanceof DateTimeSchema) {
+            datatype = "DateTime";
+        } else if (schema instanceof NumberSchema) {
+            if (SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) {
+                datatype = SchemaTypeUtil.FLOAT_FORMAT;
+            } else if(SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat())) {
+                datatype = SchemaTypeUtil.DOUBLE_FORMAT;
+            } else {
+                datatype = "BigDecimal";
+            }
+        } else if (schema instanceof IntegerSchema) {
+            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
+                datatype = "long";
+            } else {
+                datatype = schema.getType();
+            }
+        } else if (schema instanceof MapSchema) {
+            datatype = "map";
+        } else if ( schema instanceof UUIDSchema) {
+            datatype = "UUID";
+        } else if (schema instanceof StringSchema) {
+            datatype = "string";
+            if ("number".equals(schema.getFormat())) {
+                datatype = "BigDecimal";
+            } else {
+                datatype = "string";
+            }
+        } else {
+            if (schema != null) {
+                datatype = schema.getType();
+            }
+        }
+
         return datatype;
     }
 
@@ -1206,15 +1173,15 @@ public class DefaultCodegen {
     /**
      * Output the type declaration of the property
      *
-     * @param p Swagger Property object
+     * @param schema property schema
      * @return a string presentation of the property type
      */
-    public String getTypeDeclaration(Property p) {
-        String swaggerType = getSwaggerType(p);
-        if (typeMapping.containsKey(swaggerType)) {
-            return typeMapping.get(swaggerType);
+    public String getTypeDeclaration(Schema schema) {
+        String oasType = getSchemaType(schema);
+        if (typeMapping.containsKey(oasType)) {
+            return typeMapping.get(oasType);
         }
-        return swaggerType;
+        return oasType;
     }
 
     /**
@@ -1285,91 +1252,85 @@ public class DefaultCodegen {
     }
 
     /**
-     * Convert Swagger Model object to Codegen Model object without providing all model definitions
+     * Convert OAS Model object to Codegen Model object without providing all model definitions
      *
      * @param name the name of the model
-     * @param model Swagger Model object
+     * @param model OAS Model object
      * @return Codegen Model object
      */
-    public CodegenModel fromModel(String name, Model model) {
-        return fromModel(name, model, null);
+    public CodegenModel fromModel(String name, Schema schema) {
+        return fromModel(name, schema, null);
     }
 
     /**
-     * Convert Swagger Model object to Codegen Model object
+     * Convert OAS Model object to Codegen Model object
      *
      * @param name the name of the model
-     * @param model Swagger Model object
-     * @param allDefinitions a map of all Swagger models from the spec
+     * @param schema OAS Model object
+     * @param allDefinitions a map of all OAS models from the spec
      * @return Codegen Model object
      */
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions) {
         if (typeAliases == null) {
             // Only do this once during first call
             typeAliases = getAllAliases(allDefinitions);
         }
+
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
+
         if (reservedWords.contains(name)) {
             m.name = escapeReservedWord(name);
         } else {
             m.name = name;
         }
-        m.title = escapeText(model.getTitle());
-        m.description = escapeText(model.getDescription());
-        m.unescapedDescription = model.getDescription();
+        m.title = escapeText(schema.getTitle());
+        m.description = escapeText(schema.getDescription());
+        m.unescapedDescription = schema.getDescription();
         m.classname = toModelName(name);
         m.classVarName = toVarName(name);
         m.classFilename = toModelFilename(name);
-        m.modelJson = Json.pretty(model);
-        m.externalDocs = model.getExternalDocs();
-        m.vendorExtensions = model.getVendorExtensions();
+        m.modelJson = Json.pretty(schema);
+        m.externalDocumentation = schema.getExternalDocs();
+        if (schema.getExtensions() != null && !schema.getExtensions().isEmpty()) {
+            m.getVendorExtensions().putAll(schema.getExtensions());
+        }
         m.isAlias = typeAliases.containsKey(name);
+        m.discriminator = schema.getDiscriminator();
 
-        if (model instanceof ModelImpl) {
-            ModelImpl modelImpl = (ModelImpl) model;
-            m.discriminator = modelImpl.getDiscriminator();
-
-            if (modelImpl.getXml() != null) {
-                m.xmlPrefix = modelImpl.getXml().getPrefix();
-                m.xmlNamespace = modelImpl.getXml().getNamespace();
-                m.xmlName = modelImpl.getXml().getName();
-            }
+        if (schema.getXml() != null) {
+            m.xmlPrefix = schema.getXml().getPrefix();
+            m.xmlNamespace = schema.getXml().getNamespace();
+            m.xmlName = schema.getXml().getName();
         }
 
-        if (model instanceof ArrayModel) {
-            ArrayModel am = (ArrayModel) model;
-            ArrayProperty arrayProperty = new ArrayProperty(am.getItems());
+        if (schema instanceof ArraySchema) {
             m.isArrayModel = true;
-            m.arrayModelType = fromProperty(name, arrayProperty).complexType;
-            addParentContainer(m, name, arrayProperty);
-        } else if (model instanceof RefModel) {
-            // TODO
-        } else if (model instanceof ComposedModel) {
-            final ComposedModel composed = (ComposedModel) model;
-            Map<String, Property> properties = new LinkedHashMap<String, Property>();
+            m.arrayModelType = fromProperty(name, schema).complexType;
+            addParentContainer(m, name, schema);
+        } else if (schema instanceof ComposedSchema) {
+            final ComposedSchema composed = (ComposedSchema) schema;
+            Map<String, Schema> properties = new LinkedHashMap<String, Schema>();
             List<String> required = new ArrayList<String>();
-            Map<String, Property> allProperties;
+            Map<String, Schema> allProperties;
             List<String> allRequired;
+
             if (supportsInheritance || supportsMixins) {
-                allProperties = new LinkedHashMap<String, Property>();
+                allProperties = new LinkedHashMap<String, Schema>();
                 allRequired = new ArrayList<String>();
                 m.allVars = new ArrayList<CodegenProperty>();
                 int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
-                for (Model innerModel: ((ComposedModel)model).getAllOf()) {
-                    if (innerModel instanceof ModelImpl) {
-                        ModelImpl modelImpl = (ModelImpl) innerModel;
-                        if (m.discriminator == null) {
-                            m.discriminator = modelImpl.getDiscriminator();
-                        }
-                        if (modelImpl.getXml() != null) {
-                            m.xmlPrefix = modelImpl.getXml().getPrefix();
-                            m.xmlNamespace = modelImpl.getXml().getNamespace();
-                            m.xmlName = modelImpl.getXml().getName();
-                        }
-                        if (modelImplCnt++ > 1) {
-                            LOGGER.warn("More than one inline schema specified in allOf:. Only the first one is recognized. All others are ignored.");
-                            break; // only one ModelImpl with discriminator allowed in allOf
-                        }
+                for (Schema innerModel: composed.getAllOf()) {
+                    if (m.discriminator == null) {
+                        m.discriminator = schema.getDiscriminator();
+                    }
+                    if (innerModel.getXml() != null) {
+                        m.xmlPrefix = innerModel.getXml().getPrefix();
+                        m.xmlNamespace = innerModel.getXml().getNamespace();
+                        m.xmlName = innerModel.getXml().getName();
+                    }
+                    if (modelImplCnt++ > 1) {
+                        LOGGER.warn("More than one inline schema specified in allOf:. Only the first one is recognized. All others are ignored.");
+                        break; // only one ModelImpl with discriminator allowed in allOf
                     }
                 }
             } else {
@@ -1377,54 +1338,53 @@ public class DefaultCodegen {
                 allRequired = null;
             }
             // parent model
-            RefModel parent = (RefModel) composed.getParent();
+            final String parentName = getParentName(composed, allDefinitions);
+            final Schema parent = StringUtils.isBlank(parentName) ? null : allDefinitions.get(parentName);
+
+            List<Schema> interfaces = getInterfaces(composed);
 
             // interfaces (intermediate models)
-            if (composed.getInterfaces() != null) {
+            if (interfaces != null) {
                 if (m.interfaces == null)
                     m.interfaces = new ArrayList<String>();
-                for (RefModel _interface : composed.getInterfaces()) {
-                    Model interfaceModel = null;
-                    if (allDefinitions != null) {
-                        interfaceModel = allDefinitions.get(_interface.getSimpleRef());
+                for (Schema interfaceSchema : interfaces) {
+                    if (StringUtils.isBlank(interfaceSchema.get$ref())) {
+                        continue;
                     }
-                    // set first interface with discriminator found as parent
-                    if (parent == null
-                            && ((interfaceModel instanceof ModelImpl && ((ModelImpl) interfaceModel).getDiscriminator() != null)
-                            || (interfaceModel instanceof ComposedModel && isDiscriminatorInInterfaceTree((ComposedModel) interfaceModel, allDefinitions)))) {
-                        parent = _interface;
-                    } else {
-                        final String interfaceRef = toModelName(_interface.getSimpleRef());
-                        m.interfaces.add(interfaceRef);
-                        addImport(m, interfaceRef);
-                        if (allDefinitions != null) {
-                            if (!supportsMixins) {
-                                addProperties(properties, required, interfaceModel, allDefinitions);
-                            }
-                            if (supportsInheritance) {
-                                addProperties(allProperties, allRequired, interfaceModel, allDefinitions);
-                            }
+                    Schema refSchema = null;
+                    String ref = getSimpleRef(interfaceSchema.get$ref());
+                    if (allDefinitions != null) {
+                        refSchema = allDefinitions.get(ref);
+                    }
+                    final String modelName = toModelName(ref);
+                    m.interfaces.add(modelName);
+                    addImport(m, modelName);
+                    if (allDefinitions != null && refSchema != null) {
+                        if (!supportsMixins) {
+                            addProperties(properties, required, refSchema, allDefinitions);
+                        }
+                        if (supportsInheritance) {
+                            addProperties(allProperties, allRequired, refSchema, allDefinitions);
                         }
                     }
                 }
             }
 
             if (parent != null) {
-                final String parentRef = parent.getSimpleRef();
-                m.parentSchema = parentRef;
-                m.parent = toModelName(parent.getSimpleRef());
+                m.parentSchema = parentName;
+                m.parent = StringUtils.capitalize(modelNamePrefix + "_" + parentName + "_" + modelNameSuffix);
                 addImport(m, m.parent);
                 if (allDefinitions != null) {
-                    final Model parentModel = allDefinitions.get(m.parentSchema);
                     if (supportsInheritance) {
-                        addProperties(allProperties, allRequired, parentModel, allDefinitions);
+                        addProperties(allProperties, allRequired, parent, allDefinitions);
                     } else {
-                        addProperties(properties, required, parentModel, allDefinitions);
+                        addProperties(properties, required, parent, allDefinitions);
                     }
                 }
             }
-
+			// TODO need to revise the child model logic below
             // child model (properties owned by the model itself)
+			/*
             Model child = composed.getChild();
             if (child != null && child instanceof RefModel && allDefinitions != null) {
                 final String childRef = ((RefModel) child).getSimpleRef();
@@ -1435,24 +1395,23 @@ public class DefaultCodegen {
                 if (supportsInheritance) {
                     addProperties(allProperties, allRequired, child, allDefinitions);
                 }
-            }
+            }*/
+            addProperties(properties, required, composed, allDefinitions);
             addVars(m, properties, required, allProperties, allRequired);
+			// TODO  
+			//} else if (schema instanceof RefModel) {
         } else {
-            ModelImpl impl = (ModelImpl) model;
-            if (impl.getType() != null) {
-                Property p = PropertyBuilder.build(impl.getType(), impl.getFormat(), null);
-                m.dataType = getSwaggerType(p);
-            }
-            if(impl.getEnum() != null && impl.getEnum().size() > 0) {
+            m.dataType = getSchemaType(schema);
+            if(schema.getEnum() != null && !schema.getEnum().isEmpty()) {
                 m.isEnum = true;
                 // comment out below as allowableValues is not set in post processing model enum
                 m.allowableValues = new HashMap<String, Object>();
-                m.allowableValues.put("values", impl.getEnum());
+                m.allowableValues.put("values", schema.getEnum());
             }
-            if (impl.getAdditionalProperties() != null) {
-                addAdditionPropertiesToCodeGenModel(m, impl);
+            if (schema.getAdditionalProperties() != null) {
+                addAdditionPropertiesToCodeGenModel(m, schema);
             }
-            addVars(m, impl.getProperties(), impl.getRequired());
+            addVars(m, schema.getProperties(), schema.getRequired());
         }
 
         if (m.vars != null) {
@@ -1460,58 +1419,72 @@ public class DefaultCodegen {
                 postProcessModelProperty(m, prop);
             }
         }
+
         return m;
     }
 
     /**
      * Recursively look for a discriminator in the interface tree
+     *
+     * @param schema composed schema
+     * @param allDefinitions all schema defintion
+     * @return true if it's a discriminator
      */
-    private boolean isDiscriminatorInInterfaceTree(ComposedModel model, Map<String, Model> allDefinitions) {
-        if (model == null || allDefinitions == null)
+    private boolean isDiscriminatorInInterfaceTree(ComposedSchema schema, Map<String, Schema> allDefinitions) {
+        if (schema == null || allDefinitions == null || allDefinitions.isEmpty()) {
             return false;
-
-        Model child = model.getChild();
-        if (child instanceof ModelImpl && ((ModelImpl) child).getDiscriminator() != null) {
+        }
+        if (schema.getDiscriminator() != null) {
             return true;
         }
-        for (RefModel _interface : model.getInterfaces()) {
-            Model interfaceModel = allDefinitions.get(_interface.getSimpleRef());
-            if (interfaceModel instanceof ModelImpl && ((ModelImpl) interfaceModel).getDiscriminator() != null) {
+        final List<Schema> interfaces = getInterfaces(schema);
+        if (interfaces == null) {
+            return false;
+        }
+        for (Schema interfaceSchema : interfaces) {
+            if (interfaceSchema.getDiscriminator() != null) {
                 return true;
             }
-            if (interfaceModel instanceof ComposedModel) {
-
-                return isDiscriminatorInInterfaceTree((ComposedModel) interfaceModel, allDefinitions);
+            // TODO revise the logic below
+            if (interfaceSchema instanceof ComposedSchema) {
+                return isDiscriminatorInInterfaceTree((ComposedSchema) interfaceSchema, allDefinitions);
             }
         }
         return false;
     }
 
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, ModelImpl swaggerModel) {
-        MapProperty mapProperty = new MapProperty(swaggerModel.getAdditionalProperties());
-        addParentContainer(codegenModel, codegenModel.name, mapProperty);
+    // TODO deco this function?
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel model, Schema schema) {
+        addParentContainer(model, model.name, schema);
     }
 
-    protected void addProperties(Map<String, Property> properties,
-                                 List<String> required, Model model,
-                                 Map<String, Model> allDefinitions) {
+    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Map<String, Schema> allSchemas) {
+        if (schema == null) {
+            throw new RuntimeException("schema cannot be null in addProperties");
+        }
 
-        if (model instanceof ModelImpl) {
-            ModelImpl mi = (ModelImpl) model;
-            if (mi.getProperties() != null) {
-                properties.putAll(mi.getProperties());
+        if (schema instanceof ComposedSchema) {
+            ComposedSchema composedSchema = (ComposedSchema) schema;
+            if(composedSchema.getAllOf() == null) {
+                return;
             }
-            if (mi.getRequired() != null) {
-                required.addAll(mi.getRequired());
+
+            for (Schema component : composedSchema.getAllOf()) {
+                addProperties(properties, required, component, allSchemas);
             }
-        } else if (model instanceof RefModel) {
-            String interfaceRef = ((RefModel) model).getSimpleRef();
-            Model interfaceModel = allDefinitions.get(interfaceRef);
-            addProperties(properties, required, interfaceModel, allDefinitions);
-        } else if (model instanceof ComposedModel) {
-            for (Model component :((ComposedModel) model).getAllOf()) {
-                addProperties(properties, required, component, allDefinitions);
-            }
+			return;
+        }
+      
+        if (StringUtils.isNotBlank(schema.get$ref())) {
+            Schema interfaceSchema = allSchemas.get(schema.get$ref());
+            addProperties(properties, required, interfaceSchema, allSchemas);
+            return;
+        }
+        if (schema.getProperties() != null) {
+            properties.putAll(schema.getProperties());
+        }
+        if (schema.getRequired() != null) {
+            required.addAll(schema.getRequired());
         }
     }
 
@@ -1529,13 +1502,13 @@ public class DefaultCodegen {
     }
 
     /**
-     * Convert Swagger Property object to Codegen Property object
+     * Convert OAS Property object to Codegen Property object
      *
      * @param name name of the property
-     * @param p Swagger property object
+     * @param p OAS property object
      * @return Codegen Property object
      */
-    public CodegenProperty fromProperty(String name, Property p) {
+    public CodegenProperty fromProperty(String name, Schema p) {
         if (p == null) {
             LOGGER.error("unexpected missing property for name " + name);
             return null;
@@ -1568,31 +1541,30 @@ public class DefaultCodegen {
             property.xmlName = p.getXml().getName();
             property.xmlNamespace = p.getXml().getNamespace();
         }
-        property.vendorExtensions = p.getVendorExtensions();
+        if (p.getExtensions() != null && !p.getExtensions().isEmpty()) {
+            property.getVendorExtensions().putAll(p.getExtensions());
+        }
 
-        String type = getSwaggerType(p);
-        if (p instanceof AbstractNumericProperty) {
-            AbstractNumericProperty np = (AbstractNumericProperty) p;
-            if (np.getMinimum() != null) {
-                if (p instanceof BaseIntegerProperty) { // int, long
-                    property.minimum = String.valueOf(np.getMinimum().longValue());
-                } else { // double, decimal
-                    property.minimum = String.valueOf(np.getMinimum());
-                }
-            }
-            if (np.getMaximum() != null) {
-                if (p instanceof BaseIntegerProperty) { // int, long
-                    property.maximum = String.valueOf(np.getMaximum().longValue());
-                } else { // double, decimal
-                    property.maximum = String.valueOf(np.getMaximum());
-                }
+        String type = getSchemaType(p);
+        if (p instanceof IntegerSchema) {
+            property.isNumeric = Boolean.TRUE;
+            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
+                property.isInteger = Boolean.TRUE;
+            } else {
+                property.isLong = Boolean.TRUE;
             }
 
-            if (np.getExclusiveMinimum() != null) {
-                property.exclusiveMinimum = np.getExclusiveMinimum();
+            if (p.getMinimum() != null) {
+                property.minimum = String.valueOf(p.getMinimum().longValue());
             }
-            if (np.getExclusiveMaximum() != null) {
-                property.exclusiveMaximum = np.getExclusiveMaximum();
+            if (p.getMaximum() != null) {
+                property.maximum = String.valueOf(p.getMaximum().longValue());
+            }
+            if (p.getExclusiveMinimum() != null) {
+                property.exclusiveMinimum = p.getExclusiveMinimum();
+            }
+            if (p.getExclusiveMaximum() != null) {
+                property.exclusiveMaximum = p.getExclusiveMaximum();
             }
 
             // check if any validation rule defined
@@ -1602,30 +1574,40 @@ public class DefaultCodegen {
 
             // legacy support
             Map<String, Object> allowableValues = new HashMap<String, Object>();
-            if (np.getMinimum() != null) {
-                allowableValues.put("min", np.getMinimum());
+            if (p.getMinimum() != null) {
+                allowableValues.put("min", p.getMinimum());
             }
-            if (np.getMaximum() != null) {
-                allowableValues.put("max", np.getMaximum());
+            if (p.getMaximum() != null) {
+                allowableValues.put("max", p.getMaximum());
             }
-            if(allowableValues.size() > 0) {
+
+            if (p.getEnum() != null) {
+                List<Integer> _enum = p.getEnum();
+                property._enum = new ArrayList<String>();
+                for(Integer i : _enum) {
+                    property._enum.add(i.toString());
+                }
+                property.isEnum = true;
+                allowableValues.put("values", _enum);
+            }
+
+            if (allowableValues.size() > 0) {
                 property.allowableValues = allowableValues;
             }
         }
 
-        if (p instanceof StringProperty) {
-            StringProperty sp = (StringProperty) p;
-            property.maxLength = sp.getMaxLength();
-            property.minLength = sp.getMinLength();
-            property.pattern = toRegularExpression(sp.getPattern());
+        if (p instanceof StringSchema) {
+            property.maxLength = p.getMaxLength();
+            property.minLength = p.getMinLength();
+            property.pattern = toRegularExpression(p.getPattern());
 
             // check if any validation rule defined
             if (property.pattern != null || property.minLength != null || property.maxLength != null)
                 property.hasValidation = true;
 
             property.isString = true;
-            if (sp.getEnum() != null) {
-                List<String> _enum = sp.getEnum();
+            if (p.getEnum() != null) {
+                List<String> _enum = p.getEnum();
                 property._enum = _enum;
                 property.isEnum = true;
 
@@ -1636,112 +1618,54 @@ public class DefaultCodegen {
             }
         }
 
-        // type is integer and without format
-        if (p instanceof BaseIntegerProperty && !(p instanceof IntegerProperty) && !(p instanceof LongProperty)) {
-            BaseIntegerProperty sp = (BaseIntegerProperty) p;
-            property.isInteger = true;
-            property.isNumeric = true;
-        }
-        if (p instanceof IntegerProperty) {
-            IntegerProperty sp = (IntegerProperty) p;
-            property.isInteger = true;
-            if (sp.getEnum() != null) {
-                List<Integer> _enum = sp.getEnum();
-                property._enum = new ArrayList<String>();
-                for(Integer i : _enum) {
-                    property._enum.add(i.toString());
-                }
-                property.isEnum = true;
-
-                // legacy support
-                Map<String, Object> allowableValues = new HashMap<String, Object>();
-                allowableValues.put("values", _enum);
-                property.allowableValues = allowableValues;
-            }
-        }
-        if (p instanceof LongProperty) {
-            LongProperty sp = (LongProperty) p;
-            property.isLong = true;
-            property.isNumeric = true;
-            if (sp.getEnum() != null) {
-                List<Long> _enum = sp.getEnum();
-                property._enum = new ArrayList<String>();
-                for(Long i : _enum) {
-                    property._enum.add(i.toString());
-                }
-                property.isEnum = true;
-
-                // legacy support
-                Map<String, Object> allowableValues = new HashMap<String, Object>();
-                allowableValues.put("values", _enum);
-                property.allowableValues = allowableValues;
-            }
-        }
-        if (p instanceof BooleanProperty) {
+        if (p instanceof BooleanSchema) {
             property.isBoolean = true;
             property.getter = toBooleanGetter(name);
         }
-        if (p instanceof BinaryProperty) {
+        if (p instanceof BinarySchema) {
             property.isBinary = true;
         }
-        if (p instanceof FileProperty) {
+        if (p instanceof FileSchema) {
             property.isFile = true;
         }
-        if (p instanceof UUIDProperty) {
+        if (p instanceof UUIDSchema) {
+            // keep isString to true to make it backward compatible
             property.isString =true;
             property.isUuid = true;
-
         }
-        if (p instanceof ByteArrayProperty) {
+        if (p instanceof ByteArraySchema) {
             property.isByteArray = true;
         }
-        // type is number and without format
-        if (p instanceof DecimalProperty && !(p instanceof DoubleProperty) && !(p instanceof FloatProperty)) {
-            DecimalProperty sp = (DecimalProperty) p;
-            property.isNumber = true;
-        }
-        if (p instanceof DoubleProperty) {
-            DoubleProperty sp = (DoubleProperty) p;
-            property.isDouble = true;
-            property.isNumeric = true;
-            if (sp.getEnum() != null) {
-                List<Double> _enum = sp.getEnum();
+
+        if (p instanceof NumberSchema) {
+            property.isNumeric = Boolean.TRUE;
+            if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) { // float
+                property.isFloat = Boolean.TRUE;
+            } else if (SchemaTypeUtil.DOUBLE_FORMAT.equals(p.getFormat())){ // double
+                property.isDouble = Boolean.TRUE;
+            } else { // type is number and without format
+                property.isNumber = Boolean.TRUE;
+            }
+
+            if (p.getEnum() != null) {
+                List<Double> _enum = p.getEnum();
                 property._enum = new ArrayList<String>();
-                for(Double i : _enum) {
+                for (Double i : _enum) {
                     property._enum.add(i.toString());
-                }
+				}
                 property.isEnum = true;
 
                 // legacy support
                 Map<String, Object> allowableValues = new HashMap<String, Object>();
                 allowableValues.put("values", _enum);
                 property.allowableValues = allowableValues;
-            }
-        }
-        if (p instanceof FloatProperty) {
-            FloatProperty sp = (FloatProperty) p;
-            property.isFloat = true;
-            property.isNumeric = true;
-            if (sp.getEnum() != null) {
-                List<Float> _enum = sp.getEnum();
-                property._enum = new ArrayList<String>();
-                for(Float i : _enum) {
-                    property._enum.add(i.toString());
-                }
-                property.isEnum = true;
+			}
+		}
 
-                // legacy support
-                Map<String, Object> allowableValues = new HashMap<String, Object>();
-                allowableValues.put("values", _enum);
-                property.allowableValues = allowableValues;
-            }
-        }
-
-        if (p instanceof DateProperty) {
-            DateProperty sp = (DateProperty) p;
+        if (p instanceof DateSchema) {
             property.isDate = true;
-            if (sp.getEnum() != null) {
-                List<String> _enum = sp.getEnum();
+            if (p.getEnum() != null) {
+                List<String> _enum = p.getEnum();
                 property._enum = new ArrayList<String>();
                 for(String i : _enum) {
                     property._enum.add(i);
@@ -1754,11 +1678,11 @@ public class DefaultCodegen {
                 property.allowableValues = allowableValues;
             }
         }
-        if (p instanceof DateTimeProperty) {
-            DateTimeProperty sp = (DateTimeProperty) p;
+
+        if (p instanceof DateTimeSchema) {
             property.isDateTime = true;
-            if (sp.getEnum() != null) {
-                List<String> _enum = sp.getEnum();
+            if (p.getEnum() != null) {
+                List<String> _enum = p.getEnum();
                 property._enum = new ArrayList<String>();
                 for(String i : _enum) {
                     property._enum.add(i);
@@ -1782,43 +1706,50 @@ public class DefaultCodegen {
             property.datatypeWithEnum = property.datatype;
         }
 
-        property.baseType = getSwaggerType(p);
+        property.baseType = getSchemaType(p);
 
-        if (p instanceof ArrayProperty) {
+        if (p instanceof ArraySchema) {
             property.isContainer = true;
             property.isListContainer = true;
             property.containerType = "array";
-            property.baseType = getSwaggerType(p);
+            property.baseType = getSchemaType(p);
             if (p.getXml() != null) {
                 property.isXmlWrapped = p.getXml().getWrapped() == null ? false : p.getXml().getWrapped();
                 property.xmlPrefix= p.getXml().getPrefix();
                 property.xmlNamespace = p.getXml().getNamespace();
                 property.xmlName = p.getXml().getName();
             }
+
             // handle inner property
-            ArrayProperty ap = (ArrayProperty) p;
-            property.maxItems = ap.getMaxItems();
-            property.minItems = ap.getMinItems();
-            String itemName = (String) p.getVendorExtensions().get("x-item-name");
+            property.maxItems = p.getMaxItems();
+            property.minItems = p.getMinItems();
+            String itemName = null;
+            if (p.getExtensions() != null && p.getExtensions().get("x-item-name") != null) {
+                itemName = p.getExtensions().get("x-item-name").toString();
+            }
             if (itemName == null) {
                 itemName = property.name;
             }
-            CodegenProperty cp = fromProperty(itemName, ap.getItems());
+            CodegenProperty cp = fromProperty(itemName, ((ArraySchema) p).getItems());
             updatePropertyForArray(property, cp);
-        } else if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-
+        } else if (p instanceof MapSchema) {
             property.isContainer = true;
             property.isMapContainer = true;
             property.containerType = "map";
-            property.baseType = getSwaggerType(p);
-            property.minItems = ap.getMinProperties();
-            property.maxItems = ap.getMaxProperties();
+            property.baseType = getSchemaType(p);
+            property.minItems = p.getMinProperties();
+            property.maxItems = p.getMaxProperties();
 
             // handle inner property
-            CodegenProperty cp = fromProperty("inner", ap.getAdditionalProperties());
+            CodegenProperty cp = fromProperty("inner", (Schema) p.getAdditionalProperties());
             updatePropertyForMap(property, cp);
         } else {
+			// TODO revise the logic below
+            if (StringUtils.isNotBlank(p.get$ref())) {
+                property.baseType = getSimpleRef(p.get$ref());
+            }
+			// --END of revision
+
             setNonArrayMapProperty(property, type);
         }
         return property;
@@ -1976,11 +1907,10 @@ public class DefaultCodegen {
 
     /**
      * Override with any special handling of response codes
-     * @param responses Swagger Operation's responses
+     * @param responses OAS Operation's responses
      * @return default method response or <tt>null</tt> if not found
      */
-    protected Response findMethodResponse(Map<String, Response> responses) {
-
+    protected ApiResponse findMethodResponse(ApiResponses responses) {
         String code = null;
         for (String responseCode : responses.keySet()) {
             if (responseCode.startsWith("2") || responseCode.equals("default")) {
@@ -1996,36 +1926,38 @@ public class DefaultCodegen {
     }
 
     /**
-     * Convert Swagger Operation object to Codegen Operation object (without providing a Swagger object)
+     * Convert OAS Operation object to Codegen Operation object (without providing a OAS object)
      *
      * @param path the path of the operation
      * @param httpMethod HTTP method
-     * @param operation Swagger operation object
-     * @param definitions a map of Swagger models
+     * @param operation OAS operation object
+     * @param schemas a map of OAS models
      * @return Codegen Operation object
      */
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions) {
-        return fromOperation(path, httpMethod, operation, definitions, null);
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> schemas) {
+        return fromOperation(path, httpMethod, operation, schemas, null);
     }
 
     /**
-     * Convert Swagger Operation object to Codegen Operation object
+     * Convert OAS Operation object to Codegen Operation object
      *
      * @param path the path of the operation
      * @param httpMethod HTTP method
-     * @param operation Swagger operation object
-     * @param definitions a map of Swagger models
-     * @param swagger a Swagger object representing the spec
+     * @param operation OAS operation object
+     * @param definitions a map of OAS models
+     * @param schemas a OAS object representing the spec
      * @return Codegen Operation object
      */
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
                                           Operation operation,
-                                          Map<String, Model> definitions,
-                                          Swagger swagger) {
+                                          Map<String, Schema> schemas,
+                                          OpenAPI openAPI) {
         CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
         Set<String> imports = new HashSet<String>();
-        op.vendorExtensions = operation.getVendorExtensions();
+        if (operation.getExtensions() != null && !operation.getExtensions().isEmpty()) {
+            op.vendorExtensions.putAll(operation.getExtensions());
+        }
 
         // store the original operationId for plug-in
         op.operationIdOriginal = operation.getOperationId();
@@ -2046,122 +1978,47 @@ public class DefaultCodegen {
         op.notes = escapeText(operation.getDescription());
         op.hasConsumes = false;
         op.hasProduces = false;
-        if (operation.isDeprecated() != null) {
-            op.isDeprecated = operation.isDeprecated();
+        if (operation.getDeprecated() != null) {
+            op.isDeprecated = operation.getDeprecated();
         }
 
-        List<String> consumes = new ArrayList<String>();
-        if (operation.getConsumes() != null) {
-            if (operation.getConsumes().size() > 0) {
-                // use consumes defined in the operation
-                consumes = operation.getConsumes();
-            } else {
-                // empty list, do nothing to override global setting
-            }
-        } else if (swagger != null && swagger.getConsumes() != null && swagger.getConsumes().size() > 0) {
-            // use consumes defined globally
-            consumes = swagger.getConsumes();
-            LOGGER.debug("No consumes defined in operation. Using global consumes (" + swagger.getConsumes() + ") for " + op.operationId);
-        }
-
-        // if "consumes" is defined (per operation or using global definition)
-        if (consumes != null && consumes.size() > 0) {
-            List<Map<String, String>> c = new ArrayList<Map<String, String>>();
-            int count = 0;
-            for (String key : consumes) {
-                Map<String, String> mediaType = new HashMap<String, String>();
-                // escape quotation to avoid code injection
-                if ("*/*".equals(key)) { // "*/*" is a special case, do nothing
-                    mediaType.put("mediaType", key);
-                } else {
-                    mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
-                }
-                count += 1;
-                if (count < consumes.size()) {
-                    mediaType.put("hasMore", "true");
-                } else {
-                    mediaType.put("hasMore", null);
-                }
-                c.add(mediaType);
-            }
-            op.consumes = c;
-            op.hasConsumes = true;
-        }
-
-        List<String> produces = new ArrayList<String>();
-        if (operation.getProduces() != null) {
-            if (operation.getProduces().size() > 0) {
-                // use produces defined in the operation
-                produces = operation.getProduces();
-            } else {
-                // empty list, do nothing to override global setting
-            }
-        } else if (swagger != null && swagger.getProduces() != null && swagger.getProduces().size() > 0) {
-            // use produces defined globally
-            produces = swagger.getProduces();
-            LOGGER.debug("No produces defined in operation. Using global produces (" + swagger.getProduces() + ") for " + op.operationId);
-        }
-
-        // if "produces" is defined (per operation or using global definition)
-        if (produces != null && !produces.isEmpty()) {
-            List<Map<String, String>> c = new ArrayList<Map<String, String>>();
-            int count = 0;
-            for (String key : produces) {
-                Map<String, String> mediaType = new HashMap<String, String>();
-                // escape quotation to avoid code injection
-                if ("*/*".equals(key)) { // "*/*" is a special case, do nothing
-                    mediaType.put("mediaType", key);
-                } else {
-                    mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
-                }
-                count += 1;
-                if (count < produces.size()) {
-                    mediaType.put("hasMore", "true");
-                } else {
-                    mediaType.put("hasMore", null);
-                }
-                c.add(mediaType);
-            }
-            op.produces = c;
-            op.hasProduces = true;
-        }
+        addConsumesInfo(operation, op);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
-            Response methodResponse = findMethodResponse(operation.getResponses());
-
-            for (Map.Entry<String, Response> entry : operation.getResponses().entrySet()) {
-                Response response = entry.getValue();
-                CodegenResponse r = fromResponse(entry.getKey(), response);
-                r.hasMore = true;
-                if (r.baseType != null &&
-                        !defaultIncludes.contains(r.baseType) &&
-                        !languageSpecificPrimitives.contains(r.baseType)) {
-                    imports.add(r.baseType);
-                }
-                r.isDefault = response == methodResponse;
-                op.responses.add(r);
-                if (Boolean.TRUE.equals(r.isBinary) && Boolean.TRUE.equals(r.isDefault)){
-                    op.isResponseBinary = Boolean.TRUE;
-                }
-                if (Boolean.TRUE.equals(r.isFile) && Boolean.TRUE.equals(r.isDefault)){
-                    op.isResponseFile = Boolean.TRUE;
-                }
+            ApiResponse methodResponse = findMethodResponse(operation.getResponses());
+            for (String key : operation.getResponses().keySet()) {
+                ApiResponse response = operation.getResponses().get(key);
+                addProducesInfo(response, op);
+				CodegenResponse r = fromResponse(key, response);
+				r.hasMore = true;
+				if (r.baseType != null &&
+						!defaultIncludes.contains(r.baseType) &&
+						!languageSpecificPrimitives.contains(r.baseType)) {
+					imports.add(r.baseType);
+						}
+				r.isDefault = response == methodResponse;
+				op.responses.add(r);
+				if (Boolean.TRUE.equals(r.isBinary) && Boolean.TRUE.equals(r.isDefault)){
+					op.isResponseBinary = Boolean.TRUE;
+				}
+				if (Boolean.TRUE.equals(r.isFile) && Boolean.TRUE.equals(r.isDefault)){
+					op.isResponseFile = Boolean.TRUE;
+				}
             }
             op.responses.get(op.responses.size() - 1).hasMore = false;
 
             if (methodResponse != null) {
-                if (methodResponse.getSchema() != null) {
-                    CodegenProperty cm = fromProperty("response", methodResponse.getSchema());
+                final Schema responseSchema = getSchemaFromResponse(methodResponse);
+                if (responseSchema != null) {
+                    CodegenProperty cm = fromProperty("response", responseSchema);
 
-                    Property responseProperty = methodResponse.getSchema();
-
-                    if (responseProperty instanceof ArrayProperty) {
-                        ArrayProperty ap = (ArrayProperty) responseProperty;
-                        CodegenProperty innerProperty = fromProperty("response", ap.getItems());
+                    if (responseSchema instanceof ArraySchema) {
+                        ArraySchema as = (ArraySchema) responseSchema;
+                        CodegenProperty innerProperty = fromProperty("response", as.getItems());
                         op.returnBaseType = innerProperty.baseType;
-                    } else if (responseProperty instanceof MapProperty) {
-                        MapProperty ap = (MapProperty) responseProperty;
-                        CodegenProperty innerProperty = fromProperty("response", ap.getAdditionalProperties());
+                    } else if (responseSchema instanceof MapSchema) {
+                        MapSchema ms = (MapSchema) responseSchema;
+                        CodegenProperty innerProperty = fromProperty("response", (Schema) ms.getAdditionalProperties());
                         op.returnBaseType = innerProperty.baseType;
                     } else {
                         if (cm.complexType != null) {
@@ -2170,16 +2027,17 @@ public class DefaultCodegen {
                             op.returnBaseType = cm.baseType;
                         }
                     }
-                    op.examples = new ExampleGenerator(definitions).generate(methodResponse.getExamples(), operation.getProduces(), responseProperty);
-                    op.defaultResponse = toDefaultValue(responseProperty);
+                    // TODO need to revise the logic below
+                    //op.examples = new ExampleGenerator(definitions).generate(methodResponse.getExamples(), operation.getProduces(), responseProperty);
+                    op.defaultResponse = toDefaultValue(responseSchema);
                     op.returnType = cm.datatype;
-                    op.hasReference = definitions != null && definitions.containsKey(op.returnBaseType);
+                    op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
 
                     // lookup discriminator
-                    if (definitions != null) {
-                        Model m = definitions.get(op.returnBaseType);
-                        if (m != null) {
-                            CodegenModel cmod = fromModel(op.returnBaseType, m, definitions);
+                    if (schemas != null) {
+                        Schema schema = schemas.get(op.returnBaseType);
+                        if (schema != null) {
+                            CodegenModel cmod = fromModel(op.returnBaseType, schema, schemas);
                             op.discriminator = cmod.discriminator;
                         }
                     }
@@ -2247,15 +2105,17 @@ public class DefaultCodegen {
                     headerParams.add(p.copy());
                 } else if (param instanceof CookieParameter) {
                     cookieParams.add(p.copy());
-                } else if (param instanceof BodyParameter) {
+                } 
+                /* TODO need to handle body and form parameter below
+                else if (param instanceof RequestBody) {
                     bodyParam = p;
                     bodyParams.add(p.copy());
-                    if(definitions != null) {
+                    if (definitions != null) {
                         op.requestBodyExamples = new ExampleGenerator(definitions).generate(null, operation.getConsumes(), bodyParam.dataType);
                     }
                 } else if (param instanceof FormParameter) {
                     formParams.add(p.copy());
-                }
+                } */
 
                 if (p.required) { //required parameters
                     requiredParams.add(p.copy());
@@ -2315,272 +2175,267 @@ public class DefaultCodegen {
     }
 
     /**
-     * Convert Swagger Response object to Codegen Response object
+     * Convert OAS Response object to Codegen Response object
      *
      * @param responseCode HTTP response code
-     * @param response Swagger Response object
+     * @param response OAS Response object
      * @return Codegen Response object
      */
-    public CodegenResponse fromResponse(String responseCode, Response response) {
+    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
         CodegenResponse r = CodegenModelFactory.newInstance(CodegenModelType.RESPONSE);
         if ("default".equals(responseCode)) {
             r.code = "0";
         } else {
             r.code = responseCode;
         }
+        final Schema responseSchema = getSchemaFromResponse(response);
+        r.schema = responseSchema;
         r.message = escapeText(response.getDescription());
-        r.schema = response.getSchema();
-        r.examples = toExamples(response.getExamples());
+        // TODO need to revise and test examples in responses
+        //r.examples = toExamples(response.getExamples());
         r.jsonSchema = Json.pretty(response);
-        r.vendorExtensions = response.getVendorExtensions();
+        if (response.getExtensions() != null && !response.getExtensions().isEmpty()) {
+            r.vendorExtensions.putAll(response.getExtensions());
+        }
         addHeaders(response, r.headers);
         r.hasHeaders = !r.headers.isEmpty();
 
         if (r.schema != null) {
-            Property responseProperty = response.getSchema();
-            responseProperty.setRequired(true);
-            CodegenProperty cm = fromProperty("response", responseProperty);
+            CodegenProperty cp = fromProperty("response", responseSchema);
 
-            if (responseProperty instanceof ArrayProperty) {
-                ArrayProperty ap = (ArrayProperty) responseProperty;
-                CodegenProperty innerProperty = fromProperty("response", ap.getItems());
+            if (responseSchema instanceof ArraySchema) {
+                ArraySchema as = (ArraySchema) responseSchema;
+                CodegenProperty innerProperty = fromProperty("response", as.getItems());
                 r.baseType = innerProperty.baseType;
             } else {
-                if (cm.complexType != null) {
-                    r.baseType = cm.complexType;
+                if (cp.complexType != null) {
+                    r.baseType = cp.complexType;
                 } else {
-                    r.baseType = cm.baseType;
+                    r.baseType = cp.baseType;
                 }
             }
-            r.dataType = cm.datatype;
 
-            if (Boolean.TRUE.equals(cm.isString) && Boolean.TRUE.equals(cm.isUuid)) {
+            r.dataType = cp.datatype;
+
+            if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isUuid)) {
                 r.isUuid = true;
-            } else if (Boolean.TRUE.equals(cm.isByteArray)) {
+            } else if (Boolean.TRUE.equals(cp.isByteArray)) {
                 r.isByteArray = true;
-            } else if (Boolean.TRUE.equals(cm.isString)) {
+            } else if (Boolean.TRUE.equals(cp.isString)) {
                 r.isString = true;
-            } else if (Boolean.TRUE.equals(cm.isBoolean)) {
+            } else if (Boolean.TRUE.equals(cp.isBoolean)) {
                 r.isBoolean = true;
-            } else if (Boolean.TRUE.equals(cm.isLong)) {
+            } else if (Boolean.TRUE.equals(cp.isLong)) {
                 r.isLong = true;
                 r.isNumeric = true;
-            } else if (Boolean.TRUE.equals(cm.isInteger)) {
+            } else if (Boolean.TRUE.equals(cp.isInteger)) {
                 r.isInteger = true;
                 r.isNumeric = true;
-            } else if (Boolean.TRUE.equals(cm.isNumber)) {
+            } else if (Boolean.TRUE.equals(cp.isNumber)) {
                 r.isNumber = true;
                 r.isNumeric = true;
-            } else if (Boolean.TRUE.equals(cm.isDouble)) {
+            } else if (Boolean.TRUE.equals(cp.isDouble)) {
                 r.isDouble = true;
                 r.isNumeric = true;
-            } else if (Boolean.TRUE.equals(cm.isFloat)) {
+            } else if (Boolean.TRUE.equals(cp.isFloat)) {
                 r.isFloat = true;
                 r.isNumeric = true;
-            } else if (Boolean.TRUE.equals(cm.isBinary)) {
+            } else if (Boolean.TRUE.equals(cp.isBinary)) {
                 r.isBinary = true;
-            } else if (Boolean.TRUE.equals(cm.isFile)) {
+            } else if (Boolean.TRUE.equals(cp.isFile)) {
                 r.isFile = true;
-            } else if (Boolean.TRUE.equals(cm.isDate)) {
+            } else if (Boolean.TRUE.equals(cp.isDate)) {
                 r.isDate = true;
-            } else if (Boolean.TRUE.equals(cm.isDateTime)) {
+            } else if (Boolean.TRUE.equals(cp.isDateTime)) {
                 r.isDateTime = true;
             } else {
-                LOGGER.debug("Property type is not primitive: " + cm.datatype);
+                LOGGER.debug("Property type is not primitive: " + cp.datatype);
             }
 
-            if (cm.isContainer) {
+            if (cp.isContainer) {
                 r.simpleType = false;
-                r.containerType = cm.containerType;
-                r.isMapContainer = "map".equals(cm.containerType);
-                r.isListContainer = "list".equalsIgnoreCase(cm.containerType) || "array".equalsIgnoreCase(cm.containerType);
+                r.containerType = cp.containerType;
+                r.isMapContainer = "map".equals(cp.containerType);
+                r.isListContainer = "list".equalsIgnoreCase(cp.containerType) || "array".equalsIgnoreCase(cp.containerType);
             } else {
                 r.simpleType = true;
             }
+
             r.primitiveType = (r.baseType == null || languageSpecificPrimitives().contains(r.baseType));
         }
+
         if (r.baseType == null) {
             r.isMapContainer = false;
             r.isListContainer = false;
             r.primitiveType = true;
             r.simpleType = true;
         }
+
         return r;
     }
 
     /**
-     * Convert Swagger Parameter object to Codegen Parameter object
+     * Convert OAS Parameter object to Codegen Parameter object
      *
-     * @param param Swagger parameter object
+     * @param param OAS parameter object
      * @param imports set of imports for library/package/module
      * @return Codegen Parameter object
      */
-    public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
-        CodegenParameter p = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
-        p.baseName = param.getName();
-        p.description = escapeText(param.getDescription());
-        p.unescapedDescription = param.getDescription();
-        if (param.getRequired()) {
-            p.required = param.getRequired();
+    public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
+        CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+        codegenParameter.baseName = parameter.getName();
+        codegenParameter.description = escapeText(parameter.getDescription());
+        codegenParameter.unescapedDescription = parameter.getDescription();
+        if (parameter.getRequired()) {
+            codegenParameter.required = parameter.getRequired();
         }
-        p.jsonSchema = Json.pretty(param);
+        codegenParameter.jsonSchema = Json.pretty(parameter);
 
         if (System.getProperty("debugParser") != null) {
-            LOGGER.info("working on Parameter " + param.getName());
+            LOGGER.info("working on Parameter " + parameter.getName());
         }
 
+        // TODO need to revise the logic below
         // move the defaultValue for headers, forms and params
+        /*
         if (param instanceof QueryParameter) {
-            QueryParameter qp = (QueryParameter) param;
-            if(qp.getDefaultValue() != null) {
-                p.defaultValue = qp.getDefaultValue().toString();
+            QueryParameter qp = (QueryParameter) parameter;
+            if (qp.getDefaultValue() != null) {
+                codegenParameter.defaultValue = qp.getDefaultValue().toString();
             }
         } else if (param instanceof HeaderParameter) {
-            HeaderParameter hp = (HeaderParameter) param;
-            if(hp.getDefaultValue() != null) {
-                p.defaultValue = hp.getDefaultValue().toString();
+            HeaderParameter hp = (HeaderParameter) parameter;
+            if (hp.getDefaultValue() != null) {
+                codegenParameter.defaultValue = hp.getDefaultValue().toString();
             }
         } else if (param instanceof FormParameter) {
-            FormParameter fp = (FormParameter) param;
-            if(fp.getDefaultValue() != null) {
-                p.defaultValue = fp.getDefaultValue().toString();
+            FormParameter fp = (FormParameter) parameter;
+            if (fp.getDefaultValue() != null) {
+                codegenParameter.defaultValue = fp.getDefaultValue().toString();
             }
+        }*/
+
+        if (parameter.getExtensions() != null && !parameter.getExtensions().isEmpty()) {
+            codegenParameter.vendorExtensions.putAll(parameter.getExtensions());
         }
 
-        p.vendorExtensions = param.getVendorExtensions();
-
-        if (param instanceof SerializableParameter) {
-            SerializableParameter qp = (SerializableParameter) param;
-            Property property;
-            String collectionFormat = null;
-            String type = qp.getType();
-            if (null == type) {
-                LOGGER.warn("Type is NULL for Serializable Parameter: " + param.getName());
-            }
-            if ("array".equals(type)) { // for array parameter
-                Property inner = qp.getItems();
+        if (parameter.getSchema() != null) {
+            Schema parameterSchema = parameter.getSchema();
+            // TDOO revise collectionFormat
+            String collectionFormat = "csv";
+            if (parameterSchema instanceof ArraySchema) { // for array parameter
+                final ArraySchema arraySchema = (ArraySchema) parameterSchema;
+                Schema inner = arraySchema.getItems();
                 if (inner == null) {
-                    LOGGER.warn("warning!  No inner type supplied for array parameter \"" + qp.getName() + "\", using String");
-                    inner = new StringProperty().description("//TODO automatically added by swagger-codegen");
+                    LOGGER.warn("warning!  No inner type supplied for array parameter \"" + parameter.getName() + "\", using String");
+                    inner = new StringSchema().description("//TODO automatically added by openapi-generator");
+                    arraySchema.setItems(inner);
                 }
-                property = new ArrayProperty(inner);
-                collectionFormat = qp.getCollectionFormat();
-                if (collectionFormat == null) {
-                    collectionFormat = "csv";
-                }
-                CodegenProperty pr = fromProperty("inner", inner);
-                p.items = pr;
-                p.baseType = pr.datatype;
-                p.isContainer = true;
-                p.isListContainer = true;
+
+                CodegenProperty codegenProperty = fromProperty("inner", inner);
+                codegenParameter.items = codegenProperty;
+                codegenParameter.baseType = codegenProperty.datatype;
+                codegenParameter.isContainer = true;
+                codegenParameter.isListContainer = true;
 
                 // recursively add import
-                while (pr != null) {
-                    imports.add(pr.baseType);
-                    pr = pr.items;
+                while (codegenProperty != null) {
+                    imports.add(codegenProperty.baseType);
+                    codegenProperty = codegenProperty.items;
                 }
-            } else if ("object".equals(type)) { // for map parameter
-                Property inner = qp.getItems();
-                if (inner == null) {
-                    LOGGER.warn("warning!  No inner type supplied for map parameter \"" + qp.getName() + "\", using String");
-                    inner = new StringProperty().description("//TODO automatically added by swagger-codegen");
-                }
-                property = new MapProperty(inner);
-                collectionFormat = qp.getCollectionFormat();
-                CodegenProperty pr = fromProperty("inner", inner);
-                p.items = pr;
-                p.baseType = pr.datatype;
-                p.isContainer = true;
-                p.isMapContainer = true;
+
+            } else if (parameterSchema instanceof MapSchema) { // for map parameter
+                CodegenProperty codegenProperty = fromProperty("inner", (Schema) parameterSchema.getAdditionalProperties());
+                codegenParameter.items = codegenProperty;
+                codegenParameter.baseType = codegenProperty.datatype;
+                codegenParameter.isContainer = true;
+                codegenParameter.isMapContainer = true;
+
                 // recursively add import
-                while (pr != null) {
-                    imports.add(pr.baseType);
-                    pr = pr.items;
+                while (codegenProperty != null) {
+                    imports.add(codegenProperty.baseType);
+                    codegenProperty = codegenProperty.items;
                 }
+
             } else {
-                Map<PropertyId, Object> args = new HashMap<PropertyId, Object>();
-                String format = qp.getFormat();
-                args.put(PropertyId.ENUM, qp.getEnum());
-                property = PropertyBuilder.build(type, format, args);
+                LOGGER.warn("Unknown case for parameter \"" + parameter.getName() + "\"");
             }
 
-            if (property == null) {
-                LOGGER.warn("warning!  Property type \"" + type + "\" not found for parameter \"" + param.getName() + "\", using String");
-                property = new StringProperty().description("//TODO automatically added by swagger-codegen.  Type was " + type + " but not supported");
+            if (parameterSchema == null) {
+                LOGGER.warn("warning!  Schema not found for parameter \"" + parameter.getName() + "\", using String");
+                parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator.");
             }
 
-            property.setRequired(param.getRequired());
-            CodegenProperty cp = fromProperty(qp.getName(), property);
+            // TODO need to setRequired?
+            //property.setRequired(param.getRequired());
+            CodegenProperty codegenProperty = fromProperty(parameter.getName(), parameterSchema);
 
             // set boolean flag (e.g. isString)
-            setParameterBooleanFlagWithCodegenProperty(p, cp);
+            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
 
-            String parameterDataType = this.getParameterDataType(param, property);
-            if (parameterDataType != null) {
-                p.dataType = parameterDataType;
-            } else {
-                p.dataType = cp.datatype;
-            }
-            p.dataFormat = cp.dataFormat;
-            if(cp.isEnum) {
-                p.datatypeWithEnum = cp.datatypeWithEnum;
-                p.enumName = cp.enumName;
+            codegenParameter.dataType = codegenProperty.datatype;
+            codegenParameter.dataFormat = codegenProperty.dataFormat;
+            if(codegenProperty.isEnum) {
+                codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
+                codegenParameter.enumName = codegenProperty.enumName;
             }
 
             // enum
-            updateCodegenPropertyEnum(cp);
-            p.isEnum = cp.isEnum;
-            p._enum = cp._enum;
-            p.allowableValues = cp.allowableValues;
+            updateCodegenPropertyEnum(codegenProperty);
+            codegenParameter.isEnum = codegenProperty.isEnum;
+            codegenParameter._enum = codegenProperty._enum;
+            codegenParameter.allowableValues = codegenProperty.allowableValues;
 
-
-            if (cp.items != null && cp.items.isEnum) {
-                p.datatypeWithEnum = cp.datatypeWithEnum;
-                p.enumName = cp.enumName;
-                p.items = cp.items;
+            if (codegenProperty.items != null && codegenProperty.items.isEnum) {
+                codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
+                codegenParameter.enumName = codegenProperty.enumName;
+                codegenParameter.items = codegenProperty.items;
             }
-            p.collectionFormat = collectionFormat;
+
+            codegenParameter.collectionFormat = collectionFormat;
             if(collectionFormat != null && collectionFormat.equals("multi")) {
-                p.isCollectionFormatMulti = true;
+                codegenParameter.isCollectionFormatMulti = true;
             }
-            p.paramName = toParamName(qp.getName());
+            codegenParameter.paramName = toParamName(parameter.getName());
 
             // import
-            if (cp.complexType != null) {
-                imports.add(cp.complexType);
+            if (codegenProperty.complexType != null) {
+                imports.add(codegenProperty.complexType);
             }
 
             // validation
             // handle maximum, minimum properly for int/long by removing the trailing ".0"
-            if ("integer".equals(qp.getType())) {
-                p.maximum = qp.getMaximum() == null ? null : String.valueOf(qp.getMaximum().longValue());
-                p.minimum = qp.getMinimum() == null ? null : String.valueOf(qp.getMinimum().longValue());
+            if (parameterSchema instanceof IntegerSchema) {
+                codegenParameter.maximum = parameterSchema.getMaximum() == null ? null : String.valueOf(parameterSchema.getMaximum().longValue());
+                codegenParameter.minimum = parameterSchema.getMinimum() == null ? null : String.valueOf(parameterSchema.getMinimum().longValue());
             } else {
-                p.maximum = qp.getMaximum() == null ? null : String.valueOf(qp.getMaximum());
-                p.minimum = qp.getMinimum() == null ? null : String.valueOf(qp.getMinimum());
+                codegenParameter.maximum = parameterSchema.getMaximum() == null ? null : String.valueOf(parameterSchema.getMaximum());
+                codegenParameter.minimum = parameterSchema.getMinimum() == null ? null : String.valueOf(parameterSchema.getMinimum());
             }
 
-            p.exclusiveMaximum = qp.isExclusiveMaximum() == null ? false : qp.isExclusiveMaximum();
-            p.exclusiveMinimum = qp.isExclusiveMinimum() == null ? false : qp.isExclusiveMinimum();
-            p.maxLength = qp.getMaxLength();
-            p.minLength = qp.getMinLength();
-            p.pattern = toRegularExpression(qp.getPattern());
-            p.maxItems = qp.getMaxItems();
-            p.minItems = qp.getMinItems();
-            p.uniqueItems = qp.isUniqueItems() == null ? false : qp.isUniqueItems();
-            p.multipleOf = qp.getMultipleOf();
+            codegenParameter.exclusiveMaximum = parameterSchema.getExclusiveMaximum() == null ? false : parameterSchema.getExclusiveMaximum();
+            codegenParameter.exclusiveMinimum = parameterSchema.getExclusiveMinimum() == null ? false : parameterSchema.getExclusiveMinimum();
+            codegenParameter.maxLength = parameterSchema.getMaxLength();
+            codegenParameter.minLength = parameterSchema.getMinLength();
+            codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
+            codegenParameter.maxItems = parameterSchema.getMaxItems();
+            codegenParameter.minItems = parameterSchema.getMinItems();
+            codegenParameter.uniqueItems = parameterSchema.getUniqueItems() == null ? false : parameterSchema.getUniqueItems();
+            codegenParameter.multipleOf = parameterSchema.getMultipleOf();
 
             // exclusive* are noop without corresponding min/max
-            if (p.maximum != null || p.minimum != null ||
-                    p.maxLength != null || p.minLength != null ||
-                    p.maxItems != null || p.minItems != null ||
-                    p.pattern != null) {
-                p.hasValidation = true;
+            if (codegenParameter.maximum != null || codegenParameter.minimum != null ||
+                    codegenParameter.maxLength != null || codegenParameter.minLength != null ||
+                    codegenParameter.maxItems != null || codegenParameter.minItems != null ||
+                    codegenParameter.pattern != null) {
+                codegenParameter.hasValidation = true;
             }
 
         } else {
-            if (!(param instanceof BodyParameter)) {
-                LOGGER.error("Cannot use Parameter " + param + " as Body Parameter");
+            LOGGER.error("ERROR! Not handling  " + parameter + " as Body Parameter at the moment");
+             /* TODO need to revise the logic below to handle body parameter
+            if (!(parameter instanceof BodyParameter)) {
+                LOGGER.error("Cannot use Parameter " + parameter + " as Body Parameter");
             }
 
             BodyParameter bp = (BodyParameter) param;
@@ -2590,7 +2445,7 @@ public class DefaultCodegen {
                 ModelImpl impl = (ModelImpl) model;
                 CodegenModel cm = fromModel(bp.getName(), impl);
                 if (!cm.emptyVars) {
-                    p.dataType = getTypeDeclaration(cm.classname);
+                    codegen.dataType = getTypeDeclaration(cm.classname);
                     imports.add(p.dataType);
                 } else {
                     Property prop = PropertyBuilder.build(impl.getType(), impl.getFormat(), null);
@@ -2662,86 +2517,79 @@ public class DefaultCodegen {
                 }
             }
             p.paramName = toParamName(bp.getName());
+        */
         }
 
         // Issue #2561 (neilotoole) : Set the is<TYPE>Param flags.
         // This code has been moved to here from #fromOperation
         // because these values should be set before calling #postProcessParameter.
         // See: https://github.com/swagger-api/swagger-codegen/issues/2561
-        if (param instanceof QueryParameter) {
-            p.isQueryParam = true;
-        } else if (param instanceof PathParameter) {
-            p.required = true;
-            p.isPathParam = true;
-        } else if (param instanceof HeaderParameter) {
-            p.isHeaderParam = true;
-        } else if (param instanceof CookieParameter) {
-            p.isCookieParam = true;
-        } else if (param instanceof BodyParameter) {
-            p.isBodyParam = true;
-            p.isBinary = isDataTypeBinary(p.dataType);
-        } else if (param instanceof FormParameter) {
-            if ("file".equalsIgnoreCase(((FormParameter) param).getType()) || "file".equals(p.baseType)) {
-                p.isFile = true;
-            } else {
-                p.notFile = true;
-            }
-            p.isFormParam = true;
+        if (parameter instanceof QueryParameter) {
+            codegenParameter.isQueryParam = true;
+        } else if (parameter instanceof PathParameter) {
+            codegenParameter.required = true;
+            codegenParameter.isPathParam = true;
+        } else if (parameter instanceof HeaderParameter) {
+            codegenParameter.isHeaderParam = true;
+        } else if (parameter instanceof CookieParameter) {
+            codegenParameter.isCookieParam = true;
         }
+        /* TODO: need to fix body parameter and form parameter
+        else if (parameter instanceof BodyParameter) {
+            codegenParameter.isBodyParam = true;
+            codegenParameter.isBinary = isDataTypeBinary(codegenParameter.dataType);
+        }
+
+        else if (parameter instanceof FormParameter) {
+            if ("file".equalsIgnoreCase(((FormParameter) parameter).getType()) || "file".equals(codegenParameter.baseType)) {
+                codegenParameter.isFile = true;
+            } else {
+                codegenParameter.notFile = true;
+            }
+            codegenParameter.isFormParam = true;
+        }
+        */
 
         // set the example value
         // if not specified in x-example, generate a default value
-        if (p.vendorExtensions.containsKey("x-example")) {
-            p.example = Json.pretty(p.vendorExtensions.get("x-example"));
-        } else if (Boolean.TRUE.equals(p.isUuid) && (Boolean.TRUE.equals(p.isString))) {
-            p.example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
-        } else if (Boolean.TRUE.equals(p.isString)) {
-            p.example = p.paramName + "_example";
-        } else if (Boolean.TRUE.equals(p.isBoolean)) {
-            p.example = "true";
-        } else if (Boolean.TRUE.equals(p.isLong)) {
-            p.example = "789";
-        } else if (Boolean.TRUE.equals(p.isInteger)) {
-            p.example = "56";
-        } else if (Boolean.TRUE.equals(p.isFloat)) {
-            p.example = "3.4";
-        } else if (Boolean.TRUE.equals(p.isNumber)) {
-            p.example = "8.14";
-        } else if (Boolean.TRUE.equals(p.isDouble)) {
-            p.example = "1.2";
-        } else if (Boolean.TRUE.equals(p.isBinary)) {
-            p.example = "BINARY_DATA_HERE";
-        } else if (Boolean.TRUE.equals(p.isByteArray)) {
-            p.example = "B";
-        } else if (Boolean.TRUE.equals(p.isFile)) {
-            p.example = "/path/to/file.txt";
-        } else if (Boolean.TRUE.equals(p.isDate)) {
-            p.example = "2013-10-20";
-        } else if (Boolean.TRUE.equals(p.isDateTime)) {
-            p.example = "2013-10-20T19:20:30+01:00";
-        } else if (Boolean.TRUE.equals(p.isFile)) {
-            p.example = "/path/to/file.txt";
+        // TODO need to revise how to obtain the example value
+        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
+            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+        } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
+            codegenParameter.example = codegenParameter.paramName + "_example";
+        } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
+            codegenParameter.example = "true";
+        } else if (Boolean.TRUE.equals(codegenParameter.isLong)) {
+            codegenParameter.example = "789";
+        } else if (Boolean.TRUE.equals(codegenParameter.isInteger)) {
+            codegenParameter.example = "56";
+        } else if (Boolean.TRUE.equals(codegenParameter.isFloat)) {
+            codegenParameter.example = "3.4";
+        } else if (Boolean.TRUE.equals(codegenParameter.isDouble)) {
+            codegenParameter.example = "1.2";
+        } else if (Boolean.TRUE.equals(codegenParameter.isBinary)) {
+            codegenParameter.example = "BINARY_DATA_HERE";
+        } else if (Boolean.TRUE.equals(codegenParameter.isByteArray)) {
+            codegenParameter.example = "B";
+        } else if (Boolean.TRUE.equals(codegenParameter.isFile)) {
+            codegenParameter.example = "/path/to/file.txt";
+        } else if (Boolean.TRUE.equals(codegenParameter.isDate)) {
+            codegenParameter.example = "2013-10-20";
+        } else if (Boolean.TRUE.equals(codegenParameter.isDateTime)) {
+            codegenParameter.example = "2013-10-20T19:20:30+01:00";
+        } else if (Boolean.TRUE.equals(codegenParameter.isUuid)) {
+            codegenParameter.example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
+        } else if (Boolean.TRUE.equals(codegenParameter.isFile)) {
+            codegenParameter.example = "/path/to/file.txt";
         }
 
         // set the parameter excample value
         // should be overridden by lang codegen
-        setParameterExampleValue(p);
+        setParameterExampleValue(codegenParameter);
 
-        postProcessParameter(p);
-        return p;
+        postProcessParameter(codegenParameter);
+        return codegenParameter;
     }
-
-   /**
-    * Returns the data type of a parameter.
-    * Returns null by default to use the CodegenProperty.datatype value
-    * @param parameter
-    * @param property
-    * @return
-    */
-   protected String getParameterDataType(Parameter parameter, Property property) {
-        return null;
-   }
-
 
     public boolean isDataTypeBinary(String dataType) {
         if (dataType != null) {
@@ -2760,103 +2608,81 @@ public class DefaultCodegen {
     }
 
     /**
-     * Convert map of Swagger SecuritySchemeDefinition objects to a list of Codegen Security objects
+     * Convert map of OAS SecurityScheme objects to a list of Codegen Security objects
      *
-     * @param schemes a map of Swagger SecuritySchemeDefinition object
+     * @param securitySchemeMap a map of OAS SecuritySchemeDefinition object
      * @return a list of Codegen Security objects
      */
     @SuppressWarnings("static-method")
-    public List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes) {
-        if (schemes == null) {
+    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
+        if (securitySchemeMap == null) {
             return Collections.emptyList();
         }
 
-        List<CodegenSecurity> secs = new ArrayList<CodegenSecurity>(schemes.size());
-        for (Iterator<Map.Entry<String, SecuritySchemeDefinition>> it = schemes.entrySet().iterator(); it.hasNext(); ) {
-            final Map.Entry<String, SecuritySchemeDefinition> entry = it.next();
-            final SecuritySchemeDefinition schemeDefinition = entry.getValue();
+        List<CodegenSecurity> codegenSecurities = new ArrayList<CodegenSecurity>(securitySchemeMap.size());
+        for (String key : securitySchemeMap.keySet()) {
+            final SecurityScheme securityScheme = securitySchemeMap.get(key);
 
-            CodegenSecurity sec = CodegenModelFactory.newInstance(CodegenModelType.SECURITY);
-            sec.name = entry.getKey();
-            sec.type = schemeDefinition.getType();
-            sec.isCode = sec.isPassword = sec.isApplication = sec.isImplicit = false;
-            sec.vendorExtensions = schemeDefinition.getVendorExtensions();
+            CodegenSecurity cs = CodegenModelFactory.newInstance(CodegenModelType.SECURITY);
+            cs.name = key;
+            cs.type = securityScheme.getType().toString();
+            cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = false;
 
-            if (schemeDefinition instanceof ApiKeyAuthDefinition) {
-                final ApiKeyAuthDefinition apiKeyDefinition = (ApiKeyAuthDefinition) schemeDefinition;
-                sec.isBasic = sec.isOAuth = false;
-                sec.isApiKey = true;
-                sec.keyParamName = apiKeyDefinition.getName();
-                sec.isKeyInHeader = apiKeyDefinition.getIn() == In.HEADER;
-                sec.isKeyInQuery = !sec.isKeyInHeader;
-            } else if(schemeDefinition instanceof BasicAuthDefinition) {
-                sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = sec.isOAuth = false;
-                sec.isBasic = true;
-            } else {
-                final OAuth2Definition oauth2Definition = (OAuth2Definition) schemeDefinition;
-                sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = sec.isBasic = false;
-                sec.isOAuth = true;
-                sec.flow = oauth2Definition.getFlow();
-                if (sec.flow == null) {
-                    throw new RuntimeException("missing oauth flow in " + sec.name);
+            if (SecurityScheme.Type.APIKEY.equals(securityScheme.getType())) {
+                cs.isBasic = cs.isOAuth = false;
+                cs.isApiKey = true;
+                cs.keyParamName = securityScheme.getName();
+                cs.isKeyInHeader = securityScheme.getIn() == SecurityScheme.In.HEADER;
+                cs.isKeyInQuery = !cs.isKeyInHeader;
+            } else if (SecurityScheme.Type.HTTP.equals(securityScheme.getType())) {
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isApiKey = cs.isOAuth = false;
+                cs.isBasic = true;
+            } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isApiKey = cs.isBasic = false;
+                cs.isOAuth = true;
+                final OAuthFlows flows = securityScheme.getFlows();
+                if (securityScheme.getFlows() == null) {
+                    throw new RuntimeException("missing oauth flow in " + cs.name);
                 }
-                switch(sec.flow) {
-                    case "accessCode":
-                        sec.isCode = true;
-                        break;
-                    case "password":
-                        sec.isPassword = true;
-                        break;
-                    case "application":
-                        sec.isApplication = true;
-                        break;
-                    case "implicit":
-                        sec.isImplicit = true;
-                        break;
-                    default:
-                        throw new RuntimeException("unknown oauth flow: " + sec.flow);
-                }
-                sec.authorizationUrl = oauth2Definition.getAuthorizationUrl();
-                sec.tokenUrl = oauth2Definition.getTokenUrl();
-                if (oauth2Definition.getScopes() != null) {
-                    List<Map<String, Object>> scopes = new ArrayList<Map<String, Object>>();
-                    int count = 0, numScopes = oauth2Definition.getScopes().size();
-                    for(Map.Entry<String, String> scopeEntry : oauth2Definition.getScopes().entrySet()) {
-                        Map<String, Object> scope = new HashMap<String, Object>();
-                        scope.put("scope", scopeEntry.getKey());
-                        scope.put("description", escapeText(scopeEntry.getValue()));
-
-                        count += 1;
-                        if (count < numScopes) {
-                            scope.put("hasMore", "true");
-                        } else {
-                            scope.put("hasMore", null);
-                        }
-
-                        scopes.add(scope);
-                    }
-                    sec.scopes = scopes;
+                if (flows.getPassword() != null) {
+                    setOauth2Info(cs, flows.getPassword());
+                    cs.isPassword = true;
+                    cs.flow = "password";
+                } else if (flows.getImplicit() != null) {
+                    setOauth2Info(cs, flows.getImplicit());
+                    cs.isImplicit = true;
+                    cs.flow = "implicit";
+                } else if (flows.getClientCredentials() != null) {
+                    setOauth2Info(cs, flows.getClientCredentials());
+                    cs.isApplication = true;
+                    cs.flow = "application";
+                } else if (flows.getAuthorizationCode() != null) {
+                    setOauth2Info(cs, flows.getAuthorizationCode());
+                    cs.isCode = true;
+                    cs.flow = "accessCode";
+                } else {
+                    throw new RuntimeException("Could not identify any oauth2 flow in " + cs.name);
                 }
             }
 
-            secs.add(sec);
+            codegenSecurities.add(cs);
         }
 
         // sort auth methods to maintain the same order
-        Collections.sort(secs, new Comparator<CodegenSecurity>() {
+        Collections.sort(codegenSecurities, new Comparator<CodegenSecurity>() {
             @Override
             public int compare(CodegenSecurity one, CodegenSecurity another) {
                 return ObjectUtils.compare(one.name, another.name);
             }
         });
         // set 'hasMore'
-        Iterator<CodegenSecurity> it = secs.iterator();
+        Iterator<CodegenSecurity> it = codegenSecurities.iterator();
         while (it.hasNext()) {
             final CodegenSecurity security = it.next();
             security.hasMore = it.hasNext();
         }
 
-        return secs;
+        return codegenSecurities;
     }
 
     protected void setReservedWordsLowerCase(List<String> words) {
@@ -2913,8 +2739,8 @@ public class DefaultCodegen {
      * @return true if the library/module/package of the corresponding type needs to be imported
      */
     protected boolean needToImport(String type) {
-        return StringUtils.isNotBlank(type) && !defaultIncludes.contains(type)
-            && !languageSpecificPrimitives.contains(type);
+		return StringUtils.isNotBlank(type) && !defaultIncludes.contains(type)
+			&& !languageSpecificPrimitives.contains(type);
     }
 
     @SuppressWarnings("static-method")
@@ -2933,10 +2759,16 @@ public class DefaultCodegen {
         return output;
     }
 
-    private void addHeaders(Response response, List<CodegenProperty> target) {
+    /**
+     * Add headers to codegen property
+     *
+     * @param response API response
+     * @param target list of codegen property
+     */
+    private void addHeaders(ApiResponse response, List<CodegenProperty> properties) {
         if (response.getHeaders() != null) {
-            for (Map.Entry<String, Property> headers : response.getHeaders().entrySet()) {
-                target.add(fromProperty(headers.getKey(), headers.getValue()));
+            for (Map.Entry<String, Header> headers : response.getHeaders().entrySet()) {
+                properties.add(fromProperty(headers.getKey(), headers.getValue().getSchema()));
             }
         }
     }
@@ -2974,7 +2806,7 @@ public class DefaultCodegen {
      *
      * @param tag name of the tag
      * @param resourcePath path of the resource
-     * @param operation Swagger Operation object
+     * @param operation OAS Operation object
      * @param co Codegen Operation object
      * @param operations map of Codegen operations
      */
@@ -3006,18 +2838,20 @@ public class DefaultCodegen {
         co.baseName = tag;
     }
 
-    private void addParentContainer(CodegenModel m, String name, Property property) {
-        final CodegenProperty tmp = fromProperty(name, property);
-        addImport(m, tmp.complexType);
-        m.parent = toInstantiationType(property);
-        final String containerType = tmp.containerType;
+
+    private void addParentContainer(CodegenModel model, String name, Schema schema) {
+        final CodegenProperty property = fromProperty(name, schema);
+        addImport(model, property.complexType);
+        model.parent = toInstantiationType(schema);
+        final String containerType = property.containerType;
         final String instantiationType = instantiationTypes.get(containerType);
         if (instantiationType != null) {
-            addImport(m, instantiationType);
+            addImport(model, instantiationType);
         }
+
         final String mappedType = typeMapping.get(containerType);
         if (mappedType != null) {
-            addImport(m, mappedType);
+            addImport(model, mappedType);
         }
     }
 
@@ -3086,12 +2920,12 @@ public class DefaultCodegen {
         }
     }
 
-    private void addVars(CodegenModel m, Map<String, Property> properties, List<String> required) {
-        addVars(m, properties, required, null, null);
+    private void addVars(CodegenModel model, Map<String, Schema> properties, List<String> required) {
+        addVars(model, properties, required, null, null);
     }
 
-    private void addVars(CodegenModel m, Map<String, Property> properties, List<String> required,
-                         Map<String, Property> allProperties, List<String> allRequired) {
+    private void addVars(CodegenModel m, Map<String, Schema> properties, List<String> required,
+                         Map<String, Schema> allProperties, List<String> allRequired) {
 
         m.hasRequired = false;
         if (properties != null && !properties.isEmpty()) {
@@ -3117,21 +2951,21 @@ public class DefaultCodegen {
         }
     }
 
-    private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Property> properties, Set<String> mandatory) {
+    private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
         // convert set to list so that we can access the next entry in the loop
-        List<Map.Entry<String, Property>> propertyList = new ArrayList<Map.Entry<String, Property>>(properties.entrySet());
+        List<Map.Entry<String, Schema>> propertyList = new ArrayList<Map.Entry<String, Schema>>(properties.entrySet());
         final int totalCount = propertyList.size();
         for (int i = 0; i < totalCount; i++) {
-            Map.Entry<String, Property> entry = propertyList.get(i);
+            Map.Entry<String, Schema> entry = propertyList.get(i);
 
             final String key = entry.getKey();
-            final Property prop = entry.getValue();
+            final Schema prop = entry.getValue();
 
             if (prop == null) {
                 LOGGER.warn("null property for " + key);
             } else {
                 final CodegenProperty cp = fromProperty(key, prop);
-                cp.required = mandatory.contains(key) ? true : false;
+                cp.required = mandatory.contains(key);
                 m.hasRequired = m.hasRequired || cp.required;
                 m.hasOptional = m.hasOptional || !cp.required;
                 if (cp.isEnum) {
@@ -3184,27 +3018,25 @@ public class DefaultCodegen {
     }
 
     /**
-     * Determine all of the types in the model definitions that are aliases of
+     * Determine all of the types in the model definitions (schemas) that are aliases of
      * simple types.
-     * @param allDefinitions The complete set of model definitions.
+     * @param schemas The complete set of model definitions (schemas).
      * @return A mapping from model name to type alias
      */
-    private static Map<String, String> getAllAliases(Map<String, Model> allDefinitions) {
+    private static Map<String, String> getAllAliases(Map<String, Schema> schemas) {
+        if (schemas == null || schemas.isEmpty()) {
+            return new HashMap<>();
+        }
+
         Map<String, String> aliases = new HashMap<>();
-        if (allDefinitions != null) {
-            for (Map.Entry<String, Model> entry : allDefinitions.entrySet()) {
-                String swaggerName = entry.getKey();
-                Model m = entry.getValue();
-                if (m instanceof ModelImpl) {
-                    ModelImpl impl = (ModelImpl) m;
-                    if (impl.getType() != null &&
-                            !impl.getType().equals("object") &&
-                            impl.getEnum() == null) {
-                        aliases.put(swaggerName, impl.getType());
-                    }
-                }
+        for (Map.Entry<String, Schema> entry : schemas.entrySet()) {
+            String oasName = entry.getKey();
+            Schema schema = entry.getValue();
+            if (schema.getType() != null && !schema.getType().equals("object") && schema.getEnum() == null) {
+                aliases.put(oasName, schema.getType());
             }
         }
+
         return aliases;
     }
 
@@ -3659,7 +3491,7 @@ public class DefaultCodegen {
     public void updateCodegenPropertyEnum(CodegenProperty var) {
         Map<String, Object> allowableValues = var.allowableValues;
 
-        // handle ArrayProperty
+        // handle array
         if (var.items != null) {
             allowableValues = var.items.allowableValues;
         }
@@ -3779,4 +3611,172 @@ public class DefaultCodegen {
     public void writePropertyBack(String propertyKey, boolean value) {
         additionalProperties.put(propertyKey, value);
     }
+
+    private Schema getSchemaFromResponse(ApiResponse response) {
+        if (response.getContent() == null || response.getContent().isEmpty()) {
+            return null;
+        }
+        Schema schema = null;
+        for (MediaType mediaType : response.getContent().values()) {
+            schema = mediaType.getSchema();
+            break;
+        }
+        return schema;
+    }
+
+    private void setOauth2Info(CodegenSecurity codegenSecurity, OAuthFlow flow) {
+        codegenSecurity.authorizationUrl = flow.getAuthorizationUrl();
+        codegenSecurity.tokenUrl = flow.getTokenUrl();
+        codegenSecurity.scopes = flow.getScopes();
+    }
+
+    private List<Schema> getInterfaces(ComposedSchema composed) {
+        List<Schema> interfaces;
+        if (composed.getAllOf() != null && !composed.getAllOf().isEmpty()) {
+            return composed.getAllOf();
+        } else if(composed.getAnyOf() != null && !composed.getAnyOf().isEmpty()) {
+            return composed.getAnyOf();
+        } else if(composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
+            return composed.getOneOf();
+        } else {
+            return null;
+        }
+    }
+
+    private void addConsumesInfo(Operation operation, CodegenOperation codegenOperation) {
+        if (operation.getRequestBody() == null || operation.getRequestBody().getContent() == null || operation.getRequestBody().getContent().isEmpty()) {
+            return;
+        }
+
+        Set<String> consumes = operation.getRequestBody().getContent().keySet();
+        List<Map<String, String>> mediaTypeList = new ArrayList<>();
+        int count = 0;
+        for (String key : consumes) {
+            Map<String, String> mediaType = new HashMap<>();
+            if ("*/*".equals(key)) {
+                mediaType.put("mediaType", key);
+            } else {
+                mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
+            }
+
+            count += 1;
+            if (count < consumes.size()) {
+                mediaType.put("hasMore", "true");
+            } else {
+                mediaType.put("hasMore", null);
+            }
+
+            mediaTypeList.add(mediaType);
+        }
+        codegenOperation.consumes = mediaTypeList;
+        codegenOperation.hasConsumes = true;
+    }
+
+    private void addProducesInfo(ApiResponse response, CodegenOperation codegenOperation) {
+        if (response == null || response.getContent() == null || response.getContent().isEmpty()) {
+            return;
+        }
+
+        Set<String> produces = response.getContent().keySet();
+        if (codegenOperation.produces == null) {
+            codegenOperation.produces = new ArrayList<>();
+        }
+
+        int count = 0;
+        for (String key : produces) {
+            Map<String, String> mediaType = new HashMap<String, String>();
+            // escape quotation to avoid code injection
+            if ("*/*".equals(key)) { // "*/*" is a special case, do nothing
+                mediaType.put("mediaType", key);
+            } else {
+                mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
+            }
+
+            count += 1;
+            if (count < produces.size()) {
+                mediaType.put("hasMore", "true");
+            } else {
+                mediaType.put("hasMore", null);
+            }
+
+            codegenOperation.produces.add(mediaType);
+            codegenOperation.hasProduces = Boolean.TRUE;
+        }
+    }
+
+    public static Set<String> getProducesInfo(Operation operation) {
+        if(operation.getResponses() == null || operation.getResponses().isEmpty()) {
+            return null;
+        }
+        return operation.getResponses().keySet();
+    }
+
+    protected Schema detectParent(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
+        if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
+            Schema schema = composedSchema.getAllOf().get(0);
+            String ref = schema.get$ref();
+            if (StringUtils.isBlank(ref)) {
+                return null;
+            }
+            ref = getSimpleRef(ref);
+            return allSchemas.get(ref);
+        }
+        return null;
+    }
+
+    protected String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
+        if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
+            Schema schema = composedSchema.getAllOf().get(0);
+            String ref = schema.get$ref();
+            if (StringUtils.isBlank(ref)) {
+                return null;
+            }
+            return getSimpleRef(ref);
+        }
+        return null;
+    }
+
+    protected String getSimpleRef(String ref) {
+        if (ref.startsWith("#/components/schemas/")) {
+            ref = ref.substring(ref.lastIndexOf("/") + 1);
+        }
+        return ref;
+    }
+
+    protected String getCollectionFormat(Parameter parameter) {
+        if (Parameter.StyleEnum.FORM.equals(parameter.getStyle())) {
+            if (parameter.getExplode() != null && parameter.getExplode()) {
+                return "csv";
+            } else {
+                return "multi";
+            }
+        }
+        else if (Parameter.StyleEnum.PIPEDELIMITED.equals(parameter.getStyle())) {
+            return "pipe";
+        }
+        else if (Parameter.StyleEnum.SPACEDELIMITED.equals(parameter.getStyle())) {
+            return "space";
+        }
+        else {
+            return null;
+        }
+    }
+
+    protected static boolean hasSchemaProperties(Schema schema) {
+        final Object additionalProperties = schema.getAdditionalProperties();
+        return additionalProperties != null && additionalProperties instanceof Schema;
+    }
+
+    public CodegenType getTag() {
+        return null;
+    }
+
+    public String getName() {
+        return null;
+    }
+
+    public String getHelp() {
+        return null;
+    }
+
 }

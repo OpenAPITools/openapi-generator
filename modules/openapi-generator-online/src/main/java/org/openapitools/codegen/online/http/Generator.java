@@ -113,7 +113,8 @@ public class Generator {
         String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + destPath;
         String outputFilename = outputFolder + "-bundle.zip";
 
-        clientOptInput.opts(clientOpts).swagger(swagger);
+        // TODO revise below
+        //clientOptInput.opts(clientOpts).swagger(swagger);
 
         CodegenConfig codegenConfig = null;
         try {

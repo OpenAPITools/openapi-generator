@@ -9,10 +9,13 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.auth.AuthParser;
-import io.swagger.models.Swagger;
-import io.swagger.models.auth.AuthorizationValue;
-import io.swagger.parser.SwaggerParser;
-import io.swagger.util.Json;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.parser.core.models.AuthorizationValue;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import io.swagger.v3.parser.core.models.SwaggerParseResult;
+import io.swagger.v3.parser.OpenAPIV3Parser;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -427,11 +430,12 @@ public class CodegenConfigurator implements Serializable {
                 .config(config);
 
         final List<AuthorizationValue> authorizationValues = AuthParser.parse(auth);
-
-        Swagger swagger = new SwaggerParser().read(inputSpec, authorizationValues, true);
-
+        ParseOptions options = new ParseOptions();
+        options.setResolve(true);
+        options.setFlatten(true);
+        SwaggerParseResult result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
         input.opts(new ClientOpts())
-                .swagger(swagger);
+                .openAPI(result.getOpenAPI());
 
         return input;
     }
@@ -464,7 +468,7 @@ public class CodegenConfigurator implements Serializable {
             return;
         }
         LOGGER.info("\nVERBOSE MODE: ON. Additional debug options are injected" +
-                "\n - [debugSwagger] prints the swagger specification as interpreted by the codegen" +
+                "\n - [debugSwagger] prints the openapi specification as interpreted by the codegen" +
                 "\n - [debugModels] prints models passed to the template engine" +
                 "\n - [debugOperations] prints operations passed to the template engine" +
                 "\n - [debugSupportingFiles] prints additional data passed to the template engine");
