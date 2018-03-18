@@ -1,5 +1,8 @@
 package io.swagger.codegen.languages;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import io.swagger.codegen.*;
 import io.swagger.models.Swagger;
 import io.swagger.util.Yaml;
@@ -53,7 +56,9 @@ public class SwaggerYamlGenerator extends DefaultCodegen implements CodegenConfi
     @Override
     public void processSwagger(Swagger swagger) {
         try {
-            String swaggerString = Yaml.mapper().writeValueAsString(swagger);
+            final ObjectMapper mapper = new ObjectMapper(new YAMLFactory()
+                    .configure(YAMLGenerator.Feature.MINIMIZE_QUOTES, true));
+            String swaggerString = mapper.writeValueAsString(swagger);
             String outputFile = outputFolder + File.separator + this.outputFile;
             FileUtils.writeStringToFile(new File(outputFile), swaggerString);
             LOGGER.debug("wrote file to " + outputFile);
