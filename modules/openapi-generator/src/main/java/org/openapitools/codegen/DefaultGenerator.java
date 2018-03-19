@@ -13,6 +13,8 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.security.OAuthFlow;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
@@ -159,10 +161,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         config.additionalProperties().put("generatedYear", String.valueOf(DateTime.now().getYear()));
         config.additionalProperties().put("generatorClass", config.getClass().getName());
         config.additionalProperties().put("inputSpec", config.getInputSpec());
-
-        if (openAPI.getExtensions() != null) {
-            config.vendorExtensions().putAll(openAPI.getExtensions());
-        }
 
         if (openAPI.getExtensions() != null) {
             config.vendorExtensions().putAll(openAPI.getExtensions());
@@ -707,7 +705,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         bundle.put("models", allModels);
         bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
         bundle.put("modelPackage", config.modelPackage());
-        List<CodegenSecurity> authMethods = config.fromSecurity(openAPI.getComponents().getSecuritySchemes());
+
+        Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        List<CodegenSecurity> authMethods = config.fromSecurity(securitySchemeMap);
         if (authMethods != null && !authMethods.isEmpty()) {
             bundle.put("authMethods", authMethods);
             bundle.put("hasAuthMethods", true);
@@ -749,7 +749,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         /* TODO revise inline model logic
         // resolve inline models
         InlineModelResolver inlineModelResolver = new InlineModelResolver();
-        inlineModelResolver.flatten(swagger);
+        inlineModelResolver.flatten(openAPI);
         */
 
         List<File> files = new ArrayList<File>();
@@ -869,60 +869,36 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
         }
 
+        final Map<String, Schema> schemas = openAPI.getComponents() != null ? openAPI.getComponents().getSchemas() : null;
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
         for (Tag tag : tags) {
             try {
-                CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, openAPI.getComponents().getSchemas(), openAPI);
-                codegenOperation.tags = new ArrayList<Tag>(tags);
+                CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, schemas, openAPI);
+                codegenOperation.tags = new ArrayList<>(tags);
                 config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
 
-                /* TODO revise security setting 
-                List<Map<String, List<String>>> securities = operation.getSecurity();
-                if (securities == null && swagger.getSecurity() != null) {
-                    securities = new ArrayList<Map<String, List<String>>>();
-                    for (SecurityRequirement sr : swagger.getSecurity()) {
-                        securities.add(sr.getRequirements());
-                    }
-                }
-
-                if (securities == null || swagger.getSecurityDefinitions() == null) {
+                List<SecurityRequirement> securities = operation.getSecurity();
+                if (securities != null && securities.isEmpty()) {
                     continue;
                 }
-
-                Map<String, SecuritySchemeDefinition> authMethods = new HashMap<String, SecuritySchemeDefinition>();
-                for (Map<String, List<String>> security : securities) {
-                    for (String securityName : security.keySet()) {
-                        SecuritySchemeDefinition securityDefinition = swagger.getSecurityDefinitions().get(securityName);
-                        if (securityDefinition == null) {
-                            continue;
-                        }
-                        if (securityDefinition instanceof OAuth2Definition) {
-                            OAuth2Definition oauth2Definition = (OAuth2Definition) securityDefinition;
-                            OAuth2Definition oauth2Operation = new OAuth2Definition();
-                            oauth2Operation.setType(oauth2Definition.getType());
-                            oauth2Operation.setAuthorizationUrl(oauth2Definition.getAuthorizationUrl());
-                            oauth2Operation.setFlow(oauth2Definition.getFlow());
-                            oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
-                            oauth2Operation.setScopes(new HashMap<String, String>());
-                            for (String scope : security.get(securityName)) {
-                                if (oauth2Definition.getScopes().containsKey(scope)) {
-                                    oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
-                                }
-                            }
-                            authMethods.put(securityName, oauth2Operation);
-                        } else {
-                            authMethods.put(securityName, securityDefinition);
-                        }
-                    }
+                Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
+                if (authMethods == null || authMethods.isEmpty()) {
+                    authMethods = getAuthMethods(globalSecurities, securitySchemes);
                 }
-                if (!authMethods.isEmpty()) {
+
+                if (authMethods != null && !authMethods.isEmpty()) {
                     codegenOperation.authMethods = config.fromSecurity(authMethods);
                     codegenOperation.hasAuthMethods = true;
-                }*/
+                }
+
+                /* TODO need to revise the logic below
                 Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents().getSecuritySchemes();
                 if (securitySchemeMap != null && !securitySchemeMap.isEmpty()) {
                     codegenOperation.authMethods = config.fromSecurity(securitySchemeMap);
                     codegenOperation.hasAuthMethods = true;
                 }
+                */
             } catch (Exception ex) {
                 String msg = "Could not process operation:\n" //
                         + "  Tag: " + tag + "\n"//
@@ -962,7 +938,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         operations.put("operations", objs);
         operations.put("package", config.apiPackage());
-
 
         Set<String> allImports = new TreeSet<String>();
         for (CodegenOperation op : ops) {
@@ -1046,5 +1021,21 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         objs.put("imports", imports);
         config.postProcessModels(objs);
         return objs;
+    }
+
+    private Map<String, SecurityScheme> getAuthMethods(List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {
+        if (securities == null || (securitySchemes == null || securitySchemes.isEmpty())) {
+            return null;
+        }
+        final Map<String, SecurityScheme> authMethods = new HashMap<>();
+        for (SecurityRequirement requirement : securities) {
+            for (String key : requirement.keySet()) {
+                SecurityScheme securityScheme = securitySchemes.get(key);
+                if (securityScheme != null) {
+                    authMethods.put(key, securityScheme);
+                }
+            }
+        }
+        return authMethods;
     }
 }

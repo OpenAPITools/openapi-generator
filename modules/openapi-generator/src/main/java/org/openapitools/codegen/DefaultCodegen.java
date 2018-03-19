@@ -810,6 +810,7 @@ public class DefaultCodegen {
         typeMapping.put("binary", "byte[]");
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "UUID");
+        typeMapping.put("BigDecimal", "BigDecimal"); //TODO need the mapping?
 
 
         instantiationTypes = new HashMap<String, String>();
@@ -2072,6 +2073,12 @@ public class DefaultCodegen {
         List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
         List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
 
+        if (operation.getRequestBody() != null) {
+            bodyParam = fromRequestBody(operation.getRequestBody(), schemas, imports);
+            bodyParams.add(bodyParam);
+            allParams.add(bodyParam);
+        }
+
         if (parameters != null) {
             for (Parameter param : parameters) {
                 CodegenParameter p = fromParameter(param, imports);
@@ -2356,8 +2363,6 @@ public class DefaultCodegen {
                     codegenProperty = codegenProperty.items;
                 }
 
-            } else {
-                LOGGER.warn("Unknown case for parameter \"" + parameter.getName() + "\"");
             }
 
             if (parameterSchema == null) {
@@ -2374,7 +2379,7 @@ public class DefaultCodegen {
 
             codegenParameter.dataType = codegenProperty.datatype;
             codegenParameter.dataFormat = codegenProperty.dataFormat;
-            if(codegenProperty.isEnum) {
+            if (codegenProperty.isEnum) {
                 codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
                 codegenParameter.enumName = codegenProperty.enumName;
             }
@@ -3611,6 +3616,19 @@ public class DefaultCodegen {
         additionalProperties.put(propertyKey, value);
     }
 
+    protected String getContentType(RequestBody requestBody) {
+        if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
+            return null;
+        }
+        return new ArrayList<>(requestBody.getContent().keySet()).get(0);
+    }
+
+    protected Schema getSchemaFromBody(RequestBody requestBody) {
+        String contentType = new ArrayList<>(requestBody.getContent().keySet()).get(0);
+        MediaType mediaType = requestBody.getContent().get(contentType);
+        return mediaType.getSchema();
+    }
+
     private Schema getSchemaFromResponse(ApiResponse response) {
         if (response.getContent() == null || response.getContent().isEmpty()) {
             return null;
@@ -3621,6 +3639,12 @@ public class DefaultCodegen {
             break;
         }
         return schema;
+    }
+
+    protected Parameter getParameterFromRef(String ref, OpenAPI openAPI) {
+        String parameterName = ref.substring(ref.lastIndexOf('/') + 1);
+        Map<String, Parameter> parameterMap = openAPI.getComponents().getParameters();
+        return parameterMap.get(parameterName);
     }
 
     private void setOauth2Info(CodegenSecurity codegenSecurity, OAuthFlow flow) {
@@ -3776,6 +3800,83 @@ public class DefaultCodegen {
 
     public String getHelp() {
         return null;
+    }
+
+    public CodegenParameter fromRequestBody(RequestBody body, Map<String, Schema> schemas, Set<String> imports) {
+        CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+        codegenParameter.baseName = "UNKNOWN_BASE_NAME";
+        codegenParameter.paramName = "UNKNOWN_PARAM_NAME";
+        codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
+        codegenParameter.isBodyParam = Boolean.TRUE;
+
+        String name = null;
+        Schema schema = getSchemaFromBody(body);
+        if (StringUtils.isNotBlank(schema.get$ref())) {
+            name = getSimpleRef(schema.get$ref());
+            schema = schemas.get(name);
+        }
+        if ((SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType())
+                || (schema.getType() == null && schema.getProperties() != null && !schema.getProperties().isEmpty()))
+                && !(schema instanceof MapSchema)) {
+            CodegenModel codegenModel = null;
+            if (StringUtils.isNotBlank(name)) {
+                schema.setName(name);
+                codegenModel = fromModel(name, schema, schemas);
+            }
+            if (codegenModel != null && !codegenModel.emptyVars) {
+                codegenParameter.paramName = codegenModel.classname.toLowerCase();
+                codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
+                imports.add(codegenParameter.dataType);
+            } else {
+                CodegenProperty codegenProperty = fromProperty("property", schema);
+                if (codegenProperty != null) {
+                    codegenParameter.baseType = codegenProperty.baseType;
+                    codegenParameter.dataType = codegenProperty.datatype;
+                    codegenParameter.isPrimitiveType = codegenProperty.isPrimitiveType;
+                    codegenParameter.isBinary = codegenProperty.isBinary;
+                    codegenParameter.isFile = codegenProperty.isFile;
+
+                    if (codegenProperty.complexType != null) {
+                        imports.add(codegenProperty.complexType);
+                    }
+                }
+                setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+            }
+        }
+        else if (schema instanceof ArraySchema) {
+            final ArraySchema arraySchema = (ArraySchema) schema;
+            Schema inner = arraySchema.getItems();
+            if (inner == null) {
+                inner = new StringSchema().description("//TODO automatically added by swagger-codegen");
+                arraySchema.setItems(inner);
+            }
+            CodegenProperty codegenProperty = fromProperty("inner", inner);
+            if (codegenProperty.complexType != null) {
+                imports.add(codegenProperty.complexType);
+            }
+            imports.add(codegenProperty.baseType);
+            CodegenProperty innerCp = codegenProperty;
+            while(innerCp != null) {
+                if(innerCp.complexType != null) {
+                    imports.add(innerCp.complexType);
+                }
+                innerCp = innerCp.items;
+            }
+            codegenParameter.items = codegenProperty;
+            codegenParameter.dataType = codegenProperty.datatype;
+            codegenParameter.baseType = codegenProperty.complexType;
+            codegenParameter.isPrimitiveType = codegenProperty.isPrimitiveType;
+            codegenParameter.isContainer = codegenProperty.isContainer;
+            codegenParameter.isListContainer = codegenProperty.isListContainer;
+
+            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+
+            while (codegenProperty != null) {
+                imports.add(codegenProperty.baseType);
+                codegenProperty = codegenProperty.items;
+            }
+        }
+        return codegenParameter;
     }
 
 }
