@@ -13,7 +13,7 @@ import java.util.List;
 public class URLPathUtil {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(URLPathUtil.class);
-
+    public static String DEFAULT_PATH = "/";
     public static final String LOCAL_HOST = "http://localhost";
 
     public static URL getServerURL(OpenAPI openAPI) {
@@ -21,7 +21,12 @@ public class URLPathUtil {
         if (servers == null || servers.isEmpty()) {
             return null;
         }
+        // TOOD need a way to obtain all server URLs
         final Server server = servers.get(0);
+        String url = server.getUrl();
+        if (url.equals(DEFAULT_PATH)) {
+            url = LOCAL_HOST;
+        }
         try {
             return new URL(server.getUrl());
         } catch (MalformedURLException e) {
