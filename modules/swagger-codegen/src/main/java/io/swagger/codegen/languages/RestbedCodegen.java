@@ -130,13 +130,6 @@ public class RestbedCodegen extends AbstractCppCodegen {
       importMapping.put("restbed::Bytes", "#include <corvusoft/restbed/byte.hpp>");
   }
 
-  protected void addOption(String key, String description, String defaultValue) {
-      CliOption option = new CliOption(key, description);
-      if (defaultValue != null)
-          option.defaultValue(defaultValue);
-      cliOptions.add(option);
-  }
-
   @Override
   public void processOpts() {
       super.processOpts();

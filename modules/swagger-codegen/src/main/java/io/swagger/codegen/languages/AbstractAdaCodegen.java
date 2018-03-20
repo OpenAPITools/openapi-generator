@@ -144,13 +144,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 Arrays.asList("integer", "boolean", "Integer", "Character", "Boolean", "long", "float", "double"));
     }
 
-    protected void addOption(String key, String description, String defaultValue) {
-        CliOption option = new CliOption(key, description);
-        if (defaultValue != null)
-            option.defaultValue(defaultValue);
-        cliOptions.add(option);
-    }
-
     public String toFilename(String name) {
         return name.replace(".", "-").toLowerCase();
     }
