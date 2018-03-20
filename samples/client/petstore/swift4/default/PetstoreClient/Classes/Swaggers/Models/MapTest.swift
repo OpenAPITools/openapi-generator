@@ -23,7 +23,6 @@ public struct MapTest: Codable {
         self.mapOfEnumString = mapOfEnumString
     }
 
-
     public enum CodingKeys: String, CodingKey { 
         case mapMapOfString = "map_map_of_string"
         case mapOfEnumString = "map_of_enum_string"

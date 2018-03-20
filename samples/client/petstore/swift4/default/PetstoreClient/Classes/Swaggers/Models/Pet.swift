@@ -33,7 +33,6 @@ public struct Pet: Codable {
         self.status = status
     }
 
-
     public enum CodingKeys: String, CodingKey { 
         case _id = "id"
         case category

@@ -21,6 +21,5 @@ public struct SampleBase: Codable {
     }
 
 
-
 }
 

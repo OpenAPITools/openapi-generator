@@ -37,8 +37,8 @@ open class StoreAPI: APIBase {
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
+        
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
@@ -72,8 +72,8 @@ open class StoreAPI: APIBase {
         let path = "/store/inventory"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
+        
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<[String:Int32]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
@@ -137,8 +137,8 @@ open class StoreAPI: APIBase {
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
+        
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
@@ -200,7 +200,7 @@ open class StoreAPI: APIBase {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = body.encodeToJSON()
 
-        let url = NSURLComponents(string: URLString)
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 

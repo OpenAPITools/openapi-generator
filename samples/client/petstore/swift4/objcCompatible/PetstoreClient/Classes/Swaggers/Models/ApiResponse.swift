@@ -27,6 +27,5 @@ public struct ApiResponse: Codable {
     }
 
 
-
 }
 

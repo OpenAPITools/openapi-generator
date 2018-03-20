@@ -42,6 +42,5 @@ public struct FormatTest: Codable {
     }
 
 
-
 }
 

@@ -24,7 +24,6 @@ public struct Category: Codable {
         self.name = name
     }
 
-
     public enum CodingKeys: String, CodingKey { 
         case _id = "id"
         case name

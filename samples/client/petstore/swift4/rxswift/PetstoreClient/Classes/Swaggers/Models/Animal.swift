@@ -20,6 +20,5 @@ public struct Animal: Codable {
     }
 
 
-
 }
 

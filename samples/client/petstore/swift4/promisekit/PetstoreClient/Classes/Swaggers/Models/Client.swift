@@ -18,6 +18,5 @@ public struct Client: Codable {
     }
 
 
-
 }
 

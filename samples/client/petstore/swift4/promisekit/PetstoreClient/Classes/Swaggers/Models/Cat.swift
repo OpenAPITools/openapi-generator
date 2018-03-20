@@ -22,6 +22,5 @@ public struct Cat: Codable {
     }
 
 
-
 }
 

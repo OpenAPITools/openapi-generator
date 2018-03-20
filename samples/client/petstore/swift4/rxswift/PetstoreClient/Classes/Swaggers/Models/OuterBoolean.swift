@@ -14,6 +14,5 @@ public struct OuterBoolean: Codable {
 
 
 
-
 }
 

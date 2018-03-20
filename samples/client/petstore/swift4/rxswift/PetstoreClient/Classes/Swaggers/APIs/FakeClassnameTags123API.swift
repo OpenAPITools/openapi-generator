@@ -47,6 +47,7 @@ open class FakeClassnameTags123API {
     /**
      To test class name in snake case
      - PATCH /fake_classname_test
+     - To test class name in snake case
      - API Key:
        - type: apiKey api_key_query (QUERY)
        - name: api_key_query
@@ -63,8 +64,7 @@ open class FakeClassnameTags123API {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = NSURLComponents(string: URLString)
-
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
