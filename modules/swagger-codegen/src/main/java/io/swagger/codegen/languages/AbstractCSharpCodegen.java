@@ -176,18 +176,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.netCoreProjectFileFlag = flag;
     }
 
-    protected void addOption(String key, String description, String defaultValue) {
-        CliOption option = new CliOption(key, description);
-        if (defaultValue != null) option.defaultValue(defaultValue);
-        cliOptions.add(option);
-    }
-
-    protected void addSwitch(String key, String description, Boolean defaultValue) {
-        CliOption option = CliOption.newBoolean(key, description);
-        if (defaultValue != null) option.defaultValue(defaultValue.toString());
-        cliOptions.add(option);
-    }
-
     public void useDateTimeOffset(boolean flag) {
         this.useDateTimeOffsetFlag = flag;
         if (flag) typeMapping.put("datetime", "DateTimeOffset?");
