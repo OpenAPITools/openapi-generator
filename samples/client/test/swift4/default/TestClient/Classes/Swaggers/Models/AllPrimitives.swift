@@ -72,6 +72,5 @@ public struct AllPrimitives: Codable {
     }
 
 
-
 }
 

@@ -127,16 +127,14 @@ open class {{classname}} {
             {{^hasFormParams}}
         let parameters: [String:Any]? = nil
             {{/hasFormParams}}
-        {{/bodyParam}}
-
-        let url = NSURLComponents(string: URLString)
-        {{#hasQueryParams}}
-        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+        {{/bodyParam}}{{#hasQueryParams}}
+        var url = URLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems([
             {{#queryParams}}
             {{> _param}}{{#hasMore}}, {{/hasMore}}
             {{/queryParams}}
-        ])
-        {{/hasQueryParams}}{{#headerParams}}{{^secondaryParam}}
+        ]){{/hasQueryParams}}{{^hasQueryParams}}
+        let url = URLComponents(string: URLString){{/hasQueryParams}}{{#headerParams}}{{^secondaryParam}}
         let nillableHeaders: [String: Any?] = [{{/secondaryParam}}
             {{> _param}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
         ]

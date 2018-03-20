@@ -17,7 +17,6 @@ public struct NumberOnly: Codable {
         self.justNumber = justNumber
     }
 
-
     public enum CodingKeys: String, CodingKey { 
         case justNumber = "JustNumber"
     }

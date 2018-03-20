@@ -23,6 +23,5 @@ public struct ErrorInfo: Codable {
     }
 
 
-
 }
 

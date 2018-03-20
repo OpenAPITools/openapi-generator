@@ -19,6 +19,5 @@ public struct ClassModel: Codable {
     }
 
 
-
 }
 

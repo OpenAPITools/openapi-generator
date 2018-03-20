@@ -19,6 +19,5 @@ public struct BaseCard: Codable {
     }
 
 
-
 }
 

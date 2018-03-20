@@ -23,6 +23,5 @@ public struct PlaceCard: Codable {
     }
 
 
-
 }
 

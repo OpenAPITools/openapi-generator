@@ -25,6 +25,5 @@ public struct SampleSubClass: Codable {
     }
 
 
-
 }
 

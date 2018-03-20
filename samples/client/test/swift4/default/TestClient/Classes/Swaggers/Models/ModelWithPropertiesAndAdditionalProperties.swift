@@ -31,7 +31,6 @@ public struct ModelWithPropertiesAndAdditionalProperties: Codable {
         self.myPrimitiveArrayReq = myPrimitiveArrayReq
         self.myPrimitiveArrayOpt = myPrimitiveArrayOpt
     }
-
     public var additionalProperties: [String:String] = [:]
 
     public subscript(key: String) -> String? {

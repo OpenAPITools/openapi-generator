@@ -25,7 +25,6 @@ public struct VariableNameTest: Codable {
         self.normalName = normalName
     }
 
-
     public enum CodingKeys: String, CodingKey { 
         case exampleName = "example_name"
         case _for = "for"

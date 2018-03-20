@@ -60,7 +60,7 @@ feature -- Test routines
     test_find_pets_by_tags
             -- Finds Pets by tags
             -- 
-            -- Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. 
+            -- Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. 
         local
             l_response: LIST [PET]
             l_tags: LIST [STRING_32]
