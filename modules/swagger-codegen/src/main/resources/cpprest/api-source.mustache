@@ -125,20 +125,6 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
         {{/isContainer}}
     {{/required}}
     {
-        {{#isContainer}}
-        {{#isQueryParam}}
-        queryParams[utility::conversions::to_string_t("{{baseName}}")] = ApiClient::parameterToArrayString<{{items.datatype}}>({{^required}}*{{/required}}{{paramName}});
-        {{/isQueryParam}}
-        {{#isHeaderParam}}
-        headerParams[utility::conversions::to_string_t("{{baseName}}")] = ApiClient::parameterToArrayString<{{items.datatype}}>({{^required}}*{{/required}}{{paramName}});
-        {{/isHeaderParam}}
-        {{#isFormParam}}
-        {{^isFile}}
-        formParams[ utility::conversions::to_string_t("{{baseName}}") ] = ApiClient::parameterToArrayString<{{items.datatype}}>({{^required}}*{{/required}}{{paramName}});
-        {{/isFile}}
-        {{/isFormParam}}
-        {{/isContainer}}
-        {{^isContainer}}
         {{#isQueryParam}}
         queryParams[utility::conversions::to_string_t("{{baseName}}")] = ApiClient::parameterToString({{^required}}*{{/required}}{{paramName}});
         {{/isQueryParam}}
@@ -153,7 +139,6 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
         formParams[ utility::conversions::to_string_t("{{baseName}}") ] = ApiClient::parameterToString({{^required}}*{{/required}}{{paramName}});
         {{/isFile}}
         {{/isFormParam}}
-        {{/isContainer}}
     }
     {{/isPathParam}}
     {{/isBodyParam}}
@@ -187,8 +172,9 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
             json = web::json::value::array(jsonArray);
         }
         {{/isListContainer}}
-        {{^isListContainer}}
-        json = ModelBase::toJson({{paramName}});
+        {{^isListContainer}}{{#required}}json = ModelBase::toJson({{paramName}});
+        {{/required}}{{^required}}if ({{paramName}})
+            json = ModelBase::toJson(*{{paramName}});{{/required}}
         {{/isListContainer}}
         {{/isPrimitiveType}}
 
@@ -217,15 +203,11 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
                 {{/items.isDateTime}}{{/items.isString}}{{/items.isPrimitiveType}}
             }
             multipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), web::json::value::array(jsonArray), utility::conversions::to_string_t("application/json")));
-        }
-        {{/isListContainer}}
-        {{^isListContainer}}
-        {{#isString}}multipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), {{paramName}}));
-        {{/isString}}
-        {{^isString}}
-        if({{paramName}}.get())
+        }{{/isListContainer}}
+        {{^isListContainer}}{{#isString}}multipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), {{paramName}}));
+        {{/isString}}{{^isString}}if({{^required}}{{paramName}} && (*{{paramName}}){{/required}}{{#required}}{{paramName}}{{/required}}.get())
         {
-            {{paramName}}->toMultipart(multipart, utility::conversions::to_string_t("{{paramName}}"));
+            {{^required}}(*{{/required}}{{paramName}}{{^required}}){{/required}}->toMultipart(multipart, utility::conversions::to_string_t("{{paramName}}"));
         }
         {{/isString}}
         {{/isListContainer}}
@@ -345,8 +327,9 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
                 result[item.first] = itemObj;
                 {{/vendorExtensions.x-codegen-response.items.isString}}{{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}
             }
-            {{/isMapContainer}}{{^isMapContainer}}{{#vendorExtensions.x-codegen-response.isPrimitiveType}}result = ModelBase::{{vendorExtensions.x-codegen-response.items.datatype}}FromJson(json);
-            {{/vendorExtensions.x-codegen-response.isPrimitiveType}}{{^vendorExtensions.x-codegen-response.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.isString}}result = ModelBase::stringFromJson(json);
+            {{/isMapContainer}}{{^isMapContainer}}{{#vendorExtensions.x-codegen-response.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.items.datatype}}result = ModelBase::{{vendorExtensions.x-codegen-response.items.datatype}}FromJson(json);
+            {{/vendorExtensions.x-codegen-response.items.datatype}}{{^vendorExtensions.x-codegen-response.items.datatype}}result = ModelBase::{{vendorExtensions.x-codegen-response.datatype}}FromJson(json);
+            {{/vendorExtensions.x-codegen-response.items.datatype}}{{/vendorExtensions.x-codegen-response.isPrimitiveType}}{{^vendorExtensions.x-codegen-response.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.isString}}result = ModelBase::stringFromJson(json);
             {{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}result->fromJson(json);{{/vendorExtensions.x-codegen-response.isString}}{{/vendorExtensions.x-codegen-response.isPrimitiveType}}{{/isMapContainer}}{{/isListContainer}}
         }{{#vendorExtensions.x-codegen-response.isString}}
         else if(responseHttpContentType == utility::conversions::to_string_t("text/plain"))
