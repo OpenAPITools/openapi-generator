@@ -49,6 +49,8 @@ public class Capitalization implements Parcelable {
   @SerializedName("ATT_NAME")
   private String ATT_NAME = null;
 
+  public Capitalization() {
+  }
   public Capitalization smallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
     return this;
@@ -207,27 +209,17 @@ public class Capitalization implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public void writeToParcel(Parcel out, int flags) {
-     
     out.writeValue(smallCamel);
-
     out.writeValue(capitalCamel);
-
     out.writeValue(smallSnake);
-
     out.writeValue(capitalSnake);
-
     out.writeValue(scAETHFlowPoints);
-
     out.writeValue(ATT_NAME);
   }
 
-  public Capitalization() {
-    super();
-  }
-
   Capitalization(Parcel in) {
-    
     smallCamel = (String)in.readValue(null);
     capitalCamel = (String)in.readValue(null);
     smallSnake = (String)in.readValue(null);

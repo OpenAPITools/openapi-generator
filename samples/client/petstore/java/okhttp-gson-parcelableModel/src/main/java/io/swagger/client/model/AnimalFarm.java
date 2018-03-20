@@ -26,6 +26,9 @@ import android.os.Parcel;
  */
 
 public class AnimalFarm extends ArrayList<Animal> implements Parcelable {
+  public AnimalFarm() {
+    super();
+  }
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -64,15 +67,13 @@ public class AnimalFarm extends ArrayList<Animal> implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
-  public void writeToParcel(Parcel out, int flags) {
-     super.writeToParcel(out, flags);    }
 
-  public AnimalFarm() {
-    super();
+  public void writeToParcel(Parcel out, int flags) {
+    out.writeList(this);
   }
 
   AnimalFarm(Parcel in) {
-     super(in); 
+    in.readTypedList(this, Animal.CREATOR);
   }
 
   public int describeContents() {
@@ -81,7 +82,9 @@ public class AnimalFarm extends ArrayList<Animal> implements Parcelable {
 
   public static final Parcelable.Creator<AnimalFarm> CREATOR = new Parcelable.Creator<AnimalFarm>() {
     public AnimalFarm createFromParcel(Parcel in) {
-      return new AnimalFarm(in);
+      AnimalFarm result = new AnimalFarm();
+      result.addAll(in.readArrayList(Animal.class.getClassLoader()));
+      return result;
     }
     public AnimalFarm[] newArray(int size) {
       return new AnimalFarm[size];

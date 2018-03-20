@@ -37,6 +37,8 @@ public class HasOnlyReadOnly implements Parcelable {
   @SerializedName("foo")
   private String foo = null;
 
+  public HasOnlyReadOnly() {
+  }
    /**
    * Get bar
    * @return bar
@@ -97,19 +99,13 @@ public class HasOnlyReadOnly implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
-  public void writeToParcel(Parcel out, int flags) {
-     
-    out.writeValue(bar);
 
+  public void writeToParcel(Parcel out, int flags) {
+    out.writeValue(bar);
     out.writeValue(foo);
   }
 
-  public HasOnlyReadOnly() {
-    super();
-  }
-
   HasOnlyReadOnly(Parcel in) {
-    
     bar = (String)in.readValue(null);
     foo = (String)in.readValue(null);
   }

@@ -55,6 +55,8 @@ public class User implements Parcelable {
   @SerializedName("userStatus")
   private Integer userStatus = null;
 
+  public User() {
+  }
   public User id(Long id) {
     this.id = id;
     return this;
@@ -253,31 +255,19 @@ public class User implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public void writeToParcel(Parcel out, int flags) {
-     
     out.writeValue(id);
-
     out.writeValue(username);
-
     out.writeValue(firstName);
-
     out.writeValue(lastName);
-
     out.writeValue(email);
-
     out.writeValue(password);
-
     out.writeValue(phone);
-
     out.writeValue(userStatus);
   }
 
-  public User() {
-    super();
-  }
-
   User(Parcel in) {
-    
     id = (Long)in.readValue(null);
     username = (String)in.readValue(null);
     firstName = (String)in.readValue(null);
