@@ -34,6 +34,8 @@ public class SpecialModelName implements Parcelable {
   @SerializedName("$special[property.name]")
   private Long specialPropertyName = null;
 
+  public SpecialModelName() {
+  }
   public SpecialModelName specialPropertyName(Long specialPropertyName) {
     this.specialPropertyName = specialPropertyName;
     return this;
@@ -92,17 +94,12 @@ public class SpecialModelName implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public void writeToParcel(Parcel out, int flags) {
-     
     out.writeValue(specialPropertyName);
   }
 
-  public SpecialModelName() {
-    super();
-  }
-
   SpecialModelName(Parcel in) {
-    
     specialPropertyName = (Long)in.readValue(null);
   }
 
