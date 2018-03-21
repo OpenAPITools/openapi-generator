@@ -117,6 +117,7 @@ public class Qt5CPPGenerator extends AbstractCppCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder, PREFIX + "HttpRequest.cpp"));
         supportingFiles.add(new SupportingFile("modelFactory.mustache", sourceFolder, PREFIX + "ModelFactory.h"));
         supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, PREFIX + "Object.h"));
+        supportingFiles.add(new SupportingFile("QObjectWrapper.h.mustache", sourceFolder, PREFIX + "QObjectWrapper.h"));
         if (optionalProjectFileFlag) {
             supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, "client.pri"));
         }
@@ -176,6 +177,7 @@ public class Qt5CPPGenerator extends AbstractCppCodegen implements CodegenConfig
             supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder, modelNamePrefix + "HttpRequest.cpp"));
             supportingFiles.add(new SupportingFile("modelFactory.mustache", sourceFolder, modelNamePrefix + "ModelFactory.h"));
             supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, modelNamePrefix + "Object.h"));
+            supportingFiles.add(new SupportingFile("QObjectWrapper.h.mustache", sourceFolder, modelNamePrefix + "QObjectWrapper.h"));
 
             typeMapping.put("object", modelNamePrefix + "Object");
             typeMapping.put("file", modelNamePrefix + "HttpRequestInputFileElement");

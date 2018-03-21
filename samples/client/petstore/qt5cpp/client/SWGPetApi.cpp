@@ -13,6 +13,7 @@
 #include "SWGPetApi.h"
 #include "SWGHelpers.h"
 #include "SWGModelFactory.h"
+#include "SWGQObjectWrapper.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -220,15 +221,17 @@ SWGPetApi::findPetsByStatusCallback(SWGHttpRequestWorker * worker) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
-
+    auto wrapper = new SWGQObjectWrapper<QList<SWGPet*>*> (output);
+    wrapper->deleteLater();
     foreach(QJsonValue obj, jsonArray) {
         SWGPet* o = new SWGPet();
         QJsonObject jv = obj.toObject();
         QJsonObject * ptr = (QJsonObject*)&jv;
         o->fromJsonObject(*ptr);
+        auto objwrapper = new SWGQObjectWrapper<SWGPet*> (o);
+        objwrapper->deleteLater();
         output->append(o);
     }
-
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -325,15 +328,17 @@ SWGPetApi::findPetsByTagsCallback(SWGHttpRequestWorker * worker) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
-
+    auto wrapper = new SWGQObjectWrapper<QList<SWGPet*>*> (output);
+    wrapper->deleteLater();
     foreach(QJsonValue obj, jsonArray) {
         SWGPet* o = new SWGPet();
         QJsonObject jv = obj.toObject();
         QJsonObject * ptr = (QJsonObject*)&jv;
         o->fromJsonObject(*ptr);
+        auto objwrapper = new SWGQObjectWrapper<SWGPet*> (o);
+        objwrapper->deleteLater();
         output->append(o);
     }
-
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -385,9 +390,10 @@ SWGPetApi::getPetByIdCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-
     QString json(worker->response);
     SWGPet* output = static_cast<SWGPet*>(create(json, QString("SWGPet")));
+    auto wrapper = new SWGQObjectWrapper<SWGPet*> (output);
+    wrapper->deleteLater();
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -554,9 +560,10 @@ SWGPetApi::uploadFileCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-
     QString json(worker->response);
     SWGApiResponse* output = static_cast<SWGApiResponse*>(create(json, QString("SWGApiResponse")));
+    auto wrapper = new SWGQObjectWrapper<SWGApiResponse*> (output);
+    wrapper->deleteLater();
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {

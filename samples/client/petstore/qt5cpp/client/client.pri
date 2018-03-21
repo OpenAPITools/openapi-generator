@@ -16,7 +16,8 @@ HEADERS += \
     $${PWD}/SWGHelpers.h \
     $${PWD}/SWGHttpRequest.h \
     $${PWD}/SWGModelFactory.h \
-    $${PWD}/SWGObject.h
+    $${PWD}/SWGObject.h \
+    $${PWD}/SWGQObjectWrapper.h
 
 SOURCES += \
 # Models

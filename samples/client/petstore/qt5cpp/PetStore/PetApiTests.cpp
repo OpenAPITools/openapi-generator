@@ -185,7 +185,7 @@ void PetApiTests::updatePetWithFormTest() {
     static SWGPetApi* api = getApi();
 
     SWGPet* pet = createRandomPet();
-    static SWGPet* petToCheck;
+    SWGPet* petToCheck;
     qint64 id = pet->getId();
     static QEventLoop loop;
     QTimer timer;
@@ -209,7 +209,7 @@ void PetApiTests::updatePetWithFormTest() {
     timer.setInterval(1000);
     timer.setSingleShot(true);
 
-    auto fetchPet = [](SWGPet* pet) {
+    auto fetchPet = [&](SWGPet* pet) {
         petToCheck = pet;
         loop.quit();
     };
