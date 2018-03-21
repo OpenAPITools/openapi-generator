@@ -13,6 +13,7 @@
 #include "SWGUserApi.h"
 #include "SWGHelpers.h"
 #include "SWGModelFactory.h"
+#include "SWGQObjectWrapper.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -284,9 +285,10 @@ SWGUserApi::getUserByNameCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-
     QString json(worker->response);
     SWGUser* output = static_cast<SWGUser*>(create(json, QString("SWGUser")));
+    auto wrapper = new SWGQObjectWrapper<SWGUser*> (output);
+    wrapper->deleteLater();
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -352,9 +354,10 @@ SWGUserApi::loginUserCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-
     QString json(worker->response);
     QString* output = static_cast<QString*>(create(json, QString("QString")));
+    auto wrapper = new SWGQObjectWrapper<QString*> (output);
+    wrapper->deleteLater();
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
