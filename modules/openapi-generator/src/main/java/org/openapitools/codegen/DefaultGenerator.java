@@ -151,9 +151,16 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (!generateApiTests && !generateModelTests) {
             config.additionalProperties().put(CodegenConstants.EXCLUDE_TESTS, true);
         }
+        // for backward compatibility
         if (System.getProperty("debugSwagger") != null) {
+            LOGGER.info("Please use 'debugOpenAPI' instead of 'debugSwagger` moving forward.");
             Json.prettyPrint(openAPI);
         }
+
+        if (System.getProperty("debugOpenAPI") != null) {
+            Json.prettyPrint(openAPI);
+        }
+
         config.processOpts();
         config.preprocessOpenAPI(openAPI);
         config.additionalProperties().put("generatorVersion", ImplementationVersion.read());

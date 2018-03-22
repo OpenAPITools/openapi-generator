@@ -32,6 +32,7 @@ public class CodegenOperation {
     public List<CodegenParameter> queryParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> headerParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
+    public List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
     public List<CodegenSecurity> authMethods;
     public List<Tag> tags;
@@ -99,6 +100,15 @@ public class CodegenOperation {
      */
     public boolean getHasFormParams() {
         return nonempty(formParams);
+    }
+
+    /**
+     * Check if there's at least one form parameter
+     *
+     * @return true if any cookie parameter exists, false otherwise
+     */
+    public boolean getHasCookieParams() {
+        return nonempty(cookieParams);
     }
 
     /**
@@ -281,6 +291,8 @@ public class CodegenOperation {
             return false;
         if (formParams != null ? !formParams.equals(that.formParams) : that.formParams != null)
             return false;
+        if (cookieParams != null ? !cookieParams.equals(that.cookieParams) : that.cookieParams != null)
+            return false;
         if (authMethods != null ? !authMethods.equals(that.authMethods) : that.authMethods != null)
             return false;
         if (tags != null ? !tags.equals(that.tags) : that.tags != null)
@@ -347,6 +359,7 @@ public class CodegenOperation {
         result = 31 * result + (queryParams != null ? queryParams.hashCode() : 0);
         result = 31 * result + (headerParams != null ? headerParams.hashCode() : 0);
         result = 31 * result + (formParams != null ? formParams.hashCode() : 0);
+        result = 31 * result + (cookieParams != null ? cookieParams.hashCode() : 0);
         result = 31 * result + (authMethods != null ? authMethods.hashCode() : 0);
         result = 31 * result + (tags != null ? tags.hashCode() : 0);
         result = 31 * result + (responses != null ? responses.hashCode() : 0);
@@ -361,4 +374,6 @@ public class CodegenOperation {
         result = 31 * result + (operationIdCamelCase != null ? operationIdCamelCase.hashCode() : 0);
         return result;
     }
+
+
 }
