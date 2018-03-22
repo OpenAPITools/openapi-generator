@@ -16,7 +16,7 @@ public class CodegenSecurity {
     public Boolean isKeyInQuery, isKeyInHeader;
     // Oauth specific
     public String flow, authorizationUrl, tokenUrl;
-    public Scopes scopes;
+    public List<Map<String, Object>> scopes;
     public Boolean isCode, isPassword, isApplication, isImplicit;
 
     @Override

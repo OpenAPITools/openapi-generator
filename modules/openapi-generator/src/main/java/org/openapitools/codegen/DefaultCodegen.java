@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.util.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -2099,7 +2100,11 @@ public class DefaultCodegen implements CodegenConfig {
                 }
 				bodyParam = fromRequestBody(requestBody, schemas, imports);
 				bodyParams.add(bodyParam);
-				allParams.add(bodyParam);
+				if (schemas != null) {
+				    // TODO need to replace "op.consumes"
+                    //op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, op.consumes, bodyParam.dataType);
+                }
+                allParams.add(bodyParam);
 			} 
         }
 
@@ -2110,8 +2115,10 @@ public class DefaultCodegen implements CodegenConfig {
                 }
 
                 CodegenParameter p = fromParameter(param, imports);
+
                 // rename parameters to make sure all of them have unique names
                 if (ensureUniqueParams) {
+                    while (true) {
                         boolean exists = false;
                         for (CodegenParameter cp : allParams) {
                             if (p.paramName.equals(cp.paramName)) {
@@ -2124,6 +2131,7 @@ public class DefaultCodegen implements CodegenConfig {
                         } else {
                             break;
                         }
+                    }
                 }
 
                 allParams.add(p);
@@ -2138,21 +2146,9 @@ public class DefaultCodegen implements CodegenConfig {
                     headerParams.add(p.copy());
                 } else if (param instanceof CookieParameter || "cookie".equalsIgnoreCase(param.getIn())) {
                     cookieParams.add(p.copy());
-                //} else if (Boolean.TRUE.equals(p.isFormParam)) {
-                    // do nothing as form parameter has been handled above
                 } else {
                     LOGGER.warn("Unknown parameter type " + p.baseType + " for " + p.baseName);
                 }
-                /* TODO need to handle body and form parameter below
-                else if (param instanceof RequestBody) {
-                    bodyParam = p;
-                    bodyParams.add(p.copy());
-                    if (definitions != null) {
-                        op.requestBodyExamples = new ExampleGenerator(definitions).generate(null, operation.getConsumes(), bodyParam.dataType);
-                    }
-                } else if (param instanceof FormParameter) {
-                    formParams.add(p.copy());
-                } */
 
                 if (p.required) { //required parameters
                     requiredParams.add(p.copy());
@@ -2161,7 +2157,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         }
-
 
         for (String i : imports) {
             if (needToImport(i)) {
@@ -2362,7 +2357,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (parameter.getSchema() != null) {
             Schema parameterSchema = parameter.getSchema();
             // TDOO revise collectionFormat
-            String collectionFormat = "UNKNOWN_COLLECTION_FORMAT";
+            String collectionFormat = null;
             if (parameterSchema instanceof ArraySchema) { // for array parameter
                 final ArraySchema arraySchema = (ArraySchema) parameterSchema;
                 Schema inner = arraySchema.getItems();
@@ -2378,6 +2373,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.baseType = codegenProperty.datatype;
                 codegenParameter.isContainer = true;
                 codegenParameter.isListContainer = true;
+
 
                 // recursively add import
                 while (codegenProperty != null) {
@@ -2399,7 +2395,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenProperty = codegenProperty.items;
                 }
             }
-/*
+/* TODO revise the logic below
             } else {
                 Map<PropertyId, Object> args = new HashMap<PropertyId, Object>();
                 String format = qp.getFormat();
@@ -2412,8 +2408,7 @@ public class DefaultCodegen implements CodegenConfig {
                 parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
             }
 
-            // TODO need to setRequired?
-            //codegenParameter.setRequired(param.getRequired());
+            codegenParameter.required = Boolean.TRUE;
             CodegenProperty codegenProperty = fromProperty(parameter.getName(), parameterSchema);
 
             // set boolean flag (e.g. isString)
@@ -2439,7 +2434,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             codegenParameter.collectionFormat = collectionFormat;
-            if(collectionFormat != null && collectionFormat.equals("multi")) {
+            if ("multi".equals(collectionFormat)) {
                 codegenParameter.isCollectionFormatMulti = true;
             }
             codegenParameter.paramName = toParamName(parameter.getName());
@@ -2866,7 +2861,6 @@ public class DefaultCodegen implements CodegenConfig {
             operations.put(tag, opList);
         }
         // check for operationId uniqueness
-
         String uniqueName = co.operationId;
         int counter = 0;
         for (CodegenOperation op : opList) {
@@ -3706,7 +3700,29 @@ public class DefaultCodegen implements CodegenConfig {
     private void setOauth2Info(CodegenSecurity codegenSecurity, OAuthFlow flow) {
         codegenSecurity.authorizationUrl = flow.getAuthorizationUrl();
         codegenSecurity.tokenUrl = flow.getTokenUrl();
-        codegenSecurity.scopes = flow.getScopes();
+
+        if (flow.getScopes() != null && !flow.getScopes().isEmpty()) {
+            List<Map<String, Object>> scopes = new ArrayList<Map<String, Object>>();
+            int count = 0, numScopes = flow.getScopes().size();
+            for(Map.Entry<String, String> scopeEntry : flow.getScopes().entrySet()) {
+                Map<String, Object> scope = new HashMap<String, Object>();
+                scope.put("scope", scopeEntry.getKey());
+                scope.put("description", escapeText(scopeEntry.getValue()));
+
+                count += 1;
+                if (count < numScopes) {
+                    scope.put("hasMore", "true");
+                } else {
+                    scope.put("hasMore", null);
+                }
+
+                scopes.add(scope);
+            }
+            LOGGER.info("setOauth2Info setting scopes properly");
+            codegenSecurity.scopes = scopes;
+        }
+
+        LOGGER.info("setOauth2Info scope: " + flow.getScopes());
     }
 
     private List<Schema> getInterfaces(ComposedSchema composed) {
