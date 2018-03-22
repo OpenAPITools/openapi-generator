@@ -428,8 +428,9 @@ export interface Authentication {
 }
 
 export class HttpBasicAuth implements Authentication {
-    public username: string;
-    public password: string;
+    public username: string = '';
+    public password: string = '';
+
     applyToRequest(requestOptions: localVarRequest.Options): void {
         requestOptions.auth = {
             username: this.username, password: this.password
@@ -438,7 +439,7 @@ export class HttpBasicAuth implements Authentication {
 }
 
 export class ApiKeyAuth implements Authentication {
-    public apiKey: string;
+    public apiKey: string = '';
 
     constructor(private location: string, private paramName: string) {
     }
@@ -453,7 +454,7 @@ export class ApiKeyAuth implements Authentication {
 }
 
 export class OAuth implements Authentication {
-    public accessToken: string;
+    public accessToken: string = '';
 
     applyToRequest(requestOptions: localVarRequest.Options): void {
         if (requestOptions && requestOptions.headers) {
@@ -463,8 +464,9 @@ export class OAuth implements Authentication {
 }
 
 export class VoidAuth implements Authentication {
-    public username: string;
-    public password: string;
+    public username: string = '';
+    public password: string = '';
+
     applyToRequest(_: localVarRequest.Options): void {
         // Do nothing
     }
@@ -1507,7 +1509,7 @@ export class UserApi {
     /**
      * 
      * @summary Get user by user name
-     * @param username The name that needs to be fetched. Use user1 for testing. 
+     * @param username The name that needs to be fetched. Use user1 for testing.
      */
     public getUserByName (username: string) : Promise<{ response: http.ClientResponse; body: User;  }> {
         const localVarPath = this.basePath + '/user/{username}'
