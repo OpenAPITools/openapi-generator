@@ -173,7 +173,7 @@ export declare class PetApi {
         response: http.ClientResponse;
         body?: any;
     }>;
-    findPetsByStatus(status: Array<string>): Promise<{
+    findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>): Promise<{
         response: http.ClientResponse;
         body: Array<Pet>;
     }>;
