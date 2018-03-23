@@ -150,11 +150,6 @@ public class CodegenParameter {
     }
 
     @Override
-    public String toString() {
-        return String.format("%s(%s)", baseName, dataType);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -344,5 +339,69 @@ public class CodegenParameter {
         return result;
     }
 
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "CodegenParameter{" +
+                "isFormParam=" + isFormParam +
+                ", isQueryParam=" + isQueryParam +
+                ", isPathParam=" + isPathParam +
+                ", isHeaderParam=" + isHeaderParam +
+                ", isCookieParam=" + isCookieParam +
+                ", isBodyParam=" + isBodyParam +
+                ", hasMore=" + hasMore +
+                ", isContainer=" + isContainer +
+                ", secondaryParam=" + secondaryParam +
+                ", isCollectionFormatMulti=" + isCollectionFormatMulti +
+                ", isPrimitiveType=" + isPrimitiveType +
+                ", baseName='" + baseName + '\'' +
+                ", paramName='" + paramName + '\'' +
+                ", dataType='" + dataType + '\'' +
+                ", datatypeWithEnum='" + datatypeWithEnum + '\'' +
+                ", dataFormat='" + dataFormat + '\'' +
+                ", collectionFormat='" + collectionFormat + '\'' +
+                ", description='" + description + '\'' +
+                ", unescapedDescription='" + unescapedDescription + '\'' +
+                ", baseType='" + baseType + '\'' +
+                ", defaultValue='" + defaultValue + '\'' +
+                ", enumName='" + enumName + '\'' +
+                ", example='" + example + '\'' +
+                ", jsonSchema='" + jsonSchema + '\'' +
+                ", isString=" + isString +
+                ", isNumeric=" + isNumeric +
+                ", isInteger=" + isInteger +
+                ", isLong=" + isLong +
+                ", isNumber=" + isNumber +
+                ", isFloat=" + isFloat +
+                ", isDouble=" + isDouble +
+                ", isByteArray=" + isByteArray +
+                ", isBinary=" + isBinary +
+                ", isBoolean=" + isBoolean +
+                ", isDate=" + isDate +
+                ", isDateTime=" + isDateTime +
+                ", isUuid=" + isUuid +
+                ", isListContainer=" + isListContainer +
+                ", isMapContainer=" + isMapContainer +
+                ", isFile=" + isFile +
+                ", notFile=" + notFile +
+                ", isEnum=" + isEnum +
+                ", _enum=" + _enum +
+                ", allowableValues=" + allowableValues +
+                ", items=" + items +
+                ", vendorExtensions=" + vendorExtensions +
+                ", hasValidation=" + hasValidation +
+                ", required=" + required +
+                ", maximum='" + maximum + '\'' +
+                ", exclusiveMaximum=" + exclusiveMaximum +
+                ", minimum='" + minimum + '\'' +
+                ", exclusiveMinimum=" + exclusiveMinimum +
+                ", maxLength=" + maxLength +
+                ", minLength=" + minLength +
+                ", pattern='" + pattern + '\'' +
+                ", maxItems=" + maxItems +
+                ", minItems=" + minItems +
+                ", uniqueItems=" + uniqueItems +
+                ", multipleOf=" + multipleOf +
+                '}';
+    }
 }
 

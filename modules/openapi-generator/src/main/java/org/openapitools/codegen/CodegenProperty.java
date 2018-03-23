@@ -376,11 +376,6 @@ public class CodegenProperty implements Cloneable {
     }
 
     @Override
-    public String toString() {
-        return String.format("%s(%s)", baseName, datatype);
-    }
-
-    @Override
     public int hashCode()
     {
         final int prime = 31;
@@ -679,7 +674,76 @@ public class CodegenProperty implements Cloneable {
         }
     }
 
-
-
-
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "CodegenProperty{" +
+                "baseName='" + baseName + '\'' +
+                ", complexType='" + complexType + '\'' +
+                ", getter='" + getter + '\'' +
+                ", setter='" + setter + '\'' +
+                ", description='" + description + '\'' +
+                ", datatype='" + datatype + '\'' +
+                ", datatypeWithEnum='" + datatypeWithEnum + '\'' +
+                ", dataFormat='" + dataFormat + '\'' +
+                ", name='" + name + '\'' +
+                ", min='" + min + '\'' +
+                ", max='" + max + '\'' +
+                ", defaultValue='" + defaultValue + '\'' +
+                ", defaultValueWithParam='" + defaultValueWithParam + '\'' +
+                ", baseType='" + baseType + '\'' +
+                ", containerType='" + containerType + '\'' +
+                ", title='" + title + '\'' +
+                ", unescapedDescription='" + unescapedDescription + '\'' +
+                ", maxLength=" + maxLength +
+                ", minLength=" + minLength +
+                ", pattern='" + pattern + '\'' +
+                ", example='" + example + '\'' +
+                ", jsonSchema='" + jsonSchema + '\'' +
+                ", minimum='" + minimum + '\'' +
+                ", maximum='" + maximum + '\'' +
+                ", exclusiveMinimum=" + exclusiveMinimum +
+                ", exclusiveMaximum=" + exclusiveMaximum +
+                ", hasMore=" + hasMore +
+                ", required=" + required +
+                ", secondaryParam=" + secondaryParam +
+                ", hasMoreNonReadOnly=" + hasMoreNonReadOnly +
+                ", isPrimitiveType=" + isPrimitiveType +
+                ", isContainer=" + isContainer +
+                ", isNotContainer=" + isNotContainer +
+                ", isString=" + isString +
+                ", isNumeric=" + isNumeric +
+                ", isInteger=" + isInteger +
+                ", isLong=" + isLong +
+                ", isNumber=" + isNumber +
+                ", isFloat=" + isFloat +
+                ", isDouble=" + isDouble +
+                ", isByteArray=" + isByteArray +
+                ", isBinary=" + isBinary +
+                ", isFile=" + isFile +
+                ", isBoolean=" + isBoolean +
+                ", isDate=" + isDate +
+                ", isDateTime=" + isDateTime +
+                ", isUuid=" + isUuid +
+                ", isListContainer=" + isListContainer +
+                ", isMapContainer=" + isMapContainer +
+                ", isEnum=" + isEnum +
+                ", isReadOnly=" + isReadOnly +
+                ", _enum=" + _enum +
+                ", allowableValues=" + allowableValues +
+                ", items=" + items +
+                ", vendorExtensions=" + vendorExtensions +
+                ", hasValidation=" + hasValidation +
+                ", isInherited=" + isInherited +
+                ", discriminatorValue='" + discriminatorValue + '\'' +
+                ", nameInCamelCase='" + nameInCamelCase + '\'' +
+                ", enumName='" + enumName + '\'' +
+                ", maxItems=" + maxItems +
+                ", minItems=" + minItems +
+                ", isXmlAttribute=" + isXmlAttribute +
+                ", xmlPrefix='" + xmlPrefix + '\'' +
+                ", xmlName='" + xmlName + '\'' +
+                ", xmlNamespace='" + xmlNamespace + '\'' +
+                ", isXmlWrapped=" + isXmlWrapped +
+                '}';
+    }
 }
