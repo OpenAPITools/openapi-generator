@@ -587,7 +587,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             type = p.dataType;
         }
 
-        if ("String".equalsIgnoreCase(type)) {
+        if ("String".equalsIgnoreCase(type) || p.isString) {
             if (example == null) {
                 example = p.paramName + "_example";
             }
@@ -604,7 +604,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (example == null) {
                 example = "True";
             }
-        } else if ("\\SplFileObject".equalsIgnoreCase(type)) {
+        } else if ("\\SplFileObject".equalsIgnoreCase(type) || p.isFile) {
             if (example == null) {
                 example = "/path/to/file";
             }
