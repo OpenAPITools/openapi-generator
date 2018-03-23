@@ -2103,6 +2103,7 @@ public class DefaultCodegen implements CodegenConfig {
                     requestBody = openAPI.getComponents().getRequestBodies().get(getSimpleRef(requestBody.get$ref()));
                 }
 				bodyParam = fromRequestBody(requestBody, schemas, imports);
+                bodyParam.description = requestBody.getDescription();
 				bodyParams.add(bodyParam);
 				if (schemas != null) {
 				    // TODO fix NPE
@@ -4042,11 +4043,13 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 innerCp = innerCp.items;
             }
+            codegenParameter.baseName = codegenProperty.baseType;
+            codegenParameter.paramName = toParamName(codegenProperty.baseType);
             codegenParameter.items = codegenProperty;
-            codegenParameter.dataType = codegenProperty.datatype;
+            codegenParameter.dataType = getTypeDeclaration(arraySchema);
             codegenParameter.baseType = codegenProperty.complexType;
-            codegenParameter.isContainer = codegenProperty.isContainer;
-            codegenParameter.isListContainer = codegenProperty.isListContainer;
+            codegenParameter.isContainer = Boolean.TRUE;
+            codegenParameter.isListContainer = Boolean.TRUE;
             codegenParameter.description = codegenProperty.description;
 
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
