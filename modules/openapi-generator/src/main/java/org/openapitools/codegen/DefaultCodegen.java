@@ -1601,24 +1601,31 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (p instanceof StringSchema || SchemaTypeUtil.STRING_TYPE.equals(p.getType())) {
-            property.maxLength = p.getMaxLength();
-            property.minLength = p.getMinLength();
-            property.pattern = toRegularExpression(p.getPattern());
+            if (p instanceof BinarySchema || SchemaTypeUtil.BINARY_FORMAT.equals(p.getFormat())) {
+                property.isBinary = true;
+            } else if (p instanceof FileSchema) {
+                LOGGER.info("debugging FileSchema: " + property.baseName);
+                property.isFile = true;
+            } else {
+                property.maxLength = p.getMaxLength();
+                property.minLength = p.getMinLength();
+                property.pattern = toRegularExpression(p.getPattern());
 
-            // check if any validation rule defined
-            if (property.pattern != null || property.minLength != null || property.maxLength != null)
-                property.hasValidation = true;
+                // check if any validation rule defined
+                if (property.pattern != null || property.minLength != null || property.maxLength != null)
+                    property.hasValidation = true;
 
-            property.isString = true;
-            if (p.getEnum() != null) {
-                List<String> _enum = p.getEnum();
-                property._enum = _enum;
-                property.isEnum = true;
+                property.isString = true;
+                if (p.getEnum() != null) {
+                    List<String> _enum = p.getEnum();
+                    property._enum = _enum;
+                    property.isEnum = true;
 
-                // legacy support
-                Map<String, Object> allowableValues = new HashMap<String, Object>();
-                allowableValues.put("values", _enum);
-                property.allowableValues = allowableValues;
+                    // legacy support
+                    Map<String, Object> allowableValues = new HashMap<String, Object>();
+                    allowableValues.put("values", _enum);
+                    property.allowableValues = allowableValues;
+                }
             }
         }
 
@@ -1626,12 +1633,8 @@ public class DefaultCodegen implements CodegenConfig {
             property.isBoolean = true;
             property.getter = toBooleanGetter(name);
         }
-        if (p instanceof BinarySchema || SchemaTypeUtil.BINARY_FORMAT.equals(p.getFormat())) {
-            property.isBinary = true;
-        }
-        if (p instanceof FileSchema) { //TODO revise file and binary
-            property.isFile = true;
-        }
+
+
         if (p instanceof UUIDSchema || SchemaTypeUtil.UUID_FORMAT.equals(p.getFormat())) {
             // keep isString to true to make it backward compatible
             property.isString =true;
@@ -2587,21 +2590,6 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             LOGGER.warn("Unknown parameter type: " + parameter.getName());
         }
-        /* TODO: need to fix body parameter and form parameter
-        else if (parameter instanceof BodyParameter) {
-            codegenParameter.isBodyParam = true;
-            codegenParameter.isBinary = isDataTypeBinary(codegenParameter.dataType);
-        }
-
-        else if (parameter instanceof FormParameter) {
-            if ("file".equalsIgnoreCase(((FormParameter) parameter).getType()) || "file".equals(codegenParameter.baseType)) {
-                codegenParameter.isFile = true;
-            } else {
-                codegenParameter.notFile = true;
-            }
-            codegenParameter.isFormParam = true;
-        }
-        */
 
         // set the example value
         // if not specified in x-example, generate a default value
@@ -3929,6 +3917,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.description = escapeText(codegenProperty.description);
         codegenParameter.unescapedDescription = codegenProperty.getDescription();
         codegenParameter.jsonSchema = Json.pretty(propertySchema);
+
 
         if (codegenProperty.getVendorExtensions() != null && !codegenProperty.getVendorExtensions().isEmpty()) {
             codegenParameter.vendorExtensions = codegenProperty.getVendorExtensions();

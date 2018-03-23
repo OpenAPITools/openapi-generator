@@ -606,7 +606,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if ("\\SplFileObject".equalsIgnoreCase(type) || p.isFile) {
             if (example == null) {
-                example = "/path/to/file";
+                example = "/path/to/file.txt";
             }
             example = "\"" + escapeText(example) + "\"";
         } else if ("\\Date".equalsIgnoreCase(type)) {
