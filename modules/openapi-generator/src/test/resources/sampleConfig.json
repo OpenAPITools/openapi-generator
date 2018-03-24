@@ -1,0 +1,34 @@
+{
+    "lang" : "java",
+    "inputSpec" : "swagger.yaml",
+    "outputDir" : "src/gen/java",
+    "verbose" : true,
+    "skipOverwrite" : true,
+    "templateDir" : "src/main/resources",
+    "auth" : "hello:world",
+    "apiPackage" : "io.something.api",
+    "modelPackage" : "io.something.models",
+    "invokerPackage" : "io.something.invoker",
+    "groupId" : "io.something",
+    "artifactId" : "awesome-api",
+    "artifactVersion" : "1.2.3",
+    "library" : "jersey2",
+    "ignoreFileOverride": "/path/to/override/.swagger-codegen-ignore",
+    "systemProperties" : {
+        "systemProp1" : "value1"
+    },
+    "instantiationTypes" : {
+        "hello" : "world"
+    },
+    "typeMappings" : {
+        "foo" : "bar"
+    },
+    "additionalProperties" : {
+        "addtProp1" : "value2"
+    },
+    "importMappings" : {
+        "type1" : "import1"
+    },
+    "languageSpecificPrimitives" : [ "rolex" ],
+    "localVariablePrefix" : "_"
+}

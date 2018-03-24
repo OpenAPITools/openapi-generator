@@ -1,0 +1,316 @@
+{
+  "swaggerVersion": "1.2",
+  "apiVersion": "v1beta3",
+  "basePath": "https://127.0.0.1:6443",
+  "resourcePath": "/api/v1beta3",
+  "apis": [
+    {
+      "path": "/api/v1beta3/namespaces/{namespaces}/bindings",
+      "description": "API at /api/v1beta3 version v1beta3",
+      "operations": [
+        {
+          "type": "v1beta3.Binding",
+          "method": "POST",
+          "summary": "create a Binding",
+          "nickname": "createBinding",
+          "parameters": [
+            {
+              "type": "string",
+              "paramType": "path",
+              "name": "namespaces",
+              "description": "object name and auth scope, such as for teams and projects",
+              "required": true,
+              "allowMultiple": false
+            },
+            {
+              "type": "v1beta3.Binding",
+              "paramType": "body",
+              "name": "body",
+              "description": "",
+              "required": true,
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK",
+              "responseModel": "v1beta3.Binding"
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "*/*"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/api/v1beta3/namespaces/{namespaces}/componentstatuses",
+      "description": "API at /api/v1beta3 version v1beta3",
+      "operations": [
+        {
+          "type": "v1beta3.ComponentStatusList",
+          "method": "GET",
+          "summary": "list objects of kind ComponentStatus",
+          "nickname": "listComponentStatus",
+          "parameters": [
+            {
+              "type": "string",
+              "paramType": "path",
+              "name": "namespaces",
+              "description": "object name and auth scope, such as for teams and projects",
+              "required": true,
+              "allowMultiple": false
+            },
+            {
+              "type": "string",
+              "paramType": "query",
+              "name": "fieldSelector",
+              "description": "a selector to restrict the list of returned objects by their fields; defaults to everything",
+              "required": false,
+              "allowMultiple": false
+            },
+            {
+              "type": "string",
+              "paramType": "query",
+              "name": "labelSelector",
+              "description": "a selector to restrict the list of returned objects by their labels; defaults to everything",
+              "required": false,
+              "allowMultiple": false
+            },
+            {
+              "type": "string",
+              "paramType": "query",
+              "name": "resourceVersion",
+              "description": "when specified with a watch call, shows changes that occur after that particular version of a resource; defaults to changes from the beginning of history",
+              "required": false,
+              "allowMultiple": false
+            },
+            {
+              "type": "boolean",
+              "paramType": "query",
+              "name": "watch",
+              "description": "watch for changes to the described resources and return them as a stream of add, update, and remove notifications; specify resourceVersion",
+              "required": false,
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK",
+              "responseModel": "v1beta3.ComponentStatusList"
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "*/*"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/api/v1beta3/namespaces/{namespaces}/componentstatuses/{name}",
+      "description": "API at /api/v1beta3 version v1beta3",
+      "operations": [
+        {
+          "type": "v1beta3.ComponentStatus",
+          "method": "GET",
+          "summary": "read the specified ComponentStatus",
+          "nickname": "readComponentStatus",
+          "parameters": [
+            {
+              "type": "string",
+              "paramType": "path",
+              "name": "name",
+              "description": "name of the ComponentStatus",
+              "required": true,
+              "allowMultiple": false
+            },
+            {
+              "type": "string",
+              "paramType": "path",
+              "name": "namespaces",
+              "description": "object name and auth scope, such as for teams and projects",
+              "required": true,
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK",
+              "responseModel": "v1beta3.ComponentStatus"
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "*/*"
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "v1beta3.ComponentStatus": {
+      "id": "v1beta3.ComponentStatus",
+      "properties": {
+        "apiVersion": {
+          "type": "string",
+          "description": "version of the schema the object should have"
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "v1beta3.ObjectReference"
+          },
+          "description": "list of component conditions observed"
+        },
+        "kind": {
+          "type": "string",
+          "description": "kind of object, in CamelCase; cannot be updated"
+        },
+        "metadata": {
+          "$ref": "v1beta3.ObjectMeta",
+          "description": "standard object metadata; see http://docs.k8s.io/api-conventions.md#metadata"
+        }
+      }
+    },
+    "v1beta3.ComponentStatusList": {
+      "id": "v1beta3.ComponentStatusList",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "apiVersion": {
+          "type": "string",
+          "description": "version of the schema the object should have"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "v1beta3.ComponentStatus"
+          },
+          "description": "list of component status objects"
+        },
+        "kind": {
+          "type": "string",
+          "description": "kind of object, in CamelCase; cannot be updated"
+        },
+        "metadata": {
+          "$ref": "v1beta3.ObjectMeta",
+          "description": "standard list metadata; see http://docs.k8s.io/api-conventions.md#metadata"
+        }
+      }
+    },
+    "v1beta3.Binding": {
+      "id": "v1beta3.Binding",
+      "required": [
+        "target"
+      ],
+      "properties": {
+        "apiVersion": {
+          "type": "string",
+          "description": "version of the schema the object should have"
+        },
+        "kind": {
+          "type": "string",
+          "description": "kind of object, in CamelCase; cannot be updated"
+        },
+        "metadata": {
+          "$ref": "v1beta3.ObjectMeta",
+          "description": "standard object metadata; see http://docs.k8s.io/api-conventions.md#metadata"
+        },
+        "target": {
+          "$ref": "v1beta3.ObjectReference",
+          "description": "an object to bind to"
+        }
+      }
+    },
+    "v1beta3.ObjectReference": {
+      "id": "v1beta3.ObjectReference",
+      "properties": {
+        "apiVersion": {
+          "type": "string",
+          "description": "API version of the referent"
+        },
+        "fieldPath": {
+          "type": "string",
+          "description": "if referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]"
+        },
+        "kind": {
+          "type": "string",
+          "description": "kind of the referent"
+        },
+        "name": {
+          "type": "string",
+          "description": "name of the referent"
+        },
+        "namespace": {
+          "type": "string",
+          "description": "namespace of the referent"
+        },
+        "resourceVersion": {
+          "type": "string",
+          "description": "specific resourceVersion to which this reference is made, if any: http://docs.k8s.io/api-conventions.md#concurrency-control-and-consistency"
+        },
+        "uid": {
+          "type": "string",
+          "description": "uid of the referent"
+        }
+      }
+    },
+    "v1beta3.ObjectMeta": {
+      "id": "v1beta3.ObjectMeta",
+      "properties": {
+        "annotations": {
+          "type": "any",
+          "description": "map of string keys and values that can be used by external tooling to store and retrieve arbitrary metadata about objects"
+        },
+        "creationTimestamp": {
+          "type": "string",
+          "description": "RFC 3339 date and time at which the object was created; populated by the system, read-only; null for lists"
+        },
+        "deletionTimestamp": {
+          "type": "string",
+          "description": "RFC 3339 date and time at which the object will be deleted; populated by the system when a graceful deletion is requested, read-only; if not set, graceful deletion of the object has not been requested"
+        },
+        "generateName": {
+          "type": "string",
+          "description": "an optional prefix to use to generate a unique name; has the same validation rules as name; optional, and is applied only name if is not specified"
+        },
+        "labels": {
+          "type": "any",
+          "description": "map of string keys and values that can be used to organize and categorize objects; may match selectors of replication controllers and services"
+        },
+        "name": {
+          "type": "string",
+          "description": "string that identifies an object. Must be unique within a namespace; cannot be updated"
+        },
+        "namespace": {
+          "type": "string",
+          "description": "namespace of the object; cannot be updated"
+        },
+        "resourceVersion": {
+          "type": "string",
+          "description": "string that identifies the internal version of this object that can be used by clients to determine when objects have changed; populated by the system, read-only; value must be treated as opaque by clients and passed unmodified back to the server: http://docs.k8s.io/api-conventions.md#concurrency-control-and-consistency"
+        },
+        "selfLink": {
+          "type": "string",
+          "description": "URL for the object; populated by the system, read-only"
+        },
+        "uid": {
+          "type": "string",
+          "description": "unique UUID across space and time; populated by the system; read-only"
+        }
+      }
+    }
+  }
+}

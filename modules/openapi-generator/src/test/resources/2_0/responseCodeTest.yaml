@@ -1,0 +1,17 @@
+swagger: '2.0'
+info:
+  description: 'Test for response code default'
+  version: 1.0.0
+  title: Response code test
+basePath: /
+paths:
+  /test:
+    get:
+      summary: Test
+      produces:
+        - application/json
+      responses:
+        200:
+          description: successful operation
+        default:
+          description: Internal server error

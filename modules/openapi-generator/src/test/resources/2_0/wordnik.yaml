@@ -1,0 +1,1640 @@
+swagger: '2.0'
+
+info:
+  version: 4.0.1
+  title: The Wordnik Public API
+  description: "**Wordnik has an API, and you're invited.**\nThe Wordnik API lets you request definitions, example sentences, spelling suggestions, \nrelated words like synonyms and antonyms, phrases containing a given word, word \nautocompletion, random words, words of the day, and much more\n"
+  contact:
+    url: 'http://developer.wordnik.com/'
+    email: apiteam@wordnik.com
+    name: Wordnik API Team
+
+schemes:
+  - https
+host: api.wordnik.com
+basePath: /v4
+
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    in: header
+    name: api_key
+security:
+  - apiKey: []
+paths:
+  /words.json/randomWord:
+    get:
+      tags:
+        - words
+      summary: Returns a single random WordObject
+      operationId: getRandomWord
+      parameters:
+        - name: hasDictionaryDef
+          in: query
+          description: Only return words with dictionary definitions
+          required: false
+          type: string
+        - name: includePartOfSpeech
+          in: query
+          description: CSV part-of-speech values to include
+          required: false
+          type: string
+        - name: excludePartOfSpeech
+          in: query
+          description: CSV part-of-speech values to exclude
+          required: false
+          type: string
+        - name: minCorpusCount
+          in: query
+          description: Minimum corpus frequency for terms
+          required: false
+          type: integer
+          format: int32
+        - name: maxCorpusCount
+          in: query
+          description: Maximum corpus frequency for terms
+          required: false
+          type: integer
+          format: int32
+        - name: minDictionaryCount
+          in: query
+          description: Minimum dictionary count
+          required: false
+          type: integer
+          format: int32
+        - name: maxDictionaryCount
+          in: query
+          description: Maximum dictionary count
+          required: false
+          type: integer
+          format: int32
+        - name: minLength
+          in: query
+          description: Minimum word length
+          required: false
+          type: integer
+          format: int32
+        - name: maxLength
+          in: query
+          description: Maximum word length
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/WordObject'
+        '404':
+          description: No word found.
+  /account.json/user:
+    get:
+      tags:
+        - account
+      summary: Returns the logged-in User
+      description: Requires a valid auth_token to be set.
+      operationId: getLoggedInUser
+      parameters:
+        - name: auth_token
+          in: header
+          description: 'The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The logged-in user
+          schema:
+            $ref: '#/definitions/User'
+        '403':
+          description: Not logged in.
+        '404':
+          description: User not found.
+  '/word.json/{word}/pronunciations':
+    get:
+      tags:
+        - word
+      summary: Returns text pronunciations for a given word
+      operationId: getTextPronunciations
+      parameters:
+        - name: word
+          in: path
+          description: Word to get pronunciations for
+          required: true
+          type: string
+        - name: useCanonical
+          in: query
+          description: "If true will try to return a correct word root ('cats' -> 'cat'). If false returns exactly what was requested."
+          required: false
+          type: string
+        - name: sourceDictionary
+          in: query
+          description: Get from a single dictionary
+          required: false
+          type: string
+        - name: typeFormat
+          in: query
+          description: Text pronunciation type
+          required: false
+          type: string
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TextPron'
+        '400':
+          description: Invalid word supplied.
+  '/word.json/{word}/relatedWords':
+    get:
+      tags:
+        - word
+      summary: 'Given a word as a string, returns relationships from the Word Graph'
+      operationId: getRelatedWords
+      parameters:
+        - name: word
+          in: path
+          description: Word to fetch relationships for
+          required: true
+          type: string
+        - name: useCanonical
+          in: query
+          description: "If true will try to return the correct word root ('cats' -> 'cat'). If false returns exactly what was requested."
+          required: false
+          type: string
+        - name: relationshipTypes
+          in: query
+          description: Limits the total results per type of relationship type
+          required: false
+          type: string
+        - name: limitPerRelationshipType
+          in: query
+          description: Restrict to the supplied relationship types
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Related'
+        '400':
+          description: Invalid word supplied.
+  /words.json/reverseDictionary:
+    get:
+      tags:
+        - words
+      summary: Reverse dictionary search
+      operationId: reverseDictionary
+      parameters:
+        - name: query
+          in: query
+          description: Search term
+          required: true
+          type: string
+        - name: findSenseForWord
+          in: query
+          description: Restricts words and finds closest sense
+          required: false
+          type: string
+        - name: includeSourceDictionaries
+          in: query
+          description: Only include these comma-delimited source dictionaries
+          required: false
+          type: string
+        - name: excludeSourceDictionaries
+          in: query
+          description: Exclude these comma-delimited source dictionaries
+          required: false
+          type: string
+        - name: includePartOfSpeech
+          in: query
+          description: Only include these comma-delimited parts of speech
+          required: false
+          type: string
+        - name: excludePartOfSpeech
+          in: query
+          description: Exclude these comma-delimited parts of speech
+          required: false
+          type: string
+        - name: minCorpusCount
+          in: query
+          description: Minimum corpus frequency for terms
+          required: false
+          type: integer
+          format: int32
+        - name: maxCorpusCount
+          in: query
+          description: Maximum corpus frequency for terms
+          required: false
+          type: integer
+          format: int32
+        - name: minLength
+          in: query
+          description: Minimum word length
+          required: false
+          type: integer
+          format: int32
+        - name: maxLength
+          in: query
+          description: Maximum word length
+          required: false
+          type: integer
+          format: int32
+        - name: expandTerms
+          in: query
+          description: Expand terms
+          required: false
+          type: string
+        - name: includeTags
+          in: query
+          description: Return a closed set of XML tags in response
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: Attribute to sort by
+          required: false
+          type: string
+        - name: sortOrder
+          in: query
+          description: Sort direction
+          required: false
+          type: string
+        - name: skip
+          in: query
+          description: Results to skip
+          required: false
+          type: string
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/DefinitionSearchResults'
+        '400':
+          description: Invalid term supplied.
+  /account.json/apiTokenStatus:
+    get:
+      tags:
+        - account
+      summary: Returns usage statistics for the API account.
+      operationId: getApiTokenStatus
+      parameters:
+        - name: api_key
+          in: header
+          description: Wordnik authentication token
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Usage statistics for the supplied API key
+          schema:
+            $ref: '#/definitions/ApiTokenStatus'
+        '400':
+          description: No token supplied.
+        '404':
+          description: No API account with supplied token.
+  '/word.json/{word}':
+    get:
+      tags:
+        - word
+      summary: 'Given a word as a string, returns the WordObject that represents it'
+      operationId: getWord
+      parameters:
+        - name: word
+          in: path
+          description: String value of WordObject to return
+          required: true
+          type: string
+        - name: useCanonical
+          in: query
+          description: "If true will try to return the correct word root ('cats' -> 'cat'). If false returns exactly what was requested."
+          required: false
+          type: string
+        - name: includeSuggestions
+          in: query
+          description: 'Return suggestions (for correct spelling, case variants, etc.)'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/WordObject'
+        '400':
+          description: Invalid word supplied.
+  '/wordList.json/{permalink}/deleteWords':
+    post:
+      tags:
+        - wordList
+      summary: Removes words from a WordList
+      operationId: deleteWordsFromWordList
+      parameters:
+        - name: permalink
+          in: path
+          description: permalink of WordList to use
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Words to remove from WordList
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/StringValue'
+        - name: auth_token
+          in: header
+          description: 'The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+        '400':
+          description: Invalid permalink supplied
+        '403':
+          description: Not Authorized to modify WordList
+        '404':
+          description: WordList not found
+  '/word.json/{word}/examples':
+    get:
+      tags:
+        - word
+      summary: Returns examples for a word
+      operationId: getExamples
+      parameters:
+        - name: word
+          in: path
+          description: Word to return examples for
+          required: true
+          type: string
+        - name: includeDuplicates
+          in: query
+          description: Show duplicate examples from different sources
+          required: false
+          type: string
+        - name: useCanonical
+          in: query
+          description: "If true will try to return the correct word root ('cats' -> 'cat'). If false returns exactly what was requested."
+          required: false
+          type: string
+        - name: skip
+          in: query
+          description: Results to skip
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/ExampleSearchResults'
+        '400':
+          description: Invalid word supplied.
+  '/account.json/authenticate/{username}':
+    get:
+      tags:
+        - account
+      summary: Authenticates a User
+      operationId: authenticate
+      parameters:
+        - name: username
+          in: path
+          description: A confirmed Wordnik username
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: "The user's password"
+          required: true
+          type: string
+      responses:
+        '200':
+          description: A valid authentication token
+          schema:
+            $ref: '#/definitions/AuthenticationToken'
+        '403':
+          description: Account not available.
+        '404':
+          description: User not found.
+    post:
+      tags:
+        - account
+      summary: Authenticates a user
+      operationId: authenticatePost
+      parameters:
+        - name: username
+          in: path
+          description: A confirmed Wordnik username
+          required: true
+          type: string
+        - in: body
+          name: body
+          schema:
+            type: string
+          description: "The user's password"
+          required: true
+      responses:
+        '200':
+          description: A valid authentication token
+          schema:
+            $ref: '#/definitions/AuthenticationToken'
+        '403':
+          description: Account not available.
+        '404':
+          description: User not found.
+  '/word.json/{word}/audio':
+    get:
+      tags:
+        - word
+      summary: Fetches audio metadata for a word.
+      description: The metadata includes a time-expiring fileUrl which allows reading the audio file directly from the API.  Currently only audio pronunciations from the American Heritage Dictionary in mp3 format are supported.
+      operationId: getAudio
+      parameters:
+        - name: word
+          in: path
+          description: Word to get audio for.
+          required: true
+          type: string
+        - name: useCanonical
+          in: query
+          description: Use the canonical form of the word
+          required: false
+          type: string
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AudioFile'
+        '400':
+          description: Invalid word supplied.
+  /words.json/randomWords:
+    get:
+      tags:
+        - words
+      summary: Returns an array of random WordObjects
+      operationId: getRandomWords
+      parameters:
+        - name: hasDictionaryDef
+          in: query
+          description: Only return words with dictionary definitions
+          required: false
+          type: string
+        - name: includePartOfSpeech
+          in: query
+          description: CSV part-of-speech values to include
+          required: false
+          type: string
+        - name: excludePartOfSpeech
+          in: query
+          description: CSV part-of-speech values to exclude
+          required: false
+          type: string
+        - name: minCorpusCount
+          in: query
+          description: Minimum corpus frequency for terms
+          required: false
+          type: integer
+          format: int32
+        - name: maxCorpusCount
+          in: query
+          description: Maximum corpus frequency for terms
+          required: false
+          type: integer
+          format: int32
+        - name: minDictionaryCount
+          in: query
+          description: Minimum dictionary count
+          required: false
+          type: integer
+          format: int32
+        - name: maxDictionaryCount
+          in: query
+          description: Maximum dictionary count
+          required: false
+          type: integer
+          format: int32
+        - name: minLength
+          in: query
+          description: Minimum word length
+          required: false
+          type: integer
+          format: int32
+        - name: maxLength
+          in: query
+          description: Maximum word length
+          required: false
+          type: integer
+          format: int32
+        - name: sortBy
+          in: query
+          description: Attribute to sort by
+          required: false
+          type: string
+        - name: sortOrder
+          in: query
+          description: Sort direction
+          required: false
+          type: string
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/WordObject'
+        '400':
+          description: Invalid term supplied.
+        '404':
+          description: No results.
+  /account.json/wordLists:
+    get:
+      tags:
+        - account
+      summary: Fetches WordList objects for the logged-in user.
+      operationId: getWordListsForLoggedInUser
+      parameters:
+        - name: auth_token
+          in: header
+          description: auth_token of logged-in user
+          required: true
+          type: string
+        - name: skip
+          in: query
+          description: Results to skip
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/WordList'
+        '403':
+          description: Not authenticated.
+        '404':
+          description: User account not found.
+  '/word.json/{word}/phrases':
+    get:
+      tags:
+        - word
+      summary: Fetches bi-gram phrases for a word
+      operationId: getPhrases
+      parameters:
+        - name: word
+          in: path
+          description: Word to fetch phrases for
+          required: true
+          type: string
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: wlmi
+          in: query
+          description: Minimum WLMI for the phrase
+          required: false
+          type: integer
+          format: int32
+        - name: useCanonical
+          in: query
+          description: "If true will try to return the correct word root ('cats' -> 'cat'). If false returns exactly what was requested."
+          required: false
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Bigram'
+        '400':
+          description: Invalid word supplied.
+  '/word.json/{word}/frequency':
+    get:
+      tags:
+        - word
+      summary: Returns word usage over time
+      operationId: getWordFrequency
+      parameters:
+        - name: word
+          in: path
+          description: Word to return
+          required: true
+          type: string
+        - name: useCanonical
+          in: query
+          description: "If true will try to return the correct word root ('cats' -> 'cat'). If false returns exactly what was requested."
+          required: false
+          type: string
+        - name: startYear
+          in: query
+          description: Starting Year
+          required: false
+          type: integer
+          format: int32
+        - name: endYear
+          in: query
+          description: Ending Year
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/FrequencySummary'
+        '400':
+          description: Invalid word supplied.
+        '404':
+          description: No results.
+  '/wordList.json/{permalink}/words':
+    get:
+      tags:
+        - wordList
+      summary: Fetches words in a WordList
+      operationId: getWordListWords
+      parameters:
+        - name: permalink
+          in: path
+          description: ID of WordList to use
+          required: true
+          type: string
+        - name: sortBy
+          in: query
+          description: Field to sort by
+          required: false
+          type: string
+        - name: sortOrder
+          in: query
+          description: Direction to sort
+          required: false
+          type: string
+        - name: skip
+          in: query
+          description: Results to skip
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: auth_token
+          in: header
+          description: 'The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/WordListWord'
+        '400':
+          description: Invalid ID supplied
+        '403':
+          description: Not Authorized to access WordList
+        '404':
+          description: WordList not found
+    post:
+      tags:
+        - wordList
+      summary: Adds words to a WordList
+      operationId: addWordsToWordList
+      parameters:
+        - name: permalink
+          in: path
+          description: permalink of WordList to user
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Array of words to add to WordList
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/StringValue'
+        - name: auth_token
+          in: header
+          description: 'The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+        '400':
+          description: Invalid permalink supplied
+        '403':
+          description: Not Authorized to access WordList
+        '404':
+          description: WordList not found
+  /wordLists.json:
+    post:
+      tags:
+        - wordLists
+      summary: Creates a WordList.
+      operationId: createWordList
+      parameters:
+        - in: body
+          name: body
+          description: WordList to create
+          required: false
+          schema:
+            $ref: '#/definitions/WordList'
+        - name: auth_token
+          in: header
+          description: 'The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/WordList'
+        '400':
+          description: Invalid WordList supplied or mandatory fields are missing
+        '403':
+          description: Not authenticated
+        '404':
+          description: WordList owner not found
+  '/word.json/{word}/etymologies':
+    get:
+      tags:
+        - word
+      summary: Fetches etymology data
+      operationId: getEtymologies
+      parameters:
+        - name: word
+          in: path
+          description: Word to return
+          required: true
+          type: string
+        - name: useCanonical
+          in: query
+          description: "If true will try to return the correct word root ('cats' -> 'cat'). If false returns exactly what was requested."
+          required: false
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              type: string
+        '400':
+          description: Invalid word supplied.
+        '404':
+          description: No definitions found.
+  '/word.json/{word}/topExample':
+    get:
+      tags:
+        - word
+      summary: Returns a top example for a word
+      operationId: getTopExample
+      parameters:
+        - name: word
+          in: path
+          description: Word to fetch examples for
+          required: true
+          type: string
+        - name: useCanonical
+          in: query
+          description: "If true will try to return the correct word root ('cats' -> 'cat'). If false returns exactly what was requested."
+          required: false
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/Example'
+        '400':
+          description: Invalid word supplied.
+  '/word.json/{word}/definitions':
+    get:
+      tags:
+        - word
+      summary: Return definitions for a word
+      operationId: getDefinitions
+      parameters:
+        - name: word
+          in: path
+          description: Word to return definitions for
+          required: true
+          type: string
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: partOfSpeech
+          in: query
+          description: CSV list of part-of-speech types
+          required: false
+          type: string
+        - name: includeRelated
+          in: query
+          description: Return related words with definitions
+          required: false
+          type: string
+        - name: sourceDictionaries
+          in: query
+          description: "Source dictionary to return definitions from.  If 'all' is received, results are returned from all sources. If multiple values are received (e.g. 'century,wiktionary'), results are returned from the first specified dictionary that has definitions. If left blank, results are returned from the first dictionary that has definitions. By default, dictionaries are searched in this order: ahd, wiktionary, webster, century, wordnet"
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: csv
+        - name: useCanonical
+          in: query
+          description: "If true will try to return the correct word root ('cats' -> 'cat'). If false returns exactly what was requested."
+          required: false
+          type: string
+        - name: includeTags
+          in: query
+          description: Return a closed set of XML tags in response
+          required: false
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Definition'
+        '400':
+          description: Invalid word supplied.
+        '404':
+          description: No definitions found.
+  '/words.json/search/{query}':
+    get:
+      tags:
+        - words
+      summary: Searches words
+      operationId: searchWords
+      parameters:
+        - name: query
+          in: path
+          description: Search query
+          required: true
+          type: string
+        - name: caseSensitive
+          in: query
+          description: Search case sensitive
+          required: false
+          type: string
+        - name: includePartOfSpeech
+          in: query
+          description: Only include these comma-delimited parts of speech
+          required: false
+          type: string
+        - name: excludePartOfSpeech
+          in: query
+          description: Exclude these comma-delimited parts of speech
+          required: false
+          type: string
+        - name: minCorpusCount
+          in: query
+          description: Minimum corpus frequency for terms
+          required: false
+          type: integer
+          format: int32
+        - name: maxCorpusCount
+          in: query
+          description: Maximum corpus frequency for terms
+          required: false
+          type: integer
+          format: int32
+        - name: minDictionaryCount
+          in: query
+          description: Minimum number of dictionary entries for words returned
+          required: false
+          type: integer
+          format: int32
+        - name: maxDictionaryCount
+          in: query
+          description: Maximum dictionary definition count
+          required: false
+          type: integer
+          format: int32
+        - name: minLength
+          in: query
+          description: Minimum word length
+          required: false
+          type: integer
+          format: int32
+        - name: maxLength
+          in: query
+          description: Maximum word length
+          required: false
+          type: integer
+          format: int32
+        - name: skip
+          in: query
+          description: Results to skip
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/WordSearchResults'
+        '400':
+          description: Invalid query supplied.
+  '/wordList.json/{permalink}':
+    get:
+      tags:
+        - wordList
+      summary: Fetches a WordList by ID
+      operationId: getWordListByPermalink
+      parameters:
+        - name: permalink
+          in: path
+          description: permalink of WordList to fetch
+          required: true
+          type: string
+        - name: auth_token
+          in: header
+          description: 'The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/WordList'
+        '400':
+          description: Invalid ID supplied
+        '403':
+          description: Not Authorized to access WordList
+        '404':
+          description: WordList not found
+    put:
+      tags:
+        - wordList
+      summary: Updates an existing WordList
+      operationId: updateWordList
+      parameters:
+        - name: permalink
+          in: path
+          description: permalink of WordList to update
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Updated WordList
+          required: false
+          schema:
+            $ref: '#/definitions/WordList'
+        - name: auth_token
+          in: header
+          description: 'The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+        '400':
+          description: Invalid ID supplied
+        '403':
+          description: Not Authorized to update WordList
+        '404':
+          description: WordList not found
+    delete:
+      tags:
+        - wordList
+      summary: Deletes an existing WordList
+      operationId: deleteWordList
+      parameters:
+        - name: permalink
+          in: path
+          description: ID of WordList to delete
+          required: true
+          type: string
+        - name: auth_token
+          in: header
+          description: 'The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+        '400':
+          description: Invalid ID supplied
+        '403':
+          description: Not Authorized to delete WordList
+        '404':
+          description: WordList not found
+  '/word.json/{word}/hyphenation':
+    get:
+      tags:
+        - word
+      summary: Returns syllable information for a word
+      operationId: getHyphenation
+      parameters:
+        - name: word
+          in: path
+          description: Word to get syllables for
+          required: true
+          type: string
+        - name: useCanonical
+          in: query
+          description: "If true will try to return a correct word root ('cats' -> 'cat'). If false returns exactly what was requested."
+          required: false
+          type: string
+        - name: sourceDictionary
+          in: query
+          description: 'Get from a single dictionary. Valid options: ahd, century, wiktionary, webster, and wordnet.'
+          required: false
+          type: string
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Syllable'
+        '400':
+          description: Invalid word supplied.
+  /words.json/wordOfTheDay:
+    get:
+      tags:
+        - words
+      summary: Returns a specific WordOfTheDay
+      operationId: getWordOfTheDay
+      parameters:
+        - name: date
+          in: query
+          description: Fetches by date in yyyy-MM-dd
+          required: false
+          type: string
+      responses:
+        default:
+          description: success
+          schema:
+            $ref: '#/definitions/WordOfTheDay'
+definitions:
+  Syllable:
+    properties:
+      text:
+        type: string
+      seq:
+        type: integer
+        format: int32
+      type:
+        type: string
+  StringValue:
+    properties:
+      word:
+        type: string
+  AuthenticationToken:
+    properties:
+      token:
+        type: string
+      userId:
+        type: integer
+        format: int64
+      userSignature:
+        type: string
+  Sentence:
+    properties:
+      hasScoredWords:
+        type: boolean
+      id:
+        type: integer
+        format: int64
+      scoredWords:
+        type: array
+        items:
+          $ref: '#/definitions/ScoredWord'
+      display:
+        type: string
+      rating:
+        type: integer
+        format: int32
+      documentMetadataId:
+        type: integer
+        format: int64
+  ExampleSearchResults:
+    properties:
+      facets:
+        type: array
+        items:
+          $ref: '#/definitions/Facet'
+      examples:
+        type: array
+        items:
+          $ref: '#/definitions/Example'
+  WordSearchResults:
+    properties:
+      searchResults:
+        type: array
+        items:
+          $ref: '#/definitions/WordSearchResult'
+      totalResults:
+        type: integer
+        format: int32
+  SimpleDefinition:
+    properties:
+      text:
+        type: string
+      source:
+        type: string
+      note:
+        type: string
+      partOfSpeech:
+        type: string
+  Citation:
+    properties:
+      cite:
+        type: string
+      source:
+        type: string
+  WordList:
+    properties:
+      numberWordsInList:
+        type: integer
+        format: int64
+      userId:
+        type: integer
+        format: int64
+      name:
+        type: string
+      permalink:
+        type: string
+      updatedAt:
+        type: string
+        format: date-time
+      username:
+        type: string
+      lastActivityAt:
+        type: string
+        format: date-time
+      type:
+        type: string
+      id:
+        type: integer
+        format: int64
+      createdAt:
+        type: string
+        format: date-time
+      description:
+        type: string
+  WordObject:
+    properties:
+      id:
+        type: integer
+        format: int64
+      word:
+        type: string
+      originalWord:
+        type: string
+      suggestions:
+        type: array
+        items:
+          type: string
+      canonicalForm:
+        type: string
+      vulgar:
+        type: string
+  Example:
+    properties:
+      sentence:
+        $ref: '#/definitions/Sentence'
+      exampleId:
+        type: integer
+        format: int64
+      word:
+        type: string
+      text:
+        type: string
+      url:
+        type: string
+      provider:
+        $ref: '#/definitions/ContentProvider'
+      score:
+        $ref: '#/definitions/ScoredWord'
+      documentId:
+        type: integer
+        format: int64
+      title:
+        type: string
+      id:
+        type: integer
+        format: int64
+      year:
+        type: integer
+        format: int32
+      rating:
+        type: number
+        format: float
+  ContentProvider:
+    properties:
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+  FrequencySummary:
+    properties:
+      unknownYearCount:
+        type: integer
+        format: int32
+      totalCount:
+        type: integer
+        format: int64
+      frequencyString:
+        type: string
+      word:
+        type: string
+      frequency:
+        type: array
+        items:
+          $ref: '#/definitions/Frequency'
+  Related:
+    properties:
+      label1:
+        type: string
+      relationshipType:
+        type: string
+      label2:
+        type: string
+      label3:
+        type: string
+      words:
+        type: array
+        items:
+          type: string
+      gram:
+        type: string
+      label4:
+        type: string
+  User:
+    properties:
+      id:
+        type: integer
+        format: int64
+      username:
+        type: string
+      email:
+        type: string
+      status:
+        type: integer
+        format: int32
+      faceBookId:
+        type: string
+      userName:
+        type: string
+      displayName:
+        type: string
+      password:
+        type: string
+  WordOfTheDay:
+    properties:
+      definitions:
+        type: array
+        items:
+          $ref: '#/definitions/SimpleDefinition'
+      htmlExtra:
+        type: string
+      parentId:
+        type: string
+      examples:
+        type: array
+        items:
+          $ref: '#/definitions/SimpleExample'
+      contentProvider:
+        $ref: '#/definitions/ContentProvider'
+      word:
+        type: string
+      note:
+        type: string
+      id:
+        type: integer
+        format: int64
+      createdAt:
+        type: string
+        format: date-time
+      publishDate:
+        type: string
+        format: date-time
+      category:
+        type: string
+      createdBy:
+        type: string
+  TextPron:
+    properties:
+      raw:
+        type: string
+      seq:
+        type: integer
+        format: int32
+      rawType:
+        type: string
+  WordSearchResult:
+    properties:
+      count:
+        type: integer
+        format: int64
+      lexicality:
+        type: number
+        format: double
+      word:
+        type: string
+  ApiTokenStatus:
+    properties:
+      valid:
+        type: boolean
+      token:
+        type: string
+      resetsInMillis:
+        type: integer
+        format: int64
+      remainingCalls:
+        type: integer
+        format: int64
+      expiresInMillis:
+        type: integer
+        format: int64
+      totalRequests:
+        type: integer
+        format: int64
+  Note:
+    properties:
+      noteType:
+        type: string
+      appliesTo:
+        type: array
+        items:
+          type: string
+      value:
+        type: string
+      pos:
+        type: integer
+        format: int32
+  WordListWord:
+    properties:
+      id:
+        type: integer
+        format: int64
+      word:
+        type: string
+      username:
+        type: string
+      userId:
+        type: integer
+        format: int64
+      createdAt:
+        type: string
+        format: date-time
+      numberCommentsOnWord:
+        type: integer
+        format: int64
+      numberLists:
+        type: integer
+        format: int64
+  AudioFile:
+    properties:
+      voteCount:
+        type: integer
+        format: int32
+      word:
+        type: string
+      attributionText:
+        type: string
+      audioType:
+        type: string
+      attributionUrl:
+        type: string
+      commentCount:
+        type: integer
+        format: int32
+      fileUrl:
+        type: string
+      voteAverage:
+        type: number
+        format: float
+      duration:
+        type: number
+        format: double
+      id:
+        type: integer
+        format: int64
+      createdAt:
+        type: string
+        format: date-time
+      voteWeightedAverage:
+        type: number
+        format: float
+      description:
+        type: string
+      createdBy:
+        type: string
+  Definition:
+    properties:
+      notes:
+        type: array
+        items:
+          $ref: '#/definitions/Note'
+      sequence:
+        type: string
+      textProns:
+        type: array
+        items:
+          $ref: '#/definitions/TextPron'
+      extendedText:
+        type: string
+      word:
+        type: string
+      attributionText:
+        type: string
+      citations:
+        type: array
+        items:
+          $ref: '#/definitions/Citation'
+      partOfSpeech:
+        type: string
+      text:
+        type: string
+      attributionUrl:
+        type: string
+      seqString:
+        type: string
+      sourceDictionary:
+        type: string
+      score:
+        type: number
+        format: float
+      exampleUses:
+        type: array
+        items:
+          $ref: '#/definitions/ExampleUsage'
+      relatedWords:
+        type: array
+        items:
+          $ref: '#/definitions/Related'
+      labels:
+        type: array
+        items:
+          $ref: '#/definitions/Label'
+  Label:
+    properties:
+      text:
+        type: string
+      type:
+        type: string
+  Facet:
+    properties:
+      facetValues:
+        type: array
+        items:
+          $ref: '#/definitions/FacetValue'
+      name:
+        type: string
+  ExampleUsage:
+    properties:
+      text:
+        type: string
+  SimpleExample:
+    properties:
+      id:
+        type: integer
+        format: int64
+      title:
+        type: string
+      text:
+        type: string
+      url:
+        type: string
+  FacetValue:
+    properties:
+      count:
+        type: integer
+        format: int64
+      value:
+        type: string
+  DefinitionSearchResults:
+    properties:
+      results:
+        type: array
+        items:
+          $ref: '#/definitions/Definition'
+      totalResults:
+        type: integer
+        format: int32
+  Frequency:
+    properties:
+      count:
+        type: integer
+        format: int64
+      year:
+        type: integer
+        format: int32
+  ScoredWord:
+    properties:
+      wordType:
+        type: string
+      lemma:
+        type: string
+      position:
+        type: integer
+        format: int32
+      word:
+        type: string
+      docTermCount:
+        type: integer
+        format: int32
+      stopword:
+        type: boolean
+      partOfSpeech:
+        type: string
+      score:
+        type: number
+        format: float
+      baseWordScore:
+        type: number
+        format: double
+      id:
+        type: integer
+        format: int64
+      sentenceId:
+        type: integer
+        format: int64
+  Bigram:
+    properties:
+      count:
+        type: integer
+        format: int64
+      gram2:
+        type: string
+      gram1:
+        type: string
+      wlmi:
+        type: number
+        format: double
+      mi:
+        type: number
+        format: double

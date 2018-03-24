@@ -1,0 +1,75 @@
+swagger: '2.0'
+
+info:
+  version: '0.1.0'
+  title: An *API* with more **Markdown** in summary, description, and other text
+  description: >
+    Not really a *pseudo-randum* number generator API.
+    This API uses [Markdown](http://daringfireball.net/projects/markdown/syntax)
+    in text:
+  
+    1. in this API description
+    
+    1. in operation summaries
+    
+    1. in operation descriptions
+    
+    1. in schema (model) titles and descriptions
+    
+    1. in schema (model) member descriptions
+
+schemes:
+  - http
+host: api.example.com
+basePath: /v1
+tags:
+  - name: tag1
+    description: A simple API **tag**
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    in: header
+    name: api_key
+security:
+  - apiKey: []
+
+paths:
+
+  /random:
+    get:
+      tags:
+        - tag1
+      summary: A single *random* result
+      description: Return a single *random* result from a given seed
+      operationId: getRandomNumber
+      parameters:
+        - name: seed
+          in: query
+          description: A random number *seed*.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Operation *succeeded* 
+          schema:
+            $ref: '#/definitions/RandomNumber'
+        '404':
+          description: Invalid or omitted *seed*. Seeds must be **valid** numbers.
+
+definitions:
+  RandomNumber:
+    title: '*Pseudo-random* number'
+    description: A *pseudo-random* number generated from a seed.
+    properties:
+      value:
+        description: The *pseudo-random* number
+        type: number
+        format: double
+      seed:
+        description: The `seed` used to generate this number
+        type: number
+        format: double
+      sequence:
+        description: The sequence number of this random number.
+        type: integer
+        format: int64
