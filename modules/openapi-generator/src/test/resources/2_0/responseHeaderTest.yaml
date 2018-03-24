@@ -1,0 +1,41 @@
+swagger: '2.0'
+info:
+  description: 'Test for displaying response headers'
+  version: 1.0.0
+  title: Response header test
+  license:
+    name: Apache-2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+basePath: /
+schemes:
+  - http
+paths:
+  /test:
+    get:
+      summary: Test
+      description: Test
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              type: string
+          headers:
+            X-STATUS:
+              type: "integer"
+              description: "Output status of the operation"
+        '500':
+          description: "Internal server error"
+          headers:
+            X-MSG-ID:
+              type: "string"
+              format: ".*"
+              description: "I am the error description"
+            X-ERROR-ID:
+              type: "integer"
+              description: "I am the error code"
+        '400':
+          description: Invalid ID supplied

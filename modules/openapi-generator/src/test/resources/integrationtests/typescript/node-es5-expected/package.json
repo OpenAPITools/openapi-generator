@@ -1,0 +1,23 @@
+{
+    "name": "node-es6-test",
+    "version": "1.0.3",
+    "description": "NodeJS client for node-es6-test",
+    "repository": "/",
+    "main": "api.js",
+    "scripts": {
+        "postinstall": "typings install",
+        "clean": "rm -Rf node_modules/ typings/ *.js",
+        "build": "tsc",
+        "test": "npm run build && node client.js"
+    },
+    "author": "Swagger Codegen Contributors",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "bluebird": "^3.3.5",
+        "request": "^2.72.0"
+    },
+    "devDependencies": {
+        "typescript": "^1.8.10",
+        "typings": "^0.8.1"
+    }
+}

@@ -1,0 +1,33 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "File Response Test",
+    "license": {
+      "name": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "basePath": "/v2",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/tests/fileResponse": {
+      "get": {
+        "operationId": "fileresponsetest",
+        "produces": [
+          "application/octet-stream"
+        ],
+        "responses": {
+          "200": {
+            "description": "OutputFileData",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    }
+  }
+}
