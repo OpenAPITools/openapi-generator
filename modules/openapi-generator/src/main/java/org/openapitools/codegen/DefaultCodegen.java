@@ -100,6 +100,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> specialCharReplacements = new HashMap<String, String>();
     // When a model is an alias for a simple type
     protected Map<String, String> typeAliases = null;
+    protected Boolean prependFormOrBodyParameters = false;
 
     protected String ignoreFilePathOverride;
 
@@ -123,6 +124,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
             this.setSortParamsByRequiredFlag(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS)) {
+            this.setPrependFormOrBodyParameters(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ENSURE_UNIQUE_PARAMS)) {
@@ -583,6 +589,10 @@ public class DefaultCodegen implements CodegenConfig {
         this.sortParamsByRequiredFlag = sortParamsByRequiredFlag;
     }
 
+    public void setPrependFormOrBodyParameters(Boolean prependFormOrBodyParameters) {
+        this.prependFormOrBodyParameters = prependFormOrBodyParameters;
+    }
+
     public void setEnsureUniqueParams(Boolean ensureUniqueParams) {
         this.ensureUniqueParams = ensureUniqueParams;
     }
@@ -846,10 +856,12 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants
                 .ENSURE_UNIQUE_PARAMS_DESC).defaultValue(Boolean.TRUE.toString()));
-
         // name formatting options
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, CodegenConstants
                 .ALLOW_UNICODE_IDENTIFIERS_DESC).defaultValue(Boolean.FALSE.toString()));
+        // option to change the order of form/body parameter
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC).defaultValue(Boolean.FALSE.toString()));
 
         // initialize special character mapping
         initalizeSpecialCharacterMapping();
@@ -2092,9 +2104,12 @@ public class DefaultCodegen implements CodegenConfig {
                     "multipart/form-data".equalsIgnoreCase(getContentType(requestBody))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, schemas, imports);
-                for (CodegenParameter cp: formParams) {
-                    LOGGER.info("Adding " + cp.baseName + " to allParams list");
-                    allParams.add(cp.copy());
+                // add form parameters to the beginning of all parameter list
+                if (prependFormOrBodyParameters) {
+                    for (CodegenParameter cp : formParams) {
+                        LOGGER.info("Adding " + cp.baseName + " to allParams list");
+                        allParams.add(cp.copy());
+                    }
                 }
             } else {
                 // process body parameter
@@ -2104,12 +2119,15 @@ public class DefaultCodegen implements CodegenConfig {
                 }
 				bodyParam = fromRequestBody(requestBody, schemas, imports);
                 bodyParam.description = requestBody.getDescription();
-				bodyParams.add(bodyParam);
+                bodyParams.add(bodyParam);
+
+                if (prependFormOrBodyParameters) {
+                    allParams.add(bodyParam);
+                }
 				if (schemas != null) {
 				    // TODO fix NPE
                     //op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, new ArrayList<String>(getConsumesInfo(operation)), bodyParam.dataType);
                 }
-                allParams.add(bodyParam);
 			} 
         }
 
@@ -2123,31 +2141,11 @@ public class DefaultCodegen implements CodegenConfig {
 
                 CodegenParameter p = fromParameter(param, imports);
 
-                // rename parameters to make sure all of them have unique names
-                if (ensureUniqueParams) {
-                    while (true) {
-                        boolean exists = false;
-                        for (CodegenParameter cp : allParams) {
-                            if (p.paramName.equals(cp.paramName)) {
-                                exists = true;
-                                break;
-                            }
-                        }
-                        if (exists) {
-                            p.paramName = generateNextName(p.paramName);
-                        } else {
-                            break;
-                        }
-                    }
-                }
-
                 allParams.add(p);
-                // Issue #2561 (neilotoole) : Moved setting of is<Type>Param flags
-                // from here to fromParameter().
+
                 if (param instanceof QueryParameter || "query".equalsIgnoreCase(param.getIn())) {
                     queryParams.add(p.copy());
                 } else if (param instanceof PathParameter || "path".equalsIgnoreCase(param.getIn())) {
-                    LOGGER.info("Adding path parameter: "+ p.paramName);
                     pathParams.add(p.copy());
                 } else if (param instanceof HeaderParameter || "header".equalsIgnoreCase(param.getIn())) {
                     headerParams.add(p.copy());
@@ -2157,14 +2155,37 @@ public class DefaultCodegen implements CodegenConfig {
                     LOGGER.warn("Unknown parameter type " + p.baseType + " for " + p.baseName);
                 }
 
-                if (p.required) { //required parameters
-                    requiredParams.add(p.copy());
-                } else { // optional parameters
-                    op.hasOptionalParams = true;
-                }
             }
         }
 
+        // add form/body parameter (if any) to the end of all parameter list
+        if (!prependFormOrBodyParameters) {
+            for (CodegenParameter cp : formParams) {
+                allParams.add(cp.copy());
+            }
+
+            for (CodegenParameter cp : bodyParams) {
+                allParams.add(cp.copy());
+            }
+
+        }
+
+        for (CodegenParameter cp : allParams) {
+            if (ensureUniqueParams) {
+                if (isParameterNameUnique(cp, allParams)) {
+                    continue;
+                } else {
+                    cp.paramName = generateNextName(cp.paramName);
+                }
+            }
+            if (cp.required) { //required parameters
+                requiredParams.add(cp.copy());
+            } else { // optional parameters
+                op.hasOptionalParams = true;
+            }
+        }
+
+        // add imports to operation import tag
         for (String i : imports) {
             if (needToImport(i)) {
                 op.imports.add(i);
@@ -2212,6 +2233,20 @@ public class DefaultCodegen implements CodegenConfig {
         op.isRestful = op.isRestful();
 
         return op;
+    }
+
+    public boolean isParameterNameUnique(CodegenParameter p, List<CodegenParameter> parameters) {
+        for (CodegenParameter parameter: parameters) {
+            if (System.identityHashCode(p) == System.identityHashCode(parameter)) {
+                continue; // skip itself
+            }
+
+            if (p.paramName.equals(parameter.paramName)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
