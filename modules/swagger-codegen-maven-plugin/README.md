@@ -18,7 +18,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
                 <goal>generate</goal>
             </goals>
             <configuration>
-                <inputSpec>src/main/resources/api.yaml</inputSpec>
+                <inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
                 <language>java</language>
                 <configOptions>
                    <sourceFolder>src/gen/java/main</sourceFolder>
@@ -76,7 +76,7 @@ Specifying a custom generator is a bit different. It doesn't support the classpa
                 <goal>generate</goal>
             </goals>
             <configuration>
-                <inputSpec>src/main/resources/yaml/yamlfilename.yaml</inputSpec>
+                <inputSpec>${project.basedir}/src/main/resources/yaml/yamlfilename.yaml</inputSpec>
                 <!-- language file, like e.g. JavaJaxRSCodegen shipped with swagger -->
                 <language>com.my.package.for.GeneratorLanguage</language>
                 <templateDirectory>myTemplateDir</templateDirectory>
