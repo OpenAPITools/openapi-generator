@@ -1102,8 +1102,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (StringUtils.isNotBlank(schema.get$ref())) { // object
             try {
                 datatype = schema.get$ref();
+                // get the model name from $ref
                 if (datatype.indexOf("#/components/schemas/") == 0) {
                     datatype = datatype.substring("#/components/schemas/".length());
+                } else if (datatype.indexOf("#/definitions/") == 0) {
+                    datatype = datatype.substring("#/definitions/".length());
                 }
             } catch (Exception e) {
                 LOGGER.warn("Error obtaining the datatype (" + datatype + ") from ref:" + schema + ". Datatype default to Object");
@@ -1307,6 +1310,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         m.title = escapeText(schema.getTitle());
         m.description = escapeText(schema.getDescription());
+        LOGGER.info("debugging fromModel: " + m.description);
         m.unescapedDescription = schema.getDescription();
         m.classname = toModelName(name);
         m.classVarName = toVarName(name);
@@ -3695,19 +3699,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected Schema getSchemaFromBody(RequestBody requestBody) {
-        /*
-		if (requestBody == null) {
-			LOGGER.warn("requestBody is null in getSchemaFromBody");
-			return null;
-		}
-		if (requestBody.getContent() == null) {
-			LOGGER.warn("requestBody.getContent() is null in getSchemaFromBody");
-			return null;
-		}
-		if ( requestBody.getContent().keySet() == null) {
-			LOGGER.warn("requestBody.getContent().keySet() is null in getSchemaFromBody");
-			return null;
-		} */
         String contentType = new ArrayList<>(requestBody.getContent().keySet()).get(0);
         MediaType mediaType = requestBody.getContent().get(contentType);
         return mediaType.getSchema();
@@ -3875,7 +3866,10 @@ public class DefaultCodegen implements CodegenConfig {
     protected String getSimpleRef(String ref) {
         if (ref.startsWith("#/components/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
+        } else if (ref.startsWith("#/definitions/")) {
+            ref = ref.substring(ref.lastIndexOf("/") + 1);
         }
+
         return ref;
     }
 
