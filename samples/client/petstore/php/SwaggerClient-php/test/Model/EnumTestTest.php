@@ -84,6 +84,13 @@ class EnumTestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "enum_string_required"
+     */
+    public function testPropertyEnumStringRequired()
+    {
+    }
+
+    /**
      * Test attribute "enum_integer"
      */
     public function testPropertyEnumInteger()
