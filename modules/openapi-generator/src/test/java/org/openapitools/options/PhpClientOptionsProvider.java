@@ -24,9 +24,6 @@ public class PhpClientOptionsProvider implements OptionsProvider {
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
 
-
-
-
     @Override
     public String getLanguage() {
         return "php";
