@@ -28,10 +28,11 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     protected String implFolder = "service";
     public static final String GOOGLE_CLOUD_FUNCTIONS = "googleCloudFunctions";
     public static final String EXPORTED_NAME = "exportedName";
+    public static final String SERVER_PORT = "serverPort";
 
     protected String apiVersion = "1.0.0";
-    protected int serverPort = 8080;
     protected String projectName = "swagger-server";
+    protected String defaultServerPort = "8080";
 
     protected boolean googleCloudFunctions;
     protected String exportedName;
@@ -82,7 +83,6 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("apiVersion", apiVersion);
-        additionalProperties.put("serverPort", serverPort);
         additionalProperties.put("implFolder", implFolder);
 
         supportingFiles.add(new SupportingFile("writer.mustache", ("utils").replace(".", File.separator), "writer.js"));
@@ -96,6 +96,8 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                 "When the generated code will be deployed to Google Cloud Functions, this option can be "
                         + "used to update the name of the exported function. By default, it refers to the "
                         + "basePath. This does not affect normal standalone nodejs server code."));
+        cliOptions.add(new CliOption(SERVER_PORT,
+                "TCP port to listen on."));
     }
 
     @Override
@@ -318,7 +320,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void preprocessSwagger(Swagger swagger) {
         String host = swagger.getHost();
-        String port = "8080";
+        String port = defaultServerPort;
 
         if (!StringUtils.isEmpty(host)) {
             String[] parts = host.split(":");
@@ -331,7 +333,10 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
             LOGGER.warn("'host' in the specification is empty or undefined. Default to http://localhost.");
         }
 
-        this.additionalProperties.put("serverPort", port);
+        if (additionalProperties.containsKey(SERVER_PORT)) {
+            port = additionalProperties.get(SERVER_PORT).toString();
+        }
+        this.additionalProperties.put(SERVER_PORT, port);
 
         if (swagger.getInfo() != null) {
             Info info = swagger.getInfo();
