@@ -1097,6 +1097,7 @@ public class DefaultCodegen implements CodegenConfig {
      **/
     @SuppressWarnings("static-method")
     public String getSchemaType(Schema schema) {
+        // datatype is the OAI type (e.g. integer, long, etc)
         String datatype = null;
 
         if (StringUtils.isNotBlank(schema.get$ref())) { // object
@@ -1141,7 +1142,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
                 datatype = "long";
             } else {
-                datatype = schema.getType();
+                datatype = schema.getType(); // integer
             }
         } else if (schema instanceof MapSchema) {
             datatype = "map";
@@ -1565,7 +1566,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         String type = getSchemaType(p);
-        //LOGGER.info("from property = " + p);
         if (p instanceof IntegerSchema || SchemaTypeUtil.INTEGER_TYPE.equals(p.getType())) {
             property.isNumeric = Boolean.TRUE;
             if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
@@ -1718,6 +1718,7 @@ public class DefaultCodegen implements CodegenConfig {
                 property.allowableValues = allowableValues;
             }
         }
+
         property.datatype = getTypeDeclaration(p);
         property.dataFormat = p.getFormat();
 
@@ -1978,7 +1979,7 @@ public class DefaultCodegen implements CodegenConfig {
                                           Operation operation,
                                           Map<String, Schema> schemas,
                                           OpenAPI openAPI) {
-        //LOGGER.info("fromOperation => operation: " + operation);
+        LOGGER.debug("fromOperation => operation: " + operation);
         CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
         Set<String> imports = new HashSet<String>();
         if (operation.getExtensions() != null && !operation.getExtensions().isEmpty()) {
@@ -2191,9 +2192,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // add imports to operation import tag
         for (String i : imports) {
-            LOGGER.info("debugging fromOperation imports: " + i);
             if (needToImport(i)) {
-                LOGGER.info("debugging fromOperation imports: " + i + " imported");
                 op.imports.add(i);
             }
         }
@@ -2671,6 +2670,7 @@ public class DefaultCodegen implements CodegenConfig {
         setParameterExampleValue(codegenParameter);
 
         postProcessParameter(codegenParameter);
+        LOGGER.info("debugging codegenParameter return: " + codegenParameter);
         return codegenParameter;
     }
 
