@@ -1310,7 +1310,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
         m.title = escapeText(schema.getTitle());
         m.description = escapeText(schema.getDescription());
-        LOGGER.info("debugging fromModel: " + m.description);
         m.unescapedDescription = schema.getDescription();
         m.classname = toModelName(name);
         m.classVarName = toVarName(name);
@@ -1401,7 +1400,7 @@ public class DefaultCodegen implements CodegenConfig {
                 m.parentSchema = parentName;
                 m.parent = toModelName(parentName);
                 addImport(m, m.parent);
-                if (allDefinitions != null) {
+                if (allDefinitions != null && !allDefinitions.isEmpty()) {
                     if (supportsInheritance) {
                         addProperties(allProperties, allRequired, parent, allDefinitions);
                     } else {
@@ -1435,7 +1434,7 @@ public class DefaultCodegen implements CodegenConfig {
                 m.allowableValues = new HashMap<String, Object>();
                 m.allowableValues.put("values", schema.getEnum());
             }
-            if (schema.getAdditionalProperties() != null) {
+            if (schema.getAdditionalProperties() != null || schema instanceof MapSchema) {
                 addParentContainer(m, m.name, schema);
             }
             addVars(m, schema.getProperties(), schema.getRequired());
@@ -1446,6 +1445,7 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
+        LOGGER.info("debugging fromModel return: " + m);
 
         return m;
     }
@@ -2191,7 +2191,9 @@ public class DefaultCodegen implements CodegenConfig {
 
         // add imports to operation import tag
         for (String i : imports) {
+            LOGGER.info("debugging fromOperation imports: " + i);
             if (needToImport(i)) {
+                LOGGER.info("debugging fromOperation imports: " + i + " imported");
                 op.imports.add(i);
             }
         }
@@ -3853,12 +3855,15 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
         if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
+            LOGGER.info("debugging getParentName if: " + composedSchema);
             Schema schema = composedSchema.getAllOf().get(0);
             String ref = schema.get$ref();
             if (StringUtils.isBlank(ref)) {
                 return null;
             }
             return getSimpleRef(ref);
+        } else {
+            LOGGER.info("debugging getParentName else: " + composedSchema);
         }
         return null;
     }
@@ -4038,7 +4043,8 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.baseType = codegenModel.classname;
                 codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
                 codegenParameter.description = codegenModel.description;
-                imports.add(codegenParameter.dataType);
+                LOGGER.info("debugging fromRequestBody imports model: " + codegenParameter);
+                imports.add(codegenParameter.baseType);
             } else {
                 CodegenProperty codegenProperty = fromProperty("property", schema);
                 if (codegenProperty != null) {
@@ -4048,6 +4054,7 @@ public class DefaultCodegen implements CodegenConfig {
                     LOGGER.info("Setting description to body parameter: " + codegenProperty.description);
 
                     if (codegenProperty.complexType != null) {
+                        LOGGER.info("debugging fromRequestBody imports: " + codegenProperty.complexType);
                         imports.add(codegenProperty.complexType);
                     }
                 }
