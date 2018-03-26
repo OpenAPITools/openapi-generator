@@ -347,7 +347,7 @@ public class PhpModelTest {
     }
 
     // datetime (or primitive type) not yet supported in HTTP request body
-    @Test(description = "returns DateTime when using `--model-name-prefix`",  enabled = false)
+    @Test(description = "returns DateTime when using `--model-name-prefix`", enabled = false)
     public void dateTest() {
         final OpenAPI model =  new OpenAPIV3Parser().read("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new PhpClientCodegen();
