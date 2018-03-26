@@ -144,7 +144,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                     "do", "int", "struct", "_Packed",
                     "double", "protocol", "interface", "implementation",
                     "NSObject", "NSInteger", "NSNumber", "CGFloat",
-                    "schema", "nonatomic", "retain", "strong",
+                    "property", "nonatomic", "retain", "strong",
                     "weak", "unsafe_unretained", "readwrite", "readonly",
                     "description"
                 ));
