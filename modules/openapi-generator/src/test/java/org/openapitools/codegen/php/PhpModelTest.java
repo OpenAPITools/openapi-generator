@@ -346,7 +346,8 @@ public class PhpModelTest {
         Assert.assertEquals(codegen.toEnumVarName("hello", null), "HELLO");
     }
 
-    @Test(description = "returns DateTime when using `--model-name-prefix`")
+    // datetime (or primitive type) not yet supported in HTTP request body
+    @Test(description = "returns DateTime when using `--model-name-prefix`",  enabled = false)
     public void dateTest() {
         final OpenAPI model =  new OpenAPIV3Parser().read("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new PhpClientCodegen();
@@ -357,8 +358,6 @@ public class PhpModelTest {
         final CodegenOperation op = codegen.fromOperation(path, "post", p, model.getComponents().getSchemas());
 
         Assert.assertEquals(op.returnType, "\\DateTime");
-
-        // datetime (or primitive type) not yet supported in HTTP request body
-        //Assert.assertEquals(op.bodyParam.dataType, "\\DateTime");
+        Assert.assertEquals(op.bodyParam.dataType, "\\DateTime");
     }
 }

@@ -1,9 +1,19 @@
-package io.swagger.codegen.languages;
+package org.openapitools.codegen.languages;
 
-import io.swagger.codegen.*;
-import io.swagger.models.ArrayModel;
-import io.swagger.models.Model;
-import io.swagger.models.properties.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -134,7 +144,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                     "do", "int", "struct", "_Packed",
                     "double", "protocol", "interface", "implementation",
                     "NSObject", "NSInteger", "NSNumber", "CGFloat",
-                    "property", "nonatomic", "retain", "strong",
+                    "schema", "nonatomic", "retain", "strong",
                     "weak", "unsafe_unretained", "readwrite", "readonly",
                     "description"
                 ));
@@ -285,10 +295,10 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toInstantiationType(Property p) {
-        if (p instanceof MapProperty) {
+    public String toInstantiationType(Schema p) {
+        if (p instanceof MapSchema) {
             return instantiationTypes.get("map");
-        } else if (p instanceof ArrayProperty) {
+        } else if (p instanceof ArraySchema) {
             return instantiationTypes.get("array");
         } else {
             return null;
@@ -305,8 +315,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String swaggerType = super.getSchemaType(p);
         String type = null;
 
         if (swaggerType == null) {
@@ -326,32 +336,32 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema p) {
+        if (p instanceof ArraySchema) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
             String innerTypeDeclaration = getTypeDeclaration(inner);
             if (innerTypeDeclaration.endsWith("*")) {
                 innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
             }
-            // In this condition, type of property p is array of primitive,
+            // In this condition, type of Schema p is array of primitive,
             // return container type with pointer, e.g. `NSArray*<NSString*>*'
             if (languageSpecificPrimitives.contains(innerTypeDeclaration)) {
-                return getSwaggerType(p) +  "<" + innerTypeDeclaration + "*>*";
+                return getSchemaType(p) +  "<" + innerTypeDeclaration + "*>*";
             }
-            // In this condition, type of property p is array of model,
+            // In this condition, type of Schema p is array of model,
             // return container type combine inner type with pointer, e.g. `NSArray<SWGTag>*'
             else {
                 for (String sd : advancedMapingTypes) {
                     if(innerTypeDeclaration.startsWith(sd)) {
-                        return getSwaggerType(p) + "<" + innerTypeDeclaration + "*>*";
+                        return getSchemaType(p) + "<" + innerTypeDeclaration + "*>*";
                     }
                 }
-                return getSwaggerType(p) + "<" + innerTypeDeclaration + ">*";
+                return getSchemaType(p) + "<" + innerTypeDeclaration + ">*";
             }
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+        } else if (p instanceof MapSchema) {
+            MapSchema mp = (MapSchema) p;
+            Schema inner = (Schema) mp.getAdditionalProperties();
 
             String innerTypeDeclaration = getTypeDeclaration(inner);
 
@@ -359,17 +369,17 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
             }
             if (languageSpecificPrimitives.contains(innerTypeDeclaration)) {
-                return getSwaggerType(p) +  "<NSString*, " + innerTypeDeclaration + "*>*";
+                return getSchemaType(p) +  "<NSString*, " + innerTypeDeclaration + "*>*";
             } else {
                 for (String s : advancedMapingTypes) {
                     if(innerTypeDeclaration.startsWith(s)) {
-                        return getSwaggerType(p) + "<NSString*, " + innerTypeDeclaration + "*>*";
+                        return getSchemaType(p) + "<NSString*, " + innerTypeDeclaration + "*>*";
                     }
                 }
-                return getSwaggerType(p) + "<" + innerTypeDeclaration + ">*";
+                return getSchemaType(p) + "<" + innerTypeDeclaration + ">*";
             }
         } else {
-            String swaggerType = getSwaggerType(p);
+            String swaggerType = getSchemaType(p);
             // In this condition, type of p is objective-c primitive type, e.g. `NSSNumber',
             // return type of p with pointer, e.g. `NSNumber*'
             if (languageSpecificPrimitives.contains(swaggerType) &&
@@ -452,12 +462,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    protected void setNonArrayMapProperty(CodegenProperty property, String type) {
-        super.setNonArrayMapProperty(property, type);
+    protected void setNonArrayMapProperty(CodegenProperty schema, String type) {
+        super.setNonArrayMapProperty(schema, type);
         if ("NSDictionary".equals(type)) {
-            property.setter = "initWithDictionary";
+            schema.setter = "initWithDictionary";
         } else {
-            property.setter = "initWithValues";
+            schema.setter = "initWithValues";
         }
     }
 
@@ -624,53 +634,43 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public void postProcessModelProperty(CodegenModel model, CodegenProperty property){
-        super.postProcessModelProperty(model,property);
-        property.vendorExtensions.put("x-uppercaseName", camelize(property.name));
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty schema){
+        super.postProcessModelProperty(model,schema);
+        schema.vendorExtensions.put("x-uppercaseName", camelize(schema.name));
     }
 
     /**
-     * Return the default value of the property
+     * Return the default value of the schema
      *
-     * @param p Swagger property object
-     * @return string presentation of the default value of the property
+     * @param p Swagger schema object
+     * @return string presentation of the default value of the schema
      */
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty dp = (StringProperty) p;
+    public String toDefaultValue(Schema p) {
+        if (p instanceof StringSchema) {
+            StringSchema dp = (StringSchema) p;
             if (dp.getDefault() != null) {
                 return "@\"" + dp.getDefault() + "\"";
             }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty dp = (BooleanProperty) p;
+        } else if (p instanceof BooleanSchema) {
+            BooleanSchema dp = (BooleanSchema) p;
             if (dp.getDefault() != null) {
                 if (dp.getDefault().toString().equalsIgnoreCase("false"))
                     return "@(NO)";
                 else
                     return "@(YES)";
             }
-        } else if (p instanceof DateProperty) {
+        } else if (p instanceof DateSchema) {
             // TODO
-        } else if (p instanceof DateTimeProperty) {
+        } else if (p instanceof DateTimeSchema) {
             // TODO
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
+        } else if (p instanceof NumberSchema) {
+            NumberSchema dp = (NumberSchema) p;
             if (dp.getDefault() != null) {
                 return "@" + dp.getDefault().toString();
             }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return "@" + dp.getDefault().toString();
-            }
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return "@" + dp.getDefault().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
+        } else if (p instanceof IntegerSchema) {
+            IntegerSchema dp = (IntegerSchema) p;
             if (dp.getDefault() != null) {
                 return "@" + dp.getDefault().toString();
             }
@@ -731,7 +731,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             example = "@\"" + escapeText(example) + "\"";
         } else if ("NSData".equalsIgnoreCase(type)) {
             example = "1234";
-        } else if (!languageSpecificPrimitives.contains(type)) {
+        } else if (type != null && !languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             type = type.replace("*", "");
             // e.g. [[SWGPet alloc] init

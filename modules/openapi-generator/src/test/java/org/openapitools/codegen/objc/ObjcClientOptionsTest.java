@@ -1,9 +1,9 @@
-package io.swagger.codegen.objc;
+package org.openapitools.codegen.objc;
 
-import io.swagger.codegen.AbstractOptionsTest;
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.languages.ObjcClientCodegen;
-import io.swagger.codegen.options.ObjcClientOptionsProvider;
+import org.openapitools.codegen.AbstractOptionsTest;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.languages.ObjcClientCodegen;
+import org.openapitools.codegen.options.ObjcClientOptionsProvider;
 
 import mockit.Expectations;
 import mockit.Tested;
