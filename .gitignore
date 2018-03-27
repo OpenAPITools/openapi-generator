@@ -5,7 +5,7 @@ out/
 *.iws
 classpath.txt
 version.properties
-!modules/swagger-codegen-cli/src/main/resources/version.properties
+!modules/openapi-generator-cli/src/main/resources/version.properties
 .project
 .classpath
 lib/*
