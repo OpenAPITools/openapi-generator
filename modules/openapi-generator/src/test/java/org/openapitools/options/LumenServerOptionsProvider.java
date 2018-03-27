@@ -24,7 +24,7 @@ public class LumenServerOptionsProvider implements OptionsProvider {
 
     @Override
     public String getLanguage() {
-        return "lumen";
+        return "php-lumen";
     }
 
     @Override
