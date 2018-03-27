@@ -273,7 +273,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        String swaggerType = getSchemaType(p);
+        String openAPIType = getSchemaType(p);
 
         if (p instanceof ArraySchema) {
             ArraySchema ap = (ArraySchema) p;
@@ -287,11 +287,11 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
         }
         if (p instanceof StringSchema || p instanceof DateSchema
                 || p instanceof DateTimeSchema || p instanceof FileSchema
-                || languageSpecificPrimitives.contains(swaggerType)) {
-            return toModelName(swaggerType);
+                || languageSpecificPrimitives.contains(openAPIType)) {
+            return toModelName(openAPIType);
         }
 
-        return "std::shared_ptr<" + swaggerType + ">";
+        return "std::shared_ptr<" + openAPIType + ">";
     }
 
     @Override
@@ -305,12 +305,12 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
         } else if (p instanceof DateTimeSchema) {
             return "utility::datetime()";
         } else if (p instanceof NumberSchema) {
-            if(SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
+            if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
                 return "0.0f";
             }
             return "0.0";
         } else if (p instanceof IntegerSchema) {
-            if(SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
+            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
                 return "0L";
             }
             return "0";
@@ -354,14 +354,14 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
      */
     @Override
     public String getSchemaType(Schema p) {
-        String swaggerType = super.getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
                 return toModelName(type);
         } else
-            type = swaggerType;
+            type = openAPIType;
         return toModelName(type);
     }
 
