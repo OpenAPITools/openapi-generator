@@ -1,10 +1,18 @@
----
+--- 
 swagger: "2.0"
-basePath: "/"
-paths:
-  /foo=bar:
-    get:
-      parameters: []
-      responses:
-        200:
-          description: "success"
+basePath: /
+info: 
+  description: "Test for response code default"
+  title: "path with html entity test"
+  version: "1.0.0"
+paths: 
+  /foo=bar: 
+    get: 
+      produces: 
+        - application/json
+      responses: 
+        200: 
+          description: "successful operation"
+        default: 
+          description: "Internal server error"
+      summary: Test
