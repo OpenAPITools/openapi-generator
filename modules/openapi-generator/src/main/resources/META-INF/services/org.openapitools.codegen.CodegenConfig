@@ -1,5 +1,16 @@
+org.openapitools.codegen.languages.AndroidClientCodegen
 org.openapitools.codegen.languages.BashClientCodegen
+org.openapitools.codegen.languages.DartClientCodegen
+org.openapitools.codegen.languages.ElixirClientCodegen
 org.openapitools.codegen.languages.HaskellServantCodegen
+org.openapitools.codegen.languages.LumenServerCodegen
 org.openapitools.codegen.languages.ObjcClientCodegen
 org.openapitools.codegen.languages.PhpClientCodegen
+org.openapitools.codegen.languages.PowerShellClientCodegen
+org.openapitools.codegen.languages.PythonClientCodegen
+org.openapitools.codegen.languages.RClientCodegen
+org.openapitools.codegen.languages.Rails5ServerCodegen
 org.openapitools.codegen.languages.RubyClientCodegen
+org.openapitools.codegen.languages.SlimFrameworkServerCodegen
+org.openapitools.codegen.languages.SilexServerCodegen
+org.openapitools.codegen.languages.SinatraServerCodegen
