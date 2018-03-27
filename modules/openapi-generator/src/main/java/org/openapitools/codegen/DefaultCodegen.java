@@ -3706,7 +3706,7 @@ public class DefaultCodegen implements CodegenConfig {
         return mediaType.getSchema();
     }
 
-    private Schema getSchemaFromResponse(ApiResponse response) {
+    protected Schema getSchemaFromResponse(ApiResponse response) {
         if (response.getContent() == null || response.getContent().isEmpty()) {
             return null;
         }
@@ -4116,6 +4116,24 @@ public class DefaultCodegen implements CodegenConfig {
             return true;
         }
         return false;
+    }
+
+    protected void addOption(String key, String description) {
+        addOption(key, description, null);
+    }
+
+    protected void addOption(String key, String description, String defaultValue) {
+        CliOption option = new CliOption(key, description);
+        if (defaultValue != null)
+            option.defaultValue(defaultValue);
+        cliOptions.add(option);
+    }
+
+    protected void addSwitch(String key, String description, Boolean defaultValue) {
+        CliOption option = CliOption.newBoolean(key, description);
+        if (defaultValue != null)
+            option.defaultValue(defaultValue.toString());
+        cliOptions.add(option);
     }
 
 }
