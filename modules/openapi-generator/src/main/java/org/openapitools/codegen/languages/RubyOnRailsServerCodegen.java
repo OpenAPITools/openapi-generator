@@ -23,9 +23,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Rails5ServerCodegen extends DefaultCodegen implements CodegenConfig {
+public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Rails5ServerCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RubyOnRailsServerCodegen.class);
     private static final SimpleDateFormat MIGRATE_FILE_NAME_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
 
     protected String gemName;
@@ -58,7 +58,7 @@ public class Rails5ServerCodegen extends DefaultCodegen implements CodegenConfig
     protected String socketsFolder = tmpFolder + File.separator + "sockets";
     protected String vendorFolder = "vendor";
 
-    public Rails5ServerCodegen() {
+    public RubyOnRailsServerCodegen() {
         super();
         outputFolder = "generated-code" + File.separator + "rails5";
         apiPackage = "app/controllers";
