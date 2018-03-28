@@ -13,6 +13,7 @@ org.openapitools.codegen.languages.HaskellServantCodegen
 org.openapitools.codegen.languages.LuaClientCodegen
 org.openapitools.codegen.languages.LumenServerCodegen
 org.openapitools.codegen.languages.ObjcClientCodegen
+org.openapitools.codegen.languages.PerlClientCodegen
 org.openapitools.codegen.languages.PhpClientCodegen
 org.openapitools.codegen.languages.PowerShellClientCodegen
 org.openapitools.codegen.languages.PythonClientCodegen
