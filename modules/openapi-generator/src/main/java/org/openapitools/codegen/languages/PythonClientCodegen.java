@@ -9,10 +9,11 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -101,16 +102,16 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
         setReservedWordsLowerCase(
                 Arrays.asList(
-                    // local variable name used in API methods (endpoints)
-                    "all_params", "resource_path", "path_params", "query_params",
-                    "header_params", "form_params", "local_var_files", "body_params",  "auth_settings",
-                    // @property
-                    "property",
-                    // python reserved words
-                    "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
-                    "assert", "else", "if", "pass", "yield", "break", "except", "import",
-                    "print", "class", "exec", "in", "raise", "continue", "finally", "is",
-                    "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True", "False"));
+                        // local variable name used in API methods (endpoints)
+                        "all_params", "resource_path", "path_params", "query_params",
+                        "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
+                        // @property
+                        "property",
+                        // python reserved words
+                        "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
+                        "assert", "else", "if", "pass", "yield", "break", "except", "import",
+                        "print", "class", "exec", "in", "raise", "continue", "finally", "is",
+                        "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True", "False"));
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IGNORECASE");
@@ -146,21 +147,19 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         super.processOpts();
         Boolean excludeTests = false;
 
-        if(additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
+        if (additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
             excludeTests = Boolean.valueOf(additionalProperties.get(CodegenConstants.EXCLUDE_TESTS).toString());
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        }
-        else {
+        } else {
             setPackageName("swagger_client");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
             setProjectName((String) additionalProperties.get(CodegenConstants.PROJECT_NAME));
-        }
-        else {
+        } else {
             // default: set project based on package name
             // e.g. petstore_api (package name) => petstore-api (project name)
             setProjectName(packageName.replaceAll("_", "-"));
@@ -168,8 +167,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        }
-        else {
+        } else {
             setPackageVersion("1.0.0");
         }
 
@@ -204,7 +202,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("__init__model.mustache", packageName + File.separatorChar + modelPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__api.mustache", packageName + File.separatorChar + apiPackage, "__init__.py"));
 
-        if(Boolean.FALSE.equals(excludeTests)) {
+        if (Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
         }
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
@@ -235,14 +233,14 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toModelImport(String name) {
         String modelImport;
-        if (StringUtils.startsWithAny(name,"import", "from")) {
+        if (StringUtils.startsWithAny(name, "import", "from")) {
             modelImport = name;
         } else {
             modelImport = "from ";
             if (!"".equals(modelPackage())) {
                 modelImport += modelPackage() + ".";
             }
-            modelImport += toModelFilename(name)+ " import " + name;
+            modelImport += toModelFilename(name) + " import " + name;
         }
         return modelImport;
     }
@@ -254,7 +252,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public void postProcessParameter(CodegenParameter parameter){
+    public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
     }
 
@@ -268,21 +266,21 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
      * does not support this in as natural a way so it needs to convert it. See
      * https://docs.python.org/2/howto/regex.html#compilation-flags for details.
      */
-    public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions){
-        if(pattern != null) {
+    public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
+        if (pattern != null) {
             int i = pattern.lastIndexOf('/');
 
             //Must follow Perl /pattern/modifiers convention
-            if(pattern.charAt(0) != '/' || i < 2) {
+            if (pattern.charAt(0) != '/' || i < 2) {
                 throw new IllegalArgumentException("Pattern must follow the Perl "
-                        + "/pattern/modifiers convention. "+pattern+" is not valid.");
+                        + "/pattern/modifiers convention. " + pattern + " is not valid.");
             }
 
             String regex = pattern.substring(1, i).replace("'", "\\'");
             List<String> modifiers = new ArrayList<String>();
 
-            for(char c : pattern.substring(i).toCharArray()) {
-                if(regexModifiers.containsKey(c)) {
+            for (char c : pattern.substring(i).toCharArray()) {
+                if (regexModifiers.containsKey(c)) {
                     String modifier = regexModifiers.get(c);
                     modifiers.add(modifier);
                 }
@@ -310,7 +308,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -521,7 +519,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     public void setProjectName(String projectName) {
-        this.projectName= projectName;
+        this.projectName = projectName;
     }
 
     public void setPackageVersion(String packageVersion) {
@@ -534,7 +532,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     /**
      * Generate Python package name from String `packageName`
-     *
+     * <p>
      * (PEP 0008) Python packages should also have short, all-lowercase names,
      * although the use of underscores is discouraged.
      *
