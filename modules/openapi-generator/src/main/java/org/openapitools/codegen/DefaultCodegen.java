@@ -1436,7 +1436,7 @@ public class DefaultCodegen implements CodegenConfig {
                 m.allowableValues.put("values", schema.getEnum());
             }
             if (schema.getAdditionalProperties() != null || schema instanceof MapSchema) {
-                addParentContainer(m, m.name, schema);
+                addAdditionPropertiesToCodeGenModel(m, schema);
             }
             addVars(m, schema.getProperties(), schema.getRequired());
         }
@@ -1479,6 +1479,10 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
         return false;
+    }
+
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        addParentContainer(codegenModel, codegenModel.name, schema);
     }
 
     protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Map<String, Schema> allSchemas) {
@@ -2467,9 +2471,15 @@ public class DefaultCodegen implements CodegenConfig {
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
 
 
-            codegenParameter.required = codegenProperty.required;
-            codegenParameter.dataType = codegenProperty.datatype;
+            String parameterDataType = this.getParameterDataType(parameter, parameterSchema);
+            if (parameterDataType != null) {
+                codegenParameter.dataType = parameterDataType;
+            } else {
+                codegenParameter.dataType = codegenProperty.datatype;
+            }
             codegenParameter.dataFormat = codegenProperty.dataFormat;
+            codegenParameter.required = codegenProperty.required;
+
             if (codegenProperty.isEnum) {
                 codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
                 codegenParameter.enumName = codegenProperty.enumName;
@@ -2672,6 +2682,17 @@ public class DefaultCodegen implements CodegenConfig {
         postProcessParameter(codegenParameter);
         LOGGER.info("debugging codegenParameter return: " + codegenParameter);
         return codegenParameter;
+    }
+
+    /**
+     * Returns the data type of a parameter.
+     * Returns null by default to use the CodegenProperty.datatype value
+     * @param parameter
+     * @param property
+     * @return
+     */
+    protected String getParameterDataType(Parameter parameter, Schema schema) {
+        return null;
     }
 
     public boolean isDataTypeBinary(String dataType) {
