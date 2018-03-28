@@ -46,7 +46,7 @@ public abstract class AbstractOptionsTest {
         final Set<String> undocumented = new HashSet<String>(testOptions);
         undocumented.removeAll(cliOptions);
         if (!undocumented.isEmpty()) {
-            Assert.fail(String.format("These options weren't documented: %s.", StringUtils.join(undocumented, ", ")));
+            Assert.fail(String.format("These options weren't documented: %s. Are you expecting base options and calling cliOptions.clear()?", StringUtils.join(undocumented, ", ")));
         }
     }
 
