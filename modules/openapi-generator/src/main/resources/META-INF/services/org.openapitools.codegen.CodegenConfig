@@ -28,3 +28,4 @@ org.openapitools.codegen.languages.SlimFrameworkServerCodegen
 org.openapitools.codegen.languages.SilexServerCodegen
 org.openapitools.codegen.languages.SinatraServerCodegen
 org.openapitools.codegen.languages.TizenClientCodegen
+org.openapitools.codegen.languages.TypeScriptAngularClientCodegen
