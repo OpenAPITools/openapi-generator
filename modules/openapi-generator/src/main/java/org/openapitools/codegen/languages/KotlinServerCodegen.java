@@ -2,6 +2,7 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
@@ -130,7 +131,14 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         super.processOpts();
 
         if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
-            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
+                this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
+        }
+
+        // set default library to "ktor"
+        if (StringUtils.isEmpty(library)) {
+            this.setLibrary("ktor");
+            additionalProperties.put(CodegenConstants.LIBRARY, "ktor");
+            LOGGER.info("`library` option is empty. Default to 'ktor'.");
         }
 
         if (additionalProperties.containsKey(Constants.AUTOMATIC_HEAD_REQUESTS)) {
