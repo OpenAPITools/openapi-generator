@@ -7,6 +7,8 @@ org.openapitools.codegen.languages.ConfluenceWikiCodegen
 org.openapitools.codegen.languages.CppRestClientCodegen
 org.openapitools.codegen.languages.DartClientCodegen
 org.openapitools.codegen.languages.ElixirClientCodegen
+org.openapitools.codegen.languages.KotlinClientCodegen
+org.openapitools.codegen.languages.KotlinServerCodegen
 org.openapitools.codegen.languages.HaskellServantCodegen
 org.openapitools.codegen.languages.LumenServerCodegen
 org.openapitools.codegen.languages.ObjcClientCodegen
