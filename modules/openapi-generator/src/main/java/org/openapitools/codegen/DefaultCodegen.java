@@ -1446,7 +1446,7 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
-        LOGGER.info("debugging fromModel return: " + m);
+        LOGGER.debug("debugging fromModel return: " + m);
 
         return m;
     }
@@ -1536,7 +1536,7 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.error("Unexpected missing property for name " + name);
             return null;
         }
-        LOGGER.info("debugging fromProperty for " + name + " : " + p);
+        LOGGER.debug("debugging fromProperty for " + name + " : " + p);
 
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
         property.name = toVarName(name);
@@ -1624,7 +1624,6 @@ public class DefaultCodegen implements CodegenConfig {
             if (p instanceof BinarySchema || SchemaTypeUtil.BINARY_FORMAT.equals(p.getFormat())) {
                 property.isBinary = true;
             } else if (p instanceof FileSchema) {
-                LOGGER.info("debugging FileSchema: " + property.baseName);
                 property.isFile = true;
             } else {
                 property.maxLength = p.getMaxLength();
@@ -1781,7 +1780,7 @@ public class DefaultCodegen implements CodegenConfig {
             setNonArrayMapProperty(property, type);
         }
 
-        LOGGER.info("debugging from property : " + property);
+        LOGGER.debug("debugging from property return: " + property);
         return property;
     }
 
@@ -2116,14 +2115,12 @@ public class DefaultCodegen implements CodegenConfig {
                 // add form parameters to the beginning of all parameter list
                 if (prependFormOrBodyParameters) {
                     for (CodegenParameter cp : formParams) {
-                        LOGGER.info("Adding " + cp.baseName + " to allParams list");
                         allParams.add(cp.copy());
                     }
                 }
             } else {
                 // process body parameter
                 if (StringUtils.isNotBlank(requestBody.get$ref())) {
-                    LOGGER.info("request body name: " + getSimpleRef(requestBody.get$ref()));
                     requestBody = openAPI.getComponents().getRequestBodies().get(getSimpleRef(requestBody.get$ref()));
                 }
 				bodyParam = fromRequestBody(requestBody, schemas, imports);
@@ -2142,8 +2139,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (parameters != null) {
             for (Parameter param : parameters) {
-                LOGGER.info("parameter debugging " + param.getName() + " => " + param);
-
                 if (StringUtils.isNotBlank(param.get$ref())) {
                     param = getParameterFromRef(param.get$ref(), openAPI);
                 }
@@ -2460,7 +2455,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             CodegenProperty codegenProperty = fromProperty(parameter.getName(), parameterSchema);
-            LOGGER.info("fromProperty debug required: " + parameter.getRequired());
             // TODO revise below which seems not working
             //if (parameterSchema.getRequired() != null && !parameterSchema.getRequired().isEmpty() && parameterSchema.getRequired().contains(codegenProperty.baseName)) {
             codegenProperty.required = Boolean.TRUE.equals(parameter.getRequired()) ? true : false;
@@ -2680,7 +2674,7 @@ public class DefaultCodegen implements CodegenConfig {
         setParameterExampleValue(codegenParameter);
 
         postProcessParameter(codegenParameter);
-        LOGGER.info("debugging codegenParameter return: " + codegenParameter);
+        LOGGER.debug("debugging codegenParameter return: " + codegenParameter);
         return codegenParameter;
     }
 
@@ -3766,11 +3760,8 @@ public class DefaultCodegen implements CodegenConfig {
 
                 scopes.add(scope);
             }
-            //LOGGER.info("setOauth2Info setting scopes properly");
             codegenSecurity.scopes = scopes;
         }
-
-        //LOGGER.info("setOauth2Info scope: " + flow.getScopes());
     }
 
     private List<Schema> getInterfaces(ComposedSchema composed) {
@@ -3876,15 +3867,12 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
         if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
-            LOGGER.info("debugging getParentName if: " + composedSchema);
             Schema schema = composedSchema.getAllOf().get(0);
             String ref = schema.get$ref();
             if (StringUtils.isBlank(ref)) {
                 return null;
             }
             return getSimpleRef(ref);
-        } else {
-            LOGGER.info("debugging getParentName else: " + composedSchema);
         }
         return null;
     }
@@ -3937,7 +3925,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Map<String, Schema> schemas, Set<String> imports) {
         List<CodegenParameter> parameters = new ArrayList<CodegenParameter>();
-        LOGGER.info("Request body = " + body);
+        LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
         Schema schema = getSchemaFromBody(body);
         if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             Map<String, Schema> properties = schema.getProperties();
@@ -3961,7 +3949,7 @@ public class DefaultCodegen implements CodegenConfig {
     public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
 
-        LOGGER.info("Debugging fromRequestBodyToFormParameters: " + name);
+        LOGGER.debug("Debugging fromFormProperty: " + name);
         CodegenProperty codegenProperty = fromProperty(name, propertySchema);
 
         codegenParameter.isFormParam = Boolean.TRUE;
@@ -4064,7 +4052,6 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.baseType = codegenModel.classname;
                 codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
                 codegenParameter.description = codegenModel.description;
-                LOGGER.info("debugging fromRequestBody imports model: " + codegenParameter);
                 imports.add(codegenParameter.baseType);
             } else {
                 CodegenProperty codegenProperty = fromProperty("property", schema);
@@ -4072,10 +4059,8 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.baseType = codegenProperty.baseType;
                     codegenParameter.dataType = codegenProperty.datatype;
                     codegenParameter.description = codegenProperty.description;
-                    LOGGER.info("Setting description to body parameter: " + codegenProperty.description);
 
                     if (codegenProperty.complexType != null) {
-                        LOGGER.info("debugging fromRequestBody imports: " + codegenProperty.complexType);
                         imports.add(codegenProperty.complexType);
                     }
                 }
