@@ -51,6 +51,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 .defaultValue("1.0.0"));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
 
+        // option to change the order of form/body parameter
+        cliOptions.add(CliOption.newBoolean(
+                CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
+
     }
 
     @Override
