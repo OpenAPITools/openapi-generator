@@ -4,8 +4,8 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.io.File;
 
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.*;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.*;

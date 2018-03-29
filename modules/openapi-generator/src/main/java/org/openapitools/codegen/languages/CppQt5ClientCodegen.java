@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Qt5CPPClientCodegen extends AbstractCppCodegen implements CodegenConfig {
+public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenConfig {
     public static final String CPP_NAMESPACE = "cppNamespace";
     public static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate client.pri.";
@@ -30,7 +30,7 @@ public class Qt5CPPClientCodegen extends AbstractCppCodegen implements CodegenCo
     protected String cppNamespace = "Swagger";
     protected boolean optionalProjectFileFlag = true;
 
-    public Qt5CPPClientCodegen() {
+    public CppQt5ClientCodegen() {
         super();
 
         // set the output folder here
