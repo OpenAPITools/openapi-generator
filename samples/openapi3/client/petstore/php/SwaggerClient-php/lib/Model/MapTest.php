@@ -57,8 +57,8 @@ class MapTest implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'map_map_of_string' => 'map',
-        'map_of_enum_string' => 'map'
+        'map_map_of_string' => 'map[string,map[string,string]]',
+        'map_of_enum_string' => 'map[string,string]'
     ];
 
     /**
@@ -229,7 +229,7 @@ class MapTest implements ModelInterface, ArrayAccess
     /**
      * Gets map_map_of_string
      *
-     * @return map
+     * @return map[string,map[string,string]]
      */
     public function getMapMapOfString()
     {
@@ -239,7 +239,7 @@ class MapTest implements ModelInterface, ArrayAccess
     /**
      * Sets map_map_of_string
      *
-     * @param map $map_map_of_string map_map_of_string
+     * @param map[string,map[string,string]] $map_map_of_string map_map_of_string
      *
      * @return $this
      */
@@ -253,7 +253,7 @@ class MapTest implements ModelInterface, ArrayAccess
     /**
      * Gets map_of_enum_string
      *
-     * @return map
+     * @return map[string,string]
      */
     public function getMapOfEnumString()
     {
@@ -263,7 +263,7 @@ class MapTest implements ModelInterface, ArrayAccess
     /**
      * Sets map_of_enum_string
      *
-     * @param map $map_of_enum_string map_of_enum_string
+     * @param map[string,string] $map_of_enum_string map_of_enum_string
      *
      * @return $this
      */
