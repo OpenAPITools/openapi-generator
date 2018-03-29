@@ -3,6 +3,16 @@ namespace Swagger\Client;
 
 class DebugTest extends \PHPUnit_Framework_TestCase
 {
+
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        $newPet = new Model\Pet;
+        $newPet->setId(1);
+        $newPet->setName("PHP Unit Test");
+        (new Api\PetApi())->addPetWithHttpInfo($newPet);
+    }
+
     public function testEnableDebugOutput()
     {
         $this->expectOutputRegex('#GET /v2/pet/1 HTTP/1.1#');
