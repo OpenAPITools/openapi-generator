@@ -90,7 +90,6 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
      * Configures the type of generator.
      *
      * @return the CodegenType for this generator
-     * @see io.swagger.codegen.CodegenType
      */
     public CodegenType getTag() {
         return CodegenType.SERVER;
