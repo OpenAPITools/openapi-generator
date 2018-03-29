@@ -59,7 +59,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     protected static $swaggerTypes = [
         'uuid' => 'string',
         'date_time' => '\DateTime',
-        'map' => 'map'
+        'map' => 'map[string,\Swagger\Client\Model\Animal]'
     ];
 
     /**
@@ -268,7 +268,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     /**
      * Gets map
      *
-     * @return map
+     * @return map[string,\Swagger\Client\Model\Animal]
      */
     public function getMap()
     {
@@ -278,7 +278,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     /**
      * Sets map
      *
-     * @param map $map map
+     * @param map[string,\Swagger\Client\Model\Animal] $map map
      *
      * @return $this
      */

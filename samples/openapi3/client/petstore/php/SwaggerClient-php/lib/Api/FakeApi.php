@@ -1801,7 +1801,7 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map $UNKNOWN_PARAM_NAME request body (required)
+     * @param  map[string,string] $UNKNOWN_PARAM_NAME request body (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1817,7 +1817,7 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map $UNKNOWN_PARAM_NAME request body (required)
+     * @param  map[string,string] $UNKNOWN_PARAM_NAME request body (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1870,7 +1870,7 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map $UNKNOWN_PARAM_NAME request body (required)
+     * @param  map[string,string] $UNKNOWN_PARAM_NAME request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1890,7 +1890,7 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map $UNKNOWN_PARAM_NAME request body (required)
+     * @param  map[string,string] $UNKNOWN_PARAM_NAME request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1926,7 +1926,7 @@ class FakeApi
     /**
      * Create request for operation 'testInlineAdditionalProperties'
      *
-     * @param  map $UNKNOWN_PARAM_NAME request body (required)
+     * @param  map[string,string] $UNKNOWN_PARAM_NAME request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request

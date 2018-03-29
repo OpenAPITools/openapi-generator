@@ -57,8 +57,8 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'map_property' => 'map',
-        'map_of_map_property' => 'map'
+        'map_property' => 'map[string,string]',
+        'map_of_map_property' => 'map[string,map[string,string]]'
     ];
 
     /**
@@ -214,7 +214,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
     /**
      * Gets map_property
      *
-     * @return map
+     * @return map[string,string]
      */
     public function getMapProperty()
     {
@@ -224,7 +224,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
     /**
      * Sets map_property
      *
-     * @param map $map_property map_property
+     * @param map[string,string] $map_property map_property
      *
      * @return $this
      */
@@ -238,7 +238,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
     /**
      * Gets map_of_map_property
      *
-     * @return map
+     * @return map[string,map[string,string]]
      */
     public function getMapOfMapProperty()
     {
@@ -248,7 +248,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
     /**
      * Sets map_of_map_property
      *
-     * @param map $map_of_map_property map_of_map_property
+     * @param map[string,map[string,string]] $map_of_map_property map_of_map_property
      *
      * @return $this
      */

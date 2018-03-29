@@ -320,7 +320,7 @@ class StoreApi
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return map
+     * @return map[string,int]
      */
     public function getInventory()
     {
@@ -336,11 +336,11 @@ class StoreApi
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of map, HTTP status code, HTTP response headers (array of strings)
+     * @return array of map[string,int], HTTP status code, HTTP response headers (array of strings)
      */
     public function getInventoryWithHttpInfo()
     {
-        $returnType = 'map';
+        $returnType = 'map[string,int]';
         $request = $this->getInventoryRequest();
 
         try {
@@ -392,7 +392,7 @@ class StoreApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        'map',
+                        'map[string,int]',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -432,7 +432,7 @@ class StoreApi
      */
     public function getInventoryAsyncWithHttpInfo()
     {
-        $returnType = 'map';
+        $returnType = 'map[string,int]';
         $request = $this->getInventoryRequest();
 
         return $this->client

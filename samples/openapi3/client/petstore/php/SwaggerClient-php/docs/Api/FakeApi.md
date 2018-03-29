@@ -382,7 +382,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$UNKNOWN_PARAM_NAME = new \Swagger\Client\Model\map(); // map | request body
+$UNKNOWN_PARAM_NAME = new \Swagger\Client\Model\map(); // map[string,string] | request body
 
 try {
     $apiInstance->testInlineAdditionalProperties($UNKNOWN_PARAM_NAME);
@@ -396,7 +396,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAM_NAME** | [**map**](../Model/map.md)| request body |
+ **UNKNOWN_PARAM_NAME** | [**map[string,string]**](../Model/map.md)| request body |
 
 ### Return type
 
