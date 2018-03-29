@@ -182,17 +182,17 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String getSchemaType(Schema p) {
-        String swaggerType = super.getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0 ||
                     type.equals("Map") || type.equals("List") ||
                     type.equals("File") || type.equals("Date")) {
                 return type;
             }
         } else {
-            type = swaggerType;
+            type = openAPIType;
         }
         return toModelName(type);
     }
@@ -435,86 +435,6 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         } else {
             throw new IllegalArgumentException("Invalid 'library' option specified: '" + getLibrary() + "'. Must be 'httpclient' or 'volley' (default)");
         }
-
-    }
-
-    private void addSupportingFilesForHttpClient() {
-        // documentation files
-        modelDocTemplateFiles.put("model_doc.mustache", ".md");
-        apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
-        supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
-        supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
-        supportingFiles.add(new SupportingFile("apiInvoker.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiInvoker.java"));
-        supportingFiles.add(new SupportingFile("httpPatch.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "HttpPatch.java"));
-        supportingFiles.add(new SupportingFile("jsonUtil.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "JsonUtil.java"));
-        supportingFiles.add(new SupportingFile("apiException.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiException.java"));
-        supportingFiles.add(new SupportingFile("Pair.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Pair.java"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-
-        // gradle wrapper files
-        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
-        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
-        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
-                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
-        supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
-                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
-
-    }
-
-    private void addSupportingFilesForVolley() {
-        // documentation files
-        modelDocTemplateFiles.put("model_doc.mustache", ".md");
-        apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        // supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
-        supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
-        supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
-        supportingFiles.add(new SupportingFile("apiInvoker.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiInvoker.java"));
-        supportingFiles.add(new SupportingFile("jsonUtil.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "JsonUtil.java"));
-        supportingFiles.add(new SupportingFile("apiException.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiException.java"));
-        supportingFiles.add(new SupportingFile("Pair.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Pair.java"));
-        supportingFiles.add(new SupportingFile("request/getrequest.mustache",
-                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "GetRequest.java"));
-        supportingFiles.add(new SupportingFile("request/postrequest.mustache",
-                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PostRequest.java"));
-        supportingFiles.add(new SupportingFile("request/putrequest.mustache",
-                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PutRequest.java"));
-        supportingFiles.add(new SupportingFile("request/deleterequest.mustache",
-                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "DeleteRequest.java"));
-        supportingFiles.add(new SupportingFile("request/patchrequest.mustache",
-                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PatchRequest.java"));
-        supportingFiles.add(new SupportingFile("auth/apikeyauth.mustache",
-                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "ApiKeyAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/httpbasicauth.mustache",
-                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "HttpBasicAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/authentication.mustache",
-                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "Authentication.java"));
-
-        // gradle wrapper files
-        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
-        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
-        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
-                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
-        supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
-                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
     }
 
     public Boolean getUseAndroidMavenGradlePlugin() {
@@ -590,6 +510,85 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    private void addSupportingFilesForVolley() {
+        // documentation files
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        // supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
+        supportingFiles.add(new SupportingFile("apiInvoker.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiInvoker.java"));
+        supportingFiles.add(new SupportingFile("jsonUtil.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "JsonUtil.java"));
+        supportingFiles.add(new SupportingFile("apiException.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiException.java"));
+        supportingFiles.add(new SupportingFile("Pair.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Pair.java"));
+        supportingFiles.add(new SupportingFile("request/getrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "GetRequest.java"));
+        supportingFiles.add(new SupportingFile("request/postrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PostRequest.java"));
+        supportingFiles.add(new SupportingFile("request/putrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PutRequest.java"));
+        supportingFiles.add(new SupportingFile("request/deleterequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "DeleteRequest.java"));
+        supportingFiles.add(new SupportingFile("request/patchrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PatchRequest.java"));
+        supportingFiles.add(new SupportingFile("auth/apikeyauth.mustache",
+                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "ApiKeyAuth.java"));
+        supportingFiles.add(new SupportingFile("auth/httpbasicauth.mustache",
+                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "HttpBasicAuth.java"));
+        supportingFiles.add(new SupportingFile("auth/authentication.mustache",
+                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "Authentication.java"));
+
+        // gradle wrapper files
+        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
+    }
+
+    private void addSupportingFilesForHttpClient() {
+        // documentation files
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
+        supportingFiles.add(new SupportingFile("apiInvoker.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiInvoker.java"));
+        supportingFiles.add(new SupportingFile("httpPatch.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "HttpPatch.java"));
+        supportingFiles.add(new SupportingFile("jsonUtil.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "JsonUtil.java"));
+        supportingFiles.add(new SupportingFile("apiException.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiException.java"));
+        supportingFiles.add(new SupportingFile("Pair.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Pair.java"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+
+        // gradle wrapper files
+        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
+
     }
 
 }

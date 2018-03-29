@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 
-public class SlimFrameworkServerCodegen extends DefaultCodegen implements CodegenConfig {
+public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage;
     protected String srcBasePath = "lib";
     protected String groupId = "io.swagger";
@@ -29,7 +29,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
 
     private String variableNamingConvention = "camelCase";
 
-    public SlimFrameworkServerCodegen() {
+    public PhpSlimServerCodegen() {
         super();
 
         // clear import mapping (from default generator) as slim does not use it
@@ -120,8 +120,8 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
-    public String escapeReservedWord(String name) {           
-        if(this.reservedWordsMappings().containsKey(name)) {
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -199,11 +199,11 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         if ("camelCase".equals(variableNamingConvention)) {
             // return the name in camelCase style
             // phone_number => phoneNumber
-            name =  camelize(name, true);
+            name = camelize(name, true);
         } else { // default to snake case
             // return the name in underscore style
             // PhoneNumber => phone_number
-            name =  underscore(name);
+            name = underscore(name);
         }
 
         // parameter name starting with number won't compile
@@ -260,12 +260,12 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         }
 
         return (getPackagePath() + File.separatorChar + basePath
-                    // Replace period, backslash, forward slash with file separator in package name
-                    + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement(File.separator))
-                    // Trim prefix file separators from package path
-                    .replaceAll(regFirstPathSeparator, ""))
-                    // Trim trailing file separators from the overall path
-                    .replaceAll(regLastPathSeparator+ "$", "");
+                // Replace period, backslash, forward slash with file separator in package name
+                + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement(File.separator))
+                // Trim prefix file separators from package path
+                .replaceAll(regFirstPathSeparator, ""))
+                // Trim trailing file separators from the overall path
+                .replaceAll(regLastPathSeparator + "$", "");
     }
 
     public String getPackagePath() {
