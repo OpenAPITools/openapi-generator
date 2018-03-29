@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
-public class SlimFrameworkServerOptionsProvider implements OptionsProvider {
+public class PhpSilexServerOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
@@ -14,7 +14,7 @@ public class SlimFrameworkServerOptionsProvider implements OptionsProvider {
 
     @Override
     public String getLanguage() {
-        return "slim";
+        return "php-silex";
     }
 
     @Override
