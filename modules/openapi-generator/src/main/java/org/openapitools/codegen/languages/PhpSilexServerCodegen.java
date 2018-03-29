@@ -20,13 +20,13 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig {
+public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage;
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-server";
     protected String artifactVersion = "1.0.0";
 
-    public SilexServerCodegen() {
+    public PhpSilexServerCodegen() {
         super();
 
         invokerPackage = camelize("SwaggerServer");
@@ -103,7 +103,9 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public String getName() {
+    public String getName()
+
+    {
         return "php-silex";
     }
 
@@ -113,13 +115,13 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public String escapeReservedWord(String name) {           
-        if(this.reservedWordsMappings().containsKey(name)) {
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
     }
-    
+
     @Override
     public String apiFileFolder() {
         return (outputFolder + "/" + apiPackage()).replace('/', File.separatorChar);
@@ -233,7 +235,7 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
             for (int i = 0; i < items.length; ++i) {
                 if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
                     // camelize path variable
-                    items[i] = "{" + camelize(items[i].substring(1, items[i].length()-1), true) + "}";
+                    items[i] = "{" + camelize(items[i].substring(1, items[i].length() - 1), true) + "}";
                 }
             }
 

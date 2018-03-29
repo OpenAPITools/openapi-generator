@@ -10,16 +10,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class LumenServerCodegen extends AbstractPhpCodegen 
-{
-     @SuppressWarnings("hiding")
+public class PhpLumenServerCodegen extends AbstractPhpCodegen {
+    @SuppressWarnings("hiding")
     protected String apiVersion = "1.0.0";
-        
+
     /**
      * Configures the type of generator.
-     * 
-     * @return  the CodegenType for this generator
-     * @see     org.openapitools.codegen.CodegenType
+     *
+     * @return the CodegenType for this generator
+     * @see org.openapitools.codegen.CodegenType
      */
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -28,7 +27,7 @@ public class LumenServerCodegen extends AbstractPhpCodegen
     /**
      * Configures a friendly name for the generator.  This will be used by the generator
      * to select the library with the -l flag.
-     * 
+     *
      * @return the friendly name for the generator
      */
     public String getName() {
@@ -38,14 +37,14 @@ public class LumenServerCodegen extends AbstractPhpCodegen
     /**
      * Returns human-friendly help for the generator.  Provide the consumer with help
      * tips, parameters here
-     * 
+     *
      * @return A string value for the help message
      */
     public String getHelp() {
         return "Generates a PHP Lumen server library.";
     }
 
-    public LumenServerCodegen() {
+    public PhpLumenServerCodegen() {
         super();
 
         embeddedTemplateDir = templateDir = "lumen";
@@ -88,13 +87,13 @@ public class LumenServerCodegen extends AbstractPhpCodegen
         supportingFiles.add(new SupportingFile("app.php", packagePath + File.separator + srcBasePath + File.separator + "bootstrap", "app.php"));
         supportingFiles.add(new SupportingFile("index.php", packagePath + File.separator + srcBasePath + File.separator + "public", "index.php"));
         supportingFiles.add(new SupportingFile("User.php", packagePath + File.separator + srcBasePath + File.separator + "app", "User.php"));
-        supportingFiles.add(new SupportingFile("Kernel.php", packagePath + File.separator + srcBasePath + File.separator + "app"  + File.separator + "Console", "Kernel.php"));
-        supportingFiles.add(new SupportingFile("Handler.php", packagePath + File.separator + srcBasePath + File.separator + "app"  + File.separator + "Exceptions", "Handler.php"));
-        supportingFiles.add(new SupportingFile("routes.mustache", packagePath + File.separator + srcBasePath + File.separator + "app"  + File.separator + "Http", "routes.php"));
-        
-        supportingFiles.add(new SupportingFile("Controller.php", packagePath + File.separator + srcBasePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Controllers" + File.separator, "Controller.php"));
-        supportingFiles.add(new SupportingFile("Authenticate.php", packagePath + File.separator + srcBasePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Middleware" + File.separator, "Authenticate.php"));
-        
+        supportingFiles.add(new SupportingFile("Kernel.php", packagePath + File.separator + srcBasePath + File.separator + "app" + File.separator + "Console", "Kernel.php"));
+        supportingFiles.add(new SupportingFile("Handler.php", packagePath + File.separator + srcBasePath + File.separator + "app" + File.separator + "Exceptions", "Handler.php"));
+        supportingFiles.add(new SupportingFile("routes.mustache", packagePath + File.separator + srcBasePath + File.separator + "app" + File.separator + "Http", "routes.php"));
+
+        supportingFiles.add(new SupportingFile("Controller.php", packagePath + File.separator + srcBasePath + File.separator + "app" + File.separator + "Http" + File.separator + "Controllers" + File.separator, "Controller.php"));
+        supportingFiles.add(new SupportingFile("Authenticate.php", packagePath + File.separator + srcBasePath + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware" + File.separator, "Authenticate.php"));
+
     }
 
     // override with any special post-processing
@@ -113,7 +112,7 @@ public class LumenServerCodegen extends AbstractPhpCodegen
                 throw new IllegalArgumentException("'.' (dot) is not supported by PHP Lumen. Please refer to https://github.com/swagger-api/swagger-codegen/issues/6897 for more info.");
             }
         }
-        
+
         // sort the endpoints in ascending to avoid the route priority issure. 
         // https://github.com/swagger-api/swagger-codegen/issues/2643
         Collections.sort(operations, new Comparator<CodegenOperation>() {

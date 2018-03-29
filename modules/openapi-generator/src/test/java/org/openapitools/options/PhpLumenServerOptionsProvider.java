@@ -7,7 +7,7 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
-public class LumenServerOptionsProvider implements OptionsProvider {
+public class PhpLumenServerOptionsProvider implements OptionsProvider {
     public static final String MODEL_PACKAGE_VALUE = "package";
     public static final String API_PACKAGE_VALUE = "apiPackage";
     public static final String SORT_PARAMS_VALUE = "false";
