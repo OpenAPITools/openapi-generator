@@ -1,6 +1,7 @@
 package org.openapitools.codegen.languages;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,25 +19,16 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.parameters.*;
 import io.swagger.v3.core.util.Yaml;
 
-public class CppPistacheServerCodegen extends AbstractCppCodegen {
-    protected String implFolder = "impl";
+public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
-    @Override
-    public CodegenType getTag() {
-        return CodegenType.SERVER;
-    }
+    public static final String DECLSPEC = "declspec";
+    public static final String DEFAULT_INCLUDE = "defaultInclude";
 
-    @Override
-    public String getName() {
-        return "pistache-server";
-    }
+    protected String packageVersion = "1.0.0";
+    protected String declspec = "";
+    protected String defaultInclude = "";
 
-    @Override
-    public String getHelp() {
-        return "Generates a C++ API server (based on Pistache)";
-    }
-
-    public CppPistacheServerCodegen() {
+    public CppRestbedServerCodegen() {
         super();
 
         apiPackage = "io.swagger.server.api";
@@ -47,19 +39,25 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-source.mustache", ".cpp");
-        apiTemplateFiles.put("api-impl-header.mustache", ".h");
-        apiTemplateFiles.put("api-impl-source.mustache", ".cpp");
-        apiTemplateFiles.put("main-api-server.mustache", ".cpp");
 
-        embeddedTemplateDir = templateDir = "pistache-server";
+        embeddedTemplateDir = templateDir = "restbed";
 
         cliOptions.clear();
 
-        reservedWords = new HashSet<>();
+        // CLI options
+        addOption(CodegenConstants.MODEL_PACKAGE, "C++ namespace for models (convention: name.space.model).",
+                this.modelPackage);
+        addOption(CodegenConstants.API_PACKAGE, "C++ namespace for apis (convention: name.space.api).",
+                this.apiPackage);
+        addOption(CodegenConstants.PACKAGE_VERSION, "C++ package version.", this.packageVersion);
+        addOption(DECLSPEC, "C++ preprocessor to place before the class name for handling dllexport/dllimport.",
+                this.declspec);
+        addOption(DEFAULT_INCLUDE,
+                "The default include statement that should be placed in all headers for including things like the declspec (convention: #include \"Commons.h\" ",
+                this.defaultInclude);
 
-        supportingFiles.add(new SupportingFile("modelbase-header.mustache", "model", "ModelBase.h"));
-        supportingFiles.add(new SupportingFile("modelbase-source.mustache", "model", "ModelBase.cpp"));
-        supportingFiles.add(new SupportingFile("cmake.mustache", "", "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         languageSpecificPrimitives = new HashSet<String>(
@@ -76,7 +74,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         typeMapping.put("map", "std::map");
         typeMapping.put("file", "std::string");
         typeMapping.put("object", "Object");
-        typeMapping.put("binary", "std::string");
+        typeMapping.put("binary", "restbed::Bytes");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "std::string");
 
@@ -85,16 +83,57 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         importMapping.put("std::map", "#include <map>");
         importMapping.put("std::string", "#include <string>");
         importMapping.put("Object", "#include \"Object.h\"");
+        importMapping.put("restbed::Bytes", "#include <corvusoft/restbed/byte.hpp>");
+    }
+
+    /**
+     * Configures the type of generator.
+     *
+     * @return the CodegenType for this generator
+     * @see io.swagger.codegen.CodegenType
+     */
+    public CodegenType getTag() {
+        return CodegenType.SERVER;
+    }
+
+    /**
+     * Configures a friendly name for the generator. This will be used by the
+     * generator to select the library with the -l flag.
+     *
+     * @return the friendly name for the generator
+     */
+    public String getName() {
+        return "restbed";
+    }
+
+    /**
+     * Returns human-friendly help for the generator. Provide the consumer with
+     * help tips, parameters here
+     *
+     * @return A string value for the help message
+     */
+    public String getHelp() {
+        return "Generates a C++ API Server with Restbed (https://github.com/Corvusoft/restbed).";
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
+        if (additionalProperties.containsKey(DECLSPEC)) {
+            declspec = additionalProperties.get(DECLSPEC).toString();
+        }
+
+        if (additionalProperties.containsKey(DEFAULT_INCLUDE)) {
+            defaultInclude = additionalProperties.get(DEFAULT_INCLUDE).toString();
+        }
+
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
         additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
+        additionalProperties.put("declspec", declspec);
+        additionalProperties.put("defaultInclude", defaultInclude);
     }
 
     /**
@@ -107,6 +146,23 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     @Override
     public String escapeReservedWord(String name) {
         return "_" + name; // add an underscore to the name
+    }
+
+    /**
+     * Location to write model files. You can use the modelPackage() as defined
+     * when the class is instantiated
+     */
+    public String modelFileFolder() {
+        return (outputFolder + "/model").replace("/", File.separator);
+    }
+
+    /**
+     * Location to write api files. You can use the apiPackage() as defined when
+     * the class is instantiated
+     */
+    @Override
+    public String apiFileFolder() {
+        return (outputFolder + "/api").replace("/", File.separator);
     }
 
     @Override
@@ -123,7 +179,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
 
         Set<String> oldImports = codegenModel.imports;
-        codegenModel.imports = new HashSet<>();
+        codegenModel.imports = new HashSet<String>();
         for (String imp : oldImports) {
             String newImp = toModelImport(imp);
             if (!newImp.isEmpty()) {
@@ -134,89 +190,6 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         return codegenModel;
     }
 
-    @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
-                                          Map<String, Schema> definitions, OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, openAPI);
-
-        if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
-            ApiResponse apiResponse = findMethodResponse(operation.getResponses());
-
-            if (apiResponse != null) {
-                Schema response = getSchemaFromResponse(apiResponse);
-                if (response != null) {
-                    CodegenProperty cm = fromProperty("response", response);
-                    op.vendorExtensions.put("x-codegen-response", cm);
-                    if (cm.datatype == "HttpContent") {
-                        op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
-                    }
-                }
-            }
-        }
-
-        String pathForPistache = path.replaceAll("\\{(.*?)}", ":$1");
-        op.vendorExtensions.put("x-codegen-pistache-path", pathForPistache);
-
-        return op;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        String classname = (String) operations.get("classname");
-        operations.put("classnameSnakeUpperCase", DefaultCodegen.underscore(classname).toUpperCase());
-        operations.put("classnameSnakeLowerCase", DefaultCodegen.underscore(classname).toLowerCase());
-
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-        for (CodegenOperation op : operationList) {
-            boolean consumeJson = false;
-            boolean isParsingSupported = true;
-            if (op.bodyParam != null) {
-                if (op.bodyParam.vendorExtensions == null) {
-                    op.bodyParam.vendorExtensions = new HashMap<>();
-                }
-
-                op.bodyParam.vendorExtensions.put("x-codegen-pistache-isStringOrDate", op.bodyParam.isString || op.bodyParam.isDate);
-            }
-            if(op.consumes != null) {
-                for (Map<String, String> consume : op.consumes) {
-                    if (consume.get("mediaType") != null && consume.get("mediaType").equals("application/json")) {
-                        consumeJson = true;
-                    }
-                }
-            }
-
-            op.httpMethod = op.httpMethod.substring(0, 1).toUpperCase() + op.httpMethod.substring(1).toLowerCase();
-
-            for(CodegenParameter param : op.allParams){
-                if (param.isFormParam) isParsingSupported=false;
-                if (param.isFile) isParsingSupported=false;
-                if (param.isCookieParam) isParsingSupported=false;
-
-                //TODO: This changes the info about the real type but it is needed to parse the header params
-                if (param.isHeaderParam) {
-                    param.dataType = "Optional<Net::Http::Header::Raw>";
-                    param.baseType = "Optional<Net::Http::Header::Raw>";
-                } else if(param.isQueryParam){
-                    if(param.isPrimitiveType) {
-                        param.dataType = "Optional<" + param.dataType + ">";
-                    } else {
-                        param.dataType = "Optional<" + param.baseType + ">";
-                        param.baseType = "Optional<" + param.baseType + ">";
-                    }
-                }
-            }
-
-            if (op.vendorExtensions == null) {
-                op.vendorExtensions = new HashMap<>();
-            }
-            op.vendorExtensions.put("x-codegen-pistache-consumesJson", consumeJson);
-            op.vendorExtensions.put("x-codegen-pistache-isParsingSupported", isParsingSupported);
-        }
-
-        return objs;
-    }
 
     @Override
     public String toModelFilename(String name) {
@@ -224,28 +197,59 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public String apiFilename(String templateName, String tag) {
-        String result = super.apiFilename(templateName, tag);
-
-        if ( templateName.endsWith("impl-header.mustache") ) {
-            int ix = result.lastIndexOf('/');
-            result = result.substring(0, ix) + result.substring(ix, result.length() - 2) + "Impl.h";
-            result = result.replace(apiFileFolder(), implFileFolder());
-        } else if ( templateName.endsWith("impl-source.mustache") ) {
-            int ix = result.lastIndexOf('/');
-            result = result.substring(0, ix) + result.substring(ix, result.length() - 4) + "Impl.cpp";
-            result = result.replace(apiFileFolder(), implFileFolder());
-        } else if ( templateName.endsWith("api-server.mustache") ) {
-            int ix = result.lastIndexOf('/');
-            result = result.substring(0, ix) + result.substring(ix, result.length() - 4) + "MainServer.cpp";
-            result = result.replace(apiFileFolder(), outputFolder);
-        }
-        return result;
-    }
-
-    @Override
     public String toApiFilename(String name) {
         return initialCaps(name) + "Api";
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();
+        for (CodegenOperation op : operationList) {
+            String path = new String(op.path);
+
+            String[] items = path.split("/", -1);
+            String resourceNameCamelCase = "";
+            op.path = "";
+            for (String item : items) {
+                if (item.length() > 1) {
+                    if (item.matches("^\\{(.*)\\}$")) {
+                        String tmpResourceName = item.substring(1, item.length() - 1);
+                        resourceNameCamelCase += Character.toUpperCase(tmpResourceName.charAt(0)) + tmpResourceName.substring(1);
+                        item = item.substring(0, item.length() - 1);
+                        item += ": .*}";
+                    } else {
+                        resourceNameCamelCase += Character.toUpperCase(item.charAt(0)) + item.substring(1);
+                    }
+                } else if (item.length() == 1) {
+                    resourceNameCamelCase += Character.toUpperCase(item.charAt(0));
+                }
+                op.path += item + "/";
+            }
+            op.vendorExtensions.put("x-codegen-resourceName", resourceNameCamelCase);
+            boolean foundInNewList = false;
+            for (CodegenOperation op1 : newOpList) {
+                if (!foundInNewList) {
+                    if (op1.path.equals(op.path)) {
+                        foundInNewList = true;
+                        List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get("x-codegen-otherMethods");
+                        if (currentOtherMethodList == null) {
+                            currentOtherMethodList = new ArrayList<CodegenOperation>();
+                        }
+                        op.operationIdCamelCase = op1.operationIdCamelCase;
+                        currentOtherMethodList.add(op);
+                        op1.vendorExtensions.put("x-codegen-otherMethods", currentOtherMethodList);
+                    }
+                }
+            }
+            if (!foundInNewList) {
+                newOpList.add(op);
+            }
+        }
+        operations.put("operation", newOpList);
+        return objs;
     }
 
     /**
@@ -254,7 +258,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
      * for different property types
      *
      * @return a string value used as the `dataType` field for model templates,
-     *         `returnType` for api templates
+     * `returnType` for api templates
      */
     @Override
     public String getTypeDeclaration(Schema p) {
@@ -266,8 +270,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         }
         if (p instanceof MapSchema) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         }
         if (p instanceof StringSchema || p instanceof DateSchema
@@ -310,7 +313,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
                 inner = "std::shared_ptr<" + inner + ">";
             }
             return "std::vector<" + inner + ">()";
-        } else if (!StringUtils.isEmpty(p.get$ref())) { // model
+        } else if (!StringUtils.isEmpty(p.get$ref())) {
             return "new " + toModelName(p.get$ref()) + "()";
         }
         return "nullptr";
@@ -327,27 +330,6 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         if (!isPrimitiveType && !isListContainer && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
             parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
         }
-    }
-
-    /**
-     * Location to write model files. You can use the modelPackage() as defined
-     * when the class is instantiated
-     */
-    public String modelFileFolder() {
-        return (outputFolder + "/model").replace("/", File.separator);
-    }
-
-    /**
-     * Location to write api files. You can use the apiPackage() as defined when
-     * the class is instantiated
-     */
-    @Override
-    public String apiFileFolder() {
-        return (outputFolder + "/api").replace("/", File.separator);
-    }
-
-    private String implFileFolder() {
-        return (outputFolder + "/" + implFolder).replace("/", File.separator);
     }
 
     /**
@@ -396,4 +378,6 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
+
+
 }
