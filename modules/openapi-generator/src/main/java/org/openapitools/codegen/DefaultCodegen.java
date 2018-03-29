@@ -3939,10 +3939,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        for (int i = 0; i < parameters.size(); i++) {
-            System.out.println("parmaeter name:" + parameters.get(i).baseName);
-        }
-
         return parameters;
     }
 

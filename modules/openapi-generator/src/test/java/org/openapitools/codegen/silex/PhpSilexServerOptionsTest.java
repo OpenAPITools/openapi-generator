@@ -2,19 +2,19 @@ package org.openapitools.codegen.silex;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.SilexServerCodegen;
-import org.openapitools.codegen.options.SilexServerOptionsProvider;
+import org.openapitools.codegen.languages.PhpSilexServerCodegen;
+import org.openapitools.codegen.options.PhpSilexServerOptionsProvider;
 
 import mockit.Expectations;
 import mockit.Tested;
 
-public class SilexServerOptionsTest extends AbstractOptionsTest {
+public class PhpSilexServerOptionsTest extends AbstractOptionsTest {
 
     @Tested
-    private SilexServerCodegen clientCodegen;
+    private PhpSilexServerCodegen clientCodegen;
 
-    public SilexServerOptionsTest() {
-        super(new SilexServerOptionsProvider());
+    public PhpSilexServerOptionsTest() {
+        super(new PhpSilexServerOptionsProvider());
     }
 
     @Override
@@ -26,7 +26,7 @@ public class SilexServerOptionsTest extends AbstractOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
-            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(SilexServerOptionsProvider.SORT_PARAMS_VALUE));
+            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(PhpSilexServerOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
         }};
     }
