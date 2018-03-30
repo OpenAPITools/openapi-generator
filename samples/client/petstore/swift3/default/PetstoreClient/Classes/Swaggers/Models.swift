@@ -185,7 +185,7 @@ class Decoders {
             return .success(nil)
         }
     }
-    
+
     static func decodeOptional<T>(clazz: [T].Type, source: AnyObject?) -> Decoded<[T]?> where T: RawRepresentable {
         if let source = source as? [AnyObject] {
             var values = [T]()
