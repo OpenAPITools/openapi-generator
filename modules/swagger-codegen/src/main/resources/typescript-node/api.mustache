@@ -151,6 +151,7 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
     static discriminator = undefined;
     {{/discriminator}}
 
+    {{^isArrayModel}}
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {{#vars}}
         {
@@ -170,6 +171,7 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
         return {{classname}}.attributeTypeMap;
         {{/parent}}
     }
+    {{/isArrayModel}}    
 }
 
 {{#hasEnums}}
