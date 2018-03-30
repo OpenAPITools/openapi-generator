@@ -145,7 +145,7 @@ open class {{classname}}: APIBase {
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             {{#queryParams}}
-            {{> _param}}{{#hasMore}}, {{/hasMore}}
+            {{> _param}}{{#hasMore}},{{/hasMore}}
             {{/queryParams}}
         ]){{/hasQueryParams}}{{^hasQueryParams}}
         let url = URLComponents(string: URLString){{/hasQueryParams}}
