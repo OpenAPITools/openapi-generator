@@ -177,12 +177,12 @@ public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String getName() {
-        return "rails5";
+        return "ruby-on-rails";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Ruby on Rails server library.";
+        return "Generates a Ruby on Rails (v5) server library.";
     }
 
     @Override

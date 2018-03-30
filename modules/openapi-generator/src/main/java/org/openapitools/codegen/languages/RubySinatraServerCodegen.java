@@ -21,16 +21,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfig {
+public class RubySinatraServerCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SinatraServerCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RubySinatraServerCodegen.class);
 
     protected String gemName;
     protected String moduleName;
     protected String gemVersion = "1.0.0";
     protected String libFolder = "lib";
 
-    public SinatraServerCodegen() {
+    public RubySinatraServerCodegen() {
         super();
         apiPackage = "lib";
         outputFolder = "generated-code" + File.separator + "sinatra";

@@ -20,6 +20,7 @@ org.openapitools.codegen.languages.HaskellHttpClientCodegen
 org.openapitools.codegen.languages.HaskellServantCodegen
 org.openapitools.codegen.languages.JavascriptClientCodegen
 org.openapitools.codegen.languages.LuaClientCodegen
+org.openapitools.codegen.languages.NodeJSServerCodegen
 org.openapitools.codegen.languages.ObjcClientCodegen
 org.openapitools.codegen.languages.PerlClientCodegen
 org.openapitools.codegen.languages.PhpClientCodegen
@@ -32,10 +33,10 @@ org.openapitools.codegen.languages.PowerShellClientCodegen
 org.openapitools.codegen.languages.PythonClientCodegen
 org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen
 org.openapitools.codegen.languages.RClientCodegen
-org.openapitools.codegen.languages.RubyOnRailsServerCodegen
 org.openapitools.codegen.languages.RubyClientCodegen
+org.openapitools.codegen.languages.RubyOnRailsServerCodegen
+org.openapitools.codegen.languages.RubySinatraServerCodegen
 org.openapitools.codegen.languages.ScalaClientCodegen
-org.openapitools.codegen.languages.SinatraServerCodegen
 org.openapitools.codegen.languages.TizenClientCodegen
 org.openapitools.codegen.languages.TypeScriptAngularClientCodegen
 org.openapitools.codegen.languages.TypeScriptAngularJsClientCodegen

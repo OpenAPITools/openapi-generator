@@ -1,20 +1,20 @@
-package org.openapitools.codegen.sinatra;
+package org.openapitools.codegen.rubysinatra;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.SinatraServerCodegen;
-import org.openapitools.codegen.options.SinatraServerOptionsProvider;
+import org.openapitools.codegen.languages.RubySinatraServerCodegen;
+import org.openapitools.codegen.options.RubySinatraServerOptionsProvider;
 
 import mockit.Expectations;
 import mockit.Tested;
 
-public class SinatraServerOptionsTest extends AbstractOptionsTest {
+public class RubySinatraServerOptionsTest extends AbstractOptionsTest {
 
     @Tested
-    private SinatraServerCodegen clientCodegen;
+    private RubySinatraServerCodegen clientCodegen;
 
-    public SinatraServerOptionsTest() {
-        super(new SinatraServerOptionsProvider());
+    public RubySinatraServerOptionsTest() {
+        super(new RubySinatraServerOptionsProvider());
     }
 
     @Override

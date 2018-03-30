@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
-public class SinatraServerOptionsProvider implements OptionsProvider {
+public class RubySinatraServerOptionsProvider implements OptionsProvider {
     @Override
     public String getLanguage() {
         return "ruby-sinatra";
