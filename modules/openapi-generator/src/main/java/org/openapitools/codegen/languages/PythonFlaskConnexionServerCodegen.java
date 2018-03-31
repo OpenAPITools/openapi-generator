@@ -365,14 +365,8 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        OpenAPI swagger = (OpenAPI) objs.get("openapi");
-        if (swagger != null) {
-            try {
-                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        }
+        generateYAMLSpecFile(objs);
+
         for (Map<String, Object> operations : getOperations(objs)) {
             @SuppressWarnings("unchecked")
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");

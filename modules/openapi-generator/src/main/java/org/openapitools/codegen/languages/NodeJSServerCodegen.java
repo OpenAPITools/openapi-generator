@@ -415,22 +415,8 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        OpenAPI openAPI = (OpenAPI)objs.get("openapi");
-        if (openAPI != null) {
-            try {
-                SimpleModule module = new SimpleModule();
-                module.addSerializer(Double.class, new JsonSerializer<Double>() {
-                    @Override
-                    public void serialize(Double val, JsonGenerator jgen,
-                                          SerializerProvider provider) throws IOException, JsonProcessingException {
-                        jgen.writeNumber(new BigDecimal(val));
-                    }
-                });
-                objs.put("swagger-yaml", Yaml.mapper().registerModule(module).writeValueAsString(openAPI));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        }
+        generateYAMLSpecFile(objs);
+
         for (Map<String, Object> operations : getOperations(objs)) {
             @SuppressWarnings("unchecked")
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");

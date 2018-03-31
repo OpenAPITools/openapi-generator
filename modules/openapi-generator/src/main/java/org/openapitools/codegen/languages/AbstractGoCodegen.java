@@ -372,14 +372,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        OpenAPI openAPI = (OpenAPI) objs.get("openapi");
-        if (openAPI != null) {
-            try {
-                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(openAPI));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        }
+        generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
     }
 

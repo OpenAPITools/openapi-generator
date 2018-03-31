@@ -9,11 +9,13 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.samskivert.mustache.Mustache.Compiler;
 
 import io.swagger.v3.core.util.Json;
+import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.headers.Header;
@@ -4136,6 +4138,38 @@ public class DefaultCodegen implements CodegenConfig {
         if (defaultValue != null)
             option.defaultValue(defaultValue.toString());
         cliOptions.add(option);
+    }
+
+    /**
+     * generates OpenAPI specification file in JSON format
+     *
+     * @param objs map of object
+     */
+    public void generateJSONSpecFile(Map<String, Object> objs) {
+        OpenAPI openAPI = (OpenAPI) objs.get("openapi");
+        if (openAPI != null) {
+            try {
+                objs.put("openapi-json", Json.pretty().writeValueAsString(openAPI).replace("\r\n", "\n"));
+            } catch (JsonProcessingException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
+        }
+    }
+
+    /**
+     * generates OpenAPI specification file in YAML format
+     *
+     * @param objs map of object
+     */
+    public void generateYAMLSpecFile(Map<String, Object> objs) {
+        OpenAPI openAPI = (OpenAPI) objs.get("openapi");
+        if (openAPI != null) {
+            try {
+                objs.put("openapi-yaml", Yaml.mapper().writeValueAsString(openAPI));
+            } catch (JsonProcessingException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
+        }
     }
 
 }
