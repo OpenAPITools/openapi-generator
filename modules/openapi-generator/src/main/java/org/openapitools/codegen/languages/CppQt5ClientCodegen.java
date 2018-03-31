@@ -203,7 +203,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
      */
     @Override
     public String getName() {
-        return "qt5cpp";
+        return "cpp-qt5";
     }
 
     /**
