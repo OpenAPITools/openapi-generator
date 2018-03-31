@@ -1576,14 +1576,16 @@ class PetApi
      * Updates a pet in the store with form data
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
+     * @param  string $name Updated name of the pet (optional)
+     * @param  string $status Updated status of the pet (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function updatePetWithForm($pet_id)
+    public function updatePetWithForm($pet_id, $name = null, $status = null)
     {
-        $this->updatePetWithFormWithHttpInfo($pet_id);
+        $this->updatePetWithFormWithHttpInfo($pet_id, $name, $status);
     }
 
     /**
@@ -1592,15 +1594,17 @@ class PetApi
      * Updates a pet in the store with form data
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
+     * @param  string $name Updated name of the pet (optional)
+     * @param  string $status Updated status of the pet (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updatePetWithFormWithHttpInfo($pet_id)
+    public function updatePetWithFormWithHttpInfo($pet_id, $name = null, $status = null)
     {
         $returnType = '';
-        $request = $this->updatePetWithFormRequest($pet_id);
+        $request = $this->updatePetWithFormRequest($pet_id, $name, $status);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1645,13 +1649,15 @@ class PetApi
      * Updates a pet in the store with form data
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
+     * @param  string $name Updated name of the pet (optional)
+     * @param  string $status Updated status of the pet (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updatePetWithFormAsync($pet_id)
+    public function updatePetWithFormAsync($pet_id, $name = null, $status = null)
     {
-        return $this->updatePetWithFormAsyncWithHttpInfo($pet_id)
+        return $this->updatePetWithFormAsyncWithHttpInfo($pet_id, $name, $status)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1665,14 +1671,16 @@ class PetApi
      * Updates a pet in the store with form data
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
+     * @param  string $name Updated name of the pet (optional)
+     * @param  string $status Updated status of the pet (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updatePetWithFormAsyncWithHttpInfo($pet_id)
+    public function updatePetWithFormAsyncWithHttpInfo($pet_id, $name = null, $status = null)
     {
         $returnType = '';
-        $request = $this->updatePetWithFormRequest($pet_id);
+        $request = $this->updatePetWithFormRequest($pet_id, $name, $status);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1701,11 +1709,13 @@ class PetApi
      * Create request for operation 'updatePetWithForm'
      *
      * @param  int $pet_id ID of pet that needs to be updated (required)
+     * @param  string $name Updated name of the pet (optional)
+     * @param  string $status Updated status of the pet (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function updatePetWithFormRequest($pet_id)
+    protected function updatePetWithFormRequest($pet_id, $name = null, $status = null)
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -1731,6 +1741,14 @@ class PetApi
             );
         }
 
+        // form params
+        if ($name !== null) {
+            $formParams['name'] = ObjectSerializer::toFormValue($name);
+        }
+        // form params
+        if ($status !== null) {
+            $formParams['status'] = ObjectSerializer::toFormValue($status);
+        }
         // body params
         $_tempBody = null;
 
@@ -1805,14 +1823,16 @@ class PetApi
      * uploads an image
      *
      * @param  int $pet_id ID of pet to update (required)
+     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $file file to upload (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \Swagger\Client\Model\ApiResponse
      */
-    public function uploadFile($pet_id)
+    public function uploadFile($pet_id, $additional_metadata = null, $file = null)
     {
-        list($response) = $this->uploadFileWithHttpInfo($pet_id);
+        list($response) = $this->uploadFileWithHttpInfo($pet_id, $additional_metadata, $file);
         return $response;
     }
 
@@ -1822,15 +1842,17 @@ class PetApi
      * uploads an image
      *
      * @param  int $pet_id ID of pet to update (required)
+     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $file file to upload (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Swagger\Client\Model\ApiResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function uploadFileWithHttpInfo($pet_id)
+    public function uploadFileWithHttpInfo($pet_id, $additional_metadata = null, $file = null)
     {
         $returnType = '\Swagger\Client\Model\ApiResponse';
-        $request = $this->uploadFileRequest($pet_id);
+        $request = $this->uploadFileRequest($pet_id, $additional_metadata, $file);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1897,13 +1919,15 @@ class PetApi
      * uploads an image
      *
      * @param  int $pet_id ID of pet to update (required)
+     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadFileAsync($pet_id)
+    public function uploadFileAsync($pet_id, $additional_metadata = null, $file = null)
     {
-        return $this->uploadFileAsyncWithHttpInfo($pet_id)
+        return $this->uploadFileAsyncWithHttpInfo($pet_id, $additional_metadata, $file)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1917,14 +1941,16 @@ class PetApi
      * uploads an image
      *
      * @param  int $pet_id ID of pet to update (required)
+     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadFileAsyncWithHttpInfo($pet_id)
+    public function uploadFileAsyncWithHttpInfo($pet_id, $additional_metadata = null, $file = null)
     {
         $returnType = '\Swagger\Client\Model\ApiResponse';
-        $request = $this->uploadFileRequest($pet_id);
+        $request = $this->uploadFileRequest($pet_id, $additional_metadata, $file);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1967,11 +1993,13 @@ class PetApi
      * Create request for operation 'uploadFile'
      *
      * @param  int $pet_id ID of pet to update (required)
+     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  string $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function uploadFileRequest($pet_id)
+    protected function uploadFileRequest($pet_id, $additional_metadata = null, $file = null)
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -1997,6 +2025,14 @@ class PetApi
             );
         }
 
+        // form params
+        if ($additional_metadata !== null) {
+            $formParams['additionalMetadata'] = ObjectSerializer::toFormValue($additional_metadata);
+        }
+        // form params
+        if ($file !== null) {
+            $formParams['file'] = ObjectSerializer::toFormValue($file);
+        }
         // body params
         $_tempBody = null;
 
