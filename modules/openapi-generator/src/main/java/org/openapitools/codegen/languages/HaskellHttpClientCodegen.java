@@ -521,14 +521,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        OpenAPI openAPI = (OpenAPI) objs.get("openapi");
-        if (openAPI != null) {
-            try {
-                objs.put("openapi-yaml", Yaml.mapper().writeValueAsString(openAPI));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        }
+        generateJSONSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
     }
 
