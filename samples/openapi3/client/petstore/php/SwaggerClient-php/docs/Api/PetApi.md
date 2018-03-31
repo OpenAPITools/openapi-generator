@@ -328,7 +328,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **updatePetWithForm**
-> updatePetWithForm($pet_id)
+> updatePetWithForm($pet_id, $name, $status)
 
 Updates a pet in the store with form data
 
@@ -347,9 +347,11 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     $config
 );
 $pet_id = 789; // int | ID of pet that needs to be updated
+$name = "name_example"; // string | Updated name of the pet
+$status = "status_example"; // string | Updated status of the pet
 
 try {
-    $apiInstance->updatePetWithForm($pet_id);
+    $apiInstance->updatePetWithForm($pet_id, $name, $status);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->updatePetWithForm: ', $e->getMessage(), PHP_EOL;
 }
@@ -361,6 +363,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet that needs to be updated |
+ **name** | **string**| Updated name of the pet | [optional]
+ **status** | **string**| Updated status of the pet | [optional]
 
 ### Return type
 
@@ -378,7 +382,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **uploadFile**
-> \Swagger\Client\Model\ApiResponse uploadFile($pet_id)
+> \Swagger\Client\Model\ApiResponse uploadFile($pet_id, $additional_metadata, $file)
 
 uploads an image
 
@@ -397,9 +401,11 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     $config
 );
 $pet_id = 789; // int | ID of pet to update
+$additional_metadata = "additional_metadata_example"; // string | Additional data to pass to server
+$file = "file_example"; // string | file to upload
 
 try {
-    $result = $apiInstance->uploadFile($pet_id);
+    $result = $apiInstance->uploadFile($pet_id, $additional_metadata, $file);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->uploadFile: ', $e->getMessage(), PHP_EOL;
@@ -412,6 +418,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update |
+ **additional_metadata** | **string**| Additional data to pass to server | [optional]
+ **file** | **string**| file to upload | [optional]
 
 ### Return type
 
