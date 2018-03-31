@@ -4146,7 +4146,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param objs map of object
      */
     public void generateJSONSpecFile(Map<String, Object> objs) {
-        OpenAPI openAPI = (OpenAPI) objs.get("openapi");
+        OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
         if (openAPI != null) {
             try {
                 objs.put("openapi-json", Json.pretty().writeValueAsString(openAPI).replace("\r\n", "\n"));
@@ -4162,7 +4162,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param objs map of object
      */
     public void generateYAMLSpecFile(Map<String, Object> objs) {
-        OpenAPI openAPI = (OpenAPI) objs.get("openapi");
+        OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
         if (openAPI != null) {
             try {
                 objs.put("openapi-yaml", Yaml.mapper().writeValueAsString(openAPI));

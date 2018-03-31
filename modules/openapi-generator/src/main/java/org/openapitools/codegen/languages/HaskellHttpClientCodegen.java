@@ -521,7 +521,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        generateJSONSpecFile(objs);
+        generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
     }
 
