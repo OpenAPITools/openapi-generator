@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
  * 'swift3' or 'swift4' generator instead.
  */
 
-public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
+public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
     public static final String UNWRAP_REQUIRED = "unwrapRequired";
@@ -71,7 +71,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         return "Generates a Swift (2.x) client library. IMPORTANT NOTE: this generator (swfit 2.x)  is no longer actively maintained so please use 'swift3' or 'swift4' generator instead.";
     }
 
-    public SwiftCodegen() {
+    public SwiftClientCodegen() {
         super();
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");

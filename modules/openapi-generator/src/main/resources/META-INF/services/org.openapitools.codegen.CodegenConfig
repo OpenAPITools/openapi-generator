@@ -38,7 +38,8 @@ org.openapitools.codegen.languages.RubyClientCodegen
 org.openapitools.codegen.languages.RubyOnRailsServerCodegen
 org.openapitools.codegen.languages.RubySinatraServerCodegen
 org.openapitools.codegen.languages.ScalaClientCodegen
-org.openapitools.codegen.languages.SwiftCodegen
+org.openapitools.codegen.languages.SwiftClientCodegen
+org.openapitools.codegen.languages.Swift3ClientCodegen
 org.openapitools.codegen.languages.TypeScriptAngularClientCodegen
 org.openapitools.codegen.languages.TypeScriptAngularJsClientCodegen
 org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen
