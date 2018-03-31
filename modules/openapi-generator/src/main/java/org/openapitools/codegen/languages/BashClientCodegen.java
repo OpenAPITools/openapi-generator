@@ -370,7 +370,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
       Schema inner = ap.getItems();
       return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
     }
-    else if (p instanceof MapSchema) {
+    else if (isMapSchema(p)) {
       MapSchema mp = (MapSchema) p;
       Schema inner = (Schema) mp.getAdditionalProperties();
       return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
