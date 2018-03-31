@@ -99,6 +99,8 @@ public class Order implements Parcelable {
   @SerializedName("complete")
   private Boolean complete = false;
 
+  public Order() {
+  }
   public Order id(Long id) {
     this.id = id;
     return this;
@@ -257,27 +259,17 @@ public class Order implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public void writeToParcel(Parcel out, int flags) {
-     
     out.writeValue(id);
-
     out.writeValue(petId);
-
     out.writeValue(quantity);
-
     out.writeValue(shipDate);
-
     out.writeValue(status);
-
     out.writeValue(complete);
   }
 
-  public Order() {
-    super();
-  }
-
   Order(Parcel in) {
-    
     id = (Long)in.readValue(null);
     petId = (Long)in.readValue(null);
     quantity = (Integer)in.readValue(null);

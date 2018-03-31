@@ -24,4 +24,20 @@ open class JSONEncodingHelper {
         return params
     }
 
+    open class func encodingParameters(forEncodableObject encodableObj: Any?) -> Parameters? {
+        var params: Parameters? = nil
+
+        if let encodableObj = encodableObj {
+            do {
+                let data = try JSONSerialization.data(withJSONObject: encodableObj, options: .prettyPrinted)
+                params = JSONDataEncoding.encodingParameters(jsonData: data)
+            } catch {
+                print(error)
+                return nil
+            }
+        }
+
+        return params
+    }
+    
 }

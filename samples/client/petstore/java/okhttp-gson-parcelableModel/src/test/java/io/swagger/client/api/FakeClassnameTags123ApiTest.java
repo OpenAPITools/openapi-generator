@@ -35,7 +35,7 @@ public class FakeClassnameTags123ApiTest {
     /**
      * To test class name in snake case
      *
-     * 
+     * To test class name in snake case
      *
      * @throws ApiException
      *          if the Api call fails

@@ -345,7 +345,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
     fileprivate func getPath(from url : URL) throws -> String {
 
-        guard var path = NSURLComponents(url: url, resolvingAgainstBaseURL: true)?.path else {
+        guard var path = URLComponents(url: url, resolvingAgainstBaseURL: true)?.path else {
             throw DownloadException.requestMissingPath
         }
 

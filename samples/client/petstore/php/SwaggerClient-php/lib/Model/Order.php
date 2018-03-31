@@ -237,7 +237,7 @@ class Order implements ModelInterface, ArrayAccess
         $invalidProperties = [];
 
         $allowedValues = $this->getStatusAllowableValues();
-        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues)) {
+        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value for 'status', must be one of '%s'",
                 implode("', '", $allowedValues)
@@ -257,7 +257,7 @@ class Order implements ModelInterface, ArrayAccess
     {
 
         $allowedValues = $this->getStatusAllowableValues();
-        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues)) {
+        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
             return false;
         }
         return true;
@@ -380,7 +380,7 @@ class Order implements ModelInterface, ArrayAccess
     public function setStatus($status)
     {
         $allowedValues = $this->getStatusAllowableValues();
-        if (!is_null($status) && !in_array($status, $allowedValues)) {
+        if (!is_null($status) && !in_array($status, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value for 'status', must be one of '%s'",

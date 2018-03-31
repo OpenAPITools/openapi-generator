@@ -37,6 +37,8 @@ public class Tag implements Parcelable {
   @SerializedName("name")
   private String name = null;
 
+  public Tag() {
+  }
   public Tag id(Long id) {
     this.id = id;
     return this;
@@ -115,19 +117,13 @@ public class Tag implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
-  public void writeToParcel(Parcel out, int flags) {
-     
-    out.writeValue(id);
 
+  public void writeToParcel(Parcel out, int flags) {
+    out.writeValue(id);
     out.writeValue(name);
   }
 
-  public Tag() {
-    super();
-  }
-
   Tag(Parcel in) {
-    
     id = (Long)in.readValue(null);
     name = (String)in.readValue(null);
   }

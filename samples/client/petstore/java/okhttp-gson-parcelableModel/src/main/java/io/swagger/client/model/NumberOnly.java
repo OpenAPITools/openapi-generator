@@ -35,6 +35,8 @@ public class NumberOnly implements Parcelable {
   @SerializedName("JustNumber")
   private BigDecimal justNumber = null;
 
+  public NumberOnly() {
+  }
   public NumberOnly justNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
     return this;
@@ -93,17 +95,12 @@ public class NumberOnly implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public void writeToParcel(Parcel out, int flags) {
-     
     out.writeValue(justNumber);
   }
 
-  public NumberOnly() {
-    super();
-  }
-
   NumberOnly(Parcel in) {
-    
     justNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
   }
 

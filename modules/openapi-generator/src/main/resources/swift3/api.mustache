@@ -141,16 +141,14 @@ open class {{classname}}: APIBase {
             {{^hasFormParams}}
         let parameters: [String:Any]? = nil
             {{/hasFormParams}}
-        {{/bodyParam}}
-
-        let url = NSURLComponents(string: URLString)
-        {{#hasQueryParams}}
+        {{/bodyParam}}{{#hasQueryParams}}
+        var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             {{#queryParams}}
-            {{> _param}}{{#hasMore}}, {{/hasMore}}
+            {{> _param}}{{#hasMore}},{{/hasMore}}
             {{/queryParams}}
-        ])
-        {{/hasQueryParams}}
+        ]){{/hasQueryParams}}{{^hasQueryParams}}
+        let url = URLComponents(string: URLString){{/hasQueryParams}}
         {{#headerParams}}
         {{^secondaryParam}}
         let nillableHeaders: [String: Any?] = [

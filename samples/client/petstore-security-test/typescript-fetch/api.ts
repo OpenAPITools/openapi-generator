@@ -191,7 +191,7 @@ export class FakeApi extends BaseAPI {
     /**
      * 
      * @summary To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
-     * @param {} [testCodeInjectEndRnNR] To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+     * @param {string} [testCodeInjectEndRnNR] To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FakeApi

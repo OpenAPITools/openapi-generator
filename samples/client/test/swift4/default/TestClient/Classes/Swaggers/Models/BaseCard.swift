@@ -14,6 +14,9 @@ public struct BaseCard: Codable {
 
     public var cardType: String
 
+    public init(cardType: String) {
+        self.cardType = cardType
+    }
 
 
 }

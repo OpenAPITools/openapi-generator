@@ -13,6 +13,7 @@
 #include "SWGStoreApi.h"
 #include "SWGHelpers.h"
 #include "SWGModelFactory.h"
+#include "SWGQObjectWrapper.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -118,7 +119,6 @@ SWGStoreApi::getInventoryCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-
     QMap<QString, qint32>* output = new QMap<QString, qint32>();
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
@@ -181,9 +181,10 @@ SWGStoreApi::getOrderByIdCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-
     QString json(worker->response);
     SWGOrder* output = static_cast<SWGOrder*>(create(json, QString("SWGOrder")));
+    auto wrapper = new SWGQObjectWrapper<SWGOrder*> (output);
+    wrapper->deleteLater();
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -236,9 +237,10 @@ SWGStoreApi::placeOrderCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-
     QString json(worker->response);
     SWGOrder* output = static_cast<SWGOrder*>(create(json, QString("SWGOrder")));
+    auto wrapper = new SWGQObjectWrapper<SWGOrder*> (output);
+    wrapper->deleteLater();
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
