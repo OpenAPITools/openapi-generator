@@ -228,7 +228,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             Schema inner = ap.getItems();
             return "[]" + getTypeDeclaration(inner);
         }
-        else if (p instanceof MapSchema) {
+        else if (isMapSchema(p)) {
             MapSchema mp = (MapSchema) p;
             Schema inner = (Schema) mp.getAdditionalProperties();
 

@@ -376,7 +376,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (schema instanceof ArraySchema) {
             Schema inner = ((ArraySchema) schema).getItems();
             return String.format("%s[%s]", getSchemaType(schema), getTypeDeclaration(inner));
-        } else if (schema instanceof MapSchema) {
+        } else if (isMapSchema(schema)) {
             Schema inner = (Schema) schema.getAdditionalProperties();
             return String.format("%s[String, %s]", getSchemaType(schema), getTypeDeclaration(inner));
         }
