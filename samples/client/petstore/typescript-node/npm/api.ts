@@ -140,9 +140,9 @@ class ObjectSerializer {
 * Describes the result of uploading an image resource
 */
 export class ApiResponse {
-    'code': number;
-    'type': string;
-    'message': string;
+    'code'?: number;
+    'type'?: string;
+    'message'?: string;
 
     static discriminator = undefined;
 
@@ -172,8 +172,8 @@ export class ApiResponse {
 * A category for a pet
 */
 export class Category {
-    'id': number;
-    'name': string;
+    'id'?: number;
+    'name'?: string;
 
     static discriminator = undefined;
 
@@ -198,15 +198,15 @@ export class Category {
 * An order for a pets from the pet store
 */
 export class Order {
-    'id': number;
-    'petId': number;
-    'quantity': number;
-    'shipDate': Date;
+    'id'?: number;
+    'petId'?: number;
+    'quantity'?: number;
+    'shipDate'?: Date;
     /**
     * Order Status
     */
-    'status': Order.StatusEnum;
-    'complete': boolean;
+    'status'?: Order.StatusEnum;
+    'complete'?: boolean;
 
     static discriminator = undefined;
 
@@ -258,15 +258,15 @@ export namespace Order {
 * A pet for sale in the pet store
 */
 export class Pet {
-    'id': number;
-    'category': Category;
+    'id'?: number;
+    'category'?: Category;
     'name': string;
     'photoUrls': Array<string>;
-    'tags': Array<Tag>;
+    'tags'?: Array<Tag>;
     /**
     * pet status in the store
     */
-    'status': Pet.StatusEnum;
+    'status'?: Pet.StatusEnum;
 
     static discriminator = undefined;
 
@@ -318,8 +318,8 @@ export namespace Pet {
 * A tag for a pet
 */
 export class Tag {
-    'id': number;
-    'name': string;
+    'id'?: number;
+    'name'?: string;
 
     static discriminator = undefined;
 
@@ -344,17 +344,17 @@ export class Tag {
 * A User who is purchasing from the pet store
 */
 export class User {
-    'id': number;
-    'username': string;
-    'firstName': string;
-    'lastName': string;
-    'email': string;
-    'password': string;
-    'phone': string;
+    'id'?: number;
+    'username'?: string;
+    'firstName'?: string;
+    'lastName'?: string;
+    'email'?: string;
+    'password'?: string;
+    'phone'?: string;
     /**
     * User Status
     */
-    'userStatus': number;
+    'userStatus'?: number;
 
     static discriminator = undefined;
 
