@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B024164FBFF71BF644D4419A /* Pods_SwaggerClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 177A58DD5CF63F2989335DCC /* Pods_SwaggerClient.framework */; };
 		B1D0246C8960F47A60098F37 /* Pods_SwaggerClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F96A0131101344CC5406CB3 /* Pods_SwaggerClientTests.framework */; };
+		B596E4BD205657A500B46F03 /* APIHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596E4BC205657A500B46F03 /* APIHelperTests.swift */; };
 		EAEC0BC21D4E30CE00C908A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEC0BC11D4E30CE00C908A3 /* AppDelegate.swift */; };
 		EAEC0BC41D4E30CE00C908A3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEC0BC31D4E30CE00C908A3 /* ViewController.swift */; };
 		EAEC0BC71D4E30CE00C908A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAEC0BC51D4E30CE00C908A3 /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 		4EF2021609D112A6F5AE0F55 /* Pods-SwaggerClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClientTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6F96A0131101344CC5406CB3 /* Pods_SwaggerClientTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClientTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D99518E8E05FD856A952698 /* Pods-SwaggerClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.debug.xcconfig"; sourceTree = "<group>"; };
+		B596E4BC205657A500B46F03 /* APIHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelperTests.swift; sourceTree = "<group>"; };
 		EAEC0BBE1D4E30CE00C908A3 /* SwaggerClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwaggerClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAEC0BC11D4E30CE00C908A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EAEC0BC31D4E30CE00C908A3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				EAEC0BE31D4E330700C908A3 /* PetAPITests.swift */,
 				EAEC0BE51D4E379000C908A3 /* StoreAPITests.swift */,
 				EAEC0BE71D4E38CB00C908A3 /* UserAPITests.swift */,
+				B596E4BC205657A500B46F03 /* APIHelperTests.swift */,
 			);
 			path = SwaggerClientTests;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B596E4BD205657A500B46F03 /* APIHelperTests.swift in Sources */,
 				EAEC0BE81D4E38CB00C908A3 /* UserAPITests.swift in Sources */,
 				EAEC0BE61D4E379000C908A3 /* StoreAPITests.swift in Sources */,
 				EAEC0BE41D4E330700C908A3 /* PetAPITests.swift in Sources */,

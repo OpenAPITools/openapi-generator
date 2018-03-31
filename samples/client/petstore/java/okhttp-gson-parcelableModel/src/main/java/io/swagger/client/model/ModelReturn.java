@@ -35,6 +35,8 @@ public class ModelReturn implements Parcelable {
   @SerializedName("return")
   private Integer _return = null;
 
+  public ModelReturn() {
+  }
   public ModelReturn _return(Integer _return) {
     this._return = _return;
     return this;
@@ -93,17 +95,12 @@ public class ModelReturn implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public void writeToParcel(Parcel out, int flags) {
-     
     out.writeValue(_return);
   }
 
-  public ModelReturn() {
-    super();
-  }
-
   ModelReturn(Parcel in) {
-    
     _return = (Integer)in.readValue(null);
   }
 

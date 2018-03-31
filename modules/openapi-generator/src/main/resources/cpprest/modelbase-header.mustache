@@ -15,6 +15,8 @@
 #include <cpprest/details/basic_types.h>
 #include <cpprest/json.h>
 
+#include <vector>
+
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
@@ -41,6 +43,8 @@ public:
     static web::json::value toJson( int64_t value );
     static web::json::value toJson( double value );
     static web::json::value toJson( bool value );
+    template<class T>
+    static web::json::value toJson(const std::vector<T>& value);
 
     static int64_t int64_tFromJson(web::json::value& val);
     static int32_t int32_tFromJson(web::json::value& val);
@@ -58,6 +62,8 @@ public:
     static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, int32_t value, const utility::string_t& contentType = utility::conversions::to_string_t("") );
     static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, int64_t value, const utility::string_t& contentType = utility::conversions::to_string_t("") );
     static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, double value, const utility::string_t& contentType = utility::conversions::to_string_t("") );
+    template <class T>
+    static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, const std::vector<T>& value, const utility::string_t& contentType = utility::conversions::to_string_t("") );
 
     static int64_t int64_tFromHttpContent(std::shared_ptr<HttpContent> val);
     static int32_t int32_tFromHttpContent(std::shared_ptr<HttpContent> val);
@@ -73,6 +79,27 @@ public:
     static utility::string_t toBase64( std::shared_ptr<std::istream> value );
     static std::shared_ptr<std::istream> fromBase64( const utility::string_t& encoded );
 };
+
+template<class T>
+web::json::value ModelBase::toJson(const std::vector<T>& value) {
+    std::vector<web::json::value> ret;
+    for (auto& x : value) {
+        ret.push_back(toJson(x));
+    }
+
+    return web::json::value::array(ret);
+}
+
+template <class T>
+std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& name, const std::vector<T>& value, const utility::string_t& contentType ) {
+    web::json::value json_array = ModelBase::toJson(value);
+    std::shared_ptr<HttpContent> content( new HttpContent );
+    content->setName( name );
+    content->setContentDisposition( utility::conversions::to_string_t("form-data") );
+    content->setContentType( contentType );
+    content->setData( std::shared_ptr<std::istream>( new std::stringstream( utility::conversions::to_utf8string(json_array.serialize()) ) ) );
+    return content;
+}
 
 {{#modelNamespaceDeclarations}}
 }

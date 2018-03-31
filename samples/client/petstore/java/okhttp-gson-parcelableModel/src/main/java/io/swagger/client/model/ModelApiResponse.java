@@ -40,6 +40,8 @@ public class ModelApiResponse implements Parcelable {
   @SerializedName("message")
   private String message = null;
 
+  public ModelApiResponse() {
+  }
   public ModelApiResponse code(Integer code) {
     this.code = code;
     return this;
@@ -138,21 +140,14 @@ public class ModelApiResponse implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public void writeToParcel(Parcel out, int flags) {
-     
     out.writeValue(code);
-
     out.writeValue(type);
-
     out.writeValue(message);
   }
 
-  public ModelApiResponse() {
-    super();
-  }
-
   ModelApiResponse(Parcel in) {
-    
     code = (Integer)in.readValue(null);
     type = (String)in.readValue(null);
     message = (String)in.readValue(null);

@@ -16,33 +16,9 @@ CONFIG   += c++11
 
 TEMPLATE = app
 
+include(../client/client.pri)
 
 SOURCES += main.cpp \
-    ../client/SWGCategory.cpp \
-    ../client/SWGHelpers.cpp \
-    ../client/SWGHttpRequest.cpp \
-    ../client/SWGOrder.cpp \
-    ../client/SWGPet.cpp \
-    ../client/SWGPetApi.cpp \
-    ../client/SWGStoreApi.cpp \
-    ../client/SWGTag.cpp \
-    ../client/SWGUser.cpp \
-    ../client/SWGUserApi.cpp \
-    ../client/SWGApiResponse.cpp \
-    PetApiTests.cpp
+	PetApiTests.cpp
 
-HEADERS += \
-    ../client/SWGCategory.h \
-    ../client/SWGHelpers.h \
-    ../client/SWGHttpRequest.h \
-    ../client/SWGObject.h \
-    ../client/SWGOrder.h \
-    ../client/SWGPet.h \
-    ../client/SWGPetApi.h \
-    ../client/SWGStoreApi.h \
-    ../client/SWGTag.h \
-    ../client/SWGUser.h \
-    ../client/SWGUserApi.h \
-    PetApiTests.h \
-    ../client/SWGApiResponse.h \
-    ../client/SWGModelFactory.h
+HEADERS += PetApiTests.h

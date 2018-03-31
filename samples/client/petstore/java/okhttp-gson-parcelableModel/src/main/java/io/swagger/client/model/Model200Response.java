@@ -38,6 +38,8 @@ public class Model200Response implements Parcelable {
   @SerializedName("class")
   private String propertyClass = null;
 
+  public Model200Response() {
+  }
   public Model200Response name(Integer name) {
     this.name = name;
     return this;
@@ -116,19 +118,13 @@ public class Model200Response implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
-  public void writeToParcel(Parcel out, int flags) {
-     
-    out.writeValue(name);
 
+  public void writeToParcel(Parcel out, int flags) {
+    out.writeValue(name);
     out.writeValue(propertyClass);
   }
 
-  public Model200Response() {
-    super();
-  }
-
   Model200Response(Parcel in) {
-    
     name = (Integer)in.readValue(null);
     propertyClass = (String)in.readValue(null);
   }

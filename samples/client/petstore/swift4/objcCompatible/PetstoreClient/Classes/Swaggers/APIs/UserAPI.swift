@@ -38,8 +38,7 @@ open class UserAPI {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = NSURLComponents(string: URLString)
-
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
@@ -73,8 +72,7 @@ open class UserAPI {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = NSURLComponents(string: URLString)
-
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
@@ -108,8 +106,7 @@ open class UserAPI {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = NSURLComponents(string: URLString)
-
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
@@ -140,12 +137,13 @@ open class UserAPI {
      */
     open class func deleteUserWithRequestBuilder(username: String) -> RequestBuilder<Void> {
         var path = "/user/{username}"
-        path = path.replacingOccurrences(of: "{username}", with: "\(username)", options: .literal, range: nil)
+        let usernamePreEscape = "\(username)"
+        let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-
+        
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
@@ -155,7 +153,7 @@ open class UserAPI {
     /**
      Get user by user name
      
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getUserByName(username: String, completion: @escaping ((_ data: User?,_ error: Error?) -> Void)) {
@@ -208,18 +206,19 @@ open class UserAPI {
   "username" : "username"
 }}]
      
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
 
      - returns: RequestBuilder<User> 
      */
     open class func getUserByNameWithRequestBuilder(username: String) -> RequestBuilder<User> {
         var path = "/user/{username}"
-        path = path.replacingOccurrences(of: "{username}", with: "\(username)", options: .literal, range: nil)
+        let usernamePreEscape = "\(username)"
+        let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-
+        
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
@@ -258,13 +257,12 @@ open class UserAPI {
         let path = "/user/login"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+        
+        var url = URLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems([
             "username": username, 
             "password": password
         ])
-        
 
         let requestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
@@ -294,9 +292,8 @@ open class UserAPI {
         let path = "/user/logout"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-
+        
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
@@ -329,12 +326,13 @@ open class UserAPI {
      */
     open class func updateUserWithRequestBuilder(username: String, body: User) -> RequestBuilder<Void> {
         var path = "/user/{username}"
-        path = path.replacingOccurrences(of: "{username}", with: "\(username)", options: .literal, range: nil)
+        let usernamePreEscape = "\(username)"
+        let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = NSURLComponents(string: URLString)
-
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 

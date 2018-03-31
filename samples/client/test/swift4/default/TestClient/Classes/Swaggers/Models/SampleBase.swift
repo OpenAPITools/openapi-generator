@@ -15,6 +15,10 @@ public struct SampleBase: Codable {
     public var baseClassStringProp: String?
     public var baseClassIntegerProp: Int?
 
+    public init(baseClassStringProp: String?, baseClassIntegerProp: Int?) {
+        self.baseClassStringProp = baseClassStringProp
+        self.baseClassIntegerProp = baseClassIntegerProp
+    }
 
 
 }
