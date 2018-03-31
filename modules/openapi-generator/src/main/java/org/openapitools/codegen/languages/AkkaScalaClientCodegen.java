@@ -258,7 +258,7 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
             return "null";
         } else if (p instanceof IntegerSchema) {
             return "null";
-        } else if (p instanceof MapSchema) {
+        } else if (isMapSchema(p)) {
             MapSchema ap = (MapSchema) p;
             String inner = getSchemaType((Schema) ap.getAdditionalProperties());
             return "Map[String, " + inner + "].empty ";

@@ -210,7 +210,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapSchema) {
+        } else if (isMapSchema(p)) {
             MapSchema mp = (MapSchema) p;
             Schema inner = (Schema) mp.getAdditionalProperties();
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";

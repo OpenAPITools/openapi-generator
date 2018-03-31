@@ -421,7 +421,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapSchema) {
+        } else if (isMapSchema(p)) {
             MapSchema mp = (MapSchema) p;
             Schema inner = (Schema) mp.getAdditionalProperties();
             return "%{optional(String.t) => " + getTypeDeclaration(inner) + "}";

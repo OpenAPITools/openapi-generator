@@ -371,7 +371,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "[]";
-        } else if (p.getAdditionalProperties() != null) {
+        } else if (isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         } else if (StringUtils.isNotBlank(p.get$ref())) {

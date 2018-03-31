@@ -468,7 +468,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
             return getTypeDeclaration(inner);
         }
 
-        if (p instanceof MapSchema) {
+        if (isMapSchema(p)) {
             MapSchema mp = (MapSchema) p;
             Schema inner = (Schema) mp.getAdditionalProperties();
             return getTypeDeclaration(inner);

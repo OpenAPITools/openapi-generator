@@ -74,7 +74,7 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapSchema) {
+        } else if (isMapSchema(p)) {
             MapSchema mp = (MapSchema) p;
             Schema inner = (Schema) mp.getAdditionalProperties();
 

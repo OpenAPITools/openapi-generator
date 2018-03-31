@@ -268,7 +268,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         }
-        if (p instanceof MapSchema) {
+        if (isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         }

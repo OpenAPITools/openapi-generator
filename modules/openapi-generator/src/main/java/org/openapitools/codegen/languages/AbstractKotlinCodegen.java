@@ -263,7 +263,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public String getTypeDeclaration(Schema p) {
         if (p instanceof ArraySchema) {
             return getArrayTypeDeclaration((ArraySchema) p);
-        } else if (p instanceof MapSchema) {
+        } else if (isMapSchema(p)) {
             MapSchema mp = (MapSchema) p;
             Schema inner = (Schema) mp.getAdditionalProperties();
 
