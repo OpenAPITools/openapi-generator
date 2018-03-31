@@ -141,7 +141,7 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
     * {{{description}}}
     */
 {{/description}}
-    '{{name}}': {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+    '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
 
     {{#discriminator}}
