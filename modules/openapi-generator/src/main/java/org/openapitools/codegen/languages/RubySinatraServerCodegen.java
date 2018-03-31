@@ -86,7 +86,7 @@ public class RubySinatraServerCodegen extends DefaultCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("config.ru", "", "config.ru"));
         supportingFiles.add(new SupportingFile("Gemfile", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
-        supportingFiles.add(new SupportingFile("swagger.mustache","","swagger.yaml"));
+        supportingFiles.add(new SupportingFile("openapi.mustache","","openapi.yaml"));
     }
 
     @Override

@@ -98,7 +98,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
          * entire object tree available.  If the input file has a suffix of `.mustache
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
-        supportingFiles.add(new SupportingFile("swagger.mustache", "api", "swagger.yaml"));
+        supportingFiles.add(new SupportingFile("swagger.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
         supportingFiles.add(new SupportingFile("routers.mustache", apiPath, "routers.go"));
         supportingFiles.add(new SupportingFile("logger.mustache", apiPath, "logger.go"));

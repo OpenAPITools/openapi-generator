@@ -176,7 +176,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
         supportingFiles.add(new SupportingFile("__init__model.mustache", packageName + File.separatorChar + modelPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("base_model_.mustache", packageName + File.separatorChar + modelPackage, "base_model_.py"));
         supportingFiles.add(new SupportingFile("__init__test.mustache", packageName + File.separatorChar + testPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("swagger.mustache", packageName + File.separatorChar + "swagger", "swagger.yaml"));
+        supportingFiles.add(new SupportingFile("openapi.mustache", packageName + File.separatorChar + "openapi", "openapi.yaml"));
 
         modelPackage = packageName + "." + modelPackage;
         controllerPackage = packageName + "." + controllerPackage;
@@ -284,15 +284,15 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
     @Override
     public String getSchemaType(Schema p) {
-        String swaggerType = super.getSchemaType(p);
+        String schemaType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
         } else {
-            type = toModelName(swaggerType);
+            type = toModelName(schemaType);
         }
         return type;
     }
@@ -417,7 +417,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
         if (!paramName.equals(name)) {
             LOGGER.warn(name + " (parameter name) cannot be used as parameter name with flask-connexion and was sanitized as " + paramName);
         }
-        // Param name is already sanitized in swagger spec processing
+        // Param name is already sanitized in openapi spec processing
         return paramName;
     }
 
@@ -657,7 +657,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
     }
 
     /*
-     * The swagger pattern spec follows the Perl convention and style of modifiers. Python
+     * The openapi pattern spec follows the Perl convention and style of modifiers. Python
      * does not support this in as natural a way so it needs to convert it. See
      * https://docs.python.org/2/howto/regex.html#compilation-flags for details.
      */

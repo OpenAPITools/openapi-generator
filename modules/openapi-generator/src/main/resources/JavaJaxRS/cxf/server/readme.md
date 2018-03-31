@@ -17,7 +17,7 @@
 http://localhost:8080/
 
 * Swagger API  
- http://localhost:8080/services/swagger.json
+ http://localhost:8080/services/openapi.json
 
 * CXF WADL
  http://localhost:8080/services?_wadl

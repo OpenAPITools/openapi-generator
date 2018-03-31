@@ -312,9 +312,9 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         //   "controllers",
         //   "controller.js")
         // );
-        supportingFiles.add(new SupportingFile("swagger.mustache",
+        supportingFiles.add(new SupportingFile("openapi.mustache",
                 "api",
-                "swagger.yaml")
+                "openapi.yaml")
         );
         if (getGoogleCloudFunctions()) {
             writeOptional(outputFolder, new SupportingFile("index-gcf.mustache", "", "index.js"));
