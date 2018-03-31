@@ -133,7 +133,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "index.html", packageFolder + File.separator + "wwwroot", "index.html"));
         supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "web.config", packageFolder + File.separator + "wwwroot", "web.config"));
 
-        supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "swagger-original.mustache", packageFolder + File.separator + "wwwroot", "swagger-original.json"));
+        supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache", packageFolder + File.separator + "wwwroot", "openapi-original.json"));
     }
 
     @Override

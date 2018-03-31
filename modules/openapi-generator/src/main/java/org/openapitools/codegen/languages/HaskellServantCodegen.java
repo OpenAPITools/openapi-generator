@@ -287,19 +287,19 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      */
     @Override
     public String getSchemaType(Schema p) {
-        String swaggerType = super.getSchemaType(p);
-        LOGGER.debug("debugging swager type: " + p.getType() + ", " + p.getFormat() + " => " + swaggerType);
+        String schemaType = super.getSchemaType(p);
+        LOGGER.debug("debugging swager type: " + p.getType() + ", " + p.getFormat() + " => " + schemaType);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             return type;
             //if (languageSpecificPrimitives.contains(type))
             //    return toModelName(type);
-        } else if(typeMapping.containsValue(swaggerType)) {
+        } else if(typeMapping.containsValue(schemaType)) {
             // TODO what's this case for?
-            type = swaggerType + "_";
+            type = schemaType + "_";
         } else {
-            type = swaggerType;
+            type = schemaType;
         }
         // it's a model
         return toModelName(type);
