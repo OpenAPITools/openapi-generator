@@ -1337,14 +1337,28 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
+     * @param  int $integer None (optional)
+     * @param  int $int32 None (optional)
+     * @param  int $int64 None (optional)
+     * @param  BigDecimal $number None (optional)
+     * @param  float $float None (optional)
+     * @param  double $double None (optional)
+     * @param  string $string None (optional)
+     * @param  string $pattern_without_delimiter None (optional)
+     * @param  string $byte None (optional)
+     * @param  string $binary None (optional)
+     * @param  \DateTime $date None (optional)
+     * @param  \DateTime $date_time None (optional)
+     * @param  string $password None (optional)
+     * @param  string $callback None (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testEndpointParameters()
+    public function testEndpointParameters($integer = null, $int32 = null, $int64 = null, $number = null, $float = null, $double = null, $string = null, $pattern_without_delimiter = null, $byte = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
-        $this->testEndpointParametersWithHttpInfo();
+        $this->testEndpointParametersWithHttpInfo($integer, $int32, $int64, $number, $float, $double, $string, $pattern_without_delimiter, $byte, $binary, $date, $date_time, $password, $callback);
     }
 
     /**
@@ -1352,15 +1366,29 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
+     * @param  int $integer None (optional)
+     * @param  int $int32 None (optional)
+     * @param  int $int64 None (optional)
+     * @param  BigDecimal $number None (optional)
+     * @param  float $float None (optional)
+     * @param  double $double None (optional)
+     * @param  string $string None (optional)
+     * @param  string $pattern_without_delimiter None (optional)
+     * @param  string $byte None (optional)
+     * @param  string $binary None (optional)
+     * @param  \DateTime $date None (optional)
+     * @param  \DateTime $date_time None (optional)
+     * @param  string $password None (optional)
+     * @param  string $callback None (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEndpointParametersWithHttpInfo()
+    public function testEndpointParametersWithHttpInfo($integer = null, $int32 = null, $int64 = null, $number = null, $float = null, $double = null, $string = null, $pattern_without_delimiter = null, $byte = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
         $returnType = '';
-        $request = $this->testEndpointParametersRequest();
+        $request = $this->testEndpointParametersRequest($integer, $int32, $int64, $number, $float, $double, $string, $pattern_without_delimiter, $byte, $binary, $date, $date_time, $password, $callback);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1404,13 +1432,27 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
+     * @param  int $integer None (optional)
+     * @param  int $int32 None (optional)
+     * @param  int $int64 None (optional)
+     * @param  BigDecimal $number None (optional)
+     * @param  float $float None (optional)
+     * @param  double $double None (optional)
+     * @param  string $string None (optional)
+     * @param  string $pattern_without_delimiter None (optional)
+     * @param  string $byte None (optional)
+     * @param  string $binary None (optional)
+     * @param  \DateTime $date None (optional)
+     * @param  \DateTime $date_time None (optional)
+     * @param  string $password None (optional)
+     * @param  string $callback None (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEndpointParametersAsync()
+    public function testEndpointParametersAsync($integer = null, $int32 = null, $int64 = null, $number = null, $float = null, $double = null, $string = null, $pattern_without_delimiter = null, $byte = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
-        return $this->testEndpointParametersAsyncWithHttpInfo()
+        return $this->testEndpointParametersAsyncWithHttpInfo($integer, $int32, $int64, $number, $float, $double, $string, $pattern_without_delimiter, $byte, $binary, $date, $date_time, $password, $callback)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1423,14 +1465,28 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
+     * @param  int $integer None (optional)
+     * @param  int $int32 None (optional)
+     * @param  int $int64 None (optional)
+     * @param  BigDecimal $number None (optional)
+     * @param  float $float None (optional)
+     * @param  double $double None (optional)
+     * @param  string $string None (optional)
+     * @param  string $pattern_without_delimiter None (optional)
+     * @param  string $byte None (optional)
+     * @param  string $binary None (optional)
+     * @param  \DateTime $date None (optional)
+     * @param  \DateTime $date_time None (optional)
+     * @param  string $password None (optional)
+     * @param  string $callback None (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEndpointParametersAsyncWithHttpInfo()
+    public function testEndpointParametersAsyncWithHttpInfo($integer = null, $int32 = null, $int64 = null, $number = null, $float = null, $double = null, $string = null, $pattern_without_delimiter = null, $byte = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
         $returnType = '';
-        $request = $this->testEndpointParametersRequest();
+        $request = $this->testEndpointParametersRequest($integer, $int32, $int64, $number, $float, $double, $string, $pattern_without_delimiter, $byte, $binary, $date, $date_time, $password, $callback);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1458,12 +1514,65 @@ class FakeApi
     /**
      * Create request for operation 'testEndpointParameters'
      *
+     * @param  int $integer None (optional)
+     * @param  int $int32 None (optional)
+     * @param  int $int64 None (optional)
+     * @param  BigDecimal $number None (optional)
+     * @param  float $float None (optional)
+     * @param  double $double None (optional)
+     * @param  string $string None (optional)
+     * @param  string $pattern_without_delimiter None (optional)
+     * @param  string $byte None (optional)
+     * @param  string $binary None (optional)
+     * @param  \DateTime $date None (optional)
+     * @param  \DateTime $date_time None (optional)
+     * @param  string $password None (optional)
+     * @param  string $callback None (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testEndpointParametersRequest()
+    protected function testEndpointParametersRequest($integer = null, $int32 = null, $int64 = null, $number = null, $float = null, $double = null, $string = null, $pattern_without_delimiter = null, $byte = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
+        if ($integer !== null && $integer > 100) {
+            throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 100.');
+        }
+        if ($integer !== null && $integer < 10) {
+            throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
+        }
+
+        if ($int32 !== null && $int32 > 200) {
+            throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 200.');
+        }
+        if ($int32 !== null && $int32 < 20) {
+            throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 20.');
+        }
+
+        if ($number !== null && $number > 543.2) {
+            throw new \InvalidArgumentException('invalid value for "$number" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 543.2.');
+        }
+        if ($number !== null && $number < 32.1) {
+            throw new \InvalidArgumentException('invalid value for "$number" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 32.1.');
+        }
+
+        if ($float !== null && $float > 987.6) {
+            throw new \InvalidArgumentException('invalid value for "$float" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 987.6.');
+        }
+
+        if ($double !== null && $double > 123.4) {
+            throw new \InvalidArgumentException('invalid value for "$double" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 123.4.');
+        }
+        if ($double !== null && $double < 67.8) {
+            throw new \InvalidArgumentException('invalid value for "$double" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 67.8.');
+        }
+
+        if ($password !== null && strlen($password) > 64) {
+            throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 64.');
+        }
+        if ($password !== null && strlen($password) < 10) {
+            throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
+        }
+
 
         $resourcePath = '/fake';
         $formParams = [];
@@ -1474,6 +1583,62 @@ class FakeApi
 
 
 
+        // form params
+        if ($integer !== null) {
+            $formParams['integer'] = ObjectSerializer::toFormValue($integer);
+        }
+        // form params
+        if ($int32 !== null) {
+            $formParams['int32'] = ObjectSerializer::toFormValue($int32);
+        }
+        // form params
+        if ($int64 !== null) {
+            $formParams['int64'] = ObjectSerializer::toFormValue($int64);
+        }
+        // form params
+        if ($number !== null) {
+            $formParams['number'] = ObjectSerializer::toFormValue($number);
+        }
+        // form params
+        if ($float !== null) {
+            $formParams['float'] = ObjectSerializer::toFormValue($float);
+        }
+        // form params
+        if ($double !== null) {
+            $formParams['double'] = ObjectSerializer::toFormValue($double);
+        }
+        // form params
+        if ($string !== null) {
+            $formParams['string'] = ObjectSerializer::toFormValue($string);
+        }
+        // form params
+        if ($pattern_without_delimiter !== null) {
+            $formParams['pattern_without_delimiter'] = ObjectSerializer::toFormValue($pattern_without_delimiter);
+        }
+        // form params
+        if ($byte !== null) {
+            $formParams['byte'] = ObjectSerializer::toFormValue($byte);
+        }
+        // form params
+        if ($binary !== null) {
+            $formParams['binary'] = ObjectSerializer::toFormValue($binary);
+        }
+        // form params
+        if ($date !== null) {
+            $formParams['date'] = ObjectSerializer::toFormValue($date);
+        }
+        // form params
+        if ($date_time !== null) {
+            $formParams['dateTime'] = ObjectSerializer::toFormValue($date_time);
+        }
+        // form params
+        if ($password !== null) {
+            $formParams['password'] = ObjectSerializer::toFormValue($password);
+        }
+        // form params
+        if ($callback !== null) {
+            $formParams['callback'] = ObjectSerializer::toFormValue($callback);
+        }
         // body params
         $_tempBody = null;
 
@@ -1552,14 +1717,17 @@ class FakeApi
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
      * @param  string $enum_query_string Query parameter enum test (string) (optional)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
+     * @param  string $enum_form_string Form parameter enum test (string) (optional)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testEnumParameters($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null)
+    public function testEnumParameters($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_form_string_array = null, $enum_form_string = null, $enum_query_double = null)
     {
-        $this->testEnumParametersWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer);
+        $this->testEnumParametersWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_form_string_array, $enum_form_string, $enum_query_double);
     }
 
     /**
@@ -1572,15 +1740,18 @@ class FakeApi
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
      * @param  string $enum_query_string Query parameter enum test (string) (optional)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
+     * @param  string $enum_form_string Form parameter enum test (string) (optional)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEnumParametersWithHttpInfo($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null)
+    public function testEnumParametersWithHttpInfo($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_form_string_array = null, $enum_form_string = null, $enum_query_double = null)
     {
         $returnType = '';
-        $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer);
+        $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_form_string_array, $enum_form_string, $enum_query_double);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1629,13 +1800,16 @@ class FakeApi
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
      * @param  string $enum_query_string Query parameter enum test (string) (optional)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
+     * @param  string $enum_form_string Form parameter enum test (string) (optional)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEnumParametersAsync($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null)
+    public function testEnumParametersAsync($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_form_string_array = null, $enum_form_string = null, $enum_query_double = null)
     {
-        return $this->testEnumParametersAsyncWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer)
+        return $this->testEnumParametersAsyncWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_form_string_array, $enum_form_string, $enum_query_double)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1653,14 +1827,17 @@ class FakeApi
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
      * @param  string $enum_query_string Query parameter enum test (string) (optional)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
+     * @param  string $enum_form_string Form parameter enum test (string) (optional)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEnumParametersAsyncWithHttpInfo($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null)
+    public function testEnumParametersAsyncWithHttpInfo($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_form_string_array = null, $enum_form_string = null, $enum_query_double = null)
     {
         $returnType = '';
-        $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer);
+        $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_form_string_array, $enum_form_string, $enum_query_double);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1693,11 +1870,14 @@ class FakeApi
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
      * @param  string $enum_query_string Query parameter enum test (string) (optional)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
+     * @param  string $enum_form_string Form parameter enum test (string) (optional)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testEnumParametersRequest($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null)
+    protected function testEnumParametersRequest($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_form_string_array = null, $enum_form_string = null, $enum_query_double = null)
     {
 
         $resourcePath = '/fake';
@@ -1732,6 +1912,18 @@ class FakeApi
         }
 
 
+        // form params
+        if ($enum_form_string_array !== null) {
+            $formParams['enum_form_string_array'] = ObjectSerializer::toFormValue($enum_form_string_array);
+        }
+        // form params
+        if ($enum_form_string !== null) {
+            $formParams['enum_form_string'] = ObjectSerializer::toFormValue($enum_form_string);
+        }
+        // form params
+        if ($enum_query_double !== null) {
+            $formParams['enum_query_double'] = ObjectSerializer::toFormValue($enum_query_double);
+        }
         // body params
         $_tempBody = null;
 
@@ -2021,14 +2213,16 @@ class FakeApi
      *
      * test json serialization of form data
      *
+     * @param  string $param field1 (optional)
+     * @param  string $param2 field2 (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testJsonFormData()
+    public function testJsonFormData($param = null, $param2 = null)
     {
-        $this->testJsonFormDataWithHttpInfo();
+        $this->testJsonFormDataWithHttpInfo($param, $param2);
     }
 
     /**
@@ -2036,15 +2230,17 @@ class FakeApi
      *
      * test json serialization of form data
      *
+     * @param  string $param field1 (optional)
+     * @param  string $param2 field2 (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testJsonFormDataWithHttpInfo()
+    public function testJsonFormDataWithHttpInfo($param = null, $param2 = null)
     {
         $returnType = '';
-        $request = $this->testJsonFormDataRequest();
+        $request = $this->testJsonFormDataRequest($param, $param2);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2088,13 +2284,15 @@ class FakeApi
      *
      * test json serialization of form data
      *
+     * @param  string $param field1 (optional)
+     * @param  string $param2 field2 (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testJsonFormDataAsync()
+    public function testJsonFormDataAsync($param = null, $param2 = null)
     {
-        return $this->testJsonFormDataAsyncWithHttpInfo()
+        return $this->testJsonFormDataAsyncWithHttpInfo($param, $param2)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2107,14 +2305,16 @@ class FakeApi
      *
      * test json serialization of form data
      *
+     * @param  string $param field1 (optional)
+     * @param  string $param2 field2 (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testJsonFormDataAsyncWithHttpInfo()
+    public function testJsonFormDataAsyncWithHttpInfo($param = null, $param2 = null)
     {
         $returnType = '';
-        $request = $this->testJsonFormDataRequest();
+        $request = $this->testJsonFormDataRequest($param, $param2);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2142,11 +2342,13 @@ class FakeApi
     /**
      * Create request for operation 'testJsonFormData'
      *
+     * @param  string $param field1 (optional)
+     * @param  string $param2 field2 (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testJsonFormDataRequest()
+    protected function testJsonFormDataRequest($param = null, $param2 = null)
     {
 
         $resourcePath = '/fake/jsonFormData';
@@ -2158,6 +2360,14 @@ class FakeApi
 
 
 
+        // form params
+        if ($param !== null) {
+            $formParams['param'] = ObjectSerializer::toFormValue($param);
+        }
+        // form params
+        if ($param2 !== null) {
+            $formParams['param2'] = ObjectSerializer::toFormValue($param2);
+        }
         // body params
         $_tempBody = null;
 

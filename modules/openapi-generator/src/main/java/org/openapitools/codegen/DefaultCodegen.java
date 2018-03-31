@@ -3929,6 +3929,11 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenParameter> parameters = new ArrayList<CodegenParameter>();
         LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
         Schema schema = getSchemaFromBody(body);
+        if (StringUtils.isNotBlank(schema.get$ref())) {
+            schema = schemas.get(
+                    getSimpleRef(schema.get$ref())
+            );
+        }
         if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             Map<String, Schema> properties = schema.getProperties();
             for (Map.Entry<String, Schema> entry : properties.entrySet()) {

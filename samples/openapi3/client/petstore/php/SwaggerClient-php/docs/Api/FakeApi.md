@@ -261,7 +261,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testEndpointParameters**
-> testEndpointParameters()
+> testEndpointParameters($integer, $int32, $int64, $number, $float, $double, $string, $pattern_without_delimiter, $byte, $binary, $date, $date_time, $password, $callback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
 
@@ -284,9 +284,23 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     new GuzzleHttp\Client(),
     $config
 );
+$integer = 56; // int | None
+$int32 = 56; // int | None
+$int64 = 56; // int | None
+$number = new \Swagger\Client\Model\BigDecimal(); // BigDecimal | None
+$float = 3.4; // float | None
+$double = 3.4; // double | None
+$string = "string_example"; // string | None
+$pattern_without_delimiter = "pattern_without_delimiter_example"; // string | None
+$byte = "byte_example"; // string | None
+$binary = "binary_example"; // string | None
+$date = "date_example"; // \DateTime | None
+$date_time = "date_time_example"; // \DateTime | None
+$password = "password_example"; // string | None
+$callback = "callback_example"; // string | None
 
 try {
-    $apiInstance->testEndpointParameters();
+    $apiInstance->testEndpointParameters($integer, $int32, $int64, $number, $float, $double, $string, $pattern_without_delimiter, $byte, $binary, $date, $date_time, $password, $callback);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testEndpointParameters: ', $e->getMessage(), PHP_EOL;
 }
@@ -294,7 +308,23 @@ try {
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **integer** | **int**| None | [optional]
+ **int32** | **int**| None | [optional]
+ **int64** | **int**| None | [optional]
+ **number** | **BigDecimal**| None | [optional]
+ **float** | **float**| None | [optional]
+ **double** | **double**| None | [optional]
+ **string** | **string**| None | [optional]
+ **pattern_without_delimiter** | **string**| None | [optional]
+ **byte** | **string**| None | [optional]
+ **binary** | **string**| None | [optional]
+ **date** | **\DateTime**| None | [optional]
+ **date_time** | **\DateTime**| None | [optional]
+ **password** | **string**| None | [optional]
+ **callback** | **string**| None | [optional]
 
 ### Return type
 
@@ -312,7 +342,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testEnumParameters**
-> testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer)
+> testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_form_string_array, $enum_form_string, $enum_query_double)
 
 To test enum parameters
 
@@ -333,9 +363,12 @@ $enum_header_string = "enum_header_string_example"; // string | Header parameter
 $enum_query_string_array = array("enum_query_string_array_example"); // string[] | Query parameter enum test (string array)
 $enum_query_string = "enum_query_string_example"; // string | Query parameter enum test (string)
 $enum_query_integer = 56; // int | Query parameter enum test (double)
+$enum_form_string_array = new \Swagger\Client\Model\array(); // string[] | Form parameter enum test (string array)
+$enum_form_string = "enum_form_string_example"; // string | Form parameter enum test (string)
+$enum_query_double = 3.4; // double | Query parameter enum test (double)
 
 try {
-    $apiInstance->testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer);
+    $apiInstance->testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_form_string_array, $enum_form_string, $enum_query_double);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testEnumParameters: ', $e->getMessage(), PHP_EOL;
 }
@@ -351,6 +384,9 @@ Name | Type | Description  | Notes
  **enum_query_string_array** | [**string[]**](../Model/string.md)| Query parameter enum test (string array) | [optional]
  **enum_query_string** | **string**| Query parameter enum test (string) | [optional]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
+ **enum_form_string_array** | [**string[]**](../Model/array.md)| Form parameter enum test (string array) | [optional]
+ **enum_form_string** | **string**| Form parameter enum test (string) | [optional]
+ **enum_query_double** | **double**| Query parameter enum test (double) | [optional]
 
 ### Return type
 
@@ -414,7 +450,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testJsonFormData**
-> testJsonFormData()
+> testJsonFormData($param, $param2)
 
 test json serialization of form data
 
@@ -428,9 +464,11 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
+$param = "param_example"; // string | field1
+$param2 = "param2_example"; // string | field2
 
 try {
-    $apiInstance->testJsonFormData();
+    $apiInstance->testJsonFormData($param, $param2);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testJsonFormData: ', $e->getMessage(), PHP_EOL;
 }
@@ -438,7 +476,11 @@ try {
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **param** | **string**| field1 | [optional]
+ **param2** | **string**| field2 | [optional]
 
 ### Return type
 
