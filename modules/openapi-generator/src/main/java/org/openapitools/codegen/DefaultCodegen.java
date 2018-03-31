@@ -4122,6 +4122,18 @@ public class DefaultCodegen implements CodegenConfig {
         return false;
     }
 
+    protected boolean isMapSchema(Schema schema) {
+        if (schema instanceof MapSchema) {
+            return true;
+        }
+
+        if (schema.getAdditionalProperties() != null) {
+            return true;
+        }
+
+        return false;
+    }
+
     protected void addOption(String key, String description) {
         addOption(key, description, null);
     }
