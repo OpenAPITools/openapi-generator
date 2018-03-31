@@ -359,7 +359,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 }
                 return getSchemaType(p) + "<" + innerTypeDeclaration + ">*";
             }
-        } else if (p instanceof MapSchema) {
+        } else if (isMapSchema(p)) {
             MapSchema mp = (MapSchema) p;
             Schema inner = (Schema) mp.getAdditionalProperties();
 

@@ -100,7 +100,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (p instanceof ArraySchema) {
             inner = ((ArraySchema) p).getItems();
             return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapSchema) {
+        } else if (isMapSchema(p)) {
             inner = (Schema) p.getAdditionalProperties();
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
         } else if (p instanceof FileSchema) {
