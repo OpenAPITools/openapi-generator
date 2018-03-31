@@ -28,7 +28,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String getName() {
-        return "pistache-server";
+        return "cpp-pistache-server";
     }
 
     @Override

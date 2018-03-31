@@ -102,7 +102,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
      * @return the friendly name for the generator
      */
     public String getName() {
-        return "restbed";
+        return "cpp-restbed-server";
     }
 
     /**

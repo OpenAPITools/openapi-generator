@@ -19,12 +19,12 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected static String PREFIX = "ArtikCloud";
     protected String sourceFolder = "src";
     protected String documentationFolder = "doc";
 
-    public TizenClientCodegen() {
+    public CppTizenClientCodegen() {
         super();
         outputFolder = "";
         modelTemplateFiles.put("model-header.mustache", ".h");
@@ -113,7 +113,7 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getName() {
-        return "tizen";
+        return "cpp-tizen";
     }
 
     @Override
@@ -277,6 +277,17 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // add_pet_by_id => addPetById
         return camelize(operationId, true);
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
 }

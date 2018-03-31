@@ -58,7 +58,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
      * @return the friendly name for the generator
      */
     public String getName() {
-        return "cpprest";
+        return "cpp-restsdk";
     }
 
     /**
