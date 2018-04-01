@@ -47,6 +47,7 @@ org.openapitools.codegen.languages.RClientCodegen
 org.openapitools.codegen.languages.RubyClientCodegen
 org.openapitools.codegen.languages.RubyOnRailsServerCodegen
 org.openapitools.codegen.languages.RubySinatraServerCodegen
+org.openapitools.codegen.languages.ScalatraServerCodegen
 org.openapitools.codegen.languages.ScalaClientCodegen
 org.openapitools.codegen.languages.ScalaGatlingCodegen
 org.openapitools.codegen.languages.ScalaLagomServerCodegen
