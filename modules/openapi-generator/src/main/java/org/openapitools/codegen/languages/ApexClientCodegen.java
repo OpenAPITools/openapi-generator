@@ -277,18 +277,12 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
                                           Map<String, Schema> definitions,
                                           OpenAPI openAPI) {
         Boolean hasFormParams = false;
-        // need to revise the logic below as there's no form parameters
+        // comment out the following as there's no consume/produce in OAS3.0
+        // we can move the logic below to postProcessOperations if needed
         /*
-        for (Parameter p : operation.getParameters()) {
-            if ("formData".equals(p.getIn())) {
-                hasFormParams = true;
-                break;
-            }
-        }
-
         // only support serialization into JSON and urlencoded forms for now
         operation.setConsumes(
-            Collections.singletonList(hasFormParams
+            Collections.singletonList(hasFormParameter(operation)
                 ? "application/x-www-form-urlencoded"
                 : "application/json"));
 

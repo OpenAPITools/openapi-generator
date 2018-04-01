@@ -2,12 +2,14 @@ package org.openapitools.codegen.languages;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import io.swagger.v3.oas.models.PathItem;
@@ -599,18 +601,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             if (inner == null) {
-                LOGGER.warn(ap.getName() + "(array property) does not have a proper inner type defined");
-                // TODO maybe better defaulting to StringSchema than returning null
-                return null;
+                LOGGER.warn(ap.getName() + "(array property) does not have a proper inner type defined.Default to string");
+                inner = new StringSchema().description("TODO default missing array inner type to string");
             }
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (isMapSchema(p)) {
             MapSchema mp = (MapSchema) p;
             Schema inner = (Schema) mp.getAdditionalProperties();
             if (inner == null) {
-                LOGGER.warn(mp.getName() + "(map property) does not have a proper inner type defined");
-                // TODO maybe better defaulting to StringSchema than returning null
-                return null;
+                LOGGER.warn(mp.getName() + "(map property) does not have a proper inner type defined. Default to string");
+                inner = new StringSchema().description("TODO default missing array inner type to string");
             }
             return getSchemaType(p) + "<String, " + getTypeDeclaration(inner) + ">";
         }
@@ -917,26 +917,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 continue;
             }
             for (Operation operation : path.readOperations()) {
-                // TODO revise the logic below
-                /*
-                boolean hasFormParameters = false;
-                boolean hasBodyParameters = false;
-                for (Parameter parameter : operation.getParameters()) {
-                    if (parameter instanceof FormParameter) {
-                        hasFormParameters = true;
-                    }
-                    if (parameter instanceof BodyParameter) {
-                        hasBodyParameters = true;
-                    }
-                }
-                if (hasBodyParameters || hasFormParameters){
-                    String defaultContentType = hasFormParameters ? "application/x-www-form-urlencoded" : "application/json";
-                    String contentType =  operation.getConsumes() == null || operation.getConsumes().isEmpty() ? defaultContentType : operation.getConsumes().get(0);
-                    operation.setExtensions("x-contentType", contentType);
+                if (hasBodyParameter(operation) || hasFormParameter(operation)){
+                    String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
+                    List<String> consumes = new ArrayList<String>(getConsumesInfo(operation));
+                    String contentType =  consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
+                    operation.getExtensions().put("x-contentType", contentType);
                 }
                 String accepts = getAccept(operation);
-                operation.setExtension("x-accepts", accepts);
-                */
+                operation.getExtensions().put("x-accepts", accepts);
+
             }
         }
     }
@@ -944,18 +933,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private static String getAccept(Operation operation) {
         String accepts = null;
         String defaultContentType = "application/json";
-        /* TODO need to revise the logic below
-        if (operation.getProduces() != null && !operation.getProduces().isEmpty()) {
+        ArrayList<String> produces = new ArrayList<String>(getProducesInfo(operation));
+        if (produces != null && !produces.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            for (String produces : operation.getProduces()) {
-                if (defaultContentType.equalsIgnoreCase(produces)) {
+            for (String produce : produces) {
+                if (defaultContentType.equalsIgnoreCase(produce)) {
                     accepts = defaultContentType;
                     break;
                 } else {
                     if (sb.length() > 0) {
                         sb.append(",");
                     }
-                    sb.append(produces);
+                    sb.append(produce);
                 }
             }
             if (accepts == null) {
@@ -964,7 +953,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else {
             accepts = defaultContentType;
         }
-        */
 
         return accepts;
     }
