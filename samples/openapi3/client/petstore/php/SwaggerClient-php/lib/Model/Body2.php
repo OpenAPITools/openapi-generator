@@ -249,7 +249,7 @@ class Body2 implements ModelInterface, ArrayAccess
         $invalidProperties = [];
 
         $allowedValues = $this->getEnumFormStringAllowableValues();
-        if (!is_null($this->container['enum_form_string']) && !in_array($this->container['enum_form_string'], $allowedValues)) {
+        if (!is_null($this->container['enum_form_string']) && !in_array($this->container['enum_form_string'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value for 'enum_form_string', must be one of '%s'",
                 implode("', '", $allowedValues)
@@ -257,7 +257,7 @@ class Body2 implements ModelInterface, ArrayAccess
         }
 
         $allowedValues = $this->getEnumQueryDoubleAllowableValues();
-        if (!is_null($this->container['enum_query_double']) && !in_array($this->container['enum_query_double'], $allowedValues)) {
+        if (!is_null($this->container['enum_query_double']) && !in_array($this->container['enum_query_double'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value for 'enum_query_double', must be one of '%s'",
                 implode("', '", $allowedValues)
@@ -277,11 +277,11 @@ class Body2 implements ModelInterface, ArrayAccess
     {
 
         $allowedValues = $this->getEnumFormStringAllowableValues();
-        if (!is_null($this->container['enum_form_string']) && !in_array($this->container['enum_form_string'], $allowedValues)) {
+        if (!is_null($this->container['enum_form_string']) && !in_array($this->container['enum_form_string'], $allowedValues, true)) {
             return false;
         }
         $allowedValues = $this->getEnumQueryDoubleAllowableValues();
-        if (!is_null($this->container['enum_query_double']) && !in_array($this->container['enum_query_double'], $allowedValues)) {
+        if (!is_null($this->container['enum_query_double']) && !in_array($this->container['enum_query_double'], $allowedValues, true)) {
             return false;
         }
         return true;
@@ -341,7 +341,7 @@ class Body2 implements ModelInterface, ArrayAccess
     public function setEnumFormString($enum_form_string)
     {
         $allowedValues = $this->getEnumFormStringAllowableValues();
-        if (!is_null($enum_form_string) && !in_array($enum_form_string, $allowedValues)) {
+        if (!is_null($enum_form_string) && !in_array($enum_form_string, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value for 'enum_form_string', must be one of '%s'",
@@ -374,7 +374,7 @@ class Body2 implements ModelInterface, ArrayAccess
     public function setEnumQueryDouble($enum_query_double)
     {
         $allowedValues = $this->getEnumQueryDoubleAllowableValues();
-        if (!is_null($enum_query_double) && !in_array($enum_query_double, $allowedValues)) {
+        if (!is_null($enum_query_double) && !in_array($enum_query_double, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value for 'enum_query_double', must be one of '%s'",

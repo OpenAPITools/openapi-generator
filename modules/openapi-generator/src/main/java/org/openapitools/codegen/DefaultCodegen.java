@@ -3942,6 +3942,11 @@ public class DefaultCodegen implements CodegenConfig {
                 // value => property schema
                 codegenParameter = fromFormProperty(entry.getKey(), entry.getValue(), imports);
 
+                // Set 'required' flag defined in the schema element
+                if (!codegenParameter.required && schema.getRequired() != null) {
+                    codegenParameter.required = schema.getRequired().contains(entry.getKey());
+                }
+
                 parameters.add(codegenParameter);
             }
         }
