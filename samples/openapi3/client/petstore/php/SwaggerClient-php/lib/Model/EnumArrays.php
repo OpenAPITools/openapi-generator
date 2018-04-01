@@ -226,7 +226,7 @@ class EnumArrays implements ModelInterface, ArrayAccess
         $invalidProperties = [];
 
         $allowedValues = $this->getJustSymbolAllowableValues();
-        if (!is_null($this->container['just_symbol']) && !in_array($this->container['just_symbol'], $allowedValues)) {
+        if (!is_null($this->container['just_symbol']) && !in_array($this->container['just_symbol'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value for 'just_symbol', must be one of '%s'",
                 implode("', '", $allowedValues)
@@ -246,7 +246,7 @@ class EnumArrays implements ModelInterface, ArrayAccess
     {
 
         $allowedValues = $this->getJustSymbolAllowableValues();
-        if (!is_null($this->container['just_symbol']) && !in_array($this->container['just_symbol'], $allowedValues)) {
+        if (!is_null($this->container['just_symbol']) && !in_array($this->container['just_symbol'], $allowedValues, true)) {
             return false;
         }
         return true;
@@ -273,7 +273,7 @@ class EnumArrays implements ModelInterface, ArrayAccess
     public function setJustSymbol($just_symbol)
     {
         $allowedValues = $this->getJustSymbolAllowableValues();
-        if (!is_null($just_symbol) && !in_array($just_symbol, $allowedValues)) {
+        if (!is_null($just_symbol) && !in_array($just_symbol, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value for 'just_symbol', must be one of '%s'",
