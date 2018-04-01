@@ -335,6 +335,10 @@ public class CodegenModel {
         return discriminator;
     }
 
+    public String getDiscriminatorName() {
+        return discriminator == null ? null : discriminator.getPropertyName();
+    }
+
     public void setDiscriminator(Discriminator discriminator) {
         this.discriminator = discriminator;
     }
