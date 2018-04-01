@@ -42,7 +42,7 @@ use \Swagger\Client\ObjectSerializer;
  */
 class Animal implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = 'Discriminator{propertyName&#x3D;&#39;className&#39;, mapping&#x3D;null}';
+    const DISCRIMINATOR = 'className';
 
     /**
       * The original name of the model.
@@ -186,7 +186,7 @@ class Animal implements ModelInterface, ArrayAccess
         $this->container['color'] = isset($data['color']) ? $data['color'] : 'red';
 
         // Initialize discriminator property with the model name.
-        $discriminator = array_search('Discriminator{propertyName&#x3D;&#39;className&#39;, mapping&#x3D;null}', self::$attributeMap);
+        $discriminator = array_search('className', self::$attributeMap);
         $this->container[$discriminator] = static::$swaggerModelName;
     }
 
