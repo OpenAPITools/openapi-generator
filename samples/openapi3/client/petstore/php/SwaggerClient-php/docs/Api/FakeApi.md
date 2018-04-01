@@ -261,7 +261,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testEndpointParameters**
-> testEndpointParameters($integer, $int32, $int64, $number, $float, $double, $string, $pattern_without_delimiter, $byte, $binary, $date, $date_time, $password, $callback)
+> testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
 
@@ -284,15 +284,15 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     new GuzzleHttp\Client(),
     $config
 );
+$number = new \Swagger\Client\Model\BigDecimal(); // BigDecimal | None
+$double = 3.4; // double | None
+$pattern_without_delimiter = "pattern_without_delimiter_example"; // string | None
+$byte = "byte_example"; // string | None
 $integer = 56; // int | None
 $int32 = 56; // int | None
 $int64 = 56; // int | None
-$number = new \Swagger\Client\Model\BigDecimal(); // BigDecimal | None
 $float = 3.4; // float | None
-$double = 3.4; // double | None
 $string = "string_example"; // string | None
-$pattern_without_delimiter = "pattern_without_delimiter_example"; // string | None
-$byte = "byte_example"; // string | None
 $binary = "binary_example"; // string | None
 $date = "date_example"; // \DateTime | None
 $date_time = "date_time_example"; // \DateTime | None
@@ -300,7 +300,7 @@ $password = "password_example"; // string | None
 $callback = "callback_example"; // string | None
 
 try {
-    $apiInstance->testEndpointParameters($integer, $int32, $int64, $number, $float, $double, $string, $pattern_without_delimiter, $byte, $binary, $date, $date_time, $password, $callback);
+    $apiInstance->testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testEndpointParameters: ', $e->getMessage(), PHP_EOL;
 }
@@ -311,15 +311,15 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **number** | **BigDecimal**| None |
+ **double** | **double**| None |
+ **pattern_without_delimiter** | **string**| None |
+ **byte** | **string**| None |
  **integer** | **int**| None | [optional]
  **int32** | **int**| None | [optional]
  **int64** | **int**| None | [optional]
- **number** | **BigDecimal**| None | [optional]
  **float** | **float**| None | [optional]
- **double** | **double**| None | [optional]
  **string** | **string**| None | [optional]
- **pattern_without_delimiter** | **string**| None | [optional]
- **byte** | **string**| None | [optional]
  **binary** | **string**| None | [optional]
  **date** | **\DateTime**| None | [optional]
  **date_time** | **\DateTime**| None | [optional]
@@ -479,8 +479,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **string**| field1 | [optional]
- **param2** | **string**| field2 | [optional]
+ **param** | **string**| field1 |
+ **param2** | **string**| field2 |
 
 ### Return type
 
