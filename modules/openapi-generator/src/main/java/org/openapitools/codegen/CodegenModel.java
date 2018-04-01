@@ -331,8 +331,8 @@ public class CodegenModel {
         this.unescapedDescription = unescapedDescription;
     }
 
-    public Discriminator getDiscriminator() {
-        return discriminator;
+    public String getDiscriminator() {
+        return discriminator == null ? null : discriminator.getPropertyName();
     }
 
     public void setDiscriminator(Discriminator discriminator) {
