@@ -7,8 +7,20 @@ mod errors {
 }
 
 pub use self::errors::*;
+use std::io;
+use hyper;
+use {{externCrateName}};
 
-/// Instantiate a new server.
-pub fn server() -> Result<server::Server> {
-    Ok(server::Server {})
+pub struct NewService;
+
+impl hyper::server::NewService for NewService {
+    type Request = (hyper::Request, {{externCrateName}}::Context);
+    type Response = hyper::Response;
+    type Error = hyper::Error;
+    type Instance = {{externCrateName}}::server::Service<server::Server>;
+
+    /// Instantiate a new server.
+    fn new_service(&self) -> io::Result<Self::Instance> {
+        Ok({{externCrateName}}::server::Service::new(server::Server))
+    }
 }
