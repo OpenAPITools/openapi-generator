@@ -214,7 +214,7 @@ public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConf
         } else if (p instanceof ArraySchema) {
             return "new std::list()";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return "new " + toModelName(p.get$ref()) + "()";
+            return "new " + toModelName(getSimpleRef(p.get$ref())) + "()";
         }
         return "null";
     }

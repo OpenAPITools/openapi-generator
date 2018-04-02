@@ -311,7 +311,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             }
             return "std::vector<" + inner + ">()";
         } else if (!StringUtils.isEmpty(p.get$ref())) { // model
-            return "new " + toModelName(p.get$ref()) + "()";
+            return "new " + toModelName(getSimpleRef(p.get$ref())) + "()";
         }
         return "nullptr";
     }

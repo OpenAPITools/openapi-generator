@@ -313,7 +313,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             }
             return "std::vector<" + inner + ">()";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return "new " + toModelName(p.get$ref()) + "()";
+            return "new " + toModelName(getSimpleRef(p.get$ref())) + "()";
         }
         return "nullptr";
     }

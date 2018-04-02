@@ -334,7 +334,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
         }
         // else
         if (!StringUtils.isEmpty(p.get$ref())) {
-            return "new " + toModelName(p.get$ref()) + "()";
+            return "new " + toModelName(getSimpleRef(p.get$ref())) + "()";
         }
         return "NULL";
     }
