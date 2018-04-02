@@ -82,7 +82,7 @@ SWGPetApi::addPetCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::deletePet(qint32 pet_id, QString* api_key) {
+SWGPetApi::deletePet(qint64 pet_id, QString* api_key) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
@@ -282,7 +282,7 @@ SWGPetApi::findPetsByTagsCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::getPetById(qint32 pet_id) {
+SWGPetApi::getPetById(qint64 pet_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
@@ -389,7 +389,7 @@ SWGPetApi::updatePetCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::updatePetWithForm(qint32 pet_id, QString* name, QString* status) {
+SWGPetApi::updatePetWithForm(qint64 pet_id, QString* name, QString* status) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
@@ -446,7 +446,7 @@ SWGPetApi::updatePetWithFormCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::uploadFile(qint32 pet_id, QString* additional_metadata, SWGHttpRequestInputFileElement* file) {
+SWGPetApi::uploadFile(qint64 pet_id, QString* additional_metadata, SWGHttpRequestInputFileElement* file) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}/uploadImage");
 

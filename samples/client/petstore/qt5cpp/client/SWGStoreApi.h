@@ -37,7 +37,7 @@ public:
 
     void deleteOrder(QString* order_id);
     void getInventory();
-    void getOrderById(qint32 order_id);
+    void getOrderById(qint64 order_id);
     void placeOrder(SWGOrder& order);
     
 private:

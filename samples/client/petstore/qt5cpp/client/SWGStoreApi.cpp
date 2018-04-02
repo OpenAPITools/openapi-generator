@@ -141,7 +141,7 @@ SWGStoreApi::getInventoryCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGStoreApi::getOrderById(qint32 order_id) {
+SWGStoreApi::getOrderById(qint64 order_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
 
