@@ -11,6 +11,7 @@
 use std::rc::Rc;
 use std::borrow::Borrow;
 use std::borrow::Cow;
+use std::collections::HashMap;
 
 use hyper;
 use serde_json;
@@ -51,18 +52,24 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         let method = hyper::Method::Post;
 
-        let uri_str = format!("{}/user", configuration.base_path);
+        let query_string = {
+            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
+            query.finish()
+        };
+        let uri_str = format!("{}/user?{}", configuration.base_path, query_string);
 
-        let uri = uri_str.parse();
         // TODO(farcaller): handle error
         // if let Err(e) = uri {
         //     return Box::new(futures::future::err(e));
         // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
+        let mut uri: hyper::Uri = uri_str.parse().unwrap();
+
+        let mut req = hyper::Request::new(method, uri);
 
         if let Some(ref user_agent) = configuration.user_agent {
             req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
         }
+
 
 
         let serialized = serde_json::to_string(&body).unwrap();
@@ -96,18 +103,24 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         let method = hyper::Method::Post;
 
-        let uri_str = format!("{}/user/createWithArray", configuration.base_path);
+        let query_string = {
+            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
+            query.finish()
+        };
+        let uri_str = format!("{}/user/createWithArray?{}", configuration.base_path, query_string);
 
-        let uri = uri_str.parse();
         // TODO(farcaller): handle error
         // if let Err(e) = uri {
         //     return Box::new(futures::future::err(e));
         // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
+        let mut uri: hyper::Uri = uri_str.parse().unwrap();
+
+        let mut req = hyper::Request::new(method, uri);
 
         if let Some(ref user_agent) = configuration.user_agent {
             req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
         }
+
 
 
         let serialized = serde_json::to_string(&body).unwrap();
@@ -141,18 +154,24 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         let method = hyper::Method::Post;
 
-        let uri_str = format!("{}/user/createWithList", configuration.base_path);
+        let query_string = {
+            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
+            query.finish()
+        };
+        let uri_str = format!("{}/user/createWithList?{}", configuration.base_path, query_string);
 
-        let uri = uri_str.parse();
         // TODO(farcaller): handle error
         // if let Err(e) = uri {
         //     return Box::new(futures::future::err(e));
         // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
+        let mut uri: hyper::Uri = uri_str.parse().unwrap();
+
+        let mut req = hyper::Request::new(method, uri);
 
         if let Some(ref user_agent) = configuration.user_agent {
             req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
         }
+
 
 
         let serialized = serde_json::to_string(&body).unwrap();
@@ -186,18 +205,24 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         let method = hyper::Method::Delete;
 
-        let uri_str = format!("{}/user/{username}", configuration.base_path, username=username);
+        let query_string = {
+            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
+            query.finish()
+        };
+        let uri_str = format!("{}/user/{username}?{}", configuration.base_path, query_string, username=username);
 
-        let uri = uri_str.parse();
         // TODO(farcaller): handle error
         // if let Err(e) = uri {
         //     return Box::new(futures::future::err(e));
         // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
+        let mut uri: hyper::Uri = uri_str.parse().unwrap();
+
+        let mut req = hyper::Request::new(method, uri);
 
         if let Some(ref user_agent) = configuration.user_agent {
             req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
         }
+
 
 
 
@@ -227,18 +252,24 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         let method = hyper::Method::Get;
 
-        let uri_str = format!("{}/user/{username}", configuration.base_path, username=username);
+        let query_string = {
+            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
+            query.finish()
+        };
+        let uri_str = format!("{}/user/{username}?{}", configuration.base_path, query_string, username=username);
 
-        let uri = uri_str.parse();
         // TODO(farcaller): handle error
         // if let Err(e) = uri {
         //     return Box::new(futures::future::err(e));
         // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
+        let mut uri: hyper::Uri = uri_str.parse().unwrap();
+
+        let mut req = hyper::Request::new(method, uri);
 
         if let Some(ref user_agent) = configuration.user_agent {
             req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
         }
+
 
 
 
@@ -271,22 +302,26 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         let method = hyper::Method::Get;
 
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
-            .append_pair("username", &username.to_string())
-            .append_pair("password", &password.to_string())
-            .finish();
-        let uri_str = format!("{}/user/login{}", configuration.base_path, query);
+        let query_string = {
+            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
+            query.append_pair("username", &username.to_string());
+            query.append_pair("password", &password.to_string());
+            query.finish()
+        };
+        let uri_str = format!("{}/user/login?{}", configuration.base_path, query_string);
 
-        let uri = uri_str.parse();
         // TODO(farcaller): handle error
         // if let Err(e) = uri {
         //     return Box::new(futures::future::err(e));
         // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
+        let mut uri: hyper::Uri = uri_str.parse().unwrap();
+
+        let mut req = hyper::Request::new(method, uri);
 
         if let Some(ref user_agent) = configuration.user_agent {
             req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
         }
+
 
 
 
@@ -319,18 +354,24 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         let method = hyper::Method::Get;
 
-        let uri_str = format!("{}/user/logout", configuration.base_path);
+        let query_string = {
+            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
+            query.finish()
+        };
+        let uri_str = format!("{}/user/logout?{}", configuration.base_path, query_string);
 
-        let uri = uri_str.parse();
         // TODO(farcaller): handle error
         // if let Err(e) = uri {
         //     return Box::new(futures::future::err(e));
         // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
+        let mut uri: hyper::Uri = uri_str.parse().unwrap();
+
+        let mut req = hyper::Request::new(method, uri);
 
         if let Some(ref user_agent) = configuration.user_agent {
             req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
         }
+
 
 
 
@@ -360,18 +401,24 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
         let method = hyper::Method::Put;
 
-        let uri_str = format!("{}/user/{username}", configuration.base_path, username=username);
+        let query_string = {
+            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
+            query.finish()
+        };
+        let uri_str = format!("{}/user/{username}?{}", configuration.base_path, query_string, username=username);
 
-        let uri = uri_str.parse();
         // TODO(farcaller): handle error
         // if let Err(e) = uri {
         //     return Box::new(futures::future::err(e));
         // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
+        let mut uri: hyper::Uri = uri_str.parse().unwrap();
+
+        let mut req = hyper::Request::new(method, uri);
 
         if let Some(ref user_agent) = configuration.user_agent {
             req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
         }
+
 
 
         let serialized = serde_json::to_string(&body).unwrap();
