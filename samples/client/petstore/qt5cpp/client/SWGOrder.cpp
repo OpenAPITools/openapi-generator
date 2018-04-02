@@ -111,6 +111,9 @@ SWGOrder::asJsonObject() {
     if(m_quantity_isSet){
         obj.insert("quantity", QJsonValue(quantity));
     }
+    if(ship_date != nullptr && *ship_date != QString("")){
+        toJsonValue(QString("shipDate"), ship_date, obj, QString("QDateTime"));
+    }
     if(ship_date != nullptr) { 
         toJsonValue(QString("shipDate"), ship_date, obj, QString("QDateTime"));
     }
@@ -192,7 +195,7 @@ SWGOrder::isSet(){
         if(m_id_isSet){ isObjectUpdated = true; break;}
         if(m_pet_id_isSet){ isObjectUpdated = true; break;}
         if(m_quantity_isSet){ isObjectUpdated = true; break;}
-        
+        if(ship_date != nullptr && *ship_date != QString("")){ isObjectUpdated = true; break;}
         if(status != nullptr && *status != QString("")){ isObjectUpdated = true; break;}
         if(m_complete_isSet){ isObjectUpdated = true; break;}
     }while(false);

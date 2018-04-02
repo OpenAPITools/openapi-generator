@@ -30,7 +30,7 @@ SWGPetApi::SWGPetApi(QString host, QString basePath) {
 }
 
 void
-SWGPetApi::addPet(SWGPet& body) {
+SWGPetApi::addPet(SWGPet& pet) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
 
@@ -41,7 +41,7 @@ SWGPetApi::addPet(SWGPet& body) {
 
 
     
-    QString output = body.asJson();
+    QString output = pet.asJson();
     input.request_body.append(output);
     
 
@@ -82,7 +82,7 @@ SWGPetApi::addPetCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::deletePet(qint64 pet_id, QString* api_key) {
+SWGPetApi::deletePet(qint32 pet_id, QString* api_key) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
@@ -141,47 +141,13 @@ SWGPetApi::findPetsByStatus(QList<QString*>* status) {
     fullPath.append(this->host).append(this->basePath).append("/pet/findByStatus");
 
 
-
-
-    if (status->size() > 0) {
-      if (QString("csv").indexOf("multi") == 0) {
-        foreach(QString* t, *status) {
-          if (fullPath.indexOf("?") > 0)
-            fullPath.append("&");
-          else
-            fullPath.append("?");
-          fullPath.append("status=").append(stringValue(t));
-        }
-      }
-      else if (QString("csv").indexOf("ssv") == 0) {
-        if (fullPath.indexOf("?") > 0)
-          fullPath.append("&");
-        else
-          fullPath.append("?");
-        fullPath.append("status=");
-        qint32 count = 0;
-        foreach(QString* t, *status) {
-          if (count > 0) {
-            fullPath.append(" ");
-          }
-          fullPath.append(stringValue(t));
-        }
-      }
-      else if (QString("csv").indexOf("tsv") == 0) {
-        if (fullPath.indexOf("?") > 0)
-          fullPath.append("&");
-        else
-          fullPath.append("?");
-        fullPath.append("status=");
-        qint32 count = 0;
-        foreach(QString* t, *status) {
-          if (count > 0) {
-            fullPath.append("\t");
-          }
-          fullPath.append(stringValue(t));
-        }
-      }
-    }
+    if (fullPath.indexOf("?") > 0)
+      fullPath.append("&");
+    else
+      fullPath.append("?");
+    fullPath.append(QUrl::toPercentEncoding("status"))
+        .append("=")
+        .append(QUrl::toPercentEncoding(stringValue(status)));
 
 
     SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
@@ -248,47 +214,13 @@ SWGPetApi::findPetsByTags(QList<QString*>* tags) {
     fullPath.append(this->host).append(this->basePath).append("/pet/findByTags");
 
 
-
-
-    if (tags->size() > 0) {
-      if (QString("csv").indexOf("multi") == 0) {
-        foreach(QString* t, *tags) {
-          if (fullPath.indexOf("?") > 0)
-            fullPath.append("&");
-          else
-            fullPath.append("?");
-          fullPath.append("tags=").append(stringValue(t));
-        }
-      }
-      else if (QString("csv").indexOf("ssv") == 0) {
-        if (fullPath.indexOf("?") > 0)
-          fullPath.append("&");
-        else
-          fullPath.append("?");
-        fullPath.append("tags=");
-        qint32 count = 0;
-        foreach(QString* t, *tags) {
-          if (count > 0) {
-            fullPath.append(" ");
-          }
-          fullPath.append(stringValue(t));
-        }
-      }
-      else if (QString("csv").indexOf("tsv") == 0) {
-        if (fullPath.indexOf("?") > 0)
-          fullPath.append("&");
-        else
-          fullPath.append("?");
-        fullPath.append("tags=");
-        qint32 count = 0;
-        foreach(QString* t, *tags) {
-          if (count > 0) {
-            fullPath.append("\t");
-          }
-          fullPath.append(stringValue(t));
-        }
-      }
-    }
+    if (fullPath.indexOf("?") > 0)
+      fullPath.append("&");
+    else
+      fullPath.append("?");
+    fullPath.append(QUrl::toPercentEncoding("tags"))
+        .append("=")
+        .append(QUrl::toPercentEncoding(stringValue(tags)));
 
 
     SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
@@ -350,7 +282,7 @@ SWGPetApi::findPetsByTagsCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::getPetById(qint64 pet_id) {
+SWGPetApi::getPetById(qint32 pet_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
@@ -405,7 +337,7 @@ SWGPetApi::getPetByIdCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::updatePet(SWGPet& body) {
+SWGPetApi::updatePet(SWGPet& pet) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
 
@@ -416,7 +348,7 @@ SWGPetApi::updatePet(SWGPet& body) {
 
 
     
-    QString output = body.asJson();
+    QString output = pet.asJson();
     input.request_body.append(output);
     
 
@@ -457,7 +389,7 @@ SWGPetApi::updatePetCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::updatePetWithForm(qint64 pet_id, QString* name, QString* status) {
+SWGPetApi::updatePetWithForm(qint32 pet_id, QString* name, QString* status) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
@@ -514,7 +446,7 @@ SWGPetApi::updatePetWithFormCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::uploadFile(qint64 pet_id, QString* additional_metadata, SWGHttpRequestInputFileElement* file) {
+SWGPetApi::uploadFile(qint32 pet_id, QString* additional_metadata, SWGHttpRequestInputFileElement* file) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}/uploadImage");
 
@@ -529,7 +461,7 @@ SWGPetApi::uploadFile(qint64 pet_id, QString* additional_metadata, SWGHttpReques
         input.add_var("additionalMetadata", *additional_metadata);
     }
     if (file != nullptr) {
-        input.add_file("file", (*file).local_filename, (*file).request_filename, (*file).mime_type);
+        input.add_var("file", *file);
     }
 
 

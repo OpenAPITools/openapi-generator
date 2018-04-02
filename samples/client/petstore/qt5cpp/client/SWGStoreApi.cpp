@@ -141,7 +141,7 @@ SWGStoreApi::getInventoryCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGStoreApi::getOrderById(qint64 order_id) {
+SWGStoreApi::getOrderById(qint32 order_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
 
@@ -196,7 +196,7 @@ SWGStoreApi::getOrderByIdCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGStoreApi::placeOrder(SWGOrder& body) {
+SWGStoreApi::placeOrder(SWGOrder& order) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order");
 
@@ -207,7 +207,7 @@ SWGStoreApi::placeOrder(SWGOrder& body) {
 
 
     
-    QString output = body.asJson();
+    QString output = order.asJson();
     input.request_body.append(output);
     
 

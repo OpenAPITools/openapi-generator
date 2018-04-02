@@ -37,8 +37,8 @@ public:
 
     void deleteOrder(QString* order_id);
     void getInventory();
-    void getOrderById(qint64 order_id);
-    void placeOrder(SWGOrder& body);
+    void getOrderById(qint32 order_id);
+    void placeOrder(SWGOrder& order);
     
 private:
     void deleteOrderCallback (SWGHttpRequestWorker * worker);
