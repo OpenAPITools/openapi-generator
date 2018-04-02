@@ -13,21 +13,22 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+
 import org.apache.commons.lang3.StringUtils;
 
 
 public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String packageName = "io.swagger";
+    protected String packageName = "org.openapitools";
     protected String packageVersion;
 
-    protected String invokerPackage = "io.swagger";
+    protected String invokerPackage = "org.openapitools";
     protected String sourceFolder = "flash";
 
     public FlashClientCodegen() {
         super();
 
-        modelPackage = "io.swagger.client.model";
-        apiPackage = "io.swagger.client.api";
+        modelPackage = "org.openapitools.client.model";
+        apiPackage = "org.openapitools.client.api";
         outputFolder = "generated-code" + File.separatorChar + "flash";
         modelTemplateFiles.put("model.mustache", ".as");
         modelTemplateFiles.put("modelList.mustache", "List.as");
@@ -71,7 +72,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "flash package name (convention:" +
-                " package.name)").defaultValue("io.swagger"));
+                " package.name)").defaultValue("org.openapitools"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "flash package version")
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
@@ -99,15 +100,13 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
             apiPackage = packageName + ".client.api";
             modelPackage = packageName + ".client.model";
-        }
-        else {
-            setPackageName("io.swagger");
+        } else {
+            setPackageName("org.openapitools");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        }
-        else {
+        } else {
             setPackageVersion("1.0.0");
         }
 
@@ -166,12 +165,12 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getHelp() {
-        return "Generates a Flash client library.";
+        return "Generates a Flash (ActionScript) client library (beta).";
     }
 
     @Override
-    public String escapeReservedWord(String name) {           
-        if(this.reservedWordsMappings().containsKey(name)) {
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
