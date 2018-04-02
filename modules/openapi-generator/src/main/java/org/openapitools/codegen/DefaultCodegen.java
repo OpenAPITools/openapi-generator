@@ -1133,15 +1133,15 @@ public class DefaultCodegen implements CodegenConfig {
             datatype = SchemaTypeUtil.DATE_FORMAT;
         } else if (schema instanceof DateTimeSchema) {
             datatype = "DateTime";
-        } else if (schema instanceof NumberSchema) {
+        } else if (schema instanceof NumberSchema || SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())) {
             if (SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) {
                 datatype = SchemaTypeUtil.FLOAT_FORMAT;
             } else if (SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat())) {
                 datatype = SchemaTypeUtil.DOUBLE_FORMAT;
-            } else {
+            } else { // without format
                 datatype = "BigDecimal";
             }
-        } else if (schema instanceof IntegerSchema) {
+        } else if (schema instanceof IntegerSchema || SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType())) {
             if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
                 datatype = "long";
             } else {
