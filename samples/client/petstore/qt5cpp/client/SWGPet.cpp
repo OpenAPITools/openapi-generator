@@ -39,7 +39,7 @@ void
 SWGPet::init() {
     id = 0L;
     m_id_isSet = false;
-    category = new SWGCategory();
+    category = new SWG#/components/schemas/Category();
     m_category_isSet = false;
     name = new QString("");
     m_name_isSet = false;
