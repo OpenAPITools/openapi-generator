@@ -185,9 +185,9 @@ void
     QJsonObject obj = doc.object();
 
     foreach(QString key, obj.keys()) {
-        qint32* val;
+        {{returnBaseType}} val;
         setValue(&val, obj[key], "{{returnBaseType}}", QString());
-        output->insert(key, *val);
+        output->insert(key, val);
     }
     {{/isMapContainer}}
     {{^isMapContainer}}
