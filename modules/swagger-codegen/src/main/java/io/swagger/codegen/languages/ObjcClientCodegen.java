@@ -136,7 +136,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                     "NSObject", "NSInteger", "NSNumber", "CGFloat",
                     "property", "nonatomic", "retain", "strong",
                     "weak", "unsafe_unretained", "readwrite", "readonly",
-                    "description"
+                    "description", "class"
                 ));
 
         importMapping = new HashMap<String, String>();
