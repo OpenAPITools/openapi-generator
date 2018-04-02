@@ -49,6 +49,11 @@ utility::string_t ApiClient::parameterToString(float value)
     return utility::conversions::to_string_t(std::to_string(value));
 }
 
+utility::string_t ApiClient::parameterToString(double value)
+{
+    return utility::conversions::to_string_t(std::to_string(value));
+}
+
 utility::string_t ApiClient::parameterToString(const utility::datetime &value)
 {
     return utility::conversions::to_string_t(value.to_string(utility::datetime::ISO_8601));
