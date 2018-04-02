@@ -471,7 +471,7 @@ paths:
             X-Expires-After:
               type: string
               format: date-time
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
         '400':
           description: Invalid username/password supplied
   /user/logout:
@@ -919,6 +919,24 @@ paths:
       responses:
         '200':
           description: successful operation
+  /fake/body-with-query-params:
+    put:
+      operationId: testBodyWithQueryParams
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+        - name: query
+          in: query
+          required: true
+          type: string
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: Success
   /another-fake/dummy:
     patch:
       tags:
