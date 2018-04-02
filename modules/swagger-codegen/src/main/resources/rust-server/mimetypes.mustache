@@ -1,0 +1,25 @@
+/// mime types for requests and responses
+
+pub mod responses {
+    use hyper::mime::*;
+
+    // The macro is called per-operation to beat the recursion limit
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#responses}}{{#produces}}{{#-first}}{{#dataType}}    /// Create Mime objects for the response content types for {{operationId}}
+    lazy_static! {
+        pub static ref {{#vendorExtensions}}{{uppercase_operation_id}}_{{x-uppercaseResponseId}}{{/vendorExtensions}}: Mime = "{{{mediaType}}}".parse().unwrap();
+    }
+{{/dataType}}{{/-first}}{{/produces}}{{/responses}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+}
+
+pub mod requests {
+    use hyper::mime::*;
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#bodyParam}}   /// Create Mime objects for the request content types for {{operationId}}
+    lazy_static! {
+        pub static ref {{#vendorExtensions}}{{uppercase_operation_id}}{{/vendorExtensions}}: Mime = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}".parse().unwrap();
+    }
+{{/bodyParam}}{{^bodyParam}}{{#vendorExtensions}}{{#formParams}}{{#-first}}{{^hasFile}}   /// Create Mime objects for the request content types for {{operationId}}
+    lazy_static! {
+        pub static ref {{#vendorExtensions}}{{uppercase_operation_id}}{{/vendorExtensions}}: Mime = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/x-www-form-urlencoded{{/consumes}}".parse().unwrap();
+    }
+{{/hasFile}}{{/-first}}{{/formParams}}{{/vendorExtensions}}{{/bodyParam}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+}
