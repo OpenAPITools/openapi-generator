@@ -61,29 +61,45 @@ pub mod requests {
     lazy_static! {
         pub static ref TEST_SPECIAL_TAGS: Mime = "application/json".parse().unwrap();
     }
+   /// Create Mime objects for the request content types for TestBodyWithQueryParams
+    lazy_static! {
+        pub static ref TEST_BODY_WITH_QUERY_PARAMS: Mime = "application/json".parse().unwrap();
+    }
    /// Create Mime objects for the request content types for FakeOuterBooleanSerialize
     lazy_static! {
-        pub static ref FAKE_OUTER_BOOLEAN_SERIALIZE: Mime = "Application/Json".parse().unwrap();
+        pub static ref FAKE_OUTER_BOOLEAN_SERIALIZE: Mime = "application/json".parse().unwrap();
     }
    /// Create Mime objects for the request content types for FakeOuterCompositeSerialize
     lazy_static! {
-        pub static ref FAKE_OUTER_COMPOSITE_SERIALIZE: Mime = "Application/Json".parse().unwrap();
+        pub static ref FAKE_OUTER_COMPOSITE_SERIALIZE: Mime = "application/json".parse().unwrap();
     }
    /// Create Mime objects for the request content types for FakeOuterNumberSerialize
     lazy_static! {
-        pub static ref FAKE_OUTER_NUMBER_SERIALIZE: Mime = "Application/Json".parse().unwrap();
+        pub static ref FAKE_OUTER_NUMBER_SERIALIZE: Mime = "application/json".parse().unwrap();
     }
    /// Create Mime objects for the request content types for FakeOuterStringSerialize
     lazy_static! {
-        pub static ref FAKE_OUTER_STRING_SERIALIZE: Mime = "Application/Json".parse().unwrap();
+        pub static ref FAKE_OUTER_STRING_SERIALIZE: Mime = "application/json".parse().unwrap();
     }
    /// Create Mime objects for the request content types for TestClientModel
     lazy_static! {
         pub static ref TEST_CLIENT_MODEL: Mime = "application/json".parse().unwrap();
     }
+   /// Create Mime objects for the request content types for TestEndpointParameters
+    lazy_static! {
+        pub static ref TEST_ENDPOINT_PARAMETERS: Mime = "application/xml; charset=utf-8".parse().unwrap();
+    }
+   /// Create Mime objects for the request content types for TestEnumParameters
+    lazy_static! {
+        pub static ref TEST_ENUM_PARAMETERS: Mime = "*/*".parse().unwrap();
+    }
    /// Create Mime objects for the request content types for TestInlineAdditionalProperties
     lazy_static! {
         pub static ref TEST_INLINE_ADDITIONAL_PROPERTIES: Mime = "application/json".parse().unwrap();
+    }
+   /// Create Mime objects for the request content types for TestJsonFormData
+    lazy_static! {
+        pub static ref TEST_JSON_FORM_DATA: Mime = "application/json".parse().unwrap();
     }
    /// Create Mime objects for the request content types for TestClassname
     lazy_static! {
@@ -97,25 +113,29 @@ pub mod requests {
     lazy_static! {
         pub static ref UPDATE_PET: Mime = "application/json".parse().unwrap();
     }
+   /// Create Mime objects for the request content types for UpdatePetWithForm
+    lazy_static! {
+        pub static ref UPDATE_PET_WITH_FORM: Mime = "application/x-www-form-urlencoded".parse().unwrap();
+    }
    /// Create Mime objects for the request content types for PlaceOrder
     lazy_static! {
-        pub static ref PLACE_ORDER: Mime = "Application/Json".parse().unwrap();
+        pub static ref PLACE_ORDER: Mime = "application/json".parse().unwrap();
     }
    /// Create Mime objects for the request content types for CreateUser
     lazy_static! {
-        pub static ref CREATE_USER: Mime = "Application/Json".parse().unwrap();
+        pub static ref CREATE_USER: Mime = "application/json".parse().unwrap();
     }
    /// Create Mime objects for the request content types for CreateUsersWithArrayInput
     lazy_static! {
-        pub static ref CREATE_USERS_WITH_ARRAY_INPUT: Mime = "Application/Json".parse().unwrap();
+        pub static ref CREATE_USERS_WITH_ARRAY_INPUT: Mime = "application/json".parse().unwrap();
     }
    /// Create Mime objects for the request content types for CreateUsersWithListInput
     lazy_static! {
-        pub static ref CREATE_USERS_WITH_LIST_INPUT: Mime = "Application/Json".parse().unwrap();
+        pub static ref CREATE_USERS_WITH_LIST_INPUT: Mime = "application/json".parse().unwrap();
     }
    /// Create Mime objects for the request content types for UpdateUser
     lazy_static! {
-        pub static ref UPDATE_USER: Mime = "Application/Json".parse().unwrap();
+        pub static ref UPDATE_USER: Mime = "application/json".parse().unwrap();
     }
 
 }
