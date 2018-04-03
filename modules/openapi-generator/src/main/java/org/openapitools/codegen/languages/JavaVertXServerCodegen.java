@@ -1,6 +1,5 @@
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.PathItem;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
@@ -12,7 +11,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.oas.models.Paths.*;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.core.util.Json;
 
@@ -229,7 +228,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     private void manageOperationNames(PathItem path, String pathname) {
         String serviceIdTemp;
 
-        Map<HttpMethod, Operation> operationMap = path.readOperationsMap()  ;
+        Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
         if (operationMap != null) {
             for (Entry<HttpMethod, Operation> entry : operationMap.entrySet()) {
                 serviceIdTemp = computeServiceId(pathname, entry);
