@@ -534,7 +534,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
 
-
         List<String> produces = new ArrayList<String>(getProducesInfo(operation));
         // if "consumes" is defined (per operation or using global definition)
         /*
