@@ -931,7 +931,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
-    private static String getAccept(Operation operation) {
+    protected static String getAccept(Operation operation) {
         String accepts = null;
         String defaultContentType = "application/json";
         ArrayList<String> produces = new ArrayList<String>(getProducesInfo(operation));
