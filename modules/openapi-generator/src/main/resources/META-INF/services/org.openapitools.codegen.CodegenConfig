@@ -36,6 +36,7 @@ org.openapitools.codegen.languages.JavaPlayFrameworkCodegen
 org.openapitools.codegen.languages.JavaVertXServerCodegen
 org.openapitools.codegen.languages.JavascriptClientCodegen
 org.openapitools.codegen.languages.JavascriptClosureAngularClientCodegen
+org.openapitools.codegen.languages.JMeterCodegen
 org.openapitools.codegen.languages.LuaClientCodegen
 org.openapitools.codegen.languages.NodeJSServerCodegen
 org.openapitools.codegen.languages.ObjcClientCodegen
