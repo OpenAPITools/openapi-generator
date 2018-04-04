@@ -264,8 +264,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (p instanceof ArraySchema) {
             return getArrayTypeDeclaration((ArraySchema) p);
         } else if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
 
             // Maps will be keyed only by primitive Kotlin string
             return getSchemaType(p) + "<kotlin.String, " + getTypeDeclaration(inner) + ">";

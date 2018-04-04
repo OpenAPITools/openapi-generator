@@ -281,8 +281,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         }
         if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
         }
         if (p instanceof StringSchema || p instanceof DateSchema

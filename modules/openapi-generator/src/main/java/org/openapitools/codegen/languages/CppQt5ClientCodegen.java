@@ -323,8 +323,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
             }
             return "0";
         } else if (p instanceof MapSchema) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return "new QMap<QString, " + getTypeDeclaration(inner) + ">()";
         } else if (p instanceof ArraySchema) {
             ArraySchema ap = (ArraySchema) p;

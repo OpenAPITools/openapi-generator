@@ -606,10 +606,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             if (inner == null) {
-                LOGGER.warn(mp.getName() + "(map property) does not have a proper inner type defined. Default to string");
+                LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
                 inner = new StringSchema().description("TODO default missing array inner type to string");
             }
             return getSchemaType(p) + "<String, " + getTypeDeclaration(inner) + ">";
