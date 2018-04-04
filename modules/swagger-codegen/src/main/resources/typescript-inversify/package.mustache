@@ -1,0 +1,29 @@
+{
+  "name": "{{{npmName}}}",
+  "version": "{{{npmVersion}}}",
+  "description": "swagger client for {{{npmName}}}",
+  "author": "Swagger Codegen Contributors",
+  "keywords": [
+    "swagger-client"
+  ],
+  "license": "Unlicense",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --outDir dist/",
+    "postinstall": "npm run build"
+  },
+  "dependencies": {
+    "inversify": "^4.3.0",
+    "rxjs": "~5.5.7",
+    "whatwg-fetch": "~2.0.1",
+    "reflect-metadata": "0.1.8"
+  },
+  "devDependencies": {
+  }{{#npmRepository}},{{/npmRepository}}
+{{#npmRepository}}
+  "publishConfig": {
+    "registry": "{{{npmRepository}}}"
+  }
+{{/npmRepository}}
+}
