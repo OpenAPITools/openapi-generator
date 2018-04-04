@@ -3,6 +3,8 @@ QT += network
 HEADERS += \
 # Models
     $${PWD}/SWGApiResponse.h \
+    $${PWD}/SWGBody.h \
+    $${PWD}/SWGBody_1.h \
     $${PWD}/SWGCategory.h \
     $${PWD}/SWGOrder.h \
     $${PWD}/SWGPet.h \
@@ -22,6 +24,8 @@ HEADERS += \
 SOURCES += \
 # Models
     $${PWD}/SWGApiResponse.cpp \
+    $${PWD}/SWGBody.cpp \
+    $${PWD}/SWGBody_1.cpp \
     $${PWD}/SWGCategory.cpp \
     $${PWD}/SWGOrder.cpp \
     $${PWD}/SWGPet.cpp \

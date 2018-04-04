@@ -289,8 +289,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">*";
         } else if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">*";
         }
         if (foundationClasses.contains(openAPIType)) {
