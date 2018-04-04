@@ -282,8 +282,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             return "Vec<" + getTypeDeclaration(inner) + ">";
         }
         else if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return "::std::collections::HashMap<String, " + getTypeDeclaration(inner) + ">";
         }
 

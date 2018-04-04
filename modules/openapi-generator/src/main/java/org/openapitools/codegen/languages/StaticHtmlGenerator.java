@@ -100,9 +100,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
-
+            Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);

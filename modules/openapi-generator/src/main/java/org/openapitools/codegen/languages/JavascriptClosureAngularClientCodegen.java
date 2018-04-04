@@ -218,8 +218,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<!" + getTypeDeclaration(inner) + ">";
         } else if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return "Object<!string, "+ getTypeDeclaration(inner) + ">";
         } else if (p instanceof FileSchema) {
             return "Object";

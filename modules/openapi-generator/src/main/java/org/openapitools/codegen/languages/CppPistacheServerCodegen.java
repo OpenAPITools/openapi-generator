@@ -266,8 +266,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         }
         if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         }
         if (p instanceof StringSchema || p instanceof DateSchema

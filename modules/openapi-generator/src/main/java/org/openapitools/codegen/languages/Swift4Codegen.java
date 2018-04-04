@@ -381,8 +381,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (isMapSchema(prop)) {
-            MapSchema mp = (MapSchema) prop;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) prop.getAdditionalProperties();
             return "[String:" + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(prop);

@@ -279,8 +279,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner);
         } else if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return getTypeDeclaration(inner);
         }
 

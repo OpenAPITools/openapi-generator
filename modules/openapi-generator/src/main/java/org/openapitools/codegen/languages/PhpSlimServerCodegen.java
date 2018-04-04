@@ -144,8 +144,7 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "[]";
         } else if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
             String type = super.getTypeDeclaration(p);

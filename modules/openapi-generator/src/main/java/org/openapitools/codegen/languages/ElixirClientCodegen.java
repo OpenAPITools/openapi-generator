@@ -422,8 +422,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return "%{optional(String.t) => " + getTypeDeclaration(inner) + "}";
         } else if (p instanceof PasswordSchema) {
             return "String.t";

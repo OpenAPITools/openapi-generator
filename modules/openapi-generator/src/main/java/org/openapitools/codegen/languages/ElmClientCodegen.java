@@ -460,8 +460,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner);
         } else if (p instanceof MapSchema) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return getTypeDeclaration(inner);
         }
         return super.getTypeDeclaration(p);

@@ -229,9 +229,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return "[]" + getTypeDeclaration(inner);
         }
         else if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
-
+            Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "[string]" + getTypeDeclaration(inner);
         }
         //return super.getTypeDeclaration(p);

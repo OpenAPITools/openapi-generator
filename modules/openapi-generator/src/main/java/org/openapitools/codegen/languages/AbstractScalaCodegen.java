@@ -161,8 +161,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
 
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
@@ -187,8 +186,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     @Override
     public String toInstantiationType(Schema p) {
         if (p instanceof MapSchema) {
-            MapSchema ap = (MapSchema) p;
-            String inner = getSchemaType((Schema)ap.getAdditionalProperties());
+            String inner = getSchemaType((Schema)p.getAdditionalProperties());
             return instantiationTypes.get("map") + "[String, " + inner + "]";
         } else if (p instanceof ArraySchema) {
             ArraySchema ap = (ArraySchema) p;

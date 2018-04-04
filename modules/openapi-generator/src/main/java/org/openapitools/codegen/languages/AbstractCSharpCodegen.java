@@ -783,8 +783,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return getArrayTypeDeclaration((ArraySchema) p);
         } else if (isMapSchema(p)) {
             // Should we also support maps of maps?
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);

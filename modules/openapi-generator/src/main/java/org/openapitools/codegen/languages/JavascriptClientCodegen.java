@@ -563,8 +563,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return "{String: " + getTypeDeclaration(inner) + "}";
         }
         return super.getTypeDeclaration(p);

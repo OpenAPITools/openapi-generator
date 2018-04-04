@@ -532,8 +532,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return "(Map.Map String " + getTypeDeclaration(inner) + ")";
         }
         return super.getTypeDeclaration(p);

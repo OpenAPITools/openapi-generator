@@ -216,8 +216,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (isMapSchema(p)) {
-            MapSchema mp = (MapSchema) p;
-            Schema inner = (Schema) mp.getAdditionalProperties();
+            Schema inner = (Schema) p.getAdditionalProperties();
             return "{ [key: string]: " + getTypeDeclaration(inner) + "; }";
         } else if (p instanceof FileSchema) {
             return "any";
@@ -237,8 +236,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             inner = mp1.getItems();
             return this.getSchemaType(p) + "<" + this.getParameterDataType(parameter, inner) + ">";
         } else if (p instanceof MapSchema) {
-            MapSchema mp = (MapSchema) p;
-            inner = (Schema) mp.getAdditionalProperties();
+            inner = (Schema) p.getAdditionalProperties();
             return "{ [key: string]: " + this.getParameterDataType(parameter, inner) + "; }";
         } else if (p instanceof StringSchema) {
             // Handle string enums
