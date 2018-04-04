@@ -16,6 +16,8 @@
 #include "SWGObject.h"
 
 #include "SWGApiResponse.h"
+#include "SWGBody.h"
+#include "SWGBody_1.h"
 #include "SWGCategory.h"
 #include "SWGOrder.h"
 #include "SWGPet.h"
@@ -27,6 +29,12 @@ namespace Swagger {
   inline void* create(QString type) {
     if(QString("SWGApiResponse").compare(type) == 0) {
       return new SWGApiResponse();
+    }
+    if(QString("SWGBody").compare(type) == 0) {
+      return new SWGBody();
+    }
+    if(QString("SWGBody_1").compare(type) == 0) {
+      return new SWGBody_1();
     }
     if(QString("SWGCategory").compare(type) == 0) {
       return new SWGCategory();

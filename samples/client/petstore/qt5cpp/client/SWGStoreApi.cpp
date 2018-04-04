@@ -119,15 +119,15 @@ SWGStoreApi::getInventoryCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    QMap<QString, qint32>* output = new QMap<QString, qint32>();
+    QMap<QString, qint32>* output = NULL;
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject obj = doc.object();
 
     foreach(QString key, obj.keys()) {
-        qint32 val;
-        setValue(&val, obj[key], "qint32", QString());
+        QMap val;
+        setValue(&val, obj[key], "QMap", QString());
         output->insert(key, val);
     }
     worker->deleteLater();
