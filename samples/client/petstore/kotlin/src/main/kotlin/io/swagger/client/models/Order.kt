@@ -12,6 +12,7 @@
 package io.swagger.client.models
 
 
+import com.squareup.moshi.Json
 /**
  * An order for a pets from the pet store
  * @param id 
@@ -37,11 +38,11 @@ data class Order (
     */
     enum class Status(val value: kotlin.String){
     
-        placed("placed"),
+        @Json(name = "placed") placed("placed"),
     
-        approved("approved"),
+        @Json(name = "approved") approved("approved"),
     
-        delivered("delivered");
+        @Json(name = "delivered") delivered("delivered");
     
     }
 
