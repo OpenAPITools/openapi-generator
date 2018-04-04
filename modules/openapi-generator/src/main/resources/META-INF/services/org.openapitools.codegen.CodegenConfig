@@ -37,6 +37,7 @@ org.openapitools.codegen.languages.JavaInflectorServerCodegen
 org.openapitools.codegen.languages.JavaMSF4JServerCodegen
 org.openapitools.codegen.languages.JavaPKMSTServerCodegen
 org.openapitools.codegen.languages.JavaPlayFrameworkCodegen
+org.openapitools.codegen.languages.JavaUndertowServerCodegen
 org.openapitools.codegen.languages.JavaVertXServerCodegen
 org.openapitools.codegen.languages.JavaCXFServerCodegen
 org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen
