@@ -72,9 +72,9 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
         writeOptional(outputFolder, new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml"));
         writeOptional(outputFolder, new SupportingFile("inflector.mustache", "", "inflector.yaml"));
-        supportingFiles.add(new SupportingFile("swagger.mustache",
-                "src/main/swagger",
-                "swagger.yaml")
+        supportingFiles.add(new SupportingFile("openapi.mustache",
+                "src/main/openapi",
+                "openapi.yaml")
         );
         supportingFiles.add(new SupportingFile("StringUtil.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "StringUtil.java"));
