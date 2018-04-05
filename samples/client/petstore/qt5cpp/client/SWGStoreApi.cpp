@@ -119,7 +119,7 @@ SWGStoreApi::getInventoryCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    QMap<QString, qint32>* output = NULL;
+    QMap<QString, qint32>* output = new QMap<QString, qint32>();
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);

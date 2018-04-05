@@ -1693,6 +1693,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (p instanceof DateSchema || SchemaTypeUtil.DATE_FORMAT.equals(p.getFormat())) {
+            property.isString = false; // for backward compatibility with 2.x
             property.isDate = true;
             if (p.getEnum() != null) {
                 List<String> _enum = p.getEnum();
@@ -1710,6 +1711,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (p instanceof DateTimeSchema || SchemaTypeUtil.DATE_TIME_FORMAT.equals(p.getFormat())) {
+            property.isString = false; // for backward compatibility with 2.x
             property.isDateTime = true;
             if (p.getEnum() != null) {
                 List<String> _enum = p.getEnum();
