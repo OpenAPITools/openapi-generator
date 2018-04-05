@@ -17,6 +17,7 @@
 
 #include <QString>
 #include "SWGApiResponse.h"
+#include "SWGHttpRequest.h"
 #include "SWGPet.h"
 
 #include <QObject>
@@ -42,7 +43,7 @@ public:
     void getPetById(qint64 pet_id);
     void updatePet(SWGPet& pet);
     void updatePetWithForm(qint64 pet_id, QString* name, QString* status);
-    void uploadFile(qint64 pet_id, QString* additional_metadata, QString* file);
+    void uploadFile(qint64 pet_id, QString* additional_metadata, SWGHttpRequestInputFileElement* file);
     
 private:
     void addPetCallback (SWGHttpRequestWorker * worker);

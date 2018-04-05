@@ -127,8 +127,8 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
         typeMapping.put("file", "SWGHttpRequestInputFileElement");
         typeMapping.put("object", PREFIX + "Object");
         //TODO binary should be mapped to byte array
-        // mapped to String as a workaround
-        typeMapping.put("binary", "QString");
+        // mapped as "file" type for OAS 3.0
+        typeMapping.put("binary", "SWGHttpRequestInputFileElement");
         typeMapping.put("ByteArray", "QByteArray");
         // UUID support - possible enhancement : use QUuid instead of QString.
         //   beware though that Serialisation/deserialisation of QUuid does not

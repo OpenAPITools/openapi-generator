@@ -22,6 +22,7 @@
 #include <QJsonObject>
 
 
+#include "SWGHttpRequest.h"
 #include <QString>
 
 #include "SWGObject.h"
@@ -44,8 +45,8 @@ public:
     QString* getAdditionalMetadata();
     void setAdditionalMetadata(QString* additional_metadata);
 
-    QString* getFile();
-    void setFile(QString* file);
+    SWGHttpRequestInputFileElement* getFile();
+    void setFile(SWGHttpRequestInputFileElement* file);
 
 
     virtual bool isSet() override;
@@ -54,7 +55,7 @@ private:
     QString* additional_metadata;
     bool m_additional_metadata_isSet;
 
-    QString* file;
+    SWGHttpRequestInputFileElement* file;
     bool m_file_isSet;
 
 };

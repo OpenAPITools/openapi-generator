@@ -1665,6 +1665,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         if (p instanceof ByteArraySchema || SchemaTypeUtil.BYTE_FORMAT.equals(p.getFormat())) {
             property.isByteArray = true;
+            property.isFile = true; // in OAS3.0 "file" is 'byte' (format)
         }
 
         if (p instanceof NumberSchema || SchemaTypeUtil.NUMBER_TYPE.equals(p.getType())) {
@@ -2313,6 +2314,7 @@ public class DefaultCodegen implements CodegenConfig {
                 r.isUuid = true;
             } else if (Boolean.TRUE.equals(cp.isByteArray)) {
                 r.isByteArray = true;
+                r.isFile = true; // in OAS3.0 "file" is 'byte' (format)
             } else if (Boolean.TRUE.equals(cp.isString)) {
                 r.isString = true;
             } else if (Boolean.TRUE.equals(cp.isBoolean)) {
@@ -3552,6 +3554,11 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (Boolean.TRUE.equals(property.isByteArray)) {
             parameter.isByteArray = true;
             parameter.isPrimitiveType = true;
+            parameter.isFile = true; // in OAS3.0 "file" is 'byte' (format)
+        } else if (Boolean.TRUE.equals(property.isBinary)) {
+            parameter.isByteArray = true;
+            parameter.isPrimitiveType = true;
+            parameter.isFile = true; // in OAS3.0 "file" is 'byte' (format)
         } else if (Boolean.TRUE.equals(property.isString)) {
             parameter.isString = true;
             parameter.isPrimitiveType = true;
@@ -3572,9 +3579,6 @@ public class DefaultCodegen implements CodegenConfig {
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isNumber)) {
             parameter.isNumber = true;
-            parameter.isPrimitiveType = true;
-        } else if (Boolean.TRUE.equals(property.isBinary)) {
-            parameter.isByteArray = true;
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isFile)) {
             parameter.isFile = true;
