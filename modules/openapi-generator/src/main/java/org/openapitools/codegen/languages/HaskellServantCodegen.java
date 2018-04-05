@@ -306,7 +306,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (p instanceof MapSchema) {
+        if (isMapSchema(p)) {
             MapSchema ap = (MapSchema) p;
             Schema additionalProperties2 = (Schema) ap.getAdditionalProperties();
             String type = additionalProperties2.getType();

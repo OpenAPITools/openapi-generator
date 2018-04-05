@@ -235,7 +235,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             ArraySchema mp1 = (ArraySchema) p;
             inner = mp1.getItems();
             return this.getSchemaType(p) + "<" + this.getParameterDataType(parameter, inner) + ">";
-        } else if (p instanceof MapSchema) {
+        } else if (isMapSchema(p)) {
             inner = (Schema) p.getAdditionalProperties();
             return "{ [key: string]: " + this.getParameterDataType(parameter, inner) + "; }";
         } else if (p instanceof StringSchema) {

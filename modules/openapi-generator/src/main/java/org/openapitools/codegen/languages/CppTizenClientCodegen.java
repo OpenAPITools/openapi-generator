@@ -123,7 +123,7 @@ public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (p instanceof MapSchema) {
+        if (isMapSchema(p)) {
             return instantiationTypes.get("map");
         } else if (p instanceof ArraySchema) {
             return instantiationTypes.get("array");
@@ -209,7 +209,7 @@ public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConf
                 return "long(0)";
             }
             return "int(0)";
-        } else if (p instanceof MapSchema) {
+        } else if (isMapSchema(p)) {
             return "new std::map()";
         } else if (p instanceof ArraySchema) {
             return "new std::list()";

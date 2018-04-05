@@ -301,7 +301,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 return "0L";
             }
             return "0";
-        } else if (p instanceof MapSchema) {
+        } else if (isMapSchema(p)) {
             MapSchema ap = (MapSchema) p;
             String inner = getSchemaType((Schema) ap.getAdditionalProperties());
             return "std::map<std::string, " + inner + ">()";

@@ -266,7 +266,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "LIST [" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapSchema) {
+        } else if (isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
 
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
