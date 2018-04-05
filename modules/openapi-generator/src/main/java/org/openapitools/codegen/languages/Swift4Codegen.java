@@ -476,7 +476,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toInstantiationType(Schema prop) {
-        if (prop instanceof MapSchema) {
+        if (isMapSchema(prop)) {
             MapSchema ap = (MapSchema) prop;
             String inner = getSchemaType((Schema) ap.getAdditionalProperties());
             return inner;

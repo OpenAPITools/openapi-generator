@@ -296,7 +296,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (p instanceof MapSchema) {
+        if (isMapSchema(p)) {
             return instantiationTypes.get("map");
         } else if (p instanceof ArraySchema) {
             return instantiationTypes.get("array");
