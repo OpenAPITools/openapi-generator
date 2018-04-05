@@ -137,22 +137,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodege
     @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         objs = super.postProcessOperations(objs);
-
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-            for (CodegenOperation operation : ops) {
-
-                if (operation.returnType == null) {
-                    operation.returnType = "void";
-                    // set vendorExtensions.x-java-is-response-void to true as
-                    // returnType is set to "void"
-                    operation.vendorExtensions.put("x-java-is-response-void", true);
-                }
-            }
-        }
-
-        return operations;
+        return AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
     }
 
     @Override
