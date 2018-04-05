@@ -134,6 +134,10 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        return jaxrsPostProcessOperations(objs);
+    }
+
+    static Map<String, Object> jaxrsPostProcessOperations(Map<String, Object> objs) {
         @SuppressWarnings("unchecked")
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if ( operations != null ) {
