@@ -514,7 +514,7 @@ SWGPetApi::updatePetWithFormCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::uploadFile(qint64 pet_id, QString* additional_metadata, QString* file) {
+SWGPetApi::uploadFile(qint64 pet_id, QString* additional_metadata, SWGHttpRequestInputFileElement* file) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}/uploadImage");
 
@@ -529,7 +529,7 @@ SWGPetApi::uploadFile(qint64 pet_id, QString* additional_metadata, QString* file
         input.add_var("additionalMetadata", *additional_metadata);
     }
     if (file != nullptr) {
-        input.add_var("file", *file);
+        input.add_file("file", (*file).local_filename, (*file).request_filename, (*file).mime_type);
     }
 
 

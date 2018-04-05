@@ -66,7 +66,7 @@ void
 SWGBody_1::fromJsonObject(QJsonObject pJson) {
     ::Swagger::setValue(&additional_metadata, pJson["additionalMetadata"], "QString", "QString");
     
-    ::Swagger::setValue(&file, pJson["file"], "QString", "QString");
+    ::Swagger::setValue(&file, pJson["file"], "SWGHttpRequestInputFileElement", "SWGHttpRequestInputFileElement");
     
 }
 
@@ -86,7 +86,7 @@ SWGBody_1::asJsonObject() {
         toJsonValue(QString("additionalMetadata"), additional_metadata, obj, QString("QString"));
     }
     if((file != nullptr) && (file->isSet())){
-        toJsonValue(QString("file"), file, obj, QString("QString"));
+        toJsonValue(QString("file"), file, obj, QString("SWGHttpRequestInputFileElement"));
     }
 
     return obj;
@@ -102,12 +102,12 @@ SWGBody_1::setAdditionalMetadata(QString* additional_metadata) {
     this->m_additional_metadata_isSet = true;
 }
 
-QString*
+SWGHttpRequestInputFileElement*
 SWGBody_1::getFile() {
     return file;
 }
 void
-SWGBody_1::setFile(QString* file) {
+SWGBody_1::setFile(SWGHttpRequestInputFileElement* file) {
     this->file = file;
     this->m_file_isSet = true;
 }
