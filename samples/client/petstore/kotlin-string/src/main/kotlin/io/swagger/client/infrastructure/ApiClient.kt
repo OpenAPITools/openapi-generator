@@ -12,7 +12,12 @@ open class ApiClient(val baseUrl: String) {
         protected val XmlMediaType = "application/xml"
 
         @JvmStatic
-        val client : OkHttpClient = OkHttpClient()
+        val client by lazy {
+            builder.build()
+        }
+
+        @JvmStatic
+        val builder: OkHttpClient.Builder = OkHttpClient.Builder()
 
         @JvmStatic
         var defaultHeaders: Map<String, String> by ApplicationDelegates.setOnce(mapOf(ContentType to JsonMediaType, Accept to JsonMediaType))
