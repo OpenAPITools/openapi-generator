@@ -784,7 +784,7 @@ paths:
       parameters:
       - name: "username"
         in: "path"
-        description: "The name that needs to be fetched. Use user1 for testing. "
+        description: "The name that needs to be fetched. Use user1 for testing."
         required: true
         type: "string"
         formatString: "\\\"{}\\\""
@@ -902,6 +902,7 @@ paths:
       tags:
       - "fake_classname_tags 123#$%^"
       summary: "To test class name in snake case"
+      description: "To test class name in snake case"
       operationId: "testClassname"
       consumes:
       - "application/json"
@@ -1900,8 +1901,16 @@ definitions:
     upperCaseName: "ENUMCLASS"
   Enum_Test:
     type: "object"
+    required:
+    - "enum_string_required"
     properties:
       enum_string:
+        type: "string"
+        enum:
+        - "UPPER"
+        - "lower"
+        - ""
+      enum_string_required:
         type: "string"
         enum:
         - "UPPER"
