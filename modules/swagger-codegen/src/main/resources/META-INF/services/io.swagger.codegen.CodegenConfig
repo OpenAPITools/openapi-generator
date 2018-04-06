@@ -33,7 +33,6 @@ io.swagger.codegen.languages.JavaInflectorServerCodegen
 io.swagger.codegen.languages.JavaJAXRSCXFCDIServerCodegen
 io.swagger.codegen.languages.JavaJAXRSSpecServerCodegen
 io.swagger.codegen.languages.JavaJerseyServerCodegen
-io.swagger.codegen.languages.JavaJerseyServerCodegen
 io.swagger.codegen.languages.JavaMSF4JServerCodegen
 io.swagger.codegen.languages.JavaPKMSTServerCodegen
 io.swagger.codegen.languages.JavaPlayFrameworkCodegen
