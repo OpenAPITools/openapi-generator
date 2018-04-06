@@ -19,7 +19,7 @@ open class Swift4TestAPI {
      */
     open class func getAllModels(clientId: String, completion: @escaping ((_ data: GetAllModelsResult?,_ error: Error?) -> Void)) {
         getAllModelsWithRequestBuilder(clientId: clientId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
