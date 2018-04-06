@@ -141,47 +141,13 @@ SWGPetApi::findPetsByStatus(QList<QString*>* status) {
     fullPath.append(this->host).append(this->basePath).append("/pet/findByStatus");
 
 
-
-
-    if (status->size() > 0) {
-      if (QString("csv").indexOf("multi") == 0) {
-        foreach(QString* t, *status) {
-          if (fullPath.indexOf("?") > 0)
-            fullPath.append("&");
-          else
-            fullPath.append("?");
-          fullPath.append("status=").append(stringValue(t));
-        }
-      }
-      else if (QString("csv").indexOf("ssv") == 0) {
-        if (fullPath.indexOf("?") > 0)
-          fullPath.append("&");
-        else
-          fullPath.append("?");
-        fullPath.append("status=");
-        qint32 count = 0;
-        foreach(QString* t, *status) {
-          if (count > 0) {
-            fullPath.append(" ");
-          }
-          fullPath.append(stringValue(t));
-        }
-      }
-      else if (QString("csv").indexOf("tsv") == 0) {
-        if (fullPath.indexOf("?") > 0)
-          fullPath.append("&");
-        else
-          fullPath.append("?");
-        fullPath.append("status=");
-        qint32 count = 0;
-        foreach(QString* t, *status) {
-          if (count > 0) {
-            fullPath.append("\t");
-          }
-          fullPath.append(stringValue(t));
-        }
-      }
-    }
+    if (fullPath.indexOf("?") > 0)
+      fullPath.append("&");
+    else
+      fullPath.append("?");
+    fullPath.append(QUrl::toPercentEncoding("status"))
+        .append("=")
+        .append(QUrl::toPercentEncoding(stringValue(status)));
 
 
     SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
@@ -248,47 +214,13 @@ SWGPetApi::findPetsByTags(QList<QString*>* tags) {
     fullPath.append(this->host).append(this->basePath).append("/pet/findByTags");
 
 
-
-
-    if (tags->size() > 0) {
-      if (QString("csv").indexOf("multi") == 0) {
-        foreach(QString* t, *tags) {
-          if (fullPath.indexOf("?") > 0)
-            fullPath.append("&");
-          else
-            fullPath.append("?");
-          fullPath.append("tags=").append(stringValue(t));
-        }
-      }
-      else if (QString("csv").indexOf("ssv") == 0) {
-        if (fullPath.indexOf("?") > 0)
-          fullPath.append("&");
-        else
-          fullPath.append("?");
-        fullPath.append("tags=");
-        qint32 count = 0;
-        foreach(QString* t, *tags) {
-          if (count > 0) {
-            fullPath.append(" ");
-          }
-          fullPath.append(stringValue(t));
-        }
-      }
-      else if (QString("csv").indexOf("tsv") == 0) {
-        if (fullPath.indexOf("?") > 0)
-          fullPath.append("&");
-        else
-          fullPath.append("?");
-        fullPath.append("tags=");
-        qint32 count = 0;
-        foreach(QString* t, *tags) {
-          if (count > 0) {
-            fullPath.append("\t");
-          }
-          fullPath.append(stringValue(t));
-        }
-      }
-    }
+    if (fullPath.indexOf("?") > 0)
+      fullPath.append("&");
+    else
+      fullPath.append("?");
+    fullPath.append(QUrl::toPercentEncoding("tags"))
+        .append("=")
+        .append(QUrl::toPercentEncoding(stringValue(tags)));
 
 
     SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
