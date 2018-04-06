@@ -42,7 +42,7 @@ class UserAPITests: XCTestCase {
     func testLogout() {
         let expectation = self.expectation(description: "testLogout")
         
-        UserAPI.logoutUser { (error) in
+        UserAPI.logoutUser { (response, error) in
             guard error == nil else {
                 XCTFail("error logging out")
                 return
@@ -56,18 +56,9 @@ class UserAPITests: XCTestCase {
     
     func test1CreateUser() {
         let expectation = self.expectation(description: "testCreateUser")
-        
-        let newUser = User()
-        newUser.email = "test@test.com"
-        newUser.firstName = "Test"
-        newUser.lastName = "Tester"
-        newUser.id = 1000
-        newUser.password = "test!"
-        newUser.phone = "867-5309"
-        newUser.username = "test@test.com"
-        newUser.userStatus = 0
-        
-        UserAPI.createUser(body: newUser) { (error) in
+        let newUser = User(_id: 1000, username: "test@test.com", firstName: "Test", lastName: "Tester", email: "test@test.com", password: "test!", phone: "867-5309", userStatus: 0)
+
+        UserAPI.createUser(body: newUser) { (response, error) in
             guard error == nil else {
                 XCTFail("error creating user")
                 return
@@ -106,7 +97,7 @@ class UserAPITests: XCTestCase {
     func test3DeleteUser() {
         let expectation = self.expectation(description: "testDeleteUser")
         
-        UserAPI.deleteUser(username: "test@test.com") { (error) in
+        UserAPI.deleteUser(username: "test@test.com") { (response, error) in
             guard error == nil else {
                 XCTFail("error deleting user")
                 return

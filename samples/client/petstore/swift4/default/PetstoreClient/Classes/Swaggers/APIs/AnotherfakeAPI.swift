@@ -19,7 +19,7 @@ open class AnotherFakeAPI {
      */
     open class func testSpecialTags(body: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
         testSpecialTagsWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
