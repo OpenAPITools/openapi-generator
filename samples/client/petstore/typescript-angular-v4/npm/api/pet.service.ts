@@ -50,7 +50,7 @@ export class PetService {
      */
     private canConsumeForm(consumes: string[]): boolean {
         const form = 'multipart/form-data';
-        for (let consume of consumes) {
+        for (const consume of consumes) {
             if (form === consume) {
                 return true;
             }
@@ -207,7 +207,7 @@ export class PetService {
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
-            let accessToken = typeof this.configuration.accessToken === 'function'
+            const accessToken = typeof this.configuration.accessToken === 'function'
                 ? this.configuration.accessToken()
                 : this.configuration.accessToken;
             headers.set('Authorization', 'Bearer ' + accessToken);
@@ -218,17 +218,17 @@ export class PetService {
             'application/xml',
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers.set("Accept", httpHeaderAcceptSelected);
+            headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
-        let consumes: string[] = [
+        const consumes: string[] = [
             'application/json',
             'application/xml'
         ];
-        let httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
             headers.set('Content-Type', httpContentTypeSelected);
         }
@@ -266,7 +266,7 @@ export class PetService {
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
-            let accessToken = typeof this.configuration.accessToken === 'function'
+            const accessToken = typeof this.configuration.accessToken === 'function'
                 ? this.configuration.accessToken()
                 : this.configuration.accessToken;
             headers.set('Authorization', 'Bearer ' + accessToken);
@@ -277,13 +277,13 @@ export class PetService {
             'application/xml',
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers.set("Accept", httpHeaderAcceptSelected);
+            headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
-        let consumes: string[] = [
+        const consumes: string[] = [
         ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -319,7 +319,7 @@ export class PetService {
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
-            let accessToken = typeof this.configuration.accessToken === 'function'
+            const accessToken = typeof this.configuration.accessToken === 'function'
                 ? this.configuration.accessToken()
                 : this.configuration.accessToken;
             headers.set('Authorization', 'Bearer ' + accessToken);
@@ -330,13 +330,13 @@ export class PetService {
             'application/xml',
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers.set("Accept", httpHeaderAcceptSelected);
+            headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
-        let consumes: string[] = [
+        const consumes: string[] = [
         ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -373,7 +373,7 @@ export class PetService {
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
-            let accessToken = typeof this.configuration.accessToken === 'function'
+            const accessToken = typeof this.configuration.accessToken === 'function'
                 ? this.configuration.accessToken()
                 : this.configuration.accessToken;
             headers.set('Authorization', 'Bearer ' + accessToken);
@@ -384,13 +384,13 @@ export class PetService {
             'application/xml',
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers.set("Accept", httpHeaderAcceptSelected);
+            headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
-        let consumes: string[] = [
+        const consumes: string[] = [
         ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -430,13 +430,13 @@ export class PetService {
             'application/xml',
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers.set("Accept", httpHeaderAcceptSelected);
+            headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
-        let consumes: string[] = [
+        const consumes: string[] = [
         ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -467,7 +467,7 @@ export class PetService {
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
-            let accessToken = typeof this.configuration.accessToken === 'function'
+            const accessToken = typeof this.configuration.accessToken === 'function'
                 ? this.configuration.accessToken()
                 : this.configuration.accessToken;
             headers.set('Authorization', 'Bearer ' + accessToken);
@@ -478,17 +478,17 @@ export class PetService {
             'application/xml',
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers.set("Accept", httpHeaderAcceptSelected);
+            headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
-        let consumes: string[] = [
+        const consumes: string[] = [
             'application/json',
             'application/xml'
         ];
-        let httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
             headers.set('Content-Type', httpContentTypeSelected);
         }
@@ -524,7 +524,7 @@ export class PetService {
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
-            let accessToken = typeof this.configuration.accessToken === 'function'
+            const accessToken = typeof this.configuration.accessToken === 'function'
                 ? this.configuration.accessToken()
                 : this.configuration.accessToken;
             headers.set('Authorization', 'Bearer ' + accessToken);
@@ -535,13 +535,13 @@ export class PetService {
             'application/xml',
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers.set("Accept", httpHeaderAcceptSelected);
+            headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
-        let consumes: string[] = [
+        const consumes: string[] = [
             'application/x-www-form-urlencoded'
         ];
 
@@ -598,7 +598,7 @@ export class PetService {
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
-            let accessToken = typeof this.configuration.accessToken === 'function'
+            const accessToken = typeof this.configuration.accessToken === 'function'
                 ? this.configuration.accessToken()
                 : this.configuration.accessToken;
             headers.set('Authorization', 'Bearer ' + accessToken);
@@ -608,13 +608,13 @@ export class PetService {
         let httpHeaderAccepts: string[] = [
             'application/json'
         ];
-        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers.set("Accept", httpHeaderAcceptSelected);
+            headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
-        let consumes: string[] = [
+        const consumes: string[] = [
             'multipart/form-data'
         ];
 
