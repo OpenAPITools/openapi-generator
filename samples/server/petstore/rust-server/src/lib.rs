@@ -33,6 +33,7 @@ mod mimetypes;
 pub use swagger::{ApiError, Context, ContextWrapper};
 
 pub const BASE_PATH: &'static str = "/v2";
+pub const API_VERSION: &'static str = "1.0.0";
 
 
 #[derive(Debug, PartialEq)]

@@ -362,6 +362,10 @@ pub struct EnumTest {
     pub enum_string: Option<String>,
 
     // Note: inline enums are not fully supported by swagger-codegen
+    #[serde(rename = "enum_string_required")]
+    pub enum_string_required: String,
+
+    // Note: inline enums are not fully supported by swagger-codegen
     #[serde(rename = "enum_integer")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_integer: Option<i32>,
@@ -378,9 +382,10 @@ pub struct EnumTest {
 }
 
 impl EnumTest {
-    pub fn new() -> EnumTest {
+    pub fn new(enum_string_required: String, ) -> EnumTest {
         EnumTest {
             enum_string: None,
+            enum_string_required: enum_string_required,
             enum_integer: None,
             enum_number: None,
             outer_enum: None,
