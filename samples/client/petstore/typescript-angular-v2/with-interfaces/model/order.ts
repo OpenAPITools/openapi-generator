@@ -31,5 +31,5 @@ export namespace Order {
         Placed: 'placed' as StatusEnum,
         Approved: 'approved' as StatusEnum,
         Delivered: 'delivered' as StatusEnum
-    }
+    };
 }
