@@ -2239,16 +2239,15 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  string $param field1 (required)
-     * @param  string $param2 field2 (required)
+     * @param  \Swagger\Client\Model\Body4 $body_4 body_4 (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testJsonFormData($param, $param2)
+    public function testJsonFormData($body_4 = null)
     {
-        $this->testJsonFormDataWithHttpInfo($param, $param2);
+        $this->testJsonFormDataWithHttpInfo($body_4);
     }
 
     /**
@@ -2256,17 +2255,16 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  string $param field1 (required)
-     * @param  string $param2 field2 (required)
+     * @param  \Swagger\Client\Model\Body4 $body_4 (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testJsonFormDataWithHttpInfo($param, $param2)
+    public function testJsonFormDataWithHttpInfo($body_4 = null)
     {
         $returnType = '';
-        $request = $this->testJsonFormDataRequest($param, $param2);
+        $request = $this->testJsonFormDataRequest($body_4);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2310,15 +2308,14 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  string $param field1 (required)
-     * @param  string $param2 field2 (required)
+     * @param  \Swagger\Client\Model\Body4 $body_4 (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testJsonFormDataAsync($param, $param2)
+    public function testJsonFormDataAsync($body_4 = null)
     {
-        return $this->testJsonFormDataAsyncWithHttpInfo($param, $param2)
+        return $this->testJsonFormDataAsyncWithHttpInfo($body_4)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2331,16 +2328,15 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  string $param field1 (required)
-     * @param  string $param2 field2 (required)
+     * @param  \Swagger\Client\Model\Body4 $body_4 (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testJsonFormDataAsyncWithHttpInfo($param, $param2)
+    public function testJsonFormDataAsyncWithHttpInfo($body_4 = null)
     {
         $returnType = '';
-        $request = $this->testJsonFormDataRequest($param, $param2);
+        $request = $this->testJsonFormDataRequest($body_4);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2368,26 +2364,13 @@ class FakeApi
     /**
      * Create request for operation 'testJsonFormData'
      *
-     * @param  string $param field1 (required)
-     * @param  string $param2 field2 (required)
+     * @param  \Swagger\Client\Model\Body4 $body_4 (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testJsonFormDataRequest($param, $param2)
+    protected function testJsonFormDataRequest($body_4 = null)
     {
-        // verify the required parameter 'param' is set
-        if ($param === null || (is_array($param) && count($param) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter $param when calling testJsonFormData'
-            );
-        }
-        // verify the required parameter 'param2' is set
-        if ($param2 === null || (is_array($param2) && count($param2) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter $param2 when calling testJsonFormData'
-            );
-        }
 
         $resourcePath = '/fake/jsonFormData';
         $formParams = [];
@@ -2398,16 +2381,11 @@ class FakeApi
 
 
 
-        // form params
-        if ($param !== null) {
-            $formParams['param'] = ObjectSerializer::toFormValue($param);
-        }
-        // form params
-        if ($param2 !== null) {
-            $formParams['param2'] = ObjectSerializer::toFormValue($param2);
-        }
         // body params
         $_tempBody = null;
+        if (isset($body_4)) {
+            $_tempBody = $body_4;
+        }
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -2416,7 +2394,7 @@ class FakeApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 [],
-                ['application/x-www-form-urlencoded']
+                ['application/json']
             );
         }
 
