@@ -294,8 +294,8 @@ $int64 = 56; // int | None
 $float = 3.4; // float | None
 $string = "string_example"; // string | None
 $binary = "binary_example"; // string | None
-$date = "date_example"; // \DateTime | None
-$date_time = "date_time_example"; // \DateTime | None
+$date = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
+$date_time = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
 $password = "password_example"; // string | None
 $callback = "callback_example"; // string | None
 
@@ -314,13 +314,13 @@ Name | Type | Description  | Notes
  **number** | **BigDecimal**| None |
  **double** | **double**| None |
  **pattern_without_delimiter** | **string**| None |
- **byte** | **string**| None |
+ **byte** | **string****string**| None |
  **integer** | **int**| None | [optional]
  **int32** | **int**| None | [optional]
  **int64** | **int**| None | [optional]
  **float** | **float**| None | [optional]
  **string** | **string**| None | [optional]
- **binary** | **string**| None | [optional]
+ **binary** | **string****string**| None | [optional]
  **date** | **\DateTime**| None | [optional]
  **date_time** | **\DateTime**| None | [optional]
  **password** | **string**| None | [optional]
