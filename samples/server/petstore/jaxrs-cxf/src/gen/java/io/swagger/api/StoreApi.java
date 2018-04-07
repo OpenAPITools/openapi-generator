@@ -73,7 +73,7 @@ public interface StoreApi  {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found") })
-    public Order getOrderById(@PathParam("order_id") @Min(1) @Max(5) Long orderId);
+    public Order getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) Long orderId);
 
     /**
      * Place an order for a pet

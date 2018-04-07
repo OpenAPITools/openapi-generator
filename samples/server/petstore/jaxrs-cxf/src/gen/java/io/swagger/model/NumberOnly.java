@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import java.math.BigDecimal;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class NumberOnly  {
   
   @ApiModelProperty(value = "")
+  @Valid
   private BigDecimal justNumber = null;
  /**
    * Get justNumber
