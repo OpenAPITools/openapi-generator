@@ -58,8 +58,7 @@ class Body2 implements ModelInterface, ArrayAccess
       */
     protected static $swaggerTypes = [
         'enum_form_string_array' => 'string[]',
-        'enum_form_string' => 'string',
-        'enum_query_double' => 'double'
+        'enum_form_string' => 'string'
     ];
 
     /**
@@ -69,8 +68,7 @@ class Body2 implements ModelInterface, ArrayAccess
       */
     protected static $swaggerFormats = [
         'enum_form_string_array' => null,
-        'enum_form_string' => null,
-        'enum_query_double' => 'double'
+        'enum_form_string' => null
     ];
 
     /**
@@ -101,8 +99,7 @@ class Body2 implements ModelInterface, ArrayAccess
      */
     protected static $attributeMap = [
         'enum_form_string_array' => 'enum_form_string_array',
-        'enum_form_string' => 'enum_form_string',
-        'enum_query_double' => 'enum_query_double'
+        'enum_form_string' => 'enum_form_string'
     ];
 
     /**
@@ -112,8 +109,7 @@ class Body2 implements ModelInterface, ArrayAccess
      */
     protected static $setters = [
         'enum_form_string_array' => 'setEnumFormStringArray',
-        'enum_form_string' => 'setEnumFormString',
-        'enum_query_double' => 'setEnumQueryDouble'
+        'enum_form_string' => 'setEnumFormString'
     ];
 
     /**
@@ -123,8 +119,7 @@ class Body2 implements ModelInterface, ArrayAccess
      */
     protected static $getters = [
         'enum_form_string_array' => 'getEnumFormStringArray',
-        'enum_form_string' => 'getEnumFormString',
-        'enum_query_double' => 'getEnumQueryDouble'
+        'enum_form_string' => 'getEnumFormString'
     ];
 
     /**
@@ -173,8 +168,6 @@ class Body2 implements ModelInterface, ArrayAccess
     const ENUM_FORM_STRING_ABC = '_abc';
     const ENUM_FORM_STRING_EFG = '-efg';
     const ENUM_FORM_STRING_XYZ = '(xyz)';
-    const ENUM_QUERY_DOUBLE_1_DOT_1 = 1.1;
-    const ENUM_QUERY_DOUBLE_MINUS_1_DOT_2 = -1.2;
     
 
     
@@ -205,19 +198,6 @@ class Body2 implements ModelInterface, ArrayAccess
         ];
     }
     
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getEnumQueryDoubleAllowableValues()
-    {
-        return [
-            self::ENUM_QUERY_DOUBLE_1_DOT_1,
-            self::ENUM_QUERY_DOUBLE_MINUS_1_DOT_2,
-        ];
-    }
-    
 
     /**
      * Associative array for storing property values
@@ -236,7 +216,6 @@ class Body2 implements ModelInterface, ArrayAccess
     {
         $this->container['enum_form_string_array'] = isset($data['enum_form_string_array']) ? $data['enum_form_string_array'] : null;
         $this->container['enum_form_string'] = isset($data['enum_form_string']) ? $data['enum_form_string'] : '-efg';
-        $this->container['enum_query_double'] = isset($data['enum_query_double']) ? $data['enum_query_double'] : null;
     }
 
     /**
@@ -256,14 +235,6 @@ class Body2 implements ModelInterface, ArrayAccess
             );
         }
 
-        $allowedValues = $this->getEnumQueryDoubleAllowableValues();
-        if (!is_null($this->container['enum_query_double']) && !in_array($this->container['enum_query_double'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value for 'enum_query_double', must be one of '%s'",
-                implode("', '", $allowedValues)
-            );
-        }
-
         return $invalidProperties;
     }
 
@@ -278,10 +249,6 @@ class Body2 implements ModelInterface, ArrayAccess
 
         $allowedValues = $this->getEnumFormStringAllowableValues();
         if (!is_null($this->container['enum_form_string']) && !in_array($this->container['enum_form_string'], $allowedValues, true)) {
-            return false;
-        }
-        $allowedValues = $this->getEnumQueryDoubleAllowableValues();
-        if (!is_null($this->container['enum_query_double']) && !in_array($this->container['enum_query_double'], $allowedValues, true)) {
             return false;
         }
         return true;
@@ -350,39 +317,6 @@ class Body2 implements ModelInterface, ArrayAccess
             );
         }
         $this->container['enum_form_string'] = $enum_form_string;
-
-        return $this;
-    }
-
-    /**
-     * Gets enum_query_double
-     *
-     * @return double
-     */
-    public function getEnumQueryDouble()
-    {
-        return $this->container['enum_query_double'];
-    }
-
-    /**
-     * Sets enum_query_double
-     *
-     * @param double $enum_query_double Query parameter enum test (double)
-     *
-     * @return $this
-     */
-    public function setEnumQueryDouble($enum_query_double)
-    {
-        $allowedValues = $this->getEnumQueryDoubleAllowableValues();
-        if (!is_null($enum_query_double) && !in_array($enum_query_double, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value for 'enum_query_double', must be one of '%s'",
-                    implode("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['enum_query_double'] = $enum_query_double;
 
         return $this;
     }
