@@ -295,11 +295,11 @@ class Body3 implements ModelInterface, ArrayAccess
         if ($this->container['byte'] === null) {
             $invalidProperties[] = "'byte' can't be null";
         }
-        if (!is_null($this->container['password']) && (strlen($this->container['password']) > 64)) {
+        if (!is_null($this->container['password']) && (mb_strlen($this->container['password']) > 64)) {
             $invalidProperties[] = "invalid value for 'password', the character length must be smaller than or equal to 64.";
         }
 
-        if (!is_null($this->container['password']) && (strlen($this->container['password']) < 10)) {
+        if (!is_null($this->container['password']) && (mb_strlen($this->container['password']) < 10)) {
             $invalidProperties[] = "invalid value for 'password', the character length must be bigger than or equal to 10.";
         }
 
@@ -339,10 +339,10 @@ class Body3 implements ModelInterface, ArrayAccess
         if ($this->container['byte'] === null) {
             return false;
         }
-        if (strlen($this->container['password']) > 64) {
+        if (mb_strlen($this->container['password']) > 64) {
             return false;
         }
-        if (strlen($this->container['password']) < 10) {
+        if (mb_strlen($this->container['password']) < 10) {
             return false;
         }
         return true;
@@ -672,10 +672,10 @@ class Body3 implements ModelInterface, ArrayAccess
      */
     public function setPassword($password)
     {
-        if (!is_null($password) && (strlen($password) > 64)) {
+        if (!is_null($password) && (mb_strlen($password) > 64)) {
             throw new \InvalidArgumentException('invalid length for $password when calling Body3., must be smaller than or equal to 64.');
         }
-        if (!is_null($password) && (strlen($password) < 10)) {
+        if (!is_null($password) && (mb_strlen($password) < 10)) {
             throw new \InvalidArgumentException('invalid length for $password when calling Body3., must be bigger than or equal to 10.');
         }
 
