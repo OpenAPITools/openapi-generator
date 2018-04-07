@@ -205,13 +205,13 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
         {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
-        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(strlen($this->container['{{name}}']) > {{maxLength}})) {
+        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(mb_strlen($this->container['{{name}}']) > {{maxLength}})) {
             $invalidProperties[] = "invalid value for '{{name}}', the character length must be smaller than or equal to {{{maxLength}}}.";
         }
 
         {{/maxLength}}
         {{#minLength}}
-        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(strlen($this->container['{{name}}']) < {{minLength}})) {
+        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(mb_strlen($this->container['{{name}}']) < {{minLength}})) {
             $invalidProperties[] = "invalid value for '{{name}}', the character length must be bigger than or equal to {{{minLength}}}.";
         }
 
@@ -281,12 +281,12 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
         {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
-        if (strlen($this->container['{{name}}']) > {{maxLength}}) {
+        if (mb_strlen($this->container['{{name}}']) > {{maxLength}}) {
             return false;
         }
         {{/maxLength}}
         {{#minLength}}
-        if (strlen($this->container['{{name}}']) < {{minLength}}) {
+        if (mb_strlen($this->container['{{name}}']) < {{minLength}}) {
             return false;
         }
         {{/minLength}}
@@ -366,11 +366,11 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
         {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
-        if ({{^required}}!is_null(${{name}}) && {{/required}}(strlen(${{name}}) > {{maxLength}})) {
+        if ({{^required}}!is_null(${{name}}) && {{/required}}(mb_strlen(${{name}}) > {{maxLength}})) {
             throw new \InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
         }{{/maxLength}}
         {{#minLength}}
-        if ({{^required}}!is_null(${{name}}) && {{/required}}(strlen(${{name}}) < {{minLength}})) {
+        if ({{^required}}!is_null(${{name}}) && {{/required}}(mb_strlen(${{name}}) < {{minLength}})) {
             throw new \InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
         }
         {{/minLength}}

@@ -18,9 +18,13 @@ open class StoreAPI {
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteOrder(orderId: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteOrder(orderId: String, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
         deleteOrderWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
-            completion(error);
+            if error == nil {
+                completion((), error)
+            } else {
+                completion(nil, error)
+            }
         }
     }
 
@@ -32,11 +36,11 @@ open class StoreAPI {
      */
     open class func deleteOrder( orderId: String) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deleteOrder(orderId: orderId) { error in
+        deleteOrder(orderId: orderId) { data, error in
             if let error = error {
                 deferred.reject(error)
             } else {
-                deferred.fulfill()
+                deferred.fulfill(data!)
             }
         }
         return deferred.promise
@@ -73,7 +77,7 @@ open class StoreAPI {
      */
     open class func getInventory(completion: @escaping ((_ data: [String:Int]?,_ error: Error?) -> Void)) {
         getInventoryWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -127,7 +131,7 @@ open class StoreAPI {
      */
     open class func getOrderById(orderId: Int64, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void)) {
         getOrderByIdWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -211,7 +215,7 @@ open class StoreAPI {
      */
     open class func placeOrder(body: Order, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void)) {
         placeOrderWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 

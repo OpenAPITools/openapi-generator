@@ -2,7 +2,8 @@
   "name": "PetstoreClient",
   "platforms": {
     "ios": "9.0",
-    "osx": "10.11"
+    "osx": "10.11",
+    "tvos": "9.0"
   },
   "version": "0.0.1",
   "source": {
@@ -16,7 +17,7 @@
   "source_files": "PetstoreClient/Classes/**/*.swift",
   "dependencies": {
     "Alamofire": [
-      "~> 4.5"
+      "~> 4.5.0"
     ]
   }
 }
