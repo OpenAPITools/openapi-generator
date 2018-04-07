@@ -202,14 +202,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              type: object
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
+              $ref: '#/components/schemas/PetFormParameters'
     delete:
       tags:
         - pet
@@ -705,4 +698,15 @@ components:
         type:
           type: string
         message:
+          type: string
+    PetFormParameters:
+      title: form parameters for pet
+      description: form parameters for pet
+      type: object
+      properties:
+        name:
+          description: Updated name of the pet
+          type: string
+        status:
+          description: Updated status of the pet
           type: string
