@@ -321,11 +321,11 @@ class FormatTest implements ModelInterface, ArrayAccess
         if ($this->container['password'] === null) {
             $invalidProperties[] = "'password' can't be null";
         }
-        if ((strlen($this->container['password']) > 64)) {
+        if ((mb_strlen($this->container['password']) > 64)) {
             $invalidProperties[] = "invalid value for 'password', the character length must be smaller than or equal to 64.";
         }
 
-        if ((strlen($this->container['password']) < 10)) {
+        if ((mb_strlen($this->container['password']) < 10)) {
             $invalidProperties[] = "invalid value for 'password', the character length must be bigger than or equal to 10.";
         }
 
@@ -389,10 +389,10 @@ class FormatTest implements ModelInterface, ArrayAccess
         if ($this->container['password'] === null) {
             return false;
         }
-        if (strlen($this->container['password']) > 64) {
+        if (mb_strlen($this->container['password']) > 64) {
             return false;
         }
-        if (strlen($this->container['password']) < 10) {
+        if (mb_strlen($this->container['password']) < 10) {
             return false;
         }
         return true;
@@ -756,10 +756,10 @@ class FormatTest implements ModelInterface, ArrayAccess
      */
     public function setPassword($password)
     {
-        if ((strlen($password) > 64)) {
+        if ((mb_strlen($password) > 64)) {
             throw new \InvalidArgumentException('invalid length for $password when calling FormatTest., must be smaller than or equal to 64.');
         }
-        if ((strlen($password) < 10)) {
+        if ((mb_strlen($password) < 10)) {
             throw new \InvalidArgumentException('invalid length for $password when calling FormatTest., must be bigger than or equal to 10.');
         }
 

@@ -33,5 +33,5 @@ export namespace Pet {
         Available: 'available' as StatusEnum,
         Pending: 'pending' as StatusEnum,
         Sold: 'sold' as StatusEnum
-    }
+    };
 }

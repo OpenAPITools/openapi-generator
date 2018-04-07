@@ -17,26 +17,19 @@ class StoreAPITests: XCTestCase {
     let testTimeout = 10.0
 
     func test1PlaceOrder() {
-        let expectation = self.expectation(description: "testPlaceOrder")
-        let shipDate = Date()
-        
-        let newOrder = Order()
-        newOrder.id = 1000
-        newOrder.petId = 1000
-        newOrder.complete = false
-        newOrder.quantity = 10
-        newOrder.shipDate = shipDate
         // use explicit naming to reference the enum so that we test we don't regress on enum naming
-        newOrder.status = Order.Status.placed
-        
-        StoreAPI.placeOrder(body: newOrder) { (order, error) in
+        let shipDate = Date()
+        let order = Order(_id: 1000, petId: 1000, quantity: 10, shipDate: shipDate, status: .placed, complete: true)
+        let expectation = self.expectation(description: "testPlaceOrder")
+
+        StoreAPI.placeOrder(body: order) { (order, error) in
             guard error == nil else {
                 XCTFail("error placing order: \(error.debugDescription)")
                 return
             }
             
             if let order = order {
-                XCTAssert(order.id == 1000, "invalid id")
+                XCTAssert(order._id == 1000, "invalid id")
                 XCTAssert(order.quantity == 10, "invalid quantity")
                 XCTAssert(order.status == .placed, "invalid status")
                 XCTAssert(order.shipDate!.isEqual(shipDate, format: self.isoDateFormat),
@@ -59,7 +52,7 @@ class StoreAPITests: XCTestCase {
             }
             
             if let order = order {
-                XCTAssert(order.id == 1000, "invalid id")
+                XCTAssert(order._id == 1000, "invalid id")
                 XCTAssert(order.quantity == 10, "invalid quantity")
                 XCTAssert(order.status == .placed, "invalid status")
                 
@@ -73,9 +66,14 @@ class StoreAPITests: XCTestCase {
     func test3DeleteOrder() {
         let expectation = self.expectation(description: "testDeleteOrder")
         
-        StoreAPI.deleteOrder(orderId: "1000") { (error) in
+        StoreAPI.deleteOrder(orderId: "1000") { (response, error) in
             guard error == nil else {
                 XCTFail("error deleting order")
+                return
+            }
+
+            guard let _ = response else {
+                XCTFail("response is nil")
                 return
             }
 
