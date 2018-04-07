@@ -122,13 +122,13 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     {{#joda}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version",
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}
     {{#java8}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version",
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}
     {{#threetenbp}}
-    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_version",
+    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_version"
     {{/threetenbp}}
     {{^java8}}
     compile "com.brsanthu:migbase64:2.2"
