@@ -450,7 +450,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testJsonFormData**
-> testJsonFormData($param, $param2)
+> testJsonFormData($body_4)
 
 test json serialization of form data
 
@@ -464,11 +464,10 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$param = "param_example"; // string | field1
-$param2 = "param2_example"; // string | field2
+$body_4 = new \Swagger\Client\Model\Body4(); // \Swagger\Client\Model\Body4 | 
 
 try {
-    $apiInstance->testJsonFormData($param, $param2);
+    $apiInstance->testJsonFormData($body_4);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testJsonFormData: ', $e->getMessage(), PHP_EOL;
 }
@@ -479,8 +478,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **string**| field1 |
- **param2** | **string**| field2 |
+ **body_4** | [**\Swagger\Client\Model\Body4**](../Model/Body4.md)|  | [optional]
 
 ### Return type
 
@@ -492,7 +490,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
