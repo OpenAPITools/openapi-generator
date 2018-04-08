@@ -1641,11 +1641,13 @@ class FakeApi
         }
         // form params
         if ($byte !== null) {
-            $formParams['byte'] = ObjectSerializer::toFormValue($byte);
+            $multipart = true;
+            $formParams['byte'] = \GuzzleHttp\Psr7\try_fopen(ObjectSerializer::toFormValue($byte), 'rb');
         }
         // form params
         if ($binary !== null) {
-            $formParams['binary'] = ObjectSerializer::toFormValue($binary);
+            $multipart = true;
+            $formParams['binary'] = \GuzzleHttp\Psr7\try_fopen(ObjectSerializer::toFormValue($binary), 'rb');
         }
         // form params
         if ($date !== null) {
