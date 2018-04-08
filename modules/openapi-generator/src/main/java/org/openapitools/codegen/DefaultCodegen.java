@@ -1610,10 +1610,10 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             if (p.getEnum() != null) {
-                List<Integer> _enum = p.getEnum();
+                List<Object> _enum = p.getEnum();
                 property._enum = new ArrayList<String>();
-                for (Integer i : _enum) {
-                    property._enum.add(i.toString());
+                for (Object i : _enum) {
+                    property._enum.add(String.valueOf(i));
                 }
                 property.isEnum = true;
                 allowableValues.put("values", _enum);
@@ -1679,10 +1679,10 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             if (p.getEnum() != null && !p.getEnum().isEmpty()) {
-                List<Number> _enum = p.getEnum();
+                List<Object> _enum = p.getEnum();
                 property._enum = new ArrayList<String>();
-                for (Number i : _enum) {
-                    property._enum.add(i.toString());
+                for (Object i : _enum) {
+                    property._enum.add(String.valueOf(i));
                 }
                 property.isEnum = true;
 
