@@ -580,6 +580,7 @@ paths:
       parameters:
         - name: enum_header_string_array
           in: header
+          explode: true
           description: Header parameter enum test (string array)
           schema:
             type: array
