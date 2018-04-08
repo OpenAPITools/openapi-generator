@@ -261,24 +261,23 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        String swaggerType = getSchemaType(p);
+        String openAPIType = getSchemaType(p);
 
         if (p instanceof ArraySchema) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        }
-        if (isMapSchema(p)) {
+        } else if (isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
-        }
-        if (p instanceof StringSchema || p instanceof DateSchema
+        } else if (p instanceof StringSchema || SchemaTypeUtil.STRING_TYPE.equals(p.getType())
+                || p instanceof DateSchema
                 || p instanceof DateTimeSchema || p instanceof FileSchema
-                || languageSpecificPrimitives.contains(swaggerType)) {
-            return toModelName(swaggerType);
+                || languageSpecificPrimitives.contains(openAPIType)) {
+            return toModelName(openAPIType);
         }
 
-        return "std::shared_ptr<" + swaggerType + ">";
+        return "std::shared_ptr<" + openAPIType + ">";
     }
 
     @Override
@@ -340,14 +339,14 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
      */
     @Override
     public String getSchemaType(Schema p) {
-        String swaggerType = super.getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
                 return toModelName(type);
         } else
-            type = swaggerType;
+            type = openAPIType;
         return toModelName(type);
     }
 
