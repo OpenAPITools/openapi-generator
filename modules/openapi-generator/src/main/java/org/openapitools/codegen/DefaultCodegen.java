@@ -1139,7 +1139,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat())) {
                 datatype = SchemaTypeUtil.DOUBLE_FORMAT;
             } else { // without format
-                datatype = "BigDecimal";
+                datatype = schema.getType(); // number
             }
         } else if (schema instanceof IntegerSchema || SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType())) {
             if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
@@ -4155,7 +4155,8 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenProperty = codegenProperty.items;
             }
         } else {
-            LOGGER.warn("Scheme type " + schema.getType() + "not handled in reqeust body");
+            // TODO need to handle primitive type in this block
+            LOGGER.warn("Scheme type " + schema.getType() + " not handled in reqeust body");
         }
 
         // set the parameter's example value
