@@ -68,8 +68,8 @@ private:
     /// <remarks>
     /// 
     /// </remarks>
-    /// <param name="body">Pet object that needs to be added to the store</param>
-    virtual void add_pet(const Pet &body, Pistache::Http::ResponseWriter &response) = 0;
+    /// <param name="pet">Pet object that needs to be added to the store</param>
+    virtual void add_pet(const Pet &pet, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Deletes a pet
@@ -114,8 +114,8 @@ private:
     /// <remarks>
     /// 
     /// </remarks>
-    /// <param name="body">Pet object that needs to be added to the store</param>
-    virtual void update_pet(const Pet &body, Pistache::Http::ResponseWriter &response) = 0;
+    /// <param name="pet">Pet object that needs to be added to the store</param>
+    virtual void update_pet(const Pet &pet, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Updates a pet in the store with form data
