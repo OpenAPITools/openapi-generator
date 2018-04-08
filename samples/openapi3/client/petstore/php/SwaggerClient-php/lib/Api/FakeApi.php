@@ -1933,6 +1933,9 @@ class FakeApi
             $queryParams['enum_query_double'] = ObjectSerializer::toQueryValue($enum_query_double);
         }
         // header params
+        if (is_array($enum_header_string_array)) {
+            $enum_header_string_array = ObjectSerializer::serializeCollection($enum_header_string_array, 'csv');
+        }
         if ($enum_header_string_array !== null) {
             $headerParams['enum_header_string_array'] = ObjectSerializer::toHeaderValue($enum_header_string_array);
         }
