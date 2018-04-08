@@ -1139,7 +1139,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat())) {
                 datatype = SchemaTypeUtil.DOUBLE_FORMAT;
             } else { // without format
-                datatype = "BigDecimal";
+                datatype = schema.getType(); // number
             }
         } else if (schema instanceof IntegerSchema || SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType())) {
             if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
@@ -1677,6 +1677,24 @@ public class DefaultCodegen implements CodegenConfig {
             } else { // type is number and without format
                 property.isNumber = Boolean.TRUE;
             }
+
+            if (p.getMinimum() != null) {
+                property.minimum = String.valueOf(p.getMinimum());
+            }
+            if (p.getMaximum() != null) {
+                property.maximum = String.valueOf(p.getMaximum());
+            }
+            if (p.getExclusiveMinimum() != null) {
+                property.exclusiveMinimum = p.getExclusiveMinimum();
+            }
+            if (p.getExclusiveMaximum() != null) {
+                property.exclusiveMaximum = p.getExclusiveMaximum();
+            }
+
+            // check if any validation rule defined
+            // exclusive* are noop without corresponding min/max
+            if (property.minimum != null || property.maximum != null)
+                property.hasValidation = true;
 
             if (p.getEnum() != null && !p.getEnum().isEmpty()) {
                 List<Object> _enum = p.getEnum();
@@ -4158,7 +4176,8 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenProperty = codegenProperty.items;
             }
         } else {
-            LOGGER.warn("Scheme type " + schema.getType() + "not handled in reqeust body");
+            // TODO need to handle primitive type in this block
+            LOGGER.warn("Scheme type " + schema.getType() + " not handled in reqeust body");
         }
 
         // set the parameter's example value
