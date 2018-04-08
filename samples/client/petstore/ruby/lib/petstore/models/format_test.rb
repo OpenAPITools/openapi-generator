@@ -65,7 +65,7 @@ module Petstore
         :'integer' => :'Integer',
         :'int32' => :'Integer',
         :'int64' => :'Integer',
-        :'number' => :'BigDecimal',
+        :'number' => :'Float',
         :'float' => :'Float',
         :'double' => :'Float',
         :'string' => :'String',
