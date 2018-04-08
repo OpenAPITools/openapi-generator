@@ -261,7 +261,39 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         // not including base object test as the moment as not all API has model
         //writeOptional(outputFolder, new SupportingFile("base_object_spec.mustache", specFolder, "base_object_spec.rb"));
     }
-    
+
+    /* TO BE DELETED: replaced with postProcessOperations below
+        @Override
+        public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> schemas, OpenAPI openAPI) {
+            CodegenOperation op = super.fromOperation(path, httpMethod, operation, schemas, openAPI);
+            // Set vendor-extension to be used in template:
+            //     x-codegen-hasMoreRequired
+            //     x-codegen-hasMoreOptional
+            //     x-codegen-hasRequiredParams
+            CodegenParameter lastRequired = null;
+            CodegenParameter lastOptional = null;
+            for (CodegenParameter p : op.allParams) {
+                if (p.required) {
+                    lastRequired = p;
+                } else {
+                    lastOptional = p;
+                }
+            }
+            for (CodegenParameter p : op.allParams) {
+                if (p == lastRequired) {
+                    p.vendorExtensions.put("x-codegen-hasMoreRequired", false);
+                } else if (p == lastOptional) {
+                    p.vendorExtensions.put("x-codegen-hasMoreOptional", false);
+                } else {
+                    p.vendorExtensions.put("x-codegen-hasMoreRequired", true);
+                    p.vendorExtensions.put("x-codegen-hasMoreOptional", true);
+                }
+            }
+            op.vendorExtensions.put("x-codegen-hasRequiredParams", lastRequired != null);
+            return op;
+        }
+    */
+
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");

@@ -163,6 +163,30 @@ module Petstore
         invalid_properties.push('invalid value for "number", number cannot be nil.')
       end
 
+      if @number > 543
+        invalid_properties.push('invalid value for "number", must be smaller than or equal to 543.')
+      end
+
+      if @number < 32
+        invalid_properties.push('invalid value for "number", must be greater than or equal to 32.')
+      end
+
+      if !@float.nil? && @float > 987
+        invalid_properties.push('invalid value for "float", must be smaller than or equal to 987.')
+      end
+
+      if !@float.nil? && @float < 54
+        invalid_properties.push('invalid value for "float", must be greater than or equal to 54.')
+      end
+
+      if !@double.nil? && @double > 123
+        invalid_properties.push('invalid value for "double", must be smaller than or equal to 123.')
+      end
+
+      if !@double.nil? && @double < 67
+        invalid_properties.push('invalid value for "double", must be greater than or equal to 67.')
+      end
+
       if !@string.nil? && @string !~ Regexp.new(/[a-z]/i)
         invalid_properties.push('invalid value for "string", must conform to the pattern /[a-z]/i.')
       end
@@ -202,6 +226,12 @@ module Petstore
       return false if !@int32.nil? && @int32 > 200
       return false if !@int32.nil? && @int32 < 20
       return false if @number.nil?
+      return false if @number > 543
+      return false if @number < 32
+      return false if !@float.nil? && @float > 987
+      return false if !@float.nil? && @float < 54
+      return false if !@double.nil? && @double > 123
+      return false if !@double.nil? && @double < 67
       return false if !@string.nil? && @string !~ Regexp.new(/[a-z]/i)
       return false if @byte.nil?
       return false if @byte !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
@@ -238,6 +268,52 @@ module Petstore
       end
 
       @int32 = int32
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] number Value to be assigned
+    def number=(number)
+      if number.nil?
+        fail ArgumentError, 'number cannot be nil'
+      end
+
+      if number > 543
+        fail ArgumentError, 'invalid value for "number", must be smaller than or equal to 543.'
+      end
+
+      if number < 32
+        fail ArgumentError, 'invalid value for "number", must be greater than or equal to 32.'
+      end
+
+      @number = number
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] float Value to be assigned
+    def float=(float)
+      if !float.nil? && float > 987
+        fail ArgumentError, 'invalid value for "float", must be smaller than or equal to 987.'
+      end
+
+      if !float.nil? && float < 54
+        fail ArgumentError, 'invalid value for "float", must be greater than or equal to 54.'
+      end
+
+      @float = float
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] double Value to be assigned
+    def double=(double)
+      if !double.nil? && double > 123
+        fail ArgumentError, 'invalid value for "double", must be smaller than or equal to 123.'
+      end
+
+      if !double.nil? && double < 67
+        fail ArgumentError, 'invalid value for "double", must be greater than or equal to 67.'
+      end
+
+      @double = double
     end
 
     # Custom attribute writer method with validation
