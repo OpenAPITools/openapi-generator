@@ -26,6 +26,7 @@ import org.joda.time.DateTime;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
 //import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.utils.ImplementationVersion;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -271,7 +272,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
     }
 
-    private void generateModels(List<File> files, List<Object> allModels) {
+    private void generateModels(List<File> files, List<Object> allModels, List<String> unusedModels) {
         if (!generateModels) {
             return;
         }
@@ -360,6 +361,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 //don't generate models that have an import mapping
                 if (config.importMapping().containsKey(name)) {
                     LOGGER.debug("Model " + name + " not imported due to import mapping");
+                    continue;
+                }
+
+                // don't generate models that are not used as object (e.g. form parameters)
+                if (unusedModels.contains(name)) {
+                    LOGGER.debug("Model " + name + " not generated since it's marked as unused (due to form parameters)");
                     continue;
                 }
 
@@ -753,16 +760,15 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         configureGeneratorProperties();
         configureOpenAPIInfo();
 
-        /* TODO revise inline model logic
         // resolve inline models
-        InlineModelResolver inlineModelResolver = new InlineModelResolver();
-        inlineModelResolver.flatten(openAPI);
-        */
+        //InlineModelResolver inlineModelResolver = new InlineModelResolver();
+        //inlineModelResolver.flatten(openAPI);
 
         List<File> files = new ArrayList<File>();
         // models
+        List<String> unusedSchemas = ModelUtils.getUnusedSchemas(openAPI);
         List<Object> allModels = new ArrayList<Object>();
-        generateModels(files, allModels);
+        generateModels(files, allModels, unusedSchemas);
         // apis
         List<Object> allOperations = new ArrayList<Object>();
         generateApis(files, allOperations, allModels);
