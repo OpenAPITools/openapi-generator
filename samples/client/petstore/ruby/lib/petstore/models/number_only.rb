@@ -26,7 +26,7 @@ module Petstore
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'just_number' => :'Float'
+        :'just_number' => :'BigDecimal'
       }
     end
 
