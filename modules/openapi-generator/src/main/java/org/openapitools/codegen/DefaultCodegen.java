@@ -1679,10 +1679,10 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             if (p.getMinimum() != null) {
-                property.minimum = String.valueOf(p.getMinimum().longValue());
+                property.minimum = String.valueOf(p.getMinimum());
             }
             if (p.getMaximum() != null) {
-                property.maximum = String.valueOf(p.getMaximum().longValue());
+                property.maximum = String.valueOf(p.getMaximum());
             }
             if (p.getExclusiveMinimum() != null) {
                 property.exclusiveMinimum = p.getExclusiveMinimum();
