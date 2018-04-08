@@ -629,6 +629,15 @@ paths:
             enum:
               - 1
               - -2
+        - name: enum_query_double
+          in: query
+          description: Query parameter enum test (double)
+          schema:
+            type: number
+            format: double
+            enum:
+              - 1.1
+              - -1.2
       responses:
         '400':
           description: Invalid request
@@ -657,13 +666,6 @@ paths:
                     - '-efg'
                     - (xyz)
                   default: '-efg'
-                enum_query_double:
-                  description: Query parameter enum test (double)
-                  type: number
-                  format: double
-                  enum:
-                    - 1.1
-                    - -1.2
     post:
       tags:
         - fake

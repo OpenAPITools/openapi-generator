@@ -1743,17 +1743,17 @@ class FakeApi
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
      * @param  string $enum_query_string Query parameter enum test (string) (optional)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
      * @param  string $enum_form_string Form parameter enum test (string) (optional)
-     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testEnumParameters($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_form_string_array = null, $enum_form_string = null, $enum_query_double = null)
+    public function testEnumParameters($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
     {
-        $this->testEnumParametersWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_form_string_array, $enum_form_string, $enum_query_double);
+        $this->testEnumParametersWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
     }
 
     /**
@@ -1766,18 +1766,18 @@ class FakeApi
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
      * @param  string $enum_query_string Query parameter enum test (string) (optional)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
      * @param  string $enum_form_string Form parameter enum test (string) (optional)
-     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEnumParametersWithHttpInfo($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_form_string_array = null, $enum_form_string = null, $enum_query_double = null)
+    public function testEnumParametersWithHttpInfo($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
     {
         $returnType = '';
-        $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_form_string_array, $enum_form_string, $enum_query_double);
+        $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1826,16 +1826,16 @@ class FakeApi
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
      * @param  string $enum_query_string Query parameter enum test (string) (optional)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
      * @param  string $enum_form_string Form parameter enum test (string) (optional)
-     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEnumParametersAsync($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_form_string_array = null, $enum_form_string = null, $enum_query_double = null)
+    public function testEnumParametersAsync($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
     {
-        return $this->testEnumParametersAsyncWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_form_string_array, $enum_form_string, $enum_query_double)
+        return $this->testEnumParametersAsyncWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1853,17 +1853,17 @@ class FakeApi
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
      * @param  string $enum_query_string Query parameter enum test (string) (optional)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
      * @param  string $enum_form_string Form parameter enum test (string) (optional)
-     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEnumParametersAsyncWithHttpInfo($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_form_string_array = null, $enum_form_string = null, $enum_query_double = null)
+    public function testEnumParametersAsyncWithHttpInfo($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
     {
         $returnType = '';
-        $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_form_string_array, $enum_form_string, $enum_query_double);
+        $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1896,14 +1896,14 @@ class FakeApi
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
      * @param  string $enum_query_string Query parameter enum test (string) (optional)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
      * @param  string $enum_form_string Form parameter enum test (string) (optional)
-     * @param  double $enum_query_double Query parameter enum test (double) (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testEnumParametersRequest($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_form_string_array = null, $enum_form_string = null, $enum_query_double = null)
+    protected function testEnumParametersRequest($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
     {
 
         $resourcePath = '/fake';
@@ -1928,6 +1928,10 @@ class FakeApi
         if ($enum_query_integer !== null) {
             $queryParams['enum_query_integer'] = ObjectSerializer::toQueryValue($enum_query_integer);
         }
+        // query params
+        if ($enum_query_double !== null) {
+            $queryParams['enum_query_double'] = ObjectSerializer::toQueryValue($enum_query_double);
+        }
         // header params
         if ($enum_header_string_array !== null) {
             $headerParams['enum_header_string_array'] = ObjectSerializer::toHeaderValue($enum_header_string_array);
@@ -1945,10 +1949,6 @@ class FakeApi
         // form params
         if ($enum_form_string !== null) {
             $formParams['enum_form_string'] = ObjectSerializer::toFormValue($enum_form_string);
-        }
-        // form params
-        if ($enum_query_double !== null) {
-            $formParams['enum_query_double'] = ObjectSerializer::toFormValue($enum_query_double);
         }
         // body params
         $_tempBody = null;
