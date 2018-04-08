@@ -179,4 +179,9 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     public String toBooleanGetter(String name) {
         return "is" + getterAndSetterCapitalize(name);
     }
+
+    @Override
+    public String getTypeDeclaration(String str) {
+        return "std::shared_ptr<" + toModelName(str) + ">";
+    }
 }
