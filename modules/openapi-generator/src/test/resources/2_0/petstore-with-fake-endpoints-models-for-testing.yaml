@@ -690,7 +690,7 @@ paths:
           enum:
             - 1.1
             - -1.2
-          in: formData
+          in: query
           description: Query parameter enum test (double)
       responses:
         '400':

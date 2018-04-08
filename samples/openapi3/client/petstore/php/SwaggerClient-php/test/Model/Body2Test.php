@@ -89,11 +89,4 @@ class Body2Test extends \PHPUnit_Framework_TestCase
     public function testPropertyEnumFormString()
     {
     }
-
-    /**
-     * Test attribute "enum_query_double"
-     */
-    public function testPropertyEnumQueryDouble()
-    {
-    }
 }
