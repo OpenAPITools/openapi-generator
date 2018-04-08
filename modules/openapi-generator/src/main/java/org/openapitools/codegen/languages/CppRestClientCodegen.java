@@ -293,6 +293,11 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
     }
 
     @Override
+    public String getTypeDeclaration(String str) {
+        return "std::shared_ptr<" + toModelName(str) + ">";
+    }
+
+    @Override
     public String toDefaultValue(Schema p) {
         if (p instanceof StringSchema) {
             return "utility::conversions::to_string_t(\"\")";

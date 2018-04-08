@@ -372,7 +372,7 @@ pplx::task<std::shared_ptr<Order>> StoreApi::getOrderById(int64_t orderId)
         return result;
     });
 }
-pplx::task<std::shared_ptr<Order>> StoreApi::placeOrder(Order order)
+pplx::task<std::shared_ptr<Order>> StoreApi::placeOrder(std::shared_ptr<Order> order)
 {
 
     // verify the required parameter 'order' is set

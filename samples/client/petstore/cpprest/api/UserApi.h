@@ -47,7 +47,7 @@ public:
     /// </remarks>
     /// <param name="user">Created user object</param>
     pplx::task<void> createUser(
-        User user
+        std::shared_ptr<User> user
     );
     /// <summary>
     /// Creates list of users with given input array
@@ -119,7 +119,7 @@ public:
     /// <param name="user">Updated user object</param>
     pplx::task<void> updateUser(
         utility::string_t username,
-        User user
+        std::shared_ptr<User> user
     );
 
 protected:
