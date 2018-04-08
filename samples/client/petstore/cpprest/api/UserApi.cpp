@@ -36,7 +36,7 @@ UserApi::~UserApi()
 {
 }
 
-pplx::task<void> UserApi::createUser(User user)
+pplx::task<void> UserApi::createUser(std::shared_ptr<User> user)
 {
 
     // verify the required parameter 'user' is set
@@ -828,7 +828,7 @@ pplx::task<void> UserApi::logoutUser()
         return void();
     });
 }
-pplx::task<void> UserApi::updateUser(utility::string_t username, User user)
+pplx::task<void> UserApi::updateUser(utility::string_t username, std::shared_ptr<User> user)
 {
 
     // verify the required parameter 'user' is set

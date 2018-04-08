@@ -36,7 +36,7 @@ PetApi::~PetApi()
 {
 }
 
-pplx::task<void> PetApi::addPet(Pet pet)
+pplx::task<void> PetApi::addPet(std::shared_ptr<Pet> pet)
 {
 
     // verify the required parameter 'pet' is set
@@ -631,7 +631,7 @@ pplx::task<std::shared_ptr<Pet>> PetApi::getPetById(int64_t petId)
         return result;
     });
 }
-pplx::task<void> PetApi::updatePet(Pet pet)
+pplx::task<void> PetApi::updatePet(std::shared_ptr<Pet> pet)
 {
 
     // verify the required parameter 'pet' is set

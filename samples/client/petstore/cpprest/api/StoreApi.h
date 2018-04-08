@@ -76,7 +76,7 @@ public:
     /// </remarks>
     /// <param name="order">order placed for purchasing the pet</param>
     pplx::task<std::shared_ptr<Order>> placeOrder(
-        Order order
+        std::shared_ptr<Order> order
     );
 
 protected:
