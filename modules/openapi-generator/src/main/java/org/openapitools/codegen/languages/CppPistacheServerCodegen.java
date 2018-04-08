@@ -179,7 +179,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
                 op.bodyParam.vendorExtensions.put("x-codegen-pistache-isStringOrDate", op.bodyParam.isString || op.bodyParam.isDate);
             }
-            if(op.consumes != null) {
+            if (op.consumes != null) {
                 for (Map<String, String> consume : op.consumes) {
                     if (consume.get("mediaType") != null && consume.get("mediaType").equals("application/json")) {
                         consumeJson = true;
@@ -189,17 +189,17 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
             op.httpMethod = op.httpMethod.substring(0, 1).toUpperCase() + op.httpMethod.substring(1).toLowerCase();
 
-            for(CodegenParameter param : op.allParams){
-                if (param.isFormParam) isParsingSupported=false;
-                if (param.isFile) isParsingSupported=false;
-                if (param.isCookieParam) isParsingSupported=false;
+            for (CodegenParameter param : op.allParams) {
+                if (param.isFormParam) isParsingSupported = false;
+                if (param.isFile) isParsingSupported = false;
+                if (param.isCookieParam) isParsingSupported = false;
 
                 //TODO: This changes the info about the real type but it is needed to parse the header params
                 if (param.isHeaderParam) {
                     param.dataType = "Optional<Net::Http::Header::Raw>";
                     param.baseType = "Optional<Net::Http::Header::Raw>";
-                } else if(param.isQueryParam){
-                    if(param.isPrimitiveType) {
+                } else if (param.isQueryParam) {
+                    if (param.isPrimitiveType) {
                         param.dataType = "Optional<" + param.dataType + ">";
                     } else {
                         param.dataType = "Optional<" + param.baseType + ">";
@@ -227,15 +227,15 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public String apiFilename(String templateName, String tag) {
         String result = super.apiFilename(templateName, tag);
 
-        if ( templateName.endsWith("impl-header.mustache") ) {
+        if (templateName.endsWith("impl-header.mustache")) {
             int ix = result.lastIndexOf('/');
             result = result.substring(0, ix) + result.substring(ix, result.length() - 2) + "Impl.h";
             result = result.replace(apiFileFolder(), implFileFolder());
-        } else if ( templateName.endsWith("impl-source.mustache") ) {
+        } else if (templateName.endsWith("impl-source.mustache")) {
             int ix = result.lastIndexOf('/');
             result = result.substring(0, ix) + result.substring(ix, result.length() - 4) + "Impl.cpp";
             result = result.replace(apiFileFolder(), implFileFolder());
-        } else if ( templateName.endsWith("api-server.mustache") ) {
+        } else if (templateName.endsWith("api-server.mustache")) {
             int ix = result.lastIndexOf('/');
             result = result.substring(0, ix) + result.substring(ix, result.length() - 4) + "MainServer.cpp";
             result = result.replace(apiFileFolder(), outputFolder);
@@ -254,11 +254,11 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
      * for different property types
      *
      * @return a string value used as the `dataType` field for model templates,
-     *         `returnType` for api templates
+     * `returnType` for api templates
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        String swaggerType = getSchemaType(p);
+        String openAPIType = getSchemaType(p);
 
         if (p instanceof ArraySchema) {
             ArraySchema ap = (ArraySchema) p;
@@ -269,13 +269,14 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         }
-        if (p instanceof StringSchema || p instanceof DateSchema
+        if (p instanceof StringSchema || SchemaTypeUtil.STRING_TYPE.equals(p.getType())
+                || p instanceof DateSchema
                 || p instanceof DateTimeSchema || p instanceof FileSchema
-                || languageSpecificPrimitives.contains(swaggerType)) {
-            return toModelName(swaggerType);
+                || languageSpecificPrimitives.contains(openAPIType)) {
+            return toModelName(openAPIType);
         }
 
-        return "std::shared_ptr<" + swaggerType + ">";
+        return "std::shared_ptr<" + openAPIType + ">";
     }
 
     @Override
@@ -358,14 +359,14 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
      */
     @Override
     public String getSchemaType(Schema p) {
-        String swaggerType = super.getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
                 return toModelName(type);
         } else
-            type = swaggerType;
+            type = openAPIType;
         return toModelName(type);
     }
 
