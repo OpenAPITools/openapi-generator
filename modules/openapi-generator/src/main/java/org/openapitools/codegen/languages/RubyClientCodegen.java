@@ -1,5 +1,6 @@
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -17,12 +18,6 @@ import java.util.Map;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.DateSchema;
-import io.swagger.v3.oas.models.media.DateTimeSchema;
-import io.swagger.v3.oas.models.media.MapSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,15 +73,15 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                    // local variable names used in API methods (endpoints)
-                    "local_var_path", "query_params", "header_params", "_header_accept", "_header_accept_result",
-                    "_header_content_type", "form_params", "post_body", "auth_names",
-                    // ruby reserved keywords
-                    "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
-                    "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
-                    "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
-                    "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
-                    "if", "not", "return", "undef", "yield")
+                        // local variable names used in API methods (endpoints)
+                        "local_var_path", "query_params", "header_params", "_header_accept", "_header_accept_result",
+                        "_header_content_type", "form_params", "post_body", "auth_names",
+                        // ruby reserved keywords
+                        "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
+                        "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
+                        "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
+                        "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
+                        "if", "not", "return", "undef", "yield")
         );
 
         typeMapping.clear();
@@ -202,7 +197,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(GEM_VERSION)) {
             setGemVersion((String) additionalProperties.get(GEM_VERSION));
-        }else {
+        } else {
             // not set, pass the default value to template
             additionalProperties.put(GEM_VERSION, gemVersion);
         }
@@ -325,7 +320,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     /**
      * Generate Ruby gem name from the module name, e.g. use "swagger_client" for "SwaggerClient".
      *
-     * @param  moduleName Ruby module naame
+     * @param moduleName Ruby module naame
      * @return Ruby gem name
      */
     @SuppressWarnings("static-method")
@@ -334,8 +329,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String escapeReservedWord(String name) {           
-        if(this.reservedWordsMappings().containsKey(name)) {
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -375,25 +370,26 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String getTypeDeclaration(Schema schema) {
         if (schema instanceof ArraySchema) {
             Schema inner = ((ArraySchema) schema).getItems();
-            return String.format("%s[%s]", getSchemaType(schema), getTypeDeclaration(inner));
+            return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
         } else if (isMapSchema(schema)) {
             Schema inner = (Schema) schema.getAdditionalProperties();
-            return String.format("%s[String, %s]", getSchemaType(schema), getTypeDeclaration(inner));
+            return getSchemaType(schema) + "<String, " + getTypeDeclaration(inner) + ">";
         }
 
         return super.getTypeDeclaration(schema);
     }
 
     @Override
-    public String toDefaultValue(Schema schema) {
-        if(schema instanceof StringSchema) {
-            if (schema.getDefault() != null) {
-                return String.format("\"%s\"", schema.getDefault());
+    public String toDefaultValue(Schema p) {
+        if (p instanceof IntegerSchema || p instanceof NumberSchema || p instanceof BooleanSchema) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
-        }
-
-        if (schema.getDefault() != null) {
-            return schema.getDefault().toString();
+        } else if (p instanceof StringSchema) {
+            StringSchema sp = (StringSchema) p;
+            if (sp.getDefault() != null) {
+                return "'" + escapeText(sp.getDefault()) + "'";
+            }
         }
 
         return null;
@@ -401,15 +397,15 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getSchemaType(Schema schema) {
-        String swaggerType = super.getSchemaType(schema);
+        String openAPIType = super.getSchemaType(schema);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
         } else {
-            type = swaggerType;
+            type = openAPIType;
         }
 
         if (type == null) {

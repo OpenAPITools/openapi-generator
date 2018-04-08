@@ -52,7 +52,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 
 
@@ -152,11 +152,9 @@ No authorization required
 
 
 # **place_order**
-> Order place_order(body)
+> Order place_order(order)
 
 Place an order for a pet
-
-
 
 ### Example
 ```ruby
@@ -165,12 +163,12 @@ require 'petstore'
 
 api_instance = Petstore::StoreApi.new
 
-body = Petstore::Order.new # Order | order placed for purchasing the pet
+order = Petstore::Order.new # Order | order placed for purchasing the pet
 
 
 begin
   #Place an order for a pet
-  result = api_instance.place_order(body)
+  result = api_instance.place_order(order)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling StoreApi->place_order: #{e}"
@@ -181,7 +179,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
@@ -193,7 +191,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: */*
  - **Accept**: application/xml, application/json
 
 

@@ -15,11 +15,9 @@ Method | HTTP request | Description
 
 
 # **add_pet**
-> add_pet(body)
+> add_pet(pet)
 
 Add a new pet to the store
-
-
 
 ### Example
 ```ruby
@@ -33,12 +31,12 @@ end
 
 api_instance = Petstore::PetApi.new
 
-body = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
+pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
 
 
 begin
   #Add a new pet to the store
-  api_instance.add_pet(body)
+  api_instance.add_pet(pet)
 rescue Petstore::ApiError => e
   puts "Exception when calling PetApi->add_pet: #{e}"
 end
@@ -48,7 +46,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -61,16 +59,14 @@ nil (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 
 
 # **delete_pet**
-> delete_pet(pet_id, opts)
+> delete_pet(pet_id)
 
 Deletes a pet
-
-
 
 ### Example
 ```ruby
@@ -86,13 +82,10 @@ api_instance = Petstore::PetApi.new
 
 pet_id = 789 # Integer | Pet id to delete
 
-opts = { 
-  api_key: 'api_key_example' # String | 
-}
 
 begin
   #Deletes a pet
-  api_instance.delete_pet(pet_id, opts)
+  api_instance.delete_pet(pet_id)
 rescue Petstore::ApiError => e
   puts "Exception when calling PetApi->delete_pet: #{e}"
 end
@@ -116,7 +109,7 @@ nil (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 
 
@@ -279,11 +272,9 @@ Name | Type | Description  | Notes
 
 
 # **update_pet**
-> update_pet(body)
+> update_pet(pet)
 
 Update an existing pet
-
-
 
 ### Example
 ```ruby
@@ -297,12 +288,12 @@ end
 
 api_instance = Petstore::PetApi.new
 
-body = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
+pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
 
 
 begin
   #Update an existing pet
-  api_instance.update_pet(body)
+  api_instance.update_pet(pet)
 rescue Petstore::ApiError => e
   puts "Exception when calling PetApi->update_pet: #{e}"
 end
@@ -312,7 +303,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -325,16 +316,14 @@ nil (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 
 
 # **update_pet_with_form**
-> update_pet_with_form(pet_id, opts)
+> update_pet_with_form(pet_id)
 
 Updates a pet in the store with form data
-
-
 
 ### Example
 ```ruby
@@ -350,14 +339,10 @@ api_instance = Petstore::PetApi.new
 
 pet_id = 789 # Integer | ID of pet that needs to be updated
 
-opts = { 
-  name: 'name_example', # String | Updated name of the pet
-  status: 'status_example' # String | Updated status of the pet
-}
 
 begin
   #Updates a pet in the store with form data
-  api_instance.update_pet_with_form(pet_id, opts)
+  api_instance.update_pet_with_form(pet_id)
 rescue Petstore::ApiError => e
   puts "Exception when calling PetApi->update_pet_with_form: #{e}"
 end
@@ -382,16 +367,14 @@ nil (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 
 
 # **upload_file**
-> ApiResponse upload_file(pet_id, opts)
+> ApiResponse upload_file(pet_id)
 
 uploads an image
-
-
 
 ### Example
 ```ruby
@@ -407,14 +390,10 @@ api_instance = Petstore::PetApi.new
 
 pet_id = 789 # Integer | ID of pet to update
 
-opts = { 
-  additional_metadata: 'additional_metadata_example', # String | Additional data to pass to server
-  file: File.new('/path/to/file.txt') # File | file to upload
-}
 
 begin
   #uploads an image
-  result = api_instance.upload_file(pet_id, opts)
+  result = api_instance.upload_file(pet_id)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling PetApi->upload_file: #{e}"
