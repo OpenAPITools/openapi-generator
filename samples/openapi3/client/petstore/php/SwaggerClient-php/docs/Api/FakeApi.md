@@ -294,8 +294,8 @@ $int64 = 56; // int | None
 $float = 3.4; // float | None
 $string = "string_example"; // string | None
 $binary = "binary_example"; // string | None
-$date = "date_example"; // \DateTime | None
-$date_time = "date_time_example"; // \DateTime | None
+$date = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
+$date_time = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
 $password = "password_example"; // string | None
 $callback = "callback_example"; // string | None
 
@@ -314,13 +314,13 @@ Name | Type | Description  | Notes
  **number** | **BigDecimal**| None |
  **double** | **double**| None |
  **pattern_without_delimiter** | **string**| None |
- **byte** | **string**| None |
+ **byte** | **string****string**| None |
  **integer** | **int**| None | [optional]
  **int32** | **int**| None | [optional]
  **int64** | **int**| None | [optional]
  **float** | **float**| None | [optional]
  **string** | **string**| None | [optional]
- **binary** | **string**| None | [optional]
+ **binary** | **string****string**| None | [optional]
  **date** | **\DateTime**| None | [optional]
  **date_time** | **\DateTime**| None | [optional]
  **password** | **string**| None | [optional]
@@ -450,7 +450,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testJsonFormData**
-> testJsonFormData($param, $param2)
+> testJsonFormData($body_4)
 
 test json serialization of form data
 
@@ -464,11 +464,10 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$param = "param_example"; // string | field1
-$param2 = "param2_example"; // string | field2
+$body_4 = new \Swagger\Client\Model\Body4(); // \Swagger\Client\Model\Body4 | 
 
 try {
-    $apiInstance->testJsonFormData($param, $param2);
+    $apiInstance->testJsonFormData($body_4);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testJsonFormData: ', $e->getMessage(), PHP_EOL;
 }
@@ -479,8 +478,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **string**| field1 |
- **param2** | **string**| field2 |
+ **body_4** | [**\Swagger\Client\Model\Body4**](../Model/Body4.md)|  | [optional]
 
 ### Return type
 
@@ -492,7 +490,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
