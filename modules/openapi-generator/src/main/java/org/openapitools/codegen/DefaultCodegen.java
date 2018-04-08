@@ -3941,7 +3941,10 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected String getCollectionFormat(Parameter parameter) {
-        if (Parameter.StyleEnum.FORM.equals(parameter.getStyle())) {
+        if (
+               Parameter.StyleEnum.FORM.equals(parameter.getStyle())
+            || Parameter.StyleEnum.SIMPLE.equals(parameter.getStyle())
+           ) {
             if (parameter.getExplode() != null && parameter.getExplode()) {
                 return "csv";
             } else {
