@@ -405,18 +405,13 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
     @Override
     public String toParamName(String name) {
-        // don't do name =removeNonNameElementToCamelCase(name); // this breaks connexion, which does not modify param names before sending them
-        if (reservedWords.contains(name)) {
-            return escapeReservedWord(name);
+        // to avoid conflicts with 'callback' parameter for async call
+        if ("callback".equals(name)) {
+            return "param_callback";
         }
 
-        // sanitize the param name but don't underscore it since it's used for request mapping
-        String paramName = sanitizeName(name);
-        if (!paramName.equals(name)) {
-            LOGGER.warn(name + " (parameter name) cannot be used as parameter name with flask-connexion and was sanitized as " + paramName);
-        }
-        // Param name is already sanitized in openapi spec processing
-        return paramName;
+        // should be the same as variable name
+        return toVarName(name);
     }
 
     @Override
