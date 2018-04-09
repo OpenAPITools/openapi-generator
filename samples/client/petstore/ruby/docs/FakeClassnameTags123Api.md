@@ -27,9 +27,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::FakeClassnameTags123Api.new
-
 client = Petstore::Client.new # Client | client model
-
 
 begin
   #To test class name in snake case
