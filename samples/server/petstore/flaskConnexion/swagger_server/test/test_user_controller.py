@@ -17,12 +17,12 @@ class TestUserController(BaseTestCase):
 
         Create user
         """
-        body = User()
+        user = User()
         response = self.client.open(
             '/v2/user',
             method='POST',
-            data=json.dumps(body),
-            content_type='application/json')
+            data=json.dumps(user),
+            content_type='*/*')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -31,12 +31,12 @@ class TestUserController(BaseTestCase):
 
         Creates list of users with given input array
         """
-        body = [User()]
+        user = [User()]
         response = self.client.open(
             '/v2/user/createWithArray',
             method='POST',
-            data=json.dumps(body),
-            content_type='application/json')
+            data=json.dumps(user),
+            content_type='*/*')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -45,12 +45,12 @@ class TestUserController(BaseTestCase):
 
         Creates list of users with given input array
         """
-        body = [User()]
+        user = [User()]
         response = self.client.open(
             '/v2/user/createWithList',
             method='POST',
-            data=json.dumps(body),
-            content_type='application/json')
+            data=json.dumps(user),
+            content_type='*/*')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -106,12 +106,12 @@ class TestUserController(BaseTestCase):
 
         Updated user
         """
-        body = User()
+        user = User()
         response = self.client.open(
             '/v2/user/{username}'.format(username='username_example'),
             method='PUT',
-            data=json.dumps(body),
-            content_type='application/json')
+            data=json.dumps(user),
+            content_type='*/*')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
