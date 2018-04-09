@@ -107,8 +107,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             return "any";
         } else if (p instanceof BinarySchema) {
             return "any";
-        } else if (!StringUtils.isEmpty(p.get$ref())) { // model
-            return "any";
         } else {
             return super.getTypeDeclaration(p);
         }
