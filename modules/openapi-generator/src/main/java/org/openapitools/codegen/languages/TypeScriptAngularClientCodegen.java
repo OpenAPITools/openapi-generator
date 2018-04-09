@@ -176,8 +176,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public String getTypeDeclaration(Schema p) {
         if (p instanceof FileSchema) {
             return "Blob";
-        } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return "any";
         } else {
             return super.getTypeDeclaration(p);
         }
