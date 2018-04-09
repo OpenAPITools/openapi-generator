@@ -112,8 +112,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "default" : "available",
-            "enum" : [ "available", "pending", "sold" ]
+            "enum" : [ "available", "pending", "sold" ],
+            "default" : "available"
           },
           "collectionFormat" : "csv"
         } ],
@@ -588,7 +588,7 @@
         "parameters" : [ {
           "name" : "username",
           "in" : "path",
-          "description" : "The name that needs to be fetched. Use user1 for testing. ",
+          "description" : "The name that needs to be fetched. Use user1 for testing.",
           "required" : true,
           "type" : "string"
         } ],
@@ -711,8 +711,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "default" : "$",
-            "enum" : [ ">", "$" ]
+            "enum" : [ ">", "$" ],
+            "default" : "$"
           }
         }, {
           "name" : "enum_form_string",
@@ -730,8 +730,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "default" : "$",
-            "enum" : [ ">", "$" ]
+            "enum" : [ ">", "$" ],
+            "default" : "$"
           }
         }, {
           "name" : "enum_header_string",
@@ -749,8 +749,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "default" : "$",
-            "enum" : [ ">", "$" ]
+            "enum" : [ ">", "$" ],
+            "default" : "$"
           }
         }, {
           "name" : "enum_query_string",
