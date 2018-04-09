@@ -55,9 +55,7 @@ Please follow the [installation](#installation) procedure and then run the follo
 require 'petstore'
 
 api_instance = Petstore::AnotherFakeApi.new
-
 client = Petstore::Client.new # Client | client model
-
 
 begin
   #To test special tags

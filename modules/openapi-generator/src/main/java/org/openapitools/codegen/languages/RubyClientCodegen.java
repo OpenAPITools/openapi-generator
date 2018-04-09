@@ -295,42 +295,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     */
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-        for (CodegenOperation op : operationList) {
-            // Set vendor-extension to be used in template:
-            //     x-codegen-hasMoreRequired
-            //     x-codegen-hasMoreOptional
-            //     x-codegen-hasRequiredParams
-            CodegenParameter lastRequired = null;
-            CodegenParameter lastOptional = null;
-            for (CodegenParameter p : op.allParams) {
-                if (p.required) {
-                    lastRequired = p;
-                } else {
-                    lastOptional = p;
-                }
-            }
-
-            for (CodegenParameter p : op.allParams) {
-                if (p == lastRequired) {
-                    p.vendorExtensions.put("x-codegen-hasMoreRequired", false);
-                } else if (p == lastOptional) {
-                    p.vendorExtensions.put("x-codegen-hasMoreOptional", false);
-                } else {
-                    p.vendorExtensions.put("x-codegen-hasMoreRequired", true);
-                    p.vendorExtensions.put("x-codegen-hasMoreOptional", true);
-                }
-            }
-            op.vendorExtensions.put("x-codegen-hasRequiredParams", lastRequired != null);
-
-        }
-
-        return objs;
-    }
-
-    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
