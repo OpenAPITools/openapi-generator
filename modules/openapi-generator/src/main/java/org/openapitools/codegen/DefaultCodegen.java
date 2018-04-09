@@ -4130,7 +4130,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenModel = fromModel(name, schema, schemas);
             }
             if (codegenModel != null && !codegenModel.emptyVars) {
-                codegenParameter.paramName = toParamName(codegenModel.name);
+                codegenParameter.paramName = toParamName(codegenModel.classname);
                 codegenParameter.baseType = codegenModel.classname;
                 codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
                 codegenParameter.description = codegenModel.description;
@@ -4141,6 +4141,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.baseType = codegenProperty.baseType;
                     codegenParameter.dataType = codegenProperty.datatype;
                     codegenParameter.description = codegenProperty.description;
+                    codegenParameter.paramName = toParamName(codegenProperty.baseType);
 
                     if (codegenProperty.complexType != null) {
                         imports.add(codegenProperty.complexType);
