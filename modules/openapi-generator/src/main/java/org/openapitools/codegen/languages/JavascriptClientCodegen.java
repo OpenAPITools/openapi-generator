@@ -715,6 +715,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return operationId;
     }
 
+    /* comment out below as x-codegen tag are replaced by requiredParams, optionalParams tags
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, openAPI);
@@ -752,6 +753,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         return op;
     }
+    */
 
     @Override
     public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
