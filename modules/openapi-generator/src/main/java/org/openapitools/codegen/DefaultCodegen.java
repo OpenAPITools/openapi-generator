@@ -2135,6 +2135,7 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
         List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
         List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
+        List<CodegenParameter> optionalParams = new ArrayList<CodegenParameter>();
 
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
@@ -2202,9 +2203,9 @@ public class DefaultCodegen implements CodegenConfig {
             for (CodegenParameter cp : bodyParams) {
                 allParams.add(cp.copy());
             }
-
         }
 
+        // ensure unique parameter name
         for (CodegenParameter cp : allParams) {
             if (ensureUniqueParams) {
                 if (isParameterNameUnique(cp, allParams)) {
@@ -2213,9 +2214,14 @@ public class DefaultCodegen implements CodegenConfig {
                     cp.paramName = generateNextName(cp.paramName);
                 }
             }
+        }
+
+        // create optional, required parameters
+        for (CodegenParameter cp : allParams) {
             if (cp.required) { //required parameters
                 requiredParams.add(cp.copy());
             } else { // optional parameters
+                optionalParams.add(cp.copy());
                 op.hasOptionalParams = true;
             }
         }
@@ -2250,6 +2256,7 @@ public class DefaultCodegen implements CodegenConfig {
         op.cookieParams = addHasMore(cookieParams);
         op.formParams = addHasMore(formParams);
         op.requiredParams = addHasMore(requiredParams);
+        op.optionalParams = addHasMore(optionalParams);
         op.externalDocs = operation.getExternalDocs();
         // legacy support
         op.nickname = op.operationId;
