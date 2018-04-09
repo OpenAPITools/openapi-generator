@@ -30,9 +30,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
 pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
-
 
 begin
   #Add a new pet to the store
@@ -64,7 +62,7 @@ nil (empty response body)
 
 
 # **delete_pet**
-> delete_pet(pet_id)
+> delete_pet(pet_id, opts)
 
 Deletes a pet
 
@@ -79,13 +77,14 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
 pet_id = 789 # Integer | Pet id to delete
-
+opts = {
+  api_key: 'api_key_example' # String | 
+}
 
 begin
   #Deletes a pet
-  api_instance.delete_pet(pet_id)
+  api_instance.delete_pet(pet_id, opts)
 rescue Petstore::ApiError => e
   puts "Exception when calling PetApi->delete_pet: #{e}"
 end
@@ -131,9 +130,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
 status = ['status_example'] # Array<String> | Status values that need to be considered for filter
-
 
 begin
   #Finds Pets by status
@@ -183,9 +180,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
 tags = ['tags_example'] # Array<String> | Tags to filter by
-
 
 begin
   #Finds Pets by tags
@@ -237,9 +232,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
 pet_id = 789 # Integer | ID of pet to return
-
 
 begin
   #Find pet by ID
@@ -287,9 +280,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
 pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
-
 
 begin
   #Update an existing pet
@@ -321,7 +312,7 @@ nil (empty response body)
 
 
 # **update_pet_with_form**
-> update_pet_with_form(pet_id)
+> update_pet_with_form(pet_id, opts)
 
 Updates a pet in the store with form data
 
@@ -336,13 +327,15 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
 pet_id = 789 # Integer | ID of pet that needs to be updated
-
+opts = {
+  name: 'name_example', # String | Updated name of the pet
+  status: 'status_example' # String | Updated status of the pet
+}
 
 begin
   #Updates a pet in the store with form data
-  api_instance.update_pet_with_form(pet_id)
+  api_instance.update_pet_with_form(pet_id, opts)
 rescue Petstore::ApiError => e
   puts "Exception when calling PetApi->update_pet_with_form: #{e}"
 end
@@ -372,7 +365,7 @@ nil (empty response body)
 
 
 # **upload_file**
-> ApiResponse upload_file(pet_id)
+> ApiResponse upload_file(pet_id, opts)
 
 uploads an image
 
@@ -387,13 +380,15 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
 pet_id = 789 # Integer | ID of pet to update
-
+opts = {
+  additional_metadata: 'additional_metadata_example', # String | Additional data to pass to server
+  file: File.new('/path/to/file') # File | file to upload
+}
 
 begin
   #uploads an image
-  result = api_instance.upload_file(pet_id)
+  result = api_instance.upload_file(pet_id, opts)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling PetApi->upload_file: #{e}"

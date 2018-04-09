@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **fake_outer_boolean_serialize**
-> OuterBoolean fake_outer_boolean_serialize()
+> OuterBoolean fake_outer_boolean_serialize(opts)
 
 
 
@@ -29,10 +29,12 @@ Test serialization of outer boolean types
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-
+opts = {
+  UNKNOWN_PARAM_NAME: Petstore::null.new #  | Input boolean as post body
+}
 
 begin
-  result = api_instance.fake_outer_boolean_serialize()
+  result = api_instance.fake_outer_boolean_serialize(opts)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->fake_outer_boolean_serialize: #{e}"
@@ -61,7 +63,7 @@ No authorization required
 
 
 # **fake_outer_composite_serialize**
-> OuterComposite fake_outer_composite_serialize()
+> OuterComposite fake_outer_composite_serialize(opts)
 
 
 
@@ -73,10 +75,12 @@ Test serialization of object with outer number type
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-
+opts = {
+  outer_composite: Petstore::OuterComposite.new # OuterComposite | Input composite as post body
+}
 
 begin
-  result = api_instance.fake_outer_composite_serialize()
+  result = api_instance.fake_outer_composite_serialize(opts)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->fake_outer_composite_serialize: #{e}"
@@ -105,7 +109,7 @@ No authorization required
 
 
 # **fake_outer_number_serialize**
-> OuterNumber fake_outer_number_serialize()
+> OuterNumber fake_outer_number_serialize(opts)
 
 
 
@@ -117,10 +121,12 @@ Test serialization of outer number types
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-
+opts = {
+  UNKNOWN_PARAM_NAME: Petstore::null.new #  | Input number as post body
+}
 
 begin
-  result = api_instance.fake_outer_number_serialize()
+  result = api_instance.fake_outer_number_serialize(opts)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->fake_outer_number_serialize: #{e}"
@@ -149,7 +155,7 @@ No authorization required
 
 
 # **fake_outer_string_serialize**
-> OuterString fake_outer_string_serialize()
+> OuterString fake_outer_string_serialize(opts)
 
 
 
@@ -161,10 +167,12 @@ Test serialization of outer string types
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-
+opts = {
+  UNKNOWN_PARAM_NAME: Petstore::null.new #  | Input string as post body
+}
 
 begin
-  result = api_instance.fake_outer_string_serialize()
+  result = api_instance.fake_outer_string_serialize(opts)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->fake_outer_string_serialize: #{e}"
@@ -203,11 +211,8 @@ No authorization required
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-
 query = 'query_example' # String | 
-
 user = Petstore::User.new # User | 
-
 
 begin
   api_instance.test_body_with_query_params(query, user)
@@ -251,9 +256,7 @@ To test \"client\" model
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-
 client = Petstore::Client.new # Client | client model
-
 
 begin
   #To test \"client\" model
@@ -304,9 +307,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::FakeApi.new
-
 UNKNOWN_PARAM_NAME = Petstore::null.new #  | 
-
 
 begin
   #Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -338,7 +339,7 @@ nil (empty response body)
 
 
 # **test_enum_parameters**
-> test_enum_parameters()
+> test_enum_parameters(opts)
 
 To test enum parameters
 
@@ -350,11 +351,19 @@ To test enum parameters
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-
+opts = {
+  enum_header_string_array: ['enum_header_string_array_example'], # Array<String> | Header parameter enum test (string array)
+  enum_header_string: 'enum_header_string_example', # String | Header parameter enum test (string)
+  enum_query_string_array: ['enum_query_string_array_example'], # Array<String> | Query parameter enum test (string array)
+  enum_query_string: 'enum_query_string_example', # String | Query parameter enum test (string)
+  enum_query_integer: 56, # Integer | Query parameter enum test (double)
+  enum_query_double: 1.2, # Float | Query parameter enum test (double)
+  UNKNOWN_PARAM_NAME: Petstore::null.new #  | 
+}
 
 begin
   #To test enum parameters
-  api_instance.test_enum_parameters()
+  api_instance.test_enum_parameters(opts)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_enum_parameters: #{e}"
 end
@@ -398,9 +407,7 @@ test inline additionalProperties
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-
 UNKNOWN_PARAM_NAME = Petstore::null.new #  | request body
-
 
 begin
   #test inline additionalProperties
@@ -442,9 +449,7 @@ test json serialization of form data
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-
 UNKNOWN_PARAM_NAME = Petstore::null.new #  | 
-
 
 begin
   #test json serialization of form data

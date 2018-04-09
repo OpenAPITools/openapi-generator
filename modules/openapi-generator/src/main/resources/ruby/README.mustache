@@ -76,13 +76,19 @@ require '{{{gemName}}}'
 {{/authMethods}}end
 {{/hasAuthMethods}}
 
-api_instance = {{{moduleName}}}::{{{classname}}}.new{{#hasParams}}
-{{#vendorExtensions.x-codegen-hasRequiredParams}}{{#allParams}}{{#required}}
+api_instance = {{{moduleName}}}::{{{classname}}}.new
+{{#requiredParams}}
 {{{paramName}}} = {{{example}}} # {{{dataType}}} | {{{description}}}
-{{/required}}{{/allParams}}{{/vendorExtensions.x-codegen-hasRequiredParams}}{{#hasOptionalParams}}
-opts = { {{#allParams}}{{^required}}
-  {{{paramName}}}: {{{example}}}{{#vendorExtensions.x-codegen-hasMoreOptional}},{{/vendorExtensions.x-codegen-hasMoreOptional}} # {{{dataType}}} | {{{description}}}{{/required}}{{/allParams}}
-}{{/hasOptionalParams}}{{/hasParams}}
+{{/requiredParams}}
+{{#optionalParams}}
+{{#-first}}
+opts = {
+{{/-first}}
+  {{{paramName}}}: {{{example}}}{{^-last}},{{/-last}} # {{{dataType}}} | {{{description}}}
+{{#-last}}
+}
+{{/-last}}
+{{/optionalParams}}
 
 begin
 {{#summary}}  #{{{.}}}

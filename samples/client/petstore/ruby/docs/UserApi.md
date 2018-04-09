@@ -27,9 +27,7 @@ This can only be done by the logged in user.
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-
 user = Petstore::User.new # User | Created user object
-
 
 begin
   #Create user
@@ -71,9 +69,7 @@ Creates list of users with given input array
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-
 user = [Petstore::User.new] # Array<User> | List of user object
-
 
 begin
   #Creates list of users with given input array
@@ -115,9 +111,7 @@ Creates list of users with given input array
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-
 user = [Petstore::User.new] # Array<User> | List of user object
-
 
 begin
   #Creates list of users with given input array
@@ -161,9 +155,7 @@ This can only be done by the logged in user.
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-
 username = 'username_example' # String | The name that needs to be deleted
-
 
 begin
   #Delete user
@@ -205,9 +197,7 @@ Get user by user name
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-
 username = 'username_example' # String | The name that needs to be fetched. Use user1 for testing.
-
 
 begin
   #Get user by user name
@@ -250,11 +240,8 @@ Logs user into the system
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-
 username = 'username_example' # String | The user name for login
-
 password = 'password_example' # String | The password for login in clear text
-
 
 begin
   #Logs user into the system
@@ -338,11 +325,8 @@ This can only be done by the logged in user.
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-
 username = 'username_example' # String | name that need to be deleted
-
 user = Petstore::User.new # User | Updated user object
-
 
 begin
   #Updated user

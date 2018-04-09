@@ -23,9 +23,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 require 'petstore'
 
 api_instance = Petstore::StoreApi.new
-
 order_id = 'order_id_example' # String | ID of the order that needs to be deleted
-
 
 begin
   #Delete purchase order by ID
@@ -117,9 +115,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 require 'petstore'
 
 api_instance = Petstore::StoreApi.new
-
 order_id = 789 # Integer | ID of pet that needs to be fetched
-
 
 begin
   #Find purchase order by ID
@@ -162,9 +158,7 @@ Place an order for a pet
 require 'petstore'
 
 api_instance = Petstore::StoreApi.new
-
 order = Petstore::Order.new # Order | order placed for purchasing the pet
-
 
 begin
   #Place an order for a pet
