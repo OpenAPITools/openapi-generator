@@ -12,7 +12,7 @@ Method | HTTP request | Description
 {{#operation}}
 <a name="{{operationId}}"></a>
 # **{{operationId}}**
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}})
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}})
 
 {{summary}}{{#notes}}
 
@@ -39,22 +39,29 @@ let {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{/authMethods}}
 {{/hasAuthMethods}}
 
-let apiInstance = new {{{moduleName}}}.{{{classname}}}();{{#hasParams}}
-{{#vendorExtensions.x-codegen-hasRequiredParams}}{{#allParams}}{{#required}}
+let apiInstance = new {{{moduleName}}}.{{{classname}}}();
+{{#requiredParams}}
 let {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
-{{/required}}{{/allParams}}{{/vendorExtensions.x-codegen-hasRequiredParams}}{{#hasOptionalParams}}
-let opts = { {{#allParams}}{{^required}}
-  '{{{paramName}}}': {{{example}}}{{#vendorExtensions.x-codegen-hasMoreOptional}},{{/vendorExtensions.x-codegen-hasMoreOptional}} // {{{dataType}}} | {{{description}}}{{/required}}{{/allParams}}
-};{{/hasOptionalParams}}{{/hasParams}}
+{{/requiredParams}}
+{{#optionalParams}}
+{{#-first}}
+let opts = {
+{{/-first}}
+  '{{{paramName}}}': {{{example}}}{{^-last}},{{/-last}} // {{{dataType}}} | {{{description}}}
+{{#-last}}
+};
+{{/-last}}
+{{/optionalParams}}
 {{#usePromises}}
-apiInstance.{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}).then(({{#returnType}}data{{/returnType}}) => {
+apiInstance.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}).then(({{#returnType}}data{{/returnType}}) => {
   {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
 }, (error) => {
   console.error(error);
 });
 
-{{/usePromises}}{{^usePromises}}
-apiInstance.{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}{{#hasParams}}, {{/hasParams}}(error, data, response) => {
+{{/usePromises}}
+{{^usePromises}}
+apiInstance.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}{{#hasParams}}, {{/hasParams}}(error, data, response) => {
   if (error) {
     console.error(error);
   } else {
