@@ -18,11 +18,11 @@ class TestPetController(BaseTestCase):
 
         Add a new pet to the store
         """
-        body = Pet()
+        pet = Pet()
         response = self.client.open(
             '/v2/pet',
             method='POST',
-            data=json.dumps(body),
+            data=json.dumps(pet),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -34,7 +34,7 @@ class TestPetController(BaseTestCase):
         """
         headers = [('api_key', 'api_key_example')]
         response = self.client.open(
-            '/v2/pet/{petId}'.format(petId=789),
+            '/v2/pet/{petId}'.format(pet_id=789),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -72,7 +72,7 @@ class TestPetController(BaseTestCase):
         Find pet by ID
         """
         response = self.client.open(
-            '/v2/pet/{petId}'.format(petId=789),
+            '/v2/pet/{petId}'.format(pet_id=789),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -82,11 +82,11 @@ class TestPetController(BaseTestCase):
 
         Update an existing pet
         """
-        body = Pet()
+        pet = Pet()
         response = self.client.open(
             '/v2/pet',
             method='PUT',
-            data=json.dumps(body),
+            data=json.dumps(pet),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -99,7 +99,7 @@ class TestPetController(BaseTestCase):
         data = dict(name='name_example',
                     status='status_example')
         response = self.client.open(
-            '/v2/pet/{petId}'.format(petId=789),
+            '/v2/pet/{petId}'.format(pet_id=789),
             method='POST',
             data=data,
             content_type='application/x-www-form-urlencoded')
@@ -111,10 +111,10 @@ class TestPetController(BaseTestCase):
 
         uploads an image
         """
-        data = dict(additionalMetadata='additionalMetadata_example',
+        data = dict(additional_metadata='additional_metadata_example',
                     file=(BytesIO(b'some file data'), 'file.txt'))
         response = self.client.open(
-            '/v2/pet/{petId}/uploadImage'.format(petId=789),
+            '/v2/pet/{petId}/uploadImage'.format(pet_id=789),
             method='POST',
             data=data,
             content_type='multipart/form-data')
