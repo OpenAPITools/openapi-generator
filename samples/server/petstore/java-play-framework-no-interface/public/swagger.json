@@ -13,7 +13,6 @@
       "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host" : "petstore.swagger.io",
   "basePath" : "/v2",
   "tags" : [ {
     "name" : "pet",
@@ -112,8 +111,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "default" : "available",
-            "enum" : [ "available", "pending", "sold" ]
+            "enum" : [ "available", "pending", "sold" ],
+            "default" : "available"
           },
           "collectionFormat" : "csv"
         } ],
@@ -588,7 +587,7 @@
         "parameters" : [ {
           "name" : "username",
           "in" : "path",
-          "description" : "The name that needs to be fetched. Use user1 for testing. ",
+          "description" : "The name that needs to be fetched. Use user1 for testing.",
           "required" : true,
           "type" : "string"
         } ],
