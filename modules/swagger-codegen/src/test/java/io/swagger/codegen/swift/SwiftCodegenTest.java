@@ -1,8 +1,8 @@
 package io.swagger.codegen.swift;
 
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.DefaultCodegen;
-import io.swagger.codegen.InlineModelResolver;
 import io.swagger.codegen.languages.SwiftCodegen;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
@@ -104,6 +104,35 @@ public class SwiftCodegenTest {
         // Then
         final String podAuthors = (String) swiftCodegen.additionalProperties().get(SwiftCodegen.POD_AUTHORS);
         Assert.assertEquals(podAuthors, swaggerDevs);
+    }
+
+    @Test
+    public void testInitialConfigValues() throws Exception {
+        final SwiftCodegen codegen = new SwiftCodegen();
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+    }
+
+    @Test
+    public void testSettersForConfigValues() throws Exception {
+        final SwiftCodegen codegen = new SwiftCodegen();
+        codegen.setHideGenerationTimestamp(false);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+    }
+
+    @Test
+    public void testAdditionalPropertiesPutForConfigValues() throws Exception {
+        final SwiftCodegen codegen = new SwiftCodegen();
+        codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
 }

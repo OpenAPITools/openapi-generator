@@ -241,7 +241,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                                      "Flag to make all the API classes inner-class "
                                      + "of {{projectName}}API"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                                     "hides the timestamp when files were generated")
+                                     CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(LENIENT_TYPE_CAST,
                                      "Accept and cast values for simple types (string->bool, "
@@ -252,17 +252,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                                     Boolean.TRUE.toString());
-        } else {
-            Boolean hide = Boolean.valueOf(additionalProperties()
-                                           .get(CodegenConstants.HIDE_GENERATION_TIMESTAMP)
-                                           .toString());
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, hide);
-        }
 
         // Setup project name
         if (additionalProperties.containsKey(PROJECT_NAME)) {
