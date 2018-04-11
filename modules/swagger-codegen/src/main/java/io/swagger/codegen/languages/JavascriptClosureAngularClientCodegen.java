@@ -21,6 +21,9 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         super();
         outputFolder = "generated-code/javascript-closure-angular";
 
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
+
         supportsInheritance = false;
         setReservedWordsLowerCase(Arrays.asList("abstract",
             "continue", "for", "new", "switch", "assert", "default", "if",
@@ -71,7 +74,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
         typeMapping.put("binary", "string");
 
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(USE_ES6,
                 "use ES6 templates")
@@ -81,11 +84,6 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     @Override
     public void processOpts() {
         super.processOpts();
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        }
 
         if (additionalProperties.containsKey(USE_ES6)) {
             setUseEs6(convertPropertyToBooleanAndWriteBack(USE_ES6));
