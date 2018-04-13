@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import com.google.common.collect.ImmutableMap;
 
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenParameter;
 
@@ -108,6 +109,89 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(queryParamOptional.hasMore);
 
     }
+    
+    @Test
+    public void testInitialConfigValues() throws Exception {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+
+        Assert.assertEquals(codegen.modelPackage(), "io.swagger.client.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "io.swagger.client.model");
+        Assert.assertEquals(codegen.apiPackage(), "io.swagger.client.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "io.swagger.client.api");
+        Assert.assertEquals(codegen.invokerPackage, "io.swagger.client");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "io.swagger.client");
+    }
+
+    @Test
+    public void testSettersForConfigValues() throws Exception {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setHideGenerationTimestamp(true);
+        codegen.setModelPackage("xyz.yyyyy.zzzzzzz.model");
+        codegen.setApiPackage("xyz.yyyyy.zzzzzzz.api");
+        codegen.setInvokerPackage("xyz.yyyyy.zzzzzzz.invoker");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.zzzzzzz.model");
+        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.zzzzzzz.api");
+        Assert.assertEquals(codegen.invokerPackage, "xyz.yyyyy.zzzzzzz.invoker");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.invoker");
+    }
+
+    @Test
+    public void testAdditionalPropertiesPutForConfigValues() throws Exception {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.zzzzzzz.mmmmm.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.zzzzzzz.aaaaa.api");
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE,"xyz.yyyyy.zzzzzzz.iiii.invoker");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.mmmmm.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.zzzzzzz.mmmmm.model");
+        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.aaaaa.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.zzzzzzz.aaaaa.api");
+        Assert.assertEquals(codegen.invokerPackage, "xyz.yyyyy.zzzzzzz.iiii.invoker");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.iiii.invoker");
+    }
+
+    @Test
+    public void testPackageNamesSetInvokerDerivedFromApi() throws Exception {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.zzzzzzz.mmmmm.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.zzzzzzz.aaaaa.api");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.mmmmm.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.zzzzzzz.mmmmm.model");
+        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.aaaaa.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.zzzzzzz.aaaaa.api");
+        Assert.assertEquals(codegen.invokerPackage, "xyz.yyyyy.zzzzzzz.aaaaa");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.aaaaa");
+    }
+
+    @Test
+    public void testPackageNamesSetInvokerDerivedFromModel() throws Exception {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.zzzzzzz.mmmmm.model");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.mmmmm.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.zzzzzzz.mmmmm.model");
+        Assert.assertEquals(codegen.apiPackage(), "io.swagger.client.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "io.swagger.client.api");
+        Assert.assertEquals(codegen.invokerPackage, "xyz.yyyyy.zzzzzzz.mmmmm");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.mmmmm");
+    }
 
     private CodegenParameter createPathParam(String name) {
         CodegenParameter codegenParameter = createStringParam(name);
@@ -129,6 +213,4 @@ public class JavaClientCodegenTest {
         codegenParameter.dataType = "String";
         return codegenParameter;
     }
-
-
 }
