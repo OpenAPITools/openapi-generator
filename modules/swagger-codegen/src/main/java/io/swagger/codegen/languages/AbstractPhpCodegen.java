@@ -345,6 +345,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         return toModelName(type);
     }
 
+    public String getInvokerPackage() {
+        return invokerPackage;
+    }
+
     public void setInvokerPackage(String invokerPackage) {
         this.invokerPackage = invokerPackage;
     }

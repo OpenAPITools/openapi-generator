@@ -10,8 +10,8 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.SupportingFile;
 import io.swagger.models.ArrayModel;
 import io.swagger.models.Info;
 import io.swagger.models.License;
@@ -389,6 +389,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String modelFileFolder() {
         return createPath(outputFolder, sourceFolder, invokerPackage, modelPackage());
+    }
+
+    public String getInvokerPackage() {
+        return invokerPackage;
     }
 
     public void setInvokerPackage(String invokerPackage) {

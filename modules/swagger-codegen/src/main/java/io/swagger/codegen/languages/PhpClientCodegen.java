@@ -403,6 +403,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         return toModelName(type);
     }
 
+    public String getInvokerPackage() {
+        return invokerPackage;
+    }
+
     public void setInvokerPackage(String invokerPackage) {
         this.invokerPackage = invokerPackage;
     }
