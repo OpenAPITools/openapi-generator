@@ -3,6 +3,7 @@ package org.openapitools.codegen.ruby;
 import org.openapitools.codegen.ClientOpts;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.RubyClientCodegen;
 import io.swagger.models.Swagger;
@@ -10,6 +11,7 @@ import io.swagger.parser.SwaggerParser;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.rules.TemporaryFolder;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -18,7 +20,6 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static org.junit.Assert.fail;
 import static org.testng.Assert.*;
 
 /**
@@ -63,4 +64,40 @@ public class RubyClientCodegenTest {
       }
   }
 
+  @Test
+  public void testInitialConfigValues() throws Exception {
+      final RubyClientCodegen codegen = new RubyClientCodegen();
+      codegen.processOpts();
+
+      Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+      Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+      Assert.assertEquals(codegen.modelPackage(), "models");
+      Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), null);
+      Assert.assertEquals(codegen.apiPackage(), "api");
+      Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), null);
+  }
+
+  @Test
+  public void testSettersForConfigValues() throws Exception {
+      final RubyClientCodegen codegen = new RubyClientCodegen();
+      codegen.setHideGenerationTimestamp(false);
+      codegen.processOpts();
+
+      Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+      Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+  }
+
+  @Test
+  public void testAdditionalPropertiesPutForConfigValues() throws Exception {
+      final RubyClientCodegen codegen = new RubyClientCodegen();
+      codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
+      codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "ruby-models");
+      codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "ruby-api");
+      codegen.processOpts();
+
+      Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+      Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+      Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "ruby-models");
+      Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "ruby-api");
+  }
 }

@@ -83,7 +83,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String javaUtilPrefix = "";
     protected Boolean serializableModel = false;
     protected boolean serializeBigDecimalAsString = false;
-    protected boolean hideGenerationTimestamp = false;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected boolean supportJava6= false;
@@ -97,6 +96,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
+        hideGenerationTimestamp = false; 
+        
         setReservedWordsLowerCase(
             Arrays.asList(
                 // used as internal variables, can collide with parameter names
@@ -204,6 +205,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else {
             //not set, use default to be passed to template
             additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+        }
+
+        if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        }
+
+        if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.GROUP_ID)) {
@@ -1122,6 +1131,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return "invalidPackageName";
         }
         return packageName;
+    }
+
+    public String getInvokerPackage() {
+        return invokerPackage;
     }
 
     public void setInvokerPackage(String invokerPackage) {

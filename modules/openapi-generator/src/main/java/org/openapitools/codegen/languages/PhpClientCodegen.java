@@ -69,6 +69,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
+
         setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variables used in api methods (endpoints)
@@ -141,7 +144,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client. IMPORTANT NOTE (2016/03): composerProjectName will be deprecated and replaced by gitRepoId in the next swagger-codegen release"));
         cliOptions.add(new CliOption(CodegenConstants.GIT_REPO_ID, CodegenConstants.GIT_REPO_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "The version to use in the composer package version field. e.g. 1.2.3"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.ALLOW_UNICODE_IDENTIFIERS_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
     }
 
@@ -209,14 +212,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
-        }
 
         if (additionalProperties.containsKey(PACKAGE_PATH)) {
             this.setPackagePath((String) additionalProperties.get(PACKAGE_PATH));
@@ -406,6 +401,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             return null;
         }
         return toModelName(type);
+    }
+
+    public String getInvokerPackage() {
+        return invokerPackage;
     }
 
     public void setInvokerPackage(String invokerPackage) {

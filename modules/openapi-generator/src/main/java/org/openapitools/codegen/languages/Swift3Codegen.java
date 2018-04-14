@@ -86,6 +86,9 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         apiPackage = File.separator + "APIs";
         modelPackage = File.separator + "Models";
 
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
+
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "Int",
@@ -173,7 +176,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(POD_SCREENSHOTS, "Screenshots used for Podspec"));
         cliOptions.add(new CliOption(POD_DOCUMENTATION_URL, "Documentation URL used for Podspec"));
         cliOptions.add(new CliOption(SWIFT_USE_API_NAMESPACE, "Flag to make all the API classes inner-class of {{projectName}}API"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(LENIENT_TYPE_CAST, "Accept and cast values for simple types (string->bool, string->int, int->string)")
                 .defaultValue(Boolean.FALSE.toString()));
@@ -182,14 +185,6 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
-        }
 
         // Setup project name
         if (additionalProperties.containsKey(PROJECT_NAME)) {
