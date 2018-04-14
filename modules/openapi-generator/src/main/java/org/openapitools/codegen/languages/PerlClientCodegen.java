@@ -57,6 +57,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "perl";
 
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -134,14 +136,6 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-            Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
-        }
 
         supportingFiles.add(new SupportingFile("ApiClient.mustache", ("lib/" + modulePathPart).replace('/', File.separatorChar), "ApiClient.pm"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", ("lib/" + modulePathPart).replace('/', File.separatorChar), "Configuration.pm"));

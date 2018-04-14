@@ -39,6 +39,9 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         
     public AbstractEiffelCodegen(){
         super();
+
+        hideGenerationTimestamp = Boolean.FALSE;
+
         setReservedWordsLowerCase(Arrays.asList(
                 // language reserved words
                 "across", "agent", "alias", "all", "and", "as", "assign", "attribute", "check", "class", "convert",
@@ -89,7 +92,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         cliOptions
                 .add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Eiffel package version.").defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                "hides the timestamp when files were generated").defaultValue(Boolean.TRUE.toString()));
+                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).defaultValue(Boolean.TRUE.toString()));
     }
     
     @Override

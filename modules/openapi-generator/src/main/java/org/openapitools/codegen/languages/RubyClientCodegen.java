@@ -73,6 +73,9 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTestTemplateFiles.put("model_test.mustache", ".rb");
         apiTestTemplateFiles.put("api_test.mustache", ".rb");
 
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
+
         setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variable names used in API methods (endpoints)
@@ -161,7 +164,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         cliOptions.add(new CliOption(GEM_AUTHOR_EMAIL, "gem author email (only one is supported)."));
 
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated").
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
 
     }
@@ -169,14 +172,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
-        }
 
         if (additionalProperties.containsKey(GEM_NAME)) {
             setGemName((String) additionalProperties.get(GEM_NAME));

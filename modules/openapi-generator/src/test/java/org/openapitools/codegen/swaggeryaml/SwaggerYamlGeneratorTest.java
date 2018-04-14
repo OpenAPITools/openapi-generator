@@ -39,4 +39,29 @@ public class SwaggerYamlGeneratorTest {
         folder.delete();
 
     }
+
+    @Test
+    public void testNumberAsStrings() throws Exception {
+        final TemporaryFolder folder = new TemporaryFolder();
+        folder.create();
+        final File output = folder.getRoot();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setLang("swagger-yaml")
+                .setInputSpec("src/test/resources/2_0/petstore_issue_7999.json")
+                .setOutputDir(output.getAbsolutePath());
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        File outputFile = new File(output, "swagger.yaml");
+        Assert.assertTrue(outputFile.exists());
+
+        String content = FileUtils.readFileToString(outputFile);
+
+        Assert.assertTrue(content.contains("swagger: \"2.0\""));
+        Assert.assertTrue(content.contains("version: \"1.0\""));
+
+        folder.delete();
+
+    }
 }

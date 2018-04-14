@@ -142,6 +142,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         apiPackage = "API";
         //modelPackage = "Model";
 
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
+
         // Haskell keywords and reserved function names, taken mostly from https://wiki.haskell.org/Keywords
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -246,7 +249,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         cliOptions.add(CliOption.newString(PROP_DATETIME_FORMAT, "format string used to parse/render a datetime"));
         cliOptions.add(CliOption.newString(PROP_DATE_FORMAT, "format string used to parse/render a date").defaultValue(defaultDateFormat));
 
-        cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).defaultValue(Boolean.TRUE.toString()));
 
     }
 
@@ -340,12 +343,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public void processOpts() {
         super.processOpts();
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            convertPropertyToBooleanAndWriteBack(CodegenConstants.HIDE_GENERATION_TIMESTAMP);
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, true);
-        }
 
         if (additionalProperties.containsKey(PROP_ALLOW_FROMJSON_NULLS)) {
             setAllowFromJsonNulls(convertPropertyToBoolean(PROP_ALLOW_FROMJSON_NULLS));
