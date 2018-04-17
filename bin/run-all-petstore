@@ -12,6 +12,7 @@ for SCRIPT in `ls -l ./bin/*.sh | grep -v all`
 do
     if [ -f $SCRIPT -a -x $SCRIPT ]
     then
+        echo "Running $SCRIPT"
         $SCRIPT
         rc=$?
         if [[ $rc != 0 ]]

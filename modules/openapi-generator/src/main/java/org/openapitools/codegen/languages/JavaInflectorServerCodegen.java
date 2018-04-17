@@ -1,14 +1,8 @@
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.util.Yaml;
+import org.openapitools.codegen.*;
+import io.swagger.v3.oas.models.*;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +18,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
     protected String title = "Swagger Inflector";
     protected String implFolder = "src/main/java";
+
     public JavaInflectorServerCodegen() {
         super();
 
@@ -56,7 +51,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
     @Override
     public String getName() {
-        return "inflector";
+        return "java-inflector";
     }
 
     @Override
@@ -72,9 +67,9 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
         writeOptional(outputFolder, new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml"));
         writeOptional(outputFolder, new SupportingFile("inflector.mustache", "", "inflector.yaml"));
-        supportingFiles.add(new SupportingFile("swagger.mustache",
-                        "src/main/swagger",
-                        "swagger.yaml")
+        supportingFiles.add(new SupportingFile("openapi.mustache",
+                "src/main/openapi",
+                "openapi.yaml")
         );
         supportingFiles.add(new SupportingFile("StringUtil.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "StringUtil.java"));
@@ -148,10 +143,10 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         super.postProcessModelProperty(model, property);
 
         //Add imports for Jackson
-        if(!BooleanUtils.toBoolean(model.isEnum)) {
+        if (!BooleanUtils.toBoolean(model.isEnum)) {
             model.imports.add("JsonProperty");
 
-            if(BooleanUtils.toBoolean(model.hasEnums)) {
+            if (BooleanUtils.toBoolean(model.hasEnums)) {
                 model.imports.add("JsonValue");
             }
         }
@@ -162,7 +157,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         objs = super.postProcessModelsEnum(objs);
 
         //Add imports for Jackson
-        List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
@@ -187,7 +182,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
     public String apiFilename(String templateName, String tag) {
         String result = super.apiFilename(templateName, tag);
 
-        if ( templateName.endsWith("api.mustache") ) {
+        if (templateName.endsWith("api.mustache")) {
             int ix = result.indexOf(sourceFolder);
             String beg = result.substring(0, ix);
             String end = result.substring(ix + sourceFolder.length());
@@ -199,14 +194,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Swagger swagger = (Swagger)objs.get("swagger");
-        if(swagger != null) {
-            try {
-                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        }
+        generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
     }
 
@@ -216,6 +204,6 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
             return "DefaultController";
         }
         name = name.replaceAll("[^a-zA-Z0-9]+", "_");
-        return camelize(name)+ "Controller";
+        return camelize(name) + "Controller";
     }
 }

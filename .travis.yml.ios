@@ -34,7 +34,7 @@ addons:
 before_install:
   - export SW=`pwd`
   - rvm list
-  - rvm use 2.3.0
+  - rvm use 2.3.3
   - gem environment
   - gem install bundler -N --no-ri --no-rdoc
   - gem install cocoapods -v 1.2.1 -N --no-ri --no-rdoc
@@ -61,8 +61,6 @@ before_install:
   - xcpretty -v
   # show go version
   - go version
-  # show stack version
-  - stack --version
 
 script:
   # run integration tests defined in maven pom.xml

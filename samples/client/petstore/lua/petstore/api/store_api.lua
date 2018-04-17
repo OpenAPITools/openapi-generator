@@ -52,11 +52,6 @@ function store_api:delete_order(order_id)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "DELETE")
-	-- TODO: create a function to select proper content-type
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_accept = { "application/xml", "application/json" }
-	req.headers:upsert("content-type", "application/xml")
-
 
 	-- make the HTTP call
 	local headers, stream, errno = req:go()
@@ -173,7 +168,7 @@ function store_api:get_order_by_id(order_id)
 	end
 end
 
-function store_api:place_order(body)
+function store_api:place_order(order)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
@@ -183,12 +178,17 @@ function store_api:place_order(body)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
+	-- TODO: create a function to select proper accept
+	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
+	--local var_content_type = { "application/json" }
+	req.headers:upsert("accept", "application/json")
+
 	-- TODO: create a function to select proper content-type
 	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
 	--local var_accept = { "application/xml", "application/json" }
 	req.headers:upsert("content-type", "application/xml")
 
-	req:set_body(dkjson.encode(body))
+	req:set_body(dkjson.encode(order))
 
 
 	-- make the HTTP call

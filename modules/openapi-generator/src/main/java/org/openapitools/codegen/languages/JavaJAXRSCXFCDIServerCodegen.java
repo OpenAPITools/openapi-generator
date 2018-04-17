@@ -1,10 +1,10 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.languages.features.JbossFeature;
+import org.openapitools.codegen.languages.features.SwaggerFeatures;
+import io.swagger.v3.oas.models.*;
 
 import java.io.File;
 
@@ -16,9 +16,9 @@ import java.io.File;
  * to get an instance of ServiceImpl that implements the Service interface.
  */
 public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen implements BeanValidationFeatures {
-    
+
     protected boolean useBeanValidation = true;
-    
+
     /**
      * Default constructor
      */
@@ -37,7 +37,7 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
         // Updated template directory
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME
                 + File.separator + "cxf-cdi";
-        
+
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
     }
 
@@ -57,7 +57,7 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
         if (useBeanValidation) {
             writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
         }
-        
+
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
         // writeOptional means these files are only written if they don't already exist

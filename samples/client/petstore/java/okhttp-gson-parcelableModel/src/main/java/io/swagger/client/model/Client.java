@@ -34,6 +34,8 @@ public class Client implements Parcelable {
   @SerializedName("client")
   private String client = null;
 
+  public Client() {
+  }
   public Client client(String client) {
     this.client = client;
     return this;
@@ -92,17 +94,12 @@ public class Client implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public void writeToParcel(Parcel out, int flags) {
-     
     out.writeValue(client);
   }
 
-  public Client() {
-    super();
-  }
-
   Client(Parcel in) {
-    
     client = (String)in.readValue(null);
   }
 

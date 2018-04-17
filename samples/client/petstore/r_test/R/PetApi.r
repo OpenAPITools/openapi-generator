@@ -57,13 +57,13 @@ PetApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    add_pet = function(body, ...){
+    add_pet = function(pet, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`pet`)) {
+        body <- `pet`$toJSONString()
       } else {
         body <- NULL
       }
@@ -199,13 +199,13 @@ PetApi <- R6::R6Class(
       }
 
     },
-    update_pet = function(body, ...){
+    update_pet = function(pet, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`pet`)) {
+        body <- `pet`$toJSONString()
       } else {
         body <- NULL
       }

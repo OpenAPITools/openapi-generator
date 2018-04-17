@@ -1,5 +1,6 @@
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -9,17 +10,16 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.*;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,17 +73,20 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTestTemplateFiles.put("model_test.mustache", ".rb");
         apiTestTemplateFiles.put("api_test.mustache", ".rb");
 
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
+
         setReservedWordsLowerCase(
                 Arrays.asList(
-                    // local variable names used in API methods (endpoints)
-                    "local_var_path", "query_params", "header_params", "_header_accept", "_header_accept_result",
-                    "_header_content_type", "form_params", "post_body", "auth_names",
-                    // ruby reserved keywords
-                    "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
-                    "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
-                    "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
-                    "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
-                    "if", "not", "return", "undef", "yield")
+                        // local variable names used in API methods (endpoints)
+                        "local_var_path", "query_params", "header_params", "_header_accept", "_header_accept_result",
+                        "_header_content_type", "form_params", "post_body", "auth_names",
+                        // ruby reserved keywords
+                        "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
+                        "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
+                        "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
+                        "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
+                        "if", "not", "return", "undef", "yield")
         );
 
         typeMapping.clear();
@@ -161,7 +164,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         cliOptions.add(new CliOption(GEM_AUTHOR_EMAIL, "gem author email (only one is supported)."));
 
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated").
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
 
     }
@@ -169,14 +172,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
-        }
 
         if (additionalProperties.containsKey(GEM_NAME)) {
             setGemName((String) additionalProperties.get(GEM_NAME));
@@ -199,7 +194,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(GEM_VERSION)) {
             setGemVersion((String) additionalProperties.get(GEM_VERSION));
-        }else {
+        } else {
             // not set, pass the default value to template
             additionalProperties.put(GEM_VERSION, gemVersion);
         }
@@ -263,35 +258,37 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         //writeOptional(outputFolder, new SupportingFile("base_object_spec.mustache", specFolder, "base_object_spec.rb"));
     }
 
-    @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, swagger);
-        // Set vendor-extension to be used in template:
-        //     x-codegen-hasMoreRequired
-        //     x-codegen-hasMoreOptional
-        //     x-codegen-hasRequiredParams
-        CodegenParameter lastRequired = null;
-        CodegenParameter lastOptional = null;
-        for (CodegenParameter p : op.allParams) {
-            if (p.required) {
-                lastRequired = p;
-            } else {
-                lastOptional = p;
+    /* TO BE DELETED: replaced with postProcessOperations below
+        @Override
+        public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> schemas, OpenAPI openAPI) {
+            CodegenOperation op = super.fromOperation(path, httpMethod, operation, schemas, openAPI);
+            // Set vendor-extension to be used in template:
+            //     x-codegen-hasMoreRequired
+            //     x-codegen-hasMoreOptional
+            //     x-codegen-hasRequiredParams
+            CodegenParameter lastRequired = null;
+            CodegenParameter lastOptional = null;
+            for (CodegenParameter p : op.allParams) {
+                if (p.required) {
+                    lastRequired = p;
+                } else {
+                    lastOptional = p;
+                }
             }
-        }
-        for (CodegenParameter p : op.allParams) {
-            if (p == lastRequired) {
-                p.vendorExtensions.put("x-codegen-hasMoreRequired", false);
-            } else if (p == lastOptional) {
-                p.vendorExtensions.put("x-codegen-hasMoreOptional", false);
-            } else {
-                p.vendorExtensions.put("x-codegen-hasMoreRequired", true);
-                p.vendorExtensions.put("x-codegen-hasMoreOptional", true);
+            for (CodegenParameter p : op.allParams) {
+                if (p == lastRequired) {
+                    p.vendorExtensions.put("x-codegen-hasMoreRequired", false);
+                } else if (p == lastOptional) {
+                    p.vendorExtensions.put("x-codegen-hasMoreOptional", false);
+                } else {
+                    p.vendorExtensions.put("x-codegen-hasMoreRequired", true);
+                    p.vendorExtensions.put("x-codegen-hasMoreOptional", true);
+                }
             }
+            op.vendorExtensions.put("x-codegen-hasRequiredParams", lastRequired != null);
+            return op;
         }
-        op.vendorExtensions.put("x-codegen-hasRequiredParams", lastRequired != null);
-        return op;
-    }
+    */
 
     @Override
     public CodegenType getTag() {
@@ -322,7 +319,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     /**
      * Generate Ruby gem name from the module name, e.g. use "swagger_client" for "SwaggerClient".
      *
-     * @param  moduleName Ruby module naame
+     * @param moduleName Ruby module naame
      * @return Ruby gem name
      */
     @SuppressWarnings("static-method")
@@ -331,8 +328,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String escapeReservedWord(String name) {           
-        if(this.reservedWordsMappings().containsKey(name)) {
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -369,50 +366,27 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "<String, " + getTypeDeclaration(inner) + ">";
+    public String getTypeDeclaration(Schema schema) {
+        if (ModelUtils.isArraySchema(schema)) {
+            Schema inner = ((ArraySchema) schema).getItems();
+            return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(schema)) {
+            Schema inner = (Schema) schema.getAdditionalProperties();
+            return getSchemaType(schema) + "<String, " + getTypeDeclaration(inner) + ">";
         }
-        return super.getTypeDeclaration(p);
+
+        return super.getTypeDeclaration(schema);
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isIntegerSchema(p)|| ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty bp = (BooleanProperty) p;
-            if (bp.getDefault() != null) {
-                return bp.getDefault().toString();
-            }
-        } else if (p instanceof StringProperty) {
-            StringProperty sp = (StringProperty) p;
-            if (sp.getDefault() != null) {
-                return "'" + escapeText(sp.getDefault()) + "'";
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + escapeText((String) p.getDefault()) + "'";
             }
         }
 
@@ -420,20 +394,22 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema schema) {
+        String openAPIType = super.getSchemaType(schema);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
         } else {
-            type = swaggerType;
+            type = openAPIType;
         }
+
         if (type == null) {
             return null;
         }
+
         return toModelName(type);
     }
 
@@ -496,31 +472,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelFilename(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
-        }
-
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
-        }
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            String filename = underscore("model_" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + filename);
-            return filename;
-        }
-
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + underscore("model_" + name));
-            name = "model_" + name; // e.g. 200Response => model_200_response
-        }
-
-        // underscore the model file name
-        // PhoneNumber.rb => phone_number.rb
-        return underscore(name);
+        return underscore(toModelName(name));
     }
 
     @Override

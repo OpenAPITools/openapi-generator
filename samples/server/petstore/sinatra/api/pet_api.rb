@@ -63,10 +63,8 @@ MyApp.add_route('GET', '/v2/pet/findByStatus', {
       "name" => "status",
       "description" => "Status values that need to be considered for filter",
       "dataType" => "array[string]",
-      "paramType" => "query",
       "collectionFormat" => "csv",
-      "allowableValues" => "",
-      
+      "paramType" => "query",
     },
     ]}) do
   cross_origin
@@ -88,10 +86,8 @@ MyApp.add_route('GET', '/v2/pet/findByTags', {
       "name" => "tags",
       "description" => "Tags to filter by",
       "dataType" => "array[string]",
-      "paramType" => "query",
       "collectionFormat" => "csv",
-      "allowableValues" => "",
-      
+      "paramType" => "query",
     },
     ]}) do
   cross_origin

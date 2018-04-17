@@ -1,12 +1,22 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.properties.*;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.media.*;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -22,7 +32,6 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      * Configures the type of generator.
      *
      * @return the CodegenType for this generator
-     * @see org.openapitools.codegen.CodegenType
      */
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -136,7 +145,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("set", "Set");
         typeMapping.put("boolean", "Bool");
         typeMapping.put("string", "Text");
-        typeMapping.put("int", "Int");
+        typeMapping.put("integer", "Int");
         typeMapping.put("long", "Integer");
         typeMapping.put("short", "Int");
         typeMapping.put("char", "Char");
@@ -145,10 +154,10 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("DateTime", "Integer");
         typeMapping.put("file", "FilePath");
         typeMapping.put("number", "Double");
-        typeMapping.put("integer", "Int");
         typeMapping.put("any", "Value");
         typeMapping.put("UUID", "Text");
         typeMapping.put("ByteArray", "Text");
+        typeMapping.put("object", "Value");
 
         importMapping.clear();
         importMapping.put("Map", "qualified Data.Map as Map");
@@ -192,13 +201,13 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
+    public void preprocessOpenAPI(OpenAPI openAPI) {
         // From the title, compute a reasonable name for the package and the API
-        String title = swagger.getInfo().getTitle();
+        String title = openAPI.getInfo().getTitle();
 
         // Drop any API suffix
         if(title == null) {
-            title = "Swagger";
+            title = "OpenAPI";
         } else {
             title = title.trim();
             if (title.toUpperCase().endsWith("API")) {
@@ -233,7 +242,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         additionalProperties.put("package", cabalName);
 
         // Due to the way servant resolves types, we need a high context stack limit
-        additionalProperties.put("contextStackLimit", swagger.getPaths().size() * 2 + 300);
+        additionalProperties.put("contextStackLimit", openAPI.getPaths().size() * 2 + 300);
 
         List<Map<String, Object>> replacements = new ArrayList<>();
         Object[] replacementChars = specialCharReplacements.keySet().toArray();
@@ -247,7 +256,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
         additionalProperties.put("specialCharReplacements", replacements);
 
-        super.preprocessSwagger(swagger);
+        super.preprocessOpenAPI(openAPI);
     }
 
 
@@ -258,59 +267,58 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
      */
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
             return "Map.Map String " + getTypeDeclaration(inner);
         }
         return fixModelChars(super.getTypeDeclaration(p));
     }
 
     /**
-     * Optional - swagger type conversion.  This is used to map swagger types in a `Property` into
+     * Optional - OpenAPI type conversion.  This is used to map OpenAPI types in a `Schema` into
      * either language specific types via `typeMapping` or into complex models if there is not a mapping.
      *
      * @return a string value of the type or complex model for this property
-     * @see io.swagger.models.properties.Property
      */
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String schemaType = super.getSchemaType(p);
+        LOGGER.debug("debugging swager type: " + p.getType() + ", " + p.getFormat() + " => " + schemaType);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type))
-                return toModelName(type);
-        } else if(swaggerType == "object") {
-            type = "Value";
-        } else if(typeMapping.containsValue(swaggerType)) {
-            type = swaggerType + "_";
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
+            return type;
+            //if (languageSpecificPrimitives.contains(type))
+            //    return toModelName(type);
+        } else if(typeMapping.containsValue(schemaType)) {
+            // TODO what's this case for?
+            type = schemaType + "_";
         } else {
-            type = swaggerType;
+            type = schemaType;
         }
+        // it's a model
         return toModelName(type);
     }
 
     @Override
-    public String toInstantiationType(Property p) {
-        if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            Property additionalProperties2 = ap.getAdditionalProperties();
+    public String toInstantiationType(Schema p) {
+        if (ModelUtils.isMapSchema(p)) {
+            Schema additionalProperties2 = (Schema) p.getAdditionalProperties();
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Property " + additionalProperties2 + "\n" //
                         + "\tIn Property: " + p);
             }
-            String inner = getSwaggerType(additionalProperties2);
+            String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
+        } else if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            String inner = getSchemaType(ap.getItems());
             // Return only the inner type; the wrapping with QueryList is done
             // somewhere else, where we have access to the collection format.
             return inner;
@@ -390,8 +398,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
 
     @Override
-    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
-        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, definitions, swagger);
+    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
+        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, definitions, openAPI);
 
         List<String> path = pathToServantRoute(op.path, op.pathParams);
         List<String> type = pathToClientType(op.path, op.pathParams);
@@ -400,6 +408,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         for (CodegenParameter param : op.queryParams) {
             String paramType = param.dataType;
             if (param.isListContainer) {
+                if (StringUtils.isEmpty(param.collectionFormat)) {
+                    param.collectionFormat = "csv";
+                }
                 paramType = makeQueryListType(paramType, param.collectionFormat);
             }
             path.add("QueryParam \"" + param.baseName + "\" " + paramType);
@@ -421,7 +432,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             bodyType = formName;
             path.add("ReqBody '[FormUrlEncoded] " + formName);
         }
-        if(bodyType != null) {
+
+        if (bodyType != null) {
             type.add(bodyType);
         }
 
@@ -431,9 +443,17 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
             String paramType = param.dataType;
             if (param.isListContainer) {
+                if (StringUtils.isEmpty(param.collectionFormat)) {
+                    param.collectionFormat = "csv";
+                }
                 paramType = makeQueryListType(paramType, param.collectionFormat);
             }
             type.add("Maybe " + paramType);
+        }
+
+        // store form parameter name in the vendor extensions
+        for (CodegenParameter param : op.formParams) {
+            param.vendorExtensions.put("x-formParamName", camelize(param.baseName));
         }
 
         // Add the HTTP method and return type
@@ -499,7 +519,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
     // Override fromModel to create the appropriate model namings
     @Override
-    public CodegenModel fromModel(String name, Model mod, Map<String, Model> allDefinitions) {
+    public CodegenModel fromModel(String name, Schema mod, Map<String, Schema> allDefinitions) {
         CodegenModel model = super.fromModel(name, mod, allDefinitions);
 
         // Clean up the class name to remove invalid characters
@@ -516,14 +536,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         // Create newtypes for things with non-object types
         String dataOrNewtype = "data";
-        // check if it's a ModelImpl before casting
-        if (!(mod instanceof ModelImpl)) {
-            return model;
-        }
-
-        String modelType = ((ModelImpl)  mod).getType();
-        if(modelType != "object" && typeMapping.containsKey(modelType)) {
-            String newtype = typeMapping.get(modelType);
+        if(model.dataType != "object" && typeMapping.containsKey(model.dataType)) {
+            String newtype = typeMapping.get(model.dataType);
             model.vendorExtensions.put("x-customNewtype", newtype);
         }
 
@@ -532,14 +546,6 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         model.vendorExtensions.put("x-data", dataOrNewtype);
 
         return model;
-    }
-
-    @Override
-    public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
-        CodegenParameter p = super.fromParameter(param, imports);
-        p.vendorExtensions.put("x-formParamName", camelize(p.baseName));
-        p.dataType = fixModelChars(p.dataType);
-        return p;
     }
 
     @Override

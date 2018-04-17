@@ -1,9 +1,22 @@
 package org.openapitools.codegen.languages;
 
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.*;
-import io.swagger.models.properties.*;
-import io.swagger.models.Swagger;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.PathItem.HttpMethod;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.oas.models.info.*;
 
 import java.util.TreeSet;
 import java.util.*;
@@ -20,6 +33,9 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     public JavascriptClosureAngularClientCodegen() {
         super();
         outputFolder = "generated-code/javascript-closure-angular";
+
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
 
         supportsInheritance = false;
         setReservedWordsLowerCase(Arrays.asList("abstract",
@@ -71,7 +87,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
         typeMapping.put("binary", "string");
 
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(USE_ES6,
                 "use ES6 templates")
@@ -82,19 +98,14 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     public void processOpts() {
         super.processOpts();
 
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        }
-
         if (additionalProperties.containsKey(USE_ES6)) {
             setUseEs6(convertPropertyToBooleanAndWriteBack(USE_ES6));
         }
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        super.preprocessSwagger(swagger);
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
 
         if (useEs6) {
             embeddedTemplateDir = templateDir = "Javascript-Closure-Angular/es6";
@@ -200,16 +211,15 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<!" + getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "<!" + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
             return "Object<!string, "+ getTypeDeclaration(inner) + ">";
-        } else if (p instanceof FileProperty) {
+        } else if (ModelUtils.isFileSchema(p)) {
             return "Object";
         }
         String type = super.getTypeDeclaration(p);
@@ -223,16 +233,16 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String schemaType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
         } else
-            type = swaggerType;
+            type = schemaType;
         return type;
     }
 

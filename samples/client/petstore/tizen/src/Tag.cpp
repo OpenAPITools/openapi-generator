@@ -23,13 +23,8 @@ Tag::~Tag()
 void
 Tag::__init()
 {
-	//
-	//
 	//id = long(0);
-	//
-	//
 	//name = std::string();
-	//
 }
 
 void

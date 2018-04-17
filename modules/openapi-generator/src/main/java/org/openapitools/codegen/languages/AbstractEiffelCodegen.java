@@ -13,32 +13,33 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.models.Model;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.util.Json;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.core.util.Json;
 
 public abstract class AbstractEiffelCodegen extends DefaultCodegen implements CodegenConfig {
 
     private final Set<String> parentModels = new HashSet<>();
     private final Multimap<String, CodegenModel> childrenByParent = ArrayListMultimap.create();
-        
-    public AbstractEiffelCodegen(){
+
+    public AbstractEiffelCodegen() {
         super();
+
+        hideGenerationTimestamp = Boolean.FALSE;
+
         setReservedWordsLowerCase(Arrays.asList(
                 // language reserved words
                 "across", "agent", "alias", "all", "and", "as", "assign", "attribute", "check", "class", "convert",
@@ -55,7 +56,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
                         "NATURAL_16", "NATURAL_32", "NATURAL_64", "REAL_32", "REAL_64"));
 
         instantiationTypes.clear();
-      
+
         typeMapping.clear();
         typeMapping.put("integer", "INTEGER_32");
         typeMapping.put("long", "INTEGER_64");
@@ -72,7 +73,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         typeMapping.put("File", "FILE");
         typeMapping.put("file", "FILE");
         typeMapping.put("binary", "STRING_32");
-        typeMapping.put("ByteArray", "ARRAY [NATURAL_8]"); 
+        typeMapping.put("ByteArray", "ARRAY [NATURAL_8]");
         typeMapping.put("object", "ANY");
         typeMapping.put("map", "STRING_TABLE");
         typeMapping.put("array", "LIST");
@@ -89,9 +90,9 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         cliOptions
                 .add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Eiffel package version.").defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                "hides the timestamp when files were generated").defaultValue(Boolean.TRUE.toString()));
+                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).defaultValue(Boolean.TRUE.toString()));
     }
-    
+
     @Override
     public String escapeReservedWord(String name) {
         // Can't start with an underscore, as our fields need to start with an
@@ -110,7 +111,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         }
         if (name.matches("^\\d.*")) {// prepend var_
             return "var_" + name;
-        }    
+        }
         return "var_" + name;
     }
 
@@ -127,8 +128,8 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         // pet_id
         // petId  => pet_id
         name = unCamelize(name);
-        
-        if (name.startsWith("_")){
+
+        if (name.startsWith("_")) {
             name = "var" + name;
         }
 
@@ -173,7 +174,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         if (isReservedWord(name)) {
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after
-                                    // camelize)
+            // camelize)
         }
 
         // model name starts with number
@@ -181,7 +182,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to "
                     + ("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response
-                                    // (after camelize)
+            // (after camelize)
         }
 
         return underscore(name);
@@ -191,8 +192,8 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be
-                                          // assigned. Also declare the
-                                          // methods parameters as 'final'.
+        // assigned. Also declare the
+        // methods parameters as 'final'.
 
         // e.g. PetApi.go => pet_api.go
         return underscore(name) + "_api";
@@ -217,8 +218,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
      * lowercase letter, but we need that param to be exportable (starts with an
      * Uppercase letter).
      *
-     * @param parameter
-     *            CodegenParameter object to be processed.
+     * @param parameter CodegenParameter object to be processed.
      */
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
@@ -264,47 +264,46 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
             return "LIST [" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
 
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         }
         // return super.getTypeDeclaration(p);
 
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
-        String swaggerType = getSwaggerType(p);
-        if (typeMapping.containsKey(swaggerType)) {
-            return typeMapping.get(swaggerType);
+        String scheamType = getSchemaType(p);
+        if (typeMapping.containsKey(scheamType)) {
+            return typeMapping.get(scheamType);
         }
 
-        if (typeMapping.containsValue(swaggerType)) {
-            return swaggerType;
+        if (typeMapping.containsValue(scheamType)) {
+            return scheamType;
         }
 
-        if (languageSpecificPrimitives.contains(swaggerType)) {
-            return swaggerType;
+        if (languageSpecificPrimitives.contains(scheamType)) {
+            return scheamType;
         }
 
-        return toModelName(swaggerType);
+        return toModelName(scheamType);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String scheamType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(scheamType)) {
+            type = typeMapping.get(scheamType);
             if (languageSpecificPrimitives.contains(type))
                 return (type);
         } else
-            type = swaggerType;
+            type = scheamType;
         return type;
     }
 
@@ -451,18 +450,18 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             }
         }
     }
-    
+
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
         if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
-            final Model parentModel = allDefinitions.get(codegenModel.parentSchema);
+            final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
             codegenModel = AbstractEiffelCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
         return codegenModel;
     }
-    
+
     private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
@@ -471,7 +470,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         // Because the child models extend the parents, the enums will be available via the parent.
 
         // Only bother with reconciliation if the parent model has enums.
-        if  (!parentCodegenModel.hasEnums) {
+        if (!parentCodegenModel.hasEnums) {
             return codegenModel;
         }
 
@@ -499,10 +498,10 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             }
         }
 
-        if(removedChildEnum) {
+        if (removedChildEnum) {
             // If we removed an entry from this model's vars, we need to ensure hasMore is updated
             int count = 0, numVars = codegenProperties.size();
-            for(CodegenProperty codegenProperty : codegenProperties) {
+            for (CodegenProperty codegenProperty : codegenProperties) {
                 count += 1;
                 codegenProperty.hasMore = (count < numVars) ? true : false;
             }
@@ -511,7 +510,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         return codegenModel;
     }
 
-    
+
     @Override
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
@@ -534,22 +533,21 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         return customImport;
     }
-    
+
     @Override
-    public String toInstantiationType(Property p) {
-        if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            Property additionalProperties2 = ap.getAdditionalProperties();
+    public String toInstantiationType(Schema p) {
+        if (ModelUtils.isMapSchema(p)) {
+            Schema additionalProperties2 = (Schema) p.getAdditionalProperties();
             String type = additionalProperties2.getType();
             if (null == type) {
-                LOGGER.error("No Type defined for Additional Property " + additionalProperties2 + "\n" //
-                      + "\tIn Property: " + p);
+                LOGGER.error("No Type defined for Additional Schema " + additionalProperties2 + "\n" //
+                        + "\tIn Schema: " + p);
             }
-            String inner = toModelName(getSwaggerType(additionalProperties2));
+            String inner = toModelName(getSchemaType(additionalProperties2));
             return instantiationTypes.get("map") + " [" + inner + "]";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = toModelName(getSwaggerType(ap.getItems()));
+        } else if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            String inner = toModelName(getSchemaType(ap.getItems()));
             return instantiationTypes.get("array") + " [" + inner + "]";
         } else {
             return null;
@@ -570,7 +568,8 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     /**
      * Update property for array(list) container
-     * @param property Codegen property
+     *
+     * @param property      Codegen property
      * @param innerProperty Codegen inner property of map or list
      */
     @Override
@@ -587,10 +586,10 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         }
         property.items = innerProperty;
         // inner item is Enum
-        if (isPropertyInnerMostEnum(property)) {  
+        if (isPropertyInnerMostEnum(property)) {
             // We use the data type instead of the Enum class.
             // at the moment is not supported.
-            
+
             // isEnum is set to true when the type is an enum
             // or the inner type of an array/map is an enum
             //property.isEnum = true;
@@ -601,6 +600,6 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             //property.allowableValues = getInnerEnumAllowableValues(property);
         }
 
-    } 
- 
+    }
+
 }

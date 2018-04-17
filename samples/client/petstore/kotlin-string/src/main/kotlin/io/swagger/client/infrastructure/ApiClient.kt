@@ -12,7 +12,12 @@ open class ApiClient(val baseUrl: String) {
         protected val XmlMediaType = "application/xml"
 
         @JvmStatic
-        val client : OkHttpClient = OkHttpClient()
+        val client by lazy {
+            builder.build()
+        }
+
+        @JvmStatic
+        val builder: OkHttpClient.Builder = OkHttpClient.Builder()
 
         @JvmStatic
         var defaultHeaders: Map<String, String> by ApplicationDelegates.setOnce(mapOf(ContentType to JsonMediaType, Accept to JsonMediaType))
@@ -85,9 +90,9 @@ open class ApiClient(val baseUrl: String) {
             RequestMethod.DELETE -> Request.Builder().url(url).delete()
             RequestMethod.GET -> Request.Builder().url(url)
             RequestMethod.HEAD -> Request.Builder().url(url).head()
-            RequestMethod.PATCH -> Request.Builder().url(url).patch(requestBody(body!!, contentType))
-            RequestMethod.PUT -> Request.Builder().url(url).put(requestBody(body!!, contentType))
-            RequestMethod.POST -> Request.Builder().url(url).post(requestBody(body!!, contentType))
+            RequestMethod.PATCH -> Request.Builder().url(url).patch(requestBody(body, contentType))
+            RequestMethod.PUT -> Request.Builder().url(url).put(requestBody(body, contentType))
+            RequestMethod.POST -> Request.Builder().url(url).post(requestBody(body, contentType))
             RequestMethod.OPTIONS -> Request.Builder().url(url).method("OPTIONS", null)
         }
 

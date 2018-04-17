@@ -17,9 +17,13 @@ open class UserAPI {
      - parameter body: (body) Created user object 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createUser(body: User, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func createUser(body: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
         createUserWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(error);
+            if error == nil {
+                completion((), error)
+            } else {
+                completion(nil, error)
+            }
         }
     }
 
@@ -38,8 +42,7 @@ open class UserAPI {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = NSURLComponents(string: URLString)
-
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
@@ -52,9 +55,13 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createUsersWithArrayInput(body: [User], completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func createUsersWithArrayInput(body: [User], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
         createUsersWithArrayInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(error);
+            if error == nil {
+                completion((), error)
+            } else {
+                completion(nil, error)
+            }
         }
     }
 
@@ -73,8 +80,7 @@ open class UserAPI {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = NSURLComponents(string: URLString)
-
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
@@ -87,9 +93,13 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createUsersWithListInput(body: [User], completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func createUsersWithListInput(body: [User], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
         createUsersWithListInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(error);
+            if error == nil {
+                completion((), error)
+            } else {
+                completion(nil, error)
+            }
         }
     }
 
@@ -108,8 +118,7 @@ open class UserAPI {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = NSURLComponents(string: URLString)
-
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
@@ -122,9 +131,13 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be deleted 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteUser(username: String, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func deleteUser(username: String, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
         deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
-            completion(error);
+            if error == nil {
+                completion((), error)
+            } else {
+                completion(nil, error)
+            }
         }
     }
 
@@ -145,9 +158,8 @@ open class UserAPI {
         path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-
+        
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
@@ -157,12 +169,12 @@ open class UserAPI {
     /**
      Get user by user name
      
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getUserByName(username: String, completion: @escaping ((_ data: User?,_ error: Error?) -> Void)) {
         getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -210,7 +222,7 @@ open class UserAPI {
   "username" : "username"
 }}]
      
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
 
      - returns: RequestBuilder<User> 
      */
@@ -221,9 +233,8 @@ open class UserAPI {
         path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-
+        
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
@@ -239,7 +250,7 @@ open class UserAPI {
      */
     open class func loginUser(username: String, password: String, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
         loginUserWithRequestBuilder(username: username, password: password).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -262,13 +273,12 @@ open class UserAPI {
         let path = "/user/login"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+        
+        var url = URLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems([
             "username": username, 
             "password": password
         ])
-        
 
         let requestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
@@ -280,9 +290,13 @@ open class UserAPI {
      
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func logoutUser(completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func logoutUser(completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
         logoutUserWithRequestBuilder().execute { (response, error) -> Void in
-            completion(error);
+            if error == nil {
+                completion((), error)
+            } else {
+                completion(nil, error)
+            }
         }
     }
 
@@ -298,9 +312,8 @@ open class UserAPI {
         let path = "/user/logout"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-
+        
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
@@ -314,9 +327,13 @@ open class UserAPI {
      - parameter body: (body) Updated user object 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateUser(username: String, body: User, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func updateUser(username: String, body: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
         updateUserWithRequestBuilder(username: username, body: body).execute { (response, error) -> Void in
-            completion(error);
+            if error == nil {
+                completion((), error)
+            } else {
+                completion(nil, error)
+            }
         }
     }
 
@@ -339,8 +356,7 @@ open class UserAPI {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = NSURLComponents(string: URLString)
-
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 

@@ -35,6 +35,9 @@ public class Cat extends Animal implements Parcelable {
   @SerializedName("declawed")
   private Boolean declawed = null;
 
+  public Cat() {
+    super();
+  }
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
     return this;
@@ -94,17 +97,14 @@ public class Cat extends Animal implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public void writeToParcel(Parcel out, int flags) {
-     super.writeToParcel(out, flags);  
+    super.writeToParcel(out, flags);
     out.writeValue(declawed);
   }
 
-  public Cat() {
-    super();
-  }
-
   Cat(Parcel in) {
-     super(in); 
+    super(in);
     declawed = (Boolean)in.readValue(null);
   }
 

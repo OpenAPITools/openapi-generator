@@ -1,29 +1,14 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.ArrayModel;
-import io.swagger.models.Model;
-import io.swagger.models.Response;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.languages.features.JbossFeature;
+import org.openapitools.codegen.languages.features.SwaggerFeatures;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.oas.models.responses.*;
 
 import java.io.File;
 import java.text.Collator;
@@ -72,36 +57,36 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportsInheritance = true;
 
         reservedWords = new HashSet<>(
-          Arrays.asList(
-            "if", "then", "else",
-            "case", "of",
-            "let", "in",
-            "type",
-            "module", "where",
-            "import", "exposing",
-            "as",
-            "port")
+                Arrays.asList(
+                        "if", "then", "else",
+                        "case", "of",
+                        "let", "in",
+                        "type",
+                        "module", "where",
+                        "import", "exposing",
+                        "as",
+                        "port")
         );
 
         defaultIncludes = new HashSet<>(
-          Arrays.asList(
-            "List")
+                Arrays.asList(
+                        "List")
         );
 
         languageSpecificPrimitives = new HashSet<>(
-          Arrays.asList(
-            "Bool",
-            "Dict",
-            "Float",
-            "Int",
-            "String")
+                Arrays.asList(
+                        "Bool",
+                        "Dict",
+                        "Float",
+                        "Int",
+                        "String")
         );
 
         customPrimitives = new HashSet<>(
-          Arrays.asList(
-            "Byte",
-            "DateOnly",
-            "DateTime")
+                Arrays.asList(
+                        "Byte",
+                        "DateOnly",
+                        "DateTime")
         );
 
         instantiationTypes.clear();
@@ -185,10 +170,10 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toInstantiationType(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
+    public String toInstantiationType(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            String inner = getSchemaType(ap.getItems());
             return instantiationTypes.get("array") + " " + inner;
         } else {
             return null;
@@ -211,20 +196,19 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
-        CodegenModel m = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions) {
+        CodegenModel m = super.fromModel(name, schema, allDefinitions);
 
-        if (model instanceof ArrayModel) {
-            ArrayModel am = (ArrayModel) model;
-            ArrayProperty arrayProperty = new ArrayProperty(am.getItems());
-            CodegenProperty codegenProperty = fromProperty(name, arrayProperty);
+        if (ModelUtils.isArraySchema(schema)) {
+            ArraySchema am = (ArraySchema) schema;
+            CodegenProperty codegenProperty = fromProperty(name, (Schema) am.getItems());
             m.vendorExtensions.putAll(codegenProperty.vendorExtensions);
         }
 
         return m;
     }
 
-    @SuppressWarnings({ "static-method", "unchecked" })
+    @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         // Index all CodegenModels by model name.
         Map<String, CodegenModel> allModels = new HashMap<>();
@@ -301,7 +285,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                         elmImports.add(elmImport);
 
                         // set discriminator value to all children (recursively)
-                        this.setDiscriminatorValue(child, cm.discriminator, this.getDiscriminatorValue(child));
+                        this.setDiscriminatorValue(child, cm.getDiscriminatorName(), this.getDiscriminatorValue(child));
 
                         // add all non-discriminator vars
                         int index = 0;
@@ -339,7 +323,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private String getDiscriminatorValue(CodegenModel model) {
         return model.vendorExtensions.containsKey(X_DISCRIMINATOR_TYPE) ?
-          (String) model.vendorExtensions.get(X_DISCRIMINATOR_TYPE) : model.classname;
+                (String) model.vendorExtensions.get(X_DISCRIMINATOR_TYPE) : model.classname;
     }
 
     private ElmImport createPropertyImport(final CodegenProperty property) {
@@ -364,7 +348,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    @SuppressWarnings({ "static-method", "unchecked" })
+    @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessOperations(Map<String, Object> operations) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
@@ -374,7 +358,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         for (CodegenOperation op : ops) {
             String path = op.path;
             for (CodegenParameter param : op.pathParams) {
-              final String var = param.isString ? param.paramName : "toString " + param.paramName;
+                final String var = param.isString ? param.paramName : "toString " + param.paramName;
                 path = path.replace("{" + param.paramName + "}", "\" ++ " + var + " ++ \"");
             }
             op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
@@ -415,45 +399,30 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty sp = (StringProperty) p;
-            if (sp.getDefault() != null) {
-                return toOptionalValue("\"" + sp.getDefault().toString() + "\"");
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return toOptionalValue("\"" + p.getDefault().toString() + "\"");
             }
             return toOptionalValue(null);
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty bp = (BooleanProperty) p;
-            if (bp.getDefault() != null) {
-                return toOptionalValue(bp.getDefault() ? "True" : "False");
+        } else if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return toOptionalValue(Boolean.valueOf(p.getDefault().toString()) ? "True" : "False");
             }
             return toOptionalValue(null);
-        } else if (p instanceof DateProperty) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return toOptionalValue(null);
-        } else if (p instanceof DateTimeProperty) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return toOptionalValue(null);
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
+        } else if (ModelUtils.isNumberSchema(p)) {
+            NumberSchema dp = (NumberSchema) p;
             if (dp.getDefault() != null) {
                 return toOptionalValue(dp.getDefault().toString());
             }
             return toOptionalValue(null);
-        } else if (p instanceof FloatProperty) {
-            FloatProperty fp = (FloatProperty) p;
-            if (fp.getDefault() != null) {
-                return toOptionalValue(fp.getDefault().toString());
-            }
-            return toOptionalValue(null);
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty ip = (IntegerProperty) p;
-            if (ip.getDefault() != null) {
-                return toOptionalValue(ip.getDefault().toString());
-            }
-            return toOptionalValue(null);
-        } else if (p instanceof LongProperty) {
-            LongProperty lp = (LongProperty) p;
-            if (lp.getDefault() != null) {
-                return toOptionalValue(lp.getDefault().toString());
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return toOptionalValue(p.getDefault().toString());
             }
             return toOptionalValue(null);
         } else {
@@ -469,8 +438,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String swaggerType = super.getSchemaType(p);
         String type;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
@@ -483,21 +452,20 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
             return getTypeDeclaration(inner);
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
             return getTypeDeclaration(inner);
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Property p) {
+    public CodegenProperty fromProperty(String name, Schema p) {
         final CodegenProperty property = super.fromProperty(name, p);
 
         final String dataType = property.isEnum ? property.baseName : property.datatype;
@@ -510,7 +478,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenResponse fromResponse(String responseCode, Response resp) {
+    public CodegenResponse fromResponse(String responseCode, ApiResponse resp) {
         final CodegenResponse response = super.fromResponse(responseCode, resp);
         if (response.dataType != null) {
             addEncoderAndDecoder(response.vendorExtensions, response.dataType, response.primitiveType);

@@ -118,7 +118,7 @@ public class StoreApi extends SwaggerApi {
     /*
      * Returns Order 
      */
-    public function place_order (body: Order): String {
+    public function place_order (order: Order): String {
         // create path and map variables
         var path: String = "/store/order".replace(/{format}/g,"xml");
 
@@ -133,7 +133,7 @@ public class StoreApi extends SwaggerApi {
 
         
         
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, order, headerParams);
 
         var requestId: String = getUniqueId();
 

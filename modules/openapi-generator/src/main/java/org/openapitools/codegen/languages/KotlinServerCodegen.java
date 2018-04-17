@@ -2,11 +2,18 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.mustache.*;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -100,7 +107,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
     }
 
     public String getHelp() {
-        return "Generates a kotlin server.";
+        return "Generates a Kotlin server.";
     }
 
     public Boolean getHstsFeatureEnabled() {
@@ -124,7 +131,14 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         super.processOpts();
 
         if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
-            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
+                this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
+        }
+
+        // set default library to "ktor"
+        if (StringUtils.isEmpty(library)) {
+            this.setLibrary("ktor");
+            additionalProperties.put(CodegenConstants.LIBRARY, "ktor");
+            LOGGER.info("`library` option is empty. Default to 'ktor'.");
         }
 
         if (additionalProperties.containsKey(Constants.AUTOMATIC_HEAD_REQUESTS)) {
@@ -201,7 +215,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         if (objs.containsKey("lambda")) {
             LOGGER.warn("An property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'. " +
                     "You'll likely need to use a custom template, " +
-                    "see https://github.com/swagger-api/swagger-codegen#modifying-the-client-library-format. ");
+                    "see https://github.com/swagger-api/swagger-codegen#modifying-the-client-library-format. "); // TODO: update the URL
             objs.put("_lambda", lambdas);
         } else {
             objs.put("lambda", lambdas);

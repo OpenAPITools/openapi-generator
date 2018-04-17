@@ -6,14 +6,16 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.HttpMethod;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
-import io.swagger.util.Json;
+import org.openapitools.codegen.utils.URLPathUtils;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.PathItem.HttpMethod;
+import io.swagger.v3.core.util.Json;
 
 import java.io.File;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,10 +35,10 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
     /**
      * A Java Vert.X generator. It uses java8 date API. It can be configured with 2 CLI options :
-     * 
+     * <p>
      * rxInterface : type Boolean if true, API interfaces are generated with RX and methods return
      * Single and Comparable. default : false
-     * 
+     * <p>
      * vertxSwaggerRouterVersion : type String Specify the version of the swagger router library
      */
     public JavaVertXServerCodegen() {
@@ -173,38 +175,37 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
-            Map<String, Model> definitions, Swagger swagger) {
+                                          Map<String, Schema> definitions, OpenAPI openAPI) {
         CodegenOperation codegenOperation =
-                super.fromOperation(path, httpMethod, operation, definitions, swagger);
+                super.fromOperation(path, httpMethod, operation, definitions, openAPI);
         codegenOperation.imports.add("MainApiException");
         return codegenOperation;
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
         codegenModel.imports.remove("ApiModel");
         codegenModel.imports.remove("ApiModelProperty");
         return codegenModel;
-
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        super.preprocessSwagger(swagger);
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
 
         // add full swagger definition in a mustache parameter
-        String swaggerDef = Json.pretty(swagger);
-        this.additionalProperties.put("fullSwagger", swaggerDef);
+        String openAPIDef = Json.pretty(openAPI);
+        this.additionalProperties.put("fullOpenAPI", openAPIDef);
 
         // add server port from the swagger file, 8080 by default
-        String host = swagger.getHost();
-        String port = extractPortFromHost(host);
+        URL url = URLPathUtils.getServerURL(openAPI);
+        Integer port = url.getPort();
         this.additionalProperties.put("serverPort", port);
 
         // retrieve api version from swagger file, 1.0.0-SNAPSHOT by default
-        if (swagger.getInfo() != null && swagger.getInfo().getVersion() != null) {
-            artifactVersion = apiVersion = swagger.getInfo().getVersion();
+        if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
+            artifactVersion = apiVersion = openAPI.getInfo().getVersion();
         } else {
             artifactVersion = apiVersion;
         }
@@ -213,24 +214,24 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
          * manage operation & custom serviceId because operationId field is not
          * required and may be empty
          */
-        Map<String, Path> paths = swagger.getPaths();
+        Map<String, PathItem> paths = openAPI.getPaths();
         if (paths != null) {
-            for (Entry<String, Path> entry : paths.entrySet()) {
+            for (Entry<String, PathItem> entry : paths.entrySet()) {
                 manageOperationNames(entry.getValue(), entry.getKey());
             }
         }
         this.additionalProperties.remove("gson");
     }
 
-    private void manageOperationNames(Path path, String pathname) {
+    private void manageOperationNames(PathItem path, String pathname) {
         String serviceIdTemp;
 
-        Map<HttpMethod, Operation> operationMap = path.getOperationMap();
+        Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
         if (operationMap != null) {
             for (Entry<HttpMethod, Operation> entry : operationMap.entrySet()) {
                 serviceIdTemp = computeServiceId(pathname, entry);
-                entry.getValue().setVendorExtension("x-serviceid", serviceIdTemp);
-                entry.getValue().setVendorExtension("x-serviceid-varname",
+                entry.getValue().addExtension("x-serviceid", serviceIdTemp);
+                entry.getValue().addExtension("x-serviceid-varname",
                         serviceIdTemp.toUpperCase() + "_SERVICE_ID");
             }
         }
@@ -240,7 +241,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         String operationId = entry.getValue().getOperationId();
         return (operationId != null) ? operationId
                 : entry.getKey().name()
-                        + pathname.replaceAll("-", "_").replaceAll("/", "_").replaceAll("[{}]", "");
+                + pathname.replaceAll("-", "_").replaceAll("/", "_").replaceAll("[{}]", "");
     }
 
     protected String extractPortFromHost(String host) {

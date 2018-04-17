@@ -1,10 +1,15 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.parameters.Parameter;
+import org.openapitools.codegen.utils.*;
+import org.openapitools.codegen.mustache.*;
+import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.parameters.*;
 
 import java.io.File;
 import java.util.*;
@@ -46,6 +51,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
+
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
 
         embeddedTemplateDir = templateDir = "rust";
 
@@ -109,7 +117,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue("swagger"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Rust package version.")
                 .defaultValue("1.0.0"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
 
     }
@@ -117,14 +125,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
-        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
@@ -272,49 +272,48 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
             return "Vec<" + getTypeDeclaration(inner) + ">";
         }
-        else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+        else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
             return "::std::collections::HashMap<String, " + getTypeDeclaration(inner) + ">";
         }
 
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
-        String swaggerType = getSwaggerType(p);
-        if (typeMapping.containsKey(swaggerType)) {
-            return typeMapping.get(swaggerType);
+        String schemaType = getSchemaType(p);
+        if (typeMapping.containsKey(schemaType)) {
+            return typeMapping.get(schemaType);
         }
 
-        if (typeMapping.containsValue(swaggerType)) {
-            return swaggerType;
+        if (typeMapping.containsValue(schemaType)) {
+            return schemaType;
         }
 
-        if (languageSpecificPrimitives.contains(swaggerType)) {
-            return swaggerType;
+        if (languageSpecificPrimitives.contains(schemaType)) {
+            return schemaType;
         }
 
         // return fully-qualified model name
         // ::models::{{classnameFile}}::{{classname}}
-        return "::models::" + toModelName(swaggerType);
+        return "::models::" + toModelName(schemaType);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String schemaType = super.getSchemaType(p);
         String type = null;
-        if(typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if(typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if(languageSpecificPrimitives.contains(type))
                 return (type);
         }
         else
-            type = swaggerType;
+            type = schemaType;
         return type;
     }
 

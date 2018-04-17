@@ -72,6 +72,7 @@
   "Delete user
   This can only be done by the logged in user."
   [username ]
+  (check-required-params username)
   (call-api "/user/{username}" :delete
             {:path-params   {"username" username }
              :header-params {}
@@ -91,6 +92,7 @@
   "Get user by user name
   "
   [username ]
+  (check-required-params username)
   (call-api "/user/{username}" :get
             {:path-params   {"username" username }
              :header-params {}
@@ -151,6 +153,7 @@
   This can only be done by the logged in user."
   ([username ] (update-user-with-http-info username nil))
   ([username {:keys [body ]}]
+   (check-required-params username)
    (call-api "/user/{username}" :put
              {:path-params   {"username" username }
               :header-params {}

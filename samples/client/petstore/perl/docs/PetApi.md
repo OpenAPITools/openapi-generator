@@ -20,11 +20,9 @@ Method | HTTP request | Description
 
 
 # **add_pet**
-> add_pet(body => $body)
+> add_pet(pet => $pet)
 
 Add a new pet to the store
-
-
 
 ### Example 
 ```perl
@@ -36,10 +34,10 @@ my $api_instance = WWW::SwaggerClient::PetApi->new(
     access_token => 'YOUR_ACCESS_TOKEN',
 );
 
-my $body = WWW::SwaggerClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
+my $pet = WWW::SwaggerClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
 
 eval { 
-    $api_instance->add_pet(body => $body);
+    $api_instance->add_pet(pet => $pet);
 };
 if ($@) {
     warn "Exception when calling PetApi->add_pet: $@\n";
@@ -50,7 +48,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -63,7 +61,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -71,8 +69,6 @@ void (empty response body)
 > delete_pet(pet_id => $pet_id, api_key => $api_key)
 
 Deletes a pet
-
-
 
 ### Example 
 ```perl
@@ -113,7 +109,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -267,11 +263,9 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet**
-> update_pet(body => $body)
+> update_pet(pet => $pet)
 
 Update an existing pet
-
-
 
 ### Example 
 ```perl
@@ -283,10 +277,10 @@ my $api_instance = WWW::SwaggerClient::PetApi->new(
     access_token => 'YOUR_ACCESS_TOKEN',
 );
 
-my $body = WWW::SwaggerClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
+my $pet = WWW::SwaggerClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
 
 eval { 
-    $api_instance->update_pet(body => $body);
+    $api_instance->update_pet(pet => $pet);
 };
 if ($@) {
     warn "Exception when calling PetApi->update_pet: $@\n";
@@ -297,7 +291,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -310,7 +304,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -318,8 +312,6 @@ void (empty response body)
 > update_pet_with_form(pet_id => $pet_id, name => $name, status => $status)
 
 Updates a pet in the store with form data
-
-
 
 ### Example 
 ```perl
@@ -332,8 +324,8 @@ my $api_instance = WWW::SwaggerClient::PetApi->new(
 );
 
 my $pet_id = 789; # int | ID of pet that needs to be updated
-my $name = 'name_example'; # string | Updated name of the pet
-my $status = 'status_example'; # string | Updated status of the pet
+my $name = 'null'; # string | Updated name of the pet
+my $status = 'null'; # string | Updated status of the pet
 
 eval { 
     $api_instance->update_pet_with_form(pet_id => $pet_id, name => $name, status => $status);
@@ -362,7 +354,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -370,8 +362,6 @@ void (empty response body)
 > ApiResponse upload_file(pet_id => $pet_id, additional_metadata => $additional_metadata, file => $file)
 
 uploads an image
-
-
 
 ### Example 
 ```perl
@@ -384,8 +374,8 @@ my $api_instance = WWW::SwaggerClient::PetApi->new(
 );
 
 my $pet_id = 789; # int | ID of pet to update
-my $additional_metadata = 'additional_metadata_example'; # string | Additional data to pass to server
-my $file = '/path/to/file.txt'; # File | file to upload
+my $additional_metadata = 'null'; # string | Additional data to pass to server
+my $file = 'null'; # File | file to upload
 
 eval { 
     my $result = $api_instance->upload_file(pet_id => $pet_id, additional_metadata => $additional_metadata, file => $file);
@@ -402,7 +392,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update | 
  **additional_metadata** | **string**| Additional data to pass to server | [optional] 
- **file** | **File**| file to upload | [optional] 
+ **file** | **File****File**| file to upload | [optional] 
 
 ### Return type
 

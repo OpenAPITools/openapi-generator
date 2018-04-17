@@ -199,7 +199,7 @@ class Decoders {
             return .success(nil)
         }
     }
-    
+
     static func decodeOptional<T>(clazz: [T].Type, source: AnyObject?) -> Decoded<[T]?> where T: RawRepresentable {
         if let source = source as? [AnyObject] {
             var values = [T]()
@@ -304,7 +304,7 @@ class Decoders {
 
         {{#models}}
         {{#model}}
-        {{^isArrayModel}}        
+        {{^isArrayModel}}
         // Decoder for [{{{classname}}}]
         Decoders.addDecoder(clazz: [{{{classname}}}].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[{{{classname}}}]> in
             return Decoders.decode(clazz: [{{{classname}}}].self, source: source)

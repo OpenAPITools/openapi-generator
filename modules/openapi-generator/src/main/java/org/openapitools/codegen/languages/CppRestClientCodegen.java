@@ -12,6 +12,7 @@ import java.util.Set;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -21,25 +22,12 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Response;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BaseIntegerProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DecimalProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FileProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+
 
 public class CppRestClientCodegen extends AbstractCppCodegen {
 
@@ -70,7 +58,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
      * @return the friendly name for the generator
      */
     public String getName() {
-        return "cpprest";
+        return "cpp-restsdk";
     }
 
     /**
@@ -160,13 +148,6 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
         importMapping.put("utility::datetime", "#include <cpprest/details/basic_types.h>");
     }
 
-    protected void addOption(String key, String description, String defaultValue) {
-        CliOption option = new CliOption(key, description);
-        if (defaultValue != null)
-            option.defaultValue(defaultValue);
-        cliOptions.add(option);
-    }
-
     @Override
     public void processOpts() {
         super.processOpts();
@@ -216,7 +197,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
 
         Set<String> oldImports = codegenModel.imports;
@@ -233,18 +214,18 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
-            Map<String, Model> definitions, Swagger swagger) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, swagger);
+                                          Map<String, Schema> schema, OpenAPI openAPI) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, schema, openAPI);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
-            Response methodResponse = findMethodResponse(operation.getResponses());
+            ApiResponse methodResponse = findMethodResponse(operation.getResponses());
 
             if (methodResponse != null) {
-                if (methodResponse.getSchema() != null) {
-                    CodegenProperty cm = fromProperty("response", methodResponse.getSchema());
+                Schema response = getSchemaFromResponse(methodResponse);
+                if (response != null) {
+                    CodegenProperty cm = fromProperty("response", response);
                     op.vendorExtensions.put("x-codegen-response", cm);
-                    if(cm.datatype == "HttpContent")
-                    {
+                    if (cm.datatype == "HttpContent") {
                         op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
                     }
                 }
@@ -256,7 +237,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        if (isFileProperty(property)) {
+        if (isFileSchema(property)) {
             property.vendorExtensions.put("x-codegen-file", true);
         }
 
@@ -268,7 +249,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
         }
     }
 
-    protected boolean isFileProperty(CodegenProperty property) {
+    protected boolean isFileSchema(CodegenProperty property) {
         return property.baseType.equals("HttpContent");
     }
 
@@ -288,65 +269,61 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
      * for different property types
      *
      * @return a string value used as the `dataType` field for model templates,
-     *         `returnType` for api templates
+     * `returnType` for api templates
      */
     @Override
-    public String getTypeDeclaration(Property p) {
-        String swaggerType = getSwaggerType(p);
+    public String getTypeDeclaration(Schema p) {
+        String openAPIType = getSchemaType(p);
 
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-        }
-        if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
-        }
-        if (p instanceof StringProperty || p instanceof DateProperty
-                || p instanceof DateTimeProperty || p instanceof FileProperty
-                || languageSpecificPrimitives.contains(swaggerType)) {
-            return toModelName(swaggerType);
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
+            return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isStringSchema(p)
+                || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
+                || ModelUtils.isFileSchema(p)
+                || languageSpecificPrimitives.contains(openAPIType)) {
+            return toModelName(openAPIType);
         }
 
-        return "std::shared_ptr<" + swaggerType + ">";
+        return "std::shared_ptr<" + openAPIType + ">";
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            return "utility::conversions::to_string_t(\"\")";
-        } else if (p instanceof BooleanProperty) {
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
             return "false";
-        } else if (p instanceof DateProperty) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return "utility::datetime()";
-        } else if (p instanceof DateTimeProperty) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return "utility::datetime()";
-        } else if (p instanceof DoubleProperty) {
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (ModelUtils.isFloatSchema(p)) {
+                return "0.0f";
+            }
             return "0.0";
-        } else if (p instanceof FloatProperty) {
-            return "0.0f";
-        } else if (p instanceof LongProperty) {
-            return "0L";
-        } else if (p instanceof IntegerProperty || p instanceof BaseIntegerProperty) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (ModelUtils.isLongSchema(p)) {
+                return "0L";
+            }
             return "0";
-        } else if (p instanceof DecimalProperty) {
-            return "0.0";
-        } else if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
+        } else if (ModelUtils.isMapSchema(p)) {
+            String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return "std::map<utility::string_t, " + inner + ">()";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
+        } else if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            String inner = getSchemaType(ap.getItems());
             if (!languageSpecificPrimitives.contains(inner)) {
                 inner = "std::shared_ptr<" + inner + ">";
             }
             return "std::vector<" + inner + ">()";
-        } else if (p instanceof RefProperty) {
-            RefProperty rp = (RefProperty) p;
-            return "new " + toModelName(rp.getSimpleRef()) + "()";
+        } else if (!StringUtils.isEmpty(p.get$ref())) {
+            return "new " + toModelName(getSimpleRef(p.get$ref())) + "()";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "utility::conversions::to_string_t(\"\")";
         }
         return "nullptr";
     }
@@ -366,22 +343,22 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
 
     /**
      * Optional - swagger type conversion. This is used to map swagger types in
-     * a `Property` into either language specific types via `typeMapping` or
+     * a `Schema` into either language specific types via `typeMapping` or
      * into complex models if there is not a mapping.
      *
      * @return a string value of the type or complex model for this property
-     * @see io.swagger.models.properties.Property
+     * @see io.swagger.v3.oas.models.media.Schema
      */
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
                 return toModelName(type);
         } else
-            type = swaggerType;
+            type = openAPIType;
         return toModelName(type);
     }
 
@@ -415,7 +392,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
     @Override
     public Map<String, Object> postProcessAllModels(final Map<String, Object> models) {
 
-        final Map<String, Object> processed =  super.postProcessAllModels(models);
+        final Map<String, Object> processed = super.postProcessAllModels(models);
         postProcessParentModels(models);
         return processed;
     }
@@ -435,11 +412,11 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
      */
     private void processParentPropertiesInChildModel(final CodegenModel parent, final CodegenModel child) {
         final Map<String, CodegenProperty> childPropertiesByName = new HashMap<>(child.vars.size());
-        for (final CodegenProperty childProperty : child.vars) {
-            childPropertiesByName.put(childProperty.name, childProperty);
+        for (final CodegenProperty childSchema : child.vars) {
+            childPropertiesByName.put(childSchema.name, childSchema);
         }
-        for (final CodegenProperty parentProperty : parent.vars) {
-            final CodegenProperty duplicatedByParent = childPropertiesByName.get(parentProperty.name);
+        for (final CodegenProperty parentSchema : parent.vars) {
+            final CodegenProperty duplicatedByParent = childPropertiesByName.get(parentSchema.name);
             if (duplicatedByParent != null) {
                 duplicatedByParent.isInherited = true;
             }

@@ -67,7 +67,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     public String getHelp() {
-        return "Generates a kotlin client.";
+        return "Generates a Kotlin client.";
     }
 
     public void setDateLibrary(String library) {
@@ -99,7 +99,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-
         supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
 

@@ -1,20 +1,30 @@
 package org.openapitools.codegen.examples;
 
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.*;
-import io.swagger.util.Json;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.BooleanSchema;
+import io.swagger.v3.oas.models.media.DateSchema;
+import io.swagger.v3.oas.models.media.DateTimeSchema;
+import io.swagger.v3.oas.models.media.FileSchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.UUIDSchema;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+import io.swagger.v3.core.util.Json;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.*;
 
-import static io.swagger.models.properties.StringProperty.Format.URI;
-import static io.swagger.models.properties.StringProperty.Format.URL;
-
 public class ExampleGenerator {
-    private static final Logger logger = LoggerFactory.getLogger(ExampleGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExampleGenerator.class);
 
     // TODO: move constants to more appropriate location
     private static final String MIME_TYPE_JSON = "application/json";
@@ -24,17 +34,20 @@ public class ExampleGenerator {
     private static final String CONTENT_TYPE = "contentType";
     private static final String OUTPUT = "output";
     private static final String NONE = "none";
+    private static final String URL = "url";
+    private static final String URI = "uri";
 
-    protected Map<String, Model> examples;
+    protected Map<String, Schema> examples;
     private Random random;
 
-    public ExampleGenerator(Map<String, Model> examples) {
+    public ExampleGenerator(Map<String, Schema> examples) {
         this.examples = examples;
         // use a fixed seed to make the "random" numbers reproducible.
         this.random = new Random("ExampleGenerator".hashCode());
     }
 
-    public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, Property property) {
+    public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, Schema property, OpenAPI openAPI) {
+        LOGGER.debug("debugging generate in ExampleGenerator");
         List<Map<String, String>> output = new ArrayList<>();
         Set<String> processedModels = new HashSet<>();
         if (examples == null) {
@@ -45,9 +58,8 @@ public class ExampleGenerator {
             for (String mediaType : mediaTypes) {
                 Map<String, String> kv = new HashMap<>();
                 kv.put(CONTENT_TYPE, mediaType);
-                if (property != null && mediaType.startsWith(MIME_TYPE_JSON)) {
-                    String example = Json.pretty(resolvePropertyToExample("", mediaType, property, processedModels));
-
+                if (property != null && (mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
+                    String example = Json.pretty(resolvePropertyToExample("", mediaType, property, processedModels, openAPI));
                     if (example != null) {
                         kv.put(EXAMPLE, example);
                         output.add(kv);
@@ -68,6 +80,7 @@ public class ExampleGenerator {
                 output.add(kv);
             }
         }
+
         if (output.size() == 0) {
             Map<String, String> kv = new HashMap<>();
             kv.put(OUTPUT, NONE);
@@ -76,7 +89,7 @@ public class ExampleGenerator {
         return output;
     }
 
-    public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, String modelName) {
+    public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, String modelName, OpenAPI openAPI) {
         List<Map<String, String>> output = new ArrayList<>();
         Set<String> processedModels = new HashSet<>();
         if (examples == null) {
@@ -87,11 +100,10 @@ public class ExampleGenerator {
             for (String mediaType : mediaTypes) {
                 Map<String, String> kv = new HashMap<>();
                 kv.put(CONTENT_TYPE, mediaType);
-                if (modelName != null && mediaType.startsWith(MIME_TYPE_JSON)) {
-                    final Model model = this.examples.get(modelName);
-                    if (model != null) {
-
-                        String example = Json.pretty(resolveModelToExample(modelName, mediaType, model, processedModels));
+                if (modelName != null && (mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
+                    final Schema schema = this.examples.get(modelName);
+                    if (schema != null) {
+                        String example = Json.pretty(resolveModelToExample(modelName, mediaType, schema, processedModels, openAPI));
 
                         if (example != null) {
                             kv.put(EXAMPLE, example);
@@ -99,8 +111,8 @@ public class ExampleGenerator {
                         }
                     }
                 } else if (modelName != null && mediaType.startsWith(MIME_TYPE_XML)) {
-                    final Model model = this.examples.get(modelName);
-                    String example = new XmlExampleGenerator(this.examples).toXml(model, 0, Collections.<String>emptySet());
+                    final Schema schema = this.examples.get(modelName);
+                    String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.<String>emptySet());
                     if (example != null) {
                         kv.put(EXAMPLE, example);
                         output.add(kv);
@@ -115,6 +127,7 @@ public class ExampleGenerator {
                 output.add(kv);
             }
         }
+
         if (output.size() == 0) {
             Map<String, String> kv = new HashMap<>();
             kv.put(OUTPUT, NONE);
@@ -123,95 +136,93 @@ public class ExampleGenerator {
         return output;
     }
 
-    private Object resolvePropertyToExample(String propertyName, String mediaType, Property property, Set<String> processedModels) {
-        logger.debug("Resolving example for property {}...", property);
+    private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels, OpenAPI openAPI) {
+        LOGGER.debug("Resolving example for property {}...", property);
         if (property.getExample() != null) {
-            logger.debug("Example set in swagger spec, returning example: '{}'", property.getExample().toString());
+            LOGGER.debug("Example set in openapi spec, returning example: '{}'", property.getExample().toString());
             return property.getExample();
-        } else if (property instanceof StringProperty) {
-            logger.debug("String property");
-            String defaultValue = ((StringProperty) property).getDefault();
-            if (defaultValue != null && !defaultValue.isEmpty()) {
-                logger.debug("Default value found: '{}'", defaultValue);
-                return defaultValue;
-            }
-            List<String> enumValues = ((StringProperty) property).getEnum();
-            if (enumValues != null && !enumValues.isEmpty()) {
-                logger.debug("Enum value found: '{}'", enumValues.get(0));
-                return enumValues.get(0);
-            }
-            String format = property.getFormat();
-            if (format != null && (URI.getName().equals(format) || URL.getName().equals(format))) {
-                logger.debug("URI or URL format, without default or enum, generating random one.");
-                return "http://example.com/aeiou";
-            }
-            logger.debug("No values found, using property name " + propertyName + " as example");
-            return propertyName;
-        } else if (property instanceof BooleanProperty) {
-            Boolean defaultValue = ((BooleanProperty) property).getDefault();
+        } else if (ModelUtils.isBooleanSchema(property)) {
+            Object defaultValue = property.getDefault();
             if (defaultValue != null) {
                 return defaultValue;
             }
             return Boolean.TRUE;
-        } else if (property instanceof ArrayProperty) {
-            Property innerType = ((ArrayProperty) property).getItems();
+        } else if (ModelUtils.isArraySchema(property)) {
+            Schema innerType = ((ArraySchema) property).getItems();
             if (innerType != null) {
-                int arrayLength = null == ((ArrayProperty) property).getMaxItems() ? 2 : ((ArrayProperty) property).getMaxItems();
+                int arrayLength = null == ((ArraySchema) property).getMaxItems() ? 2 : ((ArraySchema) property).getMaxItems();
                 Object[] objectProperties = new Object[arrayLength];
-                Object objProperty = resolvePropertyToExample(propertyName, mediaType, innerType, processedModels);
-                for(int i=0; i < arrayLength; i++) {
+                Object objProperty = resolvePropertyToExample(propertyName, mediaType, innerType, processedModels, openAPI);
+                for (int i = 0; i < arrayLength; i++) {
                     objectProperties[i] = objProperty;
                 }
                 return objectProperties;
             }
-        } else if (property instanceof DateProperty) {
+        } else if (ModelUtils.isDateSchema(property)) {
             return "2000-01-23";
-        } else if (property instanceof DateTimeProperty) {
+        } else if (ModelUtils.isDateTimeSchema(property)) {
             return "2000-01-23T04:56:07.000+00:00";
-        } else if (property instanceof DoubleProperty) {
-            Double min = ((DecimalProperty) property).getMinimum() == null ? null : ((DecimalProperty) property).getMinimum().doubleValue();
-            Double max = ((DecimalProperty) property).getMaximum() == null ? null : ((DecimalProperty) property).getMaximum().doubleValue();
-            return randomNumber(min, max);
-        } else if (property instanceof FloatProperty) {
-            Double min = ((DecimalProperty) property).getMinimum() == null ? null : ((DecimalProperty) property).getMinimum().doubleValue();
-            Double max = ((DecimalProperty) property).getMaximum() == null ? null : ((DecimalProperty) property).getMaximum().doubleValue();
-            return (float) randomNumber(min, max);
-        }  else if (property instanceof DecimalProperty) {
-            Double min = ((DecimalProperty) property).getMinimum() == null ? null : ((DecimalProperty) property).getMinimum().doubleValue();
-            Double max = ((DecimalProperty) property).getMaximum() == null ? null : ((DecimalProperty) property).getMaximum().doubleValue();
-            return new BigDecimal(randomNumber(min, max));
-        } else if (property instanceof FileProperty) {
+        } else if (ModelUtils.isNumberSchema(property)) {
+            Double min = property.getMinimum() == null ? null : property.getMinimum().doubleValue();
+            Double max = property.getMaximum() == null ? null : property.getMaximum().doubleValue();
+            if (ModelUtils.isFloatSchema(property)) { // float
+                return (float) randomNumber(min, max);
+            } else if (ModelUtils.isDoubleSchema(property)) { // decimal/double
+                return new BigDecimal(randomNumber(min, max));
+            } else { // no format defined
+                return randomNumber(min, max);
+            }
+        } else if (ModelUtils.isFileSchema(property)) {
             return "";  // TODO
-        } else if (property instanceof LongProperty) {
-            Double min = ((BaseIntegerProperty) property).getMinimum() == null ? null : ((BaseIntegerProperty) property).getMinimum().doubleValue();
-            Double max = ((BaseIntegerProperty) property).getMaximum() == null ? null : ((BaseIntegerProperty) property).getMaximum().doubleValue();
-            return (long) randomNumber(min, max);
-        } else if (property instanceof BaseIntegerProperty) { // Includes IntegerProperty
-            Double min = ((BaseIntegerProperty) property).getMinimum() == null ? null : ((BaseIntegerProperty) property).getMinimum().doubleValue();
-            Double max = ((BaseIntegerProperty) property).getMaximum() == null ? null : ((BaseIntegerProperty) property).getMaximum().doubleValue();
+
+        } else if (ModelUtils.isIntegerSchema(property)) {
+            Double min = property.getMinimum() == null ? null : property.getMinimum().doubleValue();
+            Double max = property.getMaximum() == null ? null : property.getMaximum().doubleValue();
+            if (ModelUtils.isLongSchema(property)) {
+                return (long) randomNumber(min, max);
+            }
             return (int) randomNumber(min, max);
-        } else if (property instanceof MapProperty) {
+        } else if (ModelUtils.isMapSchema(property)) {
             Map<String, Object> mp = new HashMap<String, Object>();
             if (property.getName() != null) {
                 mp.put(property.getName(),
-                        resolvePropertyToExample(propertyName, mediaType, ((MapProperty) property).getAdditionalProperties(), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels, openAPI));
             } else {
                 mp.put("key",
-                        resolvePropertyToExample(propertyName, mediaType, ((MapProperty) property).getAdditionalProperties(), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels, openAPI));
             }
             return mp;
-        } else if (property instanceof ObjectProperty) {
-            return "{}";
-        } else if (property instanceof RefProperty) {
-            String simpleName = ((RefProperty) property).getSimpleRef();
-            logger.debug("Ref property, simple name: {}", simpleName);
-            Model model = examples.get(simpleName);
-            if (model != null) {
-                return resolveModelToExample(simpleName, mediaType, model, processedModels);
+        } else if (ModelUtils.isUUIDSchema(property)) {
+            return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
+        } else if (ModelUtils.isStringSchema(property)) {
+            LOGGER.debug("String property");
+            String defaultValue = (String) property.getDefault();
+            if (defaultValue != null && !defaultValue.isEmpty()) {
+                LOGGER.debug("Default value found: '{}'", defaultValue);
+                return defaultValue;
             }
-            logger.warn("Ref property with empty model.");
-        } else if (property instanceof UUIDProperty) {
-            return "046b6c7f-0b8a-43b9-b35d-6489e6daee91"; 
+            List<String> enumValues = property.getEnum();
+            if (enumValues != null && !enumValues.isEmpty()) {
+                LOGGER.debug("Enum value found: '{}'", enumValues.get(0));
+                return enumValues.get(0);
+            }
+            String format = property.getFormat();
+            if (format != null && (URI.equals(format) || URL.equals(format))) {
+                LOGGER.debug("URI or URL format, without default or enum, generating random one.");
+                return "http://example.com/aeiou";
+            }
+            LOGGER.debug("No values found, using property name " + propertyName + " as example");
+            return propertyName;
+        } else if (!StringUtils.isEmpty(property.get$ref())) { // model
+            String simpleName = ModelUtils.getSimpleRef(property.get$ref());
+            Schema schema = ModelUtils.getSchema(openAPI, simpleName);
+            if (schema == null) { // couldn't find the model/schema
+                return "{}";
+            }
+            return resolveModelToExample(simpleName, mediaType, schema, processedModels, openAPI);
+
+        } else if (ModelUtils.isObjectSchema(property)) {
+            return "{}";
         }
 
         return "";
@@ -230,30 +241,28 @@ public class ExampleGenerator {
         }
     }
 
-    private Object resolveModelToExample(String name, String mediaType, Model model, Set<String> processedModels) {
+    private Object resolveModelToExample(String name, String mediaType, Schema schema, Set<String> processedModels, OpenAPI openAPI) {
         if (processedModels.contains(name)) {
-            return model.getExample();
+            return schema.getExample();
         }
-        if (model instanceof ModelImpl) {
-            processedModels.add(name);
-            ModelImpl impl = (ModelImpl) model;
-            Map<String, Object> values = new HashMap<>();
 
-            logger.debug("Resolving model '{}' to example", name);
-
-            if (impl.getExample() != null) {
-                logger.debug("Using example from spec: {}", impl.getExample());
-                return impl.getExample();
-            } else if (impl.getProperties() != null) {
-                logger.debug("Creating example from model values");
-                for (String propertyName : impl.getProperties().keySet()) {
-                    Property property = impl.getProperties().get(propertyName);
-                    values.put(propertyName, resolvePropertyToExample(propertyName, mediaType, property, processedModels));
-                }
-                impl.setExample(values);
+        processedModels.add(name);
+        Map<String, Object> values = new HashMap<>();
+        LOGGER.debug("Resolving model '{}' to example", name);
+        if (schema.getExample() != null) {
+            LOGGER.debug("Using example from spec: {}", schema.getExample());
+            return schema.getExample();
+        } else if (schema.getProperties() != null) {
+            LOGGER.debug("Creating example from model values");
+            for (Object propertyName : schema.getProperties().keySet()) {
+                Schema property = (Schema) schema.getProperties().get(propertyName.toString());
+                values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels, openAPI));
             }
-            return values;
+            schema.setExample(values);
+            return schema.getExample();
+        } else {
+            // TODO log an error message as the model does not have any properties
+            return null;
         }
-        return "";
     }
 }

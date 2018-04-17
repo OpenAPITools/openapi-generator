@@ -3,7 +3,7 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.JbossFeature;
-import io.swagger.models.Operation;
+import io.swagger.v3.oas.models.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,7 +13,7 @@ import java.util.*;
 public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen implements JbossFeature {
 
     protected boolean generateJbossDeploymentDescriptor = true;
-    
+
     public JavaResteasyServerCodegen() {
 
         super();
@@ -58,7 +58,7 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
                     GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR);
             this.setGenerateJbossDeploymentDescriptor(generateJbossDeploymentDescriptorProp);
         }
-        
+
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
         writeOptional(outputFolder, new SupportingFile("gradle.mustache", "", "build.gradle"));
         writeOptional(outputFolder, new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
@@ -76,7 +76,7 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
 
         if (generateJbossDeploymentDescriptor) {
             writeOptional(outputFolder, new SupportingFile("jboss-web.mustache",
-                ("src/main/webapp/WEB-INF"), "jboss-web.xml"));
+                    ("src/main/webapp/WEB-INF"), "jboss-web.xml"));
         }
 
         writeOptional(outputFolder, new SupportingFile("RestApplication.mustache",
@@ -137,10 +137,10 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         //Add imports for Jackson
-        if(!BooleanUtils.toBoolean(model.isEnum)) {
+        if (!BooleanUtils.toBoolean(model.isEnum)) {
             model.imports.add("JsonProperty");
 
-            if(BooleanUtils.toBoolean(model.hasEnums)) {
+            if (BooleanUtils.toBoolean(model.hasEnums)) {
                 model.imports.add("JsonValue");
             }
         }
@@ -151,7 +151,7 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         objs = super.postProcessModelsEnum(objs);
 
         //Add imports for Jackson
-        List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
@@ -167,7 +167,7 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
 
         return objs;
     }
-    
+
     public void setGenerateJbossDeploymentDescriptor(boolean generateJbossDeploymentDescriptor) {
         this.generateJbossDeploymentDescriptor = generateJbossDeploymentDescriptor;
     }

@@ -8,13 +8,16 @@ extern crate swagger;
 #[allow(unused_extern_crates)]
 extern crate uuid;
 extern crate clap;
+extern crate tokio_core;
 
 #[allow(unused_imports)]
 use futures::{Future, future, Stream, stream};
+use tokio_core::reactor;
 #[allow(unused_imports)]
 use petstore_api::{ApiNoContext, ContextWrapperExt,
                       ApiError,
                       TestSpecialTagsResponse,
+                      TestBodyWithQueryParamsResponse,
                       FakeOuterBooleanSerializeResponse,
                       FakeOuterCompositeSerializeResponse,
                       FakeOuterNumberSerializeResponse,
@@ -93,18 +96,19 @@ fn main() {
             .help("Port to contact"))
         .get_matches();
 
+    let mut core = reactor::Core::new().unwrap();
     let is_https = matches.is_present("https");
     let base_url = format!("{}://{}:{}",
                            if is_https { "https" } else { "http" },
                            matches.value_of("host").unwrap(),
                            matches.value_of("port").unwrap());
-    let client = if is_https {
+    let client = if matches.is_present("https") {
         // Using Simple HTTPS
-        petstore_api::Client::try_new_https(&base_url, "examples/ca.pem")
+        petstore_api::Client::try_new_https(core.handle(), &base_url, "examples/ca.pem")
             .expect("Failed to create HTTPS client")
     } else {
         // Using HTTP
-        petstore_api::Client::try_new_http(&base_url)
+        petstore_api::Client::try_new_http(core.handle(), &base_url)
             .expect("Failed to create HTTP client")
     };
 
@@ -115,165 +119,171 @@ fn main() {
 
         // Disabled because there's no example.
         // Some("TestSpecialTags") => {
-        //     let result = client.test_special_tags(???).wait();
+        //     let result = core.run(client.test_special_tags(???));
+        //     println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
+        //  },
+
+        // Disabled because there's no example.
+        // Some("TestBodyWithQueryParams") => {
+        //     let result = core.run(client.test_body_with_query_params(???, "query_example".to_string()));
         //     println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
         //  },
 
         Some("FakeOuterBooleanSerialize") => {
-            let result = client.fake_outer_boolean_serialize(None).wait();
+            let result = core.run(client.fake_outer_boolean_serialize(None));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("FakeOuterCompositeSerialize") => {
-            let result = client.fake_outer_composite_serialize(None).wait();
+            let result = core.run(client.fake_outer_composite_serialize(None));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("FakeOuterNumberSerialize") => {
-            let result = client.fake_outer_number_serialize(None).wait();
+            let result = core.run(client.fake_outer_number_serialize(None));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("FakeOuterStringSerialize") => {
-            let result = client.fake_outer_string_serialize(None).wait();
+            let result = core.run(client.fake_outer_string_serialize(None));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         // Disabled because there's no example.
         // Some("TestClientModel") => {
-        //     let result = client.test_client_model(???).wait();
+        //     let result = core.run(client.test_client_model(???));
         //     println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
         //  },
 
         Some("TestEndpointParameters") => {
-            let result = client.test_endpoint_parameters(8.14, 1.2, "pattern_without_delimiter_example".to_string(), swagger::ByteArray(Vec::from("B")), Some(56), Some(56), Some(789), Some(3.4), Some("string_example".to_string()), Some(swagger::ByteArray(Vec::from("B"))), None, None, Some("password_example".to_string()), Some("callback_example".to_string())).wait();
+            let result = core.run(client.test_endpoint_parameters(8.14, 1.2, "pattern_without_delimiter_example".to_string(), swagger::ByteArray(Vec::from("B")), Some(56), Some(56), Some(789), Some(3.4), Some("string_example".to_string()), Some(swagger::ByteArray(Vec::from("B"))), None, None, Some("password_example".to_string()), Some("callback_example".to_string())));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("TestEnumParameters") => {
-            let result = client.test_enum_parameters(Some(&Vec::new()), Some("enum_form_string_example".to_string()), Some(&Vec::new()), Some("enum_header_string_example".to_string()), Some(&Vec::new()), Some("enum_query_string_example".to_string()), Some(56), Some(1.2)).wait();
+            let result = core.run(client.test_enum_parameters(Some(&Vec::new()), Some("enum_form_string_example".to_string()), Some(&Vec::new()), Some("enum_header_string_example".to_string()), Some(&Vec::new()), Some("enum_query_string_example".to_string()), Some(56), Some(1.2)));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         // Disabled because there's no example.
         // Some("TestInlineAdditionalProperties") => {
-        //     let result = client.test_inline_additional_properties(???).wait();
+        //     let result = core.run(client.test_inline_additional_properties(???));
         //     println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
         //  },
 
         Some("TestJsonFormData") => {
-            let result = client.test_json_form_data("param_example".to_string(), "param2_example".to_string()).wait();
+            let result = core.run(client.test_json_form_data("param_example".to_string(), "param2_example".to_string()));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         // Disabled because there's no example.
         // Some("TestClassname") => {
-        //     let result = client.test_classname(???).wait();
+        //     let result = core.run(client.test_classname(???));
         //     println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
         //  },
 
         // Disabled because there's no example.
         // Some("AddPet") => {
-        //     let result = client.add_pet(???).wait();
+        //     let result = core.run(client.add_pet(???));
         //     println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
         //  },
 
         Some("DeletePet") => {
-            let result = client.delete_pet(789, Some("api_key_example".to_string())).wait();
+            let result = core.run(client.delete_pet(789, Some("api_key_example".to_string())));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("FindPetsByStatus") => {
-            let result = client.find_pets_by_status(&Vec::new()).wait();
+            let result = core.run(client.find_pets_by_status(&Vec::new()));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("FindPetsByTags") => {
-            let result = client.find_pets_by_tags(&Vec::new()).wait();
+            let result = core.run(client.find_pets_by_tags(&Vec::new()));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("GetPetById") => {
-            let result = client.get_pet_by_id(789).wait();
+            let result = core.run(client.get_pet_by_id(789));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         // Disabled because there's no example.
         // Some("UpdatePet") => {
-        //     let result = client.update_pet(???).wait();
+        //     let result = core.run(client.update_pet(???));
         //     println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
         //  },
 
         Some("UpdatePetWithForm") => {
-            let result = client.update_pet_with_form(789, Some("name_example".to_string()), Some("status_example".to_string())).wait();
+            let result = core.run(client.update_pet_with_form(789, Some("name_example".to_string()), Some("status_example".to_string())));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("UploadFile") => {
-            let result = client.upload_file(789, Some("additional_metadata_example".to_string()), Box::new(future::ok(Some(Box::new(stream::once(Ok(b"hello".to_vec()))) as Box<Stream<Item=_, Error=_> + Send>))) as Box<Future<Item=_, Error=_> + Send>).wait();
+            let result = core.run(client.upload_file(789, Some("additional_metadata_example".to_string()), Box::new(future::ok(Some(Box::new(stream::once(Ok(b"hello".to_vec()))) as Box<Stream<Item=_, Error=_> + Send>))) as Box<Future<Item=_, Error=_> + Send>));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("DeleteOrder") => {
-            let result = client.delete_order("order_id_example".to_string()).wait();
+            let result = core.run(client.delete_order("order_id_example".to_string()));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("GetInventory") => {
-            let result = client.get_inventory().wait();
+            let result = core.run(client.get_inventory());
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("GetOrderById") => {
-            let result = client.get_order_by_id(789).wait();
+            let result = core.run(client.get_order_by_id(789));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         // Disabled because there's no example.
         // Some("PlaceOrder") => {
-        //     let result = client.place_order(???).wait();
+        //     let result = core.run(client.place_order(???));
         //     println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
         //  },
 
         // Disabled because there's no example.
         // Some("CreateUser") => {
-        //     let result = client.create_user(???).wait();
+        //     let result = core.run(client.create_user(???));
         //     println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
         //  },
 
         Some("CreateUsersWithArrayInput") => {
-            let result = client.create_users_with_array_input(&Vec::new()).wait();
+            let result = core.run(client.create_users_with_array_input(&Vec::new()));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("CreateUsersWithListInput") => {
-            let result = client.create_users_with_list_input(&Vec::new()).wait();
+            let result = core.run(client.create_users_with_list_input(&Vec::new()));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("DeleteUser") => {
-            let result = client.delete_user("username_example".to_string()).wait();
+            let result = core.run(client.delete_user("username_example".to_string()));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("GetUserByName") => {
-            let result = client.get_user_by_name("username_example".to_string()).wait();
+            let result = core.run(client.get_user_by_name("username_example".to_string()));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("LoginUser") => {
-            let result = client.login_user("username_example".to_string(), "password_example".to_string()).wait();
+            let result = core.run(client.login_user("username_example".to_string(), "password_example".to_string()));
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         Some("LogoutUser") => {
-            let result = client.logout_user().wait();
+            let result = core.run(client.logout_user());
             println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
          },
 
         // Disabled because there's no example.
         // Some("UpdateUser") => {
-        //     let result = client.update_user("username_example".to_string(), ???).wait();
+        //     let result = core.run(client.update_user("username_example".to_string(), ???));
         //     println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
         //  },
 

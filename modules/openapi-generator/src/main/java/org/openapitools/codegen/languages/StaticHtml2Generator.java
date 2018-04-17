@@ -1,16 +1,24 @@
 package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
-import org.openapitools.codegen.*;
-import io.swagger.models.Info;
-import org.yaml.snakeyaml.error.Mark;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.Markdown;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
+import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -97,16 +105,14 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-
-            return getSwaggerType(p) + "[String, " + getTypeDeclaration(inner) + "]";
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
+            return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
     }
@@ -128,11 +134,11 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        super.preprocessSwagger(swagger);
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
 
-        if (swagger.getInfo() != null) {
-            Info info = swagger.getInfo();
+        if (openAPI.getInfo() != null) {
+            Info info = openAPI.getInfo();
             if (StringUtils.isBlank(jsProjectName) && info.getTitle() != null) {
                 // when jsProjectName is not specified, generate it from info.title
                 jsProjectName = sanitizeName(dashize(info.getTitle()));
@@ -150,12 +156,12 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         additionalProperties.put("jsProjectName", jsProjectName);
         additionalProperties.put("jsModuleName", jsModuleName);
 
-        preparHtmlForGlobalDescription(swagger);
+        preparHtmlForGlobalDescription(openAPI);
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, swagger);
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, openAPI);
         if (op.returnType != null) {
             op.returnType = normalizeType(op.returnType);
         }
@@ -199,13 +205,17 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
      * @param swagger The base object containing the global description through "Info" class
      * @return Void
      */
-    private void preparHtmlForGlobalDescription(Swagger swagger) {
-        String currentDescription = swagger.getInfo().getDescription();
+    private void preparHtmlForGlobalDescription(OpenAPI openAPI) {
+        if (openAPI.getInfo() == null) {
+            return;
+        }
+
+        String currentDescription = openAPI.getInfo().getDescription();
         if (currentDescription != null && !currentDescription.isEmpty()) {
             Markdown markInstance = new Markdown();
-            swagger.getInfo().setDescription( markInstance.toHtml(currentDescription) );
+            openAPI.getInfo().setDescription( markInstance.toHtml(currentDescription) );
         } else {
-            LOGGER.error("Swagger object description is empty [" + swagger.getInfo().getTitle() + "]");
+            LOGGER.error("OpenAPI object description is empty [" + openAPI.getInfo().getTitle() + "]");
         }
     }
 

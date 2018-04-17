@@ -3,13 +3,17 @@ package org.openapitools.codegen.languages;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
+
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.openapitools.codegen.*;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Response;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.*;
-import io.swagger.util.Json;
+import org.openapitools.codegen.utils.ModelUtils;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.core.util.Json;
+
 
 import java.util.*;
 
@@ -135,7 +139,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
         // CLI options
         addOption(CodegenConstants.PROJECT_NAME, "GNAT project name",
-                  this.projectName);
+                this.projectName);
 
         modelNameSuffix = "_Type";
         embeddedTemplateDir = templateDir = "Ada";
@@ -144,29 +148,22 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 Arrays.asList("integer", "boolean", "Integer", "Character", "Boolean", "long", "float", "double"));
     }
 
-    protected void addOption(String key, String description, String defaultValue) {
-        CliOption option = new CliOption(key, description);
-        if (defaultValue != null)
-            option.defaultValue(defaultValue);
-        cliOptions.add(option);
-    }
-
     public String toFilename(String name) {
         return name.replace(".", "-").toLowerCase();
     }
 
     /**
      * Turn a parameter name, operation name into an Ada identifier.
-     *
+     * <p>
      * Ada programming standard avoid the camelcase syntax and prefer the underscore
      * notation.  We also have to make sure the identifier is not a reserved keyword.
      * When this happens, we add the configurable prefix.  The function translates:
-     *
+     * <p>
      * body              - P_Body
      * petId             - Pet_Id
      * updatePetWithForm - Update_Pet_With_Form
      *
-     * @param name the parameter name.
+     * @param name   the parameter name.
      * @param prefix the optional prefix in case the parameter name is a reserved keyword.
      * @return the Ada identifier to be used.
      */
@@ -231,7 +228,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Property p) {
+    public CodegenProperty fromProperty(String name, Schema p) {
         CodegenProperty property = super.fromProperty(name, p);
         if (property != null) {
             String nameInCamelCase = property.nameInCamelCase;
@@ -266,7 +263,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     /**
      * Override the Mustache compiler configuration.
-     *
+     * <p>
      * We don't want to have special characters escaped
      *
      * @param compiler the compiler.
@@ -285,24 +282,23 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
      * for different property types
      *
      * @return a string value used as the `dataType` field for model templates,
-     *         `returnType` for api templates
+     * `returnType` for api templates
      */
     @Override
-    public String getTypeDeclaration(Property p) {
-        String swaggerType = getSwaggerType(p);
+    public String getTypeDeclaration(Schema p) {
+        String schemaType = getSchemaType(p);
 
-        if (swaggerType != null) {
-            swaggerType = swaggerType.replace("-", "_");
+        if (schemaType != null) {
+            schemaType = schemaType.replace("-", "_");
         }
 
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "_Vectors.Vector";
         }
-        if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+        if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
             String name = getTypeDeclaration(inner) + "_Map";
             if (name.startsWith("Swagger.")) {
                 return name;
@@ -310,20 +306,20 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 return "Swagger." + name;
             }
         }
-        if (typeMapping.containsKey(swaggerType)) {
-            if (p.getRequired()) {
-                return typeMapping.get(swaggerType);
+        // TODO need to revise/test the logic below to check "required"
+        if (typeMapping.containsKey(schemaType)) {
+            if (p.getRequired() != null && p.getRequired().contains(p.getName())) {
+                return typeMapping.get(schemaType);
             } else {
-                return nullableTypeMapping.get(swaggerType);
+                return nullableTypeMapping.get(schemaType);
             }
         }
-        //  LOGGER.info("Swagger type " + swaggerType);
-        if (languageSpecificPrimitives.contains(swaggerType)) {
-            return swaggerType;
+        //  LOGGER.info("Swagger type " + schemaType);
+        if (languageSpecificPrimitives.contains(schemaType)) {
+            return schemaType;
         }
-        String modelType = toModelName(swaggerType).replace("-", "_");
-        if (p instanceof StringProperty || p instanceof DateProperty
-                || p instanceof DateTimeProperty || p instanceof FileProperty
+        String modelType = toModelName(schemaType).replace("-", "_");
+        if (ModelUtils.isStringSchema(p) || ModelUtils.isFileSchema(p)
                 || languageSpecificPrimitives.contains(modelType)) {
             return modelType;
         }
@@ -338,7 +334,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
      * @param parameter CodegenParameter object to be processed.
      */
     @Override
-    public void postProcessParameter(CodegenParameter parameter){
+    public void postProcessParameter(CodegenParameter parameter) {
         // Give the base class a chance to process
         super.postProcessParameter(parameter);
 
@@ -355,7 +351,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     /**
      * Post process the media types (produces and consumes) for Ada code generator.
-     *
+     * <p>
      * For each media type, add a adaMediaType member that gives the Ada enum constant
      * for the corresponding type.
      *
@@ -379,19 +375,16 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
-                                          Map<String, Model> definitions, Swagger swagger) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, swagger);
+                                          Map<String, Schema> definitions, OpenAPI openAPI) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, openAPI);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
-            Response methodResponse = findMethodResponse(operation.getResponses());
-
-            if (methodResponse != null) {
-                if (methodResponse.getSchema() != null) {
-                    CodegenProperty cm = fromProperty("response", methodResponse.getSchema());
-                    op.vendorExtensions.put("x-codegen-response", cm);
-                    if(cm.datatype == "HttpContent") {
-                        op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
-                    }
+            ApiResponse methodResponse = findMethodResponse(operation.getResponses());
+            if (methodResponse != null && getSchemaFromResponse(methodResponse) != null) {
+                CodegenProperty cm = fromProperty("response", getSchemaFromResponse(methodResponse));
+                op.vendorExtensions.put("x-codegen-response", cm);
+                if ("HttpContent".equals(cm.datatype)) {
+                    op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
                 }
             }
         }
@@ -499,7 +492,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         List<Map<String, Object>> revisedOrderedModels = new ArrayList<Map<String, Object>>();
         List<String> collectedModelNames = new ArrayList<String>();
         int sizeOrderedModels = orderedModels.size();
-        for (int i=0;i<sizeOrderedModels;i++) {
+        for (int i = 0; i < sizeOrderedModels; i++) {
             Map<String, Object> independentModel = null;
             String independentModelName = null;
             for (Map<String, Object> model : orderedModels) {
@@ -538,8 +531,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         objs.put("orderedModels", orderedModels);
-        Swagger swagger = (Swagger)objs.get("swagger");
-        if(swagger != null) {
+        generateJSONSpecFile(objs);
+        /* TODO do we still need the SWAGGER_HOST logic below
+        Swagger swagger = (Swagger) objs.get("swagger");
+        if (swagger != null) {
             String host = swagger.getBasePath();
             try {
                 swagger.setHost("SWAGGER_HOST");
@@ -548,7 +543,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 LOGGER.error(e.getMessage(), e);
             }
             swagger.setHost(host);
-        }
+        }*/
 
         /**
          * Collect the scopes to generate unique identifiers for each of them.

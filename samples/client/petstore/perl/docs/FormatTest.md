@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **double** | **double** |  | [optional] 
 **string** | **string** |  | [optional] 
 **byte** | **string** |  | 
-**binary** | **string** |  | [optional] 
+**binary** | [**File**](File.md) |  | [optional] 
 **date** | **DateTime** |  | 
 **date_time** | **DateTime** |  | [optional] 
 **uuid** | [**UUID**](UUID.md) |  | [optional] 

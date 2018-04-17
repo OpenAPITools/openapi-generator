@@ -30,6 +30,7 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
+use WWW::SwaggerClient::Object::File;
 use WWW::SwaggerClient::Object::Number;
 use WWW::SwaggerClient::Object::UUID;
 
@@ -202,7 +203,7 @@ __PACKAGE__->method_documentation({
     	read_only => '',
     		},
     'binary' => {
-    	datatype => 'string',
+    	datatype => 'File',
     	base_name => 'binary',
     	description => '',
     	format => '',
@@ -247,7 +248,7 @@ __PACKAGE__->swagger_types( {
     'double' => 'double',
     'string' => 'string',
     'byte' => 'string',
-    'binary' => 'string',
+    'binary' => 'File',
     'date' => 'DateTime',
     'date_time' => 'DateTime',
     'uuid' => 'UUID',

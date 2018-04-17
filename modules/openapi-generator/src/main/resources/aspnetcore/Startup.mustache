@@ -62,7 +62,7 @@ namespace {{packageName}}
                         Contact = new Contact()
                         {
                            Name = "{{#infoName}}{{{infoName}}}{{/infoName}}{{^infoName}}Swagger Codegen Contributors{{/infoName}}",
-                           Url = "{{#infoUrl}}{{{infoUrl}}}{{/infoUrl}}{{^infoUrl}}https://github.com/swagger-api/swagger-codegen{{/infoUrl}}",
+                           Url = "{{#infoUrl}}{{{infoUrl}}}{{/infoUrl}}{{^infoUrl}}https://github.com/openapitools/openapi-generator{{/infoUrl}}",
                            Email = "{{#infoEmail}}{{{infoEmail}}}{{/infoEmail}}"
                         },
                         TermsOfService = "{{#termsOfService}}{{{termsOfService}}}{{/termsOfService}}"
@@ -97,10 +97,10 @@ namespace {{packageName}}
                 .UseSwaggerUI(c =>
                 {
                     //TODO: Either use the SwaggerGen generated Swagger contract (generated from C# classes)
-                    c.SwaggerEndpoint("/swagger/{{#version}}{{{version}}}{{/version}}{{^version}}v1{{/version}}/swagger.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}}");
+                    c.SwaggerEndpoint("/swagger/{{#version}}{{{version}}}{{/version}}{{^version}}v1{{/version}}/openapi.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}}");
 
                     //TODO: Or alternatively use the original Swagger contract that's included in the static files
-                    // c.SwaggerEndpoint("/swagger-original.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} Original");
+                    // c.SwaggerEndpoint("/openapi-original.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} Original");
                 });
 
             if (env.IsDevelopment())

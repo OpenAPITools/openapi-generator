@@ -23,25 +23,12 @@ Pet::~Pet()
 void
 Pet::__init()
 {
-	//
-	//
 	//id = long(0);
-	//
-	//
 	//category = new Category();
-	//
-	//
 	//name = std::string();
-	//
 	//new std::list()std::list> photoUrls;
-	//
-	//
 	//new std::list()std::list> tags;
-	//
-	//
-	//
 	//status = std::string();
-	//
 }
 
 void

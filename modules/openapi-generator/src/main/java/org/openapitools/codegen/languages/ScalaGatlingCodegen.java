@@ -1,9 +1,13 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
-import io.swagger.models.*;
-import io.swagger.models.parameters.*;
-import io.swagger.models.properties.*;
+import org.openapitools.codegen.utils.*;
+import org.openapitools.codegen.mustache.*;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.parameters.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -24,7 +28,6 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      * Configures the type of generator.
      *
      * @return the CodegenType for this generator
-     * @see org.openapitools.codegen.CodegenType
      */
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -194,24 +197,24 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
     }
 
     /**
-     * Modifies the swagger doc to make mustache easier to use
+     * Modifies the openapi doc to make mustache easier to use
      *
-     * @param swagger input swagger document
+     * @param openAPI input openapi document
      */
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        for (String pathname : swagger.getPaths().keySet()) {
-            Path path = swagger.getPath(pathname);
-            if (path.getOperations() == null) {
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        for (String pathname : openAPI.getPaths().keySet()) {
+            PathItem path = openAPI.getPaths().get(pathname);
+            if (path.readOperations() == null) {
                 continue;
             }
-            for (Operation operation : path.getOperations()) {
-                if (!operation.getVendorExtensions().keySet().contains("x-gatling-path")) {
+            for (Operation operation : path.readOperations()) {
+                if (!operation.getExtensions().keySet().contains("x-gatling-path")) {
                     if (pathname.contains("{")) {
                         String gatlingPath = pathname.replaceAll("\\{", "\\$\\{");
-                        operation.setVendorExtension("x-gatling-path", gatlingPath);
+                        operation.addExtension("x-gatling-path", gatlingPath);
                     } else {
-                        operation.setVendorExtension("x-gatling-path", pathname);
+                        operation.addExtension("x-gatling-path", pathname);
                     }
                 }
 
@@ -220,19 +223,24 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                 Set<Parameter> queryParameters = new HashSet<>();
                 Set<Parameter> pathParameters = new HashSet<>();
 
-                for (Parameter parameter : operation.getParameters()) {
-                    if (parameter.getIn().equalsIgnoreCase("header")) {
-                        headerParameters.add(parameter);
-                    }
+                if (operation.getParameters() != null) {
+
+                    for (Parameter parameter : operation.getParameters()) {
+                        if (parameter.getIn().equalsIgnoreCase("header")) {
+                            headerParameters.add(parameter);
+                        }
+                    /* need to revise below as form parameter is no longer in the parameter list
                     if (parameter.getIn().equalsIgnoreCase("formData")) {
                         formParameters.add(parameter);
                     }
-                    if (parameter.getIn().equalsIgnoreCase("query")) {
-                        queryParameters.add(parameter);
-                    }
-                    if (parameter.getIn().equalsIgnoreCase("path")) {
-                        pathParameters.add(parameter);
-                    }
+                    */
+                        if (parameter.getIn().equalsIgnoreCase("query")) {
+                            queryParameters.add(parameter);
+                        }
+                        if (parameter.getIn().equalsIgnoreCase("path")) {
+                            pathParameters.add(parameter);
+                        }
+                    /* TODO need to revise below as body is no longer in the parameter
                     if (parameter.getIn().equalsIgnoreCase("body")) {
                         BodyParameter bodyParameter = (BodyParameter) parameter;
                         Model model = bodyParameter.getSchema();
@@ -264,6 +272,8 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                         }
 
                     }
+                    */
+                    }
                 }
 
                 prepareGatlingData(operation, headerParameters, "header");
@@ -276,7 +286,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
     }
 
     /**
-     * Creates all the necessary swagger vendor extensions and feeder files for gatling
+     * Creates all the necessary openapi vendor extensions and feeder files for gatling
      *
      * @param operation     Swagger Operation
      * @param parameters    Swagger Parameters
@@ -293,8 +303,8 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                 vendorList.add(extensionMap);
                 parameterNames.add(parameter.getName());
             }
-            operation.setVendorExtension("x-gatling-" + parameterType.toLowerCase() + "-params", vendorList);
-            operation.setVendorExtension("x-gatling-" + parameterType.toLowerCase() + "-feeder", operation.getOperationId() + parameterType.toUpperCase() + "Feeder");
+            operation.addExtension("x-gatling-" + parameterType.toLowerCase() + "-params", vendorList);
+            operation.addExtension("x-gatling-" + parameterType.toLowerCase() + "-feeder", operation.getOperationId() + parameterType.toUpperCase() + "Feeder");
             try {
                 FileUtils.writeStringToFile(new File(outputFolder + File.separator + dataFolder + File.separator + operation.getOperationId() + "-" + parameterType.toLowerCase() + "Params.csv"), StringUtils.join(parameterNames, ","));
             } catch (IOException ioe) {
@@ -310,36 +320,34 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
      */
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "[String, " + getTypeDeclaration(inner) + "]";
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
+            return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
     }
 
     /**
-     * Optional - swagger type conversion.  This is used to map swagger types in a `Property` into
+     * Optional - openapi type conversion.  This is used to map openapi types in a `Schema` into
      * either language specific types via `typeMapping` or into complex models if there is not a mapping.
      *
      * @return a string value of the type or complex model for this property
-     * @see io.swagger.models.properties.Property
      */
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String schemaType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type))
                 return toModelName(type);
         } else
-            type = swaggerType;
+            type = schemaType;
         return toModelName(type);
     }
 }

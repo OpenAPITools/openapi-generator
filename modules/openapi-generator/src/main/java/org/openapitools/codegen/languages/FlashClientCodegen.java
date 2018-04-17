@@ -1,41 +1,35 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
-import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.*;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.mustache.*;
+
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.parameters.*;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String packageName = "io.swagger";
+    protected String packageName = "org.openapitools";
     protected String packageVersion;
 
-    protected String invokerPackage = "io.swagger";
+    protected String invokerPackage = "org.openapitools";
     protected String sourceFolder = "flash";
 
     public FlashClientCodegen() {
         super();
 
-        modelPackage = "io.swagger.client.model";
-        apiPackage = "io.swagger.client.api";
+        modelPackage = "org.openapitools.client.model";
+        apiPackage = "org.openapitools.client.api";
         outputFolder = "generated-code" + File.separatorChar + "flash";
         modelTemplateFiles.put("model.mustache", ".as");
         modelTemplateFiles.put("modelList.mustache", "List.as");
@@ -79,7 +73,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "flash package name (convention:" +
-                " package.name)").defaultValue("io.swagger"));
+                " package.name)").defaultValue("org.openapitools"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "flash package version")
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
@@ -107,15 +101,13 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
             apiPackage = packageName + ".client.api";
             modelPackage = packageName + ".client.model";
-        }
-        else {
-            setPackageName("io.swagger");
+        } else {
+            setPackageName("org.openapitools");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        }
-        else {
+        } else {
             setPackageVersion("1.0.0");
         }
 
@@ -174,12 +166,12 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getHelp() {
-        return "Generates a Flash client library.";
+        return "Generates a Flash (ActionScript) client library (beta).";
     }
 
     @Override
-    public String escapeReservedWord(String name) {           
-        if(this.reservedWordsMappings().containsKey(name)) {
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -198,66 +190,52 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty || p instanceof MapProperty) {
-            return getSwaggerType(p);
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p)) {
+            return getSchemaType(p);
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String schemaType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
         } else {
-            type = toModelName(swaggerType);
+            type = toModelName(schemaType);
         }
         return type;
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            return "null";
-        } else if (p instanceof BooleanProperty) {
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
             return "false";
-        } else if (p instanceof DateProperty) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return "null";
-        } else if (p instanceof DateTimeProperty) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return "null";
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
             return "0.0";
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-            return "0.0";
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
             return "0";
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-            return "0";
-        } else if (p instanceof MapProperty) {
+        } else if (ModelUtils.isMapSchema(p)) {
             return "new Dictionary()";
-        } else if (p instanceof ArrayProperty) {
+        } else if (ModelUtils.isArraySchema(p)) {
             return "new Array()";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "null";
         } else {
             return "NaN";
         }

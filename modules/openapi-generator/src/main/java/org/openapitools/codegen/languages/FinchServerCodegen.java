@@ -1,10 +1,23 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import io.swagger.models.Model;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenSecurity;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import java.io.File;
 import java.util.Arrays;
@@ -193,21 +206,18 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     /**
-     * Convert Swagger Model object to Codegen Model object
+     * Convert OpenAPI Model object to Codegen Model object
      *
      * @param name           the name of the model
-     * @param model          Swagger Model object
-     * @param allDefinitions a map of all Swagger models from the spec
+     * @param model          OpenAPI Model object
+     * @param allDefinitions a map of all OpenAPI models from the spec
      * @return Codegen Model object
      */
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
         return codegenModel;
     }
-
-
-
 
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
@@ -236,31 +246,30 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
 
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
 
-            return getSwaggerType(p) + "[String, " + getTypeDeclaration(inner) + "]";
+            return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String schemaType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type)) {
                 return toModelName(type);
             }
         } else {
-            type = swaggerType;
+            type = schemaType;
         }
         return toModelName(type);
     }
@@ -282,7 +291,6 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
 
 
     /**
-     *
      * @param prim
      * @param isRequired
      * @param canBeOptional
@@ -291,19 +299,19 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
     private String toPrimitive(String prim, Boolean isRequired, Boolean canBeOptional) {
 
         String converter = ".map(_.to" + prim + ")";
-        return  (canBeOptional ? (isRequired ? converter : ".map(_" + converter +")") : "");
+        return (canBeOptional ? (isRequired ? converter : ".map(_" + converter + ")") : "");
     }
 
     //All path parameters are String initially, for primitives these need to be converted
-    private String toPathParameter(CodegenParameter p, String paramType, Boolean canBeOptional ) {
+    private String toPathParameter(CodegenParameter p, String paramType, Boolean canBeOptional) {
 
         Boolean isNotAString = !p.dataType.equals("String");
 
-        return  paramType + (canBeOptional && !p.required ? "Option" : "") + "(\""+ p.baseName + "\")" + (isNotAString ? toPrimitive(p.dataType,p.required,canBeOptional) : "") ;
+        return paramType + (canBeOptional && !p.required ? "Option" : "") + "(\"" + p.baseName + "\")" + (isNotAString ? toPrimitive(p.dataType, p.required, canBeOptional) : "");
     }
 
-    private String toInputParameter(CodegenParameter p){
-        return (p.required ? "" : "Option[")+p.dataType+(p.required ? "" : "]");
+    private String toInputParameter(CodegenParameter p) {
+        return (p.required ? "" : "Option[") + p.dataType + (p.required ? "" : "]");
     }
 
     private String concat(String original, String addition, String op) {
@@ -312,30 +320,30 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
 
     // a, b
     private String csvConcat(String original, String addition) {
-        return concat(original, addition,", ");
+        return concat(original, addition, ", ");
     }
+
     // a :: b
     private String colConcat(String original, String addition) {
-        return concat(original, addition," :: ");
+        return concat(original, addition, " :: ");
     }
 
     private void authParameters(CodegenOperation op) {
-
         String authParams = "";
         String authInputParams = "";
         String typedAuthInputParams = "";
         //Append apikey security to path params and create input parameters for functions
-        if(op.authMethods != null){
+        if (op.authMethods != null) {
 
-            for(CodegenSecurity s : op.authMethods) {
-                if(s.isApiKey && s.isKeyInHeader){
-                    authParams = colConcat(authParams, "header(\""+ s.keyParamName + "\")");
-                } else if(s.isApiKey && s.isKeyInQuery){
-                    authParams = colConcat(authParams, "param(\""+ s.keyParamName + "\")");
+            for (CodegenSecurity s : op.authMethods) {
+                if (s.isApiKey && s.isKeyInHeader) {
+                    authParams = colConcat(authParams, "header(\"" + s.keyParamName + "\")");
+                } else if (s.isApiKey && s.isKeyInQuery) {
+                    authParams = colConcat(authParams, "param(\"" + s.keyParamName + "\")");
                 }
-                if(s.isApiKey) {
-                    typedAuthInputParams = csvConcat(typedAuthInputParams, "authParam"+ s.name + ": String");
-                    authInputParams = csvConcat(authInputParams,"authParam"+ s.name);
+                if (s.isApiKey) {
+                    typedAuthInputParams = csvConcat(typedAuthInputParams, "authParam" + s.name + ": String");
+                    authInputParams = csvConcat(authInputParams, "authParam" + s.name);
                 }
             }
         }
@@ -343,7 +351,6 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
         op.vendorExtensions.put("x-codegen-authParams", authParams);
         op.vendorExtensions.put("x-codegen-authInputParams", authInputParams);
         op.vendorExtensions.put("x-codegen-typedAuthInputParams", typedAuthInputParams);
-
     }
 
     private void generateScalaPath(CodegenOperation op) {
@@ -358,7 +365,7 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
 
         // remove last /
         if (path.endsWith("/")) {
-            path = path.substring(0, path.length()-1);
+            path = path.substring(0, path.length() - 1);
         }
 
         String[] items = path.split("/", -1);
@@ -387,12 +394,12 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
 
     private void concatParameters(CodegenOperation op) {
 
-        String path = colConcat(colConcat(op.vendorExtensions.get("x-codegen-path").toString(),op.vendorExtensions.get("x-codegen-pathParams").toString()), op.vendorExtensions.get("x-codegen-authParams").toString());
+        String path = colConcat(colConcat(op.vendorExtensions.get("x-codegen-path").toString(), op.vendorExtensions.get("x-codegen-pathParams").toString()), op.vendorExtensions.get("x-codegen-authParams").toString());
         String parameters = csvConcat(op.vendorExtensions.get("x-codegen-inputParams").toString(), op.vendorExtensions.get("x-codegen-authInputParams").toString());
         String typedParameters = csvConcat(op.vendorExtensions.get("x-codegen-typedInputParams").toString(), op.vendorExtensions.get("x-codegen-typedAuthInputParams").toString());
 
         // The input parameters for functions
-        op.vendorExtensions.put("x-codegen-paths",path);
+        op.vendorExtensions.put("x-codegen-paths", path);
         op.vendorExtensions.put("x-codegen-params", parameters);
         op.vendorExtensions.put("x-codegen-typedParams", typedParameters);
 
@@ -409,33 +416,33 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
             // TODO: This hacky, should be converted to mappings if possible to keep it clean.
             // This could also be done using template imports
 
-            if(p.isBodyParam) {
-                p.vendorExtensions.put("x-codegen-normalized-path-type", "jsonBody["+ p.dataType + "]");
+            if (p.isBodyParam) {
+                p.vendorExtensions.put("x-codegen-normalized-path-type", "jsonBody[" + p.dataType + "]");
                 p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
-            } else if(p.isContainer || p.isListContainer) {
-                p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p,"params", false));
+            } else if (p.isContainer || p.isListContainer) {
+                p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p, "params", false));
                 p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType.replaceAll("^[^\\[]+", "Seq"));
-            } else if(p.isQueryParam) {
-                p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p, "param",true));
+            } else if (p.isQueryParam) {
+                p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p, "param", true));
                 p.vendorExtensions.put("x-codegen-normalized-input-type", toInputParameter(p));
-            } else if(p.isHeaderParam) {
-                p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p,"header", true));
+            } else if (p.isHeaderParam) {
+                p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p, "header", true));
                 p.vendorExtensions.put("x-codegen-normalized-input-type", toInputParameter(p));
-            } else if(p.isFile) {
-                p.vendorExtensions.put("x-codegen-normalized-path-type", "fileUpload(\""+ p.paramName + "\")");
+            } else if (p.isFile) {
+                p.vendorExtensions.put("x-codegen-normalized-path-type", "fileUpload(\"" + p.paramName + "\")");
                 p.vendorExtensions.put("x-codegen-normalized-input-type", "FileUpload");
-            } else if(p.isPrimitiveType && !p.isPathParam) {
+            } else if (p.isPrimitiveType && !p.isPathParam) {
                 p.vendorExtensions.put("x-codegen-normalized-path-type", p.dataType.toLowerCase());
                 p.vendorExtensions.put("x-codegen-normalized-input-type", toInputParameter(p));
             } else {
                 //Path paremeters are handled in generateScalaPath()
                 p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
             }
-            if(p.vendorExtensions.get("x-codegen-normalized-path-type") != null){
-                pathParams = colConcat(pathParams , p.vendorExtensions.get("x-codegen-normalized-path-type").toString());
+            if (p.vendorExtensions.get("x-codegen-normalized-path-type") != null) {
+                pathParams = colConcat(pathParams, p.vendorExtensions.get("x-codegen-normalized-path-type").toString());
             }
             inputParams = csvConcat(inputParams, p.paramName);
-            typedInputParams = csvConcat(typedInputParams , p.paramName + ": " + p.vendorExtensions.get("x-codegen-normalized-input-type"));
+            typedInputParams = csvConcat(typedInputParams, p.paramName + ": " + p.vendorExtensions.get("x-codegen-normalized-input-type"));
 
         }
 

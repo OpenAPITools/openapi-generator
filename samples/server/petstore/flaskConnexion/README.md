@@ -27,7 +27,7 @@ http://localhost:8080/v2/ui/
 Your Swagger definition lives here:
 
 ```
-http://localhost:8080/v2/swagger.json
+http://localhost:8080/v2/openapi.json
 ```
 
 To launch the integration tests, use tox:

@@ -1,7 +1,6 @@
 package org.openapitools.codegen.languages;
 
-import io.swagger.models.properties.FileProperty;
-import io.swagger.models.properties.Property;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,9 +8,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.properties.BooleanProperty;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.media.*;
 
 public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNodeClientCodegen.class);
@@ -41,9 +41,55 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(SNAPSHOT,
+                "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm",
+                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
+    @Override
+    public String getName() {
+        return "typescript-node";
+    }
+
+    @Override
+    public String getHelp() {
+        return "Generates a TypeScript NodeJS client library.";
+    }
+
+    @Override
+    public boolean isDataTypeFile(final String dataType) {
+        return "Buffer".equals(dataType);
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isFileSchema(p)) {
+            return "Buffer";
+        } else if (ModelUtils.isBinarySchema(p)) {
+            return "Buffer";
+        }
+        return super.getTypeDeclaration(p);
+    }
+
+    public void setNpmName(String npmName) {
+        this.npmName = npmName;
+    }
+
+    public void setNpmVersion(String npmVersion) {
+        this.npmVersion = npmVersion;
+    }
+
+    public String getNpmVersion() {
+        return npmVersion;
+    }
+
+    public String getNpmRepository() {
+        return npmRepository;
+    }
+
+    public void setNpmRepository(String npmRepository) {
+        this.npmRepository = npmRepository;
+    }
 
     @Override
     public void processOpts() {
@@ -52,13 +98,13 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 
-        if(additionalProperties.containsKey(NPM_NAME)) {
+        if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
     }
 
     private void addNpmPackageGeneration() {
-        if(additionalProperties.containsKey(NPM_NAME)) {
+        if (additionalProperties.containsKey(NPM_NAME)) {
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());
         }
 
@@ -83,49 +129,5 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     private String getPackageRootDirectory() {
         String indexPackage = modelPackage.substring(0, Math.max(0, modelPackage.lastIndexOf('.')));
         return indexPackage.replace('.', File.separatorChar);
-    }
-
-    @Override
-    public String getName() {
-        return "typescript-node";
-    }
-
-    @Override
-    public String getHelp() {
-        return "Generates a TypeScript nodejs client library.";
-    }
-
-    @Override
-    public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && dataType.equals("Buffer");
-    }
-
-    @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof FileProperty) {
-            return "Buffer";
-        }
-        return super.getTypeDeclaration(p);
-    }
-
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public String getNpmRepository() {
-        return npmRepository;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
     }
 }

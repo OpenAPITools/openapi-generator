@@ -11,6 +11,7 @@
 use std::rc::Rc;
 use std::borrow::Borrow;
 use std::borrow::Cow;
+use std::collections::HashMap;
 
 use hyper;
 use serde_json;
@@ -47,18 +48,24 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
 
         let method = hyper::Method::Delete;
 
-        let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=order_id);
+        let query_string = {
+            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
+            query.finish()
+        };
+        let uri_str = format!("{}/store/order/{orderId}?{}", configuration.base_path, query_string, orderId=order_id);
 
-        let uri = uri_str.parse();
         // TODO(farcaller): handle error
         // if let Err(e) = uri {
         //     return Box::new(futures::future::err(e));
         // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
+        let mut uri: hyper::Uri = uri_str.parse().unwrap();
+
+        let mut req = hyper::Request::new(method, uri);
 
         if let Some(ref user_agent) = configuration.user_agent {
             req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
         }
+
 
 
 
@@ -86,21 +93,43 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
     fn get_inventory(&self, ) -> Box<Future<Item = ::std::collections::HashMap<String, i32>, Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
+        let mut auth_headers = HashMap::<String, String>::new();
+        let mut auth_query = HashMap::<String, String>::new();
+        if let Some(ref apikey) = configuration.api_key {
+            let key = apikey.key.clone();
+            let val = match apikey.prefix {
+                Some(ref prefix) => format!("{} {}", prefix, key),
+                None => key,
+            };
+            auth_headers.insert("api_key".to_owned(), val);
+        };
         let method = hyper::Method::Get;
 
-        let uri_str = format!("{}/store/inventory", configuration.base_path);
+        let query_string = {
+            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
+            for (key, val) in &auth_query {
+                query.append_pair(key, val);
+            }
+            query.finish()
+        };
+        let uri_str = format!("{}/store/inventory?{}", configuration.base_path, query_string);
 
-        let uri = uri_str.parse();
         // TODO(farcaller): handle error
         // if let Err(e) = uri {
         //     return Box::new(futures::future::err(e));
         // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
+        let mut uri: hyper::Uri = uri_str.parse().unwrap();
+
+        let mut req = hyper::Request::new(method, uri);
 
         if let Some(ref user_agent) = configuration.user_agent {
             req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
         }
 
+
+        for (key, val) in auth_headers {
+            req.headers_mut().set_raw(key, val);
+        }
 
 
         // send request
@@ -132,18 +161,24 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
 
         let method = hyper::Method::Get;
 
-        let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=order_id);
+        let query_string = {
+            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
+            query.finish()
+        };
+        let uri_str = format!("{}/store/order/{orderId}?{}", configuration.base_path, query_string, orderId=order_id);
 
-        let uri = uri_str.parse();
         // TODO(farcaller): handle error
         // if let Err(e) = uri {
         //     return Box::new(futures::future::err(e));
         // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
+        let mut uri: hyper::Uri = uri_str.parse().unwrap();
+
+        let mut req = hyper::Request::new(method, uri);
 
         if let Some(ref user_agent) = configuration.user_agent {
             req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
         }
+
 
 
 
@@ -176,18 +211,24 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
 
         let method = hyper::Method::Post;
 
-        let uri_str = format!("{}/store/order", configuration.base_path);
+        let query_string = {
+            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
+            query.finish()
+        };
+        let uri_str = format!("{}/store/order?{}", configuration.base_path, query_string);
 
-        let uri = uri_str.parse();
         // TODO(farcaller): handle error
         // if let Err(e) = uri {
         //     return Box::new(futures::future::err(e));
         // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
+        let mut uri: hyper::Uri = uri_str.parse().unwrap();
+
+        let mut req = hyper::Request::new(method, uri);
 
         if let Some(ref user_agent) = configuration.user_agent {
             req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
         }
+
 
 
         let serialized = serde_json::to_string(&body).unwrap();

@@ -1,5 +1,8 @@
 package org.openapitools.codegen;
 
+import io.swagger.v3.oas.models.security.Scopes;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +10,7 @@ public class CodegenSecurity {
     public String name;
     public String type;
     public Boolean hasMore, isBasic, isOAuth, isApiKey;
-    public Map<String, Object> vendorExtensions;
+    public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     // ApiKey specific
     public String keyParamName;
     public Boolean isKeyInQuery, isKeyInHeader;

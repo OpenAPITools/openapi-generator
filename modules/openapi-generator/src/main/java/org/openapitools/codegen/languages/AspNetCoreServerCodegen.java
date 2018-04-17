@@ -6,8 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.samskivert.mustache.Mustache;
 
 import org.openapitools.codegen.*;
-import io.swagger.models.*;
-import io.swagger.util.Json;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +36,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         // contextually reserved words
         // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
         reservedWords.addAll(
-            Arrays.asList("var", "async", "await", "dynamic", "yield")
+                Arrays.asList("var", "async", "await", "dynamic", "yield")
         );
 
         cliOptions.clear();
@@ -100,7 +99,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
         }
         additionalProperties.put("packageGuid", packageGuid);
-        
+
         additionalProperties.put("dockerTag", this.packageName.toLowerCase());
 
         apiPackage = packageName + ".Controllers";
@@ -133,17 +132,17 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "index.html", packageFolder + File.separator + "wwwroot", "index.html"));
         supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "web.config", packageFolder + File.separator + "wwwroot", "web.config"));
 
-        supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "swagger-original.mustache", packageFolder + File.separator + "wwwroot", "swagger-original.json"));
+        supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache", packageFolder + File.separator + "wwwroot", "openapi-original.json"));
     }
 
     @Override
     public void setSourceFolder(final String sourceFolder) {
-        if(sourceFolder == null) {
+        if (sourceFolder == null) {
             LOGGER.warn("No sourceFolder specified, using default");
-            this.sourceFolder =  "src" + File.separator + this.packageName;
-        } else if(!sourceFolder.equals("src") && !sourceFolder.startsWith("src")) {
+            this.sourceFolder = "src" + File.separator + this.packageName;
+        } else if (!sourceFolder.equals("src") && !sourceFolder.startsWith("src")) {
             LOGGER.warn("ASP.NET Core requires source code exists under src. Adjusting.");
-            this.sourceFolder =  "src" + File.separator + sourceFolder;
+            this.sourceFolder = "src" + File.separator + sourceFolder;
         } else {
             this.sourceFolder = sourceFolder;
         }
@@ -152,7 +151,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public void setPackageGuid(String packageGuid) {
         this.packageGuid = packageGuid;
     }
-    
+
     @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Controllers";
@@ -160,20 +159,13 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator  + "Models";
+        return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Models";
     }
 
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Swagger swagger = (Swagger)objs.get("swagger");
-        if(swagger != null) {
-            try {
-                objs.put("swagger-json", Json.pretty().writeValueAsString(swagger).replace("\r\n", "\n"));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        }
+        generateJSONSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
     }
 

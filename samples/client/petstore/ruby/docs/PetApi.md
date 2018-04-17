@@ -15,11 +15,9 @@ Method | HTTP request | Description
 
 
 # **add_pet**
-> add_pet(body)
+> add_pet(pet)
 
 Add a new pet to the store
-
-
 
 ### Example
 ```ruby
@@ -32,13 +30,11 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
-body = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
-
+pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
 
 begin
   #Add a new pet to the store
-  api_instance.add_pet(body)
+  api_instance.add_pet(pet)
 rescue Petstore::ApiError => e
   puts "Exception when calling PetApi->add_pet: #{e}"
 end
@@ -48,7 +44,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -60,8 +56,8 @@ nil (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 
 
@@ -69,8 +65,6 @@ nil (empty response body)
 > delete_pet(pet_id, opts)
 
 Deletes a pet
-
-
 
 ### Example
 ```ruby
@@ -83,10 +77,8 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
 pet_id = 789 # Integer | Pet id to delete
-
-opts = { 
+opts = {
   api_key: 'api_key_example' # String | 
 }
 
@@ -116,7 +108,7 @@ nil (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 
 
@@ -138,9 +130,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
 status = ['status_example'] # Array<String> | Status values that need to be considered for filter
-
 
 begin
   #Finds Pets by status
@@ -190,9 +180,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
 tags = ['tags_example'] # Array<String> | Tags to filter by
-
 
 begin
   #Finds Pets by tags
@@ -244,9 +232,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
 pet_id = 789 # Integer | ID of pet to return
-
 
 begin
   #Find pet by ID
@@ -279,11 +265,9 @@ Name | Type | Description  | Notes
 
 
 # **update_pet**
-> update_pet(body)
+> update_pet(pet)
 
 Update an existing pet
-
-
 
 ### Example
 ```ruby
@@ -296,13 +280,11 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
-body = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
-
+pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
 
 begin
   #Update an existing pet
-  api_instance.update_pet(body)
+  api_instance.update_pet(pet)
 rescue Petstore::ApiError => e
   puts "Exception when calling PetApi->update_pet: #{e}"
 end
@@ -312,7 +294,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -324,8 +306,8 @@ nil (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 
 
@@ -333,8 +315,6 @@ nil (empty response body)
 > update_pet_with_form(pet_id, opts)
 
 Updates a pet in the store with form data
-
-
 
 ### Example
 ```ruby
@@ -347,10 +327,8 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
 pet_id = 789 # Integer | ID of pet that needs to be updated
-
-opts = { 
+opts = {
   name: 'name_example', # String | Updated name of the pet
   status: 'status_example' # String | Updated status of the pet
 }
@@ -382,7 +360,7 @@ nil (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 
 
@@ -390,8 +368,6 @@ nil (empty response body)
 > ApiResponse upload_file(pet_id, opts)
 
 uploads an image
-
-
 
 ### Example
 ```ruby
@@ -404,12 +380,10 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-
 pet_id = 789 # Integer | ID of pet to update
-
-opts = { 
+opts = {
   additional_metadata: 'additional_metadata_example', # String | Additional data to pass to server
-  file: File.new('/path/to/file.txt') # File | file to upload
+  file: File.new('/path/to/file') # File | file to upload
 }
 
 begin

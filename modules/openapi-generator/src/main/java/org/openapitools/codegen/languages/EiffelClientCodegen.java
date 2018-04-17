@@ -8,10 +8,14 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.*;
+import org.openapitools.codegen.mustache.*;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.parameters.*;
 
 public class EiffelClientCodegen extends AbstractEiffelCodegen {
     static Logger LOGGER = LoggerFactory.getLogger(EiffelClientCodegen.class);
@@ -52,19 +56,14 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
         apiTestTemplateFiles.put("test/api_test.mustache", ".e");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "Eiffel";
+
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = true;
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
-        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
@@ -157,7 +156,7 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
     }
-    
+
 
     @Override
     public String toEnumName(CodegenProperty property) {
@@ -177,7 +176,7 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
 
         // number
         if ("INTEGER_32".equals(datatype) || "INTEGER_64".equals(datatype) ||
-            "REAL_32".equals(datatype) || "REAL_64".equals(datatype)) {
+                "REAL_32".equals(datatype) || "REAL_64".equals(datatype)) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
@@ -189,7 +188,7 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
         String var = value.replaceAll("\\W+", "_").toLowerCase();
         if (var.matches("\\d.*")) {
             return "val_" + var;
-        } else if (var.startsWith("_")){
+        } else if (var.startsWith("_")) {
             return "val" + var;
         } else {
             return "val_" + var;
@@ -199,11 +198,11 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
     @Override
     public String toEnumValue(String value, String datatype) {
         if ("INTEGER_32".equals(datatype) || "INTEGER_64".equals(datatype) ||
-            "REAL_32".equals(datatype) || "REAL_64".equals(datatype)) {
+                "REAL_32".equals(datatype) || "REAL_64".equals(datatype)) {
             return value;
         } else {
             return "\"" + escapeText(value) + "\"";
         }
-    }    
+    }
 
 }

@@ -1,0 +1,351 @@
+package org.openapitools.codegen.objc;
+
+import io.swagger.v3.oas.models.PathItem;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.languages.ObjcClientCodegen;
+
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+
+import com.google.common.collect.Sets;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Map;
+
+@SuppressWarnings("static-method")
+public class ObjcModelTest {
+
+    @Test(description = "convert a model with a advanced map property")
+    public void advancedMapPropertyTest() {
+        final Schema model = new Schema()
+        .description("a sample model")
+        .addProperties("translations", new MapSchema()
+                  .additionalProperties(new MapSchema().additionalProperties(new StringSchema())))
+        .addRequiredItem("id");
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+        
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+        
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "translations");
+        Assert.assertEquals(property1.datatype, "NSDictionary<NSString*, NSDictionary<NSString*, NSString*>*>*");
+        Assert.assertEquals(property1.name, "translations");
+        Assert.assertEquals(property1.baseType, "NSDictionary");
+        Assert.assertEquals(property1.containerType, "map");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isContainer);
+    }
+    
+    @Test(description = "convert a simple java model")
+    public void simpleModelTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema())
+                .addProperties("createdAt", new DateTimeSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name")
+                .discriminator(new Discriminator().mapping("test", "test"));
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 3);
+        Assert.assertEquals(cm.discriminator.getMapping().get("test"),"test");
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.datatype, "NSNumber*");
+        Assert.assertEquals(property1.name, "_id");
+        Assert.assertNull(property1.defaultValue);
+        Assert.assertEquals(property1.baseType, "NSNumber");
+        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(property1.required);
+        Assert.assertTrue(property1.isPrimitiveType);
+        Assert.assertTrue(property1.isNotContainer);
+
+        final CodegenProperty property2 = cm.vars.get(1);
+        Assert.assertEquals(property2.baseName, "name");
+        Assert.assertEquals(property2.datatype, "NSString*");
+        Assert.assertEquals(property2.name, "name");
+        Assert.assertNull(property2.defaultValue);
+        Assert.assertEquals(property2.baseType, "NSString");
+        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(property2.required);
+        Assert.assertTrue(property2.isPrimitiveType);
+        Assert.assertTrue(property2.isNotContainer);
+
+        final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertEquals(property3.baseName, "createdAt");
+        Assert.assertEquals(property3.datatype, "NSDate*");
+        Assert.assertEquals(property3.name, "createdAt");
+        Assert.assertNull(property3.defaultValue);
+        Assert.assertEquals(property3.baseType, "NSDate");
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
+        Assert.assertTrue(property3.isNotContainer);
+    }
+
+    @Test(description = "convert a model with list property")
+    public void listPropertyTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("id", new IntegerSchema())
+                .addProperties("urls", new ArraySchema()
+                        .items(new StringSchema()))
+                .addRequiredItem("id");
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 2);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.datatype, "NSNumber*");
+        Assert.assertEquals(property1.name, "_id");
+        Assert.assertNull(property1.defaultValue);
+        Assert.assertEquals(property1.baseType, "NSNumber");
+        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(property1.required);
+        Assert.assertTrue(property1.isPrimitiveType);
+        Assert.assertTrue(property1.isNotContainer);
+
+        final CodegenProperty property2 = cm.vars.get(1);
+        Assert.assertEquals(property2.baseName, "urls");
+        Assert.assertEquals(property2.datatype, "NSArray<NSString*>*");
+        Assert.assertEquals(property2.name, "urls");
+        Assert.assertNull(property2.defaultValue);
+        Assert.assertEquals(property2.baseType, "NSArray");
+        Assert.assertFalse(property2.hasMore);
+        Assert.assertEquals(property2.containerType, "array");
+        Assert.assertFalse(property2.required);
+        Assert.assertTrue(property2.isPrimitiveType);
+        Assert.assertTrue(property2.isContainer);
+    }
+
+    @Test(description = "convert a model with a map property")
+    public void mapPropertyTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("translations", new MapSchema()
+                        .additionalProperties(new StringSchema()))
+                .addRequiredItem("id");
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "translations");
+        Assert.assertEquals(property1.datatype, "NSDictionary<NSString*, NSString*>*");
+        Assert.assertEquals(property1.name, "translations");
+        Assert.assertEquals(property1.baseType, "NSDictionary");
+        Assert.assertEquals(property1.containerType, "map");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isContainer);
+        Assert.assertTrue(property1.isPrimitiveType);
+    }
+
+    
+    @Test(description = "convert a model with complex property")
+    public void complexPropertyTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("children", new Schema().$ref("#/definitions/Children"));
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "children");
+        Assert.assertEquals(property1.datatype, "SWGChildren*");
+        Assert.assertEquals(property1.name, "children");
+        Assert.assertEquals(property1.baseType, "SWGChildren");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isNotContainer);
+    }
+
+    @Test(description = "convert a model with complex list property")
+    public void complexListPropertyTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("children", new ArraySchema()
+                        .items(new Schema().$ref("#/definitions/Children")));
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "children");
+        Assert.assertEquals(property1.complexType, "SWGChildren");
+        Assert.assertEquals(property1.datatype, "NSArray<SWGChildren>*");
+        Assert.assertEquals(property1.name, "children");
+        Assert.assertEquals(property1.baseType, "NSArray");
+        Assert.assertEquals(property1.containerType, "array");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isContainer);
+    }
+
+    @Test(description = "convert a model with complex map property")
+    public void complexMapPropertyTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("children", new MapSchema()
+                        .additionalProperties(new Schema().$ref("#/definitions/Children")));
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("SWGChildren")).size(), 1);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "children");
+        Assert.assertEquals(property1.complexType, "SWGChildren");
+        Assert.assertEquals(property1.datatype, "NSDictionary<SWGChildren>*");
+        Assert.assertEquals(property1.name, "children");
+        Assert.assertEquals(property1.baseType, "NSDictionary");
+        Assert.assertEquals(property1.containerType, "map");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isContainer);
+        Assert.assertFalse(property1.isNotContainer);
+    }
+
+    @Test(description = "convert an array model")
+    public void arrayModelTest() {
+        final Schema model = new ArraySchema()
+                .items(new Schema().$ref("#/definitions/Children"))
+                .description("an array model");
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.description, "an array model");
+        Assert.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.parent, "NSMutableArray");
+        Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("SWGChildren")).size(), 1);
+    }
+
+    @Test(description = "convert an map model", enabled = false)
+    public void mapModelTest() {
+        final Schema model = new Schema()
+                .description("a map model for testing ObjC generator")
+                .additionalProperties(new Schema().$ref("#/definitions/Children"));
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final CodegenModel cm = codegen.fromModel("map_model", model);
+
+        Assert.assertEquals(cm.name, "map_model");
+        Assert.assertEquals(cm.classname, "SWGMapModel");
+        Assert.assertEquals(cm.description, "a map model for testing ObjC generator");
+        Assert.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.parent, "NSMutableDictionary");
+        Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("SWGChildren")).size(), 1);
+    }
+
+    @Test(description = "test udid")
+    public void udidAndPasswordDataModelTest() {
+        final OpenAPI model =  new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final Schema definition = model.getComponents().getSchemas().get("format_test");
+
+        Schema property = ((Map<String, Schema>) definition.getProperties()).get("uuid");
+        CodegenProperty prope = codegen.fromProperty("uuid", property);
+        Assert.assertEquals(prope.baseType, "NSString");
+
+        prope = codegen.fromProperty("password", property);
+        Assert.assertEquals(prope.baseType, "NSString");
+    }
+
+    @Test(description = "test mixedProperties")
+    public void mixedPropertiesDataModelTest() {
+        final OpenAPI model =  new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final Schema definition = model.getComponents().getSchemas().get("MixedPropertiesAndAdditionalPropertiesClass");
+
+        Schema property = ((Map<String, Schema>)definition.getProperties()).get("map");
+        CodegenProperty prope = codegen.fromProperty("map", property);
+        Assert.assertEquals(prope.baseType, "NSDictionary");
+    }
+
+    @Test(description = "test isArrayModel")
+    public void isArrayModelModelTest() {
+        final OpenAPI model = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final Schema definition = model.getComponents().getSchemas().get("AnimalFarm");
+        final CodegenModel codegenModel = codegen.fromModel("AnimalFarm",definition);
+
+        Assert.assertEquals(codegenModel.isArrayModel, true);
+        Assert.assertEquals(codegenModel.arrayModelType,"SWGAnimal");
+    }
+
+
+    @Test(description = "test binary data", enabled = false)
+    public void binaryDataModelTest() {
+        final OpenAPI model =  new OpenAPIParser().readLocation("src/test/resources/2_0/binaryDataTest.json", null, new ParseOptions()).getOpenAPI();
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final String path = "/tests/binaryResponse";
+        final Operation p = model.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, model.getComponents().getSchemas());
+
+        Assert.assertTrue(op.bodyParam.isBinary);
+        Assert.assertTrue(op.responses.get(0).isBinary);
+        Assert.assertEquals(op.returnType, "NSData*");
+        Assert.assertEquals(op.bodyParam.dataType, "NSData*");
+    }
+
+    @Test(description = "create proper imports per #316")
+    public void issue316Test() {
+        final OpenAPI model = new OpenAPIParser().readLocation("src/test/resources/2_0/postBodyTest.json", null, new ParseOptions()).getOpenAPI();
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+
+        final Map<String, PathItem> animalPaths = model.getPaths();
+
+        final PathItem animalOps = animalPaths.get("/animals");
+        Assert.assertNotNull(animalOps.getPost());
+
+        final CodegenOperation animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost(), model.getComponents().getSchemas());
+        Assert.assertEquals(animalCo.imports.size(), 1);
+        Assert.assertTrue(animalCo.imports.contains("SWGAnimal"));
+
+        final Map<String, PathItem> insectPaths = model.getPaths();
+        final PathItem insectOps = insectPaths.get("/insects");
+        Assert.assertNotNull(insectOps.getPost());
+
+        final CodegenOperation insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost(), model.getComponents().getSchemas());
+        Assert.assertEquals(insectCo.imports.size(), 1);
+        Assert.assertTrue(insectCo.imports.contains("SWGInsect"));
+    }
+}

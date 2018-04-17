@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -31,7 +32,7 @@ public class Capitalization  {
 
   @ApiModelProperty(value = "Name of the pet ")
  /**
-   * Name of the pet   
+   * Name of the pet 
   **/
   private String ATT_NAME = null;
  /**

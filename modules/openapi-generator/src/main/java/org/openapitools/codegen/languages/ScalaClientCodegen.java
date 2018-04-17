@@ -29,16 +29,16 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                    // local variable names used in API methods (endpoints)
-                    "path", "contentTypes", "contentType", "queryParams", "headerParams",
-                    "formParams", "postBody", "mp", "basePath", "apiInvoker",
+                        // local variable names used in API methods (endpoints)
+                        "path", "contentTypes", "contentType", "queryParams", "headerParams",
+                        "formParams", "postBody", "mp", "basePath", "apiInvoker",
 
-                    // scala reserved words
-                    "abstract", "case", "catch", "class", "def", "do", "else", "extends",
-                    "false", "final", "finally", "for", "forSome", "if", "implicit",
-                    "import", "lazy", "match", "new", "null", "object", "override", "package",
-                    "private", "protected", "return", "sealed", "super", "this", "throw",
-                    "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
+                        // scala reserved words
+                        "abstract", "case", "catch", "class", "def", "do", "else", "extends",
+                        "false", "final", "finally", "for", "forSome", "if", "implicit",
+                        "import", "lazy", "match", "new", "null", "object", "override", "package",
+                        "private", "protected", "return", "sealed", "super", "this", "throw",
+                        "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
         );
 
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
@@ -63,12 +63,12 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
         // gradleWrapper files
-        supportingFiles.add(new SupportingFile( "gradlew.mustache", "", "gradlew") );
-        supportingFiles.add(new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") );
-        supportingFiles.add(new SupportingFile( "gradle-wrapper.properties.mustache",
-                gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") );
-        supportingFiles.add(new SupportingFile( "gradle-wrapper.jar",
-                gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
+        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
 
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
 
@@ -113,7 +113,7 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
     }
-    
+
     public void setModelPropertyNaming(String naming) {
         if ("original".equals(naming) || "camelCase".equals(naming) ||
                 "PascalCase".equals(naming) || "snake_case".equals(naming)) {
@@ -128,27 +128,28 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
     public String getModelPropertyNaming() {
         return this.modelPropertyNaming;
     }
+
     @Override
     public String toVarName(String name) {
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-    
-        if("_".equals(name)) {
-          name = "_u";
+
+        if ("_".equals(name)) {
+            name = "_u";
         }
-    
+
         // if it's all uppper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
-    
+
         name = getNameUsingModelPropertyNaming(name);
-    
+
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
-    
+
         return name;
     }
 
@@ -160,13 +161,18 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
 
     public String getNameUsingModelPropertyNaming(String name) {
         switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
-            case original:    return name;
-            case camelCase:   return camelize(name, true);
-            case PascalCase:  return camelize(name);
-            case snake_case:  return underscore(name);
-            default:          throw new IllegalArgumentException("Invalid model property naming '" +
-                    name + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            default:
+                throw new IllegalArgumentException("Invalid model property naming '" +
+                        name + "'. Must be 'original', 'camelCase', " +
+                        "'PascalCase' or 'snake_case'");
         }
 
     }
@@ -204,25 +210,25 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
     @Override
     public String toModelName(final String name) {
         final String sanitizedName = sanitizeName(modelNamePrefix + this.stripPackageName(name) + modelNameSuffix);
-    
+
         // camelize the model name
         // phone_number => PhoneNumber
         final String camelizedName = camelize(sanitizedName);
-    
+
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
             final String modelName = "Model" + camelizedName;
             LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
-    
+
         // model name starts with number
         if (name.matches("^\\d.*")) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
             LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
-    
+
         return camelizedName;
     }
 

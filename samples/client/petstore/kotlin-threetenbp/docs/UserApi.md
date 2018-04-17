@@ -213,7 +213,7 @@ Get user by user name
 //import io.swagger.client.models.*
 
 val apiInstance = UserApi()
-val username : kotlin.String = username_example // kotlin.String | The name that needs to be fetched. Use user1 for testing. 
+val username : kotlin.String = username_example // kotlin.String | The name that needs to be fetched. Use user1 for testing.
 try {
     val result : User = apiInstance.getUserByName(username)
     println(result)
@@ -230,7 +230,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| The name that needs to be fetched. Use user1 for testing.  |
+ **username** | **kotlin.String**| The name that needs to be fetched. Use user1 for testing. |
 
 ### Return type
 

@@ -23,16 +23,9 @@ ApiResponse::~ApiResponse()
 void
 ApiResponse::__init()
 {
-	//
-	//
 	//code = int(0);
-	//
-	//
 	//type = std::string();
-	//
-	//
 	//message = std::string();
-	//
 }
 
 void

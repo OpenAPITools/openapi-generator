@@ -70,8 +70,9 @@ paths:
       operation_id: "add_pet"
       uppercase_operation_id: "ADD_PET"
       path: "/pet"
+      PATH_ID: "PET"
+      hasPathParams: false
       HttpMethod: "Post"
-      httpmethod: "post"
       noClientExample: true
     put:
       tags:
@@ -122,8 +123,9 @@ paths:
       operation_id: "update_pet"
       uppercase_operation_id: "UPDATE_PET"
       path: "/pet"
+      PATH_ID: "PET"
+      hasPathParams: false
       HttpMethod: "Put"
-      httpmethod: "put"
       noClientExample: true
   /pet/findByStatus:
     get:
@@ -175,8 +177,9 @@ paths:
       operation_id: "find_pets_by_status"
       uppercase_operation_id: "FIND_PETS_BY_STATUS"
       path: "/pet/findByStatus"
+      PATH_ID: "PET_FINDBYSTATUS"
+      hasPathParams: false
       HttpMethod: "Get"
-      httpmethod: "get"
   /pet/findByTags:
     get:
       tags:
@@ -224,8 +227,9 @@ paths:
       operation_id: "find_pets_by_tags"
       uppercase_operation_id: "FIND_PETS_BY_TAGS"
       path: "/pet/findByTags"
+      PATH_ID: "PET_FINDBYTAGS"
+      hasPathParams: false
       HttpMethod: "Get"
-      httpmethod: "get"
   /pet/{petId}:
     get:
       tags:
@@ -270,8 +274,9 @@ paths:
       operation_id: "get_pet_by_id"
       uppercase_operation_id: "GET_PET_BY_ID"
       path: "/pet/:petId"
+      PATH_ID: "PET_PETID"
+      hasPathParams: true
       HttpMethod: "Get"
-      httpmethod: "get"
     post:
       tags:
       - "pet"
@@ -319,8 +324,9 @@ paths:
       operation_id: "update_pet_with_form"
       uppercase_operation_id: "UPDATE_PET_WITH_FORM"
       path: "/pet/:petId"
+      PATH_ID: "PET_PETID"
+      hasPathParams: true
       HttpMethod: "Post"
-      httpmethod: "post"
     delete:
       tags:
       - "pet"
@@ -358,8 +364,9 @@ paths:
       operation_id: "delete_pet"
       uppercase_operation_id: "DELETE_PET"
       path: "/pet/:petId"
+      PATH_ID: "PET_PETID"
+      hasPathParams: true
       HttpMethod: "Delete"
-      httpmethod: "delete"
   /pet/{petId}/uploadImage:
     post:
       tags:
@@ -413,8 +420,9 @@ paths:
       operation_id: "upload_file"
       uppercase_operation_id: "UPLOAD_FILE"
       path: "/pet/:petId/uploadImage"
+      PATH_ID: "PET_PETID_UPLOADIMAGE"
+      hasPathParams: true
       HttpMethod: "Post"
-      httpmethod: "post"
       hasFile: true
   /store/inventory:
     get:
@@ -444,8 +452,9 @@ paths:
       operation_id: "get_inventory"
       uppercase_operation_id: "GET_INVENTORY"
       path: "/store/inventory"
+      PATH_ID: "STORE_INVENTORY"
+      hasPathParams: false
       HttpMethod: "Get"
-      httpmethod: "get"
   /store/order:
     post:
       tags:
@@ -488,8 +497,9 @@ paths:
       operation_id: "place_order"
       uppercase_operation_id: "PLACE_ORDER"
       path: "/store/order"
+      PATH_ID: "STORE_ORDER"
+      hasPathParams: false
       HttpMethod: "Post"
-      httpmethod: "post"
       noClientExample: true
   /store/order/{order_id}:
     get:
@@ -536,8 +546,9 @@ paths:
       operation_id: "get_order_by_id"
       uppercase_operation_id: "GET_ORDER_BY_ID"
       path: "/store/order/:order_id"
+      PATH_ID: "STORE_ORDER_ORDER_ID"
+      hasPathParams: true
       HttpMethod: "Get"
-      httpmethod: "get"
     delete:
       tags:
       - "store"
@@ -570,8 +581,9 @@ paths:
       operation_id: "delete_order"
       uppercase_operation_id: "DELETE_ORDER"
       path: "/store/order/:order_id"
+      PATH_ID: "STORE_ORDER_ORDER_ID"
+      hasPathParams: true
       HttpMethod: "Delete"
-      httpmethod: "delete"
   /user:
     post:
       tags:
@@ -605,8 +617,9 @@ paths:
       operation_id: "create_user"
       uppercase_operation_id: "CREATE_USER"
       path: "/user"
+      PATH_ID: "USER"
+      hasPathParams: false
       HttpMethod: "Post"
-      httpmethod: "post"
       noClientExample: true
   /user/createWithArray:
     post:
@@ -641,8 +654,9 @@ paths:
       operation_id: "create_users_with_array_input"
       uppercase_operation_id: "CREATE_USERS_WITH_ARRAY_INPUT"
       path: "/user/createWithArray"
+      PATH_ID: "USER_CREATEWITHARRAY"
+      hasPathParams: false
       HttpMethod: "Post"
-      httpmethod: "post"
   /user/createWithList:
     post:
       tags:
@@ -676,8 +690,9 @@ paths:
       operation_id: "create_users_with_list_input"
       uppercase_operation_id: "CREATE_USERS_WITH_LIST_INPUT"
       path: "/user/createWithList"
+      PATH_ID: "USER_CREATEWITHLIST"
+      hasPathParams: false
       HttpMethod: "Post"
-      httpmethod: "post"
   /user/login:
     get:
       tags:
@@ -716,7 +731,7 @@ paths:
             X-Expires-After:
               type: "string"
               format: "date-time"
-              description: "date in UTC when toekn expires"
+              description: "date in UTC when token expires"
           x-responseId: "SuccessfulOperation"
           x-uppercaseResponseId: "SUCCESSFUL_OPERATION"
           uppercase_operation_id: "LOGIN_USER"
@@ -730,8 +745,9 @@ paths:
       operation_id: "login_user"
       uppercase_operation_id: "LOGIN_USER"
       path: "/user/login"
+      PATH_ID: "USER_LOGIN"
+      hasPathParams: false
       HttpMethod: "Get"
-      httpmethod: "get"
   /user/logout:
     get:
       tags:
@@ -752,8 +768,9 @@ paths:
       operation_id: "logout_user"
       uppercase_operation_id: "LOGOUT_USER"
       path: "/user/logout"
+      PATH_ID: "USER_LOGOUT"
+      hasPathParams: false
       HttpMethod: "Get"
-      httpmethod: "get"
   /user/{username}:
     get:
       tags:
@@ -767,7 +784,7 @@ paths:
       parameters:
       - name: "username"
         in: "path"
-        description: "The name that needs to be fetched. Use user1 for testing. "
+        description: "The name that needs to be fetched. Use user1 for testing."
         required: true
         type: "string"
         formatString: "\\\"{}\\\""
@@ -795,8 +812,9 @@ paths:
       operation_id: "get_user_by_name"
       uppercase_operation_id: "GET_USER_BY_NAME"
       path: "/user/:username"
+      PATH_ID: "USER_USERNAME"
+      hasPathParams: true
       HttpMethod: "Get"
-      httpmethod: "get"
     put:
       tags:
       - "user"
@@ -841,8 +859,9 @@ paths:
       operation_id: "update_user"
       uppercase_operation_id: "UPDATE_USER"
       path: "/user/:username"
+      PATH_ID: "USER_USERNAME"
+      hasPathParams: true
       HttpMethod: "Put"
-      httpmethod: "put"
       noClientExample: true
     delete:
       tags:
@@ -875,13 +894,15 @@ paths:
       operation_id: "delete_user"
       uppercase_operation_id: "DELETE_USER"
       path: "/user/:username"
+      PATH_ID: "USER_USERNAME"
+      hasPathParams: true
       HttpMethod: "Delete"
-      httpmethod: "delete"
   /fake_classname_test:
     patch:
       tags:
       - "fake_classname_tags 123#$%^"
       summary: "To test class name in snake case"
+      description: "To test class name in snake case"
       operationId: "testClassname"
       consumes:
       - "application/json"
@@ -916,8 +937,9 @@ paths:
       operation_id: "test_classname"
       uppercase_operation_id: "TEST_CLASSNAME"
       path: "/fake_classname_test"
+      PATH_ID: "FAKE_CLASSNAME_TEST"
+      hasPathParams: false
       HttpMethod: "Patch"
-      httpmethod: "patch"
       noClientExample: true
   /fake:
     get:
@@ -1042,8 +1064,9 @@ paths:
       operation_id: "test_enum_parameters"
       uppercase_operation_id: "TEST_ENUM_PARAMETERS"
       path: "/fake"
+      PATH_ID: "FAKE"
+      hasPathParams: false
       HttpMethod: "Get"
-      httpmethod: "get"
     post:
       tags:
       - "fake"
@@ -1195,8 +1218,9 @@ paths:
       operation_id: "test_endpoint_parameters"
       uppercase_operation_id: "TEST_ENDPOINT_PARAMETERS"
       path: "/fake"
+      PATH_ID: "FAKE"
+      hasPathParams: false
       HttpMethod: "Post"
-      httpmethod: "post"
     patch:
       tags:
       - "fake"
@@ -1234,8 +1258,9 @@ paths:
       operation_id: "test_client_model"
       uppercase_operation_id: "TEST_CLIENT_MODEL"
       path: "/fake"
+      PATH_ID: "FAKE"
+      hasPathParams: false
       HttpMethod: "Patch"
-      httpmethod: "patch"
       noClientExample: true
   /fake/outer/number:
     post:
@@ -1270,8 +1295,9 @@ paths:
       operation_id: "fake_outer_number_serialize"
       uppercase_operation_id: "FAKE_OUTER_NUMBER_SERIALIZE"
       path: "/fake/outer/number"
+      PATH_ID: "FAKE_OUTER_NUMBER"
+      hasPathParams: false
       HttpMethod: "Post"
-      httpmethod: "post"
   /fake/outer/string:
     post:
       tags:
@@ -1305,8 +1331,9 @@ paths:
       operation_id: "fake_outer_string_serialize"
       uppercase_operation_id: "FAKE_OUTER_STRING_SERIALIZE"
       path: "/fake/outer/string"
+      PATH_ID: "FAKE_OUTER_STRING"
+      hasPathParams: false
       HttpMethod: "Post"
-      httpmethod: "post"
   /fake/outer/boolean:
     post:
       tags:
@@ -1340,8 +1367,9 @@ paths:
       operation_id: "fake_outer_boolean_serialize"
       uppercase_operation_id: "FAKE_OUTER_BOOLEAN_SERIALIZE"
       path: "/fake/outer/boolean"
+      PATH_ID: "FAKE_OUTER_BOOLEAN"
+      hasPathParams: false
       HttpMethod: "Post"
-      httpmethod: "post"
   /fake/outer/composite:
     post:
       tags:
@@ -1375,8 +1403,9 @@ paths:
       operation_id: "fake_outer_composite_serialize"
       uppercase_operation_id: "FAKE_OUTER_COMPOSITE_SERIALIZE"
       path: "/fake/outer/composite"
+      PATH_ID: "FAKE_OUTER_COMPOSITE"
+      hasPathParams: false
       HttpMethod: "Post"
-      httpmethod: "post"
   /fake/jsonFormData:
     get:
       tags:
@@ -1410,8 +1439,9 @@ paths:
       operation_id: "test_json_form_data"
       uppercase_operation_id: "TEST_JSON_FORM_DATA"
       path: "/fake/jsonFormData"
+      PATH_ID: "FAKE_JSONFORMDATA"
+      hasPathParams: false
       HttpMethod: "Get"
-      httpmethod: "get"
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1446,8 +1476,46 @@ paths:
       operation_id: "test_inline_additional_properties"
       uppercase_operation_id: "TEST_INLINE_ADDITIONAL_PROPERTIES"
       path: "/fake/inline-additionalProperties"
+      PATH_ID: "FAKE_INLINE_ADDITIONALPROPERTIES"
+      hasPathParams: false
       HttpMethod: "Post"
-      httpmethod: "post"
+      noClientExample: true
+  /fake/body-with-query-params:
+    put:
+      operationId: "testBodyWithQueryParams"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+        uppercase_data_type: "USER"
+        refName: "User"
+        formatString: "{:?}"
+        example: "???"
+        model_key: "OuterBoolean"
+        uppercase_operation_id: "TEST_BODY_WITH_QUERY_PARAMS"
+        consumesJson: true
+      - name: "query"
+        in: "query"
+        required: true
+        type: "string"
+        formatString: "\\\"{}\\\""
+        example: "\"query_example\".to_string()"
+      responses:
+        200:
+          description: "Success"
+          x-responseId: "Success"
+          x-uppercaseResponseId: "SUCCESS"
+          uppercase_operation_id: "TEST_BODY_WITH_QUERY_PARAMS"
+      operation_id: "test_body_with_query_params"
+      uppercase_operation_id: "TEST_BODY_WITH_QUERY_PARAMS"
+      path: "/fake/body-with-query-params"
+      PATH_ID: "FAKE_BODY_WITH_QUERY_PARAMS"
+      hasPathParams: false
+      HttpMethod: "Put"
       noClientExample: true
   /another-fake/dummy:
     patch:
@@ -1487,8 +1555,9 @@ paths:
       operation_id: "test_special_tags"
       uppercase_operation_id: "TEST_SPECIAL_TAGS"
       path: "/another-fake/dummy"
+      PATH_ID: "ANOTHER_FAKE_DUMMY"
+      hasPathParams: false
       HttpMethod: "Patch"
-      httpmethod: "patch"
       noClientExample: true
 securityDefinitions:
   petstore_auth:
@@ -1832,8 +1901,16 @@ definitions:
     upperCaseName: "ENUMCLASS"
   Enum_Test:
     type: "object"
+    required:
+    - "enum_string_required"
     properties:
       enum_string:
+        type: "string"
+        enum:
+        - "UPPER"
+        - "lower"
+        - ""
+      enum_string_required:
         type: "string"
         enum:
         - "UPPER"

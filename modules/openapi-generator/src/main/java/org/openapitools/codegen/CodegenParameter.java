@@ -16,12 +16,12 @@ public class CodegenParameter {
     public String jsonSchema;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid;
     public boolean isListContainer, isMapContainer;
-    public boolean isFile, notFile;
+    public boolean isFile;
     public boolean isEnum;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
-    public Map<String, Object> vendorExtensions;
+    public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation;
 
     /**
@@ -79,7 +79,6 @@ public class CodegenParameter {
     public CodegenParameter copy() {
         CodegenParameter output = new CodegenParameter();
         output.isFile = this.isFile;
-        output.notFile = this.notFile;
         output.hasMore = this.hasMore;
         output.isContainer = this.isContainer;
         output.secondaryParam = this.secondaryParam;
@@ -147,11 +146,6 @@ public class CodegenParameter {
         output.isMapContainer = this.isMapContainer;
 
         return output;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s(%s)", baseName, dataType);
     }
 
     @Override
@@ -242,8 +236,6 @@ public class CodegenParameter {
             return false;
         if (isFile != that.isFile)
             return false;
-        if (notFile != that.notFile)
-            return false;
         if (_enum != null ? !_enum.equals(that._enum) : that._enum != null)
             return false;
         if (allowableValues != null ? !allowableValues.equals(that.allowableValues) : that.allowableValues != null)
@@ -322,7 +314,6 @@ public class CodegenParameter {
         result = 31 * result + (isListContainer ? 13:31);
         result = 31 * result + (isMapContainer ? 13:31);
         result = 31 * result + (isFile ? 13:31);
-        result = 31 * result + (notFile ? 13:31);
         result = 31 * result + (isEnum ? 1 : 0);
         result = 31 * result + (_enum != null ? _enum.hashCode() : 0);
         result = 31 * result + (allowableValues != null ? allowableValues.hashCode() : 0);
@@ -342,6 +333,70 @@ public class CodegenParameter {
         result = 31 * result + (uniqueItems ? 13:31);
         result = 31 * result + (multipleOf != null ? multipleOf.hashCode() : 0);
         return result;
+    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "CodegenParameter{" +
+                "isFormParam=" + isFormParam +
+                ", isQueryParam=" + isQueryParam +
+                ", isPathParam=" + isPathParam +
+                ", isHeaderParam=" + isHeaderParam +
+                ", isCookieParam=" + isCookieParam +
+                ", isBodyParam=" + isBodyParam +
+                ", hasMore=" + hasMore +
+                ", isContainer=" + isContainer +
+                ", secondaryParam=" + secondaryParam +
+                ", isCollectionFormatMulti=" + isCollectionFormatMulti +
+                ", isPrimitiveType=" + isPrimitiveType +
+                ", baseName='" + baseName + '\'' +
+                ", paramName='" + paramName + '\'' +
+                ", dataType='" + dataType + '\'' +
+                ", datatypeWithEnum='" + datatypeWithEnum + '\'' +
+                ", dataFormat='" + dataFormat + '\'' +
+                ", collectionFormat='" + collectionFormat + '\'' +
+                ", description='" + description + '\'' +
+                ", unescapedDescription='" + unescapedDescription + '\'' +
+                ", baseType='" + baseType + '\'' +
+                ", defaultValue='" + defaultValue + '\'' +
+                ", enumName='" + enumName + '\'' +
+                ", example='" + example + '\'' +
+                ", jsonSchema='" + jsonSchema + '\'' +
+                ", isString=" + isString +
+                ", isNumeric=" + isNumeric +
+                ", isInteger=" + isInteger +
+                ", isLong=" + isLong +
+                ", isNumber=" + isNumber +
+                ", isFloat=" + isFloat +
+                ", isDouble=" + isDouble +
+                ", isByteArray=" + isByteArray +
+                ", isBinary=" + isBinary +
+                ", isBoolean=" + isBoolean +
+                ", isDate=" + isDate +
+                ", isDateTime=" + isDateTime +
+                ", isUuid=" + isUuid +
+                ", isListContainer=" + isListContainer +
+                ", isMapContainer=" + isMapContainer +
+                ", isFile=" + isFile +
+                ", isEnum=" + isEnum +
+                ", _enum=" + _enum +
+                ", allowableValues=" + allowableValues +
+                ", items=" + items +
+                ", vendorExtensions=" + vendorExtensions +
+                ", hasValidation=" + hasValidation +
+                ", required=" + required +
+                ", maximum='" + maximum + '\'' +
+                ", exclusiveMaximum=" + exclusiveMaximum +
+                ", minimum='" + minimum + '\'' +
+                ", exclusiveMinimum=" + exclusiveMinimum +
+                ", maxLength=" + maxLength +
+                ", minLength=" + minLength +
+                ", pattern='" + pattern + '\'' +
+                ", maxItems=" + maxItems +
+                ", minItems=" + minItems +
+                ", uniqueItems=" + uniqueItems +
+                ", multipleOf=" + multipleOf +
+                '}';
     }
 }
 

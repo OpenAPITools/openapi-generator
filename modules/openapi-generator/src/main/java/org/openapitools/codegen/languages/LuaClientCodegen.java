@@ -1,10 +1,11 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.parameters.Parameter;
+import org.openapitools.codegen.utils.ModelUtils;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 
 import java.io.File;
 import java.util.*;
@@ -47,33 +48,36 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         embeddedTemplateDir = templateDir = "lua";
 
-        setReservedWordsLowerCase(
-            Arrays.asList(
-                // data type
-                "nil", "string", "boolean", "number", "userdata", "thread",
-                "table",
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
 
-                // reserved words: http://www.lua.org/manual/5.1/manual.html#2.1
-                "and", "break", "do", "else", "elseif",
-                "end", "false", "for", "function", "if",
-                "in", "local", "nil", "not", "or",
-                "repeat", "return", "then", "true", "until", "while"
-            )
+        setReservedWordsLowerCase(
+                Arrays.asList(
+                        // data type
+                        "nil", "string", "boolean", "number", "userdata", "thread",
+                        "table",
+
+                        // reserved words: http://www.lua.org/manual/5.1/manual.html#2.1
+                        "and", "break", "do", "else", "elseif",
+                        "end", "false", "for", "function", "if",
+                        "in", "local", "nil", "not", "or",
+                        "repeat", "return", "then", "true", "until", "while"
+                )
         );
 
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
-                    "map",
-                    "array")
-                );
+                        "map",
+                        "array")
+        );
 
         languageSpecificPrimitives = new HashSet<String>(
-            Arrays.asList(
-                "nil",
-                "string",
-                "boolean",
-                "number")
-            );
+                Arrays.asList(
+                        "nil",
+                        "string",
+                        "boolean",
+                        "number")
+        );
 
         instantiationTypes.clear();
         /*instantiationTypes.put("array", "LuaArray");
@@ -109,7 +113,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue("swagger-client"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Lua package version.")
                 .defaultValue("1.0.0-1"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
 
     }
@@ -117,14 +121,6 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
-        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
@@ -155,7 +151,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         //supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("luarocks.mustache", "",  luaRocksFilename));
+        supportingFiles.add(new SupportingFile("luarocks.mustache", "", luaRocksFilename));
         //supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.lua"));
         //supportingFiles.add(new SupportingFile("api_client.mustache", "", "api_client.lua"));
         //supportingFiles.add(new SupportingFile("api_response.mustache", "", "api_response.lua"));
@@ -163,8 +159,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String escapeReservedWord(String name)
-    {
+    public String escapeReservedWord(String name) {
         // Can't start with an underscore, as our fields need to start with an
         // UppercaseLetter so that Lua treats them as public/visible.
 
@@ -176,7 +171,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // - X_Name
         // ... or maybe a suffix?
         // - Name_ ... think this will work.
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return camelize(name) + '_';
@@ -279,7 +274,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @param parameter CodegenParameter object to be processed.
      */
     @Override
-    public void postProcessParameter(CodegenParameter parameter){
+    public void postProcessParameter(CodegenParameter parameter) {
 
     }
 
@@ -319,45 +314,44 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if(p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
             return getTypeDeclaration(inner);
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
             return getTypeDeclaration(inner);
         }
 
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
-        String swaggerType = getSwaggerType(p);
-        if (typeMapping.containsKey(swaggerType)) {
-            return typeMapping.get(swaggerType);
+        String schemaType = getSchemaType(p);
+        if (typeMapping.containsKey(schemaType)) {
+            return typeMapping.get(schemaType);
         }
 
-        if (typeMapping.containsValue(swaggerType)) {
-            return swaggerType;
+        if (typeMapping.containsValue(schemaType)) {
+            return schemaType;
         }
 
-        if (languageSpecificPrimitives.contains(swaggerType)) {
-            return swaggerType;
+        if (languageSpecificPrimitives.contains(schemaType)) {
+            return schemaType;
         }
 
-        return toModelName(swaggerType);
+        return toModelName(schemaType);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String schemaType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type))
                 return (type);
         } else {
-            type = swaggerType;
+            type = schemaType;
         }
         return type;
     }
@@ -381,7 +375,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
-        for (CodegenOperation op: operations) {
+        for (CodegenOperation op : operations) {
 
             String[] items = op.path.split("/", -1);
             String luaPath = "";
@@ -439,7 +433,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type)
-            && !languageSpecificPrimitives.contains(type);
+                && !languageSpecificPrimitives.contains(type);
     }
 
     public void setPackageName(String packageName) {
@@ -465,7 +459,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         return input.replace("]]", "] ]");
     }
 
-    public Map<String, String> createMapping(String key, String value){
+    public Map<String, String> createMapping(String key, String value) {
         Map<String, String> customImport = new HashMap<String, String>();
         customImport.put(key, value);
 

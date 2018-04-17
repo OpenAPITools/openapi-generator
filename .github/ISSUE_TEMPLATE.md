@@ -7,11 +7,11 @@ Also please indicate in the issue title which language/library is concerned. Eg:
 
 <!-- describe what is the question, suggestion or issue and why this is a problem for you. -->
 
-##### Swagger-codegen version
+##### openapi-generator version
 
-<!-- which version of swagger-codegen are you using, is it a regression? -->
+<!-- which version of openapi-generator are you using, is it a regression? -->
 
-##### Swagger declaration file content or url
+##### OpenAPI declaration file content or url
 
 <!-- if it is a bug, a json or yaml that produces it.
 If you post the code inline, please wrap it with
@@ -37,7 +37,7 @@ link it here.
 
 ##### Related issues/PRs
 
-<!-- has a similar issue/PR been reported/opened before? Please do a search in https://github.com/swagger-api/swagger-codegen/issues?utf8=%E2%9C%93&q=is%3Aissue%20 -->
+<!-- has a similar issue/PR been reported/opened before? Please do a search in https://github.com/wing328/openapi-generator/issues?utf8=%E2%9C%93&q=is%3Aissue%20 -->
 
 ##### Suggest a fix/enhancement
 
