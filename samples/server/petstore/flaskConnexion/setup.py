@@ -21,10 +21,10 @@ setup(
     description="Swagger Petstore",
     author_email="apiteam@swagger.io",
     url="",
-    keywords=["Swagger", "Swagger Petstore"],
+    keywords=["OpenAPI", "Swagger Petstore"],
     install_requires=REQUIRES,
     packages=find_packages(),
-    package_data={'': ['swagger/swagger.yaml']},
+    package_data={'': ['openapi/openapi.yaml']},
     include_package_data=True,
     entry_points={
         'console_scripts': ['swagger_server=swagger_server.__main__:main']},

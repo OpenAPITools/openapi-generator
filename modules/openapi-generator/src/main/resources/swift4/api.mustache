@@ -36,9 +36,18 @@ open class {{classname}} {
      - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}completion: @escaping ((_ {{#returnType}}data: {{{returnType}}}?,_ {{/returnType}}error: Error?) -> Void)) {
+    open class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}completion: @escaping ((_ data: {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}?,_ error: Error?) -> Void)) {
         {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute { (response, error) -> Void in
-            completion({{#returnType}}response?.body, {{/returnType}}error);
+        {{#returnType}}
+            completion(response?.body, error)
+        {{/returnType}}
+        {{^returnType}}
+            if error == nil {
+                completion((), error)
+            } else {
+                completion(nil, error)
+            }
+        {{/returnType}}
         }
     }
 
@@ -52,11 +61,11 @@ open class {{classname}} {
      */
     open class func {{operationId}}({{#allParams}} {{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         let deferred = Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.pending()
-        {{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) { {{#returnType}}data, {{/returnType}}error in
+        {{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) { data, error in
             if let error = error {
                 deferred.reject(error)
             } else {
-                deferred.fulfill({{#returnType}}data!{{/returnType}})
+                deferred.fulfill(data!)
             }
         }
         return deferred.promise
@@ -72,11 +81,11 @@ open class {{classname}} {
      */
     open class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         return Observable.create { observer -> Disposable in
-            {{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) { {{#returnType}}data, {{/returnType}}error in
+            {{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
-                    observer.on(.next({{#returnType}}data!{{/returnType}}{{^returnType}}(){{/returnType}}))
+                    observer.on(.next(data!))
                 }
                 observer.on(.completed)
             }
@@ -92,16 +101,24 @@ open class {{classname}} {
      - {{httpMethod}} {{{path}}}{{#notes}}
      - {{{notes}}}{{/notes}}{{#subresourceOperation}}
      - subresourceOperation: {{subresourceOperation}}{{/subresourceOperation}}{{#defaultResponse}}
-     - defaultResponse: {{defaultResponse}}{{/defaultResponse}}{{#authMethods}}
+     - defaultResponse: {{defaultResponse}}{{/defaultResponse}}
+     {{#authMethods}}
      - {{#isBasic}}BASIC{{/isBasic}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
        - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeaer}}(HEADER){{/isKeyInHeaer}}{{/keyParamName}}
-       - name: {{name}}{{/authMethods}}{{#responseHeaders}}
-     - responseHeaders: {{responseHeaders}}{{/responseHeaders}}{{#examples}}
-     - examples: {{{examples}}}{{/examples}}{{#externalDocs}}
-     - externalDocs: {{externalDocs}}{{/externalDocs}}{{#hasParams}}
-     {{/hasParams}}{{#allParams}}
-     - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
-
+       - name: {{name}}
+       {{/authMethods}}
+     {{#hasResponseHeaders}}
+     - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{datatype}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
+     {{/hasResponseHeaders}}
+     {{#hasExamples}}
+     - examples: {{{examples}}}
+     {{/hasExamples}}
+     {{#externalDocs}}
+     - externalDocs: {{externalDocs}}
+     {{/externalDocs}}
+     {{#allParams}}
+     - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     {{/allParams}}
      - returns: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{description}}
      */
     open class func {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
@@ -127,16 +144,14 @@ open class {{classname}} {
             {{^hasFormParams}}
         let parameters: [String:Any]? = nil
             {{/hasFormParams}}
-        {{/bodyParam}}
-
-        let url = NSURLComponents(string: URLString)
-        {{#hasQueryParams}}
-        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+        {{/bodyParam}}{{#hasQueryParams}}
+        var url = URLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems([
             {{#queryParams}}
             {{> _param}}{{#hasMore}}, {{/hasMore}}
             {{/queryParams}}
-        ])
-        {{/hasQueryParams}}{{#headerParams}}{{^secondaryParam}}
+        ]){{/hasQueryParams}}{{^hasQueryParams}}
+        let url = URLComponents(string: URLString){{/hasQueryParams}}{{#headerParams}}{{^secondaryParam}}
         let nillableHeaders: [String: Any?] = [{{/secondaryParam}}
             {{> _param}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
         ]

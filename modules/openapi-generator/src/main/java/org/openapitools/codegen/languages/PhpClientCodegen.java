@@ -9,7 +9,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.properties.*;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -22,6 +22,10 @@ import java.util.HashSet;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +49,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String docsBasePath = "docs";
     protected String apiDirName = "Api";
     protected String modelDirName = "Model";
-    protected String variableNamingConvention= "snake_case";
+    protected String variableNamingConvention = "snake_case";
     protected String apiDocPath = docsBasePath + "/" + apiDirName;
     protected String modelDocPath = docsBasePath + "/" + modelDirName;
 
@@ -69,14 +73,17 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
+
         setReservedWordsLowerCase(
                 Arrays.asList(
-                    // local variables used in api methods (endpoints)
-                    "resourcePath", "httpBody", "queryParams", "headerParams",
-                    "formParams", "_header_accept", "_tempBody",
+                        // local variables used in api methods (endpoints)
+                        "resourcePath", "httpBody", "queryParams", "headerParams",
+                        "formParams", "_header_accept", "_tempBody",
 
-                    // PHP reserved words
-                    "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
+                        // PHP reserved words
+                        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
         );
 
         // ref: http://php.net/manual/en/language.types.intro.php
@@ -102,7 +109,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
 
         // provide primitives to mustache template
-        List sortedLanguageSpecificPrimitives= new ArrayList(languageSpecificPrimitives);
+        List sortedLanguageSpecificPrimitives = new ArrayList(languageSpecificPrimitives);
         Collections.sort(sortedLanguageSpecificPrimitives);
         String primitives = "'" + StringUtils.join(sortedLanguageSpecificPrimitives, "', '") + "'";
         additionalProperties.put("primitives", primitives);
@@ -125,7 +132,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("array", "array");
         typeMapping.put("list", "array");
         typeMapping.put("object", "object");
-        typeMapping.put("binary", "string");
+        typeMapping.put("binary", "\\SplFileObject");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
 
@@ -141,7 +148,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client. IMPORTANT NOTE (2016/03): composerProjectName will be deprecated and replaced by gitRepoId in the next swagger-codegen release"));
         cliOptions.add(new CliOption(CodegenConstants.GIT_REPO_ID, CodegenConstants.GIT_REPO_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "The version to use in the composer package version field. e.g. 1.2.3"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.ALLOW_UNICODE_IDENTIFIERS_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
     }
 
@@ -179,7 +186,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
                 // Trim prefix file separators from package path
                 .replaceAll(regFirstPathSeparator, ""))
                 // Trim trailing file separators from the overall path
-                .replaceAll(regLastPathSeparator+ "$", "");
+                .replaceAll(regLastPathSeparator + "$", "");
     }
 
     @Override
@@ -209,14 +216,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
-        }
 
         if (additionalProperties.containsKey(PACKAGE_PATH)) {
             this.setPackagePath((String) additionalProperties.get(PACKAGE_PATH));
@@ -316,7 +315,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -363,16 +362,15 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "[]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "[string," + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof RefProperty) {
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
+            return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
+        } else if (StringUtils.isNotBlank(p.get$ref())) {
             String type = super.getTypeDeclaration(p);
             return (!languageSpecificPrimitives.contains(type))
                     ? "\\" + modelPackage + "\\" + type : type;
@@ -389,23 +387,27 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String schemaType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             } else if (instantiationTypes.containsKey(type)) {
                 return type;
             }
         } else {
-            type = swaggerType;
+            type = schemaType;
         }
         if (type == null) {
             return null;
         }
         return toModelName(type);
+    }
+
+    public String getInvokerPackage() {
+        return invokerPackage;
     }
 
     public void setInvokerPackage(String invokerPackage) {
@@ -442,13 +444,13 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if ("camelCase".equals(variableNamingConvention)) {
-          // return the name in camelCase style
-          // phone_number => phoneNumber
-          name =  camelize(name, true);
+            // return the name in camelCase style
+            // phone_number => phoneNumber
+            name = camelize(name, true);
         } else { // default to snake case
-          // return the name in underscore style
-          // PhoneNumber => phone_number
-          name =  underscore(name);
+            // return the name in underscore style
+            // PhoneNumber => phone_number
+            name = underscore(name);
         }
 
         // parameter name starting with number won't compile
@@ -536,44 +538,30 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     /**
      * Return the default value of the property
      *
-     * @param p Swagger property object
+     * @param p property schema
      * @return string presentation of the default value of the property
      */
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty dp = (StringProperty) p;
-            if (dp.getDefault() != null) {
-                return "'" + dp.getDefault() + "'";
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty dp = (BooleanProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof DateProperty) {
+        } else if (ModelUtils.isDateSchema(p)) {
             // TODO
-        } else if (p instanceof DateTimeProperty) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + p.getDefault() + "'";
             }
         }
 
@@ -595,7 +583,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             type = p.dataType;
         }
 
-        if ("String".equalsIgnoreCase(type)) {
+        if ("String".equalsIgnoreCase(type) || p.isString) {
             if (example == null) {
                 example = p.paramName + "_example";
             }
@@ -612,9 +600,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (example == null) {
                 example = "True";
             }
-        } else if ("\\SplFileObject".equalsIgnoreCase(type)) {
+        } else if ("\\SplFileObject".equalsIgnoreCase(type) || p.isFile) {
             if (example == null) {
-                example = "/path/to/file";
+                example = "/path/to/file.txt";
             }
             example = "\"" + escapeText(example) + "\"";
         } else if ("\\Date".equalsIgnoreCase(type)) {

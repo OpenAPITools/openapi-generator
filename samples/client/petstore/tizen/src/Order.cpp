@@ -23,25 +23,12 @@ Order::~Order()
 void
 Order::__init()
 {
-	//
-	//
 	//id = long(0);
-	//
-	//
 	//petId = long(0);
-	//
-	//
 	//quantity = int(0);
-	//
-	//
 	//shipDate = null;
-	//
-	//
 	//status = std::string();
-	//
-	//
 	//complete = bool(false);
-	//
 }
 
 void

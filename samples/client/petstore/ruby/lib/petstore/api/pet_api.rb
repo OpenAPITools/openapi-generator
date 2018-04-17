@@ -20,27 +20,25 @@ module Petstore
       @api_client = api_client
     end
     # Add a new pet to the store
-    # 
-    # @param body Pet object that needs to be added to the store
+    # @param pet Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def add_pet(body, opts = {})
-      add_pet_with_http_info(body, opts)
+    def add_pet(pet, opts = {})
+      add_pet_with_http_info(pet, opts)
       nil
     end
 
     # Add a new pet to the store
-    # 
-    # @param body Pet object that needs to be added to the store
+    # @param pet Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def add_pet_with_http_info(body, opts = {})
+    def add_pet_with_http_info(pet, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: PetApi.add_pet ...'
       end
-      # verify the required parameter 'body' is set
-      if @api_client.config.client_side_validation && body.nil?
-        fail ArgumentError, "Missing the required parameter 'body' when calling PetApi.add_pet"
+      # verify the required parameter 'pet' is set
+      if @api_client.config.client_side_validation && pet.nil?
+        fail ArgumentError, "Missing the required parameter 'pet' when calling PetApi.add_pet"
       end
       # resource path
       local_var_path = '/pet'
@@ -50,16 +48,12 @@ module Petstore
 
       # header parameters
       header_params = {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/xml'])
 
       # form parameters
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(body)
+      post_body = @api_client.object_to_http_body(pet)
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -73,7 +67,6 @@ module Petstore
       return data, status_code, headers
     end
     # Deletes a pet
-    # 
     # @param pet_id Pet id to delete
     # @param [Hash] opts the optional parameters
     # @option opts [String] :api_key 
@@ -84,7 +77,6 @@ module Petstore
     end
 
     # Deletes a pet
-    # 
     # @param pet_id Pet id to delete
     # @param [Hash] opts the optional parameters
     # @option opts [String] :api_key 
@@ -105,8 +97,6 @@ module Petstore
 
       # header parameters
       header_params = {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
       header_params[:'api_key'] = opts[:'api_key'] if !opts[:'api_key'].nil?
 
       # form parameters
@@ -285,27 +275,25 @@ module Petstore
       return data, status_code, headers
     end
     # Update an existing pet
-    # 
-    # @param body Pet object that needs to be added to the store
+    # @param pet Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def update_pet(body, opts = {})
-      update_pet_with_http_info(body, opts)
+    def update_pet(pet, opts = {})
+      update_pet_with_http_info(pet, opts)
       nil
     end
 
     # Update an existing pet
-    # 
-    # @param body Pet object that needs to be added to the store
+    # @param pet Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def update_pet_with_http_info(body, opts = {})
+    def update_pet_with_http_info(pet, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: PetApi.update_pet ...'
       end
-      # verify the required parameter 'body' is set
-      if @api_client.config.client_side_validation && body.nil?
-        fail ArgumentError, "Missing the required parameter 'body' when calling PetApi.update_pet"
+      # verify the required parameter 'pet' is set
+      if @api_client.config.client_side_validation && pet.nil?
+        fail ArgumentError, "Missing the required parameter 'pet' when calling PetApi.update_pet"
       end
       # resource path
       local_var_path = '/pet'
@@ -315,16 +303,12 @@ module Petstore
 
       # header parameters
       header_params = {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/xml'])
 
       # form parameters
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(body)
+      post_body = @api_client.object_to_http_body(pet)
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
@@ -338,7 +322,6 @@ module Petstore
       return data, status_code, headers
     end
     # Updates a pet in the store with form data
-    # 
     # @param pet_id ID of pet that needs to be updated
     # @param [Hash] opts the optional parameters
     # @option opts [String] :name Updated name of the pet
@@ -350,7 +333,6 @@ module Petstore
     end
 
     # Updates a pet in the store with form data
-    # 
     # @param pet_id ID of pet that needs to be updated
     # @param [Hash] opts the optional parameters
     # @option opts [String] :name Updated name of the pet
@@ -372,8 +354,6 @@ module Petstore
 
       # header parameters
       header_params = {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
       # HTTP header 'Content-Type'
       header_params['Content-Type'] = @api_client.select_header_content_type(['application/x-www-form-urlencoded'])
 
@@ -397,7 +377,6 @@ module Petstore
       return data, status_code, headers
     end
     # uploads an image
-    # 
     # @param pet_id ID of pet to update
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server
@@ -409,7 +388,6 @@ module Petstore
     end
 
     # uploads an image
-    # 
     # @param pet_id ID of pet to update
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server

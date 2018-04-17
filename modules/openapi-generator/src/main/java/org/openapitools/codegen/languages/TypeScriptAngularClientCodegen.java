@@ -10,14 +10,22 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.*;
+
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.PathItem.HttpMethod;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.oas.models.info.*;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
@@ -28,7 +36,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String SNAPSHOT = "snapshot";
     public static final String WITH_INTERFACES = "withInterfaces";
-    public static final String TAGGED_UNIONS ="taggedUnions";
+    public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
 
     protected String npmName = null;
@@ -55,19 +63,19 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(SNAPSHOT,
                 "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm",
-                BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
+                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_INTERFACES,
                 "Setting this property to true will generate interfaces next to the default class implementations.",
-                BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
+                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(TAGGED_UNIONS,
-            "Use discriminators to create tagged unions instead of extending interfaces.",
-            BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
+                "Use discriminators to create tagged unions instead of extending interfaces.",
+                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '4.3'"));
     }
 
     @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, ModelImpl swaggerModel) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(swaggerModel.getAdditionalProperties());
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        codegenModel.additionalPropertiesType = getTypeDeclaration((Schema) schema.getAdditionalProperties());
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -166,11 +174,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof FileProperty) {
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isFileSchema(p)) {
             return "Blob";
-        } else if (p instanceof ObjectProperty) {
-            return "any";
         } else {
             return super.getTypeDeclaration(p);
         }
@@ -178,13 +184,13 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
-        if (isLanguagePrimitive(swaggerType) || isLanguageGenericType(swaggerType)) {
-            return swaggerType;
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
+        if (isLanguagePrimitive(openAPIType) || isLanguageGenericType(openAPIType)) {
+            return openAPIType;
         }
-        applyLocalTypeMapping(swaggerType);
-        return swaggerType;
+        applyLocalTypeMapping(openAPIType);
+        return openAPIType;
     }
 
     private String applyLocalTypeMapping(String type) {
@@ -228,29 +234,29 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 // Convert httpMethod to Angular's RequestMethod enum
                 // https://angular.io/docs/ts/latest/api/http/index/RequestMethod-enum.html
                 switch (op.httpMethod) {
-                case "GET":
-                    op.httpMethod = "RequestMethod.Get";
-                    break;
-                case "POST":
-                    op.httpMethod = "RequestMethod.Post";
-                    break;
-                case "PUT":
-                    op.httpMethod = "RequestMethod.Put";
-                    break;
-                case "DELETE":
-                    op.httpMethod = "RequestMethod.Delete";
-                    break;
-                case "OPTIONS":
-                    op.httpMethod = "RequestMethod.Options";
-                    break;
-                case "HEAD":
-                    op.httpMethod = "RequestMethod.Head";
-                    break;
-                case "PATCH":
-                    op.httpMethod = "RequestMethod.Patch";
-                    break;
-                default:
-                    throw new RuntimeException("Unknown HTTP Method " + op.httpMethod + " not allowed");
+                    case "GET":
+                        op.httpMethod = "RequestMethod.Get";
+                        break;
+                    case "POST":
+                        op.httpMethod = "RequestMethod.Post";
+                        break;
+                    case "PUT":
+                        op.httpMethod = "RequestMethod.Put";
+                        break;
+                    case "DELETE":
+                        op.httpMethod = "RequestMethod.Delete";
+                        break;
+                    case "OPTIONS":
+                        op.httpMethod = "RequestMethod.Options";
+                        break;
+                    case "HEAD":
+                        op.httpMethod = "RequestMethod.Head";
+                        break;
+                    case "PATCH":
+                        op.httpMethod = "RequestMethod.Patch";
+                        break;
+                    default:
+                        throw new RuntimeException("Unknown HTTP Method " + op.httpMethod + " not allowed");
                 }
             }
 
@@ -262,29 +268,29 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             // Iterate through existing string, one character at a time.
             for (int i = 0; i < op.path.length(); i++) {
                 switch (op.path.charAt(i)) {
-                case '{':
-                    // We entered curly braces, so track that.
-                    insideCurly++;
+                    case '{':
+                        // We entered curly braces, so track that.
+                        insideCurly++;
 
-                    // Add the more complicated component instead of just the brace.
-                    pathBuffer.append("${encodeURIComponent(String(");
-                    break;
-                case '}':
-                    // We exited curly braces, so track that.
-                    insideCurly--;
+                        // Add the more complicated component instead of just the brace.
+                        pathBuffer.append("${encodeURIComponent(String(");
+                        break;
+                    case '}':
+                        // We exited curly braces, so track that.
+                        insideCurly--;
 
-                    // Add the more complicated component instead of just the brace.
-                    pathBuffer.append(toVarName(parameterName.toString()));
-                    pathBuffer.append("))}");
-                    parameterName.setLength(0);
-                    break;
-                default:
-                    if (insideCurly > 0) {
-                        parameterName.append(op.path.charAt(i));
-                    } else {
-                        pathBuffer.append(op.path.charAt(i));
-                    }
-                    break;
+                        // Add the more complicated component instead of just the brace.
+                        pathBuffer.append(toVarName(parameterName.toString()));
+                        pathBuffer.append("))}");
+                        parameterName.setLength(0);
+                        break;
+                    default:
+                        if (insideCurly > 0) {
+                            parameterName.append(op.path.charAt(i));
+                        } else {
+                            pathBuffer.append(op.path.charAt(i));
+                        }
+                        break;
                 }
             }
 

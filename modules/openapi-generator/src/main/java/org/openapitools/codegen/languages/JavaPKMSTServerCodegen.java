@@ -1,6 +1,7 @@
 package org.openapitools.codegen.languages;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,19 +10,18 @@ import java.util.Map;
 
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
-import io.swagger.models.Tag;
-import io.swagger.models.parameters.FormParameter;
-import io.swagger.models.parameters.Parameter;
+import org.openapitools.codegen.utils.URLPathUtils;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.tags.Tag;
 
 /**
  * Created by prokarma on 04/09/17.
@@ -82,39 +82,13 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         // Middleware config
         this.cliOptions.add(new CliOption("pkmstInterceptor", "PKMST Interceptor"));
         this.apiTestTemplateFiles.put("api_test.mustache", ".java");
-        
+
         if (".md".equals(this.modelDocTemplateFiles.get("model_doc.mustache"))) {
             this.modelDocTemplateFiles.remove("model_doc.mustache");
         }
         if (".md".equals(this.apiDocTemplateFiles.get("api_doc.mustache"))) {
             this.apiDocTemplateFiles.remove("api_doc.mustache");
         }
-    }
-
-    private static String getAccept(Operation operation) {
-        String accepts = null;
-        String defaultContentType = "application/json";
-        if (operation.getProduces() != null && !operation.getProduces().isEmpty()) {
-            StringBuilder sb = new StringBuilder();
-            for (String produces : operation.getProduces()) {
-                if (defaultContentType.equalsIgnoreCase(produces)) {
-                    accepts = defaultContentType;
-                    break;
-                } else {
-                    if (sb.length() > 0) {
-                        sb.append(",");
-                    }
-                    sb.append(produces);
-                }
-            }
-            if (accepts == null) {
-                accepts = sb.toString();
-            }
-        } else {
-            accepts = defaultContentType;
-        }
-
-        return accepts;
     }
 
     public CodegenType getTag() {
@@ -291,17 +265,17 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
         this.supportingFiles.add(new SupportingFile(
                 "cucumber" + File.separator + "cucumberTest.mustache", this.testFolder + File.separator
-                        + this.basePackage.replace(".", File.separator) + File.separator + "cucumber",
+                + this.basePackage.replace(".", File.separator) + File.separator + "cucumber",
                 serviceName + "Test.java"));
 
         this.supportingFiles.add(new SupportingFile(
                 "cucumber" + File.separator + "cucumberSteps.mustache", this.testFolder + File.separator
-                        + this.basePackage.replace(".", File.separator) + File.separator + "cucumber",
+                + this.basePackage.replace(".", File.separator) + File.separator + "cucumber",
                 serviceName + "Steps.java"));
 
         this.supportingFiles.add(new SupportingFile(
                 "cucumber" + File.separator + "package.mustache", this.testFolder + File.separator
-                        + this.basePackage.replace(".", File.separator) + File.separator + "cucumber",
+                + this.basePackage.replace(".", File.separator) + File.separator + "cucumber",
                 serviceName + "package-info.java"));
 
         // test resources
@@ -326,13 +300,13 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
         this.supportingFiles.add(new SupportingFile(
                 "gatling" + File.separator + "testapi.mustache", ("src") + File.separator + ("test") + File.separator
-                        + ("scala") + File.separator + ("scalaFiles").replace(".", java.io.File.separator),
+                + ("scala") + File.separator + ("scalaFiles").replace(".", java.io.File.separator),
                 "testapi.scala"));
 
         // adding class for integration test
         this.supportingFiles.add(new SupportingFile(
                 "integration" + File.separator + "integrationtest.mustache", this.testFolder + File.separator
-                        + this.basePackage.replace(".", File.separator) + File.separator + "controller",
+                + this.basePackage.replace(".", File.separator) + File.separator + "controller",
                 serviceName + "IT.java"));
     }
 
@@ -386,8 +360,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
      * This method removes header parameters from the list of parameters and
      * also corrects last allParams hasMore state.
      *
-     * @param allParams
-     *            list of all parameters
+     * @param allParams list of all parameters
      */
     private void removeHeadersFromAllParams(List<CodegenParameter> allParams) {
         if (allParams.isEmpty()) {
@@ -405,11 +378,9 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
     }
 
     /**
-     * @param returnType
-     *            The return type that needs to be converted
-     * @param dataTypeAssigner
-     *            An object that will assign the data to the respective fields
-     *            in the model.
+     * @param returnType       The return type that needs to be converted
+     * @param dataTypeAssigner An object that will assign the data to the respective fields
+     *                         in the model.
      */
     private void doDataTypeAssignment(String returnType, DataTypeAssigner dataTypeAssigner) {
         final String rt = returnType;
@@ -485,14 +456,14 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        super.preprocessSwagger(swagger);
-        if (swagger == null || swagger.getPaths() == null) {
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+        if (openAPI == null || openAPI.getPaths() == null) {
             return;
         }
-        if (swagger.getTags() != null) {
+        if (openAPI.getTags() != null) {
             List<ResourcePath> resourcePaths = new ArrayList<>();
-            for (Tag tag : swagger.getTags()) {
+            for (Tag tag : openAPI.getTags()) {
                 ResourcePath resourcePath = new ResourcePath();
                 resourcePath.setPath(tag.getName());
                 resourcePaths.add(resourcePath);
@@ -501,7 +472,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         }
         // get vendor extensions
 
-        Map<String, Object> vendorExt = swagger.getInfo().getVendorExtensions();
+        Map<String, Object> vendorExt = openAPI.getInfo().getExtensions();
         if (vendorExt != null && !vendorExt.toString().equals("")) {
             if (vendorExt.containsKey("x-codegen")) {
 
@@ -525,39 +496,38 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             }
         }
 
-        for (String pathname : swagger.getPaths().keySet()) {
-            Path path = swagger.getPath(pathname);
-            if (path.getOperations() == null) {
+        /* comment out below as it's already done in AbstractJavaCodegen
+        for (String pathname : openAPI.getPaths().keySet()) {
+            PathItem path = openAPI.getPaths().get(pathname);
+            if (path.readOperations() == null) {
                 continue;
             }
-            for (Operation operation : path.getOperations()) {
-                boolean hasFormParameters = false;
-                for (Parameter parameter : operation.getParameters()) {
-                    if (parameter instanceof FormParameter) {
-                        hasFormParameters = true;
-                    }
-                }
+            for (Operation operation : path.readOperations()) {
+                boolean hasFormParameters = hasFormParameter(operation);
+
                 // only add content-Type if its no a GET-Method
                 if (path.getGet() != null || !operation.equals(path.getGet())) {
                     String defaultContentType = hasFormParameters ? "application/x-www-form-urlencoded"
                             : "application/json";
-                    String contentType = operation.getConsumes() == null || operation.getConsumes().isEmpty()
-                            ? defaultContentType : operation.getConsumes().get(0);
-                    operation.setVendorExtension("x-contentType", contentType);
+                    List<String> consumes = new ArrayList<String>(getConsumesInfo(operation));
+                    String contentType = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
+                    operation.addExtension("x-contentType", contentType);
                 }
                 String accepts = getAccept(operation);
-                operation.setVendorExtension("x-accepts", accepts);
+                operation.addExtension("x-accepts", accepts);
             }
-        }
+        }*/
 
-        if ("/".equals(swagger.getBasePath())) {
-            swagger.setBasePath("");
+        /* TODO the following logic shouldn't need any more
+        if ("/".equals(openAPI.getBasePath())) {
+            openAPI.setBasePath("");
         }
+        */
 
         if (!additionalProperties.containsKey(TITLE)) {
             // From the title, compute a reasonable name for the package and the
             // API
-            String title = swagger.getInfo().getTitle();
+            String title = openAPI.getInfo().getTitle();
 
             // Drop any API suffix
             if (title != null) {
@@ -571,21 +541,16 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             additionalProperties.put(TITLE, this.title);
         }
 
-        String host = swagger.getHost();
-        String port = "8008";
-        if (host != null) {
-            String[] parts = host.split(":");
-            if (parts.length > 1) {
-                port = parts[1];
-            }
-        }
+        URL url = URLPathUtils.getServerURL(openAPI);
+        String host = url.getHost();
+        Integer port = url.getPort();
 
         this.additionalProperties.put("serverPort", port);
-        if (swagger.getPaths() != null) {
-            for (String pathname : swagger.getPaths().keySet()) {
-                Path path = swagger.getPath(pathname);
-                if (path.getOperations() != null) {
-                    for (Operation operation : path.getOperations()) {
+        if (openAPI.getPaths() != null) {
+            for (String pathname : openAPI.getPaths().keySet()) {
+                PathItem path = openAPI.getPaths().get(pathname);
+                if (path.readOperations() != null) {
+                    for (Operation operation : path.readOperations()) {
                         if (operation.getTags() != null) {
                             List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
                             for (String tag : operation.getTags()) {
@@ -601,7 +566,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                                 String tag = operation.getTags().get(0);
                                 operation.setTags(Arrays.asList(tag));
                             }
-                            operation.setVendorExtension("x-tags", tags);
+                            operation.addExtension("x-tags", tags);
                         }
                     }
                 }
@@ -611,7 +576,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co,
-            Map<String, List<CodegenOperation>> operations) {
+                                    Map<String, List<CodegenOperation>> operations) {
         super.addOperationToGroup(tag, resourcePath, operation, co, operations);
         co.subresourceOperation = !co.path.isEmpty();
     }

@@ -2,19 +2,19 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
+import org.openapitools.codegen.utils.URLPathUtils;
+import io.swagger.v3.oas.models.*;
 
+import java.net.URL;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 import java.util.regex.Matcher;
-
 
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, OptionalFeatures {
@@ -371,15 +371,17 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        super.preprocessSwagger(swagger);
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+        /* TODO the following logic should not need anymore in OAS 3.0
         if ("/".equals(swagger.getBasePath())) {
             swagger.setBasePath("");
         }
+        */
 
         if(!additionalProperties.containsKey(TITLE)) {
             // From the title, compute a reasonable name for the package and the API
-            String title = swagger.getInfo().getTitle();
+            String title = openAPI.getInfo().getTitle();
 
             // Drop any API suffix
             if (title != null) {
@@ -393,21 +395,18 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(TITLE, this.title);
         }
 
-        String host = swagger.getHost();
-        String port = "8080";
-        if (host != null) {
-            String[] parts = host.split(":");
-            if (parts.length > 1) {
-                port = parts[1];
-            }
+        URL url = URLPathUtils.getServerURL(openAPI);
+        Integer port = 8080;
+        if (url.getPort() != 0) {
+            port = url.getPort();
         }
-
         this.additionalProperties.put("serverPort", port);
-        if (swagger.getPaths() != null) {
-            for (String pathname : swagger.getPaths().keySet()) {
-                Path path = swagger.getPath(pathname);
-                if (path.getOperations() != null) {
-                    for (Operation operation : path.getOperations()) {
+
+        if (openAPI.getPaths() != null) {
+            for (String pathname : openAPI.getPaths().keySet()) {
+                PathItem path = openAPI.getPaths().get(pathname);
+                if (path.readOperations() != null) {
+                    for (Operation operation : path.readOperations()) {
                         if (operation.getTags() != null) {
                             List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
                             for (String tag : operation.getTags()) {
@@ -423,7 +422,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                                 String tag = operation.getTags().get(0);
                                 operation.setTags(Arrays.asList(tag));
                             }
-                            operation.setVendorExtension("x-tags", tags);
+                            operation.addExtension("x-tags", tags);
                         }
                     }
                 }

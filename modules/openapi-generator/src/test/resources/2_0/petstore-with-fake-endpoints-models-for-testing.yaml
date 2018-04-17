@@ -471,7 +471,7 @@ paths:
             X-Expires-After:
               type: string
               format: date-time
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
         '400':
           description: Invalid username/password supplied
   /user/logout:
@@ -615,9 +615,7 @@ paths:
       description: To test enum parameters
       operationId: testEnumParameters
       consumes:
-        - "*/*"
-      produces:
-        - "*/*"
+        - "application/x-www-form-urlencoded"
       parameters:
         - name: enum_form_string_array
           type: array
@@ -690,7 +688,7 @@ paths:
           enum:
             - 1.1
             - -1.2
-          in: formData
+          in: query
           description: Query parameter enum test (double)
       responses:
         '400':
@@ -712,11 +710,7 @@ paths:
         가짜 엔드 포인트
       operationId: testEndpointParameters
       consumes:
-        - application/xml; charset=utf-8
-        - application/json; charset=utf-8
-      produces:
-        - application/xml; charset=utf-8
-        - application/json; charset=utf-8
+        - application/x-www-form-urlencoded
       parameters:
         - name: integer
           type: integer
@@ -883,7 +877,7 @@ paths:
       description: ''
       operationId: testJsonFormData
       consumes:
-        - application/json
+        - application/x-www-form-urlencoded
       parameters:
         - name: param
           in: formData
@@ -919,6 +913,26 @@ paths:
       responses:
         '200':
           description: successful operation
+  /fake/body-with-query-params:
+    put:
+      tags:
+        - fake
+      operationId: testBodyWithQueryParams
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+        - name: query
+          in: query
+          required: true
+          type: string
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: Success
   /another-fake/dummy:
     patch:
       tags:
@@ -1446,6 +1460,7 @@ definitions:
     type: string
   OuterBoolean:
     type: boolean
+    x-codegen-body-parameter-name: boolean_post_body
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

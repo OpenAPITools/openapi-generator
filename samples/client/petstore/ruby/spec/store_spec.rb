@@ -14,7 +14,7 @@ describe "Store" do
     @api.delete_order(@order_id)
   end
 
-  it "should featch the inventory" do
+  it "should fetch the inventory" do
     result = @api.get_inventory
     expect(result).to be_a(Hash)
     expect(result).not_to be_empty
@@ -26,7 +26,7 @@ describe "Store" do
 
   # mark as pending since original petstore does not return object
   # will re-enable this after updating the petstore server
-  xit "should featch the inventory in object" do
+  xit "should fetch the inventory in object" do
     result = @api.get_inventory_in_object
     expect(result).to be_a(Hash)
     expect(result).not_to be_empty

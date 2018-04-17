@@ -41,6 +41,8 @@ public class OuterComposite implements Parcelable {
   @SerializedName("my_boolean")
   private Boolean myBoolean = null;
 
+  public OuterComposite() {
+  }
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
     return this;
@@ -139,21 +141,14 @@ public class OuterComposite implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public void writeToParcel(Parcel out, int flags) {
-     
     out.writeValue(myNumber);
-
     out.writeValue(myString);
-
     out.writeValue(myBoolean);
   }
 
-  public OuterComposite() {
-    super();
-  }
-
   OuterComposite(Parcel in) {
-    
     myNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
     myString = (String)in.readValue(null);
     myBoolean = (Boolean)in.readValue(null);

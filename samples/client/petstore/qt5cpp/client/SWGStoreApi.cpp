@@ -13,6 +13,7 @@
 #include "SWGStoreApi.h"
 #include "SWGHelpers.h"
 #include "SWGModelFactory.h"
+#include "SWGQObjectWrapper.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -118,7 +119,6 @@ SWGStoreApi::getInventoryCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-
     QMap<QString, qint32>* output = new QMap<QString, qint32>();
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
@@ -126,9 +126,9 @@ SWGStoreApi::getInventoryCallback(SWGHttpRequestWorker * worker) {
     QJsonObject obj = doc.object();
 
     foreach(QString key, obj.keys()) {
-        qint32* val;
+        qint32 val;
         setValue(&val, obj[key], "qint32", QString());
-        output->insert(key, *val);
+        output->insert(key, val);
     }
     worker->deleteLater();
 
@@ -181,9 +181,10 @@ SWGStoreApi::getOrderByIdCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-
     QString json(worker->response);
     SWGOrder* output = static_cast<SWGOrder*>(create(json, QString("SWGOrder")));
+    auto wrapper = new SWGQObjectWrapper<SWGOrder*> (output);
+    wrapper->deleteLater();
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -195,7 +196,7 @@ SWGStoreApi::getOrderByIdCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGStoreApi::placeOrder(SWGOrder& body) {
+SWGStoreApi::placeOrder(SWGOrder& swg_order) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order");
 
@@ -206,7 +207,7 @@ SWGStoreApi::placeOrder(SWGOrder& body) {
 
 
     
-    QString output = body.asJson();
+    QString output = swg_order.asJson();
     input.request_body.append(output);
     
 
@@ -236,9 +237,10 @@ SWGStoreApi::placeOrderCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-
     QString json(worker->response);
     SWGOrder* output = static_cast<SWGOrder*>(create(json, QString("SWGOrder")));
+    auto wrapper = new SWGQObjectWrapper<SWGOrder*> (output);
+    wrapper->deleteLater();
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {

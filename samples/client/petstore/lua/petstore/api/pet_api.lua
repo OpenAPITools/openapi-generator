@@ -43,7 +43,7 @@ local function new_pet_api(host, basePath, schemes)
 	}, pet_api_mt)
 end
 
-function pet_api:add_pet(body)
+function pet_api:add_pet(pet)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
@@ -53,17 +53,7 @@ function pet_api:add_pet(body)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
-	-- TODO: create a function to select proper accept
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_content_type = { "application/json", "application/xml" }
-	req.headers:upsert("accept", "application/json")
-
-	-- TODO: create a function to select proper content-type
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_accept = { "application/xml", "application/json" }
-	req.headers:upsert("content-type", "application/xml")
-
-	req:set_body(dkjson.encode(body))
+	req:set_body(dkjson.encode(pet))
 
 	-- oAuth
 	if self.access_token then
@@ -99,11 +89,6 @@ function pet_api:delete_pet(pet_id, api_key)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "DELETE")
-	-- TODO: create a function to select proper content-type
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_accept = { "application/xml", "application/json" }
-	req.headers:upsert("content-type", "application/xml")
-
 	if api_key then
 		req.headers:upsert("api_key", api_key)
 	end
@@ -287,7 +272,7 @@ function pet_api:get_pet_by_id(pet_id)
 	end
 end
 
-function pet_api:update_pet(body)
+function pet_api:update_pet(pet)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
@@ -297,17 +282,7 @@ function pet_api:update_pet(body)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "PUT")
-	-- TODO: create a function to select proper accept
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_content_type = { "application/json", "application/xml" }
-	req.headers:upsert("accept", "application/json")
-
-	-- TODO: create a function to select proper content-type
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_accept = { "application/xml", "application/json" }
-	req.headers:upsert("content-type", "application/xml")
-
-	req:set_body(dkjson.encode(body))
+	req:set_body(dkjson.encode(pet))
 
 	-- oAuth
 	if self.access_token then
@@ -347,11 +322,6 @@ function pet_api:update_pet_with_form(pet_id, name, status)
 	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
 	--local var_content_type = { "application/x-www-form-urlencoded" }
 	req.headers:upsert("accept", "application/x-www-form-urlencoded")
-
-	-- TODO: create a function to select proper content-type
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_accept = { "application/xml", "application/json" }
-	req.headers:upsert("content-type", "application/xml")
 
 	req:set_body(http_util.dict_to_query({
 		["name"] = name;

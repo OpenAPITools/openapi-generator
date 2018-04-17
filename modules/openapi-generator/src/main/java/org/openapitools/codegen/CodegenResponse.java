@@ -1,6 +1,7 @@
 package org.openapitools.codegen;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class CodegenResponse {
     public boolean isFile = false;
     public Object schema;
     public String jsonSchema;
-    public Map<String, Object> vendorExtensions;
+    public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
 
     public boolean isWildcard() {
         return "0".equals(code) || "default".equals(code);

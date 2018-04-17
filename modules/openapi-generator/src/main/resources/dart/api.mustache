@@ -51,24 +51,30 @@ class {{classname}} {
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = new MultipartRequest(null, null);
-      {{#formParams}}{{#notFile}}
+      {{#formParams}}
+      {{^isFile}}
       if ({{paramName}} != null) {
         hasFields = true;
         mp.fields['{{baseName}}'] = parameterToString({{paramName}});
       }
-      {{/notFile}}{{#isFile}}
+      {{/isFile}}
+      {{#isFile}}
       if ({{paramName}} != null) {
         hasFields = true;
         mp.fields['{{baseName}}'] = {{paramName}}.field;
         mp.files.add({{paramName}});
       }
-      {{/isFile}}{{/formParams}}
+      {{/isFile}}
+      {{/formParams}}
       if(hasFields)
         postBody = mp;
     }
     else {
-      {{#formParams}}{{#notFile}}if ({{paramName}} != null)
-        formParams['{{baseName}}'] = parameterToString({{paramName}});{{/notFile}}
+      {{#formParams}}
+      {{^isFile}}
+      if ({{paramName}} != null)
+        formParams['{{baseName}}'] = parameterToString({{paramName}});
+      {{/isFile}}
       {{/formParams}}
     }
 

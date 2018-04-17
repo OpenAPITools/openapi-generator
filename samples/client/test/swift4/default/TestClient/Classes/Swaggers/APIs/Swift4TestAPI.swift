@@ -19,7 +19,7 @@ open class Swift4TestAPI {
      */
     open class func getAllModels(clientId: String, completion: @escaping ((_ data: GetAllModelsResult?,_ error: Error?) -> Void)) {
         getAllModelsWithRequestBuilder(clientId: clientId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -124,12 +124,11 @@ open class Swift4TestAPI {
         let path = "/allModels"
         let URLString = TestClientAPI.basePath + path
         let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+        
+        var url = URLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems([
             "client_id": clientId
         ])
-        
 
         let requestBuilder: RequestBuilder<GetAllModelsResult>.Type = TestClientAPI.requestBuilderFactory.getBuilder()
 

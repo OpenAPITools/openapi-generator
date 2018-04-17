@@ -6,5 +6,5 @@ public interface PerformBeanValidationFeatures {
     public static final String PERFORM_BEANVALIDATION = "performBeanValidation";
 
     public void setPerformBeanValidation(boolean performBeanValidation);
-    
+
 }

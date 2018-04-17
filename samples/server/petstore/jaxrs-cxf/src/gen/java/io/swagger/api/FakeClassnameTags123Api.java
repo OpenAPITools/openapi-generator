@@ -32,6 +32,8 @@ public interface FakeClassnameTags123Api  {
     /**
      * To test class name in snake case
      *
+     * To test class name in snake case
+     *
      */
     @PATCH
     @Path("/fake_classname_test")

@@ -3,16 +3,18 @@ package org.openapitools.codegen.languages;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+
 import org.openapitools.codegen.*;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.models.parameters.HeaderParameter;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
+import org.openapitools.codegen.utils.*;
+import org.openapitools.codegen.mustache.*;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.core.util.Yaml;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -52,31 +54,6 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     protected String[] responseAs = new String[0];
     protected String sourceFolder = "Classes" + File.separator + "Swaggers";
 
-    @Override
-    public CodegenType getTag() {
-        return CodegenType.CLIENT;
-    }
-
-    @Override
-    public String getName() {
-        return "swift3";
-    }
-
-    @Override
-    public String getHelp() {
-        return "Generates a swift client library.";
-    }
-
-    @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, ModelImpl swaggerModel) {
-
-        final Property additionalProperties = swaggerModel.getAdditionalProperties();
-
-        if(additionalProperties != null) {
-            codegenModel.additionalPropertiesType = getSwaggerType(additionalProperties);
-        }
-    }
-
     public Swift3Codegen() {
         super();
         outputFolder = "generated-code" + File.separator + "swift";
@@ -85,6 +62,9 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         embeddedTemplateDir = templateDir = "swift3";
         apiPackage = File.separator + "APIs";
         modelPackage = File.separator + "Models";
+
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
 
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
@@ -116,18 +96,18 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         );
         reservedWords = new HashSet<>(
                 Arrays.asList(
-                    // name used by swift client
-                    "ErrorResponse", "Response",
+                        // name used by swift client
+                        "ErrorResponse", "Response",
 
-                    // swift keywords
-                    "Int", "Int32", "Int64", "Int64", "Float", "Double", "Bool", "Void", "String", "Character", "AnyObject", "Any", "Error", "URL",
-                    "class", "Class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
-                    "false", "dynamic", "extension", "default", "is", "didSet", "func", "do", "nil", "final", "import", "else",
-                    "self", "get", "init", "fallthrough", "Self", "infix", "internal", "for", "super", "inout", "let", "if",
-                    "true", "lazy", "operator", "in", "COLUMN", "left", "private", "return", "FILE", "mutating", "protocol",
-                    "switch", "FUNCTION", "none", "public", "where", "LINE", "nonmutating", "static", "while", "optional",
-                    "struct", "override", "subscript", "postfix", "typealias", "precedence", "var", "prefix", "Protocol",
-                    "required", "right", "set", "Type", "unowned", "weak", "Data")
+                        // swift keywords
+                        "Int", "Int32", "Int64", "Int64", "Float", "Double", "Bool", "Void", "String", "Character", "AnyObject", "Any", "Error", "URL",
+                        "class", "Class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
+                        "false", "dynamic", "extension", "default", "is", "didSet", "func", "do", "nil", "final", "import", "else",
+                        "self", "get", "init", "fallthrough", "Self", "infix", "internal", "for", "super", "inout", "let", "if",
+                        "true", "lazy", "operator", "in", "COLUMN", "left", "private", "return", "FILE", "mutating", "protocol",
+                        "switch", "FUNCTION", "none", "public", "where", "LINE", "nonmutating", "static", "while", "optional",
+                        "struct", "override", "subscript", "postfix", "typealias", "precedence", "var", "prefix", "Protocol",
+                        "required", "right", "set", "Type", "unowned", "weak", "Data")
         );
 
         typeMapping = new HashMap<>();
@@ -173,23 +153,40 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(POD_SCREENSHOTS, "Screenshots used for Podspec"));
         cliOptions.add(new CliOption(POD_DOCUMENTATION_URL, "Documentation URL used for Podspec"));
         cliOptions.add(new CliOption(SWIFT_USE_API_NAMESPACE, "Flag to make all the API classes inner-class of {{projectName}}API"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(LENIENT_TYPE_CAST, "Accept and cast values for simple types (string->bool, string->int, int->string)")
                 .defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
+    public CodegenType getTag() {
+        return CodegenType.CLIENT;
+    }
+
+    @Override
+    public String getName() {
+        return "swift3";
+    }
+
+    @Override
+    public String getHelp() {
+        return "Generates a Swift 3.x client library.";
+    }
+
+    @Override
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+
+        final Schema additionalProperties = (Schema) schema.getAdditionalProperties();
+
+        if (additionalProperties != null) {
+            codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
+        }
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
-        }
 
         // Setup project name
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -260,7 +257,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;  // add an underscore to the name
@@ -277,29 +274,28 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
             return "[String:" + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
         String type;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type) || defaultIncludes.contains(type))
                 return type;
         } else
-            type = swaggerType;
+            type = openAPIType;
         return toModelName(type);
     }
 
@@ -365,20 +361,19 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toDefaultValue(Property p) {
+    public String toDefaultValue(Schema p) {
         // nil
         return null;
     }
 
     @Override
-    public String toInstantiationType(Property p) {
-        if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
+    public String toInstantiationType(Schema p) {
+        if (ModelUtils.isMapSchema(p)) {
+            String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return inner;
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
+        } else if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            String inner = getSchemaType(ap.getItems());
             return "[" + inner + "]";
         }
         return null;
@@ -458,23 +453,23 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
-        if(codegenModel.description != null) {
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions) {
+        CodegenModel codegenModel = super.fromModel(name, schema, allDefinitions);
+        if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
         }
         if (allDefinitions != null) {
-          String parentSchema = codegenModel.parentSchema;
+            String parentSchema = codegenModel.parentSchema;
 
-          // multilevel inheritance: reconcile properties of all the parents
-          while (parentSchema != null) {
-            final Model parentModel = allDefinitions.get(parentSchema);
-            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
-            codegenModel = Swift3Codegen.reconcileProperties(codegenModel, parentCodegenModel);
+            // multilevel inheritance: reconcile properties of all the parents
+            while (parentSchema != null) {
+                final Schema parentModel = allDefinitions.get(parentSchema);
+                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
+                codegenModel = Swift3Codegen.reconcileProperties(codegenModel, parentCodegenModel);
 
-            // get the next parent
-            parentSchema = parentCodegenModel.parentSchema;
-          }
+                // get the next parent
+                parentSchema = parentCodegenModel.parentSchema;
+            }
         }
 
         return codegenModel;
@@ -644,24 +639,24 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         boolean removedChildProperty = false;
 
         for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
-          // Now that we have found a prop in the parent class,
-          // and search the child class for the same prop.
-          Iterator<CodegenProperty> iterator = codegenProperties.iterator();
-          while (iterator.hasNext()) {
-              CodegenProperty codegenProperty = iterator.next();
-              if (codegenProperty.baseName == parentModelCodegenProperty.baseName) {
-                  // We found a property in the child class that is
-                  // a duplicate of the one in the parent, so remove it.
-                  iterator.remove();
-                  removedChildProperty = true;
-              }
-          }
+            // Now that we have found a prop in the parent class,
+            // and search the child class for the same prop.
+            Iterator<CodegenProperty> iterator = codegenProperties.iterator();
+            while (iterator.hasNext()) {
+                CodegenProperty codegenProperty = iterator.next();
+                if (codegenProperty.baseName == parentModelCodegenProperty.baseName) {
+                    // We found a property in the child class that is
+                    // a duplicate of the one in the parent, so remove it.
+                    iterator.remove();
+                    removedChildProperty = true;
+                }
+            }
         }
 
-        if(removedChildProperty) {
+        if (removedChildProperty) {
             // If we removed an entry from this model's vars, we need to ensure hasMore is updated
             int count = 0, numVars = codegenProperties.size();
-            for(CodegenProperty codegenProperty : codegenProperties) {
+            for (CodegenProperty codegenProperty : codegenProperties) {
                 count += 1;
                 codegenProperty.hasMore = (count < numVars) ? true : false;
             }

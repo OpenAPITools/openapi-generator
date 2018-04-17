@@ -7,9 +7,10 @@ import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
+import org.openapitools.codegen.utils.ModelUtils;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -55,22 +56,22 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                    // local variable names used in API methods (endpoints)
-                    "localVarPostBody", "localVarPath", "localVarQueryParams", "localVarHeaderParams",
-                    "localVarFormParams", "localVarContentTypes", "localVarContentType",
-                    "localVarResponse", "localVarBuilder", "authNames", "basePath", "apiInvoker",
+                        // local variable names used in API methods (endpoints)
+                        "localVarPostBody", "localVarPath", "localVarQueryParams", "localVarHeaderParams",
+                        "localVarFormParams", "localVarContentTypes", "localVarContentType",
+                        "localVarResponse", "localVarBuilder", "authNames", "basePath", "apiInvoker",
 
-                    // due to namespace collusion
-                    "Object",
+                        // due to namespace collusion
+                        "Object",
 
-                    // android reserved words
-                    "abstract", "continue", "for", "new", "switch", "assert",
-                    "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
-                    "this", "break", "double", "implements", "protected", "throw", "byte", "else",
-                    "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
-                    "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
-                    "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                    "native", "super", "while", "null")
+                        // android reserved words
+                        "abstract", "continue", "for", "new", "switch", "assert",
+                        "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
+                        "this", "break", "double", "implements", "protected", "throw", "byte", "else",
+                        "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
+                        "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
+                        "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
+                        "native", "super", "while", "null")
         );
 
         languageSpecificPrimitives = new HashSet<String>(
@@ -128,8 +129,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public String escapeReservedWord(String name) {           
-        if(this.reservedWordsMappings().containsKey(name)) {
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -147,52 +148,51 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath).replace( '/', File.separatorChar );
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
     }
 
     @Override
     public String modelDocFileFolder() {
-        return ( outputFolder + "/" + modelDocPath ).replace( '/', File.separatorChar );
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
     }
 
     @Override
-    public String toApiDocFilename( String name ) {
-        return toApiName( name );
+    public String toApiDocFilename(String name) {
+        return toApiName(name);
     }
 
     @Override
-    public String toModelDocFilename( String name ) {
-        return toModelName( name );
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
 
-            return getSwaggerType(p) + "<String, " + getTypeDeclaration(inner) + ">";
+            return getSchemaType(p) + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0 ||
-                type.equals("Map") || type.equals("List") ||
-                type.equals("File") || type.equals("Date")) {
+                    type.equals("Map") || type.equals("List") ||
+                    type.equals("File") || type.equals("Date")) {
                 return type;
             }
         } else {
-            type = swaggerType;
+            type = openAPIType;
         }
         return toModelName(type);
     }
@@ -364,6 +364,14 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             additionalProperties.put("authPackage", authPackage);
         }
 
+        if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        }
+
+        if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.GROUP_ID)) {
             this.setGroupId((String) additionalProperties.get(CodegenConstants.GROUP_ID));
         } else {
@@ -420,8 +428,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
 
         //make api and model doc path available in mustache template
-        additionalProperties.put( "apiDocPath", apiDocPath );
-        additionalProperties.put( "modelDocPath", modelDocPath );
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
 
         if (StringUtils.isEmpty(getLibrary())) {
             setLibrary("volley"); // set volley as the default library
@@ -433,88 +441,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         } else if ("httpclient".equals(getLibrary())) {
             addSupportingFilesForHttpClient();
         } else {
-            throw new IllegalArgumentException("Invalid 'library' option specified: '" + getLibrary() + "'. Must be 'httpclient' or 'volley' (default)"); 
+            throw new IllegalArgumentException("Invalid 'library' option specified: '" + getLibrary() + "'. Must be 'httpclient' or 'volley' (default)");
         }
-
-    }
-
-    private void addSupportingFilesForHttpClient() {
-        // documentation files
-        modelDocTemplateFiles.put( "model_doc.mustache", ".md" );
-        apiDocTemplateFiles.put( "api_doc.mustache", ".md" );
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
-        supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
-        supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
-        supportingFiles.add(new SupportingFile("apiInvoker.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiInvoker.java"));
-        supportingFiles.add(new SupportingFile("httpPatch.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "HttpPatch.java"));
-        supportingFiles.add(new SupportingFile("jsonUtil.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "JsonUtil.java"));
-        supportingFiles.add(new SupportingFile("apiException.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiException.java"));
-        supportingFiles.add(new SupportingFile("Pair.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Pair.java"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-
-        // gradle wrapper files
-        supportingFiles.add(new SupportingFile( "gradlew.mustache", "", "gradlew" ));
-        supportingFiles.add(new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat" ));
-        supportingFiles.add(new SupportingFile( "gradle-wrapper.properties.mustache", 
-                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties" ));
-        supportingFiles.add(new SupportingFile( "gradle-wrapper.jar", 
-                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar" ));
-
-    }
-
-    private void addSupportingFilesForVolley() {
-        // documentation files
-        modelDocTemplateFiles.put( "model_doc.mustache", ".md" );
-        apiDocTemplateFiles.put( "api_doc.mustache", ".md" );
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        // supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
-        supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
-        supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
-        supportingFiles.add(new SupportingFile("apiInvoker.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiInvoker.java"));
-        supportingFiles.add(new SupportingFile("jsonUtil.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "JsonUtil.java"));
-        supportingFiles.add(new SupportingFile("apiException.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiException.java"));
-        supportingFiles.add(new SupportingFile("Pair.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Pair.java"));
-        supportingFiles.add(new SupportingFile("request/getrequest.mustache",
-                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "GetRequest.java"));
-        supportingFiles.add(new SupportingFile("request/postrequest.mustache",
-                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PostRequest.java"));
-        supportingFiles.add(new SupportingFile("request/putrequest.mustache",
-                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PutRequest.java"));
-        supportingFiles.add(new SupportingFile("request/deleterequest.mustache",
-                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "DeleteRequest.java"));
-        supportingFiles.add(new SupportingFile("request/patchrequest.mustache",
-                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PatchRequest.java"));
-        supportingFiles.add(new SupportingFile("auth/apikeyauth.mustache",
-                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "ApiKeyAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/httpbasicauth.mustache",
-                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "HttpBasicAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/authentication.mustache",
-                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "Authentication.java"));
-
-        // gradle wrapper files
-        supportingFiles.add(new SupportingFile( "gradlew.mustache", "", "gradlew" ));
-        supportingFiles.add(new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat" ));
-        supportingFiles.add(new SupportingFile( "gradle-wrapper.properties.mustache", 
-                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties" ));
-        supportingFiles.add(new SupportingFile( "gradle-wrapper.jar", 
-                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar" ));
     }
 
     public Boolean getUseAndroidMavenGradlePlugin() {
@@ -547,6 +475,10 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
     public void setAndroidBuildToolsVersion(String androidBuildToolsVersion) {
         this.androidBuildToolsVersion = androidBuildToolsVersion;
+    }
+
+    public String getInvokerPackage() {
+        return invokerPackage;
     }
 
     public void setInvokerPackage(String invokerPackage) {
@@ -590,6 +522,85 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    private void addSupportingFilesForVolley() {
+        // documentation files
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        // supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
+        supportingFiles.add(new SupportingFile("apiInvoker.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiInvoker.java"));
+        supportingFiles.add(new SupportingFile("jsonUtil.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "JsonUtil.java"));
+        supportingFiles.add(new SupportingFile("apiException.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiException.java"));
+        supportingFiles.add(new SupportingFile("Pair.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Pair.java"));
+        supportingFiles.add(new SupportingFile("request/getrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "GetRequest.java"));
+        supportingFiles.add(new SupportingFile("request/postrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PostRequest.java"));
+        supportingFiles.add(new SupportingFile("request/putrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PutRequest.java"));
+        supportingFiles.add(new SupportingFile("request/deleterequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "DeleteRequest.java"));
+        supportingFiles.add(new SupportingFile("request/patchrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PatchRequest.java"));
+        supportingFiles.add(new SupportingFile("auth/apikeyauth.mustache",
+                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "ApiKeyAuth.java"));
+        supportingFiles.add(new SupportingFile("auth/httpbasicauth.mustache",
+                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "HttpBasicAuth.java"));
+        supportingFiles.add(new SupportingFile("auth/authentication.mustache",
+                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "Authentication.java"));
+
+        // gradle wrapper files
+        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
+    }
+
+    private void addSupportingFilesForHttpClient() {
+        // documentation files
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
+        supportingFiles.add(new SupportingFile("apiInvoker.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiInvoker.java"));
+        supportingFiles.add(new SupportingFile("httpPatch.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "HttpPatch.java"));
+        supportingFiles.add(new SupportingFile("jsonUtil.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "JsonUtil.java"));
+        supportingFiles.add(new SupportingFile("apiException.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiException.java"));
+        supportingFiles.add(new SupportingFile("Pair.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Pair.java"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+
+        // gradle wrapper files
+        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
+
     }
 
 }

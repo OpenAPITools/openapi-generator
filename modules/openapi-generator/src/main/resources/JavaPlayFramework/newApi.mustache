@@ -16,15 +16,21 @@ import javax.validation.constraints.*;
 public class {{classname}}ControllerImp {{#useInterfaces}}implements {{classname}}ControllerImpInterface{{/useInterfaces}} {
 {{#operation}}
     {{#useInterfaces}}@Override{{/useInterfaces}}
-    public {{>returnTypes}} {{operationId}}({{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}} {
+    public {{^returnType}}void{{/returnType}}{{#returnType}}{{#supportAsync}}CompletionStage<{{/supportAsync}}{{>returnTypesNoVoid}}{{#supportAsync}}>{{/supportAsync}}{{/returnType}} {{operationId}}({{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}} {
         //Do your magic!!!
         {{#returnType}}
+        {{#supportAsync}}
+        return CompletableFuture.supplyAsync(() -> {
+        {{/supportAsync}}
         {{#isResponseFile}}
         return new FileInputStream("replace this");
         {{/isResponseFile}}
         {{^isResponseFile}}
-        return new {{>returnTypesNoVoidNoAbstract}}({{#vendorExtensions.missingReturnInfoIfNeeded}}{{vendorExtensions.missingReturnInfoIfNeeded}}{{/vendorExtensions.missingReturnInfoIfNeeded}});
+        {{#supportAsync}}   {{/supportAsync}}return new {{>returnTypesNoVoidNoAbstract}}({{#vendorExtensions.missingReturnInfoIfNeeded}}{{vendorExtensions.missingReturnInfoIfNeeded}}{{/vendorExtensions.missingReturnInfoIfNeeded}});
         {{/isResponseFile}}
+        {{#supportAsync}}
+        });
+        {{/supportAsync}}
         {{/returnType}}
     }
 

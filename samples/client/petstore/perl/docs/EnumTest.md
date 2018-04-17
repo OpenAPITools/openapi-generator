@@ -9,6 +9,7 @@ use WWW::SwaggerClient::Object::EnumTest;
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **enum_string** | **string** |  | [optional] 
+**enum_string_required** | **string** |  | 
 **enum_integer** | **int** |  | [optional] 
 **enum_number** | **double** |  | [optional] 
 **outer_enum** | [**OuterEnum**](OuterEnum.md) |  | [optional] 

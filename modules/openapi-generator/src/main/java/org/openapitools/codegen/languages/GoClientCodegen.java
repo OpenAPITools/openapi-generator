@@ -1,10 +1,9 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.parameters.Parameter;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
 
 import java.io.File;
 import java.util.*;
@@ -33,18 +32,21 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         embeddedTemplateDir = templateDir = "go";
 
-        setReservedWordsLowerCase(
-            Arrays.asList(
-                // data type
-                "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",
-                "int", "int8", "int16", "int32", "int64", "float32", "float64",
-                "complex64", "complex128", "rune", "byte", "uintptr",
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
 
-                "break", "default", "func", "interface", "select",
-                "case", "defer", "go", "map", "struct",
-                "chan", "else", "goto", "package", "switch",
-                "const", "fallthrough", "if", "range", "type",
-                "continue", "for", "import", "return", "var", "error", "ApiResponse", "nil")
+        setReservedWordsLowerCase(
+                Arrays.asList(
+                        // data type
+                        "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",
+                        "int", "int8", "int16", "int32", "int64", "float32", "float64",
+                        "complex64", "complex128", "rune", "byte", "uintptr",
+
+                        "break", "default", "func", "interface", "select",
+                        "case", "defer", "go", "map", "struct",
+                        "chan", "else", "goto", "package", "switch",
+                        "const", "fallthrough", "if", "range", "type",
+                        "continue", "for", "import", "return", "var", "error", "ApiResponse", "nil")
                 // Added "error" as it's used so frequently that it may as well be a keyword
         );
 
@@ -52,31 +54,27 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 .defaultValue("1.0.0"));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
 
+        // option to change the order of form/body parameter
+        cliOptions.add(CliOption.newBoolean(
+                CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
+
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
-        }
-
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        }
-        else {
+        } else {
             setPackageName("swagger");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        }
-        else {
+        } else {
             setPackageVersion("1.0.0");
         }
 
@@ -89,7 +87,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         modelPackage = packageName;
         apiPackage = packageName;
 
-        supportingFiles.add(new SupportingFile("swagger.mustache", "api", "swagger.yaml"));
+        supportingFiles.add(new SupportingFile("swagger.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
@@ -98,9 +96,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("response.mustache", "", "response.go"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
 
-        if(additionalProperties.containsKey(WITH_XML)) {
+        if (additionalProperties.containsKey(WITH_XML)) {
             setWithXml(Boolean.parseBoolean(additionalProperties.get(WITH_XML).toString()));
-            if ( withXml ) {
+            if (withXml) {
                 additionalProperties.put(WITH_XML, "true");
             }
         }

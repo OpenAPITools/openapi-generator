@@ -3,7 +3,10 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
-import io.swagger.models.properties.Property;
+import org.openapitools.codegen.utils.ModelUtils;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
 
 import java.util.Arrays;
 
@@ -58,6 +61,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                         "if",
                         "inline",
                         "int",
+                        "linux",
                         "long",
                         "mutable",
                         "namespace",
@@ -134,7 +138,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
      */
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return sanitizeName("_" + name);
@@ -155,7 +159,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Property p) {
+    public CodegenProperty fromProperty(String name, Schema p) {
         CodegenProperty property = super.fromProperty(name, p);
         String nameInCamelCase = property.nameInCamelCase;
         if (nameInCamelCase.length() > 1) {
@@ -166,7 +170,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         property.nameInCamelCase = nameInCamelCase;
         return property;
     }
-    
+
     /**
      * Output the Getter name for boolean property, e.g. isActive
      *
@@ -175,5 +179,10 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
      */
     public String toBooleanGetter(String name) {
         return "is" + getterAndSetterCapitalize(name);
+    }
+
+    @Override
+    public String getTypeDeclaration(String str) {
+        return "std::shared_ptr<" + toModelName(str) + ">";
     }
 }

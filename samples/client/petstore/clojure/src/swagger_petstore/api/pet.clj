@@ -29,6 +29,7 @@
   "
   ([pet-id ] (delete-pet-with-http-info pet-id nil))
   ([pet-id {:keys [api-key ]}]
+   (check-required-params pet-id)
    (call-api "/pet/{petId}" :delete
              {:path-params   {"petId" pet-id }
               :header-params {"api_key" api-key }
@@ -91,6 +92,7 @@
   "Find pet by ID
   Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions"
   [pet-id ]
+  (check-required-params pet-id)
   (call-api "/pet/{petId}" :get
             {:path-params   {"petId" pet-id }
              :header-params {}
@@ -133,6 +135,7 @@
   "
   ([pet-id ] (update-pet-with-form-with-http-info pet-id nil))
   ([pet-id {:keys [name status ]}]
+   (check-required-params pet-id)
    (call-api "/pet/{petId}" :post
              {:path-params   {"petId" pet-id }
               :header-params {}
@@ -154,6 +157,7 @@
   "
   ([pet-id ] (upload-file-with-http-info pet-id nil))
   ([pet-id {:keys [additional-metadata ^File file ]}]
+   (check-required-params pet-id)
    (call-api "/pet/{petId}/uploadImage" :post
              {:path-params   {"petId" pet-id }
               :header-params {}

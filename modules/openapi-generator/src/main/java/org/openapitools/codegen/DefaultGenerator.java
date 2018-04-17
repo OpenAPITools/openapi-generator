@@ -2,29 +2,42 @@ package org.openapitools.codegen;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
-import org.openapitools.codegen.languages.AbstractJavaCodegen;
-import org.openapitools.codegen.utils.ImplementationVersion;
-import io.swagger.models.*;
-import io.swagger.models.auth.OAuth2Definition;
-import io.swagger.models.auth.SecuritySchemeDefinition;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.util.Json;
+
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.Paths;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.tags.Tag;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+//import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.utils.ImplementationVersion;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
+import java.net.*;
 
 public class DefaultGenerator extends AbstractGenerator implements Generator {
     protected final Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
     protected CodegenConfig config;
     protected ClientOptInput opts;
-    protected Swagger swagger;
+    protected OpenAPI openAPI;
     protected CodegenIgnoreProcessor ignoreProcessor;
     private Boolean generateApis = null;
     private Boolean generateModels = null;
@@ -42,7 +55,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     @Override
     public Generator opts(ClientOptInput opts) {
         this.opts = opts;
-        this.swagger = opts.getSwagger();
+        this.openAPI= opts.getOpenAPI();
         this.config = opts.getConfig();
         this.config.additionalProperties().putAll(opts.getOpts().getProperties());
 
@@ -95,33 +108,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return defaultValue;
     }
 
-    private String getScheme() {
-        String scheme;
-        if (swagger.getSchemes() != null && swagger.getSchemes().size() > 0) {
-            scheme = config.escapeText(swagger.getSchemes().get(0).toValue());
-        } else {
-            scheme = "https";
-        }
-        scheme = config.escapeText(scheme);
-        return scheme;
-    }
-
-    private String getHost() {
-        StringBuilder hostBuilder = new StringBuilder();
-        hostBuilder.append(getScheme());
-        hostBuilder.append("://");
-        if (!StringUtils.isEmpty(swagger.getHost())) {
-            hostBuilder.append(swagger.getHost());
-        } else {
-            hostBuilder.append("localhost");
-            LOGGER.warn("'host' not defined in the spec. Default to 'localhost'.");
-        }
-        if (!StringUtils.isEmpty(swagger.getBasePath()) && !swagger.getBasePath().equals("/")) {
-            hostBuilder.append(swagger.getBasePath());
-        }
-        return hostBuilder.toString();
-    }
-
     private void configureGeneratorProperties() {
         // allows generating only models by specifying a CSV of models to generate, or empty for all
         // NOTE: Boolean.TRUE is required below rather than `true` because of JVM boxing constraints and type inference.
@@ -164,28 +150,36 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (!generateApiTests && !generateModelTests) {
             config.additionalProperties().put(CodegenConstants.EXCLUDE_TESTS, true);
         }
+        // for backward compatibility
         if (System.getProperty("debugSwagger") != null) {
-            Json.prettyPrint(swagger);
+            LOGGER.info("Please use 'debugOpenAPI' instead of 'debugSwagger` moving forward.");
+            Json.prettyPrint(openAPI);
         }
+
+        if (System.getProperty("debugOpenAPI") != null) {
+            Json.prettyPrint(openAPI);
+        }
+
         config.processOpts();
-        config.preprocessSwagger(swagger);
+        config.preprocessOpenAPI(openAPI);
         config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
         config.additionalProperties().put("generatedDate", DateTime.now().toString());
         config.additionalProperties().put("generatedYear", String.valueOf(DateTime.now().getYear()));
         config.additionalProperties().put("generatorClass", config.getClass().getName());
         config.additionalProperties().put("inputSpec", config.getInputSpec());
-        if (swagger.getVendorExtensions() != null) {
-            config.vendorExtensions().putAll(swagger.getVendorExtensions());
+
+        if (openAPI.getExtensions() != null) {
+            config.vendorExtensions().putAll(openAPI.getExtensions());
         }
 
-        contextPath = config.escapeText(swagger.getBasePath() == null ? "" : swagger.getBasePath());
-        basePath = config.escapeText(getHost());
-        basePathWithoutHost = config.escapeText(swagger.getBasePath());
-
+        URL url = URLPathUtils.getServerURL(openAPI);
+        contextPath = config.escapeText(url == null ? "" : url.getPath());
+        basePath = config.escapeText(URLPathUtils.getHost(openAPI));
+        basePathWithoutHost = contextPath; // for backward compatibility
     }
 
-    private void configureSwaggerInfo() {
-        Info info = swagger.getInfo();
+    private void configureOpenAPIInfo() {
+        Info info = this.openAPI.getInfo();
         if (info == null) {
             return;
         }
@@ -276,14 +270,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
     }
 
-    private void generateModels(List<File> files, List<Object> allModels) {
-
+    private void generateModels(List<File> files, List<Object> allModels, List<String> unusedModels) {
         if (!generateModels) {
             return;
         }
 
-        final Map<String, Model> definitions = swagger.getDefinitions();
-        if (definitions == null) {
+        final Map<String, Schema> schemas = this.openAPI.getComponents().getSchemas();
+        if (schemas == null) {
             return;
         }
 
@@ -293,7 +286,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             modelsToGenerate = new HashSet<String>(Arrays.asList(modelNames.split(",")));
         }
 
-        Set<String> modelKeys = definitions.keySet();
+        Set<String> modelKeys = schemas.keySet();
         if (modelsToGenerate != null && !modelsToGenerate.isEmpty()) {
             Set<String> updatedKeys = new HashSet<String>();
             for (String m : modelKeys) {
@@ -301,6 +294,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     updatedKeys.add(m);
                 }
             }
+
             modelKeys = updatedKeys;
         }
 
@@ -308,6 +302,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Map<String, Object> allProcessedModels = new TreeMap<String, Object>(new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
+                return ObjectUtils.compare(config.toModelName(o1), config.toModelName(o2));
+            }
+                /* TODO need to revise the logic below
+
                 Model model1 = definitions.get(o1);
                 Model model2 = definitions.get(o2);
 
@@ -352,7 +350,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
 
                 return null;
-            }
+            } */
         });
 
         // process models only
@@ -360,13 +358,20 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             try {
                 //don't generate models that have an import mapping
                 if (config.importMapping().containsKey(name)) {
-                    LOGGER.info("Model " + name + " not imported due to import mapping");
+                    LOGGER.debug("Model " + name + " not imported due to import mapping");
                     continue;
                 }
-                Model model = definitions.get(name);
-                Map<String, Model> modelMap = new HashMap<String, Model>();
-                modelMap.put(name, model);
-                Map<String, Object> models = processModels(config, modelMap, definitions);
+
+                // don't generate models that are not used as object (e.g. form parameters)
+                if (unusedModels.contains(name)) {
+                    LOGGER.debug("Model " + name + " not generated since it's marked as unused (due to form parameters)");
+                    continue;
+                }
+
+                Schema schema = schemas.get(name);
+                Map<String, Schema> schemaMap = new HashMap<>();
+                schemaMap.put(name, schema);
+                Map<String, Object> models = processModels(config, schemaMap, schemas);
                 models.put("classname", config.toModelName(name));
                 models.putAll(config.additionalProperties());
                 allProcessedModels.put(name, models);
@@ -388,6 +393,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     continue;
                 }
                 Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
+                /*  TODO revise alias handling
                 if (config instanceof AbstractJavaCodegen) {
                     // Special handling of aliases only applies to Java
                     if (modelTemplate != null && modelTemplate.containsKey("model")) {
@@ -396,8 +402,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             continue;  // Don't create user-defined classes for aliases
                         }
                     }
-                }
+                }*/
+
                 allModels.add(modelTemplate);
+
                 for (String templateName : config.modelTemplateFiles().keySet()) {
                     String suffix = config.modelTemplateFiles().get(templateName);
                     String filename = config.modelFileFolder() + File.separator + config.toModelFilename(modelName) + suffix;
@@ -432,7 +440,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (!generateApis) {
             return;
         }
-        Map<String, List<CodegenOperation>> paths = processPaths(swagger.getPaths());
+        Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
         Set<String> apisToGenerate = null;
         String apiNames = System.getProperty("apis");
         if (apiNames != null && !apiNames.isEmpty()) {
@@ -481,8 +489,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
                 operation.put("sortParamsByRequiredFlag", sortParamsByRequiredFlag);
 
+                /* consumes, produces are no longer defined in OAS3.0
                 processMimeTypes(swagger.getConsumes(), operation, "consumes");
                 processMimeTypes(swagger.getProduces(), operation, "produces");
+                */
 
                 allOperations.add(new HashMap<String, Object>(operation));
                 for (int i = 0; i < allOperations.size(); i++) {
@@ -692,27 +702,33 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Map<String, Object> apis = new HashMap<String, Object>();
         apis.put("apis", allOperations);
 
-        if (swagger.getHost() != null) {
-            bundle.put("host", swagger.getHost());
+        URL url = URLPathUtils.getServerURL(openAPI);
+        if (url != null) {
+            bundle.put("host", url.getHost());
         }
 
-        bundle.put("swagger", this.swagger);
+        bundle.put("openAPI", openAPI);
+        bundle.put("swagger", openAPI); // for backward compatibility
         bundle.put("basePath", basePath);
         bundle.put("basePathWithoutHost", basePathWithoutHost);
-        bundle.put("scheme", getScheme());
+        bundle.put("scheme", URLPathUtils.getScheme(openAPI, config));
         bundle.put("contextPath", contextPath);
         bundle.put("apiInfo", apis);
         bundle.put("models", allModels);
         bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
         bundle.put("modelPackage", config.modelPackage());
-        List<CodegenSecurity> authMethods = config.fromSecurity(swagger.getSecurityDefinitions());
+
+        Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        List<CodegenSecurity> authMethods = config.fromSecurity(securitySchemeMap);
         if (authMethods != null && !authMethods.isEmpty()) {
             bundle.put("authMethods", authMethods);
             bundle.put("hasAuthMethods", true);
         }
-        if (swagger.getExternalDocs() != null) {
-            bundle.put("externalDocs", swagger.getExternalDocs());
+
+        if (openAPI.getExternalDocs() != null) {
+            bundle.put("externalDocs", openAPI.getExternalDocs());
         }
+
         for (int i = 0; i < allModels.size() - 1; i++) {
             HashMap<String, CodegenModel> cm = (HashMap<String, CodegenModel>) allModels.get(i);
             CodegenModel m = cm.get("model");
@@ -731,20 +747,26 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     @Override
     public List<File> generate() {
 
-        if (swagger == null || config == null) {
-            throw new RuntimeException("missing swagger input or config!");
+        if (openAPI == null) {
+            throw new RuntimeException("missing OpenAPI input!");
         }
+
+        if (config == null) {
+            throw new RuntimeException("missing config!");
+        }
+
         configureGeneratorProperties();
-        configureSwaggerInfo();
+        configureOpenAPIInfo();
 
         // resolve inline models
-        InlineModelResolver inlineModelResolver = new InlineModelResolver();
-        inlineModelResolver.flatten(swagger);
+        //InlineModelResolver inlineModelResolver = new InlineModelResolver();
+        //inlineModelResolver.flatten(openAPI);
 
         List<File> files = new ArrayList<File>();
         // models
+        List<String> unusedSchemas = ModelUtils.getUnusedSchemas(openAPI);
         List<Object> allModels = new ArrayList<Object>();
-        generateModels(files, allModels);
+        generateModels(files, allModels, unusedSchemas);
         // apis
         List<Object> allOperations = new ArrayList<Object>();
         generateApis(files, allOperations, allModels);
@@ -752,7 +774,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         // supporting files
         Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels);
         generateSupportingFiles(files, bundle);
-        config.processSwagger(swagger);
+        config.processOpenAPI(openAPI);
         return files;
     }
 
@@ -782,33 +804,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return null;
     }
 
-    private static void processMimeTypes(List<String> mimeTypeList, Map<String, Object> operation, String source) {
-        if (mimeTypeList == null || mimeTypeList.isEmpty()) {
-            return;
-        }
-        List<Map<String, String>> c = new ArrayList<Map<String, String>>();
-        int count = 0;
-        for (String key : mimeTypeList) {
-            Map<String, String> mediaType = new HashMap<String, String>();
-            mediaType.put("mediaType", key);
-            count += 1;
-            if (count < mimeTypeList.size()) {
-                mediaType.put("hasMore", "true");
-            } else {
-                mediaType.put("hasMore", null);
-            }
-            c.add(mediaType);
-        }
-        operation.put(source, c);
-        String flagFieldName = "has" + source.substring(0, 1).toUpperCase() + source.substring(1);
-        operation.put(flagFieldName, true);
-
-    }
-
-    public Map<String, List<CodegenOperation>> processPaths(Map<String, Path> paths) {
+    public Map<String, List<CodegenOperation>> processPaths(Paths paths) {
         Map<String, List<CodegenOperation>> ops = new TreeMap<String, List<CodegenOperation>>();
         for (String resourcePath : paths.keySet()) {
-            Path path = paths.get(resourcePath);
+            PathItem path = paths.get(resourcePath);
             processOperation(resourcePath, "get", path.getGet(), ops, path);
             processOperation(resourcePath, "head", path.getHead(), ops, path);
             processOperation(resourcePath, "put", path.getPut(), ops, path);
@@ -820,17 +819,18 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return ops;
     }
 
-    private void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, Path path) {
+    private void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
         if (operation == null) {
             return;
         }
+
         if (System.getProperty("debugOperations") != null) {
             LOGGER.info("processOperation: resourcePath= " + resourcePath + "\t;" + httpMethod + " " + operation + "\n");
         }
-        List<Tag> tags = new ArrayList<Tag>();
 
+        List<Tag> tags = new ArrayList<Tag>();
         List<String> tagNames = operation.getTags();
-        List<Tag> swaggerTags = swagger.getTags();
+        List<Tag> swaggerTags = openAPI.getTags();
         if (tagNames != null) {
             if (swaggerTags == null) {
                 for (String tagName : tagNames) {
@@ -874,64 +874,48 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (path.getParameters() != null) {
             for (Parameter parameter : path.getParameters()) {
                 //skip propagation if a parameter with the same name is already defined at the operation level
-                if (!operationParameters.contains(generateParameterId(parameter))) {
-                    operation.addParameter(parameter);
+                if (!operationParameters.contains(generateParameterId(parameter)) && operation.getParameters() != null) {
+                    operation.getParameters().add(parameter);
                 }
             }
         }
 
+        final Map<String, Schema> schemas = openAPI.getComponents() != null ? openAPI.getComponents().getSchemas() : null;
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
         for (Tag tag : tags) {
             try {
-                CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, swagger.getDefinitions(), swagger);
-                codegenOperation.tags = new ArrayList<Tag>(tags);
+                CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, schemas, openAPI);
+                codegenOperation.tags = new ArrayList<>(tags);
                 config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
 
-                List<Map<String, List<String>>> securities = operation.getSecurity();
-                if (securities == null && swagger.getSecurity() != null) {
-                    securities = new ArrayList<Map<String, List<String>>>();
-                    for (SecurityRequirement sr : swagger.getSecurity()) {
-                        securities.add(sr.getRequirements());
-                    }
-                }
-                if (securities == null || swagger.getSecurityDefinitions() == null) {
+                List<SecurityRequirement> securities = operation.getSecurity();
+                if (securities != null && securities.isEmpty()) {
                     continue;
                 }
-                Map<String, SecuritySchemeDefinition> authMethods = new HashMap<String, SecuritySchemeDefinition>();
-                for (Map<String, List<String>> security : securities) {
-                    for (String securityName : security.keySet()) {
-                        SecuritySchemeDefinition securityDefinition = swagger.getSecurityDefinitions().get(securityName);
-                        if (securityDefinition == null) {
-                            continue;
-                        }
-                        if (securityDefinition instanceof OAuth2Definition) {
-                            OAuth2Definition oauth2Definition = (OAuth2Definition) securityDefinition;
-                            OAuth2Definition oauth2Operation = new OAuth2Definition();
-                            oauth2Operation.setType(oauth2Definition.getType());
-                            oauth2Operation.setAuthorizationUrl(oauth2Definition.getAuthorizationUrl());
-                            oauth2Operation.setFlow(oauth2Definition.getFlow());
-                            oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
-                            oauth2Operation.setScopes(new HashMap<String, String>());
-                            for (String scope : security.get(securityName)) {
-                                if (oauth2Definition.getScopes().containsKey(scope)) {
-                                    oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
-                                }
-                            }
-                            authMethods.put(securityName, oauth2Operation);
-                        } else {
-                            authMethods.put(securityName, securityDefinition);
-                        }
-                    }
+                Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
+                if (authMethods == null || authMethods.isEmpty()) {
+                    authMethods = getAuthMethods(globalSecurities, securitySchemes);
                 }
-                if (!authMethods.isEmpty()) {
+
+                if (authMethods != null && !authMethods.isEmpty()) {
                     codegenOperation.authMethods = config.fromSecurity(authMethods);
                     codegenOperation.hasAuthMethods = true;
                 }
+
+                /* TODO need to revise the logic below
+                Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents().getSecuritySchemes();
+                if (securitySchemeMap != null && !securitySchemeMap.isEmpty()) {
+                    codegenOperation.authMethods = config.fromSecurity(securitySchemeMap);
+                    codegenOperation.hasAuthMethods = true;
+                }
+                */
             } catch (Exception ex) {
                 String msg = "Could not process operation:\n" //
                         + "  Tag: " + tag + "\n"//
                         + "  Operation: " + operation.getOperationId() + "\n" //
                         + "  Resource: " + httpMethod + " " + resourcePath + "\n"//
-                        + "  Definitions: " + swagger.getDefinitions() + "\n"  //
+                        + "  Schemas: " + openAPI.getComponents().getSchemas() + "\n"  //
                         + "  Exception: " + ex.getMessage();
                 throw new RuntimeException(msg, ex);
             }
@@ -965,7 +949,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         operations.put("operations", objs);
         operations.put("package", config.apiPackage());
-
 
         Set<String> allImports = new TreeSet<String>();
         for (CodegenOperation op : ops) {
@@ -1007,14 +990,16 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
 
-    private Map<String, Object> processModels(CodegenConfig config, Map<String, Model> definitions, Map<String, Model> allDefinitions) {
+    private Map<String, Object> processModels(CodegenConfig config, Map<String, Schema> definitions, Map<String, Schema> allDefinitions) {
         Map<String, Object> objs = new HashMap<String, Object>();
         objs.put("package", config.modelPackage());
         List<Object> models = new ArrayList<Object>();
         Set<String> allImports = new LinkedHashSet<String>();
         for (String key : definitions.keySet()) {
-            Model mm = definitions.get(key);
-            CodegenModel cm = config.fromModel(key, mm, allDefinitions);
+            Schema schema = definitions.get(key);
+            if (schema == null)
+                throw new RuntimeException("schema cannnot be null in processMoels");
+            CodegenModel cm = config.fromModel(key, schema, allDefinitions);
             Map<String, Object> mo = new HashMap<String, Object>();
             mo.put("model", cm);
             mo.put("importPath", config.toModelImport(cm.classname));
@@ -1047,5 +1032,21 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         objs.put("imports", imports);
         config.postProcessModels(objs);
         return objs;
+    }
+
+    private Map<String, SecurityScheme> getAuthMethods(List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {
+        if (securities == null || (securitySchemes == null || securitySchemes.isEmpty())) {
+            return null;
+        }
+        final Map<String, SecurityScheme> authMethods = new HashMap<>();
+        for (SecurityRequirement requirement : securities) {
+            for (String key : requirement.keySet()) {
+                SecurityScheme securityScheme = securitySchemes.get(key);
+                if (securityScheme != null) {
+                    authMethods.put(key, securityScheme);
+                }
+            }
+        }
+        return authMethods;
     }
 }

@@ -132,11 +132,11 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
     {{/bodyParam}}
     {{^bodyParam}}
     {{#formParams}}
-    {{#notFile}}
+    {{^isFile}}
     if ({{paramName}}) {
         formParams[@"{{baseName}}"] = {{paramName}};
     }
-    {{/notFile}}
+    {{/isFile}}
     {{#isFile}}
     localVarFiles[@"{{paramName}}"] = {{paramName}};
     {{/isFile}}

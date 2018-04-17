@@ -9,18 +9,14 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.util.Json;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.languages.features.JbossFeature;
+import org.openapitools.codegen.languages.features.SwaggerFeatures;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.core.util.Json;
 
-public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
-{
+public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String RETURN_RESPONSE = "returnResponse";
@@ -30,8 +26,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
     private boolean returnResponse = false;
     private boolean generatePom = true;
 
-    public JavaJAXRSSpecServerCodegen()
-    {
+    public JavaJAXRSSpecServerCodegen() {
         super();
         invokerPackage = "io.swagger.api";
         artifactId = "swagger-jaxrs-server";
@@ -59,8 +54,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         super.embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "spec";
 
-        for ( int i = 0; i < cliOptions.size(); i++ ) {
-            if ( CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt()) ) {
+        for (int i = 0; i < cliOptions.size(); i++) {
+            if (CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt())) {
                 cliOptions.remove(i);
                 break;
             }
@@ -69,7 +64,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         library.setDefault(DEFAULT_LIBRARY);
 
-        Map<String, String> supportedLibraries = new LinkedHashMap<String,String>();
+        Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
 
         supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS");
         library.setEnum(supportedLibraries);
@@ -81,8 +76,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
-    public void processOpts()
-    {
+    public void processOpts() {
         if (additionalProperties.containsKey(GENERATE_POM)) {
             generatePom = Boolean.valueOf(additionalProperties.get(GENERATE_POM).toString());
         }
@@ -113,12 +107,16 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
             writeOptional(outputFolder, new SupportingFile("RestApplication.mustache",
                     (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
         }
+
+        supportingFiles.add(new SupportingFile("openapi.mustache",
+                "src/main/openapi",
+                "openapi.yaml")
+        );
     }
 
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return "jaxrs-spec";
     }
 
@@ -162,20 +160,13 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        //copy input swagger to output folder
-        try {
-            String swaggerJson = Json.pretty(swagger);
-            FileUtils.writeStringToFile(new File(outputFolder + File.separator + "swagger.json"), swaggerJson);
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
-        super.preprocessSwagger(swagger);
-
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        generateJSONSpecFile(objs);
+        return super.postProcessSupportingFileData(objs);
     }
+
     @Override
-    public String getHelp()
-    {
+    public String getHelp() {
         return "Generates a Java JAXRS Server according to JAXRS 2.0 specification.";
     }
 }

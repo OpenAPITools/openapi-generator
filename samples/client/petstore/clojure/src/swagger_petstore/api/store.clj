@@ -6,6 +6,7 @@
   "Delete purchase order by ID
   For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors"
   [order-id ]
+  (check-required-params order-id)
   (call-api "/store/order/{orderId}" :delete
             {:path-params   {"orderId" order-id }
              :header-params {}
@@ -44,6 +45,7 @@
   "Find purchase order by ID
   For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions"
   [order-id ]
+  (check-required-params order-id)
   (call-api "/store/order/{orderId}" :get
             {:path-params   {"orderId" order-id }
              :header-params {}

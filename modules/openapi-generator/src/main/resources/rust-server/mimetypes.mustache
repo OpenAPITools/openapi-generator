@@ -15,7 +15,11 @@ pub mod requests {
     use hyper::mime::*;
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#bodyParam}}   /// Create Mime objects for the request content types for {{operationId}}
     lazy_static! {
-        pub static ref {{#vendorExtensions}}{{uppercase_operation_id}}{{/vendorExtensions}}: Mime = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}Application/Json{{/consumes}}".parse().unwrap();
+        pub static ref {{#vendorExtensions}}{{uppercase_operation_id}}{{/vendorExtensions}}: Mime = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}".parse().unwrap();
     }
-{{/bodyParam}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+{{/bodyParam}}{{^bodyParam}}{{#vendorExtensions}}{{#formParams}}{{#-first}}{{^hasFile}}   /// Create Mime objects for the request content types for {{operationId}}
+    lazy_static! {
+        pub static ref {{#vendorExtensions}}{{uppercase_operation_id}}{{/vendorExtensions}}: Mime = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/x-www-form-urlencoded{{/consumes}}".parse().unwrap();
+    }
+{{/hasFile}}{{/-first}}{{/formParams}}{{/vendorExtensions}}{{/bodyParam}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 }

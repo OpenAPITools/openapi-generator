@@ -11,7 +11,7 @@ Method | HTTP request | Description
 {{#operations}}
 {{#operation}}
 # **{{operationId}}**
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}{{#hasParams}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}){{/hasParams}}
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}{{#hasParams}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}){{/hasParams}}
 
 {{{summary}}}{{#notes}}
 
@@ -36,17 +36,23 @@ require '{{{gemName}}}'
 {{/authMethods}}end
 {{/hasAuthMethods}}
 
-api_instance = {{{moduleName}}}::{{{classname}}}.new{{#hasParams}}
-{{#vendorExtensions.x-codegen-hasRequiredParams}}{{#allParams}}{{#required}}
+api_instance = {{{moduleName}}}::{{{classname}}}.new
+{{#requiredParams}}
 {{{paramName}}} = {{{example}}} # {{{dataType}}} | {{{description}}}
-{{/required}}{{/allParams}}{{/vendorExtensions.x-codegen-hasRequiredParams}}{{#hasOptionalParams}}
-opts = { {{#allParams}}{{^required}}
-  {{{paramName}}}: {{{example}}}{{#vendorExtensions.x-codegen-hasMoreOptional}},{{/vendorExtensions.x-codegen-hasMoreOptional}} # {{{dataType}}} | {{{description}}}{{/required}}{{/allParams}}
-}{{/hasOptionalParams}}{{/hasParams}}
+{{/requiredParams}}
+{{#optionalParams}}
+{{#-first}}
+opts = {
+{{/-first}}
+  {{{paramName}}}: {{{example}}}{{^-last}},{{/-last}} # {{{dataType}}} | {{{description}}}
+{{#-last}}
+}
+{{/-last}}
+{{/optionalParams}}
 
 begin
 {{#summary}}  #{{{.}}}
-{{/summary}}  {{#returnType}}result = {{/returnType}}api_instance.{{{operationId}}}{{#hasParams}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}){{/hasParams}}{{#returnType}}
+{{/summary}}  {{#returnType}}result = {{/returnType}}api_instance.{{{operationId}}}{{#hasParams}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}){{/hasParams}}{{#returnType}}
   p result{{/returnType}}
 rescue {{{moduleName}}}::ApiError => e
   puts "Exception when calling {{classname}}->{{{operationId}}}: #{e}"

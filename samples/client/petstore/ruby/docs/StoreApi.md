@@ -23,9 +23,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 require 'petstore'
 
 api_instance = Petstore::StoreApi.new
-
 order_id = 'order_id_example' # String | ID of the order that needs to be deleted
-
 
 begin
   #Delete purchase order by ID
@@ -52,7 +50,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 
 
@@ -117,9 +115,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 require 'petstore'
 
 api_instance = Petstore::StoreApi.new
-
 order_id = 789 # Integer | ID of pet that needs to be fetched
-
 
 begin
   #Find purchase order by ID
@@ -152,11 +148,9 @@ No authorization required
 
 
 # **place_order**
-> Order place_order(body)
+> Order place_order(order)
 
 Place an order for a pet
-
-
 
 ### Example
 ```ruby
@@ -164,13 +158,11 @@ Place an order for a pet
 require 'petstore'
 
 api_instance = Petstore::StoreApi.new
-
-body = Petstore::Order.new # Order | order placed for purchasing the pet
-
+order = Petstore::Order.new # Order | order placed for purchasing the pet
 
 begin
   #Place an order for a pet
-  result = api_instance.place_order(body)
+  result = api_instance.place_order(order)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling StoreApi->place_order: #{e}"
@@ -181,7 +173,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
@@ -193,7 +185,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/xml, application/json
 
 

@@ -1,11 +1,13 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.*;
+import org.openapitools.codegen.mustache.*;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.parameters.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -129,7 +131,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         for (CodegenOperation op : operationList) {
             // force http method to lower case
             op.httpMethod = op.httpMethod.toLowerCase();
- 
+
             String[] items = op.path.split("/", -1);
             String scalaPath = "";
             int pathParamIndex = 0;
@@ -142,7 +144,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
                     scalaPath = scalaPath + items[i];
                 }
 
-                if (i != items.length -1) {
+                if (i != items.length - 1) {
                     scalaPath = scalaPath + "/";
                 }
             }

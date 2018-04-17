@@ -3,10 +3,12 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.openapitools.codegen.*;
-import io.swagger.models.properties.*;
-import io.swagger.models.Info;
-import io.swagger.models.Model;
-import io.swagger.models.Swagger;
+import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.*;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -125,7 +127,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                         "Tuple",
                         "PID",
                         "DateTime"
-                        )
+                )
         );
 
         // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
@@ -209,15 +211,15 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-         Info info = swagger.getInfo();
-         if (moduleName == null) {
-             if (info.getTitle() != null) {
-                 // default to the appName (from title field)
-                 setModuleName(modulized(escapeText(info.getTitle())));
-             } else {
-                 setModuleName(defaultModuleName);
-             }
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        Info info = openAPI.getInfo();
+        if (moduleName == null) {
+            if (info.getTitle() != null) {
+                // default to the appName (from title field)
+                setModuleName(modulized(escapeText(info.getTitle())));
+            } else {
+                setModuleName(defaultModuleName);
+            }
         }
         additionalProperties.put("moduleName", moduleName);
 
@@ -226,17 +228,17 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         supportingFiles.add(new SupportingFile("connection.ex.mustache",
-            sourceFolder(),
-            "connection.ex"));
+                sourceFolder(),
+                "connection.ex"));
 
         supportingFiles.add(new SupportingFile("request_builder.ex.mustache",
-            sourceFolder(),
-            "request_builder.ex"));
+                sourceFolder(),
+                "request_builder.ex"));
 
 
         supportingFiles.add(new SupportingFile("deserializer.ex.mustache",
-            sourceFolder(),
-            "deserializer.ex"));
+                sourceFolder(),
+                "deserializer.ex"));
     }
 
     @Override
@@ -279,7 +281,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
         CodegenModel cm = super.fromModel(name, model, allDefinitions);
         return new ExtendedCodegenModel(cm);
     }
@@ -416,99 +418,64 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
      */
     @Override
-    public String getTypeDeclaration(Property p) {
-        // SubClasses of AbstractProperty
-        //
-        // ArrayProperty
-        // MapProperty
-        // PasswordProperty
-        // StringProperty
-        //     EmailProperty
-        //     ByteArrayProperty
-        // DateProperty
-        // UUIDProperty
-        // DateTimeProperty
-        // ObjectProperty
-        // AbstractNumericProperty
-        //     BaseIntegerProperty
-        //         IntegerProperty
-        //         LongProperty
-        //     DecimalProperty
-        //         DoubleProperty
-        //         FloatProperty
-        // BinaryProperty
-        // BooleanProperty
-        // RefProperty
-        // FileProperty
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
             return "%{optional(String.t) => " + getTypeDeclaration(inner) + "}";
-        } else if (p instanceof PasswordProperty) {
+        } else if (ModelUtils.isPasswordSchema(p)) {
             return "String.t";
-        } else if (p instanceof EmailProperty) {
+        } else if (ModelUtils.isEmailSchema(p)) {
             return "String.t";
-        } else if (p instanceof ByteArrayProperty) {
+        } else if (ModelUtils.isByteArraySchema(p)) {
             return "binary()";
-        } else if (p instanceof StringProperty) {
+        } else if (ModelUtils.isUUIDSchema(p)) {
             return "String.t";
-        } else if (p instanceof DateProperty) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return "Date.t";
-        } else if (p instanceof UUIDProperty) {
-            return "String.t";
-        } else if (p instanceof DateTimeProperty) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return "DateTime.t";
-        } else if (p instanceof ObjectProperty) {
+        } else if (ModelUtils.isObjectSchema(p)) {
             // How to map it?
             return super.getTypeDeclaration(p);
-        } else if (p instanceof IntegerProperty) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             return "integer()";
-        } else if (p instanceof LongProperty) {
-            return "integer()";
-        } else if (p instanceof BaseIntegerProperty) {
-            return "integer()";
-        } else if (p instanceof DoubleProperty) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             return "float()";
-        } else if (p instanceof FloatProperty) {
-            return "float()";
-        } else if (p instanceof DecimalProperty) {
-            return "float()";
-        } else if (p instanceof AbstractNumericProperty) {
-            return "number()";
-        } else if (p instanceof BinaryProperty) {
+        } else if (ModelUtils.isBinarySchema(p)) {
             return "binary()";
-        } else if (p instanceof BooleanProperty) {
+        } else if (ModelUtils.isBooleanSchema(p)) {
             return "boolean()";
-        } else if (p instanceof RefProperty) {
+        } else if (!StringUtils.isEmpty(p.get$ref())) { // model
             // How to map it?
             return super.getTypeDeclaration(p);
-        } else if (p instanceof FileProperty) {
+        } else if (ModelUtils.isFileSchema(p)) {
+            return "String.t";
+        } else if (ModelUtils.isStringSchema(p)) {
             return "String.t";
         }
         return super.getTypeDeclaration(p);
     }
 
     /**
-     * Optional - swagger type conversion.  This is used to map swagger types in a `Property` into
+     * Optional - swagger type conversion.  This is used to map swagger types in a `Schema` into
      * either language specific types via `typeMapping` or into complex models if there is not a mapping.
      *
      * @return a string value of the type or complex model for this property
-     * @see io.swagger.models.properties.Property
      */
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
                 return toModelName(type);
         } else
-            type = swaggerType;
+            type = openAPIType;
         return toModelName(type);
     }
 
@@ -662,8 +629,11 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 sb.append(".t");
             }
         }
+
         private void buildTypespec(CodegenProperty property, StringBuilder sb) {
-            if (property.isListContainer) {
+            if (property == null) {
+                LOGGER.warn("CodegenProperty cannot be null");
+            } else if (property.isListContainer) {
                 sb.append("list(");
                 buildTypespec(property.items, sb);
                 sb.append(")");
@@ -709,6 +679,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
     class ExtendedCodegenModel extends CodegenModel {
         public boolean hasImports;
+
         public ExtendedCodegenModel(CodegenModel cm) {
             super();
 
@@ -755,7 +726,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isArrayModel = cm.isArrayModel;
             this.hasChildren = cm.hasChildren;
             this.hasOnlyReadOnly = cm.hasOnlyReadOnly;
-            this.externalDocs = cm.externalDocs;
+            this.externalDocumentation = cm.externalDocumentation;
             this.vendorExtensions = cm.vendorExtensions;
             this.additionalPropertiesType = cm.additionalPropertiesType;
 

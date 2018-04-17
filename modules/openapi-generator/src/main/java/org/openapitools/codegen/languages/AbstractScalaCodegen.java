@@ -11,17 +11,11 @@ import com.samskivert.mustache.Mustache;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultCodegen;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
+import org.openapitools.codegen.utils.ModelUtils;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+
 import org.apache.commons.lang3.StringUtils;
 
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
@@ -133,13 +127,14 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     @Override
     public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
         Mustache.Escaper SCALA = new Mustache.Escaper() {
-            @Override public String escape (String text) {
+            @Override
+            public String escape(String text) {
                 // Fix included as suggested by akkie in #6393
                 // The given text is a reserved word which is escaped by enclosing it with grave accents. If we would
                 // escape that with the default Mustache `HTML` escaper, then the escaper would also escape our grave
                 // accents. So we remove the grave accents before the escaping and add it back after the escaping.
                 if (text.startsWith("`") && text.endsWith("`")) {
-                    String unescaped =  text.substring(1, text.length() - 1);
+                    String unescaped = text.substring(1, text.length() - 1);
                     return "`" + Escapers.HTML.escape(unescaped) + "`";
                 }
 
@@ -162,23 +157,22 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
 
-            return getSwaggerType(p) + "[String, " + getTypeDeclaration(inner) + "]";
+            return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String swaggerType = super.getSchemaType(p);
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
@@ -192,14 +186,13 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     }
 
     @Override
-    public String toInstantiationType(Property p) {
-        if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
+    public String toInstantiationType(Schema p) {
+        if (ModelUtils.isMapSchema(p)) {
+            String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return instantiationTypes.get("map") + "[String, " + inner + "]";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
+        } else if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            String inner = getSchemaType(ap.getItems());
             return instantiationTypes.get("array") + "[" + inner + "]";
         } else {
             return null;
@@ -207,31 +200,26 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
             return "null";
-        } else if (p instanceof BooleanProperty) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return "null";
-        } else if (p instanceof DateProperty) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return "null";
-        } else if (p instanceof DateTimeProperty) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             return "null";
-        } else if (p instanceof DoubleProperty) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             return "null";
-        } else if (p instanceof FloatProperty) {
-            return "null";
-        } else if (p instanceof IntegerProperty) {
-            return "null";
-        } else if (p instanceof LongProperty) {
-            return "null";
-        } else if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
+        } else if (ModelUtils.isMapSchema(p)) {
+            String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return "new HashMap[String, " + inner + "]() ";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
+        } else if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            String inner = getSchemaType(ap.getItems());
             return "new ListBuffer[" + inner + "]() ";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "null";
         } else {
             return "null";
         }

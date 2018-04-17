@@ -56,7 +56,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -154,11 +154,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **place_order**
-> Order place_order(body => $body)
+> Order place_order(order => $order)
 
 Place an order for a pet
-
-
 
 ### Example 
 ```perl
@@ -167,10 +165,10 @@ use WWW::SwaggerClient::StoreApi;
 my $api_instance = WWW::SwaggerClient::StoreApi->new(
 );
 
-my $body = WWW::SwaggerClient::Object::Order->new(); # Order | order placed for purchasing the pet
+my $order = WWW::SwaggerClient::Object::Order->new(); # Order | order placed for purchasing the pet
 
 eval { 
-    my $result = $api_instance->place_order(body => $body);
+    my $result = $api_instance->place_order(order => $order);
     print Dumper($result);
 };
 if ($@) {
@@ -182,7 +180,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
@@ -194,7 +192,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: */*
  - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

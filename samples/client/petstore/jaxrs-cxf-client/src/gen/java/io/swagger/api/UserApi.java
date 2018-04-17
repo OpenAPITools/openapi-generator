@@ -1,6 +1,5 @@
 package io.swagger.api;
 
-import java.util.List;
 import io.swagger.model.User;
 
 import java.io.InputStream;
@@ -17,8 +16,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.jaxrs.PATCH;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
 
 /**
  * Swagger Petstore
@@ -39,10 +36,10 @@ public interface UserApi  {
     @POST
     @Path("/user")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Create user", tags={ "user",  })
+    @ApiOperation(value = "Create user", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUser(@Valid User body);
+    public void createUser(User body);
 
     /**
      * Creates list of users with given input array
@@ -53,10 +50,10 @@ public interface UserApi  {
     @POST
     @Path("/user/createWithArray")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Creates list of users with given input array", tags={ "user",  })
+    @ApiOperation(value = "Creates list of users with given input array", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUsersWithArrayInput(@Valid List<User> body);
+    public void createUsersWithArrayInput(List<User> body);
 
     /**
      * Creates list of users with given input array
@@ -67,10 +64,10 @@ public interface UserApi  {
     @POST
     @Path("/user/createWithList")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Creates list of users with given input array", tags={ "user",  })
+    @ApiOperation(value = "Creates list of users with given input array", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUsersWithListInput(@Valid List<User> body);
+    public void createUsersWithListInput(List<User> body);
 
     /**
      * Delete user
@@ -81,7 +78,7 @@ public interface UserApi  {
     @DELETE
     @Path("/user/{username}")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Delete user", tags={ "user",  })
+    @ApiOperation(value = "Delete user", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found") })
@@ -96,7 +93,7 @@ public interface UserApi  {
     @GET
     @Path("/user/{username}")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Get user by user name", tags={ "user",  })
+    @ApiOperation(value = "Get user by user name", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 400, message = "Invalid username supplied"),
@@ -112,11 +109,11 @@ public interface UserApi  {
     @GET
     @Path("/user/login")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Logs user into the system", tags={ "user",  })
+    @ApiOperation(value = "Logs user into the system", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied") })
-    public String loginUser(@QueryParam("username") @NotNull String username, @QueryParam("password") @NotNull String password);
+    public String loginUser(@QueryParam("username")String username, @QueryParam("password")String password);
 
     /**
      * Logs out current logged in user session
@@ -127,7 +124,7 @@ public interface UserApi  {
     @GET
     @Path("/user/logout")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Logs out current logged in user session", tags={ "user",  })
+    @ApiOperation(value = "Logs out current logged in user session", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     public void logoutUser();
@@ -141,10 +138,10 @@ public interface UserApi  {
     @PUT
     @Path("/user/{username}")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Updated user", tags={ "user" })
+    @ApiOperation(value = "Updated user", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied"),
         @ApiResponse(code = 404, message = "User not found") })
-    public void updateUser(@PathParam("username") String username, @Valid User body);
+    public void updateUser(@PathParam("username") String username, User body);
 }
 

@@ -9,7 +9,11 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.properties.*;
+import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -44,7 +48,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     protected String docsBasePath = "docs";
     protected String apiDirName = "Api";
     protected String modelDirName = "Model";
-    protected String variableNamingConvention= "snake_case";
+    protected String variableNamingConvention = "snake_case";
     protected String apiDocPath = docsBasePath + File.separator + apiDirName;
     protected String modelDocPath = docsBasePath + File.separator + modelDirName;
 
@@ -62,12 +66,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                    // local variables used in api methods (endpoints)
-                    "resourcePath", "httpBody", "queryParams", "headerParams",
-                    "formParams", "_header_accept", "_tempBody",
+                        // local variables used in api methods (endpoints)
+                        "resourcePath", "httpBody", "queryParams", "headerParams",
+                        "formParams", "_header_accept", "_tempBody",
 
-                    // PHP reserved words
-                    "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
+                        // PHP reserved words
+                        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
         );
 
         // ref: http://php.net/manual/en/language.types.intro.php
@@ -248,12 +252,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                 // Trim prefix file separators from package path
                 .replaceAll(regFirstPathSeparator, ""))
                 // Trim trailing file separators from the overall path
-                .replaceAll(regLastPathSeparator+ "$", "");
+                .replaceAll(regLastPathSeparator + "$", "");
     }
 
-   @Override
-    public String escapeReservedWord(String name) {           
-        if(this.reservedWordsMappings().containsKey(name)) {
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -300,16 +304,15 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "[]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "[string," + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof RefProperty) {
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
+            return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
+        } else if (!StringUtils.isEmpty(p.get$ref())) { // model
             String type = super.getTypeDeclaration(p);
             return (!languageSpecificPrimitives.contains(type))
                     ? "\\" + modelPackage + "\\" + type : type;
@@ -326,23 +329,27 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             } else if (instantiationTypes.containsKey(type)) {
                 return type;
             }
         } else {
-            type = swaggerType;
+            type = openAPIType;
         }
         if (type == null) {
             return null;
         }
         return toModelName(type);
+    }
+
+    public String getInvokerPackage() {
+        return invokerPackage;
     }
 
     public void setInvokerPackage(String invokerPackage) {
@@ -379,13 +386,13 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if ("camelCase".equals(variableNamingConvention)) {
-          // return the name in camelCase style
-          // phone_number => phoneNumber
-          name =  camelize(name, true);
+            // return the name in camelCase style
+            // phone_number => phoneNumber
+            name = camelize(name, true);
         } else { // default to snake case
-          // return the name in underscore style
-          // PhoneNumber => phone_number
-          name =  underscore(name);
+            // return the name in underscore style
+            // PhoneNumber => phone_number
+            name = underscore(name);
         }
 
         // parameter name starting with number won't compile
@@ -471,40 +478,26 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
      * @return string presentation of the default value of the property
      */
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty dp = (StringProperty) p;
-            if (dp.getDefault() != null) {
-                return "'" + dp.getDefault() + "'";
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty dp = (BooleanProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof DateProperty) {
+        } else if (ModelUtils.isDateSchema(p)) {
             // TODO
-        } else if (p instanceof DateTimeProperty) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + p.getDefault() + "'";
             }
         }
 

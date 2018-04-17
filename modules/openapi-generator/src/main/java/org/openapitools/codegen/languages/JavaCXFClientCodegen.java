@@ -1,4 +1,3 @@
-
 package org.openapitools.codegen.languages;
 
 import java.io.File;
@@ -8,22 +7,17 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
 import org.openapitools.codegen.languages.features.LoggingTestFeatures;
 import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
-import io.swagger.models.Operation;
+import io.swagger.v3.oas.models.*;
 
 public class JavaCXFClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, UseGenericResponseFeatures, GzipTestFeatures, LoggingTestFeatures {
 
-private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodegen.class);
 
     /**
      * Name of the sub-directory in "src/main/resource" where to find the
@@ -32,15 +26,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodege
     protected static final String JAXRS_TEMPLATE_DIRECTORY_NAME = "JavaJaxRS";
 
     protected boolean useBeanValidation = false;
-    
+
     protected boolean useGenericResponse = false;
 
     protected boolean useGzipFeatureForTests = false;
 
     protected boolean useLoggingFeatureForTests = false;
 
-    public JavaCXFClientCodegen()
-    {
+    public JavaCXFClientCodegen() {
         super();
 
         supportsInheritance = true;
@@ -78,15 +71,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodege
 
 
     @Override
-    public void processOpts()
-    {
+    public void processOpts() {
         super.processOpts();
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             boolean useBeanValidationProp = convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION);
             this.setUseBeanValidation(useBeanValidationProp);
         }
-        
+
         if (additionalProperties.containsKey(USE_GENERIC_RESPONSE)) {
             this.setUseGenericResponse(convertPropertyToBoolean(USE_GENERIC_RESPONSE));
         }
@@ -106,15 +98,13 @@ private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodege
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return "jaxrs-cxf-client";
     }
 
 
     @Override
-    public CodegenType getTag()
-    {
+    public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
@@ -134,30 +124,13 @@ private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodege
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         objs = super.postProcessOperations(objs);
-
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-            for (CodegenOperation operation : ops) {
-
-                if (operation.returnType == null) {
-                    operation.returnType = "void";
-                    // set vendorExtensions.x-java-is-response-void to true as
-                    // returnType is set to "void"
-                    operation.vendorExtensions.put("x-java-is-response-void", true);
-                }
-            }
-        }
-
-        return operations;
+        return AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
     }
 
     @Override
-    public String getHelp()
-    {
+    public String getHelp() {
         return "Generates a Java JAXRS Client based on Apache CXF framework.";
     }
 

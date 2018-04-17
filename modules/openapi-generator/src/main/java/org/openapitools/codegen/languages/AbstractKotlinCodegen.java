@@ -4,9 +4,12 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultCodegen;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
+import org.openapitools.codegen.utils.ModelUtils;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -181,22 +184,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
     }
 
-    protected void addOption(String key, String description) {
-        addOption(key, description, null);
-    }
-
-    protected void addOption(String key, String description, String defaultValue) {
-        CliOption option = new CliOption(key, description);
-        if (defaultValue != null) option.defaultValue(defaultValue);
-        cliOptions.add(option);
-    }
-
-    protected void addSwitch(String key, String description, Boolean defaultValue) {
-        CliOption option = CliOption.newBoolean(key, description);
-        if (defaultValue != null) option.defaultValue(defaultValue.toString());
-        cliOptions.add(option);
-    }
-
     @Override
     public String apiDocFileFolder() {
         return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
@@ -252,17 +239,17 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      * @return string presentation of the type
      **/
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
         String type;
         // This maps, for example, long -> kotlin.Long based on hashes in this type's constructor
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
                 return toModelName(type);
             }
         } else {
-            type = swaggerType;
+            type = openAPIType;
         }
         return toModelName(type);
     }
@@ -274,15 +261,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      * @return a string presentation of the property type
      */
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            return getArrayTypeDeclaration((ArrayProperty) p);
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            return getArrayTypeDeclaration((ArraySchema) p);
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
 
             // Maps will be keyed only by primitive Kotlin string
-            return getSwaggerType(p) + "<kotlin.String, " + getTypeDeclaration(inner) + ">";
+            return getSchemaType(p) + "<kotlin.String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }
@@ -423,9 +409,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public String toInstantiationType(Property p) {
-        if (p instanceof ArrayProperty) {
-            return getArrayTypeDeclaration((ArrayProperty) p);
+    public String toInstantiationType(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            return getArrayTypeDeclaration((ArraySchema) p);
         }
         return super.toInstantiationType(p);
     }
@@ -479,15 +465,15 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     /**
      * Provides a strongly typed declaration for simple arrays of some type and arrays of arrays of some type.
      *
-     * @param arr
-     * @return
+     * @param arr Array schema
+     * @return type declaration of array
      */
-    private String getArrayTypeDeclaration(ArrayProperty arr) {
+    private String getArrayTypeDeclaration(ArraySchema arr) {
         // TODO: collection type here should be fully qualified namespace to avoid model conflicts
         // This supports arrays of arrays.
         String arrayType = typeMapping.get("array");
         StringBuilder instantiationType = new StringBuilder(arrayType);
-        Property items = arr.getItems();
+        Schema items = arr.getItems();
         String nestedType = getTypeDeclaration(items);
         // TODO: We may want to differentiate here between generics and primitive arrays.
         instantiationType.append("<").append(nestedType).append(">");

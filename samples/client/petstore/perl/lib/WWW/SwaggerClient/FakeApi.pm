@@ -53,11 +53,11 @@ sub new {
 #
 # 
 # 
-# @param OuterBoolean $body Input boolean as post body (optional)
+# @param boolean $boolean_post_body Input boolean as post body (optional)
 {
     my $params = {
-    'body' => {
-        data_type => 'OuterBoolean',
+    'boolean_post_body' => {
+        data_type => 'boolean',
         description => 'Input boolean as post body',
         required => '0',
     },
@@ -82,16 +82,16 @@ sub fake_outer_boolean_serialize {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept();
+    my $_header_accept = $self->{api_client}->select_header_accept('*/*');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('*/*');
 
     my $_body_data;
     # body params
-    if ( exists $args{'body'}) {
-        $_body_data = $args{'body'};
+    if ( exists $args{'boolean_post_body'}) {
+        $_body_data = $args{'boolean_post_body'};
     }
 
     # authentication setting, if any
@@ -113,10 +113,10 @@ sub fake_outer_boolean_serialize {
 #
 # 
 # 
-# @param OuterComposite $body Input composite as post body (optional)
+# @param OuterComposite $outer_composite Input composite as post body (optional)
 {
     my $params = {
-    'body' => {
+    'outer_composite' => {
         data_type => 'OuterComposite',
         description => 'Input composite as post body',
         required => '0',
@@ -142,16 +142,16 @@ sub fake_outer_composite_serialize {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept();
+    my $_header_accept = $self->{api_client}->select_header_accept('*/*');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('*/*');
 
     my $_body_data;
     # body params
-    if ( exists $args{'body'}) {
-        $_body_data = $args{'body'};
+    if ( exists $args{'outer_composite'}) {
+        $_body_data = $args{'outer_composite'};
     }
 
     # authentication setting, if any
@@ -173,11 +173,11 @@ sub fake_outer_composite_serialize {
 #
 # 
 # 
-# @param OuterNumber $body Input number as post body (optional)
+# @param Number $body Input number as post body (optional)
 {
     my $params = {
     'body' => {
-        data_type => 'OuterNumber',
+        data_type => 'Number',
         description => 'Input number as post body',
         required => '0',
     },
@@ -202,11 +202,11 @@ sub fake_outer_number_serialize {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept();
+    my $_header_accept = $self->{api_client}->select_header_accept('*/*');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('*/*');
 
     my $_body_data;
     # body params
@@ -233,11 +233,11 @@ sub fake_outer_number_serialize {
 #
 # 
 # 
-# @param OuterString $body Input string as post body (optional)
+# @param string $body Input string as post body (optional)
 {
     my $params = {
     'body' => {
-        data_type => 'OuterString',
+        data_type => 'string',
         description => 'Input string as post body',
         required => '0',
     },
@@ -262,11 +262,11 @@ sub fake_outer_string_serialize {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept();
+    my $_header_accept = $self->{api_client}->select_header_accept('*/*');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('*/*');
 
     my $_body_data;
     # body params
@@ -289,14 +289,91 @@ sub fake_outer_string_serialize {
 }
 
 #
+# test_body_with_query_params
+#
+# 
+# 
+# @param string $query  (required)
+# @param User $user  (required)
+{
+    my $params = {
+    'query' => {
+        data_type => 'string',
+        description => '',
+        required => '1',
+    },
+    'user' => {
+        data_type => 'User',
+        description => '',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_body_with_query_params' } = { 
+    	summary => '',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_body_with_query_params {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'query' is set
+    unless (exists $args{'query'}) {
+      croak("Missing the required parameter 'query' when calling test_body_with_query_params");
+    }
+
+    # verify the required parameter 'user' is set
+    unless (exists $args{'user'}) {
+      croak("Missing the required parameter 'user' when calling test_body_with_query_params");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/body-with-query-params';
+
+    my $_method = 'PUT';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+
+    # query params
+    if ( exists $args{'query'}) {
+        $query_params->{'query'} = $self->{api_client}->to_query_value($args{'query'});
+    }
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'user'}) {
+        $_body_data = $args{'user'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
+#
 # test_client_model
 #
 # To test \"client\" model
 # 
-# @param Client $body client model (required)
+# @param Client $client client model (required)
 {
     my $params = {
-    'body' => {
+    'client' => {
         data_type => 'Client',
         description => 'client model',
         required => '1',
@@ -313,9 +390,9 @@ sub fake_outer_string_serialize {
 sub test_client_model {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling test_client_model");
+    # verify the required parameter 'client' is set
+    unless (exists $args{'client'}) {
+      croak("Missing the required parameter 'client' when calling test_client_model");
     }
 
     # parse inputs
@@ -335,8 +412,8 @@ sub test_client_model {
 
     my $_body_data;
     # body params
-    if ( exists $args{'body'}) {
-        $_body_data = $args{'body'};
+    if ( exists $args{'client'}) {
+        $_body_data = $args{'client'};
     }
 
     # authentication setting, if any
@@ -367,7 +444,7 @@ sub test_client_model {
 # @param int $int64 None (optional)
 # @param double $float None (optional)
 # @param string $string None (optional)
-# @param string $binary None (optional)
+# @param File $binary None (optional)
 # @param DateTime $date None (optional)
 # @param DateTime $date_time None (optional)
 # @param string $password None (optional)
@@ -420,7 +497,7 @@ sub test_client_model {
         required => '0',
     },
     'binary' => {
-        data_type => 'string',
+        data_type => 'File',
         description => 'None',
         required => '0',
     },
@@ -485,11 +562,11 @@ sub test_endpoint_parameters {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml; charset=utf-8', 'application/json; charset=utf-8');
+    my $_header_accept = $self->{api_client}->select_header_accept();
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/xml; charset=utf-8', 'application/json; charset=utf-8');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/x-www-form-urlencoded');
 
     # form params
     if ( exists $args{'integer'} ) {
@@ -538,8 +615,9 @@ sub test_endpoint_parameters {
     
     # form params
     if ( exists $args{'binary'} ) {
-                $form_params->{'binary'} = $self->{api_client}->to_form_value($args{'binary'});
-    }
+        $form_params->{'binary'} = [] unless defined $form_params->{'binary'};
+        push @{$form_params->{'binary'}}, $args{'binary'};
+            }
     
     # form params
     if ( exists $args{'date'} ) {
@@ -577,26 +655,16 @@ sub test_endpoint_parameters {
 #
 # To test enum parameters
 # 
-# @param ARRAY[string] $enum_form_string_array Form parameter enum test (string array) (optional)
-# @param string $enum_form_string Form parameter enum test (string) (optional, default to -efg)
 # @param ARRAY[string] $enum_header_string_array Header parameter enum test (string array) (optional)
-# @param string $enum_header_string Header parameter enum test (string) (optional, default to -efg)
+# @param string $enum_header_string Header parameter enum test (string) (optional)
 # @param ARRAY[string] $enum_query_string_array Query parameter enum test (string array) (optional)
-# @param string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
+# @param string $enum_query_string Query parameter enum test (string) (optional)
 # @param int $enum_query_integer Query parameter enum test (double) (optional)
 # @param double $enum_query_double Query parameter enum test (double) (optional)
+# @param ARRAY[string] $enum_form_string_array Form parameter enum test (string array) (optional)
+# @param string $enum_form_string Form parameter enum test (string) (optional)
 {
     my $params = {
-    'enum_form_string_array' => {
-        data_type => 'ARRAY[string]',
-        description => 'Form parameter enum test (string array)',
-        required => '0',
-    },
-    'enum_form_string' => {
-        data_type => 'string',
-        description => 'Form parameter enum test (string)',
-        required => '0',
-    },
     'enum_header_string_array' => {
         data_type => 'ARRAY[string]',
         description => 'Header parameter enum test (string array)',
@@ -627,6 +695,16 @@ sub test_endpoint_parameters {
         description => 'Query parameter enum test (double)',
         required => '0',
     },
+    'enum_form_string_array' => {
+        data_type => 'ARRAY[string]',
+        description => 'Form parameter enum test (string array)',
+        required => '0',
+    },
+    'enum_form_string' => {
+        data_type => 'string',
+        description => 'Form parameter enum test (string)',
+        required => '0',
+    },
     };
     __PACKAGE__->method_documentation->{ 'test_enum_parameters' } = { 
     	summary => 'To test enum parameters',
@@ -648,11 +726,11 @@ sub test_enum_parameters {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('*/*');
+    my $_header_accept = $self->{api_client}->select_header_accept();
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('*/*');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/x-www-form-urlencoded');
 
     # query params
     if ( exists $args{'enum_query_string_array'}) {
@@ -667,6 +745,11 @@ sub test_enum_parameters {
     # query params
     if ( exists $args{'enum_query_integer'}) {
         $query_params->{'enum_query_integer'} = $self->{api_client}->to_query_value($args{'enum_query_integer'});
+    }
+
+    # query params
+    if ( exists $args{'enum_query_double'}) {
+        $query_params->{'enum_query_double'} = $self->{api_client}->to_query_value($args{'enum_query_double'});
     }
 
     # header params
@@ -689,12 +772,68 @@ sub test_enum_parameters {
                 $form_params->{'enum_form_string'} = $self->{api_client}->to_form_value($args{'enum_form_string'});
     }
     
-    # form params
-    if ( exists $args{'enum_query_double'} ) {
-                $form_params->{'enum_query_double'} = $self->{api_client}->to_form_value($args{'enum_query_double'});
-    }
-    
     my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
+#
+# test_inline_additional_properties
+#
+# test inline additionalProperties
+# 
+# @param HASH[string,string] $body request body (required)
+{
+    my $params = {
+    'body' => {
+        data_type => 'HASH[string,string]',
+        description => 'request body',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_inline_additional_properties' } = { 
+    	summary => 'test inline additionalProperties',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_inline_additional_properties {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling test_inline_additional_properties");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/inline-additionalProperties';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
+    }
+
     # authentication setting, if any
     my $auth_settings = [qw()];
 
@@ -759,7 +898,7 @@ sub test_json_form_data {
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/x-www-form-urlencoded');
 
     # form params
     if ( exists $args{'param'} ) {

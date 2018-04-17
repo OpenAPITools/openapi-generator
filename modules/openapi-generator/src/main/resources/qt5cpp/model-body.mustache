@@ -220,7 +220,24 @@ bool
     bool isObjectUpdated = false;
     do{
     {{#vars}}
-        {{#isPrimitiveType}}if(m_{{name}}_isSet){ isObjectUpdated = true; break;}{{/isPrimitiveType}}{{#isContainer}}if({{name}}->size() > 0){ isObjectUpdated = true; break;}{{/isContainer}}{{^isContainer}}{{#complexType}}{{^isString}}{{^isDateTime}}if({{name}} != nullptr && {{name}}->isSet()){ isObjectUpdated = true; break;}{{/isDateTime}}{{/isString}}{{#isString}}if({{name}} != nullptr && *{{name}} != QString("")){ isObjectUpdated = true; break;}{{/isString}}{{/complexType}}{{/isContainer}}
+        {{#isPrimitiveType}}
+        if(m_{{name}}_isSet){ isObjectUpdated = true; break;}
+        {{/isPrimitiveType}}
+        {{#isContainer}}
+        if({{name}}->size() > 0){ isObjectUpdated = true; break;}
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#complexType}}
+        {{^isString}}
+        {{^isDateTime}}
+        if({{name}} != nullptr && {{name}}->isSet()){ isObjectUpdated = true; break;}
+        {{/isDateTime}}
+        {{/isString}}
+        {{#isString}}
+        if({{name}} != nullptr && *{{name}} != QString("")){ isObjectUpdated = true; break;}
+        {{/isString}}
+        {{/complexType}}
+        {{/isContainer}}
     {{/vars}}
     }while(false);
     return isObjectUpdated;

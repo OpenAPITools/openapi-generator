@@ -8,9 +8,11 @@ extern crate swagger;
 #[allow(unused_extern_crates)]
 extern crate uuid;
 extern crate clap;
+extern crate tokio_core;
 
 #[allow(unused_imports)]
 use futures::{Future, future, Stream, stream};
+use tokio_core::reactor;
 #[allow(unused_imports)]
 use {{externCrateName}}::{ApiNoContext, ContextWrapperExt,
                       ApiError{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
@@ -42,18 +44,19 @@ fn main() {
             .help("Port to contact"))
         .get_matches();
 
+    let mut core = reactor::Core::new().unwrap();
     let is_https = matches.is_present("https");
     let base_url = format!("{}://{}:{}",
                            if is_https { "https" } else { "http" },
                            matches.value_of("host").unwrap(),
                            matches.value_of("port").unwrap());
-    let client = if is_https {
+    let client = if matches.is_present("https") {
         // Using Simple HTTPS
-        {{externCrateName}}::Client::try_new_https(&base_url, "examples/ca.pem")
+        {{externCrateName}}::Client::try_new_https(core.handle(), &base_url, "examples/ca.pem")
             .expect("Failed to create HTTPS client")
     } else {
         // Using HTTP
-        {{externCrateName}}::Client::try_new_http(&base_url)
+        {{externCrateName}}::Client::try_new_http(core.handle(), &base_url)
             .expect("Failed to create HTTP client")
     };
 
@@ -64,7 +67,7 @@ fn main() {
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
         {{#vendorExtensions}}{{#noClientExample}}// Disabled because there's no example.
         // {{/noClientExample}}Some("{{operationId}}") => {
-        {{#noClientExample}}// {{/noClientExample}}    let result = client.{{operation_id}}{{/vendorExtensions}}({{#allParams}}{{^-first}}, {{/-first}}{{#vendorExtensions}}{{{example}}}{{/vendorExtensions}}{{/allParams}}).wait();
+        {{#noClientExample}}// {{/noClientExample}}    let result = core.run(client.{{operation_id}}{{/vendorExtensions}}({{#allParams}}{{^-first}}, {{/-first}}{{#vendorExtensions}}{{{example}}}{{/vendorExtensions}}{{/allParams}}));
         {{#vendorExtensions}}{{#noClientExample}}// {{/noClientExample}}{{/vendorExtensions}}    println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
         {{#vendorExtensions}}{{#noClientExample}}// {{/noClientExample}}{{/vendorExtensions}} },
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}

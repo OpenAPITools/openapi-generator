@@ -42,7 +42,7 @@ public class MainApiVerticle extends AbstractVerticle {
     public void start(Future<Void> startFuture) throws Exception {
         Json.mapper.registerModule(new JavaTimeModule());
         FileSystem vertxFileSystem = vertx.fileSystem();
-        vertxFileSystem.readFile("swagger.json", readFile -> {
+        vertxFileSystem.readFile("openapi.json", readFile -> {
             if (readFile.succeeded()) {
                 Swagger swagger = new SwaggerParser().parse(readFile.result().toString(Charset.forName("utf-8")));
                 Router swaggerRouter = SwaggerRouter.swaggerRouter(router, swagger, vertx.eventBus(), new OperationIdServiceIdResolver());

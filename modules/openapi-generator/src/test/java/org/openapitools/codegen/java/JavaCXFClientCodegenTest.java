@@ -1,0 +1,108 @@
+package org.openapitools.codegen.java;
+
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.responses.ApiResponses;
+
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.languages.JavaCXFClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+public class JavaCXFClientCodegenTest {
+
+    @Test
+    public void responseWithoutContent() throws Exception {
+        final Schema listOfPets = new ArraySchema().items(new Schema<>().$ref("#/components/schemas/Pet"));
+        Operation operation = new Operation()
+                .responses(new ApiResponses()
+                        .addApiResponse("200",
+                                new ApiResponse().description("Return a list of pets")
+                                        .content(new Content().addMediaType("application/json",
+                                                new MediaType().schema(listOfPets))))
+                        .addApiResponse("400", new ApiResponse().description("Error")));
+        final Map<String, Schema> allDefinitions = Collections.<String, Schema>singletonMap("Pet", new ObjectSchema());
+
+        final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+        final CodegenOperation co = codegen.fromOperation("getAllPets", "GET", operation, allDefinitions);
+
+        Map<String, Object> objs = new HashMap<>();
+        objs.put("operations", Collections.singletonMap("operation", Collections.singletonList(co)));
+        objs.put("imports", Collections.emptyList());
+        codegen.postProcessOperations(objs);
+
+        Assert.assertEquals(co.responses.size(), 2);
+        CodegenResponse cr1 = co.responses.get(0);
+        Assert.assertEquals(cr1.code, "200");
+        Assert.assertEquals(cr1.baseType, "Pet");
+        Assert.assertEquals(cr1.dataType, "List<Pet>");
+        Assert.assertFalse(cr1.vendorExtensions.containsKey("x-java-is-response-void"));
+
+        CodegenResponse cr2 = co.responses.get(1);
+        Assert.assertEquals(cr2.code, "400");
+        Assert.assertEquals(cr2.baseType, "Void");
+        Assert.assertEquals(cr2.dataType, "void");
+        Assert.assertEquals(cr2.vendorExtensions.get("x-java-is-response-void"), Boolean.TRUE);
+    }
+
+    @Test
+    public void testInitialConfigValues() throws Exception {
+        final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+
+        Assert.assertEquals(codegen.modelPackage(), "io.swagger.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "io.swagger.model");
+        Assert.assertEquals(codegen.apiPackage(), "io.swagger.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "io.swagger.api");
+        Assert.assertEquals(codegen.getInvokerPackage(), "io.swagger.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "io.swagger.api");
+    }
+
+    @Test
+    public void testSettersForConfigValues() throws Exception {
+        final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+        codegen.setHideGenerationTimestamp(true);
+        codegen.setInvokerPackage("io.swagger.client.xyz.invoker");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertEquals(codegen.modelPackage(), "io.swagger.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "io.swagger.model");
+        Assert.assertEquals(codegen.apiPackage(), "io.swagger.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "io.swagger.api");
+        Assert.assertEquals(codegen.getInvokerPackage(), "io.swagger.client.xyz.invoker");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "io.swagger.client.xyz.invoker");
+    }
+
+    @Test
+    public void testAdditionalPropertiesPutForConfigValues() throws Exception {
+        final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "false");
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE,"io.swagger.client.xyz.invoker");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertEquals(codegen.modelPackage(), "io.swagger.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "io.swagger.model");
+        Assert.assertEquals(codegen.apiPackage(), "io.swagger.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "io.swagger.api");
+        Assert.assertEquals(codegen.getInvokerPackage(), "io.swagger.client.xyz.invoker");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "io.swagger.client.xyz.invoker");
+    }
+}

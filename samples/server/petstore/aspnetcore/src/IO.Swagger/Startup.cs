@@ -71,7 +71,7 @@ namespace IO.Swagger
                         Contact = new Contact()
                         {
                            Name = "Swagger Codegen Contributors",
-                           Url = "https://github.com/swagger-api/swagger-codegen",
+                           Url = "https://github.com/openapitools/openapi-generator",
                            Email = "apiteam@swagger.io"
                         },
                         TermsOfService = "http://swagger.io/terms/"
@@ -104,10 +104,10 @@ namespace IO.Swagger
                 .UseSwaggerUI(c =>
                 {
                     //TODO: Either use the SwaggerGen generated Swagger contract (generated from C# classes)
-                    c.SwaggerEndpoint("/swagger/1.0.0/swagger.json", "Swagger Petstore");
+                    c.SwaggerEndpoint("/swagger/1.0.0/openapi.json", "Swagger Petstore");
 
                     //TODO: Or alternatively use the original Swagger contract that's included in the static files
-                    // c.SwaggerEndpoint("/swagger-original.json", "Swagger Petstore Original");
+                    // c.SwaggerEndpoint("/openapi-original.json", "Swagger Petstore Original");
                 });
 
             if (env.IsDevelopment())

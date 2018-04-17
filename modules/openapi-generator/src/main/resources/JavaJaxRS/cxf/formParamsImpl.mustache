@@ -1,1 +1,1 @@
-{{#isFormParam}}{{#notFile}}{{{dataType}}} {{paramName}}{{/notFile}}{{#isFile}} Attachment {{paramName}}Detail{{/isFile}}{{/isFormParam}}
+{{#isFormParam}}{{^isFile}}{{{dataType}}} {{paramName}}{{/isFile}}{{#isFile}} Attachment {{paramName}}Detail{{/isFile}}{{/isFormParam}}

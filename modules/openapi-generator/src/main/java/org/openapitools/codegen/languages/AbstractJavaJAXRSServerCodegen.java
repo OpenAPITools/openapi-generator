@@ -1,5 +1,6 @@
 package org.openapitools.codegen.languages;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,17 +10,11 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.URLPathUtils;
+import io.swagger.v3.oas.models.*;
 
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     /**
@@ -86,45 +81,45 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        if ( "/".equals(swagger.getBasePath()) ) {
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        /* TODO there should be no need for the following logic
+        if ("/".equals(swagger.getBasePath())) {
             swagger.setBasePath("");
         }
+        */
 
         if (!this.additionalProperties.containsKey("serverPort")) {
-            final String host = swagger.getHost();
-            String port = "8080"; // Default value for a JEE Server
-            if ( host != null ) {
-                String[] parts = host.split(":");
-                if ( parts.length > 1 ) {
-                    port = parts[1];
-                }
+            URL url = URLPathUtils.getServerURL(openAPI);
+
+            Integer port = 8080; // Default value for a JEE Server
+            if (url.getPort() != 0) {
+                port = url.getPort();
             }
 
             this.additionalProperties.put("serverPort", port);
         }
 
-        if ( swagger.getPaths() != null ) {
-            for ( String pathname : swagger.getPaths().keySet() ) {
-                Path path = swagger.getPath(pathname);
-                if ( path.getOperations() != null ) {
-                    for ( Operation operation : path.getOperations() ) {
-                        if ( operation.getTags() != null ) {
+        if (openAPI.getPaths() != null) {
+            for (String pathname : openAPI.getPaths().keySet()) {
+                PathItem path = openAPI.getPaths().get(pathname);
+                if (path.readOperations() != null) {
+                    for (Operation operation : path.readOperations()) {
+                        if (operation.getTags() != null) {
                             List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
-                            for ( String tag : operation.getTags() ) {
+                            for (String tag : operation.getTags()) {
                                 Map<String, String> value = new HashMap<String, String>();
                                 value.put("tag", tag);
                                 value.put("hasMore", "true");
                                 tags.add(value);
                             }
-                            if ( tags.size() > 0 ) {
+                            if (tags.size() > 0) {
                                 tags.get(tags.size() - 1).remove("hasMore");
                             }
-                            if ( operation.getTags().size() > 0 ) {
+                            if (operation.getTags().size() > 0) {
                                 String tag = operation.getTags().get(0);
                                 operation.setTags(Arrays.asList(tag));
                             }
-                            operation.setVendorExtension("x-tags", tags);
+                            operation.addExtension("x-tags", tags);
                         }
                     }
                 }
@@ -134,12 +129,16 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        return jaxrsPostProcessOperations(objs);
+    }
+
+    static Map<String, Object> jaxrsPostProcessOperations(Map<String, Object> objs) {
         @SuppressWarnings("unchecked")
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        if ( operations != null ) {
+        if (operations != null) {
             @SuppressWarnings("unchecked")
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-            for ( CodegenOperation operation : ops ) {
+            for (CodegenOperation operation : ops) {
                 if (operation.hasConsumes == Boolean.TRUE) {
                     Map<String, String> firstType = operation.consumes.get(0);
                     if (firstType != null) {
@@ -151,27 +150,27 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
                 boolean isMultipartPost = false;
                 List<Map<String, String>> consumes = operation.consumes;
-                if(consumes != null) {
-                    for(Map<String, String> consume : consumes) {
+                if (consumes != null) {
+                    for (Map<String, String> consume : consumes) {
                         String mt = consume.get("mediaType");
-                        if(mt != null) {
-                            if(mt.startsWith("multipart/form-data")) {
+                        if (mt != null) {
+                            if (mt.startsWith("multipart/form-data")) {
                                 isMultipartPost = true;
                             }
                         }
                     }
                 }
 
-                for(CodegenParameter parameter : operation.allParams) {
-                    if(isMultipartPost) {
+                for (CodegenParameter parameter : operation.allParams) {
+                    if (isMultipartPost) {
                         parameter.vendorExtensions.put("x-multipart", "true");
                     }
                 }
 
                 List<CodegenResponse> responses = operation.responses;
-                if ( responses != null ) {
-                    for ( CodegenResponse resp : responses ) {
-                        if ( "0".equals(resp.code) ) {
+                if (responses != null) {
+                    for (CodegenResponse resp : responses) {
+                        if ("0".equals(resp.code)) {
                             resp.code = "200";
                         }
 
@@ -190,7 +189,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
                     }
                 }
 
-                if ( operation.returnBaseType == null ) {
+                if (operation.returnBaseType == null) {
                     operation.returnType = "void";
                     operation.returnBaseType = "Void";
                     // set vendorExtensions.x-java-is-response-void to true as returnBaseType is set to "Void"
@@ -210,7 +209,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     @Override
     public String toApiName(final String name) {
         String computed = name;
-        if ( computed.length() == 0 ) {
+        if (computed.length() == 0) {
             return "DefaultApi";
         }
         computed = sanitizeName(computed);
@@ -221,15 +220,15 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     public String apiFilename(String templateName, String tag) {
         String result = super.apiFilename(templateName, tag);
 
-        if ( templateName.endsWith("Impl.mustache") ) {
+        if (templateName.endsWith("Impl.mustache")) {
             int ix = result.lastIndexOf('/');
             result = result.substring(0, ix) + "/impl" + result.substring(ix, result.length() - 5) + "ServiceImpl.java";
             result = result.replace(apiFileFolder(), implFileFolder(implFolder));
-        } else if ( templateName.endsWith("Factory.mustache") ) {
+        } else if (templateName.endsWith("Factory.mustache")) {
             int ix = result.lastIndexOf('/');
             result = result.substring(0, ix) + "/factories" + result.substring(ix, result.length() - 5) + "ServiceFactory.java";
             result = result.replace(apiFileFolder(), implFileFolder(implFolder));
-        } else if ( templateName.endsWith("Service.mustache") ) {
+        } else if (templateName.endsWith("Service.mustache")) {
             int ix = result.lastIndexOf('.');
             result = result.substring(0, ix) + "Service.java";
         }

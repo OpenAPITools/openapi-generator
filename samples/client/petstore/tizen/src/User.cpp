@@ -23,31 +23,14 @@ User::~User()
 void
 User::__init()
 {
-	//
-	//
 	//id = long(0);
-	//
-	//
 	//username = std::string();
-	//
-	//
 	//firstName = std::string();
-	//
-	//
 	//lastName = std::string();
-	//
-	//
 	//email = std::string();
-	//
-	//
 	//password = std::string();
-	//
-	//
 	//phone = std::string();
-	//
-	//
 	//userStatus = int(0);
-	//
 }
 
 void

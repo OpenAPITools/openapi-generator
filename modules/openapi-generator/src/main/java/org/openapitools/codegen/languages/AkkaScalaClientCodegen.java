@@ -4,6 +4,7 @@ import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -13,18 +14,11 @@ import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.auth.SecuritySchemeDefinition;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
+import org.openapitools.codegen.utils.ModelUtils;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -156,9 +150,9 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
-        }        
+        }
         return "`" + name + "`";
     }
 
@@ -195,7 +189,7 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes) {
+    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemes) {
         final List<CodegenSecurity> codegenSecurities = super.fromSecurity(schemes);
         if (!removeOAuthSecurities) {
             return codegenSecurities;
@@ -248,34 +242,30 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (!p.getRequired()) {
+    public String toDefaultValue(Schema p) {
+        if (p.getRequired() != null && p.getRequired().contains(p.getName())) {
             return "None";
         }
-        if (p instanceof StringProperty) {
+
+        if (ModelUtils.isBooleanSchema(p)) {
             return "null";
-        } else if (p instanceof BooleanProperty) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return "null";
-        } else if (p instanceof DateProperty) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return "null";
-        } else if (p instanceof DateTimeProperty) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             return "null";
-        } else if (p instanceof DoubleProperty) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             return "null";
-        } else if (p instanceof FloatProperty) {
-            return "null";
-        } else if (p instanceof IntegerProperty) {
-            return "null";
-        } else if (p instanceof LongProperty) {
-            return "null";
-        } else if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
+        } else if (ModelUtils.isMapSchema(p)) {
+            String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return "Map[String, " + inner + "].empty ";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
+        } else if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            String inner = getSchemaType(ap.getItems());
             return "Seq[" + inner + "].empty ";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "null";
         } else {
             return "null";
         }

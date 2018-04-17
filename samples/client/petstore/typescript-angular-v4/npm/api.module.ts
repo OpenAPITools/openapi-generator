@@ -21,7 +21,7 @@ export class ApiModule {
         return {
             ngModule: ApiModule,
             providers: [ { provide: Configuration, useFactory: configurationFactory } ]
-        }
+        };
     }
 
     constructor( @Optional() @SkipSelf() parentModule: ApiModule,

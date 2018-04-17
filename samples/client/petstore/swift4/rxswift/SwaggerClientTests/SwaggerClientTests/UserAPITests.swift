@@ -67,7 +67,7 @@ class UserAPITests: XCTestCase {
 
     func test1CreateUser() {
         let expectation = self.expectation(description: "testCreateUser")
-        let newUser = User(id: 1000, username: "test@test.com", firstName: "Test", lastName: "Tester", email: "test@test.com", password: "test!", phone: "867-5309", userStatus: 0)
+        let newUser = User(_id: 1000, username: "test@test.com", firstName: "Test", lastName: "Tester", email: "test@test.com", password: "test!", phone: "867-5309", userStatus: 0)
         UserAPI.createUser(body: newUser).subscribe(onNext: {
             expectation.fulfill()
             }, onError: { errorType in

@@ -37,6 +37,8 @@ public class ReadOnlyFirst implements Parcelable {
   @SerializedName("baz")
   private String baz = null;
 
+  public ReadOnlyFirst() {
+  }
    /**
    * Get bar
    * @return bar
@@ -106,19 +108,13 @@ public class ReadOnlyFirst implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
-  public void writeToParcel(Parcel out, int flags) {
-     
-    out.writeValue(bar);
 
+  public void writeToParcel(Parcel out, int flags) {
+    out.writeValue(bar);
     out.writeValue(baz);
   }
 
-  public ReadOnlyFirst() {
-    super();
-  }
-
   ReadOnlyFirst(Parcel in) {
-    
     bar = (String)in.readValue(null);
     baz = (String)in.readValue(null);
   }

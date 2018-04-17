@@ -1,9 +1,12 @@
 package org.openapitools.codegen;
 
-import io.swagger.models.ExternalDocs;
-import io.swagger.models.Tag;
+import io.swagger.v3.oas.models.ExternalDocumentation;
+import io.swagger.v3.oas.models.media.Discriminator;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.tags.Tag;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +22,8 @@ public class CodegenOperation {
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isDeprecated;
     public String path, operationId, returnType, httpMethod, returnBaseType,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator;
+            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse; 
+    public Discriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public CodegenParameter bodyParam;
     public List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
@@ -28,15 +32,17 @@ public class CodegenOperation {
     public List<CodegenParameter> queryParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> headerParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
+    public List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
+    public List<CodegenParameter> optionalParams = new ArrayList<CodegenParameter>();
     public List<CodegenSecurity> authMethods;
     public List<Tag> tags;
     public List<CodegenResponse> responses = new ArrayList<CodegenResponse>();
     public Set<String> imports = new HashSet<String>();
     public List<Map<String, String>> examples;
     public List<Map<String, String>> requestBodyExamples;
-    public ExternalDocs externalDocs;
-    public Map<String, Object> vendorExtensions;
+    public ExternalDocumentation externalDocs;
+    public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public String nickname; // legacy support
     public String operationIdOriginal; // for plug-in
     public String operationIdLowerCase; // for markdown documentation
@@ -95,6 +101,42 @@ public class CodegenOperation {
      */
     public boolean getHasFormParams() {
         return nonempty(formParams);
+    }
+
+    /**
+     * Check if there's at least one form parameter
+     *
+     * @return true if any cookie parameter exists, false otherwise
+     */
+    public boolean getHasCookieParams() {
+        return nonempty(cookieParams);
+    }
+
+    /**
+     * Check if there's at least one optional parameter
+     *
+     * @return true if any optional parameter exists, false otherwise
+     */
+    public boolean getHasOptionalParams() {
+        return nonempty(optionalParams);
+    }
+
+    /**
+     * Check if there's at least one required parameter
+     *
+     * @return true if any optional parameter exists, false otherwise
+     */
+    public boolean getHasRequiredParams() {
+        return nonempty(requiredParams);
+    }
+
+    /**
+     * Check if there's at least one response header
+     *
+     * @return true if header response exists, false otherwise
+     */
+    public boolean getHasResponseHeaders() {
+        return nonempty(responseHeaders);
     }
 
     /**
@@ -277,6 +319,12 @@ public class CodegenOperation {
             return false;
         if (formParams != null ? !formParams.equals(that.formParams) : that.formParams != null)
             return false;
+        if (cookieParams != null ? !cookieParams.equals(that.cookieParams) : that.cookieParams != null)
+            return false;
+        if (requiredParams != null ? !requiredParams.equals(that.requiredParams) : that.requiredParams!= null)
+            return false;
+        if (optionalParams != null ? !optionalParams.equals(that.optionalParams) : that.optionalParams!= null)
+            return false;
         if (authMethods != null ? !authMethods.equals(that.authMethods) : that.authMethods != null)
             return false;
         if (tags != null ? !tags.equals(that.tags) : that.tags != null)
@@ -343,6 +391,9 @@ public class CodegenOperation {
         result = 31 * result + (queryParams != null ? queryParams.hashCode() : 0);
         result = 31 * result + (headerParams != null ? headerParams.hashCode() : 0);
         result = 31 * result + (formParams != null ? formParams.hashCode() : 0);
+        result = 31 * result + (cookieParams != null ? cookieParams.hashCode() : 0);
+        result = 31 * result + (requiredParams!= null ? requiredParams.hashCode() : 0);
+        result = 31 * result + (optionalParams != null ? optionalParams.hashCode() : 0);
         result = 31 * result + (authMethods != null ? authMethods.hashCode() : 0);
         result = 31 * result + (tags != null ? tags.hashCode() : 0);
         result = 31 * result + (responses != null ? responses.hashCode() : 0);
@@ -357,4 +408,6 @@ public class CodegenOperation {
         result = 31 * result + (operationIdCamelCase != null ? operationIdCamelCase.hashCode() : 0);
         return result;
     }
+
+
 }

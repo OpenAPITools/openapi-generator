@@ -18,7 +18,7 @@ class TestStoreController(BaseTestCase):
         Delete purchase order by ID
         """
         response = self.client.open(
-            '/v2/store/order/{orderId}'.format(orderId='orderId_example'),
+            '/v2/store/order/{orderId}'.format(order_id='order_id_example'),
             method='DELETE')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -40,7 +40,7 @@ class TestStoreController(BaseTestCase):
         Find purchase order by ID
         """
         response = self.client.open(
-            '/v2/store/order/{orderId}'.format(orderId=5),
+            '/v2/store/order/{orderId}'.format(order_id=5),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -50,12 +50,12 @@ class TestStoreController(BaseTestCase):
 
         Place an order for a pet
         """
-        body = Order()
+        order = Order()
         response = self.client.open(
             '/v2/store/order',
             method='POST',
-            data=json.dumps(body),
-            content_type='application/json')
+            data=json.dumps(order),
+            content_type='*/*')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 

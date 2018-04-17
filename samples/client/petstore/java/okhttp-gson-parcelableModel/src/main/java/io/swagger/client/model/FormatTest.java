@@ -74,6 +74,8 @@ public class FormatTest implements Parcelable {
   @SerializedName("password")
   private String password = null;
 
+  public FormatTest() {
+  }
   public FormatTest integer(Integer integer) {
     this.integer = integer;
     return this;
@@ -382,41 +384,24 @@ public class FormatTest implements Parcelable {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public void writeToParcel(Parcel out, int flags) {
-     
     out.writeValue(integer);
-
     out.writeValue(int32);
-
     out.writeValue(int64);
-
     out.writeValue(number);
-
     out.writeValue(_float);
-
     out.writeValue(_double);
-
     out.writeValue(string);
-
     out.writeValue(_byte);
-
     out.writeValue(binary);
-
     out.writeValue(date);
-
     out.writeValue(dateTime);
-
     out.writeValue(uuid);
-
     out.writeValue(password);
   }
 
-  public FormatTest() {
-    super();
-  }
-
   FormatTest(Parcel in) {
-    
     integer = (Integer)in.readValue(null);
     int32 = (Integer)in.readValue(null);
     int64 = (Long)in.readValue(null);

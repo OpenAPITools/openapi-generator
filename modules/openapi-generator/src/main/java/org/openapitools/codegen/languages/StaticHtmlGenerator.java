@@ -11,13 +11,14 @@ import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.Info;
-import io.swagger.models.Model;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
 import org.openapitools.codegen.utils.Markdown;
+import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.info.Info;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,8 +26,6 @@ import java.util.Map;
 
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache.Compiler;
-
-import org.openapitools.codegen.utils.Markdown;
 
 public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.client";
@@ -70,19 +69,17 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         importMapping = new HashMap<String, String>();
     }
 
-
-    
     /**
      * Convert Markdown (CommonMark) to HTML. This class also disables normal HTML
-     * escaping in the Mustache engine (see {@link DefaultCodegen#processCompiler(Compiler)} above.)
+     * escaping in the Mustache engine.
      */
-   @Override
+    @Override
     public String escapeText(String input) {
         // newline escaping disabled for HTML documentation for markdown to work correctly
         return toHtml(input);
     }
 
-  @Override
+    @Override
     public CodegenType getTag() {
         return CodegenType.DOCUMENTATION;
     }
@@ -98,21 +95,19 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-
-            return getSwaggerType(p) + "[String, " + getTypeDeclaration(inner) + "]";
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
+            return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
     }
 
-@Override
+    @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
@@ -140,7 +135,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         return input;
     }
 
-      /**
+    /**
      * Markdown conversion emits HTML and by default, the Mustache
      * {@link Compiler} will escape HTML. For example a summary
      * <code>"Text with **bold**"</code> is converted from Markdown to HTML as
@@ -161,6 +156,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
 
     /**
      * Convert Markdown text to HTML
+     *
      * @param input text in Markdown; may be null.
      * @return the text, converted to Markdown. For null input, "" is returned.
      */
@@ -178,12 +174,12 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         return name;
     }
 
-    public void preprocessSwagger(Swagger swagger) {
-        Info info = swagger.getInfo();
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        Info info = openAPI.getInfo();
         info.setDescription(toHtml(info.getDescription()));
         info.setTitle(toHtml(info.getTitle()));
-        Map<String, Model> models = swagger.getDefinitions();
-        for (Model model : models.values()) {
+        Map<String, Schema> models = openAPI.getComponents().getSchemas();
+        for (Schema model : models.values()) {
             model.setDescription(toHtml(model.getDescription()));
             model.setTitle(toHtml(model.getTitle()));
         }
@@ -198,7 +194,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
 
     // override to post-process any model properties
     public void postProcessModelProperty(CodegenModel model,
-            CodegenProperty property) {
+                                         CodegenProperty property) {
         property.description = toHtml(property.description);
         property.unescapedDescription = toHtml(
                 property.unescapedDescription);

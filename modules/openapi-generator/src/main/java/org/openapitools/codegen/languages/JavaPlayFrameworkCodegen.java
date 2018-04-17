@@ -1,11 +1,13 @@
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import io.swagger.models.Model;
-import io.swagger.models.Swagger;
-import io.swagger.util.Json;
+import org.openapitools.codegen.languages.features.*;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.core.util.Json;
+
 
 import java.io.File;
 import java.util.List;
@@ -161,11 +163,11 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             supportingFiles.add(new SupportingFile("errorHandler.mustache", "app/swagger", "ErrorHandler.java"));
         }
 
-        if(this.wrapCalls) {
+        if (this.wrapCalls) {
             supportingFiles.add(new SupportingFile("apiCall.mustache", "app/swagger", "ApiCall.java"));
         }
 
-        if(this.useSwaggerUI) {
+        if (this.useSwaggerUI) {
             //App/Controllers
             supportingFiles.add(new SupportingFile("swagger.mustache", "public", "swagger.json"));
             supportingFiles.add(new SupportingFile("apiDocController.mustache", String.format("app/%s", apiPackage.replace(".", File.separator)), "ApiDocController.java"));
@@ -202,9 +204,9 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
-        if(codegenModel.description != null) {
+        if (codegenModel.description != null) {
             codegenModel.imports.remove("ApiModel");
         }
         return codegenModel;
@@ -222,7 +224,9 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         this.basePackage = configPackage;
     }
 
-    public void setControllerOnly(boolean controllerOnly) { this.controllerOnly = controllerOnly; }
+    public void setControllerOnly(boolean controllerOnly) {
+        this.controllerOnly = controllerOnly;
+    }
 
     public void setUseInterfaces(boolean useInterfaces) {
         this.useInterfaces = useInterfaces;
@@ -318,15 +322,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Swagger swagger = (Swagger)objs.get("swagger");
-        System.out.println("swagger" + swagger.toString());
-        if(swagger != null) {
-            try {
-                objs.put("swagger-json", Json.pretty().writeValueAsString(swagger));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        }
+        generateJSONSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
     }
 }

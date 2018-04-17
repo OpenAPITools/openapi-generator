@@ -26,7 +26,6 @@
 
 #include "User.h"
 #include <string>
-#include <vector>
 
 namespace io {
 namespace swagger {
@@ -68,8 +67,8 @@ private:
     /// <remarks>
     /// This can only be done by the logged in user.
     /// </remarks>
-    /// <param name="body">Created user object</param>
-    virtual void create_user(const User &body, Pistache::Http::ResponseWriter &response) = 0;
+    /// <param name="user">Created user object</param>
+    virtual void create_user(const User &user, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Creates list of users with given input array
@@ -77,8 +76,8 @@ private:
     /// <remarks>
     /// 
     /// </remarks>
-    /// <param name="body">List of user object</param>
-    virtual void create_users_with_array_input(const User &body, Pistache::Http::ResponseWriter &response) = 0;
+    /// <param name="user">List of user object</param>
+    virtual void create_users_with_array_input(const User &user, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Creates list of users with given input array
@@ -86,8 +85,8 @@ private:
     /// <remarks>
     /// 
     /// </remarks>
-    /// <param name="body">List of user object</param>
-    virtual void create_users_with_list_input(const User &body, Pistache::Http::ResponseWriter &response) = 0;
+    /// <param name="user">List of user object</param>
+    virtual void create_users_with_list_input(const User &user, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Delete user
@@ -104,7 +103,7 @@ private:
     /// <remarks>
     /// 
     /// </remarks>
-    /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+    /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
     virtual void get_user_by_name(const std::string &username, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
@@ -132,8 +131,8 @@ private:
     /// This can only be done by the logged in user.
     /// </remarks>
     /// <param name="username">name that need to be deleted</param>
-    /// <param name="body">Updated user object</param>
-    virtual void update_user(const std::string &username, const User &body, Pistache::Http::ResponseWriter &response) = 0;
+    /// <param name="user">Updated user object</param>
+    virtual void update_user(const std::string &username, const User &user, Pistache::Http::ResponseWriter &response) = 0;
 
 };
 

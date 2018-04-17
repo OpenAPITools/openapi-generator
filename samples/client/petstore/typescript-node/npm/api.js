@@ -361,6 +361,8 @@ var typeMap = {
 };
 var HttpBasicAuth = (function () {
     function HttpBasicAuth() {
+        this.username = '';
+        this.password = '';
     }
     HttpBasicAuth.prototype.applyToRequest = function (requestOptions) {
         requestOptions.auth = {
@@ -374,6 +376,7 @@ var ApiKeyAuth = (function () {
     function ApiKeyAuth(location, paramName) {
         this.location = location;
         this.paramName = paramName;
+        this.apiKey = '';
     }
     ApiKeyAuth.prototype.applyToRequest = function (requestOptions) {
         if (this.location == "query") {
@@ -388,6 +391,7 @@ var ApiKeyAuth = (function () {
 exports.ApiKeyAuth = ApiKeyAuth;
 var OAuth = (function () {
     function OAuth() {
+        this.accessToken = '';
     }
     OAuth.prototype.applyToRequest = function (requestOptions) {
         if (requestOptions && requestOptions.headers) {
@@ -399,6 +403,8 @@ var OAuth = (function () {
 exports.OAuth = OAuth;
 var VoidAuth = (function () {
     function VoidAuth() {
+        this.username = '';
+        this.password = '';
     }
     VoidAuth.prototype.applyToRequest = function (_) {
     };
@@ -558,7 +564,7 @@ var PetApi = (function () {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
         if (status !== undefined) {
-            localVarQueryParameters['status'] = ObjectSerializer.serialize(status, "Array<string>");
+            localVarQueryParameters['status'] = ObjectSerializer.serialize(status, "Array<'available' | 'pending' | 'sold'>");
         }
         var localVarUseFormData = false;
         var localVarRequestOptions = {

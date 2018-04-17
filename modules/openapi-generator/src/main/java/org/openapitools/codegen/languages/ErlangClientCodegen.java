@@ -1,12 +1,14 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.parameters.Parameter;
+
+import org.openapitools.codegen.*;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.core.util.Json;
 
 import java.io.File;
 import java.util.*;
@@ -95,25 +97,25 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        String swaggerType = getSwaggerType(p);
-        if (typeMapping.containsKey(swaggerType)) {
-            return typeMapping.get(swaggerType);
+    public String getTypeDeclaration(Schema p) {
+        String schemaType = getSchemaType(p);
+        if (typeMapping.containsKey(schemaType)) {
+            return typeMapping.get(schemaType);
         }
-        return swaggerType;
+        return schemaType;
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String schemaType = super.getSchemaType(p);
         String type = null;
-        if(typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if(typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if(languageSpecificPrimitives.contains(type))
                 return (type);
         }
         else
-            type = getTypeDeclaration(toModelName(snakeCase(swaggerType)));
+            type = getTypeDeclaration(toModelName(snakeCase(schemaType)));
         return type;
     }
 

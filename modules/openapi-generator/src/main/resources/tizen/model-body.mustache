@@ -23,10 +23,14 @@ using namespace Tizen::{{prefix}};
 void
 {{classname}}::__init()
 {
-	//{{#vars}}
-	//{{#isContainer}}{{defaultValue}}{{baseType}}> {{name}};{{/isContainer}}
-	//{{#isNotContainer}}{{name}} = {{defaultValue}};{{/isNotContainer}}
-	//{{/vars}}
+	{{#vars}}
+	{{#isContainer}}
+	//{{defaultValue}}{{baseType}}> {{name}};
+	{{/isContainer}}
+	{{#isNotContainer}}
+	//{{name}} = {{defaultValue}};
+	{{/isNotContainer}}
+	{{/vars}}
 }
 
 void

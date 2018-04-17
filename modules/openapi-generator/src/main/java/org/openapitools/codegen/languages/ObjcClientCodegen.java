@@ -1,9 +1,20 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import io.swagger.models.ArrayModel;
-import io.swagger.models.Model;
-import io.swagger.models.properties.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -55,6 +66,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         embeddedTemplateDir = templateDir = "objc";
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
+
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
 
         defaultIncludes.clear();
         defaultIncludes.add("bool");
@@ -118,25 +132,25 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // ref: http://www.tutorialspoint.com/objective_c/objective_c_basic_syntax.htm
         setReservedWordsLowerCase(
-              Arrays.asList(
-                    // local variable names in API methods (endpoints)
-                    "resourcePath", "pathParams", "queryParams", "headerParams",
-                    "responseContentType", "requestContentType", "authSettings",
-                    "formParams", "localVarFiles", "bodyParam",
-                    // objc reserved words
-                    "auto", "else", "long", "switch",
-                    "break", "enum", "register", "typedef",
-                    "case", "extern", "return", "union",
-                    "char", "float", "short", "unsigned",
-                    "const", "for", "signed", "void",
-                    "continue", "goto", "sizeof", "volatile",
-                    "default", "if", "id", "static", "while",
-                    "do", "int", "struct", "_Packed",
-                    "double", "protocol", "interface", "implementation",
-                    "NSObject", "NSInteger", "NSNumber", "CGFloat",
-                    "property", "nonatomic", "retain", "strong",
-                    "weak", "unsafe_unretained", "readwrite", "readonly",
-                    "description"
+                Arrays.asList(
+                        // local variable names in API methods (endpoints)
+                        "resourcePath", "pathParams", "queryParams", "headerParams",
+                        "responseContentType", "requestContentType", "authSettings",
+                        "formParams", "localVarFiles", "bodyParam",
+                        // objc reserved words
+                        "auto", "else", "long", "switch",
+                        "break", "enum", "register", "typedef",
+                        "case", "extern", "return", "union",
+                        "char", "float", "short", "unsigned",
+                        "const", "for", "signed", "void",
+                        "continue", "goto", "sizeof", "volatile",
+                        "default", "if", "id", "static", "while",
+                        "do", "int", "struct", "_Packed",
+                        "double", "protocol", "interface", "implementation",
+                        "NSObject", "NSInteger", "NSNumber", "CGFloat",
+                        "property", "nonatomic", "retain", "strong",
+                        "weak", "unsafe_unretained", "readwrite", "readonly",
+                        "description", "class"
                 ));
 
         importMapping = new HashMap<String, String>();
@@ -167,7 +181,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(AUTHOR_EMAIL, "Email to use in the podspec file.").defaultValue("apiteam@swagger.io"));
         cliOptions.add(new CliOption(GIT_REPO_URL, "URL for the git repo where this podspec should point to.")
                 .defaultValue("https://github.com/swagger-api/swagger-codegen"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
     }
 
@@ -190,14 +204,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
-        }
-
         if (additionalProperties.containsKey(POD_NAME)) {
             setPodName((String) additionalProperties.get(POD_NAME));
         }
@@ -208,7 +214,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(CORE_DATA)) {
             Object coreData = additionalProperties.get(CORE_DATA);
-            if(((String)coreData).equalsIgnoreCase("true")) {
+            if (((String) coreData).equalsIgnoreCase("true")) {
                 generateCoreData = true;
             }
         }
@@ -228,7 +234,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             setGitRepoURL((String) additionalProperties.get(GIT_REPO_URL));
         }
 
-        if(generateCoreData) {
+        if (generateCoreData) {
             modelTemplateFiles.put("NSManagedObject-header.mustache", "ManagedObject.h");
             modelTemplateFiles.put("NSManagedObject-body.mustache", "ManagedObject.m");
             modelTemplateFiles.put("NSManagedObjectBuilder-header.mustache", "ManagedObjectBuilder.h");
@@ -252,21 +258,21 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiPackage = podName;
 
         supportingFiles.add(new SupportingFile("Object-header.mustache", coreFileFolder(), classPrefix + "Object.h"));
-        supportingFiles.add(new SupportingFile("Object-body.mustache",  coreFileFolder(), classPrefix + "Object.m"));
-        supportingFiles.add(new SupportingFile("QueryParamCollection-header.mustache",  coreFileFolder(), classPrefix + "QueryParamCollection.h"));
-        supportingFiles.add(new SupportingFile("QueryParamCollection-body.mustache",  coreFileFolder(), classPrefix + "QueryParamCollection.m"));
-        supportingFiles.add(new SupportingFile("ApiClient-header.mustache",  coreFileFolder(), classPrefix + "ApiClient.h"));
-        supportingFiles.add(new SupportingFile("ApiClient-body.mustache",  coreFileFolder(), classPrefix + "ApiClient.m"));
-        supportingFiles.add(new SupportingFile("JSONRequestSerializer-body.mustache",  coreFileFolder(), classPrefix + "JSONRequestSerializer.m"));
-        supportingFiles.add(new SupportingFile("JSONRequestSerializer-header.mustache",  coreFileFolder(), classPrefix + "JSONRequestSerializer.h"));
-        supportingFiles.add(new SupportingFile("ResponseDeserializer-body.mustache",  coreFileFolder(), classPrefix + "ResponseDeserializer.m"));
-        supportingFiles.add(new SupportingFile("ResponseDeserializer-header.mustache",  coreFileFolder(), classPrefix + "ResponseDeserializer.h"));
-        supportingFiles.add(new SupportingFile("Sanitizer-body.mustache",  coreFileFolder(), classPrefix + "Sanitizer.m"));
-        supportingFiles.add(new SupportingFile("Sanitizer-header.mustache",  coreFileFolder(), classPrefix + "Sanitizer.h"));
-        supportingFiles.add(new SupportingFile("Logger-body.mustache",  coreFileFolder(), classPrefix + "Logger.m"));
-        supportingFiles.add(new SupportingFile("Logger-header.mustache",  coreFileFolder(), classPrefix + "Logger.h"));
-        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601-body.mustache",  coreFileFolder(), "JSONValueTransformer+ISO8601.m"));
-        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601-header.mustache",  coreFileFolder(), "JSONValueTransformer+ISO8601.h"));
+        supportingFiles.add(new SupportingFile("Object-body.mustache", coreFileFolder(), classPrefix + "Object.m"));
+        supportingFiles.add(new SupportingFile("QueryParamCollection-header.mustache", coreFileFolder(), classPrefix + "QueryParamCollection.h"));
+        supportingFiles.add(new SupportingFile("QueryParamCollection-body.mustache", coreFileFolder(), classPrefix + "QueryParamCollection.m"));
+        supportingFiles.add(new SupportingFile("ApiClient-header.mustache", coreFileFolder(), classPrefix + "ApiClient.h"));
+        supportingFiles.add(new SupportingFile("ApiClient-body.mustache", coreFileFolder(), classPrefix + "ApiClient.m"));
+        supportingFiles.add(new SupportingFile("JSONRequestSerializer-body.mustache", coreFileFolder(), classPrefix + "JSONRequestSerializer.m"));
+        supportingFiles.add(new SupportingFile("JSONRequestSerializer-header.mustache", coreFileFolder(), classPrefix + "JSONRequestSerializer.h"));
+        supportingFiles.add(new SupportingFile("ResponseDeserializer-body.mustache", coreFileFolder(), classPrefix + "ResponseDeserializer.m"));
+        supportingFiles.add(new SupportingFile("ResponseDeserializer-header.mustache", coreFileFolder(), classPrefix + "ResponseDeserializer.h"));
+        supportingFiles.add(new SupportingFile("Sanitizer-body.mustache", coreFileFolder(), classPrefix + "Sanitizer.m"));
+        supportingFiles.add(new SupportingFile("Sanitizer-header.mustache", coreFileFolder(), classPrefix + "Sanitizer.h"));
+        supportingFiles.add(new SupportingFile("Logger-body.mustache", coreFileFolder(), classPrefix + "Logger.m"));
+        supportingFiles.add(new SupportingFile("Logger-header.mustache", coreFileFolder(), classPrefix + "Logger.h"));
+        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601-body.mustache", coreFileFolder(), "JSONValueTransformer+ISO8601.m"));
+        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601-header.mustache", coreFileFolder(), "JSONValueTransformer+ISO8601.h"));
         supportingFiles.add(new SupportingFile("Configuration-protocol.mustache", coreFileFolder(), classPrefix + "Configuration.h"));
         supportingFiles.add(new SupportingFile("DefaultConfiguration-body.mustache", coreFileFolder(), classPrefix + "DefaultConfiguration.m"));
         supportingFiles.add(new SupportingFile("DefaultConfiguration-header.mustache", coreFileFolder(), classPrefix + "DefaultConfiguration.h"));
@@ -278,17 +284,17 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
-        if(generateCoreData) {
+        if (generateCoreData) {
             supportingFiles.add(new SupportingFile("xccurrentversion.mustache", (modelPackage() + "/" + modelFilesPath + "/").replace("/", File.separator) + classPrefix + "Model.xcdatamodeld", ".xccurrentversion"));
-            supportingFiles.add(new SupportingFile("Model.xcdatamodel.mustache",(modelPackage() + "/" + modelFilesPath + "/").replace("/", File.separator) + classPrefix + "Model.xcdatamodeld" + File.separator + classPrefix + "Model.xcdatamodel", "contents"));
+            supportingFiles.add(new SupportingFile("Model.xcdatamodel.mustache", (modelPackage() + "/" + modelFilesPath + "/").replace("/", File.separator) + classPrefix + "Model.xcdatamodeld" + File.separator + classPrefix + "Model.xcdatamodel", "contents"));
         }
     }
 
     @Override
-    public String toInstantiationType(Property p) {
-        if (p instanceof MapProperty) {
+    public String toInstantiationType(Schema p) {
+        if (ModelUtils.isMapSchema(p)) {
             return instantiationTypes.get("map");
-        } else if (p instanceof ArrayProperty) {
+        } else if (ModelUtils.isArraySchema(p)) {
             return instantiationTypes.get("array");
         } else {
             return null;
@@ -305,8 +311,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String swaggerType = super.getSchemaType(p);
         String type = null;
 
         if (swaggerType == null) {
@@ -326,32 +332,31 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
             String innerTypeDeclaration = getTypeDeclaration(inner);
             if (innerTypeDeclaration.endsWith("*")) {
                 innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
             }
-            // In this condition, type of property p is array of primitive,
+            // In this condition, type of Schema p is array of primitive,
             // return container type with pointer, e.g. `NSArray*<NSString*>*'
             if (languageSpecificPrimitives.contains(innerTypeDeclaration)) {
-                return getSwaggerType(p) +  "<" + innerTypeDeclaration + "*>*";
+                return getSchemaType(p) + "<" + innerTypeDeclaration + "*>*";
             }
-            // In this condition, type of property p is array of model,
+            // In this condition, type of Schema p is array of model,
             // return container type combine inner type with pointer, e.g. `NSArray<SWGTag>*'
             else {
                 for (String sd : advancedMapingTypes) {
-                    if(innerTypeDeclaration.startsWith(sd)) {
-                        return getSwaggerType(p) + "<" + innerTypeDeclaration + "*>*";
+                    if (innerTypeDeclaration.startsWith(sd)) {
+                        return getSchemaType(p) + "<" + innerTypeDeclaration + "*>*";
                     }
                 }
-                return getSwaggerType(p) + "<" + innerTypeDeclaration + ">*";
+                return getSchemaType(p) + "<" + innerTypeDeclaration + ">*";
             }
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
 
             String innerTypeDeclaration = getTypeDeclaration(inner);
 
@@ -359,17 +364,17 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
             }
             if (languageSpecificPrimitives.contains(innerTypeDeclaration)) {
-                return getSwaggerType(p) +  "<NSString*, " + innerTypeDeclaration + "*>*";
+                return getSchemaType(p) + "<NSString*, " + innerTypeDeclaration + "*>*";
             } else {
                 for (String s : advancedMapingTypes) {
-                    if(innerTypeDeclaration.startsWith(s)) {
-                        return getSwaggerType(p) + "<NSString*, " + innerTypeDeclaration + "*>*";
+                    if (innerTypeDeclaration.startsWith(s)) {
+                        return getSchemaType(p) + "<NSString*, " + innerTypeDeclaration + "*>*";
                     }
                 }
-                return getSwaggerType(p) + "<" + innerTypeDeclaration + ">*";
+                return getSchemaType(p) + "<" + innerTypeDeclaration + ">*";
             }
         } else {
-            String swaggerType = getSwaggerType(p);
+            String swaggerType = getSchemaType(p);
             // In this condition, type of p is objective-c primitive type, e.g. `NSSNumber',
             // return type of p with pointer, e.g. `NSNumber*'
             if (languageSpecificPrimitives.contains(swaggerType) &&
@@ -398,7 +403,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelName(String type) {
         // model name cannot use reserved keyword
         if (reservedWords.contains(type)) {
-            LOGGER.warn(type+ " (reserved word) cannot be used as model name. Renamed to " + ("model_" + type) + " before further processing");
+            LOGGER.warn(type + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + type) + " before further processing");
             type = "model_" + type; // e.g. return => ModelReturn (after camelize)
         }
 
@@ -452,12 +457,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    protected void setNonArrayMapProperty(CodegenProperty property, String type) {
-        super.setNonArrayMapProperty(property, type);
+    protected void setNonArrayMapProperty(CodegenProperty schema, String type) {
+        super.setNonArrayMapProperty(schema, type);
         if ("NSDictionary".equals(type)) {
-            property.setter = "initWithDictionary";
+            schema.setter = "initWithDictionary";
         } else {
-            property.setter = "initWithValues";
+            schema.setter = "initWithValues";
         }
     }
 
@@ -488,12 +493,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/"+ apiPackage() + "/" + apiFilesPath).replace("/", File.separator);
+        return (outputFolder + "/" + apiPackage() + "/" + apiFilesPath).replace("/", File.separator);
     }
 
     @Override
     public String modelFileFolder() {
-        return (outputFolder + "/"+ modelPackage() + "/" + modelFilesPath).replace("/", File.separator);
+        return (outputFolder + "/" + modelPackage() + "/" + modelFilesPath).replace("/", File.separator);
     }
 
     public String coreFileFolder() {
@@ -553,7 +558,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -624,55 +629,41 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public void postProcessModelProperty(CodegenModel model, CodegenProperty property){
-        super.postProcessModelProperty(model,property);
-        property.vendorExtensions.put("x-uppercaseName", camelize(property.name));
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty schema) {
+        super.postProcessModelProperty(model, schema);
+        schema.vendorExtensions.put("x-uppercaseName", camelize(schema.name));
     }
 
     /**
-     * Return the default value of the property
+     * Return the default value of the schema
      *
-     * @param p Swagger property object
-     * @return string presentation of the default value of the property
+     * @param p Swagger schema object
+     * @return string presentation of the default value of the schema
      */
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty dp = (StringProperty) p;
-            if (dp.getDefault() != null) {
-                return "@\"" + dp.getDefault() + "\"";
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isDateSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return "@" + p.getDefault().toString();
             }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty dp = (BooleanProperty) p;
-            if (dp.getDefault() != null) {
-                if (dp.getDefault().toString().equalsIgnoreCase("false"))
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return "@" + p.getDefault().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "@\"" + (String) p.getDefault() + "\"";
+            }
+        } else if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                if (p.getDefault().toString().equalsIgnoreCase("false"))
                     return "@(NO)";
                 else
                     return "@(YES)";
-            }
-        } else if (p instanceof DateProperty) {
-            // TODO
-        } else if (p instanceof DateTimeProperty) {
-            // TODO
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return "@" + dp.getDefault().toString();
-            }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return "@" + dp.getDefault().toString();
-            }
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return "@" + dp.getDefault().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return "@" + dp.getDefault().toString();
             }
         }
 
@@ -731,7 +722,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             example = "@\"" + escapeText(example) + "\"";
         } else if ("NSData".equalsIgnoreCase(type)) {
             example = "1234";
-        } else if (!languageSpecificPrimitives.contains(type)) {
+        } else if (type != null && !languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             type = type.replace("*", "");
             // e.g. [[SWGPet alloc] init

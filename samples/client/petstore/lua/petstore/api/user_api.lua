@@ -42,7 +42,7 @@ local function new_user_api(host, basePath, schemes)
 	}, user_api_mt)
 end
 
-function user_api:create_user(body)
+function user_api:create_user(user)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
@@ -52,12 +52,12 @@ function user_api:create_user(body)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
-	-- TODO: create a function to select proper content-type
+	-- TODO: create a function to select proper accept
 	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_accept = { "application/xml", "application/json" }
-	req.headers:upsert("content-type", "application/xml")
+	--local var_content_type = { "application/json" }
+	req.headers:upsert("accept", "application/json")
 
-	req:set_body(dkjson.encode(body))
+	req:set_body(dkjson.encode(user))
 
 
 	-- make the HTTP call
@@ -79,7 +79,7 @@ function user_api:create_user(body)
 	end
 end
 
-function user_api:create_users_with_array_input(body)
+function user_api:create_users_with_array_input(user)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
@@ -89,12 +89,7 @@ function user_api:create_users_with_array_input(body)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
-	-- TODO: create a function to select proper content-type
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_accept = { "application/xml", "application/json" }
-	req.headers:upsert("content-type", "application/xml")
-
-	req:set_body(dkjson.encode(body))
+	req:set_body(dkjson.encode(user))
 
 
 	-- make the HTTP call
@@ -116,7 +111,7 @@ function user_api:create_users_with_array_input(body)
 	end
 end
 
-function user_api:create_users_with_list_input(body)
+function user_api:create_users_with_list_input(user)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
@@ -126,12 +121,7 @@ function user_api:create_users_with_list_input(body)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
-	-- TODO: create a function to select proper content-type
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_accept = { "application/xml", "application/json" }
-	req.headers:upsert("content-type", "application/xml")
-
-	req:set_body(dkjson.encode(body))
+	req:set_body(dkjson.encode(user))
 
 
 	-- make the HTTP call
@@ -163,11 +153,6 @@ function user_api:delete_user(username)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "DELETE")
-	-- TODO: create a function to select proper content-type
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_accept = { "application/xml", "application/json" }
-	req.headers:upsert("content-type", "application/xml")
-
 
 	-- make the HTTP call
 	local headers, stream, errno = req:go()
@@ -290,11 +275,6 @@ function user_api:logout_user()
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "GET")
-	-- TODO: create a function to select proper content-type
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_accept = { "application/xml", "application/json" }
-	req.headers:upsert("content-type", "application/xml")
-
 
 	-- make the HTTP call
 	local headers, stream, errno = req:go()
@@ -315,7 +295,7 @@ function user_api:logout_user()
 	end
 end
 
-function user_api:update_user(username, body)
+function user_api:update_user(username, user)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
@@ -325,12 +305,12 @@ function user_api:update_user(username, body)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "PUT")
-	-- TODO: create a function to select proper content-type
+	-- TODO: create a function to select proper accept
 	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_accept = { "application/xml", "application/json" }
-	req.headers:upsert("content-type", "application/xml")
+	--local var_content_type = { "application/json" }
+	req.headers:upsert("accept", "application/json")
 
-	req:set_body(dkjson.encode(body))
+	req:set_body(dkjson.encode(user))
 
 
 	-- make the HTTP call

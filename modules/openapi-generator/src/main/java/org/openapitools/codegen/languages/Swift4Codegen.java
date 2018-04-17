@@ -4,24 +4,17 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
-
 import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.models.parameters.HeaderParameter;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.*;
+import org.openapitools.codegen.mustache.*;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.core.util.Yaml;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -80,17 +73,17 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getHelp() {
-        return "Generates a swift client library.";
+        return "Generates a Swift 4.x client library.";
     }
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
-                                                       ModelImpl swaggerModel) {
+                                                       Schema schema) {
 
-        final Property additionalProperties = swaggerModel.getAdditionalProperties();
+        final Schema additionalProperties = (Schema) schema.getAdditionalProperties();
 
         if (additionalProperties != null) {
-            codegenModel.additionalPropertiesType = getSwaggerType(additionalProperties);
+            codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
         }
     }
 
@@ -241,7 +234,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                                      "Flag to make all the API classes inner-class "
                                      + "of {{projectName}}API"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                                     "hides the timestamp when files were generated")
+                                     CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(LENIENT_TYPE_CAST,
                                      "Accept and cast values for simple types (string->bool, "
@@ -252,17 +245,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                                     Boolean.TRUE.toString());
-        } else {
-            Boolean hide = Boolean.valueOf(additionalProperties()
-                                           .get(CodegenConstants.HIDE_GENERATION_TIMESTAMP)
-                                           .toString());
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, hide);
-        }
 
         // Setup project name
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -383,30 +365,29 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Property prop) {
-        if (prop instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) prop;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (prop instanceof MapProperty) {
-            MapProperty mp = (MapProperty) prop;
-            Property inner = mp.getAdditionalProperties();
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
             return "[String:" + getTypeDeclaration(inner) + "]";
         }
-        return super.getTypeDeclaration(prop);
+        return super.getTypeDeclaration(p);
     }
 
     @Override
-    public String getSwaggerType(Property prop) {
-        String swaggerType = super.getSwaggerType(prop);
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
         String type;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type) || defaultIncludes.contains(type)) {
                 return type;
             }
         } else {
-            type = swaggerType;
+            type = openAPIType;
         }
         return toModelName(type);
     }
@@ -478,20 +459,19 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toDefaultValue(Property prop) {
+    public String toDefaultValue(Schema prop) {
         // nil
         return null;
     }
 
     @Override
-    public String toInstantiationType(Property prop) {
-        if (prop instanceof MapProperty) {
-            MapProperty ap = (MapProperty) prop;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
+    public String toInstantiationType(Schema p) {
+        if (ModelUtils.isMapSchema(p)) {
+            String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return inner;
-        } else if (prop instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) prop;
-            String inner = getSwaggerType(ap.getItems());
+        } else if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            String inner = getSchemaType(ap.getItems());
             return "[" + inner + "]";
         }
         return null;
@@ -574,7 +554,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
         if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
@@ -584,7 +564,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
             // multilevel inheritance: reconcile properties of all the parents
             while (parentSchema != null) {
-                final Model parentModel = allDefinitions.get(parentSchema);
+                final Schema parentModel = allDefinitions.get(parentSchema);
                 final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent,
                                                                         parentModel,
                                                                         allDefinitions);

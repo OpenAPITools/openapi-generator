@@ -23,13 +23,8 @@ Category::~Category()
 void
 Category::__init()
 {
-	//
-	//
 	//id = long(0);
-	//
-	//
 	//name = std::string();
-	//
 }
 
 void

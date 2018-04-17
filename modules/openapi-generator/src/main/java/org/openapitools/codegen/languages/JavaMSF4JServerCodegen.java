@@ -1,7 +1,12 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import io.swagger.models.Operation;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.SupportingFile;
+import io.swagger.v3.oas.models.Operation;
 
 import java.util.*;
 
@@ -22,7 +27,7 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
         apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
-        apiTestTemplateFiles.clear(); 
+        apiTestTemplateFiles.clear();
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
         embeddedTemplateDir = templateDir = "MSF4J";
@@ -36,29 +41,27 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
     }
 
     @Override
-    public String getName()
-    {
-        return "msf4j";
+    public String getName() {
+        return "java-msf4j";
     }
 
     @Override
-    public String getHelp()
-    {
+    public String getHelp() {
         return "Generates a Java Micro Service based on WSO2 Microservices Framework for Java (MSF4J)";
     }
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if("null".equals(property.example)) {
+        if ("null".equals(property.example)) {
             property.example = null;
         }
 
         //Add imports for Jackson
-        if(!BooleanUtils.toBoolean(model.isEnum)) {
+        if (!BooleanUtils.toBoolean(model.isEnum)) {
             model.imports.add("JsonProperty");
 
-            if(BooleanUtils.toBoolean(model.hasEnums)) {
+            if (BooleanUtils.toBoolean(model.hasEnums)) {
                 model.imports.add("JsonValue");
             }
         }
@@ -73,14 +76,14 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
             setLibrary(DEFAULT_LIBRARY);
         }
 
-        if ( additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
+        if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
             implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
         }
 
         if ("joda".equals(dateLibrary)) {
             supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
             supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaLocalDateProvider.java"));
-        } else if ( dateLibrary.startsWith("java8") ) {
+        } else if (dateLibrary.startsWith("java8")) {
             supportingFiles.add(new SupportingFile("OffsetDateTimeProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "OffsetDateTimeProvider.java"));
             supportingFiles.add(new SupportingFile("LocalDateProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateProvider.java"));
         }
@@ -104,7 +107,7 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
         objs = super.postProcessModelsEnum(objs);
 
         //Add imports for Jackson
-        List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;

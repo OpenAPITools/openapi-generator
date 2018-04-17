@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# grep for '<<<<<<< HEAD' in swagger codegen
+# grep for '<<<<<<< HEAD' in openapi generator
 grep -RUIl '<<<<<<< HEAD' modules/openapi-generator/src
 
 if [ $? -ne 1 ]; then

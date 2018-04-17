@@ -7,6 +7,8 @@ import java.io.Writer;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
+
 
 public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
 
@@ -73,17 +75,17 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
         String pkgName = names[0];
         additionalProperties.put("packageLevel1", pkgName);
         supportingFiles.add(new SupportingFile("package-spec-level1.mustache", null,
-                            "src" + File.separator + toFilename(names[0]) + ".ads"));
+                "src" + File.separator + toFilename(names[0]) + ".ads"));
         if (names.length > 1) {
             String fileName = toFilename(names[0]) + "-" + toFilename(names[1]) + ".ads";
             pkgName = names[0] + "." + names[1];
             additionalProperties.put("packageLevel2", pkgName);
             supportingFiles.add(new SupportingFile("package-spec-level2.mustache", null,
-                                "src" + File.separator + fileName));
+                    "src" + File.separator + fileName));
         }
         pkgName = this.modelPackage;
         supportingFiles.add(new SupportingFile("client.mustache", null,
-                            "src" + File.separator + toFilename(pkgName) + "-client.adb"));
+                "src" + File.separator + toFilename(pkgName) + "-client.adb"));
         additionalProperties.put("packageName", toFilename(pkgName));
 
         // add lambda for mustache templates

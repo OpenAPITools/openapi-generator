@@ -59,12 +59,12 @@ void PetApi::setupRoutes() {
 void PetApi::add_pet_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the body param
-    Pet body;
+    Pet pet;
     
     try {
       nlohmann::json request_body = nlohmann::json::parse(request.body());
-      body.fromJson(request_body); 
-      this->add_pet(body, response);
+      pet.fromJson(request_body);
+      this->add_pet(pet, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
       response.send(Pistache::Http::Code::Bad_Request, e.what());
@@ -132,12 +132,12 @@ void PetApi::get_pet_by_id_handler(const Pistache::Rest::Request &request, Pista
 void PetApi::update_pet_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the body param
-    Pet body;
+    Pet pet;
     
     try {
       nlohmann::json request_body = nlohmann::json::parse(request.body());
-      body.fromJson(request_body); 
-      this->update_pet(body, response);
+      pet.fromJson(request_body);
+      this->update_pet(pet, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
       response.send(Pistache::Http::Code::Bad_Request, e.what());

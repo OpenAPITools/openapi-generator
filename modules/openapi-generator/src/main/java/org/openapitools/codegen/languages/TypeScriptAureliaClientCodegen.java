@@ -1,6 +1,15 @@
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.PathItem.HttpMethod;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.oas.models.info.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -31,31 +40,6 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
     }
 
     @Override
-    public void processOpts() {
-        super.processOpts();
-
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            this.setNpmName(additionalProperties.get(NPM_NAME).toString());
-        }
-
-        if (additionalProperties.containsKey(NPM_VERSION)) {
-            this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
-        }
-
-        // Set supporting files
-        supportingFiles.add(new SupportingFile("models.mustache", "", "models.ts"));
-        supportingFiles.add(new SupportingFile("index.ts.mustache", "", "index.ts"));
-        supportingFiles.add(new SupportingFile("Api.ts.mustache", "", "Api.ts"));
-        supportingFiles.add(new SupportingFile("AuthStorage.ts.mustache", "", "AuthStorage.ts"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
-        supportingFiles.add(new SupportingFile("package.json.mustache", "", "package.json"));
-        supportingFiles.add(new SupportingFile("tsconfig.json.mustache", "", "tsconfig.json"));
-        supportingFiles.add(new SupportingFile("tslint.json.mustache", "", "tslint.json"));
-        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
-    }
-
-    @Override
     public String getName() {
         return "typescript-aurelia";
     }
@@ -79,6 +63,31 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
     public void setNpmVersion(String npmVersion) {
         this.npmVersion = npmVersion;
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey(NPM_NAME)) {
+            this.setNpmName(additionalProperties.get(NPM_NAME).toString());
+        }
+
+        if (additionalProperties.containsKey(NPM_VERSION)) {
+            this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
+        }
+
+        // Set supporting files
+        supportingFiles.add(new SupportingFile("models.mustache", "", "models.ts"));
+        supportingFiles.add(new SupportingFile("index.ts.mustache", "", "index.ts"));
+        supportingFiles.add(new SupportingFile("Api.ts.mustache", "", "Api.ts"));
+        supportingFiles.add(new SupportingFile("AuthStorage.ts.mustache", "", "AuthStorage.ts"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
+        supportingFiles.add(new SupportingFile("package.json.mustache", "", "package.json"));
+        supportingFiles.add(new SupportingFile("tsconfig.json.mustache", "", "tsconfig.json"));
+        supportingFiles.add(new SupportingFile("tslint.json.mustache", "", "tslint.json"));
+        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
 
     @Override

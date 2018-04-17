@@ -1,9 +1,11 @@
+import com.squareup.moshi.Json
+
 /**
 * {{{description}}}
 * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
 */
 enum class {{classname}}(val value: {{dataType}}){
 {{#allowableValues}}{{#enumVars}}
-    {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    @Json(name = {{{value}}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
 {{/enumVars}}{{/allowableValues}}
 }

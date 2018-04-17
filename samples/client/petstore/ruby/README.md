@@ -55,13 +55,11 @@ Please follow the [installation](#installation) procedure and then run the follo
 require 'petstore'
 
 api_instance = Petstore::AnotherFakeApi.new
-
-body = Petstore::Client.new # Client | client model
-
+client = Petstore::Client.new # Client | client model
 
 begin
   #To test special tags
-  result = api_instance.test_special_tags(body)
+  result = api_instance.test_special_tags(client)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling AnotherFakeApi->test_special_tags: #{e}"
@@ -117,10 +115,13 @@ Class | Method | HTTP request | Description
  - [Petstore::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [Petstore::ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [Petstore::ArrayTest](docs/ArrayTest.md)
+ - [Petstore::Body4](docs/Body4.md)
  - [Petstore::Capitalization](docs/Capitalization.md)
+ - [Petstore::Cat](docs/Cat.md)
  - [Petstore::Category](docs/Category.md)
  - [Petstore::ClassModel](docs/ClassModel.md)
  - [Petstore::Client](docs/Client.md)
+ - [Petstore::Dog](docs/Dog.md)
  - [Petstore::EnumArrays](docs/EnumArrays.md)
  - [Petstore::EnumClass](docs/EnumClass.md)
  - [Petstore::EnumTest](docs/EnumTest.md)
@@ -144,8 +145,6 @@ Class | Method | HTTP request | Description
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
  - [Petstore::Tag](docs/Tag.md)
  - [Petstore::User](docs/User.md)
- - [Petstore::Cat](docs/Cat.md)
- - [Petstore::Dog](docs/Dog.md)
 
 
 ## Documentation for Authorization

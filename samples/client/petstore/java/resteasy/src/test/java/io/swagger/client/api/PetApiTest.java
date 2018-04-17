@@ -84,7 +84,7 @@ public class PetApiTest {
     /**
      * Finds Pets by tags
      *
-     * Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
      * @throws ApiException
      *          if the Api call fails

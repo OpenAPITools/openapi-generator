@@ -1,18 +1,22 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenParameter;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.*;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.PathItem.HttpMethod;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.oas.models.info.*;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.SupportingFile;
 
 public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptJqueryClientCodegen.class);
@@ -43,8 +47,42 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(JQUERY_ALREADY_IMPORTED, "When using this in legacy app using mix of typescript and javascript, this will only declare jquery and not import it", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(SNAPSHOT,
+                "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm",
+                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(JQUERY_ALREADY_IMPORTED,
+                "When using this in legacy app using mix of typescript and javascript, this will only declare jquery and not import it",
+                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+    }
+
+    @Override
+    public String getName() {
+        return "typescript-jquery";
+    }
+
+    @Override
+    public String getHelp() {
+        return "Generates a TypeScript jquery client library.";
+    }
+
+    public void setNpmName(String npmName) {
+        this.npmName = npmName;
+    }
+
+    public void setNpmVersion(String npmVersion) {
+        this.npmVersion = npmVersion;
+    }
+
+    public String getNpmVersion() {
+        return npmVersion;
+    }
+
+    public String getNpmRepository() {
+        return npmRepository;
+    }
+
+    public void setNpmRepository(String npmRepository) {
+        this.npmRepository = npmRepository;
     }
 
     @Override
@@ -58,42 +96,51 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
         supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
 
-        LOGGER.warn("check additionals: " + additionalProperties.get(NPM_NAME));
+        //LOGGER.warn("check additionals: " + additionalProperties.get(NPM_NAME));
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
     }
 
-    private String getIndexDirectory() {
-        String indexPackage = modelPackage.substring(0, Math.max(0, modelPackage.lastIndexOf('.')));
-        return indexPackage.replace('.', File.separatorChar);
+    @Override
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
+        if (ModelUtils.isStringSchema(p)) {
+            if (p.getEnum() != null) {
+                return openAPIType;
+            }
+        }
+        if (isLanguagePrimitive(openAPIType) || isLanguageGenericType(openAPIType)) {
+            return openAPIType;
+        }
+        return addModelPrefix(openAPIType);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
-        if (p instanceof StringProperty) {
-            StringProperty sp = (StringProperty) p;
-            if (sp.getEnum() != null) {
-                return swaggerType;
-            }
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+
+        if (!parameter.isEnum) {
+            parameter.dataType = addModelPrefix(parameter.dataType);
         }
-        if (isLanguagePrimitive(swaggerType) || isLanguageGenericType(swaggerType)) {
-            return swaggerType;
-        }
-        return addModelPrefix(swaggerType);
     }
 
-    private String addModelPrefix(String swaggerType) {
+    @Override
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        codegenModel.additionalPropertiesType = getSchemaType((Schema) schema.getAdditionalProperties());
+        addImport(codegenModel, codegenModel.additionalPropertiesType);
+    }
+
+    private String addModelPrefix(String openAPIType) {
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
         } else {
-            type = swaggerType;
+            type = openAPIType;
         }
 
         if (!isLanguagePrimitive(type) && !isLanguageGenericType(type)) {
-            type = "models." + swaggerType;
+            type = "models." + openAPIType;
         }
         return type;
     }
@@ -111,13 +158,9 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         return false;
     }
 
-    @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-        super.postProcessParameter(parameter);
-
-        if (!parameter.isEnum) {
-            parameter.dataType = addModelPrefix(parameter.dataType);
-        }
+    private String getPackageRootDirectory() {
+        String indexPackage = modelPackage.substring(0, Math.max(0, modelPackage.lastIndexOf('.')));
+        return indexPackage.replace('.', File.separatorChar);
     }
 
     private void addNpmPackageGeneration() {
@@ -145,45 +188,9 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         supportingFiles.add(new SupportingFile("tsconfig.mustache", getPackageRootDirectory(), "tsconfig.json"));
     }
 
-    private String getPackageRootDirectory() {
+    private String getIndexDirectory() {
         String indexPackage = modelPackage.substring(0, Math.max(0, modelPackage.lastIndexOf('.')));
         return indexPackage.replace('.', File.separatorChar);
     }
 
-    @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, ModelImpl swaggerModel) {
-        codegenModel.additionalPropertiesType = getSwaggerType(swaggerModel.getAdditionalProperties());
-        addImport(codegenModel, codegenModel.additionalPropertiesType);
-    }
-
-    @Override
-    public String getName() {
-        return "typescript-jquery";
-    }
-
-    @Override
-    public String getHelp() {
-        return "Generates a TypeScript jquery client library.";
-    }
-
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public String getNpmRepository() {
-        return npmRepository;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
 }

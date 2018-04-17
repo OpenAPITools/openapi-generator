@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **test_special_tags**
-> Client test_special_tags(body => $body)
+> Client test_special_tags(client => $client)
 
 To test special tags
 
@@ -26,10 +26,10 @@ use WWW::SwaggerClient::AnotherFakeApi;
 my $api_instance = WWW::SwaggerClient::AnotherFakeApi->new(
 );
 
-my $body = WWW::SwaggerClient::Object::Client->new(); # Client | client model
+my $client = WWW::SwaggerClient::Object::Client->new(); # Client | client model
 
 eval { 
-    my $result = $api_instance->test_special_tags(body => $body);
+    my $result = $api_instance->test_special_tags(client => $client);
     print Dumper($result);
 };
 if ($@) {
@@ -41,7 +41,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

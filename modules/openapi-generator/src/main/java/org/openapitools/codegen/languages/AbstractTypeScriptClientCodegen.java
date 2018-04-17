@@ -1,8 +1,5 @@
 package org.openapitools.codegen.languages;
 
-import io.swagger.models.parameters.Parameter;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.File;
 import java.util.*;
 
@@ -13,24 +10,22 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FileProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
+import org.openapitools.codegen.utils.ModelUtils;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.PathItem.HttpMethod;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.oas.models.info.*;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+
+import org.apache.commons.lang3.StringUtils;
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static final String UNDEFINED_VALUE = "undefined";
 
-    protected String modelPropertyNaming= "camelCase";
+    protected String modelPropertyNaming = "camelCase";
     protected Boolean supportsES6 = true;
     protected HashSet<String> languageGenericTypes;
 
@@ -66,7 +61,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "File",
                 "Error",
                 "Map"
-                ));
+        ));
 
         languageGenericTypes = new HashSet<String>(Arrays.asList(
                 "Array"
@@ -126,7 +121,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -153,7 +148,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         // sanitize name
         name = sanitizeName(name);
 
-        if("_".equals(name)) {
+        if ("_".equals(name)) {
             name = "_u";
         }
 
@@ -216,77 +211,63 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return "{ [key: string]: "+ getTypeDeclaration(inner) + "; }";
-        } else if (p instanceof FileProperty) {
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
+            return "{ [key: string]: " + getTypeDeclaration(inner) + "; }";
+        } else if (ModelUtils.isFileSchema(p)) {
+            return "any";
+        } else if (ModelUtils.isBinarySchema(p)) {
             return "any";
         }
         return super.getTypeDeclaration(p);
     }
 
-
     @Override
-    protected String getParameterDataType(Parameter parameter, Property p) {
+    protected String getParameterDataType(Parameter parameter, Schema p) {
         // handle enums of various data types
-        Property inner;
-        if (p instanceof ArrayProperty) {
-            ArrayProperty mp1 = (ArrayProperty) p;
+        Schema inner;
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema mp1 = (ArraySchema) p;
             inner = mp1.getItems();
-            return this.getSwaggerType(p) + "<" + this.getParameterDataType(parameter, inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            inner = mp.getAdditionalProperties();
+            return this.getSchemaType(p) + "<" + this.getParameterDataType(parameter, inner) + ">";
+        } else if (ModelUtils.isMapSchema(p)) {
+            inner = (Schema) p.getAdditionalProperties();
             return "{ [key: string]: " + this.getParameterDataType(parameter, inner) + "; }";
-        } else if (p instanceof StringProperty) {
+        } else if (ModelUtils.isStringSchema(p)) {
             // Handle string enums
-            StringProperty sp = (StringProperty) p;
-            if (sp.getEnum() != null) {
-                return enumValuesToEnumTypeUnion(sp.getEnum(), "string");
+            if (p.getEnum() != null) {
+                return enumValuesToEnumTypeUnion(p.getEnum(), "string");
             }
-        } else if (p instanceof IntegerProperty) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             // Handle integer enums
-            IntegerProperty sp = (IntegerProperty) p;
-            if (sp.getEnum() != null) {
-                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(sp.getEnum()));
+            if (p.getEnum() != null) {
+                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
-        } else if (p instanceof LongProperty) {
-            // Handle long enums
-            LongProperty sp = (LongProperty) p;
-            if (sp.getEnum() != null) {
-                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(sp.getEnum()));
-            }
-        } else if (p instanceof DoubleProperty) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             // Handle double enums
-            DoubleProperty sp = (DoubleProperty) p;
-            if (sp.getEnum() != null) {
-                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(sp.getEnum()));
-            }
-        } else if (p instanceof FloatProperty) {
-            // Handle float enums
-            FloatProperty sp = (FloatProperty) p;
-            if (sp.getEnum() != null) {
-                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(sp.getEnum()));
-            }
-        } else if (p instanceof DateProperty) {
-            // Handle date enums
-            DateProperty sp = (DateProperty) p;
-            if (sp.getEnum() != null) {
-                return enumValuesToEnumTypeUnion(sp.getEnum(), "string");
-            }
-        } else if (p instanceof DateTimeProperty) {
-            // Handle datetime enums
-            DateTimeProperty sp = (DateTimeProperty) p;
-            if (sp.getEnum() != null) {
-                return enumValuesToEnumTypeUnion(sp.getEnum(), "string");
+            if (p.getEnum() != null) {
+                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
         }
+        /* TODO revise the logic below
+        else if (ModelUtils.isDateSchema(p)) {
+            // Handle date enums
+            DateSchema sp = (DateSchema) p;
+            if (sp.getEnum() != null) {
+                return enumValuesToEnumTypeUnion(sp.getEnum(), "string");
+            }
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            // Handle datetime enums
+            DateTimeSchema sp = (DateTimeSchema) p;
+            if (sp.getEnum() != null) {
+                return enumValuesToEnumTypeUnion(sp.getEnum(), "string");
+            }
+        }*/
         return this.getTypeDeclaration(p);
     }
 
@@ -294,14 +275,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      * Converts a list of strings to a literal union for representing enum values as a type.
      * Example output: 'available' | 'pending' | 'sold'
      *
-     * @param values list of allowed enum values
+     * @param values   list of allowed enum values
      * @param dataType either "string" or "number"
-     * @return
+     * @return a literal union for representing enum values as a type
      */
     protected String enumValuesToEnumTypeUnion(List<String> values, String dataType) {
         StringBuilder b = new StringBuilder();
         boolean isFirst = true;
-        for (String value: values) {
+        for (String value : values) {
             if (!isFirst) {
                 b.append(" | ");
             }
@@ -315,70 +296,57 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      * Converts a list of numbers to a literal union for representing enum values as a type.
      * Example output: 3 | 9 | 55
      *
-     * @param values
-     * @return
+     * @param values a list of numbers
+     * @return a literal union for representing enum values as a type
      */
     protected String numericEnumValuesToEnumTypeUnion(List<Number> values) {
         List<String> stringValues = new ArrayList<>();
-        for (Number value: values) {
+        for (Number value : values) {
             stringValues.add(value.toString());
         }
         return enumValuesToEnumTypeUnion(stringValues, "number");
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty sp = (StringProperty) p;
-            if (sp.getDefault() != null) {
-                return "'" + sp.getDefault() + "'";
-            }
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
             return UNDEFINED_VALUE;
-        } else if (p instanceof BooleanProperty) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return UNDEFINED_VALUE;
-        } else if (p instanceof DateProperty) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return UNDEFINED_VALUE;
-        } else if (p instanceof DateTimeProperty) {
-            return UNDEFINED_VALUE;
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
+        } else if (ModelUtils.isNumberSchema(p)) {
+            NumberSchema dp = (NumberSchema) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
             return UNDEFINED_VALUE;
-        } else if (p instanceof FloatProperty) {
-            FloatProperty fp = (FloatProperty) p;
-            if (fp.getDefault() != null) {
-                return fp.getDefault().toString();
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
             return UNDEFINED_VALUE;
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty ip = (IntegerProperty) p;
-            if (ip.getDefault() != null) {
-                return ip.getDefault().toString();
-            }
-            return UNDEFINED_VALUE;
-        } else if (p instanceof LongProperty) {
-            LongProperty lp = (LongProperty) p;
-            if (lp.getDefault() != null) {
-                return lp.getDefault().toString();
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + (String) p.getDefault() + "'";
             }
             return UNDEFINED_VALUE;
         } else {
             return UNDEFINED_VALUE;
         }
+
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
                 return type;
         } else
-            type = swaggerType;
+            type = openAPIType;
         return toModelName(type);
     }
 
@@ -400,12 +368,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     public void setModelPropertyNaming(String naming) {
         if ("original".equals(naming) || "camelCase".equals(naming) ||
-            "PascalCase".equals(naming) || "snake_case".equals(naming)) {
+                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
             this.modelPropertyNaming = naming;
         } else {
             throw new IllegalArgumentException("Invalid model property naming '" +
-                                               naming + "'. Must be 'original', 'camelCase', " +
-                                               "'PascalCase' or 'snake_case'");
+                    naming + "'. Must be 'original', 'camelCase', " +
+                    "'PascalCase' or 'snake_case'");
         }
     }
 
@@ -415,13 +383,18 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     public String getNameUsingModelPropertyNaming(String name) {
         switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
-            case original:    return name;
-            case camelCase:   return camelize(name, true);
-            case PascalCase:  return camelize(name);
-            case snake_case:  return underscore(name);
-            default:          throw new IllegalArgumentException("Invalid model property naming '" +
-                                                                 name + "'. Must be 'original', 'camelCase', " +
-                                                                 "'PascalCase' or 'snake_case'");
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            default:
+                throw new IllegalArgumentException("Invalid model property naming '" +
+                        name + "'. Must be 'original', 'camelCase', " +
+                        "'PascalCase' or 'snake_case'");
         }
 
     }
@@ -506,11 +479,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
                         var.datatypeWithEnum = var.datatypeWithEnum
-                            .replace(var.enumName, cm.classname + "." + var.enumName);
+                                .replace(var.enumName, cm.classname + "." + var.enumName);
                     }
                 }
             }
-        } 
+        }
 
         return objs;
     }
@@ -526,7 +499,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 if (cm.discriminator != null && cm.children != null) {
                     for (CodegenModel child : cm.children) {
-                        this.setDiscriminatorValue(child, cm.discriminator, this.getDiscriminatorValue(child));
+                        this.setDiscriminatorValue(child, cm.discriminator.getPropertyName(), this.getDiscriminatorValue(child));
                     }
                 }
             }
@@ -558,7 +531,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     private String getDiscriminatorValue(CodegenModel model) {
         return model.vendorExtensions.containsKey(X_DISCRIMINATOR_TYPE) ?
-            (String) model.vendorExtensions.get(X_DISCRIMINATOR_TYPE) : model.classname;
+                (String) model.vendorExtensions.get(X_DISCRIMINATOR_TYPE) : model.classname;
     }
 
     @Override

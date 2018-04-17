@@ -23,7 +23,7 @@ PetApiImpl::PetApiImpl(Pistache::Address addr)
     : PetApi(addr)
     { }
 
-void PetApiImpl::add_pet(const Pet &body, Pistache::Http::ResponseWriter &response) {
+void PetApiImpl::add_pet(const Pet &pet, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 void PetApiImpl::delete_pet(const int64_t &petId, const Optional<Net::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) {
@@ -38,7 +38,7 @@ void PetApiImpl::find_pets_by_tags(const Optional<std::string> &tags, Pistache::
 void PetApiImpl::get_pet_by_id(const int64_t &petId, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void PetApiImpl::update_pet(const Pet &body, Pistache::Http::ResponseWriter &response) {
+void PetApiImpl::update_pet(const Pet &pet, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 void PetApiImpl::update_pet_with_form(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response){

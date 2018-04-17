@@ -192,7 +192,6 @@ SWGOrder::isSet(){
         if(m_id_isSet){ isObjectUpdated = true; break;}
         if(m_pet_id_isSet){ isObjectUpdated = true; break;}
         if(m_quantity_isSet){ isObjectUpdated = true; break;}
-        
         if(status != nullptr && *status != QString("")){ isObjectUpdated = true; break;}
         if(m_complete_isSet){ isObjectUpdated = true; break;}
     }while(false);

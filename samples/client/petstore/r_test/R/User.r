@@ -132,7 +132,7 @@ User <- R6::R6Class(
            "email": %s,
            "password": %s,
            "phone": %s,
-           "userStatus": %s
+           "userStatus": %d
         }',
         self$`id`,
         self$`username`,

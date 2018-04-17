@@ -123,13 +123,13 @@ StoreApi <- R6::R6Class(
       }
 
     },
-    place_order = function(body, ...){
+    place_order = function(order, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`order`)) {
+        body <- `order`$toJSONString()
       } else {
         body <- NULL
       }

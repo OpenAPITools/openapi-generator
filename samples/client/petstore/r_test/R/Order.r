@@ -102,7 +102,7 @@ Order <- R6::R6Class(
         '{
            "id": %d,
            "petId": %d,
-           "quantity": %s,
+           "quantity": %d,
            "shipDate": %s,
            "status": %s,
            "complete": %s

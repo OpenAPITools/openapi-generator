@@ -57,13 +57,13 @@ UserApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    create_user = function(body, ...){
+    create_user = function(user, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`user`)) {
+        body <- `user`$toJSONString()
       } else {
         body <- NULL
       }
@@ -85,13 +85,13 @@ UserApi <- R6::R6Class(
       }
 
     },
-    create_users_with_array_input = function(body, ...){
+    create_users_with_array_input = function(user, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`user`)) {
+        body <- `user`$toJSONString()
       } else {
         body <- NULL
       }
@@ -113,13 +113,13 @@ UserApi <- R6::R6Class(
       }
 
     },
-    create_users_with_list_input = function(body, ...){
+    create_users_with_list_input = function(user, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`user`)) {
+        body <- `user`$toJSONString()
       } else {
         body <- NULL
       }
@@ -249,13 +249,13 @@ UserApi <- R6::R6Class(
       }
 
     },
-    update_user = function(username, body, ...){
+    update_user = function(username, user, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`user`)) {
+        body <- `user`$toJSONString()
       } else {
         body <- NULL
       }

@@ -834,7 +834,6 @@
                 <!-- <module>samples/server/petstore/erlang-server</module> note: make sample compilation work -->
                 <!-- clients -->
                 <module>samples/client/petstore/php/SwaggerClient-php</module>
-                <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/javascript</module>
@@ -854,14 +853,15 @@
                 <module>samples/client/petstore/typescript-angular-v4/npm</module>
                 <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
                 <!--<module>samples/client/petstore/bash</module>-->
+                <module>samples/client/petstore/ruby</module>
             </modules>
         </profile>
     </profiles>
     <modules>
         <module>modules/openapi-generator</module>
         <module>modules/openapi-generator-cli</module>
-        <!--<module>modules/swagger-codegen-maven-plugin</module>
-        <module>modules/swagger-generator</module>-->
+        <module>modules/openapi-generator-maven-plugin</module>
+        <module>modules/openapi-generator-online</module>
     </modules>
     <reporting>
         <outputDirectory>target/site</outputDirectory>
@@ -925,10 +925,10 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-parser-version>1.0.34</swagger-parser-version>
+        <swagger-parser-version>2.0.0-SNAPSHOT</swagger-parser-version>
+        <swagger-core-version>2.0.0</swagger-core-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.0</felix-version>
-        <swagger-core-version>1.5.18</swagger-core-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
         <junit-version>4.8.1</junit-version>
@@ -937,7 +937,7 @@
         <commons-lang-version>3.4</commons-lang-version>
         <slf4j-version>1.7.12</slf4j-version>
         <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
-        <jmustache-version>1.12</jmustache-version>
+        <jmustache-version>1.14</jmustache-version>
         <testng-version>6.9.6</testng-version>
         <surefire-version>2.19.1</surefire-version>
         <jmockit-version>1.25</jmockit-version>

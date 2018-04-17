@@ -21,10 +21,10 @@ class StoreAPITests: XCTestCase {
     func test1PlaceOrder() {
         // use explicit naming to reference the enum so that we test we don't regress on enum naming
         let shipDate = Date()
-        let order = Order(id: 1000, petId: 1000, quantity: 10, shipDate: shipDate, status: .placed, complete: true)
+        let order = Order(_id: 1000, petId: 1000, quantity: 10, shipDate: shipDate, status: .placed, complete: true)
         let expectation = self.expectation(description: "testPlaceOrder")
         StoreAPI.placeOrder(body: order).subscribe(onNext: { order in
-            XCTAssert(order.id == 1000, "invalid id")
+            XCTAssert(order._id == 1000, "invalid id")
             XCTAssert(order.quantity == 10, "invalid quantity")
             XCTAssert(order.status == .placed, "invalid status")
             XCTAssert(order.shipDate!.isEqual(shipDate, format: self.isoDateFormat),
@@ -41,7 +41,7 @@ class StoreAPITests: XCTestCase {
     func test2GetOrder() {
         let expectation = self.expectation(description: "testGetOrder")
         StoreAPI.getOrderById(orderId: 1000).subscribe(onNext: { order -> Void in
-            XCTAssert(order.id == 1000, "invalid id")
+            XCTAssert(order._id == 1000, "invalid id")
             XCTAssert(order.quantity == 10, "invalid quantity")
             XCTAssert(order.status == .placed, "invalid status")
             XCTAssert(order.complete == true, "invalid complete")

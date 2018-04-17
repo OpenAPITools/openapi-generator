@@ -8,10 +8,9 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.Model;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
+import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.media.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -62,7 +61,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "is", "library", "new", "null", "operator", "part", "rethrow",
                         "return", "set", "static", "super", "switch", "sync*", "this",
                         "throw", "true", "try", "typedef", "var", "void", "while",
-                        "with", "yield", "yield*" )
+                        "with", "yield", "yield*")
         );
 
         languageSpecificPrimitives = new HashSet<String>(
@@ -163,14 +162,6 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
-        }
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-            Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
         }
 
         // make api and model doc path available in mustache template
@@ -275,41 +266,40 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof MapProperty) {
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isMapSchema(p)) {
             return "{}";
-        } else if (p instanceof ArrayProperty) {
+        } else if (ModelUtils.isArraySchema(p)) {
             return "[]";
         }
         return super.toDefaultValue(p);
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
 
-            return getSwaggerType(p) + "<String, " + getTypeDeclaration(inner) + ">";
+            return getSchemaType(p) + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
         } else {
-            type = swaggerType;
+            type = openAPIType;
         }
         return toModelName(type);
     }
@@ -417,12 +407,12 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumValue(String value, String datatype) {
-      if ("number".equalsIgnoreCase(datatype) ||
-            "int".equalsIgnoreCase(datatype)) {
-          return value;
-      } else {
-          return "\"" + escapeText(value) + "\"";
-      }
+        if ("number".equalsIgnoreCase(datatype) ||
+                "int".equalsIgnoreCase(datatype)) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
     }
 
     @Override

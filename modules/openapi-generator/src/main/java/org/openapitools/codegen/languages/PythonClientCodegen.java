@@ -9,7 +9,12 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import io.swagger.models.properties.*;
+import org.openapitools.codegen.utils.ModelUtils;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -63,6 +68,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         testFolder = "test";
 
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
+
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("float");
@@ -98,16 +106,16 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
         setReservedWordsLowerCase(
                 Arrays.asList(
-                    // local variable name used in API methods (endpoints)
-                    "all_params", "resource_path", "path_params", "query_params",
-                    "header_params", "form_params", "local_var_files", "body_params",  "auth_settings",
-                    // @property
-                    "property",
-                    // python reserved words
-                    "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
-                    "assert", "else", "if", "pass", "yield", "break", "except", "import",
-                    "print", "class", "exec", "in", "raise", "continue", "finally", "is",
-                    "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True", "False"));
+                        // local variable name used in API methods (endpoints)
+                        "all_params", "resource_path", "path_params", "query_params",
+                        "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
+                        // @property
+                        "property",
+                        // python reserved words
+                        "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
+                        "assert", "else", "if", "pass", "yield", "break", "except", "import",
+                        "print", "class", "exec", "in", "raise", "continue", "finally", "is",
+                        "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True", "False"));
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IGNORECASE");
@@ -126,7 +134,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(PACKAGE_URL, "python package URL."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
@@ -143,21 +151,19 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         super.processOpts();
         Boolean excludeTests = false;
 
-        if(additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
+        if (additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
             excludeTests = Boolean.valueOf(additionalProperties.get(CodegenConstants.EXCLUDE_TESTS).toString());
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        }
-        else {
+        } else {
             setPackageName("swagger_client");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
             setProjectName((String) additionalProperties.get(CodegenConstants.PROJECT_NAME));
-        }
-        else {
+        } else {
             // default: set project based on package name
             // e.g. petstore_api (package name) => petstore-api (project name)
             setProjectName(packageName.replaceAll("_", "-"));
@@ -165,17 +171,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        }
-        else {
-            setPackageVersion("1.0.0");
-        }
-
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
         } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
+            setPackageVersion("1.0.0");
         }
 
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
@@ -201,7 +198,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("__init__model.mustache", packageName + File.separatorChar + modelPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__api.mustache", packageName + File.separatorChar + apiPackage, "__init__.py"));
 
-        if(Boolean.FALSE.equals(excludeTests)) {
+        if (Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
         }
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
@@ -232,14 +229,14 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toModelImport(String name) {
         String modelImport;
-        if (StringUtils.startsWithAny(name,"import", "from")) {
+        if (StringUtils.startsWithAny(name, "import", "from")) {
             modelImport = name;
         } else {
             modelImport = "from ";
             if (!"".equals(modelPackage())) {
                 modelImport += modelPackage() + ".";
             }
-            modelImport += toModelFilename(name)+ " import " + name;
+            modelImport += toModelFilename(name) + " import " + name;
         }
         return modelImport;
     }
@@ -251,7 +248,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public void postProcessParameter(CodegenParameter parameter){
+    public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
     }
 
@@ -265,21 +262,21 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
      * does not support this in as natural a way so it needs to convert it. See
      * https://docs.python.org/2/howto/regex.html#compilation-flags for details.
      */
-    public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions){
-        if(pattern != null) {
+    public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
+        if (pattern != null) {
             int i = pattern.lastIndexOf('/');
 
             //Must follow Perl /pattern/modifiers convention
-            if(pattern.charAt(0) != '/' || i < 2) {
+            if (pattern.charAt(0) != '/' || i < 2) {
                 throw new IllegalArgumentException("Pattern must follow the Perl "
-                        + "/pattern/modifiers convention. "+pattern+" is not valid.");
+                        + "/pattern/modifiers convention. " + pattern + " is not valid.");
             }
 
             String regex = pattern.substring(1, i).replace("'", "\\'");
             List<String> modifiers = new ArrayList<String>();
 
-            for(char c : pattern.substring(i).toCharArray()) {
-                if(regexModifiers.containsKey(c)) {
+            for (char c : pattern.substring(i).toCharArray()) {
+                if (regexModifiers.containsKey(c)) {
                     String modifier = regexModifiers.get(c);
                     modifiers.add(modifier);
                 }
@@ -307,7 +304,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -355,23 +352,22 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
 
-            return getSwaggerType(p) + "(str, " + getTypeDeclaration(inner) + ")";
+            return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String swaggerType = super.getSchemaType(p);
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
@@ -518,7 +514,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     public void setProjectName(String projectName) {
-        this.projectName= projectName;
+        this.projectName = projectName;
     }
 
     public void setPackageVersion(String packageVersion) {
@@ -531,7 +527,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     /**
      * Generate Python package name from String `packageName`
-     *
+     * <p>
      * (PEP 0008) Python packages should also have short, all-lowercase names,
      * although the use of underscores is discouraged.
      *
@@ -550,46 +546,32 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
      * @return string presentation of the default value of the property
      */
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty dp = (StringProperty) p;
-            if (dp.getDefault() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher(dp.getDefault()).find())
-                    return "'''" + dp.getDefault() + "'''";
-                else
-                    return "'" + dp.getDefault() + "'";
-            }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty dp = (BooleanProperty) p;
-            if (dp.getDefault() != null) {
-                if (dp.getDefault().toString().equalsIgnoreCase("false"))
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                if (p.getDefault().toString().equalsIgnoreCase("false"))
                     return "False";
                 else
                     return "True";
             }
-        } else if (p instanceof DateProperty) {
+        } else if (ModelUtils.isDateSchema(p)) {
             // TODO
-        } else if (p instanceof DateTimeProperty) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
+                    return "'''" + p.getDefault() + "'''";
+                else
+                    return "'" + p.getDefault() + "'";
             }
         }
 

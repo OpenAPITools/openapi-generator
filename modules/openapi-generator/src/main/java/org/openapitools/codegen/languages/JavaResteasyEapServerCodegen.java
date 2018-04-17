@@ -6,18 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.BooleanUtils;
-
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.JbossFeature;
 import org.openapitools.codegen.languages.features.SwaggerFeatures;
-import io.swagger.models.Operation;
+import io.swagger.v3.oas.models.*;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         implements JbossFeature, BeanValidationFeatures, SwaggerFeatures {
@@ -25,7 +20,7 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
     protected boolean useBeanValidation = true;
     protected boolean generateJbossDeploymentDescriptor = true;
     protected boolean useSwaggerFeature = false;
-    
+
     public JavaResteasyEapServerCodegen() {
 
         super();
@@ -119,7 +114,7 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         } else {
             if (co.path.startsWith("/" + basePath)) {
                 co.path = co.path.substring(("/" + basePath).length());
-        }
+            }
             co.subresourceOperation = !co.path.isEmpty();
         }
         List<CodegenOperation> opList = operations.get(basePath);
@@ -144,8 +139,8 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
 
             if (BooleanUtils.toBoolean(model.hasEnums)) {
                 model.imports.add("JsonValue");
+            }
         }
-    }
     }
 
     @Override
@@ -164,12 +159,12 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
                 Map<String, String> item = new HashMap<String, String>();
                 item.put("import", importMapping.get("JsonValue"));
                 imports.add(item);
-        }
+            }
         }
 
         return objs;
     }
-    
+
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
     }
