@@ -522,7 +522,7 @@ static bool placeOrderHelper(char * accessToken,
 	string accessHeader = "Authorization: Bearer ";
 	accessHeader.append(accessToken);
 	headerList = curl_slist_append(headerList, accessHeader.c_str());
-	headerList = curl_slist_append(headerList, "Content-Type: */*");
+	headerList = curl_slist_append(headerList, "Content-Type: application/json");
 
 	map <string, string> queryParams;
 	string itemAtq;

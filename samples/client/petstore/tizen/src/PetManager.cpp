@@ -95,7 +95,6 @@ static bool addPetHelper(char * accessToken,
 	accessHeader.append(accessToken);
 	headerList = curl_slist_append(headerList, accessHeader.c_str());
 	headerList = curl_slist_append(headerList, "Content-Type: application/json");
-	headerList = curl_slist_append(headerList, "Content-Type: application/xml");
 
 	map <string, string> queryParams;
 	string itemAtq;
@@ -387,10 +386,12 @@ static bool findPetsByStatusHelper(char * accessToken,
 	map <string, string> queryParams;
 	string itemAtq;
 	
-
-	itemAtq = stringify(&status, "std::list");
-	queryParams.insert(pair<string, string>("status", itemAtq));
-
+	for (std::list
+	<std::string>::iterator queryIter = status.begin(); queryIter != status.end(); ++queryIter) {
+		string itemAt = stringify(&(*queryIter), "std::string");
+		queryParams.insert(pair<string, string>("status", itemAt));
+	}
+	
 	string mBody = "";
 	JsonNode* node;
 	JsonArray* json_array;
@@ -529,10 +530,12 @@ static bool findPetsByTagsHelper(char * accessToken,
 	map <string, string> queryParams;
 	string itemAtq;
 	
-
-	itemAtq = stringify(&tags, "std::list");
-	queryParams.insert(pair<string, string>("tags", itemAtq));
-
+	for (std::list
+	<std::string>::iterator queryIter = tags.begin(); queryIter != tags.end(); ++queryIter) {
+		string itemAt = stringify(&(*queryIter), "std::string");
+		queryParams.insert(pair<string, string>("tags", itemAt));
+	}
+	
 	string mBody = "";
 	JsonNode* node;
 	JsonArray* json_array;
@@ -805,7 +808,6 @@ static bool updatePetHelper(char * accessToken,
 	accessHeader.append(accessToken);
 	headerList = curl_slist_append(headerList, accessHeader.c_str());
 	headerList = curl_slist_append(headerList, "Content-Type: application/json");
-	headerList = curl_slist_append(headerList, "Content-Type: application/xml");
 
 	map <string, string> queryParams;
 	string itemAtq;
