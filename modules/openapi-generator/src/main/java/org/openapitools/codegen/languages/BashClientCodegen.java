@@ -185,6 +185,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "map");
         typeMapping.put("integer", "integer");
         typeMapping.put("ByteArray", "string");
+        typeMapping.put("file", "binary");
         typeMapping.put("binary", "binary");
         typeMapping.put("UUID", "string");
 
@@ -698,9 +699,9 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (example == null) {
                 example = "True";
             }
-        } else if ("file".equalsIgnoreCase(type)) {
+        } else if ("file".equalsIgnoreCase(type) || "binary".equalsIgnoreCase(type)) {
             if (example == null) {
-                example = "/path/to/file";
+                example = "BINARY_DATA_HERE";
             }
             example = "'" + escapeText(example) + "'";
         } else if ("date".equalsIgnoreCase(type)) {
@@ -716,6 +717,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             example = type;
+        } else if ("array".equalsIgnoreCase(type) || "map".equalsIgnoreCase(type)) {
+            // skip map/array as it will be handled below
         } else {
             LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
         }
@@ -730,5 +733,11 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         p.example = example;
     }
+
+    @Override
+    public String toModelFilename(String name) {
+        return initialCaps(name);
+    }
+
 
 }

@@ -110,7 +110,7 @@ _petstore-cli()
     operation_parameters["fakeOuterStringSerialize"]=""
     operation_parameters["testClientModel"]=""
     operation_parameters["testEndpointParameters"]=""
-    operation_parameters["testEnumParameters"]="enum_query_string_array= enum_query_string= enum_query_integer= enum_header_string_array: enum_header_string: "
+    operation_parameters["testEnumParameters"]="enum_query_string_array= enum_query_string= enum_query_integer= enum_query_double= enum_header_string_array: enum_header_string: "
     operation_parameters["testInlineAdditionalProperties"]=""
     operation_parameters["testJsonFormData"]=""
     operation_parameters["testClassname"]=""

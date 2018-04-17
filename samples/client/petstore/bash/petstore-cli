@@ -95,12 +95,12 @@ declare -a result_color_table=( "$WHITE" "$WHITE" "$GREEN" "$YELLOW" "$WHITE" "$
 # 0 - optional
 # 1 - required
 declare -A operation_parameters_minimum_occurrences
-operation_parameters_minimum_occurrences["testSpecialTags:::body"]=1
+operation_parameters_minimum_occurrences["testSpecialTags:::Client"]=1
 operation_parameters_minimum_occurrences["fakeOuterBooleanSerialize:::body"]=0
-operation_parameters_minimum_occurrences["fakeOuterCompositeSerialize:::body"]=0
+operation_parameters_minimum_occurrences["fakeOuterCompositeSerialize:::OuterComposite"]=0
 operation_parameters_minimum_occurrences["fakeOuterNumberSerialize:::body"]=0
 operation_parameters_minimum_occurrences["fakeOuterStringSerialize:::body"]=0
-operation_parameters_minimum_occurrences["testClientModel:::body"]=1
+operation_parameters_minimum_occurrences["testClientModel:::Client"]=1
 operation_parameters_minimum_occurrences["testEndpointParameters:::number"]=1
 operation_parameters_minimum_occurrences["testEndpointParameters:::double"]=1
 operation_parameters_minimum_occurrences["testEndpointParameters:::pattern_without_delimiter"]=1
@@ -115,25 +115,24 @@ operation_parameters_minimum_occurrences["testEndpointParameters:::date"]=0
 operation_parameters_minimum_occurrences["testEndpointParameters:::dateTime"]=0
 operation_parameters_minimum_occurrences["testEndpointParameters:::password"]=0
 operation_parameters_minimum_occurrences["testEndpointParameters:::callback"]=0
-operation_parameters_minimum_occurrences["testEnumParameters:::enum_form_string_array"]=0
-operation_parameters_minimum_occurrences["testEnumParameters:::enum_form_string"]=0
 operation_parameters_minimum_occurrences["testEnumParameters:::enum_header_string_array"]=0
 operation_parameters_minimum_occurrences["testEnumParameters:::enum_header_string"]=0
 operation_parameters_minimum_occurrences["testEnumParameters:::enum_query_string_array"]=0
 operation_parameters_minimum_occurrences["testEnumParameters:::enum_query_string"]=0
 operation_parameters_minimum_occurrences["testEnumParameters:::enum_query_integer"]=0
 operation_parameters_minimum_occurrences["testEnumParameters:::enum_query_double"]=0
-operation_parameters_minimum_occurrences["testInlineAdditionalProperties:::param"]=1
-operation_parameters_minimum_occurrences["testJsonFormData:::param"]=1
-operation_parameters_minimum_occurrences["testJsonFormData:::param2"]=1
-operation_parameters_minimum_occurrences["testClassname:::body"]=1
-operation_parameters_minimum_occurrences["addPet:::body"]=1
+operation_parameters_minimum_occurrences["testEnumParameters:::enum_form_string_array"]=0
+operation_parameters_minimum_occurrences["testEnumParameters:::enum_form_string"]=0
+operation_parameters_minimum_occurrences["testInlineAdditionalProperties:::UNKNOWN_BASE_NAME"]=1
+operation_parameters_minimum_occurrences["testJsonFormData:::Body_4"]=0
+operation_parameters_minimum_occurrences["testClassname:::Client"]=1
+operation_parameters_minimum_occurrences["addPet:::Pet"]=1
 operation_parameters_minimum_occurrences["deletePet:::petId"]=1
 operation_parameters_minimum_occurrences["deletePet:::api_key"]=0
 operation_parameters_minimum_occurrences["findPetsByStatus:::status"]=1
 operation_parameters_minimum_occurrences["findPetsByTags:::tags"]=1
 operation_parameters_minimum_occurrences["getPetById:::petId"]=1
-operation_parameters_minimum_occurrences["updatePet:::body"]=1
+operation_parameters_minimum_occurrences["updatePet:::Pet"]=1
 operation_parameters_minimum_occurrences["updatePetWithForm:::petId"]=1
 operation_parameters_minimum_occurrences["updatePetWithForm:::name"]=0
 operation_parameters_minimum_occurrences["updatePetWithForm:::status"]=0
@@ -142,16 +141,16 @@ operation_parameters_minimum_occurrences["uploadFile:::additionalMetadata"]=0
 operation_parameters_minimum_occurrences["uploadFile:::file"]=0
 operation_parameters_minimum_occurrences["deleteOrder:::order_id"]=1
 operation_parameters_minimum_occurrences["getOrderById:::order_id"]=1
-operation_parameters_minimum_occurrences["placeOrder:::body"]=1
-operation_parameters_minimum_occurrences["createUser:::body"]=1
-operation_parameters_minimum_occurrences["createUsersWithArrayInput:::body"]=1
-operation_parameters_minimum_occurrences["createUsersWithListInput:::body"]=1
+operation_parameters_minimum_occurrences["placeOrder:::Order"]=1
+operation_parameters_minimum_occurrences["createUser:::User"]=1
+operation_parameters_minimum_occurrences["createUsersWithArrayInput:::User"]=1
+operation_parameters_minimum_occurrences["createUsersWithListInput:::User"]=1
 operation_parameters_minimum_occurrences["deleteUser:::username"]=1
 operation_parameters_minimum_occurrences["getUserByName:::username"]=1
 operation_parameters_minimum_occurrences["loginUser:::username"]=1
 operation_parameters_minimum_occurrences["loginUser:::password"]=1
 operation_parameters_minimum_occurrences["updateUser:::username"]=1
-operation_parameters_minimum_occurrences["updateUser:::body"]=1
+operation_parameters_minimum_occurrences["updateUser:::User"]=1
 
 ##
 # This array stores the maximum number of allowed occurrences for parameter
@@ -160,12 +159,12 @@ operation_parameters_minimum_occurrences["updateUser:::body"]=1
 # N - N values
 # 0 - unlimited
 declare -A operation_parameters_maximum_occurrences
-operation_parameters_maximum_occurrences["testSpecialTags:::body"]=0
+operation_parameters_maximum_occurrences["testSpecialTags:::Client"]=0
 operation_parameters_maximum_occurrences["fakeOuterBooleanSerialize:::body"]=0
-operation_parameters_maximum_occurrences["fakeOuterCompositeSerialize:::body"]=0
+operation_parameters_maximum_occurrences["fakeOuterCompositeSerialize:::OuterComposite"]=0
 operation_parameters_maximum_occurrences["fakeOuterNumberSerialize:::body"]=0
 operation_parameters_maximum_occurrences["fakeOuterStringSerialize:::body"]=0
-operation_parameters_maximum_occurrences["testClientModel:::body"]=0
+operation_parameters_maximum_occurrences["testClientModel:::Client"]=0
 operation_parameters_maximum_occurrences["testEndpointParameters:::number"]=0
 operation_parameters_maximum_occurrences["testEndpointParameters:::double"]=0
 operation_parameters_maximum_occurrences["testEndpointParameters:::pattern_without_delimiter"]=0
@@ -180,25 +179,24 @@ operation_parameters_maximum_occurrences["testEndpointParameters:::date"]=0
 operation_parameters_maximum_occurrences["testEndpointParameters:::dateTime"]=0
 operation_parameters_maximum_occurrences["testEndpointParameters:::password"]=0
 operation_parameters_maximum_occurrences["testEndpointParameters:::callback"]=0
-operation_parameters_maximum_occurrences["testEnumParameters:::enum_form_string_array"]=0
-operation_parameters_maximum_occurrences["testEnumParameters:::enum_form_string"]=0
 operation_parameters_maximum_occurrences["testEnumParameters:::enum_header_string_array"]=0
 operation_parameters_maximum_occurrences["testEnumParameters:::enum_header_string"]=0
 operation_parameters_maximum_occurrences["testEnumParameters:::enum_query_string_array"]=0
 operation_parameters_maximum_occurrences["testEnumParameters:::enum_query_string"]=0
 operation_parameters_maximum_occurrences["testEnumParameters:::enum_query_integer"]=0
 operation_parameters_maximum_occurrences["testEnumParameters:::enum_query_double"]=0
-operation_parameters_maximum_occurrences["testInlineAdditionalProperties:::param"]=0
-operation_parameters_maximum_occurrences["testJsonFormData:::param"]=0
-operation_parameters_maximum_occurrences["testJsonFormData:::param2"]=0
-operation_parameters_maximum_occurrences["testClassname:::body"]=0
-operation_parameters_maximum_occurrences["addPet:::body"]=0
+operation_parameters_maximum_occurrences["testEnumParameters:::enum_form_string_array"]=0
+operation_parameters_maximum_occurrences["testEnumParameters:::enum_form_string"]=0
+operation_parameters_maximum_occurrences["testInlineAdditionalProperties:::UNKNOWN_BASE_NAME"]=0
+operation_parameters_maximum_occurrences["testJsonFormData:::Body_4"]=0
+operation_parameters_maximum_occurrences["testClassname:::Client"]=0
+operation_parameters_maximum_occurrences["addPet:::Pet"]=0
 operation_parameters_maximum_occurrences["deletePet:::petId"]=0
 operation_parameters_maximum_occurrences["deletePet:::api_key"]=0
 operation_parameters_maximum_occurrences["findPetsByStatus:::status"]=0
 operation_parameters_maximum_occurrences["findPetsByTags:::tags"]=0
 operation_parameters_maximum_occurrences["getPetById:::petId"]=0
-operation_parameters_maximum_occurrences["updatePet:::body"]=0
+operation_parameters_maximum_occurrences["updatePet:::Pet"]=0
 operation_parameters_maximum_occurrences["updatePetWithForm:::petId"]=0
 operation_parameters_maximum_occurrences["updatePetWithForm:::name"]=0
 operation_parameters_maximum_occurrences["updatePetWithForm:::status"]=0
@@ -207,27 +205,27 @@ operation_parameters_maximum_occurrences["uploadFile:::additionalMetadata"]=0
 operation_parameters_maximum_occurrences["uploadFile:::file"]=0
 operation_parameters_maximum_occurrences["deleteOrder:::order_id"]=0
 operation_parameters_maximum_occurrences["getOrderById:::order_id"]=0
-operation_parameters_maximum_occurrences["placeOrder:::body"]=0
-operation_parameters_maximum_occurrences["createUser:::body"]=0
-operation_parameters_maximum_occurrences["createUsersWithArrayInput:::body"]=0
-operation_parameters_maximum_occurrences["createUsersWithListInput:::body"]=0
+operation_parameters_maximum_occurrences["placeOrder:::Order"]=0
+operation_parameters_maximum_occurrences["createUser:::User"]=0
+operation_parameters_maximum_occurrences["createUsersWithArrayInput:::User"]=0
+operation_parameters_maximum_occurrences["createUsersWithListInput:::User"]=0
 operation_parameters_maximum_occurrences["deleteUser:::username"]=0
 operation_parameters_maximum_occurrences["getUserByName:::username"]=0
 operation_parameters_maximum_occurrences["loginUser:::username"]=0
 operation_parameters_maximum_occurrences["loginUser:::password"]=0
 operation_parameters_maximum_occurrences["updateUser:::username"]=0
-operation_parameters_maximum_occurrences["updateUser:::body"]=0
+operation_parameters_maximum_occurrences["updateUser:::User"]=0
 
 ##
 # The type of collection for specifying multiple values for parameter:
 # - multi, csv, ssv, tsv
 declare -A operation_parameters_collection_type
-operation_parameters_collection_type["testSpecialTags:::body"]=""
+operation_parameters_collection_type["testSpecialTags:::Client"]=""
 operation_parameters_collection_type["fakeOuterBooleanSerialize:::body"]=""
-operation_parameters_collection_type["fakeOuterCompositeSerialize:::body"]=""
+operation_parameters_collection_type["fakeOuterCompositeSerialize:::OuterComposite"]=""
 operation_parameters_collection_type["fakeOuterNumberSerialize:::body"]=""
 operation_parameters_collection_type["fakeOuterStringSerialize:::body"]=""
-operation_parameters_collection_type["testClientModel:::body"]=""
+operation_parameters_collection_type["testClientModel:::Client"]=""
 operation_parameters_collection_type["testEndpointParameters:::number"]=""
 operation_parameters_collection_type["testEndpointParameters:::double"]=""
 operation_parameters_collection_type["testEndpointParameters:::pattern_without_delimiter"]=""
@@ -242,25 +240,24 @@ operation_parameters_collection_type["testEndpointParameters:::date"]=""
 operation_parameters_collection_type["testEndpointParameters:::dateTime"]=""
 operation_parameters_collection_type["testEndpointParameters:::password"]=""
 operation_parameters_collection_type["testEndpointParameters:::callback"]=""
-operation_parameters_collection_type["testEnumParameters:::enum_form_string_array"]=
-operation_parameters_collection_type["testEnumParameters:::enum_form_string"]=""
-operation_parameters_collection_type["testEnumParameters:::enum_header_string_array"]=
+operation_parameters_collection_type["testEnumParameters:::enum_header_string_array"]="csv"
 operation_parameters_collection_type["testEnumParameters:::enum_header_string"]=""
-operation_parameters_collection_type["testEnumParameters:::enum_query_string_array"]=
+operation_parameters_collection_type["testEnumParameters:::enum_query_string_array"]="multi"
 operation_parameters_collection_type["testEnumParameters:::enum_query_string"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_query_integer"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_query_double"]=""
-operation_parameters_collection_type["testInlineAdditionalProperties:::param"]=""
-operation_parameters_collection_type["testJsonFormData:::param"]=""
-operation_parameters_collection_type["testJsonFormData:::param2"]=""
-operation_parameters_collection_type["testClassname:::body"]=""
-operation_parameters_collection_type["addPet:::body"]=""
+operation_parameters_collection_type["testEnumParameters:::enum_form_string_array"]=""
+operation_parameters_collection_type["testEnumParameters:::enum_form_string"]=""
+operation_parameters_collection_type["testInlineAdditionalProperties:::UNKNOWN_BASE_NAME"]=""
+operation_parameters_collection_type["testJsonFormData:::Body_4"]=""
+operation_parameters_collection_type["testClassname:::Client"]=""
+operation_parameters_collection_type["addPet:::Pet"]=""
 operation_parameters_collection_type["deletePet:::petId"]=""
 operation_parameters_collection_type["deletePet:::api_key"]=""
 operation_parameters_collection_type["findPetsByStatus:::status"]="csv"
 operation_parameters_collection_type["findPetsByTags:::tags"]="csv"
 operation_parameters_collection_type["getPetById:::petId"]=""
-operation_parameters_collection_type["updatePet:::body"]=""
+operation_parameters_collection_type["updatePet:::Pet"]=""
 operation_parameters_collection_type["updatePetWithForm:::petId"]=""
 operation_parameters_collection_type["updatePetWithForm:::name"]=""
 operation_parameters_collection_type["updatePetWithForm:::status"]=""
@@ -269,16 +266,16 @@ operation_parameters_collection_type["uploadFile:::additionalMetadata"]=""
 operation_parameters_collection_type["uploadFile:::file"]=""
 operation_parameters_collection_type["deleteOrder:::order_id"]=""
 operation_parameters_collection_type["getOrderById:::order_id"]=""
-operation_parameters_collection_type["placeOrder:::body"]=""
-operation_parameters_collection_type["createUser:::body"]=""
-operation_parameters_collection_type["createUsersWithArrayInput:::body"]=
-operation_parameters_collection_type["createUsersWithListInput:::body"]=
+operation_parameters_collection_type["placeOrder:::Order"]=""
+operation_parameters_collection_type["createUser:::User"]=""
+operation_parameters_collection_type["createUsersWithArrayInput:::User"]=
+operation_parameters_collection_type["createUsersWithListInput:::User"]=
 operation_parameters_collection_type["deleteUser:::username"]=""
 operation_parameters_collection_type["getUserByName:::username"]=""
 operation_parameters_collection_type["loginUser:::username"]=""
 operation_parameters_collection_type["loginUser:::password"]=""
 operation_parameters_collection_type["updateUser:::username"]=""
-operation_parameters_collection_type["updateUser:::body"]=""
+operation_parameters_collection_type["updateUser:::User"]=""
 
 
 ##
@@ -748,7 +745,7 @@ echo "  $ops" | column -t -s ';'
     echo -e "  -V,--version\\t\\t\\t\\tPrint API version"
     echo -e "  --about\\t\\t\\t\\tPrint the information about service"
     echo -e "  --host ${CYAN}<url>${OFF}\\t\\t\\t\\tSpecify the host URL "
-echo -e "              \\t\\t\\t\\t(e.g. 'https://petstore.swagger.io:80')"
+echo -e "              \\t\\t\\t\\t(e.g. 'https://petstore.swagger.io')"
 
     echo -e "  --force\\t\\t\\t\\tForce command invocation in spite of missing"
     echo -e "         \\t\\t\\t\\trequired parameters or wrong content type"
@@ -805,7 +802,7 @@ print_testSpecialTags_help() {
     echo -e "To test special tags" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -824,7 +821,7 @@ print_fakeOuterBooleanSerialize_help() {
     echo -e "Test serialization of outer boolean types" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input boolean as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF}${OFF} - Input boolean as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -843,7 +840,7 @@ print_fakeOuterCompositeSerialize_help() {
     echo -e "Test serialization of object with outer number type" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input composite as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF}${OFF} - Input composite as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -862,7 +859,7 @@ print_fakeOuterNumberSerialize_help() {
     echo -e "Test serialization of outer number types" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input number as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF}${OFF} - Input number as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -881,7 +878,7 @@ print_fakeOuterStringSerialize_help() {
     echo -e "Test serialization of outer string types" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input string as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF}${OFF} - Input string as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -900,7 +897,7 @@ print_testClientModel_help() {
     echo -e "To test \"client\" model" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -945,12 +942,14 @@ print_testEnumParameters_help() {
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}enum_header_string_array${OFF} ${BLUE}[array[string]]${OFF}${OFF} - Header parameter enum test (string array) ${YELLOW}Specify as: enum_header_string_array:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enum_header_string${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: -efg)${OFF} - Header parameter enum test (string) ${YELLOW}Specify as: enum_header_string:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enum_query_string_array${OFF} ${BLUE}[array[string]]${OFF}${OFF} - Query parameter enum test (string array)${YELLOW} Specify as: ${OFF}" \
+    echo -e "  * ${GREEN}enum_header_string${OFF} ${BLUE}[string]${OFF}${OFF} - Header parameter enum test (string) ${YELLOW}Specify as: enum_header_string:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enum_query_string_array${OFF} ${BLUE}[array[string]]${OFF}${OFF} - Query parameter enum test (string array)${YELLOW} Specify as: enum_query_string_array=value1 enum_query_string_array=value2 enum_query_string_array=...${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enum_query_string${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: -efg)${OFF} - Query parameter enum test (string)${YELLOW} Specify as: enum_query_string=value${OFF}" \
+    echo -e "  * ${GREEN}enum_query_string${OFF} ${BLUE}[string]${OFF}${OFF} - Query parameter enum test (string)${YELLOW} Specify as: enum_query_string=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}enum_query_integer${OFF} ${BLUE}[integer]${OFF}${OFF} - Query parameter enum test (double)${YELLOW} Specify as: enum_query_integer=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enum_query_double${OFF} ${BLUE}[float]${OFF}${OFF} - Query parameter enum test (double)${YELLOW} Specify as: enum_query_double=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -967,8 +966,6 @@ print_testEnumParameters_help() {
 print_testInlineAdditionalProperties_help() {
     echo ""
     echo -e "${BOLD}${WHITE}testInlineAdditionalProperties - test inline additionalProperties${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - request body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -987,9 +984,9 @@ print_testJsonFormData_help() {
     echo ""
     echo -e "${BOLD}${WHITE}testJsonFormData - test json serialization of form data${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | paste -sd' ' | fold -sw 80
-    echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF}${OFF} - " | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
@@ -1004,8 +1001,10 @@ print_testClassname_help() {
     echo ""
     echo -e "${BOLD}${WHITE}testClassname - To test class name in snake case${OFF}${BLUE}(AUTH - QUERY)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
+    echo -e "To test class name in snake case" | paste -sd' ' | fold -sw 80
+    echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1021,10 +1020,8 @@ print_addPet_help() {
     echo ""
     echo -e "${BOLD}${WHITE}addPet - Add a new pet to the store${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | paste -sd' ' | fold -sw 80
-    echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json,application/xml]${OFF} ${RED}(required)${OFF}${OFF} - Pet object that needs to be added to the store" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - Pet object that needs to be added to the store" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1039,8 +1036,6 @@ print_addPet_help() {
 print_deletePet_help() {
     echo ""
     echo -e "${BOLD}${WHITE}deletePet - Deletes a pet${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}petId${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF}${OFF} - Pet id to delete ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -1123,10 +1118,8 @@ print_updatePet_help() {
     echo ""
     echo -e "${BOLD}${WHITE}updatePet - Update an existing pet${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | paste -sd' ' | fold -sw 80
-    echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json,application/xml]${OFF} ${RED}(required)${OFF}${OFF} - Pet object that needs to be added to the store" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - Pet object that needs to be added to the store" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1146,8 +1139,6 @@ print_updatePetWithForm_help() {
     echo ""
     echo -e "${BOLD}${WHITE}updatePetWithForm - Updates a pet in the store with form data${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | paste -sd' ' | fold -sw 80
-    echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}petId${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet that needs to be updated ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
@@ -1163,8 +1154,6 @@ print_updatePetWithForm_help() {
 print_uploadFile_help() {
     echo ""
     echo -e "${BOLD}${WHITE}uploadFile - uploads an image${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}petId${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet to update ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -1240,10 +1229,8 @@ print_placeOrder_help() {
     echo ""
     echo -e "${BOLD}${WHITE}placeOrder - Place an order for a pet${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | paste -sd' ' | fold -sw 80
-    echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - order placed for purchasing the pet" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - order placed for purchasing the pet" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1264,7 +1251,7 @@ print_createUser_help() {
     echo -e "This can only be done by the logged in user." | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - Created user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - Created user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1279,8 +1266,6 @@ print_createUser_help() {
 print_createUsersWithArrayInput_help() {
     echo ""
     echo -e "${BOLD}${WHITE}createUsersWithArrayInput - Creates list of users with given input array${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - List of user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -1298,8 +1283,6 @@ print_createUsersWithArrayInput_help() {
 print_createUsersWithListInput_help() {
     echo ""
     echo -e "${BOLD}${WHITE}createUsersWithListInput - Creates list of users with given input array${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - List of user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -1338,8 +1321,6 @@ print_getUserByName_help() {
     echo ""
     echo -e "${BOLD}${WHITE}getUserByName - Get user by user name${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | paste -sd' ' | fold -sw 80
-    echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}username${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF}${OFF} - The name that needs to be fetched. Use user1 for testing. ${YELLOW}Specify as: username=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
@@ -1360,8 +1341,6 @@ print_loginUser_help() {
     echo ""
     echo -e "${BOLD}${WHITE}loginUser - Logs user into the system${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | paste -sd' ' | fold -sw 80
-    echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}username${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF}${OFF} - The user name for login${YELLOW} Specify as: username=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -1372,8 +1351,8 @@ print_loginUser_help() {
     code=200
     echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
         echo -e "       ${BOLD}${WHITE}Response headers${OFF}"
-        echo -e "       ${BLUE}X-Rate-Limit${OFF} - calls per hour allowed by the user" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/        /'
-        echo -e "       ${BLUE}X-Expires-After${OFF} - date in UTC when toekn expires" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/        /'
+        echo -e "       ${BLUE}X-Rate-Limit${OFF} - " | paste -sd' ' | fold -sw 80 | sed '2,$s/^/        /'
+        echo -e "       ${BLUE}X-Expires-After${OFF} - " | paste -sd' ' | fold -sw 80 | sed '2,$s/^/        /'
     code=400
     echo -e "${result_color_table[${code:0:1}]}  400;Invalid username/password supplied${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
@@ -1385,8 +1364,6 @@ print_loginUser_help() {
 print_logoutUser_help() {
     echo ""
     echo -e "${BOLD}${WHITE}logoutUser - Logs out current logged in user session${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1406,7 +1383,7 @@ print_updateUser_help() {
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}username${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF}${OFF} - name that need to be deleted ${YELLOW}Specify as: username=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - Updated user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - Updated user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1453,19 +1430,10 @@ call_testSpecialTags() {
     # command line. If not try to set them based on the Swagger specification
     # if values produces and consumes are defined unambigously
     #
-    if [[ -z $header_content_type ]]; then
-        header_content_type="application/json"
-    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "ERROR: Request's content-type not specified!!!"
-        echo "This operation expects content-type in one of the following formats:"
-        echo -e "\\t- application/json"
-        echo ""
-        echo "Use '--content-type' to set proper content type"
-        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -1531,10 +1499,19 @@ call_fakeOuterBooleanSerialize() {
     # command line. If not try to set them based on the Swagger specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -1600,10 +1577,19 @@ call_fakeOuterCompositeSerialize() {
     # command line. If not try to set them based on the Swagger specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -1669,10 +1655,19 @@ call_fakeOuterNumberSerialize() {
     # command line. If not try to set them based on the Swagger specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -1738,10 +1733,19 @@ call_fakeOuterStringSerialize() {
     # command line. If not try to set them based on the Swagger specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -1807,19 +1811,10 @@ call_testClientModel() {
     # command line. If not try to set them based on the Swagger specification
     # if values produces and consumes are defined unambigously
     #
-    if [[ -z $header_content_type ]]; then
-        header_content_type="application/json"
-    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "ERROR: Request's content-type not specified!!!"
-        echo "This operation expects content-type in one of the following formats:"
-        echo -e "\\t- application/json"
-        echo ""
-        echo "Use '--content-type' to set proper content type"
-        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -1896,7 +1891,7 @@ call_testEnumParameters() {
     local path_parameter_names=()
     # ignore error about 'query_parameter_names' being unused; passed by reference
     # shellcheck disable=SC2034
-    local query_parameter_names=(enum_query_string_array enum_query_string enum_query_integer)
+    local query_parameter_names=(enum_query_string_array enum_query_string enum_query_integer enum_query_double)
     local path
 
     if ! path=$(build_request_path "/v2/fake" path_parameter_names query_parameter_names); then
@@ -2028,10 +2023,52 @@ call_testJsonFormData() {
     if [[ -n $basic_auth_credential ]]; then
         basic_auth_option="-u ${basic_auth_credential}"
     fi
-    if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    local body_json_curl=""
+
+    #
+    # Check if the user provided 'Content-type' headers in the
+    # command line. If not try to set them based on the Swagger specification
+    # if values produces and consumes are defined unambigously
+    #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
+
+
+    if [[ -z $header_content_type && "$force" = false ]]; then
+        :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
+    fi
+
+
+    #
+    # If we have received some body content over pipe, pass it from the
+    # temporary file to cURL
+    #
+    if [[ -n $body_content_temp_file ]]; then
+        if [[ "$print_curl" = true ]]; then
+            echo "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        else
+            eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        fi
+        rm "${body_content_temp_file}"
+    #
+    # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
+    #
+    else
+        body_json_curl=$(body_parameters_to_json)
+        if [[ "$print_curl" = true ]]; then
+            echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        else
+            eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        fi
     fi
 }
 
@@ -2071,19 +2108,10 @@ call_testClassname() {
     # command line. If not try to set them based on the Swagger specification
     # if values produces and consumes are defined unambigously
     #
-    if [[ -z $header_content_type ]]; then
-        header_content_type="application/json"
-    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "ERROR: Request's content-type not specified!!!"
-        echo "This operation expects content-type in one of the following formats:"
-        echo -e "\\t- application/json"
-        echo ""
-        echo "Use '--content-type' to set proper content type"
-        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -2153,13 +2181,6 @@ call_addPet() {
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "ERROR: Request's content-type not specified!!!"
-        echo "This operation expects content-type in one of the following formats:"
-        echo -e "\\t- application/json"
-        echo -e "\\t- application/xml"
-        echo ""
-        echo "Use '--content-type' to set proper content type"
-        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -2373,13 +2394,6 @@ call_updatePet() {
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "ERROR: Request's content-type not specified!!!"
-        echo "This operation expects content-type in one of the following formats:"
-        echo -e "\\t- application/json"
-        echo -e "\\t- application/xml"
-        echo ""
-        echo "Use '--content-type' to set proper content type"
-        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -2625,10 +2639,19 @@ call_placeOrder() {
     # command line. If not try to set them based on the Swagger specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -2694,10 +2717,19 @@ call_createUser() {
     # command line. If not try to set them based on the Swagger specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -3045,10 +3077,19 @@ call_updateUser() {
     # command line. If not try to set them based on the Swagger specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi

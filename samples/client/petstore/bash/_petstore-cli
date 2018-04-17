@@ -379,6 +379,7 @@ case $state in
                     "enum_query_string_array=:[QUERY] Query parameter enum test (string array)"
 "enum_query_string=:[QUERY] Query parameter enum test (string)"
 "enum_query_integer=:[QUERY] Query parameter enum test (double)"
+"enum_query_double=:[QUERY] Query parameter enum test (double)"
           "enum_header_string_array\::[HEADER] Header parameter enum test (string array)"
 "enum_header_string\::[HEADER] Header parameter enum test (string)"
 )
