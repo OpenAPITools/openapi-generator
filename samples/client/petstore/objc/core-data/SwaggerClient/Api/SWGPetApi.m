@@ -52,11 +52,11 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
 ///
 /// Add a new pet to the store
 /// 
-///  @param body Pet object that needs to be added to the store (optional)
+///  @param pet Pet object that needs to be added to the store (optional)
 ///
 ///  @returns void
 ///
--(NSURLSessionTask*) addPetWithBody: (SWGPet*) body
+-(NSURLSessionTask*) addPetWithPet: (SWGPet) pet
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet"];
 
@@ -66,7 +66,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -75,7 +75,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"petstore_auth"];
@@ -83,7 +83,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = pet;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -141,7 +141,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
         headerParams[@"api_key"] = apiKey;
     }
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -363,11 +363,11 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
 ///
 /// Update an existing pet
 /// 
-///  @param body Pet object that needs to be added to the store (optional)
+///  @param pet Pet object that needs to be added to the store (optional)
 ///
 ///  @returns void
 ///
--(NSURLSessionTask*) updatePetWithBody: (SWGPet*) body
+-(NSURLSessionTask*) updatePetWithPet: (SWGPet) pet
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet"];
 
@@ -377,7 +377,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -386,7 +386,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[@"application/json", @"application/xml"]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[@"petstore_auth"];
@@ -394,7 +394,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = pet;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"PUT"
@@ -452,7 +452,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -532,7 +532,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }

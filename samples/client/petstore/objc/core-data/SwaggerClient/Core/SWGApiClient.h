@@ -5,7 +5,7 @@
 
 /**
 * Swagger Petstore
-* This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters
+* This is a sample server Petstore server.  You can find out more about Swagger at http://swagger.io or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters
 *
 * OpenAPI spec version: 1.0.0
 * Contact: apiteam@wordnik.com
@@ -66,7 +66,7 @@ extern NSString *const SWGResponseObjectErrorKey;
 /**
  * Updates header parameters and query parameters for authentication
  *
- * @param headers The header parameter will be udpated, passed by pointer to pointer.
+ * @param headers The header parameter will be updated, passed by pointer to pointer.
  * @param querys The query parameters will be updated, passed by pointer to pointer.
  * @param authSettings The authentication names NSArray.
  */

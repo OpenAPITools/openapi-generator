@@ -4,7 +4,7 @@
 
 /**
 * Swagger Petstore
-* This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters
+* This is a sample server Petstore server.  You can find out more about Swagger at http://swagger.io or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters
 *
 * OpenAPI spec version: 1.0.0
 * Contact: apiteam@wordnik.com
@@ -64,13 +64,13 @@ extern NSInteger kSWGStoreApiMissingParamErrorCode;
 /// Place an order for a pet
 /// 
 ///
-/// @param body order placed for purchasing the pet (optional)
+/// @param order order placed for purchasing the pet (optional)
 /// 
 ///  code:200 message:"successful operation",
 ///  code:400 message:"Invalid Order"
 ///
 /// @return SWGOrder*
--(NSURLSessionTask*) placeOrderWithBody: (SWGOrder*) body
+-(NSURLSessionTask*) placeOrderWithOrder: (SWGOrder) order
     completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler;
 
 

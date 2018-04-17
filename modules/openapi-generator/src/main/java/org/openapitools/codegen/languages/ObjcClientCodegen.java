@@ -531,6 +531,10 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 name = escapeSpecialWord(name);
         }
 
+        if (name.startsWith(classPrefix)) {
+            name = name.replaceFirst(classPrefix, ""); //remove the class prefix, e.g. SWGPet => Pet
+        }
+
         // camelize (lower first character) the variable name
         // e.g. `pet_id` to `petId`
         name = camelize(name, true);
@@ -685,12 +689,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             type = p.dataType;
         }
 
-        if ("NSString*".equalsIgnoreCase(type)) {
+        if ("NSString*".equalsIgnoreCase(type) || "NSString".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = p.paramName + "_example";
             }
             example = "@\"" + escapeText(example) + "\"";
-        } else if ("NSNumber*".equals(type)) {
+        } else if ("NSNumber*".equalsIgnoreCase(type) || "NSNumber".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "56";
             }
@@ -704,7 +708,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (example == null) {
                 example = "True";
             }
-        } else if ("NSURL*".equalsIgnoreCase(type)) {
+        } else if ("NSURL*".equalsIgnoreCase(type) || "NSURL".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "/path/to/file";
             }
@@ -728,7 +732,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             // e.g. [[SWGPet alloc] init
             example = "[[" + type + " alloc] init]";
         } else {
-            LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
+            LOGGER.warn("Example value for " + type + " not handled properly in setParameterExampleValue");
         }
 
         if (example == null) {
