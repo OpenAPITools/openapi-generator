@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 import com.google.common.collect.ImmutableMap;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.MediaType;
@@ -160,6 +161,14 @@ public class JavaClientCodegenTest {
         point.addProperties("x", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
         point.addProperties("y", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
         CodegenParameter codegenParameter3 = codegen.fromRequestBody(body3 , Collections.<String, Schema>singletonMap("Point", point), new HashSet<String>());
+    }
+
+    @Test
+    public void nullValuesInComposedSchema() throws Exception {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        CodegenModel result = codegen.fromModel("CompSche",
+                new ComposedSchema());
+        Assert.assertEquals(result.name, "CompSche");
     }
 
     @Test
