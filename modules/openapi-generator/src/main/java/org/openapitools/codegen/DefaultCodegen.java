@@ -1360,19 +1360,21 @@ public class DefaultCodegen implements CodegenConfig {
                 allProperties = new LinkedHashMap<String, Schema>();
                 allRequired = new ArrayList<String>();
                 m.allVars = new ArrayList<CodegenProperty>();
-                int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
-                for (Schema innerModel : composed.getAllOf()) {
-                    if (m.discriminator == null) {
-                        m.discriminator = schema.getDiscriminator();
-                    }
-                    if (innerModel.getXml() != null) {
-                        m.xmlPrefix = innerModel.getXml().getPrefix();
-                        m.xmlNamespace = innerModel.getXml().getNamespace();
-                        m.xmlName = innerModel.getXml().getName();
-                    }
-                    if (modelImplCnt++ > 1) {
-                        LOGGER.warn("More than one inline schema specified in allOf:. Only the first one is recognized. All others are ignored.");
-                        break; // only one ModelImpl with discriminator allowed in allOf
+                if(composed.getAllOf() != null) {
+                    int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
+                    for (Schema innerModel : composed.getAllOf()) {
+                        if (m.discriminator == null) {
+                            m.discriminator = schema.getDiscriminator();
+                        }
+                        if (innerModel.getXml() != null) {
+                            m.xmlPrefix = innerModel.getXml().getPrefix();
+                            m.xmlNamespace = innerModel.getXml().getNamespace();
+                            m.xmlName = innerModel.getXml().getName();
+                        }
+                        if (modelImplCnt++ > 1) {
+                            LOGGER.warn("More than one inline schema specified in allOf:. Only the first one is recognized. All others are ignored.");
+                            break; // only one ModelImpl with discriminator allowed in allOf
+                        }
                     }
                 }
             } else {
