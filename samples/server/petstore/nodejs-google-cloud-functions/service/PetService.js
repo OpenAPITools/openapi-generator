@@ -3,12 +3,11 @@
 
 /**
  * Add a new pet to the store
- * 
  *
- * body Pet Pet object that needs to be added to the store
+ * pet Pet Pet object that needs to be added to the store
  * no response value expected for this operation
  **/
-exports.addPet = function(body) {
+exports.addPet = function(pet) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -17,7 +16,6 @@ exports.addPet = function(body) {
 
 /**
  * Deletes a pet
- * 
  *
  * petId Long Pet id to delete
  * api_key String  (optional)
@@ -40,7 +38,7 @@ exports.deletePet = function(petId,api_key) {
 exports.findPetsByStatus = function(status) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = [ {
+    examples['application/json'] = {
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
@@ -56,23 +54,7 @@ exports.findPetsByStatus = function(status) {
     "id" : 1
   } ],
   "status" : "available"
-}, {
-  "photoUrls" : [ "photoUrls", "photoUrls" ],
-  "name" : "doggie",
-  "id" : 0,
-  "category" : {
-    "name" : "name",
-    "id" : 6
-  },
-  "tags" : [ {
-    "name" : "name",
-    "id" : 1
-  }, {
-    "name" : "name",
-    "id" : 1
-  } ],
-  "status" : "available"
-} ];
+};
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -92,7 +74,7 @@ exports.findPetsByStatus = function(status) {
 exports.findPetsByTags = function(tags) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = [ {
+    examples['application/json'] = {
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
@@ -108,23 +90,7 @@ exports.findPetsByTags = function(tags) {
     "id" : 1
   } ],
   "status" : "available"
-}, {
-  "photoUrls" : [ "photoUrls", "photoUrls" ],
-  "name" : "doggie",
-  "id" : 0,
-  "category" : {
-    "name" : "name",
-    "id" : 6
-  },
-  "tags" : [ {
-    "name" : "name",
-    "id" : 1
-  }, {
-    "name" : "name",
-    "id" : 1
-  } ],
-  "status" : "available"
-} ];
+};
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -172,12 +138,11 @@ exports.getPetById = function(petId) {
 
 /**
  * Update an existing pet
- * 
  *
- * body Pet Pet object that needs to be added to the store
+ * pet Pet Pet object that needs to be added to the store
  * no response value expected for this operation
  **/
-exports.updatePet = function(body) {
+exports.updatePet = function(pet) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -186,7 +151,6 @@ exports.updatePet = function(body) {
 
 /**
  * Updates a pet in the store with form data
- * 
  *
  * petId Long ID of pet that needs to be updated
  * name String Updated name of the pet (optional)
@@ -202,7 +166,6 @@ exports.updatePetWithForm = function(petId,name,status) {
 
 /**
  * uploads an image
- * 
  *
  * petId Long ID of pet to update
  * additionalMetadata String Additional data to pass to server (optional)
