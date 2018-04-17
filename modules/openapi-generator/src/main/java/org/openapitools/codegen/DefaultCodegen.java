@@ -2435,32 +2435,16 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.info("JSON schema: " + codegenParameter.jsonSchema);
         }
 
-        // TODO need to revise the logic below
-        // move the defaultValue for headers, forms and params
-        /*
-        if (param instanceof QueryParameter) {
-            QueryParameter qp = (QueryParameter) parameter;
-            if (qp.getDefaultValue() != null) {
-                codegenParameter.defaultValue = qp.getDefaultValue().toString();
-            }
-        } else if (param instanceof HeaderParameter) {
-            HeaderParameter hp = (HeaderParameter) parameter;
-            if (hp.getDefaultValue() != null) {
-                codegenParameter.defaultValue = hp.getDefaultValue().toString();
-            }
-        } else if (param instanceof FormParameter) {
-            FormParameter fp = (FormParameter) parameter;
-            if (fp.getDefaultValue() != null) {
-                codegenParameter.defaultValue = fp.getDefaultValue().toString();
-            }
-        }*/
-
         if (parameter.getExtensions() != null && !parameter.getExtensions().isEmpty()) {
             codegenParameter.vendorExtensions.putAll(parameter.getExtensions());
         }
 
         if (parameter.getSchema() != null) {
             Schema parameterSchema = parameter.getSchema();
+            // set default value
+            if (parameterSchema.getDefault() != null) {
+                codegenParameter.defaultValue = (String) parameterSchema.getDefault();
+            }
             // TDOO revise collectionFormat
             String collectionFormat = null;
             if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter

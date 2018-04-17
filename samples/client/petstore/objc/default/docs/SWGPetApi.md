@@ -16,13 +16,11 @@ Method | HTTP request | Description
 
 # **addPet**
 ```objc
--(NSURLSessionTask*) addPetWithBody: (SWGPet*) body
+-(NSURLSessionTask*) addPetWithPet: (SWGPet) pet
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
 Add a new pet to the store
-
-
 
 ### Example 
 ```objc
@@ -32,12 +30,12 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-SWGPet* body = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
+SWGPet pet = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 // Add a new pet to the store
-[apiInstance addPetWithBody:body
+[apiInstance addPetWithPet:pet
           completionHandler: ^(NSError* error) {
                         if (error) {
                             NSLog(@"Error calling SWGPetApi->addPet: %@", error);
@@ -49,7 +47,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SWGPet***](SWGPet.md)| Pet object that needs to be added to the store | [optional] 
+ **pet** | [**SWGPet**](SWGPet.md)| Pet object that needs to be added to the store | [optional] 
 
 ### Return type
 
@@ -61,8 +59,8 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/json, application/xml
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -74,8 +72,6 @@ void (empty response body)
 ```
 
 Deletes a pet
-
-
 
 ### Example 
 ```objc
@@ -118,7 +114,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -294,13 +290,11 @@ Name | Type | Description  | Notes
 
 # **updatePet**
 ```objc
--(NSURLSessionTask*) updatePetWithBody: (SWGPet*) body
+-(NSURLSessionTask*) updatePetWithPet: (SWGPet) pet
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
 Update an existing pet
-
-
 
 ### Example 
 ```objc
@@ -310,12 +304,12 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-SWGPet* body = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
+SWGPet pet = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 // Update an existing pet
-[apiInstance updatePetWithBody:body
+[apiInstance updatePetWithPet:pet
           completionHandler: ^(NSError* error) {
                         if (error) {
                             NSLog(@"Error calling SWGPetApi->updatePet: %@", error);
@@ -327,7 +321,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SWGPet***](SWGPet.md)| Pet object that needs to be added to the store | [optional] 
+ **pet** | [**SWGPet**](SWGPet.md)| Pet object that needs to be added to the store | [optional] 
 
 ### Return type
 
@@ -339,8 +333,8 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/json, application/xml
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -353,8 +347,6 @@ void (empty response body)
 ```
 
 Updates a pet in the store with form data
-
-
 
 ### Example 
 ```objc
@@ -400,7 +392,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/json, application/xml
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -414,8 +406,6 @@ void (empty response body)
 
 uploads an image
 
-
-
 ### Example 
 ```objc
 SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
@@ -426,7 +416,7 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
 NSNumber* petId = @789; // ID of pet to update
 NSString* additionalMetadata = @"additionalMetadata_example"; // Additional data to pass to server (optional)
-NSURL* file = [NSURL fileURLWithPath:@"/path/to/file.txt"]; // file to upload (optional)
+NSURL* file = [NSURL fileURLWithPath:@"/path/to/file"]; // file to upload (optional)
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
@@ -447,7 +437,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **NSNumber***| ID of pet to update | 
  **additionalMetadata** | **NSString***| Additional data to pass to server | [optional] 
- **file** | **NSURL***| file to upload | [optional] 
+ **file** | **NSURL*****NSURL***| file to upload | [optional] 
 
 ### Return type
 
@@ -460,7 +450,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: application/json, application/xml
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

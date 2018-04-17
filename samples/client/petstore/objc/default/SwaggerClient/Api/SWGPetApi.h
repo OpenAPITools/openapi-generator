@@ -4,7 +4,7 @@
 
 /**
 * Swagger Petstore
-* This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters
+* This is a sample server Petstore server.  You can find out more about Swagger at http://swagger.io or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters
 *
 * OpenAPI spec version: 1.0.0
 * Contact: apiteam@wordnik.com
@@ -26,12 +26,12 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 /// Add a new pet to the store
 /// 
 ///
-/// @param body Pet object that needs to be added to the store (optional)
+/// @param pet Pet object that needs to be added to the store (optional)
 /// 
 ///  code:405 message:"Invalid input"
 ///
 /// @return void
--(NSURLSessionTask*) addPetWithBody: (SWGPet*) body
+-(NSURLSessionTask*) addPetWithPet: (SWGPet) pet
     completionHandler: (void (^)(NSError* error)) handler;
 
 
@@ -92,14 +92,14 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 /// Update an existing pet
 /// 
 ///
-/// @param body Pet object that needs to be added to the store (optional)
+/// @param pet Pet object that needs to be added to the store (optional)
 /// 
 ///  code:400 message:"Invalid ID supplied",
 ///  code:404 message:"Pet not found",
 ///  code:405 message:"Validation exception"
 ///
 /// @return void
--(NSURLSessionTask*) updatePetWithBody: (SWGPet*) body
+-(NSURLSessionTask*) updatePetWithPet: (SWGPet) pet
     completionHandler: (void (^)(NSError* error)) handler;
 
 
