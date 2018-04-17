@@ -4193,7 +4193,9 @@ public class DefaultCodegen implements CodegenConfig {
                 imports.add(codegenParameter.baseType);
             } else {
                 CodegenProperty codegenProperty = fromProperty("property", schema);
-                if (codegenProperty != null) {
+                if (schema.getAdditionalProperties() != null) {// http body is map
+                    LOGGER.info("Map not supported in HTTP request body");
+                } else if (codegenProperty != null) {
                     LOGGER.warn("The folowing schema has undefined (null) baseType. " +
                             "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
                             "A correct 'consumes' for form parameters should be " +

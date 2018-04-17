@@ -33,7 +33,7 @@ petstore-cli fakeOuterBooleanSerialize
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterBoolean**](OuterBoolean.md) | Input boolean as post body | [optional]
+ **body** | **boolean** | Input boolean as post body | [optional]
 
 ### Return type
 
@@ -45,8 +45,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
- - **Accept**: Not Applicable
+ - **Content-Type**: application/json
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -65,7 +65,7 @@ petstore-cli fakeOuterCompositeSerialize
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | [optional]
+ **outerComposite** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | [optional]
 
 ### Return type
 
@@ -77,8 +77,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
- - **Accept**: Not Applicable
+ - **Content-Type**: application/json
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -97,7 +97,7 @@ petstore-cli fakeOuterNumberSerialize
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterNumber**](OuterNumber.md) | Input number as post body | [optional]
+ **body** | **integer** | Input number as post body | [optional]
 
 ### Return type
 
@@ -109,8 +109,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
- - **Accept**: Not Applicable
+ - **Content-Type**: application/json
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -129,7 +129,7 @@ petstore-cli fakeOuterStringSerialize
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterString**](OuterString.md) | Input string as post body | [optional]
+ **body** | **string** | Input string as post body | [optional]
 
 ### Return type
 
@@ -141,8 +141,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
- - **Accept**: Not Applicable
+ - **Content-Type**: application/json
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -161,7 +161,7 @@ petstore-cli testClientModel
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md) | client model |
+ **client** | [**Client**](Client.md) | client model |
 
 ### Return type
 
@@ -173,7 +173,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not Applicable
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -224,8 +224,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
- - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -237,21 +237,21 @@ To test enum parameters
 
 ### Example
 ```bash
-petstore-cli testEnumParameters enum_header_string_array:value enum_header_string:value  Specify as:   enum_query_string=value  enum_query_integer=value
+petstore-cli testEnumParameters enum_header_string_array:value enum_header_string:value  Specify as:  enum_query_string_array=value1 enum_query_string_array=value2 enum_query_string_array=...  enum_query_string=value  enum_query_integer=value  enum_query_double=value
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumFormStringArray** | [**array[string]**](string.md) | Form parameter enum test (string array) | [optional]
- **enumFormString** | **string** | Form parameter enum test (string) | [optional] [default to -efg]
  **enumHeaderStringArray** | [**array[string]**](string.md) | Header parameter enum test (string array) | [optional]
- **enumHeaderString** | **string** | Header parameter enum test (string) | [optional] [default to -efg]
+ **enumHeaderString** | **string** | Header parameter enum test (string) | [optional]
  **enumQueryStringArray** | [**array[string]**](string.md) | Query parameter enum test (string array) | [optional]
- **enumQueryString** | **string** | Query parameter enum test (string) | [optional] [default to -efg]
+ **enumQueryString** | **string** | Query parameter enum test (string) | [optional]
  **enumQueryInteger** | **integer** | Query parameter enum test (double) | [optional]
  **enumQueryDouble** | **float** | Query parameter enum test (double) | [optional]
+ **enumFormStringArray** | [**array[string]**](array.md) | Form parameter enum test (string array) | [optional]
+ **enumFormString** | **string** | Form parameter enum test (string) | [optional]
 
 ### Return type
 
@@ -263,16 +263,14 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
- - **Accept**: */*
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 ## **testInlineAdditionalProperties**
 
 test inline additionalProperties
-
-
 
 ### Example
 ```bash
@@ -283,7 +281,7 @@ petstore-cli testInlineAdditionalProperties
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **map** | request body |
+ **UNKNOWN_PARAM_NAME** | [****](.md) | request body |
 
 ### Return type
 
@@ -304,8 +302,6 @@ No authorization required
 
 test json serialization of form data
 
-
-
 ### Example
 ```bash
 petstore-cli testJsonFormData
@@ -315,8 +311,7 @@ petstore-cli testJsonFormData
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **string** | field1 |
- **param2** | **string** | field2 |
+ **body4** | [**Body_4**](Body_4.md) |  | [optional]
 
 ### Return type
 

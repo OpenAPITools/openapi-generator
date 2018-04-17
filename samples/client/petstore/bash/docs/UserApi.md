@@ -29,7 +29,7 @@ petstore-cli createUser
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md) | Created user object |
+ **user** | [**User**](User.md) | Created user object |
 
 ### Return type
 
@@ -41,16 +41,14 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 ## **createUsersWithArrayInput**
 
 Creates list of users with given input array
-
-
 
 ### Example
 ```bash
@@ -61,7 +59,7 @@ petstore-cli createUsersWithArrayInput
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**array[User]**](User.md) | List of user object |
+ **user** | [**array[User]**](User.md) | List of user object |
 
 ### Return type
 
@@ -74,15 +72,13 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not Applicable
- - **Accept**: application/xml, application/json
+ - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 ## **createUsersWithListInput**
 
 Creates list of users with given input array
-
-
 
 ### Example
 ```bash
@@ -93,7 +89,7 @@ petstore-cli createUsersWithListInput
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**array[User]**](User.md) | List of user object |
+ **user** | [**array[User]**](User.md) | List of user object |
 
 ### Return type
 
@@ -106,7 +102,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not Applicable
- - **Accept**: application/xml, application/json
+ - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -138,15 +134,13 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not Applicable
- - **Accept**: application/xml, application/json
+ - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 ## **getUserByName**
 
 Get user by user name
-
-
 
 ### Example
 ```bash
@@ -177,8 +171,6 @@ No authorization required
 ## **loginUser**
 
 Logs user into the system
-
-
 
 ### Example
 ```bash
@@ -211,8 +203,6 @@ No authorization required
 
 Logs out current logged in user session
 
-
-
 ### Example
 ```bash
 petstore-cli logoutUser
@@ -232,7 +222,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not Applicable
- - **Accept**: application/xml, application/json
+ - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -252,7 +242,7 @@ petstore-cli updateUser username=value
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string** | name that need to be deleted |
- **body** | [**User**](User.md) | Updated user object |
+ **user** | [**User**](User.md) | Updated user object |
 
 ### Return type
 
@@ -264,8 +254,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

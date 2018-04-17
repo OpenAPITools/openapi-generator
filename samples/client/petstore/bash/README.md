@@ -132,7 +132,6 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [$special[model.name]](docs/$special[model.name].md)
  - [200_response](docs/200_response.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Animal](docs/Animal.md)
@@ -141,10 +140,13 @@ Class | Method | HTTP request | Description
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
+ - [Body_4](docs/Body_4.md)
  - [Capitalization](docs/Capitalization.md)
+ - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
+ - [Dog](docs/Dog.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [Enum_Test](docs/Enum_Test.md)
@@ -165,8 +167,7 @@ Class | Method | HTTP request | Description
  - [Return](docs/Return.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
- - [Cat](docs/Cat.md)
- - [Dog](docs/Dog.md)
+ - [_special_model.name_](docs/_special_model.name_.md)
 
 
 ## Documentation For Authorization
