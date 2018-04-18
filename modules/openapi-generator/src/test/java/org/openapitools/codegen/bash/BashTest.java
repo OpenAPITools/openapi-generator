@@ -41,6 +41,9 @@ public class BashTest {
             op.vendorExtensions.get("x-bash-codegen-description"),
             "Multiple status 'values' can be provided with comma separated strings");
 
+        Assert.assertEquals(op.allParams.size(), 1);
+        CodegenParameter p = op.allParams.get(0);
+        Assert.assertEquals(p.description, "Status values that need to be considered for filter");
     }
 
     @Test(description = "test basic petstore operation with example body")
@@ -63,10 +66,11 @@ public class BashTest {
 
         Assert.assertEquals(op.bodyParams.size(), 1);
 
-        CodegenParameter pet = op.bodyParams.get(0);
+        CodegenParameter p = op.bodyParams.get(0);
 
-        Assert.assertTrue(pet.vendorExtensions
+        Assert.assertTrue(p.vendorExtensions
                             .containsKey("x-codegen-body-example"));
+        Assert.assertEquals(p.description, "Pet object that needs to be added to the store");
 
     }
 

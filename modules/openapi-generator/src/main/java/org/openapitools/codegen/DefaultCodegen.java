@@ -1160,6 +1160,8 @@ public class DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isMapSchema(schema)) {
             datatype = "map";
+        } else if (ModelUtils.isArraySchema(schema)) {
+            datatype = "array";
         } else if (ModelUtils.isUUIDSchema(schema)) {
             datatype = "UUID";
         } else if (ModelUtils.isStringSchema(schema)) {
@@ -2344,7 +2346,11 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isArraySchema(responseSchema)) {
                 ArraySchema as = (ArraySchema) responseSchema;
                 CodegenProperty innerProperty = fromProperty("response", as.getItems());
-                r.baseType = innerProperty.baseType;
+                CodegenProperty innerCp = innerProperty;
+                while(innerCp != null) {
+                    r.baseType = innerCp.baseType;
+                    innerCp = innerCp.items;
+                }
             } else {
                 if (cp.complexType != null) {
                     r.baseType = cp.complexType;
@@ -4051,7 +4057,7 @@ public class DefaultCodegen implements CodegenConfig {
             Map<String, Schema> properties = schema.getProperties();
             for (Map.Entry<String, Schema> entry : properties.entrySet()) {
                 CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
-                // key => property anme
+                // key => property name
                 // value => property schema
                 codegenParameter = fromFormProperty(entry.getKey(), entry.getValue(), imports);
 
@@ -4151,6 +4157,7 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegenParameter.baseName = "UNKNOWN_BASE_NAME";
         codegenParameter.paramName = "UNKNOWN_PARAM_NAME";
+        codegenParameter.description = body.getDescription();
         codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
         codegenParameter.isBodyParam = Boolean.TRUE;
 
@@ -4207,10 +4214,7 @@ public class DefaultCodegen implements CodegenConfig {
                 inner = new StringSchema().description("//TODO automatically added by swagger-codegen");
                 arraySchema.setItems(inner);
             }
-            CodegenProperty codegenProperty = fromProperty("inner", inner);
-            if (codegenProperty.complexType != null) {
-                imports.add(codegenProperty.complexType);
-            }
+            CodegenProperty codegenProperty = fromProperty("property", schema);
             imports.add(codegenProperty.baseType);
             CodegenProperty innerCp = codegenProperty;
             while (innerCp != null) {
@@ -4221,12 +4225,11 @@ public class DefaultCodegen implements CodegenConfig {
             }
             codegenParameter.baseName = codegenProperty.baseType;
             codegenParameter.paramName = toParamName(codegenProperty.baseType);
-            codegenParameter.items = codegenProperty;
+            codegenParameter.items = codegenProperty.items;
             codegenParameter.dataType = getTypeDeclaration(arraySchema);
-            codegenParameter.baseType = codegenProperty.complexType;
+            codegenParameter.baseType = getSchemaType(arraySchema);
             codegenParameter.isContainer = Boolean.TRUE;
             codegenParameter.isListContainer = Boolean.TRUE;
-            codegenParameter.description = codegenProperty.description;
 
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
 

@@ -17,6 +17,7 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.media.XML;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
@@ -538,12 +539,14 @@ public class JavaModelTest {
     @Test(description = "convert a parameter")
     public void convertParameterTest() {
         final Parameter parameter = new QueryParameter()
+                .description("this is a description")
                 .name("limit")
                 .required(true);
         final DefaultCodegen codegen = new JavaClientCodegen();
         final CodegenParameter cm = codegen.fromParameter(parameter, null);
 
         Assert.assertNull(cm.allowableValues);
+        Assert.assertEquals(cm.description, "this is a description");
     }
 
     @Test(description = "types used by inner properties should be imported")
@@ -805,39 +808,47 @@ public class JavaModelTest {
         Assert.assertEquals(cp1.datatype, "List<Pet>");
         Assert.assertEquals(cp1.name, "pets");
         Assert.assertEquals(cp1.baseType, "List");
+        Assert.assertTrue(cp1.isContainer);
+        Assert.assertTrue(cp1.isListContainer);
+        Assert.assertFalse(cp1.isMapContainer);
         Assert.assertEquals(cp1.getter, "getPets");
+        Assert.assertEquals(cp1.items.baseType, "Pet");
 
         Assert.assertTrue(cm.imports.contains("List"));
         Assert.assertTrue(cm.imports.contains("Pet"));
     }
 
-//    @Test(description = "convert an array schema in a RequestBody")
-//    public void arraySchemaTestInRequestBody() {
-//        final Schema testSchema = new ArraySchema()
-//                .items(new Schema<>().$ref("#/components/schemas/Pet"));
-//        Operation operation = new Operation()
-//                .requestBody(new RequestBody()
-//                        .content(new Content().addMediaType("application/json", 
-//                                new MediaType().schema(testSchema))))
-//                .responses(
-//                        new ApiResponses().addApiResponse("204", new ApiResponse()
-//                                .description("Ok response")));
-//        final Map<String, Schema> allDefinitions = Collections.<String, Schema> singletonMap("Pet", new ObjectSchema());
-//        final DefaultCodegen codegen = new JavaClientCodegen();
-//        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, allDefinitions);
-//
-//        Assert.assertEquals(co.bodyParams.size(), 1);
-//        CodegenParameter cp1 = co.bodyParams.get(0);
-//        Assert.assertEquals(cp1.baseType, "Pet");
-//        Assert.assertEquals(cp1.dataType, "List<Pet>");
-//        Assert.assertEquals(cp1.items.baseType, "Pet");
-//        Assert.assertEquals(cp1.items.complexType, "Pet");
-//        Assert.assertEquals(cp1.items.datatype, "List<Pet>");
-//
-//        Assert.assertEquals(co.responses.size(), 1);
-//
-//        Assert.assertTrue(co.imports.contains("Pet"));
-//    }
+    @Test(description = "convert an array schema in a RequestBody")
+    public void arraySchemaTestInRequestBody() {
+        final Schema testSchema = new ArraySchema()
+                .items(new Schema<>().$ref("#/components/schemas/Pet"));
+        Operation operation = new Operation()
+                .requestBody(new RequestBody()
+                        .content(new Content().addMediaType("application/json", 
+                                new MediaType().schema(testSchema))))
+                .responses(
+                        new ApiResponses().addApiResponse("204", new ApiResponse()
+                                .description("Ok response")));
+        final Map<String, Schema> allDefinitions = Collections.<String, Schema> singletonMap("Pet", new ObjectSchema());
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, allDefinitions);
+
+        Assert.assertEquals(co.bodyParams.size(), 1);
+        CodegenParameter cp1 = co.bodyParams.get(0);
+        Assert.assertEquals(cp1.baseType, "List");
+        Assert.assertEquals(cp1.dataType, "List<Pet>");
+        Assert.assertTrue(cp1.isContainer);
+        Assert.assertTrue(cp1.isListContainer);
+        Assert.assertFalse(cp1.isMapContainer);
+        Assert.assertEquals(cp1.items.baseType, "Pet");
+        Assert.assertEquals(cp1.items.complexType, "Pet");
+        Assert.assertEquals(cp1.items.datatype, "Pet");
+
+        Assert.assertEquals(co.responses.size(), 1);
+
+        Assert.assertTrue(co.imports.contains("List"));
+        Assert.assertTrue(co.imports.contains("Pet"));
+    }
 
     @Test(description = "convert an array schema in a ApiResponse")
     public void arraySchemaTestInOperationResponse() {
@@ -881,6 +892,65 @@ public class JavaModelTest {
 
         Assert.assertTrue(cm.imports.contains("List"));
         Assert.assertTrue(cm.imports.contains("Pet"));
+    }
+
+    @Test(description = "convert an array of array schema in a RequestBody")
+    public void arrayOfArraySchemaTestInRequestBody() {
+        final Schema testSchema = new ArraySchema()
+                .items(new ArraySchema()
+                        .items(new Schema<>().$ref("#/components/schemas/Pet")));
+        Operation operation = new Operation()
+                .requestBody(new RequestBody()
+                        .content(new Content().addMediaType("application/json", 
+                                new MediaType().schema(testSchema))))
+                .responses(
+                        new ApiResponses().addApiResponse("204", new ApiResponse()
+                                .description("Ok response")));
+        final Map<String, Schema> allDefinitions = Collections.<String, Schema> singletonMap("Pet", new ObjectSchema());
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, allDefinitions);
+
+        Assert.assertEquals(co.bodyParams.size(), 1);
+        CodegenParameter cp1 = co.bodyParams.get(0);
+        Assert.assertEquals(cp1.baseType, "List");
+        Assert.assertEquals(cp1.dataType, "List<List<Pet>>");
+        Assert.assertTrue(cp1.isContainer);
+        Assert.assertTrue(cp1.isListContainer);
+        Assert.assertFalse(cp1.isMapContainer);
+        Assert.assertEquals(cp1.items.baseType, "List");
+        Assert.assertEquals(cp1.items.complexType, "Pet");
+        Assert.assertEquals(cp1.items.datatype, "List<Pet>");
+        Assert.assertEquals(cp1.items.items.baseType, "Pet");
+        Assert.assertEquals(cp1.items.items.complexType, "Pet");
+        Assert.assertEquals(cp1.items.items.datatype, "Pet");
+
+        Assert.assertEquals(co.responses.size(), 1);
+
+        Assert.assertTrue(co.imports.contains("Pet"));
+        Assert.assertTrue(co.imports.contains("List"));
+    }
+
+    @Test(description = "convert a array schema in a ApiResponse")
+    public void arrayOfArraySchemaTestInOperationResponse() {
+        final Schema testSchema = new ArraySchema()
+                .items(new ArraySchema()
+                        .items(new Schema<>().$ref("#/components/schemas/Pet")));
+        Operation operation = new Operation().responses(
+                new ApiResponses().addApiResponse("200", new ApiResponse()
+                        .description("Ok response")
+                        .content(new Content().addMediaType("application/json", 
+                                new MediaType().schema(testSchema)))));
+        final Map<String, Schema> allDefinitions = Collections.<String, Schema> singletonMap("Pet", new ObjectSchema());
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, allDefinitions);
+
+        Assert.assertEquals(co.responses.size(), 1);
+        CodegenResponse cr = co.responses.get(0);
+        Assert.assertEquals(cr.baseType, "Pet");
+        Assert.assertEquals(cr.dataType, "List<List<Pet>>");
+        Assert.assertEquals(cr.containerType, "array");
+
+        Assert.assertTrue(co.imports.contains("Pet"));
     }
 
     @Test(enabled = false, description = "disabled since templates have been moved.")
