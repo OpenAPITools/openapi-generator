@@ -3595,7 +3595,7 @@ public class DefaultCodegen implements CodegenConfig {
             parameter.isByteArray = true;
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isBinary)) {
-            parameter.isByteArray = true;
+            parameter.isBinary = true;
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isString)) {
             parameter.isString = true;
@@ -4171,7 +4171,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.baseName = codegenModel.classname;
                 codegenParameter.paramName = toParamName(codegenModel.classname);
                 codegenParameter.baseType = codegenModel.classname;
-                codegenParameter.dataType = codegenModel.classname;
+                codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
                 codegenParameter.description = codegenModel.description;
                 imports.add(codegenParameter.baseType);
             } else {
@@ -4209,14 +4209,18 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty codegenProperty = fromProperty("property", schema);
             imports.add(codegenProperty.baseType);
             CodegenProperty innerCp = codegenProperty;
+            CodegenProperty mostInnerItem = innerCp;
+            // loop through multidimensional array to add proper import
+            // also find the most inner item
             while (innerCp != null) {
                 if (innerCp.complexType != null) {
                     imports.add(innerCp.complexType);
                 }
+                mostInnerItem = innerCp;
                 innerCp = innerCp.items;
             }
-            codegenParameter.baseName = codegenProperty.baseType;
-            codegenParameter.paramName = toParamName(codegenProperty.baseType);
+            codegenParameter.baseName = mostInnerItem.complexType;
+            codegenParameter.paramName = toParamName(mostInnerItem.complexType);
             codegenParameter.items = codegenProperty.items;
             codegenParameter.dataType = getTypeDeclaration(arraySchema);
             codegenParameter.baseType = getSchemaType(arraySchema);
