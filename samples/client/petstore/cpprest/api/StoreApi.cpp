@@ -419,7 +419,6 @@ pplx::task<std::shared_ptr<Order>> StoreApi::placeOrder(std::shared_ptr<Order> o
     headerParams[utility::conversions::to_string_t("Accept")] = responseHttpContentType;
 
     std::unordered_set<utility::string_t> consumeHttpContentTypes;
-    consumeHttpContentTypes.insert( utility::conversions::to_string_t("*/*") );
 
 
     std::shared_ptr<IHttpBody> httpBody;

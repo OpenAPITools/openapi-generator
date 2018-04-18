@@ -81,7 +81,6 @@ pplx::task<void> UserApi::createUser(std::shared_ptr<User> user)
     headerParams[utility::conversions::to_string_t("Accept")] = responseHttpContentType;
 
     std::unordered_set<utility::string_t> consumeHttpContentTypes;
-    consumeHttpContentTypes.insert( utility::conversions::to_string_t("*/*") );
 
 
     std::shared_ptr<IHttpBody> httpBody;
@@ -191,7 +190,6 @@ pplx::task<void> UserApi::createUsersWithArrayInput(std::vector<std::shared_ptr<
     headerParams[utility::conversions::to_string_t("Accept")] = responseHttpContentType;
 
     std::unordered_set<utility::string_t> consumeHttpContentTypes;
-    consumeHttpContentTypes.insert( utility::conversions::to_string_t("*/*") );
 
 
     std::shared_ptr<IHttpBody> httpBody;
@@ -312,7 +310,6 @@ pplx::task<void> UserApi::createUsersWithListInput(std::vector<std::shared_ptr<U
     headerParams[utility::conversions::to_string_t("Accept")] = responseHttpContentType;
 
     std::unordered_set<utility::string_t> consumeHttpContentTypes;
-    consumeHttpContentTypes.insert( utility::conversions::to_string_t("*/*") );
 
 
     std::shared_ptr<IHttpBody> httpBody;
@@ -874,7 +871,6 @@ pplx::task<void> UserApi::updateUser(utility::string_t username, std::shared_ptr
     headerParams[utility::conversions::to_string_t("Accept")] = responseHttpContentType;
 
     std::unordered_set<utility::string_t> consumeHttpContentTypes;
-    consumeHttpContentTypes.insert( utility::conversions::to_string_t("*/*") );
 
 
     std::shared_ptr<IHttpBody> httpBody;

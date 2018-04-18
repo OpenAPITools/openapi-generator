@@ -856,7 +856,7 @@ pplx::task<void> PetApi::updatePetWithForm(int64_t petId, boost::optional<utilit
         return void();
     });
 }
-pplx::task<std::shared_ptr<ApiResponse>> PetApi::uploadFile(int64_t petId, boost::optional<utility::string_t> additionalMetadata, boost::optional<HttpContent> file)
+pplx::task<std::shared_ptr<ApiResponse>> PetApi::uploadFile(int64_t petId, boost::optional<utility::string_t> additionalMetadata, boost::optional<std::shared_ptr<HttpContent>> file)
 {
 
 
@@ -903,7 +903,7 @@ pplx::task<std::shared_ptr<ApiResponse>> PetApi::uploadFile(int64_t petId, boost
     {
         formParams[ utility::conversions::to_string_t("additionalMetadata") ] = ApiClient::parameterToString(*additionalMetadata);
     }
-    if (file)
+    if (file && *file != nullptr)
     {
         fileParams[ utility::conversions::to_string_t("file") ] = *file;
     }
