@@ -83,9 +83,9 @@
                     </execution>
                 </executions> -->
                 <configuration>
-                    <compilerSource>1.7</compilerSource>
-                    <compilerCompliance>1.7</compilerCompliance>
-                    <compilerTargetPlatform>1.7</compilerTargetPlatform>
+                    <compilerSource>1.8</compilerSource>
+                    <compilerCompliance>1.8</compilerCompliance>
+                    <compilerTargetPlatform>1.8</compilerTargetPlatform>
                     <lineEnding>LF</lineEnding>
                 </configuration>
             </plugin>
@@ -159,8 +159,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -195,7 +195,7 @@
                 <version>2.10.4</version>
                 <configuration>
                     <aggregate>true</aggregate>
-                    <source>1.7</source>
+                    <source>1.8</source>
                     <encoding>UTF-8</encoding>
                     <maxmemory>1g</maxmemory>
                     <excludePackageNames>${javadoc.package.exclude}</excludePackageNames>

@@ -1,6 +1,5 @@
 package org.openapitools.codegen;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.util.*;
 import java.util.ArrayList;
@@ -8,10 +7,9 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 import com.samskivert.mustache.Mustache.Compiler;
 
 import io.swagger.models.Model;
@@ -3208,13 +3206,9 @@ public class DefaultCodegen implements CodegenConfig {
      * @return camelized string
      */
     protected String removeNonNameElementToCamelCase(final String name, final String nonNameElementPattern) {
-        String result = StringUtils.join(Lists.transform(Lists.newArrayList(name.split(nonNameElementPattern)), new Function<String, String>() {
-            @Nullable
-            @Override
-            public String apply(String input) {
-                return StringUtils.capitalize(input);
-            }
-        }), "");
+        String result = Arrays.stream(name.split(nonNameElementPattern))
+                .map(StringUtils::capitalize)
+                .collect(Collectors.joining(""));
         if (result.length() > 0) {
             result = result.substring(0, 1).toLowerCase() + result.substring(1);
         }

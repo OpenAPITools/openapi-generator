@@ -2,8 +2,6 @@ package org.openapitools.codegen.languages;
 
 import static java.util.Collections.sort;
 
-import com.google.common.collect.LinkedListMultimap;
-
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipFeatures;
@@ -515,12 +513,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     public static List<Map<String, Object>> modelInheritanceSupportInGson(List<?> allModels) {
-        LinkedListMultimap<CodegenModel, CodegenModel> byParent = LinkedListMultimap.create();
-        for (Object m : allModels) {
-            Map entry = (Map) m;
-            CodegenModel parent = ((CodegenModel) entry.get("model")).parentModel;
-            if (null != parent) {
-                byParent.put(parent, ((CodegenModel) entry.get("model")));
+        Map<CodegenModel, List<CodegenModel>> byParent = new LinkedHashMap<>();
+        for (Object model : allModels) {
+            Map entry = (Map) model;
+            CodegenModel parent = ((CodegenModel)entry.get("model")).parentModel;
+            if(null!= parent) {
+                byParent.computeIfAbsent(parent, k -> new LinkedList<>()).add((CodegenModel)entry.get("model"));
             }
         }
         List<Map<String, Object>> parentsList = new ArrayList<>();
