@@ -1022,9 +1022,40 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Return the example value of the parameter.
      *
-     * @param p Codegen parameter
+     * @param codegenParameter Codegen parameter
      */
-    public void setParameterExampleValue(CodegenParameter p) {
+    public void setParameterExampleValue(CodegenParameter codegenParameter) {
+
+        // set the example value
+        // if not specified in x-example, generate a default value
+        // TODO need to revise how to obtain the example value
+        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
+            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+        } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
+            codegenParameter.example = "true";
+        } else if (Boolean.TRUE.equals(codegenParameter.isLong)) {
+            codegenParameter.example = "789";
+        } else if (Boolean.TRUE.equals(codegenParameter.isInteger)) {
+            codegenParameter.example = "56";
+        } else if (Boolean.TRUE.equals(codegenParameter.isFloat)) {
+            codegenParameter.example = "3.4";
+        } else if (Boolean.TRUE.equals(codegenParameter.isDouble)) {
+            codegenParameter.example = "1.2";
+        } else if (Boolean.TRUE.equals(codegenParameter.isBinary)) {
+            codegenParameter.example = "BINARY_DATA_HERE";
+        } else if (Boolean.TRUE.equals(codegenParameter.isByteArray)) {
+            codegenParameter.example = "BYTE_ARRAY_DATA_HERE";
+        } else if (Boolean.TRUE.equals(codegenParameter.isFile)) {
+            codegenParameter.example = "/path/to/file.txt";
+        } else if (Boolean.TRUE.equals(codegenParameter.isDate)) {
+            codegenParameter.example = "2013-10-20";
+        } else if (Boolean.TRUE.equals(codegenParameter.isDateTime)) {
+            codegenParameter.example = "2013-10-20T19:20:30+01:00";
+        } else if (Boolean.TRUE.equals(codegenParameter.isUuid)) {
+            codegenParameter.example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
+        } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
+            codegenParameter.example = codegenParameter.paramName + "_example";
+        }
 
     }
 
@@ -1360,7 +1391,7 @@ public class DefaultCodegen implements CodegenConfig {
                 allProperties = new LinkedHashMap<String, Schema>();
                 allRequired = new ArrayList<String>();
                 m.allVars = new ArrayList<CodegenProperty>();
-                if(composed.getAllOf() != null) {
+                if (composed.getAllOf() != null) {
                     int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
                     for (Schema innerModel : composed.getAllOf()) {
                         if (m.discriminator == null) {
@@ -2345,7 +2376,7 @@ public class DefaultCodegen implements CodegenConfig {
                 ArraySchema as = (ArraySchema) responseSchema;
                 CodegenProperty innerProperty = fromProperty("response", as.getItems());
                 CodegenProperty innerCp = innerProperty;
-                while(innerCp != null) {
+                while (innerCp != null) {
                     r.baseType = innerCp.baseType;
                     innerCp = innerCp.items;
                 }
@@ -2681,39 +2712,6 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isCookieParam = true;
         } else {
             LOGGER.warn("Unknown parameter type: " + parameter.getName());
-        }
-
-        // set the example value
-        // if not specified in x-example, generate a default value
-        // TODO need to revise how to obtain the example value
-        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
-        } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
-            codegenParameter.example = codegenParameter.paramName + "_example";
-        } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
-            codegenParameter.example = "true";
-        } else if (Boolean.TRUE.equals(codegenParameter.isLong)) {
-            codegenParameter.example = "789";
-        } else if (Boolean.TRUE.equals(codegenParameter.isInteger)) {
-            codegenParameter.example = "56";
-        } else if (Boolean.TRUE.equals(codegenParameter.isFloat)) {
-            codegenParameter.example = "3.4";
-        } else if (Boolean.TRUE.equals(codegenParameter.isDouble)) {
-            codegenParameter.example = "1.2";
-        } else if (Boolean.TRUE.equals(codegenParameter.isBinary)) {
-            codegenParameter.example = "BINARY_DATA_HERE";
-        } else if (Boolean.TRUE.equals(codegenParameter.isByteArray)) {
-            codegenParameter.example = "B";
-        } else if (Boolean.TRUE.equals(codegenParameter.isFile)) {
-            codegenParameter.example = "/path/to/file.txt";
-        } else if (Boolean.TRUE.equals(codegenParameter.isDate)) {
-            codegenParameter.example = "2013-10-20";
-        } else if (Boolean.TRUE.equals(codegenParameter.isDateTime)) {
-            codegenParameter.example = "2013-10-20T19:20:30+01:00";
-        } else if (Boolean.TRUE.equals(codegenParameter.isUuid)) {
-            codegenParameter.example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
-        } else if (Boolean.TRUE.equals(codegenParameter.isFile)) {
-            codegenParameter.example = "/path/to/file.txt";
         }
 
         // set the parameter excample value

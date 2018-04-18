@@ -16,7 +16,7 @@ trait DataAccessor {
         * 
         * @return A Unit
         */
-        def Pet_addPet(body: Pet): Either[CommonError,Unit] = ???
+        def Pet_addPet(pet: Pet): Either[CommonError,Unit] = ???
 
         /**
         * 
@@ -46,7 +46,7 @@ trait DataAccessor {
         * 
         * @return A Unit
         */
-        def Pet_updatePet(body: Pet): Either[CommonError,Unit] = ???
+        def Pet_updatePet(pet: Pet): Either[CommonError,Unit] = ???
 
         /**
         * 
@@ -82,25 +82,25 @@ trait DataAccessor {
         * 
         * @return A Order
         */
-        def Store_placeOrder(body: Order): Either[CommonError,Order] = ???
+        def Store_placeOrder(order: Order): Either[CommonError,Order] = ???
 
         /**
         * 
         * @return A Unit
         */
-        def User_createUser(body: User): Either[CommonError,Unit] = ???
+        def User_createUser(user: User): Either[CommonError,Unit] = ???
 
         /**
         * 
         * @return A Unit
         */
-        def User_createUsersWithArrayInput(body: Seq[User]): Either[CommonError,Unit] = ???
+        def User_createUsersWithArrayInput(seq: Seq[User]): Either[CommonError,Unit] = ???
 
         /**
         * 
         * @return A Unit
         */
-        def User_createUsersWithListInput(body: Seq[User]): Either[CommonError,Unit] = ???
+        def User_createUsersWithListInput(seq: Seq[User]): Either[CommonError,Unit] = ???
 
         /**
         * 
@@ -130,6 +130,6 @@ trait DataAccessor {
         * 
         * @return A Unit
         */
-        def User_updateUser(username: String, body: User): Either[CommonError,Unit] = ???
+        def User_updateUser(username: String, user: User): Either[CommonError,Unit] = ???
 
 }
