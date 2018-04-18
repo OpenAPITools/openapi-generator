@@ -129,7 +129,7 @@ public:
     pplx::task<std::shared_ptr<ApiResponse>> uploadFile(
         int64_t petId,
         boost::optional<utility::string_t> additionalMetadata,
-        boost::optional<HttpContent> file
+        boost::optional<std::shared_ptr<HttpContent>> file
     );
 
 protected:
