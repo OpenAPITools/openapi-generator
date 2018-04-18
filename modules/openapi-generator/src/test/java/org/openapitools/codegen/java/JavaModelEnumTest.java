@@ -1,11 +1,13 @@
 package org.openapitools.codegen.java;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -34,6 +36,63 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.defaultValue, "null");
         Assert.assertEquals(enumVar.baseType, "String");
         Assert.assertTrue(enumVar.isEnum);
+    }
+
+    @Test(description = "convert a java model with an enum inside a list")
+    public void converterInArrayTest() {
+        final ArraySchema enumSchema = new ArraySchema().items(
+                        new StringSchema().addEnumItem("Aaaa").addEnumItem("Bbbb"));
+        final Schema model = new Schema().type("object").addProperties("name", enumSchema);
+
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty enumVar = cm.vars.get(0);
+        Assert.assertEquals(enumVar.baseName, "name");
+        Assert.assertEquals(enumVar.datatype, "List<String>");
+        Assert.assertEquals(enumVar.datatypeWithEnum, "List<NameEnum>");
+        Assert.assertEquals(enumVar.name, "name");
+        Assert.assertEquals(enumVar.defaultValue, "new ArrayList<NameEnum>()");
+        Assert.assertEquals(enumVar.baseType, "List");
+        Assert.assertTrue(enumVar.isEnum);
+
+        Assert.assertEquals(enumVar.items.baseName, "name");
+        Assert.assertEquals(enumVar.items.datatype, "String");
+        Assert.assertEquals(enumVar.items.datatypeWithEnum, "NameEnum");
+        Assert.assertEquals(enumVar.items.name, "name");
+        Assert.assertEquals(enumVar.items.defaultValue, "null");
+        Assert.assertEquals(enumVar.items.baseType, "String");
+    }
+
+    @Test(description = "convert a java model with an enum inside a list")
+    public void converterInArrayInArrayTest() {
+        final ArraySchema enumSchema = new ArraySchema().items(
+                new ArraySchema().items(
+                        new StringSchema().addEnumItem("Aaaa").addEnumItem("Bbbb")));
+        final Schema model = new Schema().type("object").addProperties("name", enumSchema);
+
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty enumVar = cm.vars.get(0);
+        Assert.assertEquals(enumVar.baseName, "name");
+        Assert.assertEquals(enumVar.datatype, "List<List<String>>");
+        Assert.assertEquals(enumVar.datatypeWithEnum, "List<List<NameEnum>>");
+        Assert.assertEquals(enumVar.name, "name");
+        Assert.assertEquals(enumVar.defaultValue, "new ArrayList<List<NameEnum>>()");
+        Assert.assertEquals(enumVar.baseType, "List");
+        Assert.assertTrue(enumVar.isEnum);
+
+        Assert.assertEquals(enumVar.items.items.baseName, "name");
+        Assert.assertEquals(enumVar.items.items.datatype, "String");
+        Assert.assertEquals(enumVar.items.items.datatypeWithEnum, "NameEnum");
+        Assert.assertEquals(enumVar.items.items.name, "name");
+        Assert.assertEquals(enumVar.items.items.defaultValue, "null");
+        Assert.assertEquals(enumVar.items.items.baseType, "String");
     }
 
     @Test(description = "not override identical parent enums")
