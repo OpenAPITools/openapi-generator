@@ -793,6 +793,34 @@ public class JavaModelTest {
         Assert.assertEquals(cp2.getter, "getInteger2");
     }
 
+    @Test(description = "convert a long property in a referenced schema")
+    public void longPropertyInReferencedSchemaTest() {
+        final IntegerSchema longProperty = new IntegerSchema().format("int64");
+        final Schema TestSchema = new ObjectSchema()
+                .addProperties("Long1", new Schema<>().$ref("#/components/schemas/LongProperty"))
+                .addProperties("Long2", new IntegerSchema().format("int64"));
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final Map<String, Schema> allDefinitions = Collections.<String, Schema>singletonMap("LongProperty",
+                longProperty);
+        final CodegenModel cm = codegen.fromModel("test", TestSchema, allDefinitions);
+
+        Assert.assertEquals(cm.vars.size(), 2);
+
+        CodegenProperty cp1 = cm.vars.get(0);
+        Assert.assertEquals(cp1.baseName, "Long1");
+        Assert.assertEquals(cp1.datatype, "Long");
+        Assert.assertEquals(cp1.name, "long1");
+        Assert.assertEquals(cp1.baseType, "Long");
+        Assert.assertEquals(cp1.getter, "getLong1");
+
+        CodegenProperty cp2 = cm.vars.get(1);
+        Assert.assertEquals(cp2.baseName, "Long2");
+        Assert.assertEquals(cp2.datatype, "Long");
+        Assert.assertEquals(cp2.name, "long2");
+        Assert.assertEquals(cp2.baseType, "Long");
+        Assert.assertEquals(cp2.getter, "getLong2");
+    }
+
     @Test(description = "convert an array schema")
     public void arraySchemaTest() {
         final Schema testSchema = new ObjectSchema()
