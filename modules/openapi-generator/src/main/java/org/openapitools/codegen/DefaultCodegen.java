@@ -1137,76 +1137,82 @@ public class DefaultCodegen implements CodegenConfig {
      **/
     @SuppressWarnings("static-method")
     public String getSchemaType(Schema schema) {
-        // datatype is the OAI type (e.g. integer, long, etc)
-        String datatype = null;
-
         if (StringUtils.isNotBlank(schema.get$ref())) { // object
+            String datatype = schema.get$ref();
             try {
-                datatype = schema.get$ref();
                 // get the model name from $ref
                 if (datatype.indexOf("#/components/schemas/") == 0) {
-                    datatype = datatype.substring("#/components/schemas/".length());
+                    return datatype.substring("#/components/schemas/".length());
                 } else if (datatype.indexOf("#/definitions/") == 0) {
-                    datatype = datatype.substring("#/definitions/".length());
+                    return datatype.substring("#/definitions/".length());
                 }
+                return null;
             } catch (Exception e) {
                 LOGGER.warn("Error obtaining the datatype (" + datatype + ") from ref:" + schema + ". Datatype default to Object");
-                datatype = "Object";
+                return "object";
             }
-            return datatype;
         }
 
+        return getPrimitiveType(schema);
+    }
+
+    /**
+     * Return the OAI type (e.g. integer, long, etc) corresponding to a schema.
+     * <pre>$ref</pre> is not taken into account by this method.
+     * @param schema
+     * @return type
+     */
+    private static String getPrimitiveType(Schema schema) {
         if (ModelUtils.isStringSchema(schema) && "number".equals(schema.getFormat())) {
             // special handle of type: string, format: number
-            datatype = "BigDecimal";
+            return "BigDecimal";
         } else if (ModelUtils.isByteArraySchema(schema)) {
-            datatype = "ByteArray";
+            return "ByteArray";
         } else if (ModelUtils.isFileSchema(schema)) {
-            datatype = "file";
+            return "file";
         } else if (ModelUtils.isBinarySchema(schema)) {
-            datatype = SchemaTypeUtil.BINARY_FORMAT;
+            return SchemaTypeUtil.BINARY_FORMAT;
         } else if (ModelUtils.isBooleanSchema(schema)) {
-            datatype = SchemaTypeUtil.BOOLEAN_TYPE;
+            return SchemaTypeUtil.BOOLEAN_TYPE;
         } else if (ModelUtils.isDateSchema(schema)) {
-            datatype = SchemaTypeUtil.DATE_FORMAT;
+            return SchemaTypeUtil.DATE_FORMAT;
         } else if (ModelUtils.isDateTimeSchema(schema)) {
-            datatype = "DateTime";
+            return "DateTime";
         } else if (ModelUtils.isNumberSchema(schema)) {
             if (schema.getFormat() == null) { // no format defined
-                datatype = "number";
+                return "number";
             } else if (ModelUtils.isFloatSchema(schema)) {
-                datatype = SchemaTypeUtil.FLOAT_FORMAT;
+                return SchemaTypeUtil.FLOAT_FORMAT;
             } else if (ModelUtils.isDoubleSchema(schema)) {
-                datatype = SchemaTypeUtil.DOUBLE_FORMAT;
+                return SchemaTypeUtil.DOUBLE_FORMAT;
             } else {
                 LOGGER.warn("Unknown `format` detected for " + schema.getName() + ": " + schema.getFormat());
             }
         } else if (ModelUtils.isIntegerSchema(schema)) {
             if (ModelUtils.isLongSchema(schema)) {
-                datatype = "long";
+                return "long";
             } else {
-                datatype = schema.getType(); // integer
+                return schema.getType(); // integer
             }
         } else if (ModelUtils.isMapSchema(schema)) {
-            datatype = "map";
+            return "map";
         } else if (ModelUtils.isArraySchema(schema)) {
-            datatype = "array";
+            return "array";
         } else if (ModelUtils.isUUIDSchema(schema)) {
-            datatype = "UUID";
+            return "UUID";
         } else if (ModelUtils.isStringSchema(schema)) {
-            datatype = "string";
+            return "string";
         } else {
             if (schema != null) {
                 // TODO the following check should be covered by ModelUtils.isMapSchema(schema) above so can be removed
                 if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && schema.getAdditionalProperties() != null) {
-                    datatype = "map";
+                    return "map";
                 } else {
-                    datatype = schema.getType();
+                    return schema.getType();
                 }
             }
         }
-
-        return datatype;
+        return "object";
     }
 
     /**
@@ -3180,8 +3186,9 @@ public class DefaultCodegen implements CodegenConfig {
         for (Map.Entry<String, Schema> entry : schemas.entrySet()) {
             String oasName = entry.getKey();
             Schema schema = entry.getValue();
-            if (schema.getType() != null && !schema.getType().equals("object") && schema.getEnum() == null) {
-                aliases.put(oasName, schema.getType());
+            String typeType = getPrimitiveType(schema);
+            if (typeType != null && !typeType.equals("object") && schema.getEnum() == null) {
+                aliases.put(oasName, typeType);
             }
         }
 
