@@ -60,7 +60,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
-        
+
         additionalProperties.put("appName", "Swagger Sample");
         additionalProperties.put("appDescription", "A sample swagger server");
         additionalProperties.put("infoUrl", "https://helloreverb.com");
@@ -123,8 +123,8 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
             op.httpMethod = op.httpMethod.toLowerCase();
-            for (CodegenResponse response : op.responses){
-                if ("0".equals(response.code)){
+            for (CodegenResponse response : op.responses) {
+                if ("0".equals(response.code)) {
                     response.code = "default";
                 }
             }
@@ -202,7 +202,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     /**
      * Parse Markdown to HTML for the main "Description" attribute
      *
-     * @param swagger The base object containing the global description through "Info" class
+     * @param openAPI The base object containing the global description through "Info" class
      * @return Void
      */
     private void preparHtmlForGlobalDescription(OpenAPI openAPI) {
@@ -213,7 +213,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         String currentDescription = openAPI.getInfo().getDescription();
         if (currentDescription != null && !currentDescription.isEmpty()) {
             Markdown markInstance = new Markdown();
-            openAPI.getInfo().setDescription( markInstance.toHtml(currentDescription) );
+            openAPI.getInfo().setDescription(markInstance.toHtml(currentDescription));
         } else {
             LOGGER.error("OpenAPI object description is empty [" + openAPI.getInfo().getTitle() + "]");
         }
@@ -227,7 +227,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
      */
     public List<CodegenParameter> postProcessParameterEnum(List<CodegenParameter> parameterList) {
         String enumFormatted = "";
-        for(CodegenParameter parameter : parameterList) {
+        for (CodegenParameter parameter : parameterList) {
             if (parameter.isEnum) {
                 for (int i = 0; i < parameter._enum.size(); i++) {
                     String spacer = (i == (parameter._enum.size() - 1)) ? " " : ", ";
@@ -268,5 +268,5 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     public String escapeUnsafeCharacters(String input) {
         // just return the original string
         return input;
-    }   
+    }
 }
