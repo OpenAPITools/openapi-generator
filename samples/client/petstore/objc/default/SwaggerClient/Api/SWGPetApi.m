@@ -56,7 +56,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
 ///
 ///  @returns void
 ///
--(NSURLSessionTask*) addPetWithPet: (SWGPet) pet
+-(NSURLSessionTask*) addPetWithPet: (SWGPet*) pet
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet"];
 
@@ -367,7 +367,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
 ///
 ///  @returns void
 ///
--(NSURLSessionTask*) updatePetWithPet: (SWGPet) pet
+-(NSURLSessionTask*) updatePetWithPet: (SWGPet*) pet
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet"];
 

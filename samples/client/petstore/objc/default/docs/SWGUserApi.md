@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 # **createUser**
 ```objc
--(NSURLSessionTask*) createUserWithUser: (SWGUser) user
+-(NSURLSessionTask*) createUserWithUser: (SWGUser*) user
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -27,7 +27,7 @@ This can only be done by the logged in user.
 ### Example 
 ```objc
 
-SWGUser user = [[SWGUser alloc] init]; // Created user object (optional)
+SWGUser* user = [[SWGUser alloc] init]; // Created user object (optional)
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
@@ -44,7 +44,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**SWGUser**](SWGUser.md)| Created user object | [optional] 
+ **user** | [**SWGUser***](SWGUser.md)| Created user object | [optional] 
 
 ### Return type
 
@@ -72,7 +72,7 @@ Creates list of users with given input array
 ### Example 
 ```objc
 
-NSArray<SWGUser>* user = @[[[SWGUser alloc] init]]; // List of user object (optional)
+NSArray<SWGUser>* user = @[[[NSArray alloc] init]]; // List of user object (optional)
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
@@ -89,7 +89,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**NSArray&lt;SWGUser&gt;***](SWGUser.md)| List of user object | [optional] 
+ **user** | [**NSArray&lt;SWGUser&gt;***](NSArray.md)| List of user object | [optional] 
 
 ### Return type
 
@@ -117,7 +117,7 @@ Creates list of users with given input array
 ### Example 
 ```objc
 
-NSArray<SWGUser>* user = @[[[SWGUser alloc] init]]; // List of user object (optional)
+NSArray<SWGUser>* user = @[[[NSArray alloc] init]]; // List of user object (optional)
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
@@ -134,7 +134,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**NSArray&lt;SWGUser&gt;***](SWGUser.md)| List of user object | [optional] 
+ **user** | [**NSArray&lt;SWGUser&gt;***](NSArray.md)| List of user object | [optional] 
 
 ### Return type
 
@@ -342,7 +342,7 @@ No authorization required
 # **updateUser**
 ```objc
 -(NSURLSessionTask*) updateUserWithUsername: (NSString*) username
-    user: (SWGUser) user
+    user: (SWGUser*) user
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -354,7 +354,7 @@ This can only be done by the logged in user.
 ```objc
 
 NSString* username = @"username_example"; // name that need to be deleted
-SWGUser user = [[SWGUser alloc] init]; // Updated user object (optional)
+SWGUser* user = [[SWGUser alloc] init]; // Updated user object (optional)
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
@@ -373,7 +373,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **NSString***| name that need to be deleted | 
- **user** | [**SWGUser**](SWGUser.md)| Updated user object | [optional] 
+ **user** | [**SWGUser***](SWGUser.md)| Updated user object | [optional] 
 
 ### Return type
 

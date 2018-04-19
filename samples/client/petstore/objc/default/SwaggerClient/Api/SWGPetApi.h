@@ -31,7 +31,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 ///  code:405 message:"Invalid input"
 ///
 /// @return void
--(NSURLSessionTask*) addPetWithPet: (SWGPet) pet
+-(NSURLSessionTask*) addPetWithPet: (SWGPet*) pet
     completionHandler: (void (^)(NSError* error)) handler;
 
 
@@ -99,7 +99,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 ///  code:405 message:"Validation exception"
 ///
 /// @return void
--(NSURLSessionTask*) updatePetWithPet: (SWGPet) pet
+-(NSURLSessionTask*) updatePetWithPet: (SWGPet*) pet
     completionHandler: (void (^)(NSError* error)) handler;
 
 

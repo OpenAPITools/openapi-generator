@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 # **addPet**
 ```objc
--(NSURLSessionTask*) addPetWithPet: (SWGPet) pet
+-(NSURLSessionTask*) addPetWithPet: (SWGPet*) pet
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -30,7 +30,7 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-SWGPet pet = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
+SWGPet* pet = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
@@ -47,7 +47,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**SWGPet**](SWGPet.md)| Pet object that needs to be added to the store | [optional] 
+ **pet** | [**SWGPet***](SWGPet.md)| Pet object that needs to be added to the store | [optional] 
 
 ### Return type
 
@@ -81,7 +81,7 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSNumber* petId = @789; // Pet id to delete
+NSNumber* petId = @56; // Pet id to delete
 NSString* apiKey = @"apiKey_example"; //  (optional)
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
@@ -251,7 +251,7 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSNumber* petId = @789; // ID of pet that needs to be fetched
+NSNumber* petId = @56; // ID of pet that needs to be fetched
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
@@ -290,7 +290,7 @@ Name | Type | Description  | Notes
 
 # **updatePet**
 ```objc
--(NSURLSessionTask*) updatePetWithPet: (SWGPet) pet
+-(NSURLSessionTask*) updatePetWithPet: (SWGPet*) pet
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -304,7 +304,7 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-SWGPet pet = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
+SWGPet* pet = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
@@ -321,7 +321,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**SWGPet**](SWGPet.md)| Pet object that needs to be added to the store | [optional] 
+ **pet** | [**SWGPet***](SWGPet.md)| Pet object that needs to be added to the store | [optional] 
 
 ### Return type
 
@@ -414,7 +414,7 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSNumber* petId = @789; // ID of pet to update
+NSNumber* petId = @56; // ID of pet to update
 NSString* additionalMetadata = @"additionalMetadata_example"; // Additional data to pass to server (optional)
 NSURL* file = [NSURL fileURLWithPath:@"/path/to/file"]; // file to upload (optional)
 

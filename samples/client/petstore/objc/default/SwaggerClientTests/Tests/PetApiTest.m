@@ -34,7 +34,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetById"];
     SWGPet* pet = [self createPet];
 
-    [api addPetWithBody:pet completionHandler:^(NSError *error) {
+    [api addPetWithPet:pet completionHandler:^(NSError *error) {
         if(error){
             XCTFail(@"got error %@", error);
         }
@@ -74,7 +74,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"testUpdatePet"];
     SWGPet* pet = [self createPet];
 
-    [api addPetWithBody:pet completionHandler:^(NSError *error) {
+    [api addPetWithPet:pet completionHandler:^(NSError *error) {
         if(error) {
             XCTFail(@"got error %@", error);
         }
@@ -93,7 +93,7 @@
                     [pet setName:@"programmer"];
                     [pet setStatus:@"confused"];
 
-                    [api updatePetWithBody:pet
+                    [api updatePetWithPet:pet
                                     completionHandler:^(NSError *error) {
                                         if(error) {
                                             XCTFail(@"got error %@", error);
@@ -166,7 +166,7 @@ which causes an exception when deserializing the data
     NSLog(@"%@", pet._id);
     pet.tags = (id) @[tag];
 
-    [api addPetWithBody:pet completionHandler:^(NSError *error) {
+    [api addPetWithPet:pet completionHandler:^(NSError *error) {
         if(error) {
             XCTFail(@"got error %@", error);
         }
@@ -199,7 +199,7 @@ which causes an exception when deserializing the data
 
     SWGPet* pet = [self createPet];
 
-    [api addPetWithBody:pet completionHandler:^(NSError *error) {
+    [api addPetWithPet:pet completionHandler:^(NSError *error) {
         if(error){
             XCTFail(@"got error %@", error);
         }

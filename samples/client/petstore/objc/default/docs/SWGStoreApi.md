@@ -162,7 +162,7 @@ No authorization required
 
 # **placeOrder**
 ```objc
--(NSURLSessionTask*) placeOrderWithOrder: (SWGOrder) order
+-(NSURLSessionTask*) placeOrderWithOrder: (SWGOrder*) order
         completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler;
 ```
 
@@ -171,7 +171,7 @@ Place an order for a pet
 ### Example 
 ```objc
 
-SWGOrder order = [[SWGOrder alloc] init]; // order placed for purchasing the pet (optional)
+SWGOrder* order = [[SWGOrder alloc] init]; // order placed for purchasing the pet (optional)
 
 SWGStoreApi*apiInstance = [[SWGStoreApi alloc] init];
 
@@ -191,7 +191,7 @@ SWGStoreApi*apiInstance = [[SWGStoreApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**SWGOrder**](SWGOrder.md)| order placed for purchasing the pet | [optional] 
+ **order** | [**SWGOrder***](SWGOrder.md)| order placed for purchasing the pet | [optional] 
 
 ### Return type
 
