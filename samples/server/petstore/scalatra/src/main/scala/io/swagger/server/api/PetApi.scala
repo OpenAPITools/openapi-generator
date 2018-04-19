@@ -43,15 +43,15 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
 
   val addPetOperation = (apiOperation[Unit]("addPet")
       summary "Add a new pet to the store"
-      parameters(bodyParam[Pet]("body").description(""))
+      parameters(bodyParam[Pet]("pet").description(""))
   )
 
   post("/pet",operation(addPetOperation)) {
     
     
-          val body = parsedBody.extract[Pet]
+          val pet = parsedBody.extract[Pet]
 
-    println("body: " + body)
+    println("pet: " + pet)
   }
 
   
@@ -84,16 +84,7 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
   get("/pet/findByStatus",operation(findPetsByStatusOperation)) {
     
     
-          val statusString = params.getAs[String]("status")
-      val status = if("csv" == "default" || "csv" == "csv") {
-        statusString match {
-          case Some(str) => str.split(",").toSeq
-          case None => Seq()
-        }
-      }
-      else
-        Seq()
-      
+                val status = params.getAs[List[String]]("status")
 
     println("status: " + status)
   }
@@ -108,16 +99,7 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
   get("/pet/findByTags",operation(findPetsByTagsOperation)) {
     
     
-          val tagsString = params.getAs[String]("tags")
-      val tags = if("csv" == "default" || "csv" == "csv") {
-        tagsString match {
-          case Some(str) => str.split(",").toSeq
-          case None => Seq()
-        }
-      }
-      else
-        Seq()
-      
+                val tags = params.getAs[List[String]]("tags")
 
     println("tags: " + tags)
   }
@@ -141,15 +123,15 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
 
   val updatePetOperation = (apiOperation[Unit]("updatePet")
       summary "Update an existing pet"
-      parameters(bodyParam[Pet]("body").description(""))
+      parameters(bodyParam[Pet]("pet").description(""))
   )
 
   put("/pet",operation(updatePetOperation)) {
     
     
-          val body = parsedBody.extract[Pet]
+          val pet = parsedBody.extract[Pet]
 
-    println("body: " + body)
+    println("pet: " + pet)
   }
 
   
