@@ -425,15 +425,15 @@ public class StoreApi {
   /**
   * Place an order for a pet
   * 
-   * @param body order placed for purchasing the pet
+   * @param order order placed for purchasing the pet
    * @return Order
   */
-  public Order placeOrder (Order body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-    Object postBody = body;
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'body' when calling placeOrder",
-        new ApiException(400, "Missing the required parameter 'body' when calling placeOrder"));
+  public Order placeOrder (Order order) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = order;
+    // verify the required parameter 'order' is set
+    if (order == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'order' when calling placeOrder",
+        new ApiException(400, "Missing the required parameter 'order' when calling placeOrder"));
     }
 
     // create path and map variables
@@ -446,6 +446,7 @@ public class StoreApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
     String[] contentTypes = {
+      "application/json"
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -487,15 +488,15 @@ public class StoreApi {
       /**
    * Place an order for a pet
    * 
-   * @param body order placed for purchasing the pet
+   * @param order order placed for purchasing the pet
   */
-  public void placeOrder (Order body, final Response.Listener<Order> responseListener, final Response.ErrorListener errorListener) {
-    Object postBody = body;
+  public void placeOrder (Order order, final Response.Listener<Order> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = order;
 
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'body' when calling placeOrder",
-        new ApiException(400, "Missing the required parameter 'body' when calling placeOrder"));
+    // verify the required parameter 'order' is set
+    if (order == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'order' when calling placeOrder",
+        new ApiException(400, "Missing the required parameter 'order' when calling placeOrder"));
     }
 
     // create path and map variables
@@ -511,7 +512,7 @@ public class StoreApi {
 
 
     String[] contentTypes = {
-      
+      "application/json"
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
