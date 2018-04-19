@@ -14,21 +14,21 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Create user This can only be done by the logged in user.
         /// </summary>
-        /// <param name="body">Created user object</param>
+        /// <param name="user">Created user object</param>
         /// <returns></returns>
-        void CreateUser (User body);
+        void CreateUser (User user);
         /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
-        /// <param name="body">List of user object</param>
+        /// <param name="user">List of user object</param>
         /// <returns></returns>
-        void CreateUsersWithArrayInput (List<User> body);
+        void CreateUsersWithArrayInput (List<User> user);
         /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
-        /// <param name="body">List of user object</param>
+        /// <param name="user">List of user object</param>
         /// <returns></returns>
-        void CreateUsersWithListInput (List<User> body);
+        void CreateUsersWithListInput (List<User> user);
         /// <summary>
         /// Delete user This can only be done by the logged in user.
         /// </summary>
@@ -38,7 +38,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Get user by user name 
         /// </summary>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>User</returns>
         User GetUserByName (string username);
         /// <summary>
@@ -57,9 +57,9 @@ namespace IO.Swagger.Api
         /// Updated user This can only be done by the logged in user.
         /// </summary>
         /// <param name="username">name that need to be deleted</param>
-        /// <param name="body">Updated user object</param>
+        /// <param name="user">Updated user object</param>
         /// <returns></returns>
-        void UpdateUser (string username, User body);
+        void UpdateUser (string username, User user);
     }
   
     /// <summary>
@@ -118,13 +118,13 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Create user This can only be done by the logged in user.
         /// </summary>
-        /// <param name="body">Created user object</param> 
+        /// <param name="user">Created user object</param> 
         /// <returns></returns>            
-        public void CreateUser (User body)
+        public void CreateUser (User user)
         {
             
-            // verify the required parameter 'body' is set
-            if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling CreateUser");
+            // verify the required parameter 'user' is set
+            if (user == null) throw new ApiException(400, "Missing required parameter 'user' when calling CreateUser");
             
     
             var path = "/user";
@@ -136,7 +136,7 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-                                                postBody = ApiClient.Serialize(body); // http body (model) parameter
+                                                postBody = ApiClient.Serialize(user); // http body (model) parameter
     
             // authentication setting, if any
             String[] authSettings = new String[] {  };
@@ -155,13 +155,13 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
-        /// <param name="body">List of user object</param> 
+        /// <param name="user">List of user object</param> 
         /// <returns></returns>            
-        public void CreateUsersWithArrayInput (List<User> body)
+        public void CreateUsersWithArrayInput (List<User> user)
         {
             
-            // verify the required parameter 'body' is set
-            if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling CreateUsersWithArrayInput");
+            // verify the required parameter 'user' is set
+            if (user == null) throw new ApiException(400, "Missing required parameter 'user' when calling CreateUsersWithArrayInput");
             
     
             var path = "/user/createWithArray";
@@ -173,7 +173,7 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-                                                postBody = ApiClient.Serialize(body); // http body (model) parameter
+                                                postBody = ApiClient.Serialize(user); // http body (model) parameter
     
             // authentication setting, if any
             String[] authSettings = new String[] {  };
@@ -192,13 +192,13 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
-        /// <param name="body">List of user object</param> 
+        /// <param name="user">List of user object</param> 
         /// <returns></returns>            
-        public void CreateUsersWithListInput (List<User> body)
+        public void CreateUsersWithListInput (List<User> user)
         {
             
-            // verify the required parameter 'body' is set
-            if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling CreateUsersWithListInput");
+            // verify the required parameter 'user' is set
+            if (user == null) throw new ApiException(400, "Missing required parameter 'user' when calling CreateUsersWithListInput");
             
     
             var path = "/user/createWithList";
@@ -210,7 +210,7 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-                                                postBody = ApiClient.Serialize(body); // http body (model) parameter
+                                                postBody = ApiClient.Serialize(user); // http body (model) parameter
     
             // authentication setting, if any
             String[] authSettings = new String[] {  };
@@ -266,7 +266,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Get user by user name 
         /// </summary>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param> 
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param> 
         /// <returns>User</returns>            
         public User GetUserByName (string username)
         {
@@ -378,16 +378,16 @@ namespace IO.Swagger.Api
         /// Updated user This can only be done by the logged in user.
         /// </summary>
         /// <param name="username">name that need to be deleted</param> 
-        /// <param name="body">Updated user object</param> 
+        /// <param name="user">Updated user object</param> 
         /// <returns></returns>            
-        public void UpdateUser (string username, User body)
+        public void UpdateUser (string username, User user)
         {
             
             // verify the required parameter 'username' is set
             if (username == null) throw new ApiException(400, "Missing required parameter 'username' when calling UpdateUser");
             
-            // verify the required parameter 'body' is set
-            if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling UpdateUser");
+            // verify the required parameter 'user' is set
+            if (user == null) throw new ApiException(400, "Missing required parameter 'user' when calling UpdateUser");
             
     
             var path = "/user/{username}";
@@ -400,7 +400,7 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-                                                postBody = ApiClient.Serialize(body); // http body (model) parameter
+                                                postBody = ApiClient.Serialize(user); // http body (model) parameter
     
             // authentication setting, if any
             String[] authSettings = new String[] {  };

@@ -1,6 +1,7 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+
 import java.io.File;
 
 public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {

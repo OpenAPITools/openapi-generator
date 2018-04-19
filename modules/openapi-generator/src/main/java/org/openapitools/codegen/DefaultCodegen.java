@@ -1041,6 +1041,8 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.example = "3.4";
         } else if (Boolean.TRUE.equals(codegenParameter.isDouble)) {
             codegenParameter.example = "1.2";
+        } else if (Boolean.TRUE.equals(codegenParameter.isNumber)) {
+            codegenParameter.example = "8.14";
         } else if (Boolean.TRUE.equals(codegenParameter.isBinary)) {
             codegenParameter.example = "BINARY_DATA_HERE";
         } else if (Boolean.TRUE.equals(codegenParameter.isByteArray)) {
