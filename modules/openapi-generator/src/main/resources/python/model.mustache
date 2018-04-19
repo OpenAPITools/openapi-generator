@@ -60,7 +60,7 @@ class {{classname}}(object):
 {{/-first}}
         self._{{name}} = None
 {{/vars}}
-        self.discriminator = {{#discriminator}}'{{discriminator}}'{{/discriminator}}{{^discriminator}}None{{/discriminator}}
+        self.discriminator = {{#discriminator}}'{{{discriminatorName}}}'{{/discriminator}}{{^discriminator}}None{{/discriminator}}
 {{#vars}}{{#-first}}
 {{/-first}}
 {{#required}}

@@ -23,7 +23,7 @@
  * Maps "discriminator" value to the sub-class name, so that inheritance is supported.
  */
 - (id)initWithDictionary:(NSDictionary *)dict error:(NSError *__autoreleasing *)err {
-    NSString * discriminatedClassName = [dict valueForKey:@"{{discriminator}}"];
+    NSString * discriminatedClassName = [dict valueForKey:@"{{{discriminatorName}}}"];
     if(discriminatedClassName == nil ){
          return [super initWithDictionary:dict error:err];
     }

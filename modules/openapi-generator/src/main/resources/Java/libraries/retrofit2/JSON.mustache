@@ -68,7 +68,7 @@ public class JSON {
                 classByDiscriminatorValue.put("{{classname}}".toUpperCase(), {{classname}}.class);
                 return getClassByDiscriminator(
                             classByDiscriminatorValue,
-                            getDiscriminatorValue(readElement, "{{discriminator}}"));
+                            getDiscriminatorValue(readElement, "{{{discriminatorName}}}"));
             }
           })
         {{/parent}}

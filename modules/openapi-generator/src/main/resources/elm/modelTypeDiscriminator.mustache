@@ -6,13 +6,13 @@ type {{classname}}
 
 {{classVarName}}Decoder : Decoder {{classname}}
 {{classVarName}}Decoder =
-    Decode.field "{{discriminator}}" Decode.string
+    Decode.field "{{{discriminatorName}}}" Decode.string
         |> Decode.andThen {{classVarName}}TypeDecoder
 
 
 {{classVarName}}TypeDecoder : String -> Decoder {{classname}}
-{{classVarName}}TypeDecoder {{discriminator}} =
-    case {{discriminator}} of
+{{classVarName}}TypeDecoder {{{discriminatorName}}} =
+    case {{{discriminatorName}}} of
 {{#children}}
         "{{vendorExtensions.x-discriminator-value}}" ->
             Decode.map {{classname}}Type {{classVarName}}Decoder
@@ -20,8 +20,8 @@ type {{classname}}
 {{/children}}
         _ ->
             Decode.fail <|
-                "Trying to decode {{classname}}, but {{discriminator}} "
-                ++ toString {{discriminator}} ++ " is not supported."
+                "Trying to decode {{classname}}, but {{{discriminatorName}}} "
+                ++ toString {{{discriminatorName}}} ++ " is not supported."
 
 
 {{classVarName}}Encoder : {{classname}} -> Encode.Value
