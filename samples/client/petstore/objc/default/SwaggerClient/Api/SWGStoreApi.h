@@ -70,7 +70,7 @@ extern NSInteger kSWGStoreApiMissingParamErrorCode;
 ///  code:400 message:"Invalid Order"
 ///
 /// @return SWGOrder*
--(NSURLSessionTask*) placeOrderWithOrder: (SWGOrder) order
+-(NSURLSessionTask*) placeOrderWithOrder: (SWGOrder*) order
     completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler;
 
 

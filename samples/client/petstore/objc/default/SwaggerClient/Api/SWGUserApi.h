@@ -31,7 +31,7 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 ///  code:0 message:"successful operation"
 ///
 /// @return void
--(NSURLSessionTask*) createUserWithUser: (SWGUser) user
+-(NSURLSessionTask*) createUserWithUser: (SWGUser*) user
     completionHandler: (void (^)(NSError* error)) handler;
 
 
@@ -123,7 +123,7 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 ///
 /// @return void
 -(NSURLSessionTask*) updateUserWithUsername: (NSString*) username
-    user: (SWGUser) user
+    user: (SWGUser*) user
     completionHandler: (void (^)(NSError* error)) handler;
 
 

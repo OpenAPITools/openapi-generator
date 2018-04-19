@@ -56,7 +56,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns void
 ///
--(NSURLSessionTask*) createUserWithUser: (SWGUser) user
+-(NSURLSessionTask*) createUserWithUser: (SWGUser*) user
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user"];
 
@@ -475,7 +475,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///  @returns void
 ///
 -(NSURLSessionTask*) updateUserWithUsername: (NSString*) username
-    user: (SWGUser) user
+    user: (SWGUser*) user
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'username' is set
     if (username == nil) {
