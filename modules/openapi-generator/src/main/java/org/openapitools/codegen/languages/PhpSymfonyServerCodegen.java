@@ -409,14 +409,20 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 if (var.isContainer) {
                     var.vendorExtensions.put("x-commentType", var.datatype + "[]");
                 }
-
-                if (var.isBoolean) {
-                    var.getter = var.getter.replaceAll("^get", "is");
-                }
             }
         }
 
         return objs;
+    }
+
+    /**
+     * Output the Getter name for boolean property, e.g. isActive
+     *
+     * @param name the name of the property
+     * @return getter name based on naming convention
+     */
+    public String toBooleanGetter(String name) {
+        return "is" + getterAndSetterCapitalize(name);
     }
 
     @Override

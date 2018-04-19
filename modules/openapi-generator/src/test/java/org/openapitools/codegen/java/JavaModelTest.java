@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.BooleanSchema;
 import io.swagger.v3.oas.models.media.ByteArraySchema;
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.DateTimeSchema;
@@ -732,6 +733,21 @@ public class JavaModelTest {
         CodegenProperty items = property2.items;
         Assert.assertEquals(items.xmlName, "i");
         Assert.assertEquals(items.baseName, "array");
+    }
+
+    @Test(description = "convert a boolean parameter")
+    public void booleanPropertyTest() {
+        final BooleanSchema property = new BooleanSchema();
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenProperty cp = codegen.fromProperty("property", property);
+
+        Assert.assertEquals(cp.baseName, "property");
+        Assert.assertEquals(cp.datatype, "Boolean");
+        Assert.assertEquals(cp.name, "property");
+        Assert.assertEquals(cp.baseType, "Boolean");
+        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertTrue(cp.isBoolean);
+        Assert.assertEquals(cp.getter, "isProperty");
     }
 
     @Test(description = "convert an integer property")
