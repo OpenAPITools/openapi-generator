@@ -740,6 +740,16 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the parameter name of array of model
+     *
+     * @param name name of the array model
+     * @return the sanitized parameter name
+     */
+    public String toArrayModelParamName(String name) {
+        return toParamName(name);
+    }
+
+    /**
      * Return the Enum name (e.g. StatusEnum given 'status')
      *
      * @param property Codegen property
@@ -4232,7 +4242,7 @@ public class DefaultCodegen implements CodegenConfig {
                 innerCp = innerCp.items;
             }
             codegenParameter.baseName = mostInnerItem.complexType;
-            codegenParameter.paramName = toParamName(mostInnerItem.complexType);
+            codegenParameter.paramName = toArrayModelParamName(mostInnerItem.complexType);
             codegenParameter.items = codegenProperty.items;
             codegenParameter.dataType = getTypeDeclaration(arraySchema);
             codegenParameter.baseType = getSchemaType(arraySchema);
