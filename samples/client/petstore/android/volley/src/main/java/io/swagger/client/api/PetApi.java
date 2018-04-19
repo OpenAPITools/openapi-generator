@@ -60,15 +60,15 @@ public class PetApi {
   /**
   * Add a new pet to the store
   * 
-   * @param body Pet object that needs to be added to the store
+   * @param pet Pet object that needs to be added to the store
    * @return void
   */
-  public void addPet (Pet body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-    Object postBody = body;
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'body' when calling addPet",
-        new ApiException(400, "Missing the required parameter 'body' when calling addPet"));
+  public void addPet (Pet pet) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = pet;
+    // verify the required parameter 'pet' is set
+    if (pet == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'pet' when calling addPet",
+        new ApiException(400, "Missing the required parameter 'pet' when calling addPet"));
     }
 
     // create path and map variables
@@ -81,8 +81,6 @@ public class PetApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
     String[] contentTypes = {
-      "application/json",
-      "application/xml"
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -124,15 +122,15 @@ public class PetApi {
       /**
    * Add a new pet to the store
    * 
-   * @param body Pet object that needs to be added to the store
+   * @param pet Pet object that needs to be added to the store
   */
-  public void addPet (Pet body, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
-    Object postBody = body;
+  public void addPet (Pet pet, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = pet;
 
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'body' when calling addPet",
-        new ApiException(400, "Missing the required parameter 'body' when calling addPet"));
+    // verify the required parameter 'pet' is set
+    if (pet == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'pet' when calling addPet",
+        new ApiException(400, "Missing the required parameter 'pet' when calling addPet"));
     }
 
     // create path and map variables
@@ -148,7 +146,7 @@ public class PetApi {
 
 
     String[] contentTypes = {
-      "application/json","application/xml"
+      
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -696,15 +694,15 @@ public class PetApi {
   /**
   * Update an existing pet
   * 
-   * @param body Pet object that needs to be added to the store
+   * @param pet Pet object that needs to be added to the store
    * @return void
   */
-  public void updatePet (Pet body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-    Object postBody = body;
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'body' when calling updatePet",
-        new ApiException(400, "Missing the required parameter 'body' when calling updatePet"));
+  public void updatePet (Pet pet) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = pet;
+    // verify the required parameter 'pet' is set
+    if (pet == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'pet' when calling updatePet",
+        new ApiException(400, "Missing the required parameter 'pet' when calling updatePet"));
     }
 
     // create path and map variables
@@ -717,8 +715,6 @@ public class PetApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
     String[] contentTypes = {
-      "application/json",
-      "application/xml"
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -760,15 +756,15 @@ public class PetApi {
       /**
    * Update an existing pet
    * 
-   * @param body Pet object that needs to be added to the store
+   * @param pet Pet object that needs to be added to the store
   */
-  public void updatePet (Pet body, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
-    Object postBody = body;
+  public void updatePet (Pet pet, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = pet;
 
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'body' when calling updatePet",
-        new ApiException(400, "Missing the required parameter 'body' when calling updatePet"));
+    // verify the required parameter 'pet' is set
+    if (pet == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'pet' when calling updatePet",
+        new ApiException(400, "Missing the required parameter 'pet' when calling updatePet"));
     }
 
     // create path and map variables
@@ -784,7 +780,7 @@ public class PetApi {
 
 
     String[] contentTypes = {
-      "application/json","application/xml"
+      
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 

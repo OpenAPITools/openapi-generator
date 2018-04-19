@@ -64,9 +64,9 @@ public class PetApiExample {
 
     public static void main(String[] args) {
         PetApi apiInstance = new PetApi();
-        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            apiInstance.addPet(body);
+            apiInstance.addPet(pet);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
             e.printStackTrace();

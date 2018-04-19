@@ -50,7 +50,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="getInventory"></a>
 # **getInventory**
@@ -105,7 +105,7 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 //import io.swagger.client.api.StoreApi;
 
 StoreApi apiInstance = new StoreApi();
-Long orderId = 789L; // Long | ID of pet that needs to be fetched
+Long orderId = 56L; // Long | ID of pet that needs to be fetched
 try {
     Order result = apiInstance.getOrderById(orderId);
     System.out.println(result);
@@ -119,7 +119,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **Long**| ID of pet that needs to be fetched |
+ **orderId** | **Long**| ID of pet that needs to be fetched | [enum: ]
 
 ### Return type
 
@@ -136,11 +136,9 @@ No authorization required
 
 <a name="placeOrder"></a>
 # **placeOrder**
-> Order placeOrder(body)
+> Order placeOrder(order)
 
 Place an order for a pet
-
-
 
 ### Example
 ```java
@@ -148,9 +146,9 @@ Place an order for a pet
 //import io.swagger.client.api.StoreApi;
 
 StoreApi apiInstance = new StoreApi();
-Order body = new Order(); // Order | order placed for purchasing the pet
+Order order = new Order(); // Order | order placed for purchasing the pet
 try {
-    Order result = apiInstance.placeOrder(body);
+    Order result = apiInstance.placeOrder(order);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling StoreApi#placeOrder");
@@ -162,7 +160,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet |
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
@@ -174,6 +172,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/xml, application/json
 
