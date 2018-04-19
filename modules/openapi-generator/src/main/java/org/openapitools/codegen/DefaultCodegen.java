@@ -4236,6 +4236,25 @@ public class DefaultCodegen implements CodegenConfig {
                 imports.add(codegenProperty.baseType);
                 codegenProperty = codegenProperty.items;
             }
+        } else if (ModelUtils.isMapSchema(schema)) {
+            Schema inner = (Schema) schema.getAdditionalProperties();
+            if (inner == null) {
+                inner = new StringSchema().description("//TODO automatically added by swagger-codegen");
+                schema.setAdditionalProperties(inner);
+            }
+            CodegenProperty codegenProperty = fromProperty("property", schema);
+            // only support 1-dimension map only
+            imports.add(codegenProperty.baseType);
+
+            codegenParameter.baseName = "request_body";
+            codegenParameter.paramName = toParamName("request_body");
+            codegenParameter.items = codegenProperty.items;
+            codegenParameter.dataType = getTypeDeclaration(inner);
+            codegenParameter.baseType = getSchemaType(inner);
+            codegenParameter.isContainer = Boolean.TRUE;
+            codegenParameter.isMapContainer = Boolean.TRUE;
+
+            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
         } else {
             // HTTP request body is primitive type (e.g. integer, string, etc)
             CodegenProperty codegenProperty = fromProperty("PRIMITIVE_REQUEST_BODY", schema);
