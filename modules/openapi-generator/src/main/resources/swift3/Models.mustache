@@ -328,7 +328,7 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
             {{#discriminator}}
                 // Check discriminator to support inheritance
-                if let discriminator = sourceDictionary["{{discriminator}}"] as? String, instance == nil && discriminator != "{{classname}}"{
+                if let discriminator = sourceDictionary["{{{discriminatorName}}}"] as? String, instance == nil && discriminator != "{{classname}}"{
                     return Decoders.decode(clazz: {{classname}}.self, discriminator: discriminator, source: source)
                 }
             {{/discriminator}}

@@ -145,7 +145,7 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{/vars}}
 
     {{#discriminator}}
-    static discriminator = {{discriminator}};
+    static discriminator = {{{discriminatorName}}};
     {{/discriminator}}
     {{^discriminator}}
     static discriminator = undefined;
