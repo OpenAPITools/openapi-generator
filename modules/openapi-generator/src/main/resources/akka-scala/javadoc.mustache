@@ -1,12 +1,16 @@
-{{^notes.isEmpty}}
-{{notes}}
-{{/notes.isEmpty}}
+{{#notes}}
+{{{notes}}}
 
+{{/notes}}
 Expected answers:
 {{#responses}}
-  code {{code}} : {{dataType}} {{^message.isEmpty}}({{message}}){{/message.isEmpty}}{{^headers.isEmpty}}
-             Headers :{{#headers}}
-               {{baseName}} - {{description}}{{/headers}}{{/headers.isEmpty}}
+  code {{code}} : {{{dataType}}} {{#message}}({{{message}}}){{/message}}
+  {{#headers}}
+             {{#-first}}
+             Headers :
+             {{/-first}}
+               {{{baseName}}} - {{{description}}}
+  {{/headers}}
 {{/responses}}
 {{#authMethods.0}}
 
@@ -17,5 +21,5 @@ Available security schemes:
 {{/authMethods.0}}
 
 {{#allParams}}
-@param {{paramName}} {{description}}
+@param {{{paramName}}} {{{description}}}
 {{/allParams}}

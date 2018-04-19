@@ -2908,13 +2908,16 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Add headers to codegen property
      *
-     * @param response API response
-     * @param target   list of codegen property
+     * @param response   API response
+     * @param properties list of codegen property
      */
     private void addHeaders(ApiResponse response, List<CodegenProperty> properties) {
         if (response.getHeaders() != null) {
             for (Map.Entry<String, Header> headers : response.getHeaders().entrySet()) {
-                properties.add(fromProperty(headers.getKey(), headers.getValue().getSchema()));
+                CodegenProperty cp = fromProperty(headers.getKey(), headers.getValue().getSchema());
+                cp.setDescription(escapeText(headers.getValue().getDescription()));
+                cp.setUnescapedDescription(headers.getValue().getDescription());
+                properties.add(cp);
             }
         }
     }

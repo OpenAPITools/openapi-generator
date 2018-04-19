@@ -19,7 +19,7 @@ import io.swagger.client.core.ApiKeyLocations._
 object StoreApi {
 
   /**
-   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
    * 
    * Expected answers:
    *   code 400 :  (Invalid ID supplied)
@@ -46,7 +46,7 @@ object StoreApi {
       .withApiKey(apiKey, "api_key", HEADER)
       .withSuccessResponse[Map[String, Int]](200)
         /**
-   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+   * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
    * 
    * Expected answers:
    *   code 200 : Order (successful operation)
@@ -62,16 +62,15 @@ object StoreApi {
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
         /**
-   * 
    * Expected answers:
    *   code 200 : Order (successful operation)
    *   code 400 :  (Invalid Order)
    * 
-   * @param body order placed for purchasing the pet
+   * @param order order placed for purchasing the pet
    */
-  def placeOrder(body: Order): ApiRequest[Order] =
+  def placeOrder(order: Order): ApiRequest[Order] =
     ApiRequest[Order](ApiMethods.POST, "http://petstore.swagger.io/v2", "/store/order", "application/json")
-      .withBody(body)
+      .withBody(order)
       .withSuccessResponse[Order](200)
       .withErrorResponse[Unit](400)
       

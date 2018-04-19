@@ -21,18 +21,16 @@ import io.swagger.client.core.ApiKeyLocations._
 object PetApi {
 
   /**
-   * 
    * Expected answers:
    *   code 405 :  (Invalid input)
    * 
-   * @param body Pet object that needs to be added to the store
+   * @param pet Pet object that needs to be added to the store
    */
-  def addPet(body: Pet): ApiRequest[Unit] =
+  def addPet(pet: Pet): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/pet", "application/json")
-      .withBody(body)
+      .withBody(pet)
       .withErrorResponse[Unit](405)
         /**
-   * 
    * Expected answers:
    *   code 400 :  (Invalid pet value)
    * 
@@ -55,7 +53,7 @@ object PetApi {
    */
   def findPetsByStatus(status: Seq[String]): ApiRequest[Seq[Pet]] =
     ApiRequest[Seq[Pet]](ApiMethods.GET, "http://petstore.swagger.io/v2", "/pet/findByStatus", "application/json")
-      .withQueryParam("status", ArrayValues(status, CSV))
+      .withQueryParam("status", ArrayValues(status))
       .withSuccessResponse[Seq[Pet]](200)
       .withErrorResponse[Unit](400)
         /**
@@ -69,7 +67,7 @@ object PetApi {
    */
   def findPetsByTags(tags: Seq[String]): ApiRequest[Seq[Pet]] =
     ApiRequest[Seq[Pet]](ApiMethods.GET, "http://petstore.swagger.io/v2", "/pet/findByTags", "application/json")
-      .withQueryParam("tags", ArrayValues(tags, CSV))
+      .withQueryParam("tags", ArrayValues(tags))
       .withSuccessResponse[Seq[Pet]](200)
       .withErrorResponse[Unit](400)
         /**
@@ -93,22 +91,20 @@ object PetApi {
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
         /**
-   * 
    * Expected answers:
    *   code 400 :  (Invalid ID supplied)
    *   code 404 :  (Pet not found)
    *   code 405 :  (Validation exception)
    * 
-   * @param body Pet object that needs to be added to the store
+   * @param pet Pet object that needs to be added to the store
    */
-  def updatePet(body: Pet): ApiRequest[Unit] =
+  def updatePet(pet: Pet): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.PUT, "http://petstore.swagger.io/v2", "/pet", "application/json")
-      .withBody(body)
+      .withBody(pet)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](405)
         /**
-   * 
    * Expected answers:
    *   code 405 :  (Invalid input)
    * 
@@ -123,7 +119,6 @@ object PetApi {
       .withPathParam("petId", petId)
       .withErrorResponse[Unit](405)
         /**
-   * 
    * Expected answers:
    *   code 200 : ApiResponse (successful operation)
    * 
