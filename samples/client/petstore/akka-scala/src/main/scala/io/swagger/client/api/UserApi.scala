@@ -24,33 +24,31 @@ object UserApi {
    * Expected answers:
    *   code 0 :  (successful operation)
    * 
-   * @param body Created user object
+   * @param user Created user object
    */
-  def createUser(body: User): ApiRequest[Unit] =
+  def createUser(user: User): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user", "application/json")
-      .withBody(body)
+      .withBody(user)
       .withDefaultSuccessResponse[Unit]
         /**
-   * 
    * Expected answers:
    *   code 0 :  (successful operation)
    * 
-   * @param body List of user object
+   * @param user List of user object
    */
-  def createUsersWithArrayInput(body: Seq[User]): ApiRequest[Unit] =
+  def createUsersWithArrayInput(user: Seq[User]): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user/createWithArray", "application/json")
-      .withBody(body)
+      .withBody(user)
       .withDefaultSuccessResponse[Unit]
         /**
-   * 
    * Expected answers:
    *   code 0 :  (successful operation)
    * 
-   * @param body List of user object
+   * @param user List of user object
    */
-  def createUsersWithListInput(body: Seq[User]): ApiRequest[Unit] =
+  def createUsersWithListInput(user: Seq[User]): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user/createWithList", "application/json")
-      .withBody(body)
+      .withBody(user)
       .withDefaultSuccessResponse[Unit]
         /**
    * This can only be done by the logged in user.
@@ -67,13 +65,12 @@ object UserApi {
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
         /**
-   * 
    * Expected answers:
    *   code 200 : User (successful operation)
    *   code 400 :  (Invalid username supplied)
    *   code 404 :  (User not found)
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing. 
+   * @param username The name that needs to be fetched. Use user1 for testing.
    */
   def getUserByName(username: String): ApiRequest[User] =
     ApiRequest[User](ApiMethods.GET, "http://petstore.swagger.io/v2", "/user/{username}", "application/json")
@@ -82,7 +79,6 @@ object UserApi {
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
         /**
-   * 
    * Expected answers:
    *   code 200 : String (successful operation)
    *              Headers :
@@ -105,7 +101,6 @@ object UserApi {
     def xExpiresAfter(r: ApiReturnWithHeaders) = r.getDateTimeHeader("X-Expires-After")
   }
   /**
-   * 
    * Expected answers:
    *   code 0 :  (successful operation)
    */
@@ -120,11 +115,11 @@ object UserApi {
    *   code 404 :  (User not found)
    * 
    * @param username name that need to be deleted
-   * @param body Updated user object
+   * @param user Updated user object
    */
-  def updateUser(username: String, body: User): ApiRequest[Unit] =
+  def updateUser(username: String, user: User): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.PUT, "http://petstore.swagger.io/v2", "/user/{username}", "application/json")
-      .withBody(body)
+      .withBody(user)
       .withPathParam("username", username)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
