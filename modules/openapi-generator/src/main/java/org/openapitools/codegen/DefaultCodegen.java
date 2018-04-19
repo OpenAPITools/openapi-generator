@@ -2394,7 +2394,6 @@ public class DefaultCodegen implements CodegenConfig {
                 r.isUuid = true;
             } else if (Boolean.TRUE.equals(cp.isByteArray)) {
                 r.isByteArray = true;
-                r.isFile = true; // in OAS3.0 "file" is 'byte' (format)
             } else if (Boolean.TRUE.equals(cp.isString)) {
                 r.isString = true;
             } else if (Boolean.TRUE.equals(cp.isBoolean)) {
@@ -2415,6 +2414,7 @@ public class DefaultCodegen implements CodegenConfig {
                 r.isFloat = true;
                 r.isNumeric = true;
             } else if (Boolean.TRUE.equals(cp.isBinary)) {
+                r.isFile = true; // file = binary in OAS3
                 r.isBinary = true;
             } else if (Boolean.TRUE.equals(cp.isFile)) {
                 r.isFile = true;
