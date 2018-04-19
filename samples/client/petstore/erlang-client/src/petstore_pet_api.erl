@@ -12,12 +12,13 @@
 -define(BASE_URL, "/v2").
 
 %% @doc Add a new pet to the store
+%% 
 -spec add_pet(ctx:ctx(), petstore_pet:petstore_pet()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
-add_pet(Ctx, Body) ->
-    add_pet(Ctx, Body, #{}).
+add_pet(Ctx, PetstorePet) ->
+    add_pet(Ctx, PetstorePet, #{}).
 
 -spec add_pet(ctx:ctx(), petstore_pet:petstore_pet(), maps:map()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
-add_pet(Ctx, Body, Optional) ->
+add_pet(Ctx, PetstorePet, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
@@ -25,13 +26,14 @@ add_pet(Ctx, Body, Optional) ->
     Path = ["/pet"],
     QS = [],
     Headers = [],
-    Body1 = Body,
+    Body1 = PetstorePet,
     ContentTypeHeader = petstore_utils:select_header_content_type([<<"application/json">>, <<"application/xml">>]),
     Opts = maps:get(hackney_opts, Optional, []),
 
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Deletes a pet
+%% 
 -spec delete_pet(ctx:ctx(), integer()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 delete_pet(Ctx, PetId) ->
     delete_pet(Ctx, PetId, #{}).
@@ -115,12 +117,13 @@ get_pet_by_id(Ctx, PetId, Optional) ->
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Update an existing pet
+%% 
 -spec update_pet(ctx:ctx(), petstore_pet:petstore_pet()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
-update_pet(Ctx, Body) ->
-    update_pet(Ctx, Body, #{}).
+update_pet(Ctx, PetstorePet) ->
+    update_pet(Ctx, PetstorePet, #{}).
 
 -spec update_pet(ctx:ctx(), petstore_pet:petstore_pet(), maps:map()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
-update_pet(Ctx, Body, Optional) ->
+update_pet(Ctx, PetstorePet, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
@@ -128,13 +131,14 @@ update_pet(Ctx, Body, Optional) ->
     Path = ["/pet"],
     QS = [],
     Headers = [],
-    Body1 = Body,
+    Body1 = PetstorePet,
     ContentTypeHeader = petstore_utils:select_header_content_type([<<"application/json">>, <<"application/xml">>]),
     Opts = maps:get(hackney_opts, Optional, []),
 
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Updates a pet in the store with form data
+%% 
 -spec update_pet_with_form(ctx:ctx(), integer()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 update_pet_with_form(Ctx, PetId) ->
     update_pet_with_form(Ctx, PetId, #{}).
@@ -155,6 +159,7 @@ update_pet_with_form(Ctx, PetId, Optional) ->
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc uploads an image
+%% 
 -spec upload_file(ctx:ctx(), integer()) -> {ok, petstore_api_response:petstore_api_response(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 upload_file(Ctx, PetId) ->
     upload_file(Ctx, PetId, #{}).

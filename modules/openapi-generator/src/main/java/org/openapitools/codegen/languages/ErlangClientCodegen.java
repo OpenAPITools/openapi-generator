@@ -51,11 +51,11 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                    "after","and","andalso","band","begin","bnot","bor","bsl","bsr","bxor","case",
-                    "catch","cond","div","end","fun","if","let","not","of","or","orelse","receive",
-                    "rem","try","when","xor"
-                    )
-                );
+                        "after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr", "bxor", "case",
+                        "catch", "cond", "div", "end", "fun", "if", "let", "not", "of", "or", "orelse", "receive",
+                        "rem", "try", "when", "xor"
+                )
+        );
 
         instantiationTypes.clear();
 
@@ -109,12 +109,11 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
         String type = null;
-        if(typeMapping.containsKey(schemaType)) {
+        if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
-            if(languageSpecificPrimitives.contains(type))
+            if (languageSpecificPrimitives.contains(type))
                 return (type);
-        }
-        else
+        } else
             type = getTypeDeclaration(toModelName(snakeCase(schemaType)));
         return type;
     }
@@ -125,15 +124,13 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        }
-        else {
+        } else {
             setPackageName("swagger");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        }
-        else {
+        } else {
             setPackageVersion("1.0.0");
         }
 
@@ -157,7 +154,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         modelPackage = packageName;
         apiPackage = packageName;
 
-        supportingFiles.add(new SupportingFile("rebar.config.mustache","", "rebar.config"));
+        supportingFiles.add(new SupportingFile("rebar.config.mustache", "", "rebar.config"));
         supportingFiles.add(new SupportingFile("app.src.mustache", "", "src" + File.separator + this.packageName + ".app.src"));
         supportingFiles.add(new SupportingFile("utils.mustache", "", "src" + File.separator + this.packageName + "_utils.erl"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -177,8 +174,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public String escapeReservedWord(String name)
-    {
+    public String escapeReservedWord(String name) {
         // Can't start with an underscore, as our fields need to start with an
         // UppercaseLetter so that Go treats them as public/visible.
 
@@ -190,7 +186,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         // - X_Name
         // ... or maybe a suffix?
         // - Name_ ... think this will work.
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return camelize(name) + '_';
@@ -220,6 +216,20 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toParamName(String name) {
         return camelize(toVarName(name));
+    }
+
+    @Override
+    public String toArrayModelParamName(String name) {
+        if (name == null) {
+            LOGGER.warn("parameter name for array model is null. Default to 'array_model'.");
+            name = "array_model";
+        }
+
+        if (name.indexOf(":") > 0) {
+            name = name.substring(0, name.indexOf(":")) + "_array";
+        }
+
+        return toParamName(name);
     }
 
     @Override
@@ -383,8 +393,8 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             this.produces = o.produces;
             this.bodyParam = o.bodyParam;
             this.allParams = o.allParams;
-            this.arityRequired = Integer.toString(lengthRequired(o.allParams)+1);
-            this.arityOptional = Integer.toString(lengthRequired(o.allParams)+2);
+            this.arityRequired = Integer.toString(lengthRequired(o.allParams) + 1);
+            this.arityOptional = Integer.toString(lengthRequired(o.allParams) + 2);
             this.bodyParams = o.bodyParams;
             this.pathParams = o.pathParams;
             this.queryParams = o.queryParams;
