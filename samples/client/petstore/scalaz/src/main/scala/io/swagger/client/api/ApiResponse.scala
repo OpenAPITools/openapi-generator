@@ -11,7 +11,7 @@ import ApiResponse._
 
 case class ApiResponse (
   code: Option[Integer],
-_type: Option[String],
+`type`: Option[String],
 message: Option[String])
 
 object ApiResponse {
