@@ -32,7 +32,7 @@ void StoreApiImpl::get_inventory(Pistache::Http::ResponseWriter &response) {
 void StoreApiImpl::get_order_by_id(const int64_t &orderId, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void StoreApiImpl::place_order(const Order &order, Pistache::Http::ResponseWriter &response) {
+void StoreApiImpl::place_order(const std::shared_ptr<Order> &order, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 
