@@ -238,18 +238,18 @@ To generate a PHP client for http://petstore.swagger.io/v2/swagger.json, please 
 git clone https://github.com/swagger-api/swagger-codegen
 cd swagger-codegen
 mvn clean package
-java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
    -i http://petstore.swagger.io/v2/swagger.json \
    -l php \
    -o /var/tmp/php_api_client
 ```
-(if you're on Windows, replace the last command with `java -jar modules\swagger-codegen-cli\target\swagger-codegen-cli.jar generate -i http://petstore.swagger.io/v2/swagger.json -l php -o c:\temp\php_api_client`)
+(if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i http://petstore.swagger.io/v2/swagger.json -l php -o c:\temp\php_api_client`)
 
 You can also download the JAR (latest release) directly from [maven.org](http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.3.1/swagger-codegen-cli-2.3.1.jar)
 
-To get a list of **general** options available, please run `java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar help generate`
+To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
 
-To get a list of PHP specified options (which can be passed to the generator with a config file via the `-c` option), please run `java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar config-help -l php`
+To get a list of PHP specified options (which can be passed to the generator with a config file via the `-c` option), please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar config-help -l php`
 
 ## Generators
 
@@ -265,7 +265,7 @@ You can build a client against the swagger sample [petstore](http://petstore.swa
 This will run the generator with this command:
 
 ```sh
-java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l java \
   -o samples/client/petstore/java
@@ -343,7 +343,7 @@ You can look at `modules/swagger-codegen/src/main/resources/${your-language}` fo
 If you're starting a project with a new language and don't see what you need, swagger-codegen can help you create a project to generate your own libraries:
 
 ```sh
-java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar meta \
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar meta \
   -o output/myLibrary -n myClientCodegen -p com.my.company.codegen
 ```
 
@@ -352,18 +352,18 @@ This will write, in the folder `output/myLibrary`, all the files you need to get
 You would then compile your library in the `output/myLibrary` folder with `mvn package` and execute the codegen like such:
 
 ```sh
-java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar:modules/swagger-codegen-cli/target/swagger-codegen-cli.jar io.swagger.codegen.SwaggerCodegen
+java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
 ```
 For Windows users, you will need to use `;` instead of `:` in the classpath, e.g.
 ```
-java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar;modules/swagger-codegen-cli/target/swagger-codegen-cli.jar io.swagger.codegen.SwaggerCodegen
+java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
 ```
 
 Note the `myClientCodegen` is an option now, and you can use the usual arguments for generating your library:
 
 ```sh
-java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar:modules/swagger-codegen-cli/target/swagger-codegen-cli.jar \
-  io.swagger.codegen.SwaggerCodegen generate -l myClientCodegen\
+java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
+  org.openapitools.codegen.OpenAPIGenerator generate -l myClientCodegen\
   -i http://petstore.swagger.io/v2/swagger.json \
   -o myClient
 ```
@@ -493,7 +493,7 @@ TypeScriptNodeClientCodegen.java
 Each of these files creates reasonable defaults so you can get running quickly.  But if you want to configure package names, prefixes, model folders, etc. you can use a json config file to pass the values.
 
 ```sh
-java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l java \
   -o samples/client/petstore/java \
@@ -510,7 +510,7 @@ Supported config options can be different per language. Running `config-help -l 
 **These options are applied via configuration file (e.g. config.json) or by passing them with `-D{optionName}={optionValue}`**. (If `-D{optionName}` does not work, please open a [ticket](https://github.com/swagger-api/swagger-codegen/issues/new) and we'll look into it)
 
 ```sh
-java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar config-help -l java
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar config-help -l java
 ```
 
 Output
@@ -655,7 +655,7 @@ To push the auto-generated SDK to GitHub, we provide `git_push.sh` to streamline
 
  2) Generate the SDK
 ```sh
- java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
  -i modules/swagger-codegen/src/test/resources/2_0/petstore.json -l perl \
  --git-user-id "wing328" \
  --git-repo-id "petstore-perl" \

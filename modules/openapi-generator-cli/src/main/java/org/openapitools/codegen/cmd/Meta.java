@@ -1,15 +1,18 @@
 package org.openapitools.codegen.cmd;
 
-import ch.lambdaj.function.convert.Converter;
+import static ch.lambdaj.collection.LambdaCollections.with;
+import static com.google.common.base.Joiner.on;
+
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
+import org.apache.commons.io.FileUtils;
+import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.SupportingFile;
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,8 +22,7 @@ import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 
-import static ch.lambdaj.collection.LambdaCollections.with;
-import static com.google.common.base.Joiner.on;
+import ch.lambdaj.function.convert.Converter;
 
 /**
  * User: lanwen Date: 24.03.15 Time: 20:22
@@ -56,26 +58,22 @@ public class Meta implements Runnable {
         String mainClass = CaseFormat.LOWER_HYPHEN.to(CaseFormat.UPPER_CAMEL, name) + "Generator";
 
         List<SupportingFile> supportingFiles =
-                ImmutableList
-                        .of(new SupportingFile("pom.mustache", "", "pom.xml"),
-                                new SupportingFile("generatorClass.mustache", on(File.separator)
-                                        .join("src/main/java", asPath(targetPackage)), mainClass
-                                        .concat(".java")), new SupportingFile("README.mustache",
-                                        "", "README.md"), new SupportingFile("api.template",
-                                        "src/main/resources" + File.separator + name,
-                                        "api.mustache"), new SupportingFile("model.template",
-                                        "src/main/resources" + File.separator + name,
-                                        "model.mustache"), new SupportingFile("services.mustache",
-                                        "src/main/resources/META-INF/services",
-                                        "org.openapitools.codegen.CodegenConfig"));
+                ImmutableList.of(
+                        new SupportingFile("pom.mustache", "", "pom.xml"),
+                        new SupportingFile("generatorClass.mustache", on(File.separator).join("src/main/java", asPath(targetPackage)), mainClass.concat(".java")),
+                        new SupportingFile("README.mustache", "", "README.md"),
+                        new SupportingFile("api.template", "src/main/resources" + File.separator + name,"api.mustache"),
+                        new SupportingFile("model.template", "src/main/resources" + File.separator + name,"model.mustache"),
+                        new SupportingFile("myFile.template", String.join(File.separator, "src", "main", "resources", name), "myFile.mustache"),
+                        new SupportingFile("services.mustache", "src/main/resources/META-INF/services", CodegenConfig.class.getCanonicalName()));
 
-        String codegenVersion = Version.readVersionFromResources();
+        String currentVersion = Version.readVersionFromResources();
 
         Map<String, Object> data =
                 new ImmutableMap.Builder<String, Object>().put("generatorPackage", targetPackage)
                         .put("generatorClass", mainClass).put("name", name)
                         .put("fullyQualifiedGeneratorClass", targetPackage + "." + mainClass)
-                        .put("codegenVersion", codegenVersion).build();
+                        .put("openapiGeneratorVersion", currentVersion).build();
 
 
         with(supportingFiles).convert(processFiles(targetDir, data));
