@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.swagger</groupId>
-    <artifactId>{{name}}-swagger-codegen</artifactId>
+    <artifactId>myClientCodegen-swagger-codegen</artifactId>
     <packaging>jar</packaging>
-    <name>{{name}}-swagger-codegen</name>
+    <name>myClientCodegen-swagger-codegen</name>
     <version>1.0.0</version>
     <build>
         <plugins>
@@ -115,7 +115,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <openapi-generator-version>{{openapiGeneratorVersion}}</openapi-generator-version>
+        <openapi-generator-version>3.0.0-SNAPSHOT</openapi-generator-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.8.1</junit-version>
     </properties>

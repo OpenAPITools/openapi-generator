@@ -1,4 +1,4 @@
-package {{generatorPackage}};
+package com.my.company.codegen;
 
 import org.openapitools.codegen.*;
 import io.swagger.models.properties.*;
@@ -6,7 +6,7 @@ import io.swagger.models.properties.*;
 import java.util.*;
 import java.io.File;
 
-public class {{generatorClass}} extends DefaultCodegen implements CodegenConfig {
+public class MyclientcodegenGenerator extends DefaultCodegen implements CodegenConfig {
 
   // source folder where to write the files
   protected String sourceFolder = "src";
@@ -29,7 +29,7 @@ public class {{generatorClass}} extends DefaultCodegen implements CodegenConfig 
    * @return the friendly name for the generator
    */
   public String getName() {
-    return "{{name}}";
+    return "myClientCodegen";
   }
 
   /**
@@ -39,14 +39,14 @@ public class {{generatorClass}} extends DefaultCodegen implements CodegenConfig 
    * @return A string value for the help message
    */
   public String getHelp() {
-    return "Generates a {{name}} client library.";
+    return "Generates a myClientCodegen client library.";
   }
 
-  public {{generatorClass}}() {
+  public MyclientcodegenGenerator() {
     super();
 
     // set the output folder here
-    outputFolder = "generated-code/{{name}}";
+    outputFolder = "generated-code/myClientCodegen";
 
     /**
      * Models.  You can write model files using the modelTemplateFiles map.
@@ -71,7 +71,7 @@ public class {{generatorClass}} extends DefaultCodegen implements CodegenConfig 
      * Template Location.  This is the location which templates will be read from.  The generator
      * will use the resource stream to attempt to read the templates.
      */
-    templateDir = "{{name}}";
+    templateDir = "myClientCodegen";
 
     /**
      * Api Package.  Optional, if needed, this can be used in templates
