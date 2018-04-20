@@ -75,7 +75,7 @@ void UserApi::create_user_handler(const Pistache::Rest::Request &request, Pistac
 void UserApi::create_users_with_array_input_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the body param
-    User user;
+    std::vector user;
     
     try {
       nlohmann::json request_body = nlohmann::json::parse(request.body());
@@ -91,7 +91,7 @@ void UserApi::create_users_with_array_input_handler(const Pistache::Rest::Reques
 void UserApi::create_users_with_list_input_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the body param
-    User user;
+    std::vector user;
     
     try {
       nlohmann::json request_body = nlohmann::json::parse(request.body());
