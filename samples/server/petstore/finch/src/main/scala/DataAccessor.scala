@@ -94,13 +94,13 @@ trait DataAccessor {
         * 
         * @return A Unit
         */
-        def User_createUsersWithArrayInput(seq: Seq[User]): Either[CommonError,Unit] = ???
+        def User_createUsersWithArrayInput(user: Seq[User]): Either[CommonError,Unit] = ???
 
         /**
         * 
         * @return A Unit
         */
-        def User_createUsersWithListInput(seq: Seq[User]): Either[CommonError,Unit] = ???
+        def User_createUsersWithListInput(user: Seq[User]): Either[CommonError,Unit] = ???
 
         /**
         * 

@@ -73,8 +73,8 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def createUsersWithArrayInput(da: DataAccessor): Endpoint[Unit] =
-        post("user" :: "createWithArray" :: jsonBody[Seq[User]]) { (seq: Seq[User]) => 
-          da.User_createUsersWithArrayInput(seq) match {
+        post("user" :: "createWithArray" :: jsonBody[Seq[User]]) { (user: Seq[User]) => 
+          da.User_createUsersWithArrayInput(user) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -87,8 +87,8 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def createUsersWithListInput(da: DataAccessor): Endpoint[Unit] =
-        post("user" :: "createWithList" :: jsonBody[Seq[User]]) { (seq: Seq[User]) => 
-          da.User_createUsersWithListInput(seq) match {
+        post("user" :: "createWithList" :: jsonBody[Seq[User]]) { (user: Seq[User]) => 
+          da.User_createUsersWithListInput(user) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
