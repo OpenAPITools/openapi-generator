@@ -53,7 +53,7 @@ object PetApi {
    */
   def findPetsByStatus(status: Seq[String]): ApiRequest[Seq[Pet]] =
     ApiRequest[Seq[Pet]](ApiMethods.GET, "http://petstore.swagger.io/v2", "/pet/findByStatus", "application/json")
-      .withQueryParam("status", ArrayValues(status))
+      .withQueryParam("status", ArrayValues(status, CSV))
       .withSuccessResponse[Seq[Pet]](200)
       .withErrorResponse[Unit](400)
         /**
@@ -67,7 +67,7 @@ object PetApi {
    */
   def findPetsByTags(tags: Seq[String]): ApiRequest[Seq[Pet]] =
     ApiRequest[Seq[Pet]](ApiMethods.GET, "http://petstore.swagger.io/v2", "/pet/findByTags", "application/json")
-      .withQueryParam("tags", ArrayValues(tags))
+      .withQueryParam("tags", ArrayValues(tags, CSV))
       .withSuccessResponse[Seq[Pet]](200)
       .withErrorResponse[Unit](400)
         /**

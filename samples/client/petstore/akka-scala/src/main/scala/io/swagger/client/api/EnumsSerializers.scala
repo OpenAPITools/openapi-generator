@@ -11,6 +11,7 @@
  */
 package io.swagger.client.api
 
+import io.swagger.client.model._
 import org.json4s._
 import scala.reflect.ClassTag
 
