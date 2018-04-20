@@ -40,26 +40,26 @@ public class PetApi {
   /**
    * Add a new pet to the store
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public void addPet(Pet body) throws ApiException {
+  public void addPet(Pet pet) throws ApiException {
 
-    addPetWithHttpInfo(body);
+    addPetWithHttpInfo(pet);
   }
 
   /**
    * Add a new pet to the store
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Void> addPetWithHttpInfo(Pet pet) throws ApiException {
+    Object localVarPostBody = pet;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling addPet");
+    // verify the required parameter 'pet' is set
+    if (pet == null) {
+      throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet");
     }
     
     // create path and map variables
@@ -74,7 +74,7 @@ public class PetApi {
     
     
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
@@ -130,7 +130,7 @@ public class PetApi {
 
     
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
@@ -178,7 +178,7 @@ public class PetApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "status", status));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "status", status));
 
     
     
@@ -235,7 +235,7 @@ public class PetApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "tags", tags));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "tags", tags));
 
     
     
@@ -310,26 +310,26 @@ public class PetApi {
   /**
    * Update an existing pet
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public void updatePet(Pet body) throws ApiException {
+  public void updatePet(Pet pet) throws ApiException {
 
-    updatePetWithHttpInfo(body);
+    updatePetWithHttpInfo(pet);
   }
 
   /**
    * Update an existing pet
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Void> updatePetWithHttpInfo(Pet pet) throws ApiException {
+    Object localVarPostBody = pet;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling updatePet");
+    // verify the required parameter 'pet' is set
+    if (pet == null) {
+      throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet");
     }
     
     // create path and map variables
@@ -344,7 +344,7 @@ public class PetApi {
     
     
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
@@ -404,7 +404,7 @@ if (status != null)
       localVarFormParams.put("status", status);
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 

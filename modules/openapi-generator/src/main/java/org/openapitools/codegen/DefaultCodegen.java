@@ -839,7 +839,7 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "Object");
         typeMapping.put("integer", "Integer");
         typeMapping.put("ByteArray", "byte[]");
-        typeMapping.put("binary", "byte[]");
+        typeMapping.put("binary", "File");
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "UUID");
         //typeMapping.put("BigDecimal", "BigDecimal"); //TODO need the mapping?

@@ -81,8 +81,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
-        hideGenerationTimestamp = false; 
-        
+        hideGenerationTimestamp = false;
+
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // used as internal variables, can collide with parameter names
@@ -801,19 +801,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getSchemaType(Schema p) {
-        String swaggerType = super.getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
 
-        swaggerType = getAlias(swaggerType);
+        openAPIType = getAlias(openAPIType);
 
         // don't apply renaming on types from the typeMapping
-        if (typeMapping.containsKey(swaggerType)) {
-            return typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            return typeMapping.get(openAPIType);
         }
 
-        if (null == swaggerType) {
+        if (null == openAPIType) {
             LOGGER.error("No Type defined for Schema " + p);
         }
-        return toModelName(swaggerType);
+        return toModelName(openAPIType);
     }
 
     @Override
