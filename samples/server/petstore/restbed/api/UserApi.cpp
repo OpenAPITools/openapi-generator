@@ -344,9 +344,9 @@ void UserApiUserLoginResource::GET_method_handler(const std::shared_ptr<restbed:
 			 */
 			
 			if (status_code == 200) {
-				// Description: 
+				// Description: calls per hour allowed by the user
 				session->set_header("X-Rate-Limit", ""); // Change second param to your header value
-				// Description: 
+				// Description: date in UTC when toekn expires
 				session->set_header("X-Expires-After", ""); // Change second param to your header value
 				session->close(200, "successful operation", { {"Connection", "close"} });
 				return;

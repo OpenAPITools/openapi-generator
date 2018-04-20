@@ -27,6 +27,7 @@
 
 #include "User.h"
 #include <string>
+#include <vector>
 
 namespace io {
 namespace swagger {
