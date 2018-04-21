@@ -1,7 +1,7 @@
 package org.openapitools.codegen.online;
 
-import org.openapitools.codegen.Codegen;
 import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.CodegenType;
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.models.Operation;
@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DynamicSwaggerConfig extends BeanConfig {
+public class DynamicConfig extends BeanConfig {
     static List<String> clients = new ArrayList<String>();
     static List<String> servers = new ArrayList<String>();
 
     static {
-        List<CodegenConfig> extensions = Codegen.getExtensions();
+        List<CodegenConfig> extensions = CodegenConfigLoader.getAll();
         for (CodegenConfig config : extensions) {
             if (config.getTag().equals(CodegenType.CLIENT)
                     || config.getTag().equals(CodegenType.DOCUMENTATION)) {

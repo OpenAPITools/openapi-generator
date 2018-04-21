@@ -1,8 +1,10 @@
 package org.openapitools.codegen;
 
-import java.util.ServiceLoader;
-
 import static java.util.ServiceLoader.load;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ServiceLoader;
 
 public class CodegenConfigLoader {
     /**
@@ -30,5 +32,14 @@ public class CodegenConfigLoader {
         } catch (Exception e) {
             throw new RuntimeException("Can't load config class with name ".concat(name) + " Available:\n" + availableConfigs.toString(), e);
         }
+    }
+
+    public static List<CodegenConfig> getAll() {
+        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class);
+        List<CodegenConfig> output = new ArrayList<CodegenConfig>();
+        for (CodegenConfig aLoader : loader) {
+            output.add(aLoader);
+        }
+        return output;
     }
 }

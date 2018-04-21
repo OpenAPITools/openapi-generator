@@ -135,7 +135,7 @@ public class Generator {
         clientOptInput.setConfig(codegenConfig);
 
         try {
-            List<File> files = new Codegen().opts(clientOptInput).generate();
+            List<File> files = new DefaultGenerator().opts(clientOptInput).generate();
             if (files.size() > 0) {
                 List<File> filesToAdd = new ArrayList<File>();
                 LOGGER.debug("adding to " + outputFolder);
