@@ -56,7 +56,7 @@ nil (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
 
@@ -77,7 +77,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet_id = 789 # Integer | Pet id to delete
+pet_id = 56 # Integer | Pet id to delete
 opts = {
   api_key: 'api_key_example' # String | 
 }
@@ -232,7 +232,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet_id = 789 # Integer | ID of pet to return
+pet_id = 56 # Integer | ID of pet to return
 
 begin
   #Find pet by ID
@@ -306,7 +306,7 @@ nil (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
 
@@ -327,7 +327,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet_id = 789 # Integer | ID of pet that needs to be updated
+pet_id = 56 # Integer | ID of pet that needs to be updated
 opts = {
   name: 'name_example', # String | Updated name of the pet
   status: 'status_example' # String | Updated status of the pet
@@ -380,7 +380,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet_id = 789 # Integer | ID of pet to update
+pet_id = 56 # Integer | ID of pet to update
 opts = {
   additional_metadata: 'additional_metadata_example', # String | Additional data to pass to server
   file: File.new('/path/to/file') # File | file to upload

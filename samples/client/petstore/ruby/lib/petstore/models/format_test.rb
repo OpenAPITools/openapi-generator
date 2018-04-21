@@ -187,8 +187,16 @@ module Petstore
         invalid_properties.push('invalid value for "double", must be greater than or equal to 67.8.')
       end
 
+      if !@string.nil? && @string !~ Regexp.new(/[a-z]/i)
+        invalid_properties.push('invalid value for "string", must conform to the pattern /[a-z]/i.')
+      end
+
       if @byte.nil?
         invalid_properties.push('invalid value for "byte", byte cannot be nil.')
+      end
+
+      if @byte !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
+        invalid_properties.push('invalid value for "byte", must conform to the pattern /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.')
       end
 
       if @date.nil?
@@ -224,7 +232,9 @@ module Petstore
       return false if !@float.nil? && @float < 54.3
       return false if !@double.nil? && @double > 123.4
       return false if !@double.nil? && @double < 67.8
+      return false if !@string.nil? && @string !~ Regexp.new(/[a-z]/i)
       return false if @byte.nil?
+      return false if @byte !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
       return false if @date.nil?
       return false if @password.nil?
       return false if @password.to_s.length > 64
@@ -304,6 +314,30 @@ module Petstore
       end
 
       @double = double
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] string Value to be assigned
+    def string=(string)
+      if !string.nil? && string !~ Regexp.new(/[a-z]/i)
+        fail ArgumentError, 'invalid value for "string", must conform to the pattern /[a-z]/i.'
+      end
+
+      @string = string
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] byte Value to be assigned
+    def byte=(byte)
+      if byte.nil?
+        fail ArgumentError, 'byte cannot be nil'
+      end
+
+      if byte !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
+        fail ArgumentError, 'invalid value for "byte", must conform to the pattern /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.'
+      end
+
+      @byte = byte
     end
 
     # Custom attribute writer method with validation

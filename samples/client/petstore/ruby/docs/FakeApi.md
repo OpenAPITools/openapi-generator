@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+[**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
@@ -29,7 +30,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  body: true # BOOLEAN | Input boolean as post body
+  boolean_post_body: true # BOOLEAN | Input boolean as post body
 }
 
 begin
@@ -44,7 +45,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **BOOLEAN**| Input boolean as post body | [optional] 
+ **boolean_post_body** | **BOOLEAN**| Input boolean as post body | [optional] 
 
 ### Return type
 
@@ -56,7 +57,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: */*
 
 
@@ -102,7 +103,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: */*
 
 
@@ -148,7 +149,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: */*
 
 
@@ -194,8 +195,51 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: */*
+
+
+
+# **test_body_with_query_params**
+> test_body_with_query_params(query, user)
+
+
+
+### Example
+```ruby
+# load the gem
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+query = 'query_example' # String | 
+user = Petstore::User.new # User | 
+
+begin
+  api_instance.test_body_with_query_params(query, user)
+rescue Petstore::ApiError => e
+  puts "Exception when calling FakeApi->test_body_with_query_params: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query** | **String**|  | 
+ **user** | [**User**](User.md)|  | 
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
 
 
 
@@ -239,7 +283,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 
@@ -337,11 +381,11 @@ require 'petstore'
 api_instance = Petstore::FakeApi.new
 opts = {
   enum_header_string_array: ['enum_header_string_array_example'], # Array<String> | Header parameter enum test (string array)
-  enum_header_string: 'enum_header_string_example', # String | Header parameter enum test (string)
+  enum_header_string: '-efg', # String | Header parameter enum test (string)
   enum_query_string_array: ['enum_query_string_array_example'], # Array<String> | Query parameter enum test (string array)
-  enum_query_string: 'enum_query_string_example', # String | Query parameter enum test (string)
+  enum_query_string: '-efg', # String | Query parameter enum test (string)
   enum_query_integer: 56, # Integer | Query parameter enum test (double)
-  enum_query_double: 1.2, # Float | Query parameter enum test (double)
+  enum_query_double: 3.4, # Float | Query parameter enum test (double)
   enum_form_string_array: nil, # Array<String> | Form parameter enum test (string array)
   enum_form_string: 'enum_form_string_example' # String | Form parameter enum test (string)
 }
@@ -359,9 +403,9 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enum_header_string_array** | [**Array&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] 
- **enum_header_string** | **String**| Header parameter enum test (string) | [optional] 
+ **enum_header_string** | **String**| Header parameter enum test (string) | [optional] [default to -efg]
  **enum_query_string_array** | [**Array&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] 
- **enum_query_string** | **String**| Query parameter enum test (string) | [optional] 
+ **enum_query_string** | **String**| Query parameter enum test (string) | [optional] [default to -efg]
  **enum_query_integer** | **Integer**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **Float**| Query parameter enum test (double) | [optional] 
  **enum_form_string_array** | [**Array&lt;String&gt;**](Array.md)| Form parameter enum test (string array) | [optional] 
@@ -383,7 +427,7 @@ No authorization required
 
 
 # **test_inline_additional_properties**
-> test_inline_additional_properties(unknown_base_type)
+> test_inline_additional_properties(request_body)
 
 test inline additionalProperties
 
@@ -393,11 +437,11 @@ test inline additionalProperties
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-unknown_base_type = Petstore::UNKNOWN_BASE_TYPE.new # Hash<String, String> | request body
+request_body = {'key' => 'request_body_example'} # String | request body
 
 begin
   #test inline additionalProperties
-  api_instance.test_inline_additional_properties(unknown_base_type)
+  api_instance.test_inline_additional_properties(request_body)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_inline_additional_properties: #{e}"
 end
@@ -407,7 +451,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **unknown_base_type** | [**Hash&lt;String, String&gt;**](UNKNOWN_BASE_TYPE.md)| request body | 
+ **request_body** | [**String**](String.md)| request body | 
 
 ### Return type
 
@@ -425,7 +469,7 @@ No authorization required
 
 
 # **test_json_form_data**
-> test_json_form_data(opts)
+> test_json_form_data(param, param2)
 
 test json serialization of form data
 
@@ -435,13 +479,12 @@ test json serialization of form data
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-opts = {
-  body4: Petstore::Body4.new # Body4 | 
-}
+param = 'param_example' # String | field1
+param2 = 'param2_example' # String | field2
 
 begin
   #test json serialization of form data
-  api_instance.test_json_form_data(opts)
+  api_instance.test_json_form_data(param, param2)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_json_form_data: #{e}"
 end
@@ -451,7 +494,8 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body4** | [**Body4**](Body4.md)|  | [optional] 
+ **param** | **String**| field1 | 
+ **param2** | **String**| field2 | 
 
 ### Return type
 
@@ -463,7 +507,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 

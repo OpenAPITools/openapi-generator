@@ -18,14 +18,21 @@ var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{/hasAuthMethods}}
 
 var api = new {{{jsModuleName}}}.{{{classname}}}(){{#hasParams}}
-{{#vendorExtensions.x-codegen-hasRequiredParams}}{{#allParams}}{{#required}}
+{{#hasRequiredParams}}
+{{#requiredParams}}
 var {{{paramName}}} = {{{example}}}; // {{=< >=}}{<&dataType>}<={{ }}=> {{{unescapedDescription}}}
-{{/required}}{{/allParams}}{{/vendorExtensions.x-codegen-hasRequiredParams}}{{#hasOptionalParams}}
-var opts = { {{#allParams}}{{^required}}
-  '{{{paramName}}}': {{{example}}}{{#vendorExtensions.x-codegen-hasMoreOptional}},{{/vendorExtensions.x-codegen-hasMoreOptional}} // {{=< >=}}{<&dataType>}<={{ }}=> {{{unescapedDescription}}}{{/required}}{{/allParams}}
-};{{/hasOptionalParams}}{{/hasParams}}
+{{/requiredParams}}
+{{/hasRequiredParams}}
+{{#hasOptionalParams}}
+var opts = {
+  {{#optionalParams}}
+  '{{{paramName}}}': {{{example}}}{{#hasMore}},{{/hasMore}} // {{=< >=}}{<&dataType>}<={{ }}=> {{{unescapedDescription}}}
+  {{/optionalParams}}
+};
+{{/hasOptionalParams}}
+{{/hasParams}}
 {{#usePromises}}
-api.{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}).then(function({{#returnType}}data{{/returnType}}) {
+api.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#hasOptionalParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/hasOptionalParams}}).then(function({{#returnType}}data{{/returnType}}) {
   {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
 }, function(error) {
   console.error(error);
@@ -39,5 +46,5 @@ var callback = function(error, data, response) {
     {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
   }
 };
-api.{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}{{#hasParams}}, {{/hasParams}}callback);
+api.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#hasOptionalParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/hasOptionalParams}}{{#hasParams}}, {{/hasParams}}callback);
 {{/usePromises}}

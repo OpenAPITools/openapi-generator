@@ -115,7 +115,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 require 'petstore'
 
 api_instance = Petstore::StoreApi.new
-order_id = 789 # Integer | ID of pet that needs to be fetched
+order_id = 56 # Integer | ID of pet that needs to be fetched
 
 begin
   #Find purchase order by ID
@@ -185,7 +185,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
 

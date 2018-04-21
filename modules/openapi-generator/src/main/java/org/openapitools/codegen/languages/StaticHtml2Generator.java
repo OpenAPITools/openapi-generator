@@ -168,32 +168,6 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
 
         //path is an unescaped variable in the mustache template api.mustache line 82 '<&path>'
         op.path = sanitizePath(op.path);
-
-        // Set vendor-extension to be used in template:
-        //     x-codegen-hasMoreRequired
-        //     x-codegen-hasMoreOptional
-        //     x-codegen-hasRequiredParams
-        CodegenParameter lastRequired = null;
-        CodegenParameter lastOptional = null;
-        for (CodegenParameter p : op.allParams) {
-            if (p.required) {
-                lastRequired = p;
-            } else {
-                lastOptional = p;
-            }
-        }
-        for (CodegenParameter p : op.allParams) {
-            if (p == lastRequired) {
-                p.vendorExtensions.put("x-codegen-hasMoreRequired", false);
-            } else if (p == lastOptional) {
-                p.vendorExtensions.put("x-codegen-hasMoreOptional", false);
-            } else {
-                p.vendorExtensions.put("x-codegen-hasMoreRequired", true);
-                p.vendorExtensions.put("x-codegen-hasMoreOptional", true);
-            }
-        }
-        op.vendorExtensions.put("x-codegen-hasRequiredParams", lastRequired != null);
-
         op.vendorExtensions.put("x-codegen-httpMethodUpperCase", httpMethod.toUpperCase());
 
         return op;
