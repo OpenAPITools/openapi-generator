@@ -44,6 +44,7 @@ public class DefaultCodegenTest {
     
     @Test
     public void testGetConsumesInfoAndGetProducesInfo() throws Exception {
+        final DefaultCodegen codegen = new DefaultCodegen();
         final Schema refSchema = new Schema<>().$ref("#/components/schemas/Pet");
         OpenAPI openAPI = new OpenAPI();
         openAPI.setComponents(new Components());
@@ -71,6 +72,10 @@ public class DefaultCodegenTest {
         Assert.assertTrue(createConsumesInfo.contains("application/xml"), "contains 'application/xml'");
         Set<String> createProducesInfo = DefaultCodegen.getProducesInfo(openAPI, createOperation);
         Assert.assertEquals(createProducesInfo.size(), 0);
+        CodegenOperation coCreate = codegen.fromOperation("somepath", "post", createOperation, openAPI.getComponents().getSchemas(), openAPI);
+        Assert.assertTrue(coCreate.hasConsumes);
+        Assert.assertEquals(coCreate.consumes.size(), 2);
+        Assert.assertFalse(coCreate.hasProduces);
 
         Operation updateOperationWithRef = new Operation()
                 .requestBody(new RequestBody().$ref("#/components/requestBodies/MyRequestBody"))
@@ -81,6 +86,14 @@ public class DefaultCodegenTest {
         Set<String> updateProducesInfo = DefaultCodegen.getProducesInfo(openAPI, updateOperationWithRef);
         Assert.assertEquals(updateProducesInfo.size(), 1);
         Assert.assertTrue(updateProducesInfo.contains("application/xml"), "contains 'application/xml'");
+
+        CodegenOperation coUpdate = codegen.fromOperation("somepath", "post", updateOperationWithRef, openAPI.getComponents().getSchemas(), openAPI);
+        Assert.assertTrue(coUpdate.hasConsumes);
+        Assert.assertEquals(coUpdate.consumes.size(), 1);
+        Assert.assertEquals(coUpdate.consumes.get(0).get("mediaType"), "application/json");
+        Assert.assertTrue(coUpdate.hasProduces);
+        Assert.assertEquals(coUpdate.produces.size(), 1);
+        Assert.assertEquals(coUpdate.produces.get(0).get("mediaType"), "application/xml");
     }
 
     @Test
