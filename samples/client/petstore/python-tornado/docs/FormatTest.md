@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **double** | **float** |  | [optional] 
 **string** | **str** |  | [optional] 
 **byte** | **str** |  | 
-**binary** | **str** |  | [optional] 
+**binary** | [**file**](file.md) |  | [optional] 
 **date** | **date** |  | 
 **date_time** | **datetime** |  | [optional] 
 **uuid** | **str** |  | [optional] 

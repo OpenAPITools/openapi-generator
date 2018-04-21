@@ -33,45 +33,45 @@ class FakeClassnameTags123Api(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def test_classname(self, body, **kwargs):  # noqa: E501
+    def test_classname(self, client, **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async=True
-        >>> thread = api.test_classname(body, async=True)
+        >>> thread = api.test_classname(client, async=True)
         >>> result = thread.get()
 
         :param async bool
-        :param Client body: client model (required)
+        :param Client client: client model (required)
         :return: Client
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async'):
-            return self.test_classname_with_http_info(body, **kwargs)  # noqa: E501
+            return self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
         else:
-            (data) = self.test_classname_with_http_info(body, **kwargs)  # noqa: E501
+            (data) = self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
             return data
 
-    def test_classname_with_http_info(self, body, **kwargs):  # noqa: E501
+    def test_classname_with_http_info(self, client, **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async=True
-        >>> thread = api.test_classname_with_http_info(body, async=True)
+        >>> thread = api.test_classname_with_http_info(client, async=True)
         >>> result = thread.get()
 
         :param async bool
-        :param Client body: client model (required)
+        :param Client client: client model (required)
         :return: Client
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['body']  # noqa: E501
+        all_params = ['client']  # noqa: E501
         all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -86,10 +86,10 @@ class FakeClassnameTags123Api(object):
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'body' is set
-        if ('body' not in params or
-                params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `test_classname`")  # noqa: E501
+        # verify the required parameter 'client' is set
+        if ('client' not in params or
+                params['client'] is None):
+            raise ValueError("Missing the required parameter `client` when calling `test_classname`")  # noqa: E501
 
         collection_formats = {}
 
@@ -103,8 +103,8 @@ class FakeClassnameTags123Api(object):
         local_var_files = {}
 
         body_params = None
-        if 'body' in params:
-            body_params = params['body']
+        if 'client' in params:
+            body_params = params['client']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501

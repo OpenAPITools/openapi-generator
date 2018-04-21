@@ -15,11 +15,9 @@ Method | HTTP request | Description
 
 
 # **add_pet**
-> add_pet(body)
+> add_pet(pet)
 
 Add a new pet to the store
-
-
 
 ### Example
 ```python
@@ -35,11 +33,11 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
+pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
 try:
     # Add a new pet to the store
-    api_instance.add_pet(body)
+    api_instance.add_pet(pet)
 except ApiException as e:
     print("Exception when calling PetApi->add_pet: %s\n" % e)
 ```
@@ -48,7 +46,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -61,7 +59,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -69,8 +67,6 @@ void (empty response body)
 > delete_pet(pet_id, api_key=api_key)
 
 Deletes a pet
-
-
 
 ### Example
 ```python
@@ -86,7 +82,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet_id = 789 # int | Pet id to delete
+pet_id = 56 # int | Pet id to delete
 api_key = 'api_key_example' # str |  (optional)
 
 try:
@@ -114,7 +110,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -245,7 +241,7 @@ configuration.api_key['api_key'] = 'YOUR_API_KEY'
 
 # create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet_id = 789 # int | ID of pet to return
+pet_id = 56 # int | ID of pet to return
 
 try:
     # Find pet by ID
@@ -277,11 +273,9 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet**
-> update_pet(body)
+> update_pet(pet)
 
 Update an existing pet
-
-
 
 ### Example
 ```python
@@ -297,11 +291,11 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
+pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
 try:
     # Update an existing pet
-    api_instance.update_pet(body)
+    api_instance.update_pet(pet)
 except ApiException as e:
     print("Exception when calling PetApi->update_pet: %s\n" % e)
 ```
@@ -310,7 +304,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -323,7 +317,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -331,8 +325,6 @@ void (empty response body)
 > update_pet_with_form(pet_id, name=name, status=status)
 
 Updates a pet in the store with form data
-
-
 
 ### Example
 ```python
@@ -348,7 +340,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet_id = 789 # int | ID of pet that needs to be updated
+pet_id = 56 # int | ID of pet that needs to be updated
 name = 'name_example' # str | Updated name of the pet (optional)
 status = 'status_example' # str | Updated status of the pet (optional)
 
@@ -378,7 +370,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -386,8 +378,6 @@ void (empty response body)
 > ApiResponse upload_file(pet_id, additional_metadata=additional_metadata, file=file)
 
 uploads an image
-
-
 
 ### Example
 ```python
@@ -403,9 +393,9 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet_id = 789 # int | ID of pet to update
+pet_id = 56 # int | ID of pet to update
 additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
-file = '/path/to/file.txt' # file | file to upload (optional)
+file = '/path/to/file' # file | file to upload (optional)
 
 try:
     # uploads an image
