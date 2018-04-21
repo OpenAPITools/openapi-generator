@@ -4,8 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.Codegen;
 import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.online.exception.BadRequestException;
 import org.openapitools.codegen.online.model.Generated;
@@ -25,14 +25,13 @@ import java.util.*;
 
 @Path("/gen")
 @Api(value = "/gen", description = "Resource for generating swagger components")
-@SuppressWarnings("static-method")
-public class SwaggerResource {
+public class CodegenResource {
     static List<String> clients = new ArrayList<String>();
     static List<String> servers = new ArrayList<String>();
     private static Map<String, Generated> fileMap = new HashMap<String, Generated>();
 
     static {
-        List<CodegenConfig> extensions = Codegen.getExtensions();
+        List<CodegenConfig> extensions = CodegenConfigLoader.getAll();
         for (CodegenConfig config : extensions) {
             if (config.getTag().equals(CodegenType.CLIENT)
                     || config.getTag().equals(CodegenType.DOCUMENTATION)) {

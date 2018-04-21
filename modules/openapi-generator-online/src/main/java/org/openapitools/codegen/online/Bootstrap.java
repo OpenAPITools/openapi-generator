@@ -27,7 +27,7 @@ public class Bootstrap extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        DynamicSwaggerConfig bc = new DynamicSwaggerConfig();
+        DynamicConfig bc = new DynamicConfig();
         bc.setBasePath("/api");
         bc.setTitle("OpenAPI Generator");
         bc.setDescription("This is an online OpenAPI generator.  You can find out more "
