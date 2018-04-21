@@ -17,15 +17,43 @@
         <url>https://github.com/openapitools/openapi-generator</url>
     </scm>
     <developers>
+        <!-- original author of the project -->
         <developer>
             <id>fehguy</id>
             <name>Tony Tam</name>
             <email>fehguy@gmail.com</email>
         </developer>
+        <!-- openapi-generator core team -->
         <developer>
             <id>wing328</id>
             <name>William Cheng</name>
             <email>wing328hk@gmail.com</email>
+        </developer>
+        <developer>
+            <id>jimschubert</id>
+            <name>Jim Schubert</name>
+            <email>james.schubert@gmail.com</email>
+        </developer>
+        <developer>
+            <id>cbornet</id>
+            <name>Christophe Bornet</name>
+        </developer>
+        <developer>
+            <id>jaz-ah</id>
+            <name>Joseph Zuromski</name>
+        </developer>
+        <developer>
+            <id>ackintosh</id>
+            <name>Akihito Nakano</name>
+        </developer>
+        <developer>
+            <id>JFCote</id>
+            <name>Jean-François Côté</name>
+        </developer>
+        <developer>
+            <id>jmini</id>
+            <name>Jérémie Bresson</name>
+            <email>dev@jmini.fr</email>
         </developer>
     </developers>
     <issueManagement>
