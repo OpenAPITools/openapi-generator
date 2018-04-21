@@ -150,10 +150,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("double", "Number");
         typeMapping.put("object", "Object");
         typeMapping.put("integer", "Number");
-        // binary not supported in JavaScript client right now, using String as a workaround
-        // TODO revise the logic below
-        typeMapping.put("ByteArray", "Blob"); // I don't see ByteArray defined in the Swagger docs.
-        typeMapping.put("binary", "Blob");
+        typeMapping.put("ByteArray", "Blob");
+        typeMapping.put("binary", "File");
+        typeMapping.put("file", "File");
         typeMapping.put("UUID", "String");
 
         importMapping.clear();
@@ -622,47 +621,127 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             type = p.dataType;
         }
 
-        if ("String".equals(type)) {
-            if (example == null) {
-                example = p.paramName + "_example";
-            }
-            example = "\"" + escapeText(example) + "\"";
-        } else if ("Integer".equals(type)) {
+        if (Boolean.TRUE.equals(p.isInteger)) {
             if (example == null) {
                 example = "56";
             }
-        } else if ("Number".equals(type)) {
+        } else if (Boolean.TRUE.equals(p.isLong)) {
+            if (example == null) {
+                example = "789";
+            }
+        } else if (Boolean.TRUE.equals(p.isDouble)
+                || Boolean.TRUE.equals(p.isFloat)
+                || Boolean.TRUE.equals(p.isNumber)) {
             if (example == null) {
                 example = "3.4";
             }
-        } else if ("Boolean".equals(type)) {
+        } else if (Boolean.TRUE.equals(p.isBoolean)) {
             if (example == null) {
                 example = "true";
             }
-        } else if ("File".equals(type)) {
+        } else if (Boolean.TRUE.equals(p.isFile) || Boolean.TRUE.equals(p.isBinary)) {
             if (example == null) {
                 example = "/path/to/file";
             }
             example = "\"" + escapeText(example) + "\"";
-        } else if ("Date".equals(type)) {
+        } else if (Boolean.TRUE.equals(p.isDate)) {
+            if (example == null) {
+                example = "2013-10-20";
+            }
+            example = "new Date(\"" + escapeText(example) + "\")";
+        } else if (Boolean.TRUE.equals(p.isDateTime)) {
             if (example == null) {
                 example = "2013-10-20T19:20:30+01:00";
             }
             example = "new Date(\"" + escapeText(example) + "\")";
+        } else if (Boolean.TRUE.equals(p.isString)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "\"" + escapeText(example) + "\"";
+
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             example = "new " + moduleName + "." + type + "()";
         }
 
-        if (example == null) {
-            example = "null";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        // container
+        if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = setPropertyExampleValue(p.items);
             example = "[" + example + "]";
         } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = setPropertyExampleValue(p.items);
             example = "{key: " + example + "}";
+        } else if (example == null) {
+            example = "null";
         }
 
         p.example = example;
+    }
+
+    protected String setPropertyExampleValue(CodegenProperty p) {
+        String example;
+
+        if (p == null) {
+            return "null";
+        }
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            example = p.defaultValue;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.datatype;
+        }
+
+        if (Boolean.TRUE.equals(p.isInteger)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if (Boolean.TRUE.equals(p.isLong)) {
+            if (example == null) {
+                example = "789";
+            }
+        } else if (Boolean.TRUE.equals(p.isDouble)
+                || Boolean.TRUE.equals(p.isFloat)
+                || Boolean.TRUE.equals(p.isNumber)) {
+            if (example == null) {
+                example = "3.4";
+            }
+        } else if (Boolean.TRUE.equals(p.isBoolean)) {
+            if (example == null) {
+                example = "true";
+            }
+        } else if (Boolean.TRUE.equals(p.isFile) || Boolean.TRUE.equals(p.isBinary)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "\"" + escapeText(example) + "\"";
+        } else if (Boolean.TRUE.equals(p.isDate)) {
+            if (example == null) {
+                example = "2013-10-20";
+            }
+            example = "new Date(\"" + escapeText(example) + "\")";
+        } else if (Boolean.TRUE.equals(p.isDateTime)) {
+            if (example == null) {
+                example = "2013-10-20T19:20:30+01:00";
+            }
+            example = "new Date(\"" + escapeText(example) + "\")";
+        } else if (Boolean.TRUE.equals(p.isString)) {
+            if (example == null) {
+                example = p.name + "_example";
+            }
+            example = "\"" + escapeText(example) + "\"";
+
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = "new " + moduleName + "." + type + "()";
+        }
+
+        return example;
     }
 
     /**
@@ -711,46 +790,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         return operationId;
     }
-
-    /* comment out below as x-codegen tag are replaced by requiredParams, optionalParams tags
-    @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, openAPI);
-        if (op.returnType != null) {
-            op.returnType = normalizeType(op.returnType);
-        }
-
-        //path is an unescaped variable in the mustache template api.mustache line 82 '<&path>'
-        op.path = sanitizePath(op.path);
-
-        // Set vendor-extension to be used in template:
-        //     x-codegen-hasMoreRequired
-        //     x-codegen-hasMoreOptional
-        //     x-codegen-hasRequiredParams
-        CodegenParameter lastRequired = null;
-        CodegenParameter lastOptional = null;
-        for (CodegenParameter p : op.allParams) {
-            if (p.required) {
-                lastRequired = p;
-            } else {
-                lastOptional = p;
-            }
-        }
-        for (CodegenParameter p : op.allParams) {
-            if (p == lastRequired) {
-                p.vendorExtensions.put("x-codegen-hasMoreRequired", false);
-            } else if (p == lastOptional) {
-                p.vendorExtensions.put("x-codegen-hasMoreOptional", false);
-            } else {
-                p.vendorExtensions.put("x-codegen-hasMoreRequired", true);
-                p.vendorExtensions.put("x-codegen-hasMoreOptional", true);
-            }
-        }
-        op.vendorExtensions.put("x-codegen-hasRequiredParams", lastRequired != null);
-
-        return op;
-    }
-    */
 
     @Override
     public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
