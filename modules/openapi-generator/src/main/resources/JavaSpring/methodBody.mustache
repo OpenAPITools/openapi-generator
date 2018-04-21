@@ -1,0 +1,47 @@
+{{^reactive}}
+{{#examples}}
+    {{#-first}}
+        {{#jdk8}}
+            {{#async}}
+return CompletableFuture.supplyAsync(()-> {
+            {{/async}}getRequest().ifPresent(request -> {
+{{#async}}    {{/async}}            {{/jdk8}}for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+    {{/-first}}
+{{#async}}        {{/async}}{{^async}}{{#jdk8}}    {{/jdk8}}{{/async}}            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
+{{#async}}        {{/async}}{{^async}}{{#jdk8}}    {{/jdk8}}{{/async}}                ApiUtil.setExampleResponse(request, "{{{contentType}}}", "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}");
+{{#async}}        {{/async}}{{^async}}{{#jdk8}}    {{/jdk8}}{{/async}}                break;
+{{#async}}        {{/async}}{{^async}}{{#jdk8}}    {{/jdk8}}{{/async}}            }
+    {{#-last}}
+{{#async}}        {{/async}}{{^async}}{{#jdk8}}    {{/jdk8}}{{/async}}        }
+        {{#jdk8}}
+{{#async}}    {{/async}}        });
+        {{/jdk8}}
+{{#async}}    {{/async}}        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        {{#jdk8}}
+            {{#async}}
+        }, Runnable::run);
+            {{/async}}
+        {{/jdk8}}
+    {{/-last}}
+{{/examples}}
+{{^examples}}
+return {{#jdk8}}{{#async}}CompletableFuture.completedFuture({{/async}}{{/jdk8}}new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED){{#jdk8}}{{#async}}){{/async}}{{/jdk8}};
+{{/examples}}
+{{/reactive}}
+{{#reactive}}
+{{>returnTypes}} result = {{#isListContainer}}Flux{{/isListContainer}}{{^isListContainer}}Mono{{/isListContainer}}.empty();
+    {{#examples}}
+        {{#-first}}
+        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+        {{/-first}}
+            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
+                result = ApiUtil.getExampleResponse(exchange, "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}")
+                        .then{{#isListContainer}}Many{{/isListContainer}}(Mono.empty());
+                break;
+            }
+        {{#-last}}
+        }
+        {{/-last}}
+    {{/examples}}
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body({{^isListContainer}}{{#allParams}}{{#isBodyParam}}{{paramName}}.then({{/isBodyParam}}{{/allParams}}{{/isListContainer}}{{#isListContainer}}{{#allParams}}{{#isBodyParam}}{{paramName}}.thenMany({{/isBodyParam}}{{/allParams}}{{/isListContainer}}result{{#allParams}}{{#isBodyParam}}){{/isBodyParam}}{{/allParams}});
+{{/reactive}}

@@ -9,12 +9,12 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <springfox-version>2.7.0</springfox-version>
+        <springfox-version>2.8.0</springfox-version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.9.RELEASE</version>
+        <version>2.0.1.RELEASE</version>
     </parent>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -36,10 +36,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
         </dependency>
         <!--SpringFox dependencies -->
         <dependency>

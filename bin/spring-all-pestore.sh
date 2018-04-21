@@ -13,6 +13,7 @@
 ./bin/spring-delegate.sh
 ./bin/spring-delegate-j8.sh
 ./bin/springboot-petstore-server.sh
+./bin/springboot-petstore-server-reactive.sh
 ./bin/springboot-petstore-server-beanvalidation.sh
 ./bin/springboot-petstore-server-implicitHeaders.sh
 ./bin/springboot-petstore-server-useOptional.sh

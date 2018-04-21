@@ -791,6 +791,18 @@
             </modules>
         </profile>
         <profile>
+            <id>springboot-reactive</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/springboot-reactive</module>
+            </modules>
+        </profile>
+        <profile>
             <id>springboot</id>
             <activation>
                 <property>
