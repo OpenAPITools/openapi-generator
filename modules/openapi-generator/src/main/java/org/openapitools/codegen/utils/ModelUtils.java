@@ -3,9 +3,29 @@ package org.openapitools.codegen.utils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.BinarySchema;
+import io.swagger.v3.oas.models.media.BooleanSchema;
+import io.swagger.v3.oas.models.media.ByteArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.DateSchema;
+import io.swagger.v3.oas.models.media.DateTimeSchema;
+import io.swagger.v3.oas.models.media.EmailSchema;
+import io.swagger.v3.oas.models.media.FileSchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.PasswordSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.UUIDSchema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +34,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
 
 
 public class ModelUtils {
@@ -99,7 +117,6 @@ public class ModelUtils {
         return unusedSchemas;
     }
 
-    // todo change it to public later
     public static String getSimpleRef(String ref) {
         if (ref.startsWith("#/components/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
@@ -309,28 +326,79 @@ public class ModelUtils {
         return false;
     }
 
-    public static Schema getSchema(OpenAPI openapi, String name) {
-        if (name == null) {
-            return null;
+    /**
+     * If a Schema contains a reference to an other Schema with '$ref', returns the referenced Schema or the actual Schema in the other cases.
+     * @param openAPI
+     * @param schema potentially containing a '$ref'
+     * @return schema without '$ref'
+     */
+    public static Schema getReferencedSchema(OpenAPI openAPI, Schema schema) {
+        if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
+            String name = getSimpleRef(schema.get$ref());
+            return getSchema(openAPI, name);
         }
-
-        if (openapi != null && openapi.getComponents() != null && openapi.getComponents().getSchemas() != null) {
-            return openapi.getComponents().getSchemas().get(name);
-        }
-
-        return null;
+        return schema;
     }
     
-    public static RequestBody getRequestBody(OpenAPI openapi, String name) {
+    public static Schema getSchema(OpenAPI openAPI, String name) {
         if (name == null) {
             return null;
         }
 
-        if (openapi != null && openapi.getComponents() != null && openapi.getComponents().getRequestBodies() != null) {
-            return openapi.getComponents().getRequestBodies().get(name);
+        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getSchemas() != null) {
+            return openAPI.getComponents().getSchemas().get(name);
         }
-        
+
         return null;
     }
 
+    /**
+     * If a RequestBody contains a reference to an other RequestBody with '$ref', returns the referenced RequestBody or the actual RequestBody in the other cases.
+     * @param openAPI
+     * @param requestBody potentially containing a '$ref'
+     * @return requestBody without '$ref'
+     */
+    public static RequestBody getReferencedRequestBody(OpenAPI openAPI, RequestBody requestBody) {
+        if (requestBody != null && StringUtils.isNotEmpty(requestBody.get$ref())) {
+            String name = getSimpleRef(requestBody.get$ref());
+            return getRequestBody(openAPI, name);
+        }
+        return requestBody;
+    }
+
+    public static RequestBody getRequestBody(OpenAPI openAPI, String name) {
+        if (name == null) {
+            return null;
+        }
+
+        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getRequestBodies() != null) {
+            return openAPI.getComponents().getRequestBodies().get(name);
+        }
+        return null;
+    }
+
+    /**
+     * If a ApiResponse contains a reference to an other ApiResponse with '$ref', returns the referenced ApiResponse or the actual ApiResponse in the other cases.
+     * @param openAPI
+     * @param apiResponse potentially containing a '$ref'
+     * @return apiResponse without '$ref'
+     */
+    public static ApiResponse getReferencedApiResponse(OpenAPI openAPI, ApiResponse apiResponse) {
+        if (apiResponse != null && StringUtils.isNotEmpty(apiResponse.get$ref())) {
+            String name = getSimpleRef(apiResponse.get$ref());
+            return getApiResponse(openAPI, name);
+        }
+        return apiResponse;
+    }
+
+    public static ApiResponse getApiResponse(OpenAPI openAPI, String name) {
+        if (name == null) {
+            return null;
+        }
+
+        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getRequestBodies() != null) {
+            return openAPI.getComponents().getResponses().get(name);
+        }
+        return null;
+    }
 }

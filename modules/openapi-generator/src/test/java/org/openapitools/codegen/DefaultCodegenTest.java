@@ -14,6 +14,8 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Set;
+
 public class DefaultCodegenTest {
 
     @Test
@@ -38,6 +40,47 @@ public class DefaultCodegenTest {
 
         Assert.assertEquals(codegen.hasBodyParameter(openAPI, pingOperation), false);
         Assert.assertEquals(codegen.hasBodyParameter(openAPI, createOperation), true);
+    }
+    
+    @Test
+    public void testGetConsumesInfoAndGetProducesInfo() throws Exception {
+        final Schema refSchema = new Schema<>().$ref("#/components/schemas/Pet");
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.setComponents(new Components());
+        openAPI.getComponents().addSchemas("Pet", new ObjectSchema());
+        openAPI.getComponents().addRequestBodies("MyRequestBody", new RequestBody()
+                .content(new Content().addMediaType("application/json", 
+                        new MediaType().schema(refSchema))));
+        openAPI.getComponents().addResponses("MyResponse", new ApiResponse()
+                        .description("Ok response")
+                        .content(new Content().addMediaType("application/xml", 
+                        new MediaType().schema(refSchema))));
+
+        Operation createOperation = new Operation()
+                .requestBody(new RequestBody()
+                        .content(new Content()
+                                .addMediaType("application/json", new MediaType().schema(refSchema))
+                                .addMediaType("application/xml", new MediaType().schema(refSchema))
+                        ))
+                .responses(
+                        new ApiResponses().addApiResponse("201", new ApiResponse()
+                                .description("Created response")));
+        Set<String> createConsumesInfo = DefaultCodegen.getConsumesInfo(openAPI, createOperation);
+        Assert.assertEquals(createConsumesInfo.size(), 2);
+        Assert.assertTrue(createConsumesInfo.contains("application/json"), "contains 'application/json'");
+        Assert.assertTrue(createConsumesInfo.contains("application/xml"), "contains 'application/xml'");
+        Set<String> createProducesInfo = DefaultCodegen.getProducesInfo(openAPI, createOperation);
+        Assert.assertEquals(createProducesInfo.size(), 0);
+
+        Operation updateOperationWithRef = new Operation()
+                .requestBody(new RequestBody().$ref("#/components/requestBodies/MyRequestBody"))
+                .responses(new ApiResponses().addApiResponse("201", new ApiResponse().$ref("#/components/responses/MyResponse")));
+        Set<String> updateConsumesInfo = DefaultCodegen.getConsumesInfo(openAPI, updateOperationWithRef);
+        Assert.assertEquals(updateConsumesInfo.size(), 1);
+        Assert.assertTrue(updateConsumesInfo.contains("application/json"), "contains 'application/json'");
+        Set<String> updateProducesInfo = DefaultCodegen.getProducesInfo(openAPI, updateOperationWithRef);
+        Assert.assertEquals(updateProducesInfo.size(), 1);
+        Assert.assertTrue(updateProducesInfo.contains("application/xml"), "contains 'application/xml'");
     }
 
     @Test
