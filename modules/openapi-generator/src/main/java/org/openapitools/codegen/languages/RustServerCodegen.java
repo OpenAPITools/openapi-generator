@@ -507,7 +507,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         boolean consumesXml = false;
         // if "consumes" is defined (per operation or using global definition)
         if (consumes != null && !consumes.isEmpty()) {
-            consumes.addAll(getConsumesInfo(operation));
+            consumes.addAll(getConsumesInfo(openAPI, operation));
             List<Map<String, String>> c = new ArrayList<Map<String, String>>();
             for (String mimeType : consumes) {
                 Map<String, String> mediaType = new HashMap<String, String>();
@@ -529,7 +529,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
 
-        List<String> produces = new ArrayList<String>(getProducesInfo(operation));
+        List<String> produces = new ArrayList<String>(getProducesInfo(openAPI, operation));
         // if "consumes" is defined (per operation or using global definition)
         /*
         if (operation.getProduces() != null) {

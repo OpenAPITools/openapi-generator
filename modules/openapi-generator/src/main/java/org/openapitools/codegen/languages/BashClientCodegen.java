@@ -606,8 +606,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                  * If the operation produces Json and has nonempty example
                  * try to reformat it.
                  */
-                if (getConsumesInfo(operation) != null
-                        && getConsumesInfo(operation).contains("application/json")
+                if (getConsumesInfo(openAPI, operation) != null
+                        && getConsumesInfo(openAPI, operation).contains("application/json")
                         && definitions.get(p.dataType).getExample() != null) {
 
                     ObjectMapper mapper = new ObjectMapper();

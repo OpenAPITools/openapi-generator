@@ -2147,19 +2147,19 @@ public class DefaultCodegen implements CodegenConfig {
                         ArraySchema as = (ArraySchema) responseSchema;
                         if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // arary of primtive types
                             op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
-                                    new ArrayList<String>(getProducesInfo(operation)), as.getItems(), openAPI);
+                                    new ArrayList<String>(getProducesInfo(openAPI, operation)), as.getItems(), openAPI);
                         } else if (as.getItems() != null && !StringUtils.isEmpty(as.getItems().get$ref())) { // array of model
                             op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
-                                    new ArrayList<String>(getProducesInfo(operation)), getSimpleRef(as.getItems().get$ref()), openAPI);
+                                    new ArrayList<String>(getProducesInfo(openAPI, operation)), getSimpleRef(as.getItems().get$ref()), openAPI);
                         } else {
                             // TODO log warning message as such case is not handled at the moment
                         }
                     } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primtiive type (e.g. integer, string)
                         op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
-                                new ArrayList<String>(getProducesInfo(operation)), responseSchema, openAPI);
+                                new ArrayList<String>(getProducesInfo(openAPI, operation)), responseSchema, openAPI);
                     } else { // model
                         op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
-                                new ArrayList<String>(getProducesInfo(operation)), getSimpleRef(responseSchema.get$ref()), openAPI);
+                                new ArrayList<String>(getProducesInfo(openAPI, operation)), getSimpleRef(responseSchema.get$ref()), openAPI);
                     }
 
                     op.defaultResponse = toDefaultValue(responseSchema);
@@ -2234,7 +2234,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                 // add example
                 if (schemas != null) {
-                    op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, new ArrayList<String>(getConsumesInfo(operation)), bodyParam.baseType, openAPI);
+                    op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, new ArrayList<String>(getConsumesInfo(openAPI, operation)), bodyParam.baseType, openAPI);
                 }
             }
         }
@@ -3886,62 +3886,39 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    public static Set<String> getConsumesInfo(Operation operation) {
-        if (operation.getRequestBody() == null || operation.getRequestBody().getContent() == null || operation.getRequestBody().getContent().isEmpty()) {
+    public static Set<String> getConsumesInfo(OpenAPI openAPI, Operation operation) {
+        RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
+        
+		if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
             return Collections.emptySet(); // return emtpy set
         }
-        return operation.getRequestBody().getContent().keySet();
+        return requestBody.getContent().keySet();
     }
 
-    public Boolean hasFormParameter(Operation operation) {
-        Set<String> consumesInfo = getConsumesInfo(operation);
+    public boolean hasFormParameter(OpenAPI openAPI, Operation operation) {
+        Set<String> consumesInfo = getConsumesInfo(openAPI, operation);
 
         if (consumesInfo == null || consumesInfo.isEmpty()) {
-            return Boolean.FALSE;
+            return false;
         }
 
-        List<String> consumes = new ArrayList<String>(consumesInfo);
-
-        if (consumes == null) {
-            return Boolean.FALSE;
-        }
-
-        for (String consume : consumes) {
+        for (String consume : consumesInfo) {
             if ("application/x-www-form-urlencoded".equalsIgnoreCase(consume) || "multipart/form-data".equalsIgnoreCase(consume)) {
-                return Boolean.TRUE;
+                return true;
             }
         }
 
-        return Boolean.FALSE;
+        return false;
     }
 
     public boolean hasBodyParameter(OpenAPI openAPI, Operation operation) {
-        RequestBody requestBody = operation.getRequestBody();
+        RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
         if (requestBody == null) {
             return false;
         }
 
-        if (StringUtils.isNotEmpty(requestBody.get$ref())) {
-            String name = ModelUtils.getSimpleRef(requestBody.get$ref());
-            requestBody = ModelUtils.getRequestBody(openAPI, name);
-            if (requestBody == null) {
-                return false;
-            }
-        }
-
         Schema schema = getSchemaFromBody(requestBody);
-        if (schema == null) {
-            return false;
-        }
-
-        if (StringUtils.isNotEmpty(schema.get$ref())) {
-            String name = ModelUtils.getSimpleRef(schema.get$ref());
-            schema = ModelUtils.getSchema(openAPI, name);
-            if (schema == null) {
-                return false;
-            }
-        }
-        return true;
+        return ModelUtils.getReferencedSchema(openAPI, schema) != null;
     }
 
     private void addProducesInfo(ApiResponse response, CodegenOperation codegenOperation) {
@@ -3978,18 +3955,20 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * returns the list of MIME types the APIs can produce
-     *
+     * @param openAPI
      * @param operation Operation
+     *
      * @return a set of MIME types
      */
-    public static Set<String> getProducesInfo(Operation operation) {
+    public static Set<String> getProducesInfo(OpenAPI openAPI, Operation operation) {
         if (operation.getResponses() == null || operation.getResponses().isEmpty()) {
             return null;
         }
 
         Set<String> produces = new TreeSet<String>();
 
-        for (ApiResponse response : operation.getResponses().values()) {
+        for (ApiResponse r : operation.getResponses().values()) {
+            ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, r);
             if (response.getContent() != null) {
                 produces.addAll(response.getContent().keySet());
             }
