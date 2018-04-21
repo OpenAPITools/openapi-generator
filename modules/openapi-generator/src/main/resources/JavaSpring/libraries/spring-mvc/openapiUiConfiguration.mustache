@@ -21,7 +21,6 @@ import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;
 {{/threetenbp}}
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 
@@ -29,7 +28,6 @@ import java.util.List;
 @Configuration
 @ComponentScan(basePackages = "{{apiPackage}}")
 @EnableWebMvc
-@EnableSwagger2 //Loads the spring beans required by the framework
 @PropertySource("classpath:swagger.properties")
 @Import(OpenAPIDocumentationConfig.class)
 public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {

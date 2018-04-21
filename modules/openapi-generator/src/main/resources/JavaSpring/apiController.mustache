@@ -3,15 +3,9 @@ package {{package}};
 {{^jdk8}}
 {{#imports}}import {{import}};
 {{/imports}}
-{{/jdk8}}
-{{^isDelegate}}
-import com.fasterxml.jackson.databind.ObjectMapper;
-{{/isDelegate}}
-{{^jdk8}}
 import io.swagger.annotations.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 {{/jdk8}}
 import org.springframework.stereotype.Controller;
@@ -21,6 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+{{/jdk8}}
+{{^isDelegate}}
+import org.springframework.web.context.request.NativeWebRequest;
+{{/isDelegate}}
+{{^jdk8}}
 import org.springframework.web.multipart.MultipartFile;
 
     {{#useBeanValidation}}
@@ -28,22 +27,17 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
     {{/useBeanValidation}}
 {{/jdk8}}
-{{^isDelegate}}
-import javax.servlet.http.HttpServletRequest;
-    {{#jdk8}}
+{{#jdk8-no-delegate}}
 import java.util.Optional;
-    {{/jdk8}}
-{{/isDelegate}}
+{{/jdk8-no-delegate}}
 {{^jdk8-no-delegate}}
     {{#useOptional}}
 import java.util.Optional;
     {{/useOptional}}
 {{/jdk8-no-delegate}}
 {{^jdk8}}
-    {{^isDelegate}}
-import java.io.IOException;
-    {{/isDelegate}}
 import java.util.List;
+import java.util.Map;
     {{#async}}
 import java.util.concurrent.Callable;
     {{/async}}
@@ -69,76 +63,42 @@ public class {{classname}}Controller implements {{classname}} {
     {{/jdk8}}
 {{/isDelegate}}
 {{^isDelegate}}
-    {{^jdk8}}
-    private static final Logger log = LoggerFactory.getLogger({{classname}}Controller.class);
-
-    {{/jdk8}}
-    private final ObjectMapper objectMapper;
-
-    private final HttpServletRequest request;
+{{^reactive}}
+    private final NativeWebRequest request;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public {{classname}}Controller(ObjectMapper objectMapper, HttpServletRequest request) {
-        this.objectMapper = objectMapper;
+    public {{classname}}Controller(NativeWebRequest request) {
         this.request = request;
     }
     {{#jdk8}}
 
     @Override
-    public Optional<ObjectMapper> getObjectMapper() {
-        return Optional.ofNullable(objectMapper);
-    }
-
-    @Override
-    public Optional<HttpServletRequest> getRequest() {
+    public Optional<NativeWebRequest> getRequest() {
         return Optional.ofNullable(request);
     }
     {{/jdk8}}
+{{/reactive}}
 
 {{/isDelegate}}
 {{^jdk8}}
 {{#operation}}
-    public {{#async}}Callable<{{/async}}ResponseEntity<{{>returnTypes}}>{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
-        {{^isDelegate}}
+    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
+    {{^isDelegate}}
         {{^async}}
-        String accept = request.getHeader("Accept");
-        {{#examples}}
-        if (accept != null && accept.contains("{{{contentType}}}")) {
-            try {
-                return new ResponseEntity<{{>returnTypes}}>(objectMapper.readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", {{>exampleReturnTypes}}.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type {{{contentType}}}", e);
-                return new ResponseEntity<{{>returnTypes}}>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-
-        {{/examples}}
-        return new ResponseEntity<{{>returnTypes}}>(HttpStatus.NOT_IMPLEMENTED);
+        {{>methodBody}}
         {{/async}}
         {{#async}}
         return new Callable<ResponseEntity<{{>returnTypes}}>>() {
             @Override
             public ResponseEntity<{{>returnTypes}}> call() {
-                String accept = request.getHeader("Accept");
-                {{#examples}}
-                if (accept != null && accept.contains("{{{contentType}}}")) {
-                    try {
-                        return new ResponseEntity<{{>returnTypes}}>(objectMapper.readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", {{>exampleReturnTypes}}.class), HttpStatus.NOT_IMPLEMENTED);
-                    } catch (IOException e) {
-                        log.error("Couldn't serialize response for content type {{{contentType}}}", e);
-                        return new ResponseEntity<{{>returnTypes}}>(HttpStatus.INTERNAL_SERVER_ERROR);
-                    }
-                }
-
-                {{/examples}}
-                return new ResponseEntity<{{>returnTypes}}>(HttpStatus.NOT_IMPLEMENTED);
+                {{>methodBody}}
             }
         };
         {{/async}}
-        {{/isDelegate}}
-        {{#isDelegate}}
+    {{/isDelegate}}
+    {{#isDelegate}}
         return delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-        {{/isDelegate}}
+    {{/isDelegate}}
     }
 
 {{/operation}}
