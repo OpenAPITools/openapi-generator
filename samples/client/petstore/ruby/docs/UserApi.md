@@ -53,7 +53,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 
@@ -69,7 +69,7 @@ Creates list of users with given input array
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-user = [Petstore::User.new] # Array<User> | List of user object
+user = nil # Array<User> | List of user object
 
 begin
   #Creates list of users with given input array
@@ -83,7 +83,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**Array&lt;User&gt;**](User.md)| List of user object | 
+ **user** | [**Array&lt;User&gt;**](Array.md)| List of user object | 
 
 ### Return type
 
@@ -111,7 +111,7 @@ Creates list of users with given input array
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-user = [Petstore::User.new] # Array<User> | List of user object
+user = nil # Array<User> | List of user object
 
 begin
   #Creates list of users with given input array
@@ -125,7 +125,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**Array&lt;User&gt;**](User.md)| List of user object | 
+ **user** | [**Array&lt;User&gt;**](Array.md)| List of user object | 
 
 ### Return type
 
@@ -353,7 +353,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 
