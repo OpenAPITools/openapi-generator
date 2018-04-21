@@ -1,6 +1,6 @@
 <?php
 /**
- * Body4Test
+ * SpecialModelNameTest
  *
  * PHP version 5
  *
@@ -30,15 +30,15 @@
 namespace Swagger\Client;
 
 /**
- * Body4Test Class Doc Comment
+ * SpecialModelNameTest Class Doc Comment
  *
  * @category    Class
- * @description Body4
+ * @description SpecialModelName
  * @package     Swagger\Client
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class Body4Test extends \PHPUnit_Framework_TestCase
+class SpecialModelNameTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -70,23 +70,16 @@ class Body4Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test "Body4"
+     * Test "SpecialModelName"
      */
-    public function testBody4()
+    public function testSpecialModelName()
     {
     }
 
     /**
-     * Test attribute "param"
+     * Test attribute "special_property_name"
      */
-    public function testPropertyParam()
-    {
-    }
-
-    /**
-     * Test attribute "param2"
-     */
-    public function testPropertyParam2()
+    public function testPropertySpecialPropertyName()
     {
     }
 }

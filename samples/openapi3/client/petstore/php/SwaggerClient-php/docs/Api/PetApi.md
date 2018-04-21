@@ -33,7 +33,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet = new \Swagger\Client\Model\Pet(); // Pet | Pet object that needs to be added to the store
+$pet = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
     $apiInstance->addPet($pet);
@@ -47,7 +47,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**\Swagger\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -83,7 +83,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet_id = 789; // int | Pet id to delete
+$pet_id = 56; // int | Pet id to delete
 $api_key = "api_key_example"; // string | 
 
 try {
@@ -245,7 +245,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet_id = 789; // int | ID of pet to return
+$pet_id = 56; // int | ID of pet to return
 
 try {
     $result = $apiInstance->getPetById($pet_id);
@@ -296,7 +296,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet = new \Swagger\Client\Model\Pet(); // Pet | Pet object that needs to be added to the store
+$pet = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
     $apiInstance->updatePet($pet);
@@ -310,7 +310,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**\Swagger\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -346,7 +346,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet_id = 789; // int | ID of pet that needs to be updated
+$pet_id = 56; // int | ID of pet that needs to be updated
 $name = "name_example"; // string | Updated name of the pet
 $status = "status_example"; // string | Updated status of the pet
 
@@ -400,7 +400,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet_id = 789; // int | ID of pet to update
+$pet_id = 56; // int | ID of pet to update
 $additional_metadata = "additional_metadata_example"; // string | Additional data to pass to server
 $file = "/path/to/file.txt"; // \SplFileObject | file to upload
 

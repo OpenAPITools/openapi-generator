@@ -853,7 +853,7 @@ paths:
           description: successful operation
       requestBody:
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
               type: object
               properties:

@@ -834,7 +834,7 @@ class StoreApi
      *
      * Place an order for a pet
      *
-     * @param  Order $order order placed for purchasing the pet (required)
+     * @param  \Swagger\Client\Model\Order $order order placed for purchasing the pet (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -851,7 +851,7 @@ class StoreApi
      *
      * Place an order for a pet
      *
-     * @param  Order $order order placed for purchasing the pet (required)
+     * @param  \Swagger\Client\Model\Order $order order placed for purchasing the pet (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -926,7 +926,7 @@ class StoreApi
      *
      * Place an order for a pet
      *
-     * @param  Order $order order placed for purchasing the pet (required)
+     * @param  \Swagger\Client\Model\Order $order order placed for purchasing the pet (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -946,7 +946,7 @@ class StoreApi
      *
      * Place an order for a pet
      *
-     * @param  Order $order order placed for purchasing the pet (required)
+     * @param  \Swagger\Client\Model\Order $order order placed for purchasing the pet (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -996,7 +996,7 @@ class StoreApi
     /**
      * Create request for operation 'placeOrder'
      *
-     * @param  Order $order order placed for purchasing the pet (required)
+     * @param  \Swagger\Client\Model\Order $order order placed for purchasing the pet (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request

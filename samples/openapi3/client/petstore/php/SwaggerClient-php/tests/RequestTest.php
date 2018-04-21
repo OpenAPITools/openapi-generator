@@ -22,22 +22,15 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     public function testFormDataEncodingToJson()
     {
-        $this->api->testJsonFormData(
-            new Body4(['param' => 'value', 'param2' => 'value2'])
-        );
+        $this->api->testJsonFormData('value', 'value2');
 
         $request = $this->fakeClient->getLastRequest();
         $contentType = $request->getHeader('Content-Type');
-        $this->assertEquals(['application/json'], $contentType);
+        $this->assertEquals(['application/x-www-form-urlencoded'], $contentType);
 
         $requestContent = $request->getBody()->getContents();
-        $expected = <<<__EOS__
-{
-    "param": "value",
-    "param2": "value2"
-}
-__EOS__;
 
-        $this->assertEquals($expected, $requestContent);
+        // JSON serialization of form data is not supported
+        $this->assertEquals('param=value&param2=value2', $requestContent);
     }
 }

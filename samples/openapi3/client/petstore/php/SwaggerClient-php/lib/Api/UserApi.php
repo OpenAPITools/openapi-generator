@@ -92,7 +92,7 @@ class UserApi
      *
      * Create user
      *
-     * @param  User $user Created user object (required)
+     * @param  \Swagger\Client\Model\User $user Created user object (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -108,7 +108,7 @@ class UserApi
      *
      * Create user
      *
-     * @param  User $user Created user object (required)
+     * @param  \Swagger\Client\Model\User $user Created user object (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -161,7 +161,7 @@ class UserApi
      *
      * Create user
      *
-     * @param  User $user Created user object (required)
+     * @param  \Swagger\Client\Model\User $user Created user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -181,7 +181,7 @@ class UserApi
      *
      * Create user
      *
-     * @param  User $user Created user object (required)
+     * @param  \Swagger\Client\Model\User $user Created user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -217,7 +217,7 @@ class UserApi
     /**
      * Create request for operation 'createUser'
      *
-     * @param  User $user Created user object (required)
+     * @param  \Swagger\Client\Model\User $user Created user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -1719,7 +1719,7 @@ class UserApi
      * Updated user
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  User $user Updated user object (required)
+     * @param  \Swagger\Client\Model\User $user Updated user object (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1736,7 +1736,7 @@ class UserApi
      * Updated user
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  User $user Updated user object (required)
+     * @param  \Swagger\Client\Model\User $user Updated user object (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1790,7 +1790,7 @@ class UserApi
      * Updated user
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  User $user Updated user object (required)
+     * @param  \Swagger\Client\Model\User $user Updated user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1811,7 +1811,7 @@ class UserApi
      * Updated user
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  User $user Updated user object (required)
+     * @param  \Swagger\Client\Model\User $user Updated user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1848,7 +1848,7 @@ class UserApi
      * Create request for operation 'updateUser'
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  User $user Updated user object (required)
+     * @param  \Swagger\Client\Model\User $user Updated user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request

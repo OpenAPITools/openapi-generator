@@ -81,7 +81,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$outer_composite = new \Swagger\Client\Model\OuterComposite(); // OuterComposite | Input composite as post body
+$outer_composite = new \Swagger\Client\Model\OuterComposite(); // \Swagger\Client\Model\OuterComposite | Input composite as post body
 
 try {
     $result = $apiInstance->fakeOuterCompositeSerialize($outer_composite);
@@ -96,7 +96,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outer_composite** | [**OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
+ **outer_composite** | [**\Swagger\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
 
 ### Return type
 
@@ -228,7 +228,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$client = new \Swagger\Client\Model\Client(); // Client | client model
+$client = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
 
 try {
     $result = $apiInstance->testClientModel($client);
@@ -243,7 +243,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](../Model/Client.md)| client model |
+ **client** | [**\Swagger\Client\Model\Client**](../Model/Client.md)| client model |
 
 ### Return type
 
@@ -359,11 +359,11 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     new GuzzleHttp\Client()
 );
 $enum_header_string_array = array("enum_header_string_array_example"); // string[] | Header parameter enum test (string array)
-$enum_header_string = "enum_header_string_example"; // string | Header parameter enum test (string)
+$enum_header_string = "-efg"; // string | Header parameter enum test (string)
 $enum_query_string_array = array("enum_query_string_array_example"); // string[] | Query parameter enum test (string array)
-$enum_query_string = "enum_query_string_example"; // string | Query parameter enum test (string)
+$enum_query_string = "-efg"; // string | Query parameter enum test (string)
 $enum_query_integer = 56; // int | Query parameter enum test (double)
-$enum_query_double = 1.2; // double | Query parameter enum test (double)
+$enum_query_double = 3.4; // double | Query parameter enum test (double)
 $enum_form_string_array = new \Swagger\Client\Model\array(); // string[] | Form parameter enum test (string array)
 $enum_form_string = "enum_form_string_example"; // string | Form parameter enum test (string)
 
@@ -380,9 +380,9 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enum_header_string_array** | [**string[]**](../Model/string.md)| Header parameter enum test (string array) | [optional]
- **enum_header_string** | **string**| Header parameter enum test (string) | [optional]
+ **enum_header_string** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
  **enum_query_string_array** | [**string[]**](../Model/string.md)| Query parameter enum test (string array) | [optional]
- **enum_query_string** | **string**| Query parameter enum test (string) | [optional]
+ **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional]
  **enum_form_string_array** | [**string[]**](../Model/array.md)| Form parameter enum test (string array) | [optional]
@@ -404,7 +404,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testInlineAdditionalProperties**
-> testInlineAdditionalProperties($unknown_base_type)
+> testInlineAdditionalProperties($UNKNOWN_PARAM_NAME)
 
 test inline additionalProperties
 
@@ -418,10 +418,10 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$unknown_base_type = new \Swagger\Client\Model\UNKNOWN_BASE_TYPE(); // map[string,string] | request body
+$UNKNOWN_PARAM_NAME = new \Swagger\Client\Model\null(); //  | request body
 
 try {
-    $apiInstance->testInlineAdditionalProperties($unknown_base_type);
+    $apiInstance->testInlineAdditionalProperties($UNKNOWN_PARAM_NAME);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testInlineAdditionalProperties: ', $e->getMessage(), PHP_EOL;
 }
@@ -432,7 +432,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **unknown_base_type** | [**map[string,string]**](../Model/UNKNOWN_BASE_TYPE.md)| request body |
+ **UNKNOWN_PARAM_NAME** | [****](../Model/.md)| request body |
 
 ### Return type
 
@@ -450,7 +450,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testJsonFormData**
-> testJsonFormData($body4)
+> testJsonFormData($param, $param2)
 
 test json serialization of form data
 
@@ -464,10 +464,11 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body4 = new \Swagger\Client\Model\Body4(); // Body4 | 
+$param = "param_example"; // string | field1
+$param2 = "param2_example"; // string | field2
 
 try {
-    $apiInstance->testJsonFormData($body4);
+    $apiInstance->testJsonFormData($param, $param2);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testJsonFormData: ', $e->getMessage(), PHP_EOL;
 }
@@ -478,7 +479,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body4** | [**Body4**](../Model/Body4.md)|  | [optional]
+ **param** | **string**| field1 |
+ **param2** | **string**| field2 |
 
 ### Return type
 
@@ -490,7 +492,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
