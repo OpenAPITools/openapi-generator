@@ -13,7 +13,7 @@
              :query-params  {}
              :form-params   {}
              :content-types []
-             :accepts       ["application/json" "application/xml"]
+             :accepts       []
              :auth-names    []}))
 
 (defn delete-order
@@ -62,23 +62,21 @@
   (:data (get-order-by-id-with-http-info order-id)))
 
 (defn place-order-with-http-info
-  "Place an order for a pet
-  "
+  "Place an order for a pet"
   ([] (place-order-with-http-info nil))
-  ([{:keys [body ]}]
+  ([{:keys [order ]}]
    (call-api "/store/order" :post
              {:path-params   {}
               :header-params {}
               :query-params  {}
               :form-params   {}
-              :body-param    body
+              :body-param    order
               :content-types []
               :accepts       ["application/json" "application/xml"]
               :auth-names    []})))
 
 (defn place-order
-  "Place an order for a pet
-  "
+  "Place an order for a pet"
   ([] (place-order nil))
   ([optional-params]
    (:data (place-order-with-http-info optional-params))))
