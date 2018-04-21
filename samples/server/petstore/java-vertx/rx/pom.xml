@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>io.swagger</groupId>
-	<artifactId>swagger-java-vertx-server-rx</artifactId>
+	<artifactId>java-vertx-rx-server</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
   
