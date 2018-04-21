@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="testSpecialTags"></a>
 # **testSpecialTags**
-> Client testSpecialTags(body)
+> Client testSpecialTags(client)
 
 To test special tags
 
@@ -20,10 +20,7 @@ To test special tags
 var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.AnotherFakeApi();
-
-var body = new SwaggerPetstore.Client(); // Client | client model
-
-
+var client = new SwaggerPetstore.Client(); // Client | client model
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -31,14 +28,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.testSpecialTags(body, callback);
+apiInstance.testSpecialTags(client, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
