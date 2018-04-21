@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **testClassname**
-> \Swagger\Client\Model\Client testClassname($body)
+> \Swagger\Client\Model\Client testClassname($client)
 
 To test class name in snake case
 
@@ -30,10 +30,10 @@ $apiInstance = new Swagger\Client\Api\FakeClassnameTags123Api(
     new GuzzleHttp\Client(),
     $config
 );
-$body = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
+$client = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
 
 try {
-    $result = $apiInstance->testClassname($body);
+    $result = $apiInstance->testClassname($client);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeClassnameTags123Api->testClassname: ', $e->getMessage(), PHP_EOL;
@@ -45,7 +45,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Client**](../Model/Client.md)| client model |
+ **client** | [**\Swagger\Client\Model\Client**](../Model/Client.md)| client model |
 
 ### Return type
 

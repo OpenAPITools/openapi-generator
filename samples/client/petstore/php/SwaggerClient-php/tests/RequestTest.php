@@ -4,6 +4,8 @@ namespace Swagger\Client;
 
 use Swagger\Client\Api\FakeApi;
 
+require_once __DIR__ . '/FakeHttpClient.php';
+
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -24,11 +26,11 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $request = $this->fakeClient->getLastRequest();
         $contentType = $request->getHeader('Content-Type');
-        $this->assertEquals(['application/json'], $contentType);
+        $this->assertEquals(['application/x-www-form-urlencoded'], $contentType);
 
         $requestContent = $request->getBody()->getContents();
 
-        $expected = json_encode(['param' => 'value', 'param2' => 'value2']);
-        $this->assertEquals($expected, $requestContent);
+        // JSON serialization of form data is not supported
+        $this->assertEquals('param=value&param2=value2', $requestContent);
     }
 }

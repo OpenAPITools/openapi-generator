@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
@@ -16,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **fakeOuterBooleanSerialize**
-> \Swagger\Client\Model\OuterBoolean fakeOuterBooleanSerialize($body)
+> \Swagger\Client\Model\OuterBoolean fakeOuterBooleanSerialize($boolean_post_body)
 
 
 
@@ -32,10 +33,10 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = new \Swagger\Client\Model\OuterBoolean(); // \Swagger\Client\Model\OuterBoolean | Input boolean as post body
+$boolean_post_body = True; // bool | Input boolean as post body
 
 try {
-    $result = $apiInstance->fakeOuterBooleanSerialize($body);
+    $result = $apiInstance->fakeOuterBooleanSerialize($boolean_post_body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeOuterBooleanSerialize: ', $e->getMessage(), PHP_EOL;
@@ -47,7 +48,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\OuterBoolean**](../Model/OuterBoolean.md)| Input boolean as post body | [optional]
+ **boolean_post_body** | **bool**| Input boolean as post body | [optional]
 
 ### Return type
 
@@ -60,12 +61,12 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **fakeOuterCompositeSerialize**
-> \Swagger\Client\Model\OuterComposite fakeOuterCompositeSerialize($body)
+> \Swagger\Client\Model\OuterComposite fakeOuterCompositeSerialize($outer_composite)
 
 
 
@@ -81,10 +82,10 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = new \Swagger\Client\Model\OuterComposite(); // \Swagger\Client\Model\OuterComposite | Input composite as post body
+$outer_composite = new \Swagger\Client\Model\OuterComposite(); // \Swagger\Client\Model\OuterComposite | Input composite as post body
 
 try {
-    $result = $apiInstance->fakeOuterCompositeSerialize($body);
+    $result = $apiInstance->fakeOuterCompositeSerialize($outer_composite);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeOuterCompositeSerialize: ', $e->getMessage(), PHP_EOL;
@@ -96,7 +97,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
+ **outer_composite** | [**\Swagger\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
 
 ### Return type
 
@@ -109,7 +110,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -130,7 +131,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = new \Swagger\Client\Model\OuterNumber(); // \Swagger\Client\Model\OuterNumber | Input number as post body
+$body = 3.4; // float | Input number as post body
 
 try {
     $result = $apiInstance->fakeOuterNumberSerialize($body);
@@ -145,7 +146,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\OuterNumber**](../Model/OuterNumber.md)| Input number as post body | [optional]
+ **body** | **float**| Input number as post body | [optional]
 
 ### Return type
 
@@ -158,7 +159,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -179,7 +180,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = new \Swagger\Client\Model\OuterString(); // \Swagger\Client\Model\OuterString | Input string as post body
+$body = "body_example"; // string | Input string as post body
 
 try {
     $result = $apiInstance->fakeOuterStringSerialize($body);
@@ -194,7 +195,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\OuterString**](../Model/OuterString.md)| Input string as post body | [optional]
+ **body** | **string**| Input string as post body | [optional]
 
 ### Return type
 
@@ -207,12 +208,60 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **testBodyWithQueryParams**
+> testBodyWithQueryParams($query, $user)
+
+
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$apiInstance = new Swagger\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$query = "query_example"; // string | 
+$user = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | 
+
+try {
+    $apiInstance->testBodyWithQueryParams($query, $user);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->testBodyWithQueryParams: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query** | **string**|  |
+ **user** | [**\Swagger\Client\Model\User**](../Model/User.md)|  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testClientModel**
-> \Swagger\Client\Model\Client testClientModel($body)
+> \Swagger\Client\Model\Client testClientModel($client)
 
 To test \"client\" model
 
@@ -228,10 +277,10 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
+$client = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
 
 try {
-    $result = $apiInstance->testClientModel($body);
+    $result = $apiInstance->testClientModel($client);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testClientModel: ', $e->getMessage(), PHP_EOL;
@@ -243,7 +292,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Client**](../Model/Client.md)| client model |
+ **client** | [**\Swagger\Client\Model\Client**](../Model/Client.md)| client model |
 
 ### Return type
 
@@ -284,17 +333,17 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     new GuzzleHttp\Client(),
     $config
 );
-$number = 8.14; // float | None
-$double = 1.2; // double | None
+$number = 3.4; // float | None
+$double = 3.4; // double | None
 $pattern_without_delimiter = "pattern_without_delimiter_example"; // string | None
-$byte = "B"; // string | None
+$byte = "byte_example"; // string | None
 $integer = 56; // int | None
 $int32 = 56; // int | None
-$int64 = 789; // int | None
+$int64 = 56; // int | None
 $float = 3.4; // float | None
 $string = "string_example"; // string | None
-$binary = "B"; // string | None
-$date = new \DateTime("2013-10-20"); // \DateTime | None
+$binary = "/path/to/file.txt"; // \SplFileObject | None
+$date = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
 $date_time = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
 $password = "password_example"; // string | None
 $callback = "callback_example"; // string | None
@@ -320,7 +369,7 @@ Name | Type | Description  | Notes
  **int64** | **int**| None | [optional]
  **float** | **float**| None | [optional]
  **string** | **string**| None | [optional]
- **binary** | **string**| None | [optional]
+ **binary** | **\SplFileObject****\SplFileObject**| None | [optional]
  **date** | **\DateTime**| None | [optional]
  **date_time** | **\DateTime**| None | [optional]
  **password** | **string**| None | [optional]
@@ -336,13 +385,13 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
- - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testEnumParameters**
-> testEnumParameters($enum_form_string_array, $enum_form_string, $enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double)
+> testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string)
 
 To test enum parameters
 
@@ -358,17 +407,17 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$enum_form_string_array = array("enum_form_string_array_example"); // string[] | Form parameter enum test (string array)
-$enum_form_string = "-efg"; // string | Form parameter enum test (string)
 $enum_header_string_array = array("enum_header_string_array_example"); // string[] | Header parameter enum test (string array)
 $enum_header_string = "-efg"; // string | Header parameter enum test (string)
 $enum_query_string_array = array("enum_query_string_array_example"); // string[] | Query parameter enum test (string array)
 $enum_query_string = "-efg"; // string | Query parameter enum test (string)
 $enum_query_integer = 56; // int | Query parameter enum test (double)
-$enum_query_double = 1.2; // double | Query parameter enum test (double)
+$enum_query_double = 3.4; // double | Query parameter enum test (double)
+$enum_form_string_array = new \Swagger\Client\Model\array(); // string[] | Form parameter enum test (string array)
+$enum_form_string = "enum_form_string_example"; // string | Form parameter enum test (string)
 
 try {
-    $apiInstance->testEnumParameters($enum_form_string_array, $enum_form_string, $enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double);
+    $apiInstance->testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testEnumParameters: ', $e->getMessage(), PHP_EOL;
 }
@@ -379,14 +428,14 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enum_form_string_array** | [**string[]**](../Model/string.md)| Form parameter enum test (string array) | [optional]
- **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to -efg]
  **enum_header_string_array** | [**string[]**](../Model/string.md)| Header parameter enum test (string array) | [optional]
  **enum_header_string** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
  **enum_query_string_array** | [**string[]**](../Model/string.md)| Query parameter enum test (string array) | [optional]
  **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional]
+ **enum_form_string_array** | [**string[]**](../Model/array.md)| Form parameter enum test (string array) | [optional]
+ **enum_form_string** | **string**| Form parameter enum test (string) | [optional]
 
 ### Return type
 
@@ -398,17 +447,15 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
- - **Accept**: */*
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testInlineAdditionalProperties**
-> testInlineAdditionalProperties($param)
+> testInlineAdditionalProperties($request_body)
 
 test inline additionalProperties
-
-
 
 ### Example
 ```php
@@ -420,10 +467,10 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$param = new \stdClass; // object | request body
+$request_body = array('key' => "request_body_example"); // string | request body
 
 try {
-    $apiInstance->testInlineAdditionalProperties($param);
+    $apiInstance->testInlineAdditionalProperties($request_body);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testInlineAdditionalProperties: ', $e->getMessage(), PHP_EOL;
 }
@@ -434,7 +481,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **object**| request body |
+ **request_body** | [**string**](../Model/string.md)| request body |
 
 ### Return type
 
@@ -455,8 +502,6 @@ No authorization required
 > testJsonFormData($param, $param2)
 
 test json serialization of form data
-
-
 
 ### Example
 ```php
@@ -496,7 +541,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)

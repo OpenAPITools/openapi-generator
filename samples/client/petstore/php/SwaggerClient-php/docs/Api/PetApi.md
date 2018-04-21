@@ -15,11 +15,9 @@ Method | HTTP request | Description
 
 
 # **addPet**
-> addPet($body)
+> addPet($pet)
 
 Add a new pet to the store
-
-
 
 ### Example
 ```php
@@ -35,10 +33,10 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$body = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet object that needs to be added to the store
+$pet = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
-    $apiInstance->addPet($body);
+    $apiInstance->addPet($pet);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->addPet: ', $e->getMessage(), PHP_EOL;
 }
@@ -49,7 +47,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**\Swagger\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -62,7 +60,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -70,8 +68,6 @@ void (empty response body)
 > deletePet($pet_id, $api_key)
 
 Deletes a pet
-
-
 
 ### Example
 ```php
@@ -87,7 +83,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet_id = 789; // int | Pet id to delete
+$pet_id = 56; // int | Pet id to delete
 $api_key = "api_key_example"; // string | 
 
 try {
@@ -116,7 +112,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -249,7 +245,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet_id = 789; // int | ID of pet to return
+$pet_id = 56; // int | ID of pet to return
 
 try {
     $result = $apiInstance->getPetById($pet_id);
@@ -282,11 +278,9 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **updatePet**
-> updatePet($body)
+> updatePet($pet)
 
 Update an existing pet
-
-
 
 ### Example
 ```php
@@ -302,10 +296,10 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$body = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet object that needs to be added to the store
+$pet = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
-    $apiInstance->updatePet($body);
+    $apiInstance->updatePet($pet);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->updatePet: ', $e->getMessage(), PHP_EOL;
 }
@@ -316,7 +310,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**\Swagger\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -329,7 +323,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -337,8 +331,6 @@ void (empty response body)
 > updatePetWithForm($pet_id, $name, $status)
 
 Updates a pet in the store with form data
-
-
 
 ### Example
 ```php
@@ -354,7 +346,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet_id = 789; // int | ID of pet that needs to be updated
+$pet_id = 56; // int | ID of pet that needs to be updated
 $name = "name_example"; // string | Updated name of the pet
 $status = "status_example"; // string | Updated status of the pet
 
@@ -385,7 +377,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -393,8 +385,6 @@ void (empty response body)
 > \Swagger\Client\Model\ApiResponse uploadFile($pet_id, $additional_metadata, $file)
 
 uploads an image
-
-
 
 ### Example
 ```php
@@ -410,7 +400,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet_id = 789; // int | ID of pet to update
+$pet_id = 56; // int | ID of pet to update
 $additional_metadata = "additional_metadata_example"; // string | Additional data to pass to server
 $file = "/path/to/file.txt"; // \SplFileObject | file to upload
 
@@ -429,7 +419,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update |
  **additional_metadata** | **string**| Additional data to pass to server | [optional]
- **file** | **\SplFileObject**| file to upload | [optional]
+ **file** | **\SplFileObject****\SplFileObject**| file to upload | [optional]
 
 ### Return type
 

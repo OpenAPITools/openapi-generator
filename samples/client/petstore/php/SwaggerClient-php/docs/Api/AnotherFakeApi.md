@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **testSpecialTags**
-> \Swagger\Client\Model\Client testSpecialTags($body)
+> \Swagger\Client\Model\Client testSpecialTags($client)
 
 To test special tags
 
@@ -24,10 +24,10 @@ $apiInstance = new Swagger\Client\Api\AnotherFakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
+$client = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
 
 try {
-    $result = $apiInstance->testSpecialTags($body);
+    $result = $apiInstance->testSpecialTags($client);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AnotherFakeApi->testSpecialTags: ', $e->getMessage(), PHP_EOL;
@@ -39,7 +39,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Client**](../Model/Client.md)| client model |
+ **client** | [**\Swagger\Client\Model\Client**](../Model/Client.md)| client model |
 
 ### Return type
 

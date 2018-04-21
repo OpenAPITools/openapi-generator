@@ -25,7 +25,7 @@ class ParametersTest extends \PHPUnit_Framework_TestCase
 
     public function testHeaderParam()
     {
-        $this->fakeApi->testEnumParameters([], [], [], 'something');
+        $this->fakeApi->testEnumParameters([], 'something');
 
         $request = $this->fakeHttpClient->getLastRequest();
         $headers = $request->getHeaders();
@@ -36,7 +36,7 @@ class ParametersTest extends \PHPUnit_Framework_TestCase
 
     public function testHeaderParamCollection()
     {
-        $this->fakeApi->testEnumParameters([], [], ['string1', 'string2']);
+        $this->fakeApi->testEnumParameters(['string1', 'string2']);
 
         $request = $this->fakeHttpClient->getLastRequest();
         $headers = $request->getHeaders();

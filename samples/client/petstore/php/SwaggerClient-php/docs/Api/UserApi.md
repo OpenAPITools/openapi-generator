@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **createUser**
-> createUser($body)
+> createUser($user)
 
 Create user
 
@@ -31,10 +31,10 @@ $apiInstance = new Swagger\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Created user object
+$user = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Created user object
 
 try {
-    $apiInstance->createUser($body);
+    $apiInstance->createUser($user);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUser: ', $e->getMessage(), PHP_EOL;
 }
@@ -45,7 +45,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\User**](../Model/User.md)| Created user object |
+ **user** | [**\Swagger\Client\Model\User**](../Model/User.md)| Created user object |
 
 ### Return type
 
@@ -58,16 +58,14 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput($body)
+> createUsersWithArrayInput($user)
 
 Creates list of users with given input array
-
-
 
 ### Example
 ```php
@@ -79,10 +77,10 @@ $apiInstance = new Swagger\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = array(new \Swagger\Client\Model\User()); // \Swagger\Client\Model\User[] | List of user object
+$user = array(new \Swagger\Client\Model\array()); // \Swagger\Client\Model\User[] | List of user object
 
 try {
-    $apiInstance->createUsersWithArrayInput($body);
+    $apiInstance->createUsersWithArrayInput($user);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUsersWithArrayInput: ', $e->getMessage(), PHP_EOL;
 }
@@ -93,7 +91,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\User[]**](../Model/User.md)| List of user object |
+ **user** | [**\Swagger\Client\Model\User[]**](../Model/array.md)| List of user object |
 
 ### Return type
 
@@ -106,16 +104,14 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **createUsersWithListInput**
-> createUsersWithListInput($body)
+> createUsersWithListInput($user)
 
 Creates list of users with given input array
-
-
 
 ### Example
 ```php
@@ -127,10 +123,10 @@ $apiInstance = new Swagger\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = array(new \Swagger\Client\Model\User()); // \Swagger\Client\Model\User[] | List of user object
+$user = array(new \Swagger\Client\Model\array()); // \Swagger\Client\Model\User[] | List of user object
 
 try {
-    $apiInstance->createUsersWithListInput($body);
+    $apiInstance->createUsersWithListInput($user);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUsersWithListInput: ', $e->getMessage(), PHP_EOL;
 }
@@ -141,7 +137,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\User[]**](../Model/User.md)| List of user object |
+ **user** | [**\Swagger\Client\Model\User[]**](../Model/array.md)| List of user object |
 
 ### Return type
 
@@ -154,7 +150,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -202,7 +198,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -210,8 +206,6 @@ No authorization required
 > \Swagger\Client\Model\User getUserByName($username)
 
 Get user by user name
-
-
 
 ### Example
 ```php
@@ -259,8 +253,6 @@ No authorization required
 > string loginUser($username, $password)
 
 Logs user into the system
-
-
 
 ### Example
 ```php
@@ -311,8 +303,6 @@ No authorization required
 
 Logs out current logged in user session
 
-
-
 ### Example
 ```php
 <?php
@@ -346,12 +336,12 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **updateUser**
-> updateUser($username, $body)
+> updateUser($username, $user)
 
 Updated user
 
@@ -368,10 +358,10 @@ $apiInstance = new Swagger\Client\Api\UserApi(
     new GuzzleHttp\Client()
 );
 $username = "username_example"; // string | name that need to be deleted
-$body = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Updated user object
+$user = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Updated user object
 
 try {
-    $apiInstance->updateUser($username, $body);
+    $apiInstance->updateUser($username, $user);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->updateUser: ', $e->getMessage(), PHP_EOL;
 }
@@ -383,7 +373,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted |
- **body** | [**\Swagger\Client\Model\User**](../Model/User.md)| Updated user object |
+ **user** | [**\Swagger\Client\Model\User**](../Model/User.md)| Updated user object |
 
 ### Return type
 
@@ -396,7 +386,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

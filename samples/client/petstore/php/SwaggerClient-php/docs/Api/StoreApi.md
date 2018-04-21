@@ -54,7 +54,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -126,7 +126,7 @@ $apiInstance = new Swagger\Client\Api\StoreApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$order_id = 789; // int | ID of pet that needs to be fetched
+$order_id = 56; // int | ID of pet that needs to be fetched
 
 try {
     $result = $apiInstance->getOrderById($order_id);
@@ -159,11 +159,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **placeOrder**
-> \Swagger\Client\Model\Order placeOrder($body)
+> \Swagger\Client\Model\Order placeOrder($order)
 
 Place an order for a pet
-
-
 
 ### Example
 ```php
@@ -175,10 +173,10 @@ $apiInstance = new Swagger\Client\Api\StoreApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = new \Swagger\Client\Model\Order(); // \Swagger\Client\Model\Order | order placed for purchasing the pet
+$order = new \Swagger\Client\Model\Order(); // \Swagger\Client\Model\Order | order placed for purchasing the pet
 
 try {
-    $result = $apiInstance->placeOrder($body);
+    $result = $apiInstance->placeOrder($order);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling StoreApi->placeOrder: ', $e->getMessage(), PHP_EOL;
@@ -190,7 +188,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
+ **order** | [**\Swagger\Client\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
