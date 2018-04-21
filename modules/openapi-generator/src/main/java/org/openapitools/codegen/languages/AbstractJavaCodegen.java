@@ -933,7 +933,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 continue;
             }
             for (Operation operation : path.readOperations()) {
-                if (hasBodyParameter(operation) || hasFormParameter(operation)) {
+                if (hasBodyParameter(openAPI, operation) || hasFormParameter(operation)) {
                     String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
                     List<String> consumes = new ArrayList<String>(getConsumesInfo(operation));
                     String contentType = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);

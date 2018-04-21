@@ -1,5 +1,9 @@
 package org.openapitools.codegen.java;
 
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.core.models.ParseOptions;
+
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
@@ -33,6 +37,16 @@ public class AbstractJavaCodegenTest {
     @Test
     public void toModelNameUsesPascalCase() throws Exception {
         Assert.assertEquals("JsonAnotherclass", fakeJavaCodegen.toModelName("json_anotherclass"));
+    }
+ 
+    @Test
+    public void testPreprocessOpenAPI() throws Exception {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        codegen.preprocessOpenAPI(openAPI);
+
+        Assert.assertEquals(openAPI.getPaths().get("/pet").getPost().getExtensions().get("x-accepts"), "application/json");
     }
 
     @Test

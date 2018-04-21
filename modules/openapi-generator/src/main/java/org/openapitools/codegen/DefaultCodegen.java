@@ -29,6 +29,7 @@ import io.swagger.v3.oas.models.media.EmailSchema;
 import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
@@ -3793,21 +3794,19 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected Schema getSchemaFromBody(RequestBody requestBody) {
-        String contentType = new ArrayList<>(requestBody.getContent().keySet()).get(0);
-        MediaType mediaType = requestBody.getContent().get(contentType);
-        return mediaType.getSchema();
+        return getSchemaFromContent(requestBody.getContent());
     }
 
     protected Schema getSchemaFromResponse(ApiResponse response) {
-        if (response.getContent() == null || response.getContent().isEmpty()) {
+        return getSchemaFromContent(response.getContent());
+    }
+
+    private Schema getSchemaFromContent(Content content) {
+        if(content == null || content.isEmpty()) {
             return null;
         }
-        Schema schema = null;
-        for (MediaType mediaType : response.getContent().values()) {
-            schema = mediaType.getSchema();
-            break;
-        }
-        return schema;
+        MediaType mediaType = content.values().iterator().next();
+        return mediaType.getSchema();
     }
 
     protected Parameter getParameterFromRef(String ref, OpenAPI openAPI) {
@@ -3916,22 +3915,33 @@ public class DefaultCodegen implements CodegenConfig {
         return Boolean.FALSE;
     }
 
-    public Boolean hasBodyParameter(Operation operation) {
+    public boolean hasBodyParameter(OpenAPI openAPI, Operation operation) {
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody == null) {
-            return Boolean.FALSE;
+            return false;
+        }
+
+        if (StringUtils.isNotEmpty(requestBody.get$ref())) {
+            String name = ModelUtils.getSimpleRef(requestBody.get$ref());
+            requestBody = ModelUtils.getRequestBody(openAPI, name);
+            if (requestBody == null) {
+                return false;
+            }
         }
 
         Schema schema = getSchemaFromBody(requestBody);
         if (schema == null) {
-            return Boolean.FALSE;
+            return false;
         }
 
-        if (!StringUtils.isEmpty(schema.get$ref())) {
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            String name = ModelUtils.getSimpleRef(schema.get$ref());
+            schema = ModelUtils.getSchema(openAPI, name);
+            if (schema == null) {
+                return false;
+            }
         }
+        return true;
     }
 
     private void addProducesInfo(ApiResponse response, CodegenOperation codegenOperation) {

@@ -320,5 +320,17 @@ public class ModelUtils {
 
         return null;
     }
+    
+    public static RequestBody getRequestBody(OpenAPI openapi, String name) {
+        if (name == null) {
+            return null;
+        }
+
+        if (openapi != null && openapi.getComponents() != null && openapi.getComponents().getRequestBodies() != null) {
+            return openapi.getComponents().getRequestBodies().get(name);
+        }
+        
+        return null;
+    }
 
 }
