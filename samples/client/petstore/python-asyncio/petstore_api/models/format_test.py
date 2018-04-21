@@ -39,7 +39,7 @@ class FormatTest(object):
         'double': 'float',
         'string': 'str',
         'byte': 'str',
-        'binary': 'str',
+        'binary': 'file',
         'date': 'date',
         'date_time': 'datetime',
         'uuid': 'str',
@@ -305,7 +305,7 @@ class FormatTest(object):
 
 
         :return: The binary of this FormatTest.  # noqa: E501
-        :rtype: str
+        :rtype: file
         """
         return self._binary
 
@@ -315,7 +315,7 @@ class FormatTest(object):
 
 
         :param binary: The binary of this FormatTest.  # noqa: E501
-        :type: str
+        :type: file
         """
 
         self._binary = binary

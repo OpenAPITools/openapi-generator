@@ -86,7 +86,7 @@ class TestPetApiTests(unittest.TestCase):
 
     @async_test
     async def test_async_with_result(self):
-        await self.pet_api.add_pet(body=self.pet)
+        await self.pet_api.add_pet(self.pet)
 
         calls = [self.pet_api.get_pet_by_id(self.pet.id),
                  self.pet_api.get_pet_by_id(self.pet.id)]
@@ -98,7 +98,7 @@ class TestPetApiTests(unittest.TestCase):
 
     @async_test
     async def test_exception(self):
-        await self.pet_api.add_pet(body=self.pet)
+        await self.pet_api.add_pet(self.pet)
 
         try:
             await self.pet_api.get_pet_by_id("-9999999999999")
@@ -110,7 +110,7 @@ class TestPetApiTests(unittest.TestCase):
 
     @async_test
     async def test_add_pet_and_get_pet_by_id(self):
-        await self.pet_api.add_pet(body=self.pet)
+        await self.pet_api.add_pet(self.pet)
 
         fetched = await self.pet_api.get_pet_by_id(pet_id=self.pet.id)
         self.assertIsNotNone(fetched)
@@ -120,7 +120,7 @@ class TestPetApiTests(unittest.TestCase):
 
     @async_test
     async def test_add_pet_and_get_pet_by_id_with_http_info(self):
-        await self.pet_api.add_pet(body=self.pet)
+        await self.pet_api.add_pet(self.pet)
 
         fetched = await self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
         self.assertIsNotNone(fetched)
@@ -131,7 +131,7 @@ class TestPetApiTests(unittest.TestCase):
     @async_test
     async def test_update_pet(self):
         self.pet.name = "hello kity with updated"
-        await self.pet_api.update_pet(body=self.pet)
+        await self.pet_api.update_pet(self.pet)
 
         fetched = await self.pet_api.get_pet_by_id(pet_id=self.pet.id)
         self.assertIsNotNone(fetched)
@@ -142,7 +142,7 @@ class TestPetApiTests(unittest.TestCase):
 
     @async_test
     async def test_find_pets_by_status(self):
-        await self.pet_api.add_pet(body=self.pet)
+        await self.pet_api.add_pet(self.pet)
         pets = await self.pet_api.find_pets_by_status(status=[self.pet.status])
         self.assertIn(
             self.pet.id,
@@ -151,7 +151,7 @@ class TestPetApiTests(unittest.TestCase):
 
     @async_test
     async def test_find_pets_by_tags(self):
-        await self.pet_api.add_pet(body=self.pet)
+        await self.pet_api.add_pet(self.pet)
         pets = await self.pet_api.find_pets_by_tags(tags=[self.tag.name])
         self.assertIn(
             self.pet.id,
@@ -160,7 +160,7 @@ class TestPetApiTests(unittest.TestCase):
 
     @async_test
     async def test_update_pet_with_form(self):
-        await self.pet_api.add_pet(body=self.pet)
+        await self.pet_api.add_pet(self.pet)
 
         name = "hello kity with form updated"
         status = "pending"
@@ -192,7 +192,7 @@ class TestPetApiTests(unittest.TestCase):
 
     @async_test
     async def test_delete_pet(self):
-        await self.pet_api.add_pet(body=self.pet)
+        await self.pet_api.add_pet(self.pet)
         await self.pet_api.delete_pet(pet_id=self.pet.id, api_key="special-key")
 
         try:

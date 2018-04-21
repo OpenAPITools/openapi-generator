@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **test_special_tags**
-> Client test_special_tags(body)
+> Client test_special_tags(client)
 
 To test special tags
 
@@ -24,11 +24,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.AnotherFakeApi()
-body = petstore_api.Client() # Client | client model
+client = petstore_api.Client() # Client | client model
 
 try:
     # To test special tags
-    api_response = api_instance.test_special_tags(body)
+    api_response = api_instance.test_special_tags(client)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling AnotherFakeApi->test_special_tags: %s\n" % e)
@@ -38,7 +38,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

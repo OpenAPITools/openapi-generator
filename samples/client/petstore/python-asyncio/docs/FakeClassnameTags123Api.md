@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **test_classname**
-> Client test_classname(body)
+> Client test_classname(client)
 
 To test class name in snake case
 
@@ -30,11 +30,11 @@ configuration.api_key['api_key_query'] = 'YOUR_API_KEY'
 
 # create an instance of the API class
 api_instance = petstore_api.FakeClassnameTags123Api(petstore_api.ApiClient(configuration))
-body = petstore_api.Client() # Client | client model
+client = petstore_api.Client() # Client | client model
 
 try:
     # To test class name in snake case
-    api_response = api_instance.test_classname(body)
+    api_response = api_instance.test_classname(client)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling FakeClassnameTags123Api->test_classname: %s\n" % e)
@@ -44,7 +44,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

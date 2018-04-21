@@ -53,7 +53,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -124,7 +124,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.StoreApi()
-order_id = 789 # int | ID of pet that needs to be fetched
+order_id = 56 # int | ID of pet that needs to be fetched
 
 try:
     # Find purchase order by ID
@@ -156,11 +156,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **place_order**
-> Order place_order(body)
+> Order place_order(order)
 
 Place an order for a pet
-
-
 
 ### Example
 ```python
@@ -172,11 +170,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.StoreApi()
-body = petstore_api.Order() # Order | order placed for purchasing the pet
+order = petstore_api.Order() # Order | order placed for purchasing the pet
 
 try:
     # Place an order for a pet
-    api_response = api_instance.place_order(body)
+    api_response = api_instance.place_order(order)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling StoreApi->place_order: %s\n" % e)
@@ -186,7 +184,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 

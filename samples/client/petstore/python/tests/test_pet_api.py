@@ -81,7 +81,7 @@ class PetApiTests(unittest.TestCase):
         self.foo = os.path.join(self.test_file_dir, "foo.png")
 
     def test_preload_content_flag(self):
-        self.pet_api.add_pet(body=self.pet)
+        self.pet_api.add_pet(self.pet)
 
         resp = self.pet_api.find_pets_by_status(status=[self.pet.status], _preload_content=False)
 
@@ -108,19 +108,17 @@ class PetApiTests(unittest.TestCase):
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ',
-                                          'Accept': 'application/json',
                                           'User-Agent': 'Swagger-Codegen/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(total=5))
         mock_pool.expect_request('POST', 'http://localhost/v2/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ',
-                                          'Accept': 'application/json',
                                           'User-Agent': 'Swagger-Codegen/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(connect=1, read=2))
 
-        self.pet_api.add_pet(body=self.pet, _request_timeout=5)
-        self.pet_api.add_pet(body=self.pet, _request_timeout=(1, 2))
+        self.pet_api.add_pet(self.pet, _request_timeout=5)
+        self.pet_api.add_pet(self.pet, _request_timeout=(1, 2))
 
     def test_separate_default_client_instances(self):
         pet_api = petstore_api.PetApi()
@@ -142,7 +140,7 @@ class PetApiTests(unittest.TestCase):
         self.assertNotEqual(pet_api.api_client.configuration.host, pet_api2.api_client.configuration.host)
 
     def test_async_request(self):
-        thread = self.pet_api.add_pet(body=self.pet, async=True)
+        thread = self.pet_api.add_pet(self.pet, async=True)
         response = thread.get()
         self.assertIsNone(response)
 
@@ -151,7 +149,7 @@ class PetApiTests(unittest.TestCase):
         self.assertIsInstance(result, petstore_api.Pet)
 
     def test_async_with_result(self):
-        self.pet_api.add_pet(body=self.pet, async=False)
+        self.pet_api.add_pet(self.pet, async=False)
 
         thread = self.pet_api.get_pet_by_id(self.pet.id, async=True)
         thread2 = self.pet_api.get_pet_by_id(self.pet.id, async=True)
@@ -163,7 +161,7 @@ class PetApiTests(unittest.TestCase):
         self.assertIsNotNone(response2.id, self.pet.id)
 
     def test_async_with_http_info(self):
-        self.pet_api.add_pet(body=self.pet)
+        self.pet_api.add_pet(self.pet)
 
         thread = self.pet_api.get_pet_by_id_with_http_info(self.pet.id, async=True)
         data, status, headers = thread.get()
@@ -172,7 +170,7 @@ class PetApiTests(unittest.TestCase):
         self.assertEquals(status, 200)
 
     def test_async_exception(self):
-        self.pet_api.add_pet(body=self.pet)
+        self.pet_api.add_pet(self.pet)
 
         thread = self.pet_api.get_pet_by_id("-9999999999999", async=True)
 
@@ -186,7 +184,7 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(exception.status, 404)
 
     def test_add_pet_and_get_pet_by_id(self):
-        self.pet_api.add_pet(body=self.pet)
+        self.pet_api.add_pet(self.pet)
 
         fetched = self.pet_api.get_pet_by_id(pet_id=self.pet.id)
         self.assertIsNotNone(fetched)
@@ -195,7 +193,7 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(self.pet.category.name, fetched.category.name)
 
     def test_add_pet_and_get_pet_by_id_with_http_info(self):
-        self.pet_api.add_pet(body=self.pet)
+        self.pet_api.add_pet(self.pet)
 
         fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
         self.assertIsNotNone(fetched)
@@ -205,7 +203,7 @@ class PetApiTests(unittest.TestCase):
 
     def test_update_pet(self):
         self.pet.name = "hello kity with updated"
-        self.pet_api.update_pet(body=self.pet)
+        self.pet_api.update_pet(self.pet)
 
         fetched = self.pet_api.get_pet_by_id(pet_id=self.pet.id)
         self.assertIsNotNone(fetched)
@@ -215,7 +213,7 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(fetched.category.name, self.pet.category.name)
 
     def test_find_pets_by_status(self):
-        self.pet_api.add_pet(body=self.pet)
+        self.pet_api.add_pet(self.pet)
 
         self.assertIn(
             self.pet.id,
@@ -223,7 +221,7 @@ class PetApiTests(unittest.TestCase):
         )
 
     def test_find_pets_by_tags(self):
-        self.pet_api.add_pet(body=self.pet)
+        self.pet_api.add_pet(self.pet)
 
         self.assertIn(
             self.pet.id,
@@ -231,7 +229,7 @@ class PetApiTests(unittest.TestCase):
         )
 
     def test_update_pet_with_form(self):
-        self.pet_api.add_pet(body=self.pet)
+        self.pet_api.add_pet(self.pet)
 
         name = "hello kity with form updated"
         status = "pending"
@@ -261,7 +259,7 @@ class PetApiTests(unittest.TestCase):
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
 
     def test_delete_pet(self):
-        self.pet_api.add_pet(body=self.pet)
+        self.pet_api.add_pet(self.pet)
         self.pet_api.delete_pet(pet_id=self.pet.id, api_key="special-key")
 
         try:

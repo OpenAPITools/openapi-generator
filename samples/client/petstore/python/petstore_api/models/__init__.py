@@ -23,9 +23,11 @@ from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumb
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
 from petstore_api.models.array_test import ArrayTest
 from petstore_api.models.capitalization import Capitalization
+from petstore_api.models.cat import Cat
 from petstore_api.models.category import Category
 from petstore_api.models.class_model import ClassModel
 from petstore_api.models.client import Client
+from petstore_api.models.dog import Dog
 from petstore_api.models.enum_arrays import EnumArrays
 from petstore_api.models.enum_class import EnumClass
 from petstore_api.models.enum_test import EnumTest
@@ -49,5 +51,3 @@ from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.tag import Tag
 from petstore_api.models.user import User
-from petstore_api.models.cat import Cat
-from petstore_api.models.dog import Dog

@@ -86,7 +86,7 @@ class PetApiTests(AsyncTestCase):
     def test_async_request(self):
         # It works but tornado is async by default and creating threadpool
         # to do it looks crazy ;)
-        thread = self.pet_api.add_pet(body=self.pet, async=True)
+        thread = self.pet_api.add_pet(self.pet, async=True)
         response = yield thread.get()
         self.assertIsNone(response)
 
@@ -96,7 +96,7 @@ class PetApiTests(AsyncTestCase):
 
     @gen_test
     def test_async_with_result(self):
-        yield self.pet_api.add_pet(body=self.pet)
+        yield self.pet_api.add_pet(self.pet)
 
         thread = self.pet_api.get_pet_by_id(self.pet.id, async=True)
         thread2 = self.pet_api.get_pet_by_id(self.pet.id, async=True)
@@ -109,7 +109,7 @@ class PetApiTests(AsyncTestCase):
 
     @gen_test
     def test_tornado_async_with_result(self):
-        yield self.pet_api.add_pet(body=self.pet)
+        yield self.pet_api.add_pet(self.pet)
 
         query1 = self.pet_api.get_pet_by_id(self.pet.id)
         query2 = self.pet_api.get_pet_by_id(self.pet.id)
@@ -122,7 +122,7 @@ class PetApiTests(AsyncTestCase):
  
     @gen_test
     def test_add_pet_and_get_pet_by_id(self):
-        yield self.pet_api.add_pet(body=self.pet)
+        yield self.pet_api.add_pet(self.pet)
 
         fetched = yield self.pet_api.get_pet_by_id(pet_id=self.pet.id)
         self.assertIsNotNone(fetched)
@@ -132,7 +132,7 @@ class PetApiTests(AsyncTestCase):
 
     @gen_test
     def test_add_pet_and_get_pet_by_id_with_http_info(self):
-        yield self.pet_api.add_pet(body=self.pet)
+        yield self.pet_api.add_pet(self.pet)
 
         fetched = yield self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
         self.assertIsNotNone(fetched)
@@ -143,7 +143,7 @@ class PetApiTests(AsyncTestCase):
     @gen_test
     def test_update_pet(self):
         self.pet.name = "hello kity with updated"
-        yield self.pet_api.update_pet(body=self.pet)
+        yield self.pet_api.update_pet(self.pet)
 
         fetched = yield self.pet_api.get_pet_by_id(pet_id=self.pet.id)
         self.assertIsNotNone(fetched)
@@ -154,7 +154,7 @@ class PetApiTests(AsyncTestCase):
 
     @gen_test
     def test_find_pets_by_status(self):
-        yield self.pet_api.add_pet(body=self.pet)
+        yield self.pet_api.add_pet(self.pet)
         pets = yield self.pet_api.find_pets_by_status(status=[self.pet.status])
         self.assertIn(
             self.pet.id,
@@ -163,7 +163,7 @@ class PetApiTests(AsyncTestCase):
 
     @gen_test
     def test_find_pets_by_tags(self):
-        yield self.pet_api.add_pet(body=self.pet)
+        yield self.pet_api.add_pet(self.pet)
         pets = yield self.pet_api.find_pets_by_tags(tags=[self.tag.name])
         self.assertIn(
             self.pet.id,
@@ -172,7 +172,7 @@ class PetApiTests(AsyncTestCase):
 
     @gen_test
     def test_update_pet_with_form(self):
-        yield self.pet_api.add_pet(body=self.pet)
+        yield self.pet_api.add_pet(self.pet)
 
         name = "hello kity with form updated"
         status = "pending"
@@ -204,7 +204,7 @@ class PetApiTests(AsyncTestCase):
 
     @gen_test
     def test_delete_pet(self):
-        yield self.pet_api.add_pet(body=self.pet)
+        yield self.pet_api.add_pet(self.pet)
         yield self.pet_api.delete_pet(pet_id=self.pet.id, api_key="special-key")
 
         try:
