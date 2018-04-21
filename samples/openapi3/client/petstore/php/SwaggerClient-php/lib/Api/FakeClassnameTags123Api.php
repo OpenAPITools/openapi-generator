@@ -92,7 +92,7 @@ class FakeClassnameTags123Api
      *
      * To test class name in snake case
      *
-     * @param  Client $client client model (required)
+     * @param  \Swagger\Client\Model\Client $client client model (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -109,7 +109,7 @@ class FakeClassnameTags123Api
      *
      * To test class name in snake case
      *
-     * @param  Client $client client model (required)
+     * @param  \Swagger\Client\Model\Client $client client model (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -184,7 +184,7 @@ class FakeClassnameTags123Api
      *
      * To test class name in snake case
      *
-     * @param  Client $client client model (required)
+     * @param  \Swagger\Client\Model\Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -204,7 +204,7 @@ class FakeClassnameTags123Api
      *
      * To test class name in snake case
      *
-     * @param  Client $client client model (required)
+     * @param  \Swagger\Client\Model\Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -254,7 +254,7 @@ class FakeClassnameTags123Api
     /**
      * Create request for operation 'testClassname'
      *
-     * @param  Client $client client model (required)
+     * @param  \Swagger\Client\Model\Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request

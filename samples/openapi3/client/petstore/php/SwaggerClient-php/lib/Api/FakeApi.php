@@ -337,7 +337,7 @@ class FakeApi
     /**
      * Operation fakeOuterCompositeSerialize
      *
-     * @param  OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -352,7 +352,7 @@ class FakeApi
     /**
      * Operation fakeOuterCompositeSerializeWithHttpInfo
      *
-     * @param  OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -427,7 +427,7 @@ class FakeApi
      *
      * 
      *
-     * @param  OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -447,7 +447,7 @@ class FakeApi
      *
      * 
      *
-     * @param  OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -497,7 +497,7 @@ class FakeApi
     /**
      * Create request for operation 'fakeOuterCompositeSerialize'
      *
-     * @param  OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -1080,7 +1080,7 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  Client $client client model (required)
+     * @param  \Swagger\Client\Model\Client $client client model (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1097,7 +1097,7 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  Client $client client model (required)
+     * @param  \Swagger\Client\Model\Client $client client model (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1172,7 +1172,7 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  Client $client client model (required)
+     * @param  \Swagger\Client\Model\Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1192,7 +1192,7 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  Client $client client model (required)
+     * @param  \Swagger\Client\Model\Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1242,7 +1242,7 @@ class FakeApi
     /**
      * Create request for operation 'testClientModel'
      *
-     * @param  Client $client client model (required)
+     * @param  \Swagger\Client\Model\Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -1738,9 +1738,9 @@ class FakeApi
      * To test enum parameters
      *
      * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
-     * @param  string $enum_header_string Header parameter enum test (string) (optional)
+     * @param  string $enum_header_string Header parameter enum test (string) (optional, default to -efg)
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
-     * @param  string $enum_query_string Query parameter enum test (string) (optional)
+     * @param  string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
      * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
@@ -1750,7 +1750,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testEnumParameters($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
+    public function testEnumParameters($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
     {
         $this->testEnumParametersWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
     }
@@ -1761,9 +1761,9 @@ class FakeApi
      * To test enum parameters
      *
      * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
-     * @param  string $enum_header_string Header parameter enum test (string) (optional)
+     * @param  string $enum_header_string Header parameter enum test (string) (optional, default to -efg)
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
-     * @param  string $enum_query_string Query parameter enum test (string) (optional)
+     * @param  string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
      * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
@@ -1773,7 +1773,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEnumParametersWithHttpInfo($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
+    public function testEnumParametersWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
     {
         $returnType = '';
         $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
@@ -1821,9 +1821,9 @@ class FakeApi
      * To test enum parameters
      *
      * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
-     * @param  string $enum_header_string Header parameter enum test (string) (optional)
+     * @param  string $enum_header_string Header parameter enum test (string) (optional, default to -efg)
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
-     * @param  string $enum_query_string Query parameter enum test (string) (optional)
+     * @param  string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
      * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
@@ -1832,7 +1832,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEnumParametersAsync($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
+    public function testEnumParametersAsync($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
     {
         return $this->testEnumParametersAsyncWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string)
             ->then(
@@ -1848,9 +1848,9 @@ class FakeApi
      * To test enum parameters
      *
      * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
-     * @param  string $enum_header_string Header parameter enum test (string) (optional)
+     * @param  string $enum_header_string Header parameter enum test (string) (optional, default to -efg)
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
-     * @param  string $enum_query_string Query parameter enum test (string) (optional)
+     * @param  string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
      * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
@@ -1859,7 +1859,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEnumParametersAsyncWithHttpInfo($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
+    public function testEnumParametersAsyncWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
     {
         $returnType = '';
         $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
@@ -1891,9 +1891,9 @@ class FakeApi
      * Create request for operation 'testEnumParameters'
      *
      * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
-     * @param  string $enum_header_string Header parameter enum test (string) (optional)
+     * @param  string $enum_header_string Header parameter enum test (string) (optional, default to -efg)
      * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
-     * @param  string $enum_query_string Query parameter enum test (string) (optional)
+     * @param  string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
      * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
@@ -1902,7 +1902,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testEnumParametersRequest($enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
+    protected function testEnumParametersRequest($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
     {
 
         $resourcePath = '/fake';
@@ -2021,15 +2021,15 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $unknown_base_type request body (required)
+     * @param   $UNKNOWN_PARAM_NAME request body (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testInlineAdditionalProperties($unknown_base_type)
+    public function testInlineAdditionalProperties($UNKNOWN_PARAM_NAME)
     {
-        $this->testInlineAdditionalPropertiesWithHttpInfo($unknown_base_type);
+        $this->testInlineAdditionalPropertiesWithHttpInfo($UNKNOWN_PARAM_NAME);
     }
 
     /**
@@ -2037,16 +2037,16 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $unknown_base_type request body (required)
+     * @param   $UNKNOWN_PARAM_NAME request body (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testInlineAdditionalPropertiesWithHttpInfo($unknown_base_type)
+    public function testInlineAdditionalPropertiesWithHttpInfo($UNKNOWN_PARAM_NAME)
     {
         $returnType = '';
-        $request = $this->testInlineAdditionalPropertiesRequest($unknown_base_type);
+        $request = $this->testInlineAdditionalPropertiesRequest($UNKNOWN_PARAM_NAME);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2090,14 +2090,14 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $unknown_base_type request body (required)
+     * @param   $UNKNOWN_PARAM_NAME request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testInlineAdditionalPropertiesAsync($unknown_base_type)
+    public function testInlineAdditionalPropertiesAsync($UNKNOWN_PARAM_NAME)
     {
-        return $this->testInlineAdditionalPropertiesAsyncWithHttpInfo($unknown_base_type)
+        return $this->testInlineAdditionalPropertiesAsyncWithHttpInfo($UNKNOWN_PARAM_NAME)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2110,15 +2110,15 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $unknown_base_type request body (required)
+     * @param   $UNKNOWN_PARAM_NAME request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testInlineAdditionalPropertiesAsyncWithHttpInfo($unknown_base_type)
+    public function testInlineAdditionalPropertiesAsyncWithHttpInfo($UNKNOWN_PARAM_NAME)
     {
         $returnType = '';
-        $request = $this->testInlineAdditionalPropertiesRequest($unknown_base_type);
+        $request = $this->testInlineAdditionalPropertiesRequest($UNKNOWN_PARAM_NAME);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2146,17 +2146,17 @@ class FakeApi
     /**
      * Create request for operation 'testInlineAdditionalProperties'
      *
-     * @param  map[string,string] $unknown_base_type request body (required)
+     * @param   $UNKNOWN_PARAM_NAME request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testInlineAdditionalPropertiesRequest($unknown_base_type)
+    protected function testInlineAdditionalPropertiesRequest($UNKNOWN_PARAM_NAME)
     {
-        // verify the required parameter 'unknown_base_type' is set
-        if ($unknown_base_type === null || (is_array($unknown_base_type) && count($unknown_base_type) === 0)) {
+        // verify the required parameter 'UNKNOWN_PARAM_NAME' is set
+        if ($UNKNOWN_PARAM_NAME === null || (is_array($UNKNOWN_PARAM_NAME) && count($UNKNOWN_PARAM_NAME) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $unknown_base_type when calling testInlineAdditionalProperties'
+                'Missing the required parameter $UNKNOWN_PARAM_NAME when calling testInlineAdditionalProperties'
             );
         }
 
@@ -2171,8 +2171,8 @@ class FakeApi
 
         // body params
         $_tempBody = null;
-        if (isset($unknown_base_type)) {
-            $_tempBody = $unknown_base_type;
+        if (isset($UNKNOWN_PARAM_NAME)) {
+            $_tempBody = $UNKNOWN_PARAM_NAME;
         }
 
         if ($multipart) {
@@ -2241,15 +2241,16 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  Body4 $body4 body4 (optional)
+     * @param  string $param field1 (required)
+     * @param  string $param2 field2 (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testJsonFormData($body4 = null)
+    public function testJsonFormData($param, $param2)
     {
-        $this->testJsonFormDataWithHttpInfo($body4);
+        $this->testJsonFormDataWithHttpInfo($param, $param2);
     }
 
     /**
@@ -2257,16 +2258,17 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  Body4 $body4 (optional)
+     * @param  string $param field1 (required)
+     * @param  string $param2 field2 (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testJsonFormDataWithHttpInfo($body4 = null)
+    public function testJsonFormDataWithHttpInfo($param, $param2)
     {
         $returnType = '';
-        $request = $this->testJsonFormDataRequest($body4);
+        $request = $this->testJsonFormDataRequest($param, $param2);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2310,14 +2312,15 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  Body4 $body4 (optional)
+     * @param  string $param field1 (required)
+     * @param  string $param2 field2 (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testJsonFormDataAsync($body4 = null)
+    public function testJsonFormDataAsync($param, $param2)
     {
-        return $this->testJsonFormDataAsyncWithHttpInfo($body4)
+        return $this->testJsonFormDataAsyncWithHttpInfo($param, $param2)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2330,15 +2333,16 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  Body4 $body4 (optional)
+     * @param  string $param field1 (required)
+     * @param  string $param2 field2 (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testJsonFormDataAsyncWithHttpInfo($body4 = null)
+    public function testJsonFormDataAsyncWithHttpInfo($param, $param2)
     {
         $returnType = '';
-        $request = $this->testJsonFormDataRequest($body4);
+        $request = $this->testJsonFormDataRequest($param, $param2);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2366,13 +2370,26 @@ class FakeApi
     /**
      * Create request for operation 'testJsonFormData'
      *
-     * @param  Body4 $body4 (optional)
+     * @param  string $param field1 (required)
+     * @param  string $param2 field2 (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testJsonFormDataRequest($body4 = null)
+    protected function testJsonFormDataRequest($param, $param2)
     {
+        // verify the required parameter 'param' is set
+        if ($param === null || (is_array($param) && count($param) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $param when calling testJsonFormData'
+            );
+        }
+        // verify the required parameter 'param2' is set
+        if ($param2 === null || (is_array($param2) && count($param2) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $param2 when calling testJsonFormData'
+            );
+        }
 
         $resourcePath = '/fake/jsonFormData';
         $formParams = [];
@@ -2383,11 +2400,16 @@ class FakeApi
 
 
 
+        // form params
+        if ($param !== null) {
+            $formParams['param'] = ObjectSerializer::toFormValue($param);
+        }
+        // form params
+        if ($param2 !== null) {
+            $formParams['param2'] = ObjectSerializer::toFormValue($param2);
+        }
         // body params
         $_tempBody = null;
-        if (isset($body4)) {
-            $_tempBody = $body4;
-        }
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -2396,7 +2418,7 @@ class FakeApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 [],
-                ['application/json']
+                ['application/x-www-form-urlencoded']
             );
         }
 

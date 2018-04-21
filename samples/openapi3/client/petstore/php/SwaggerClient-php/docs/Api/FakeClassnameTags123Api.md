@@ -30,7 +30,7 @@ $apiInstance = new Swagger\Client\Api\FakeClassnameTags123Api(
     new GuzzleHttp\Client(),
     $config
 );
-$client = new \Swagger\Client\Model\Client(); // Client | client model
+$client = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
 
 try {
     $result = $apiInstance->testClassname($client);
@@ -45,7 +45,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](../Model/Client.md)| client model |
+ **client** | [**\Swagger\Client\Model\Client**](../Model/Client.md)| client model |
 
 ### Return type
 

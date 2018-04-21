@@ -126,7 +126,7 @@ $apiInstance = new Swagger\Client\Api\StoreApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$order_id = 789; // int | ID of pet that needs to be fetched
+$order_id = 56; // int | ID of pet that needs to be fetched
 
 try {
     $result = $apiInstance->getOrderById($order_id);
@@ -173,7 +173,7 @@ $apiInstance = new Swagger\Client\Api\StoreApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$order = new \Swagger\Client\Model\Order(); // Order | order placed for purchasing the pet
+$order = new \Swagger\Client\Model\Order(); // \Swagger\Client\Model\Order | order placed for purchasing the pet
 
 try {
     $result = $apiInstance->placeOrder($order);
@@ -188,7 +188,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](../Model/Order.md)| order placed for purchasing the pet |
+ **order** | [**\Swagger\Client\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
 
 ### Return type
 

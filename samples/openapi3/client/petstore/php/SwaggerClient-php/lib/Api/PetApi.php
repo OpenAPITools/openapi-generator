@@ -92,7 +92,7 @@ class PetApi
      *
      * Add a new pet to the store
      *
-     * @param  Pet $pet Pet object that needs to be added to the store (required)
+     * @param  \Swagger\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -108,7 +108,7 @@ class PetApi
      *
      * Add a new pet to the store
      *
-     * @param  Pet $pet Pet object that needs to be added to the store (required)
+     * @param  \Swagger\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -161,7 +161,7 @@ class PetApi
      *
      * Add a new pet to the store
      *
-     * @param  Pet $pet Pet object that needs to be added to the store (required)
+     * @param  \Swagger\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -181,7 +181,7 @@ class PetApi
      *
      * Add a new pet to the store
      *
-     * @param  Pet $pet Pet object that needs to be added to the store (required)
+     * @param  \Swagger\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -217,7 +217,7 @@ class PetApi
     /**
      * Create request for operation 'addPet'
      *
-     * @param  Pet $pet Pet object that needs to be added to the store (required)
+     * @param  \Swagger\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -739,7 +739,7 @@ class PetApi
 
         // query params
         if (is_array($status)) {
-            $status = ObjectSerializer::serializeCollection($status, 'multi', true);
+            $status = ObjectSerializer::serializeCollection($status, 'csv', true);
         }
         if ($status !== null) {
             $queryParams['status'] = ObjectSerializer::toQueryValue($status);
@@ -1004,7 +1004,7 @@ class PetApi
 
         // query params
         if (is_array($tags)) {
-            $tags = ObjectSerializer::serializeCollection($tags, 'multi', true);
+            $tags = ObjectSerializer::serializeCollection($tags, 'csv', true);
         }
         if ($tags !== null) {
             $queryParams['tags'] = ObjectSerializer::toQueryValue($tags);
@@ -1351,7 +1351,7 @@ class PetApi
      *
      * Update an existing pet
      *
-     * @param  Pet $pet Pet object that needs to be added to the store (required)
+     * @param  \Swagger\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1367,7 +1367,7 @@ class PetApi
      *
      * Update an existing pet
      *
-     * @param  Pet $pet Pet object that needs to be added to the store (required)
+     * @param  \Swagger\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1420,7 +1420,7 @@ class PetApi
      *
      * Update an existing pet
      *
-     * @param  Pet $pet Pet object that needs to be added to the store (required)
+     * @param  \Swagger\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1440,7 +1440,7 @@ class PetApi
      *
      * Update an existing pet
      *
-     * @param  Pet $pet Pet object that needs to be added to the store (required)
+     * @param  \Swagger\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1476,7 +1476,7 @@ class PetApi
     /**
      * Create request for operation 'updatePet'
      *
-     * @param  Pet $pet Pet object that needs to be added to the store (required)
+     * @param  \Swagger\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request

@@ -24,7 +24,7 @@ $apiInstance = new Swagger\Client\Api\AnotherFakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$client = new \Swagger\Client\Model\Client(); // Client | client model
+$client = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
 
 try {
     $result = $apiInstance->testSpecialTags($client);
@@ -39,7 +39,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](../Model/Client.md)| client model |
+ **client** | [**\Swagger\Client\Model\Client**](../Model/Client.md)| client model |
 
 ### Return type
 
