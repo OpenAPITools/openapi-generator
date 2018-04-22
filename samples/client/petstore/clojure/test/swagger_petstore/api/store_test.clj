@@ -25,7 +25,7 @@
 (deftest test-place-and-delete-order
   (let [order (make-random-order)
         order-id (:id order)
-        _ (place-order {:body order})
+        _ (place-order {:order order})
         fetched (get-order-by-id order-id)]
     (doseq [attr [:id :petId :quantity]]
       (is (= (attr order) (attr fetched))))

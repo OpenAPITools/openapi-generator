@@ -12,7 +12,7 @@
               :query-params  {}
               :form-params   {}
               :body-param    pet
-              :content-types ["application/json" "application/xml"]
+              :content-types []
               :accepts       []
               :auth-names    ["petstore_auth"]})))
 
@@ -50,7 +50,7 @@
    (call-api "/pet/findByStatus" :get
              {:path-params   {}
               :header-params {}
-              :query-params  {"status" status }
+              :query-params  {"status" (with-collection-format status :multi) }
               :form-params   {}
               :content-types []
               :accepts       ["application/json" "application/xml"]
@@ -71,7 +71,7 @@
    (call-api "/pet/findByTags" :get
              {:path-params   {}
               :header-params {}
-              :query-params  {"tags" tags }
+              :query-params  {"tags" (with-collection-format tags :multi) }
               :form-params   {}
               :content-types []
               :accepts       ["application/json" "application/xml"]
@@ -114,7 +114,7 @@
               :query-params  {}
               :form-params   {}
               :body-param    pet
-              :content-types ["application/json" "application/xml"]
+              :content-types []
               :accepts       []
               :auth-names    ["petstore_auth"]})))
 

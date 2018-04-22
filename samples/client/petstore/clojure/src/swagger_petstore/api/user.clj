@@ -13,7 +13,7 @@
               :query-params  {}
               :form-params   {}
               :body-param    user
-              :content-types []
+              :content-types ["application/json"]
               :accepts       []
               :auth-names    []})))
 
@@ -150,7 +150,7 @@
               :query-params  {}
               :form-params   {}
               :body-param    user
-              :content-types []
+              :content-types ["application/json"]
               :accepts       []
               :auth-names    []})))
 

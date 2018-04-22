@@ -22,7 +22,7 @@
 
 (deftest test-create-and-get-pet
   (let [{:keys [id] :as pet} (make-random-pet)
-        _ (add-pet {:body pet})
+        _ (add-pet {:pet pet})
         fetched (get-pet-by-id id)]
     (is (identity fetched))
     (is (= id (:id fetched)))
@@ -32,7 +32,7 @@
 
 (deftest test-create-and-get-pet-with-http-info
   (let [{:keys [id] :as pet} (make-random-pet)
-        _ (add-pet-with-http-info {:body pet})
+        _ (add-pet-with-http-info {:pet pet})
         {:keys [status headers data]} (get-pet-by-id-with-http-info id)]
     (is (= 200 status))
     (is (= "application/json" (:content-type headers)))
@@ -45,7 +45,7 @@
 (deftest test-find-pets-by-status
   (let [status "pending"
         {:keys [id] :as pet} (make-random-pet {:status status})
-        _ (add-pet {:body pet})
+        _ (add-pet {:pet pet})
         pets (find-pets-by-status {:status [status]})]
     (is (seq pets))
     (is (some #{id} (map :id pets)))
@@ -55,7 +55,7 @@
   (let [tag-name (str "tag-" (rand-int 1000))
         tag {:name tag-name}
         {:keys [id] :as pet} (make-random-pet {:tags [tag]})
-        _ (add-pet {:body pet})
+        _ (add-pet {:pet pet})
         pets (find-pets-by-tags {:tags [tag-name]})]
     (is (seq pets))
     (is (some #{id} (map :id pets)))
@@ -63,7 +63,7 @@
 
 (deftest test-update-pet-with-form
   (let [{pet-id :id :as pet} (make-random-pet {:name "new name" :status "available"})
-        _ (add-pet {:body pet})
+        _ (add-pet {:pet pet})
         {:keys [id name status]} (get-pet-by-id pet-id)]
     (is (= pet-id id))
     (is (= "new name" name))
@@ -90,7 +90,7 @@
 
 (deftest test-delete-pet
   (let [{:keys [id] :as pet} (make-random-pet)
-        _ (add-pet {:body pet})
+        _ (add-pet {:pet pet})
         fetched (get-pet-by-id id)]
     (is (= id (:id fetched)))
     (delete-pet id)
@@ -98,7 +98,7 @@
 
 (deftest test-upload-file
   (let [{:keys [id] :as pet} (make-random-pet)
-        _ (add-pet {:body pet})
+        _ (add-pet {:pet pet})
         file (io/file (io/resource "hello.txt"))]
     ;; no errors with upload-file
     (upload-file id {:file file :additional-metadata "uploading file with clojure client"})))

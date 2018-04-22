@@ -21,7 +21,7 @@
 (deftest test-create-and-delete-user
   (let [user (make-random-user)
         username (:username user)
-        _ (create-user {:body user})
+        _ (create-user {:user user})
         fetched (get-user-by-name username)]
     (doseq [attr [:id :username :password :userStatus]]
       (is (= (attr user) (attr fetched))))
@@ -33,7 +33,7 @@
         id2 (inc id1)
         user1 (make-random-user {:id id1})
         user2 (make-random-user {:id id2})]
-    (create-users-with-array-input {:body [user1 user2]})
+    (create-users-with-array-input {:user [user1 user2]})
     (let [fetched (get-user-by-name (:username user1))]
       (is (= id1 (:id fetched))))
     (let [fetched (get-user-by-name (:username user2))]
@@ -46,7 +46,7 @@
         id2 (inc id1)
         user1 (make-random-user {:id id1})
         user2 (make-random-user {:id id2})]
-    (create-users-with-list-input {:body [user1 user2]})
+    (create-users-with-list-input {:user [user1 user2]})
     (let [fetched (get-user-by-name (:username user1))]
       (is (= id1 (:id fetched))))
     (let [fetched (get-user-by-name (:username user2))]
@@ -56,7 +56,7 @@
 
 (deftest test-login-and-lougout-user
   (let [{:keys [username password] :as user} (make-random-user)
-        _ (create-user {:body user})
+        _ (create-user {:user user})
         result (login-user {:username username :password password})]
     (is (re-matches #"logged in user session:.+" result))
     ;; no error with logout-user
