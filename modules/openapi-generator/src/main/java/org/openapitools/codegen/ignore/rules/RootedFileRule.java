@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 /**
  * A special case rule which matches files only if they're located
- * in the same directory as the .swagger-codegen-ignore file.
+ * in the same directory as the .openapi-generator-ignore file.
  */
 public class RootedFileRule extends Rule {
     private String definedFilename = null;

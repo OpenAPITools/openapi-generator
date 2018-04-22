@@ -13,7 +13,7 @@
     "artifactId" : "awesome-api",
     "artifactVersion" : "1.2.3",
     "library" : "jersey2",
-    "ignoreFileOverride": "/path/to/override/.swagger-codegen-ignore",
+    "ignoreFileOverride": "/path/to/override/.openapi-generator-ignore",
     "systemProperties" : {
         "systemProp1" : "value1"
     },

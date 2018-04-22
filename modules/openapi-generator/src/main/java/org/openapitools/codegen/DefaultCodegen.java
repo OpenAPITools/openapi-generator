@@ -867,7 +867,7 @@ public class DefaultCodegen implements CodegenConfig {
         importMapping.put("LocalDate", "org.joda.time.*");
         importMapping.put("LocalTime", "org.joda.time.*");
 
-        // we've used the .swagger-codegen-ignore approach as
+        // we've used the .openapi-generator-ignore approach as
         // suppportingFiles can be cleared by code generator that extends
         // the default codegen, leaving the commented code below for
         // future reference
@@ -3754,7 +3754,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Provides an override location, if any is specified, for the .swagger-codegen-ignore.
+     * Provides an override location, if any is specified, for the .openapi-generator-ignore.
      * <p>
      * This is originally intended for the first generation only.
      *

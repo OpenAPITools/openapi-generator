@@ -1,6 +1,7 @@
 package org.openapitools.codegen.ignore;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.Files;
 import org.openapitools.codegen.ignore.rules.DirectoryRule;
 import org.openapitools.codegen.ignore.rules.Rule;
 import org.slf4j.Logger;
@@ -12,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Presents a processing utility for parsing and evaluating files containing common ignore patterns. (.swagger-codegen-ignore)
+ * Presents a processing utility for parsing and evaluating files containing common ignore patterns. (.openapi-generator-ignore)
  */
 public class CodegenIgnoreProcessor {
 
@@ -24,12 +25,12 @@ public class CodegenIgnoreProcessor {
     private List<Rule> inclusionRules = new ArrayList<>();
 
     /**
-     * Loads the default ignore file (.swagger-codegen-ignore) from the specified path.
+     * Loads the default ignore file (.openapi-generator-ignore) from the specified path.
      *
      * @param baseDirectory The base directory of the files to be processed. This contains the ignore file.
      */
     public CodegenIgnoreProcessor(final String baseDirectory) {
-        this(baseDirectory, ".swagger-codegen-ignore");
+        this(baseDirectory, ".openapi-generator-ignore");
     }
 
     /**
@@ -45,7 +46,7 @@ public class CodegenIgnoreProcessor {
         if (directory.exists() && directory.isDirectory()) {
             loadFromFile(targetIgnoreFile);
         } else {
-            LOGGER.warn("Output directory does not exist, or is inaccessible. No file (.swagger-codegen-ignore) will be evaluated.");
+            LOGGER.warn("Output directory does not exist, or is inaccessible. No file (.openapi-generator-ignore) will be evaluated.");
         }
     }
 
@@ -65,6 +66,20 @@ public class CodegenIgnoreProcessor {
                 this.ignoreFile = targetIgnoreFile;
             } catch (IOException e) {
                 LOGGER.error(String.format("Could not process %s.", targetIgnoreFile.getName()), e.getMessage());
+            }
+        } else if (!".swagger-codegen-ignore".equals(targetIgnoreFile.getName())) {
+            final File legacyIgnoreFile = new File(targetIgnoreFile.getParentFile(), ".swagger-codegen-ignore");
+            if (legacyIgnoreFile.exists() && legacyIgnoreFile.isFile()) {
+                LOGGER.info(String.format("Legacy support: '%s' file renamed to '%s'.", legacyIgnoreFile.getName(), targetIgnoreFile.getName()));
+                try {
+                    Files.move(legacyIgnoreFile, targetIgnoreFile);
+                    loadFromFile(targetIgnoreFile);
+                } catch (IOException e) {
+                    LOGGER.error(String.format("Could not rename file: %s", e.getMessage()));
+                }
+            } else {
+                // log info message
+                LOGGER.info(String.format("No %s file found.", targetIgnoreFile.getName()));
             }
         } else {
             // log info message
