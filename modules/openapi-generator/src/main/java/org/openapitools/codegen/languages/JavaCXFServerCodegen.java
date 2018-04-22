@@ -167,7 +167,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         writeOptional(outputFolder, new SupportingFile("server/pom.mustache", "", "pom.xml"));
 
         writeOptional(outputFolder,
-                new SupportingFile("server/swagger-codegen-ignore.mustache", "", ".swagger-codegen-ignore"));
+                new SupportingFile("server/swagger-codegen-ignore.mustache", "", ".openapi-generator-ignore"));
 
         if (this.generateSpringApplication) {
             writeOptional(outputFolder, new SupportingFile("server/readme.md", "", "readme.md"));
