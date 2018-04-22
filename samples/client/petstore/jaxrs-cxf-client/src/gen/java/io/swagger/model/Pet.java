@@ -72,7 +72,7 @@ public enum StatusEnum {
 
   @ApiModelProperty(value = "pet status in the store")
  /**
-   * pet status in the store  
+   * pet status in the store
   **/
   private StatusEnum status = null;
  /**

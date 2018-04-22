@@ -41,7 +41,7 @@ public class User  {
 
   @ApiModelProperty(value = "User Status")
  /**
-   * User Status  
+   * User Status
   **/
   private Integer userStatus = null;
  /**

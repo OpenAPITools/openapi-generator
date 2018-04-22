@@ -127,15 +127,13 @@ public class StoreApiTest {
     /**
      * Place an order for a pet
      *
-     * 
-     *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void placeOrderTest() {
-        Order body = null;
-        //Order response = api.placeOrder(body);
+        Order order = null;
+        //Order response = api.placeOrder(order);
         //assertNotNull(response);
         // TODO: test validations
         
