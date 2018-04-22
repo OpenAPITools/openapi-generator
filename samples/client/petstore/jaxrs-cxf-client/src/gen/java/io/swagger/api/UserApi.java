@@ -35,39 +35,35 @@ public interface UserApi  {
      */
     @POST
     @Path("/user")
-    @Produces({ "application/xml", "application/json" })
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Create user", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUser(User body);
+    public void createUser(User user);
 
     /**
      * Creates list of users with given input array
-     *
-     * 
      *
      */
     @POST
     @Path("/user/createWithArray")
-    @Produces({ "application/xml", "application/json" })
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Creates list of users with given input array", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUsersWithArrayInput(List<User> body);
+    public void createUsersWithArrayInput(List<User> user);
 
     /**
      * Creates list of users with given input array
      *
-     * 
-     *
      */
     @POST
     @Path("/user/createWithList")
-    @Produces({ "application/xml", "application/json" })
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Creates list of users with given input array", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUsersWithListInput(List<User> body);
+    public void createUsersWithListInput(List<User> user);
 
     /**
      * Delete user
@@ -77,7 +73,6 @@ public interface UserApi  {
      */
     @DELETE
     @Path("/user/{username}")
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Delete user", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied"),
@@ -86,8 +81,6 @@ public interface UserApi  {
 
     /**
      * Get user by user name
-     *
-     * 
      *
      */
     @GET
@@ -103,8 +96,6 @@ public interface UserApi  {
     /**
      * Logs user into the system
      *
-     * 
-     *
      */
     @GET
     @Path("/user/login")
@@ -118,12 +109,9 @@ public interface UserApi  {
     /**
      * Logs out current logged in user session
      *
-     * 
-     *
      */
     @GET
     @Path("/user/logout")
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Logs out current logged in user session", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -137,11 +125,11 @@ public interface UserApi  {
      */
     @PUT
     @Path("/user/{username}")
-    @Produces({ "application/xml", "application/json" })
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Updated user", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied"),
         @ApiResponse(code = 404, message = "User not found") })
-    public void updateUser(@PathParam("username") String username, User body);
+    public void updateUser(@PathParam("username") String username, User user);
 }
 

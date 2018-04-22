@@ -81,8 +81,8 @@ public class UserApiTest {
      */
     @Test
     public void createUserTest() {
-        User body = null;
-        //api.createUser(body);
+        User user = null;
+        //api.createUser(user);
         
         // TODO: test validations
         
@@ -91,16 +91,14 @@ public class UserApiTest {
     
     /**
      * Creates list of users with given input array
-     *
-     * 
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void createUsersWithArrayInputTest() {
-        List<User> body = null;
-        //api.createUsersWithArrayInput(body);
+        List<User> user = null;
+        //api.createUsersWithArrayInput(user);
         
         // TODO: test validations
         
@@ -110,15 +108,13 @@ public class UserApiTest {
     /**
      * Creates list of users with given input array
      *
-     * 
-     *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void createUsersWithListInputTest() {
-        List<User> body = null;
-        //api.createUsersWithListInput(body);
+        List<User> user = null;
+        //api.createUsersWithListInput(user);
         
         // TODO: test validations
         
@@ -146,8 +142,6 @@ public class UserApiTest {
     /**
      * Get user by user name
      *
-     * 
-     *
      * @throws ApiException
      *          if the Api call fails
      */
@@ -163,8 +157,6 @@ public class UserApiTest {
     
     /**
      * Logs user into the system
-     *
-     * 
      *
      * @throws ApiException
      *          if the Api call fails
@@ -182,8 +174,6 @@ public class UserApiTest {
     
     /**
      * Logs out current logged in user session
-     *
-     * 
      *
      * @throws ApiException
      *          if the Api call fails
@@ -208,8 +198,8 @@ public class UserApiTest {
     @Test
     public void updateUserTest() {
         String username = null;
-        User body = null;
-        //api.updateUser(username, body);
+        User user = null;
+        //api.updateUser(username, user);
         
         // TODO: test validations
         

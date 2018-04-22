@@ -76,15 +76,13 @@ public class PetApiTest {
     /**
      * Add a new pet to the store
      *
-     * 
-     *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void addPetTest() {
-        Pet body = null;
-        //api.addPet(body);
+        Pet pet = null;
+        //api.addPet(pet);
         
         // TODO: test validations
         
@@ -93,8 +91,6 @@ public class PetApiTest {
     
     /**
      * Deletes a pet
-     *
-     * 
      *
      * @throws ApiException
      *          if the Api call fails
@@ -167,15 +163,13 @@ public class PetApiTest {
     /**
      * Update an existing pet
      *
-     * 
-     *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void updatePetTest() {
-        Pet body = null;
-        //api.updatePet(body);
+        Pet pet = null;
+        //api.updatePet(pet);
         
         // TODO: test validations
         
@@ -184,8 +178,6 @@ public class PetApiTest {
     
     /**
      * Updates a pet in the store with form data
-     *
-     * 
      *
      * @throws ApiException
      *          if the Api call fails
@@ -204,8 +196,6 @@ public class PetApiTest {
     
     /**
      * uploads an image
-     *
-     * 
      *
      * @throws ApiException
      *          if the Api call fails
