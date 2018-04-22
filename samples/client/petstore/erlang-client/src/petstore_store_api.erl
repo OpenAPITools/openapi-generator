@@ -86,7 +86,7 @@ place_order(Ctx, PetstoreOrder, Optional) ->
     QS = [],
     Headers = [],
     Body1 = PetstoreOrder,
-    ContentTypeHeader = petstore_utils:select_header_content_type([]),
+    ContentTypeHeader = petstore_utils:select_header_content_type([<<"application/json">>]),
     Opts = maps:get(hackney_opts, Optional, []),
 
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
