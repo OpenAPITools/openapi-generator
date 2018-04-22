@@ -71,7 +71,7 @@
               :query-params  {}
               :form-params   {}
               :body-param    order
-              :content-types []
+              :content-types ["application/json"]
               :accepts       ["application/json" "application/xml"]
               :auth-names    []})))
 
