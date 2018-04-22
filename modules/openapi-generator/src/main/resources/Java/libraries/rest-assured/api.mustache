@@ -30,11 +30,8 @@ public class {{classname}} {
 
     private RequestSpecBuilder reqSpec;
 
-    private JSON json;
-
     private {{classname}}(RequestSpecBuilder reqSpec) {
         this.reqSpec = reqSpec;
-        this.json = new JSON();
     }
 
     public static {{classname}} {{classVarName}}(RequestSpecBuilder reqSpec) {
@@ -52,26 +49,6 @@ public class {{classname}} {
     }
 {{/operation}}
 {{/operations}}
-
-    /**
-     * Get JSON
-     *
-     * @return JSON object
-     */
-    public JSON getJSON() {
-        return json;
-    }
-
-    /**
-     * Set JSON
-     *
-     * @param json JSON object
-     * @return {{classname}}
-     */
-    public {{classname}} setJSON(JSON json) {
-        this.json = json;
-        return this;
-    }
 
     /**
     * Customise request specification
@@ -152,7 +129,7 @@ public class {{classname}} {
          */
         public {{{returnType}}} executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<{{{returnType}}}>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
         {{/returnType}}
         {{#bodyParams}}
@@ -161,7 +138,7 @@ public class {{classname}} {
          * @param {{paramName}} ({{{dataType}}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
          */
         public {{operationIdCamelCase}}Oper body({{{dataType}}} {{paramName}}) {
-            reqSpec.setBody(getJSON().serialize({{paramName}}));
+            reqSpec.setBody({{paramName}});
             return this;
         }
         {{/bodyParams}}

@@ -20,16 +20,16 @@ Method | HTTP request | Description
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for logging, tracing, authentication, etc.{{/-last}}{{/allParams}}{{#allParams}}{{#required}}
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.{{/-last}}{{/allParams}}{{#allParams}}{{#required}}
   **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}{{/required}}{{/allParams}}{{#hasOptionalParams}}
- **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+ **optional** | ***{{{nickname}}}Opts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
-Optional parameters are passed through a map[string]interface{}.
+Optional parameters are passed through a pointer to a {{{nickname}}}Opts struct
 {{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}{{#allParams}}
- **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}{{/allParams}}{{/hasOptionalParams}}
+{{^required}} **{{paramName}}** | {{#isFile}}**optional.Interface of {{dataType}}**{{/isFile}}{{#isPrimitiveType}}**optional.{{vendorExtensions.x-optionalDataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**optional.Interface of {{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}{{/required}}{{/allParams}}{{/hasOptionalParams}}
 
 ### Return type
 

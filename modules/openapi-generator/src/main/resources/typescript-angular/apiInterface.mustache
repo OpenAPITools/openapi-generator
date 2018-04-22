@@ -1,9 +1,19 @@
 {{>licenseInfo}}
+{{#useHttpClient}}
+import { HttpHeaders }                                       from '@angular/common/http';
+{{/useHttpClient}}
+{{^useHttpClient}}
 import { Headers }                                           from '@angular/http';
+{{/useHttpClient}}
 
 import { Observable }                                        from 'rxjs/Observable';
 
-import * as models                                           from '../model/models';
+
+{{#imports}}
+import { {{classname}} } from '../{{filename}}';
+{{/imports}}
+
+
 import { Configuration }                                     from '../configuration';
 
 {{#operations}}
@@ -14,9 +24,9 @@ import { Configuration }                                     from '../configurat
     */
 {{/description}}
 export interface {{classname}}Interface {
-    defaultHeaders: Headers;
+    defaultHeaders: {{#useHttpClient}}Http{{/useHttpClient}}Headers;
     configuration: Configuration;
-    [others: string]: any;
+    {{^useHttpClient}}[others: string]: any;{{/useHttpClient}}
 
 {{#operation}}
     /**

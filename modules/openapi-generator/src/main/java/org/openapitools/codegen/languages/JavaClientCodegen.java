@@ -82,7 +82,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put("resteasy", "HTTP client: Resteasy client 3.1.3.Final. JSON processing: Jackson 2.8.9");
         supportedLibraries.put("vertx", "HTTP client: VertX client 3.2.4. JSON processing: Jackson 2.8.9");
         supportedLibraries.put("google-api-client", "HTTP client: Google API client 1.23.0. JSON processing: Jackson 2.8.9");
-        supportedLibraries.put("rest-assured", "HTTP client: rest-assured : 3.0.6. JSON processing: Gson 2.6.1. Only for Java8");
+        supportedLibraries.put("rest-assured", "HTTP client: rest-assured : 3.1.0. JSON processing: Gson 2.6.1. Only for Java8");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
