@@ -36,6 +36,12 @@
    * @return {{=< >=}}{module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> The populated <code>{{classname}}</code> instance.
    */
 {{/emitJSDoc}}
+{{#vendorExtensions.x-isPrimitive}}
+  exports.constructFromObject = function(data, obj) {
+    return data;
+  }
+{{/vendorExtensions.x-isPrimitive}}
+{{^vendorExtensions.x-isPrimitive}}
   exports.constructFromObject = function(data, obj) {
     if (data){{! TODO: support polymorphism: discriminator property on data determines class to instantiate.}} {
       obj = obj || new exports();
@@ -48,6 +54,7 @@
 {{/vars}}    }
     return obj;
   }
+{{/vendorExtensions.x-isPrimitive}}
 {{#useInheritance}}{{#parentModel}}
   exports.prototype = Object.create({{classname}}.prototype);
   exports.prototype.constructor = exports;

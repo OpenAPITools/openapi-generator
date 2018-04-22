@@ -259,65 +259,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
      */
     public function valid()
     {
-        {{#parent}}
-        if (!parent::valid()) {
-            return false;
-        }
-        {{/parent}}
-
-        {{#vars}}
-        {{#required}}
-        if ($this->container['{{name}}'] === null) {
-            return false;
-        }
-        {{/required}}
-        {{#isEnum}}
-        {{^isContainer}}
-        $allowedValues = $this->{{getter}}AllowableValues();
-        if (!is_null($this->container['{{name}}']) && !in_array($this->container['{{name}}'], $allowedValues, true)) {
-            return false;
-        }
-        {{/isContainer}}
-        {{/isEnum}}
-        {{#hasValidation}}
-        {{#maxLength}}
-        if (mb_strlen($this->container['{{name}}']) > {{maxLength}}) {
-            return false;
-        }
-        {{/maxLength}}
-        {{#minLength}}
-        if (mb_strlen($this->container['{{name}}']) < {{minLength}}) {
-            return false;
-        }
-        {{/minLength}}
-        {{#maximum}}
-        if ($this->container['{{name}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
-            return false;
-        }
-        {{/maximum}}
-        {{#minimum}}
-        if ($this->container['{{name}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
-            return false;
-        }
-        {{/minimum}}
-        {{#pattern}}
-        if (!preg_match("{{{pattern}}}", $this->container['{{name}}'])) {
-            return false;
-        }
-        {{/pattern}}
-        {{#maxItems}}
-        if (count($this->container['{{name}}']) > {{maxItems}}) {
-            return false;
-        }
-        {{/maxItems}}
-        {{#minItems}}
-        if (count($this->container['{{name}}']) < {{minItems}}) {
-            return false;
-        }
-        {{/minItems}}
-        {{/hasValidation}}
-        {{/vars}}
-        return true;
+        return count($this->listInvalidProperties()) === 0;
     }
 
     {{#vars}}

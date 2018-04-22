@@ -26,7 +26,7 @@ import { {{classname}} } from '../{{filename}}';
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 {{#withInterfaces}}
-import { {{classname}}Interface }                            from './{{classname}}Interface';
+import { {{classname}}Interface }                            from './{{classFilename}}Interface';
 {{/withInterfaces}}
 
 {{#operations}}
@@ -149,7 +149,7 @@ export class {{classname}} {
         }
         {{/isListContainer}}
         {{^isListContainer}}
-        if ({{paramName}} !== undefined) {
+        if ({{paramName}} !== undefined && {{paramName}} !== null) {
         {{#isDateTime}}
             {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{baseName}}', <any>{{paramName}}.toISOString());
         {{/isDateTime}}

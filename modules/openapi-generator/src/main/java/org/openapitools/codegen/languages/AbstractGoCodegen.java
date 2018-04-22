@@ -79,12 +79,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("UUID", "string");
 
         importMapping = new HashMap<String, String>();
-        importMapping.put("time.Time", "time");
-        importMapping.put("*os.File", "os");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Go package name (convention: lowercase).")
                 .defaultValue("swagger"));
+
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
     }
@@ -96,8 +95,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
      * @return the escaped term
      */
     @Override
-    public String escapeReservedWord(String name)
-    {
+    public String escapeReservedWord(String name) {
         // Can't start with an underscore, as our fields need to start with an
         // UppercaseLetter so that Go treats them as public/visible.
 
@@ -109,7 +107,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // - X_Name
         // ... or maybe a suffix?
         // - Name_ ... think this will work.
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return camelize(name) + '_';
@@ -159,7 +157,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toModelFilename(String name) {
-      return toModel("model_" + name);
+        return toModel("model_" + name);
     }
 
     public String toModel(String name) {
@@ -181,7 +179,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to "
+                    + ("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -205,28 +204,26 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
      * @param parameter CodegenParameter object to be processed.
      */
     @Override
-    public void postProcessParameter(CodegenParameter parameter){
+    public void postProcessParameter(CodegenParameter parameter) {
 
         // Give the base class a chance to process
         super.postProcessParameter(parameter);
 
-        char firstChar = parameter.paramName.charAt(0);
-
-        if (Character.isUpperCase(firstChar)) {
+        char nameFirstChar = parameter.paramName.charAt(0);
+        if (Character.isUpperCase(nameFirstChar)) {
             // First char is already uppercase, just use paramName.
             parameter.vendorExtensions.put("x-exportParamName", parameter.paramName);
-
+        } else {
+            // It's a lowercase first char, let's convert it to uppercase
+            StringBuilder sb = new StringBuilder(parameter.paramName);
+            sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
+            parameter.vendorExtensions.put("x-exportParamName", sb.toString());
         }
-
-        // It's a lowercase first char, let's convert it to uppercase
-        StringBuilder sb = new StringBuilder(parameter.paramName);
-        sb.setCharAt(0, Character.toUpperCase(firstChar));
-        parameter.vendorExtensions.put("x-exportParamName", sb.toString());
     }
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if(ModelUtils.isArraySchema(p)) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "[]" + getTypeDeclaration(inner);
@@ -244,11 +241,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return typeMapping.get(openAPIType);
         }
 
-        if(typeMapping.containsValue(openAPIType)) {
+        if (typeMapping.containsValue(openAPIType)) {
             return openAPIType;
         }
 
-        if(languageSpecificPrimitives.contains(openAPIType)) {
+        if (languageSpecificPrimitives.contains(openAPIType)) {
             return openAPIType;
         }
 
@@ -259,12 +256,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type = null;
-        if(typeMapping.containsKey(openAPIType)) {
+        if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
-            if(languageSpecificPrimitives.contains(type))
+            if (languageSpecificPrimitives.contains(type))
                 return (type);
-        }
-        else
+        } else
             type = openAPIType;
         return type;
     }
@@ -275,7 +271,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize("call_" + operationId));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to "
+                    + camelize("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
@@ -305,21 +302,48 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 iterator.remove();
         }
 
-        // if their is a return type, import encoding/json and if needed encoding/xml
+        // this will only import "fmt" if there are items in pathParams
         for (CodegenOperation operation : operations) {
-            if(operation.returnBaseType != null ) {
-                imports.add(createMapping("import", "encoding/json"));
-                if (withXml)
-                    imports.add(createMapping("import", "encoding/xml"));
+            if (operation.pathParams != null && operation.pathParams.size() > 0) {
+                imports.add(createMapping("import", "fmt"));
                 break; //just need to import once
             }
         }
 
-        // this will only import "fmt" if there are items in pathParams
+        boolean addedOptionalImport = false;
+        boolean addedTimeImport = false;
+        boolean addedOSImport = false;
         for (CodegenOperation operation : operations) {
-            if(operation.pathParams != null && operation.pathParams.size() > 0) {
-                imports.add(createMapping("import", "fmt"));
-                break; //just need to import once
+            for (CodegenParameter param : operation.allParams) {
+                // import "os" if the operation uses files
+                if (!addedOSImport && param.dataType == "*os.File") {
+                    imports.add(createMapping("import", "os"));
+                    addedOSImport = true;
+                }
+
+                // import "time" if the operation has a required time parameter.
+                if (param.required) {
+                    if (!addedTimeImport && param.dataType == "time.Time") {
+                        imports.add(createMapping("import", "time"));
+                        addedTimeImport = true;
+                    }
+                }
+
+                // import "optionals" package if the parameter is primitive and optional
+                if (!param.required && param.isPrimitiveType) {
+                    if (!addedOptionalImport) {
+                        imports.add(createMapping("import", "github.com/antihax/optional"));
+                        addedOptionalImport = true;
+                    }
+                    // We need to specially map Time type to the optionals package
+                    if (param.dataType == "time.Time") {
+                        param.vendorExtensions.put("x-optionalDataType", "Time");
+                        continue;
+                    }
+                    // Map optional type to dataType
+                    param.vendorExtensions.put("x-optionalDataType",
+                            param.dataType.substring(0, 1).toUpperCase() + param.dataType.substring(1));
+                }
             }
         }
 
@@ -353,6 +377,25 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 iterator.remove();
         }
 
+        boolean addedTimeImport = false;
+        boolean addedOSImport = false;
+        List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
+        for (Map<String, Object> m : models) {
+            Object v = m.get("model");
+            if (v instanceof CodegenModel) {
+                CodegenModel model = (CodegenModel) v;
+                for (CodegenProperty param : model.vars) {
+                    if (!addedTimeImport && param.baseType == "time.Time") {
+                        imports.add(createMapping("import", "time"));
+                        addedTimeImport = true;
+                    }
+                    if (!addedOSImport && param.baseType == "*os.File") {
+                        imports.add(createMapping("import", "os"));
+                        addedOSImport = true;
+                    }
+                }
+            }
+        }
         // recursively add import for mapping one type to multiple imports
         List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
         if (recursiveImports == null)
@@ -379,8 +422,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     protected boolean needToImport(String type) {
-        return !defaultIncludes.contains(type)
-            && !languageSpecificPrimitives.contains(type);
+        return !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
     }
 
     public void setPackageName(String packageName) {
@@ -398,7 +440,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
-    public Map<String, String> createMapping(String key, String value){
+    public Map<String, String> createMapping(String key, String value) {
         Map<String, String> customImport = new HashMap<String, String>();
         customImport.put(key, value);
 

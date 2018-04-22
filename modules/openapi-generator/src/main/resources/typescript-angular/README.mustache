@@ -2,7 +2,7 @@
 
 ### Building
 
-To build an compile the typescript sources to javascript use:
+To install the required dependencies and to build the typescript sources run:
 ```
 npm install
 npm run build
@@ -10,11 +10,16 @@ npm run build
 
 ### publishing
 
+{{#useNgPackagr}}
+First build the package than run ```npm publish dist``` (don't forget to specify the `dist` folder!)
+{{/useNgPackagr}}
+{{^useNgPackagr}}
 First build the package than run ```npm publish```
+{{/useNgPackagr}}
 
 ### consuming
 
-navigate to the folder of your consuming project and run one of next commando's.
+Navigate to the folder of your consuming project and run one of next commands.
 
 _published:_
 
@@ -22,23 +27,40 @@ _published:_
 npm install {{npmName}}@{{npmVersion}} --save
 ```
 
-_unPublished (not recommended):_
+_without publishing (not recommended):_
 
 ```
+{{#useNgPackagr}}
+npm install PATH_TO_GENERATED_PACKAGE/dist --save
+{{/useNgPackagr}}
+{{^useNgPackagr}}
 npm install PATH_TO_GENERATED_PACKAGE --save
+{{/useNgPackagr}}
 ```
 
 _using `npm link`:_
 
+{{#useNgPackagr}}
+In PATH_TO_GENERATED_PACKAGE/dist:
+{{/useNgPackagr}}
+{{^useNgPackagr}}
 In PATH_TO_GENERATED_PACKAGE:
+{{/useNgPackagr}}
 ```
 npm link
 ```
 
 In your project:
 ```
-npm link {{npmName}}@{{npmVersion}}
+npm link {{npmName}}
 ```
+
+__Note for Windows users:__ The Angular CLI has troubles to use linked npm packages.
+Please refer to this issue https://github.com/angular/angular-cli/issues/8284 for a solution / workaround.
+Published packages are not effected by this issue.
+
+
+#### General usage
 
 In your Angular project:
 
