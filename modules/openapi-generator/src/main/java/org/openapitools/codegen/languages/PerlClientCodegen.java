@@ -1,12 +1,6 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.OpenAPI;
@@ -80,6 +74,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("long", "int");
         typeMapping.put("float", "double");
         typeMapping.put("double", "double");
+        typeMapping.put("number", "double");
         typeMapping.put("boolean", "boolean");
         typeMapping.put("string", "string");
         typeMapping.put("date", "DateTime");
@@ -88,10 +83,10 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("array", "ARRAY");
         typeMapping.put("map", "HASH");
         typeMapping.put("object", "object");
-        //TODO binary should be mapped to byte array
-        // mapped to String as a workaround
         typeMapping.put("binary", "string");
+        typeMapping.put("file", "string");
         typeMapping.put("ByteArray", "string");
+        typeMapping.put("UUID", "string");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(MODULE_NAME, "Perl module name (convention: CamelCase or Long::Module).").defaultValue("SwaggerClient"));
@@ -383,18 +378,147 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
-        if (Boolean.TRUE.equals(p.isString) || Boolean.TRUE.equals(p.isBinary) ||
-                Boolean.TRUE.equals(p.isByteArray) || Boolean.TRUE.equals(p.isFile)) {
-            p.example = "'" + p.example + "'";
-        } else if (Boolean.TRUE.equals(p.isBoolean)) {
-            if (Boolean.parseBoolean(p.example))
-                p.example = "1";
-            else
-                p.example = "0";
-        } else if (Boolean.TRUE.equals(p.isDateTime) || Boolean.TRUE.equals(p.isDate)) {
-            p.example = "DateTime->from_epoch(epoch => str2time('" + p.example + "'))";
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            example = p.defaultValue;
         }
 
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if (Boolean.TRUE.equals(p.isInteger)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if (Boolean.TRUE.equals(p.isLong)) {
+            if (example == null) {
+                example = "789";
+            }
+        } else if (Boolean.TRUE.equals(p.isDouble)
+                || Boolean.TRUE.equals(p.isFloat)
+                || Boolean.TRUE.equals(p.isNumber)) {
+            if (example == null) {
+                example = "3.4";
+            }
+        } else if (Boolean.TRUE.equals(p.isBoolean)) {
+            if (Boolean.parseBoolean(p.example)) {
+                p.example = "1";
+            } else {
+                p.example = "0";
+            }
+        } else if (Boolean.TRUE.equals(p.isFile) || Boolean.TRUE.equals(p.isBinary)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "\"" + escapeText(example) + "\"";
+        } else if (Boolean.TRUE.equals(p.isByteArray)) {
+            if (example == null) {
+                example = "YmFzZSA2NCBkYXRh";
+            }
+            example = "\"" + escapeText(example) + "\"";
+        } else if (Boolean.TRUE.equals(p.isDate)) {
+            if (example == null) {
+                example = "2013-10-20";
+            }
+            example = "DateTime->from_epoch(epoch => str2time('" + escapeText(p.example) + "'))";
+        } else if (Boolean.TRUE.equals(p.isDateTime)) {
+            if (example == null) {
+                example = "2013-10-20T19:20:30+01:00";
+            }
+            example = "DateTime->from_epoch(epoch => str2time('" + escapeText(p.example) + "'))";
+        } else if (Boolean.TRUE.equals(p.isString)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "\"" + escapeText(example) + "\"";
+
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = "new " + moduleName + "." + type + "()";
+        }
+
+        // container
+        if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = setPropertyExampleValue(p.items);
+            example = "(" + example + ")";
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = setPropertyExampleValue(p.items);
+            example = "('key' =>  " + example + "}";
+        } else if (example == null) {
+            example = "null";
+        }
+
+        p.example = example;
+    }
+
+    protected String setPropertyExampleValue(CodegenProperty p) {
+        String example;
+
+        if (p == null) {
+            return "null";
+        }
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            example = p.defaultValue;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.datatype;
+        }
+
+        if (Boolean.TRUE.equals(p.isInteger)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if (Boolean.TRUE.equals(p.isLong)) {
+            if (example == null) {
+                example = "789";
+            }
+        } else if (Boolean.TRUE.equals(p.isDouble)
+                || Boolean.TRUE.equals(p.isFloat)
+                || Boolean.TRUE.equals(p.isNumber)) {
+            if (example == null) {
+                example = "3.4";
+            }
+        } else if (Boolean.TRUE.equals(p.isBoolean)) {
+            if (example == null) {
+                example = "true";
+            }
+        } else if (Boolean.TRUE.equals(p.isFile) || Boolean.TRUE.equals(p.isBinary)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "\"" + escapeText(example) + "\"";
+        } else if (Boolean.TRUE.equals(p.isDate)) {
+            if (example == null) {
+                example = "2013-10-20";
+            }
+            example = "DateTime->from_epoch(epoch => str2time('" + escapeText(p.example) + "'))";
+        } else if (Boolean.TRUE.equals(p.isDateTime)) {
+            if (example == null) {
+                example = "2013-10-20T19:20:30+01:00";
+            }
+            example = "DateTime->from_epoch(epoch => str2time('" + escapeText(p.example) + "'))";
+        } else if (Boolean.TRUE.equals(p.isString)) {
+            if (example == null) {
+                example = p.name + "_example";
+            }
+            example = "\"" + escapeText(example) + "\"";
+
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = "new " + moduleName + "." + type + "()";
+        }
+
+        return example;
     }
 
     @Override

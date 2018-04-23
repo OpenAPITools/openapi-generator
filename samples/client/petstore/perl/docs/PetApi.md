@@ -81,7 +81,7 @@ my $api_instance = WWW::SwaggerClient::PetApi->new(
 );
 
 my $pet_id = 789; # int | Pet id to delete
-my $api_key = 'api_key_example'; # string | 
+my $api_key = "api_key_example"; # string | 
 
 eval { 
     $api_instance->delete_pet(pet_id => $pet_id, api_key => $api_key);
@@ -130,7 +130,7 @@ my $api_instance = WWW::SwaggerClient::PetApi->new(
     access_token => 'YOUR_ACCESS_TOKEN',
 );
 
-my $status = []; # ARRAY[string] | Status values that need to be considered for filter
+my $status = [("'available'")]; # ARRAY[string] | Status values that need to be considered for filter
 
 eval { 
     my $result = $api_instance->find_pets_by_status(status => $status);
@@ -179,7 +179,7 @@ my $api_instance = WWW::SwaggerClient::PetApi->new(
     access_token => 'YOUR_ACCESS_TOKEN',
 );
 
-my $tags = []; # ARRAY[string] | Tags to filter by
+my $tags = [("inner_example")]; # ARRAY[string] | Tags to filter by
 
 eval { 
     my $result = $api_instance->find_pets_by_tags(tags => $tags);
@@ -324,8 +324,8 @@ my $api_instance = WWW::SwaggerClient::PetApi->new(
 );
 
 my $pet_id = 789; # int | ID of pet that needs to be updated
-my $name = 'null'; # string | Updated name of the pet
-my $status = 'null'; # string | Updated status of the pet
+my $name = "name_example"; # string | Updated name of the pet
+my $status = "status_example"; # string | Updated status of the pet
 
 eval { 
     $api_instance->update_pet_with_form(pet_id => $pet_id, name => $name, status => $status);
@@ -374,8 +374,8 @@ my $api_instance = WWW::SwaggerClient::PetApi->new(
 );
 
 my $pet_id = 789; # int | ID of pet to update
-my $additional_metadata = 'null'; # string | Additional data to pass to server
-my $file = 'null'; # File | file to upload
+my $additional_metadata = "additional_metadata_example"; # string | Additional data to pass to server
+my $file = "/path/to/file"; # string | file to upload
 
 eval { 
     my $result = $api_instance->upload_file(pet_id => $pet_id, additional_metadata => $additional_metadata, file => $file);
@@ -392,7 +392,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update | 
  **additional_metadata** | **string**| Additional data to pass to server | [optional] 
- **file** | **File****File**| file to upload | [optional] 
+ **file** | **string****string**| file to upload | [optional] 
 
 ### Return type
 

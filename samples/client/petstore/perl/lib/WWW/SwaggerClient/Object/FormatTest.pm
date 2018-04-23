@@ -30,9 +30,6 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
-use WWW::SwaggerClient::Object::File;
-use WWW::SwaggerClient::Object::Number;
-use WWW::SwaggerClient::Object::UUID;
 
 use base ("Class::Accessor", "Class::Data::Inheritable");
 
@@ -168,7 +165,7 @@ __PACKAGE__->method_documentation({
     	read_only => '',
     		},
     'number' => {
-    	datatype => 'Number',
+    	datatype => 'double',
     	base_name => 'number',
     	description => '',
     	format => '',
@@ -203,7 +200,7 @@ __PACKAGE__->method_documentation({
     	read_only => '',
     		},
     'binary' => {
-    	datatype => 'File',
+    	datatype => 'string',
     	base_name => 'binary',
     	description => '',
     	format => '',
@@ -224,7 +221,7 @@ __PACKAGE__->method_documentation({
     	read_only => '',
     		},
     'uuid' => {
-    	datatype => 'UUID',
+    	datatype => 'string',
     	base_name => 'uuid',
     	description => '',
     	format => '',
@@ -243,15 +240,15 @@ __PACKAGE__->swagger_types( {
     'integer' => 'int',
     'int32' => 'int',
     'int64' => 'int',
-    'number' => 'Number',
+    'number' => 'double',
     'float' => 'double',
     'double' => 'double',
     'string' => 'string',
     'byte' => 'string',
-    'binary' => 'File',
+    'binary' => 'string',
     'date' => 'DateTime',
     'date_time' => 'DateTime',
-    'uuid' => 'UUID',
+    'uuid' => 'string',
     'password' => 'string'
 } );
 

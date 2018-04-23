@@ -59,7 +59,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -90,7 +90,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**ARRAY[User]**](User.md)| List of user object | 
+ **user** | [**ARRAY[User]**](ARRAY.md)| List of user object | 
 
 ### Return type
 
@@ -102,7 +102,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -133,7 +133,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**ARRAY[User]**](User.md)| List of user object | 
+ **user** | [**ARRAY[User]**](ARRAY.md)| List of user object | 
 
 ### Return type
 
@@ -145,7 +145,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -164,7 +164,7 @@ use WWW::SwaggerClient::UserApi;
 my $api_instance = WWW::SwaggerClient::UserApi->new(
 );
 
-my $username = 'username_example'; # string | The name that needs to be deleted
+my $username = "username_example"; # string | The name that needs to be deleted
 
 eval { 
     $api_instance->delete_user(username => $username);
@@ -207,7 +207,7 @@ use WWW::SwaggerClient::UserApi;
 my $api_instance = WWW::SwaggerClient::UserApi->new(
 );
 
-my $username = 'username_example'; # string | The name that needs to be fetched. Use user1 for testing.
+my $username = "username_example"; # string | The name that needs to be fetched. Use user1 for testing.
 
 eval { 
     my $result = $api_instance->get_user_by_name(username => $username);
@@ -251,8 +251,8 @@ use WWW::SwaggerClient::UserApi;
 my $api_instance = WWW::SwaggerClient::UserApi->new(
 );
 
-my $username = 'username_example'; # string | The user name for login
-my $password = 'password_example'; # string | The password for login in clear text
+my $username = "username_example"; # string | The user name for login
+my $password = "password_example"; # string | The password for login in clear text
 
 eval { 
     my $result = $api_instance->login_user(username => $username, password => $password);
@@ -338,7 +338,7 @@ use WWW::SwaggerClient::UserApi;
 my $api_instance = WWW::SwaggerClient::UserApi->new(
 );
 
-my $username = 'username_example'; # string | name that need to be deleted
+my $username = "username_example"; # string | name that need to be deleted
 my $user = WWW::SwaggerClient::Object::User->new(); # User | Updated user object
 
 eval { 
@@ -366,7 +366,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

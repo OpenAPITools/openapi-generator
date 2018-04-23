@@ -31,7 +31,6 @@ use Date::Parse;
 use DateTime;
 
 use WWW::SwaggerClient::Object::Animal;
-use WWW::SwaggerClient::Object::UUID;
 
 use base ("Class::Accessor", "Class::Data::Inheritable");
 
@@ -146,7 +145,7 @@ __PACKAGE__->class_documentation({description => '',
 
 __PACKAGE__->method_documentation({
     'uuid' => {
-    	datatype => 'UUID',
+    	datatype => 'string',
     	base_name => 'uuid',
     	description => '',
     	format => '',
@@ -169,7 +168,7 @@ __PACKAGE__->method_documentation({
 });
 
 __PACKAGE__->swagger_types( {
-    'uuid' => 'UUID',
+    'uuid' => 'string',
     'date_time' => 'DateTime',
     'map' => 'HASH[string,Animal]'
 } );

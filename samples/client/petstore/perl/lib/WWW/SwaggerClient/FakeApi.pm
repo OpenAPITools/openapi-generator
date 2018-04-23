@@ -53,10 +53,10 @@ sub new {
 #
 # 
 # 
-# @param boolean $boolean_post_body Input boolean as post body (optional)
+# @param boolean $body Input boolean as post body (optional)
 {
     my $params = {
-    'boolean_post_body' => {
+    'body' => {
         data_type => 'boolean',
         description => 'Input boolean as post body',
         required => '0',
@@ -86,12 +86,12 @@ sub fake_outer_boolean_serialize {
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('*/*');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
 
     my $_body_data;
     # body params
-    if ( exists $args{'boolean_post_body'}) {
-        $_body_data = $args{'boolean_post_body'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -146,7 +146,7 @@ sub fake_outer_composite_serialize {
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('*/*');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
 
     my $_body_data;
     # body params
@@ -173,11 +173,11 @@ sub fake_outer_composite_serialize {
 #
 # 
 # 
-# @param Number $body Input number as post body (optional)
+# @param double $body Input number as post body (optional)
 {
     my $params = {
     'body' => {
-        data_type => 'Number',
+        data_type => 'double',
         description => 'Input number as post body',
         required => '0',
     },
@@ -206,7 +206,7 @@ sub fake_outer_number_serialize {
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('*/*');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
 
     my $_body_data;
     # body params
@@ -266,7 +266,7 @@ sub fake_outer_string_serialize {
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('*/*');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
 
     my $_body_data;
     # body params
@@ -286,83 +286,6 @@ sub fake_outer_string_serialize {
     }
     my $_response_object = $self->{api_client}->deserialize('OuterString', $response);
     return $_response_object;
-}
-
-#
-# test_body_with_query_params
-#
-# 
-# 
-# @param string $query  (required)
-# @param User $user  (required)
-{
-    my $params = {
-    'query' => {
-        data_type => 'string',
-        description => '',
-        required => '1',
-    },
-    'user' => {
-        data_type => 'User',
-        description => '',
-        required => '1',
-    },
-    };
-    __PACKAGE__->method_documentation->{ 'test_body_with_query_params' } = { 
-    	summary => '',
-        params => $params,
-        returns => undef,
-        };
-}
-# @return void
-#
-sub test_body_with_query_params {
-    my ($self, %args) = @_;
-
-    # verify the required parameter 'query' is set
-    unless (exists $args{'query'}) {
-      croak("Missing the required parameter 'query' when calling test_body_with_query_params");
-    }
-
-    # verify the required parameter 'user' is set
-    unless (exists $args{'user'}) {
-      croak("Missing the required parameter 'user' when calling test_body_with_query_params");
-    }
-
-    # parse inputs
-    my $_resource_path = '/fake/body-with-query-params';
-
-    my $_method = 'PUT';
-    my $query_params = {};
-    my $header_params = {};
-    my $form_params = {};
-
-    # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept();
-    if ($_header_accept) {
-        $header_params->{'Accept'} = $_header_accept;
-    }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
-
-    # query params
-    if ( exists $args{'query'}) {
-        $query_params->{'query'} = $self->{api_client}->to_query_value($args{'query'});
-    }
-
-    my $_body_data;
-    # body params
-    if ( exists $args{'user'}) {
-        $_body_data = $args{'user'};
-    }
-
-    # authentication setting, if any
-    my $auth_settings = [qw()];
-
-    # make the API Call
-    $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    return;
 }
 
 #
@@ -435,7 +358,7 @@ sub test_client_model {
 #
 # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 # 
-# @param Number $number None (required)
+# @param double $number None (required)
 # @param double $double None (required)
 # @param string $pattern_without_delimiter None (required)
 # @param string $byte None (required)
@@ -444,7 +367,7 @@ sub test_client_model {
 # @param int $int64 None (optional)
 # @param double $float None (optional)
 # @param string $string None (optional)
-# @param File $binary None (optional)
+# @param string $binary None (optional)
 # @param DateTime $date None (optional)
 # @param DateTime $date_time None (optional)
 # @param string $password None (optional)
@@ -452,7 +375,7 @@ sub test_client_model {
 {
     my $params = {
     'number' => {
-        data_type => 'Number',
+        data_type => 'double',
         description => 'None',
         required => '1',
     },
@@ -497,7 +420,7 @@ sub test_client_model {
         required => '0',
     },
     'binary' => {
-        data_type => 'File',
+        data_type => 'string',
         description => 'None',
         required => '0',
     },
@@ -656,9 +579,9 @@ sub test_endpoint_parameters {
 # To test enum parameters
 # 
 # @param ARRAY[string] $enum_header_string_array Header parameter enum test (string array) (optional)
-# @param string $enum_header_string Header parameter enum test (string) (optional)
+# @param string $enum_header_string Header parameter enum test (string) (optional, default to -efg)
 # @param ARRAY[string] $enum_query_string_array Query parameter enum test (string array) (optional)
-# @param string $enum_query_string Query parameter enum test (string) (optional)
+# @param string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
 # @param int $enum_query_integer Query parameter enum test (double) (optional)
 # @param double $enum_query_double Query parameter enum test (double) (optional)
 # @param ARRAY[string] $enum_form_string_array Form parameter enum test (string array) (optional)
@@ -788,11 +711,11 @@ sub test_enum_parameters {
 #
 # test inline additionalProperties
 # 
-# @param HASH[string,string] $body request body (required)
+# @param  $UNKNOWN_PARAM_NAME request body (required)
 {
     my $params = {
-    'body' => {
-        data_type => 'HASH[string,string]',
+    'UNKNOWN_PARAM_NAME' => {
+        data_type => '',
         description => 'request body',
         required => '1',
     },
@@ -808,9 +731,9 @@ sub test_enum_parameters {
 sub test_inline_additional_properties {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling test_inline_additional_properties");
+    # verify the required parameter 'UNKNOWN_PARAM_NAME' is set
+    unless (exists $args{'UNKNOWN_PARAM_NAME'}) {
+      croak("Missing the required parameter 'UNKNOWN_PARAM_NAME' when calling test_inline_additional_properties");
     }
 
     # parse inputs
@@ -830,8 +753,8 @@ sub test_inline_additional_properties {
 
     my $_body_data;
     # body params
-    if ( exists $args{'body'}) {
-        $_body_data = $args{'body'};
+    if ( exists $args{'UNKNOWN_PARAM_NAME'}) {
+        $_body_data = $args{'UNKNOWN_PARAM_NAME'};
     }
 
     # authentication setting, if any
