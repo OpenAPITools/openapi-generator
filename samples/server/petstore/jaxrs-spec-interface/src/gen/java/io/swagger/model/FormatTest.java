@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class FormatTest  implements Serializable {
   private @Valid Double _double = null;
   private @Valid String string = null;
   private @Valid byte[] _byte = null;
-  private @Valid byte[] binary = null;
+  private @Valid File binary = null;
   private @Valid LocalDate date = null;
   private @Valid Date dateTime = null;
   private @Valid UUID uuid = null;
@@ -180,7 +181,7 @@ public class FormatTest  implements Serializable {
 
   /**
    **/
-  public FormatTest binary(byte[] binary) {
+  public FormatTest binary(File binary) {
     this.binary = binary;
     return this;
   }
@@ -188,10 +189,10 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("binary")
-  public byte[] getBinary() {
+  public File getBinary() {
     return binary;
   }
-  public void setBinary(byte[] binary) {
+  public void setBinary(File binary) {
     this.binary = binary;
   }
 

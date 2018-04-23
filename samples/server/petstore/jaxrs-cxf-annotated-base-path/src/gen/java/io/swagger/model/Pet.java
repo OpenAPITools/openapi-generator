@@ -6,6 +6,7 @@ import io.swagger.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -25,14 +26,21 @@ public class Pet  {
   
   @ApiModelProperty(value = "")
   private Long id = null;
+
   @ApiModelProperty(value = "")
+  @Valid
   private Category category = null;
+
   @ApiModelProperty(example = "doggie", required = true, value = "")
   private String name = null;
+
   @ApiModelProperty(required = true, value = "")
   private List<String> photoUrls = new ArrayList<String>();
+
   @ApiModelProperty(value = "")
-  private List<Tag> tags = new ArrayList<Tag>();
+  @Valid
+  private List<Tag> tags = null;
+
 
 @XmlType(name="StatusEnum")
 @XmlEnum(String.class)
@@ -68,10 +76,9 @@ public enum StatusEnum {
 
   @ApiModelProperty(value = "pet status in the store")
  /**
-   * pet status in the store  
+   * pet status in the store
   **/
   private StatusEnum status = null;
-
  /**
    * Get id
    * @return id

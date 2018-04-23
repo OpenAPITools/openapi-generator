@@ -38,7 +38,7 @@ public class StoreApi  {
     @DELETE
     @Path("/order/{orderId}")
     
-    @Produces({ "application/xml", "application/json" })
+    
     @ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", response = Void.class, tags={ "store",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
@@ -69,7 +69,7 @@ public class StoreApi  {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    public Response getOrderById( @Min(1) @Max(5)@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("orderId") Long orderId) {
+    public Response getOrderById( @Min(1L) @Max(5L)@ApiParam(value = "ID of pet that needs to be fetched",required=true, allowableValues="range=[1, 5]") @PathParam("orderId") Long orderId) {
         return delegate.getOrderById(orderId, securityContext);
     }
 
@@ -81,7 +81,7 @@ public class StoreApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
-    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true) Order body) {
-        return delegate.placeOrder(body, securityContext);
+    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true) Order order) {
+        return delegate.placeOrder(order, securityContext);
     }
 }

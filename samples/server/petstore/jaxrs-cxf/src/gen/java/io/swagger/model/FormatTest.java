@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
@@ -45,7 +46,7 @@ public class FormatTest  {
   private byte[] _byte = null;
 
   @ApiModelProperty(value = "")
-  private byte[] binary = null;
+  private File binary = null;
 
   @ApiModelProperty(required = true, value = "")
   private LocalDate date = null;
@@ -219,15 +220,15 @@ public class FormatTest  {
    * @return binary
   **/
   @JsonProperty("binary")
-  public byte[] getBinary() {
+  public File getBinary() {
     return binary;
   }
 
-  public void setBinary(byte[] binary) {
+  public void setBinary(File binary) {
     this.binary = binary;
   }
 
-  public FormatTest binary(byte[] binary) {
+  public FormatTest binary(File binary) {
     this.binary = binary;
     return this;
   }

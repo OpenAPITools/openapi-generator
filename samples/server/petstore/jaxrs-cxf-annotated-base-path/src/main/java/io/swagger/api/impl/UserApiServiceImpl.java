@@ -30,7 +30,7 @@ public class UserApiServiceImpl implements UserApi {
      * This can only be done by the logged in user.
      *
      */
-    public void createUser(User body) {
+    public void createUser(User user) {
         // TODO: Implement...
         
         
@@ -39,10 +39,8 @@ public class UserApiServiceImpl implements UserApi {
     /**
      * Creates list of users with given input array
      *
-     * 
-     *
      */
-    public void createUsersWithArrayInput(List<User> body) {
+    public void createUsersWithArrayInput(List<User> user) {
         // TODO: Implement...
         
         
@@ -51,10 +49,8 @@ public class UserApiServiceImpl implements UserApi {
     /**
      * Creates list of users with given input array
      *
-     * 
-     *
      */
-    public void createUsersWithListInput(List<User> body) {
+    public void createUsersWithListInput(List<User> user) {
         // TODO: Implement...
         
         
@@ -75,8 +71,6 @@ public class UserApiServiceImpl implements UserApi {
     /**
      * Get user by user name
      *
-     * 
-     *
      */
     public User getUserByName(String username) {
         // TODO: Implement...
@@ -87,8 +81,6 @@ public class UserApiServiceImpl implements UserApi {
     /**
      * Logs user into the system
      *
-     * 
-     *
      */
     public String loginUser(String username, String password) {
         // TODO: Implement...
@@ -98,8 +90,6 @@ public class UserApiServiceImpl implements UserApi {
     
     /**
      * Logs out current logged in user session
-     *
-     * 
      *
      */
     public void logoutUser() {
@@ -114,7 +104,7 @@ public class UserApiServiceImpl implements UserApi {
      * This can only be done by the logged in user.
      *
      */
-    public void updateUser(String username, User body) {
+    public void updateUser(String username, User user) {
         // TODO: Implement...
         
         

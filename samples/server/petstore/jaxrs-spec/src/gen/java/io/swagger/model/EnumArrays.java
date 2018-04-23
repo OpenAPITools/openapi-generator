@@ -31,10 +31,12 @@ public enum JustSymbolEnum {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static JustSymbolEnum fromValue(String v) {
         for (JustSymbolEnum b : JustSymbolEnum.values()) {
             if (String.valueOf(b.value).equals(v)) {
@@ -63,10 +65,12 @@ public enum ArrayEnumEnum {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static ArrayEnumEnum fromValue(String v) {
         for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
             if (String.valueOf(b.value).equals(v)) {

@@ -38,7 +38,6 @@ public interface StoreApi  {
      */
     @DELETE
     @Path("/store/order/{orderId}")
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Delete purchase order by ID", tags={ "store",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -73,12 +72,10 @@ public interface StoreApi  {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found") })
-    public Order getOrderById(@PathParam("orderId") @Min(1) @Max(5) Long orderId);
+    public Order getOrderById(@PathParam("orderId") @Min(1L) @Max(5L) Long orderId);
 
     /**
      * Place an order for a pet
-     *
-     * 
      *
      */
     @POST
@@ -88,6 +85,6 @@ public interface StoreApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order") })
-    public Order placeOrder(@Valid Order body);
+    public Order placeOrder(@Valid Order order);
 }
 

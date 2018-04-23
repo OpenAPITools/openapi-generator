@@ -33,10 +33,12 @@ public enum InnerEnum {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static InnerEnum fromValue(String v) {
         for (InnerEnum b : InnerEnum.values()) {
             if (String.valueOf(b.value).equals(v)) {

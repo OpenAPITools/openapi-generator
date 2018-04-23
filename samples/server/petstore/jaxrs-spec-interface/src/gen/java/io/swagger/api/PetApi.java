@@ -20,7 +20,6 @@ public interface PetApi {
 
     @POST
     @Consumes({ "application/json", "application/xml" })
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Add a new pet to the store", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -29,11 +28,10 @@ public interface PetApi {
     }, tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
-    void addPet(@Valid Pet body);
+    void addPet(@Valid Pet pet);
 
     @DELETE
     @Path("/{petId}")
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Deletes a pet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -86,7 +84,6 @@ public interface PetApi {
 
     @PUT
     @Consumes({ "application/json", "application/xml" })
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Update an existing pet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -97,12 +94,11 @@ public interface PetApi {
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         @ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
-    void updatePet(@Valid Pet body);
+    void updatePet(@Valid Pet pet);
 
     @POST
     @Path("/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Updates a pet in the store with form data", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),

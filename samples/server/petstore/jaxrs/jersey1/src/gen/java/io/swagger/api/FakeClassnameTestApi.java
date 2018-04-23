@@ -38,15 +38,15 @@ public class FakeClassnameTestApi  {
     
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "To test class name in snake case", notes = "", response = Client.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "To test class name in snake case", notes = "To test class name in snake case", response = Client.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "api_key_query")
     }, tags={ "fake_classname_tags 123#$%^" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     public Response testClassname(
-        @ApiParam(value = "client model" ,required=true) Client body,
+        @ApiParam(value = "client model" ,required=true) Client client,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testClassname(body,securityContext);
+        return delegate.testClassname(client,securityContext);
     }
 }

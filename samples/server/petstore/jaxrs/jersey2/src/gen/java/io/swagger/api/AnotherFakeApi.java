@@ -61,9 +61,9 @@ public class AnotherFakeApi  {
     @io.swagger.annotations.ApiOperation(value = "To test special tags", notes = "To test special tags", response = Client.class, tags={ "$another-fake?", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Response testSpecialTags(@ApiParam(value = "client model" ,required=true) Client body
+    public Response testSpecialTags(@ApiParam(value = "client model" ,required=true) Client client
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testSpecialTags(body,securityContext);
+        return delegate.testSpecialTags(client,securityContext);
     }
 }
