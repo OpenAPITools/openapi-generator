@@ -46,6 +46,8 @@ public class ApiClient {
 
         /**
          * Use common specification for all operations
+         * @param supplier supplier
+         * @return configuration
          */
         public Config reqSpecSupplier(Supplier<RequestSpecBuilder> supplier) {
             this.baseReqSpec = supplier;
