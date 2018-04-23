@@ -28,10 +28,8 @@ public class PetApiServiceImpl implements PetApi {
     /**
      * Add a new pet to the store
      *
-     * 
-     *
      */
-    public void addPet(Pet body) {
+    public void addPet(Pet pet) {
         // TODO: Implement...
         
         
@@ -39,8 +37,6 @@ public class PetApiServiceImpl implements PetApi {
     
     /**
      * Deletes a pet
-     *
-     * 
      *
      */
     public void deletePet(Long petId, String apiKey) {
@@ -88,10 +84,8 @@ public class PetApiServiceImpl implements PetApi {
     /**
      * Update an existing pet
      *
-     * 
-     *
      */
-    public void updatePet(Pet body) {
+    public void updatePet(Pet pet) {
         // TODO: Implement...
         
         
@@ -99,8 +93,6 @@ public class PetApiServiceImpl implements PetApi {
     
     /**
      * Updates a pet in the store with form data
-     *
-     * 
      *
      */
     public void updatePetWithForm(Long petId, String name, String status) {
@@ -111,8 +103,6 @@ public class PetApiServiceImpl implements PetApi {
     
     /**
      * uploads an image
-     *
-     * 
      *
      */
     public ModelApiResponse uploadFile(Long petId, String additionalMetadata,  Attachment fileDetail) {

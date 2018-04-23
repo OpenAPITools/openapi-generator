@@ -19,7 +19,6 @@ public interface StoreApi {
 
     @DELETE
     @Path("/order/{order_id}")
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", tags={ "store",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
@@ -53,5 +52,5 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
-    Order placeOrder(@Valid Order body);
+    Order placeOrder(@Valid Order order);
 }

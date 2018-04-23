@@ -23,6 +23,6 @@ public interface StoreApiService {
       throws NotFoundException;
       Response getOrderById(Long orderId,SecurityContext securityContext)
       throws NotFoundException;
-      Response placeOrder(Order body,SecurityContext securityContext)
+      Response placeOrder(Order order,SecurityContext securityContext)
       throws NotFoundException;
 }

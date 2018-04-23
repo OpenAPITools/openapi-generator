@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -21,24 +22,30 @@ public class User  {
   
   @ApiModelProperty(value = "")
   private Long id = null;
+
   @ApiModelProperty(value = "")
   private String username = null;
+
   @ApiModelProperty(value = "")
   private String firstName = null;
+
   @ApiModelProperty(value = "")
   private String lastName = null;
+
   @ApiModelProperty(value = "")
   private String email = null;
+
   @ApiModelProperty(value = "")
   private String password = null;
+
   @ApiModelProperty(value = "")
   private String phone = null;
+
   @ApiModelProperty(value = "User Status")
  /**
-   * User Status  
+   * User Status
   **/
   private Integer userStatus = null;
-
  /**
    * Get id
    * @return id

@@ -39,7 +39,7 @@ public class PetApi  {
     @POST
     
     @Consumes({ "application/json", "application/xml" })
-    @Produces({ "application/xml", "application/json" })
+    
     @io.swagger.annotations.ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -49,15 +49,15 @@ public class PetApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     public Response addPet(
-        @ApiParam(value = "Pet object that needs to be added to the store" ,required=true) Pet body,
+        @ApiParam(value = "Pet object that needs to be added to the store" ,required=true) Pet pet,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.addPet(body,securityContext);
+        return delegate.addPet(pet,securityContext);
     }
     @DELETE
     
     
-    @Produces({ "application/xml", "application/json" })
+    
     @io.swagger.annotations.ApiOperation(value = "Deletes a pet", notes = "", response = Void.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -131,7 +131,7 @@ public class PetApi  {
     @PUT
     
     @Consumes({ "application/json", "application/xml" })
-    @Produces({ "application/xml", "application/json" })
+    
     @io.swagger.annotations.ApiOperation(value = "Update an existing pet", notes = "", response = Void.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -143,15 +143,15 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
     public Response updatePet(
-        @ApiParam(value = "Pet object that needs to be added to the store" ,required=true) Pet body,
+        @ApiParam(value = "Pet object that needs to be added to the store" ,required=true) Pet pet,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.updatePet(body,securityContext);
+        return delegate.updatePet(pet,securityContext);
     }
     @POST
     
     @Consumes({ "application/x-www-form-urlencoded" })
-    @Produces({ "application/xml", "application/json" })
+    
     @io.swagger.annotations.ApiOperation(value = "Updates a pet in the store with form data", notes = "", response = Void.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),

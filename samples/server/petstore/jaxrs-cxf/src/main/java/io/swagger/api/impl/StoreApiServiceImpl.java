@@ -63,10 +63,8 @@ public class StoreApiServiceImpl implements StoreApi {
     /**
      * Place an order for a pet
      *
-     * 
-     *
      */
-    public Order placeOrder(Order body) {
+    public Order placeOrder(Order order) {
         // TODO: Implement...
         
         return null;

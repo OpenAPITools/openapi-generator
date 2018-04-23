@@ -34,27 +34,21 @@ public interface PetApi  {
     /**
      * Add a new pet to the store
      *
-     * 
-     *
      */
     @POST
     @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Add a new pet to the store", tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
-    public void addPet(@Valid Pet body);
+    public void addPet(@Valid Pet pet);
 
     /**
      * Deletes a pet
      *
-     * 
-     *
      */
     @DELETE
     @Path("/pet/{petId}")
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Deletes a pet", tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid pet value") })
@@ -109,30 +103,24 @@ public interface PetApi  {
     /**
      * Update an existing pet
      *
-     * 
-     *
      */
     @PUT
     @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Update an existing pet", tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found"),
         @ApiResponse(code = 405, message = "Validation exception") })
-    public void updatePet(@Valid Pet body);
+    public void updatePet(@Valid Pet pet);
 
     /**
      * Updates a pet in the store with form data
-     *
-     * 
      *
      */
     @POST
     @Path("/pet/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Updates a pet in the store with form data", tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
@@ -140,8 +128,6 @@ public interface PetApi  {
 
     /**
      * uploads an image
-     *
-     * 
      *
      */
     @POST

@@ -18,31 +18,27 @@ import javax.validation.Valid;
 public interface UserApi {
 
     @POST
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void createUser(@Valid User body);
+    void createUser(@Valid User user);
 
     @POST
     @Path("/createWithArray")
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void createUsersWithArrayInput(@Valid List<User> body);
+    void createUsersWithArrayInput(@Valid List<User> user);
 
     @POST
     @Path("/createWithList")
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void createUsersWithListInput(@Valid List<User> body);
+    void createUsersWithListInput(@Valid List<User> user);
 
     @DELETE
     @Path("/{username}")
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
@@ -57,7 +53,7 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    User getUserByName(@PathParam("username") @ApiParam("The name that needs to be fetched. Use user1 for testing. ") String username);
+    User getUserByName(@PathParam("username") @ApiParam("The name that needs to be fetched. Use user1 for testing.") String username);
 
     @GET
     @Path("/login")
@@ -70,7 +66,6 @@ public interface UserApi {
 
     @GET
     @Path("/logout")
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Logs out current logged in user session", notes = "", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
@@ -78,10 +73,9 @@ public interface UserApi {
 
     @PUT
     @Path("/{username}")
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    void updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,@Valid User body);
+    void updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,@Valid User user);
 }

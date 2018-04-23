@@ -4,8 +4,11 @@ import io.swagger.api.*;
 import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.util.Date;
+import java.io.File;
 import org.joda.time.LocalDate;
+import java.util.Map;
 import io.swagger.model.OuterComposite;
+import io.swagger.model.User;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -27,13 +30,13 @@ import io.swagger.annotations.Api;
  *
  */
 public class FakeApiServiceImpl implements FakeApi {
-    public Boolean fakeOuterBooleanSerialize(Boolean body) {
+    public Boolean fakeOuterBooleanSerialize(Boolean booleanPostBody) {
         // TODO: Implement...
         
         return null;
     }
     
-    public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) {
+    public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) {
         // TODO: Implement...
         
         return null;
@@ -51,13 +54,19 @@ public class FakeApiServiceImpl implements FakeApi {
         return null;
     }
     
+    public void testBodyWithQueryParams(String query, User user) {
+        // TODO: Implement...
+        
+        
+    }
+    
     /**
      * To test \&quot;client\&quot; model
      *
      * To test \&quot;client\&quot; model
      *
      */
-    public Client testClientModel(Client body) {
+    public Client testClientModel(Client client) {
         // TODO: Implement...
         
         return null;
@@ -69,7 +78,7 @@ public class FakeApiServiceImpl implements FakeApi {
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
      */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, Date dateTime, String password, String paramCallback) {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string,  Attachment binaryDetail, LocalDate date, Date dateTime, String password, String paramCallback) {
         // TODO: Implement...
         
         
@@ -81,7 +90,7 @@ public class FakeApiServiceImpl implements FakeApi {
      * To test enum parameters
      *
      */
-    public void testEnumParameters(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble) {
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) {
         // TODO: Implement...
         
         
@@ -90,10 +99,8 @@ public class FakeApiServiceImpl implements FakeApi {
     /**
      * test inline additionalProperties
      *
-     * 
-     *
      */
-    public void testInlineAdditionalProperties(Object param) {
+    public void testInlineAdditionalProperties(String requestBody) {
         // TODO: Implement...
         
         
@@ -101,8 +108,6 @@ public class FakeApiServiceImpl implements FakeApi {
     
     /**
      * test json serialization of form data
-     *
-     * 
      *
      */
     public void testJsonFormData(String param, String param2) {

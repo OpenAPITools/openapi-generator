@@ -38,7 +38,6 @@ public interface StoreApi  {
      */
     @DELETE
     @Path("/store/order/{order_id}")
-    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Delete purchase order by ID", tags={ "store",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -78,8 +77,6 @@ public interface StoreApi  {
     /**
      * Place an order for a pet
      *
-     * 
-     *
      */
     @POST
     @Path("/store/order")
@@ -88,6 +85,6 @@ public interface StoreApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order") })
-    public Order placeOrder(@Valid Order body);
+    public Order placeOrder(@Valid Order order);
 }
 
