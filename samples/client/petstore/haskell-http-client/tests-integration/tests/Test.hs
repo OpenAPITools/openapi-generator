@@ -39,8 +39,6 @@ instance S.Consumes S.CreateUser S.MimeJSON
 instance S.Consumes S.UpdateUser S.MimeJSON
 instance S.Consumes S.CreateUsersWithArrayInput S.MimeJSON
 instance S.Consumes S.CreateUsersWithListInput S.MimeJSON
-instance S.Produces S.CreateUsersWithArrayInput S.MimeNoContent
-instance S.Produces S.CreateUsersWithListInput S.MimeNoContent
 
 -- * MAIN
 
@@ -84,7 +82,7 @@ testPetOps mgr config =
 
     it "addPet" $ do
       let addPetRequest =
-             S.addPet (S.ContentType S.MimeJSON) (S.Accept S.MimeJSON) (S.mkPet "name" ["url1", "url2"])
+             S.addPet (S.ContentType S.MimeJSON) (S.mkPet "name" ["url1", "url2"])
       addPetResponse <- S.dispatchLbs mgr config addPetRequest
       NH.responseStatus addPetResponse `shouldBe` NH.status200
       case A.eitherDecode (NH.responseBody addPetResponse) of
@@ -129,7 +127,7 @@ testPetOps mgr config =
         Just pet -> go pet
         _ -> pendingWith "no pet") $
       it "updatePet" $ \pet -> do
-        let updatePetRequest = S.updatePet (S.ContentType S.MimeJSON) (S.Accept S.MimeXML)
+        let updatePetRequest = S.updatePet (S.ContentType S.MimeJSON)
               (pet
                  { S.petStatus   = Just S.E'Status2'Available
                  , S.petCategory = Just (S.Category (Just 3) (Just "catname"))
@@ -140,7 +138,7 @@ testPetOps mgr config =
     it "updatePetWithFormRequest" $ do
       readIORef _pet >>= \case
         Just S.Pet {S.petId = Just petId} -> do
-          let updatePetWithFormRequest = S.updatePetWithForm (S.Accept S.MimeJSON)
+          let updatePetWithFormRequest = S.updatePetWithForm
                 (S.PetId petId)
                 `S.applyOptionalParam` S.Name2 "petName"
                 `S.applyOptionalParam` S.StatusText "pending"
@@ -167,7 +165,7 @@ testPetOps mgr config =
         Just pet@S.Pet {S.petId = Just petId} -> go petId
         _ -> pendingWith "no petId") $
       it "deletePet" $ \petId -> do
-        let deletePetRequest = S.deletePet (S.Accept S.MimeJSON) (S.PetId petId)
+        let deletePetRequest = S.deletePet (S.PetId petId)
                   `S.applyOptionalParam` S.ApiKey "api key"
         deletePetResponse <- S.dispatchLbs mgr config deletePetRequest
         NH.responseStatus deletePetResponse `shouldBe` NH.status200
@@ -224,7 +222,7 @@ testStoreOps mgr config = do
         Just S.Order {S.orderId = Just orderId} -> go (T.pack (show orderId))
         _ -> pendingWith "no orderId") $
       it "deleteOrder" $ \orderId -> do
-        let deleteOrderRequest = S.deleteOrder (S.Accept S.MimeJSON) (S.OrderIdText orderId)
+        let deleteOrderRequest = S.deleteOrder (S.OrderIdText orderId)
         deleteOrderResult <- S.dispatchLbs mgr config deleteOrderRequest 
         NH.responseStatus deleteOrderResult `shouldBe` NH.status200
 
@@ -255,19 +253,19 @@ testUserOps mgr config = do
 
     before (pure _user) $
       it "createUser" $ \user -> do
-        let createUserRequest = S.createUser (S.ContentType S.MimeJSON) (S.Accept S.MimeJSON) user
+        let createUserRequest = S.createUser (S.ContentType S.MimeJSON) user
         createUserResult <- S.dispatchLbs mgr config createUserRequest 
         NH.responseStatus createUserResult `shouldBe` NH.status200
 
     before (pure _users) $
       it "createUsersWithArrayInput" $ \users -> do
-        let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.ContentType S.MimeJSON) (S.Accept S.MimeNoContent) (S.Body users)
+        let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.ContentType S.MimeJSON) (S.User2 users)
         createUsersWithArrayInputResult <- S.dispatchLbs mgr config createUsersWithArrayInputRequest
         NH.responseStatus createUsersWithArrayInputResult `shouldBe` NH.status200
 
     before (pure _users) $
       it "createUsersWithListInput" $ \users -> do
-        let createUsersWithListInputRequest = S.createUsersWithListInput (S.ContentType S.MimeJSON) (S.Accept S.MimeNoContent) (S.Body users)
+        let createUsersWithListInputRequest = S.createUsersWithListInput (S.ContentType S.MimeJSON) (S.User2 users)
         createUsersWithListInputResult <- S.dispatchLbs mgr config createUsersWithListInputRequest 
         NH.responseStatus createUsersWithListInputResult `shouldBe` NH.status200
 
@@ -288,16 +286,16 @@ testUserOps mgr config = do
 
     before (pure (_username, _user)) $
       it "updateUser" $ \(username, user) -> do
-        let updateUserRequest = S.updateUser (S.ContentType S.MimeJSON) (S.Accept S.MimeJSON) (S.Username username) user
+        let updateUserRequest = S.updateUser (S.ContentType S.MimeJSON) user (S.Username username) 
         updateUserResult <- S.dispatchLbs mgr config updateUserRequest
         NH.responseStatus updateUserResult `shouldBe` NH.status200
 
     it "logoutuser" $ do
-        logoutUserResult <- S.dispatchLbs mgr config (S.logoutUser (S.Accept S.MimeJSON))
+        logoutUserResult <- S.dispatchLbs mgr config S.logoutUser
         NH.responseStatus logoutUserResult `shouldBe` NH.status200
 
     before (pure _username) $
       it "deleteUser" $ \username -> do
-        let deleteUserRequest = S.deleteUser (S.Accept S.MimeJSON) (S.Username username)
+        let deleteUserRequest = S.deleteUser (S.Username username)
         deleteUserResult <- S.dispatchLbs mgr config deleteUserRequest 
         NH.responseStatus deleteUserResult `shouldBe` NH.status200

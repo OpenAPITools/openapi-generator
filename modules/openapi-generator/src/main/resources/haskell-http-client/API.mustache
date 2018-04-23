@@ -91,8 +91,11 @@ instance HasOptionalParam {{{vendorExtensions.x-operationType}}} {{{vendorExtens
 {{#consumes}}-- | @{{{mediaType}}}@{{^x-mediaIsWildcard}}
 instance Consumes {{{vendorExtensions.x-operationType}}} {{{x-mediaDataType}}}{{/x-mediaIsWildcard}}{{#x-mediaIsWildcard}}
 instance MimeType mtype => Consumes {{{vendorExtensions.x-operationType}}} mtype{{/x-mediaIsWildcard}}
-{{/consumes}}{{/hasConsumes}}{{#hasProduces}}
+{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}
+{{/hasConsumes}}{{#hasProduces}}
 {{#produces}}-- | @{{{mediaType}}}@{{^x-mediaIsWildcard}}
 instance Produces {{{vendorExtensions.x-operationType}}} {{{x-mediaDataType}}}{{/x-mediaIsWildcard}}{{#x-mediaIsWildcard}}
 instance MimeType mtype => Produces {{{vendorExtensions.x-operationType}}} mtype{{/x-mediaIsWildcard}}
-{{/produces}}{{/hasProduces}}{{/operation}}{{/operations}}
+{{/produces}}{{/hasProduces}}{{^hasProduces}}
+instance Produces {{{vendorExtensions.x-operationType}}} MimeNoContent
+{{/hasProduces}}{{/operation}}{{/operations}}

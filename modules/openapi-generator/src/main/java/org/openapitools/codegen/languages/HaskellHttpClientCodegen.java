@@ -118,6 +118,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public HaskellHttpClientCodegen() {
         super();
 
+        this.prependFormOrBodyParameters = true;
+
         // override the mapping to keep the original mapping in Haskell
         specialCharReplacements.put("-", "Dash");
         specialCharReplacements.put(">", "GreaterThan");
@@ -620,6 +622,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             param.vendorExtensions.put(X_IS_BODY_OR_FORM_PARAM, param.isBodyParam || param.isFormParam);
             if (!StringUtils.isBlank(param.collectionFormat)) {
                 param.vendorExtensions.put(X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
+            } else if (!param.isBodyParam && (param.isListContainer || param.dataType.startsWith("["))) { // param.isListContainer is sometimes false for list types
+                // defaulting due to https://github.com/wing328/openapi-generator/issues/72
+                param.collectionFormat = "csv";
+                param.vendorExtensions.put(X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
             }
             if (!param.required) {
                 op.vendorExtensions.put(X_HAS_OPTIONAL_PARAMS, true);
@@ -734,9 +740,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public CodegenModel fromModel(String name, Schema mod, Map<String, Schema> allDefinitions) {
         CodegenModel model = super.fromModel(name, mod, allDefinitions);
 
-        while (typeNames.contains(model.classname)) {
-            model.classname = generateNextName(model.classname);
-        }
+//        while (typeNames.contains(model.classname)) {
+//            model.classname = generateNextName(model.classname);
+//        }
         typeNames.add(model.classname);
         modelTypeNames.add(model.classname);
 
@@ -1154,7 +1160,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             CodegenModel cm = (CodegenModel) mo.get("model");
             cm.isEnum = genEnums && cm.isEnum;
             if (cm.isAlias) {
-                cm.vendorExtensions.put(X_DATA_TYPE, cm.dataType);
+                String dataType = cm.dataType;
+                if(dataType == null && cm.isArrayModel) { // isAlias + arrayModelType missing "datatype"
+                   dataType = "[" + cm.arrayModelType +"]" ;
+                }
+                cm.vendorExtensions.put(X_DATA_TYPE, dataType);
             }
             for (CodegenProperty var : cm.vars) {
                 String datatype = genEnums && !StringUtils.isBlank(var.datatypeWithEnum)

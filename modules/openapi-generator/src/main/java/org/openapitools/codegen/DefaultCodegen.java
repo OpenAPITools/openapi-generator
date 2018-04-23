@@ -4115,9 +4115,12 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter._enum = codegenProperty._enum;
         codegenParameter.allowableValues = codegenProperty.allowableValues;
 
-        if (codegenProperty.items != null && codegenProperty.items.isEnum) {
+        if (codegenProperty.isEnum) {
             codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
             codegenParameter.enumName = codegenProperty.enumName;
+        }
+
+        if (codegenProperty.items != null && codegenProperty.items.isEnum) {
             codegenParameter.items = codegenProperty.items;
         }
 

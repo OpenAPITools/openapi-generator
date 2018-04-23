@@ -60,7 +60,7 @@ runPet :: NH.Manager -> S.SwaggerPetstoreConfig -> IO ()
 runPet mgr config = do
 
   -- create the request for addPet, encoded with content-type application/json, with accept header application/json
-  let addPetRequest = S.addPet (S.ContentType S.MimeJSON) (S.Accept S.MimeJSON) (S.mkPet "name" ["url1", "url2"])
+  let addPetRequest = S.addPet (S.ContentType S.MimeJSON) (S.mkPet "name" ["url1", "url2"])
 
   -- dispatchLbs simply returns the raw Network.HTTP.Client.Response ByteString
   addPetResponse <- S.dispatchLbs mgr config addPetRequest 
@@ -116,7 +116,7 @@ runPet mgr config = do
         mapM_ (\r -> putStrLn $ "findPetsByTags: found " <> (show . length) r <> " pets") findPetsByTagsResult 
 
         -- updatePet
-        let updatePetRequest = S.updatePet (S.ContentType S.MimeJSON) (S.Accept S.MimeXML) $ pet
+        let updatePetRequest = S.updatePet (S.ContentType S.MimeJSON) $ pet
                 { S.petStatus   = Just S.E'Status2'Available
                 , S.petCategory = Just (S.Category (Just 3) (Just "catname"))
                 }
@@ -128,7 +128,7 @@ runPet mgr config = do
         --   -- Defined in ‘SwaggerPetstore.API’
         -- instance S.HasOptionalParam S.UpdatePetWithForm S.Status
         --   -- Defined in ‘SwaggerPetstore.API’
-        let updatePetWithFormRequest = S.updatePetWithForm (S.Accept S.MimeJSON) (S.PetId pid)
+        let updatePetWithFormRequest = S.updatePetWithForm (S.PetId pid)
                 `S.applyOptionalParam` S.Name2 "petName"
                 `S.applyOptionalParam` S.StatusText "pending"
         _ <- S.dispatchLbs mgr config updatePetWithFormRequest 
@@ -141,7 +141,7 @@ runPet mgr config = do
         mapM_ (\r -> putStrLn $ "uploadFile: " <> show r) uploadFileRequestResult 
 
         -- deletePet
-        let deletePetRequest = S.deletePet (S.Accept S.MimeJSON) (S.PetId pid)
+        let deletePetRequest = S.deletePet (S.PetId pid)
                 `S.applyOptionalParam` S.ApiKey "api key"
         _ <- S.dispatchLbs mgr config deletePetRequest 
 
@@ -182,7 +182,7 @@ runStore mgr config = do
   mapM_ (\r -> putStrLn $ "getOrderById: found order: " <> show r) getOrderByIdRequestResult 
 
   -- deleteOrder
-  let deleteOrderRequest = S.deleteOrder (S.Accept S.MimeJSON) (S.OrderIdText "21")
+  let deleteOrderRequest = S.deleteOrder (S.OrderIdText "21")
   _ <- S.dispatchLbs mgr config deleteOrderRequest 
 
   return ()
@@ -198,27 +198,22 @@ instance S.Consumes S.UpdateUser S.MimeJSON
 instance S.Consumes S.CreateUsersWithArrayInput S.MimeJSON
 instance S.Consumes S.CreateUsersWithListInput S.MimeJSON
 
--- similarly we declare these operations are allowed to omit the
--- accept header despite what the swagger definition says
-instance S.Produces S.CreateUsersWithArrayInput S.MimeNoContent
-instance S.Produces S.CreateUsersWithListInput S.MimeNoContent
-
 runUser :: NH.Manager -> S.SwaggerPetstoreConfig -> IO ()
 runUser mgr config = do
 
   let username = "hsusername"
   -- createUser
   let user = S.mkUser { S.userId = Just 21, S.userUsername = Just username } 
-  let createUserRequest = S.createUser (S.ContentType S.MimeJSON) (S.Accept S.MimeJSON) user
+  let createUserRequest = S.createUser (S.ContentType S.MimeJSON) user
   _ <- S.dispatchLbs mgr config createUserRequest
 
   -- can use lenses (model record names are appended L) to view or modify records
   let users = take 8 $ drop 1 $ iterate (L.over S.userUsernameL (fmap (<> "*")) . L.over S.userIdL (fmap (+ 1))) user
-  let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.ContentType S.MimeJSON) (S.Accept S.MimeNoContent) (S.Body users)
+  let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.ContentType S.MimeJSON) (S.User2 users)
   _ <- S.dispatchLbs mgr config createUsersWithArrayInputRequest 
 
   -- createUsersWithArrayInput
-  let createUsersWithListInputRequest = S.createUsersWithListInput (S.ContentType S.MimeJSON) (S.Accept S.MimeNoContent)  (S.Body users)
+  let createUsersWithListInputRequest = S.createUsersWithListInput (S.ContentType S.MimeJSON) (S.User2 users)
   _ <- S.dispatchLbs mgr config createUsersWithListInputRequest
 
   -- getUserByName
@@ -232,14 +227,14 @@ runUser mgr config = do
   BCL.putStrLn $ "loginUser: " <> (NH.responseBody loginUserResult)
 
   -- updateUser
-  let updateUserRequest = S.updateUser (S.ContentType S.MimeJSON) (S.Accept S.MimeJSON)  (S.Username username) (user { S.userEmail = Just "xyz@example.com" })
+  let updateUserRequest = S.updateUser (S.ContentType S.MimeJSON) (user { S.userEmail = Just "xyz@example.com" }) (S.Username username) 
   _ <- S.dispatchLbs mgr config updateUserRequest
 
   -- logoutUser
-  _ <- S.dispatchLbs mgr config (S.logoutUser (S.Accept S.MimeJSON))
+  _ <- S.dispatchLbs mgr config (S.logoutUser)
   
   -- deleteUser
-  let deleteUserRequest = S.deleteUser (S.Accept S.MimeJSON) (S.Username username)
+  let deleteUserRequest = S.deleteUser (S.Username username)
   _ <- S.dispatchLbs mgr config deleteUserRequest 
 
   return ()
