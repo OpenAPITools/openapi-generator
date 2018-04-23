@@ -533,7 +533,7 @@ sub update_pet_with_form {
 # 
 # @param int $pet_id ID of pet to update (required)
 # @param string $additional_metadata Additional data to pass to server (optional)
-# @param File $file file to upload (optional)
+# @param string $file file to upload (optional)
 {
     my $params = {
     'pet_id' => {
@@ -547,7 +547,7 @@ sub update_pet_with_form {
         required => '0',
     },
     'file' => {
-        data_type => 'File',
+        data_type => 'string',
         description => 'file to upload',
         required => '0',
     },

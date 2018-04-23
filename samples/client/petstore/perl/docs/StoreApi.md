@@ -29,7 +29,7 @@ use WWW::SwaggerClient::StoreApi;
 my $api_instance = WWW::SwaggerClient::StoreApi->new(
 );
 
-my $order_id = 'order_id_example'; # string | ID of the order that needs to be deleted
+my $order_id = "order_id_example"; # string | ID of the order that needs to be deleted
 
 eval { 
     $api_instance->delete_order(order_id => $order_id);
@@ -192,7 +192,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
+ - **Content-Type**: application/json
  - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

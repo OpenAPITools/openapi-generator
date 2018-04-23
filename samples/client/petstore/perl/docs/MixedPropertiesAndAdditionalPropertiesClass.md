@@ -8,7 +8,7 @@ use WWW::SwaggerClient::Object::MixedPropertiesAndAdditionalPropertiesClass;
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**uuid** | [**UUID**](UUID.md) |  | [optional] 
+**uuid** | **string** |  | [optional] 
 **date_time** | **DateTime** |  | [optional] 
 **map** | [**HASH[string,Animal]**](Animal.md) |  | [optional] 
 

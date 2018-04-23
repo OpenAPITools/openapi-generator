@@ -13,7 +13,6 @@ Method | HTTP request | Description
 [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
-[**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
@@ -22,7 +21,7 @@ Method | HTTP request | Description
 
 
 # **fake_outer_boolean_serialize**
-> OuterBoolean fake_outer_boolean_serialize(boolean_post_body => $boolean_post_body)
+> OuterBoolean fake_outer_boolean_serialize(body => $body)
 
 
 
@@ -35,10 +34,10 @@ use WWW::SwaggerClient::FakeApi;
 my $api_instance = WWW::SwaggerClient::FakeApi->new(
 );
 
-my $boolean_post_body = WWW::SwaggerClient::Object::boolean->new(); # boolean | Input boolean as post body
+my $body = WWW::SwaggerClient::Object::boolean->new(); # boolean | Input boolean as post body
 
 eval { 
-    my $result = $api_instance->fake_outer_boolean_serialize(boolean_post_body => $boolean_post_body);
+    my $result = $api_instance->fake_outer_boolean_serialize(body => $body);
     print Dumper($result);
 };
 if ($@) {
@@ -50,7 +49,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **boolean_post_body** | **boolean**| Input boolean as post body | [optional] 
+ **body** | **boolean**| Input boolean as post body | [optional] 
 
 ### Return type
 
@@ -62,7 +61,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -108,7 +107,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -127,7 +126,7 @@ use WWW::SwaggerClient::FakeApi;
 my $api_instance = WWW::SwaggerClient::FakeApi->new(
 );
 
-my $body = WWW::SwaggerClient::Object::Number->new(); # Number | Input number as post body
+my $body = WWW::SwaggerClient::Object::double->new(); # double | Input number as post body
 
 eval { 
     my $result = $api_instance->fake_outer_number_serialize(body => $body);
@@ -142,7 +141,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **Number**| Input number as post body | [optional] 
+ **body** | **double**| Input number as post body | [optional] 
 
 ### Return type
 
@@ -154,7 +153,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -200,53 +199,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
- - **Accept**: */*
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **test_body_with_query_params**
-> test_body_with_query_params(query => $query, user => $user)
-
-
-
-### Example 
-```perl
-use Data::Dumper;
-use WWW::SwaggerClient::FakeApi;
-my $api_instance = WWW::SwaggerClient::FakeApi->new(
-);
-
-my $query = 'query_example'; # string | 
-my $user = WWW::SwaggerClient::Object::User->new(); # User | 
-
-eval { 
-    $api_instance->test_body_with_query_params(query => $query, user => $user);
-};
-if ($@) {
-    warn "Exception when calling FakeApi->test_body_with_query_params: $@\n";
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **query** | **string**|  | 
- **user** | [**User**](User.md)|  | 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -314,20 +268,20 @@ my $api_instance = WWW::SwaggerClient::FakeApi->new(
     password => 'YOUR_PASSWORD',
 );
 
-my $number = ; # Number | None
-my $double = ; # double | None
-my $pattern_without_delimiter = 'null'; # string | None
-my $byte = 'null'; # string | None
-my $integer = ; # int | None
-my $int32 = ; # int | None
-my $int64 = ; # int | None
-my $float = ; # double | None
-my $string = 'null'; # string | None
-my $binary = 'null'; # File | None
+my $number = 3.4; # double | None
+my $double = 3.4; # double | None
+my $pattern_without_delimiter = "pattern_without_delimiter_example"; # string | None
+my $byte = "YmFzZSA2NCBkYXRh"; # string | None
+my $integer = 56; # int | None
+my $int32 = 56; # int | None
+my $int64 = 789; # int | None
+my $float = 3.4; # double | None
+my $string = "string_example"; # string | None
+my $binary = "/path/to/file"; # string | None
 my $date = DateTime->from_epoch(epoch => str2time('null')); # DateTime | None
 my $date_time = DateTime->from_epoch(epoch => str2time('null')); # DateTime | None
-my $password = 'null'; # string | None
-my $callback = 'null'; # string | None
+my $password = "password_example"; # string | None
+my $callback = "callback_example"; # string | None
 
 eval { 
     $api_instance->test_endpoint_parameters(number => $number, double => $double, pattern_without_delimiter => $pattern_without_delimiter, byte => $byte, integer => $integer, int32 => $int32, int64 => $int64, float => $float, string => $string, binary => $binary, date => $date, date_time => $date_time, password => $password, callback => $callback);
@@ -341,7 +295,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **Number**| None | 
+ **number** | **double**| None | 
  **double** | **double**| None | 
  **pattern_without_delimiter** | **string**| None | 
  **byte** | **string**| None | 
@@ -350,7 +304,7 @@ Name | Type | Description  | Notes
  **int64** | **int**| None | [optional] 
  **float** | **double**| None | [optional] 
  **string** | **string**| None | [optional] 
- **binary** | **File****File**| None | [optional] 
+ **binary** | **string****string**| None | [optional] 
  **date** | **DateTime**| None | [optional] 
  **date_time** | **DateTime**| None | [optional] 
  **password** | **string**| None | [optional] 
@@ -385,14 +339,14 @@ use WWW::SwaggerClient::FakeApi;
 my $api_instance = WWW::SwaggerClient::FakeApi->new(
 );
 
-my $enum_header_string_array = []; # ARRAY[string] | Header parameter enum test (string array)
-my $enum_header_string = 'enum_header_string_example'; # string | Header parameter enum test (string)
-my $enum_query_string_array = []; # ARRAY[string] | Query parameter enum test (string array)
-my $enum_query_string = 'enum_query_string_example'; # string | Query parameter enum test (string)
+my $enum_header_string_array = [("'$'")]; # ARRAY[string] | Header parameter enum test (string array)
+my $enum_header_string = "-efg"; # string | Header parameter enum test (string)
+my $enum_query_string_array = [("'$'")]; # ARRAY[string] | Query parameter enum test (string array)
+my $enum_query_string = "-efg"; # string | Query parameter enum test (string)
 my $enum_query_integer = 56; # int | Query parameter enum test (double)
-my $enum_query_double = 1.2; # double | Query parameter enum test (double)
-my $enum_form_string_array = ; # ARRAY[string] | Form parameter enum test (string array)
-my $enum_form_string = 'null'; # string | Form parameter enum test (string)
+my $enum_query_double = 3.4; # double | Query parameter enum test (double)
+my $enum_form_string_array = null; # ARRAY[string] | Form parameter enum test (string array)
+my $enum_form_string = "enum_form_string_example"; # string | Form parameter enum test (string)
 
 eval { 
     $api_instance->test_enum_parameters(enum_header_string_array => $enum_header_string_array, enum_header_string => $enum_header_string, enum_query_string_array => $enum_query_string_array, enum_query_string => $enum_query_string, enum_query_integer => $enum_query_integer, enum_query_double => $enum_query_double, enum_form_string_array => $enum_form_string_array, enum_form_string => $enum_form_string);
@@ -407,9 +361,9 @@ if ($@) {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enum_header_string_array** | [**ARRAY[string]**](string.md)| Header parameter enum test (string array) | [optional] 
- **enum_header_string** | **string**| Header parameter enum test (string) | [optional] 
+ **enum_header_string** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
  **enum_query_string_array** | [**ARRAY[string]**](string.md)| Query parameter enum test (string array) | [optional] 
- **enum_query_string** | **string**| Query parameter enum test (string) | [optional] 
+ **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional] 
  **enum_form_string_array** | [**ARRAY[string]**](ARRAY.md)| Form parameter enum test (string array) | [optional] 
@@ -431,7 +385,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_inline_additional_properties**
-> test_inline_additional_properties(body => $body)
+> test_inline_additional_properties(UNKNOWN_PARAM_NAME => $UNKNOWN_PARAM_NAME)
 
 test inline additionalProperties
 
@@ -442,10 +396,10 @@ use WWW::SwaggerClient::FakeApi;
 my $api_instance = WWW::SwaggerClient::FakeApi->new(
 );
 
-my $body = WWW::SwaggerClient::Object::HASH[string,string]->new(); # HASH[string,string] | request body
+my $UNKNOWN_PARAM_NAME = WWW::SwaggerClient::Object::->new(); #  | request body
 
 eval { 
-    $api_instance->test_inline_additional_properties(body => $body);
+    $api_instance->test_inline_additional_properties(UNKNOWN_PARAM_NAME => $UNKNOWN_PARAM_NAME);
 };
 if ($@) {
     warn "Exception when calling FakeApi->test_inline_additional_properties: $@\n";
@@ -456,7 +410,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **HASH[string,string]**| request body | 
+ **UNKNOWN_PARAM_NAME** | [****](.md)| request body | 
 
 ### Return type
 
@@ -485,8 +439,8 @@ use WWW::SwaggerClient::FakeApi;
 my $api_instance = WWW::SwaggerClient::FakeApi->new(
 );
 
-my $param = 'null'; # string | field1
-my $param2 = 'null'; # string | field2
+my $param = "param_example"; # string | field1
+my $param2 = "param2_example"; # string | field2
 
 eval { 
     $api_instance->test_json_form_data(param => $param, param2 => $param2);

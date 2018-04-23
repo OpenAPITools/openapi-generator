@@ -30,7 +30,6 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
-use WWW::SwaggerClient::Object::Number;
 
 use base ("Class::Accessor", "Class::Data::Inheritable");
 
@@ -145,7 +144,7 @@ __PACKAGE__->class_documentation({description => '',
 
 __PACKAGE__->method_documentation({
     'just_number' => {
-    	datatype => 'Number',
+    	datatype => 'double',
     	base_name => 'JustNumber',
     	description => '',
     	format => '',
@@ -154,7 +153,7 @@ __PACKAGE__->method_documentation({
 });
 
 __PACKAGE__->swagger_types( {
-    'just_number' => 'Number'
+    'just_number' => 'double'
 } );
 
 __PACKAGE__->attribute_map( {
