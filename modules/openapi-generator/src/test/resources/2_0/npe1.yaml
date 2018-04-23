@@ -1,0 +1,113 @@
+---
+# This is a sample Swagger spec, describing a simple API as a starting point. 
+ 
+swagger: "2.0"
+info:
+  description: App
+  version: 1.0.0
+  title: Application
+  
+host: localhost:32000
+basePath: /api/v1.0
+schemes:
+- http
+
+tags:
+   
+paths:
+  /default/Resources/{id}: 
+    post:  
+      description: "Post a Resource status set for a specific resource Id"
+      operationId: resourceStatusSet
+      consumes:
+      - application/json
+      parameters:
+      - name: "exclusive"
+        in: "query"
+        description: "Exclusive Operation on a resource"
+        type: "boolean"
+        default: false
+      - name: id
+        in: "path"
+        description: "id of the requested resource"
+        required: true
+        type: integer
+        format: int32
+      - name: "body"
+        in: "body"
+        description: "Request to post"
+        schema:
+          $ref: "#/definitions/ResourceRequest"
+      responses:
+        200:
+          description: "Successful response"
+
+        404:
+          description: "The request was not successfully executed."
+  
+  
+definitions:
+
+  Options:
+    type: "object"
+    properties:
+      Config:
+        description: "List of configuration options"
+        type: "object"
+        additionalProperties:
+          type: "string"
+
+            
+  Resource:
+    required:
+      - id
+    type: object  
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: |
+          "Id of the Resource"
+      name:
+        type: string
+        description: |
+          "Name of the Resource"                    
+      type:
+        type: string
+        description: "" 
+      options:
+        $ref: "#/definitions/Options" 
+
+  ResourceOperations:
+    description: "An object describing the operations"
+    type: "object"
+    additionalProperties:
+      type: "string"
+
+  ResourceRequest:
+    allOf:
+    - $ref: "#/definitions/Resource"
+    - type: "object"
+      required:
+      - handle
+      properties:
+        handle:
+          type : "string"
+          x-nullable: false
+        requestCode:
+          type: integer
+          format: int32
+          description: |
+            "Request code of the operation" 
+        operations:
+          $ref: "#/definitions/ResourceOperations"
+        payload:
+          type: array
+          items:
+            type: integer
+            format: int32    
+        args:
+          type: "array"
+          items:
+            type: "string"  
+     

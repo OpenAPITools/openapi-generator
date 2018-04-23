@@ -102,4 +102,30 @@ public class RubyClientCodegenTest {
       Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "ruby-models");
       Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "ruby-api");
   }
+
+    @Test
+    public void testBooleanDefaultValue() throws Exception {
+        final File output = folder.getRoot();
+
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/npe1.yaml", null, new ParseOptions()).getOpenAPI();
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        boolean apiFileGenerated = false;
+        for (File file : files) {
+            if (file.getName().equals("default_api.rb")) {
+                apiFileGenerated = true;
+                // Ruby client should set the path unescaped in the api file
+                assertTrue(FileUtils.readFileToString(file, StandardCharsets.UTF_8).contains("local_var_path = '/default/Resources/{id}'"));
+            }
+        }
+        if (!apiFileGenerated) {
+            fail("Default api file is not generated!");
+        }
+    }
+
 }
