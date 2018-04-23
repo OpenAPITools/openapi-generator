@@ -2595,7 +2595,8 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.items = codegenProperty.items;
             }
 
-            codegenParameter.collectionFormat = collectionFormat;
+            // default to csv
+            codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
             if ("multi".equals(collectionFormat)) {
                 codegenParameter.isCollectionFormatMulti = true;
             }
