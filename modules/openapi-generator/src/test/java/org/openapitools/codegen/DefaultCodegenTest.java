@@ -19,6 +19,23 @@ import java.util.Set;
 public class DefaultCodegenTest {
 
     @Test
+    public void testCamelize() throws Exception {
+        Assert.assertEquals(DefaultCodegen.camelize("abcd"), "Abcd");
+        Assert.assertEquals(DefaultCodegen.camelize("some-value"), "SomeValue");
+        Assert.assertEquals(DefaultCodegen.camelize("some_value"), "SomeValue");
+        Assert.assertEquals(DefaultCodegen.camelize("$type"), "$Type");
+
+        Assert.assertEquals(DefaultCodegen.camelize("abcd", true), "abcd");
+        Assert.assertEquals(DefaultCodegen.camelize("some-value", true), "someValue");
+        Assert.assertEquals(DefaultCodegen.camelize("some_value", true), "someValue");
+        Assert.assertEquals(DefaultCodegen.camelize("Abcd", true), "abcd");
+        Assert.assertEquals(DefaultCodegen.camelize("$type", true), "$type");
+
+        Assert.assertEquals(DefaultCodegen.camelize("123", true), "123");
+        Assert.assertEquals(DefaultCodegen.camelize("$123", true), "$123");
+    }
+
+    @Test
     public void testHasBodyParameter() throws Exception {
         final Schema refSchema = new Schema<>().$ref("#/components/schemas/Pet");
         Operation pingOperation = new Operation()
@@ -41,7 +58,7 @@ public class DefaultCodegenTest {
         Assert.assertEquals(codegen.hasBodyParameter(openAPI, pingOperation), false);
         Assert.assertEquals(codegen.hasBodyParameter(openAPI, createOperation), true);
     }
-    
+
     @Test
     public void testGetConsumesInfoAndGetProducesInfo() throws Exception {
         final DefaultCodegen codegen = new DefaultCodegen();

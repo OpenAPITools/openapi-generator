@@ -3320,7 +3320,14 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (lowercaseFirstLetter && word.length() > 0) {
-            word = word.substring(0, 1).toLowerCase() + word.substring(1);
+            int i = 0;
+            char charAt = word.charAt(i);
+            while(i + 1 < word.length() && !((charAt >= 'a' && charAt <= 'z') || (charAt >= 'A' && charAt <= 'Z'))) {
+                i = i + 1;
+                charAt = word.charAt(i);
+            }
+            i = i + 1;
+            word = word.substring(0, i).toLowerCase() + word.substring(i);
         }
 
         // remove all underscore
@@ -3514,6 +3521,17 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @SuppressWarnings("static-method")
     public String sanitizeName(String name) {
+        return sanitizeName(name, "\\W");
+    }
+
+    /**
+     * Sanitize name (parameter, property, method, etc)
+     *
+     * @param name string to be sanitize
+     * @param removeCharRegEx a regex containing all char that will be removed
+     * @return sanitized string
+     */
+    public String sanitizeName(String name, String removeCharRegEx) {
         // NOTE: performance wise, we should have written with 2 replaceAll to replace desired
         // character with _ or empty character. Below aims to spell out different cases we've
         // encountered so far and hopefully make it easier for others to add more special
@@ -3553,9 +3571,9 @@ public class DefaultCodegen implements CodegenConfig {
         // remove everything else other than word, number and _
         // $php_variable => php_variable
         if (allowUnicodeIdentifiers) { //could be converted to a single line with ?: operator
-            name = Pattern.compile("\\W", Pattern.UNICODE_CHARACTER_CLASS).matcher(name).replaceAll("");
+            name = Pattern.compile(removeCharRegEx, Pattern.UNICODE_CHARACTER_CLASS).matcher(name).replaceAll("");
         } else {
-            name = name.replaceAll("\\W", "");
+            name = name.replaceAll(removeCharRegEx, "");
         }
 
         return name;
