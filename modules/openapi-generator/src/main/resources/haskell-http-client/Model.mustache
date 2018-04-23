@@ -73,7 +73,7 @@ newtype {{{x-paramNameType}}} = {{{x-paramNameType}}} { un{{{x-paramNameType}}} 
 -- {{{.}}}{{/description}}{{#isAlias}}
 newtype {{classname}} = {{classname}}
   { un{{classname}} :: {{{vendorExtensions.x-dataType}}}
-  } deriving (P.Eq, P.Show, P.Typeable, A.ToJSON, A.FromJSON, WH.ToHttpApiData, WH.FromHttpApiData{{#modelDeriving}}, {{modelDeriving}}{{/modelDeriving}}){{/isAlias}}{{^isAlias}}
+  } deriving (P.Eq, P.Show, P.Typeable, A.ToJSON, A.FromJSON{{#modelDeriving}}, {{modelDeriving}}{{/modelDeriving}}){{/isAlias}}{{^isAlias}}
 data {{classname}} = {{classname}}
   { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#readOnly}}/ReadOnly/ {{/readOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}

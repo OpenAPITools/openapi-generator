@@ -28,9 +28,11 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy ArrayOfNumberOnly)
       propMimeEq MimeJSON (Proxy :: Proxy ArrayTest)
       propMimeEq MimeJSON (Proxy :: Proxy Capitalization)
+      propMimeEq MimeJSON (Proxy :: Proxy Cat)
       propMimeEq MimeJSON (Proxy :: Proxy Category)
       propMimeEq MimeJSON (Proxy :: Proxy ClassModel)
       propMimeEq MimeJSON (Proxy :: Proxy Client)
+      propMimeEq MimeJSON (Proxy :: Proxy Dog)
       propMimeEq MimeJSON (Proxy :: Proxy EnumArrays)
       propMimeEq MimeJSON (Proxy :: Proxy EnumClass)
       propMimeEq MimeJSON (Proxy :: Proxy EnumTest)
@@ -54,6 +56,4 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy SpecialModelName)
       propMimeEq MimeJSON (Proxy :: Proxy Tag)
       propMimeEq MimeJSON (Proxy :: Proxy User)
-      propMimeEq MimeJSON (Proxy :: Proxy Cat)
-      propMimeEq MimeJSON (Proxy :: Proxy Dog)
       

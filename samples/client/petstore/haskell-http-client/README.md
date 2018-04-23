@@ -2,9 +2,7 @@
 
 The library in `lib` provides auto-generated-from-Swagger [http-client](https://www.stackage.org/lts-10.0/package/http-client-0.5.7.1) bindings to the Swagger Petstore API.
 
-Targeted swagger version: 2.0
-
-OpenAPI-Specification: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md
+OpenApi Version: 3.0.1
 
 ## Installation
 
