@@ -6,7 +6,7 @@ import java.io.File;
 
 public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
     public static final String CLIENT_PACKAGE = "clientPackage";
-    protected String clientPackage = "IO.Swagger.Client";
+    protected String clientPackage = "Org.OpenAPITools.Client";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
@@ -98,7 +98,7 @@ public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a C# .Net 2.0 client library.";
+        return "Generates a C# .Net 2.0 client library (beta).";
     }
 
     @Override
