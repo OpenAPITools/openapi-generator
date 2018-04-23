@@ -1,7 +1,6 @@
 org.openapitools.codegen.languages.AdaCodegen
 org.openapitools.codegen.languages.AdaServerCodegen
 org.openapitools.codegen.languages.AndroidClientCodegen
-org.openapitools.codegen.languages.AkkaScalaClientCodegen
 org.openapitools.codegen.languages.Apache2ConfigCodegen
 org.openapitools.codegen.languages.ApexClientCodegen
 org.openapitools.codegen.languages.AspNetCoreServerCodegen
@@ -70,7 +69,8 @@ org.openapitools.codegen.languages.RubySinatraServerCodegen
 org.openapitools.codegen.languages.RustClientCodegen
 org.openapitools.codegen.languages.RustServerCodegen
 org.openapitools.codegen.languages.ScalatraServerCodegen
-org.openapitools.codegen.languages.ScalaClientCodegen
+org.openapitools.codegen.languages.ScalaAkkaClientCodegen
+org.openapitools.codegen.languages.ScalaHttpClientCodegen
 org.openapitools.codegen.languages.ScalaGatlingCodegen
 org.openapitools.codegen.languages.ScalaLagomServerCodegen
 org.openapitools.codegen.languages.ScalazClientCodegen

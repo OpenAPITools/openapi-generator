@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
+public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String authScheme = "";
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean authPreemptive;
@@ -18,7 +18,7 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
     protected String artifactVersion = "1.0.0";
     protected String clientName = "AsyncClient";
 
-    public ScalaClientCodegen() {
+    public ScalaHttpClientCodegen() {
         super();
         outputFolder = "generated-code/scala";
         modelTemplateFiles.put("model.mustache", ".scala");
@@ -184,12 +184,14 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
 
     @Override
     public String getName() {
-        return "scala";
+        return "scala-httpclient";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Scala client library (beta).";
+        return "Generates a Scala client library (beta). IMPORTANT: " +
+                "This generator is no longer actively maintained and will be deprecated. " +
+                "PLease use 'scala-akka' generator instead.";
     }
 
     @Override
