@@ -22,21 +22,20 @@ class StoreApi {
         // query params
         def queryParams = [:]
         def headerParams = [:]
-    
+
         // verify required params are set
         if (orderId == null) {
             throw new RuntimeException("missing required params orderId")
         }
 
-        
-
-        // Also still TODO: form params, body param
+        // TODO: form params, body param not yet support
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "DELETE", "",
                     null )
-                    
+
     }
+
     def getInventory ( Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/store/inventory"
@@ -44,17 +43,15 @@ class StoreApi {
         // query params
         def queryParams = [:]
         def headerParams = [:]
-    
 
-        
-
-        // Also still TODO: form params, body param
+        // TODO: form params, body param not yet support
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "GET", "map",
-                    Map.class )
-                    
+                    Integer.class )
+
     }
+
     def getOrderById ( Long orderId, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/store/order/{orderId}"
@@ -62,41 +59,39 @@ class StoreApi {
         // query params
         def queryParams = [:]
         def headerParams = [:]
-    
+
         // verify required params are set
         if (orderId == null) {
             throw new RuntimeException("missing required params orderId")
         }
 
-        
-
-        // Also still TODO: form params, body param
+        // TODO: form params, body param not yet support
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "GET", "",
                     Order.class )
-                    
+
     }
-    def placeOrder ( Order body, Closure onSuccess, Closure onFailure)  {
+
+    def placeOrder ( Order order, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/store/order"
 
         // query params
         def queryParams = [:]
         def headerParams = [:]
-    
+
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (order == null) {
+            throw new RuntimeException("missing required params order")
         }
 
-        
-
-        // Also still TODO: form params, body param
+        // TODO: form params, body param not yet support
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "POST", "",
                     Order.class )
-                    
+
     }
+
 }

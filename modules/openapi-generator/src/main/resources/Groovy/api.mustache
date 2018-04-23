@@ -24,31 +24,33 @@ class {{classname}} {
         // query params
         def queryParams = [:]
         def headerParams = [:]
-    
+
         {{#allParams}}
         {{#required}}
         // verify required params are set
         if ({{paramName}} == null) {
             throw new RuntimeException("missing required params {{paramName}}")
         }
+
         {{/required}}
         {{/allParams}}
-
-        {{#queryParams}}if (!"null".equals(String.valueOf({{paramName}})))
+        {{#queryParams}}
+        if (!"null".equals(String.valueOf({{paramName}})))
             queryParams.put("{{baseName}}", String.valueOf({{paramName}}))
-        {{/queryParams}}
 
+        {{/queryParams}}
         {{#headerParams}}
         headerParams.put("{{baseName}}", {{paramName}})
-        {{/headerParams}}
 
-        // Also still TODO: form params, body param
+        {{/headerParams}}
+        // TODO: form params, body param not yet support
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "{{httpMethod}}", "{{returnContainer}}",
                     {{#returnBaseType}}{{{returnBaseType}}}.class {{/returnBaseType}}{{^returnBaseType}}null {{/returnBaseType}})
-                    
+
     }
+
     {{/operation}}
 }
 {{/operations}}
