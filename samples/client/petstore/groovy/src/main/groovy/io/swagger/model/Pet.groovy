@@ -7,9 +7,9 @@ import io.swagger.model.ArrayList;
 import io.swagger.model.Category;
 import io.swagger.model.Tag;
 import java.util.List;
+
 @Canonical
 class Pet {
-
     Long id = null
 
     Category category = null
@@ -20,9 +20,7 @@ class Pet {
 
     List<Tag> tags = new ArrayList<Tag>()
 
-  /* pet status in the store */
-  String status = null
-  
+    /* pet status in the store */
+    String status = null
 
 }
-

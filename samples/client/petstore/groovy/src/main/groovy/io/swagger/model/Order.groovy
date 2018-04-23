@@ -4,9 +4,9 @@ import groovy.transform.Canonical
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Date;
+
 @Canonical
 class Order {
-
     Long id = null
 
     Long petId = null
@@ -15,11 +15,9 @@ class Order {
 
     Date shipDate = null
 
-  /* Order Status */
-  String status = null
+    /* Order Status */
+    String status = null
 
     Boolean complete = false
-  
 
 }
-

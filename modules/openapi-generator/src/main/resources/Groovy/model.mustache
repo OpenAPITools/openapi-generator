@@ -1,21 +1,21 @@
 package {{package}};
 
 import groovy.transform.Canonical
-{{#imports}}import {{import}};
+{{#imports}}
+import {{import}};
 {{/imports}}
+
 {{#models}}
 {{#model}}
 @Canonical
 class {{classname}} {
-  {{#vars}}
+    {{#vars}}
+    {{#description}}
+    /* {{{description}}} */
+    {{/description}}
+    {{{datatype}}} {{name}} = {{{defaultValue}}}
 
-  {{#description}}/* {{{description}}} */
-  {{/description}}
-  {{{datatype}}} {{name}} = {{{defaultValue}}}
-  {{/vars}}
-  
-
+    {{/vars}}
 }
-
 {{/model}}
 {{/models}}
