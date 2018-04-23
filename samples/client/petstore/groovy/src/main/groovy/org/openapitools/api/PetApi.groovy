@@ -1,30 +1,31 @@
-package io.swagger.api;
+package org.openapitools.api;
 
 import groovyx.net.http.*
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
-import io.swagger.api.ApiUtils
+import org.openapitools.api.ApiUtils
 
-import io.swagger.model.User
+import org.openapitools.model.ModelApiResponse
+import org.openapitools.model.Pet
 
 import java.util.*;
 
 @Mixin(ApiUtils)
-class UserApi {
+class PetApi {
     String basePath = "http://petstore.swagger.io/v2"
     String versionPath = "/api/v1"
 
-    def createUser ( User user, Closure onSuccess, Closure onFailure)  {
+    def addPet ( Pet pet, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
-        String resourcePath = "/user"
+        String resourcePath = "/pet"
 
         // query params
         def queryParams = [:]
         def headerParams = [:]
 
         // verify required params are set
-        if (user == null) {
-            throw new RuntimeException("missing required params user")
+        if (pet == null) {
+            throw new RuntimeException("missing required params pet")
         }
 
         // TODO: form params, body param not yet support
@@ -35,60 +36,20 @@ class UserApi {
 
     }
 
-    def createUsersWithArrayInput ( List<User> user, Closure onSuccess, Closure onFailure)  {
+    def deletePet ( Long petId, String apiKey, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
-        String resourcePath = "/user/createWithArray"
+        String resourcePath = "/pet/{petId}"
 
         // query params
         def queryParams = [:]
         def headerParams = [:]
 
         // verify required params are set
-        if (user == null) {
-            throw new RuntimeException("missing required params user")
+        if (petId == null) {
+            throw new RuntimeException("missing required params petId")
         }
 
-        // TODO: form params, body param not yet support
-
-        invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
-                    "POST", "",
-                    null )
-
-    }
-
-    def createUsersWithListInput ( List<User> user, Closure onSuccess, Closure onFailure)  {
-        // create path and map path parameters (TODO)
-        String resourcePath = "/user/createWithList"
-
-        // query params
-        def queryParams = [:]
-        def headerParams = [:]
-
-        // verify required params are set
-        if (user == null) {
-            throw new RuntimeException("missing required params user")
-        }
-
-        // TODO: form params, body param not yet support
-
-        invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
-                    "POST", "",
-                    null )
-
-    }
-
-    def deleteUser ( String username, Closure onSuccess, Closure onFailure)  {
-        // create path and map path parameters (TODO)
-        String resourcePath = "/user/{username}"
-
-        // query params
-        def queryParams = [:]
-        def headerParams = [:]
-
-        // verify required params are set
-        if (username == null) {
-            throw new RuntimeException("missing required params username")
-        }
+        headerParams.put("api_key", apiKey)
 
         // TODO: form params, body param not yet support
 
@@ -98,91 +59,86 @@ class UserApi {
 
     }
 
-    def getUserByName ( String username, Closure onSuccess, Closure onFailure)  {
+    def findPetsByStatus ( List<String> status, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
-        String resourcePath = "/user/{username}"
+        String resourcePath = "/pet/findByStatus"
 
         // query params
         def queryParams = [:]
         def headerParams = [:]
 
         // verify required params are set
-        if (username == null) {
-            throw new RuntimeException("missing required params username")
+        if (status == null) {
+            throw new RuntimeException("missing required params status")
+        }
+
+        if (!"null".equals(String.valueOf(status)))
+            queryParams.put("status", String.valueOf(status))
+
+        // TODO: form params, body param not yet support
+
+        invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
+                    "GET", "array",
+                    Pet.class )
+
+    }
+
+    def findPetsByTags ( List<String> tags, Closure onSuccess, Closure onFailure)  {
+        // create path and map path parameters (TODO)
+        String resourcePath = "/pet/findByTags"
+
+        // query params
+        def queryParams = [:]
+        def headerParams = [:]
+
+        // verify required params are set
+        if (tags == null) {
+            throw new RuntimeException("missing required params tags")
+        }
+
+        if (!"null".equals(String.valueOf(tags)))
+            queryParams.put("tags", String.valueOf(tags))
+
+        // TODO: form params, body param not yet support
+
+        invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
+                    "GET", "array",
+                    Pet.class )
+
+    }
+
+    def getPetById ( Long petId, Closure onSuccess, Closure onFailure)  {
+        // create path and map path parameters (TODO)
+        String resourcePath = "/pet/{petId}"
+
+        // query params
+        def queryParams = [:]
+        def headerParams = [:]
+
+        // verify required params are set
+        if (petId == null) {
+            throw new RuntimeException("missing required params petId")
         }
 
         // TODO: form params, body param not yet support
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "GET", "",
-                    User.class )
+                    Pet.class )
 
     }
 
-    def loginUser ( String username, String password, Closure onSuccess, Closure onFailure)  {
+    def updatePet ( Pet pet, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
-        String resourcePath = "/user/login"
+        String resourcePath = "/pet"
 
         // query params
         def queryParams = [:]
         def headerParams = [:]
 
         // verify required params are set
-        if (username == null) {
-            throw new RuntimeException("missing required params username")
-        }
-
-        // verify required params are set
-        if (password == null) {
-            throw new RuntimeException("missing required params password")
-        }
-
-        if (!"null".equals(String.valueOf(username)))
-            queryParams.put("username", String.valueOf(username))
-
-        if (!"null".equals(String.valueOf(password)))
-            queryParams.put("password", String.valueOf(password))
-
-        // TODO: form params, body param not yet support
-
-        invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
-                    "GET", "",
-                    String.class )
-
-    }
-
-    def logoutUser ( Closure onSuccess, Closure onFailure)  {
-        // create path and map path parameters (TODO)
-        String resourcePath = "/user/logout"
-
-        // query params
-        def queryParams = [:]
-        def headerParams = [:]
-
-        // TODO: form params, body param not yet support
-
-        invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
-                    "GET", "",
-                    null )
-
-    }
-
-    def updateUser ( String username, User user, Closure onSuccess, Closure onFailure)  {
-        // create path and map path parameters (TODO)
-        String resourcePath = "/user/{username}"
-
-        // query params
-        def queryParams = [:]
-        def headerParams = [:]
-
-        // verify required params are set
-        if (username == null) {
-            throw new RuntimeException("missing required params username")
-        }
-
-        // verify required params are set
-        if (user == null) {
-            throw new RuntimeException("missing required params user")
+        if (pet == null) {
+            throw new RuntimeException("missing required params pet")
         }
 
         // TODO: form params, body param not yet support
@@ -190,6 +146,48 @@ class UserApi {
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "PUT", "",
                     null )
+
+    }
+
+    def updatePetWithForm ( Long petId, String name, String status, Closure onSuccess, Closure onFailure)  {
+        // create path and map path parameters (TODO)
+        String resourcePath = "/pet/{petId}"
+
+        // query params
+        def queryParams = [:]
+        def headerParams = [:]
+
+        // verify required params are set
+        if (petId == null) {
+            throw new RuntimeException("missing required params petId")
+        }
+
+        // TODO: form params, body param not yet support
+
+        invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
+                    "POST", "",
+                    null )
+
+    }
+
+    def uploadFile ( Long petId, String additionalMetadata, File file, Closure onSuccess, Closure onFailure)  {
+        // create path and map path parameters (TODO)
+        String resourcePath = "/pet/{petId}/uploadImage"
+
+        // query params
+        def queryParams = [:]
+        def headerParams = [:]
+
+        // verify required params are set
+        if (petId == null) {
+            throw new RuntimeException("missing required params petId")
+        }
+
+        // TODO: form params, body param not yet support
+
+        invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
+                    "POST", "",
+                    ModelApiResponse.class )
 
     }
 

@@ -12,9 +12,11 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
     public GroovyClientCodegen() {
         super();
 
-        // clear import mapping (from default generator) as groovy does not use it
-        // at the moment
-        importMapping.clear();
+        // avoid importing the following as models
+        languageSpecificPrimitives.add("Date");
+        languageSpecificPrimitives.add("ArrayList");
+        languageSpecificPrimitives.add("File");
+        languageSpecificPrimitives.add("Map");
 
         sourceFolder = projectFolder + File.separator + "groovy";
         outputFolder = "generated-code/groovy";
@@ -29,18 +31,17 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-        apiPackage = "io.swagger.api";
-        modelPackage = "io.swagger.model";
-        configPackage = "io.swagger.configuration";
-        invokerPackage = "io.swagger.api";
-        artifactId = "swagger-groovy";
+        apiPackage = "org.openapitools.api";
+        modelPackage = "org.openapitools.model";
+        configPackage = "org.openapitools.configuration";
+        invokerPackage = "org.openapitools.api";
+        artifactId = "openapi-groovy";
         dateLibrary = "legacy"; //TODO: add joda support to groovy
 
         additionalProperties.put("title", title);
         additionalProperties.put(CONFIG_PACKAGE, configPackage);
 
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
-
     }
 
     @Override

@@ -1,17 +1,15 @@
-package io.swagger.model;
+package org.openapitools.model;
 
 import groovy.transform.Canonical
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Category;
-import io.swagger.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.model.Category;
+import org.openapitools.model.Tag;
+
 @Canonical
 class Pet {
-
     Long id = null
 
     Category category = null
@@ -22,9 +20,7 @@ class Pet {
 
     List<Tag> tags = new ArrayList<Tag>()
 
-  /* pet status in the store */
-  String status = null
-  
+    /* pet status in the store */
+    String status = null
 
 }
-

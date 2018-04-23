@@ -1,12 +1,11 @@
-package io.swagger.api;
+package org.openapitools.api;
 
 import groovyx.net.http.*
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
-import io.swagger.api.ApiUtils
+import org.openapitools.api.ApiUtils
 
-import io.swagger.model.Map
-import io.swagger.model.Order
+import org.openapitools.model.Order
 
 import java.util.*;
 

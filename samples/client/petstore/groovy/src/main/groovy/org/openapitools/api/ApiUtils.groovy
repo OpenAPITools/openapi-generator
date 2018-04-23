@@ -1,4 +1,4 @@
-package io.swagger.api;
+package org.openapitools.api;
 
 import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.Method
