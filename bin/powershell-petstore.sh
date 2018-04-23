@@ -1,6 +1,7 @@
 #!/bin/sh
 
 SCRIPT="$0"
+echo "# START SCRIPT: $SCRIPT"
 
 while [ -h "$SCRIPT" ] ; do
   ls=$(ls -ld "$SCRIPT")
