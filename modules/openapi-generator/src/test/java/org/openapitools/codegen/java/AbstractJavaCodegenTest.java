@@ -50,6 +50,23 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void convertVarName() throws Exception {
+       Assert.assertEquals(fakeJavaCodegen.toVarName("name"), "name");
+       Assert.assertEquals(fakeJavaCodegen.toVarName("$name"), "$name");
+       Assert.assertEquals(fakeJavaCodegen.toVarName("nam$$e"), "nam$$e");
+       Assert.assertEquals(fakeJavaCodegen.toVarName("user-name"), "userName");
+       Assert.assertEquals(fakeJavaCodegen.toVarName("user_name"), "userName");
+   }
+
+   @Test
+   public void convertModelName() throws Exception {
+       Assert.assertEquals(fakeJavaCodegen.toModelName("name"), "Name");
+       Assert.assertEquals(fakeJavaCodegen.toModelName("$name"), "Name");
+       Assert.assertEquals(fakeJavaCodegen.toModelName("nam#e"), "Name");
+       Assert.assertEquals(fakeJavaCodegen.toModelName("$another-fake?"), "AnotherFake");
+   }
+
+    @Test
     public void testInitialConfigValues() throws Exception {
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.processOpts();

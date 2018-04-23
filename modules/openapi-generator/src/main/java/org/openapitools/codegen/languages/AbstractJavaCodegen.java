@@ -516,7 +516,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if (name.toLowerCase().matches("^_*class$")) {
             return "propertyClass";
