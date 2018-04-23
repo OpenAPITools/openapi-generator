@@ -35,7 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
+public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String mainPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-client";
@@ -56,9 +56,9 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
     protected boolean onlyOneSuccess = true;
 
     @SuppressWarnings("hiding")
-    protected Logger LOGGER = LoggerFactory.getLogger(AkkaScalaClientCodegen.class);
+    protected Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaClientCodegen.class);
 
-    public AkkaScalaClientCodegen() {
+    public ScalaAkkaClientCodegen() {
         super();
         outputFolder = "generated-code/scala";
         modelTemplateFiles.put("model.mustache", ".scala");
@@ -140,7 +140,7 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String getName() {
-        return "akka-scala";
+        return "scala-akka";
     }
 
     @Override
