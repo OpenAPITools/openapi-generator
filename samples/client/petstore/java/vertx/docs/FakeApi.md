@@ -27,8 +27,8 @@ Test serialization of outer boolean types
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.FakeApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.FakeApi;
 
 
 FakeApi apiInstance = new FakeApi();
@@ -72,8 +72,8 @@ Test serialization of object with outer number type
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.FakeApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.FakeApi;
 
 
 FakeApi apiInstance = new FakeApi();
@@ -117,8 +117,8 @@ Test serialization of outer number types
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.FakeApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.FakeApi;
 
 
 FakeApi apiInstance = new FakeApi();
@@ -162,8 +162,8 @@ Test serialization of outer string types
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.FakeApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.FakeApi;
 
 
 FakeApi apiInstance = new FakeApi();
@@ -205,8 +205,8 @@ No authorization required
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.FakeApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.FakeApi;
 
 
 FakeApi apiInstance = new FakeApi();
@@ -251,8 +251,8 @@ To test \&quot;client\&quot; model
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.FakeApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.FakeApi;
 
 
 FakeApi apiInstance = new FakeApi();
@@ -296,11 +296,11 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.api.FakeApi;
+//import org.openapitools.client.ApiClient;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.Configuration;
+//import org.openapitools.client.auth.*;
+//import org.openapitools.client.api.FakeApi;
 
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 
@@ -375,8 +375,8 @@ To test enum parameters
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.FakeApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.FakeApi;
 
 
 FakeApi apiInstance = new FakeApi();
@@ -431,8 +431,8 @@ test inline additionalProperties
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.FakeApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.FakeApi;
 
 
 FakeApi apiInstance = new FakeApi();
@@ -473,8 +473,8 @@ test json serialization of form data
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.FakeApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.FakeApi;
 
 
 FakeApi apiInstance = new FakeApi();

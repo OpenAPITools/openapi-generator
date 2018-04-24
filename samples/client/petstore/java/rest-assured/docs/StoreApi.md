@@ -21,7 +21,7 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -63,7 +63,7 @@ Returns a map of status codes to quantities
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -101,7 +101,7 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -141,7 +141,7 @@ Place an order for a pet
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 

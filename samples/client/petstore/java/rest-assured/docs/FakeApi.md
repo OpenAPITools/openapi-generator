@@ -27,7 +27,7 @@ Test serialization of outer boolean types
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -68,7 +68,7 @@ Test serialization of object with outer number type
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -109,7 +109,7 @@ Test serialization of outer number types
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -150,7 +150,7 @@ Test serialization of outer string types
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -189,7 +189,7 @@ No authorization required
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -233,7 +233,7 @@ To test \&quot;client\&quot; model
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -275,7 +275,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -333,7 +333,7 @@ To test enum parameters
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -379,7 +379,7 @@ test inline additionalProperties
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -419,7 +419,7 @@ test json serialization of form data
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
