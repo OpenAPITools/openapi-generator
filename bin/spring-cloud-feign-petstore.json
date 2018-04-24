@@ -1,4 +1,4 @@
 {
     "library": "spring-cloud",
-    "artifactId": "swagger-petstore-spring-cloud"
+    "artifactId": "petstore-spring-cloud"
 }

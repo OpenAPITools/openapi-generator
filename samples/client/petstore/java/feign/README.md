@@ -1,4 +1,4 @@
-# swagger-petstore-feign
+# petstore-feign
 
 ## Requirements
 
@@ -24,8 +24,8 @@ After the client library is installed/deployed, you can use it in your Maven pro
 
 ```xml
 <dependency>
-    <groupId>io.swagger</groupId>
-    <artifactId>swagger-petstore-feign</artifactId>
+    <groupId>org.openapitools</groupId>
+    <artifactId>petstore-feign</artifactId>
     <version>1.0.0</version>
     <scope>compile</scope>
 </dependency>
@@ -34,7 +34,7 @@ After the client library is installed/deployed, you can use it in your Maven pro
 
 ## Recommendation
 
-It's recommended to create an instance of `ApiClient` per thread in a multithreaded environment to avoid any potential issue.
+It's recommended to create an instance of `ApiClient` per thread in a multithreaded environment to avoid any potential issues.
 
 ## Author
 

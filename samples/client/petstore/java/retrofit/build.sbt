@@ -1,7 +1,7 @@
 lazy val root = (project in file(".")).
   settings(
-    organization := "io.swagger",
-    name := "swagger-petstore-retrofit",
+    organization := "org.openapitools",
+    name := "petstore-retrofit",
     version := "1.0.0",
     scalaVersion := "2.11.4",
     scalacOptions ++= Seq("-feature"),

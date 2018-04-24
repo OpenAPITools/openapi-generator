@@ -1,4 +1,4 @@
-# swagger-java-client
+# petstore-java-client-retrofit2-play25
 
 ## Requirements
 
@@ -24,8 +24,8 @@ After the client library is installed/deployed, you can use it in your Maven pro
 
 ```xml
 <dependency>
-    <groupId>io.swagger</groupId>
-    <artifactId>swagger-java-client</artifactId>
+    <groupId>org.openapitools</groupId>
+    <artifactId>petstore-java-client-retrofit2-play25</artifactId>
     <version>1.0.0</version>
     <scope>compile</scope>
 </dependency>

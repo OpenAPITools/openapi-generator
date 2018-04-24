@@ -13,39 +13,29 @@
 
 package io.swagger.client.api;
 
+import java.io.File;
+import io.swagger.client.model.ModelApiResponse;
+import io.swagger.client.model.Pet;
+import io.swagger.client.ApiClient;
+import io.swagger.client.api.PetApi;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.ErrorLoggingFilter;
-import io.swagger.client.ApiClient;
-import io.swagger.client.model.Category;
-import io.swagger.client.model.Pet;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static io.restassured.RestAssured.config;
+import java.util.Map;
 import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
+import static io.restassured.config.RestAssuredConfig.config;
 import static io.swagger.client.GsonObjectMapper.gson;
-import static io.swagger.client.ResponseSpecBuilders.shouldBeCode;
-import static io.swagger.client.ResponseSpecBuilders.validatedWith;
-import static io.swagger.client.model.Pet.StatusEnum.AVAILABLE;
-import static io.swagger.client.model.Pet.StatusEnum.PENDING;
-import static io.swagger.client.model.Pet.StatusEnum.SOLD;
-import static org.apache.http.HttpStatus.SC_NOT_FOUND;
-import static org.apache.http.HttpStatus.SC_OK;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * API tests for PetApi
  */
+@Ignore
 public class PetApiTest {
 
     private PetApi api;
@@ -58,65 +48,170 @@ public class PetApiTest {
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
     }
 
+    /**
+     * Invalid input
+     */
     @Test
-    public void statusListTest() {
-        Pet pet = getPet();
-        api.addPet().body(pet.status(PENDING)).execute(validatedWith(shouldBeCode(SC_OK)));
-        List<String> statusList = Arrays.asList(PENDING.getValue());
-        List<Long> petsId = api.findPetsByStatus()
-                .statusQuery(statusList.toArray()).executeAs(validatedWith(shouldBeCode(SC_OK)))
-                .stream().map(Pet::getId).collect(Collectors.toList());
-        assertThat(petsId, hasItem(pet.getId()));
-        api.deletePet().petIdPath(pet.getId()).execute(validatedWith(shouldBeCode(SC_OK)));
+    public void shouldSee405AfterAddPet() {
+        Pet pet = null;
+        api.addPet()
+                .body(pet).execute(r -> r.prettyPeek());
+        // TODO: test validations
     }
 
+
+    /**
+     * Invalid pet value
+     */
     @Test
-    public void getPetByIdTest() {
-        Pet pet = getPet();
-        api.addPet().body(pet.status(PENDING)).execute(validatedWith(shouldBeCode(SC_OK)));
-        Pet fetchedPet = api.getPetById()
-                .petIdPath(pet.getId()).executeAs(validatedWith(shouldBeCode(SC_OK)));
-        assertThat(fetchedPet.getId(), equalTo(pet.getId()));
-        api.deletePet().petIdPath(pet.getId()).execute(validatedWith(shouldBeCode(SC_OK)));
+    public void shouldSee400AfterDeletePet() {
+        Long petId = null;
+        String apiKey = null;
+        api.deletePet()
+                .petIdPath(petId).execute(r -> r.prettyPeek());
+        // TODO: test validations
     }
 
+
+    /**
+     * successful operation
+     */
     @Test
-    public void deletePet() {
-        Pet pet = getPet();
-        api.addPet().body(pet.status(PENDING)).execute(validatedWith(shouldBeCode(SC_OK)));
-        api.deletePet().petIdPath(pet.getId()).execute(validatedWith(shouldBeCode(SC_OK)));
+    public void shouldSee200AfterFindPetsByStatus() {
+        List<String> status = null;
+        api.findPetsByStatus()
+                .statusQuery(status).execute(r -> r.prettyPeek());
+        // TODO: test validations
+    }
+
+    /**
+     * Invalid status value
+     */
+    @Test
+    public void shouldSee400AfterFindPetsByStatus() {
+        List<String> status = null;
+        api.findPetsByStatus()
+                .statusQuery(status).execute(r -> r.prettyPeek());
+        // TODO: test validations
+    }
+
+
+    /**
+     * successful operation
+     */
+    @Test
+    public void shouldSee200AfterFindPetsByTags() {
+        List<String> tags = null;
+        api.findPetsByTags()
+                .tagsQuery(tags).execute(r -> r.prettyPeek());
+        // TODO: test validations
+    }
+
+    /**
+     * Invalid tag value
+     */
+    @Test
+    public void shouldSee400AfterFindPetsByTags() {
+        List<String> tags = null;
+        api.findPetsByTags()
+                .tagsQuery(tags).execute(r -> r.prettyPeek());
+        // TODO: test validations
+    }
+
+
+    /**
+     * successful operation
+     */
+    @Test
+    public void shouldSee200AfterGetPetById() {
+        Long petId = null;
         api.getPetById()
-                .petIdPath(pet.getId()).execute(validatedWith(shouldBeCode(SC_NOT_FOUND)));
+                .petIdPath(petId).execute(r -> r.prettyPeek());
+        // TODO: test validations
     }
 
+    /**
+     * Invalid ID supplied
+     */
     @Test
-    public void uploadFileTest() throws IOException {
-        Pet pet = getPet();
-        api.addPet().body(pet).execute(validatedWith(shouldBeCode(SC_OK)));
-        File file = new File("hello.txt");
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.write("Hello world!");
-        writer.close();
-        api.uploadFile().fileMultiPart(file)
-                .petIdPath(pet.getId()).execute(validatedWith(shouldBeCode(SC_OK)));
-        api.deletePet().petIdPath(pet.getId()).execute(validatedWith(shouldBeCode(SC_OK)));
+    public void shouldSee400AfterGetPetById() {
+        Long petId = null;
+        api.getPetById()
+                .petIdPath(petId).execute(r -> r.prettyPeek());
+        // TODO: test validations
     }
 
+    /**
+     * Pet not found
+     */
     @Test
-    public void updatePetTest() {
-        Pet pet = getPet();
-        api.addPet().body(pet).execute(validatedWith(shouldBeCode(SC_OK)));
-        api.updatePet().body(pet.status(SOLD)).execute(validatedWith(shouldBeCode(SC_OK)));
-        Pet.StatusEnum statusEnum = api.getPetById().petIdPath(pet.getId()).executeAs(validatedWith(shouldBeCode(SC_OK))).getStatus();
-        assertThat(statusEnum, equalTo(SOLD));
-        api.deletePet().petIdPath(pet.getId()).execute(validatedWith(shouldBeCode(SC_OK)));
+    public void shouldSee404AfterGetPetById() {
+        Long petId = null;
+        api.getPetById()
+                .petIdPath(petId).execute(r -> r.prettyPeek());
+        // TODO: test validations
     }
 
 
-    private Pet getPet() {
-        return new Pet().id(TestUtils.nextId()).name("alex").status(AVAILABLE)
-                .category(new Category().id(TestUtils.nextId()).name("dog"))
-                .photoUrls(Arrays.asList("http://foo.bar.com/1"));
+    /**
+     * Invalid ID supplied
+     */
+    @Test
+    public void shouldSee400AfterUpdatePet() {
+        Pet pet = null;
+        api.updatePet()
+                .body(pet).execute(r -> r.prettyPeek());
+        // TODO: test validations
+    }
+
+    /**
+     * Pet not found
+     */
+    @Test
+    public void shouldSee404AfterUpdatePet() {
+        Pet pet = null;
+        api.updatePet()
+                .body(pet).execute(r -> r.prettyPeek());
+        // TODO: test validations
+    }
+
+    /**
+     * Validation exception
+     */
+    @Test
+    public void shouldSee405AfterUpdatePet() {
+        Pet pet = null;
+        api.updatePet()
+                .body(pet).execute(r -> r.prettyPeek());
+        // TODO: test validations
+    }
+
+
+    /**
+     * Invalid input
+     */
+    @Test
+    public void shouldSee405AfterUpdatePetWithForm() {
+        Long petId = null;
+        String name = null;
+        String status = null;
+        api.updatePetWithForm()
+                .petIdPath(petId).execute(r -> r.prettyPeek());
+        // TODO: test validations
+    }
+
+
+    /**
+     * successful operation
+     */
+    @Test
+    public void shouldSee200AfterUploadFile() {
+        Long petId = null;
+        String additionalMetadata = null;
+        File file = null;
+        api.uploadFile()
+                .petIdPath(petId).execute(r -> r.prettyPeek());
+        // TODO: test validations
     }
 
 }

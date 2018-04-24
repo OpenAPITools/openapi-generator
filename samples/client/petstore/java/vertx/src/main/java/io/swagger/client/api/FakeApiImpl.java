@@ -1,10 +1,12 @@
 package io.swagger.client.api;
 
+import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import io.swagger.client.model.Client;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import io.swagger.client.model.OuterComposite;
+import io.swagger.client.model.User;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -44,11 +46,11 @@ public class FakeApiImpl implements FakeApi {
     /**
      * 
      * Test serialization of outer boolean types
-     * @param body Input boolean as post body (optional)
+     * @param booleanPostBody Input boolean as post body (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void fakeOuterBooleanSerialize(Boolean body, Handler<AsyncResult<Boolean>> resultHandler) {
-        Object localVarBody = body;
+    public void fakeOuterBooleanSerialize(Boolean booleanPostBody, Handler<AsyncResult<Boolean>> resultHandler) {
+        Object localVarBody = booleanPostBody;
         
         // create path and map variables
         String localVarPath = "/fake/outer/boolean";
@@ -63,7 +65,7 @@ public class FakeApiImpl implements FakeApi {
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
         
-        String[] localVarAccepts = {  };
+        String[] localVarAccepts = { "*/*" };
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<Boolean> localVarReturnType = new TypeReference<Boolean>() {};
@@ -72,11 +74,11 @@ public class FakeApiImpl implements FakeApi {
     /**
      * 
      * Test serialization of object with outer number type
-     * @param body Input composite as post body (optional)
+     * @param outerComposite Input composite as post body (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void fakeOuterCompositeSerialize(OuterComposite body, Handler<AsyncResult<OuterComposite>> resultHandler) {
-        Object localVarBody = body;
+    public void fakeOuterCompositeSerialize(OuterComposite outerComposite, Handler<AsyncResult<OuterComposite>> resultHandler) {
+        Object localVarBody = outerComposite;
         
         // create path and map variables
         String localVarPath = "/fake/outer/composite";
@@ -91,7 +93,7 @@ public class FakeApiImpl implements FakeApi {
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
         
-        String[] localVarAccepts = {  };
+        String[] localVarAccepts = { "*/*" };
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<OuterComposite> localVarReturnType = new TypeReference<OuterComposite>() {};
@@ -119,7 +121,7 @@ public class FakeApiImpl implements FakeApi {
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
         
-        String[] localVarAccepts = {  };
+        String[] localVarAccepts = { "*/*" };
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<BigDecimal> localVarReturnType = new TypeReference<BigDecimal>() {};
@@ -147,24 +149,66 @@ public class FakeApiImpl implements FakeApi {
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
         
-        String[] localVarAccepts = {  };
+        String[] localVarAccepts = { "*/*" };
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<String> localVarReturnType = new TypeReference<String>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
     /**
-     * To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
-     * @param body client model (required)
+     * 
+     * 
+     * @param query  (required)
+     * @param user  (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void testClientModel(Client body, Handler<AsyncResult<Client>> resultHandler) {
-        Object localVarBody = body;
+    public void testBodyWithQueryParams(String query, User user, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = user;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling testClientModel"));
+        // verify the required parameter 'query' is set
+        if (query == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'query' when calling testBodyWithQueryParams"));
+            return;
+        }
+        
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'user' when calling testBodyWithQueryParams"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/body-with-query-params";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "query", query));
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = { "application/json" };
+        String[] localVarAuthNames = new String[] {  };
+
+        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+    }
+    /**
+     * To test \&quot;client\&quot; model
+     * To test \&quot;client\&quot; model
+     * @param client client model (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testClientModel(Client client, Handler<AsyncResult<Client>> resultHandler) {
+        Object localVarBody = client;
+        
+        // verify the required parameter 'client' is set
+        if (client == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'client' when calling testClientModel"));
             return;
         }
         
@@ -206,7 +250,7 @@ public class FakeApiImpl implements FakeApi {
      * @param paramCallback None (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> resultHandler) {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'number' is set
@@ -260,8 +304,8 @@ if (dateTime != null) localVarFormParams.put("dateTime", dateTime);
 if (password != null) localVarFormParams.put("password", password);
 if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
 
-        String[] localVarAccepts = { "application/xml; charset=utf-8", "application/json; charset=utf-8" };
-        String[] localVarContentTypes = { "application/xml; charset=utf-8", "application/json; charset=utf-8" };
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = { "application/x-www-form-urlencoded" };
         String[] localVarAuthNames = new String[] { "http_basic_test" };
 
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
@@ -269,17 +313,17 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
     /**
      * To test enum parameters
      * To test enum parameters
-     * @param enumFormStringArray Form parameter enum test (string array) (optional)
-     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
      * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
      * @param enumQueryStringArray Query parameter enum test (string array) (optional)
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional)
+     * @param enumFormString Form parameter enum test (string) (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void testEnumParameters(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, Handler<AsyncResult<Void>> resultHandler) {
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // create path and map variables
@@ -290,6 +334,7 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
         localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "enum_query_string_array", enumQueryStringArray));
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "enum_query_string", enumQueryString));
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "enum_query_integer", enumQueryInteger));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "enum_query_double", enumQueryDouble));
 
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
@@ -303,13 +348,46 @@ if (enumHeaderString != null)
         Map<String, Object> localVarFormParams = new HashMap<>();
         if (enumFormStringArray != null) localVarFormParams.put("enum_form_string_array", enumFormStringArray);
 if (enumFormString != null) localVarFormParams.put("enum_form_string", enumFormString);
-if (enumQueryDouble != null) localVarFormParams.put("enum_query_double", enumQueryDouble);
 
-        String[] localVarAccepts = { "*/*" };
-        String[] localVarContentTypes = { "*/*" };
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = { "application/x-www-form-urlencoded" };
         String[] localVarAuthNames = new String[] {  };
 
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+    }
+    /**
+     * test inline additionalProperties
+     * 
+     * @param requestBody request body (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testInlineAdditionalProperties(String requestBody, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = requestBody;
+        
+        // verify the required parameter 'requestBody' is set
+        if (requestBody == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/inline-additionalProperties";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = { "application/json" };
+        String[] localVarAuthNames = new String[] {  };
+
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
      * test json serialization of form data
@@ -349,7 +427,7 @@ if (enumQueryDouble != null) localVarFormParams.put("enum_query_double", enumQue
 if (param2 != null) localVarFormParams.put("param2", param2);
 
         String[] localVarAccepts = {  };
-        String[] localVarContentTypes = { "application/json" };
+        String[] localVarContentTypes = { "application/x-www-form-urlencoded" };
         String[] localVarAuthNames = new String[] {  };
 
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);

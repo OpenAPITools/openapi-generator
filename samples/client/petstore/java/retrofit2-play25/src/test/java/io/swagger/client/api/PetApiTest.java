@@ -24,7 +24,6 @@ public class PetApiTest {
         api = new ApiClient().createService(PetApi.class);
     }
 
-    
     /**
      * Add a new pet to the store
      *
@@ -32,12 +31,11 @@ public class PetApiTest {
      */
     @Test
     public void addPetTest() {
-        Pet body = null;
-        // Void response = api.addPet(body);
+        Pet pet = null;
+        // api.addPet(pet);
 
         // TODO: test validations
     }
-    
     /**
      * Deletes a pet
      *
@@ -47,11 +45,10 @@ public class PetApiTest {
     public void deletePetTest() {
         Long petId = null;
         String apiKey = null;
-        // Void response = api.deletePet(petId, apiKey);
+        // api.deletePet(petId, apiKey);
 
         // TODO: test validations
     }
-    
     /**
      * Finds Pets by status
      *
@@ -64,7 +61,6 @@ public class PetApiTest {
 
         // TODO: test validations
     }
-    
     /**
      * Finds Pets by tags
      *
@@ -77,7 +73,6 @@ public class PetApiTest {
 
         // TODO: test validations
     }
-    
     /**
      * Find pet by ID
      *
@@ -90,7 +85,6 @@ public class PetApiTest {
 
         // TODO: test validations
     }
-    
     /**
      * Update an existing pet
      *
@@ -98,12 +92,11 @@ public class PetApiTest {
      */
     @Test
     public void updatePetTest() {
-        Pet body = null;
-        // Void response = api.updatePet(body);
+        Pet pet = null;
+        // api.updatePet(pet);
 
         // TODO: test validations
     }
-    
     /**
      * Updates a pet in the store with form data
      *
@@ -114,11 +107,10 @@ public class PetApiTest {
         Long petId = null;
         String name = null;
         String status = null;
-        // Void response = api.updatePetWithForm(petId, name, status);
+        // api.updatePetWithForm(petId, name, status);
 
         // TODO: test validations
     }
-    
     /**
      * uploads an image
      *
@@ -133,5 +125,4 @@ public class PetApiTest {
 
         // TODO: test validations
     }
-    
 }

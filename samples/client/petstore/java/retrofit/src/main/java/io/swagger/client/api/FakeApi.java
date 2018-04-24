@@ -9,8 +9,10 @@ import retrofit.mime.*;
 import java.math.BigDecimal;
 import io.swagger.client.model.Client;
 import org.joda.time.DateTime;
+import java.io.File;
 import org.joda.time.LocalDate;
 import io.swagger.client.model.OuterComposite;
+import io.swagger.client.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,49 +24,49 @@ public interface FakeApi {
    * 
    * Sync method
    * Test serialization of outer boolean types
-   * @param body Input boolean as post body (optional)
+   * @param booleanPostBody Input boolean as post body (optional)
    * @return Boolean
    */
   
   @POST("/fake/outer/boolean")
   Boolean fakeOuterBooleanSerialize(
-    @retrofit.http.Body Boolean body
+    @retrofit.http.Body Boolean booleanPostBody
   );
 
   /**
    * 
    * Async method
-   * @param body Input boolean as post body (optional)
+   * @param booleanPostBody Input boolean as post body (optional)
    * @param cb callback method
    */
   
   @POST("/fake/outer/boolean")
   void fakeOuterBooleanSerialize(
-    @retrofit.http.Body Boolean body, Callback<Boolean> cb
+    @retrofit.http.Body Boolean booleanPostBody, Callback<Boolean> cb
   );
   /**
    * 
    * Sync method
    * Test serialization of object with outer number type
-   * @param body Input composite as post body (optional)
+   * @param outerComposite Input composite as post body (optional)
    * @return OuterComposite
    */
   
   @POST("/fake/outer/composite")
   OuterComposite fakeOuterCompositeSerialize(
-    @retrofit.http.Body OuterComposite body
+    @retrofit.http.Body OuterComposite outerComposite
   );
 
   /**
    * 
    * Async method
-   * @param body Input composite as post body (optional)
+   * @param outerComposite Input composite as post body (optional)
    * @param cb callback method
    */
   
   @POST("/fake/outer/composite")
   void fakeOuterCompositeSerialize(
-    @retrofit.http.Body OuterComposite body, Callback<OuterComposite> cb
+    @retrofit.http.Body OuterComposite outerComposite, Callback<OuterComposite> cb
   );
   /**
    * 
@@ -115,28 +117,54 @@ public interface FakeApi {
     @retrofit.http.Body String body, Callback<String> cb
   );
   /**
+   * 
+   * Sync method
+   * 
+   * @param query  (required)
+   * @param user  (required)
+   * @return Void
+   */
+  
+  @PUT("/fake/body-with-query-params")
+  Void testBodyWithQueryParams(
+    @retrofit.http.Query("query") String query, @retrofit.http.Body User user
+  );
+
+  /**
+   * 
+   * Async method
+   * @param query  (required)
+   * @param user  (required)
+   * @param cb callback method
+   */
+  
+  @PUT("/fake/body-with-query-params")
+  void testBodyWithQueryParams(
+    @retrofit.http.Query("query") String query, @retrofit.http.Body User user, Callback<Void> cb
+  );
+  /**
    * To test \&quot;client\&quot; model
    * Sync method
    * To test \&quot;client\&quot; model
-   * @param body client model (required)
+   * @param client client model (required)
    * @return Client
    */
   
   @PATCH("/fake")
   Client testClientModel(
-    @retrofit.http.Body Client body
+    @retrofit.http.Body Client client
   );
 
   /**
    * To test \&quot;client\&quot; model
    * Async method
-   * @param body client model (required)
+   * @param client client model (required)
    * @param cb callback method
    */
   
   @PATCH("/fake")
   void testClientModel(
-    @retrofit.http.Body Client body, Callback<Client> cb
+    @retrofit.http.Body Client client, Callback<Client> cb
   );
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -162,7 +190,7 @@ public interface FakeApi {
   @retrofit.http.FormUrlEncoded
   @POST("/fake")
   Void testEndpointParameters(
-    @retrofit.http.Field("number") BigDecimal number, @retrofit.http.Field("double") Double _double, @retrofit.http.Field("pattern_without_delimiter") String patternWithoutDelimiter, @retrofit.http.Field("byte") byte[] _byte, @retrofit.http.Field("integer") Integer integer, @retrofit.http.Field("int32") Integer int32, @retrofit.http.Field("int64") Long int64, @retrofit.http.Field("float") Float _float, @retrofit.http.Field("string") String string, @retrofit.http.Field("binary") byte[] binary, @retrofit.http.Field("date") LocalDate date, @retrofit.http.Field("dateTime") DateTime dateTime, @retrofit.http.Field("password") String password, @retrofit.http.Field("callback") String paramCallback
+    @retrofit.http.Field("number") BigDecimal number, @retrofit.http.Field("double") Double _double, @retrofit.http.Field("pattern_without_delimiter") String patternWithoutDelimiter, @retrofit.http.Field("byte") byte[] _byte, @retrofit.http.Field("integer") Integer integer, @retrofit.http.Field("int32") Integer int32, @retrofit.http.Field("int64") Long int64, @retrofit.http.Field("float") Float _float, @retrofit.http.Field("string") String string, @retrofit.http.Field("binary") TypedFile binary, @retrofit.http.Field("date") LocalDate date, @retrofit.http.Field("dateTime") DateTime dateTime, @retrofit.http.Field("password") String password, @retrofit.http.Field("callback") String paramCallback
   );
 
   /**
@@ -188,71 +216,71 @@ public interface FakeApi {
   @retrofit.http.FormUrlEncoded
   @POST("/fake")
   void testEndpointParameters(
-    @retrofit.http.Field("number") BigDecimal number, @retrofit.http.Field("double") Double _double, @retrofit.http.Field("pattern_without_delimiter") String patternWithoutDelimiter, @retrofit.http.Field("byte") byte[] _byte, @retrofit.http.Field("integer") Integer integer, @retrofit.http.Field("int32") Integer int32, @retrofit.http.Field("int64") Long int64, @retrofit.http.Field("float") Float _float, @retrofit.http.Field("string") String string, @retrofit.http.Field("binary") byte[] binary, @retrofit.http.Field("date") LocalDate date, @retrofit.http.Field("dateTime") DateTime dateTime, @retrofit.http.Field("password") String password, @retrofit.http.Field("callback") String paramCallback, Callback<Void> cb
+    @retrofit.http.Field("number") BigDecimal number, @retrofit.http.Field("double") Double _double, @retrofit.http.Field("pattern_without_delimiter") String patternWithoutDelimiter, @retrofit.http.Field("byte") byte[] _byte, @retrofit.http.Field("integer") Integer integer, @retrofit.http.Field("int32") Integer int32, @retrofit.http.Field("int64") Long int64, @retrofit.http.Field("float") Float _float, @retrofit.http.Field("string") String string, @retrofit.http.Field("binary") TypedFile binary, @retrofit.http.Field("date") LocalDate date, @retrofit.http.Field("dateTime") DateTime dateTime, @retrofit.http.Field("password") String password, @retrofit.http.Field("callback") String paramCallback, Callback<Void> cb
   );
   /**
    * To test enum parameters
    * Sync method
    * To test enum parameters
-   * @param enumFormStringArray Form parameter enum test (string array) (optional)
-   * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
    * @param enumQueryStringArray Query parameter enum test (string array) (optional)
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
+   * @param enumFormStringArray Form parameter enum test (string array) (optional)
+   * @param enumFormString Form parameter enum test (string) (optional)
    * @return Void
    */
   
   @retrofit.http.FormUrlEncoded
   @GET("/fake")
   Void testEnumParameters(
-    @retrofit.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit.http.Field("enum_form_string") String enumFormString, @retrofit.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit.http.Header("enum_header_string") String enumHeaderString, @retrofit.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit.http.Query("enum_query_string") String enumQueryString, @retrofit.http.Query("enum_query_integer") Integer enumQueryInteger, @retrofit.http.Field("enum_query_double") Double enumQueryDouble
+    @retrofit.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit.http.Header("enum_header_string") String enumHeaderString, @retrofit.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit.http.Query("enum_query_string") String enumQueryString, @retrofit.http.Query("enum_query_integer") Integer enumQueryInteger, @retrofit.http.Query("enum_query_double") Double enumQueryDouble, @retrofit.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit.http.Field("enum_form_string") String enumFormString
   );
 
   /**
    * To test enum parameters
    * Async method
-   * @param enumFormStringArray Form parameter enum test (string array) (optional)
-   * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
    * @param enumQueryStringArray Query parameter enum test (string array) (optional)
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
+   * @param enumFormStringArray Form parameter enum test (string array) (optional)
+   * @param enumFormString Form parameter enum test (string) (optional)
    * @param cb callback method
    */
   
   @retrofit.http.FormUrlEncoded
   @GET("/fake")
   void testEnumParameters(
-    @retrofit.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit.http.Field("enum_form_string") String enumFormString, @retrofit.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit.http.Header("enum_header_string") String enumHeaderString, @retrofit.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit.http.Query("enum_query_string") String enumQueryString, @retrofit.http.Query("enum_query_integer") Integer enumQueryInteger, @retrofit.http.Field("enum_query_double") Double enumQueryDouble, Callback<Void> cb
+    @retrofit.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit.http.Header("enum_header_string") String enumHeaderString, @retrofit.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit.http.Query("enum_query_string") String enumQueryString, @retrofit.http.Query("enum_query_integer") Integer enumQueryInteger, @retrofit.http.Query("enum_query_double") Double enumQueryDouble, @retrofit.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit.http.Field("enum_form_string") String enumFormString, Callback<Void> cb
   );
   /**
    * test inline additionalProperties
    * Sync method
    * 
-   * @param param request body (required)
+   * @param requestBody request body (required)
    * @return Void
    */
   
   @POST("/fake/inline-additionalProperties")
   Void testInlineAdditionalProperties(
-    @retrofit.http.Body Object param
+    @retrofit.http.Body String requestBody
   );
 
   /**
    * test inline additionalProperties
    * Async method
-   * @param param request body (required)
+   * @param requestBody request body (required)
    * @param cb callback method
    */
   
   @POST("/fake/inline-additionalProperties")
   void testInlineAdditionalProperties(
-    @retrofit.http.Body Object param, Callback<Void> cb
+    @retrofit.http.Body String requestBody, Callback<Void> cb
   );
   /**
    * test json serialization of form data

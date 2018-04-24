@@ -38,11 +38,8 @@ public class UserApi {
 
     private RequestSpecBuilder reqSpec;
 
-    private JSON json;
-
     private UserApi(RequestSpecBuilder reqSpec) {
         this.reqSpec = reqSpec;
-        this.json = new JSON();
     }
 
     public static UserApi user(RequestSpecBuilder reqSpec) {
@@ -83,28 +80,10 @@ public class UserApi {
     }
 
     /**
-     * Get JSON
-     *
-     * @return JSON object
+     * Customise request specification
+     * @param consumer consumer
+     * @return api
      */
-    public JSON getJSON() {
-        return json;
-    }
-
-    /**
-     * Set JSON
-     *
-     * @param json JSON object
-     * @return UserApi
-     */
-    public UserApi setJSON(JSON json) {
-        this.json = json;
-        return this;
-    }
-
-    /**
-    * Customise request specification
-    */
     public UserApi reqSpec(Consumer<RequestSpecBuilder> consumer) {
         consumer.accept(reqSpec);
         return this;
@@ -126,35 +105,41 @@ public class UserApi {
 
         public CreateUserOper() {
             this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
+            reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         public CreateUserOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("application/json");
+            reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
          * POST /user
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
         }
 
          /**
-         * @param body (User) Created user object (required)
+         * @param user (User) Created user object (required)
+         * @return operation
          */
-        public CreateUserOper body(User body) {
-            reqSpec.setBody(getJSON().serialize(body));
+        public CreateUserOper body(User user) {
+            reqSpec.setBody(user);
             return this;
         }
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public CreateUserOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -163,6 +148,8 @@ public class UserApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public CreateUserOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -185,35 +172,41 @@ public class UserApi {
 
         public CreateUsersWithArrayInputOper() {
             this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
+            reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         public CreateUsersWithArrayInputOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("application/json");
+            reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
          * POST /user/createWithArray
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
         }
 
          /**
-         * @param body (List<User>) List of user object (required)
+         * @param user (List&lt;User&gt;) List of user object (required)
+         * @return operation
          */
-        public CreateUsersWithArrayInputOper body(List<User> body) {
-            reqSpec.setBody(getJSON().serialize(body));
+        public CreateUsersWithArrayInputOper body(List<User> user) {
+            reqSpec.setBody(user);
             return this;
         }
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public CreateUsersWithArrayInputOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -222,6 +215,8 @@ public class UserApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public CreateUsersWithArrayInputOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -244,35 +239,41 @@ public class UserApi {
 
         public CreateUsersWithListInputOper() {
             this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
+            reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         public CreateUsersWithListInputOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("application/json");
+            reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
          * POST /user/createWithList
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
         }
 
          /**
-         * @param body (List<User>) List of user object (required)
+         * @param user (List&lt;User&gt;) List of user object (required)
+         * @return operation
          */
-        public CreateUsersWithListInputOper body(List<User> body) {
-            reqSpec.setBody(getJSON().serialize(body));
+        public CreateUsersWithListInputOper body(List<User> user) {
+            reqSpec.setBody(user);
             return this;
         }
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public CreateUsersWithListInputOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -281,6 +282,8 @@ public class UserApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public CreateUsersWithListInputOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -315,6 +318,9 @@ public class UserApi {
 
         /**
          * DELETE /user/{username}
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(DELETE, REQ_URI));
@@ -322,6 +328,7 @@ public class UserApi {
 
         /**
          * @param username (String) The name that needs to be deleted (required)
+         * @return operation
          */
         public DeleteUserOper usernamePath(Object username) {
             reqSpec.addPathParam("username", username);
@@ -330,6 +337,8 @@ public class UserApi {
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public DeleteUserOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -338,6 +347,8 @@ public class UserApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public DeleteUserOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -373,6 +384,9 @@ public class UserApi {
 
         /**
          * GET /user/{username}
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
@@ -380,15 +394,17 @@ public class UserApi {
 
         /**
          * GET /user/{username}
+         * @param handler handler
          * @return User
          */
         public User executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<User>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
         /**
          * @param username (String) The name that needs to be fetched. Use user1 for testing. (required)
+         * @return operation
          */
         public GetUserByNameOper usernamePath(Object username) {
             reqSpec.addPathParam("username", username);
@@ -397,6 +413,8 @@ public class UserApi {
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public GetUserByNameOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -405,6 +423,8 @@ public class UserApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public GetUserByNameOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -441,6 +461,9 @@ public class UserApi {
 
         /**
          * GET /user/login
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
@@ -448,15 +471,17 @@ public class UserApi {
 
         /**
          * GET /user/login
+         * @param handler handler
          * @return String
          */
         public String executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<String>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
         /**
          * @param username (String) The user name for login (required)
+         * @return operation
          */
         public LoginUserOper usernameQuery(Object... username) {
             reqSpec.addQueryParam("username", username);
@@ -465,6 +490,7 @@ public class UserApi {
 
         /**
          * @param password (String) The password for login in clear text (required)
+         * @return operation
          */
         public LoginUserOper passwordQuery(Object... password) {
             reqSpec.addQueryParam("password", password);
@@ -473,6 +499,8 @@ public class UserApi {
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public LoginUserOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -481,6 +509,8 @@ public class UserApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public LoginUserOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -514,6 +544,9 @@ public class UserApi {
 
         /**
          * GET /user/logout
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
@@ -521,6 +554,8 @@ public class UserApi {
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public LogoutUserOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -529,6 +564,8 @@ public class UserApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public LogoutUserOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -552,35 +589,40 @@ public class UserApi {
 
         public UpdateUserOper() {
             this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
+            reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         public UpdateUserOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("application/json");
+            reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
          * PUT /user/{username}
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PUT, REQ_URI));
         }
 
          /**
-         * @param body (User) Updated user object (required)
+         * @param user (User) Updated user object (required)
+         * @return operation
          */
-        public UpdateUserOper body(User body) {
-            reqSpec.setBody(getJSON().serialize(body));
+        public UpdateUserOper body(User user) {
+            reqSpec.setBody(user);
             return this;
         }
 
         /**
          * @param username (String) name that need to be deleted (required)
+         * @return operation
          */
         public UpdateUserOper usernamePath(Object username) {
             reqSpec.addPathParam("username", username);
@@ -589,6 +631,8 @@ public class UserApi {
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public UpdateUserOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -597,6 +641,8 @@ public class UserApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public UpdateUserOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);

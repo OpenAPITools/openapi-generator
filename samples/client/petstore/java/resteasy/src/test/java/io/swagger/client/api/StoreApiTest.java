@@ -1,6 +1,6 @@
 /*
  * Swagger Petstore
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -16,6 +16,7 @@ package io.swagger.client.api;
 import io.swagger.client.ApiException;
 import io.swagger.client.model.Order;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import java.util.Map;
 /**
  * API tests for StoreApi
  */
+@Ignore
 public class StoreApiTest {
 
     private final StoreApi api = new StoreApi();
@@ -33,15 +35,15 @@ public class StoreApiTest {
     /**
      * Delete purchase order by ID
      *
-     * For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors
+     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void deleteOrderTest() throws ApiException {
-        Long orderId = null;
-        // api.deleteOrder(orderId);
+        String orderId = null;
+        api.deleteOrder(orderId);
 
         // TODO: test validations
     }
@@ -56,7 +58,7 @@ public class StoreApiTest {
      */
     @Test
     public void getInventoryTest() throws ApiException {
-        // Map<String, Integer> response = api.getInventory();
+        Map<String, Integer> response = api.getInventory();
 
         // TODO: test validations
     }
@@ -64,7 +66,7 @@ public class StoreApiTest {
     /**
      * Find purchase order by ID
      *
-     * For valid response try integer IDs with value &gt;&#x3D; 1 and &lt;&#x3D; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      *
      * @throws ApiException
      *          if the Api call fails
@@ -72,7 +74,7 @@ public class StoreApiTest {
     @Test
     public void getOrderByIdTest() throws ApiException {
         Long orderId = null;
-        // Order response = api.getOrderById(orderId);
+        Order response = api.getOrderById(orderId);
 
         // TODO: test validations
     }
@@ -87,8 +89,8 @@ public class StoreApiTest {
      */
     @Test
     public void placeOrderTest() throws ApiException {
-        Order body = null;
-        // Order response = api.placeOrder(body);
+        Order order = null;
+        Order response = api.placeOrder(order);
 
         // TODO: test validations
     }

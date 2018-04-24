@@ -41,8 +41,8 @@ public class AnotherFakeApiTest {
      */
     @Test
     public void testSpecialTagsTest() {
-        Client body = null;
-        Client response = api.testSpecialTags(body);
+        Client client = null;
+        Client response = api.testSpecialTags(client);
 
         // TODO: test validations
     }

@@ -1,4 +1,4 @@
 {
     "library": "volley",
-    "artifactId": "swagger-petstore-android-volley"
+    "artifactId": "petstore-android-volley"
 }

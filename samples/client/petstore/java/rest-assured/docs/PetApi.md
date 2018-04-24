@@ -16,11 +16,9 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> addPet(body)
+> addPet(pet)
 
 Add a new pet to the store
-
-
 
 ### Example
 ```java
@@ -34,14 +32,14 @@ PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
 
 api.addPet()
-    .body(body).execute(r -> r.prettyPeek());
+    .body(pet).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -54,15 +52,13 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="deletePet"></a>
 # **deletePet**
 > deletePet(petId, apiKey)
 
 Deletes a pet
-
-
 
 ### Example
 ```java
@@ -97,7 +93,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="findPetsByStatus"></a>
 # **findPetsByStatus**
@@ -227,11 +223,9 @@ Name | Type | Description  | Notes
 
 <a name="updatePet"></a>
 # **updatePet**
-> updatePet(body)
+> updatePet(pet)
 
 Update an existing pet
-
-
 
 ### Example
 ```java
@@ -245,14 +239,14 @@ PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
 
 api.updatePet()
-    .body(body).execute(r -> r.prettyPeek());
+    .body(pet).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -265,15 +259,13 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="updatePetWithForm"></a>
 # **updatePetWithForm**
 > updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
-
-
 
 ### Example
 ```java
@@ -309,15 +301,13 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="uploadFile"></a>
 # **uploadFile**
 > ModelApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
-
-
 
 ### Example
 ```java

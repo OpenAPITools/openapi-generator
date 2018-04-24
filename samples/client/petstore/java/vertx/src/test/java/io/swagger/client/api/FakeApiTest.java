@@ -12,11 +12,13 @@
 
 package io.swagger.client.api;
 
+import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import io.swagger.client.model.Client;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import io.swagger.client.model.OuterComposite;
+import io.swagger.client.model.User;
 
 import io.swagger.client.Configuration;
 
@@ -70,8 +72,8 @@ public class FakeApiTest {
     @Test
     public void fakeOuterBooleanSerializeTest(TestContext context) {
         Async async = context.async();
-        Boolean body = null;
-        api.fakeOuterBooleanSerialize(body, result -> {
+        Boolean booleanPostBody = null;
+        api.fakeOuterBooleanSerialize(booleanPostBody, result -> {
             // TODO: test validations
             async.complete();
         });
@@ -86,8 +88,8 @@ public class FakeApiTest {
     @Test
     public void fakeOuterCompositeSerializeTest(TestContext context) {
         Async async = context.async();
-        OuterComposite body = null;
-        api.fakeOuterCompositeSerialize(body, result -> {
+        OuterComposite outerComposite = null;
+        api.fakeOuterCompositeSerialize(outerComposite, result -> {
             // TODO: test validations
             async.complete();
         });
@@ -126,6 +128,23 @@ public class FakeApiTest {
     }
     
     /**
+     * 
+     * 
+     *
+     * @param context Vertx test context for doing assertions
+     */
+    @Test
+    public void testBodyWithQueryParamsTest(TestContext context) {
+        Async async = context.async();
+        String query = null;
+        User user = null;
+        api.testBodyWithQueryParams(query, user, result -> {
+            // TODO: test validations
+            async.complete();
+        });
+    }
+    
+    /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
      *
@@ -134,8 +153,8 @@ public class FakeApiTest {
     @Test
     public void testClientModelTest(TestContext context) {
         Async async = context.async();
-        Client body = null;
-        api.testClientModel(body, result -> {
+        Client client = null;
+        api.testClientModel(client, result -> {
             // TODO: test validations
             async.complete();
         });
@@ -159,7 +178,7 @@ public class FakeApiTest {
         Long int64 = null;
         Float _float = null;
         String string = null;
-        byte[] binary = null;
+        AsyncFile binary = null;
         LocalDate date = null;
         OffsetDateTime dateTime = null;
         String password = null;
@@ -179,15 +198,31 @@ public class FakeApiTest {
     @Test
     public void testEnumParametersTest(TestContext context) {
         Async async = context.async();
-        List<String> enumFormStringArray = null;
-        String enumFormString = null;
         List<String> enumHeaderStringArray = null;
         String enumHeaderString = null;
         List<String> enumQueryStringArray = null;
         String enumQueryString = null;
         Integer enumQueryInteger = null;
         Double enumQueryDouble = null;
-        api.testEnumParameters(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, result -> {
+        List<String> enumFormStringArray = null;
+        String enumFormString = null;
+        api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, result -> {
+            // TODO: test validations
+            async.complete();
+        });
+    }
+    
+    /**
+     * test inline additionalProperties
+     * 
+     *
+     * @param context Vertx test context for doing assertions
+     */
+    @Test
+    public void testInlineAdditionalPropertiesTest(TestContext context) {
+        Async async = context.async();
+        String requestBody = null;
+        api.testInlineAdditionalProperties(requestBody, result -> {
             // TODO: test validations
             async.complete();
         });

@@ -42,15 +42,15 @@ public class PetApiImpl implements PetApi {
     /**
      * Add a new pet to the store
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void addPet(Pet body, Handler<AsyncResult<Void>> resultHandler) {
-        Object localVarBody = body;
+    public void addPet(Pet pet, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = pet;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling addPet"));
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'pet' when calling addPet"));
             return;
         }
         
@@ -67,7 +67,7 @@ public class PetApiImpl implements PetApi {
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
         
-        String[] localVarAccepts = { "application/xml", "application/json" };
+        String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/json", "application/xml" };
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
@@ -104,7 +104,7 @@ public class PetApiImpl implements PetApi {
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
         
-        String[] localVarAccepts = { "application/xml", "application/json" };
+        String[] localVarAccepts = {  };
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
@@ -217,15 +217,15 @@ public class PetApiImpl implements PetApi {
     /**
      * Update an existing pet
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void updatePet(Pet body, Handler<AsyncResult<Void>> resultHandler) {
-        Object localVarBody = body;
+    public void updatePet(Pet pet, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = pet;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling updatePet"));
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'pet' when calling updatePet"));
             return;
         }
         
@@ -242,7 +242,7 @@ public class PetApiImpl implements PetApi {
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
         
-        String[] localVarAccepts = { "application/xml", "application/json" };
+        String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/json", "application/xml" };
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
@@ -280,7 +280,7 @@ public class PetApiImpl implements PetApi {
         if (name != null) localVarFormParams.put("name", name);
 if (status != null) localVarFormParams.put("status", status);
 
-        String[] localVarAccepts = { "application/xml", "application/json" };
+        String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/x-www-form-urlencoded" };
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 

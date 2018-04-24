@@ -8,6 +8,8 @@ import retrofit2.Call;
 import retrofit2.http.*;
 
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import okhttp3.MultipartBody;
 
 import io.swagger.client.model.Client;
 
@@ -23,7 +25,7 @@ public interface FakeClassnameTags123Api {
   /**
    * To test class name in snake case
    * To test class name in snake case
-   * @param body client model (required)
+   * @param client client model (required)
    * @return Call&lt;Client&gt;
    */
   @Headers({
@@ -31,7 +33,7 @@ public interface FakeClassnameTags123Api {
   })
   @PATCH("fake_classname_test")
   F.Promise<Response<Client>> testClassname(
-    @retrofit2.http.Body Client body
+    @retrofit2.http.Body Client client
   );
 
 }

@@ -13,14 +13,19 @@
 
 package io.swagger.client.api;
 
+import io.swagger.client.model.Client;
+import io.swagger.client.ApiClient;
+import io.swagger.client.api.AnotherFakeApi;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.ErrorLoggingFilter;
-import io.swagger.client.ApiClient;
-import io.swagger.client.model.Client;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.Ignore;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
 import static io.restassured.config.RestAssuredConfig.config;
 import static io.swagger.client.GsonObjectMapper.gson;
@@ -46,9 +51,9 @@ public class AnotherFakeApiTest {
      */
     @Test
     public void shouldSee200AfterTestSpecialTags() {
-        Client body = null;
+        Client client = null;
         api.testSpecialTags()
-                .body(body).execute(r -> r.prettyPeek());
+                .body(client).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 

@@ -23,7 +23,7 @@ public interface PetApi {
   /**
    * Add a new pet to the store
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    * @return Completable
    */
   @Headers({
@@ -31,7 +31,7 @@ public interface PetApi {
   })
   @POST("pet")
   Completable addPet(
-    @retrofit2.http.Body Pet body
+    @retrofit2.http.Body Pet pet
   );
 
   /**
@@ -84,7 +84,7 @@ public interface PetApi {
   /**
    * Update an existing pet
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    * @return Completable
    */
   @Headers({
@@ -92,7 +92,7 @@ public interface PetApi {
   })
   @PUT("pet")
   Completable updatePet(
-    @retrofit2.http.Body Pet body
+    @retrofit2.http.Body Pet pet
   );
 
   /**
@@ -120,7 +120,7 @@ public interface PetApi {
   @retrofit2.http.Multipart
   @POST("pet/{petId}/uploadImage")
   Observable<ModelApiResponse> uploadFile(
-    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part MultipartBody.Part file
+    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part("file") MultipartBody.Part file
   );
 
 }

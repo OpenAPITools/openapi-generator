@@ -38,11 +38,8 @@ public class StoreApi {
 
     private RequestSpecBuilder reqSpec;
 
-    private JSON json;
-
     private StoreApi(RequestSpecBuilder reqSpec) {
         this.reqSpec = reqSpec;
-        this.json = new JSON();
     }
 
     public static StoreApi store(RequestSpecBuilder reqSpec) {
@@ -67,28 +64,10 @@ public class StoreApi {
     }
 
     /**
-     * Get JSON
-     *
-     * @return JSON object
+     * Customise request specification
+     * @param consumer consumer
+     * @return api
      */
-    public JSON getJSON() {
-        return json;
-    }
-
-    /**
-     * Set JSON
-     *
-     * @param json JSON object
-     * @return StoreApi
-     */
-    public StoreApi setJSON(JSON json) {
-        this.json = json;
-        return this;
-    }
-
-    /**
-    * Customise request specification
-    */
     public StoreApi reqSpec(Consumer<RequestSpecBuilder> consumer) {
         consumer.accept(reqSpec);
         return this;
@@ -122,6 +101,9 @@ public class StoreApi {
 
         /**
          * DELETE /store/order/{order_id}
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(DELETE, REQ_URI));
@@ -129,6 +111,7 @@ public class StoreApi {
 
         /**
          * @param orderId (String) ID of the order that needs to be deleted (required)
+         * @return operation
          */
         public DeleteOrderOper orderIdPath(Object orderId) {
             reqSpec.addPathParam("order_id", orderId);
@@ -137,6 +120,8 @@ public class StoreApi {
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public DeleteOrderOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -145,6 +130,8 @@ public class StoreApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public DeleteOrderOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -155,7 +142,7 @@ public class StoreApi {
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      *
-     * return Map<String, Integer>
+     * return Map&lt;String, Integer&gt;
      */
     public class GetInventoryOper {
 
@@ -179,6 +166,9 @@ public class StoreApi {
 
         /**
          * GET /store/inventory
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
@@ -186,15 +176,18 @@ public class StoreApi {
 
         /**
          * GET /store/inventory
-         * @return Map<String, Integer>
+         * @param handler handler
+         * @return Map&lt;String, Integer&gt;
          */
         public Map<String, Integer> executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<Map<String, Integer>>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public GetInventoryOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -203,6 +196,8 @@ public class StoreApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public GetInventoryOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -238,6 +233,9 @@ public class StoreApi {
 
         /**
          * GET /store/order/{order_id}
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
@@ -245,15 +243,17 @@ public class StoreApi {
 
         /**
          * GET /store/order/{order_id}
+         * @param handler handler
          * @return Order
          */
         public Order executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<Order>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
         /**
          * @param orderId (Long) ID of pet that needs to be fetched (required)
+         * @return operation
          */
         public GetOrderByIdOper orderIdPath(Object orderId) {
             reqSpec.addPathParam("order_id", orderId);
@@ -262,6 +262,8 @@ public class StoreApi {
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public GetOrderByIdOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -270,6 +272,8 @@ public class StoreApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public GetOrderByIdOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -293,20 +297,23 @@ public class StoreApi {
 
         public PlaceOrderOper() {
             this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
+            reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         public PlaceOrderOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("application/json");
+            reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
          * POST /store/order
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
@@ -314,23 +321,27 @@ public class StoreApi {
 
         /**
          * POST /store/order
+         * @param handler handler
          * @return Order
          */
         public Order executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<Order>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
          /**
-         * @param body (Order) order placed for purchasing the pet (required)
+         * @param order (Order) order placed for purchasing the pet (required)
+         * @return operation
          */
-        public PlaceOrderOper body(Order body) {
-            reqSpec.setBody(getJSON().serialize(body));
+        public PlaceOrderOper body(Order order) {
+            reqSpec.setBody(order);
             return this;
         }
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public PlaceOrderOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -339,6 +350,8 @@ public class StoreApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public PlaceOrderOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);

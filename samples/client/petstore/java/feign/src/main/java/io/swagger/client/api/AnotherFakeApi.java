@@ -18,7 +18,7 @@ public interface AnotherFakeApi extends ApiClient.Api {
   /**
    * To test special tags
    * To test special tags
-    * @param body client model (required)
+    * @param client client model (required)
    * @return Client
    */
   @RequestLine("PATCH /another-fake/dummy")
@@ -26,5 +26,5 @@ public interface AnotherFakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  Client testSpecialTags(Client body);
+  Client testSpecialTags(Client client);
 }

@@ -1,251 +1,177 @@
 package io.swagger.client.api;
 
-import io.swagger.TestUtils;
-
 import io.swagger.client.ApiClient;
-import io.swagger.client.model.*;
-
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import io.swagger.client.model.ModelApiResponse;
+import io.swagger.client.model.Pet;
+import org.junit.Before;
+import org.junit.Test;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
-import org.junit.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
-
+/**
+ * API tests for PetApi
+ */
 public class PetApiTest {
-    ApiClient apiClient;
-    PetApi api;
-    MockWebServer localServer;
-    ApiClient localClient;
+
+    private PetApi api;
 
     @Before
     public void setup() {
-        apiClient = new ApiClient();
-        api = apiClient.buildClient(PetApi.class);
-        localServer = new MockWebServer();
-        localClient = new ApiClient();
+        api = new ApiClient().buildClient(PetApi.class);
     }
 
+    
+    /**
+     * Add a new pet to the store
+     *
+     * 
+     */
     @Test
-    public void testApiClient() {
-        // the default api client is used
-        assertEquals("http://petstore.swagger.io:80/v2", apiClient.getBasePath());
+    public void addPetTest() {
+        Pet pet = null;
+        // api.addPet(pet);
 
-        ApiClient newClient = new ApiClient();
-        newClient.setBasePath("http://example.com");
-
-        assertEquals("http://example.com", newClient.getBasePath());
+        // TODO: test validations
     }
 
+    
+    /**
+     * Deletes a pet
+     *
+     * 
+     */
     @Test
-    public void testCreateAndGetPet() throws Exception {
-        Pet pet = createRandomPet();
-        api.addPet(pet);
+    public void deletePetTest() {
+        Long petId = null;
+        String apiKey = null;
+        // api.deletePet(petId, apiKey);
 
-        Pet fetched = api.getPetById(pet.getId());
-        assertNotNull(fetched);
-        assertEquals(pet.getId(), fetched.getId());
-        assertNotNull(fetched.getCategory());
-        assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+        // TODO: test validations
     }
 
+    
+    /**
+     * Finds Pets by status
+     *
+     * Multiple status values can be provided with comma separated strings
+     */
     @Test
-    public void testUpdatePet() throws Exception {
-        Pet pet = createRandomPet();
-        pet.setName("programmer");
+    public void findPetsByStatusTest() {
+        List<String> status = null;
+        // List<Pet> response = api.findPetsByStatus(status);
 
-        api.updatePet(pet);
-
-        Pet fetched = api.getPetById(pet.getId());
-        assertNotNull(fetched);
-        assertEquals(pet.getId(), fetched.getId());
-        assertNotNull(fetched.getCategory());
-        assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+        // TODO: test validations
     }
 
+    /**
+     * Finds Pets by status
+     *
+     * Multiple status values can be provided with comma separated strings
+     *
+     * This tests the overload of the method that uses a Map for query parameters instead of
+     * listing them out individually.
+     */
     @Test
-    public void testFindPetsByStatus() throws Exception {
-        Pet pet = createRandomPet();
-        pet.setName("programmer");
-        pet.setStatus(Pet.StatusEnum.AVAILABLE);
-
-        api.updatePet(pet);
-
-        List<Pet> pets = api.findPetsByStatus(Collections.singletonList("available"));
-        assertNotNull(pets);
-
-        boolean found = false;
-        for (Pet fetched : pets) {
-            if (fetched.getId().equals(pet.getId())) {
-                found = true;
-                break;
-            }
-        }
-
-        assertTrue(found);
-
+    public void findPetsByStatusTestQueryMap() {
         PetApi.FindPetsByStatusQueryParams queryParams = new PetApi.FindPetsByStatusQueryParams()
-                .status(Arrays.asList(new String[]{"available"}));
-        pets = api.findPetsByStatus(queryParams);
-        assertNotNull(pets);
+            .status(null);
+        // List<Pet> response = api.findPetsByStatus(queryParams);
 
-        found = false;
-        for (Pet fetched : pets) {
-            if (fetched.getId().equals(pet.getId())) {
-                found = true;
-                break;
-            }
-        }
+    // TODO: test validations
+    }
+    
+    /**
+     * Finds Pets by tags
+     *
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     */
+    @Test
+    public void findPetsByTagsTest() {
+        List<String> tags = null;
+        // List<Pet> response = api.findPetsByTags(tags);
 
-        assertTrue(found);
+        // TODO: test validations
     }
 
+    /**
+     * Finds Pets by tags
+     *
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     *
+     * This tests the overload of the method that uses a Map for query parameters instead of
+     * listing them out individually.
+     */
     @Test
-    public void testFindPetsByTags() throws Exception {
-        Pet pet = createRandomPet();
-        pet.setName("monster");
-        pet.setStatus(Pet.StatusEnum.AVAILABLE);
-
-        List<Tag> tags = new ArrayList<>();
-        Tag tag1 = new Tag();
-        tag1.setName("friendly");
-        tags.add(tag1);
-        pet.setTags(tags);
-
-        api.updatePet(pet);
-
-        List<Pet> pets = api.findPetsByTags(Collections.singletonList("friendly"));
-        assertNotNull(pets);
-
-        boolean found = false;
-        for (Pet fetched : pets) {
-            if (fetched.getId().equals(pet.getId())) {
-                found = true;
-                break;
-            }
-        }
-        assertTrue(found);
-
+    public void findPetsByTagsTestQueryMap() {
         PetApi.FindPetsByTagsQueryParams queryParams = new PetApi.FindPetsByTagsQueryParams()
-                .tags(Arrays.asList(new String[]{"friendly"}));
-        pets = api.findPetsByTags(queryParams);
-        assertNotNull(pets);
+            .tags(null);
+        // List<Pet> response = api.findPetsByTags(queryParams);
 
-        found = false;
-        for (Pet fetched : pets) {
-            if (fetched.getId().equals(pet.getId())) {
-                found = true;
-                break;
-            }
-        }
-        assertTrue(found);
+    // TODO: test validations
     }
-
+    
+    /**
+     * Find pet by ID
+     *
+     * Returns a single pet
+     */
     @Test
-    public void testUpdatePetWithForm() throws Exception {
-        Pet pet = createRandomPet();
-        pet.setName("frank");
-        api.addPet(pet);
+    public void getPetByIdTest() {
+        Long petId = null;
+        // Pet response = api.getPetById(petId);
 
-        Pet fetched = api.getPetById(pet.getId());
-
-        api.updatePetWithForm(fetched.getId(), "furt", null);
-        Pet updated = api.getPetById(fetched.getId());
-
-        assertEquals(updated.getName(), "furt");
+        // TODO: test validations
     }
 
+    
+    /**
+     * Update an existing pet
+     *
+     * 
+     */
     @Test
-    public void testDeletePet() throws Exception {
-        Pet pet = createRandomPet();
-        api.addPet(pet);
+    public void updatePetTest() {
+        Pet pet = null;
+        // api.updatePet(pet);
 
-        Pet fetched = api.getPetById(pet.getId());
-        api.deletePet(fetched.getId(), null);
-
-        try {
-            api.getPetById(fetched.getId());
-            fail("expected an error");
-        } catch (Exception e) {
-//            assertEquals(404, e.getCode());
-        }
+        // TODO: test validations
     }
 
+    
+    /**
+     * Updates a pet in the store with form data
+     *
+     * 
+     */
     @Test
-    public void testUploadFile() throws Exception {
-        Pet pet = createRandomPet();
-        api.addPet(pet);
+    public void updatePetWithFormTest() {
+        Long petId = null;
+        String name = null;
+        String status = null;
+        // api.updatePetWithForm(petId, name, status);
 
-        File file = new File("hello.txt");
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.write("Hello world!");
-        writer.close();
-
-        api.uploadFile(pet.getId(), "a test file", new File(file.getAbsolutePath()));
+        // TODO: test validations
     }
 
+    
+    /**
+     * uploads an image
+     *
+     * 
+     */
     @Test
-    public void testEqualsAndHashCode() {
-        Pet pet1 = new Pet();
-        Pet pet2 = new Pet();
-        assertTrue(pet1.equals(pet2));
-        assertTrue(pet2.equals(pet1));
-        assertTrue(pet1.hashCode() == pet2.hashCode());
-        assertTrue(pet1.equals(pet1));
-        assertTrue(pet1.hashCode() == pet1.hashCode());
+    public void uploadFileTest() {
+        Long petId = null;
+        String additionalMetadata = null;
+        File file = null;
+        // ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
 
-        pet2.setName("really-happy");
-        pet2.setPhotoUrls(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
-        assertFalse(pet1.equals(pet2));
-        assertFalse(pet2.equals(pet1));
-        assertFalse(pet1.hashCode() == (pet2.hashCode()));
-        assertTrue(pet2.equals(pet2));
-        assertTrue(pet2.hashCode() == pet2.hashCode());
-
-        pet1.setName("really-happy");
-        pet1.setPhotoUrls(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
-        assertTrue(pet1.equals(pet2));
-        assertTrue(pet2.equals(pet1));
-        assertTrue(pet1.hashCode() == pet2.hashCode());
-        assertTrue(pet1.equals(pet1));
-        assertTrue(pet1.hashCode() == pet1.hashCode());
+        // TODO: test validations
     }
 
-    @Test
-    public void testCSVDelimitedArray() throws Exception {
-        localServer.enqueue(new MockResponse().setBody("[{\"id\":5,\"name\":\"rocky\"}]"));
-        localServer.start();
-        PetApi api = localClient.setBasePath(localServer.url("/").toString()).buildClient(PetApi.class);
-        PetApi.FindPetsByTagsQueryParams queryParams = new PetApi.FindPetsByTagsQueryParams()
-                .tags(Arrays.asList("friendly","energetic"));
-        List<Pet> pets = api.findPetsByTags(queryParams);
-        assertNotNull(pets);
-        RecordedRequest request = localServer.takeRequest();
-        assertThat(request.getPath()).contains("tags=friendly,energetic");
-        localServer.shutdown();
-    }
-
-    private Pet createRandomPet() {
-        Pet pet = new Pet();
-        pet.setId(TestUtils.nextId());
-        pet.setName("gorilla");
-
-        Category category = new Category();
-        category.setName("really-happy");
-
-        pet.setCategory(category);
-        pet.setStatus(Pet.StatusEnum.AVAILABLE);
-        List<String> photos = Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2");
-        pet.setPhotoUrls(photos);
-
-        return pet;
-    }
+    
 }

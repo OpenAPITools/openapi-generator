@@ -38,11 +38,8 @@ public class FakeClassnameTags123Api {
 
     private RequestSpecBuilder reqSpec;
 
-    private JSON json;
-
     private FakeClassnameTags123Api(RequestSpecBuilder reqSpec) {
         this.reqSpec = reqSpec;
-        this.json = new JSON();
     }
 
     public static FakeClassnameTags123Api fakeClassnameTags123(RequestSpecBuilder reqSpec) {
@@ -55,28 +52,10 @@ public class FakeClassnameTags123Api {
     }
 
     /**
-     * Get JSON
-     *
-     * @return JSON object
+     * Customise request specification
+     * @param consumer consumer
+     * @return api
      */
-    public JSON getJSON() {
-        return json;
-    }
-
-    /**
-     * Set JSON
-     *
-     * @param json JSON object
-     * @return FakeClassnameTags123Api
-     */
-    public FakeClassnameTags123Api setJSON(JSON json) {
-        this.json = json;
-        return this;
-    }
-
-    /**
-    * Customise request specification
-    */
     public FakeClassnameTags123Api reqSpec(Consumer<RequestSpecBuilder> consumer) {
         consumer.accept(reqSpec);
         return this;
@@ -113,6 +92,9 @@ public class FakeClassnameTags123Api {
 
         /**
          * PATCH /fake_classname_test
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PATCH, REQ_URI));
@@ -120,23 +102,27 @@ public class FakeClassnameTags123Api {
 
         /**
          * PATCH /fake_classname_test
+         * @param handler handler
          * @return Client
          */
         public Client executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<Client>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
          /**
-         * @param body (Client) client model (required)
+         * @param client (Client) client model (required)
+         * @return operation
          */
-        public TestClassnameOper body(Client body) {
-            reqSpec.setBody(getJSON().serialize(body));
+        public TestClassnameOper body(Client client) {
+            reqSpec.setBody(client);
             return this;
         }
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public TestClassnameOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -145,6 +131,8 @@ public class FakeClassnameTags123Api {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public TestClassnameOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);

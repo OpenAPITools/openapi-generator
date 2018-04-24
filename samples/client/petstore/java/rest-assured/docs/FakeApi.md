@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
@@ -17,7 +18,7 @@ Method | HTTP request | Description
 
 <a name="fakeOuterBooleanSerialize"></a>
 # **fakeOuterBooleanSerialize**
-> Boolean fakeOuterBooleanSerialize(body)
+> Boolean fakeOuterBooleanSerialize(booleanPostBody)
 
 
 
@@ -41,7 +42,7 @@ api.fakeOuterBooleanSerialize().execute(r -> r.prettyPeek());
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Boolean**](Boolean.md)| Input boolean as post body | [optional]
+ **booleanPostBody** | **Boolean**| Input boolean as post body | [optional]
 
 ### Return type
 
@@ -54,11 +55,11 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: */*
 
 <a name="fakeOuterCompositeSerialize"></a>
 # **fakeOuterCompositeSerialize**
-> OuterComposite fakeOuterCompositeSerialize(body)
+> OuterComposite fakeOuterCompositeSerialize(outerComposite)
 
 
 
@@ -82,7 +83,7 @@ api.fakeOuterCompositeSerialize().execute(r -> r.prettyPeek());
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
+ **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
 
 ### Return type
 
@@ -95,7 +96,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: */*
 
 <a name="fakeOuterNumberSerialize"></a>
 # **fakeOuterNumberSerialize**
@@ -123,7 +124,7 @@ api.fakeOuterNumberSerialize().execute(r -> r.prettyPeek());
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**BigDecimal**](BigDecimal.md)| Input number as post body | [optional]
+ **body** | **BigDecimal**| Input number as post body | [optional]
 
 ### Return type
 
@@ -136,7 +137,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: */*
 
 <a name="fakeOuterStringSerialize"></a>
 # **fakeOuterStringSerialize**
@@ -164,7 +165,7 @@ api.fakeOuterStringSerialize().execute(r -> r.prettyPeek());
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**String**](String.md)| Input string as post body | [optional]
+ **body** | **String**| Input string as post body | [optional]
 
 ### Return type
 
@@ -177,11 +178,53 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: */*
+
+<a name="testBodyWithQueryParams"></a>
+# **testBodyWithQueryParams**
+> testBodyWithQueryParams(query, user)
+
+
+
+### Example
+```java
+// Import classes:
+//import io.swagger.client.ApiClient;
+//import io.restassured.builder.RequestSpecBuilder;
+//import io.restassured.filter.log.ErrorLoggingFilter;
+
+FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
+                () -> new RequestSpecBuilder()
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+
+api.testBodyWithQueryParams()
+    .queryQuery(query)
+    .body(user).execute(r -> r.prettyPeek());
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query** | **String**|  |
+ **user** | [**User**](User.md)|  |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 <a name="testClientModel"></a>
 # **testClientModel**
-> Client testClientModel(body)
+> Client testClientModel(client)
 
 To test \&quot;client\&quot; model
 
@@ -199,14 +242,14 @@ FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
 
 api.testClientModel()
-    .body(body).execute(r -> r.prettyPeek());
+    .body(client).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model |
+ **client** | [**Client**](Client.md)| client model |
 
 ### Return type
 
@@ -255,12 +298,12 @@ Name | Type | Description  | Notes
  **_double** | **Double**| None |
  **patternWithoutDelimiter** | **String**| None |
  **_byte** | **byte[]**| None |
- **integer** | **Integer**| None | [optional]
- **int32** | **Integer**| None | [optional]
+ **integer** | **Integer**| None | [optional] [enum: ]
+ **int32** | **Integer**| None | [optional] [enum: ]
  **int64** | **Long**| None | [optional]
  **_float** | **Float**| None | [optional]
  **string** | **String**| None | [optional]
- **binary** | **byte[]**| None | [optional]
+ **binary** | **File**| None | [optional]
  **date** | **LocalDate**| None | [optional]
  **dateTime** | **OffsetDateTime**| None | [optional]
  **password** | **String**| None | [optional]
@@ -276,12 +319,12 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
- - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
 
 <a name="testEnumParameters"></a>
 # **testEnumParameters**
-> testEnumParameters(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble)
+> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
 
 To test enum parameters
 
@@ -305,14 +348,14 @@ api.testEnumParameters().execute(r -> r.prettyPeek());
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [enum: >, $]
- **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
  **enumHeaderStringArray** | [**List&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] [enum: >, $]
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
  **enumQueryStringArray** | [**List&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] [enum: >, $]
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
  **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2]
  **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
+ **enumFormStringArray** | [**List&lt;String&gt;**](List.md)| Form parameter enum test (string array) | [optional] [enum: >, $]
+ **enumFormString** | **String**| Form parameter enum test (string) | [optional] [enum: _abc, -efg, (xyz)]
 
 ### Return type
 
@@ -324,16 +367,14 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
- - **Accept**: */*
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
 
 <a name="testInlineAdditionalProperties"></a>
 # **testInlineAdditionalProperties**
-> testInlineAdditionalProperties(param)
+> testInlineAdditionalProperties(requestBody)
 
 test inline additionalProperties
-
-
 
 ### Example
 ```java
@@ -347,14 +388,14 @@ FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
 
 api.testInlineAdditionalProperties()
-    .body(param).execute(r -> r.prettyPeek());
+    .body(requestBody).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **Object**| request body |
+ **requestBody** | [**String**](String.md)| request body |
 
 ### Return type
 
@@ -374,8 +415,6 @@ No authorization required
 > testJsonFormData(param, param2)
 
 test json serialization of form data
-
-
 
 ### Example
 ```java
@@ -410,6 +449,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 

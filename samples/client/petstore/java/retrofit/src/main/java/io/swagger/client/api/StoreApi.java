@@ -87,24 +87,24 @@ public interface StoreApi {
    * Place an order for a pet
    * Sync method
    * 
-   * @param body order placed for purchasing the pet (required)
+   * @param order order placed for purchasing the pet (required)
    * @return Order
    */
   
   @POST("/store/order")
   Order placeOrder(
-    @retrofit.http.Body Order body
+    @retrofit.http.Body Order order
   );
 
   /**
    * Place an order for a pet
    * Async method
-   * @param body order placed for purchasing the pet (required)
+   * @param order order placed for purchasing the pet (required)
    * @param cb callback method
    */
   
   @POST("/store/order")
   void placeOrder(
-    @retrofit.http.Body Order body, Callback<Order> cb
+    @retrofit.http.Body Order order, Callback<Order> cb
   );
 }

@@ -18,24 +18,24 @@ public interface AnotherFakeApi {
    * To test special tags
    * Sync method
    * To test special tags
-   * @param body client model (required)
+   * @param client client model (required)
    * @return Client
    */
   
   @PATCH("/another-fake/dummy")
   Client testSpecialTags(
-    @retrofit.http.Body Client body
+    @retrofit.http.Body Client client
   );
 
   /**
    * To test special tags
    * Async method
-   * @param body client model (required)
+   * @param client client model (required)
    * @param cb callback method
    */
   
   @PATCH("/another-fake/dummy")
   void testSpecialTags(
-    @retrofit.http.Body Client body, Callback<Client> cb
+    @retrofit.http.Body Client client, Callback<Client> cb
   );
 }

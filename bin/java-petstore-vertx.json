@@ -1,4 +1,4 @@
 {
     "library": "vertx",
-    "artifactId": "swagger-petstore-vertx"
+    "artifactId": "petstore-vertx"
 }

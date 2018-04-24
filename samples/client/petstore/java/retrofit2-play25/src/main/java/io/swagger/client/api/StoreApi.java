@@ -8,6 +8,8 @@ import retrofit2.Call;
 import retrofit2.http.*;
 
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import okhttp3.MultipartBody;
 
 import io.swagger.client.model.Order;
 
@@ -54,12 +56,12 @@ public interface StoreApi {
   /**
    * Place an order for a pet
    * 
-   * @param body order placed for purchasing the pet (required)
+   * @param order order placed for purchasing the pet (required)
    * @return Call&lt;Order&gt;
    */
   @POST("store/order")
   CompletionStage<Response<Order>> placeOrder(
-    @retrofit2.http.Body Order body
+    @retrofit2.http.Body Order order
   );
 
 }

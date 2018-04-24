@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.swagger</groupId>
-    <artifactId>swagger-petstore-resteasy</artifactId>
+    <groupId>org.openapitools</groupId>
+    <artifactId>petstore-resteasy</artifactId>
     <packaging>jar</packaging>
-    <name>swagger-petstore-resteasy</name>
+    <name>petstore-resteasy</name>
     <version>1.0.0</version>
     <scm>
         <connection>scm:git:git@github.com:swagger-api/swagger-mustache.git</connection>
@@ -120,8 +120,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                        <source>
-                        1.7</source>
+                        <source>1.7</source>
                         <target>1.7</target>
                 </configuration>
             </plugin>

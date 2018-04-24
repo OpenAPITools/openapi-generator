@@ -1,4 +1,4 @@
 {
     "library": "jersey2",
-    "artifactId": "swagger-petstore-jersey2"
+    "artifactId": "petstore-jersey2"
 }

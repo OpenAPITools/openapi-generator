@@ -14,6 +14,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
+import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -26,24 +27,24 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class SpecialModelName {
   @JsonProperty("$special[property.name]")
-  private Long specialPropertyName = null;
+  private Long $specialPropertyName = null;
 
-  public SpecialModelName specialPropertyName(Long specialPropertyName) {
-    this.specialPropertyName = specialPropertyName;
+  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+    this.$specialPropertyName = $specialPropertyName;
     return this;
   }
 
    /**
-   * Get specialPropertyName
-   * @return specialPropertyName
+   * Get $specialPropertyName
+   * @return $specialPropertyName
   **/
   @ApiModelProperty(value = "")
-  public Long getSpecialPropertyName() {
-    return specialPropertyName;
+  public Long get$SpecialPropertyName() {
+    return $specialPropertyName;
   }
 
-  public void setSpecialPropertyName(Long specialPropertyName) {
-    this.specialPropertyName = specialPropertyName;
+  public void set$SpecialPropertyName(Long $specialPropertyName) {
+    this.$specialPropertyName = $specialPropertyName;
   }
 
 
@@ -55,13 +56,13 @@ public class SpecialModelName {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelName specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.specialPropertyName, specialModelName.specialPropertyName);
+    SpecialModelName $specialModelName = (SpecialModelName) o;
+    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(specialPropertyName);
+    return Objects.hash($specialPropertyName);
   }
 
 
@@ -70,7 +71,7 @@ public class SpecialModelName {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpecialModelName {\n");
     
-    sb.append("    specialPropertyName: ").append(toIndentedString(specialPropertyName)).append("\n");
+    sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
     sb.append("}");
     return sb.toString();
   }

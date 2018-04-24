@@ -16,11 +16,9 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> addPet(body)
+> addPet(pet)
 
 Add a new pet to the store
-
-
 
 ### Example
 ```java
@@ -38,9 +36,9 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
 try {
-    apiInstance.addPet(body);
+    apiInstance.addPet(pet);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#addPet");
     e.printStackTrace();
@@ -51,7 +49,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -64,15 +62,13 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="deletePet"></a>
 # **deletePet**
 > deletePet(petId, apiKey)
 
 Deletes a pet
-
-
 
 ### Example
 ```java
@@ -90,7 +86,7 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-Long petId = 789L; // Long | Pet id to delete
+Long petId = 56L; // Long | Pet id to delete
 String apiKey = "apiKey_example"; // String | 
 try {
     apiInstance.deletePet(petId, apiKey);
@@ -118,7 +114,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="findPetsByStatus"></a>
 # **findPetsByStatus**
@@ -252,7 +248,7 @@ api_key.setApiKey("YOUR API KEY");
 //api_key.setApiKeyPrefix("Token");
 
 PetApi apiInstance = new PetApi();
-Long petId = 789L; // Long | ID of pet to return
+Long petId = 56L; // Long | ID of pet to return
 try {
     Pet result = apiInstance.getPetById(petId);
     System.out.println(result);
@@ -283,11 +279,9 @@ Name | Type | Description  | Notes
 
 <a name="updatePet"></a>
 # **updatePet**
-> updatePet(body)
+> updatePet(pet)
 
 Update an existing pet
-
-
 
 ### Example
 ```java
@@ -305,9 +299,9 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
 try {
-    apiInstance.updatePet(body);
+    apiInstance.updatePet(pet);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#updatePet");
     e.printStackTrace();
@@ -318,7 +312,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -331,15 +325,13 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="updatePetWithForm"></a>
 # **updatePetWithForm**
 > updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
-
-
 
 ### Example
 ```java
@@ -357,7 +349,7 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-Long petId = 789L; // Long | ID of pet that needs to be updated
+Long petId = 56L; // Long | ID of pet that needs to be updated
 String name = "name_example"; // String | Updated name of the pet
 String status = "status_example"; // String | Updated status of the pet
 try {
@@ -387,15 +379,13 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="uploadFile"></a>
 # **uploadFile**
 > ModelApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
-
-
 
 ### Example
 ```java
@@ -413,9 +403,9 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-Long petId = 789L; // Long | ID of pet to update
+Long petId = 56L; // Long | ID of pet to update
 String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
-File file = new File("/path/to/file.txt"); // File | file to upload
+File file = new File("/path/to/file"); // File | file to upload
 try {
     ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
     System.out.println(result);

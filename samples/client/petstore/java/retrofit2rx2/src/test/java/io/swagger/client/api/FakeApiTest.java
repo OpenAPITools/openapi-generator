@@ -3,9 +3,11 @@ package io.swagger.client.api;
 import io.swagger.client.ApiClient;
 import java.math.BigDecimal;
 import io.swagger.client.model.Client;
+import java.io.File;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import io.swagger.client.model.OuterComposite;
+import io.swagger.client.model.User;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,8 +35,8 @@ public class FakeApiTest {
      */
     @Test
     public void fakeOuterBooleanSerializeTest() {
-        Boolean body = null;
-        // Boolean response = api.fakeOuterBooleanSerialize(body);
+        Boolean booleanPostBody = null;
+        // Boolean response = api.fakeOuterBooleanSerialize(booleanPostBody);
 
         // TODO: test validations
     }
@@ -45,8 +47,8 @@ public class FakeApiTest {
      */
     @Test
     public void fakeOuterCompositeSerializeTest() {
-        OuterComposite body = null;
-        // OuterComposite response = api.fakeOuterCompositeSerialize(body);
+        OuterComposite outerComposite = null;
+        // OuterComposite response = api.fakeOuterCompositeSerialize(outerComposite);
 
         // TODO: test validations
     }
@@ -75,14 +77,27 @@ public class FakeApiTest {
         // TODO: test validations
     }
     /**
+     * 
+     *
+     * 
+     */
+    @Test
+    public void testBodyWithQueryParamsTest() {
+        String query = null;
+        User user = null;
+        // api.testBodyWithQueryParams(query, user);
+
+        // TODO: test validations
+    }
+    /**
      * To test \&quot;client\&quot; model
      *
      * To test \&quot;client\&quot; model
      */
     @Test
     public void testClientModelTest() {
-        Client body = null;
-        // Client response = api.testClientModel(body);
+        Client client = null;
+        // Client response = api.testClientModel(client);
 
         // TODO: test validations
     }
@@ -102,12 +117,12 @@ public class FakeApiTest {
         Long int64 = null;
         Float _float = null;
         String string = null;
-        byte[] binary = null;
+        File binary = null;
         LocalDate date = null;
         OffsetDateTime dateTime = null;
         String password = null;
         String paramCallback = null;
-        // Void response = api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+        // api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
 
         // TODO: test validations
     }
@@ -118,15 +133,27 @@ public class FakeApiTest {
      */
     @Test
     public void testEnumParametersTest() {
-        List<String> enumFormStringArray = null;
-        String enumFormString = null;
         List<String> enumHeaderStringArray = null;
         String enumHeaderString = null;
         List<String> enumQueryStringArray = null;
         String enumQueryString = null;
         Integer enumQueryInteger = null;
         Double enumQueryDouble = null;
-        // Void response = api.testEnumParameters(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble);
+        List<String> enumFormStringArray = null;
+        String enumFormString = null;
+        // api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+
+        // TODO: test validations
+    }
+    /**
+     * test inline additionalProperties
+     *
+     * 
+     */
+    @Test
+    public void testInlineAdditionalPropertiesTest() {
+        String requestBody = null;
+        // api.testInlineAdditionalProperties(requestBody);
 
         // TODO: test validations
     }
@@ -139,7 +166,7 @@ public class FakeApiTest {
     public void testJsonFormDataTest() {
         String param = null;
         String param2 = null;
-        // Void response = api.testJsonFormData(param, param2);
+        // api.testJsonFormData(param, param2);
 
         // TODO: test validations
     }

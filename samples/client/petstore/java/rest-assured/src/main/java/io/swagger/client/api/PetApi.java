@@ -40,11 +40,8 @@ public class PetApi {
 
     private RequestSpecBuilder reqSpec;
 
-    private JSON json;
-
     private PetApi(RequestSpecBuilder reqSpec) {
         this.reqSpec = reqSpec;
-        this.json = new JSON();
     }
 
     public static PetApi pet(RequestSpecBuilder reqSpec) {
@@ -86,28 +83,10 @@ public class PetApi {
     }
 
     /**
-     * Get JSON
-     *
-     * @return JSON object
+     * Customise request specification
+     * @param consumer consumer
+     * @return api
      */
-    public JSON getJSON() {
-        return json;
-    }
-
-    /**
-     * Set JSON
-     *
-     * @param json JSON object
-     * @return PetApi
-     */
-    public PetApi setJSON(JSON json) {
-        this.json = json;
-        return this;
-    }
-
-    /**
-    * Customise request specification
-    */
     public PetApi reqSpec(Consumer<RequestSpecBuilder> consumer) {
         consumer.accept(reqSpec);
         return this;
@@ -143,21 +122,27 @@ public class PetApi {
 
         /**
          * POST /pet
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
         }
 
          /**
-         * @param body (Pet) Pet object that needs to be added to the store (required)
+         * @param pet (Pet) Pet object that needs to be added to the store (required)
+         * @return operation
          */
-        public AddPetOper body(Pet body) {
-            reqSpec.setBody(getJSON().serialize(body));
+        public AddPetOper body(Pet pet) {
+            reqSpec.setBody(pet);
             return this;
         }
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public AddPetOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -166,6 +151,8 @@ public class PetApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public AddPetOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -201,6 +188,9 @@ public class PetApi {
 
         /**
          * DELETE /pet/{petId}
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(DELETE, REQ_URI));
@@ -208,6 +198,7 @@ public class PetApi {
 
         /**
          * @param apiKey (String)  (optional)
+         * @return operation
          */
         public DeletePetOper apiKeyHeader(String apiKey) {
             reqSpec.addHeader("api_key", apiKey);
@@ -216,6 +207,7 @@ public class PetApi {
 
         /**
          * @param petId (Long) Pet id to delete (required)
+         * @return operation
          */
         public DeletePetOper petIdPath(Object petId) {
             reqSpec.addPathParam("petId", petId);
@@ -224,6 +216,8 @@ public class PetApi {
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public DeletePetOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -232,6 +226,8 @@ public class PetApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public DeletePetOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -243,7 +239,7 @@ public class PetApi {
      * Multiple status values can be provided with comma separated strings
      *
      * @see #statusQuery Status values that need to be considered for filter (required)
-     * return List<Pet>
+     * return List&lt;Pet&gt;
      */
     public class FindPetsByStatusOper {
 
@@ -267,6 +263,9 @@ public class PetApi {
 
         /**
          * GET /pet/findByStatus
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
@@ -274,15 +273,17 @@ public class PetApi {
 
         /**
          * GET /pet/findByStatus
-         * @return List<Pet>
+         * @param handler handler
+         * @return List&lt;Pet&gt;
          */
         public List<Pet> executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<List<Pet>>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
         /**
-         * @param status (List<String>) Status values that need to be considered for filter (required)
+         * @param status (List&lt;String&gt;) Status values that need to be considered for filter (required)
+         * @return operation
          */
         public FindPetsByStatusOper statusQuery(Object... status) {
             reqSpec.addQueryParam("status", status);
@@ -291,6 +292,8 @@ public class PetApi {
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public FindPetsByStatusOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -299,6 +302,8 @@ public class PetApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public FindPetsByStatusOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -310,7 +315,7 @@ public class PetApi {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
      * @see #tagsQuery Tags to filter by (required)
-     * return List<Pet>
+     * return List&lt;Pet&gt;
      * @deprecated
      */
     @Deprecated
@@ -336,6 +341,9 @@ public class PetApi {
 
         /**
          * GET /pet/findByTags
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
@@ -343,15 +351,17 @@ public class PetApi {
 
         /**
          * GET /pet/findByTags
-         * @return List<Pet>
+         * @param handler handler
+         * @return List&lt;Pet&gt;
          */
         public List<Pet> executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<List<Pet>>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
         /**
-         * @param tags (List<String>) Tags to filter by (required)
+         * @param tags (List&lt;String&gt;) Tags to filter by (required)
+         * @return operation
          */
         public FindPetsByTagsOper tagsQuery(Object... tags) {
             reqSpec.addQueryParam("tags", tags);
@@ -360,6 +370,8 @@ public class PetApi {
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public FindPetsByTagsOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -368,6 +380,8 @@ public class PetApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public FindPetsByTagsOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -403,6 +417,9 @@ public class PetApi {
 
         /**
          * GET /pet/{petId}
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
@@ -410,15 +427,17 @@ public class PetApi {
 
         /**
          * GET /pet/{petId}
+         * @param handler handler
          * @return Pet
          */
         public Pet executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<Pet>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
         /**
          * @param petId (Long) ID of pet to return (required)
+         * @return operation
          */
         public GetPetByIdOper petIdPath(Object petId) {
             reqSpec.addPathParam("petId", petId);
@@ -427,6 +446,8 @@ public class PetApi {
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public GetPetByIdOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -435,6 +456,8 @@ public class PetApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public GetPetByIdOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -471,21 +494,27 @@ public class PetApi {
 
         /**
          * PUT /pet
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PUT, REQ_URI));
         }
 
          /**
-         * @param body (Pet) Pet object that needs to be added to the store (required)
+         * @param pet (Pet) Pet object that needs to be added to the store (required)
+         * @return operation
          */
-        public UpdatePetOper body(Pet body) {
-            reqSpec.setBody(getJSON().serialize(body));
+        public UpdatePetOper body(Pet pet) {
+            reqSpec.setBody(pet);
             return this;
         }
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public UpdatePetOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -494,6 +523,8 @@ public class PetApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public UpdatePetOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -532,6 +563,9 @@ public class PetApi {
 
         /**
          * POST /pet/{petId}
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
@@ -539,6 +573,7 @@ public class PetApi {
 
         /**
          * @param petId (Long) ID of pet that needs to be updated (required)
+         * @return operation
          */
         public UpdatePetWithFormOper petIdPath(Object petId) {
             reqSpec.addPathParam("petId", petId);
@@ -547,6 +582,7 @@ public class PetApi {
 
          /**
          * @param name (String) Updated name of the pet (optional)
+         * @return operation
          */
          public UpdatePetWithFormOper nameForm(Object... name) {
             reqSpec.addFormParam("name", name);
@@ -555,6 +591,7 @@ public class PetApi {
 
          /**
          * @param status (String) Updated status of the pet (optional)
+         * @return operation
          */
          public UpdatePetWithFormOper statusForm(Object... status) {
             reqSpec.addFormParam("status", status);
@@ -563,6 +600,8 @@ public class PetApi {
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public UpdatePetWithFormOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -571,6 +610,8 @@ public class PetApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public UpdatePetWithFormOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -610,6 +651,9 @@ public class PetApi {
 
         /**
          * POST /pet/{petId}/uploadImage
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
@@ -617,15 +661,17 @@ public class PetApi {
 
         /**
          * POST /pet/{petId}/uploadImage
+         * @param handler handler
          * @return ModelApiResponse
          */
         public ModelApiResponse executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<ModelApiResponse>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
         /**
          * @param petId (Long) ID of pet to update (required)
+         * @return operation
          */
         public UploadFileOper petIdPath(Object petId) {
             reqSpec.addPathParam("petId", petId);
@@ -634,6 +680,7 @@ public class PetApi {
 
          /**
          * @param additionalMetadata (String) Additional data to pass to server (optional)
+         * @return operation
          */
          public UploadFileOper additionalMetadataForm(Object... additionalMetadata) {
             reqSpec.addFormParam("additionalMetadata", additionalMetadata);
@@ -641,9 +688,10 @@ public class PetApi {
          }
 
          /**
-         * It will assume that the control name is file and the <content-type> is <application/octet-stream>
+         * It will assume that the control name is file and the &lt;content-type&gt; is &lt;application/octet-stream&gt;
          * @see #reqSpec for customise
          * @param file (File) file to upload (optional)
+         * @return operation
          */
          public UploadFileOper fileMultiPart(File file) {
             reqSpec.addMultiPart(file);
@@ -652,6 +700,8 @@ public class PetApi {
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public UploadFileOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -660,6 +710,8 @@ public class PetApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public UploadFileOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
