@@ -12,6 +12,5 @@ package petstore
 
 type Category struct {
 	Id int64 `json:"id,omitempty" xml:"id"`
-
 	Name string `json:"name,omitempty" xml:"name"`
 }

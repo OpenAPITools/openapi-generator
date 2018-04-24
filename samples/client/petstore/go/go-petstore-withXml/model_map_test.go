@@ -12,6 +12,5 @@ package petstore
 
 type MapTest struct {
 	MapMapOfString map[string]map[string]string `json:"map_map_of_string,omitempty" xml:"map_map_of_string"`
-
 	MapOfEnumString map[string]string `json:"map_of_enum_string,omitempty" xml:"map_of_enum_string"`
 }

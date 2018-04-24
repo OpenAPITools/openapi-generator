@@ -13,10 +13,7 @@ package petstore
 // Model for testing model name same as property name
 type Name struct {
 	Name int32 `json:"name" xml:"name"`
-
 	SnakeCase int32 `json:"snake_case,omitempty" xml:"snake_case"`
-
 	Property string `json:"property,omitempty" xml:"property"`
-
 	Var123Number int32 `json:"123Number,omitempty" xml:"123Number"`
 }

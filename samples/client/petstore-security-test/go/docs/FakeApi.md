@@ -1,6 +1,6 @@
 # \FakeApi
 
-All URIs are relative to *https://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
+All URIs are relative to *petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -15,15 +15,15 @@ To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
- **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+ **optional** | ***TestCodeInjectEndRnNROpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
-Optional parameters are passed through a map[string]interface{}.
+Optional parameters are passed through a pointer to a TestCodeInjectEndRnNROpts struct
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **testCodeInjectEndRnNR** | **string**| To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r | 
+ **uNKNOWNBASETYPE** | [**optional.Interface of ErrorUnknown**](UNKNOWN_BASE_TYPE.md)|  | 
 
 ### Return type
 
@@ -36,7 +36,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json, *_/ '  =end --       
- - **Accept**: application/json, *_/ '  =end --       
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

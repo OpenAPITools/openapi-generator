@@ -12,10 +12,8 @@ package petstore
 
 type EnumTest struct {
 	EnumString string `json:"enum_string,omitempty" xml:"enum_string"`
-
+	EnumStringRequired string `json:"enum_string_required" xml:"enum_string_required"`
 	EnumInteger int32 `json:"enum_integer,omitempty" xml:"enum_integer"`
-
 	EnumNumber float64 `json:"enum_number,omitempty" xml:"enum_number"`
-
 	OuterEnum *OuterEnum `json:"outerEnum,omitempty" xml:"outerEnum"`
 }

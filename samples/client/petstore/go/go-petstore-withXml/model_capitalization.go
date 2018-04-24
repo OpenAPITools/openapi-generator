@@ -12,15 +12,10 @@ package petstore
 
 type Capitalization struct {
 	SmallCamel string `json:"smallCamel,omitempty" xml:"smallCamel"`
-
 	CapitalCamel string `json:"CapitalCamel,omitempty" xml:"CapitalCamel"`
-
 	SmallSnake string `json:"small_Snake,omitempty" xml:"small_Snake"`
-
 	CapitalSnake string `json:"Capital_Snake,omitempty" xml:"Capital_Snake"`
-
 	SCAETHFlowPoints string `json:"SCA_ETH_Flow_Points,omitempty" xml:"SCA_ETH_Flow_Points"`
-
 	// Name of the pet 
 	ATT_NAME string `json:"ATT_NAME,omitempty" xml:"ATT_NAME"`
 }

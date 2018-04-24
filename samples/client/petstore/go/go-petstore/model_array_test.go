@@ -12,8 +12,6 @@ package petstore
 
 type ArrayTest struct {
 	ArrayOfString []string `json:"array_of_string,omitempty"`
-
 	ArrayArrayOfInteger [][]int64 `json:"array_array_of_integer,omitempty"`
-
 	ArrayArrayOfModel [][]ReadOnlyFirst `json:"array_array_of_model,omitempty"`
 }
