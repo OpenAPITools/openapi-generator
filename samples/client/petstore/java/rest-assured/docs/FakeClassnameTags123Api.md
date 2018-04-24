@@ -18,7 +18,7 @@ To test class name in snake case
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 

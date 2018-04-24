@@ -25,7 +25,7 @@ This can only be done by the logged in user.
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -65,7 +65,7 @@ Creates list of users with given input array
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -105,7 +105,7 @@ Creates list of users with given input array
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -147,7 +147,7 @@ This can only be done by the logged in user.
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -187,7 +187,7 @@ Get user by user name
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -227,7 +227,7 @@ Logs user into the system
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -269,7 +269,7 @@ Logs out current logged in user session
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 
@@ -307,7 +307,7 @@ This can only be done by the logged in user.
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
+//import org.openapitools.client.ApiClient;
 //import io.restassured.builder.RequestSpecBuilder;
 //import io.restassured.filter.log.ErrorLoggingFilter;
 

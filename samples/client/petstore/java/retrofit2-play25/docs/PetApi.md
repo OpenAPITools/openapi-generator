@@ -23,11 +23,11 @@ Add a new pet to the store
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.ApiClient;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.Configuration;
+//import org.openapitools.client.auth.*;
+//import org.openapitools.client.api.PetApi;
 
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 
@@ -73,11 +73,11 @@ Deletes a pet
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.ApiClient;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.Configuration;
+//import org.openapitools.client.auth.*;
+//import org.openapitools.client.api.PetApi;
 
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 
@@ -127,11 +127,11 @@ Multiple status values can be provided with comma separated strings
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.ApiClient;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.Configuration;
+//import org.openapitools.client.auth.*;
+//import org.openapitools.client.api.PetApi;
 
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 
@@ -180,11 +180,11 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.ApiClient;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.Configuration;
+//import org.openapitools.client.auth.*;
+//import org.openapitools.client.api.PetApi;
 
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 
@@ -233,11 +233,11 @@ Returns a single pet
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.ApiClient;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.Configuration;
+//import org.openapitools.client.auth.*;
+//import org.openapitools.client.api.PetApi;
 
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 
@@ -286,11 +286,11 @@ Update an existing pet
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.ApiClient;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.Configuration;
+//import org.openapitools.client.auth.*;
+//import org.openapitools.client.api.PetApi;
 
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 
@@ -336,11 +336,11 @@ Updates a pet in the store with form data
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.ApiClient;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.Configuration;
+//import org.openapitools.client.auth.*;
+//import org.openapitools.client.api.PetApi;
 
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 
@@ -390,11 +390,11 @@ uploads an image
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.ApiClient;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.Configuration;
+//import org.openapitools.client.auth.*;
+//import org.openapitools.client.api.PetApi;
 
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 

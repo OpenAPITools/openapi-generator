@@ -18,11 +18,11 @@ To test class name in snake case
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.api.FakeClassnameTags123Api;
+//import org.openapitools.client.ApiClient;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.Configuration;
+//import org.openapitools.client.auth.*;
+//import org.openapitools.client.api.FakeClassnameTags123Api;
 
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 

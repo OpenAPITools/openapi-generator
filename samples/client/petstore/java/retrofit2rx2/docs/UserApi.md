@@ -25,8 +25,8 @@ This can only be done by the logged in user.
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.UserApi;
 
 
 UserApi apiInstance = new UserApi();
@@ -67,8 +67,8 @@ Creates list of users with given input array
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.UserApi;
 
 
 UserApi apiInstance = new UserApi();
@@ -109,8 +109,8 @@ Creates list of users with given input array
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.UserApi;
 
 
 UserApi apiInstance = new UserApi();
@@ -153,8 +153,8 @@ This can only be done by the logged in user.
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.UserApi;
 
 
 UserApi apiInstance = new UserApi();
@@ -195,8 +195,8 @@ Get user by user name
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.UserApi;
 
 
 UserApi apiInstance = new UserApi();
@@ -238,8 +238,8 @@ Logs user into the system
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.UserApi;
 
 
 UserApi apiInstance = new UserApi();
@@ -283,8 +283,8 @@ Logs out current logged in user session
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.UserApi;
 
 
 UserApi apiInstance = new UserApi();
@@ -323,8 +323,8 @@ This can only be done by the logged in user.
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.UserApi;
 
 
 UserApi apiInstance = new UserApi();
