@@ -274,69 +274,67 @@ public class StoreApi {
 
   /**
     * Place an order for a pet
-    * 
     * <p><b>200</b> - successful operation
     * <p><b>400</b> - Invalid Order
-    * @param body order placed for purchasing the pet
+    * @param order order placed for purchasing the pet
     * @return Order
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Order placeOrder(Order body) throws IOException {
-        HttpResponse response = placeOrderForHttpResponse(body);
+    public Order placeOrder(Order order) throws IOException {
+        HttpResponse response = placeOrderForHttpResponse(order);
         TypeReference typeRef = new TypeReference<Order>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
   /**
     * Place an order for a pet
-    * 
     * <p><b>200</b> - successful operation
     * <p><b>400</b> - Invalid Order
-    * @param body order placed for purchasing the pet
+    * @param order order placed for purchasing the pet
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @return Order
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Order placeOrder(Order body, Map<String, Object> params) throws IOException {
-        HttpResponse response = placeOrderForHttpResponse(body, params);
+    public Order placeOrder(Order order, Map<String, Object> params) throws IOException {
+        HttpResponse response = placeOrderForHttpResponse(order, params);
         TypeReference typeRef = new TypeReference<Order>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse placeOrderForHttpResponse(Order body) throws IOException {
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'body' when calling placeOrder");
+    public HttpResponse placeOrderForHttpResponse(Order order) throws IOException {
+        // verify the required parameter 'order' is set
+        if (order == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'order' when calling placeOrder");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/order");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(order);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
-      public HttpResponse placeOrderForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
-          // verify the required parameter 'body' is set
-              if (body == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'body' when calling placeOrder");
+      public HttpResponse placeOrderForHttpResponse(java.io.InputStream order, String mediaType) throws IOException {
+          // verify the required parameter 'order' is set
+              if (order == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'order' when calling placeOrder");
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/order");
 
               String url = uriBuilder.build().toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = body == null ?
+              HttpContent content = order == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, order);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse placeOrderForHttpResponse(Order body, Map<String, Object> params) throws IOException {
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'body' when calling placeOrder");
+    public HttpResponse placeOrderForHttpResponse(Order order, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'order' is set
+        if (order == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'order' when calling placeOrder");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/order");
 
@@ -361,7 +359,7 @@ public class StoreApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(order);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 

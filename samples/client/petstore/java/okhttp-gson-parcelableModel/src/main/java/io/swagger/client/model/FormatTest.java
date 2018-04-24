@@ -22,6 +22,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -60,7 +61,7 @@ public class FormatTest implements Parcelable {
   private byte[] _byte = null;
 
   @SerializedName("binary")
-  private byte[] binary = null;
+  private File binary = null;
 
   @SerializedName("date")
   private LocalDate date = null;
@@ -230,7 +231,7 @@ public class FormatTest implements Parcelable {
     this._byte = _byte;
   }
 
-  public FormatTest binary(byte[] binary) {
+  public FormatTest binary(File binary) {
     this.binary = binary;
     return this;
   }
@@ -240,11 +241,11 @@ public class FormatTest implements Parcelable {
    * @return binary
   **/
   @ApiModelProperty(value = "")
-  public byte[] getBinary() {
+  public File getBinary() {
     return binary;
   }
 
-  public void setBinary(byte[] binary) {
+  public void setBinary(File binary) {
     this.binary = binary;
   }
 
@@ -338,7 +339,7 @@ public class FormatTest implements Parcelable {
         Objects.equals(this._double, formatTest._double) &&
         Objects.equals(this.string, formatTest.string) &&
         Arrays.equals(this._byte, formatTest._byte) &&
-        Arrays.equals(this.binary, formatTest.binary) &&
+        Objects.equals(this.binary, formatTest.binary) &&
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
@@ -347,7 +348,7 @@ public class FormatTest implements Parcelable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), Arrays.hashCode(binary), date, dateTime, uuid, password);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password);
   }
 
 
@@ -410,7 +411,7 @@ public class FormatTest implements Parcelable {
     _double = (Double)in.readValue(null);
     string = (String)in.readValue(null);
     _byte = (byte[])in.readValue(null);
-    binary = (byte[])in.readValue(null);
+    binary = (File)in.readValue(File.class.getClassLoader());
     date = (LocalDate)in.readValue(LocalDate.class.getClassLoader());
     dateTime = (OffsetDateTime)in.readValue(OffsetDateTime.class.getClassLoader());
     uuid = (UUID)in.readValue(UUID.class.getClassLoader());

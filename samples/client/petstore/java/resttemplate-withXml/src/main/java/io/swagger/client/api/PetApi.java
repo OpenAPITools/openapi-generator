@@ -51,15 +51,15 @@ public class PetApi {
      * Add a new pet to the store
      * 
      * <p><b>405</b> - Invalid input
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void addPet(Pet body) throws RestClientException {
-        Object postBody = body;
+    public void addPet(Pet pet) throws RestClientException {
+        Object postBody = pet;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling addPet");
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pet' when calling addPet");
         }
         
         String path = UriComponentsBuilder.fromPath("/pet").build().toUriString();
@@ -68,9 +68,7 @@ public class PetApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] accepts = { 
-            "application/xml", "application/json"
-        };
+        final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
         final String[] contentTypes = { 
             "application/json", "application/xml"
@@ -110,9 +108,7 @@ public class PetApi {
         if (apiKey != null)
         headerParams.add("api_key", apiClient.parameterToString(apiKey));
 
-        final String[] accepts = { 
-            "application/xml", "application/json"
-        };
+        final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
         final String[] contentTypes = { };
         final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
@@ -241,15 +237,15 @@ public class PetApi {
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Pet not found
      * <p><b>405</b> - Validation exception
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void updatePet(Pet body) throws RestClientException {
-        Object postBody = body;
+    public void updatePet(Pet pet) throws RestClientException {
+        Object postBody = pet;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling updatePet");
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pet' when calling updatePet");
         }
         
         String path = UriComponentsBuilder.fromPath("/pet").build().toUriString();
@@ -258,9 +254,7 @@ public class PetApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] accepts = { 
-            "application/xml", "application/json"
-        };
+        final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
         final String[] contentTypes = { 
             "application/json", "application/xml"
@@ -303,9 +297,7 @@ public class PetApi {
         if (status != null)
             formParams.add("status", status);
 
-        final String[] accepts = { 
-            "application/xml", "application/json"
-        };
+        final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
         final String[] contentTypes = { 
             "application/x-www-form-urlencoded"

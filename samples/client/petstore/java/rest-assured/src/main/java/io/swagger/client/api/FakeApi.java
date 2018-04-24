@@ -16,9 +16,11 @@ package io.swagger.client.api;
 import com.google.gson.reflect.TypeToken;
 import java.math.BigDecimal;
 import io.swagger.client.model.Client;
+import java.io.File;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import io.swagger.client.model.OuterComposite;
+import io.swagger.client.model.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,11 +44,8 @@ public class FakeApi {
 
     private RequestSpecBuilder reqSpec;
 
-    private JSON json;
-
     private FakeApi(RequestSpecBuilder reqSpec) {
         this.reqSpec = reqSpec;
-        this.json = new JSON();
     }
 
     public static FakeApi fake(RequestSpecBuilder reqSpec) {
@@ -70,6 +69,10 @@ public class FakeApi {
         return new FakeOuterStringSerializeOper(reqSpec);
     }
 
+    public TestBodyWithQueryParamsOper testBodyWithQueryParams() {
+        return new TestBodyWithQueryParamsOper(reqSpec);
+    }
+
     public TestClientModelOper testClientModel() {
         return new TestClientModelOper(reqSpec);
     }
@@ -91,28 +94,10 @@ public class FakeApi {
     }
 
     /**
-     * Get JSON
-     *
-     * @return JSON object
+     * Customise request specification
+     * @param consumer consumer
+     * @return api
      */
-    public JSON getJSON() {
-        return json;
-    }
-
-    /**
-     * Set JSON
-     *
-     * @param json JSON object
-     * @return FakeApi
-     */
-    public FakeApi setJSON(JSON json) {
-        this.json = json;
-        return this;
-    }
-
-    /**
-    * Customise request specification
-    */
     public FakeApi reqSpec(Consumer<RequestSpecBuilder> consumer) {
         consumer.accept(reqSpec);
         return this;
@@ -135,20 +120,23 @@ public class FakeApi {
 
         public FakeOuterBooleanSerializeOper() {
             this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
+            reqSpec.setContentType("*/*");
+            reqSpec.setAccept("*/*");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         public FakeOuterBooleanSerializeOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
+            reqSpec.setContentType("*/*");
+            reqSpec.setAccept("*/*");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
          * POST /fake/outer/boolean
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
@@ -156,23 +144,27 @@ public class FakeApi {
 
         /**
          * POST /fake/outer/boolean
+         * @param handler handler
          * @return Boolean
          */
         public Boolean executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<Boolean>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
          /**
-         * @param body (Boolean) Input boolean as post body (optional)
+         * @param booleanPostBody (Boolean) Input boolean as post body (optional)
+         * @return operation
          */
-        public FakeOuterBooleanSerializeOper body(Boolean body) {
-            reqSpec.setBody(getJSON().serialize(body));
+        public FakeOuterBooleanSerializeOper body(Boolean booleanPostBody) {
+            reqSpec.setBody(booleanPostBody);
             return this;
         }
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public FakeOuterBooleanSerializeOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -181,6 +173,8 @@ public class FakeApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public FakeOuterBooleanSerializeOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -204,20 +198,23 @@ public class FakeApi {
 
         public FakeOuterCompositeSerializeOper() {
             this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
+            reqSpec.setContentType("*/*");
+            reqSpec.setAccept("*/*");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         public FakeOuterCompositeSerializeOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
+            reqSpec.setContentType("*/*");
+            reqSpec.setAccept("*/*");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
          * POST /fake/outer/composite
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
@@ -225,23 +222,27 @@ public class FakeApi {
 
         /**
          * POST /fake/outer/composite
+         * @param handler handler
          * @return OuterComposite
          */
         public OuterComposite executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<OuterComposite>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
          /**
-         * @param body (OuterComposite) Input composite as post body (optional)
+         * @param outerComposite (OuterComposite) Input composite as post body (optional)
+         * @return operation
          */
-        public FakeOuterCompositeSerializeOper body(OuterComposite body) {
-            reqSpec.setBody(getJSON().serialize(body));
+        public FakeOuterCompositeSerializeOper body(OuterComposite outerComposite) {
+            reqSpec.setBody(outerComposite);
             return this;
         }
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public FakeOuterCompositeSerializeOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -250,6 +251,8 @@ public class FakeApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public FakeOuterCompositeSerializeOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -273,20 +276,23 @@ public class FakeApi {
 
         public FakeOuterNumberSerializeOper() {
             this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
+            reqSpec.setContentType("*/*");
+            reqSpec.setAccept("*/*");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         public FakeOuterNumberSerializeOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
+            reqSpec.setContentType("*/*");
+            reqSpec.setAccept("*/*");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
          * POST /fake/outer/number
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
@@ -294,23 +300,27 @@ public class FakeApi {
 
         /**
          * POST /fake/outer/number
+         * @param handler handler
          * @return BigDecimal
          */
         public BigDecimal executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<BigDecimal>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
          /**
          * @param body (BigDecimal) Input number as post body (optional)
+         * @return operation
          */
         public FakeOuterNumberSerializeOper body(BigDecimal body) {
-            reqSpec.setBody(getJSON().serialize(body));
+            reqSpec.setBody(body);
             return this;
         }
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public FakeOuterNumberSerializeOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -319,6 +329,8 @@ public class FakeApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public FakeOuterNumberSerializeOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -342,20 +354,23 @@ public class FakeApi {
 
         public FakeOuterStringSerializeOper() {
             this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
+            reqSpec.setContentType("*/*");
+            reqSpec.setAccept("*/*");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         public FakeOuterStringSerializeOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
+            reqSpec.setContentType("*/*");
+            reqSpec.setAccept("*/*");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
          * POST /fake/outer/string
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
@@ -363,23 +378,27 @@ public class FakeApi {
 
         /**
          * POST /fake/outer/string
+         * @param handler handler
          * @return String
          */
         public String executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<String>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
          /**
          * @param body (String) Input string as post body (optional)
+         * @return operation
          */
         public FakeOuterStringSerializeOper body(String body) {
-            reqSpec.setBody(getJSON().serialize(body));
+            reqSpec.setBody(body);
             return this;
         }
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public FakeOuterStringSerializeOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -388,8 +407,87 @@ public class FakeApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public FakeOuterStringSerializeOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
+            consumer.accept(respSpec);
+            return this;
+        }
+    }
+    /**
+     * 
+     * 
+     *
+     * @see #queryQuery  (required)
+     * @see #body  (required)
+     */
+    public class TestBodyWithQueryParamsOper {
+
+        public static final String REQ_URI = "/fake/body-with-query-params";
+
+        private RequestSpecBuilder reqSpec;
+
+        private ResponseSpecBuilder respSpec;
+
+        public TestBodyWithQueryParamsOper() {
+            this.reqSpec = new RequestSpecBuilder();
+            reqSpec.setContentType("application/json");
+            reqSpec.setAccept("application/json");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        public TestBodyWithQueryParamsOper(RequestSpecBuilder reqSpec) {
+            this.reqSpec = reqSpec;
+            reqSpec.setContentType("application/json");
+            reqSpec.setAccept("application/json");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        /**
+         * PUT /fake/body-with-query-params
+         * @param handler handler
+         * @param <T> type
+         * @return type
+         */
+        public <T> T execute(Function<Response, T> handler) {
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PUT, REQ_URI));
+        }
+
+         /**
+         * @param user (User)  (required)
+         * @return operation
+         */
+        public TestBodyWithQueryParamsOper body(User user) {
+            reqSpec.setBody(user);
+            return this;
+        }
+
+        /**
+         * @param query (String)  (required)
+         * @return operation
+         */
+        public TestBodyWithQueryParamsOper queryQuery(Object... query) {
+            reqSpec.addQueryParam("query", query);
+            return this;
+        }
+
+        /**
+         * Customise request specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public TestBodyWithQueryParamsOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
+            consumer.accept(reqSpec);
+            return this;
+        }
+
+        /**
+         * Customise response specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public TestBodyWithQueryParamsOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
             return this;
         }
@@ -425,6 +523,9 @@ public class FakeApi {
 
         /**
          * PATCH /fake
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PATCH, REQ_URI));
@@ -432,23 +533,27 @@ public class FakeApi {
 
         /**
          * PATCH /fake
+         * @param handler handler
          * @return Client
          */
         public Client executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<Client>(){}.getType();
-            return getJSON().deserialize(execute(handler).asString(), type);
+            return execute(handler).as(type);
         }
 
          /**
-         * @param body (Client) client model (required)
+         * @param client (Client) client model (required)
+         * @return operation
          */
-        public TestClientModelOper body(Client body) {
-            reqSpec.setBody(getJSON().serialize(body));
+        public TestClientModelOper body(Client client) {
+            reqSpec.setBody(client);
             return this;
         }
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public TestClientModelOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -457,6 +562,8 @@ public class FakeApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public TestClientModelOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -476,7 +583,7 @@ public class FakeApi {
      * @see #int64Form None (optional)
      * @see #_floatForm None (optional)
      * @see #stringForm None (optional)
-     * @see #binaryForm None (optional)
+     * @see #binaryMultiPart None (optional)
      * @see #dateForm None (optional)
      * @see #dateTimeForm None (optional)
      * @see #passwordForm None (optional)
@@ -492,20 +599,23 @@ public class FakeApi {
 
         public TestEndpointParametersOper() {
             this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/xml; charset&#x3D;utf-8");
-            reqSpec.setAccept("application/xml; charset&#x3D;utf-8,application/json; charset&#x3D;utf-8");
+            reqSpec.setContentType("application/x-www-form-urlencoded");
+            reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         public TestEndpointParametersOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("application/xml; charset&#x3D;utf-8");
-            reqSpec.setAccept("application/xml; charset&#x3D;utf-8,application/json; charset&#x3D;utf-8");
+            reqSpec.setContentType("application/x-www-form-urlencoded");
+            reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
          * POST /fake
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
@@ -513,6 +623,7 @@ public class FakeApi {
 
          /**
          * @param integer (Integer) None (optional)
+         * @return operation
          */
          public TestEndpointParametersOper integerForm(Object... integer) {
             reqSpec.addFormParam("integer", integer);
@@ -521,6 +632,7 @@ public class FakeApi {
 
          /**
          * @param int32 (Integer) None (optional)
+         * @return operation
          */
          public TestEndpointParametersOper int32Form(Object... int32) {
             reqSpec.addFormParam("int32", int32);
@@ -529,6 +641,7 @@ public class FakeApi {
 
          /**
          * @param int64 (Long) None (optional)
+         * @return operation
          */
          public TestEndpointParametersOper int64Form(Object... int64) {
             reqSpec.addFormParam("int64", int64);
@@ -537,6 +650,7 @@ public class FakeApi {
 
          /**
          * @param number (BigDecimal) None (required)
+         * @return operation
          */
          public TestEndpointParametersOper numberForm(Object... number) {
             reqSpec.addFormParam("number", number);
@@ -545,6 +659,7 @@ public class FakeApi {
 
          /**
          * @param _float (Float) None (optional)
+         * @return operation
          */
          public TestEndpointParametersOper _floatForm(Object... _float) {
             reqSpec.addFormParam("float", _float);
@@ -553,6 +668,7 @@ public class FakeApi {
 
          /**
          * @param _double (Double) None (required)
+         * @return operation
          */
          public TestEndpointParametersOper _doubleForm(Object... _double) {
             reqSpec.addFormParam("double", _double);
@@ -561,6 +677,7 @@ public class FakeApi {
 
          /**
          * @param string (String) None (optional)
+         * @return operation
          */
          public TestEndpointParametersOper stringForm(Object... string) {
             reqSpec.addFormParam("string", string);
@@ -569,6 +686,7 @@ public class FakeApi {
 
          /**
          * @param patternWithoutDelimiter (String) None (required)
+         * @return operation
          */
          public TestEndpointParametersOper patternWithoutDelimiterForm(Object... patternWithoutDelimiter) {
             reqSpec.addFormParam("pattern_without_delimiter", patternWithoutDelimiter);
@@ -577,6 +695,7 @@ public class FakeApi {
 
          /**
          * @param _byte (byte[]) None (required)
+         * @return operation
          */
          public TestEndpointParametersOper _byteForm(Object... _byte) {
             reqSpec.addFormParam("byte", _byte);
@@ -584,15 +703,8 @@ public class FakeApi {
          }
 
          /**
-         * @param binary (byte[]) None (optional)
-         */
-         public TestEndpointParametersOper binaryForm(Object... binary) {
-            reqSpec.addFormParam("binary", binary);
-            return this;
-         }
-
-         /**
          * @param date (LocalDate) None (optional)
+         * @return operation
          */
          public TestEndpointParametersOper dateForm(Object... date) {
             reqSpec.addFormParam("date", date);
@@ -601,6 +713,7 @@ public class FakeApi {
 
          /**
          * @param dateTime (OffsetDateTime) None (optional)
+         * @return operation
          */
          public TestEndpointParametersOper dateTimeForm(Object... dateTime) {
             reqSpec.addFormParam("dateTime", dateTime);
@@ -609,6 +722,7 @@ public class FakeApi {
 
          /**
          * @param password (String) None (optional)
+         * @return operation
          */
          public TestEndpointParametersOper passwordForm(Object... password) {
             reqSpec.addFormParam("password", password);
@@ -617,14 +731,28 @@ public class FakeApi {
 
          /**
          * @param paramCallback (String) None (optional)
+         * @return operation
          */
          public TestEndpointParametersOper paramCallbackForm(Object... paramCallback) {
             reqSpec.addFormParam("callback", paramCallback);
             return this;
          }
 
+         /**
+         * It will assume that the control name is file and the &lt;content-type&gt; is &lt;application/octet-stream&gt;
+         * @see #reqSpec for customise
+         * @param binary (File) None (optional)
+         * @return operation
+         */
+         public TestEndpointParametersOper binaryMultiPart(File binary) {
+            reqSpec.addMultiPart(binary);
+            return this;
+         }
+
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public TestEndpointParametersOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -633,6 +761,8 @@ public class FakeApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public TestEndpointParametersOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -643,14 +773,14 @@ public class FakeApi {
      * To test enum parameters
      * To test enum parameters
      *
-     * @see #enumFormStringArrayForm Form parameter enum test (string array) (optional)
-     * @see #enumFormStringForm Form parameter enum test (string) (optional, default to -efg)
      * @see #enumHeaderStringArrayHeader Header parameter enum test (string array) (optional)
      * @see #enumHeaderStringHeader Header parameter enum test (string) (optional, default to -efg)
      * @see #enumQueryStringArrayQuery Query parameter enum test (string array) (optional)
      * @see #enumQueryStringQuery Query parameter enum test (string) (optional, default to -efg)
      * @see #enumQueryIntegerQuery Query parameter enum test (double) (optional)
-     * @see #enumQueryDoubleForm Query parameter enum test (double) (optional)
+     * @see #enumQueryDoubleQuery Query parameter enum test (double) (optional)
+     * @see #enumFormStringArrayForm Form parameter enum test (string array) (optional)
+     * @see #enumFormStringForm Form parameter enum test (string) (optional)
      */
     public class TestEnumParametersOper {
 
@@ -662,27 +792,31 @@ public class FakeApi {
 
         public TestEnumParametersOper() {
             this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("*/*");
+            reqSpec.setContentType("application/x-www-form-urlencoded");
+            reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         public TestEnumParametersOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("*/*");
+            reqSpec.setContentType("application/x-www-form-urlencoded");
+            reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
          * GET /fake
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
         }
 
         /**
-         * @param enumHeaderStringArray (List<String>) Header parameter enum test (string array) (optional)
+         * @param enumHeaderStringArray (List&lt;String&gt;) Header parameter enum test (string array) (optional)
+         * @return operation
          */
         public TestEnumParametersOper enumHeaderStringArrayHeader(String enumHeaderStringArray) {
             reqSpec.addHeader("enum_header_string_array", enumHeaderStringArray);
@@ -691,6 +825,7 @@ public class FakeApi {
 
         /**
          * @param enumHeaderString (String) Header parameter enum test (string) (optional, default to -efg)
+         * @return operation
          */
         public TestEnumParametersOper enumHeaderStringHeader(String enumHeaderString) {
             reqSpec.addHeader("enum_header_string", enumHeaderString);
@@ -698,7 +833,8 @@ public class FakeApi {
         }
 
         /**
-         * @param enumQueryStringArray (List<String>) Query parameter enum test (string array) (optional)
+         * @param enumQueryStringArray (List&lt;String&gt;) Query parameter enum test (string array) (optional)
+         * @return operation
          */
         public TestEnumParametersOper enumQueryStringArrayQuery(Object... enumQueryStringArray) {
             reqSpec.addQueryParam("enum_query_string_array", enumQueryStringArray);
@@ -707,6 +843,7 @@ public class FakeApi {
 
         /**
          * @param enumQueryString (String) Query parameter enum test (string) (optional, default to -efg)
+         * @return operation
          */
         public TestEnumParametersOper enumQueryStringQuery(Object... enumQueryString) {
             reqSpec.addQueryParam("enum_query_string", enumQueryString);
@@ -715,14 +852,25 @@ public class FakeApi {
 
         /**
          * @param enumQueryInteger (Integer) Query parameter enum test (double) (optional)
+         * @return operation
          */
         public TestEnumParametersOper enumQueryIntegerQuery(Object... enumQueryInteger) {
             reqSpec.addQueryParam("enum_query_integer", enumQueryInteger);
             return this;
         }
 
+        /**
+         * @param enumQueryDouble (Double) Query parameter enum test (double) (optional)
+         * @return operation
+         */
+        public TestEnumParametersOper enumQueryDoubleQuery(Object... enumQueryDouble) {
+            reqSpec.addQueryParam("enum_query_double", enumQueryDouble);
+            return this;
+        }
+
          /**
-         * @param enumFormStringArray (List<String>) Form parameter enum test (string array) (optional)
+         * @param enumFormStringArray (List&lt;String&gt;) Form parameter enum test (string array) (optional)
+         * @return operation
          */
          public TestEnumParametersOper enumFormStringArrayForm(Object... enumFormStringArray) {
             reqSpec.addFormParam("enum_form_string_array", enumFormStringArray);
@@ -730,23 +878,18 @@ public class FakeApi {
          }
 
          /**
-         * @param enumFormString (String) Form parameter enum test (string) (optional, default to -efg)
+         * @param enumFormString (String) Form parameter enum test (string) (optional)
+         * @return operation
          */
          public TestEnumParametersOper enumFormStringForm(Object... enumFormString) {
             reqSpec.addFormParam("enum_form_string", enumFormString);
             return this;
          }
 
-         /**
-         * @param enumQueryDouble (Double) Query parameter enum test (double) (optional)
-         */
-         public TestEnumParametersOper enumQueryDoubleForm(Object... enumQueryDouble) {
-            reqSpec.addFormParam("enum_query_double", enumQueryDouble);
-            return this;
-         }
-
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public TestEnumParametersOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -755,6 +898,8 @@ public class FakeApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public TestEnumParametersOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -791,21 +936,27 @@ public class FakeApi {
 
         /**
          * POST /fake/inline-additionalProperties
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
         }
 
          /**
-         * @param param (Object) request body (required)
+         * @param requestBody (String) request body (required)
+         * @return operation
          */
-        public TestInlineAdditionalPropertiesOper body(Object param) {
-            reqSpec.setBody(getJSON().serialize(param));
+        public TestInlineAdditionalPropertiesOper body(String requestBody) {
+            reqSpec.setBody(requestBody);
             return this;
         }
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public TestInlineAdditionalPropertiesOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -814,6 +965,8 @@ public class FakeApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public TestInlineAdditionalPropertiesOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
@@ -837,20 +990,23 @@ public class FakeApi {
 
         public TestJsonFormDataOper() {
             this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
+            reqSpec.setContentType("application/x-www-form-urlencoded");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         public TestJsonFormDataOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("application/json");
+            reqSpec.setContentType("application/x-www-form-urlencoded");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
          * GET /fake/jsonFormData
+         * @param handler handler
+         * @param <T> type
+         * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
@@ -858,6 +1014,7 @@ public class FakeApi {
 
          /**
          * @param param (String) field1 (required)
+         * @return operation
          */
          public TestJsonFormDataOper paramForm(Object... param) {
             reqSpec.addFormParam("param", param);
@@ -866,6 +1023,7 @@ public class FakeApi {
 
          /**
          * @param param2 (String) field2 (required)
+         * @return operation
          */
          public TestJsonFormDataOper param2Form(Object... param2) {
             reqSpec.addFormParam("param2", param2);
@@ -874,6 +1032,8 @@ public class FakeApi {
 
         /**
          * Customise request specification
+         * @param consumer consumer
+         * @return operation
          */
         public TestJsonFormDataOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
@@ -882,6 +1042,8 @@ public class FakeApi {
 
         /**
          * Customise response specification
+         * @param consumer consumer
+         * @return operation
          */
         public TestJsonFormDataOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);

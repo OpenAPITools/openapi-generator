@@ -26,14 +26,15 @@ public class FakeClassnameTags123ApiTest {
     /**
      * To test class name in snake case
      *
-     * 
+     * To test class name in snake case
      */
     @Test
     public void testClassnameTest() {
-        Client body = null;
-        // Client response = api.testClassname(body);
+        Client client = null;
+        // Client response = api.testClassname(client);
 
         // TODO: test validations
     }
+
     
 }

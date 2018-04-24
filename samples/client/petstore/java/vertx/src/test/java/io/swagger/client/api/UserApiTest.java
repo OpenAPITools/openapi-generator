@@ -66,8 +66,8 @@ public class UserApiTest {
     @Test
     public void createUserTest(TestContext context) {
         Async async = context.async();
-        User body = null;
-        api.createUser(body, result -> {
+        User user = null;
+        api.createUser(user, result -> {
             // TODO: test validations
             async.complete();
         });
@@ -82,8 +82,8 @@ public class UserApiTest {
     @Test
     public void createUsersWithArrayInputTest(TestContext context) {
         Async async = context.async();
-        List<User> body = null;
-        api.createUsersWithArrayInput(body, result -> {
+        List<User> user = null;
+        api.createUsersWithArrayInput(user, result -> {
             // TODO: test validations
             async.complete();
         });
@@ -98,8 +98,8 @@ public class UserApiTest {
     @Test
     public void createUsersWithListInputTest(TestContext context) {
         Async async = context.async();
-        List<User> body = null;
-        api.createUsersWithListInput(body, result -> {
+        List<User> user = null;
+        api.createUsersWithListInput(user, result -> {
             // TODO: test validations
             async.complete();
         });
@@ -179,8 +179,8 @@ public class UserApiTest {
     public void updateUserTest(TestContext context) {
         Async async = context.async();
         String username = null;
-        User body = null;
-        api.updateUser(username, body, result -> {
+        User user = null;
+        api.updateUser(username, user, result -> {
             // TODO: test validations
             async.complete();
         });

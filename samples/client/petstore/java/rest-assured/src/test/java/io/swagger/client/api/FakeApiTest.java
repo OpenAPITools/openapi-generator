@@ -13,20 +13,25 @@
 
 package io.swagger.client.api;
 
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.filter.log.ErrorLoggingFilter;
-import io.swagger.client.ApiClient;
+import java.math.BigDecimal;
 import io.swagger.client.model.Client;
-import io.swagger.client.model.OuterComposite;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import java.io.File;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
+import io.swagger.client.model.OuterComposite;
+import io.swagger.client.model.User;
+import io.swagger.client.ApiClient;
+import io.swagger.client.api.FakeApi;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.log.ErrorLoggingFilter;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
 import static io.restassured.config.RestAssuredConfig.config;
 import static io.swagger.client.GsonObjectMapper.gson;
@@ -52,7 +57,7 @@ public class FakeApiTest {
      */
     @Test
     public void shouldSee200AfterFakeOuterBooleanSerialize() {
-        Boolean body = null;
+        Boolean booleanPostBody = null;
         api.fakeOuterBooleanSerialize().execute(r -> r.prettyPeek());
         // TODO: test validations
     }
@@ -63,7 +68,7 @@ public class FakeApiTest {
      */
     @Test
     public void shouldSee200AfterFakeOuterCompositeSerialize() {
-        OuterComposite body = null;
+        OuterComposite outerComposite = null;
         api.fakeOuterCompositeSerialize().execute(r -> r.prettyPeek());
         // TODO: test validations
     }
@@ -92,13 +97,27 @@ public class FakeApiTest {
 
 
     /**
+     * Success
+     */
+    @Test
+    public void shouldSee200AfterTestBodyWithQueryParams() {
+        String query = null;
+        User user = null;
+        api.testBodyWithQueryParams()
+                .queryQuery(query)
+                .body(user).execute(r -> r.prettyPeek());
+        // TODO: test validations
+    }
+
+
+    /**
      * successful operation
      */
     @Test
     public void shouldSee200AfterTestClientModel() {
-        Client body = null;
+        Client client = null;
         api.testClientModel()
-                .body(body).execute(r -> r.prettyPeek());
+                .body(client).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -117,7 +136,7 @@ public class FakeApiTest {
         Long int64 = null;
         Float _float = null;
         String string = null;
-        byte[] binary = null;
+        File binary = null;
         LocalDate date = null;
         OffsetDateTime dateTime = null;
         String password = null;
@@ -144,7 +163,7 @@ public class FakeApiTest {
         Long int64 = null;
         Float _float = null;
         String string = null;
-        byte[] binary = null;
+        File binary = null;
         LocalDate date = null;
         OffsetDateTime dateTime = null;
         String password = null;
@@ -163,14 +182,14 @@ public class FakeApiTest {
      */
     @Test
     public void shouldSee400AfterTestEnumParameters() {
-        List<String> enumFormStringArray = null;
-        String enumFormString = null;
         String enumHeaderStringArray = null;
         String enumHeaderString = null;
         List<String> enumQueryStringArray = null;
         String enumQueryString = null;
         Integer enumQueryInteger = null;
         Double enumQueryDouble = null;
+        List<String> enumFormStringArray = null;
+        String enumFormString = null;
         api.testEnumParameters().execute(r -> r.prettyPeek());
         // TODO: test validations
     }
@@ -180,14 +199,14 @@ public class FakeApiTest {
      */
     @Test
     public void shouldSee404AfterTestEnumParameters() {
-        List<String> enumFormStringArray = null;
-        String enumFormString = null;
         String enumHeaderStringArray = null;
         String enumHeaderString = null;
         List<String> enumQueryStringArray = null;
         String enumQueryString = null;
         Integer enumQueryInteger = null;
         Double enumQueryDouble = null;
+        List<String> enumFormStringArray = null;
+        String enumFormString = null;
         api.testEnumParameters().execute(r -> r.prettyPeek());
         // TODO: test validations
     }
@@ -198,9 +217,9 @@ public class FakeApiTest {
      */
     @Test
     public void shouldSee200AfterTestInlineAdditionalProperties() {
-        Object param = null;
+        String requestBody = null;
         api.testInlineAdditionalProperties()
-                .body(param).execute(r -> r.prettyPeek());
+                .body(requestBody).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 

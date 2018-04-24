@@ -20,7 +20,7 @@ public interface FakeClassnameTags123Api {
   /**
    * To test class name in snake case
    * To test class name in snake case
-   * @param body client model (required)
+   * @param client client model (required)
    * @return Call&lt;Client&gt;
    */
   @Headers({
@@ -28,7 +28,7 @@ public interface FakeClassnameTags123Api {
   })
   @PATCH("fake_classname_test")
   Call<Client> testClassname(
-    @retrofit2.http.Body Client body
+    @retrofit2.http.Body Client client
   );
 
 }

@@ -65,7 +65,7 @@ public class StoreApiImpl implements StoreApi {
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
         
-        String[] localVarAccepts = { "application/xml", "application/json" };
+        String[] localVarAccepts = {  };
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
 
@@ -135,15 +135,15 @@ public class StoreApiImpl implements StoreApi {
     /**
      * Place an order for a pet
      * 
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void placeOrder(Order body, Handler<AsyncResult<Order>> resultHandler) {
-        Object localVarBody = body;
+    public void placeOrder(Order order, Handler<AsyncResult<Order>> resultHandler) {
+        Object localVarBody = order;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling placeOrder"));
+        // verify the required parameter 'order' is set
+        if (order == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'order' when calling placeOrder"));
             return;
         }
         

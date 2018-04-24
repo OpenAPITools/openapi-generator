@@ -43,8 +43,8 @@ public class PetApiTest {
      */
     @Test
     public void addPetTest() {
-        Pet body = null;
-        api.addPet(body);
+        Pet pet = null;
+        api.addPet(pet);
 
         // TODO: test validations
     }
@@ -124,8 +124,8 @@ public class PetApiTest {
      */
     @Test
     public void updatePetTest() {
-        Pet body = null;
-        api.updatePet(body);
+        Pet pet = null;
+        api.updatePet(pet);
 
         // TODO: test validations
     }

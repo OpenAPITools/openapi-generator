@@ -23,23 +23,23 @@ public class FakeClassnameTags123Api {
 
     /**
      * To test class name in snake case
-     * 
-     * @param body client model (required)
+     * To test class name in snake case
+     * @param client client model (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void testClassname(Client body, Handler<AsyncResult<Client>> resultHandler) {
-        delegate.testClassname(body, resultHandler);
+    public void testClassname(Client client, Handler<AsyncResult<Client>> resultHandler) {
+        delegate.testClassname(client, resultHandler);
     }
 
     /**
      * To test class name in snake case
-     * 
-     * @param body client model (required)
+     * To test class name in snake case
+     * @param client client model (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Client> rxTestClassname(Client body) {
+    public Single<Client> rxTestClassname(Client client) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.testClassname(body, fut);
+            delegate.testClassname(client, fut);
         }));
     }
 

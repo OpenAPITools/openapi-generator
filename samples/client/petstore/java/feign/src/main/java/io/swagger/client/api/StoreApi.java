@@ -52,13 +52,13 @@ public interface StoreApi extends ApiClient.Api {
   /**
    * Place an order for a pet
    * 
-    * @param body order placed for purchasing the pet (required)
+    * @param order order placed for purchasing the pet (required)
    * @return Order
    */
   @RequestLine("POST /store/order")
   @Headers({
-    "Content-Type: application/json",
+    "Content-Type: */*",
     "Accept: application/json",
   })
-  Order placeOrder(Order body);
+  Order placeOrder(Order order);
 }

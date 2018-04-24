@@ -1,7 +1,7 @@
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
-group = 'io.swagger'
+group = 'org.openapitools'
 version = '1.0.0'
 
 repositories {
@@ -16,7 +16,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 install {
     repositories.mavenInstaller {
-        pom.artifactId = 'swagger-petstore-vertx'
+        pom.artifactId = 'petstore-vertx'
     }
 }
 
@@ -26,7 +26,7 @@ task execute(type:JavaExec) {
 }
 
 ext {
-    swagger_annotations_version = "1.5.15"
+    swagger_annotations_version = "1.5.17"
     jackson_version = "2.6.4"
     vertx_version = "3.4.2"
     junit_version = "4.12"

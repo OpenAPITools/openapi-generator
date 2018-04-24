@@ -39,7 +39,7 @@ public class Name {
   private String property = null;
 
   @JsonProperty("123Number")
-  private Integer _123Number = null;
+  private Integer _123number = null;
 
   public Name name(Integer name) {
     this.name = name;
@@ -88,12 +88,12 @@ public class Name {
   }
 
    /**
-   * Get _123Number
-   * @return _123Number
+   * Get _123number
+   * @return _123number
   **/
   @ApiModelProperty(value = "")
-  public Integer get123Number() {
-    return _123Number;
+  public Integer get123number() {
+    return _123number;
   }
 
 
@@ -109,12 +109,12 @@ public class Name {
     return Objects.equals(this.name, name.name) &&
         Objects.equals(this.snakeCase, name.snakeCase) &&
         Objects.equals(this.property, name.property) &&
-        Objects.equals(this._123Number, name._123Number);
+        Objects.equals(this._123number, name._123number);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, snakeCase, property, _123Number);
+    return Objects.hash(name, snakeCase, property, _123number);
   }
 
 
@@ -126,7 +126,7 @@ public class Name {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
     sb.append("    property: ").append(toIndentedString(property)).append("\n");
-    sb.append("    _123Number: ").append(toIndentedString(_123Number)).append("\n");
+    sb.append("    _123number: ").append(toIndentedString(_123number)).append("\n");
     sb.append("}");
     return sb.toString();
   }

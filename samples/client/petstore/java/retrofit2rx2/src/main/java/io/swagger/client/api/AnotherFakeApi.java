@@ -21,7 +21,7 @@ public interface AnotherFakeApi {
   /**
    * To test special tags
    * To test special tags
-   * @param body client model (required)
+   * @param client client model (required)
    * @return Observable&lt;Client&gt;
    */
   @Headers({
@@ -29,7 +29,7 @@ public interface AnotherFakeApi {
   })
   @PATCH("another-fake/dummy")
   Observable<Client> testSpecialTags(
-    @retrofit2.http.Body Client body
+    @retrofit2.http.Body Client client
   );
 
 }

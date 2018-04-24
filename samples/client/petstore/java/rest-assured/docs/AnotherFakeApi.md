@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="testSpecialTags"></a>
 # **testSpecialTags**
-> Client testSpecialTags(body)
+> Client testSpecialTags(client)
 
 To test special tags
 
@@ -27,14 +27,14 @@ AnotherFakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSuppl
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).anotherFake();
 
 api.testSpecialTags()
-    .body(body).execute(r -> r.prettyPeek());
+    .body(client).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model |
+ **client** | [**Client**](Client.md)| client model |
 
 ### Return type
 

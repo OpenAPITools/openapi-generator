@@ -35,15 +35,15 @@ public class FakeClassnameTags123ApiTest {
     /**
      * To test class name in snake case
      *
-     * 
+     * To test class name in snake case
      *
      * @throws IOException
      *          if the Api call fails
      */
     @Test
     public void testClassnameTest() throws IOException {
-        Client body = null;
-        Client response = api.testClassname(body);
+        Client client = null;
+        Client response = api.testClassname(client);
 
         // TODO: test validations
     }

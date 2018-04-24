@@ -68,8 +68,8 @@ public class PetApiTest {
     @Test
     public void addPetTest(TestContext context) {
         Async async = context.async();
-        Pet body = null;
-        api.addPet(body, result -> {
+        Pet pet = null;
+        api.addPet(pet, result -> {
             // TODO: test validations
             async.complete();
         });
@@ -149,8 +149,8 @@ public class PetApiTest {
     @Test
     public void updatePetTest(TestContext context) {
         Async async = context.async();
-        Pet body = null;
-        api.updatePet(body, result -> {
+        Pet pet = null;
+        api.updatePet(pet, result -> {
             // TODO: test validations
             async.complete();
         });

@@ -1,4 +1,4 @@
-# swagger-petstore-okhttp-gson
+# petstore-okhttp-gson-parcelableModel
 
 Swagger Petstore
 - API version: 1.0.0
@@ -37,8 +37,8 @@ Add this dependency to your project's POM:
 
 ```xml
 <dependency>
-  <groupId>io.swagger</groupId>
-  <artifactId>swagger-petstore-okhttp-gson</artifactId>
+  <groupId>org.openapitools</groupId>
+  <artifactId>petstore-okhttp-gson-parcelableModel</artifactId>
   <version>1.0.0</version>
   <scope>compile</scope>
 </dependency>
@@ -49,7 +49,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "io.swagger:swagger-petstore-okhttp-gson:1.0.0"
+compile "org.openapitools:petstore-okhttp-gson-parcelableModel:1.0.0"
 ```
 
 ### Others
@@ -62,7 +62,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/swagger-petstore-okhttp-gson-1.0.0.jar`
+* `target/petstore-okhttp-gson-parcelableModel-1.0.0.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -84,9 +84,9 @@ public class AnotherFakeApiExample {
     public static void main(String[] args) {
         
         AnotherFakeApi apiInstance = new AnotherFakeApi();
-        Client body = new Client(); // Client | client model
+        Client client = new Client(); // Client | client model
         try {
-            Client result = apiInstance.testSpecialTags(body);
+            Client result = apiInstance.testSpecialTags(client);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AnotherFakeApi#testSpecialTags");
@@ -108,6 +108,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
@@ -145,9 +146,11 @@ Class | Method | HTTP request | Description
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [Capitalization](docs/Capitalization.md)
+ - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
+ - [Dog](docs/Dog.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
@@ -161,15 +164,16 @@ Class | Method | HTTP request | Description
  - [Name](docs/Name.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [Order](docs/Order.md)
+ - [OuterBoolean](docs/OuterBoolean.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)
+ - [OuterNumber](docs/OuterNumber.md)
+ - [OuterString](docs/OuterString.md)
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
- - [Cat](docs/Cat.md)
- - [Dog](docs/Dog.md)
 
 
 ## Documentation for Authorization

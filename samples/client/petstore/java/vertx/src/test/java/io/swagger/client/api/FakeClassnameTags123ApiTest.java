@@ -59,15 +59,15 @@ public class FakeClassnameTags123ApiTest {
     
     /**
      * To test class name in snake case
-     * 
+     * To test class name in snake case
      *
      * @param context Vertx test context for doing assertions
      */
     @Test
     public void testClassnameTest(TestContext context) {
         Async async = context.async();
-        Client body = null;
-        api.testClassname(body, result -> {
+        Client client = null;
+        api.testClassname(client, result -> {
             // TODO: test validations
             async.complete();
         });

@@ -113,8 +113,8 @@ public class StoreApiTest {
     @Test
     public void placeOrderTest(TestContext context) {
         Async async = context.async();
-        Order body = null;
-        api.placeOrder(body, result -> {
+        Order order = null;
+        api.placeOrder(order, result -> {
             // TODO: test validations
             async.complete();
         });

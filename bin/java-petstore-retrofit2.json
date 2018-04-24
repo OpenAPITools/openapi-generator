@@ -1,4 +1,4 @@
 {
     "library": "retrofit2",
-    "artifactId": "swagger-petstore-retrofit2"
+    "artifactId": "petstore-retrofit2"
 }

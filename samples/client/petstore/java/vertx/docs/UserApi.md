@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createUser"></a>
 # **createUser**
-> createUser(body)
+> createUser(user)
 
 Create user
 
@@ -30,9 +30,9 @@ This can only be done by the logged in user.
 
 
 UserApi apiInstance = new UserApi();
-User body = new User(); // User | Created user object
+User user = new User(); // User | Created user object
 try {
-    apiInstance.createUser(body);
+    apiInstance.createUser(user);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#createUser");
     e.printStackTrace();
@@ -43,7 +43,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object |
+ **user** | [**User**](User.md)| Created user object |
 
 ### Return type
 
@@ -56,15 +56,13 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(body)
+> createUsersWithArrayInput(user)
 
 Creates list of users with given input array
-
-
 
 ### Example
 ```java
@@ -74,9 +72,9 @@ Creates list of users with given input array
 
 
 UserApi apiInstance = new UserApi();
-List<User> body = Arrays.asList(new User()); // List<User> | List of user object
+List<User> user = Arrays.asList(new List()); // List<User> | List of user object
 try {
-    apiInstance.createUsersWithArrayInput(body);
+    apiInstance.createUsersWithArrayInput(user);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
     e.printStackTrace();
@@ -87,7 +85,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object |
+ **user** | [**List&lt;User&gt;**](List.md)| List of user object |
 
 ### Return type
 
@@ -100,15 +98,13 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> createUsersWithListInput(body)
+> createUsersWithListInput(user)
 
 Creates list of users with given input array
-
-
 
 ### Example
 ```java
@@ -118,9 +114,9 @@ Creates list of users with given input array
 
 
 UserApi apiInstance = new UserApi();
-List<User> body = Arrays.asList(new User()); // List<User> | List of user object
+List<User> user = Arrays.asList(new List()); // List<User> | List of user object
 try {
-    apiInstance.createUsersWithListInput(body);
+    apiInstance.createUsersWithListInput(user);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#createUsersWithListInput");
     e.printStackTrace();
@@ -131,7 +127,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object |
+ **user** | [**List&lt;User&gt;**](List.md)| List of user object |
 
 ### Return type
 
@@ -144,7 +140,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="deleteUser"></a>
 # **deleteUser**
@@ -188,15 +184,13 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="getUserByName"></a>
 # **getUserByName**
 > User getUserByName(username)
 
 Get user by user name
-
-
 
 ### Example
 ```java
@@ -206,7 +200,7 @@ Get user by user name
 
 
 UserApi apiInstance = new UserApi();
-String username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing. 
+String username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing.
 try {
     User result = apiInstance.getUserByName(username);
     System.out.println(result);
@@ -220,7 +214,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing.  |
+ **username** | **String**| The name that needs to be fetched. Use user1 for testing. |
 
 ### Return type
 
@@ -240,8 +234,6 @@ No authorization required
 > String loginUser(username, password)
 
 Logs user into the system
-
-
 
 ### Example
 ```java
@@ -288,8 +280,6 @@ No authorization required
 
 Logs out current logged in user session
 
-
-
 ### Example
 ```java
 // Import classes:
@@ -320,11 +310,11 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="updateUser"></a>
 # **updateUser**
-> updateUser(username, body)
+> updateUser(username, user)
 
 Updated user
 
@@ -339,9 +329,9 @@ This can only be done by the logged in user.
 
 UserApi apiInstance = new UserApi();
 String username = "username_example"; // String | name that need to be deleted
-User body = new User(); // User | Updated user object
+User user = new User(); // User | Updated user object
 try {
-    apiInstance.updateUser(username, body);
+    apiInstance.updateUser(username, user);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#updateUser");
     e.printStackTrace();
@@ -353,7 +343,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted |
- **body** | [**User**](User.md)| Updated user object |
+ **user** | [**User**](User.md)| Updated user object |
 
 ### Return type
 
@@ -366,5 +356,5 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 

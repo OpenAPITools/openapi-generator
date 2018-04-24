@@ -70,9 +70,7 @@ public class StoreApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] accepts = { 
-            "application/xml", "application/json"
-        };
+        final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
         final String[] contentTypes = { };
         final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
@@ -154,16 +152,16 @@ public class StoreApi {
      * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid Order
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      * @return Order
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Order placeOrder(Order body) throws RestClientException {
-        Object postBody = body;
+    public Order placeOrder(Order order) throws RestClientException {
+        Object postBody = order;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling placeOrder");
+        // verify the required parameter 'order' is set
+        if (order == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'order' when calling placeOrder");
         }
         
         String path = UriComponentsBuilder.fromPath("/store/order").build().toUriString();

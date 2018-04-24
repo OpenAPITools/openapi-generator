@@ -1,4 +1,4 @@
 {
     "library": "resttemplate",
-    "artifactId": "swagger-petstore-resttemplate"
+    "artifactId": "petstore-resttemplate"
 }

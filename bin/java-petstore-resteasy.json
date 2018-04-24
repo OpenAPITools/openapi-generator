@@ -1,4 +1,4 @@
 {
     "library": "resteasy",
-    "artifactId": "swagger-petstore-resteasy"
+    "artifactId": "petstore-resteasy"
 }

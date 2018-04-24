@@ -1,7 +1,7 @@
 lazy val root = (project in file(".")).
   settings(
-    organization := "io.swagger",
-    name := "swagger-petstore-rest-assured",
+    organization := "org.openapitools",
+    name := "petstore-rest-assured",
     version := "1.0.0",
     scalaVersion := "2.11.4",
     scalacOptions ++= Seq("-feature"),
@@ -10,7 +10,7 @@ lazy val root = (project in file(".")).
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
       "io.swagger" % "swagger-annotations" % "1.5.15",
-      "io.rest-assured" % "scala-support" % "3.0.6",
+      "io.rest-assured" % "scala-support" % "3.1.0",
       "com.google.code.gson" % "gson" % "2.6.1",
       "io.gsonfire" % "gson-fire" % "1.8.2" % "compile",
       "org.threeten" % "threetenbp" % "1.3.5" % "compile",

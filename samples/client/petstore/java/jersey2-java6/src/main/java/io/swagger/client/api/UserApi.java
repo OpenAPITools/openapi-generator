@@ -38,26 +38,26 @@ public class UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object (required)
+   * @param user Created user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUser(User body) throws ApiException {
+  public void createUser(User user) throws ApiException {
 
-    createUserWithHttpInfo(body);
+    createUserWithHttpInfo(user);
   }
 
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object (required)
+   * @param user Created user object (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> createUserWithHttpInfo(User body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Void> createUserWithHttpInfo(User user) throws ApiException {
+    Object localVarPostBody = user;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling createUser");
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      throw new ApiException(400, "Missing the required parameter 'user' when calling createUser");
     }
     
     // create path and map variables
@@ -72,7 +72,7 @@ public class UserApi {
     
     
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
@@ -89,26 +89,26 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param user List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUsersWithArrayInput(List<User> body) throws ApiException {
+  public void createUsersWithArrayInput(List<User> user) throws ApiException {
 
-    createUsersWithArrayInputWithHttpInfo(body);
+    createUsersWithArrayInputWithHttpInfo(user);
   }
 
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param user List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> user) throws ApiException {
+    Object localVarPostBody = user;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithArrayInput");
     }
     
     // create path and map variables
@@ -123,7 +123,7 @@ public class UserApi {
     
     
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
@@ -140,26 +140,26 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param user List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUsersWithListInput(List<User> body) throws ApiException {
+  public void createUsersWithListInput(List<User> user) throws ApiException {
 
-    createUsersWithListInputWithHttpInfo(body);
+    createUsersWithListInputWithHttpInfo(user);
   }
 
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param user List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> user) throws ApiException {
+    Object localVarPostBody = user;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithListInput");
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithListInput");
     }
     
     // create path and map variables
@@ -174,7 +174,7 @@ public class UserApi {
     
     
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
@@ -226,7 +226,7 @@ public class UserApi {
     
     
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
@@ -384,7 +384,7 @@ public class UserApi {
     
     
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
@@ -402,32 +402,32 @@ public class UserApi {
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param body Updated user object (required)
+   * @param user Updated user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void updateUser(String username, User body) throws ApiException {
+  public void updateUser(String username, User user) throws ApiException {
 
-    updateUserWithHttpInfo(username, body);
+    updateUserWithHttpInfo(username, user);
   }
 
   /**
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param body Updated user object (required)
+   * @param user Updated user object (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> updateUserWithHttpInfo(String username, User body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Void> updateUserWithHttpInfo(String username, User user) throws ApiException {
+    Object localVarPostBody = user;
     
     // verify the required parameter 'username' is set
     if (username == null) {
       throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser");
     }
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling updateUser");
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      throw new ApiException(400, "Missing the required parameter 'user' when calling updateUser");
     }
     
     // create path and map variables
@@ -443,7 +443,7 @@ public class UserApi {
     
     
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 

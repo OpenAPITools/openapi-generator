@@ -44,8 +44,8 @@ public class PetApiTest {
      */
     @Test
     public void addPetTest() throws IOException {
-        Pet body = null;
-        api.addPet(body);
+        Pet pet = null;
+        api.addPet(pet);
 
         // TODO: test validations
     }
@@ -125,8 +125,8 @@ public class PetApiTest {
      */
     @Test
     public void updatePetTest() throws IOException {
-        Pet body = null;
-        api.updatePet(body);
+        Pet pet = null;
+        api.updatePet(pet);
 
         // TODO: test validations
     }

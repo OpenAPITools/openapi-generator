@@ -1,10 +1,12 @@
 package io.swagger.client.api.rxjava;
 
+import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import io.swagger.client.model.Client;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import io.swagger.client.model.OuterComposite;
+import io.swagger.client.model.User;
 
 import java.util.*;
 
@@ -28,43 +30,43 @@ public class FakeApi {
     /**
      * 
      * Test serialization of outer boolean types
-     * @param body Input boolean as post body (optional)
+     * @param booleanPostBody Input boolean as post body (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void fakeOuterBooleanSerialize(Boolean body, Handler<AsyncResult<Boolean>> resultHandler) {
-        delegate.fakeOuterBooleanSerialize(body, resultHandler);
+    public void fakeOuterBooleanSerialize(Boolean booleanPostBody, Handler<AsyncResult<Boolean>> resultHandler) {
+        delegate.fakeOuterBooleanSerialize(booleanPostBody, resultHandler);
     }
 
     /**
      * 
      * Test serialization of outer boolean types
-     * @param body Input boolean as post body (optional)
+     * @param booleanPostBody Input boolean as post body (optional)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Boolean> rxFakeOuterBooleanSerialize(Boolean body) {
+    public Single<Boolean> rxFakeOuterBooleanSerialize(Boolean booleanPostBody) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.fakeOuterBooleanSerialize(body, fut);
+            delegate.fakeOuterBooleanSerialize(booleanPostBody, fut);
         }));
     }
     /**
      * 
      * Test serialization of object with outer number type
-     * @param body Input composite as post body (optional)
+     * @param outerComposite Input composite as post body (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void fakeOuterCompositeSerialize(OuterComposite body, Handler<AsyncResult<OuterComposite>> resultHandler) {
-        delegate.fakeOuterCompositeSerialize(body, resultHandler);
+    public void fakeOuterCompositeSerialize(OuterComposite outerComposite, Handler<AsyncResult<OuterComposite>> resultHandler) {
+        delegate.fakeOuterCompositeSerialize(outerComposite, resultHandler);
     }
 
     /**
      * 
      * Test serialization of object with outer number type
-     * @param body Input composite as post body (optional)
+     * @param outerComposite Input composite as post body (optional)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<OuterComposite> rxFakeOuterCompositeSerialize(OuterComposite body) {
+    public Single<OuterComposite> rxFakeOuterCompositeSerialize(OuterComposite outerComposite) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.fakeOuterCompositeSerialize(body, fut);
+            delegate.fakeOuterCompositeSerialize(outerComposite, fut);
         }));
     }
     /**
@@ -110,24 +112,47 @@ public class FakeApi {
         }));
     }
     /**
-     * To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
-     * @param body client model (required)
+     * 
+     * 
+     * @param query  (required)
+     * @param user  (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void testClientModel(Client body, Handler<AsyncResult<Client>> resultHandler) {
-        delegate.testClientModel(body, resultHandler);
+    public void testBodyWithQueryParams(String query, User user, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testBodyWithQueryParams(query, user, resultHandler);
+    }
+
+    /**
+     * 
+     * 
+     * @param query  (required)
+     * @param user  (required)
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<Void> rxTestBodyWithQueryParams(String query, User user) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.testBodyWithQueryParams(query, user, fut);
+        }));
+    }
+    /**
+     * To test \&quot;client\&quot; model
+     * To test \&quot;client\&quot; model
+     * @param client client model (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testClientModel(Client client, Handler<AsyncResult<Client>> resultHandler) {
+        delegate.testClientModel(client, resultHandler);
     }
 
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
-     * @param body client model (required)
+     * @param client client model (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Client> rxTestClientModel(Client body) {
+    public Single<Client> rxTestClientModel(Client client) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.testClientModel(body, fut);
+            delegate.testClientModel(client, fut);
         }));
     }
     /**
@@ -149,7 +174,7 @@ public class FakeApi {
      * @param paramCallback None (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> resultHandler) {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> resultHandler) {
         delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, resultHandler);
     }
 
@@ -172,7 +197,7 @@ public class FakeApi {
      * @param paramCallback None (optional)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Void> rxTestEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) {
+    public Single<Void> rxTestEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
             delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, fut);
         }));
@@ -180,36 +205,57 @@ public class FakeApi {
     /**
      * To test enum parameters
      * To test enum parameters
-     * @param enumFormStringArray Form parameter enum test (string array) (optional)
-     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
      * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
      * @param enumQueryStringArray Query parameter enum test (string array) (optional)
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional)
+     * @param enumFormString Form parameter enum test (string) (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void testEnumParameters(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testEnumParameters(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, resultHandler);
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, resultHandler);
     }
 
     /**
      * To test enum parameters
      * To test enum parameters
-     * @param enumFormStringArray Form parameter enum test (string array) (optional)
-     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
      * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
      * @param enumQueryStringArray Query parameter enum test (string array) (optional)
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional)
+     * @param enumFormString Form parameter enum test (string) (optional)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Void> rxTestEnumParameters(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble) {
+    public Single<Void> rxTestEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.testEnumParameters(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, fut);
+            delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, fut);
+        }));
+    }
+    /**
+     * test inline additionalProperties
+     * 
+     * @param requestBody request body (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testInlineAdditionalProperties(String requestBody, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testInlineAdditionalProperties(requestBody, resultHandler);
+    }
+
+    /**
+     * test inline additionalProperties
+     * 
+     * @param requestBody request body (required)
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<Void> rxTestInlineAdditionalProperties(String requestBody) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.testInlineAdditionalProperties(requestBody, fut);
         }));
     }
     /**

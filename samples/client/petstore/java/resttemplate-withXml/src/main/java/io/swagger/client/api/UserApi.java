@@ -49,15 +49,15 @@ public class UserApi {
      * Create user
      * This can only be done by the logged in user.
      * <p><b>0</b> - successful operation
-     * @param body Created user object
+     * @param user Created user object
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUser(User body) throws RestClientException {
-        Object postBody = body;
+    public void createUser(User user) throws RestClientException {
+        Object postBody = user;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling createUser");
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'user' when calling createUser");
         }
         
         String path = UriComponentsBuilder.fromPath("/user").build().toUriString();
@@ -66,9 +66,7 @@ public class UserApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] accepts = { 
-            "application/xml", "application/json"
-        };
+        final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
         final String[] contentTypes = { };
         final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
@@ -82,15 +80,15 @@ public class UserApi {
      * Creates list of users with given input array
      * 
      * <p><b>0</b> - successful operation
-     * @param body List of user object
+     * @param user List of user object
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUsersWithArrayInput(List<User> body) throws RestClientException {
-        Object postBody = body;
+    public void createUsersWithArrayInput(List<User> user) throws RestClientException {
+        Object postBody = user;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'user' when calling createUsersWithArrayInput");
         }
         
         String path = UriComponentsBuilder.fromPath("/user/createWithArray").build().toUriString();
@@ -99,9 +97,7 @@ public class UserApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] accepts = { 
-            "application/xml", "application/json"
-        };
+        final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
         final String[] contentTypes = { };
         final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
@@ -115,15 +111,15 @@ public class UserApi {
      * Creates list of users with given input array
      * 
      * <p><b>0</b> - successful operation
-     * @param body List of user object
+     * @param user List of user object
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUsersWithListInput(List<User> body) throws RestClientException {
-        Object postBody = body;
+    public void createUsersWithListInput(List<User> user) throws RestClientException {
+        Object postBody = user;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling createUsersWithListInput");
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'user' when calling createUsersWithListInput");
         }
         
         String path = UriComponentsBuilder.fromPath("/user/createWithList").build().toUriString();
@@ -132,9 +128,7 @@ public class UserApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] accepts = { 
-            "application/xml", "application/json"
-        };
+        final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
         final String[] contentTypes = { };
         final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
@@ -169,9 +163,7 @@ public class UserApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] accepts = { 
-            "application/xml", "application/json"
-        };
+        final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
         final String[] contentTypes = { };
         final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
@@ -279,9 +271,7 @@ public class UserApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] accepts = { 
-            "application/xml", "application/json"
-        };
+        final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
         final String[] contentTypes = { };
         final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
@@ -297,20 +287,20 @@ public class UserApi {
      * <p><b>400</b> - Invalid user supplied
      * <p><b>404</b> - User not found
      * @param username name that need to be deleted
-     * @param body Updated user object
+     * @param user Updated user object
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void updateUser(String username, User body) throws RestClientException {
-        Object postBody = body;
+    public void updateUser(String username, User user) throws RestClientException {
+        Object postBody = user;
         
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'username' when calling updateUser");
         }
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling updateUser");
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'user' when calling updateUser");
         }
         
         // create path and map variables
@@ -322,9 +312,7 @@ public class UserApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] accepts = { 
-            "application/xml", "application/json"
-        };
+        final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
         final String[] contentTypes = { };
         final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);

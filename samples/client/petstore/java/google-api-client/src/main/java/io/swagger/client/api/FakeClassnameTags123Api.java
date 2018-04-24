@@ -44,12 +44,12 @@ public class FakeClassnameTags123Api {
     * To test class name in snake case
     * To test class name in snake case
     * <p><b>200</b> - successful operation
-    * @param body client model
+    * @param client client model
     * @return Client
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Client testClassname(Client body) throws IOException {
-        HttpResponse response = testClassnameForHttpResponse(body);
+    public Client testClassname(Client client) throws IOException {
+        HttpResponse response = testClassnameForHttpResponse(client);
         TypeReference typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
@@ -58,51 +58,51 @@ public class FakeClassnameTags123Api {
     * To test class name in snake case
     * To test class name in snake case
     * <p><b>200</b> - successful operation
-    * @param body client model
+    * @param client client model
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @return Client
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Client testClassname(Client body, Map<String, Object> params) throws IOException {
-        HttpResponse response = testClassnameForHttpResponse(body, params);
+    public Client testClassname(Client client, Map<String, Object> params) throws IOException {
+        HttpResponse response = testClassnameForHttpResponse(client, params);
         TypeReference typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse testClassnameForHttpResponse(Client body) throws IOException {
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'body' when calling testClassname");
+    public HttpResponse testClassnameForHttpResponse(Client client) throws IOException {
+        // verify the required parameter 'client' is set
+        if (client == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'client' when calling testClassname");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake_classname_test");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(client);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
     }
 
-      public HttpResponse testClassnameForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
-          // verify the required parameter 'body' is set
-              if (body == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'body' when calling testClassname");
+      public HttpResponse testClassnameForHttpResponse(java.io.InputStream client, String mediaType) throws IOException {
+          // verify the required parameter 'client' is set
+              if (client == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'client' when calling testClassname");
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake_classname_test");
 
               String url = uriBuilder.build().toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = body == null ?
+              HttpContent content = client == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, client);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
       }
 
-    public HttpResponse testClassnameForHttpResponse(Client body, Map<String, Object> params) throws IOException {
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'body' when calling testClassname");
+    public HttpResponse testClassnameForHttpResponse(Client client, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'client' is set
+        if (client == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'client' when calling testClassname");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake_classname_test");
 
@@ -127,7 +127,7 @@ public class FakeClassnameTags123Api {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(client);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
     }
 
