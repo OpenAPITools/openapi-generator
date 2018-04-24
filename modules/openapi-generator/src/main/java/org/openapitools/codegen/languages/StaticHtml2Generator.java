@@ -31,8 +31,8 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     protected String invokerPackage = "io.swagger.client"; // default for Java and Android
     protected String phpInvokerPackage = "Swagger\\Client"; // default for PHP
     protected String packageName = "IO.Swagger"; // default for C#
-    protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-client";
+    protected String groupId = "org.openapitools";
+    protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
     protected String jsProjectName;
     protected String jsModuleName;
@@ -61,8 +61,8 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
 
-        additionalProperties.put("appName", "Swagger Sample");
-        additionalProperties.put("appDescription", "A sample swagger server");
+        additionalProperties.put("appName", "OpenAPI Sample");
+        additionalProperties.put("appDescription", "A sample openapi server");
         additionalProperties.put("infoUrl", "https://helloreverb.com");
         additionalProperties.put("infoEmail", "hello@helloreverb.com");
         additionalProperties.put("licenseInfo", "All rights reserved");

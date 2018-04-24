@@ -17,7 +17,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
-    protected String projectName = "swagger-server";
+    protected String projectName = "openapi-server";
     protected String apiPath = "go";
 
     public GoServerCodegen() {

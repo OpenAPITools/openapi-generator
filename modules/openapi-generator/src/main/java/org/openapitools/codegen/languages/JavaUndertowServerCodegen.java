@@ -22,7 +22,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "undertow";
         invokerPackage = "io.swagger.handler";
-        artifactId = "swagger-undertow-server";
+        artifactId = "openapi-undertow-server";
         dateLibrary = "legacy"; //TODO: add joda support
 
         // clear model and api doc template as this codegen

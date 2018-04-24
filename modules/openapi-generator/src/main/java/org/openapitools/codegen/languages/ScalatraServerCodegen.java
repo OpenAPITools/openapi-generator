@@ -17,8 +17,8 @@ import java.util.Map;
 
 public class ScalatraServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
 
-    protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-server";
+    protected String groupId = "org.openapitools";
+    protected String artifactId = "openapi-server";
     protected String artifactVersion = "1.0.0";
 
     public ScalatraServerCodegen() {
@@ -67,10 +67,10 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         // mapped to String as a workaround
         typeMapping.put("binary", "String");
 
-        additionalProperties.put("appName", "Swagger Sample");
-        additionalProperties.put("appDescription", "A sample swagger server");
-        additionalProperties.put("infoUrl", "http://swagger.io");
-        additionalProperties.put("infoEmail", "apiteam@swagger.io");
+        additionalProperties.put("appName", "OpenAPI Sample");
+        additionalProperties.put("appDescription", "A sample openapi server");
+        additionalProperties.put("infoUrl", "http://org.openapitools");
+        additionalProperties.put("infoEmail", "team@openapitools.org");
         additionalProperties.put("licenseInfo", "All rights reserved");
         additionalProperties.put("licenseUrl", "http://apache.org/licenses/LICENSE-2.0.html");
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);

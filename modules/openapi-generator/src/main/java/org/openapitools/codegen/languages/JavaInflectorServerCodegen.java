@@ -16,7 +16,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
 
-    protected String title = "Swagger Inflector";
+    protected String title = "OpenAPI Inflector";
     protected String implFolder = "src/main/java";
 
     public JavaInflectorServerCodegen() {
@@ -26,7 +26,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaInflector";
         invokerPackage = "io.swagger.controllers";
-        artifactId = "swagger-inflector-server";
+        artifactId = "openapi-inflector-server";
         dateLibrary = "legacy"; //TODO: add joda support
 
         // clear model and api doc template as this codegen

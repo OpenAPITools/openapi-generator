@@ -41,7 +41,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         embeddedTemplateDir = templateDir = "clojure";
 
         cliOptions.add(new CliOption(PROJECT_NAME,
-                "name of the project (Default: generated from info.title or \"swagger-clj-client\")"));
+                "name of the project (Default: generated from info.title or \"openapi-clj-client\")"));
         cliOptions.add(new CliOption(PROJECT_DESCRIPTION,
                 "description of the project (Default: using info.description or \"Client library of <projectNname>\")"));
         cliOptions.add(new CliOption(PROJECT_VERSION,
@@ -122,7 +122,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
         // default values
         if (projectName == null) {
-            projectName = "swagger-clj-client";
+            projectName = "openapi-clj-client";
         }
         if (projectVersion == null) {
             projectVersion = "1.0.0";

@@ -29,7 +29,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public JavaJAXRSSpecServerCodegen() {
         super();
         invokerPackage = "io.swagger.api";
-        artifactId = "swagger-jaxrs-server";
+        artifactId = "openapi-jaxrs-server";
         outputFolder = "generated-code/JavaJaxRS-Spec";
 
         modelTemplateFiles.put("model.mustache", ".java");
@@ -94,7 +94,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
         if (interfaceOnly) {
             // Change default artifactId if genereating interfaces only, before command line options are applied in base class.
-            artifactId = "swagger-jaxrs-client";
+            artifactId = "openapi-jaxrs-client";
         }
 
         super.processOpts();

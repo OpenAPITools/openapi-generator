@@ -63,8 +63,8 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
         additionalProperties.put(ROOT_PACKAGE, rootPackage);
 
-        groupId = "io.swagger";
-        artifactId = "swagger-java-vertx-server";
+        groupId = "org.openapitools";
+        artifactId = "openapi-java-vertx-server";
         artifactVersion = apiVersion;
 
         this.setDateLibrary("java8");

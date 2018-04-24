@@ -77,7 +77,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
     /**
-     * Programmatically disable the output of .swagger-codegen/VERSION, .openapi-generator-ignore,
+     * Programmatically disable the output of .openapi-generator/VERSION, .openapi-generator-ignore,
      * or other metadata files used by Swagger Codegen.
      * @param generateMetadata true: enable outputs, false: disable outputs
      */
@@ -676,7 +676,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         /*
          * The following code adds default LICENSE (Apache-2.0) for all generators
          * To use license other than Apache2.0, update the following file:
-         *   modules/swagger-codegen/src/main/resources/_common/LICENSE
+         *   modules/openapi-generator/src/main/resources/_common/LICENSE
          *
         final String apache2License = "LICENSE";
         String licenseFileNameTarget = config.outputFolder() + File.separator + apache2License;

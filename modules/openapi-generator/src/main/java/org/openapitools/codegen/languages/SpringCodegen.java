@@ -34,7 +34,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String SWAGGER_DOCKET_CONFIG = "swaggerDocketConfig";
 
-    protected String title = "swagger-petstore";
+    protected String title = "OpenAPI Spring";
     protected String configPackage = "io.swagger.configuration";
     protected String basePackage = "io.swagger";
     protected boolean interfaceOnly = false;
@@ -58,7 +58,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
         invokerPackage = "io.swagger.api";
-        artifactId = "swagger-spring";
+        artifactId = "openapi-spring";
 
         additionalProperties.put(CONFIG_PACKAGE, configPackage);
         additionalProperties.put(BASE_PACKAGE, basePackage);

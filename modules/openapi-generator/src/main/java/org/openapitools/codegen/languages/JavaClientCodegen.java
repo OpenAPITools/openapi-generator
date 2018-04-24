@@ -57,7 +57,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         outputFolder = "generated-code" + File.separator + "java";
         embeddedTemplateDir = templateDir = "Java";
         invokerPackage = "io.swagger.client";
-        artifactId = "swagger-java-client";
+        artifactId = "openapi-java-client";
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
 

@@ -28,7 +28,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String apiVersion = "1.0.0";
     protected String serverHost = "localhost";
     protected int serverPort = 8080;
-    protected String projectName = "swagger-server";
+    protected String projectName = "openapi-server";
     protected String apiPath = "rust-server";
     protected String packageName;
     protected String packageVersion;

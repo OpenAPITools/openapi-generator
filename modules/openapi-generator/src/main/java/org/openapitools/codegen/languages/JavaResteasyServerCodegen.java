@@ -18,7 +18,7 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
 
         super();
 
-        artifactId = "swagger-jaxrs-resteasy-server";
+        artifactId = "openapi-jaxrs-resteasy-server";
 
         outputFolder = "generated-code/JavaJaxRS-Resteasy";
         apiTemplateFiles.put("apiService.mustache", ".java");

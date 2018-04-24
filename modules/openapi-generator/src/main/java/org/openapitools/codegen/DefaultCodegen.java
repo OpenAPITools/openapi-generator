@@ -3785,7 +3785,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Sets an override location for the .swagger-codegen.ignore location for the first code generation.
+     * Sets an override location for the '.openapi-generator-ignore' location for the first code generation.
      *
      * @param ignoreFileOverride The full path to an ignore file
      */
@@ -4239,7 +4239,7 @@ public class DefaultCodegen implements CodegenConfig {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = arraySchema.getItems();
             if (inner == null) {
-                inner = new StringSchema().description("//TODO automatically added by swagger-codegen");
+                inner = new StringSchema().description("//TODO automatically added by openapi-generator");
                 arraySchema.setItems(inner);
             }
             CodegenProperty codegenProperty = fromProperty("property", schema);
@@ -4272,7 +4272,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isMapSchema(schema)) {
             Schema inner = (Schema) schema.getAdditionalProperties();
             if (inner == null) {
-                inner = new StringSchema().description("//TODO automatically added by swagger-codegen");
+                inner = new StringSchema().description("//TODO automatically added by openapi-generator");
                 schema.setAdditionalProperties(inner);
             }
             CodegenProperty codegenProperty = fromProperty("property", schema);

@@ -41,9 +41,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String podVersion = "1.0.0";
     protected String classPrefix = "SWG";
     protected String authorName = "Swagger";
-    protected String authorEmail = "apiteam@swagger.io";
+    protected String authorEmail = "team@openapitools.org";
     protected String license = DEFAULT_LICENSE;
-    protected String gitRepoURL = "https://github.com/swagger-api/swagger-codegen";
+    protected String gitRepoURL = "https://github.com/openapitools/openapi-generator";
     protected String[] specialWords = {"new", "copy"};
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -178,9 +178,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.POD_VERSION, "cocoapods package version.")
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(AUTHOR_NAME, "Name to use in the podspec file.").defaultValue("Swagger"));
-        cliOptions.add(new CliOption(AUTHOR_EMAIL, "Email to use in the podspec file.").defaultValue("apiteam@swagger.io"));
+        cliOptions.add(new CliOption(AUTHOR_EMAIL, "Email to use in the podspec file.").defaultValue("team@openapitools.org"));
         cliOptions.add(new CliOption(GIT_REPO_URL, "URL for the git repo where this podspec should point to.")
-                .defaultValue("https://github.com/swagger-api/swagger-codegen"));
+                .defaultValue("https://github.com/openapitools/openapi-generator"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
     }

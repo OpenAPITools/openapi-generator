@@ -11,8 +11,8 @@ import java.io.File;
 
 public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.client";
-    protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-client";
+    protected String groupId = "org.openapitools";
+    protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "docs";
 

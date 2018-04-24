@@ -24,7 +24,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     protected String artifactId;
     protected String artifactVersion = "1.0.0";
-    protected String groupId = "io.swagger";
+    protected String groupId = "org.openapitools";
     protected String packageName;
 
     protected String sourceFolder = "src/main/kotlin";

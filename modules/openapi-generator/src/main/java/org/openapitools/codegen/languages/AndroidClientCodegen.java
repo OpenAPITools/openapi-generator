@@ -27,8 +27,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     public static final String ANDROID_SDK_VERSION = "androidSdkVersion";
     public static final String ANDROID_BUILD_TOOLS_VERSION = "androidBuildToolsVersion";
     protected String invokerPackage = "io.swagger.client";
-    protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-android-client";
+    protected String groupId = "org.openapitools";
+    protected String artifactId = "openapi-android-client";
     protected String artifactVersion = "1.0.0";
     protected String projectFolder = "src/main";
     protected String sourceFolder = projectFolder + "/java";
