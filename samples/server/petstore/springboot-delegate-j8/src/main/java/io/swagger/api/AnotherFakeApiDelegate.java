@@ -38,16 +38,8 @@ public interface AnotherFakeApiDelegate {
     /**
      * @see AnotherFakeApi#testSpecialTags
      */
-    default ResponseEntity<Client> testSpecialTags( Client  body) {
+    default ResponseEntity<Client> testSpecialTags( Client  client) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-            if (getAcceptHeader().get().contains("application/json")) {
-                try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"client\" : \"client\"}", Client.class), HttpStatus.NOT_IMPLEMENTED);
-                } catch (IOException e) {
-                    log.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default AnotherFakeApi interface so no example is generated");
         }

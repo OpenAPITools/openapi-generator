@@ -27,8 +27,8 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
     public FakeClassnameTestApiController(FakeClassnameTestApiDelegate delegate) {
         this.delegate = delegate;
     }
-    public ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
-        return delegate.testClassname(body);
+    public ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
+        return delegate.testClassname(client);
     }
 
 }

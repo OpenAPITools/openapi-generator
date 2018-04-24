@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
+import org.springframework.core.io.Resource;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -44,7 +45,7 @@ public class FormatTest   {
   private byte[] _byte = null;
 
   @JsonProperty("binary")
-  private byte[] binary = null;
+  private Resource binary = null;
 
   @JsonProperty("date")
   private LocalDate date = null;
@@ -231,7 +232,7 @@ public class FormatTest   {
     this._byte = _byte;
   }
 
-  public FormatTest binary(byte[] binary) {
+  public FormatTest binary(Resource binary) {
     this.binary = binary;
     return this;
   }
@@ -242,12 +243,13 @@ public class FormatTest   {
   **/
   @ApiModelProperty(value = "")
 
+  @Valid
 
-  public byte[] getBinary() {
+  public Resource getBinary() {
     return binary;
   }
 
-  public void setBinary(byte[] binary) {
+  public void setBinary(Resource binary) {
     this.binary = binary;
   }
 

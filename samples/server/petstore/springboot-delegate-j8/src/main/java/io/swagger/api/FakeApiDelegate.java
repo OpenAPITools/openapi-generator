@@ -3,8 +3,11 @@ package io.swagger.api;
 import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.time.LocalDate;
+import java.util.Map;
 import java.time.OffsetDateTime;
 import io.swagger.model.OuterComposite;
+import org.springframework.core.io.Resource;
+import io.swagger.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -42,16 +45,8 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#fakeOuterBooleanSerialize
      */
-    default ResponseEntity<Boolean> fakeOuterBooleanSerialize( Boolean  body) {
+    default ResponseEntity<Boolean> fakeOuterBooleanSerialize( Boolean  booleanPostBody) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-            if (getAcceptHeader().get().contains("application/json")) {
-                try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{ }", Boolean.class), HttpStatus.NOT_IMPLEMENTED);
-                } catch (IOException e) {
-                    log.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default FakeApi interface so no example is generated");
         }
@@ -61,16 +56,8 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#fakeOuterCompositeSerialize
      */
-    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize( OuterComposite  body) {
+    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize( OuterComposite  outerComposite) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-            if (getAcceptHeader().get().contains("application/json")) {
-                try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"my_string\" : { },  \"my_number\" : { },  \"my_boolean\" : { }}", OuterComposite.class), HttpStatus.NOT_IMPLEMENTED);
-                } catch (IOException e) {
-                    log.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default FakeApi interface so no example is generated");
         }
@@ -82,14 +69,6 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize( BigDecimal  body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-            if (getAcceptHeader().get().contains("application/json")) {
-                try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{ }", BigDecimal.class), HttpStatus.NOT_IMPLEMENTED);
-                } catch (IOException e) {
-                    log.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default FakeApi interface so no example is generated");
         }
@@ -101,14 +80,18 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<String> fakeOuterStringSerialize( String  body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-            if (getAcceptHeader().get().contains("application/json")) {
-                try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{ }", String.class), HttpStatus.NOT_IMPLEMENTED);
-                } catch (IOException e) {
-                    log.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default FakeApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    /**
+     * @see FakeApi#testBodyWithQueryParams
+     */
+    default ResponseEntity<Void> testBodyWithQueryParams( String  query,
+         User  user) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default FakeApi interface so no example is generated");
         }
@@ -118,16 +101,8 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testClientModel
      */
-    default ResponseEntity<Client> testClientModel( Client  body) {
+    default ResponseEntity<Client> testClientModel( Client  client) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-            if (getAcceptHeader().get().contains("application/json")) {
-                try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"client\" : \"client\"}", Client.class), HttpStatus.NOT_IMPLEMENTED);
-                } catch (IOException e) {
-                    log.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default FakeApi interface so no example is generated");
         }
@@ -146,7 +121,7 @@ public interface FakeApiDelegate {
          Long  int64,
          Float  _float,
          String  string,
-         byte[]  binary,
+        MultipartFile binary,
          LocalDate  date,
          OffsetDateTime  dateTime,
          String  password,
@@ -161,14 +136,14 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testEnumParameters
      */
-    default ResponseEntity<Void> testEnumParameters( List<String>  enumFormStringArray,
-         String  enumFormString,
-         List<String>  enumHeaderStringArray,
+    default ResponseEntity<Void> testEnumParameters( List<String>  enumHeaderStringArray,
          String  enumHeaderString,
          List<String>  enumQueryStringArray,
          String  enumQueryString,
          Integer  enumQueryInteger,
-         Double  enumQueryDouble) {
+         Double  enumQueryDouble,
+         List<String>  enumFormStringArray,
+         String  enumFormString) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default FakeApi interface so no example is generated");
@@ -179,7 +154,7 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testInlineAdditionalProperties
      */
-    default ResponseEntity<Void> testInlineAdditionalProperties( Object  param) {
+    default ResponseEntity<Void> testInlineAdditionalProperties( String  requestBody) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default FakeApi interface so no example is generated");

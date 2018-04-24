@@ -19,7 +19,7 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#addPet
      */
-    ResponseEntity<Void> addPet( Pet  body);
+    ResponseEntity<Void> addPet( Pet  pet);
 
     /**
      * @see PetApi#deletePet
@@ -45,7 +45,7 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#updatePet
      */
-    ResponseEntity<Void> updatePet( Pet  body);
+    ResponseEntity<Void> updatePet( Pet  pet);
 
     /**
      * @see PetApi#updatePetWithForm
