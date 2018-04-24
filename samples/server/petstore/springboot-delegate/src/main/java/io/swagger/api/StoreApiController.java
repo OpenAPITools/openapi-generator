@@ -36,12 +36,12 @@ public class StoreApiController implements StoreApi {
         return delegate.getInventory();
     }
 
-    public ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId) {
+    public ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true, allowableValues = "") @PathVariable("order_id") Long orderId) {
         return delegate.getOrderById(orderId);
     }
 
-    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body) {
-        return delegate.placeOrder(body);
+    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {
+        return delegate.placeOrder(order);
     }
 
 }

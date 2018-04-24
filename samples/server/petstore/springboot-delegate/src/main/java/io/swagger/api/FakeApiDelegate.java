@@ -3,8 +3,11 @@ package io.swagger.api;
 import java.math.BigDecimal;
 import io.swagger.model.Client;
 import org.threeten.bp.LocalDate;
+import java.util.Map;
 import org.threeten.bp.OffsetDateTime;
 import io.swagger.model.OuterComposite;
+import org.springframework.core.io.Resource;
+import io.swagger.model.User;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,12 +24,12 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#fakeOuterBooleanSerialize
      */
-    ResponseEntity<Boolean> fakeOuterBooleanSerialize( Boolean  body);
+    ResponseEntity<Boolean> fakeOuterBooleanSerialize( Boolean  booleanPostBody);
 
     /**
      * @see FakeApi#fakeOuterCompositeSerialize
      */
-    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize( OuterComposite  body);
+    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize( OuterComposite  outerComposite);
 
     /**
      * @see FakeApi#fakeOuterNumberSerialize
@@ -39,9 +42,15 @@ public interface FakeApiDelegate {
     ResponseEntity<String> fakeOuterStringSerialize( String  body);
 
     /**
+     * @see FakeApi#testBodyWithQueryParams
+     */
+    ResponseEntity<Void> testBodyWithQueryParams( String  query,
+         User  user);
+
+    /**
      * @see FakeApi#testClientModel
      */
-    ResponseEntity<Client> testClientModel( Client  body);
+    ResponseEntity<Client> testClientModel( Client  client);
 
     /**
      * @see FakeApi#testEndpointParameters
@@ -55,7 +64,7 @@ public interface FakeApiDelegate {
          Long  int64,
          Float  _float,
          String  string,
-         byte[]  binary,
+        MultipartFile binary,
          LocalDate  date,
          OffsetDateTime  dateTime,
          String  password,
@@ -64,19 +73,19 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testEnumParameters
      */
-    ResponseEntity<Void> testEnumParameters( List<String>  enumFormStringArray,
-         String  enumFormString,
-         List<String>  enumHeaderStringArray,
+    ResponseEntity<Void> testEnumParameters( List<String>  enumHeaderStringArray,
          String  enumHeaderString,
          List<String>  enumQueryStringArray,
          String  enumQueryString,
          Integer  enumQueryInteger,
-         Double  enumQueryDouble);
+         Double  enumQueryDouble,
+         List<String>  enumFormStringArray,
+         String  enumFormString);
 
     /**
      * @see FakeApi#testInlineAdditionalProperties
      */
-    ResponseEntity<Void> testInlineAdditionalProperties( Object  param);
+    ResponseEntity<Void> testInlineAdditionalProperties( String  requestBody);
 
     /**
      * @see FakeApi#testJsonFormData
