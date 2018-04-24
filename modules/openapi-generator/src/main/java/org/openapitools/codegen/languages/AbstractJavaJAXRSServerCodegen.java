@@ -1,20 +1,26 @@
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.utils.URLPathUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.URLPathUtils;
-import io.swagger.v3.oas.models.*;
 
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     /**
@@ -34,12 +40,12 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         super();
 
         sourceFolder = "src/gen/java";
-        invokerPackage = "io.swagger.api";
+        invokerPackage = "org.openapitools.api";
         artifactId = "swagger-jaxrs-server";
         dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
 
-        apiPackage = "io.swagger.api";
-        modelPackage = "io.swagger.model";
+        apiPackage = "org.openapitools.api";
+        modelPackage = "org.openapitools.model";
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib

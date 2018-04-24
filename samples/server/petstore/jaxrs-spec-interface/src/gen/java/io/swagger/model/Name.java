@@ -19,7 +19,7 @@ public class Name  implements Serializable {
   private @Valid Integer name = null;
   private @Valid Integer snakeCase = null;
   private @Valid String property = null;
-  private @Valid Integer _123Number = null;
+  private @Valid Integer _123number = null;
 
   /**
    **/
@@ -75,19 +75,19 @@ public class Name  implements Serializable {
 
   /**
    **/
-  public Name _123Number(Integer _123Number) {
-    this._123Number = _123Number;
+  public Name _123number(Integer _123number) {
+    this._123number = _123number;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
   @JsonProperty("123Number")
-  public Integer get123Number() {
-    return _123Number;
+  public Integer get123number() {
+    return _123number;
   }
-  public void set123Number(Integer _123Number) {
-    this._123Number = _123Number;
+  public void set123number(Integer _123number) {
+    this._123number = _123number;
   }
 
 
@@ -103,12 +103,12 @@ public class Name  implements Serializable {
     return Objects.equals(name, name.name) &&
         Objects.equals(snakeCase, name.snakeCase) &&
         Objects.equals(property, name.property) &&
-        Objects.equals(_123Number, name._123Number);
+        Objects.equals(_123number, name._123number);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, snakeCase, property, _123Number);
+    return Objects.hash(name, snakeCase, property, _123number);
   }
 
   @Override
@@ -119,7 +119,7 @@ public class Name  implements Serializable {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
     sb.append("    property: ").append(toIndentedString(property)).append("\n");
-    sb.append("    _123Number: ").append(toIndentedString(_123Number)).append("\n");
+    sb.append("    _123number: ").append(toIndentedString(_123number)).append("\n");
     sb.append("}");
     return sb.toString();
   }

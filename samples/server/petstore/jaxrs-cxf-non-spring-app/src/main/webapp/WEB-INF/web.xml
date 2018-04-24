@@ -8,7 +8,7 @@
     <servlet-class>org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet</servlet-class>
     <init-param>
       <param-name>jaxrs.serviceClasses</param-name>
-      <param-value>io.swagger.api.impl.PetApiServiceImpl,io.swagger.api.impl.StoreApiServiceImpl,io.swagger.api.impl.UserApiServiceImpl</param-value>
+      <param-value>org.openapitools.api.impl.PetApiServiceImpl,org.openapitools.api.impl.StoreApiServiceImpl,org.openapitools.api.impl.UserApiServiceImpl</param-value>
     </init-param>
     <init-param>
       <param-name>jaxrs.providers</param-name>

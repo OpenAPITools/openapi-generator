@@ -12,23 +12,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SpecialModelName  implements Serializable {
   
-  private @Valid Long specialPropertyName = null;
+  private @Valid Long $specialPropertyName = null;
 
   /**
    **/
-  public SpecialModelName specialPropertyName(Long specialPropertyName) {
-    this.specialPropertyName = specialPropertyName;
+  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+    this.$specialPropertyName = $specialPropertyName;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
-  public Long getSpecialPropertyName() {
-    return specialPropertyName;
+  public Long get$SpecialPropertyName() {
+    return $specialPropertyName;
   }
-  public void setSpecialPropertyName(Long specialPropertyName) {
-    this.specialPropertyName = specialPropertyName;
+  public void set$SpecialPropertyName(Long $specialPropertyName) {
+    this.$specialPropertyName = $specialPropertyName;
   }
 
 
@@ -40,13 +40,13 @@ public class SpecialModelName  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelName specialModelName = (SpecialModelName) o;
-    return Objects.equals(specialPropertyName, specialModelName.specialPropertyName);
+    SpecialModelName $specialModelName = (SpecialModelName) o;
+    return Objects.equals($specialPropertyName, $specialModelName.$specialPropertyName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(specialPropertyName);
+    return Objects.hash($specialPropertyName);
   }
 
   @Override
@@ -54,7 +54,7 @@ public class SpecialModelName  implements Serializable {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpecialModelName {\n");
     
-    sb.append("    specialPropertyName: ").append(toIndentedString(specialPropertyName)).append("\n");
+    sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
     sb.append("}");
     return sb.toString();
   }

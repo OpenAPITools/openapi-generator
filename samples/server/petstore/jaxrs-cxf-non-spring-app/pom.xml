@@ -33,7 +33,7 @@
           <stopPort>8079</stopPort>
           <stopKey>stopit</stopKey>
           <httpConnector>
-            <port>8080</port>
+            <port>-1</port>
             <idleTimeout>60000</idleTimeout>
           </httpConnector>
         </configuration>
@@ -166,10 +166,9 @@
         <scope>compile</scope>
     </dependency>
     <dependency>
-       <groupId>com.fasterxml.jackson.datatype</groupId>
-       <artifactId>jackson-datatype-joda</artifactId>
-       <version>${jackson-jaxrs-version}</version>
-       <scope>compile</scope>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-joda</artifactId>
+        <version>${jackson-jaxrs-version}</version>
     </dependency>
   </dependencies>
   <repositories>

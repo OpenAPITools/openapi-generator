@@ -166,10 +166,9 @@
         <scope>compile</scope>
     </dependency>
     <dependency>
-       <groupId>com.fasterxml.jackson.datatype</groupId>
-       <artifactId>jackson-datatype-joda</artifactId>
-       <version>${jackson-jaxrs-version}</version>
-       <scope>compile</scope>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-joda</artifactId>
+        <version>${jackson-jaxrs-version}</version>
     </dependency>
   </dependencies>
   <repositories>
