@@ -30,7 +30,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     protected static final String JAXRS_TEMPLATE_DIRECTORY_NAME = "JavaJaxRS";
     protected String implFolder = "src/main/java";
     protected String testResourcesFolder = "src/test/resources";
-    protected String title = "Swagger Server";
+    protected String title = "OpenAPI Server";
 
     protected boolean useBeanValidation = true;
 
@@ -41,7 +41,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
         sourceFolder = "src/gen/java";
         invokerPackage = "org.openapitools.api";
-        artifactId = "swagger-jaxrs-server";
+        artifactId = "openapi-jaxrs-server";
         dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
 
         apiPackage = "org.openapitools.api";

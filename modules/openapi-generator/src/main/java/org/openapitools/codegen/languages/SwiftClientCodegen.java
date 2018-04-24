@@ -49,7 +49,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
     protected static final String LIBRARY_PROMISE_KIT = "PromiseKit";
     protected static final String LIBRARY_RX_SWIFT = "RxSwift";
     protected static final String[] RESPONSE_LIBRARIES = { LIBRARY_PROMISE_KIT, LIBRARY_RX_SWIFT };
-    protected String projectName = "SwaggerClient";
+    protected String projectName = "OpenAPIClient";
     protected boolean unwrapRequired;
     protected boolean swiftUseApiNamespace;
     protected String[] responseAs = new String[0];

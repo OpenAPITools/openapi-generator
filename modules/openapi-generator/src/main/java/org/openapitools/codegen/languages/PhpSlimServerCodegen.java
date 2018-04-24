@@ -22,8 +22,8 @@ import java.util.regex.Matcher;
 public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage;
     protected String srcBasePath = "lib";
-    protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-server";
+    protected String groupId = "org.openapitools";
+    protected String artifactId = "openapi-server";
     protected String artifactVersion = "1.0.0";
     protected String packagePath = ""; // empty packagePath (top folder)
 

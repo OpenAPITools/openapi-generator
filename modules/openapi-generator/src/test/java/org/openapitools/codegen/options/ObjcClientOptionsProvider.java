@@ -13,8 +13,8 @@ public class ObjcClientOptionsProvider implements OptionsProvider {
     public static final String POD_NAME_VALUE = "SwaggerClientObjc";
     public static final String POD_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String AUTHOR_NAME_VALUE = "SwaggerObjc";
-    public static final String AUTHOR_EMAIL_VALUE = "objc@swagger.io";
-    public static final String GIT_REPO_URL_VALUE = "https://github.com/swagger-api/swagger-codegen";
+    public static final String AUTHOR_EMAIL_VALUE = "objc@openapitools.org";
+    public static final String GIT_REPO_URL_VALUE = "https://github.com/openapitools/openapi-generator";
 
     @Override
     public String getLanguage() {

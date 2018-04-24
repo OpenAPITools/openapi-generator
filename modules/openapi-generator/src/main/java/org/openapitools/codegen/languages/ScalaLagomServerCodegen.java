@@ -9,7 +9,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
     private String authScheme = "";
     private boolean authPreemptive = false;
-    protected String groupId = "io.swagger";
+    protected String groupId = "org.openapitools";
     protected String artifactId = "scala-lagom-server";
     protected String artifactVersion = "1.0.0";
 

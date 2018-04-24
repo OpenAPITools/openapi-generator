@@ -31,7 +31,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     public static final String SERVER_PORT = "serverPort";
 
     protected String apiVersion = "1.0.0";
-    protected String projectName = "swagger-server";
+    protected String projectName = "openapi-server";
     protected String defaultServerPort = "8080";
 
     protected boolean googleCloudFunctions;

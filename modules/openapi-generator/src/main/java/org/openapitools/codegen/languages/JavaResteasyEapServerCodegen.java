@@ -25,7 +25,7 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         super();
 
-        artifactId = "swagger-jaxrs-resteasy-eap-server";
+        artifactId = "openapi-jaxrs-resteasy-eap-server";
 
         outputFolder = "generated-code/JavaJaxRS-Resteasy-eap";
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");

@@ -45,7 +45,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
         sourceFolder = "src/gen/java";
         invokerPackage = "org.openapitools.api";
-        artifactId = "swagger-jaxrs-client";
+        artifactId = "openapi-jaxrs-client";
         dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
 
         apiPackage = "org.openapitools.api";

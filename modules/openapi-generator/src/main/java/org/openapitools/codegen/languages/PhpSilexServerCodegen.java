@@ -23,8 +23,8 @@ import org.apache.commons.lang3.StringUtils;
 
 public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage;
-    protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-server";
+    protected String groupId = "org.openapitools";
+    protected String artifactId = "openapi-server";
     protected String artifactVersion = "1.0.0";
 
     public PhpSilexServerCodegen() {

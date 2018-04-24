@@ -4,8 +4,11 @@ import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.openapitools.codegen.CliOption;
+
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
@@ -15,11 +18,6 @@ import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +36,7 @@ import java.util.Map;
 public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String mainPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-client";
+    protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
     protected String resourcesFolder = "src/main/resources";
     protected String configKey = "apiRequest";

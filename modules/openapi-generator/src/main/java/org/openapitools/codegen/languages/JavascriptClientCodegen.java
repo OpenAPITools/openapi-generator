@@ -284,7 +284,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // default values
         if (StringUtils.isBlank(projectName)) {
-            projectName = "swagger-js-client";
+            projectName = "openapi-js-client";
         }
         if (StringUtils.isBlank(moduleName)) {
             moduleName = camelize(underscore(projectName));

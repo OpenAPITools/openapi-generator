@@ -44,7 +44,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String libFolder = "lib";
     protected String gemLicense = "proprietary";
     protected String gemRequiredRubyVersion = ">= 1.9";
-    protected String gemHomepage = "http://swagger.io";
+    protected String gemHomepage = "http://org.openapitools";
     protected String gemSummary = "A ruby wrapper for the swagger APIs";
     protected String gemDescription = "This gem maps to a swagger API";
     protected String gemAuthor = "";
@@ -152,7 +152,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
                 defaultValue(">= 1.9"));
 
         cliOptions.add(new CliOption(GEM_HOMEPAGE, "gem homepage. ").
-                defaultValue("http://swagger.io"));
+                defaultValue("http://org.openapitools"));
 
         cliOptions.add(new CliOption(GEM_SUMMARY, "gem summary. ").
                 defaultValue("A ruby wrapper for the swagger APIs"));

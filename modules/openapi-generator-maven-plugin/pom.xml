@@ -10,7 +10,7 @@
     <artifactId>openapi-generator-maven-plugin</artifactId>
     <name>openapi-generator (maven-plugin)</name>
     <packaging>maven-plugin</packaging>
-    <description>maven plugin to build modules from openapi generator</description>
+    <description>maven plugin to build modules from OpenAPI Generator</description>
     <prerequisites>
         <maven>3.2.5</maven>
     </prerequisites>

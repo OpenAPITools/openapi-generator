@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.client";
-    protected String groupId = "io.swagger";
+    protected String groupId = "org.openapitools";
     protected String artifactId = "finch-server";
     protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "src/main/scala";
@@ -106,10 +106,10 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
 
         additionalProperties.put("modelPackage", modelPackage());
         additionalProperties.put("apiPackage", apiPackage());
-        additionalProperties.put("appName", "Swagger Sample");
-        additionalProperties.put("appDescription", "A sample swagger server");
-        additionalProperties.put("infoUrl", "http://swagger.io");
-        additionalProperties.put("infoEmail", "apiteam@swagger.io");
+        additionalProperties.put("appName", "OpenAPI Sample");
+        additionalProperties.put("appDescription", "A sample openapi server");
+        additionalProperties.put("infoUrl", "http://org.openapitools");
+        additionalProperties.put("infoEmail", "team@openapitools.org");
         additionalProperties.put("licenseInfo", "Apache 2.0");
         additionalProperties.put("licenseUrl", "http://apache.org/licenses/LICENSE-2.0.html");
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);

@@ -26,7 +26,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     public static final String WRAP_CALLS = "wrapCalls";
     public static final String USE_SWAGGER_UI = "useSwaggerUI";
 
-    protected String title = "swagger-petstore";
+    protected String title = "openapi-java-playframework";
     protected String configPackage = "io.swagger.configuration";
     protected String basePackage = "io.swagger";
     protected boolean controllerOnly = false;
@@ -44,7 +44,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         apiPackage = "controllers";
         modelPackage = "apimodels";
         invokerPackage = "io.swagger.api";
-        artifactId = "swagger-java-playframework";
+        artifactId = "openapi-java-playframework";
 
         projectFolder = "";
         sourceFolder = projectFolder + File.separator + "app";

@@ -1,12 +1,16 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
-
-import org.apache.commons.lang3.StringUtils;
 
 public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String authScheme = "";
@@ -14,7 +18,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
     protected boolean authPreemptive;
     protected boolean asyncHttpClient = !authScheme.isEmpty();
     protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-scala-client";
+    protected String artifactId = "openapi-scala-client";
     protected String artifactVersion = "1.0.0";
     protected String clientName = "AsyncClient";
 

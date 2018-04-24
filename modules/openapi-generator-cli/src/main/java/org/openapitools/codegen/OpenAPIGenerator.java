@@ -12,7 +12,7 @@ import org.openapitools.codegen.cmd.Version;
 /**
  * User: lanwen Date: 24.03.15 Time: 17:56
  * <p>
- * Command line interface for openapi generator use `openapi-generator-cli.jar help` for more info
+ * Command line interface for OpenAPI Generator use `openapi-generator-cli.jar help` for more info
  *
  * @since 2.1.3-M1
  */

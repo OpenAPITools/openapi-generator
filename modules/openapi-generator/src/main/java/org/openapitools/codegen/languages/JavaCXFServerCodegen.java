@@ -1,18 +1,22 @@
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
+import io.swagger.v3.oas.models.Operation;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
 import org.openapitools.codegen.languages.features.LoggingTestFeatures;
 import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
-import io.swagger.v3.oas.models.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         implements CXFServerFeatures, GzipTestFeatures, LoggingTestFeatures, UseGenericResponseFeatures {
@@ -57,7 +61,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         supportsInheritance = true;
 
-        artifactId = "swagger-cxf-server";
+        artifactId = "openapi-cxf-server";
 
         outputFolder = "generated-code/JavaJaxRS-CXF";
 
@@ -167,7 +171,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         writeOptional(outputFolder, new SupportingFile("server/pom.mustache", "", "pom.xml"));
 
         writeOptional(outputFolder,
-                new SupportingFile("server/swagger-codegen-ignore.mustache", "", ".openapi-generator-ignore"));
+                new SupportingFile("server/openapi-generator-ignore.mustache", "", ".openapi-generator-ignore"));
 
         if (this.generateSpringApplication) {
             writeOptional(outputFolder, new SupportingFile("server/readme.md", "", "readme.md"));
