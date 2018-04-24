@@ -1,41 +1,19 @@
 package org.openapitools.codegen;
 
-import java.io.File;
-import java.util.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.samskivert.mustache.Mustache.Compiler;
 
-import io.swagger.models.Model;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.BinarySchema;
-import io.swagger.v3.oas.models.media.BooleanSchema;
-import io.swagger.v3.oas.models.media.ByteArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.DateSchema;
-import io.swagger.v3.oas.models.media.DateTimeSchema;
-import io.swagger.v3.oas.models.media.EmailSchema;
-import io.swagger.v3.oas.models.media.FileSchema;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.NumberSchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-import io.swagger.v3.oas.models.media.UUIDSchema;
 import io.swagger.v3.oas.models.parameters.CookieParameter;
 import io.swagger.v3.oas.models.parameters.HeaderParameter;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -52,12 +30,28 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.utils.ModelUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class DefaultCodegen implements CodegenConfig {
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
@@ -2502,6 +2496,10 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (parameter.getSchema() != null) {
             Schema parameterSchema = parameter.getSchema();
+            if (parameterSchema == null) {
+                LOGGER.warn("warning!  Schema not found for parameter \"" + parameter.getName() + "\", using String");
+                parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
+            }
             // set default value
             if (parameterSchema.getDefault() != null) {
                 codegenParameter.defaultValue = String.valueOf(parameterSchema.getDefault());
@@ -2518,6 +2516,8 @@ public class DefaultCodegen implements CodegenConfig {
                 }
 
                 collectionFormat = getCollectionFormat(parameter);
+                // default to csv:
+                collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
                 CodegenProperty codegenProperty = fromProperty("inner", inner);
                 codegenParameter.items = codegenProperty;
                 codegenParameter.baseType = codegenProperty.datatype;
@@ -2537,7 +2537,6 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.baseType = codegenProperty.datatype;
                 codegenParameter.isContainer = true;
                 codegenParameter.isMapContainer = true;
-                collectionFormat = getCollectionFormat(parameter);
 
                 // recursively add import
                 while (codegenProperty != null) {
@@ -2553,10 +2552,6 @@ public class DefaultCodegen implements CodegenConfig {
                 property = PropertyBuilder.build(type, format, args);
             }
 */
-            if (parameterSchema == null) {
-                LOGGER.warn("warning!  Schema not found for parameter \"" + parameter.getName() + "\", using String");
-                parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
-            }
 
             CodegenProperty codegenProperty = fromProperty(parameter.getName(), parameterSchema);
             // TODO revise below which seems not working
@@ -2595,8 +2590,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.items = codegenProperty.items;
             }
 
-            // default to csv
-            codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
+            codegenParameter.collectionFormat = collectionFormat;
             if ("multi".equals(collectionFormat)) {
                 codegenParameter.isCollectionFormatMulti = true;
             }
