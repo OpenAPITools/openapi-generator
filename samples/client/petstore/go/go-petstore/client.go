@@ -29,7 +29,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"golang.org/x/net/context"
+	"context"
 	"golang.org/x/oauth2"
 )
 
@@ -315,6 +315,21 @@ func (c *APIClient) prepareRequest(
 	return localVarRequest, nil
 }
 
+func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err error) {
+		if strings.Contains(contentType, "application/xml") {
+			if err = xml.Unmarshal(b, v); err != nil {
+				return err
+			}
+			return nil
+		} else if strings.Contains(contentType, "application/json") {
+			if err = json.Unmarshal(b, v); err != nil {
+				return err
+			}
+			return nil
+		}
+	return errors.New("undefined response type")
+}
+
 // Add a file to the multipart request
 func addFile(w *multipart.Writer, fieldName, path string) error {
 	file, err := os.Open(path)
@@ -349,6 +364,8 @@ func setBody(body interface{}, contentType string) (bodyBuf *bytes.Buffer, err e
 		_, err = bodyBuf.Write(b)
 	} else if s, ok := body.(string); ok {
 		_, err = bodyBuf.WriteString(s)
+	} else if s, ok := body.(*string); ok {
+		_, err = bodyBuf.WriteString(*s)
 	} else if jsonCheck.MatchString(contentType) {
 		err = json.NewEncoder(bodyBuf).Encode(body)
 	} else if xmlCheck.MatchString(contentType) {
@@ -438,4 +455,26 @@ func CacheExpires(r *http.Response) time.Time {
 
 func strlen(s string) int {
 	return utf8.RuneCountInString(s)
+}
+
+// GenericSwaggerError Provides access to the body, error and model on returned errors.
+type GenericSwaggerError struct {
+	body  []byte
+	error string
+	model interface{}
+}
+
+// Error returns non-empty string if there was an error.
+func (e GenericSwaggerError) Error() string {
+	return e.error
+}
+
+// Body returns the raw bytes of the response
+func (e GenericSwaggerError) Body() []byte {
+	return e.body
+}
+
+// Model returns the unpacked model of the error
+func (e GenericSwaggerError) Model() interface{} {
+	return e.model
 }

@@ -16,15 +16,10 @@ import (
 
 type Order struct {
 	Id int64 `json:"id,omitempty" xml:"id"`
-
 	PetId int64 `json:"petId,omitempty" xml:"petId"`
-
 	Quantity int32 `json:"quantity,omitempty" xml:"quantity"`
-
 	ShipDate time.Time `json:"shipDate,omitempty" xml:"shipDate"`
-
 	// Order Status
 	Status string `json:"status,omitempty" xml:"status"`
-
 	Complete bool `json:"complete,omitempty" xml:"complete"`
 }

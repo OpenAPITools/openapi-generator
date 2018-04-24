@@ -15,11 +15,10 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-	"golang.org/x/net/context"
-	"os"
-	"encoding/json"
-	"encoding/xml"
+	"context"
 	"fmt"
+	"github.com/antihax/optional"
+	"os"
 )
 
 // Linger please
@@ -29,17 +28,20 @@ var (
 
 type PetApiService service
 
-/* PetApiService Add a new pet to the store
+/* 
+PetApiService Add a new pet to the store
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param pet Pet object that needs to be added to the store
 
- * @param ctx context.Context for authentication, logging, tracing, etc.
-@param body Pet object that needs to be added to the store
-@return */
-func (a *PetApiService) AddPet(ctx context.Context, body Pet) (*http.Response, error) {
+
+*/
+func (a *PetApiService) AddPet(ctx context.Context, pet Pet) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
+		
 	)
 
 	// create path and map variables
@@ -59,7 +61,7 @@ func (a *PetApiService) AddPet(ctx context.Context, body Pet) (*http.Response, e
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
+	localVarHttpHeaderAccepts := []string{}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -67,7 +69,7 @@ func (a *PetApiService) AddPet(ctx context.Context, body Pet) (*http.Response, e
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &body
+	localVarPostBody = &pet
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -77,27 +79,47 @@ func (a *PetApiService) AddPet(ctx context.Context, body Pet) (*http.Response, e
 	if err != nil || localVarHttpResponse == nil {
 		return localVarHttpResponse, err
 	}
-	defer localVarHttpResponse.Body.Close()
-	if localVarHttpResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHttpResponse.Body)
-		return localVarHttpResponse, reportError("Status: %v, Body: %s", localVarHttpResponse.Status, bodyBytes)
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarHttpResponse, err
 	}
-	return localVarHttpResponse, err
+
+
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericSwaggerError{
+			body: localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		
+		return localVarHttpResponse, newErr
+	}
+
+	return localVarHttpResponse, nil
 }
 
-/* PetApiService Deletes a pet
+/* 
+PetApiService Deletes a pet
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param petId Pet id to delete
+ * @param optional nil or *DeletePetOpts - Optional Parameters:
+     * @param "ApiKey" (optional.String) - 
 
- * @param ctx context.Context for authentication, logging, tracing, etc.
-@param petId Pet id to delete
-@param optional (nil or map[string]interface{}) with one or more of:
-    @param "apiKey" (string)
-@return */
-func (a *PetApiService) DeletePet(ctx context.Context, petId int64, localVarOptionals map[string]interface{}) (*http.Response, error) {
+
+*/
+
+type DeletePetOpts struct { 
+	ApiKey optional.String
+}
+
+func (a *PetApiService) DeletePet(ctx context.Context, petId int64, localVarOptionals *DeletePetOpts) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
+		
 	)
 
 	// create path and map variables
@@ -107,9 +129,6 @@ func (a *PetApiService) DeletePet(ctx context.Context, petId int64, localVarOpti
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if err := typeCheckParameter(localVarOptionals["apiKey"], "string", "apiKey"); err != nil {
-		return nil, err
-	}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -121,15 +140,15 @@ func (a *PetApiService) DeletePet(ctx context.Context, petId int64, localVarOpti
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
+	localVarHttpHeaderAccepts := []string{}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	if localVarTempParam, localVarOk := localVarOptionals["apiKey"].(string); localVarOk {
-		localVarHeaderParams["api_key"] = parameterToString(localVarTempParam, "")
+	if localVarOptionals != nil && localVarOptionals.ApiKey.IsSet() {
+		localVarHeaderParams["api_key"] = parameterToString(localVarOptionals.ApiKey.Value(), "csv")
 	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
@@ -140,26 +159,41 @@ func (a *PetApiService) DeletePet(ctx context.Context, petId int64, localVarOpti
 	if err != nil || localVarHttpResponse == nil {
 		return localVarHttpResponse, err
 	}
-	defer localVarHttpResponse.Body.Close()
-	if localVarHttpResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHttpResponse.Body)
-		return localVarHttpResponse, reportError("Status: %v, Body: %s", localVarHttpResponse.Status, bodyBytes)
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarHttpResponse, err
 	}
-	return localVarHttpResponse, err
+
+
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericSwaggerError{
+			body: localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		
+		return localVarHttpResponse, newErr
+	}
+
+	return localVarHttpResponse, nil
 }
 
-/* PetApiService Finds Pets by status
+/* 
+PetApiService Finds Pets by status
 Multiple status values can be provided with comma separated strings
- * @param ctx context.Context for authentication, logging, tracing, etc.
-@param status Status values that need to be considered for filter
-@return []Pet*/
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param status Status values that need to be considered for filter
+
+@return []Pet
+*/
 func (a *PetApiService) FindPetsByStatus(ctx context.Context, status []string) ([]Pet, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		successPayload     []Pet
+		localVarReturnValue []Pet
 	)
 
 	// create path and map variables
@@ -189,46 +223,66 @@ func (a *PetApiService) FindPetsByStatus(ctx context.Context, status []string) (
 	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return successPayload, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHttpResponse, err := a.client.callAPI(r)
 	if err != nil || localVarHttpResponse == nil {
-		return successPayload, localVarHttpResponse, err
+		return localVarReturnValue, localVarHttpResponse, err
 	}
-	defer localVarHttpResponse.Body.Close()
-	if localVarHttpResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHttpResponse.Body)
-		return successPayload, localVarHttpResponse, reportError("Status: %v, Body: %s", localVarHttpResponse.Status, bodyBytes)
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarReturnValue, localVarHttpResponse, err
 	}
-	contentType := localVarHttpResponse.Header.Get("content-type")
-	if strings.Contains(contentType, "application/xml") {
-		if err = xml.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
-			return successPayload, localVarHttpResponse, err
+
+	if localVarHttpResponse.StatusCode < 300 {
+		// If we succeed, return the data, otherwise pass on to decode error.
+		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+		if err == nil { 
+			return localVarReturnValue, localVarHttpResponse, err
 		}
-
-		return successPayload, localVarHttpResponse, err
 	}
 
-	if err = json.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
-		return successPayload, localVarHttpResponse, err
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericSwaggerError{
+			body: localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		
+		if localVarHttpResponse.StatusCode == 200 {
+			var v []Pet
+			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+				if err != nil {
+					newErr.error = err.Error()
+					return localVarReturnValue, localVarHttpResponse, newErr
+				}
+				newErr.model = v
+				return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		
+		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
-	return successPayload, localVarHttpResponse, err
+	return localVarReturnValue, localVarHttpResponse, nil
 }
 
-/* PetApiService Finds Pets by tags
+/* 
+PetApiService Finds Pets by tags
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
- * @param ctx context.Context for authentication, logging, tracing, etc.
-@param tags Tags to filter by
-@return []Pet*/
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param tags Tags to filter by
+
+@return []Pet
+*/
 func (a *PetApiService) FindPetsByTags(ctx context.Context, tags []string) ([]Pet, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		successPayload     []Pet
+		localVarReturnValue []Pet
 	)
 
 	// create path and map variables
@@ -258,46 +312,66 @@ func (a *PetApiService) FindPetsByTags(ctx context.Context, tags []string) ([]Pe
 	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return successPayload, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHttpResponse, err := a.client.callAPI(r)
 	if err != nil || localVarHttpResponse == nil {
-		return successPayload, localVarHttpResponse, err
+		return localVarReturnValue, localVarHttpResponse, err
 	}
-	defer localVarHttpResponse.Body.Close()
-	if localVarHttpResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHttpResponse.Body)
-		return successPayload, localVarHttpResponse, reportError("Status: %v, Body: %s", localVarHttpResponse.Status, bodyBytes)
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarReturnValue, localVarHttpResponse, err
 	}
-	contentType := localVarHttpResponse.Header.Get("content-type")
-	if strings.Contains(contentType, "application/xml") {
-		if err = xml.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
-			return successPayload, localVarHttpResponse, err
+
+	if localVarHttpResponse.StatusCode < 300 {
+		// If we succeed, return the data, otherwise pass on to decode error.
+		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+		if err == nil { 
+			return localVarReturnValue, localVarHttpResponse, err
 		}
-
-		return successPayload, localVarHttpResponse, err
 	}
 
-	if err = json.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
-		return successPayload, localVarHttpResponse, err
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericSwaggerError{
+			body: localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		
+		if localVarHttpResponse.StatusCode == 200 {
+			var v []Pet
+			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+				if err != nil {
+					newErr.error = err.Error()
+					return localVarReturnValue, localVarHttpResponse, newErr
+				}
+				newErr.model = v
+				return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		
+		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
-	return successPayload, localVarHttpResponse, err
+	return localVarReturnValue, localVarHttpResponse, nil
 }
 
-/* PetApiService Find pet by ID
+/* 
+PetApiService Find pet by ID
 Returns a single pet
- * @param ctx context.Context for authentication, logging, tracing, etc.
-@param petId ID of pet to return
-@return Pet*/
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param petId ID of pet to return
+
+@return Pet
+*/
 func (a *PetApiService) GetPetById(ctx context.Context, petId int64) (Pet, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		successPayload     Pet
+		localVarReturnValue Pet
 	)
 
 	// create path and map variables
@@ -335,49 +409,70 @@ func (a *PetApiService) GetPetById(ctx context.Context, petId int64) (Pet, *http
 				key = auth.Key
 			}
 			localVarHeaderParams["api_key"] = key
+			
 		}
 	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return successPayload, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHttpResponse, err := a.client.callAPI(r)
 	if err != nil || localVarHttpResponse == nil {
-		return successPayload, localVarHttpResponse, err
+		return localVarReturnValue, localVarHttpResponse, err
 	}
-	defer localVarHttpResponse.Body.Close()
-	if localVarHttpResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHttpResponse.Body)
-		return successPayload, localVarHttpResponse, reportError("Status: %v, Body: %s", localVarHttpResponse.Status, bodyBytes)
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarReturnValue, localVarHttpResponse, err
 	}
-	contentType := localVarHttpResponse.Header.Get("content-type")
-	if strings.Contains(contentType, "application/xml") {
-		if err = xml.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
-			return successPayload, localVarHttpResponse, err
+
+	if localVarHttpResponse.StatusCode < 300 {
+		// If we succeed, return the data, otherwise pass on to decode error.
+		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+		if err == nil { 
+			return localVarReturnValue, localVarHttpResponse, err
 		}
-
-		return successPayload, localVarHttpResponse, err
 	}
 
-	if err = json.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
-		return successPayload, localVarHttpResponse, err
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericSwaggerError{
+			body: localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		
+		if localVarHttpResponse.StatusCode == 200 {
+			var v Pet
+			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+				if err != nil {
+					newErr.error = err.Error()
+					return localVarReturnValue, localVarHttpResponse, newErr
+				}
+				newErr.model = v
+				return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		
+		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
-	return successPayload, localVarHttpResponse, err
+	return localVarReturnValue, localVarHttpResponse, nil
 }
 
-/* PetApiService Update an existing pet
+/* 
+PetApiService Update an existing pet
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param pet Pet object that needs to be added to the store
 
- * @param ctx context.Context for authentication, logging, tracing, etc.
-@param body Pet object that needs to be added to the store
-@return */
-func (a *PetApiService) UpdatePet(ctx context.Context, body Pet) (*http.Response, error) {
+
+*/
+func (a *PetApiService) UpdatePet(ctx context.Context, pet Pet) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
+		
 	)
 
 	// create path and map variables
@@ -397,7 +492,7 @@ func (a *PetApiService) UpdatePet(ctx context.Context, body Pet) (*http.Response
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
+	localVarHttpHeaderAccepts := []string{}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -405,7 +500,7 @@ func (a *PetApiService) UpdatePet(ctx context.Context, body Pet) (*http.Response
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &body
+	localVarPostBody = &pet
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -415,28 +510,49 @@ func (a *PetApiService) UpdatePet(ctx context.Context, body Pet) (*http.Response
 	if err != nil || localVarHttpResponse == nil {
 		return localVarHttpResponse, err
 	}
-	defer localVarHttpResponse.Body.Close()
-	if localVarHttpResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHttpResponse.Body)
-		return localVarHttpResponse, reportError("Status: %v, Body: %s", localVarHttpResponse.Status, bodyBytes)
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarHttpResponse, err
 	}
-	return localVarHttpResponse, err
+
+
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericSwaggerError{
+			body: localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		
+		return localVarHttpResponse, newErr
+	}
+
+	return localVarHttpResponse, nil
 }
 
-/* PetApiService Updates a pet in the store with form data
+/* 
+PetApiService Updates a pet in the store with form data
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param petId ID of pet that needs to be updated
+ * @param optional nil or *UpdatePetWithFormOpts - Optional Parameters:
+     * @param "" (optional.String) -  Updated name of the pet
+     * @param "" (optional.String) -  Updated status of the pet
 
- * @param ctx context.Context for authentication, logging, tracing, etc.
-@param petId ID of pet that needs to be updated
-@param optional (nil or map[string]interface{}) with one or more of:
-    @param "name" (string) Updated name of the pet
-    @param "status" (string) Updated status of the pet
-@return */
-func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, localVarOptionals map[string]interface{}) (*http.Response, error) {
+
+*/
+
+type UpdatePetWithFormOpts struct { 
+	 optional.String
+	 optional.String
+}
+
+func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, localVarOptionals *UpdatePetWithFormOpts) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
+		
 	)
 
 	// create path and map variables
@@ -446,12 +562,6 @@ func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, loca
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if err := typeCheckParameter(localVarOptionals["name"], "string", "name"); err != nil {
-		return nil, err
-	}
-	if err := typeCheckParameter(localVarOptionals["status"], "string", "status"); err != nil {
-		return nil, err
-	}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{"application/x-www-form-urlencoded"}
@@ -463,18 +573,18 @@ func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, loca
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
+	localVarHttpHeaderAccepts := []string{}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	if localVarTempParam, localVarOk := localVarOptionals["name"].(string); localVarOk {
-		localVarFormParams.Add("name", parameterToString(localVarTempParam, ""))
+	if localVarOptionals != nil && localVarOptionals..IsSet() {
+		localVarFormParams.Add("name", parameterToString(localVarOptionals..Value(), ""))
 	}
-	if localVarTempParam, localVarOk := localVarOptionals["status"].(string); localVarOk {
-		localVarFormParams.Add("status", parameterToString(localVarTempParam, ""))
+	if localVarOptionals != nil && localVarOptionals..IsSet() {
+		localVarFormParams.Add("status", parameterToString(localVarOptionals..Value(), ""))
 	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
@@ -485,29 +595,49 @@ func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, loca
 	if err != nil || localVarHttpResponse == nil {
 		return localVarHttpResponse, err
 	}
-	defer localVarHttpResponse.Body.Close()
-	if localVarHttpResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHttpResponse.Body)
-		return localVarHttpResponse, reportError("Status: %v, Body: %s", localVarHttpResponse.Status, bodyBytes)
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarHttpResponse, err
 	}
-	return localVarHttpResponse, err
+
+
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericSwaggerError{
+			body: localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		
+		return localVarHttpResponse, newErr
+	}
+
+	return localVarHttpResponse, nil
 }
 
-/* PetApiService uploads an image
+/* 
+PetApiService uploads an image
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param petId ID of pet to update
+ * @param optional nil or *UploadFileOpts - Optional Parameters:
+     * @param "" (optional.String) -  Additional data to pass to server
+     * @param "" (optional.*os.File) -  file to upload
 
- * @param ctx context.Context for authentication, logging, tracing, etc.
-@param petId ID of pet to update
-@param optional (nil or map[string]interface{}) with one or more of:
-    @param "additionalMetadata" (string) Additional data to pass to server
-    @param "file" (*os.File) file to upload
-@return ModelApiResponse*/
-func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOptionals map[string]interface{}) (ModelApiResponse, *http.Response, error) {
+@return ModelApiResponse
+*/
+
+type UploadFileOpts struct { 
+	 optional.String
+	 optional.*os.File
+}
+
+func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOptionals *UploadFileOpts) (ModelApiResponse, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		successPayload     ModelApiResponse
+		localVarReturnValue ModelApiResponse
 	)
 
 	// create path and map variables
@@ -517,9 +647,6 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if err := typeCheckParameter(localVarOptionals["additionalMetadata"], "string", "additionalMetadata"); err != nil {
-		return successPayload, nil, err
-	}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{"multipart/form-data"}
@@ -538,12 +665,16 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	if localVarTempParam, localVarOk := localVarOptionals["additionalMetadata"].(string); localVarOk {
-		localVarFormParams.Add("additionalMetadata", parameterToString(localVarTempParam, ""))
+	if localVarOptionals != nil && localVarOptionals..IsSet() {
+		localVarFormParams.Add("additionalMetadata", parameterToString(localVarOptionals..Value(), ""))
 	}
-	var localVarFile (*os.File)
-	if localVarTempParam, localVarOk := localVarOptionals["file"].(*os.File); localVarOk {
-		localVarFile = localVarTempParam
+	var localVarFile *os.File
+	if localVarOptionals != nil && localVarOptionals..IsSet() {
+		localVarFileOk := false
+		localVarFile, localVarFileOk = localVarOptionals..Value().(*os.File)
+		if !localVarFileOk {
+				return localVarReturnValue, nil, reportError("file should be *os.File")
+		}
 	}
 	if localVarFile != nil {
 		fbs, _ := ioutil.ReadAll(localVarFile)
@@ -553,30 +684,47 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return successPayload, nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHttpResponse, err := a.client.callAPI(r)
 	if err != nil || localVarHttpResponse == nil {
-		return successPayload, localVarHttpResponse, err
+		return localVarReturnValue, localVarHttpResponse, err
 	}
-	defer localVarHttpResponse.Body.Close()
-	if localVarHttpResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHttpResponse.Body)
-		return successPayload, localVarHttpResponse, reportError("Status: %v, Body: %s", localVarHttpResponse.Status, bodyBytes)
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarReturnValue, localVarHttpResponse, err
 	}
-	contentType := localVarHttpResponse.Header.Get("content-type")
-	if strings.Contains(contentType, "application/xml") {
-		if err = xml.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
-			return successPayload, localVarHttpResponse, err
+
+	if localVarHttpResponse.StatusCode < 300 {
+		// If we succeed, return the data, otherwise pass on to decode error.
+		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+		if err == nil { 
+			return localVarReturnValue, localVarHttpResponse, err
 		}
-
-		return successPayload, localVarHttpResponse, err
 	}
 
-	if err = json.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
-		return successPayload, localVarHttpResponse, err
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericSwaggerError{
+			body: localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		
+		if localVarHttpResponse.StatusCode == 200 {
+			var v ModelApiResponse
+			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+				if err != nil {
+					newErr.error = err.Error()
+					return localVarReturnValue, localVarHttpResponse, newErr
+				}
+				newErr.model = v
+				return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		
+		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
-	return successPayload, localVarHttpResponse, err
+	return localVarReturnValue, localVarHttpResponse, nil
 }

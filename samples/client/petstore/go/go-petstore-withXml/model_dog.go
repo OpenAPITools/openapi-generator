@@ -12,8 +12,6 @@ package petstore
 
 type Dog struct {
 	ClassName string `json:"className" xml:"className"`
-
 	Color string `json:"color,omitempty" xml:"color"`
-
 	Breed string `json:"breed,omitempty" xml:"breed"`
 }

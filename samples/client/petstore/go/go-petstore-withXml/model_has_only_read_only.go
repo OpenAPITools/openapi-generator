@@ -12,6 +12,5 @@ package petstore
 
 type HasOnlyReadOnly struct {
 	Bar string `json:"bar,omitempty" xml:"bar"`
-
 	Foo string `json:"foo,omitempty" xml:"foo"`
 }

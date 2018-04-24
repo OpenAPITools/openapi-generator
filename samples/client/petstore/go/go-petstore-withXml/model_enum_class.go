@@ -15,8 +15,6 @@ type EnumClass string
 // List of EnumClass
 const (
 	ABC EnumClass = "_abc"
-
 	EFG EnumClass = "-efg"
-
 	XYZ EnumClass = "(xyz)"
 )

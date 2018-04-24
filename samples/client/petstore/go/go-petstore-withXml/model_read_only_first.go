@@ -12,6 +12,5 @@ package petstore
 
 type ReadOnlyFirst struct {
 	Bar string `json:"bar,omitempty" xml:"bar"`
-
 	Baz string `json:"baz,omitempty" xml:"baz"`
 }

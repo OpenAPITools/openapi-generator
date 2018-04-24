@@ -12,19 +12,12 @@ package petstore
 
 type User struct {
 	Id int64 `json:"id,omitempty" xml:"id"`
-
 	Username string `json:"username,omitempty" xml:"username"`
-
 	FirstName string `json:"firstName,omitempty" xml:"firstName"`
-
 	LastName string `json:"lastName,omitempty" xml:"lastName"`
-
 	Email string `json:"email,omitempty" xml:"email"`
-
 	Password string `json:"password,omitempty" xml:"password"`
-
 	Phone string `json:"phone,omitempty" xml:"phone"`
-
 	// User Status
 	UserStatus int32 `json:"userStatus,omitempty" xml:"userStatus"`
 }

@@ -8,15 +8,17 @@ Method | HTTP request | Description
 
 
 # **TestClassname**
-> Client TestClassname(ctx, body)
+> Client TestClassname(ctx, client)
+To test class name in snake case
+
 To test class name in snake case
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
-  **body** | [**Client**](Client.md)| client model | 
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **client** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

@@ -12,8 +12,6 @@ package petstore
 
 type OuterComposite struct {
 	MyNumber *OuterNumber `json:"my_number,omitempty" xml:"my_number"`
-
 	MyString *OuterString `json:"my_string,omitempty" xml:"my_string"`
-
 	MyBoolean *OuterBoolean `json:"my_boolean,omitempty" xml:"my_boolean"`
 }
