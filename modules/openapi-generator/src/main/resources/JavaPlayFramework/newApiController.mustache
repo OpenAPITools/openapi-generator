@@ -69,12 +69,12 @@ public class {{classname}}Controller extends Controller {
             {{#useBeanValidation}}
             if (configuration.getBoolean("useInputBeanValidation")) {
                 {{#isListContainer}}
-                for ({{{baseType}}} curItem : {{paramName}}) {
+                for ({{{items.baseType}}} curItem : {{paramName}}) {
                     SwaggerUtils.validate(curItem);
                 }
                 {{/isListContainer}}
                 {{#isMapContainer}}
-                for (Map.Entry<String, {{{baseType}}}> entry : {{paramName}}.entrySet()) {
+                for (Map.Entry<String, {{{items.baseType}}}> entry : {{paramName}}.entrySet()) {
                     SwaggerUtils.validate(entry.getValue());
                 }
                 {{/isMapContainer}}

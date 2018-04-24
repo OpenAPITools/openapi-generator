@@ -39,17 +39,17 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result addPet() throws Exception {
-        JsonNode nodebody = request().body().asJson();
-        Pet body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), Pet.class);
+        JsonNode nodepet = request().body().asJson();
+        Pet pet;
+        if (nodepet != null) {
+            pet = mapper.readValue(nodepet.toString(), Pet.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(body);
+                SwaggerUtils.validate(pet);
             }
         } else {
-            throw new IllegalArgumentException("'body' parameter is required");
+            throw new IllegalArgumentException("'Pet' parameter is required");
         }
-        imp.addPet(body);
+        imp.addPet(pet);
         return ok();
     }
 
@@ -126,17 +126,17 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result updatePet() throws Exception {
-        JsonNode nodebody = request().body().asJson();
-        Pet body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), Pet.class);
+        JsonNode nodepet = request().body().asJson();
+        Pet pet;
+        if (nodepet != null) {
+            pet = mapper.readValue(nodepet.toString(), Pet.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(body);
+                SwaggerUtils.validate(pet);
             }
         } else {
-            throw new IllegalArgumentException("'body' parameter is required");
+            throw new IllegalArgumentException("'Pet' parameter is required");
         }
-        imp.updatePet(body);
+        imp.updatePet(pet);
         return ok();
     }
 
