@@ -3,17 +3,33 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
-import org.openapitools.codegen.*;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenSecurity;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.utils.URLPathUtils;
-import io.swagger.v3.oas.models.*;
 
-import java.net.URL;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.*;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 public class SpringCodegen extends AbstractJavaCodegen
@@ -35,8 +51,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SWAGGER_DOCKET_CONFIG = "swaggerDocketConfig";
 
     protected String title = "OpenAPI Spring";
-    protected String configPackage = "io.swagger.configuration";
-    protected String basePackage = "io.swagger";
+    protected String configPackage = "org.openapitools.configuration";
+    protected String basePackage = "org.openapitools";
     protected boolean interfaceOnly = false;
     protected boolean delegatePattern = false;
     protected boolean delegateMethod = false;
@@ -55,9 +71,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         outputFolder = "generated-code/javaSpring";
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaSpring";
-        apiPackage = "io.swagger.api";
-        modelPackage = "io.swagger.model";
-        invokerPackage = "io.swagger.api";
+        apiPackage = "org.openapitools.api";
+        modelPackage = "org.openapitools.model";
+        invokerPackage = "org.openapitools.api";
         artifactId = "openapi-spring";
 
         additionalProperties.put(CONFIG_PACKAGE, configPackage);
