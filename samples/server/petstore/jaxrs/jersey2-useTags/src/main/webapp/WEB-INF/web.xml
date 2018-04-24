@@ -11,7 +11,7 @@
             <param-value>
                 io.swagger.jaxrs.listing,
                 io.swagger.sample.resource,
-                io.swagger.api
+                org.openapitools.api
             </param-value>
         </init-param>
         <init-param>
@@ -45,7 +45,7 @@
     </servlet>
     <servlet>
         <servlet-name>Bootstrap</servlet-name>
-        <servlet-class>io.swagger.api.Bootstrap</servlet-class>
+        <servlet-class>org.openapitools.api.Bootstrap</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -54,7 +54,7 @@
     </servlet-mapping>
     <filter>
         <filter-name>ApiOriginFilter</filter-name>
-        <filter-class>io.swagger.api.ApiOriginFilter</filter-class>
+        <filter-class>org.openapitools.api.ApiOriginFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>ApiOriginFilter</filter-name>

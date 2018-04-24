@@ -1,11 +1,10 @@
 package org.openapitools.codegen.java.jaxrs;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class AbstractJavaJAXRSServerCodegenTest {
 
@@ -27,12 +26,12 @@ public class AbstractJavaJAXRSServerCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
-        Assert.assertEquals(codegen.modelPackage(), "io.swagger.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "io.swagger.model");
-        Assert.assertEquals(codegen.apiPackage(), "io.swagger.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "io.swagger.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "io.swagger.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "io.swagger.api");
+        Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
+        Assert.assertEquals(codegen.apiPackage(), "org.openapitools.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
+        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
     }
 
     @Test

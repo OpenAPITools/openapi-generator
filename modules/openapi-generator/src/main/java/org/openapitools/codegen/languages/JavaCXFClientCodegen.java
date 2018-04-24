@@ -1,18 +1,23 @@
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
+import io.swagger.v3.oas.models.Operation;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
 import org.openapitools.codegen.languages.features.LoggingTestFeatures;
 import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
-import io.swagger.v3.oas.models.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 public class JavaCXFClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, UseGenericResponseFeatures, GzipTestFeatures, LoggingTestFeatures {
@@ -39,12 +44,12 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         supportsInheritance = true;
 
         sourceFolder = "src/gen/java";
-        invokerPackage = "io.swagger.api";
+        invokerPackage = "org.openapitools.api";
         artifactId = "swagger-jaxrs-client";
         dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
 
-        apiPackage = "io.swagger.api";
-        modelPackage = "io.swagger.model";
+        apiPackage = "org.openapitools.api";
+        modelPackage = "org.openapitools.model";
 
         outputFolder = "generated-code/JavaJaxRS-CXF";
 
