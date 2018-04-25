@@ -50,8 +50,8 @@ public class UserApiTest {
      */
     @Test
     public void createUserTest() throws Exception {
-        User body = null;
-    ResponseEntity<Void> response = api.createUser(body , accept);
+        User user = null;
+    ResponseEntity<Void> response = api.createUser(user , accept);
 
         // TODO: test validations
     }
@@ -66,8 +66,8 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithArrayInputTest() throws Exception {
-        List<User> body = null;
-    ResponseEntity<Void> response = api.createUsersWithArrayInput(body , accept);
+        List<User> user = null;
+    ResponseEntity<Void> response = api.createUsersWithArrayInput(user , accept);
 
         // TODO: test validations
     }
@@ -82,8 +82,8 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithListInputTest() throws Exception {
-        List<User> body = null;
-    ResponseEntity<Void> response = api.createUsersWithListInput(body , accept);
+        List<User> user = null;
+    ResponseEntity<Void> response = api.createUsersWithListInput(user , accept);
 
         // TODO: test validations
     }
@@ -163,8 +163,8 @@ public class UserApiTest {
     @Test
     public void updateUserTest() throws Exception {
         String username = null;
-        User body = null;
-    ResponseEntity<Void> response = api.updateUser(username, body , accept);
+        User user = null;
+    ResponseEntity<Void> response = api.updateUser(username, user , accept);
 
         // TODO: test validations
     }

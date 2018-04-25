@@ -51,8 +51,8 @@ public class PetApiTest {
      */
     @Test
     public void addPetTest() throws Exception {
-        Pet body = null;
-    ResponseEntity<Void> response = api.addPet(body , accept);
+        Pet pet = null;
+    ResponseEntity<Void> response = api.addPet(pet , accept);
 
         // TODO: test validations
     }
@@ -132,8 +132,8 @@ public class PetApiTest {
      */
     @Test
     public void updatePetTest() throws Exception {
-        Pet body = null;
-    ResponseEntity<Void> response = api.updatePet(body , accept);
+        Pet pet = null;
+    ResponseEntity<Void> response = api.updatePet(pet , accept);
 
         // TODO: test validations
     }

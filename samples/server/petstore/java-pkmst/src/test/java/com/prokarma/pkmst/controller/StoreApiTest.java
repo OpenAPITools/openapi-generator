@@ -97,8 +97,8 @@ public class StoreApiTest {
      */
     @Test
     public void placeOrderTest() throws Exception {
-        Order body = null;
-    ResponseEntity<Order> response = api.placeOrder(body , accept);
+        Order order = null;
+    ResponseEntity<Order> response = api.placeOrder(order , accept);
 
         // TODO: test validations
     }
