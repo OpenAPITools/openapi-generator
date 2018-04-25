@@ -36,7 +36,7 @@ use std::io;
 use std::collections::BTreeSet;
 
 pub use swagger::auth::Authorization;
-use swagger::{ApiError, XSpanId, XSpanIdString, Has};
+use swagger::{ApiError, XSpanId, XSpanIdString, Has, RequestParser};
 use swagger::auth::Scopes;
 
 use {Api,
