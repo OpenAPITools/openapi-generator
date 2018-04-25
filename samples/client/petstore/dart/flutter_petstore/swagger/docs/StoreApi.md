@@ -5,7 +5,7 @@
 import 'package:swagger/api.dart';
 ```
 
-All URIs are relative to *http://localhost/v2*
+All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -53,7 +53,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -144,21 +144,19 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **placeOrder**
-> Order placeOrder(body)
+> Order placeOrder(order)
 
 Place an order for a pet
-
-
 
 ### Example 
 ```dart
 import 'package:swagger/api.dart';
 
 var api_instance = new StoreApi();
-var body = new Order(); // Order | order placed for purchasing the pet
+var order = new Order(); // Order | order placed for purchasing the pet
 
 try { 
-    var result = api_instance.placeOrder(body);
+    var result = api_instance.placeOrder(order);
     print(result);
 } catch (e) {
     print("Exception when calling StoreApi->placeOrder: $e\n");
@@ -169,7 +167,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 

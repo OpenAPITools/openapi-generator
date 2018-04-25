@@ -10,12 +10,12 @@ class PetApi {
   /// Add a new pet to the store
   ///
   /// 
-  Future addPet(Pet body) async {
-    Object postBody = body;
+  Future addPet(Pet pet) async {
+    Object postBody = pet;
 
     // verify required params are set
-    if(body == null) {
-     throw new ApiException(400, "Missing required param: body");
+    if(pet == null) {
+     throw new ApiException(400, "Missing required param: pet");
     }
 
     // create path and map variables
@@ -34,12 +34,11 @@ class PetApi {
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = new MultipartRequest(null, null);
-      
       if(hasFields)
         postBody = mp;
     }
     else {
-          }
+    }
 
     var response = await apiClient.invokeAPI(path,
                                              'POST',
@@ -86,12 +85,11 @@ class PetApi {
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = new MultipartRequest(null, null);
-      
       if(hasFields)
         postBody = mp;
     }
     else {
-          }
+    }
 
     var response = await apiClient.invokeAPI(path,
                                              'DELETE',
@@ -128,7 +126,7 @@ class PetApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-      queryParams.addAll(_convertParametersForCollectionFormat("csv", "status", status));
+      queryParams.addAll(_convertParametersForCollectionFormat("", "status", status));
     
     List<String> contentTypes = [];
 
@@ -138,12 +136,11 @@ class PetApi {
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = new MultipartRequest(null, null);
-      
       if(hasFields)
         postBody = mp;
     }
     else {
-          }
+    }
 
     var response = await apiClient.invokeAPI(path,
                                              'GET',
@@ -180,7 +177,7 @@ class PetApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-      queryParams.addAll(_convertParametersForCollectionFormat("csv", "tags", tags));
+      queryParams.addAll(_convertParametersForCollectionFormat("", "tags", tags));
     
     List<String> contentTypes = [];
 
@@ -190,12 +187,11 @@ class PetApi {
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = new MultipartRequest(null, null);
-      
       if(hasFields)
         postBody = mp;
     }
     else {
-          }
+    }
 
     var response = await apiClient.invokeAPI(path,
                                              'GET',
@@ -241,12 +237,11 @@ class PetApi {
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = new MultipartRequest(null, null);
-      
       if(hasFields)
         postBody = mp;
     }
     else {
-          }
+    }
 
     var response = await apiClient.invokeAPI(path,
                                              'GET',
@@ -268,12 +263,12 @@ class PetApi {
   /// Update an existing pet
   ///
   /// 
-  Future updatePet(Pet body) async {
-    Object postBody = body;
+  Future updatePet(Pet pet) async {
+    Object postBody = pet;
 
     // verify required params are set
-    if(body == null) {
-     throw new ApiException(400, "Missing required param: body");
+    if(pet == null) {
+     throw new ApiException(400, "Missing required param: pet");
     }
 
     // create path and map variables
@@ -292,12 +287,11 @@ class PetApi {
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = new MultipartRequest(null, null);
-      
       if(hasFields)
         postBody = mp;
     }
     else {
-          }
+    }
 
     var response = await apiClient.invokeAPI(path,
                                              'PUT',
@@ -343,24 +337,21 @@ class PetApi {
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = new MultipartRequest(null, null);
-      
       if (name != null) {
         hasFields = true;
         mp.fields['name'] = parameterToString(name);
       }
-      
       if (status != null) {
         hasFields = true;
         mp.fields['status'] = parameterToString(status);
       }
-      
       if(hasFields)
         postBody = mp;
     }
     else {
       if (name != null)
         formParams['name'] = parameterToString(name);
-if (status != null)
+      if (status != null)
         formParams['status'] = parameterToString(status);
     }
 
@@ -408,25 +399,21 @@ if (status != null)
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = new MultipartRequest(null, null);
-      
       if (additionalMetadata != null) {
         hasFields = true;
         mp.fields['additionalMetadata'] = parameterToString(additionalMetadata);
       }
-      
       if (file != null) {
         hasFields = true;
         mp.fields['file'] = file.field;
         mp.files.add(file);
       }
-      
       if(hasFields)
         postBody = mp;
     }
     else {
       if (additionalMetadata != null)
         formParams['additionalMetadata'] = parameterToString(additionalMetadata);
-
     }
 
     var response = await apiClient.invokeAPI(path,
