@@ -50,7 +50,7 @@ will be enabled.
 inside the swagger codegen maven plugin under the configuration section 
 
 						<configuration>
-							<inputSpec>product-swagger.yaml</inputSpec>
+							<inputSpec>product-openapi.yaml</inputSpec>
 							<language>pkmst</language>
 							<output>${project.build.directory}/generated-sources</output>
 							<configOptions>
