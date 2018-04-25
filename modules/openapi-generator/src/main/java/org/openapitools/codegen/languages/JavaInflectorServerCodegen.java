@@ -1,9 +1,13 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.Operation;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +29,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         sourceFolder = "src/gen/java";
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaInflector";
-        invokerPackage = "io.swagger.controllers";
+        invokerPackage = "org.openapitools.controllers";
         artifactId = "openapi-inflector-server";
         dateLibrary = "legacy"; //TODO: add joda support
 
@@ -36,8 +40,8 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         apiDocTemplateFiles.remove("api_doc.mustache");
 
 
-        apiPackage = System.getProperty("swagger.codegen.inflector.apipackage", "io.swagger.controllers");
-        modelPackage = System.getProperty("swagger.codegen.inflector.modelpackage", "io.swagger.model");
+        apiPackage = System.getProperty("swagger.codegen.inflector.apipackage", "org.openapitools.controllers");
+        modelPackage = System.getProperty("swagger.codegen.inflector.modelpackage", "org.openapitools.model");
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
