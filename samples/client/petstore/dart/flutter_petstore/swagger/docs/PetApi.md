@@ -5,7 +5,7 @@
 import 'package:swagger/api.dart';
 ```
 
-All URIs are relative to *http://localhost/v2*
+All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -20,11 +20,9 @@ Method | HTTP request | Description
 
 
 # **addPet**
-> addPet(body)
+> addPet(pet)
 
 Add a new pet to the store
-
-
 
 ### Example 
 ```dart
@@ -33,10 +31,10 @@ import 'package:swagger/api.dart';
 //swagger.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var body = new Pet(); // Pet | Pet object that needs to be added to the store
+var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try { 
-    api_instance.addPet(body);
+    api_instance.addPet(pet);
 } catch (e) {
     print("Exception when calling PetApi->addPet: $e\n");
 }
@@ -46,7 +44,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -59,7 +57,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -67,8 +65,6 @@ void (empty response body)
 > deletePet(petId, apiKey)
 
 Deletes a pet
-
-
 
 ### Example 
 ```dart
@@ -105,7 +101,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -247,11 +243,9 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updatePet**
-> updatePet(body)
+> updatePet(pet)
 
 Update an existing pet
-
-
 
 ### Example 
 ```dart
@@ -260,10 +254,10 @@ import 'package:swagger/api.dart';
 //swagger.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var body = new Pet(); // Pet | Pet object that needs to be added to the store
+var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try { 
-    api_instance.updatePet(body);
+    api_instance.updatePet(pet);
 } catch (e) {
     print("Exception when calling PetApi->updatePet: $e\n");
 }
@@ -273,7 +267,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -286,7 +280,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -294,8 +288,6 @@ void (empty response body)
 > updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
-
-
 
 ### Example 
 ```dart
@@ -334,7 +326,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -342,8 +334,6 @@ void (empty response body)
 > ApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
-
-
 
 ### Example 
 ```dart
@@ -354,7 +344,7 @@ import 'package:swagger/api.dart';
 var api_instance = new PetApi();
 var petId = 789; // int | ID of pet to update
 var additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
-var file = /path/to/file.txt; // MultipartFile | file to upload
+var file = BINARY_DATA_HERE; // MultipartFile | file to upload
 
 try { 
     var result = api_instance.uploadFile(petId, additionalMetadata, file);

@@ -5,7 +5,7 @@
 import 'package:swagger/api.dart';
 ```
 
-All URIs are relative to *http://localhost/v2*
+All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 
 # **createUser**
-> createUser(body)
+> createUser(user)
 
 Create user
 
@@ -31,10 +31,10 @@ This can only be done by the logged in user.
 import 'package:swagger/api.dart';
 
 var api_instance = new UserApi();
-var body = new User(); // User | Created user object
+var user = new User(); // User | Created user object
 
 try { 
-    api_instance.createUser(body);
+    api_instance.createUser(user);
 } catch (e) {
     print("Exception when calling UserApi->createUser: $e\n");
 }
@@ -44,7 +44,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+ **user** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -57,26 +57,24 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(body)
+> createUsersWithArrayInput(user)
 
 Creates list of users with given input array
-
-
 
 ### Example 
 ```dart
 import 'package:swagger/api.dart';
 
 var api_instance = new UserApi();
-var body = [new List&lt;User&gt;()]; // List<User> | List of user object
+var user = [new List&lt;User&gt;()]; // List<User> | List of user object
 
 try { 
-    api_instance.createUsersWithArrayInput(body);
+    api_instance.createUsersWithArrayInput(user);
 } catch (e) {
     print("Exception when calling UserApi->createUsersWithArrayInput: $e\n");
 }
@@ -86,7 +84,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
+ **user** | [**List&lt;User&gt;**](List.md)| List of user object | 
 
 ### Return type
 
@@ -99,26 +97,24 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createUsersWithListInput**
-> createUsersWithListInput(body)
+> createUsersWithListInput(user)
 
 Creates list of users with given input array
-
-
 
 ### Example 
 ```dart
 import 'package:swagger/api.dart';
 
 var api_instance = new UserApi();
-var body = [new List&lt;User&gt;()]; // List<User> | List of user object
+var user = [new List&lt;User&gt;()]; // List<User> | List of user object
 
 try { 
-    api_instance.createUsersWithListInput(body);
+    api_instance.createUsersWithListInput(user);
 } catch (e) {
     print("Exception when calling UserApi->createUsersWithListInput: $e\n");
 }
@@ -128,7 +124,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
+ **user** | [**List&lt;User&gt;**](List.md)| List of user object | 
 
 ### Return type
 
@@ -141,7 +137,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -183,7 +179,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -191,8 +187,6 @@ No authorization required
 > User getUserByName(username)
 
 Get user by user name
-
-
 
 ### Example 
 ```dart
@@ -234,8 +228,6 @@ No authorization required
 > String loginUser(username, password)
 
 Logs user into the system
-
-
 
 ### Example 
 ```dart
@@ -280,8 +272,6 @@ No authorization required
 
 Logs out current logged in user session
 
-
-
 ### Example 
 ```dart
 import 'package:swagger/api.dart';
@@ -309,12 +299,12 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateUser**
-> updateUser(username, body)
+> updateUser(username, user)
 
 Updated user
 
@@ -326,10 +316,10 @@ import 'package:swagger/api.dart';
 
 var api_instance = new UserApi();
 var username = username_example; // String | name that need to be deleted
-var body = new User(); // User | Updated user object
+var user = new User(); // User | Updated user object
 
 try { 
-    api_instance.updateUser(username, body);
+    api_instance.updateUser(username, user);
 } catch (e) {
     print("Exception when calling UserApi->updateUser: $e\n");
 }
@@ -340,7 +330,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | 
+ **user** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -353,7 +343,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
