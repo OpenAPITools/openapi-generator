@@ -55,7 +55,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     @Override
     public Generator opts(ClientOptInput opts) {
         this.opts = opts;
-        this.openAPI= opts.getOpenAPI();
+        this.openAPI = opts.getOpenAPI();
         this.config = opts.getConfig();
         this.config.additionalProperties().putAll(opts.getOpts().getProperties());
 
@@ -79,6 +79,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     /**
      * Programmatically disable the output of .openapi-generator/VERSION, .openapi-generator-ignore,
      * or other metadata files used by Swagger Codegen.
+     *
      * @param generateMetadata true: enable outputs, false: disable outputs
      */
     @SuppressWarnings("WeakerAccess")
@@ -89,7 +90,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     /**
      * Set generator properties otherwise pulled from system properties.
      * Useful for running tests in parallel without relying on System.properties.
-     * @param key The system property key
+     *
+     * @param key   The system property key
      * @param value The system property value
      */
     @SuppressWarnings("WeakerAccess")
@@ -392,17 +394,15 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (config.importMapping().containsKey(modelName)) {
                     continue;
                 }
+
                 Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
-                /*  TODO revise alias handling
-                if (config instanceof AbstractJavaCodegen) {
-                    // Special handling of aliases only applies to Java
-                    if (modelTemplate != null && modelTemplate.containsKey("model")) {
-                        CodegenModel m = (CodegenModel) modelTemplate.get("model");
-                        if (m.isAlias) {
-                            continue;  // Don't create user-defined classes for aliases
-                        }
+                // Special handling of aliases only applies to Java
+                if (modelTemplate != null && modelTemplate.containsKey("model")) {
+                    CodegenModel m = (CodegenModel) modelTemplate.get("model");
+                    if (m.isAlias) {
+                        continue;  // Don't create user-defined classes for aliases
                     }
-                }*/
+                }
 
                 allModels.add(modelTemplate);
 
@@ -662,7 +662,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             files.add(ignoreFile);
         }
 
-        if(generateMetadata) {
+        if (generateMetadata) {
             final String versionMetadata = config.outputFolder() + File.separator + ".openapi-generator" + File.separator + "VERSION";
             File versionMetadataFile = new File(versionMetadata);
             try {

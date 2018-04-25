@@ -122,6 +122,9 @@ public class ModelUtils {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else if (ref.startsWith("#/definitions/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
+        } else  {
+            LOGGER.warn("Failed to get the schema name: {}", ref);
+            return null;
         }
 
         return ref;

@@ -388,17 +388,18 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getSchemaType(Schema p) {
-        String schemaType = super.getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
+
         String type = null;
-        if (typeMapping.containsKey(schemaType)) {
-            type = typeMapping.get(schemaType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             } else if (instantiationTypes.containsKey(type)) {
                 return type;
             }
         } else {
-            type = schemaType;
+            type = openAPIType;
         }
         if (type == null) {
             return null;
