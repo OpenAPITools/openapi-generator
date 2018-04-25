@@ -803,8 +803,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
 
-        openAPIType = getAlias(openAPIType);
-
         // don't apply renaming on types from the typeMapping
         if (typeMapping.containsKey(openAPIType)) {
             return typeMapping.get(openAPIType);

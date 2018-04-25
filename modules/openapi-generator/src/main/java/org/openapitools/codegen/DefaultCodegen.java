@@ -1137,7 +1137,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * returns the OpenAPI type for the property
+     * returns the OpenAPI type for the property. Use getAlias to handle $ref of primitive type
      *
      * @param schema property schema
      * @return string presentation of the type
@@ -1145,22 +1145,17 @@ public class DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("static-method")
     public String getSchemaType(Schema schema) {
         if (StringUtils.isNotBlank(schema.get$ref())) { // object
-            String datatype = schema.get$ref();
-            try {
-                // get the model name from $ref
-                if (datatype.indexOf("#/components/schemas/") == 0) {
-                    return datatype.substring("#/components/schemas/".length());
-                } else if (datatype.indexOf("#/definitions/") == 0) {
-                    return datatype.substring("#/definitions/".length());
-                }
-                return null;
-            } catch (Exception e) {
-                LOGGER.warn("Error obtaining the datatype (" + datatype + ") from ref:" + schema + ". Datatype default to Object");
+            // get the schema/model name from $ref
+            String schemaName = ModelUtils.getSimpleRef(schema.get$ref());
+            if (StringUtils.isNotEmpty(schemaName)) {
+                return getAlias(schemaName);
+            } else {
+                LOGGER.warn("Error obtaining the datatype from ref:" + schema.get$ref()+ ". Default to 'object'");
                 return "object";
             }
+        } else { // primitive type (non-model)
+            return getAlias(getPrimitiveType(schema));
         }
-
-        return getPrimitiveType(schema);
     }
 
     /**
@@ -1272,14 +1267,17 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Determine the type alias for the given type if it exists. This feature
-     * is only used for Java, because the language does not have a aliasing
-     * mechanism of its own.
+     * was original developed for Java because the language does not have a aliasing
+     * mechanism of its own but later extends to handle other languages
      *
      * @param name The type name.
      * @return The alias of the given type, if it exists. If there is no alias
      * for this type, then returns the input type name.
      */
     public String getAlias(String name) {
+        if (typeAliases != null && typeAliases.containsKey(name)) {
+            return typeAliases.get(name);
+        }
         return name;
     }
 
@@ -2718,10 +2716,6 @@ public class DefaultCodegen implements CodegenConfig {
         */
         }
 
-        // Issue #2561 (neilotoole) : Set the is<TYPE>Param flags.
-        // This code has been moved to here from #fromOperation
-        // because these values should be set before calling #postProcessParameter.
-        // See: https://github.com/swagger-api/swagger-codegen/issues/2561
         if (parameter instanceof QueryParameter || "query".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.isQueryParam = true;
         } else if (parameter instanceof PathParameter || "path".equalsIgnoreCase(parameter.getIn())) {
@@ -3316,7 +3310,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (lowercaseFirstLetter && word.length() > 0) {
             int i = 0;
             char charAt = word.charAt(i);
-            while(i + 1 < word.length() && !((charAt >= 'a' && charAt <= 'z') || (charAt >= 'A' && charAt <= 'Z'))) {
+            while (i + 1 < word.length() && !((charAt >= 'a' && charAt <= 'z') || (charAt >= 'A' && charAt <= 'Z'))) {
                 i = i + 1;
                 charAt = word.charAt(i);
             }
@@ -3521,7 +3515,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Sanitize name (parameter, property, method, etc)
      *
-     * @param name string to be sanitize
+     * @param name            string to be sanitize
      * @param removeCharRegEx a regex containing all char that will be removed
      * @return sanitized string
      */
@@ -4024,14 +4018,9 @@ public class DefaultCodegen implements CodegenConfig {
         return null;
     }
 
+    // TODO decommission this function and replace it with ModelUtils.getSimpleRef() directly
     protected String getSimpleRef(String ref) {
-        if (ref.startsWith("#/components/")) {
-            ref = ref.substring(ref.lastIndexOf("/") + 1);
-        } else if (ref.startsWith("#/definitions/")) {
-            ref = ref.substring(ref.lastIndexOf("/") + 1);
-        }
-
-        return ref;
+        return ModelUtils.getSimpleRef(ref);
     }
 
     protected String getCollectionFormat(Parameter parameter) {
