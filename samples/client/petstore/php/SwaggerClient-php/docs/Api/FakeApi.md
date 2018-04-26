@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **fakeOuterBooleanSerialize**
-> \Swagger\Client\Model\OuterBoolean fakeOuterBooleanSerialize($boolean_post_body)
+> bool fakeOuterBooleanSerialize($boolean_post_body)
 
 
 
@@ -52,7 +52,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**\Swagger\Client\Model\OuterBoolean**](../Model/OuterBoolean.md)
+**bool**
 
 ### Authorization
 
@@ -115,7 +115,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **fakeOuterNumberSerialize**
-> \Swagger\Client\Model\OuterNumber fakeOuterNumberSerialize($body)
+> float fakeOuterNumberSerialize($body)
 
 
 
@@ -150,7 +150,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**\Swagger\Client\Model\OuterNumber**](../Model/OuterNumber.md)
+**float**
 
 ### Authorization
 
@@ -164,7 +164,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **fakeOuterStringSerialize**
-> \Swagger\Client\Model\OuterString fakeOuterStringSerialize($body)
+> string fakeOuterStringSerialize($body)
 
 
 
@@ -199,7 +199,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**\Swagger\Client\Model\OuterString**](../Model/OuterString.md)
+**string**
 
 ### Authorization
 

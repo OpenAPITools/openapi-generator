@@ -222,11 +222,7 @@ class Name implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-
-        if ($this->container['name'] === null) {
-            return false;
-        }
-        return true;
+        return count($this->listInvalidProperties()) === 0;
     }
 
 

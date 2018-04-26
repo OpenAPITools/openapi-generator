@@ -94,7 +94,7 @@ class FakeApi
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \Swagger\Client\Model\OuterBoolean
+     * @return bool
      */
     public function fakeOuterBooleanSerialize($boolean_post_body = null)
     {
@@ -109,11 +109,11 @@ class FakeApi
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \Swagger\Client\Model\OuterBoolean, HTTP status code, HTTP response headers (array of strings)
+     * @return array of bool, HTTP status code, HTTP response headers (array of strings)
      */
     public function fakeOuterBooleanSerializeWithHttpInfo($boolean_post_body = null)
     {
-        $returnType = '\Swagger\Client\Model\OuterBoolean';
+        $returnType = 'bool';
         $request = $this->fakeOuterBooleanSerializeRequest($boolean_post_body);
 
         try {
@@ -165,7 +165,7 @@ class FakeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Swagger\Client\Model\OuterBoolean',
+                        'bool',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -207,7 +207,7 @@ class FakeApi
      */
     public function fakeOuterBooleanSerializeAsyncWithHttpInfo($boolean_post_body = null)
     {
-        $returnType = '\Swagger\Client\Model\OuterBoolean';
+        $returnType = 'bool';
         $request = $this->fakeOuterBooleanSerializeRequest($boolean_post_body);
 
         return $this->client
@@ -588,7 +588,7 @@ class FakeApi
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \Swagger\Client\Model\OuterNumber
+     * @return float
      */
     public function fakeOuterNumberSerialize($body = null)
     {
@@ -603,11 +603,11 @@ class FakeApi
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \Swagger\Client\Model\OuterNumber, HTTP status code, HTTP response headers (array of strings)
+     * @return array of float, HTTP status code, HTTP response headers (array of strings)
      */
     public function fakeOuterNumberSerializeWithHttpInfo($body = null)
     {
-        $returnType = '\Swagger\Client\Model\OuterNumber';
+        $returnType = 'float';
         $request = $this->fakeOuterNumberSerializeRequest($body);
 
         try {
@@ -659,7 +659,7 @@ class FakeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Swagger\Client\Model\OuterNumber',
+                        'float',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -701,7 +701,7 @@ class FakeApi
      */
     public function fakeOuterNumberSerializeAsyncWithHttpInfo($body = null)
     {
-        $returnType = '\Swagger\Client\Model\OuterNumber';
+        $returnType = 'float';
         $request = $this->fakeOuterNumberSerializeRequest($body);
 
         return $this->client
@@ -835,7 +835,7 @@ class FakeApi
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \Swagger\Client\Model\OuterString
+     * @return string
      */
     public function fakeOuterStringSerialize($body = null)
     {
@@ -850,11 +850,11 @@ class FakeApi
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \Swagger\Client\Model\OuterString, HTTP status code, HTTP response headers (array of strings)
+     * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function fakeOuterStringSerializeWithHttpInfo($body = null)
     {
-        $returnType = '\Swagger\Client\Model\OuterString';
+        $returnType = 'string';
         $request = $this->fakeOuterStringSerializeRequest($body);
 
         try {
@@ -906,7 +906,7 @@ class FakeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Swagger\Client\Model\OuterString',
+                        'string',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -948,7 +948,7 @@ class FakeApi
      */
     public function fakeOuterStringSerializeAsyncWithHttpInfo($body = null)
     {
-        $returnType = '\Swagger\Client\Model\OuterString';
+        $returnType = 'string';
         $request = $this->fakeOuterStringSerializeRequest($body);
 
         return $this->client
@@ -2152,6 +2152,9 @@ class FakeApi
         $multipart = false;
 
         // query params
+        if (is_array($enum_query_string_array)) {
+            $enum_query_string_array = ObjectSerializer::serializeCollection($enum_query_string_array, 'csv', true);
+        }
         if ($enum_query_string_array !== null) {
             $queryParams['enum_query_string_array'] = ObjectSerializer::toQueryValue($enum_query_string_array);
         }
@@ -2168,6 +2171,9 @@ class FakeApi
             $queryParams['enum_query_double'] = ObjectSerializer::toQueryValue($enum_query_double);
         }
         // header params
+        if (is_array($enum_header_string_array)) {
+            $enum_header_string_array = ObjectSerializer::serializeCollection($enum_header_string_array, 'csv');
+        }
         if ($enum_header_string_array !== null) {
             $headerParams['enum_header_string_array'] = ObjectSerializer::toHeaderValue($enum_header_string_array);
         }

@@ -200,8 +200,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-
-        return true;
+        return count($this->listInvalidProperties()) === 0;
     }
 
 
