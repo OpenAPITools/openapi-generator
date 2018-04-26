@@ -193,5 +193,7 @@ samples/client/petstore/elixir/mix.lock
 samples/client/petstore/groovy/build
 
 # erlang
+samples/client/petstore/erlang-client/_build/
+samples/client/petstore/erlang-client/rebar.lock
 samples/server/petstore/erlang-server/_build/
 samples/server/petstore/erlang-server/rebar.lock
