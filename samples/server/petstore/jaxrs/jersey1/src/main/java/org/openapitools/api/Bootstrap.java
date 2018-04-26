@@ -14,7 +14,7 @@ public class Bootstrap extends HttpServlet {
   @Override
   public void init(ServletConfig config) throws ServletException {
     Info info = new Info()
-      .title("Swagger Server")
+      .title("OpenAPI Server")
       .description("This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\")
       .termsOfService("http://swagger.io/terms/")
       .contact(new Contact()
