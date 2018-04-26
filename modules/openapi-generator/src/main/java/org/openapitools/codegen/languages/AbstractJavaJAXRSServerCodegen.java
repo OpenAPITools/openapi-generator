@@ -96,13 +96,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
         if (!this.additionalProperties.containsKey("serverPort")) {
             URL url = URLPathUtils.getServerURL(openAPI);
-
-            Integer port = 8080; // Default value for a JEE Server
-            if (url.getPort() != 0) {
-                port = url.getPort();
-            }
-
-            this.additionalProperties.put("serverPort", port);
+            // 8080 is the default value for a JEE Server:
+            this.additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
         }
 
         if (openAPI.getPaths() != null) {

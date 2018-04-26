@@ -542,10 +542,8 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         }
 
         URL url = URLPathUtils.getServerURL(openAPI);
-        String host = url.getHost();
-        Integer port = url.getPort();
 
-        this.additionalProperties.put("serverPort", port);
+        this.additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
         if (openAPI.getPaths() != null) {
             for (String pathname : openAPI.getPaths().keySet()) {
                 PathItem path = openAPI.getPaths().get(pathname);

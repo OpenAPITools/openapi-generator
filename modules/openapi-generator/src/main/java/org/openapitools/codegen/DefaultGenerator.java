@@ -175,7 +175,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         URL url = URLPathUtils.getServerURL(openAPI);
-        contextPath = config.escapeText(url == null ? "" : url.getPath());
+        contextPath = config.escapeText(url.getPath());
         basePath = config.escapeText(URLPathUtils.getHost(openAPI));
         basePathWithoutHost = contextPath; // for backward compatibility
     }
@@ -703,15 +703,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         apis.put("apis", allOperations);
 
         URL url = URLPathUtils.getServerURL(openAPI);
-        if (url != null) {
-            bundle.put("host", url.getHost());
-        }
 
         bundle.put("openAPI", openAPI);
         bundle.put("swagger", openAPI); // for backward compatibility
         bundle.put("basePath", basePath);
         bundle.put("basePathWithoutHost", basePathWithoutHost);
-        bundle.put("scheme", URLPathUtils.getScheme(openAPI, config));
+        bundle.put("scheme", URLPathUtils.getScheme(url, config));
+        bundle.put("host", url.getHost());
         bundle.put("contextPath", contextPath);
         bundle.put("apiInfo", apis);
         bundle.put("models", allModels);

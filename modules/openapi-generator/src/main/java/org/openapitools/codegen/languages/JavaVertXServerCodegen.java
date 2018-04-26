@@ -200,8 +200,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
         // add server port from the swagger file, 8080 by default
         URL url = URLPathUtils.getServerURL(openAPI);
-        Integer port = url.getPort();
-        this.additionalProperties.put("serverPort", port);
+        this.additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
 
         // retrieve api version from swagger file, 1.0.0-SNAPSHOT by default
         if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {

@@ -320,25 +320,9 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         URL url = URLPathUtils.getServerURL(openAPI);
-        String host = URLPathUtils.LOCAL_HOST;
-        String port = defaultServerPort;
-        String basePath = null;
-        if (url != null) {
-            port = String.valueOf(url.getPort());
-            host = url.getHost();
-            basePath = url.getPath();
-        }
-
-        if (!StringUtils.isEmpty(host)) {
-            String[] parts = host.split(":");
-            if (parts.length > 1) {
-                port = parts[1];
-            }
-        } else {
-            // host is empty, default to https://localhost
-            host = "http://localhost";
-            LOGGER.warn("'host' in the specification is empty or undefined. Default to http://localhost.");
-        }
+        String host =  URLPathUtils.getProtocolAndHost(url);
+        String port = URLPathUtils.getPort(url, defaultServerPort) ;
+        String basePath = url.getPath();
 
         if (additionalProperties.containsKey(SERVER_PORT)) {
             port = additionalProperties.get(SERVER_PORT).toString();

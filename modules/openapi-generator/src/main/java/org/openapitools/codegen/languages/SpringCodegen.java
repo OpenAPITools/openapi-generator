@@ -413,11 +413,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         URL url = URLPathUtils.getServerURL(openAPI);
-        Integer port = 8080;
-        if (url.getPort() != 0) {
-            port = url.getPort();
-        }
-        this.additionalProperties.put("serverPort", port);
+        this.additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
 
         if (openAPI.getPaths() != null) {
             for (String pathname : openAPI.getPaths().keySet()) {
