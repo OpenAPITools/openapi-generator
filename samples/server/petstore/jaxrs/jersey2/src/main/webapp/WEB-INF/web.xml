@@ -34,7 +34,7 @@
         </init-param>
         <init-param>
             <param-name>swagger.api.title</param-name>
-            <param-value>Swagger Server</param-value>
+            <param-value>OpenAPI Server</param-value>
         </init-param>
         <init-param>
             <param-name>swagger.api.basepath</param-name>
