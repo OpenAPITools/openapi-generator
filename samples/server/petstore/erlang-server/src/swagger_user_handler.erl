@@ -126,15 +126,6 @@ allowed_methods(Req, State) ->
         Req :: cowboy_req:req(),
         State :: state()
     }.
-
-
-
-
-
-
-
-
-
 is_authorized(Req, State) ->
     {true, Req, State}.
 

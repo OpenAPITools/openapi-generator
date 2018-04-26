@@ -126,7 +126,6 @@ allowed_methods(Req, State) ->
         Req :: cowboy_req:req(),
         State :: state()
     }.
-
 is_authorized(
     Req0,
     State = #state{
@@ -134,7 +133,18 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
-
+    From = header,
+    Result = swagger_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "Authorization",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
 is_authorized(
     Req0,
     State = #state{
@@ -142,7 +152,18 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
-
+    From = header,
+    Result = swagger_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "Authorization",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
 is_authorized(
     Req0,
     State = #state{
@@ -150,7 +171,18 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
-
+    From = header,
+    Result = swagger_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "Authorization",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
 is_authorized(
     Req0,
     State = #state{
@@ -158,7 +190,18 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
-
+    From = header,
+    Result = swagger_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "Authorization",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
 is_authorized(
     Req0,
     State = #state{
@@ -178,7 +221,6 @@ is_authorized(
         {true, Context, Req} ->  {true, Req, State#state{context = Context}};
         {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
     end;
-
 is_authorized(
     Req0,
     State = #state{
@@ -186,7 +228,18 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
-
+    From = header,
+    Result = swagger_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "Authorization",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
 is_authorized(
     Req0,
     State = #state{
@@ -194,7 +247,18 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
-
+    From = header,
+    Result = swagger_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "Authorization",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
 is_authorized(
     Req0,
     State = #state{
@@ -202,7 +266,18 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
-
+    From = header,
+    Result = swagger_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "Authorization",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
 is_authorized(Req, State) ->
     {true, Req, State}.
 

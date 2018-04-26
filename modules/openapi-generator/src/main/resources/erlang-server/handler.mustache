@@ -70,7 +70,8 @@ allowed_methods(Req, State) ->
         Req :: cowboy_req:req(),
         State :: state()
     }.
-{{#operations}}{{#operation}}
+{{#operations}}
+{{#operation}}
 {{#authMethods}}
 is_authorized(
     Req0,
@@ -93,8 +94,23 @@ is_authorized(
         {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
     end;
   {{/isApiKey}}
+  {{#isOAuth}}
+    From = header,
+    Result = {{packageName}}_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "Authorization",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
+  {{/isOAuth}}
 {{/authMethods}}
-{{/operation}}{{/operations}}
+{{/operation}}
+{{/operations}}
 {{^authMethods}}
 is_authorized(Req, State) ->
     {true, Req, State}.
