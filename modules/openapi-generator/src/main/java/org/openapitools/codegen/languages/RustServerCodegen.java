@@ -242,7 +242,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         Info info = openAPI.getInfo();
-        List versionComponents = new ArrayList(Arrays.asList(info.getVersion().split("[.]")));
+        List<String> versionComponents = new ArrayList<>(Arrays.asList(info.getVersion().split("[.]")));
         if (versionComponents.size() < 1) {
             versionComponents.add("1");
         }
@@ -253,7 +253,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         URL url = URLPathUtils.getServerURL(openAPI);
         additionalProperties.put("serverHost", url.getHost());
-        additionalProperties.put("serverPort", url.getPort());
+        additionalProperties.put("serverPort", URLPathUtils.getPort(url, 80));
     }
 
     @Override

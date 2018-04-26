@@ -1,8 +1,9 @@
 package org.openapitools.codegen.utils;
 
-import org.openapitools.codegen.CodegenConfig;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
+
+import org.openapitools.codegen.CodegenConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,8 +35,12 @@ public class URLPathUtils {
     }
 
     public static String getScheme(OpenAPI openAPI, CodegenConfig config) {
-        String scheme;
         URL url = getServerURL(openAPI);
+        return getScheme(url, config);
+    }
+
+    public static String getScheme(URL url, CodegenConfig config) {
+        String scheme;
         if (url != null) {
             scheme = url.getProtocol();
         } else {
@@ -47,6 +52,64 @@ public class URLPathUtils {
         return scheme;
     }
 
+
+    /**
+     * Return the port, example value <code>8080</code>
+     * @param url
+     * @param defaultPort if the port is not set
+     * @return
+     */
+    public static String getPort(URL url, int defaultPort) {
+        return getPort(url, String.valueOf(defaultPort));
+    }
+
+    /**
+     * Return the port, example value <code>8080</code>
+     * @param url
+     * @param defaultPort if the port is not set
+     * @return
+     */
+    public static String getPort(URL url, String defaultPort) {
+        if (url == null || url.getPort() == -1) {
+            return defaultPort;
+        } else {
+            return String.valueOf(url.getPort());
+        }
+    }
+
+    /**
+     * Return the path, example value <code>/abcdef/xyz</code>
+     * @param url
+     * @param defaultPath if the path is not empty
+     * @return path
+     */
+    public static String getPath(URL url, String defaultPath) {
+        if (url == null || url.getPath() == null || url.getPath().isEmpty()) {
+            return defaultPath;
+        } else {
+            return url.getPath();
+        }
+    }
+
+    /**
+     * Get the protocol and the host, example value <code>https://www.abcdef.xyz</code>
+     * @param url
+     * @return protocolAndHost
+     */
+    public static String getProtocolAndHost(URL url) {
+        if (url == null) {
+            return LOCAL_HOST;
+        } else {
+            String protocol = (url.getProtocol() == null) ? "http" : url.getProtocol();
+            return protocol + "://"+  url.getHost();
+        }
+    }
+
+    /**
+     * Return the first complete URL from the OpenAPI specification
+     * @param openAPI
+     * @return host
+     */
     public static String getHost(OpenAPI openAPI) {
         if (openAPI.getServers() != null && openAPI.getServers().size() > 0) {
             return sanitizeUrl(openAPI.getServers().get(0).getUrl());
@@ -70,5 +133,4 @@ public class URLPathUtils {
             return null;
         }
     }
-
 }
