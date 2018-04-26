@@ -862,6 +862,9 @@
                 <!-- clients -->
                 <module>samples/client/petstore/elixir</module>
                 <module>samples/client/petstore/haskell-http-client</module>
+                <module>samples/client/petstore/erlang-client</module>
+                <!-- servers -->
+                <module>samples/server/petstore/erlang-server</module>
             </modules>
         </profile>
     </profiles>
