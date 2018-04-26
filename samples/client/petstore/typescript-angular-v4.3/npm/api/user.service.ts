@@ -59,24 +59,22 @@ export class UserService {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param body Created user object
+     * @param user Created user object
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createUser(body: User, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createUser(body: User, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createUser(body: User, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createUser(body: User, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling createUser.');
+    public createUser(user: User, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createUser(user: User, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createUser(user: User, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createUser(user: User, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling createUser.');
         }
 
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -92,7 +90,7 @@ export class UserService {
         }
 
         return this.httpClient.post<any>(`${this.basePath}/user`,
-            body,
+            user,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -105,24 +103,22 @@ export class UserService {
     /**
      * Creates list of users with given input array
      * 
-     * @param body List of user object
+     * @param user List of user object
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createUsersWithArrayInput(body: Array<User>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createUsersWithArrayInput(body: Array<User>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createUsersWithArrayInput(body: Array<User>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createUsersWithArrayInput(body: Array<User>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling createUsersWithArrayInput.');
+    public createUsersWithArrayInput(user: Array<User>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createUsersWithArrayInput(user: Array<User>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createUsersWithArrayInput(user: Array<User>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createUsersWithArrayInput(user: Array<User>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
         }
 
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -138,7 +134,7 @@ export class UserService {
         }
 
         return this.httpClient.post<any>(`${this.basePath}/user/createWithArray`,
-            body,
+            user,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -151,24 +147,22 @@ export class UserService {
     /**
      * Creates list of users with given input array
      * 
-     * @param body List of user object
+     * @param user List of user object
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createUsersWithListInput(body: Array<User>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createUsersWithListInput(body: Array<User>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createUsersWithListInput(body: Array<User>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createUsersWithListInput(body: Array<User>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling createUsersWithListInput.');
+    public createUsersWithListInput(user: Array<User>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createUsersWithListInput(user: Array<User>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createUsersWithListInput(user: Array<User>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createUsersWithListInput(user: Array<User>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling createUsersWithListInput.');
         }
 
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -184,7 +178,7 @@ export class UserService {
         }
 
         return this.httpClient.post<any>(`${this.basePath}/user/createWithList`,
-            body,
+            user,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -213,8 +207,6 @@ export class UserService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -296,10 +288,10 @@ export class UserService {
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (username !== undefined) {
+        if (username !== undefined && username !== null) {
             queryParameters = queryParameters.set('username', <any>username);
         }
-        if (password !== undefined) {
+        if (password !== undefined && password !== null) {
             queryParameters = queryParameters.set('password', <any>password);
         }
 
@@ -345,8 +337,6 @@ export class UserService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -371,27 +361,25 @@ export class UserService {
      * Updated user
      * This can only be done by the logged in user.
      * @param username name that need to be deleted
-     * @param body Updated user object
+     * @param user Updated user object
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateUser(username: string, body: User, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateUser(username: string, body: User, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateUser(username: string, body: User, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateUser(username: string, body: User, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateUser(username: string, user: User, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateUser(username: string, user: User, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateUser(username: string, user: User, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateUser(username: string, user: User, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling updateUser.');
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling updateUser.');
         }
 
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -407,7 +395,7 @@ export class UserService {
         }
 
         return this.httpClient.put<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
-            body,
+            user,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
