@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **_double** | **Number** |  | [optional] 
 **_string** | **String** |  | [optional] 
 **_byte** | **Blob** |  | 
-**binary** | **File** |  | [optional] 
+**binary** | **Blob** |  | [optional] 
 **_date** | **Date** |  | 
 **dateTime** | **Date** |  | [optional] 
 **uuid** | **String** |  | [optional] 

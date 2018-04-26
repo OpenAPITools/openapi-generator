@@ -23,7 +23,10 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.StoreApi();
+
 var orderId = "orderId_example"; // String | ID of the order that needs to be deleted
+
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -51,11 +54,11 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 <a name="getInventory"></a>
 # **getInventory**
-> {String: Number} getInventory()
+> {&#39;String&#39;: &#39;Number&#39;} getInventory()
 
 Returns pet inventories by status
 
@@ -65,6 +68,7 @@ Returns a map of status codes to quantities
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
 var defaultClient = SwaggerPetstore.ApiClient.instance;
+
 // Configure API key authorization: api_key
 var api_key = defaultClient.authentications['api_key'];
 api_key.apiKey = 'YOUR API KEY';
@@ -72,6 +76,7 @@ api_key.apiKey = 'YOUR API KEY';
 //api_key.apiKeyPrefix = 'Token';
 
 var apiInstance = new SwaggerPetstore.StoreApi();
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -87,7 +92,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{String: Number}**
+**{&#39;String&#39;: &#39;Number&#39;}**
 
 ### Authorization
 
@@ -111,7 +116,10 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.StoreApi();
+
 var orderId = 789; // Number | ID of pet that needs to be fetched
+
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -143,16 +151,21 @@ No authorization required
 
 <a name="placeOrder"></a>
 # **placeOrder**
-> Order placeOrder(order)
+> Order placeOrder(body)
 
 Place an order for a pet
+
+
 
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.StoreApi();
-var order = new SwaggerPetstore.Order(); // Order | order placed for purchasing the pet
+
+var body = new SwaggerPetstore.Order(); // Order | order placed for purchasing the pet
+
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -160,14 +173,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.placeOrder(order, callback);
+apiInstance.placeOrder(body, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 

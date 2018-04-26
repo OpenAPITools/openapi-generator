@@ -29,9 +29,11 @@ Test serialization of outer boolean types
 var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.FakeApi();
-var opts = {
-  'booleanPostBody': true // Boolean | Input boolean as post body
+
+var opts = { 
+  'body': new SwaggerPetstore.OuterBoolean() // OuterBoolean | Input boolean as post body
 };
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -46,7 +48,7 @@ apiInstance.fakeOuterBooleanSerialize(opts, callback);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **booleanPostBody** | **Boolean**| Input boolean as post body | [optional] 
+ **body** | [**OuterBoolean**](OuterBoolean.md)| Input boolean as post body | [optional] 
 
 ### Return type
 
@@ -59,7 +61,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: Not defined
 
 <a name="fakeOuterCompositeSerialize"></a>
 # **fakeOuterCompositeSerialize**
@@ -74,9 +76,11 @@ Test serialization of object with outer number type
 var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.FakeApi();
-var opts = {
-  'outerComposite': new SwaggerPetstore.OuterComposite() // OuterComposite | Input composite as post body
+
+var opts = { 
+  'body': new SwaggerPetstore.OuterComposite() // OuterComposite | Input composite as post body
 };
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -91,7 +95,7 @@ apiInstance.fakeOuterCompositeSerialize(opts, callback);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
 
 ### Return type
 
@@ -104,7 +108,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: Not defined
 
 <a name="fakeOuterNumberSerialize"></a>
 # **fakeOuterNumberSerialize**
@@ -119,9 +123,11 @@ Test serialization of outer number types
 var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.FakeApi();
-var opts = {
-  'body': 3.4 // Number | Input number as post body
+
+var opts = { 
+  'body': new SwaggerPetstore.OuterNumber() // OuterNumber | Input number as post body
 };
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -136,7 +142,7 @@ apiInstance.fakeOuterNumberSerialize(opts, callback);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **Number**| Input number as post body | [optional] 
+ **body** | [**OuterNumber**](OuterNumber.md)| Input number as post body | [optional] 
 
 ### Return type
 
@@ -149,7 +155,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: Not defined
 
 <a name="fakeOuterStringSerialize"></a>
 # **fakeOuterStringSerialize**
@@ -164,9 +170,11 @@ Test serialization of outer string types
 var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.FakeApi();
-var opts = {
-  'body': "body_example" // String | Input string as post body
+
+var opts = { 
+  'body': new SwaggerPetstore.OuterString() // OuterString | Input string as post body
 };
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -181,7 +189,7 @@ apiInstance.fakeOuterStringSerialize(opts, callback);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **String**| Input string as post body | [optional] 
+ **body** | [**OuterString**](OuterString.md)| Input string as post body | [optional] 
 
 ### Return type
 
@@ -194,11 +202,11 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: Not defined
 
 <a name="testBodyWithQueryParams"></a>
 # **testBodyWithQueryParams**
-> testBodyWithQueryParams(query, user)
+> testBodyWithQueryParams(body, query)
 
 
 
@@ -207,8 +215,12 @@ No authorization required
 var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.FakeApi();
+
+var body = new SwaggerPetstore.User(); // User | 
+
 var query = "query_example"; // String | 
-var user = new SwaggerPetstore.User(); // User | 
+
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -216,15 +228,15 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-apiInstance.testBodyWithQueryParams(query, user, callback);
+apiInstance.testBodyWithQueryParams(body, query, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **body** | [**User**](User.md)|  | 
  **query** | **String**|  | 
- **user** | [**User**](User.md)|  | 
 
 ### Return type
 
@@ -241,7 +253,7 @@ No authorization required
 
 <a name="testClientModel"></a>
 # **testClientModel**
-> Client testClientModel(client)
+> Client testClientModel(body)
 
 To test \&quot;client\&quot; model
 
@@ -252,7 +264,10 @@ To test \&quot;client\&quot; model
 var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.FakeApi();
-var client = new SwaggerPetstore.Client(); // Client | client model
+
+var body = new SwaggerPetstore.Client(); // Client | client model
+
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -260,14 +275,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.testClientModel(client, callback);
+apiInstance.testClientModel(body, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
@@ -301,22 +316,28 @@ http_basic_test.username = 'YOUR USERNAME';
 http_basic_test.password = 'YOUR PASSWORD';
 
 var apiInstance = new SwaggerPetstore.FakeApi();
-var _number = 3.4; // Number | None
-var _double = 3.4; // Number | None
+
+var _number = 8.14; // Number | None
+
+var _double = 1.2; // Number | None
+
 var patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
-var _byte = null; // Blob | None
-var opts = {
+
+var _byte = B; // Blob | None
+
+var opts = { 
   'integer': 56, // Number | None
   'int32': 56, // Number | None
   'int64': 789, // Number | None
   '_float': 3.4, // Number | None
   '_string': "_string_example", // String | None
-  'binary': "/path/to/file", // File | None
+  'binary': B, // Blob | None
   '_date': new Date("2013-10-20"), // Date | None
   'dateTime': new Date("2013-10-20T19:20:30+01:00"), // Date | None
   'password': "password_example", // String | None
   'callback': "callback_example" // String | None
 };
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -340,7 +361,7 @@ Name | Type | Description  | Notes
  **int64** | **Number**| None | [optional] 
  **_float** | **Number**| None | [optional] 
  **_string** | **String**| None | [optional] 
- **binary** | **File**| None | [optional] 
+ **binary** | **Blob**| None | [optional] 
  **_date** | **Date**| None | [optional] 
  **dateTime** | **Date**| None | [optional] 
  **password** | **String**| None | [optional] 
@@ -356,8 +377,8 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+ - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
+ - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
 
 <a name="testEnumParameters"></a>
 # **testEnumParameters**
@@ -372,16 +393,18 @@ To test enum parameters
 var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.FakeApi();
-var opts = {
-  'enumHeaderStringArray': ["'$'"], // [String] | Header parameter enum test (string array)
+
+var opts = { 
+  'enumFormStringArray': ["enumFormStringArray_example"], // [String] | Form parameter enum test (string array)
+  'enumFormString': "-efg", // String | Form parameter enum test (string)
+  'enumHeaderStringArray': ["enumHeaderStringArray_example"], // [String] | Header parameter enum test (string array)
   'enumHeaderString': "-efg", // String | Header parameter enum test (string)
-  'enumQueryStringArray': ["'$'"], // [String] | Query parameter enum test (string array)
+  'enumQueryStringArray': ["enumQueryStringArray_example"], // [String] | Query parameter enum test (string array)
   'enumQueryString': "-efg", // String | Query parameter enum test (string)
   'enumQueryInteger': 56, // Number | Query parameter enum test (double)
-  'enumQueryDouble': 3.4, // Number | Query parameter enum test (double)
-  'enumFormStringArray': null, // [String] | Form parameter enum test (string array)
-  'enumFormString': "enumFormString_example" // String | Form parameter enum test (string)
+  'enumQueryDouble': 1.2 // Number | Query parameter enum test (double)
 };
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -396,14 +419,14 @@ apiInstance.testEnumParameters(opts, callback);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **enumFormStringArray** | [**[String]**](String.md)| Form parameter enum test (string array) | [optional] 
+ **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg]
  **enumHeaderStringArray** | [**[String]**](String.md)| Header parameter enum test (string array) | [optional] 
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to -efg]
  **enumQueryStringArray** | [**[String]**](String.md)| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg]
  **enumQueryInteger** | **Number**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **Number**| Query parameter enum test (double) | [optional] 
- **enumFormStringArray** | [**[String]**](Array.md)| Form parameter enum test (string array) | [optional] 
- **enumFormString** | **String**| Form parameter enum test (string) | [optional] 
 
 ### Return type
 
@@ -415,21 +438,26 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+ - **Content-Type**: */*
+ - **Accept**: */*
 
 <a name="testInlineAdditionalProperties"></a>
 # **testInlineAdditionalProperties**
-> testInlineAdditionalProperties(requestBody)
+> testInlineAdditionalProperties(param)
 
 test inline additionalProperties
+
+
 
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.FakeApi();
-var requestBody = {key: "inner_example"}; // String | request body
+
+var param = null; // Object | request body
+
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -437,14 +465,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-apiInstance.testInlineAdditionalProperties(requestBody, callback);
+apiInstance.testInlineAdditionalProperties(param, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**String**](String.md)| request body | 
+ **param** | **Object**| request body | 
 
 ### Return type
 
@@ -465,13 +493,19 @@ No authorization required
 
 test json serialization of form data
 
+
+
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.FakeApi();
+
 var param = "param_example"; // String | field1
+
 var param2 = "param2_example"; // String | field2
+
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -499,6 +533,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 

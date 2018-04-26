@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="testClassname"></a>
 # **testClassname**
-> Client testClassname(client)
+> Client testClassname(body)
 
 To test class name in snake case
 
@@ -19,6 +19,7 @@ To test class name in snake case
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
 var defaultClient = SwaggerPetstore.ApiClient.instance;
+
 // Configure API key authorization: api_key_query
 var api_key_query = defaultClient.authentications['api_key_query'];
 api_key_query.apiKey = 'YOUR API KEY';
@@ -26,7 +27,10 @@ api_key_query.apiKey = 'YOUR API KEY';
 //api_key_query.apiKeyPrefix = 'Token';
 
 var apiInstance = new SwaggerPetstore.FakeClassnameTags123Api();
-var client = new SwaggerPetstore.Client(); // Client | client model
+
+var body = new SwaggerPetstore.Client(); // Client | client model
+
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -34,14 +38,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.testClassname(client, callback);
+apiInstance.testClassname(body, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
