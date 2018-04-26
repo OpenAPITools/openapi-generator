@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**FakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 [**FakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 [**FakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+[**TestBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 [**TestClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**TestEndpointParameters**](FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**TestEnumParameters**](FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
@@ -17,7 +18,7 @@ Method | HTTP request | Description
 
 <a name="fakeouterbooleanserialize"></a>
 # **FakeOuterBooleanSerialize**
-> OuterBoolean FakeOuterBooleanSerialize (OuterBoolean body = null)
+> bool? FakeOuterBooleanSerialize (bool? booleanPostBody = null)
 
 
 
@@ -38,11 +39,11 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var body = new OuterBoolean(); // OuterBoolean | Input boolean as post body (optional) 
+            var booleanPostBody = true;  // bool? | Input boolean as post body (optional) 
 
             try
             {
-                OuterBoolean result = apiInstance.FakeOuterBooleanSerialize(body);
+                bool? result = apiInstance.FakeOuterBooleanSerialize(booleanPostBody);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -58,11 +59,11 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterBoolean**](OuterBoolean.md)| Input boolean as post body | [optional] 
+ **booleanPostBody** | **bool?**| Input boolean as post body | [optional] 
 
 ### Return type
 
-[**OuterBoolean**](OuterBoolean.md)
+**bool?**
 
 ### Authorization
 
@@ -71,13 +72,13 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="fakeoutercompositeserialize"></a>
 # **FakeOuterCompositeSerialize**
-> OuterComposite FakeOuterCompositeSerialize (OuterComposite body = null)
+> OuterComposite FakeOuterCompositeSerialize (OuterComposite outerComposite = null)
 
 
 
@@ -98,11 +99,11 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var body = new OuterComposite(); // OuterComposite | Input composite as post body (optional) 
+            var outerComposite = new OuterComposite(); // OuterComposite | Input composite as post body (optional) 
 
             try
             {
-                OuterComposite result = apiInstance.FakeOuterCompositeSerialize(body);
+                OuterComposite result = apiInstance.FakeOuterCompositeSerialize(outerComposite);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -118,7 +119,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
 
 ### Return type
 
@@ -131,13 +132,13 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="fakeouternumberserialize"></a>
 # **FakeOuterNumberSerialize**
-> OuterNumber FakeOuterNumberSerialize (OuterNumber body = null)
+> decimal? FakeOuterNumberSerialize (decimal? body = null)
 
 
 
@@ -158,11 +159,11 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var body = new OuterNumber(); // OuterNumber | Input number as post body (optional) 
+            var body = 1.2;  // decimal? | Input number as post body (optional) 
 
             try
             {
-                OuterNumber result = apiInstance.FakeOuterNumberSerialize(body);
+                decimal? result = apiInstance.FakeOuterNumberSerialize(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -178,11 +179,11 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterNumber**](OuterNumber.md)| Input number as post body | [optional] 
+ **body** | **decimal?**| Input number as post body | [optional] 
 
 ### Return type
 
-[**OuterNumber**](OuterNumber.md)
+**decimal?**
 
 ### Authorization
 
@@ -191,13 +192,13 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="fakeouterstringserialize"></a>
 # **FakeOuterStringSerialize**
-> OuterString FakeOuterStringSerialize (OuterString body = null)
+> string FakeOuterStringSerialize (string body = null)
 
 
 
@@ -218,11 +219,11 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var body = new OuterString(); // OuterString | Input string as post body (optional) 
+            var body = body_example;  // string | Input string as post body (optional) 
 
             try
             {
-                OuterString result = apiInstance.FakeOuterStringSerialize(body);
+                string result = apiInstance.FakeOuterStringSerialize(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -238,11 +239,11 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterString**](OuterString.md)| Input string as post body | [optional] 
+ **body** | **string**| Input string as post body | [optional] 
 
 ### Return type
 
-[**OuterString**](OuterString.md)
+**string**
 
 ### Authorization
 
@@ -251,13 +252,72 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="testbodywithqueryparams"></a>
+# **TestBodyWithQueryParams**
+> void TestBodyWithQueryParams (string query, User user)
+
+
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class TestBodyWithQueryParamsExample
+    {
+        public void main()
+        {
+            var apiInstance = new FakeApi();
+            var query = query_example;  // string | 
+            var user = new User(); // User | 
+
+            try
+            {
+                apiInstance.TestBodyWithQueryParams(query, user);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FakeApi.TestBodyWithQueryParams: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query** | **string**|  | 
+ **user** | [**User**](User.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="testclientmodel"></a>
 # **TestClientModel**
-> ModelClient TestClientModel (ModelClient body)
+> ModelClient TestClientModel (ModelClient modelClient)
 
 To test \"client\" model
 
@@ -278,12 +338,12 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var body = new ModelClient(); // ModelClient | client model
+            var modelClient = new ModelClient(); // ModelClient | client model
 
             try
             {
                 // To test \"client\" model
-                ModelClient result = apiInstance.TestClientModel(body);
+                ModelClient result = apiInstance.TestClientModel(modelClient);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -299,7 +359,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**ModelClient**](ModelClient.md)| client model | 
+ **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 
@@ -318,7 +378,7 @@ No authorization required
 
 <a name="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+> void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -346,13 +406,13 @@ namespace Example
             var number = 8.14;  // decimal? | None
             var _double = 1.2;  // double? | None
             var patternWithoutDelimiter = patternWithoutDelimiter_example;  // string | None
-            var _byte = B;  // byte[] | None
+            var _byte = BYTE_ARRAY_DATA_HERE;  // byte[] | None
             var integer = 56;  // int? | None (optional) 
             var int32 = 56;  // int? | None (optional) 
             var int64 = 789;  // long? | None (optional) 
             var _float = 3.4;  // float? | None (optional) 
             var _string = _string_example;  // string | None (optional) 
-            var binary = B;  // byte[] | None (optional) 
+            var binary = BINARY_DATA_HERE;  // System.IO.Stream | None (optional) 
             var date = 2013-10-20;  // DateTime? | None (optional) 
             var dateTime = 2013-10-20T19:20:30+01:00;  // DateTime? | None (optional) 
             var password = password_example;  // string | None (optional) 
@@ -385,7 +445,7 @@ Name | Type | Description  | Notes
  **int64** | **long?**| None | [optional] 
  **_float** | **float?**| None | [optional] 
  **_string** | **string**| None | [optional] 
- **binary** | **byte[]**| None | [optional] 
+ **binary** | **System.IO.Stream****System.IO.Stream**| None | [optional] 
  **date** | **DateTime?**| None | [optional] 
  **dateTime** | **DateTime?**| None | [optional] 
  **password** | **string**| None | [optional] 
@@ -401,14 +461,14 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
- - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="testenumparameters"></a>
 # **TestEnumParameters**
-> void TestEnumParameters (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null)
+> void TestEnumParameters (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
 
 To test enum parameters
 
@@ -429,19 +489,19 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var enumFormStringArray = enumFormStringArray_example;  // List<string> | Form parameter enum test (string array) (optional) 
-            var enumFormString = enumFormString_example;  // string | Form parameter enum test (string) (optional)  (default to -efg)
             var enumHeaderStringArray = enumHeaderStringArray_example;  // List<string> | Header parameter enum test (string array) (optional) 
             var enumHeaderString = enumHeaderString_example;  // string | Header parameter enum test (string) (optional)  (default to -efg)
             var enumQueryStringArray = enumQueryStringArray_example;  // List<string> | Query parameter enum test (string array) (optional) 
             var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
             var enumQueryInteger = 56;  // int? | Query parameter enum test (double) (optional) 
             var enumQueryDouble = 1.2;  // double? | Query parameter enum test (double) (optional) 
+            var enumFormStringArray = enumFormStringArray_example;  // List<string> | Form parameter enum test (string array) (optional) 
+            var enumFormString = enumFormString_example;  // string | Form parameter enum test (string) (optional) 
 
             try
             {
                 // To test enum parameters
-                apiInstance.TestEnumParameters(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble);
+                apiInstance.TestEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
             }
             catch (Exception e)
             {
@@ -456,14 +516,14 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumFormStringArray** | **List&lt;string&gt;**| Form parameter enum test (string array) | [optional] 
- **enumFormString** | **string**| Form parameter enum test (string) | [optional] [default to -efg]
  **enumHeaderStringArray** | **List&lt;string&gt;**| Header parameter enum test (string array) | [optional] 
  **enumHeaderString** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
  **enumQueryStringArray** | **List&lt;string&gt;**| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
+ **enumFormStringArray** | **List&lt;string&gt;**| Form parameter enum test (string array) | [optional] 
+ **enumFormString** | **string**| Form parameter enum test (string) | [optional] 
 
 ### Return type
 
@@ -475,14 +535,14 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
- - **Accept**: */*
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="testinlineadditionalproperties"></a>
 # **TestInlineAdditionalProperties**
-> void TestInlineAdditionalProperties (Object param)
+> void TestInlineAdditionalProperties (string requestBody)
 
 test inline additionalProperties
 
@@ -501,12 +561,12 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var param = ;  // Object | request body
+            var requestBody = new string(); // string | request body
 
             try
             {
                 // test inline additionalProperties
-                apiInstance.TestInlineAdditionalProperties(param);
+                apiInstance.TestInlineAdditionalProperties(requestBody);
             }
             catch (Exception e)
             {
@@ -521,7 +581,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **Object**| request body | 
+ **requestBody** | [**string**](string.md)| request body | 
 
 ### Return type
 
@@ -593,7 +653,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

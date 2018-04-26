@@ -36,7 +36,7 @@ namespace IO.Swagger.Model
         /// <param name="myNumber">myNumber.</param>
         /// <param name="myString">myString.</param>
         /// <param name="myBoolean">myBoolean.</param>
-        public OuterComposite(OuterNumber myNumber = default(OuterNumber), OuterString myString = default(OuterString), OuterBoolean myBoolean = default(OuterBoolean))
+        public OuterComposite(decimal? myNumber = default(decimal?), string myString = default(string), bool? myBoolean = default(bool?))
         {
             this.MyNumber = myNumber;
             this.MyString = myString;
@@ -47,19 +47,19 @@ namespace IO.Swagger.Model
         /// Gets or Sets MyNumber
         /// </summary>
         [DataMember(Name="my_number", EmitDefaultValue=false)]
-        public OuterNumber MyNumber { get; set; }
+        public decimal? MyNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets MyString
         /// </summary>
         [DataMember(Name="my_string", EmitDefaultValue=false)]
-        public OuterString MyString { get; set; }
+        public string MyString { get; set; }
 
         /// <summary>
         /// Gets or Sets MyBoolean
         /// </summary>
         [DataMember(Name="my_boolean", EmitDefaultValue=false)]
-        public OuterBoolean MyBoolean { get; set; }
+        public bool? MyBoolean { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
