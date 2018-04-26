@@ -77,8 +77,8 @@ update_params_with_auth(Cfg, Headers, QS) ->
                   key => <<"api_key">>,
                   in => header}, 'petstore_auth' =>
                 #{type => 'oauth2',
-                  key => <<"">>,
-                  in => }},
+                  key => <<"Authorization">>,
+                  in => header}},
 
     maps:fold(fun(AuthName, #{type := _Type,
                               in := In,
