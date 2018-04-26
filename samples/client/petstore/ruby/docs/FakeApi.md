@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **fake_outer_boolean_serialize**
-> OuterBoolean fake_outer_boolean_serialize(opts)
+> BOOLEAN fake_outer_boolean_serialize(opts)
 
 
 
@@ -49,7 +49,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**OuterBoolean**](OuterBoolean.md)
+**BOOLEAN**
 
 ### Authorization
 
@@ -109,7 +109,7 @@ No authorization required
 
 
 # **fake_outer_number_serialize**
-> OuterNumber fake_outer_number_serialize(opts)
+> Float fake_outer_number_serialize(opts)
 
 
 
@@ -141,7 +141,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**OuterNumber**](OuterNumber.md)
+**Float**
 
 ### Authorization
 
@@ -155,7 +155,7 @@ No authorization required
 
 
 # **fake_outer_string_serialize**
-> OuterString fake_outer_string_serialize(opts)
+> String fake_outer_string_serialize(opts)
 
 
 
@@ -187,7 +187,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**OuterString**](OuterString.md)
+**String**
 
 ### Authorization
 
