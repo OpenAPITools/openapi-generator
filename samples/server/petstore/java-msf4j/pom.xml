@@ -5,7 +5,7 @@
     <version>2.0.0</version>
   </parent> 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>io.swagger</groupId>
+  <groupId>org.openapitools</groupId>
   <artifactId>swagger-msf4j-server</artifactId>
   <packaging>jar</packaging>
   <name>swagger-msf4j-server</name>
@@ -72,7 +72,7 @@
     </repository>
   </repositories>
   <properties>
-    <java.version>1.8</java.version>
+    <java.version>1.7</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.18</swagger-core-version>
