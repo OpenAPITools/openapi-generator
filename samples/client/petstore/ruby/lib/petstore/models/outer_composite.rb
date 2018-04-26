@@ -32,9 +32,9 @@ module Petstore
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'my_number' => :'OuterNumber',
-        :'my_string' => :'OuterString',
-        :'my_boolean' => :'OuterBoolean'
+        :'my_number' => :'Float',
+        :'my_string' => :'String',
+        :'my_boolean' => :'BOOLEAN'
       }
     end
 

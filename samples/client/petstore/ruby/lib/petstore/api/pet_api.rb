@@ -146,7 +146,7 @@ module Petstore
 
       # query parameters
       query_params = {}
-      query_params[:'status'] = status
+      query_params[:'status'] = @api_client.build_collection_param(status, :csv)
 
       # header parameters
       header_params = {}
@@ -199,7 +199,7 @@ module Petstore
 
       # query parameters
       query_params = {}
-      query_params[:'tags'] = tags
+      query_params[:'tags'] = @api_client.build_collection_param(tags, :csv)
 
       # header parameters
       header_params = {}

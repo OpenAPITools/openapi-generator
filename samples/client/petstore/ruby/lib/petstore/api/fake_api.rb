@@ -22,7 +22,7 @@ module Petstore
     # Test serialization of outer boolean types
     # @param [Hash] opts the optional parameters
     # @option opts [BOOLEAN] :boolean_post_body Input boolean as post body
-    # @return [OuterBoolean]
+    # @return [BOOLEAN]
     def fake_outer_boolean_serialize(opts = {})
       data, _status_code, _headers = fake_outer_boolean_serialize_with_http_info(opts)
       data
@@ -31,7 +31,7 @@ module Petstore
     # Test serialization of outer boolean types
     # @param [Hash] opts the optional parameters
     # @option opts [BOOLEAN] :boolean_post_body Input boolean as post body
-    # @return [Array<(OuterBoolean, Fixnum, Hash)>] OuterBoolean data, response status code and response headers
+    # @return [Array<(BOOLEAN, Fixnum, Hash)>] BOOLEAN data, response status code and response headers
     def fake_outer_boolean_serialize_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.fake_outer_boolean_serialize ...'
@@ -59,7 +59,7 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => 'OuterBoolean')
+        :return_type => 'BOOLEAN')
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_outer_boolean_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -114,7 +114,7 @@ module Petstore
     # Test serialization of outer number types
     # @param [Hash] opts the optional parameters
     # @option opts [Float] :body Input number as post body
-    # @return [OuterNumber]
+    # @return [Float]
     def fake_outer_number_serialize(opts = {})
       data, _status_code, _headers = fake_outer_number_serialize_with_http_info(opts)
       data
@@ -123,7 +123,7 @@ module Petstore
     # Test serialization of outer number types
     # @param [Hash] opts the optional parameters
     # @option opts [Float] :body Input number as post body
-    # @return [Array<(OuterNumber, Fixnum, Hash)>] OuterNumber data, response status code and response headers
+    # @return [Array<(Float, Fixnum, Hash)>] Float data, response status code and response headers
     def fake_outer_number_serialize_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.fake_outer_number_serialize ...'
@@ -151,7 +151,7 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => 'OuterNumber')
+        :return_type => 'Float')
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_outer_number_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -160,7 +160,7 @@ module Petstore
     # Test serialization of outer string types
     # @param [Hash] opts the optional parameters
     # @option opts [String] :body Input string as post body
-    # @return [OuterString]
+    # @return [String]
     def fake_outer_string_serialize(opts = {})
       data, _status_code, _headers = fake_outer_string_serialize_with_http_info(opts)
       data
@@ -169,7 +169,7 @@ module Petstore
     # Test serialization of outer string types
     # @param [Hash] opts the optional parameters
     # @option opts [String] :body Input string as post body
-    # @return [Array<(OuterString, Fixnum, Hash)>] OuterString data, response status code and response headers
+    # @return [Array<(String, Fixnum, Hash)>] String data, response status code and response headers
     def fake_outer_string_serialize_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.fake_outer_string_serialize ...'
@@ -197,7 +197,7 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => 'OuterString')
+        :return_type => 'String')
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_outer_string_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -499,14 +499,14 @@ module Petstore
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_enum_parameters ...'
       end
-      if @api_client.config.client_side_validation && opts[:'enum_header_string_array'] && !['>', '$'].include?(opts[:'enum_header_string_array'])
-        fail ArgumentError, 'invalid value for "enum_header_string_array", must be one of >, $'
+      if @api_client.config.client_side_validation && opts[:'enum_header_string_array'] && !opts[:'enum_header_string_array'].all? { |item| ['>', '$'].include?(item) }
+        fail ArgumentError, 'invalid value for "enum_header_string_array", must include one of >, $'
       end
       if @api_client.config.client_side_validation && opts[:'enum_header_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_header_string'])
         fail ArgumentError, 'invalid value for "enum_header_string", must be one of _abc, -efg, (xyz)'
       end
-      if @api_client.config.client_side_validation && opts[:'enum_query_string_array'] && !['>', '$'].include?(opts[:'enum_query_string_array'])
-        fail ArgumentError, 'invalid value for "enum_query_string_array", must be one of >, $'
+      if @api_client.config.client_side_validation && opts[:'enum_query_string_array'] && !opts[:'enum_query_string_array'].all? { |item| ['>', '$'].include?(item) }
+        fail ArgumentError, 'invalid value for "enum_query_string_array", must include one of >, $'
       end
       if @api_client.config.client_side_validation && opts[:'enum_query_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_query_string'])
         fail ArgumentError, 'invalid value for "enum_query_string", must be one of _abc, -efg, (xyz)'
@@ -528,7 +528,7 @@ module Petstore
 
       # query parameters
       query_params = {}
-      query_params[:'enum_query_string_array'] = opts[:'enum_query_string_array'] if !opts[:'enum_query_string_array'].nil?
+      query_params[:'enum_query_string_array'] = @api_client.build_collection_param(opts[:'enum_query_string_array'], :csv) if !opts[:'enum_query_string_array'].nil?
       query_params[:'enum_query_string'] = opts[:'enum_query_string'] if !opts[:'enum_query_string'].nil?
       query_params[:'enum_query_integer'] = opts[:'enum_query_integer'] if !opts[:'enum_query_integer'].nil?
       query_params[:'enum_query_double'] = opts[:'enum_query_double'] if !opts[:'enum_query_double'].nil?
@@ -537,7 +537,7 @@ module Petstore
       header_params = {}
       # HTTP header 'Content-Type'
       header_params['Content-Type'] = @api_client.select_header_content_type(['application/x-www-form-urlencoded'])
-      header_params[:'enum_header_string_array'] = opts[:'enum_header_string_array'] if !opts[:'enum_header_string_array'].nil?
+      header_params[:'enum_header_string_array'] = @api_client.build_collection_param(opts[:'enum_header_string_array'], :csv) if !opts[:'enum_header_string_array'].nil?
       header_params[:'enum_header_string'] = opts[:'enum_header_string'] if !opts[:'enum_header_string'].nil?
 
       # form parameters
