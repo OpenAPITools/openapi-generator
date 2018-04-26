@@ -526,17 +526,17 @@ export class PetApi {
     /**
      * 
      * @summary Add a new pet to the store
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public addPet (body: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public addPet (pet: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling addPet.');
+        // verify required parameter 'pet' is not null or undefined
+        if (pet === null || pet === undefined) {
+            throw new Error('Required parameter pet was null or undefined when calling addPet.');
         }
 
 
@@ -549,7 +549,7 @@ export class PetApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Pet")
+            body: ObjectSerializer.serialize(pet, "Pet")
         };
 
         this.authentications.petstore_auth.applyToRequest(localVarRequestOptions);
@@ -807,17 +807,17 @@ export class PetApi {
     /**
      * 
      * @summary Update an existing pet
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public updatePet (body: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public updatePet (pet: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling updatePet.');
+        // verify required parameter 'pet' is not null or undefined
+        if (pet === null || pet === undefined) {
+            throw new Error('Required parameter pet was null or undefined when calling updatePet.');
         }
 
 
@@ -830,7 +830,7 @@ export class PetApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Pet")
+            body: ObjectSerializer.serialize(pet, "Pet")
         };
 
         this.authentications.petstore_auth.applyToRequest(localVarRequestOptions);
@@ -1196,17 +1196,17 @@ export class StoreApi {
     /**
      * 
      * @summary Place an order for a pet
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      */
-    public placeOrder (body: Order) : Promise<{ response: http.ClientResponse; body: Order;  }> {
+    public placeOrder (order: Order) : Promise<{ response: http.ClientResponse; body: Order;  }> {
         const localVarPath = this.basePath + '/store/order';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling placeOrder.');
+        // verify required parameter 'order' is not null or undefined
+        if (order === null || order === undefined) {
+            throw new Error('Required parameter order was null or undefined when calling placeOrder.');
         }
 
 
@@ -1219,7 +1219,7 @@ export class StoreApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Order")
+            body: ObjectSerializer.serialize(order, "Order")
         };
 
         this.authentications.default.applyToRequest(localVarRequestOptions);
@@ -1301,17 +1301,17 @@ export class UserApi {
     /**
      * This can only be done by the logged in user.
      * @summary Create user
-     * @param body Created user object
+     * @param user Created user object
      */
-    public createUser (body: User) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public createUser (user: User) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling createUser.');
+        // verify required parameter 'user' is not null or undefined
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling createUser.');
         }
 
 
@@ -1324,7 +1324,7 @@ export class UserApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "User")
+            body: ObjectSerializer.serialize(user, "User")
         };
 
         this.authentications.default.applyToRequest(localVarRequestOptions);
@@ -1353,17 +1353,17 @@ export class UserApi {
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param body List of user object
+     * @param user List of user object
      */
-    public createUsersWithArrayInput (body: Array<User>) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public createUsersWithArrayInput (user: Array<User>) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/createWithArray';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling createUsersWithArrayInput.');
+        // verify required parameter 'user' is not null or undefined
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
         }
 
 
@@ -1376,7 +1376,7 @@ export class UserApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Array<User>")
+            body: ObjectSerializer.serialize(user, "Array<User>")
         };
 
         this.authentications.default.applyToRequest(localVarRequestOptions);
@@ -1405,17 +1405,17 @@ export class UserApi {
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param body List of user object
+     * @param user List of user object
      */
-    public createUsersWithListInput (body: Array<User>) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public createUsersWithListInput (user: Array<User>) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/createWithList';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling createUsersWithListInput.');
+        // verify required parameter 'user' is not null or undefined
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling createUsersWithListInput.');
         }
 
 
@@ -1428,7 +1428,7 @@ export class UserApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Array<User>")
+            body: ObjectSerializer.serialize(user, "Array<User>")
         };
 
         this.authentications.default.applyToRequest(localVarRequestOptions);
@@ -1674,9 +1674,9 @@ export class UserApi {
      * This can only be done by the logged in user.
      * @summary Updated user
      * @param username name that need to be deleted
-     * @param body Updated user object
+     * @param user Updated user object
      */
-    public updateUser (username: string, body: User) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public updateUser (username: string, user: User) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
         let localVarQueryParameters: any = {};
@@ -1688,9 +1688,9 @@ export class UserApi {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
 
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling updateUser.');
+        // verify required parameter 'user' is not null or undefined
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling updateUser.');
         }
 
 
@@ -1703,7 +1703,7 @@ export class UserApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "User")
+            body: ObjectSerializer.serialize(user, "User")
         };
 
         this.authentications.default.applyToRequest(localVarRequestOptions);
