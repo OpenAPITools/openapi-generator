@@ -75,8 +75,6 @@ export class StoreService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -182,16 +180,16 @@ export class StoreService {
     /**
      * Place an order for a pet
      * 
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public placeOrder(body: Order, observe?: 'body', reportProgress?: boolean): Observable<Order>;
-    public placeOrder(body: Order, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Order>>;
-    public placeOrder(body: Order, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Order>>;
-    public placeOrder(body: Order, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling placeOrder.');
+    public placeOrder(order: Order, observe?: 'body', reportProgress?: boolean): Observable<Order>;
+    public placeOrder(order: Order, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Order>>;
+    public placeOrder(order: Order, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Order>>;
+    public placeOrder(order: Order, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (order === null || order === undefined) {
+            throw new Error('Required parameter order was null or undefined when calling placeOrder.');
         }
 
         let headers = this.defaultHeaders;
@@ -215,7 +213,7 @@ export class StoreService {
         }
 
         return this.httpClient.post<Order>(`${this.basePath}/store/order`,
-            body,
+            order,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

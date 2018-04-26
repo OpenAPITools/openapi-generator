@@ -2,7 +2,7 @@
 
 ### Building
 
-To build an compile the typescript sources to javascript use:
+To install the required dependencies and to build the typescript sources run:
 ```
 npm install
 npm run build
@@ -10,11 +10,11 @@ npm run build
 
 ### publishing
 
-First build the package than run ```npm publish```
+First build the package than run ```npm publish dist``` (don't forget to specify the `dist` folder!)
 
 ### consuming
 
-navigate to the folder of your consuming project and run one of next commando's.
+Navigate to the folder of your consuming project and run one of next commands.
 
 _published:_
 
@@ -22,23 +22,30 @@ _published:_
 npm install @swagger/angular2-typescript-petstore@0.0.1 --save
 ```
 
-_unPublished (not recommended):_
+_without publishing (not recommended):_
 
 ```
-npm install PATH_TO_GENERATED_PACKAGE --save
+npm install PATH_TO_GENERATED_PACKAGE/dist --save
 ```
 
 _using `npm link`:_
 
-In PATH_TO_GENERATED_PACKAGE:
+In PATH_TO_GENERATED_PACKAGE/dist:
 ```
 npm link
 ```
 
 In your project:
 ```
-npm link @swagger/angular2-typescript-petstore@0.0.1
+npm link @swagger/angular2-typescript-petstore
 ```
+
+__Note for Windows users:__ The Angular CLI has troubles to use linked npm packages.
+Please refer to this issue https://github.com/angular/angular-cli/issues/8284 for a solution / workaround.
+Published packages are not effected by this issue.
+
+
+#### General usage
 
 In your Angular project:
 
