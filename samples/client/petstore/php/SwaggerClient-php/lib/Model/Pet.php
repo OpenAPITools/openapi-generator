@@ -261,18 +261,7 @@ class Pet implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-
-        if ($this->container['name'] === null) {
-            return false;
-        }
-        if ($this->container['photo_urls'] === null) {
-            return false;
-        }
-        $allowedValues = $this->getStatusAllowableValues();
-        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
-            return false;
-        }
-        return true;
+        return count($this->listInvalidProperties()) === 0;
     }
 
 

@@ -194,11 +194,7 @@ class Cat extends Animal
      */
     public function valid()
     {
-        if (!parent::valid()) {
-            return false;
-        }
-
-        return true;
+        return count($this->listInvalidProperties()) === 0;
     }
 
 

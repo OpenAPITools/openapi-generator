@@ -340,62 +340,7 @@ class FormatTest implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-
-        if ($this->container['integer'] > 100) {
-            return false;
-        }
-        if ($this->container['integer'] < 10) {
-            return false;
-        }
-        if ($this->container['int32'] > 200) {
-            return false;
-        }
-        if ($this->container['int32'] < 20) {
-            return false;
-        }
-        if ($this->container['number'] === null) {
-            return false;
-        }
-        if ($this->container['number'] > 543.2) {
-            return false;
-        }
-        if ($this->container['number'] < 32.1) {
-            return false;
-        }
-        if ($this->container['float'] > 987.6) {
-            return false;
-        }
-        if ($this->container['float'] < 54.3) {
-            return false;
-        }
-        if ($this->container['double'] > 123.4) {
-            return false;
-        }
-        if ($this->container['double'] < 67.8) {
-            return false;
-        }
-        if (!preg_match("/[a-z]/i", $this->container['string'])) {
-            return false;
-        }
-        if ($this->container['byte'] === null) {
-            return false;
-        }
-        if (!preg_match("/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/", $this->container['byte'])) {
-            return false;
-        }
-        if ($this->container['date'] === null) {
-            return false;
-        }
-        if ($this->container['password'] === null) {
-            return false;
-        }
-        if (mb_strlen($this->container['password']) > 64) {
-            return false;
-        }
-        if (mb_strlen($this->container['password']) < 10) {
-            return false;
-        }
-        return true;
+        return count($this->listInvalidProperties()) === 0;
     }
 
 
