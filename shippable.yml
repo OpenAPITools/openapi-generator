@@ -18,6 +18,10 @@ build:
     - sudo apt-get update
     - sudo apt-get install esl-erlang
     - sudo apt-get install elixir
+    # install rebar3
+    - wget https://s3.amazonaws.com/rebar3/rebar3 && chmod +x rebar3 && cp rebar3 /usr/bin
+    # show version
+    - rebar3 -v
     - elixir --version
     - mix --version
     # test samples defined in pom.xml
