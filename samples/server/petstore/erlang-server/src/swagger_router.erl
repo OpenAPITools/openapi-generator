@@ -164,6 +164,6 @@ prepare_validator() ->
 
 get_swagger_path() ->
     {ok, AppName} = application:get_application(?MODULE),
-    filename:join(swagger_utils:priv_dir(AppName), "swagger.json").
+    filename:join(swagger_utils:priv_dir(AppName), "openapi.json").
 
 

@@ -53,7 +53,7 @@ request_params(_) ->
 {{#operations}}{{#operation}}{{#allParams}}
 request_param_info('{{operationId}}', {{^isBodyParam}}'{{baseName}}'{{/isBodyParam}}{{#isBodyParam}}'{{dataType}}'{{/isBodyParam}}) ->
     #{
-        source => {{#isQueryParam}}qs_val{{/isQueryParam}} {{#isPathParam}}binding{{/isPathParam}} {{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}},
+        source => {{#isQueryParam}}qs_val{{/isQueryParam}} {{#isPathParam}}binding{{/isPathParam}} {{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}{{#isFormParam}}body{{/isFormParam}},
         rules => [{{#isString}}
             {type, 'binary'},{{/isString}}{{#isInteger}}
             {type, 'integer'},{{/isInteger}}{{#isLong}}
