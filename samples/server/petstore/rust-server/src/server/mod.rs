@@ -3125,10 +3125,8 @@ fn multipart_boundary<'a>(headers: &'a Headers) -> Option<&'a str> {
         }
     })
 }
-<<<<<<< HEAD
-=======
 
-/// Request parser for
+/// Request parser for `Api`.
 pub struct ApiRequestParser;
 
 impl RequestParser for ApiRequestParser {
@@ -3250,4 +3248,3 @@ impl RequestParser for ApiRequestParser {
         }
     }
 }
->>>>>>> 7572ee4... Update function name
