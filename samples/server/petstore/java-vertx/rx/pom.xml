@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>io.swagger</groupId>
+	<groupId>org.openapitools</groupId>
 	<artifactId>java-vertx-rx-server</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -28,24 +28,25 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>io.vertx</groupId>
-			<artifactId>vertx-unit</artifactId>
-			<version>${vertx.version}</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-unit</artifactId>
+            <version>${vertx.version}</version>
+            <scope>test</scope>
+        </dependency>
 
 		<dependency>
-			<groupId>com.github.phiz71</groupId>
-			<artifactId>vertx-swagger-router</artifactId>
-			<version>${vertx-swagger-router.version}</version>
-		</dependency>
+            <groupId>com.github.phiz71</groupId>
+            <artifactId>vertx-swagger-router</artifactId>
+            <version>${vertx-swagger-router.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>${jackson-datatype-jsr310.version}</version>
-		</dependency>
+        <dependency>
+          <groupId>com.fasterxml.jackson.datatype</groupId>
+          <artifactId>jackson-datatype-jsr310</artifactId>
+          <version>${jackson-datatype-jsr310.version}</version>
+        </dependency>
+
 	</dependencies>
 
 	<build>
@@ -75,7 +76,7 @@
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<manifestEntries>
 										<Main-Class>io.vertx.core.Starter</Main-Class>
-										<Main-Verticle>io.swagger.server.api.MainApiVerticle</Main-Verticle>
+										<Main-Verticle>org.openapitools.server.api.MainApiVerticle</Main-Verticle>
 									</manifestEntries>
 								</transformer>
 							</transformers>
