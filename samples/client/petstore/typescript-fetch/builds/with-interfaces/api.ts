@@ -330,14 +330,14 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
         /**
          * 
          * @summary Add a new pet to the store
-         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {Pet} pet Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(body: Pet, options: any = {}): FetchArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling addPet.');
+        addPet(pet: Pet, options: any = {}): FetchArgs {
+            // verify required parameter 'pet' is not null or undefined
+            if (pet === null || pet === undefined) {
+                throw new RequiredError('pet','Required parameter pet was null or undefined when calling addPet.');
             }
             const localVarPath = `/pet`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -361,7 +361,7 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             const needsSerialization = (<any>"Pet" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(pet || {}) : (pet || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -533,14 +533,14 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
         /**
          * 
          * @summary Update an existing pet
-         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {Pet} pet Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(body: Pet, options: any = {}): FetchArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling updatePet.');
+        updatePet(pet: Pet, options: any = {}): FetchArgs {
+            // verify required parameter 'pet' is not null or undefined
+            if (pet === null || pet === undefined) {
+                throw new RequiredError('pet','Required parameter pet was null or undefined when calling updatePet.');
             }
             const localVarPath = `/pet`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -564,7 +564,7 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             const needsSerialization = (<any>"Pet" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(pet || {}) : (pet || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -687,12 +687,12 @@ export const PetApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Add a new pet to the store
-         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {Pet} pet Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(body: Pet, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
-            const localVarFetchArgs = PetApiFetchParamCreator(configuration).addPet(body, options);
+        addPet(pet: Pet, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = PetApiFetchParamCreator(configuration).addPet(pet, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -783,12 +783,12 @@ export const PetApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Update an existing pet
-         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {Pet} pet Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(body: Pet, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
-            const localVarFetchArgs = PetApiFetchParamCreator(configuration).updatePet(body, options);
+        updatePet(pet: Pet, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = PetApiFetchParamCreator(configuration).updatePet(pet, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -853,12 +853,12 @@ export const PetApiFactory = function (configuration?: Configuration, fetch?: Fe
         /**
          * 
          * @summary Add a new pet to the store
-         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {Pet} pet Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(body: Pet, options?: any) {
-            return PetApiFp(configuration).addPet(body, options)(fetch, basePath);
+        addPet(pet: Pet, options?: any) {
+            return PetApiFp(configuration).addPet(pet, options)(fetch, basePath);
         },
         /**
          * 
@@ -904,12 +904,12 @@ export const PetApiFactory = function (configuration?: Configuration, fetch?: Fe
         /**
          * 
          * @summary Update an existing pet
-         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {Pet} pet Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(body: Pet, options?: any) {
-            return PetApiFp(configuration).updatePet(body, options)(fetch, basePath);
+        updatePet(pet: Pet, options?: any) {
+            return PetApiFp(configuration).updatePet(pet, options)(fetch, basePath);
         },
         /**
          * 
@@ -947,12 +947,12 @@ export interface PetApiInterface {
     /**
      * 
      * @summary Add a new pet to the store
-     * @param {Pet} body Pet object that needs to be added to the store
+     * @param {Pet} pet Pet object that needs to be added to the store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    addPet(body: Pet, options?: any): Promise<{}>;
+    addPet(pet: Pet, options?: any): Promise<{}>;
 
     /**
      * 
@@ -998,12 +998,12 @@ export interface PetApiInterface {
     /**
      * 
      * @summary Update an existing pet
-     * @param {Pet} body Pet object that needs to be added to the store
+     * @param {Pet} pet Pet object that needs to be added to the store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    updatePet(body: Pet, options?: any): Promise<{}>;
+    updatePet(pet: Pet, options?: any): Promise<{}>;
 
     /**
      * 
@@ -1041,13 +1041,13 @@ export class PetApi extends BaseAPI implements PetApiInterface {
     /**
      * 
      * @summary Add a new pet to the store
-     * @param {Pet} body Pet object that needs to be added to the store
+     * @param {Pet} pet Pet object that needs to be added to the store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public addPet(body: Pet, options?: any) {
-        return PetApiFp(this.configuration).addPet(body, options)(this.fetch, this.basePath);
+    public addPet(pet: Pet, options?: any) {
+        return PetApiFp(this.configuration).addPet(pet, options)(this.fetch, this.basePath);
     }
 
     /**
@@ -1102,13 +1102,13 @@ export class PetApi extends BaseAPI implements PetApiInterface {
     /**
      * 
      * @summary Update an existing pet
-     * @param {Pet} body Pet object that needs to be added to the store
+     * @param {Pet} pet Pet object that needs to be added to the store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public updatePet(body: Pet, options?: any) {
-        return PetApiFp(this.configuration).updatePet(body, options)(this.fetch, this.basePath);
+    public updatePet(pet: Pet, options?: any) {
+        return PetApiFp(this.configuration).updatePet(pet, options)(this.fetch, this.basePath);
     }
 
     /**
@@ -1239,14 +1239,14 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} body order placed for purchasing the pet
+         * @param {Order} order order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(body: Order, options: any = {}): FetchArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling placeOrder.');
+        placeOrder(order: Order, options: any = {}): FetchArgs {
+            // verify required parameter 'order' is not null or undefined
+            if (order === null || order === undefined) {
+                throw new RequiredError('order','Required parameter order was null or undefined when calling placeOrder.');
             }
             const localVarPath = `/store/order`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -1261,7 +1261,7 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             const needsSerialization = (<any>"Order" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(order || {}) : (order || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -1336,12 +1336,12 @@ export const StoreApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} body order placed for purchasing the pet
+         * @param {Order} order order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(body: Order, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Order> {
-            const localVarFetchArgs = StoreApiFetchParamCreator(configuration).placeOrder(body, options);
+        placeOrder(order: Order, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Order> {
+            const localVarFetchArgs = StoreApiFetchParamCreator(configuration).placeOrder(order, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1393,12 +1393,12 @@ export const StoreApiFactory = function (configuration?: Configuration, fetch?: 
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} body order placed for purchasing the pet
+         * @param {Order} order order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(body: Order, options?: any) {
-            return StoreApiFp(configuration).placeOrder(body, options)(fetch, basePath);
+        placeOrder(order: Order, options?: any) {
+            return StoreApiFp(configuration).placeOrder(order, options)(fetch, basePath);
         },
     };
 };
@@ -1441,12 +1441,12 @@ export interface StoreApiInterface {
     /**
      * 
      * @summary Place an order for a pet
-     * @param {Order} body order placed for purchasing the pet
+     * @param {Order} order order placed for purchasing the pet
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof StoreApiInterface
      */
-    placeOrder(body: Order, options?: any): Promise<Order>;
+    placeOrder(order: Order, options?: any): Promise<Order>;
 
 }
 
@@ -1495,13 +1495,13 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
     /**
      * 
      * @summary Place an order for a pet
-     * @param {Order} body order placed for purchasing the pet
+     * @param {Order} order order placed for purchasing the pet
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public placeOrder(body: Order, options?: any) {
-        return StoreApiFp(this.configuration).placeOrder(body, options)(this.fetch, this.basePath);
+    public placeOrder(order: Order, options?: any) {
+        return StoreApiFp(this.configuration).placeOrder(order, options)(this.fetch, this.basePath);
     }
 
 }
@@ -1515,14 +1515,14 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
         /**
          * This can only be done by the logged in user.
          * @summary Create user
-         * @param {User} body Created user object
+         * @param {User} user Created user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser(body: User, options: any = {}): FetchArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createUser.');
+        createUser(user: User, options: any = {}): FetchArgs {
+            // verify required parameter 'user' is not null or undefined
+            if (user === null || user === undefined) {
+                throw new RequiredError('user','Required parameter user was null or undefined when calling createUser.');
             }
             const localVarPath = `/user`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -1537,7 +1537,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             const needsSerialization = (<any>"User" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(user || {}) : (user || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -1547,14 +1547,14 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
         /**
          * 
          * @summary Creates list of users with given input array
-         * @param {Array<User>} body List of user object
+         * @param {Array<User>} user List of user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithArrayInput(body: Array<User>, options: any = {}): FetchArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createUsersWithArrayInput.');
+        createUsersWithArrayInput(user: Array<User>, options: any = {}): FetchArgs {
+            // verify required parameter 'user' is not null or undefined
+            if (user === null || user === undefined) {
+                throw new RequiredError('user','Required parameter user was null or undefined when calling createUsersWithArrayInput.');
             }
             const localVarPath = `/user/createWithArray`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -1569,7 +1569,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             const needsSerialization = (<any>"Array&lt;User&gt;" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(user || {}) : (user || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -1579,14 +1579,14 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
         /**
          * 
          * @summary Creates list of users with given input array
-         * @param {Array<User>} body List of user object
+         * @param {Array<User>} user List of user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithListInput(body: Array<User>, options: any = {}): FetchArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createUsersWithListInput.');
+        createUsersWithListInput(user: Array<User>, options: any = {}): FetchArgs {
+            // verify required parameter 'user' is not null or undefined
+            if (user === null || user === undefined) {
+                throw new RequiredError('user','Required parameter user was null or undefined when calling createUsersWithListInput.');
             }
             const localVarPath = `/user/createWithList`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -1601,7 +1601,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             const needsSerialization = (<any>"Array&lt;User&gt;" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(user || {}) : (user || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -1734,18 +1734,18 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
          * This can only be done by the logged in user.
          * @summary Updated user
          * @param {string} username name that need to be deleted
-         * @param {User} body Updated user object
+         * @param {User} user Updated user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(username: string, body: User, options: any = {}): FetchArgs {
+        updateUser(username: string, user: User, options: any = {}): FetchArgs {
             // verify required parameter 'username' is not null or undefined
             if (username === null || username === undefined) {
                 throw new RequiredError('username','Required parameter username was null or undefined when calling updateUser.');
             }
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling updateUser.');
+            // verify required parameter 'user' is not null or undefined
+            if (user === null || user === undefined) {
+                throw new RequiredError('user','Required parameter user was null or undefined when calling updateUser.');
             }
             const localVarPath = `/user/{username}`
                 .replace(`{${"username"}}`, encodeURIComponent(String(username)));
@@ -1761,7 +1761,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             const needsSerialization = (<any>"User" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(user || {}) : (user || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -1780,12 +1780,12 @@ export const UserApiFp = function(configuration?: Configuration) {
         /**
          * This can only be done by the logged in user.
          * @summary Create user
-         * @param {User} body Created user object
+         * @param {User} user Created user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser(body: User, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
-            const localVarFetchArgs = UserApiFetchParamCreator(configuration).createUser(body, options);
+        createUser(user: User, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = UserApiFetchParamCreator(configuration).createUser(user, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1799,12 +1799,12 @@ export const UserApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Creates list of users with given input array
-         * @param {Array<User>} body List of user object
+         * @param {Array<User>} user List of user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithArrayInput(body: Array<User>, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
-            const localVarFetchArgs = UserApiFetchParamCreator(configuration).createUsersWithArrayInput(body, options);
+        createUsersWithArrayInput(user: Array<User>, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = UserApiFetchParamCreator(configuration).createUsersWithArrayInput(user, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1818,12 +1818,12 @@ export const UserApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Creates list of users with given input array
-         * @param {Array<User>} body List of user object
+         * @param {Array<User>} user List of user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithListInput(body: Array<User>, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
-            const localVarFetchArgs = UserApiFetchParamCreator(configuration).createUsersWithListInput(body, options);
+        createUsersWithListInput(user: Array<User>, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = UserApiFetchParamCreator(configuration).createUsersWithListInput(user, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1914,12 +1914,12 @@ export const UserApiFp = function(configuration?: Configuration) {
          * This can only be done by the logged in user.
          * @summary Updated user
          * @param {string} username name that need to be deleted
-         * @param {User} body Updated user object
+         * @param {User} user Updated user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(username: string, body: User, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
-            const localVarFetchArgs = UserApiFetchParamCreator(configuration).updateUser(username, body, options);
+        updateUser(username: string, user: User, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = UserApiFetchParamCreator(configuration).updateUser(username, user, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1942,32 +1942,32 @@ export const UserApiFactory = function (configuration?: Configuration, fetch?: F
         /**
          * This can only be done by the logged in user.
          * @summary Create user
-         * @param {User} body Created user object
+         * @param {User} user Created user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser(body: User, options?: any) {
-            return UserApiFp(configuration).createUser(body, options)(fetch, basePath);
+        createUser(user: User, options?: any) {
+            return UserApiFp(configuration).createUser(user, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Creates list of users with given input array
-         * @param {Array<User>} body List of user object
+         * @param {Array<User>} user List of user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithArrayInput(body: Array<User>, options?: any) {
-            return UserApiFp(configuration).createUsersWithArrayInput(body, options)(fetch, basePath);
+        createUsersWithArrayInput(user: Array<User>, options?: any) {
+            return UserApiFp(configuration).createUsersWithArrayInput(user, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Creates list of users with given input array
-         * @param {Array<User>} body List of user object
+         * @param {Array<User>} user List of user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithListInput(body: Array<User>, options?: any) {
-            return UserApiFp(configuration).createUsersWithListInput(body, options)(fetch, basePath);
+        createUsersWithListInput(user: Array<User>, options?: any) {
+            return UserApiFp(configuration).createUsersWithListInput(user, options)(fetch, basePath);
         },
         /**
          * This can only be done by the logged in user.
@@ -2013,12 +2013,12 @@ export const UserApiFactory = function (configuration?: Configuration, fetch?: F
          * This can only be done by the logged in user.
          * @summary Updated user
          * @param {string} username name that need to be deleted
-         * @param {User} body Updated user object
+         * @param {User} user Updated user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(username: string, body: User, options?: any) {
-            return UserApiFp(configuration).updateUser(username, body, options)(fetch, basePath);
+        updateUser(username: string, user: User, options?: any) {
+            return UserApiFp(configuration).updateUser(username, user, options)(fetch, basePath);
         },
     };
 };
@@ -2032,32 +2032,32 @@ export interface UserApiInterface {
     /**
      * This can only be done by the logged in user.
      * @summary Create user
-     * @param {User} body Created user object
+     * @param {User} user Created user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    createUser(body: User, options?: any): Promise<{}>;
+    createUser(user: User, options?: any): Promise<{}>;
 
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param {Array<User>} body List of user object
+     * @param {Array<User>} user List of user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    createUsersWithArrayInput(body: Array<User>, options?: any): Promise<{}>;
+    createUsersWithArrayInput(user: Array<User>, options?: any): Promise<{}>;
 
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param {Array<User>} body List of user object
+     * @param {Array<User>} user List of user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    createUsersWithListInput(body: Array<User>, options?: any): Promise<{}>;
+    createUsersWithListInput(user: Array<User>, options?: any): Promise<{}>;
 
     /**
      * This can only be done by the logged in user.
@@ -2103,12 +2103,12 @@ export interface UserApiInterface {
      * This can only be done by the logged in user.
      * @summary Updated user
      * @param {string} username name that need to be deleted
-     * @param {User} body Updated user object
+     * @param {User} user Updated user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    updateUser(username: string, body: User, options?: any): Promise<{}>;
+    updateUser(username: string, user: User, options?: any): Promise<{}>;
 
 }
 
@@ -2122,37 +2122,37 @@ export class UserApi extends BaseAPI implements UserApiInterface {
     /**
      * This can only be done by the logged in user.
      * @summary Create user
-     * @param {User} body Created user object
+     * @param {User} user Created user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public createUser(body: User, options?: any) {
-        return UserApiFp(this.configuration).createUser(body, options)(this.fetch, this.basePath);
+    public createUser(user: User, options?: any) {
+        return UserApiFp(this.configuration).createUser(user, options)(this.fetch, this.basePath);
     }
 
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param {Array<User>} body List of user object
+     * @param {Array<User>} user List of user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public createUsersWithArrayInput(body: Array<User>, options?: any) {
-        return UserApiFp(this.configuration).createUsersWithArrayInput(body, options)(this.fetch, this.basePath);
+    public createUsersWithArrayInput(user: Array<User>, options?: any) {
+        return UserApiFp(this.configuration).createUsersWithArrayInput(user, options)(this.fetch, this.basePath);
     }
 
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param {Array<User>} body List of user object
+     * @param {Array<User>} user List of user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public createUsersWithListInput(body: Array<User>, options?: any) {
-        return UserApiFp(this.configuration).createUsersWithListInput(body, options)(this.fetch, this.basePath);
+    public createUsersWithListInput(user: Array<User>, options?: any) {
+        return UserApiFp(this.configuration).createUsersWithListInput(user, options)(this.fetch, this.basePath);
     }
 
     /**
@@ -2207,13 +2207,13 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * This can only be done by the logged in user.
      * @summary Updated user
      * @param {string} username name that need to be deleted
-     * @param {User} body Updated user object
+     * @param {User} user Updated user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public updateUser(username: string, body: User, options?: any) {
-        return UserApiFp(this.configuration).updateUser(username, body, options)(this.fetch, this.basePath);
+    public updateUser(username: string, user: User, options?: any) {
+        return UserApiFp(this.configuration).updateUser(username, user, options)(this.fetch, this.basePath);
     }
 
 }
