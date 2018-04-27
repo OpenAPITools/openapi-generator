@@ -36,10 +36,10 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
-        /// <param name="_123List">_123List.</param>
-        public List(string _123List = default(string))
+        /// <param name="_123list">_123list.</param>
+        public List(string _123list = default(string))
         {
-            this._123List = _123List;
+            this._123List = _123list;
         }
         
         /// <summary>

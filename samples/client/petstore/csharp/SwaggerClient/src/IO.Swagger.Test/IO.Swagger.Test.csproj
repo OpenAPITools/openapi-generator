@@ -73,8 +73,6 @@ Contact: apiteam@swagger.io
   </ItemGroup>
   <ItemGroup>
     <Compile Include="**\*.cs" Exclude="obj\**" />
-    <Compile Include="Client\ApiClientTest.cs" />
-    <Compile Include="Client\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
       <None Include="packages.config" />
