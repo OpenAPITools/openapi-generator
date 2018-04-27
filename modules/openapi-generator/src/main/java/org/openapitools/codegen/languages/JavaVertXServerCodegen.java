@@ -1,5 +1,11 @@
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.PathItem.HttpMethod;
+import io.swagger.v3.oas.models.media.Schema;
+
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
@@ -7,12 +13,6 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.URLPathUtils;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.PathItem.HttpMethod;
-import io.swagger.v3.core.util.Json;
 
 import java.io.File;
 import java.net.URL;
@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
     protected String resourceFolder = "src/main/resources";
-    protected String rootPackage = "io.swagger.server.api";
+    protected String rootPackage = "org.openapitools.server.api";
     protected String apiVersion = "1.0.0-SNAPSHOT";
 
     public static final String ROOT_PACKAGE = "rootPackage";
@@ -124,7 +124,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         apiDocTemplateFiles.clear();
 
         supportingFiles.clear();
-        supportingFiles.add(new SupportingFile("swagger.mustache", resourceFolder, "swagger.json"));
+        supportingFiles.add(new SupportingFile("openapi.mustache", resourceFolder, "openapi.json"));
         supportingFiles.add(new SupportingFile("MainApiVerticle.mustache",
                 sourceFolder + File.separator + rootPackage.replace(".", File.separator),
                 "MainApiVerticle.java"));
@@ -174,6 +174,13 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     }
 
     @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        generateJSONSpecFile(objs);
+        return super.postProcessSupportingFileData(objs);
+    }
+
+
+    @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
                                           Map<String, Schema> definitions, OpenAPI openAPI) {
         CodegenOperation codegenOperation =
@@ -193,10 +200,6 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
-
-        // add full swagger definition in a mustache parameter
-        String openAPIDef = Json.pretty(openAPI);
-        this.additionalProperties.put("fullOpenAPI", openAPIDef);
 
         // add server port from the swagger file, 8080 by default
         URL url = URLPathUtils.getServerURL(openAPI);
