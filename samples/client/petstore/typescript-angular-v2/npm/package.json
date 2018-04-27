@@ -8,9 +8,10 @@
   ],
   "license": "Unlicense",
   "main": "dist/index.js",
+  "module": "dist/index.js",  
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc --outDir dist/",
+    "build": "ngc",
     "postinstall": "npm run build"
   },
   "peerDependencies": {
@@ -24,6 +25,7 @@
     "zone.js": "^0.7.6"
   },
   "devDependencies": {
+    "@angular/compiler-cli": "^2.0.0",
     "@angular/core": "^2.0.0",
     "@angular/http": "^2.0.0",
     "@angular/common": "^2.0.0",
