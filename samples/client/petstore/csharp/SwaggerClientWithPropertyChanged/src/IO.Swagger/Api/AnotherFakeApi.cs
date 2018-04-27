@@ -31,9 +31,9 @@ namespace IO.Swagger.Api
         /// To test special tags
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <returns>ModelClient</returns>
-        ModelClient TestSpecialTags (ModelClient body);
+        ModelClient TestSpecialTags (ModelClient modelClient);
 
         /// <summary>
         /// To test special tags
@@ -42,9 +42,9 @@ namespace IO.Swagger.Api
         /// To test special tags
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> TestSpecialTagsWithHttpInfo (ModelClient body);
+        ApiResponse<ModelClient> TestSpecialTagsWithHttpInfo (ModelClient modelClient);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -54,9 +54,9 @@ namespace IO.Swagger.Api
         /// To test special tags
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <returns>Task of ModelClient</returns>
-        System.Threading.Tasks.Task<ModelClient> TestSpecialTagsAsync (ModelClient body);
+        System.Threading.Tasks.Task<ModelClient> TestSpecialTagsAsync (ModelClient modelClient);
 
         /// <summary>
         /// To test special tags
@@ -65,9 +65,9 @@ namespace IO.Swagger.Api
         /// To test special tags
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestSpecialTagsAsyncWithHttpInfo (ModelClient body);
+        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestSpecialTagsAsyncWithHttpInfo (ModelClient modelClient);
         #endregion Asynchronous Operations
     }
 
@@ -172,11 +172,11 @@ namespace IO.Swagger.Api
         /// To test special tags To test special tags
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <returns>ModelClient</returns>
-        public ModelClient TestSpecialTags (ModelClient body)
+        public ModelClient TestSpecialTags (ModelClient modelClient)
         {
-             ApiResponse<ModelClient> localVarResponse = TestSpecialTagsWithHttpInfo(body);
+             ApiResponse<ModelClient> localVarResponse = TestSpecialTagsWithHttpInfo(modelClient);
              return localVarResponse.Data;
         }
 
@@ -184,13 +184,13 @@ namespace IO.Swagger.Api
         /// To test special tags To test special tags
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        public ApiResponse< ModelClient > TestSpecialTagsWithHttpInfo (ModelClient body)
+        public ApiResponse< ModelClient > TestSpecialTagsWithHttpInfo (ModelClient modelClient)
         {
-            // verify the required parameter 'body' is set
-            if (body == null)
-                throw new ApiException(400, "Missing required parameter 'body' when calling AnotherFakeApi->TestSpecialTags");
+            // verify the required parameter 'modelClient' is set
+            if (modelClient == null)
+                throw new ApiException(400, "Missing required parameter 'modelClient' when calling AnotherFakeApi->TestSpecialTags");
 
             var localVarPath = "/another-fake/dummy";
             var localVarPathParams = new Dictionary<String, String>();
@@ -214,13 +214,13 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (body != null && body.GetType() != typeof(byte[]))
+            if (modelClient != null && modelClient.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
+                localVarPostBody = this.Configuration.ApiClient.Serialize(modelClient); // http body (model) parameter
             }
             else
             {
-                localVarPostBody = body; // byte array
+                localVarPostBody = modelClient; // byte array
             }
 
 
@@ -246,11 +246,11 @@ namespace IO.Swagger.Api
         /// To test special tags To test special tags
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <returns>Task of ModelClient</returns>
-        public async System.Threading.Tasks.Task<ModelClient> TestSpecialTagsAsync (ModelClient body)
+        public async System.Threading.Tasks.Task<ModelClient> TestSpecialTagsAsync (ModelClient modelClient)
         {
-             ApiResponse<ModelClient> localVarResponse = await TestSpecialTagsAsyncWithHttpInfo(body);
+             ApiResponse<ModelClient> localVarResponse = await TestSpecialTagsAsyncWithHttpInfo(modelClient);
              return localVarResponse.Data;
 
         }
@@ -259,13 +259,13 @@ namespace IO.Swagger.Api
         /// To test special tags To test special tags
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestSpecialTagsAsyncWithHttpInfo (ModelClient body)
+        public async System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestSpecialTagsAsyncWithHttpInfo (ModelClient modelClient)
         {
-            // verify the required parameter 'body' is set
-            if (body == null)
-                throw new ApiException(400, "Missing required parameter 'body' when calling AnotherFakeApi->TestSpecialTags");
+            // verify the required parameter 'modelClient' is set
+            if (modelClient == null)
+                throw new ApiException(400, "Missing required parameter 'modelClient' when calling AnotherFakeApi->TestSpecialTags");
 
             var localVarPath = "/another-fake/dummy";
             var localVarPathParams = new Dictionary<String, String>();
@@ -289,13 +289,13 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (body != null && body.GetType() != typeof(byte[]))
+            if (modelClient != null && modelClient.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
+                localVarPostBody = this.Configuration.ApiClient.Serialize(modelClient); // http body (model) parameter
             }
             else
             {
-                localVarPostBody = body; // byte array
+                localVarPostBody = modelClient; // byte array
             }
 
 
