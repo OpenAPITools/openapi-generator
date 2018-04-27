@@ -62,6 +62,11 @@ public class TypeScriptAngularJsClientCodegen extends AbstractTypeScriptClientCo
     }
 
     @Override
+    public String getTypeDeclaration(String name) {
+        return addModelPrefix(name);
+    }
+
+    @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         parameter.dataType = addModelPrefix(parameter.dataType);
