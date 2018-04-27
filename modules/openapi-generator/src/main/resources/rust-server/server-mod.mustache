@@ -462,3 +462,18 @@ fn multipart_boundary<'a>(headers: &'a Headers) -> Option<&'a str> {
     })
 }
 {{/apiHasFile}}
+
+/// Request parser for
+pub struct ApiRequestParser;
+
+impl RequestParser for ApiRequestParser {
+    fn parse_operation_id(request: &Request) -> Result<&'static str, ()> {
+        let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
+        match request.method() {
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+            // {{operationId}} - {{httpMethod}} {{path}}
+            &hyper::Method::{{vendorExtensions.HttpMethod}} if path.matched(paths::ID_{{vendorExtensions.PATH_ID}}) => Ok("{{operationId}}"),
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}            _ => Err(()),
+        }
+    }
+}
