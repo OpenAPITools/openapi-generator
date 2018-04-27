@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="addpet"></a>
 # **AddPet**
-> void AddPet (Pet body)
+> void AddPet (Pet pet)
 
 Add a new pet to the store
 
@@ -38,12 +38,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var body = new Pet(); // Pet | Pet object that needs to be added to the store
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Add a new pet to the store
-                apiInstance.AddPet(body);
+                apiInstance.AddPet(pet);
             }
             catch (Exception e)
             {
@@ -58,7 +58,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -71,7 +71,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -134,7 +134,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -334,7 +334,7 @@ Name | Type | Description  | Notes
 
 <a name="updatepet"></a>
 # **UpdatePet**
-> void UpdatePet (Pet body)
+> void UpdatePet (Pet pet)
 
 Update an existing pet
 
@@ -356,12 +356,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var body = new Pet(); // Pet | Pet object that needs to be added to the store
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Update an existing pet
-                apiInstance.UpdatePet(body);
+                apiInstance.UpdatePet(pet);
             }
             catch (Exception e)
             {
@@ -376,7 +376,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -389,7 +389,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -454,7 +454,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -484,7 +484,7 @@ namespace Example
             var apiInstance = new PetApi();
             var petId = 789;  // long? | ID of pet to update
             var additionalMetadata = additionalMetadata_example;  // string | Additional data to pass to server (optional) 
-            var file = new System.IO.Stream(); // System.IO.Stream | file to upload (optional) 
+            var file = BINARY_DATA_HERE;  // System.IO.Stream | file to upload (optional) 
 
             try
             {

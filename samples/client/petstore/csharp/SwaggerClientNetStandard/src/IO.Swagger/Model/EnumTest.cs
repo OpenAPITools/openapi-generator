@@ -60,6 +60,37 @@ namespace IO.Swagger.Model
         [DataMember(Name="enum_string", EmitDefaultValue=false)]
         public EnumStringEnum? EnumString { get; set; }
         /// <summary>
+        /// Defines EnumStringRequired
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum EnumStringRequiredEnum
+        {
+            
+            /// <summary>
+            /// Enum UPPER for value: UPPER
+            /// </summary>
+            [EnumMember(Value = "UPPER")]
+            UPPER = 1,
+            
+            /// <summary>
+            /// Enum Lower for value: lower
+            /// </summary>
+            [EnumMember(Value = "lower")]
+            Lower = 2,
+            
+            /// <summary>
+            /// Enum Empty for value: 
+            /// </summary>
+            [EnumMember(Value = "")]
+            Empty = 3
+        }
+
+        /// <summary>
+        /// Gets or Sets EnumStringRequired
+        /// </summary>
+        [DataMember(Name="enum_string_required", EmitDefaultValue=false)]
+        public EnumStringRequiredEnum EnumStringRequired { get; set; }
+        /// <summary>
         /// Defines EnumInteger
         /// </summary>
         public enum EnumIntegerEnum
@@ -116,18 +147,34 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected EnumTest() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumTest" /> class.
+        /// </summary>
         /// <param name="enumString">enumString.</param>
+        /// <param name="enumStringRequired">enumStringRequired (required).</param>
         /// <param name="enumInteger">enumInteger.</param>
         /// <param name="enumNumber">enumNumber.</param>
         /// <param name="outerEnum">outerEnum.</param>
-        public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum? outerEnum = default(OuterEnum?))
+        public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum? outerEnum = default(OuterEnum?))
         {
+            // to ensure "enumStringRequired" is required (not null)
+            if (enumStringRequired == null)
+            {
+                throw new InvalidDataException("enumStringRequired is a required property for EnumTest and cannot be null");
+            }
+            else
+            {
+                this.EnumStringRequired = enumStringRequired;
+            }
             this.EnumString = enumString;
             this.EnumInteger = enumInteger;
             this.EnumNumber = enumNumber;
             this.OuterEnum = outerEnum;
         }
         
+
 
 
 
@@ -141,6 +188,7 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class EnumTest {\n");
             sb.Append("  EnumString: ").Append(EnumString).Append("\n");
+            sb.Append("  EnumStringRequired: ").Append(EnumStringRequired).Append("\n");
             sb.Append("  EnumInteger: ").Append(EnumInteger).Append("\n");
             sb.Append("  EnumNumber: ").Append(EnumNumber).Append("\n");
             sb.Append("  OuterEnum: ").Append(OuterEnum).Append("\n");
@@ -184,6 +232,11 @@ namespace IO.Swagger.Model
                     this.EnumString.Equals(input.EnumString))
                 ) && 
                 (
+                    this.EnumStringRequired == input.EnumStringRequired ||
+                    (this.EnumStringRequired != null &&
+                    this.EnumStringRequired.Equals(input.EnumStringRequired))
+                ) && 
+                (
                     this.EnumInteger == input.EnumInteger ||
                     (this.EnumInteger != null &&
                     this.EnumInteger.Equals(input.EnumInteger))
@@ -211,6 +264,8 @@ namespace IO.Swagger.Model
                 int hashCode = 41;
                 if (this.EnumString != null)
                     hashCode = hashCode * 59 + this.EnumString.GetHashCode();
+                if (this.EnumStringRequired != null)
+                    hashCode = hashCode * 59 + this.EnumStringRequired.GetHashCode();
                 if (this.EnumInteger != null)
                     hashCode = hashCode * 59 + this.EnumInteger.GetHashCode();
                 if (this.EnumNumber != null)

@@ -92,9 +92,9 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        Order PlaceOrder (Order body);
+        Order PlaceOrder (Order order);
 
         /// <summary>
         /// Place an order for a pet
@@ -103,9 +103,9 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <returns>ApiResponse of Order</returns>
-        ApiResponse<Order> PlaceOrderWithHttpInfo (Order body);
+        ApiResponse<Order> PlaceOrderWithHttpInfo (Order order);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -176,9 +176,9 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <returns>Task of Order</returns>
-        System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body);
+        System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order order);
 
         /// <summary>
         /// Place an order for a pet
@@ -187,9 +187,9 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body);
+        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order order);
         #endregion Asynchronous Operations
     }
 
@@ -328,8 +328,6 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/xml",
-                "application/json"
             };
             String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -395,8 +393,6 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/xml",
-                "application/json"
             };
             String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -693,11 +689,11 @@ namespace IO.Swagger.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        public Order PlaceOrder (Order body)
+        public Order PlaceOrder (Order order)
         {
-             ApiResponse<Order> localVarResponse = PlaceOrderWithHttpInfo(body);
+             ApiResponse<Order> localVarResponse = PlaceOrderWithHttpInfo(order);
              return localVarResponse.Data;
         }
 
@@ -705,13 +701,13 @@ namespace IO.Swagger.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <returns>ApiResponse of Order</returns>
-        public ApiResponse< Order > PlaceOrderWithHttpInfo (Order body)
+        public ApiResponse< Order > PlaceOrderWithHttpInfo (Order order)
         {
-            // verify the required parameter 'body' is set
-            if (body == null)
-                throw new ApiException(400, "Missing required parameter 'body' when calling StoreApi->PlaceOrder");
+            // verify the required parameter 'order' is set
+            if (order == null)
+                throw new ApiException(400, "Missing required parameter 'order' when calling StoreApi->PlaceOrder");
 
             var localVarPath = "./store/order";
             var localVarPathParams = new Dictionary<String, String>();
@@ -735,13 +731,13 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (body != null && body.GetType() != typeof(byte[]))
+            if (order != null && order.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
+                localVarPostBody = this.Configuration.ApiClient.Serialize(order); // http body (model) parameter
             }
             else
             {
-                localVarPostBody = body; // byte array
+                localVarPostBody = order; // byte array
             }
 
 
@@ -767,11 +763,11 @@ namespace IO.Swagger.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <returns>Task of Order</returns>
-        public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body)
+        public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order order)
         {
-             ApiResponse<Order> localVarResponse = await PlaceOrderAsyncWithHttpInfo(body);
+             ApiResponse<Order> localVarResponse = await PlaceOrderAsyncWithHttpInfo(order);
              return localVarResponse.Data;
 
         }
@@ -780,13 +776,13 @@ namespace IO.Swagger.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body)
+        public async System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order order)
         {
-            // verify the required parameter 'body' is set
-            if (body == null)
-                throw new ApiException(400, "Missing required parameter 'body' when calling StoreApi->PlaceOrder");
+            // verify the required parameter 'order' is set
+            if (order == null)
+                throw new ApiException(400, "Missing required parameter 'order' when calling StoreApi->PlaceOrder");
 
             var localVarPath = "./store/order";
             var localVarPathParams = new Dictionary<String, String>();
@@ -810,13 +806,13 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (body != null && body.GetType() != typeof(byte[]))
+            if (order != null && order.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
+                localVarPostBody = this.Configuration.ApiClient.Serialize(order); // http body (model) parameter
             }
             else
             {
-                localVarPostBody = body; // byte array
+                localVarPostBody = order; // byte array
             }
 
 
