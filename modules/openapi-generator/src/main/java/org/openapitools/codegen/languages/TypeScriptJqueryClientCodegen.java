@@ -117,6 +117,11 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
     }
 
     @Override
+    public String getTypeDeclaration(String name) {
+        return addModelPrefix(name);
+    }
+
+    @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
 
@@ -192,5 +197,6 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         String indexPackage = modelPackage.substring(0, Math.max(0, modelPackage.lastIndexOf('.')));
         return indexPackage.replace('.', File.separatorChar);
     }
+
 
 }

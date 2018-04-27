@@ -40,14 +40,14 @@ export class PetService {
     /**
      * Add a new pet to the store
      * 
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      
      */
-    public addPet(body: Pet, observe?: 'body', headers?: Headers): Observable<any>;
-    public addPet(body: Pet, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
-    public addPet(body: Pet, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!body){
-            throw new Error('Required parameter body was null or undefined when calling addPet.');
+    public addPet(pet: Pet, observe?: 'body', headers?: Headers): Observable<any>;
+    public addPet(pet: Pet, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
+    public addPet(pet: Pet, observe: any = 'body', headers: Headers = {}): Observable<any> {
+        if (!pet){
+            throw new Error('Required parameter pet was null or undefined when calling addPet.');
         }
 
         // authentication (petstore_auth) required
@@ -57,10 +57,10 @@ export class PetService {
                 : this.APIConfiguration.accessToken;
             headers['Authorization'] = 'Bearer ' + accessToken;
         }
-        headers['Accept'] = 'application/xml';
+        headers['Accept'] = 'application/json';
         headers['Content-Type'] = 'application/json';
 
-        const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/pet`, body , headers);
+        const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/pet`, pet , headers);
         if (observe == 'body') {
                return response.map(httpResponse => <any>(httpResponse.response));
         }
@@ -93,7 +93,7 @@ export class PetService {
                 : this.APIConfiguration.accessToken;
             headers['Authorization'] = 'Bearer ' + accessToken;
         }
-        headers['Accept'] = 'application/xml';
+        headers['Accept'] = 'application/json';
 
         const response: Observable<HttpResponse<any>> = this.httpClient.delete(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, headers);
         if (observe == 'body') {
@@ -203,14 +203,14 @@ export class PetService {
     /**
      * Update an existing pet
      * 
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      
      */
-    public updatePet(body: Pet, observe?: 'body', headers?: Headers): Observable<any>;
-    public updatePet(body: Pet, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
-    public updatePet(body: Pet, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!body){
-            throw new Error('Required parameter body was null or undefined when calling updatePet.');
+    public updatePet(pet: Pet, observe?: 'body', headers?: Headers): Observable<any>;
+    public updatePet(pet: Pet, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
+    public updatePet(pet: Pet, observe: any = 'body', headers: Headers = {}): Observable<any> {
+        if (!pet){
+            throw new Error('Required parameter pet was null or undefined when calling updatePet.');
         }
 
         // authentication (petstore_auth) required
@@ -220,10 +220,10 @@ export class PetService {
                 : this.APIConfiguration.accessToken;
             headers['Authorization'] = 'Bearer ' + accessToken;
         }
-        headers['Accept'] = 'application/xml';
+        headers['Accept'] = 'application/json';
         headers['Content-Type'] = 'application/json';
 
-        const response: Observable<HttpResponse<any>> = this.httpClient.put(`${this.basePath}/pet`, body , headers);
+        const response: Observable<HttpResponse<any>> = this.httpClient.put(`${this.basePath}/pet`, pet , headers);
         if (observe == 'body') {
                return response.map(httpResponse => <any>(httpResponse.response));
         }
@@ -253,7 +253,7 @@ export class PetService {
                 : this.APIConfiguration.accessToken;
             headers['Authorization'] = 'Bearer ' + accessToken;
         }
-        headers['Accept'] = 'application/xml';
+        headers['Accept'] = 'application/json';
 
         let formData: FormData = new FormData();
         headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
