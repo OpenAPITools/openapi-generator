@@ -30,19 +30,15 @@ type PetApiService service
 
 /* 
 PetApiService Add a new pet to the store
-
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body Pet object that needs to be added to the store
-
-
+ * @param pet Pet object that needs to be added to the store
 */
-func (a *PetApiService) AddPet(ctx context.Context, body Pet) (*http.Response, error) {
+func (a *PetApiService) AddPet(ctx context.Context, pet Pet) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		
 	)
 
 	// create path and map variables
@@ -62,7 +58,7 @@ func (a *PetApiService) AddPet(ctx context.Context, body Pet) (*http.Response, e
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
+	localVarHttpHeaderAccepts := []string{}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -70,7 +66,7 @@ func (a *PetApiService) AddPet(ctx context.Context, body Pet) (*http.Response, e
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &body
+	localVarPostBody = &pet
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -87,13 +83,11 @@ func (a *PetApiService) AddPet(ctx context.Context, body Pet) (*http.Response, e
 		return localVarHttpResponse, err
 	}
 
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericSwaggerError{
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		return localVarHttpResponse, newErr
 	}
 
@@ -102,17 +96,14 @@ func (a *PetApiService) AddPet(ctx context.Context, body Pet) (*http.Response, e
 
 /* 
 PetApiService Deletes a pet
-
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId Pet id to delete
  * @param optional nil or *DeletePetOpts - Optional Parameters:
-     * @param "ApiKey" (optional.String) - 
-
-
+ * @param "ApiKey" (optional.String) - 
 */
 
-type DeletePetOpts struct { 
-	ApiKey optional.String
+type DeletePetOpts struct {
+    ApiKey optional.String
 }
 
 func (a *PetApiService) DeletePet(ctx context.Context, petId int64, localVarOptionals *DeletePetOpts) (*http.Response, error) {
@@ -121,7 +112,6 @@ func (a *PetApiService) DeletePet(ctx context.Context, petId int64, localVarOpti
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		
 	)
 
 	// create path and map variables
@@ -142,7 +132,7 @@ func (a *PetApiService) DeletePet(ctx context.Context, petId int64, localVarOpti
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
+	localVarHttpHeaderAccepts := []string{}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -168,13 +158,11 @@ func (a *PetApiService) DeletePet(ctx context.Context, petId int64, localVarOpti
 		return localVarHttpResponse, err
 	}
 
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericSwaggerError{
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		return localVarHttpResponse, newErr
 	}
 
@@ -186,7 +174,6 @@ PetApiService Finds Pets by status
 Multiple status values can be provided with comma separated strings
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param status Status values that need to be considered for filter
-
 @return []Pet
 */
 func (a *PetApiService) FindPetsByStatus(ctx context.Context, status []string) ([]Pet, *http.Response, error) {
@@ -252,7 +239,6 @@ func (a *PetApiService) FindPetsByStatus(ctx context.Context, status []string) (
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		if localVarHttpResponse.StatusCode == 200 {
 			var v []Pet
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
@@ -263,7 +249,6 @@ func (a *PetApiService) FindPetsByStatus(ctx context.Context, status []string) (
 				newErr.model = v
 				return localVarReturnValue, localVarHttpResponse, newErr
 		}
-		
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
@@ -275,7 +260,6 @@ PetApiService Finds Pets by tags
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param tags Tags to filter by
-
 @return []Pet
 */
 func (a *PetApiService) FindPetsByTags(ctx context.Context, tags []string) ([]Pet, *http.Response, error) {
@@ -341,7 +325,6 @@ func (a *PetApiService) FindPetsByTags(ctx context.Context, tags []string) ([]Pe
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		if localVarHttpResponse.StatusCode == 200 {
 			var v []Pet
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
@@ -352,7 +335,6 @@ func (a *PetApiService) FindPetsByTags(ctx context.Context, tags []string) ([]Pe
 				newErr.model = v
 				return localVarReturnValue, localVarHttpResponse, newErr
 		}
-		
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
@@ -364,7 +346,6 @@ PetApiService Find pet by ID
 Returns a single pet
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet to return
-
 @return Pet
 */
 func (a *PetApiService) GetPetById(ctx context.Context, petId int64) (Pet, *http.Response, error) {
@@ -414,6 +395,7 @@ func (a *PetApiService) GetPetById(ctx context.Context, petId int64) (Pet, *http
 			
 		}
 	}
+
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -443,7 +425,6 @@ func (a *PetApiService) GetPetById(ctx context.Context, petId int64) (Pet, *http
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		if localVarHttpResponse.StatusCode == 200 {
 			var v Pet
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
@@ -454,7 +435,6 @@ func (a *PetApiService) GetPetById(ctx context.Context, petId int64) (Pet, *http
 				newErr.model = v
 				return localVarReturnValue, localVarHttpResponse, newErr
 		}
-		
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
@@ -463,19 +443,15 @@ func (a *PetApiService) GetPetById(ctx context.Context, petId int64) (Pet, *http
 
 /* 
 PetApiService Update an existing pet
-
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body Pet object that needs to be added to the store
-
-
+ * @param pet Pet object that needs to be added to the store
 */
-func (a *PetApiService) UpdatePet(ctx context.Context, body Pet) (*http.Response, error) {
+func (a *PetApiService) UpdatePet(ctx context.Context, pet Pet) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		
 	)
 
 	// create path and map variables
@@ -495,7 +471,7 @@ func (a *PetApiService) UpdatePet(ctx context.Context, body Pet) (*http.Response
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
+	localVarHttpHeaderAccepts := []string{}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -503,7 +479,7 @@ func (a *PetApiService) UpdatePet(ctx context.Context, body Pet) (*http.Response
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &body
+	localVarPostBody = &pet
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -520,13 +496,11 @@ func (a *PetApiService) UpdatePet(ctx context.Context, body Pet) (*http.Response
 		return localVarHttpResponse, err
 	}
 
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericSwaggerError{
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		return localVarHttpResponse, newErr
 	}
 
@@ -535,19 +509,16 @@ func (a *PetApiService) UpdatePet(ctx context.Context, body Pet) (*http.Response
 
 /* 
 PetApiService Updates a pet in the store with form data
-
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet that needs to be updated
  * @param optional nil or *UpdatePetWithFormOpts - Optional Parameters:
-     * @param "Name" (optional.String) -  Updated name of the pet
-     * @param "Status" (optional.String) -  Updated status of the pet
-
-
+ * @param "Name" (optional.String) -  Updated name of the pet
+ * @param "Status" (optional.String) -  Updated status of the pet
 */
 
-type UpdatePetWithFormOpts struct { 
-	Name optional.String
-	Status optional.String
+type UpdatePetWithFormOpts struct {
+    Name optional.String
+    Status optional.String
 }
 
 func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, localVarOptionals *UpdatePetWithFormOpts) (*http.Response, error) {
@@ -556,7 +527,6 @@ func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, loca
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		
 	)
 
 	// create path and map variables
@@ -577,7 +547,7 @@ func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, loca
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
+	localVarHttpHeaderAccepts := []string{}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -606,13 +576,11 @@ func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, loca
 		return localVarHttpResponse, err
 	}
 
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericSwaggerError{
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		return localVarHttpResponse, newErr
 	}
 
@@ -621,19 +589,17 @@ func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, loca
 
 /* 
 PetApiService uploads an image
-
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet to update
  * @param optional nil or *UploadFileOpts - Optional Parameters:
-     * @param "AdditionalMetadata" (optional.String) -  Additional data to pass to server
-     * @param "File" (optional.Interface of *os.File) -  file to upload
-
+ * @param "AdditionalMetadata" (optional.String) -  Additional data to pass to server
+ * @param "File" (optional.Interface of *os.File) -  file to upload
 @return ModelApiResponse
 */
 
-type UploadFileOpts struct { 
-	AdditionalMetadata optional.String
-	File optional.Interface
+type UploadFileOpts struct {
+    AdditionalMetadata optional.String
+    File optional.Interface
 }
 
 func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOptionals *UploadFileOpts) (ModelApiResponse, *http.Response, error) {
@@ -716,7 +682,6 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		if localVarHttpResponse.StatusCode == 200 {
 			var v ModelApiResponse
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
@@ -727,7 +692,6 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 				newErr.model = v
 				return localVarReturnValue, localVarHttpResponse, newErr
 		}
-		
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 

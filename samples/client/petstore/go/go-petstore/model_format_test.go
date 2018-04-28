@@ -9,8 +9,8 @@
  */
 
 package petstore
-
 import (
+	"os"
 	"time"
 )
 
@@ -23,7 +23,7 @@ type FormatTest struct {
 	Double float64 `json:"double,omitempty"`
 	String_ string `json:"string,omitempty"`
 	Byte_ string `json:"byte"`
-	Binary string `json:"binary,omitempty"`
+	Binary **os.File `json:"binary,omitempty"`
 	Date string `json:"date"`
 	DateTime time.Time `json:"dateTime,omitempty"`
 	Uuid string `json:"uuid,omitempty"`

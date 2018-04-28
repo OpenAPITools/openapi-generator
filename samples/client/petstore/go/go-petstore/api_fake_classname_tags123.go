@@ -29,11 +29,10 @@ type FakeClassnameTags123ApiService service
 FakeClassnameTags123ApiService To test class name in snake case
 To test class name in snake case
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body client model
-
+ * @param client client model
 @return Client
 */
-func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body Client) (Client, *http.Response, error) {
+func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, client Client) (Client, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Patch")
 		localVarPostBody   interface{}
@@ -67,7 +66,7 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &body
+	localVarPostBody = &client
 	if ctx != nil {
 		// API Key Authentication
 		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
@@ -81,6 +80,7 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body
 			localVarQueryParams.Add("api_key_query", key)
 		}
 	}
+
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -110,7 +110,6 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		if localVarHttpResponse.StatusCode == 200 {
 			var v Client
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
@@ -121,7 +120,6 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body
 				newErr.model = v
 				return localVarReturnValue, localVarHttpResponse, newErr
 		}
-		
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 

@@ -31,8 +31,6 @@ StoreApiService Delete purchase order by ID
 For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param orderId ID of the order that needs to be deleted
-
-
 */
 func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (*http.Response, error) {
 	var (
@@ -40,7 +38,6 @@ func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (*htt
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		
 	)
 
 	// create path and map variables
@@ -61,7 +58,7 @@ func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (*htt
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
+	localVarHttpHeaderAccepts := []string{}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -84,13 +81,11 @@ func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (*htt
 		return localVarHttpResponse, err
 	}
 
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericSwaggerError{
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		return localVarHttpResponse, newErr
 	}
 
@@ -101,7 +96,6 @@ func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (*htt
 StoreApiService Returns pet inventories by status
 Returns a map of status codes to quantities
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-
 @return map[string]int32
 */
 func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32, *http.Response, error) {
@@ -150,6 +144,7 @@ func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32, *
 			
 		}
 	}
+
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -179,7 +174,6 @@ func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32, *
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		if localVarHttpResponse.StatusCode == 200 {
 			var v map[string]int32
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
@@ -190,7 +184,6 @@ func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32, *
 				newErr.model = v
 				return localVarReturnValue, localVarHttpResponse, newErr
 		}
-		
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
@@ -202,7 +195,6 @@ StoreApiService Find purchase order by ID
 For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param orderId ID of pet that needs to be fetched
-
 @return Order
 */
 func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Order, *http.Response, error) {
@@ -274,7 +266,6 @@ func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Orde
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		if localVarHttpResponse.StatusCode == 200 {
 			var v Order
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
@@ -285,7 +276,6 @@ func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Orde
 				newErr.model = v
 				return localVarReturnValue, localVarHttpResponse, newErr
 		}
-		
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
@@ -294,13 +284,11 @@ func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Orde
 
 /* 
 StoreApiService Place an order for a pet
-
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body order placed for purchasing the pet
-
+ * @param order order placed for purchasing the pet
 @return Order
 */
-func (a *StoreApiService) PlaceOrder(ctx context.Context, body Order) (Order, *http.Response, error) {
+func (a *StoreApiService) PlaceOrder(ctx context.Context, order Order) (Order, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -334,7 +322,7 @@ func (a *StoreApiService) PlaceOrder(ctx context.Context, body Order) (Order, *h
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &body
+	localVarPostBody = &order
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -364,7 +352,6 @@ func (a *StoreApiService) PlaceOrder(ctx context.Context, body Order) (Order, *h
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		if localVarHttpResponse.StatusCode == 200 {
 			var v Order
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
@@ -375,7 +362,6 @@ func (a *StoreApiService) PlaceOrder(ctx context.Context, body Order) (Order, *h
 				newErr.model = v
 				return localVarReturnValue, localVarHttpResponse, newErr
 		}
-		
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 

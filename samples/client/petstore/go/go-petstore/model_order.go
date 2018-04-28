@@ -9,7 +9,6 @@
  */
 
 package petstore
-
 import (
 	"time"
 )

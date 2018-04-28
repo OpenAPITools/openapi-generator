@@ -193,32 +193,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return "api_" + underscore(name);
     }
 
-    /**
-     * Overrides postProcessParameter to add a vendor extension "x-exportParamName".
-     * This is useful when paramName starts with a lowercase letter, but we need that
-     * param to be exportable (starts with an Uppercase letter).
-     *
-     * @param parameter CodegenParameter object to be processed.
-
-    @Override
-
-    public void postProcessParameter(CodegenParameter parameter) {
-
-        // Give the base class a chance to process
-        super.postProcessParameter(parameter);
-
-        char nameFirstChar = parameter.paramName.charAt(0);
-        if (Character.isUpperCase(nameFirstChar)) {
-            // First char is already uppercase, just use paramName.
-            parameter.vendorExtensions.put("x-exportParamName", parameter.paramName);
-        } else {
-            // It's a lowercase first char, let's convert it to uppercase
-            StringBuilder sb = new StringBuilder(parameter.paramName);
-            sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
-            parameter.vendorExtensions.put("x-exportParamName", sb.toString());
-        }
-    }*/
-
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
@@ -335,13 +309,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     // We need to specially map Time type to the optionals package
                     if ("time.Time".equals(param.dataType)) {
                         param.vendorExtensions.put("x-optionalDataType", "Time");
-                        continue;
+                    } else {
+                        // Map optional type to dataType
+                        param.vendorExtensions.put("x-optionalDataType",
+                                param.dataType.substring(0, 1).toUpperCase() + param.dataType.substring(1));
                     }
-                    // Map optional type to dataType
-                    param.vendorExtensions.put("x-optionalDataType",
-                            param.dataType.substring(0, 1).toUpperCase() + param.dataType.substring(1));
                 }
 
+                // set x-exportParamName
                 char nameFirstChar = param.paramName.charAt(0);
                 if (Character.isUpperCase(nameFirstChar)) {
                     // First char is already uppercase, just use paramName.
@@ -353,6 +328,15 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     param.vendorExtensions.put("x-exportParamName", sb.toString());
                 }
             }
+
+            setExportParameterName(operation.queryParams);
+            setExportParameterName(operation.formParams);
+            setExportParameterName(operation.headerParams);
+            setExportParameterName(operation.bodyParams);
+            setExportParameterName(operation.cookieParams);
+            setExportParameterName(operation.optionalParams);
+            setExportParameterName(operation.requiredParams);
+
         }
 
         // recursively add import for mapping one type to multiple imports
@@ -371,6 +355,21 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         return objs;
+    }
+
+    private void setExportParameterName(List<CodegenParameter> codegenParameters) {
+        for (CodegenParameter param : codegenParameters) {
+            char nameFirstChar = param.paramName.charAt(0);
+            if (Character.isUpperCase(nameFirstChar)) {
+                // First char is already uppercase, just use paramName.
+                param.vendorExtensions.put("x-exportParamName", param.paramName);
+            } else {
+                // It's a lowercase first char, let's convert it to uppercase
+                StringBuilder sb = new StringBuilder(param.paramName);
+                sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
+                param.vendorExtensions.put("x-exportParamName", sb.toString());
+            }
+        }
     }
 
     @Override
@@ -393,11 +392,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             if (v instanceof CodegenModel) {
                 CodegenModel model = (CodegenModel) v;
                 for (CodegenProperty param : model.vars) {
-                    if (!addedTimeImport && param.baseType == "time.Time") {
+                    if (!addedTimeImport && "time.Time".equals(param.baseType)) {
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
                     }
-                    if (!addedOSImport && param.baseType == "*os.File") {
+                    if (!addedOSImport && "*os.File".equals(param.baseType)) {
                         imports.add(createMapping("import", "os"));
                         addedOSImport = true;
                     }
