@@ -21,19 +21,46 @@ type {{classname}}Service service
 {{#operation}}
 
 /* 
-{{{classname}}}Service{{#summary}} {{.}}{{/summary}}{{#notes}}
-{{notes}}{{/notes}}
+{{{classname}}}Service{{#summary}} {{.}}{{/summary}}
+{{#notes}}
+{{notes}}
+{{/notes}}
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-{{#allParams}}{{#required}} * @param {{paramName}}{{#description}} {{.}}{{/description}}
-{{/required}}{{/allParams}}{{#hasOptionalParams}} * @param optional nil or *{{{nickname}}}Opts - Optional Parameters:
-{{#allParams}}{{^required}}     * @param "{{vendorExtensions.x-exportParamName}}" ({{#isPrimitiveType}}optional.{{vendorExtensions.x-optionalDataType}}{{/isPrimitiveType}}{{^isPrimitiveType}}optional.Interface of {{dataType}}{{/isPrimitiveType}}) - {{#description}} {{.}}{{/description}}
-{{/required}}{{/allParams}}{{/hasOptionalParams}}
-{{#returnType}}@return {{{returnType}}}{{/returnType}}
+{{#allParams}}
+{{#required}}
+ * @param {{paramName}}{{#description}} {{.}}{{/description}}
+{{/required}}
+{{/allParams}}
+{{#hasOptionalParams}}
+ * @param optional nil or *{{{nickname}}}Opts - Optional Parameters:
+{{#allParams}}
+{{^required}}
+ * @param "{{vendorExtensions.x-exportParamName}}" ({{#isPrimitiveType}}{{^isBinary}}optional.{{vendorExtensions.x-optionalDataType}}{{/isBinary}}{{#isBinary}}optional.Interface of {{dataType}}{{/isBinary}}{{/isPrimitiveType}}{{^isPrimitiveType}}optional.Interface of {{dataType}}{{/isPrimitiveType}}) - {{#description}} {{{.}}}{{/description}}
+{{/required}}
+{{/allParams}}
+{{/hasOptionalParams}}
+{{#returnType}}
+@return {{{returnType}}}
+{{/returnType}}
 */
 {{#hasOptionalParams}}
 
-type {{{nickname}}}Opts struct { {{#allParams}}{{^required}}
-{{#isPrimitiveType}}	{{vendorExtensions.x-exportParamName}} optional.{{vendorExtensions.x-optionalDataType}}{{/isPrimitiveType}}{{^isPrimitiveType}}	{{vendorExtensions.x-exportParamName}} optional.Interface{{/isPrimitiveType}}{{/required}}{{/allParams}}
+type {{{nickname}}}Opts struct {
+{{#allParams}}
+{{^required}}
+{{#isPrimitiveType}}
+{{^isBinary}}
+    {{vendorExtensions.x-exportParamName}} optional.{{vendorExtensions.x-optionalDataType}}
+{{/isBinary}}
+{{#isBinary}}
+    {{vendorExtensions.x-exportParamName}} optional.Interface
+{{/isBinary}}
+{{/isPrimitiveType}}
+{{^isPrimitiveType}}
+    {{vendorExtensions.x-exportParamName}} optional.Interface
+{{/isPrimitiveType}}
+{{/required}}
+{{/allParams}}
 }
 
 {{/hasOptionalParams}}
@@ -43,7 +70,9 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		{{#returnType}}localVarReturnValue {{{returnType}}}{{/returnType}}
+		{{#returnType}}
+		localVarReturnValue {{{returnType}}}
+		{{/returnType}}
 	)
 
 	// create path and map variables
@@ -179,14 +208,14 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 {{/hasFormParams}}
 {{#hasBodyParam}}
 {{#bodyParams}}
-    // body params
+	// body params
 {{#required}}
 	localVarPostBody = &{{paramName}}
 {{/required}}
 {{^required}}
 	if localVarOptionals != nil && localVarOptionals.{{vendorExtensions.x-exportParamName}}.IsSet() {
 		{{#isPrimitiveType}}
-		localVarPostBody = &localVarOptionals.{{vendorExtensions.x-exportParamName}}.Value()
+		localVarPostBody = localVarOptionals.{{vendorExtensions.x-exportParamName}}.Value()
 		{{/isPrimitiveType}}
 		{{^isPrimitiveType}}
 		localVarOptional{{vendorExtensions.x-exportParamName}}, localVarOptional{{vendorExtensions.x-exportParamName}}ok := localVarOptionals.{{vendorExtensions.x-exportParamName}}.Value().({{{dataType}}})
@@ -196,6 +225,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 		localVarPostBody = &localVarOptional{{vendorExtensions.x-exportParamName}}
 		{{/isPrimitiveType}}
 	}
+
 {{/required}}
 {{/bodyParams}}
 {{/hasBodyParam}}
@@ -214,6 +244,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 			{{#isKeyInQuery}}localVarQueryParams.Add("{{keyParamName}}", key){{/isKeyInQuery}}
 		}
 	}
+
 {{/isApiKey}}
 {{/authMethods}}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
@@ -240,14 +271,15 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, err
 		}
 	}
-	{{/returnType}}
 
+	{{/returnType}}
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericSwaggerError{
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		{{#responses}}{{#dataType}}
+		{{#responses}}
+		{{#dataType}}
 		if localVarHttpResponse.StatusCode == {{{code}}} {
 			var v {{{dataType}}}
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
@@ -258,10 +290,12 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 				newErr.model = v
 				return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, newErr
 		}
-		{{/dataType}}{{/responses}}
+		{{/dataType}}
+		{{/responses}}
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, newErr
 	}
 
 	return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, nil
 }
-{{/operation}}{{/operations}}
+{{/operation}}
+{{/operations}}

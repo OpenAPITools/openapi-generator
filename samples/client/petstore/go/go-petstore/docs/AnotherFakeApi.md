@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **TestSpecialTags**
-> Client TestSpecialTags(ctx, body)
+> Client TestSpecialTags(ctx, client)
 To test special tags
 
 To test special tags
@@ -18,7 +18,7 @@ To test special tags
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **body** | [**Client**](Client.md)| client model | 
+  **client** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

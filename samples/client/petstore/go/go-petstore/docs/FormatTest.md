@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **Double** | **float64** |  | [optional] [default to null]
 **String_** | **string** |  | [optional] [default to null]
 **Byte_** | **string** |  | [default to null]
-**Binary** | **string** |  | [optional] [default to null]
+**Binary** | [****os.File**](*os.File.md) |  | [optional] [default to null]
 **Date** | **string** |  | [default to null]
 **DateTime** | [**time.Time**](time.Time.md) |  | [optional] [default to null]
 **Uuid** | **string** |  | [optional] [default to null]
