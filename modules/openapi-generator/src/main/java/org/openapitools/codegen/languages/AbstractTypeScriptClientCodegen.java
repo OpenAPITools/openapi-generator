@@ -87,12 +87,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("Map", "any");
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "Date");
-        //TODO binary should be mapped to byte array
-        // mapped to String as a workaround
-        typeMapping.put("binary", "string");
+        typeMapping.put("binary", "any");
+        typeMapping.put("File", "any");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
-        typeMapping.put("File", "any");
         typeMapping.put("Error", "Error");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
