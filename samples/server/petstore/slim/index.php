@@ -13,7 +13,7 @@ $app = new Slim\App();
  * POST addPet
  * Summary: Add a new pet to the store
  * Notes: 
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->POST('/v2/pet', function($request, $response, $args) {
             
@@ -29,7 +29,7 @@ $app->POST('/v2/pet', function($request, $response, $args) {
  * DELETE deletePet
  * Summary: Deletes a pet
  * Notes: 
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->DELETE('/v2/pet/{petId}', function($request, $response, $args) {
             $headers = $request->getHeaders();
@@ -95,7 +95,7 @@ $app->GET('/v2/pet/{petId}', function($request, $response, $args) {
  * PUT updatePet
  * Summary: Update an existing pet
  * Notes: 
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->PUT('/v2/pet', function($request, $response, $args) {
             
@@ -111,7 +111,7 @@ $app->PUT('/v2/pet', function($request, $response, $args) {
  * POST updatePetWithForm
  * Summary: Updates a pet in the store with form data
  * Notes: 
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->POST('/v2/pet/{petId}', function($request, $response, $args) {
             
@@ -143,7 +143,7 @@ $app->POST('/v2/pet/{petId}/uploadImage', function($request, $response, $args) {
  * DELETE deleteOrder
  * Summary: Delete purchase order by ID
  * Notes: For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->DELETE('/v2/store/order/{orderId}', function($request, $response, $args) {
             
@@ -207,7 +207,7 @@ $app->POST('/v2/store/order', function($request, $response, $args) {
  * POST createUser
  * Summary: Create user
  * Notes: This can only be done by the logged in user.
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->POST('/v2/user', function($request, $response, $args) {
             
@@ -223,7 +223,7 @@ $app->POST('/v2/user', function($request, $response, $args) {
  * POST createUsersWithArrayInput
  * Summary: Creates list of users with given input array
  * Notes: 
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->POST('/v2/user/createWithArray', function($request, $response, $args) {
             
@@ -239,7 +239,7 @@ $app->POST('/v2/user/createWithArray', function($request, $response, $args) {
  * POST createUsersWithListInput
  * Summary: Creates list of users with given input array
  * Notes: 
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->POST('/v2/user/createWithList', function($request, $response, $args) {
             
@@ -255,7 +255,7 @@ $app->POST('/v2/user/createWithList', function($request, $response, $args) {
  * DELETE deleteUser
  * Summary: Delete user
  * Notes: This can only be done by the logged in user.
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->DELETE('/v2/user/{username}', function($request, $response, $args) {
             
@@ -304,7 +304,7 @@ $app->GET('/v2/user/login', function($request, $response, $args) {
  * GET logoutUser
  * Summary: Logs out current logged in user session
  * Notes: 
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->GET('/v2/user/logout', function($request, $response, $args) {
             
@@ -320,7 +320,7 @@ $app->GET('/v2/user/logout', function($request, $response, $args) {
  * PUT updateUser
  * Summary: Updated user
  * Notes: This can only be done by the logged in user.
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->PUT('/v2/user/{username}', function($request, $response, $args) {
             
