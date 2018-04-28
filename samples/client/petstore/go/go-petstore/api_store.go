@@ -61,7 +61,7 @@ func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (*htt
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
+	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -294,12 +294,13 @@ func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Orde
 
 /* 
 StoreApiService Place an order for a pet
+
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param order order placed for purchasing the pet
+ * @param body order placed for purchasing the pet
 
 @return Order
 */
-func (a *StoreApiService) PlaceOrder(ctx context.Context, order Order) (Order, *http.Response, error) {
+func (a *StoreApiService) PlaceOrder(ctx context.Context, body Order) (Order, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -333,7 +334,7 @@ func (a *StoreApiService) PlaceOrder(ctx context.Context, order Order) (Order, *
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &order
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
