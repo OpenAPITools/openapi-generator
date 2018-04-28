@@ -17,11 +17,6 @@ class UserLogin implements Operation\GetInterface
 {
     /**
      * Logs user into the system
-     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={
-     *     "type":\App\DTO\LoginUserQueryData::class,
-     *     "objectAttr":"queryData",
-     *     "source": PHAttribute\Transfer::SOURCE_GET
-     * })
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml")
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
@@ -35,8 +30,6 @@ class UserLogin implements Operation\GetInterface
     public function handleGet(ServerRequestInterface $request)
     {
         //TODO implement method
-        /** @var \App\DTO\LoginUserQueryData $queryData */
-        $queryData = $request->getAttribute("queryData");
         throw new PHException\HttpCode(500, "Not implemented");
     }
 }

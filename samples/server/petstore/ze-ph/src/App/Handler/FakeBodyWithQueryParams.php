@@ -11,24 +11,22 @@ use Articus\PathHandler\Exception as PHException;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * @PHA\Route(pattern="/fake/inline-additionalProperties")
+ * @PHA\Route(pattern="/fake/body-with-query-params")
  */
-class FakeInlineAdditionalProperties implements Operation\PostInterface
+class FakeBodyWithQueryParams implements Operation\PutInterface
 {
     /**
-     * test inline additionalProperties
      * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Consumer(name=PHConsumer\Json::class, mediaType="application/json")
-     * TODO check if attribute is valid and can handle your container type
-     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":string::class,"objectAttr":"bodyData"})
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\User::class,"objectAttr":"bodyData"})
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 500 if the method is not implemented
      */
-    public function handlePost(ServerRequestInterface $request)
+    public function handlePut(ServerRequestInterface $request)
     {
         //TODO implement method
-        /** @var string $bodyData */
+        /** @var \App\DTO\User $bodyData */
         $bodyData = $request->getAttribute("bodyData");
         throw new PHException\HttpCode(500, "Not implemented");
     }
