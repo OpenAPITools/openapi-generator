@@ -3196,7 +3196,7 @@ public class DefaultCodegen implements CodegenConfig {
             String oasName = entry.getKey();
             Schema schema = entry.getValue();
             String typeType = getPrimitiveType(schema);
-            if (typeType != null && !typeType.equals("object") && schema.getEnum() == null) {
+            if (typeType != null && !typeType.equals("object") && !typeType.equals("array") && schema.getEnum() == null) {
                 aliases.put(oasName, typeType);
             }
         }
