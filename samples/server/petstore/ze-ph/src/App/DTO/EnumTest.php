@@ -15,6 +15,12 @@ class EnumTest
      */
     public $enum_string;
     /**
+     * @DTA\Data(field="enum_string_required")
+     * @DTA\Validator(name="Type", options={"type":"string"})
+     * @var string
+     */
+    public $enum_string_required;
+    /**
      * @DTA\Data(field="enum_integer", nullable=true)
      * @DTA\Validator(name="Type", options={"type":"int"})
      * @var int

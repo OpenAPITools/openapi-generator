@@ -26,6 +26,7 @@ Articus\PathHandler\Router\FastRouteAnnotation:
   handlers:
     - App\Handler\AnotherFakeDummy
     - App\Handler\Fake
+    - App\Handler\FakeBodyWithQueryParams
     - App\Handler\FakeInlineAdditionalProperties
     - App\Handler\FakeJsonFormData
     - App\Handler\FakeOuterBoolean
@@ -51,6 +52,7 @@ Articus\PathHandler\Router\FastRouteAnnotation:
 Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
   App\Handler\AnotherFakeDummy: []
   App\Handler\Fake: []
+  App\Handler\FakeBodyWithQueryParams: []
   App\Handler\FakeInlineAdditionalProperties: []
   App\Handler\FakeJsonFormData: []
   App\Handler\FakeOuterBoolean: []

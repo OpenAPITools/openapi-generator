@@ -37,10 +37,6 @@ class Fake implements Operation\PatchInterface, Operation\PostInterface, Operati
     }
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
-     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml; charset=utf-8")
-     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
-     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json; charset=utf-8")
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 500 if the method is not implemented
@@ -52,13 +48,6 @@ class Fake implements Operation\PatchInterface, Operation\PostInterface, Operati
     }
     /**
      * To test enum parameters
-     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={
-     *     "type":\App\DTO\TestEnumParametersQueryData::class,
-     *     "objectAttr":"queryData",
-     *     "source": PHAttribute\Transfer::SOURCE_GET
-     * })
-     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
-     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="*/*")
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 500 if the method is not implemented
@@ -66,8 +55,6 @@ class Fake implements Operation\PatchInterface, Operation\PostInterface, Operati
     public function handleGet(ServerRequestInterface $request)
     {
         //TODO implement method
-        /** @var \App\DTO\TestEnumParametersQueryData $queryData */
-        $queryData = $request->getAttribute("queryData");
         throw new PHException\HttpCode(500, "Not implemented");
     }
 }

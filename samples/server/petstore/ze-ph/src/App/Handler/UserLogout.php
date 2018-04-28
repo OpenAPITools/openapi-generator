@@ -17,10 +17,6 @@ class UserLogout implements Operation\GetInterface
 {
     /**
      * Logs out current logged in user session
-     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
-     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml")
-     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
-     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json")
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 500 if the method is not implemented
