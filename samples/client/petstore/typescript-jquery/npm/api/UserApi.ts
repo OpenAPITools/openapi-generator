@@ -65,6 +65,7 @@ export class UserApi {
         localVarPath = localVarPath + "?" + $.param(queryParameters);
         // to determine the Content-Type header
         let consumes: string[] = [
+            'application/json'
         ];
 
         // to determine the Accept header
@@ -123,6 +124,7 @@ export class UserApi {
         localVarPath = localVarPath + "?" + $.param(queryParameters);
         // to determine the Content-Type header
         let consumes: string[] = [
+            'application/json'
         ];
 
         // to determine the Accept header
@@ -181,6 +183,7 @@ export class UserApi {
         localVarPath = localVarPath + "?" + $.param(queryParameters);
         // to determine the Content-Type header
         let consumes: string[] = [
+            'application/json'
         ];
 
         // to determine the Accept header
@@ -475,6 +478,7 @@ export class UserApi {
         localVarPath = localVarPath + "?" + $.param(queryParameters);
         // to determine the Content-Type header
         let consumes: string[] = [
+            'application/json'
         ];
 
         // to determine the Accept header

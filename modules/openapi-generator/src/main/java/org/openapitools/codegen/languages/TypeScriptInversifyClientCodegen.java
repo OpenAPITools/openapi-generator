@@ -154,7 +154,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof FileSchema) {
+        if (p instanceof FileSchema || p instanceof BinarySchema) {
             return "Blob";
         } else {
             return super.getTypeDeclaration(p);
