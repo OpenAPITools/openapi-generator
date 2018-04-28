@@ -34,7 +34,7 @@ Optional parameters are passed through a pointer to a FakeOuterBooleanSerializeO
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **booleanPostBody** | **optional.Bool**| Input boolean as post body | 
+ **body** | [**optional.Interface of OuterBoolean**](OuterBoolean.md)| Input boolean as post body | 
 
 ### Return type
 
@@ -47,7 +47,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -69,7 +69,7 @@ Optional parameters are passed through a pointer to a FakeOuterCompositeSerializ
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outerComposite** | [**optional.Interface of OuterComposite**](OuterComposite.md)| Input composite as post body | 
+ **body** | [**optional.Interface of OuterComposite**](OuterComposite.md)| Input composite as post body | 
 
 ### Return type
 
@@ -82,7 +82,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -104,7 +104,7 @@ Optional parameters are passed through a pointer to a FakeOuterNumberSerializeOp
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **optional.Float32**| Input number as post body | 
+ **body** | [**optional.Interface of OuterNumber**](OuterNumber.md)| Input number as post body | 
 
 ### Return type
 
@@ -117,7 +117,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -139,7 +139,7 @@ Optional parameters are passed through a pointer to a FakeOuterStringSerializeOp
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **optional.String**| Input string as post body | 
+ **body** | [**optional.Interface of OuterString**](OuterString.md)| Input string as post body | 
 
 ### Return type
 
@@ -152,12 +152,12 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **TestBodyWithQueryParams**
-> TestBodyWithQueryParams(ctx, query, user)
+> TestBodyWithQueryParams(ctx, body, query)
 
 
 ### Required Parameters
@@ -165,8 +165,8 @@ No authorization required
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **body** | [**User**](User.md)|  | 
   **query** | **string**|  | 
-  **user** | [**User**](User.md)|  | 
 
 ### Return type
 
@@ -184,7 +184,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **TestClientModel**
-> Client TestClientModel(ctx, client)
+> Client TestClientModel(ctx, body)
 To test \"client\" model
 
 To test \"client\" model
@@ -194,7 +194,7 @@ To test \"client\" model
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **client** | [**Client**](Client.md)| client model | 
+  **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
@@ -212,7 +212,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **TestEndpointParameters**
-> TestEndpointParameters(ctx, number, double, patternWithoutDelimiter, byte, optional)
+> TestEndpointParameters(ctx, number, double, patternWithoutDelimiter, byte_, optional)
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -225,7 +225,7 @@ Name | Type | Description  | Notes
   **number** | **float32**| None | 
   **double** | **float64**| None | 
   **patternWithoutDelimiter** | **string**| None | 
-  **byte** | **string**| None | 
+  **byte_** | **string**| None | 
  **optional** | ***TestEndpointParametersOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -238,11 +238,11 @@ Name | Type | Description  | Notes
 
 
  **integer** | **optional.Int32**| None | 
- **int32** | **optional.Int32**| None | 
- **int64** | **optional.Int64**| None | 
+ **int32_** | **optional.Int32**| None | 
+ **int64_** | **optional.Int64**| None | 
  **float** | **optional.Float32**| None | 
- **string** | **optional.String**| None | 
- **binary** | **optional.Interface of *os.File****optional.*os.File**| None | 
+ **string_** | **optional.String**| None | 
+ **binary** | **optional.String**| None | 
  **date** | **optional.String**| None | 
  **dateTime** | **optional.Time**| None | 
  **password** | **optional.String**| None | 
@@ -258,8 +258,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+ - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
+ - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -281,14 +281,14 @@ Optional parameters are passed through a pointer to a TestEnumParametersOpts str
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **enumFormStringArray** | [**optional.Interface of []string**](string.md)| Form parameter enum test (string array) | 
+ **enumFormString** | **optional.String**| Form parameter enum test (string) | [default to -efg]
  **enumHeaderStringArray** | [**optional.Interface of []string**](string.md)| Header parameter enum test (string array) | 
  **enumHeaderString** | **optional.String**| Header parameter enum test (string) | [default to -efg]
  **enumQueryStringArray** | [**optional.Interface of []string**](string.md)| Query parameter enum test (string array) | 
  **enumQueryString** | **optional.String**| Query parameter enum test (string) | [default to -efg]
  **enumQueryInteger** | **optional.Int32**| Query parameter enum test (double) | 
  **enumQueryDouble** | **optional.Float64**| Query parameter enum test (double) | 
- **enumFormStringArray** | [**optional.Interface of []string**](array.md)| Form parameter enum test (string array) | 
- **enumFormString** | **optional.String**| Form parameter enum test (string) | 
 
 ### Return type
 
@@ -300,21 +300,23 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+ - **Content-Type**: */*
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **TestInlineAdditionalProperties**
-> TestInlineAdditionalProperties(ctx, requestBody)
+> TestInlineAdditionalProperties(ctx, param)
 test inline additionalProperties
+
+
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **requestBody** | [**string**](string.md)| request body | 
+  **param** | [**interface{}**](interface{}.md)| request body | 
 
 ### Return type
 
@@ -335,6 +337,8 @@ No authorization required
 > TestJsonFormData(ctx, param, param2)
 test json serialization of form data
 
+
+
 ### Required Parameters
 
 Name | Type | Description  | Notes
@@ -353,7 +357,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

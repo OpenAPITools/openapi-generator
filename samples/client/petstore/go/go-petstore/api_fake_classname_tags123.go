@@ -29,11 +29,11 @@ type FakeClassnameTags123ApiService service
 FakeClassnameTags123ApiService To test class name in snake case
 To test class name in snake case
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param client client model
+ * @param body client model
 
 @return Client
 */
-func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, client Client) (Client, *http.Response, error) {
+func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body Client) (Client, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Patch")
 		localVarPostBody   interface{}
@@ -67,7 +67,7 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, clie
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &client
+	localVarPostBody = &body
 	if ctx != nil {
 		// API Key Authentication
 		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {

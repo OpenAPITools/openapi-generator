@@ -15,15 +15,17 @@ Method | HTTP request | Description
 
 
 # **AddPet**
-> AddPet(ctx, pet)
+> AddPet(ctx, body)
 Add a new pet to the store
+
+
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+  **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -36,13 +38,15 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **DeletePet**
 > DeletePet(ctx, petId, optional)
 Deletes a pet
+
+
 
 ### Required Parameters
 
@@ -71,7 +75,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -160,15 +164,17 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UpdatePet**
-> UpdatePet(ctx, pet)
+> UpdatePet(ctx, body)
 Update an existing pet
+
+
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+  **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -181,13 +187,15 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UpdatePetWithForm**
 > UpdatePetWithForm(ctx, petId, optional)
 Updates a pet in the store with form data
+
+
 
 ### Required Parameters
 
@@ -217,13 +225,15 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UploadFile**
 > ModelApiResponse UploadFile(ctx, petId, optional)
 uploads an image
+
+
 
 ### Required Parameters
 
@@ -240,7 +250,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **additionalMetadata** | **optional.String**| Additional data to pass to server | 
- **file** | **optional.Interface of *os.File****optional.*os.File**| file to upload | 
+ **file** | **optional.Interface of *os.File**| file to upload | 
 
 ### Return type
 

@@ -107,11 +107,11 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "available"
           enum:
           - "available"
           - "pending"
           - "sold"
-          default: "available"
         collectionFormat: "csv"
         x-exportParamName: "Status"
       responses:
@@ -216,12 +216,14 @@ paths:
         required: false
         type: "string"
         x-exportParamName: "Name"
+        x-optionalDataType: "String"
       - name: "status"
         in: "formData"
         description: "Updated status of the pet"
         required: false
         type: "string"
         x-exportParamName: "Status"
+        x-optionalDataType: "String"
       responses:
         405:
           description: "Invalid input"
@@ -244,6 +246,7 @@ paths:
         required: false
         type: "string"
         x-exportParamName: "ApiKey"
+        x-optionalDataType: "String"
       - name: "petId"
         in: "path"
         description: "Pet id to delete"
@@ -283,6 +286,7 @@ paths:
         required: false
         type: "string"
         x-exportParamName: "AdditionalMetadata"
+        x-optionalDataType: "String"
       - name: "file"
         in: "formData"
         description: "file to upload"
@@ -498,7 +502,7 @@ paths:
             X-Expires-After:
               type: "string"
               format: "date-time"
-              description: "date in UTC when toekn expires"
+              description: "date in UTC when token expires"
         400:
           description: "Invalid username/password supplied"
   /user/logout:
@@ -528,7 +532,7 @@ paths:
       parameters:
       - name: "username"
         in: "path"
-        description: "The name that needs to be fetched. Use user1 for testing. "
+        description: "The name that needs to be fetched. Use user1 for testing."
         required: true
         type: "string"
         x-exportParamName: "Username"
@@ -595,6 +599,7 @@ paths:
       tags:
       - "fake_classname_tags 123#$%^"
       summary: "To test class name in snake case"
+      description: "To test class name in snake case"
       operationId: "testClassname"
       consumes:
       - "application/json"
@@ -634,10 +639,10 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "$"
           enum:
           - ">"
           - "$"
-          default: "$"
         x-exportParamName: "EnumFormStringArray"
       - name: "enum_form_string"
         in: "formData"
@@ -650,6 +655,7 @@ paths:
         - "-efg"
         - "(xyz)"
         x-exportParamName: "EnumFormString"
+        x-optionalDataType: "String"
       - name: "enum_header_string_array"
         in: "header"
         description: "Header parameter enum test (string array)"
@@ -657,10 +663,10 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "$"
           enum:
           - ">"
           - "$"
-          default: "$"
         x-exportParamName: "EnumHeaderStringArray"
       - name: "enum_header_string"
         in: "header"
@@ -673,6 +679,7 @@ paths:
         - "-efg"
         - "(xyz)"
         x-exportParamName: "EnumHeaderString"
+        x-optionalDataType: "String"
       - name: "enum_query_string_array"
         in: "query"
         description: "Query parameter enum test (string array)"
@@ -680,10 +687,10 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "$"
           enum:
           - ">"
           - "$"
-          default: "$"
         x-exportParamName: "EnumQueryStringArray"
       - name: "enum_query_string"
         in: "query"
@@ -696,6 +703,7 @@ paths:
         - "-efg"
         - "(xyz)"
         x-exportParamName: "EnumQueryString"
+        x-optionalDataType: "String"
       - name: "enum_query_integer"
         in: "query"
         description: "Query parameter enum test (double)"
@@ -706,6 +714,7 @@ paths:
         - 1
         - -2
         x-exportParamName: "EnumQueryInteger"
+        x-optionalDataType: "Int32"
       - name: "enum_query_double"
         in: "formData"
         description: "Query parameter enum test (double)"
@@ -716,6 +725,7 @@ paths:
         - 1.1
         - -1.2
         x-exportParamName: "EnumQueryDouble"
+        x-optionalDataType: "Float64"
       responses:
         400:
           description: "Invalid request"
@@ -744,6 +754,7 @@ paths:
         maximum: 100
         minimum: 10
         x-exportParamName: "Integer"
+        x-optionalDataType: "Int32"
       - name: "int32"
         in: "formData"
         description: "None"
@@ -753,6 +764,7 @@ paths:
         minimum: 20
         format: "int32"
         x-exportParamName: "Int32_"
+        x-optionalDataType: "Int32"
       - name: "int64"
         in: "formData"
         description: "None"
@@ -760,6 +772,7 @@ paths:
         type: "integer"
         format: "int64"
         x-exportParamName: "Int64_"
+        x-optionalDataType: "Int64"
       - name: "number"
         in: "formData"
         description: "None"
@@ -776,6 +789,7 @@ paths:
         maximum: 987.6
         format: "float"
         x-exportParamName: "Float"
+        x-optionalDataType: "Float32"
       - name: "double"
         in: "formData"
         description: "None"
@@ -792,6 +806,7 @@ paths:
         type: "string"
         pattern: "/[a-z]/i"
         x-exportParamName: "String_"
+        x-optionalDataType: "String"
       - name: "pattern_without_delimiter"
         in: "formData"
         description: "None"
@@ -813,6 +828,7 @@ paths:
         type: "string"
         format: "binary"
         x-exportParamName: "Binary"
+        x-optionalDataType: "String"
       - name: "date"
         in: "formData"
         description: "None"
@@ -820,6 +836,7 @@ paths:
         type: "string"
         format: "date"
         x-exportParamName: "Date"
+        x-optionalDataType: "String"
       - name: "dateTime"
         in: "formData"
         description: "None"
@@ -827,6 +844,7 @@ paths:
         type: "string"
         format: "date-time"
         x-exportParamName: "DateTime"
+        x-optionalDataType: "Time"
       - name: "password"
         in: "formData"
         description: "None"
@@ -836,12 +854,14 @@ paths:
         minLength: 10
         format: "password"
         x-exportParamName: "Password"
+        x-optionalDataType: "String"
       - name: "callback"
         in: "formData"
         description: "None"
         required: false
         type: "string"
         x-exportParamName: "Callback"
+        x-optionalDataType: "String"
       responses:
         400:
           description: "Invalid username supplied"
@@ -995,6 +1015,28 @@ paths:
       responses:
         200:
           description: "successful operation"
+  /fake/body-with-query-params:
+    put:
+      tags:
+      - "fake"
+      operationId: "testBodyWithQueryParams"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+        x-exportParamName: "Body"
+      - name: "query"
+        in: "query"
+        required: true
+        type: "string"
+        x-exportParamName: "Query"
+      responses:
+        200:
+          description: "Success"
   /another-fake/dummy:
     patch:
       tags:
@@ -1344,8 +1386,16 @@ definitions:
     default: "-efg"
   Enum_Test:
     type: "object"
+    required:
+    - "enum_string_required"
     properties:
       enum_string:
+        type: "string"
+        enum:
+        - "UPPER"
+        - "lower"
+        - ""
+      enum_string_required:
         type: "string"
         enum:
         - "UPPER"

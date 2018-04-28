@@ -30,11 +30,11 @@ type UserApiService service
 UserApiService Create user
 This can only be done by the logged in user.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param user Created user object
+ * @param body Created user object
 
 
 */
-func (a *UserApiService) CreateUser(ctx context.Context, user User) (*http.Response, error) {
+func (a *UserApiService) CreateUser(ctx context.Context, body User) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -60,7 +60,7 @@ func (a *UserApiService) CreateUser(ctx context.Context, user User) (*http.Respo
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
+	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -68,7 +68,7 @@ func (a *UserApiService) CreateUser(ctx context.Context, user User) (*http.Respo
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &user
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -100,12 +100,13 @@ func (a *UserApiService) CreateUser(ctx context.Context, user User) (*http.Respo
 
 /* 
 UserApiService Creates list of users with given input array
+
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param user List of user object
+ * @param body List of user object
 
 
 */
-func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []User) (*http.Response, error) {
+func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, body []User) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -131,7 +132,7 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []U
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
+	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -139,7 +140,7 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []U
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &user
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -171,12 +172,13 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []U
 
 /* 
 UserApiService Creates list of users with given input array
+
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param user List of user object
+ * @param body List of user object
 
 
 */
-func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, user []User) (*http.Response, error) {
+func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, body []User) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -202,7 +204,7 @@ func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, user []Us
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
+	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -210,7 +212,7 @@ func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, user []Us
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &user
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -275,7 +277,7 @@ func (a *UserApiService) DeleteUser(ctx context.Context, username string) (*http
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
+	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -313,6 +315,7 @@ func (a *UserApiService) DeleteUser(ctx context.Context, username string) (*http
 
 /* 
 UserApiService Get user by user name
+
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param username The name that needs to be fetched. Use user1 for testing.
 
@@ -401,6 +404,7 @@ func (a *UserApiService) GetUserByName(ctx context.Context, username string) (Us
 
 /* 
 UserApiService Logs user into the system
+
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param username The user name for login
  * @param password The password for login in clear text
@@ -423,8 +427,8 @@ func (a *UserApiService) LoginUser(ctx context.Context, username string, passwor
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	localVarQueryParams.Add("username", parameterToString(username, "csv"))
-	localVarQueryParams.Add("password", parameterToString(password, "csv"))
+	localVarQueryParams.Add("username", parameterToString(username, ""))
+	localVarQueryParams.Add("password", parameterToString(password, ""))
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
 
@@ -491,6 +495,7 @@ func (a *UserApiService) LoginUser(ctx context.Context, username string, passwor
 
 /* 
 UserApiService Logs out current logged in user session
+
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 
 
@@ -521,7 +526,7 @@ func (a *UserApiService) LogoutUser(ctx context.Context) (*http.Response, error)
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
+	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -562,11 +567,11 @@ UserApiService Updated user
 This can only be done by the logged in user.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param username name that need to be deleted
- * @param user Updated user object
+ * @param body Updated user object
 
 
 */
-func (a *UserApiService) UpdateUser(ctx context.Context, username string, user User) (*http.Response, error) {
+func (a *UserApiService) UpdateUser(ctx context.Context, username string, body User) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -593,7 +598,7 @@ func (a *UserApiService) UpdateUser(ctx context.Context, username string, user U
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
+	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -601,7 +606,7 @@ func (a *UserApiService) UpdateUser(ctx context.Context, username string, user U
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &user
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err

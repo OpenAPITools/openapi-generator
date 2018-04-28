@@ -30,12 +30,13 @@ type PetApiService service
 
 /* 
 PetApiService Add a new pet to the store
+
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param pet Pet object that needs to be added to the store
+ * @param body Pet object that needs to be added to the store
 
 
 */
-func (a *PetApiService) AddPet(ctx context.Context, pet Pet) (*http.Response, error) {
+func (a *PetApiService) AddPet(ctx context.Context, body Pet) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -61,7 +62,7 @@ func (a *PetApiService) AddPet(ctx context.Context, pet Pet) (*http.Response, er
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
+	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -69,7 +70,7 @@ func (a *PetApiService) AddPet(ctx context.Context, pet Pet) (*http.Response, er
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &pet
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -101,6 +102,7 @@ func (a *PetApiService) AddPet(ctx context.Context, pet Pet) (*http.Response, er
 
 /* 
 PetApiService Deletes a pet
+
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId Pet id to delete
  * @param optional nil or *DeletePetOpts - Optional Parameters:
@@ -140,7 +142,7 @@ func (a *PetApiService) DeletePet(ctx context.Context, petId int64, localVarOpti
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
+	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -148,7 +150,7 @@ func (a *PetApiService) DeletePet(ctx context.Context, petId int64, localVarOpti
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	if localVarOptionals != nil && localVarOptionals.ApiKey.IsSet() {
-		localVarHeaderParams["api_key"] = parameterToString(localVarOptionals.ApiKey.Value(), "csv")
+		localVarHeaderParams["api_key"] = parameterToString(localVarOptionals.ApiKey.Value(), "")
 	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
@@ -461,12 +463,13 @@ func (a *PetApiService) GetPetById(ctx context.Context, petId int64) (Pet, *http
 
 /* 
 PetApiService Update an existing pet
+
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param pet Pet object that needs to be added to the store
+ * @param body Pet object that needs to be added to the store
 
 
 */
-func (a *PetApiService) UpdatePet(ctx context.Context, pet Pet) (*http.Response, error) {
+func (a *PetApiService) UpdatePet(ctx context.Context, body Pet) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -492,7 +495,7 @@ func (a *PetApiService) UpdatePet(ctx context.Context, pet Pet) (*http.Response,
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
+	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -500,7 +503,7 @@ func (a *PetApiService) UpdatePet(ctx context.Context, pet Pet) (*http.Response,
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &pet
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -532,18 +535,19 @@ func (a *PetApiService) UpdatePet(ctx context.Context, pet Pet) (*http.Response,
 
 /* 
 PetApiService Updates a pet in the store with form data
+
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet that needs to be updated
  * @param optional nil or *UpdatePetWithFormOpts - Optional Parameters:
-     * @param "" (optional.String) -  Updated name of the pet
-     * @param "" (optional.String) -  Updated status of the pet
+     * @param "Name" (optional.String) -  Updated name of the pet
+     * @param "Status" (optional.String) -  Updated status of the pet
 
 
 */
 
 type UpdatePetWithFormOpts struct { 
-	 optional.String
-	 optional.String
+	Name optional.String
+	Status optional.String
 }
 
 func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, localVarOptionals *UpdatePetWithFormOpts) (*http.Response, error) {
@@ -573,18 +577,18 @@ func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, loca
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
+	localVarHttpHeaderAccepts := []string{"application/xml", "application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals..IsSet() {
-		localVarFormParams.Add("name", parameterToString(localVarOptionals..Value(), ""))
+	if localVarOptionals != nil && localVarOptionals.Name.IsSet() {
+		localVarFormParams.Add("name", parameterToString(localVarOptionals.Name.Value(), ""))
 	}
-	if localVarOptionals != nil && localVarOptionals..IsSet() {
-		localVarFormParams.Add("status", parameterToString(localVarOptionals..Value(), ""))
+	if localVarOptionals != nil && localVarOptionals.Status.IsSet() {
+		localVarFormParams.Add("status", parameterToString(localVarOptionals.Status.Value(), ""))
 	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
@@ -617,18 +621,19 @@ func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, loca
 
 /* 
 PetApiService uploads an image
+
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet to update
  * @param optional nil or *UploadFileOpts - Optional Parameters:
-     * @param "" (optional.String) -  Additional data to pass to server
-     * @param "" (optional.*os.File) -  file to upload
+     * @param "AdditionalMetadata" (optional.String) -  Additional data to pass to server
+     * @param "File" (optional.Interface of *os.File) -  file to upload
 
 @return ModelApiResponse
 */
 
 type UploadFileOpts struct { 
-	 optional.String
-	 optional.*os.File
+	AdditionalMetadata optional.String
+	File optional.Interface
 }
 
 func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOptionals *UploadFileOpts) (ModelApiResponse, *http.Response, error) {
@@ -665,13 +670,13 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals..IsSet() {
-		localVarFormParams.Add("additionalMetadata", parameterToString(localVarOptionals..Value(), ""))
+	if localVarOptionals != nil && localVarOptionals.AdditionalMetadata.IsSet() {
+		localVarFormParams.Add("additionalMetadata", parameterToString(localVarOptionals.AdditionalMetadata.Value(), ""))
 	}
 	var localVarFile *os.File
-	if localVarOptionals != nil && localVarOptionals..IsSet() {
+	if localVarOptionals != nil && localVarOptionals.File.IsSet() {
 		localVarFileOk := false
-		localVarFile, localVarFileOk = localVarOptionals..Value().(*os.File)
+		localVarFile, localVarFileOk = localVarOptionals.File.Value().(*os.File)
 		if !localVarFileOk {
 				return localVarReturnValue, nil, reportError("file should be *os.File")
 		}
