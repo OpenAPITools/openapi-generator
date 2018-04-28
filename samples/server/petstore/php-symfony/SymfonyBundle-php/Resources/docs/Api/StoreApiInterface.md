@@ -72,7 +72,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -190,11 +190,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **placeOrder**
-> Swagger\Server\Model\Order placeOrder($body)
+> Swagger\Server\Model\Order placeOrder($order)
 
 Place an order for a pet
-
-
 
 ### Example Implementation
 ```php
@@ -213,7 +211,7 @@ class StoreApi implements StoreApiInterface
     /**
      * Implementation of StoreApiInterface#placeOrder
      */
-    public function placeOrder(Order $body)
+    public function placeOrder(Order $order)
     {
         // Implement the operation ...
     }
@@ -226,7 +224,7 @@ class StoreApi implements StoreApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Swagger\Server\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
+ **order** | [**Swagger\Server\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
@@ -238,7 +236,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)

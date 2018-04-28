@@ -27,7 +27,7 @@ services:
 ```
 
 ## **createUser**
-> createUser($body)
+> createUser($user)
 
 Create user
 
@@ -50,7 +50,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUser
      */
-    public function createUser(User $body)
+    public function createUser(User $user)
     {
         // Implement the operation ...
     }
@@ -63,7 +63,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Swagger\Server\Model\User**](../Model/User.md)| Created user object |
+ **user** | [**Swagger\Server\Model\User**](../Model/User.md)| Created user object |
 
 ### Return type
 
@@ -75,17 +75,15 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **createUsersWithArrayInput**
-> createUsersWithArrayInput($body)
+> createUsersWithArrayInput($user)
 
 Creates list of users with given input array
-
-
 
 ### Example Implementation
 ```php
@@ -104,7 +102,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUsersWithArrayInput
      */
-    public function createUsersWithArrayInput(array $body)
+    public function createUsersWithArrayInput(array $user)
     {
         // Implement the operation ...
     }
@@ -117,7 +115,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Swagger\Server\Model\User**](../Model/User.md)| List of user object |
+ **user** | [**Swagger\Server\Model\User**](../Model/array.md)| List of user object |
 
 ### Return type
 
@@ -129,17 +127,15 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **createUsersWithListInput**
-> createUsersWithListInput($body)
+> createUsersWithListInput($user)
 
 Creates list of users with given input array
-
-
 
 ### Example Implementation
 ```php
@@ -158,7 +154,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUsersWithListInput
      */
-    public function createUsersWithListInput(array $body)
+    public function createUsersWithListInput(array $user)
     {
         // Implement the operation ...
     }
@@ -171,7 +167,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Swagger\Server\Model\User**](../Model/User.md)| List of user object |
+ **user** | [**Swagger\Server\Model\User**](../Model/array.md)| List of user object |
 
 ### Return type
 
@@ -183,8 +179,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -238,7 +234,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -246,8 +242,6 @@ No authorization required
 > Swagger\Server\Model\User getUserByName($username)
 
 Get user by user name
-
-
 
 ### Example Implementation
 ```php
@@ -300,8 +294,6 @@ No authorization required
 > string loginUser($username, $password)
 
 Logs user into the system
-
-
 
 ### Example Implementation
 ```php
@@ -356,8 +348,6 @@ No authorization required
 
 Logs out current logged in user session
 
-
-
 ### Example Implementation
 ```php
 <?php
@@ -398,12 +388,12 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **updateUser**
-> updateUser($username, $body)
+> updateUser($username, $user)
 
 Updated user
 
@@ -426,7 +416,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#updateUser
      */
-    public function updateUser($username, User $body)
+    public function updateUser($username, User $user)
     {
         // Implement the operation ...
     }
@@ -440,7 +430,7 @@ class UserApi implements UserApiInterface
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted |
- **body** | [**Swagger\Server\Model\User**](../Model/User.md)| Updated user object |
+ **user** | [**Swagger\Server\Model\User**](../Model/User.md)| Updated user object |
 
 ### Return type
 
@@ -452,8 +442,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
