@@ -3,10 +3,7 @@ package org.openapitools.codegen;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
@@ -14,6 +11,9 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class DefaultCodegenTest {
@@ -140,5 +140,21 @@ public class DefaultCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+    }
+
+    @Test
+    public void testArraySchemaIsNotIncluedInAliases() throws Exception {
+        Map<String, Schema> schemas = new HashMap<String, Schema>() {
+            {
+                put("ArraySchemaTest", new ArraySchema());
+            }
+
+        };
+
+        Method method = DefaultCodegen.class.getDeclaredMethod("getAllAliases", Map.class);
+        method.setAccessible(true);
+        Map<String, String> aliases = (Map<String, String>)method.invoke(null, schemas);
+
+        Assert.assertEquals(aliases.size(), 0);
     }
 }
