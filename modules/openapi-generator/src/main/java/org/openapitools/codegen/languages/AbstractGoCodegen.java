@@ -30,28 +30,28 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         hideGenerationTimestamp = Boolean.FALSE;
 
         defaultIncludes = new HashSet<String>(
-            Arrays.asList(
-                "map",
-                "array")
-            );
+                Arrays.asList(
+                        "map",
+                        "array")
+        );
 
         languageSpecificPrimitives = new HashSet<String>(
-            Arrays.asList(
-                "string",
-                "bool",
-                "uint",
-                "uint32",
-                "uint64",
-                "int",
-                "int32",
-                "int64",
-                "float32",
-                "float64",
-                "complex64",
-                "complex128",
-                "rune",
-                "byte")
-            );
+                Arrays.asList(
+                        "string",
+                        "bool",
+                        "uint",
+                        "uint32",
+                        "uint64",
+                        "int",
+                        "int32",
+                        "int64",
+                        "float32",
+                        "float64",
+                        "complex64",
+                        "complex128",
+                        "rune",
+                        "byte")
+        );
 
         instantiationTypes.clear();
         /*instantiationTypes.put("array", "GoArray");
@@ -71,12 +71,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("password", "string");
         typeMapping.put("File", "*os.File");
         typeMapping.put("file", "*os.File");
-        // map binary to string as a workaround
-        // the correct solution is to use []byte
-        typeMapping.put("binary", "string");
+        typeMapping.put("binary", "*os.File");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("object", "interface{}");
-        typeMapping.put("UUID", "string");
 
         importMapping = new HashMap<String, String>();
 
@@ -202,8 +199,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
      * param to be exportable (starts with an Uppercase letter).
      *
      * @param parameter CodegenParameter object to be processed.
-     */
+
     @Override
+
     public void postProcessParameter(CodegenParameter parameter) {
 
         // Give the base class a chance to process
@@ -219,7 +217,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
             parameter.vendorExtensions.put("x-exportParamName", sb.toString());
         }
-    }
+    }*/
 
     @Override
     public String getTypeDeclaration(Schema p) {
@@ -227,8 +225,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "[]" + getTypeDeclaration(inner);
-        }
-        else if (ModelUtils.isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "[string]" + getTypeDeclaration(inner);
         }
@@ -316,14 +313,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && param.dataType == "*os.File") {
+                if (!addedOSImport && "*os.File".equals(param.dataType)) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
 
                 // import "time" if the operation has a required time parameter.
                 if (param.required) {
-                    if (!addedTimeImport && param.dataType == "time.Time") {
+                    if (!addedTimeImport && "time.Time".equals(param.dataType)) {
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
                     }
@@ -336,13 +333,24 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         addedOptionalImport = true;
                     }
                     // We need to specially map Time type to the optionals package
-                    if (param.dataType == "time.Time") {
+                    if ("time.Time".equals(param.dataType)) {
                         param.vendorExtensions.put("x-optionalDataType", "Time");
                         continue;
                     }
                     // Map optional type to dataType
                     param.vendorExtensions.put("x-optionalDataType",
                             param.dataType.substring(0, 1).toUpperCase() + param.dataType.substring(1));
+                }
+
+                char nameFirstChar = param.paramName.charAt(0);
+                if (Character.isUpperCase(nameFirstChar)) {
+                    // First char is already uppercase, just use paramName.
+                    param.vendorExtensions.put("x-exportParamName", param.paramName);
+                } else {
+                    // It's a lowercase first char, let's convert it to uppercase
+                    StringBuilder sb = new StringBuilder(param.paramName);
+                    sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
+                    param.vendorExtensions.put("x-exportParamName", sb.toString());
                 }
             }
         }
