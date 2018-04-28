@@ -178,18 +178,23 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 {{/formParams}}
 {{/hasFormParams}}
 {{#hasBodyParam}}
-{{#bodyParams}}	// body params
+{{#bodyParams}}
+    // body params
 {{#required}}
 	localVarPostBody = &{{paramName}}
 {{/required}}
 {{^required}}
 	if localVarOptionals != nil && localVarOptionals.{{vendorExtensions.x-exportParamName}}.IsSet() {
-		{{#isPrimitiveType}}localVarPostBody = &localVarOptionals.{{vendorExtensions.x-exportParamName}}.Value(){{/isPrimitiveType}}
-		{{^isPrimitiveType}}localVarOptional{{vendorExtensions.x-exportParamName}}, localVarOptional{{vendorExtensions.x-exportParamName}}ok := localVarOptionals.{{vendorExtensions.x-exportParamName}}.Value().({{{dataType}}})
+		{{#isPrimitiveType}}
+		localVarPostBody = &localVarOptionals.{{vendorExtensions.x-exportParamName}}.Value()
+		{{/isPrimitiveType}}
+		{{^isPrimitiveType}}
+		localVarOptional{{vendorExtensions.x-exportParamName}}, localVarOptional{{vendorExtensions.x-exportParamName}}ok := localVarOptionals.{{vendorExtensions.x-exportParamName}}.Value().({{{dataType}}})
 		if !localVarOptional{{vendorExtensions.x-exportParamName}}ok {
-				return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} should be {{dataType}}")
+			return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} should be {{dataType}}")
 		}
-		localVarPostBody = &localVarOptional{{vendorExtensions.x-exportParamName}}{{/isPrimitiveType}}
+		localVarPostBody = &localVarOptional{{vendorExtensions.x-exportParamName}}
+		{{/isPrimitiveType}}
 	}
 {{/required}}
 {{/bodyParams}}
