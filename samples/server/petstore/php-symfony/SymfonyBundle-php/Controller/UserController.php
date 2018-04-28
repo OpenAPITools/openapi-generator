@@ -59,7 +59,7 @@ class UserController extends Controller
     public function createUserAction(Request $request)
     {
         // Make sure that the client is providing something that we can consume
-        $consumes = [];
+        $consumes = ['application/json'];
         $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
         if (!in_array($inputFormat, $consumes)) {
             // We can't consume the content that the client is sending us
@@ -67,7 +67,7 @@ class UserController extends Controller
         }
 
         // Figure out what data format to return to the client
-        $produces = ['application/xml', 'application/json'];
+        $produces = [];
         // Figure out what the client accepts
         $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
         $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
@@ -78,18 +78,18 @@ class UserController extends Controller
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $user = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $body = $this->deserialize($body, 'Swagger\Server\Model\User', $inputFormat);
+        $user = $this->deserialize($user, 'Swagger\Server\Model\User', $inputFormat);
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("Swagger\Server\Model\User");
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($user, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -102,7 +102,7 @@ class UserController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->createUser($body, $responseCode, $responseHeaders);
+            $result = $handler->createUser($user, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'successful operation';
@@ -141,7 +141,7 @@ class UserController extends Controller
     public function createUsersWithArrayInputAction(Request $request)
     {
         // Make sure that the client is providing something that we can consume
-        $consumes = [];
+        $consumes = ['application/json'];
         $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
         if (!in_array($inputFormat, $consumes)) {
             // We can't consume the content that the client is sending us
@@ -149,7 +149,7 @@ class UserController extends Controller
         }
 
         // Figure out what data format to return to the client
-        $produces = ['application/xml', 'application/json'];
+        $produces = [];
         // Figure out what the client accepts
         $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
         $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
@@ -160,12 +160,12 @@ class UserController extends Controller
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $user = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $body = $this->deserialize($body, 'array<Swagger\Server\Model\User>', $inputFormat);
+        $user = $this->deserialize($user, 'array<Swagger\Server\Model\User>', $inputFormat);
 
         // Validate the input values
         $asserts = [];
@@ -173,7 +173,7 @@ class UserController extends Controller
         $asserts[] = new Assert\All([
             new Assert\Type("Swagger\Server\Model\User")
         ]);
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($user, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -186,7 +186,7 @@ class UserController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->createUsersWithArrayInput($body, $responseCode, $responseHeaders);
+            $result = $handler->createUsersWithArrayInput($user, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'successful operation';
@@ -225,7 +225,7 @@ class UserController extends Controller
     public function createUsersWithListInputAction(Request $request)
     {
         // Make sure that the client is providing something that we can consume
-        $consumes = [];
+        $consumes = ['application/json'];
         $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
         if (!in_array($inputFormat, $consumes)) {
             // We can't consume the content that the client is sending us
@@ -233,7 +233,7 @@ class UserController extends Controller
         }
 
         // Figure out what data format to return to the client
-        $produces = ['application/xml', 'application/json'];
+        $produces = [];
         // Figure out what the client accepts
         $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
         $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
@@ -244,12 +244,12 @@ class UserController extends Controller
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $user = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $body = $this->deserialize($body, 'array<Swagger\Server\Model\User>', $inputFormat);
+        $user = $this->deserialize($user, 'array<Swagger\Server\Model\User>', $inputFormat);
 
         // Validate the input values
         $asserts = [];
@@ -257,7 +257,7 @@ class UserController extends Controller
         $asserts[] = new Assert\All([
             new Assert\Type("Swagger\Server\Model\User")
         ]);
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($user, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -270,7 +270,7 @@ class UserController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->createUsersWithListInput($body, $responseCode, $responseHeaders);
+            $result = $handler->createUsersWithListInput($user, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'successful operation';
@@ -309,7 +309,7 @@ class UserController extends Controller
     public function deleteUserAction(Request $request, $username)
     {
         // Figure out what data format to return to the client
-        $produces = ['application/xml', 'application/json'];
+        $produces = [];
         // Figure out what the client accepts
         $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
         $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
@@ -550,7 +550,7 @@ class UserController extends Controller
     public function logoutUserAction(Request $request)
     {
         // Figure out what data format to return to the client
-        $produces = ['application/xml', 'application/json'];
+        $produces = [];
         // Figure out what the client accepts
         $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
         $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
@@ -615,7 +615,7 @@ class UserController extends Controller
     public function updateUserAction(Request $request, $username)
     {
         // Make sure that the client is providing something that we can consume
-        $consumes = [];
+        $consumes = ['application/json'];
         $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
         if (!in_array($inputFormat, $consumes)) {
             // We can't consume the content that the client is sending us
@@ -623,7 +623,7 @@ class UserController extends Controller
         }
 
         // Figure out what data format to return to the client
-        $produces = ['application/xml', 'application/json'];
+        $produces = [];
         // Figure out what the client accepts
         $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
         $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
@@ -634,13 +634,13 @@ class UserController extends Controller
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $user = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         $username = $this->deserialize($username, 'string', 'string');
-        $body = $this->deserialize($body, 'Swagger\Server\Model\User', $inputFormat);
+        $user = $this->deserialize($user, 'Swagger\Server\Model\User', $inputFormat);
 
         // Validate the input values
         $asserts = [];
@@ -653,7 +653,7 @@ class UserController extends Controller
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("Swagger\Server\Model\User");
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($user, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -666,7 +666,7 @@ class UserController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->updateUser($username, $body, $responseCode, $responseHeaders);
+            $result = $handler->updateUser($username, $user, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';

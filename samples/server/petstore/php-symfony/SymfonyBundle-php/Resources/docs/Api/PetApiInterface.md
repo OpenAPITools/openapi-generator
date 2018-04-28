@@ -27,11 +27,9 @@ services:
 ```
 
 ## **addPet**
-> addPet($body)
+> addPet($pet)
 
 Add a new pet to the store
-
-
 
 ### Example Implementation
 ```php
@@ -58,7 +56,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#addPet
      */
-    public function addPet(Pet $body)
+    public function addPet(Pet $pet)
     {
         // Implement the operation ...
     }
@@ -71,7 +69,7 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Swagger\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**Swagger\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -84,7 +82,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -92,8 +90,6 @@ void (empty response body)
 > deletePet($petId, $apiKey)
 
 Deletes a pet
-
-
 
 ### Example Implementation
 ```php
@@ -147,7 +143,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -338,11 +334,9 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **updatePet**
-> updatePet($body)
+> updatePet($pet)
 
 Update an existing pet
-
-
 
 ### Example Implementation
 ```php
@@ -369,7 +363,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#updatePet
      */
-    public function updatePet(Pet $body)
+    public function updatePet(Pet $pet)
     {
         // Implement the operation ...
     }
@@ -382,7 +376,7 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Swagger\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**Swagger\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -395,7 +389,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -403,8 +397,6 @@ void (empty response body)
 > updatePetWithForm($petId, $name, $status)
 
 Updates a pet in the store with form data
-
-
 
 ### Example Implementation
 ```php
@@ -459,7 +451,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -467,8 +459,6 @@ void (empty response body)
 > Swagger\Server\Model\ApiResponse uploadFile($petId, $additionalMetadata, $file)
 
 uploads an image
-
-
 
 ### Example Implementation
 ```php
@@ -510,7 +500,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **int**| ID of pet to update |
  **additionalMetadata** | **string**| Additional data to pass to server | [optional]
- **file** | **UploadedFile**| file to upload | [optional]
+ **file** | **UploadedFile****UploadedFile**| file to upload | [optional]
 
 ### Return type
 

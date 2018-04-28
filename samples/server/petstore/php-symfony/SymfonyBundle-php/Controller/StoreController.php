@@ -59,7 +59,7 @@ class StoreController extends Controller
     public function deleteOrderAction(Request $request, $orderId)
     {
         // Figure out what data format to return to the client
-        $produces = ['application/xml', 'application/json'];
+        $produces = [];
         // Figure out what the client accepts
         $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
         $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
@@ -286,7 +286,7 @@ class StoreController extends Controller
     public function placeOrderAction(Request $request)
     {
         // Make sure that the client is providing something that we can consume
-        $consumes = [];
+        $consumes = ['application/json'];
         $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
         if (!in_array($inputFormat, $consumes)) {
             // We can't consume the content that the client is sending us
@@ -305,18 +305,18 @@ class StoreController extends Controller
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $order = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $body = $this->deserialize($body, 'Swagger\Server\Model\Order', $inputFormat);
+        $order = $this->deserialize($order, 'Swagger\Server\Model\Order', $inputFormat);
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("Swagger\Server\Model\Order");
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($order, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -329,7 +329,7 @@ class StoreController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
-            $result = $handler->placeOrder($body, $responseCode, $responseHeaders);
+            $result = $handler->placeOrder($order, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'successful operation';

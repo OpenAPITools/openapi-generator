@@ -68,7 +68,7 @@ class PetController extends Controller
         }
 
         // Figure out what data format to return to the client
-        $produces = ['application/xml', 'application/json'];
+        $produces = [];
         // Figure out what the client accepts
         $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
         $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
@@ -82,18 +82,18 @@ class PetController extends Controller
         $securitypetstore_auth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $pet = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $body = $this->deserialize($body, 'Swagger\Server\Model\Pet', $inputFormat);
+        $pet = $this->deserialize($pet, 'Swagger\Server\Model\Pet', $inputFormat);
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("Swagger\Server\Model\Pet");
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($pet, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -108,7 +108,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->addPet($body, $responseCode, $responseHeaders);
+            $result = $handler->addPet($pet, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';
@@ -147,7 +147,7 @@ class PetController extends Controller
     public function deletePetAction(Request $request, $petId)
     {
         // Figure out what data format to return to the client
-        $produces = ['application/xml', 'application/json'];
+        $produces = [];
         // Figure out what the client accepts
         $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
         $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
@@ -496,7 +496,7 @@ class PetController extends Controller
         }
 
         // Figure out what data format to return to the client
-        $produces = ['application/xml', 'application/json'];
+        $produces = [];
         // Figure out what the client accepts
         $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
         $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
@@ -510,18 +510,18 @@ class PetController extends Controller
         $securitypetstore_auth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $pet = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $body = $this->deserialize($body, 'Swagger\Server\Model\Pet', $inputFormat);
+        $pet = $this->deserialize($pet, 'Swagger\Server\Model\Pet', $inputFormat);
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("Swagger\Server\Model\Pet");
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($pet, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -536,7 +536,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->updatePet($body, $responseCode, $responseHeaders);
+            $result = $handler->updatePet($pet, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';
@@ -581,7 +581,7 @@ class PetController extends Controller
     public function updatePetWithFormAction(Request $request, $petId)
     {
         // Figure out what data format to return to the client
-        $produces = ['application/xml', 'application/json'];
+        $produces = [];
         // Figure out what the client accepts
         $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
         $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
