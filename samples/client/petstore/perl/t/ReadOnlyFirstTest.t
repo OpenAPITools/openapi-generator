@@ -9,9 +9,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::ReadOnlyFirst');
+use_ok('WWW::OpenAPIClient::Object::ReadOnlyFirst');
 
-my $instance = WWW::SwaggerClient::Object::ReadOnlyFirst->new();
+my $instance = WWW::OpenAPIClient::Object::ReadOnlyFirst->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::ReadOnlyFirst');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::ReadOnlyFirst');
 

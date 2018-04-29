@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::PetApi
+# WWW::OpenAPIClient::PetApi
 
 ## Load the API package
 ```perl
-use WWW::SwaggerClient::Object::PetApi;
+use WWW::OpenAPIClient::Object::PetApi;
 ```
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -27,14 +27,14 @@ Add a new pet to the store
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::PetApi;
-my $api_instance = WWW::SwaggerClient::PetApi->new(
+use WWW::OpenAPIClient::PetApi;
+my $api_instance = WWW::OpenAPIClient::PetApi->new(
 
     # Configure OAuth2 access token for authorization: petstore_auth
     access_token => 'YOUR_ACCESS_TOKEN',
 );
 
-my $pet = WWW::SwaggerClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
+my $pet = WWW::OpenAPIClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
 
 eval { 
     $api_instance->add_pet(pet => $pet);
@@ -73,8 +73,8 @@ Deletes a pet
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::PetApi;
-my $api_instance = WWW::SwaggerClient::PetApi->new(
+use WWW::OpenAPIClient::PetApi;
+my $api_instance = WWW::OpenAPIClient::PetApi->new(
 
     # Configure OAuth2 access token for authorization: petstore_auth
     access_token => 'YOUR_ACCESS_TOKEN',
@@ -123,8 +123,8 @@ Multiple status values can be provided with comma separated strings
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::PetApi;
-my $api_instance = WWW::SwaggerClient::PetApi->new(
+use WWW::OpenAPIClient::PetApi;
+my $api_instance = WWW::OpenAPIClient::PetApi->new(
 
     # Configure OAuth2 access token for authorization: petstore_auth
     access_token => 'YOUR_ACCESS_TOKEN',
@@ -172,8 +172,8 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::PetApi;
-my $api_instance = WWW::SwaggerClient::PetApi->new(
+use WWW::OpenAPIClient::PetApi;
+my $api_instance = WWW::OpenAPIClient::PetApi->new(
 
     # Configure OAuth2 access token for authorization: petstore_auth
     access_token => 'YOUR_ACCESS_TOKEN',
@@ -221,8 +221,8 @@ Returns a single pet
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::PetApi;
-my $api_instance = WWW::SwaggerClient::PetApi->new(
+use WWW::OpenAPIClient::PetApi;
+my $api_instance = WWW::OpenAPIClient::PetApi->new(
 
     # Configure API key authorization: api_key
     api_key => {'api_key' => 'YOUR_API_KEY'},
@@ -270,14 +270,14 @@ Update an existing pet
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::PetApi;
-my $api_instance = WWW::SwaggerClient::PetApi->new(
+use WWW::OpenAPIClient::PetApi;
+my $api_instance = WWW::OpenAPIClient::PetApi->new(
 
     # Configure OAuth2 access token for authorization: petstore_auth
     access_token => 'YOUR_ACCESS_TOKEN',
 );
 
-my $pet = WWW::SwaggerClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
+my $pet = WWW::OpenAPIClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
 
 eval { 
     $api_instance->update_pet(pet => $pet);
@@ -316,8 +316,8 @@ Updates a pet in the store with form data
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::PetApi;
-my $api_instance = WWW::SwaggerClient::PetApi->new(
+use WWW::OpenAPIClient::PetApi;
+my $api_instance = WWW::OpenAPIClient::PetApi->new(
 
     # Configure OAuth2 access token for authorization: petstore_auth
     access_token => 'YOUR_ACCESS_TOKEN',
@@ -366,8 +366,8 @@ uploads an image
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::PetApi;
-my $api_instance = WWW::SwaggerClient::PetApi->new(
+use WWW::OpenAPIClient::PetApi;
+my $api_instance = WWW::OpenAPIClient::PetApi->new(
 
     # Configure OAuth2 access token for authorization: petstore_auth
     access_token => 'YOUR_ACCESS_TOKEN',

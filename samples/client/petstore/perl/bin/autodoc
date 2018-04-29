@@ -15,14 +15,14 @@ my $my_app = $options{c} || 'My::App';
 if ($options{c}) {
 	eval <<LOAD;
 use $my_app;
-apply_all_roles($my_app, "WWW::SwaggerClient::Role::AutoDoc");
+apply_all_roles($my_app, "WWW::OpenAPIClient::Role::AutoDoc");
 LOAD
 	die $@ if $@;
 }
 else {
 	package My::App;
 	use Moose;
-	with ('WWW::SwaggerClient::Role', 'WWW::SwaggerClient::Role::AutoDoc');
+	with ('WWW::OpenAPIClient::Role', 'WWW::OpenAPIClient::Role::AutoDoc');
 }
 
 package main;

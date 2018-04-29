@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::Order
+# WWW::OpenAPIClient::Object::Order
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::Order;
+use WWW::OpenAPIClient::Object::Order;
 ```
 
 ## Properties

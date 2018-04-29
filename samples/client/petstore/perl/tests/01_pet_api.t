@@ -5,14 +5,14 @@ use lib 'lib';
 use strict;
 use warnings;
 
-use_ok('WWW::SwaggerClient::PetApi');
-use_ok('WWW::SwaggerClient::ApiClient');
-use_ok('WWW::SwaggerClient::Object::Pet');
-use_ok('WWW::SwaggerClient::Object::Tag');
-use_ok('WWW::SwaggerClient::Object::Category');
+use_ok('WWW::OpenAPIClient::PetApi');
+use_ok('WWW::OpenAPIClient::ApiClient');
+use_ok('WWW::OpenAPIClient::Object::Pet');
+use_ok('WWW::OpenAPIClient::Object::Tag');
+use_ok('WWW::OpenAPIClient::Object::Category');
 
-my $api_client = WWW::SwaggerClient::ApiClient->new('base_url' => 'http://testing');
-my $api = WWW::SwaggerClient::PetApi->new($api_client);
+my $api_client = WWW::OpenAPIClient::ApiClient->new('base_url' => 'http://testing');
+my $api = WWW::OpenAPIClient::PetApi->new($api_client);
 is $api->{api_client}{config}{base_url}, 'http://testing', 'get the proper base URL from api client';
 
 # reset the base_url - no direct access because an application shouldn't be changing 
@@ -33,15 +33,15 @@ is $api->{api_client}->select_header_accept(''), undef, 'get the proper accept "
 
 my $pet_id = 10008;
 
-my $category =  WWW::SwaggerClient::Object::Category->new('id' => '22', 'name' => 'perl');
-my $tag =  WWW::SwaggerClient::Object::Tag->new('id' => '11', 'name' => 'just kidding');
-my $pet =  WWW::SwaggerClient::Object::Pet->new('id' => $pet_id, 'name' => 'perl test',
+my $category =  WWW::OpenAPIClient::Object::Category->new('id' => '22', 'name' => 'perl');
+my $tag =  WWW::OpenAPIClient::Object::Tag->new('id' => '11', 'name' => 'just kidding');
+my $pet =  WWW::OpenAPIClient::Object::Pet->new('id' => $pet_id, 'name' => 'perl test',
       "photoUrls" => ['123', 'oop'], 'tags' => [$tag], 'status' => 'pending', 'category' => $category);
 
-isa_ok($api, 'WWW::SwaggerClient::PetApi');
-isa_ok($category, 'WWW::SwaggerClient::Object::Category');
-isa_ok($tag, 'WWW::SwaggerClient::Object::Tag');
-isa_ok($pet, 'WWW::SwaggerClient::Object::Pet');
+isa_ok($api, 'WWW::OpenAPIClient::PetApi');
+isa_ok($category, 'WWW::OpenAPIClient::Object::Category');
+isa_ok($tag, 'WWW::OpenAPIClient::Object::Tag');
+isa_ok($pet, 'WWW::OpenAPIClient::Object::Pet');
 
 my $pet_hash = $pet->to_hash;
 
@@ -72,7 +72,7 @@ my $get_pet_after_update = $api->get_pet_by_id(pet_id => $pet_id);
 is $get_pet_after_update->{status}, 'sold', 'get the updated status after update_pet_with_form';
 
 my $upload_pet = $api->upload_file(pet_id => $pet_id, additional_metadata => 'testabc', file => 'test.pl');
-isa_ok($upload_pet, 'WWW::SwaggerClient::Object::ApiResponse');
+isa_ok($upload_pet, 'WWW::OpenAPIClient::Object::ApiResponse');
 
 my $delete_pet = $api->delete_pet(pet_id => $pet_id);
 is $delete_pet, undef, 'get the null response from delete_pet';
@@ -81,5 +81,5 @@ throws_ok{$api->get_pet_by_id(pet_id => $pet_id)} qr/API Exception\(404\): Not F
 
 my $pets;
 lives_ok {$pets = $api->find_pets_by_status(status => [qw(sold available)])} 'array query param processed correctly';
-isa_ok($pets->[0], 'WWW::SwaggerClient::Object::Pet');
+isa_ok($pets->[0], 'WWW::OpenAPIClient::Object::Pet');
 

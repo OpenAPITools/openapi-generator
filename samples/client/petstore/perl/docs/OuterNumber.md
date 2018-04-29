@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::OuterNumber
+# WWW::OpenAPIClient::Object::OuterNumber
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::OuterNumber;
+use WWW::OpenAPIClient::Object::OuterNumber;
 ```
 
 ## Properties

@@ -9,9 +9,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::ArrayTest');
+use_ok('WWW::OpenAPIClient::Object::ArrayTest');
 
-my $instance = WWW::SwaggerClient::Object::ArrayTest->new();
+my $instance = WWW::OpenAPIClient::Object::ArrayTest->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::ArrayTest');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::ArrayTest');
 

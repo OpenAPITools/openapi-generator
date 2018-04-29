@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::EnumArrays
+# WWW::OpenAPIClient::Object::EnumArrays
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::EnumArrays;
+use WWW::OpenAPIClient::Object::EnumArrays;
 ```
 
 ## Properties

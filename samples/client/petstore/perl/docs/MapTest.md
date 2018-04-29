@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::MapTest
+# WWW::OpenAPIClient::Object::MapTest
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::MapTest;
+use WWW::OpenAPIClient::Object::MapTest;
 ```
 
 ## Properties

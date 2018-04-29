@@ -25,9 +25,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::OuterEnum');
+use_ok('WWW::OpenAPIClient::Object::OuterEnum');
 
-my $instance = WWW::SwaggerClient::Object::OuterEnum->new();
+my $instance = WWW::OpenAPIClient::Object::OuterEnum->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::OuterEnum');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::OuterEnum');
 

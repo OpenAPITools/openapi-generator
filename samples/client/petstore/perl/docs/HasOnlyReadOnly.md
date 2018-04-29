@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::HasOnlyReadOnly
+# WWW::OpenAPIClient::Object::HasOnlyReadOnly
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::HasOnlyReadOnly;
+use WWW::OpenAPIClient::Object::HasOnlyReadOnly;
 ```
 
 ## Properties

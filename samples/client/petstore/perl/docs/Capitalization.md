@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::Capitalization
+# WWW::OpenAPIClient::Object::Capitalization
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::Capitalization;
+use WWW::OpenAPIClient::Object::Capitalization;
 ```
 
 ## Properties

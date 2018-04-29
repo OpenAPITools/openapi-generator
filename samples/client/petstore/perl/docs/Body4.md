@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::Body4
+# WWW::OpenAPIClient::Object::Body4
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::Body4;
+use WWW::OpenAPIClient::Object::Body4;
 ```
 
 ## Properties

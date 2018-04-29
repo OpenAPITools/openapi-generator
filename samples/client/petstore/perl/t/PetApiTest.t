@@ -24,10 +24,10 @@ use lib 'lib';
 use strict;
 use warnings;
 
-use_ok('WWW::SwaggerClient::PetApi');
+use_ok('WWW::OpenAPIClient::PetApi');
 
-my $api = WWW::SwaggerClient::PetApi->new();
-isa_ok($api, 'WWW::SwaggerClient::PetApi');
+my $api = WWW::OpenAPIClient::PetApi->new();
+isa_ok($api, 'WWW::OpenAPIClient::PetApi');
 
 #
 # add_pet test

@@ -83,11 +83,11 @@ public class RubySinatraServerCodegen extends DefaultCodegen implements CodegenC
         setApiPackage("api");
 
         supportingFiles.add(new SupportingFile("my_app.mustache", "", "my_app.rb"));
-        supportingFiles.add(new SupportingFile("Swaggering.rb", libFolder, "swaggering.rb"));
+        supportingFiles.add(new SupportingFile("OpenAPIing.rb", libFolder, "openapiing.rb"));
         supportingFiles.add(new SupportingFile("config.ru", "", "config.ru"));
         supportingFiles.add(new SupportingFile("Gemfile", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
-        supportingFiles.add(new SupportingFile("openapi.mustache","","openapi.yaml"));
+        supportingFiles.add(new SupportingFile("openapi.mustache", "", "openapi.yaml"));
     }
 
     @Override
@@ -106,8 +106,8 @@ public class RubySinatraServerCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public String escapeReservedWord(String name) {           
-        if(this.reservedWordsMappings().containsKey(name)) {
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;

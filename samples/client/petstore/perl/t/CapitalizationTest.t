@@ -25,9 +25,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::Capitalization');
+use_ok('WWW::OpenAPIClient::Object::Capitalization');
 
-my $instance = WWW::SwaggerClient::Object::Capitalization->new();
+my $instance = WWW::OpenAPIClient::Object::Capitalization->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::Capitalization');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::Capitalization');
 

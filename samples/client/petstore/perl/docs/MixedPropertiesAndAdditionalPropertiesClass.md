@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::MixedPropertiesAndAdditionalPropertiesClass
+# WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::MixedPropertiesAndAdditionalPropertiesClass;
+use WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass;
 ```
 
 ## Properties

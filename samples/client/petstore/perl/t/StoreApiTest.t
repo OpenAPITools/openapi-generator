@@ -24,10 +24,10 @@ use lib 'lib';
 use strict;
 use warnings;
 
-use_ok('WWW::SwaggerClient::StoreApi');
+use_ok('WWW::OpenAPIClient::StoreApi');
 
-my $api = WWW::SwaggerClient::StoreApi->new();
-isa_ok($api, 'WWW::SwaggerClient::StoreApi');
+my $api = WWW::OpenAPIClient::StoreApi->new();
+isa_ok($api, 'WWW::OpenAPIClient::StoreApi');
 
 #
 # delete_order test

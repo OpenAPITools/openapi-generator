@@ -11,7 +11,7 @@ SKIP: {
 	eval "
 		package MyApp;
 		use Moose;
-		with 'WWW::SwaggerClient::Role';
+		with 'WWW::OpenAPIClient::Role';
 		sub auth_setup_handler {}
 	";
 	
@@ -23,9 +23,9 @@ my $api = MyApp->new;
 my $pet_id = 10008;
 # note - we don't need to 'use' these modules because they've already been loaded by ApiFactory
 my ($category, $tag, $pet);
-lives_ok { $category = WWW::SwaggerClient::Object::Category->new('id' => '22', 'name' => 'perl') } 'Category.pm loaded OK';
-lives_ok { $tag =  WWW::SwaggerClient::Object::Tag->new('id' => '11', 'name' => 'just kidding') } 'Tag.pm loaded OK';
-lives_ok { $pet =  WWW::SwaggerClient::Object::Pet->new('id' => $pet_id, 'name' => 'perl test',
+lives_ok { $category = WWW::OpenAPIClient::Object::Category->new('id' => '22', 'name' => 'perl') } 'Category.pm loaded OK';
+lives_ok { $tag =  WWW::OpenAPIClient::Object::Tag->new('id' => '11', 'name' => 'just kidding') } 'Tag.pm loaded OK';
+lives_ok { $pet =  WWW::OpenAPIClient::Object::Pet->new('id' => $pet_id, 'name' => 'perl test',
       "photoUrls" => ['123', 'oop'], 'tags' => [$tag], 'status' => 'pending', 'category' => $category) } 'Pet.pm loaded OK';
 
 is $pet->id, '10008', 'got the proper pet id';

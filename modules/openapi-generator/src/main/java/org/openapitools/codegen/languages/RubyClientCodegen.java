@@ -45,8 +45,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String gemLicense = "proprietary";
     protected String gemRequiredRubyVersion = ">= 1.9";
     protected String gemHomepage = "http://org.openapitools";
-    protected String gemSummary = "A ruby wrapper for the swagger APIs";
-    protected String gemDescription = "This gem maps to a swagger API";
+    protected String gemSummary = "A ruby wrapper for the REST APIs";
+    protected String gemDescription = "This gem maps to a REST API";
     protected String gemAuthor = "";
     protected String gemAuthorEmail = "";
     protected String apiDocPath = "docs/";
@@ -140,9 +140,9 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
         cliOptions.add(new CliOption(GEM_NAME, "gem name (convention: underscore_case).").
-                defaultValue("swagger_client"));
+                defaultValue("openapi_client"));
         cliOptions.add(new CliOption(MODULE_NAME, "top module name (convention: CamelCase, usually corresponding" +
-                " to gem name).").defaultValue("SwaggerClient"));
+                " to gem name).").defaultValue("OpenAPIClient"));
         cliOptions.add(new CliOption(GEM_VERSION, "gem version.").defaultValue("1.0.0"));
 
         cliOptions.add(new CliOption(GEM_LICENSE, "gem license. ").
@@ -155,10 +155,10 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
                 defaultValue("http://org.openapitools"));
 
         cliOptions.add(new CliOption(GEM_SUMMARY, "gem summary. ").
-                defaultValue("A ruby wrapper for the swagger APIs"));
+                defaultValue("A ruby wrapper for the REST APIs"));
 
         cliOptions.add(new CliOption(GEM_DESCRIPTION, "gem description. ").
-                defaultValue("This gem maps to a swagger API"));
+                defaultValue("This gem maps to a REST API"));
 
         cliOptions.add(new CliOption(GEM_AUTHOR, "gem author (only one is supported)."));
 
@@ -181,7 +181,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (gemName == null && moduleName == null) {
-            setGemName("swagger_client");
+            setGemName("openapi_client");
             setModuleName(generateModuleName(gemName));
         } else if (gemName == null) {
             setGemName(generateGemName(moduleName));
@@ -274,7 +274,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Generate Ruby module name from the gem name, e.g. use "SwaggerClient" for "swagger_client".
+     * Generate Ruby module name from the gem name, e.g. use "OpenAPIClient" for "openapi_client".
      *
      * @param gemName Ruby gem name
      * @return Ruby module naame
@@ -285,7 +285,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Generate Ruby gem name from the module name, e.g. use "swagger_client" for "SwaggerClient".
+     * Generate Ruby gem name from the module name, e.g. use "openapi_client" for "OpenAPIClient".
      *
      * @param moduleName Ruby module naame
      * @return Ruby gem name
@@ -348,7 +348,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isIntegerSchema(p)|| ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
+        if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }

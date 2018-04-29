@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::Animal
+# WWW::OpenAPIClient::Object::Animal
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::Animal;
+use WWW::OpenAPIClient::Object::Animal;
 ```
 
 ## Properties

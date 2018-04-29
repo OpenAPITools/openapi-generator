@@ -24,10 +24,10 @@ use lib 'lib';
 use strict;
 use warnings;
 
-use_ok('WWW::SwaggerClient::AnotherfakeApi');
+use_ok('WWW::OpenAPIClient::AnotherfakeApi');
 
-my $api = WWW::SwaggerClient::AnotherfakeApi->new();
-isa_ok($api, 'WWW::SwaggerClient::AnotherfakeApi');
+my $api = WWW::OpenAPIClient::AnotherfakeApi->new();
+isa_ok($api, 'WWW::OpenAPIClient::AnotherfakeApi');
 
 #
 # test_special_tags test

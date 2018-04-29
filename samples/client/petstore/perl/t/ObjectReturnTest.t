@@ -9,9 +9,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::ObjectReturn');
+use_ok('WWW::OpenAPIClient::Object::ObjectReturn');
 
-my $instance = WWW::SwaggerClient::Object::ObjectReturn->new();
+my $instance = WWW::OpenAPIClient::Object::ObjectReturn->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::ObjectReturn');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::ObjectReturn');
 

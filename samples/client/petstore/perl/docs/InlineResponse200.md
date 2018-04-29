@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::InlineResponse200
+# WWW::OpenAPIClient::Object::InlineResponse200
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::InlineResponse200;
+use WWW::OpenAPIClient::Object::InlineResponse200;
 ```
 
 ## Properties

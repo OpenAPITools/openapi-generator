@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::OuterEnum
+# WWW::OpenAPIClient::Object::OuterEnum
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::OuterEnum;
+use WWW::OpenAPIClient::Object::OuterEnum;
 ```
 
 ## Properties
