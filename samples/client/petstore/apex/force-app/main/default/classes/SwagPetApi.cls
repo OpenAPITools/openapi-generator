@@ -28,22 +28,22 @@ public class SwagPetApi {
     /**
      * Add a new pet to the store
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param swagPet Pet object that needs to be added to the store (required)
      * @throws Swagger.ApiException if fails to make API call
      */
     public void addPet(Map<String, Object> params) {
-        client.assertNotNull(params.get('body'), 'body');
+        client.assertNotNull(params.get('swagPet'), 'swagPet');
         List<Swagger.Param> query = new List<Swagger.Param>();
         List<Swagger.Param> form = new List<Swagger.Param>();
 
         client.invoke(
             'POST', '/pet',
-            (SwagPet) params.get('body'),
+            (SwagPet) params.get('swagPet'),
             query, form,
             new Map<String, Object>(),
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>(),
+            new List<String>{ 'application/json', 'application/xml' },
             new List<String> { 'petstore_auth' },
             null
         );
@@ -69,8 +69,8 @@ public class SwagPetApi {
             new Map<String, Object>{
                 'api_key' => (String) params.get('apiKey')
             },
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>(),
+            new List<String>(),
             new List<String> { 'petstore_auth' },
             null
         );
@@ -96,8 +96,8 @@ public class SwagPetApi {
             query, form,
             new Map<String, Object>(),
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>{ 'application/xml', 'application/json' },
+            new List<String>(),
             new List<String> { 'petstore_auth' },
             List<SwagPet>.class
         );
@@ -123,8 +123,8 @@ public class SwagPetApi {
             query, form,
             new Map<String, Object>(),
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>{ 'application/xml', 'application/json' },
+            new List<String>(),
             new List<String> { 'petstore_auth' },
             List<SwagPet>.class
         );
@@ -148,8 +148,8 @@ public class SwagPetApi {
                 'petId' => (Long) params.get('petId')
             },
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>{ 'application/xml', 'application/json' },
+            new List<String>(),
             new List<String> { 'api_key' },
             SwagPet.class
         );
@@ -157,22 +157,22 @@ public class SwagPetApi {
     /**
      * Update an existing pet
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param swagPet Pet object that needs to be added to the store (required)
      * @throws Swagger.ApiException if fails to make API call
      */
     public void updatePet(Map<String, Object> params) {
-        client.assertNotNull(params.get('body'), 'body');
+        client.assertNotNull(params.get('swagPet'), 'swagPet');
         List<Swagger.Param> query = new List<Swagger.Param>();
         List<Swagger.Param> form = new List<Swagger.Param>();
 
         client.invoke(
             'PUT', '/pet',
-            (SwagPet) params.get('body'),
+            (SwagPet) params.get('swagPet'),
             query, form,
             new Map<String, Object>(),
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>(),
+            new List<String>{ 'application/json', 'application/xml' },
             new List<String> { 'petstore_auth' },
             null
         );
@@ -201,7 +201,7 @@ public class SwagPetApi {
                 'petId' => (Long) params.get('petId')
             },
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
+            new List<String>(),
             new List<String>{ 'application/x-www-form-urlencoded' },
             new List<String> { 'petstore_auth' },
             null
@@ -233,7 +233,7 @@ public class SwagPetApi {
             },
             new Map<String, Object>(),
             new List<String>{ 'application/json' },
-            new List<String>{ 'application/x-www-form-urlencoded' },
+            new List<String>{ 'multipart/form-data' },
             new List<String> { 'petstore_auth' },
             SwagApiResponse.class
         );

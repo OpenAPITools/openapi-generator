@@ -67,7 +67,7 @@ public class SwagOrder {
         SwagOrder order = new SwagOrder();
         order.id = 123456789L;
         order.petId = 123456789L;
-        order.quantity = 123;
+        order.quantity = ;
         order.shipDate = Datetime.newInstanceGmt(2000, 1, 23, 4, 56, 7);
         order.status = StatusEnum.PLACED;
         order.complete = true;

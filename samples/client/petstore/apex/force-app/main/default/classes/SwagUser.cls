@@ -71,7 +71,7 @@ public class SwagUser {
         user.email = 'aeiou';
         user.password = 'aeiou';
         user.phone = 'aeiou';
-        user.userStatus = 123;
+        user.userStatus = ;
         return user;
     }
 

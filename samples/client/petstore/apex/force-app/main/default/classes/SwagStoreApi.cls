@@ -43,8 +43,8 @@ public class SwagStoreApi {
                 'orderId' => (String) params.get('orderId')
             },
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>(),
+            new List<String>(),
             new List<String>(),
             null
         );
@@ -65,7 +65,7 @@ public class SwagStoreApi {
             new Map<String, Object>(),
             new Map<String, Object>(),
             new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>(),
             new List<String> { 'api_key' },
             Map<String, Integer>.class
         );
@@ -89,8 +89,8 @@ public class SwagStoreApi {
                 'orderId' => (Long) params.get('orderId')
             },
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>{ 'application/xml', 'application/json' },
+            new List<String>(),
             new List<String>(),
             SwagOrder.class
         );
@@ -98,23 +98,23 @@ public class SwagStoreApi {
     /**
      * Place an order for a pet
      * 
-     * @param body order placed for purchasing the pet (required)
+     * @param swagOrder order placed for purchasing the pet (required)
      * @return SwagOrder
      * @throws Swagger.ApiException if fails to make API call
      */
     public SwagOrder placeOrder(Map<String, Object> params) {
-        client.assertNotNull(params.get('body'), 'body');
+        client.assertNotNull(params.get('swagOrder'), 'swagOrder');
         List<Swagger.Param> query = new List<Swagger.Param>();
         List<Swagger.Param> form = new List<Swagger.Param>();
 
         return (SwagOrder) client.invoke(
             'POST', '/store/order',
-            (SwagOrder) params.get('body'),
+            (SwagOrder) params.get('swagOrder'),
             query, form,
             new Map<String, Object>(),
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>{ 'application/xml', 'application/json' },
+            new List<String>(),
             new List<String>(),
             SwagOrder.class
         );

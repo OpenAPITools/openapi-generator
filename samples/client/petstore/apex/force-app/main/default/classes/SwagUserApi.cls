@@ -28,22 +28,22 @@ public class SwagUserApi {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param body Created user object (required)
+     * @param swagUser Created user object (required)
      * @throws Swagger.ApiException if fails to make API call
      */
     public void createUser(Map<String, Object> params) {
-        client.assertNotNull(params.get('body'), 'body');
+        client.assertNotNull(params.get('swagUser'), 'swagUser');
         List<Swagger.Param> query = new List<Swagger.Param>();
         List<Swagger.Param> form = new List<Swagger.Param>();
 
         client.invoke(
             'POST', '/user',
-            (SwagUser) params.get('body'),
+            (SwagUser) params.get('swagUser'),
             query, form,
             new Map<String, Object>(),
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>(),
+            new List<String>(),
             new List<String>(),
             null
         );
@@ -51,22 +51,22 @@ public class SwagUserApi {
     /**
      * Creates list of users with given input array
      * 
-     * @param body List of user object (required)
+     * @param swagUser List of user object (required)
      * @throws Swagger.ApiException if fails to make API call
      */
     public void createUsersWithArrayInput(Map<String, Object> params) {
-        client.assertNotNull(params.get('body'), 'body');
+        client.assertNotNull(params.get('swagUser'), 'swagUser');
         List<Swagger.Param> query = new List<Swagger.Param>();
         List<Swagger.Param> form = new List<Swagger.Param>();
 
         client.invoke(
             'POST', '/user/createWithArray',
-            (List<SwagUser>) params.get('body'),
+            (List<SwagUser>) params.get('swagUser'),
             query, form,
             new Map<String, Object>(),
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>(),
+            new List<String>(),
             new List<String>(),
             null
         );
@@ -74,22 +74,22 @@ public class SwagUserApi {
     /**
      * Creates list of users with given input array
      * 
-     * @param body List of user object (required)
+     * @param swagUser List of user object (required)
      * @throws Swagger.ApiException if fails to make API call
      */
     public void createUsersWithListInput(Map<String, Object> params) {
-        client.assertNotNull(params.get('body'), 'body');
+        client.assertNotNull(params.get('swagUser'), 'swagUser');
         List<Swagger.Param> query = new List<Swagger.Param>();
         List<Swagger.Param> form = new List<Swagger.Param>();
 
         client.invoke(
             'POST', '/user/createWithList',
-            (List<SwagUser>) params.get('body'),
+            (List<SwagUser>) params.get('swagUser'),
             query, form,
             new Map<String, Object>(),
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>(),
+            new List<String>(),
             new List<String>(),
             null
         );
@@ -112,8 +112,8 @@ public class SwagUserApi {
                 'username' => (String) params.get('username')
             },
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>(),
+            new List<String>(),
             new List<String>(),
             null
         );
@@ -121,7 +121,7 @@ public class SwagUserApi {
     /**
      * Get user by user name
      * 
-     * @param username The name that needs to be fetched. Use user1 for testing.  (required)
+     * @param username The name that needs to be fetched. Use user1 for testing. (required)
      * @return SwagUser
      * @throws Swagger.ApiException if fails to make API call
      */
@@ -137,8 +137,8 @@ public class SwagUserApi {
                 'username' => (String) params.get('username')
             },
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>{ 'application/xml', 'application/json' },
+            new List<String>(),
             new List<String>(),
             SwagUser.class
         );
@@ -167,8 +167,8 @@ public class SwagUserApi {
             query, form,
             new Map<String, Object>(),
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>{ 'application/xml', 'application/json' },
+            new List<String>(),
             new List<String>(),
             String.class
         );
@@ -187,8 +187,8 @@ public class SwagUserApi {
             query, form,
             new Map<String, Object>(),
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>(),
+            new List<String>(),
             new List<String>(),
             null
         );
@@ -197,25 +197,25 @@ public class SwagUserApi {
      * Updated user
      * This can only be done by the logged in user.
      * @param username name that need to be deleted (required)
-     * @param body Updated user object (required)
+     * @param swagUser Updated user object (required)
      * @throws Swagger.ApiException if fails to make API call
      */
     public void updateUser(Map<String, Object> params) {
         client.assertNotNull(params.get('username'), 'username');
-        client.assertNotNull(params.get('body'), 'body');
+        client.assertNotNull(params.get('swagUser'), 'swagUser');
         List<Swagger.Param> query = new List<Swagger.Param>();
         List<Swagger.Param> form = new List<Swagger.Param>();
 
         client.invoke(
             'PUT', '/user/{username}',
-            (SwagUser) params.get('body'),
+            (SwagUser) params.get('swagUser'),
             query, form,
             new Map<String, Object>{
                 'username' => (String) params.get('username')
             },
             new Map<String, Object>(),
-            new List<String>{ 'application/json' },
-            new List<String>{ 'application/json' },
+            new List<String>(),
+            new List<String>(),
             new List<String>(),
             null
         );

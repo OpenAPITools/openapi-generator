@@ -42,7 +42,7 @@ public class SwagApiResponse implements Swagger.MappedProperties {
 
     public static SwagApiResponse getExample() {
         SwagApiResponse apiResponse = new SwagApiResponse();
-        apiResponse.code = 123;
+        apiResponse.code = ;
         apiResponse.r_type = 'aeiou';
         apiResponse.message = 'aeiou';
         return apiResponse;

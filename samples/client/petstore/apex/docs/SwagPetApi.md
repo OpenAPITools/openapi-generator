@@ -16,11 +16,9 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> addPet(body)
+> addPet(swagPet)
 
 Add a new pet to the store
-
-
 
 ### Example
 ```java
@@ -32,7 +30,7 @@ Swagger.OAuth petstore_auth = (Swagger.OAuth) client.getAuthentication('petstore
 petstore_auth.setAccessToken('YOUR ACCESS TOKEN');
 
 Map<String, Object> params = new Map<String, Object>{
-    'body' => SwagPet.getExample()
+    'swagPet' => SwagPet.getExample()
 };
 
 try {
@@ -47,7 +45,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SwagPet**](Pet.md)| Pet object that needs to be added to the store |
+ **swagPet** | [**SwagPet**](SwagPet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -59,16 +57,14 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: application/json, application/xml
+ - **Accept**: Not defined
 
 <a name="deletePet"></a>
 # **deletePet**
 > deletePet(petId, apiKey)
 
 Deletes a pet
-
-
 
 ### Example
 ```java
@@ -81,7 +77,7 @@ petstore_auth.setAccessToken('YOUR ACCESS TOKEN');
 
 Map<String, Object> params = new Map<String, Object>{
     'petId' => 2147483648L,
-    'apiKey' => 'apiKey_example'
+    'apiKey' => 'null'
 };
 
 try {
@@ -109,8 +105,8 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 <a name="findPetsByStatus"></a>
 # **findPetsByStatus**
@@ -158,8 +154,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
@@ -207,8 +203,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
 <a name="getPetById"></a>
 # **getPetById**
@@ -256,16 +252,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
 <a name="updatePet"></a>
 # **updatePet**
-> updatePet(body)
+> updatePet(swagPet)
 
 Update an existing pet
-
-
 
 ### Example
 ```java
@@ -277,7 +271,7 @@ Swagger.OAuth petstore_auth = (Swagger.OAuth) client.getAuthentication('petstore
 petstore_auth.setAccessToken('YOUR ACCESS TOKEN');
 
 Map<String, Object> params = new Map<String, Object>{
-    'body' => SwagPet.getExample()
+    'swagPet' => SwagPet.getExample()
 };
 
 try {
@@ -292,7 +286,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SwagPet**](Pet.md)| Pet object that needs to be added to the store |
+ **swagPet** | [**SwagPet**](SwagPet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -304,16 +298,14 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: application/json, application/xml
+ - **Accept**: Not defined
 
 <a name="updatePetWithForm"></a>
 # **updatePetWithForm**
 > updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
-
-
 
 ### Example
 ```java
@@ -326,8 +318,8 @@ petstore_auth.setAccessToken('YOUR ACCESS TOKEN');
 
 Map<String, Object> params = new Map<String, Object>{
     'petId' => 2147483648L,
-    'name' => 'name_example',
-    'status' => 'status_example'
+    'name' => 'null',
+    'status' => 'null'
 };
 
 try {
@@ -357,15 +349,13 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/json
+ - **Accept**: Not defined
 
 <a name="uploadFile"></a>
 # **uploadFile**
 > SwagApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
-
-
 
 ### Example
 ```java
@@ -378,7 +368,7 @@ petstore_auth.setAccessToken('YOUR ACCESS TOKEN');
 
 Map<String, Object> params = new Map<String, Object>{
     'petId' => 2147483648L,
-    'additionalMetadata' => 'additionalMetadata_example',
+    'additionalMetadata' => 'null',
     'file' => Blob.valueOf('Sample text file\nContents')
 };
 
@@ -409,6 +399,6 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
+ - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
