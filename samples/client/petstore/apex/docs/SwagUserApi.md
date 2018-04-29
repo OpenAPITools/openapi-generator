@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createUser"></a>
 # **createUser**
-> createUser(body)
+> createUser(swagUser)
 
 Create user
 
@@ -27,7 +27,7 @@ This can only be done by the logged in user.
 SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'body' => SwagUser.getExample()
+    'swagUser' => SwagUser.getExample()
 };
 
 try {
@@ -42,7 +42,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SwagUser**](User.md)| Created user object |
+ **swagUser** | [**SwagUser**](SwagUser.md)| Created user object |
 
 ### Return type
 
@@ -54,23 +54,21 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 <a name="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(body)
+> createUsersWithArrayInput(swagUser)
 
 Creates list of users with given input array
-
-
 
 ### Example
 ```java
 SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'body' => new List<SwagUser>{SwagUser.getExample()}
+    'swagUser' => new List<SwagUser>{SwagUser.getExample()}
 };
 
 try {
@@ -85,7 +83,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;SwagUser&gt;**](SwagUser.md)| List of user object |
+ **swagUser** | [**List&lt;SwagUser&gt;**](List.md)| List of user object |
 
 ### Return type
 
@@ -97,23 +95,21 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 <a name="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> createUsersWithListInput(body)
+> createUsersWithListInput(swagUser)
 
 Creates list of users with given input array
-
-
 
 ### Example
 ```java
 SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'body' => new List<SwagUser>{SwagUser.getExample()}
+    'swagUser' => new List<SwagUser>{SwagUser.getExample()}
 };
 
 try {
@@ -128,7 +124,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;SwagUser&gt;**](SwagUser.md)| List of user object |
+ **swagUser** | [**List&lt;SwagUser&gt;**](List.md)| List of user object |
 
 ### Return type
 
@@ -140,8 +136,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 <a name="deleteUser"></a>
 # **deleteUser**
@@ -156,7 +152,7 @@ This can only be done by the logged in user.
 SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'username' => 'username_example'
+    'username' => 'null'
 };
 
 try {
@@ -183,8 +179,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 <a name="getUserByName"></a>
 # **getUserByName**
@@ -192,14 +188,12 @@ No authorization required
 
 Get user by user name
 
-
-
 ### Example
 ```java
 SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'username' => 'username_example'
+    'username' => 'null'
 };
 
 try {
@@ -215,7 +209,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing.  |
+ **username** | **String**| The name that needs to be fetched. Use user1 for testing. |
 
 ### Return type
 
@@ -227,8 +221,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
 <a name="loginUser"></a>
 # **loginUser**
@@ -236,15 +230,13 @@ No authorization required
 
 Logs user into the system
 
-
-
 ### Example
 ```java
 SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'username' => 'username_example',
-    'password' => 'password_example'
+    'username' => 'null',
+    'password' => 'null'
 };
 
 try {
@@ -273,16 +265,14 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
 <a name="logoutUser"></a>
 # **logoutUser**
 > logoutUser()
 
 Logs out current logged in user session
-
-
 
 ### Example
 ```java
@@ -309,12 +299,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 <a name="updateUser"></a>
 # **updateUser**
-> updateUser(username, body)
+> updateUser(username, swagUser)
 
 Updated user
 
@@ -325,8 +315,8 @@ This can only be done by the logged in user.
 SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'username' => 'username_example',
-    'body' => SwagUser.getExample()
+    'username' => 'null',
+    'swagUser' => SwagUser.getExample()
 };
 
 try {
@@ -342,7 +332,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted |
- **body** | [**SwagUser**](User.md)| Updated user object |
+ **swagUser** | [**SwagUser**](SwagUser.md)| Updated user object |
 
 ### Return type
 
@@ -354,6 +344,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 

@@ -23,7 +23,7 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 SwagStoreApi api = new SwagStoreApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'orderId' => 'orderId_example'
+    'orderId' => 'null'
 };
 
 try {
@@ -50,8 +50,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 <a name="getInventory"></a>
 # **getInventory**
@@ -84,7 +84,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**Map&lt;String, Integer&gt;**](Map.md)
+**Map&lt;String, Integer&gt;**
 
 ### Authorization
 
@@ -92,7 +92,7 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 <a name="getOrderById"></a>
@@ -124,7 +124,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **Long**| ID of pet that needs to be fetched |
+ **orderId** | **Long**| ID of pet that needs to be fetched | [enum: ]
 
 ### Return type
 
@@ -136,23 +136,21 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
 <a name="placeOrder"></a>
 # **placeOrder**
-> SwagOrder placeOrder(body)
+> SwagOrder placeOrder(swagOrder)
 
 Place an order for a pet
-
-
 
 ### Example
 ```java
 SwagStoreApi api = new SwagStoreApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'body' => SwagOrder.getExample()
+    'swagOrder' => SwagOrder.getExample()
 };
 
 try {
@@ -168,7 +166,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SwagOrder**](Order.md)| order placed for purchasing the pet |
+ **swagOrder** | [**SwagOrder**](SwagOrder.md)| order placed for purchasing the pet |
 
 ### Return type
 
@@ -180,6 +178,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
