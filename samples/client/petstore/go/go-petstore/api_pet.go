@@ -594,7 +594,7 @@ PetApiService uploads an image
  * @param optional nil or *UploadFileOpts - Optional Parameters:
  * @param "AdditionalMetadata" (optional.String) -  Additional data to pass to server
  * @param "File" (optional.Interface of *os.File) -  file to upload
-@return ModelApiResponse
+@return ApiResponse
 */
 
 type UploadFileOpts struct {
@@ -602,13 +602,13 @@ type UploadFileOpts struct {
     File optional.Interface
 }
 
-func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOptionals *UploadFileOpts) (ModelApiResponse, *http.Response, error) {
+func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOptionals *UploadFileOpts) (ApiResponse, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		localVarReturnValue ModelApiResponse
+		localVarReturnValue ApiResponse
 	)
 
 	// create path and map variables
@@ -683,7 +683,7 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v ModelApiResponse
+			var v ApiResponse
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
 				if err != nil {
 					newErr.error = err.Error()

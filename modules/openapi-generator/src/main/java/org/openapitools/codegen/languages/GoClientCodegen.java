@@ -35,21 +35,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        // data type
-                        "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",
-                        "int", "int8", "int16", "int32", "int64", "float32", "float64",
-                        "complex64", "complex128", "rune", "byte", "uintptr",
-
-                        "break", "default", "func", "interface", "select",
-                        "case", "defer", "go", "map", "struct",
-                        "chan", "else", "goto", "package", "switch",
-                        "const", "fallthrough", "if", "range", "type",
-                        "continue", "for", "import", "return", "var", "error", "ApiResponse", "nil")
-                // Added "error" as it's used so frequently that it may as well be a keyword
-        );
-
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Go package version.")
                 .defaultValue("1.0.0"));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
