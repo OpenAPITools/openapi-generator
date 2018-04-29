@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::ApiResponse
+# WWW::OpenAPIClient::Object::ApiResponse
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::ApiResponse;
+use WWW::OpenAPIClient::Object::ApiResponse;
 ```
 
 ## Properties

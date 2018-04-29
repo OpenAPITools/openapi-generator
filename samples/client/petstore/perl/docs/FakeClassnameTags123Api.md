@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::FakeClassnameTags123Api
+# WWW::OpenAPIClient::FakeClassnameTags123Api
 
 ## Load the API package
 ```perl
-use WWW::SwaggerClient::Object::FakeClassnameTags123Api;
+use WWW::OpenAPIClient::Object::FakeClassnameTags123Api;
 ```
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -22,8 +22,8 @@ To test class name in snake case
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::FakeClassnameTags123Api;
-my $api_instance = WWW::SwaggerClient::FakeClassnameTags123Api->new(
+use WWW::OpenAPIClient::FakeClassnameTags123Api;
+my $api_instance = WWW::OpenAPIClient::FakeClassnameTags123Api->new(
 
     # Configure API key authorization: api_key_query
     api_key => {'api_key_query' => 'YOUR_API_KEY'},
@@ -31,7 +31,7 @@ my $api_instance = WWW::SwaggerClient::FakeClassnameTags123Api->new(
     #api_key_prefix => {'api_key_query' => 'Bearer'},
 );
 
-my $client = WWW::SwaggerClient::Object::Client->new(); # Client | client model
+my $client = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
 
 eval { 
     my $result = $api_instance->test_classname(client => $client);

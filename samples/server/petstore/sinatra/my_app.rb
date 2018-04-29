@@ -1,7 +1,7 @@
-require './lib/swaggering'
+require './lib/openapiing'
 
 # only need to extend if you want special configuration!
-class MyApp < Swaggering
+class MyApp < OpenAPIing
   self.configure do |config|
     config.api_version = '1.0.0' 
   end

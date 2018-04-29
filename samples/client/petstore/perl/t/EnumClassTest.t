@@ -9,9 +9,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::EnumClass');
+use_ok('WWW::OpenAPIClient::Object::EnumClass');
 
-my $instance = WWW::SwaggerClient::Object::EnumClass->new();
+my $instance = WWW::OpenAPIClient::Object::EnumClass->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::EnumClass');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::EnumClass');
 

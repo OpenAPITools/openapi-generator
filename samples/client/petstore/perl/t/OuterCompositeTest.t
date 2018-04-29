@@ -25,9 +25,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::OuterComposite');
+use_ok('WWW::OpenAPIClient::Object::OuterComposite');
 
-my $instance = WWW::SwaggerClient::Object::OuterComposite->new();
+my $instance = WWW::OpenAPIClient::Object::OuterComposite->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::OuterComposite');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::OuterComposite');
 

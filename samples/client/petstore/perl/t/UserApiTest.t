@@ -24,10 +24,10 @@ use lib 'lib';
 use strict;
 use warnings;
 
-use_ok('WWW::SwaggerClient::UserApi');
+use_ok('WWW::OpenAPIClient::UserApi');
 
-my $api = WWW::SwaggerClient::UserApi->new();
-isa_ok($api, 'WWW::SwaggerClient::UserApi');
+my $api = WWW::OpenAPIClient::UserApi->new();
+isa_ok($api, 'WWW::OpenAPIClient::UserApi');
 
 #
 # create_user test

@@ -25,9 +25,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::SpecialModelName_');
+use_ok('WWW::OpenAPIClient::Object::SpecialModelName_');
 
-my $instance = WWW::SwaggerClient::Object::SpecialModelName_->new();
+my $instance = WWW::OpenAPIClient::Object::SpecialModelName_->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::SpecialModelName_');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::SpecialModelName_');
 

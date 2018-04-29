@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::Tag
+# WWW::OpenAPIClient::Object::Tag
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::Tag;
+use WWW::OpenAPIClient::Object::Tag;
 ```
 
 ## Properties

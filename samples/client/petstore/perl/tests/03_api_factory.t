@@ -5,14 +5,14 @@ use lib 'lib';
 use strict;
 use warnings;
 
-use_ok('WWW::SwaggerClient::ApiFactory');
+use_ok('WWW::OpenAPIClient::ApiFactory');
 
-my $api_factory = WWW::SwaggerClient::ApiFactory->new('base_url' => 'http://testing');
+my $api_factory = WWW::OpenAPIClient::ApiFactory->new('base_url' => 'http://testing');
 my $pet_api = $api_factory->get_api('Pet');
-isa_ok($pet_api, 'WWW::SwaggerClient::PetApi');
+isa_ok($pet_api, 'WWW::OpenAPIClient::PetApi');
 is $pet_api->{api_client}{config}{base_url}, 'http://testing', 'get the proper base URL from api client';
 
-$api_factory = WWW::SwaggerClient::ApiFactory->new;
+$api_factory = WWW::OpenAPIClient::ApiFactory->new;
 $pet_api = $api_factory->get_api('Pet');
 
 # reset the base_url - no direct access because an application shouldn't be changing 
@@ -24,9 +24,9 @@ is $pet_api->{api_client}{config}{base_url}, 'http://petstore.swagger.io/v2', 'g
 my $pet_id = 10008;
 # note - we don't need to 'use' these modules because they've already been loaded by ApiFactory
 my ($category, $tag, $pet);
-lives_ok { $category = WWW::SwaggerClient::Object::Category->new('id' => '22', 'name' => 'perl') } 'Category.pm loaded OK';
-lives_ok { $tag =  WWW::SwaggerClient::Object::Tag->new('id' => '11', 'name' => 'just kidding') } 'Tag.pm loaded OK';
-lives_ok { $pet =  WWW::SwaggerClient::Object::Pet->new('id' => $pet_id, 'name' => 'perl test',
+lives_ok { $category = WWW::OpenAPIClient::Object::Category->new('id' => '22', 'name' => 'perl') } 'Category.pm loaded OK';
+lives_ok { $tag =  WWW::OpenAPIClient::Object::Tag->new('id' => '11', 'name' => 'just kidding') } 'Tag.pm loaded OK';
+lives_ok { $pet =  WWW::OpenAPIClient::Object::Pet->new('id' => $pet_id, 'name' => 'perl test',
       "photoUrls" => ['123', 'oop'], 'tags' => [$tag], 'status' => 'pending', 'category' => $category) } 'Pet.pm loaded OK';
 
 is $pet->id, '10008', 'got the proper pet id';

@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::OuterBoolean
+# WWW::OpenAPIClient::Object::OuterBoolean
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::OuterBoolean;
+use WWW::OpenAPIClient::Object::OuterBoolean;
 ```
 
 ## Properties

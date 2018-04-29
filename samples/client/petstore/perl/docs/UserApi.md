@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::UserApi
+# WWW::OpenAPIClient::UserApi
 
 ## Load the API package
 ```perl
-use WWW::SwaggerClient::Object::UserApi;
+use WWW::OpenAPIClient::Object::UserApi;
 ```
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -29,11 +29,11 @@ This can only be done by the logged in user.
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::UserApi;
-my $api_instance = WWW::SwaggerClient::UserApi->new(
+use WWW::OpenAPIClient::UserApi;
+my $api_instance = WWW::OpenAPIClient::UserApi->new(
 );
 
-my $user = WWW::SwaggerClient::Object::User->new(); # User | Created user object
+my $user = WWW::OpenAPIClient::Object::User->new(); # User | Created user object
 
 eval { 
     $api_instance->create_user(user => $user);
@@ -59,7 +59,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -72,11 +72,11 @@ Creates list of users with given input array
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::UserApi;
-my $api_instance = WWW::SwaggerClient::UserApi->new(
+use WWW::OpenAPIClient::UserApi;
+my $api_instance = WWW::OpenAPIClient::UserApi->new(
 );
 
-my $user = [WWW::SwaggerClient::Object::ARRAY[User]->new()]; # ARRAY[User] | List of user object
+my $user = [WWW::OpenAPIClient::Object::ARRAY[User]->new()]; # ARRAY[User] | List of user object
 
 eval { 
     $api_instance->create_users_with_array_input(user => $user);
@@ -102,7 +102,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -115,11 +115,11 @@ Creates list of users with given input array
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::UserApi;
-my $api_instance = WWW::SwaggerClient::UserApi->new(
+use WWW::OpenAPIClient::UserApi;
+my $api_instance = WWW::OpenAPIClient::UserApi->new(
 );
 
-my $user = [WWW::SwaggerClient::Object::ARRAY[User]->new()]; # ARRAY[User] | List of user object
+my $user = [WWW::OpenAPIClient::Object::ARRAY[User]->new()]; # ARRAY[User] | List of user object
 
 eval { 
     $api_instance->create_users_with_list_input(user => $user);
@@ -145,7 +145,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -160,8 +160,8 @@ This can only be done by the logged in user.
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::UserApi;
-my $api_instance = WWW::SwaggerClient::UserApi->new(
+use WWW::OpenAPIClient::UserApi;
+my $api_instance = WWW::OpenAPIClient::UserApi->new(
 );
 
 my $username = "username_example"; # string | The name that needs to be deleted
@@ -203,8 +203,8 @@ Get user by user name
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::UserApi;
-my $api_instance = WWW::SwaggerClient::UserApi->new(
+use WWW::OpenAPIClient::UserApi;
+my $api_instance = WWW::OpenAPIClient::UserApi->new(
 );
 
 my $username = "username_example"; # string | The name that needs to be fetched. Use user1 for testing.
@@ -247,8 +247,8 @@ Logs user into the system
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::UserApi;
-my $api_instance = WWW::SwaggerClient::UserApi->new(
+use WWW::OpenAPIClient::UserApi;
+my $api_instance = WWW::OpenAPIClient::UserApi->new(
 );
 
 my $username = "username_example"; # string | The user name for login
@@ -293,8 +293,8 @@ Logs out current logged in user session
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::UserApi;
-my $api_instance = WWW::SwaggerClient::UserApi->new(
+use WWW::OpenAPIClient::UserApi;
+my $api_instance = WWW::OpenAPIClient::UserApi->new(
 );
 
 
@@ -334,12 +334,12 @@ This can only be done by the logged in user.
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::UserApi;
-my $api_instance = WWW::SwaggerClient::UserApi->new(
+use WWW::OpenAPIClient::UserApi;
+my $api_instance = WWW::OpenAPIClient::UserApi->new(
 );
 
 my $username = "username_example"; # string | name that need to be deleted
-my $user = WWW::SwaggerClient::Object::User->new(); # User | Updated user object
+my $user = WWW::OpenAPIClient::Object::User->new(); # User | Updated user object
 
 eval { 
     $api_instance->update_user(username => $username, user => $user);
@@ -366,7 +366,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

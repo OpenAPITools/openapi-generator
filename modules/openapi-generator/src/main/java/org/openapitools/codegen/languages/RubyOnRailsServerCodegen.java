@@ -241,10 +241,10 @@ public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String getSchemaType(Schema p) {
-        String swaggerType = super.getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            return typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            return typeMapping.get(openAPIType);
         }
         return "string";
     }

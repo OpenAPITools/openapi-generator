@@ -25,9 +25,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::MapTest');
+use_ok('WWW::OpenAPIClient::Object::MapTest');
 
-my $instance = WWW::SwaggerClient::Object::MapTest->new();
+my $instance = WWW::OpenAPIClient::Object::MapTest->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::MapTest');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::MapTest');
 

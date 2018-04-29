@@ -7,16 +7,16 @@ use warnings;
 
 use JSON;
 
-use_ok('WWW::SwaggerClient::StoreApi');
-use_ok('WWW::SwaggerClient::ApiClient');
-use_ok('WWW::SwaggerClient::Object::Pet');
-use_ok('WWW::SwaggerClient::Object::Tag');
-use_ok('WWW::SwaggerClient::Object::Category');
-use_ok('WWW::SwaggerClient::Object::User');
+use_ok('WWW::OpenAPIClient::StoreApi');
+use_ok('WWW::OpenAPIClient::ApiClient');
+use_ok('WWW::OpenAPIClient::Object::Pet');
+use_ok('WWW::OpenAPIClient::Object::Tag');
+use_ok('WWW::OpenAPIClient::Object::Category');
+use_ok('WWW::OpenAPIClient::Object::User');
 
 
-my $api_client = WWW::SwaggerClient::ApiClient->new();
-my $store_api = WWW::SwaggerClient::StoreApi->new($api_client);
+my $api_client = WWW::OpenAPIClient::ApiClient->new();
+my $store_api = WWW::OpenAPIClient::StoreApi->new($api_client);
 
 is $store_api->{api_client}{config}{base_url}, 'http://petstore.swagger.io:80/v2', 'get the default base URL from api client';
 
@@ -50,11 +50,11 @@ my $pet_json = <<JSON;
 JSON
 
 is ref(decode_json $pet_json), "HASH", "the decoded json string is a hash";
-is ref $api_client->deserialize("HASH[string,Pet]", $pet_json)->{pet}, "WWW::SwaggerClient::Object::Pet", "get Pet object from hash";
+is ref $api_client->deserialize("HASH[string,Pet]", $pet_json)->{pet}, "WWW::OpenAPIClient::Object::Pet", "get Pet object from hash";
 is $api_client->deserialize("HASH[string,Pet]", $pet_json)->{pet}->{name}, "doggie", "get the name of the Pet object";
 is $api_client->deserialize("HASH[string,Pet]", $pet_json)->{pet}->{category}->{name}, "string", "get the category name of the Pet object";
-is ref $api_client->deserialize("HASH[string,Pet]", $pet_json)->{pet}->{category}, "WWW::SwaggerClient::Object::Category", "get the Category the Pet object";
-is ref $api_client->deserialize("HASH[string,Pet]", $pet_json)->{pet}->{tags}[0], "WWW::SwaggerClient::Object::Tag", "get the Tag of the Pet object";
+is ref $api_client->deserialize("HASH[string,Pet]", $pet_json)->{pet}->{category}, "WWW::OpenAPIClient::Object::Category", "get the Category the Pet object";
+is ref $api_client->deserialize("HASH[string,Pet]", $pet_json)->{pet}->{tags}[0], "WWW::OpenAPIClient::Object::Tag", "get the Tag of the Pet object";
 is $api_client->deserialize("HASH[string,Pet]", $pet_json)->{pet}->{tags}[0]->{name}, "tag string", "get the Tag name of the Pet object";
 is $api_client->deserialize("HASH[string,Pet]", $pet_json)->{pet}->{photo_urls}->[0], "string", "get the photoUrl from the Pet object";
 
@@ -82,11 +82,11 @@ my $array_json = <<JSON;
 JSON
 
 is ref(decode_json $array_json), "ARRAY", "the decoded json string is an array";
-is ref $api_client->deserialize("ARRAY[Pet]", $array_json)->[0], "WWW::SwaggerClient::Object::Pet", "get Pet object from hash";
+is ref $api_client->deserialize("ARRAY[Pet]", $array_json)->[0], "WWW::OpenAPIClient::Object::Pet", "get Pet object from hash";
 is $api_client->deserialize("ARRAY[Pet]", $array_json)->[0]->{name}, "doggie", "get the name of the Pet object";
 is $api_client->deserialize("ARRAY[Pet]", $array_json)->[0]->{category}->{name}, "string", "get the category name of the Pet object";
-is ref $api_client->deserialize("ARRAY[Pet]", $array_json)->[0]->{category}, "WWW::SwaggerClient::Object::Category", "get the Category the Pet object";
-is ref $api_client->deserialize("ARRAY[Pet]", $array_json)->[0]->{tags}->[0], "WWW::SwaggerClient::Object::Tag", "get the Tag[0] the Pet object";
+is ref $api_client->deserialize("ARRAY[Pet]", $array_json)->[0]->{category}, "WWW::OpenAPIClient::Object::Category", "get the Category the Pet object";
+is ref $api_client->deserialize("ARRAY[Pet]", $array_json)->[0]->{tags}->[0], "WWW::OpenAPIClient::Object::Tag", "get the Tag[0] the Pet object";
 is $api_client->deserialize("ARRAY[Pet]", $array_json)->[0]->{tags}->[0]->{name}, "tag string", "get the tag name the Pet object";
 is $api_client->deserialize("ARRAY[Pet]", $array_json)->[0]->{photo_urls}->[0], "string", "get the photoUrl from the Pet object";
 
@@ -112,11 +112,11 @@ my $pet_json_nopet = <<JSON;
 JSON
 
 is ref(decode_json $pet_json_nopet), "HASH", "the decoded json string is a hash";
-is ref $api_client->deserialize("Pet", $pet_json_nopet), "WWW::SwaggerClient::Object::Pet", "get Pet object via from_hash()";
+is ref $api_client->deserialize("Pet", $pet_json_nopet), "WWW::OpenAPIClient::Object::Pet", "get Pet object via from_hash()";
 is $api_client->deserialize("Pet", $pet_json_nopet)->{name}, "doggie", "get the name of the Pet object";
 is $api_client->deserialize("Pet", $pet_json_nopet)->{category}->{name}, "string", "get the category name of the Pet object";
-is ref $api_client->deserialize("Pet", $pet_json_nopet)->{category}, "WWW::SwaggerClient::Object::Category", "get the Category the Pet object";
-is ref $api_client->deserialize("Pet", $pet_json_nopet)->{tags}->[0], "WWW::SwaggerClient::Object::Tag", "get the Tag[0] the Pet object";
+is ref $api_client->deserialize("Pet", $pet_json_nopet)->{category}, "WWW::OpenAPIClient::Object::Category", "get the Category the Pet object";
+is ref $api_client->deserialize("Pet", $pet_json_nopet)->{tags}->[0], "WWW::OpenAPIClient::Object::Tag", "get the Tag[0] the Pet object";
 is $api_client->deserialize("Pet", $pet_json_nopet)->{tags}->[0]->{name}, "tag string", "get the tag name the Pet object";
 is $api_client->deserialize("Pet", $pet_json_nopet)->{photo_urls}->[0], "string", "get the photoUrl from the Pet object";
 
@@ -132,8 +132,8 @@ my %userdata = (
     userStatus => 1,
     );
       
-my $user = WWW::SwaggerClient::Object::User->new->from_hash(\%userdata);
-is ref $user, 'WWW::SwaggerClient::Object::User', "built a User object via from_hash()";
+my $user = WWW::OpenAPIClient::Object::User->new->from_hash(\%userdata);
+is ref $user, 'WWW::OpenAPIClient::Object::User', "built a User object via from_hash()";
 is $user->{id}, $userdata{id}, "got the id of the User object";
 is $user->{username}, $userdata{username}, "got the username of the User object";
 is $user->{first_name}, $userdata{firstName}, "got the firstName of the User object";

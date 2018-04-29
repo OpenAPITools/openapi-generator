@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::AdditionalPropertiesClass
+# WWW::OpenAPIClient::Object::AdditionalPropertiesClass
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::AdditionalPropertiesClass;
+use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
 ```
 
 ## Properties

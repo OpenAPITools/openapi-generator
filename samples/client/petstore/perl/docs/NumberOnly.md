@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::NumberOnly
+# WWW::OpenAPIClient::Object::NumberOnly
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::NumberOnly;
+use WWW::OpenAPIClient::Object::NumberOnly;
 ```
 
 ## Properties

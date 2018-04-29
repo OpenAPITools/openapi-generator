@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::FormatTest
+# WWW::OpenAPIClient::Object::FormatTest
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::FormatTest;
+use WWW::OpenAPIClient::Object::FormatTest;
 ```
 
 ## Properties

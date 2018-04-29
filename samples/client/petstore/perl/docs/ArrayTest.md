@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::ArrayTest
+# WWW::OpenAPIClient::Object::ArrayTest
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::ArrayTest;
+use WWW::OpenAPIClient::Object::ArrayTest;
 ```
 
 ## Properties

@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::Category
+# WWW::OpenAPIClient::Object::Category
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::Category;
+use WWW::OpenAPIClient::Object::Category;
 ```
 
 ## Properties

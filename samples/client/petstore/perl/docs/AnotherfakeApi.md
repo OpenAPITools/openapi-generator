@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::AnotherFakeApi
+# WWW::OpenAPIClient::AnotherFakeApi
 
 ## Load the API package
 ```perl
-use WWW::SwaggerClient::Object::AnotherFakeApi;
+use WWW::OpenAPIClient::Object::AnotherFakeApi;
 ```
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -22,11 +22,11 @@ To test special tags
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::AnotherFakeApi;
-my $api_instance = WWW::SwaggerClient::AnotherFakeApi->new(
+use WWW::OpenAPIClient::AnotherFakeApi;
+my $api_instance = WWW::OpenAPIClient::AnotherFakeApi->new(
 );
 
-my $client = WWW::SwaggerClient::Object::Client->new(); # Client | client model
+my $client = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
 
 eval { 
     my $result = $api_instance->test_special_tags(client => $client);

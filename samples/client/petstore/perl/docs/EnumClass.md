@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::EnumClass
+# WWW::OpenAPIClient::Object::EnumClass
 
 ## Load the model package
 ```perl
-use WWW::SwaggerClient::Object::EnumClass;
+use WWW::OpenAPIClient::Object::EnumClass;
 ```
 
 ## Properties

@@ -24,10 +24,10 @@ use lib 'lib';
 use strict;
 use warnings;
 
-use_ok('WWW::SwaggerClient::FakeClassnameTags123Api');
+use_ok('WWW::OpenAPIClient::FakeClassnameTags123Api');
 
-my $api = WWW::SwaggerClient::FakeClassnameTags123Api->new();
-isa_ok($api, 'WWW::SwaggerClient::FakeClassnameTags123Api');
+my $api = WWW::OpenAPIClient::FakeClassnameTags123Api->new();
+isa_ok($api, 'WWW::OpenAPIClient::FakeClassnameTags123Api');
 
 #
 # test_classname test

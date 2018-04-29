@@ -9,9 +9,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::MixedPropertiesAndAdditionalPropertiesClass');
+use_ok('WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass');
 
-my $instance = WWW::SwaggerClient::Object::MixedPropertiesAndAdditionalPropertiesClass->new();
+my $instance = WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::MixedPropertiesAndAdditionalPropertiesClass');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass');
 

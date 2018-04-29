@@ -9,9 +9,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::Model200Response');
+use_ok('WWW::OpenAPIClient::Object::Model200Response');
 
-my $instance = WWW::SwaggerClient::Object::Model200Response->new();
+my $instance = WWW::OpenAPIClient::Object::Model200Response->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::Model200Response');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::Model200Response');
 

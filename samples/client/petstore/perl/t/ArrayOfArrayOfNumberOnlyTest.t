@@ -25,9 +25,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::ArrayOfArrayOfNumberOnly');
+use_ok('WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly');
 
-my $instance = WWW::SwaggerClient::Object::ArrayOfArrayOfNumberOnly->new();
+my $instance = WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::ArrayOfArrayOfNumberOnly');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly');
 

@@ -1,8 +1,8 @@
-# WWW::SwaggerClient::Object::ObjectReturn
+# WWW::OpenAPIClient::Object::ObjectReturn
 
 ## Import the module
 ```perl
-use WWW::SwaggerClient::Object::ObjectReturn;
+use WWW::OpenAPIClient::Object::ObjectReturn;
 ```
 
 ## Properties

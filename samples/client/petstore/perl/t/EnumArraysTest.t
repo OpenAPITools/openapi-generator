@@ -25,9 +25,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::EnumArrays');
+use_ok('WWW::OpenAPIClient::Object::EnumArrays');
 
-my $instance = WWW::SwaggerClient::Object::EnumArrays->new();
+my $instance = WWW::OpenAPIClient::Object::EnumArrays->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::EnumArrays');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::EnumArrays');
 

@@ -9,9 +9,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::Dog');
+use_ok('WWW::OpenAPIClient::Object::Dog');
 
-my $instance = WWW::SwaggerClient::Object::Dog->new();
+my $instance = WWW::OpenAPIClient::Object::Dog->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::Dog');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::Dog');
 

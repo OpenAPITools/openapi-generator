@@ -25,9 +25,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::OuterBoolean');
+use_ok('WWW::OpenAPIClient::Object::OuterBoolean');
 
-my $instance = WWW::SwaggerClient::Object::OuterBoolean->new();
+my $instance = WWW::OpenAPIClient::Object::OuterBoolean->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::OuterBoolean');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::OuterBoolean');
 

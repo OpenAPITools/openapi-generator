@@ -25,9 +25,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::Client');
+use_ok('WWW::OpenAPIClient::Object::Client');
 
-my $instance = WWW::SwaggerClient::Object::Client->new();
+my $instance = WWW::OpenAPIClient::Object::Client->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::Client');
+isa_ok($instance, 'WWW::OpenAPIClient::Object::Client');
 
