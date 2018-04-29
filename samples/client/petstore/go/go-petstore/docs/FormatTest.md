@@ -4,13 +4,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Integer** | **int32** |  | [optional] [default to null]
-**Int32_** | **int32** |  | [optional] [default to null]
-**Int64_** | **int64** |  | [optional] [default to null]
+**Int32** | **int32** |  | [optional] [default to null]
+**Int64** | **int64** |  | [optional] [default to null]
 **Number** | **float32** |  | [default to null]
 **Float** | **float32** |  | [optional] [default to null]
 **Double** | **float64** |  | [optional] [default to null]
-**String_** | **string** |  | [optional] [default to null]
-**Byte_** | **string** |  | [default to null]
+**String** | **string** |  | [optional] [default to null]
+**Byte** | **string** |  | [default to null]
 **Binary** | [****os.File**](*os.File.md) |  | [optional] [default to null]
 **Date** | **string** |  | [default to null]
 **DateTime** | [**time.Time**](time.Time.md) |  | [optional] [default to null]

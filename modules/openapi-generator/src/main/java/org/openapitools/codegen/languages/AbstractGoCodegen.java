@@ -35,6 +35,21 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         "array")
         );
 
+        setReservedWordsLowerCase(
+                Arrays.asList(
+                        // data type
+                        "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",
+                        "int", "int8", "int16", "int32", "int64", "float32", "float64",
+                        "complex64", "complex128", "rune", "byte", "uintptr",
+
+                        "break", "default", "func", "interface", "select",
+                        "case", "defer", "go", "map", "struct",
+                        "chan", "else", "goto", "package", "switch",
+                        "const", "fallthrough", "if", "range", "type",
+                        "continue", "for", "import", "return", "var", "error", "nil")
+                // Added "error" as it's used so frequently that it may as well be a keyword
+        );
+
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
                         "string",
@@ -123,9 +138,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // pet_id => PetId
         name = camelize(name);
 
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name))
+        // for reserved word append _
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as variable name. Renamed to "+ escapeReservedWord(name));
             name = escapeReservedWord(name);
+        }
 
         // for reserved word or word starting with number, append _
         if (name.matches("^\\d.*"))
@@ -135,14 +152,26 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
+    protected boolean isReservedWord(String word) {
+        return word != null && reservedWords.contains(word);
+    }
+
+    @Override
     public String toParamName(String name) {
         // params should be lowerCamelCase. E.g. "person Person", instead of
         // "Person Person".
         //
+        name = camelize(toVarName(name), true);
+
         // REVISIT: Actually, for idiomatic go, the param name should
         // really should just be a letter, e.g. "p Person"), but we'll get
         // around to that some other time... Maybe.
-        return camelize(toVarName(name), true);
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as parameter name. Renamed to "+ name + "_");
+            name = name + "_";
+        }
+        
+        return name;
     }
 
     @Override
