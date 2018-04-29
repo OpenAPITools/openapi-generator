@@ -152,7 +152,7 @@ This can only be done by the logged in user.
 SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'username' => 'null'
+    'username' => 'username_example'
 };
 
 try {
@@ -193,7 +193,7 @@ Get user by user name
 SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'username' => 'null'
+    'username' => 'username_example'
 };
 
 try {
@@ -235,8 +235,8 @@ Logs user into the system
 SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'username' => 'null',
-    'password' => 'null'
+    'username' => 'username_example',
+    'password' => 'password_example'
 };
 
 try {
@@ -315,7 +315,7 @@ This can only be done by the logged in user.
 SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'username' => 'null',
+    'username' => 'username_example',
     'swagUser' => SwagUser.getExample()
 };
 

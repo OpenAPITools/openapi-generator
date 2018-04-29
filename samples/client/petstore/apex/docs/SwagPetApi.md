@@ -77,7 +77,7 @@ petstore_auth.setAccessToken('YOUR ACCESS TOKEN');
 
 Map<String, Object> params = new Map<String, Object>{
     'petId' => 2147483648L,
-    'apiKey' => 'null'
+    'apiKey' => 'apiKey_example'
 };
 
 try {
@@ -175,7 +175,7 @@ Swagger.OAuth petstore_auth = (Swagger.OAuth) client.getAuthentication('petstore
 petstore_auth.setAccessToken('YOUR ACCESS TOKEN');
 
 Map<String, Object> params = new Map<String, Object>{
-    'tags' => new List<String>{'aeiou'}
+    'tags' => new List<String>{'\'aeiou\''}
 };
 
 try {
@@ -318,8 +318,8 @@ petstore_auth.setAccessToken('YOUR ACCESS TOKEN');
 
 Map<String, Object> params = new Map<String, Object>{
     'petId' => 2147483648L,
-    'name' => 'null',
-    'status' => 'null'
+    'name' => 'name_example',
+    'status' => 'status_example'
 };
 
 try {
@@ -368,7 +368,7 @@ petstore_auth.setAccessToken('YOUR ACCESS TOKEN');
 
 Map<String, Object> params = new Map<String, Object>{
     'petId' => 2147483648L,
-    'additionalMetadata' => 'null',
+    'additionalMetadata' => 'additionalMetadata_example',
     'file' => Blob.valueOf('Sample text file\nContents')
 };
 
