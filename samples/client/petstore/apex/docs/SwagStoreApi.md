@@ -23,7 +23,7 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 SwagStoreApi api = new SwagStoreApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'orderId' => 'null'
+    'orderId' => 'orderId_example'
 };
 
 try {

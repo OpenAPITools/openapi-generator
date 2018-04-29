@@ -191,24 +191,144 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
 
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
-        if (Boolean.TRUE.equals(p.isLong)) {
-            p.example = "2147483648L";
-        } else if (Boolean.TRUE.equals(p.isFile)) {
-            p.example = "Blob.valueOf('Sample text file\\nContents')";
-        } else if (Boolean.TRUE.equals(p.isDate)) {
-            p.example = "Date.newInstance(1960, 2, 17)";
-        } else if (Boolean.TRUE.equals(p.isDateTime)) {
-            p.example = "Datetime.newInstanceGmt(2013, 11, 12, 3, 3, 3)";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
-            p.example = "new " + p.dataType + "{" + p.items.example + "}";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
-            p.example = "new " + p.dataType + "{" + p.items.example + "}";
-        } else if (Boolean.TRUE.equals(p.isString)) {
-            p.example = "'" + p.example + "'";
-        } else if ("".equals(p.example) || p.example == null) {
-            // Get an example object from the generated model
-            p.example = p.dataType + ".getExample()";
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            example = p.defaultValue;
         }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if (Boolean.TRUE.equals(p.isInteger)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if (Boolean.TRUE.equals(p.isLong)) {
+            if (example == null) {
+                example = "2147483648L";
+            }
+        } else if (Boolean.TRUE.equals(p.isDouble)
+                || Boolean.TRUE.equals(p.isFloat)
+                || Boolean.TRUE.equals(p.isNumber)) {
+            if (example == null) {
+                example = "3.4";
+            }
+        } else if (Boolean.TRUE.equals(p.isBoolean)) {
+            if (Boolean.parseBoolean(p.example)) {
+                p.example = "1";
+            } else {
+                p.example = "0";
+            }
+        } else if (Boolean.TRUE.equals(p.isFile) || Boolean.TRUE.equals(p.isBinary)) {
+            example = "Blob.valueOf('Sample text file\\nContents')";
+        } else if (Boolean.TRUE.equals(p.isByteArray)) {
+            if (example == null) {
+                example = "YmFzZSA2NCBkYXRh";
+            }
+            example = "\"" + escapeText(example) + "\"";
+        } else if (Boolean.TRUE.equals(p.isDate)) {
+            if (example == null) {
+                example = "1960, 2, 17";
+            }
+            example = "Date.newInstance(" + escapeText(p.example) + ")";
+        } else if (Boolean.TRUE.equals(p.isDateTime)) {
+            if (example == null) {
+                example = "2013, 11, 12, 3, 3, 3";
+            }
+            example = "Datetime.newInstanceGmt(" + escapeText(p.example) + ")";
+        } else if (Boolean.TRUE.equals(p.isString)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "\'" + escapeText(example) + "\'";
+
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = type + ".getExample()";
+        }
+
+        // container
+        if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = setPropertyExampleValue(p.items);
+            example = "new " + p.dataType + "{" + example + "}";
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = setPropertyExampleValue(p.items);
+            example = "new " + p.dataType + "{" + example + "}";
+        } else if (example == null) {
+            example = "null";
+        }
+
+        p.example = example;
+    }
+
+    protected String setPropertyExampleValue(CodegenProperty p) {
+        String example;
+
+        if (p == null) {
+            return "null";
+        }
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            example = p.defaultValue;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.datatype;
+        }
+
+        if (Boolean.TRUE.equals(p.isInteger)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if (Boolean.TRUE.equals(p.isLong)) {
+            if (example == null) {
+                example = "2147483648L";
+            }
+        } else if (Boolean.TRUE.equals(p.isDouble)
+                || Boolean.TRUE.equals(p.isFloat)
+                || Boolean.TRUE.equals(p.isNumber)) {
+            if (example == null) {
+                example = "3.4";
+            }
+        } else if (Boolean.TRUE.equals(p.isBoolean)) {
+            if (example == null) {
+                example = "true";
+            }
+        } else if (Boolean.TRUE.equals(p.isFile) || Boolean.TRUE.equals(p.isBinary)) {
+            if (example == null) {
+                example = "Blob.valueOf('Sample text file\\nContents')";
+            }
+            example = escapeText(example);
+        } else if (Boolean.TRUE.equals(p.isDate)) {
+            if (example == null) {
+                example = "1960, 2, 17";
+            }
+            example = "Date.newInstance(" + escapeText(p.example) + ")";
+        } else if (Boolean.TRUE.equals(p.isDateTime)) {
+            if (example == null) {
+                example = "2013, 11, 12, 3, 3, 3";
+            }
+            example = "Datetime.newInstanceGmt(" + escapeText(p.example) + ")";
+        } else if (Boolean.TRUE.equals(p.isString)) {
+            if (example == null) {
+                example = p.name + "_example";
+            }
+            example = "\'" + escapeText(example) + "\'";
+
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = type + ".getExample()";
+        }
+
+        return example;
     }
 
     @Override
@@ -242,6 +362,7 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
         return cm;
     }
 
+    /* the following workaround is no longer needed
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         if (parameter.isBodyParam && parameter.isListContainer) {
@@ -250,6 +371,7 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
             setParameterExampleValue(parameter);
         }
     }
+    */
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
