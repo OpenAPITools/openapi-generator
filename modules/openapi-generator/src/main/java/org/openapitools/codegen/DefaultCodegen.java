@@ -2226,7 +2226,12 @@ public class DefaultCodegen implements CodegenConfig {
                 if (StringUtils.isNotBlank(requestBody.get$ref())) {
                     requestBody = openAPI.getComponents().getRequestBodies().get(getSimpleRef(requestBody.get$ref()));
                 }
-                bodyParam = fromRequestBody(requestBody, schemas, imports);
+
+                String bodyParameterName = "";
+                if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-body-parameter-name")) {
+                    bodyParameterName = (String) op.vendorExtensions.get("x-codegen-body-parameter-name");
+                }
+                bodyParam = fromRequestBody(requestBody, schemas, imports, bodyParameterName);
                 bodyParam.description = requestBody.getDescription();
                 postProcessParameter(bodyParam);
 
@@ -4172,7 +4177,7 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
-    public CodegenParameter fromRequestBody(RequestBody body, Map<String, Schema> schemas, Set<String> imports) {
+    public CodegenParameter fromRequestBody(RequestBody body, Map<String, Schema> schemas, Set<String> imports, String bodyParameterName) {
         if (body == null) {
             LOGGER.error("body in fromRequestBody cannot be null!");
         }
@@ -4197,9 +4202,14 @@ public class DefaultCodegen implements CodegenConfig {
                 schema.setName(name);
                 codegenModel = fromModel(name, schema, schemas);
             }
+
             if (codegenModel != null && !codegenModel.emptyVars) {
-                codegenParameter.baseName = codegenModel.classname;
-                codegenParameter.paramName = toParamName(codegenModel.classname);
+                if (StringUtils.isEmpty(bodyParameterName)) {
+                    codegenParameter.baseName = codegenModel.classname;
+                } else {
+                    codegenParameter.baseName = bodyParameterName;
+                }
+                codegenParameter.paramName = toParamName(codegenParameter.baseName);
                 codegenParameter.baseType = codegenModel.classname;
                 codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
                 codegenParameter.description = codegenModel.description;
@@ -4249,8 +4259,13 @@ public class DefaultCodegen implements CodegenConfig {
                 mostInnerItem = innerCp;
                 innerCp = innerCp.items;
             }
-            codegenParameter.baseName = mostInnerItem.complexType;
-            codegenParameter.paramName = toArrayModelParamName(mostInnerItem.complexType);
+
+            if (StringUtils.isEmpty(bodyParameterName)) {
+                codegenParameter.baseName = mostInnerItem.complexType;
+            } else {
+                codegenParameter.baseName = bodyParameterName;
+            }
+            codegenParameter.paramName = toArrayModelParamName(codegenParameter.baseName);
             codegenParameter.items = codegenProperty.items;
             codegenParameter.dataType = getTypeDeclaration(arraySchema);
             codegenParameter.baseType = getSchemaType(arraySchema);
@@ -4273,8 +4288,12 @@ public class DefaultCodegen implements CodegenConfig {
             // only support 1-dimension map only
             imports.add(codegenProperty.baseType);
 
-            codegenParameter.baseName = "request_body";
-            codegenParameter.paramName = toParamName("request_body");
+            if (StringUtils.isEmpty(bodyParameterName)) {
+                codegenParameter.baseName = "request_body";
+            } else {
+                codegenParameter.baseName = bodyParameterName;
+            }
+            codegenParameter.paramName = toParamName(codegenParameter.baseName);
             codegenParameter.items = codegenProperty.items;
             codegenParameter.dataType = getTypeDeclaration(inner);
             codegenParameter.baseType = getSchemaType(inner);
@@ -4286,10 +4305,10 @@ public class DefaultCodegen implements CodegenConfig {
             // HTTP request body is primitive type (e.g. integer, string, etc)
             CodegenProperty codegenProperty = fromProperty("PRIMITIVE_REQUEST_BODY", schema);
             if (codegenProperty != null) {
-                if (schema.getExtensions() != null && schema.getExtensions().containsKey("x-codegen-body-parameter-name")) {
-                    codegenParameter.baseName = (String) schema.getExtensions().get("x-codegen-body-parameter-name");
+                if (StringUtils.isEmpty(bodyParameterName)) {
+                    codegenParameter.baseName = "body";  // default to body
                 } else {
-                    codegenParameter.baseName = "body"; // default to body
+                    codegenParameter.baseName = bodyParameterName;
                 }
                 codegenParameter.isPrimitiveType = true;
                 codegenParameter.baseType = codegenProperty.baseType;
