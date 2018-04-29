@@ -1150,7 +1150,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (StringUtils.isNotEmpty(schemaName)) {
                 return getAlias(schemaName);
             } else {
-                LOGGER.warn("Error obtaining the datatype from ref:" + schema.get$ref()+ ". Default to 'object'");
+                LOGGER.warn("Error obtaining the datatype from ref:" + schema.get$ref() + ". Default to 'object'");
                 return "object";
             }
         } else { // primitive type (non-model)
@@ -2212,6 +2212,9 @@ public class DefaultCodegen implements CodegenConfig {
                     "multipart/form-data".equalsIgnoreCase(getContentType(requestBody))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, schemas, imports);
+                for (CodegenParameter cp : formParams) {
+                    postProcessParameter(cp);
+                }
                 // add form parameters to the beginning of all parameter list
                 if (prependFormOrBodyParameters) {
                     for (CodegenParameter cp : formParams) {
@@ -2225,6 +2228,8 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 bodyParam = fromRequestBody(requestBody, schemas, imports);
                 bodyParam.description = requestBody.getDescription();
+                postProcessParameter(bodyParam);
+
                 bodyParams.add(bodyParam);
 
                 if (prependFormOrBodyParameters) {
@@ -3195,9 +3200,9 @@ public class DefaultCodegen implements CodegenConfig {
         for (Map.Entry<String, Schema> entry : schemas.entrySet()) {
             String oasName = entry.getKey();
             Schema schema = entry.getValue();
-            String typeType = getPrimitiveType(schema);
-            if (typeType != null && !typeType.equals("object") && !typeType.equals("array") && schema.getEnum() == null) {
-                aliases.put(oasName, typeType);
+            String schemaType = getPrimitiveType(schema);
+            if (schemaType != null && !schemaType.equals("object") && !schemaType.equals("array") && schema.getEnum() == null) {
+                aliases.put(oasName, schemaType);
             }
         }
 
