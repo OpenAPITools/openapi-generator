@@ -1,4 +1,4 @@
-group 'io.swagger'
+group 'org.openapitools'
 version '1.0.0'
 
 task wrapper(type: Wrapper) {

@@ -1664,12 +1664,6 @@ public class DefaultCodegen implements CodegenConfig {
 
             // legacy support
             Map<String, Object> allowableValues = new HashMap<String, Object>();
-            if (p.getMinimum() != null) {
-                allowableValues.put("min", p.getMinimum());
-            }
-            if (p.getMaximum() != null) {
-                allowableValues.put("max", p.getMaximum());
-            }
 
             if (p.getEnum() != null) {
                 List<Object> _enum = p.getEnum();
