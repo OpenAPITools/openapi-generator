@@ -323,27 +323,7 @@ class EnumTest implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-
-        $allowedValues = $this->getEnumStringAllowableValues();
-        if (!is_null($this->container['enum_string']) && !in_array($this->container['enum_string'], $allowedValues, true)) {
-            return false;
-        }
-        if ($this->container['enum_string_required'] === null) {
-            return false;
-        }
-        $allowedValues = $this->getEnumStringRequiredAllowableValues();
-        if (!is_null($this->container['enum_string_required']) && !in_array($this->container['enum_string_required'], $allowedValues, true)) {
-            return false;
-        }
-        $allowedValues = $this->getEnumIntegerAllowableValues();
-        if (!is_null($this->container['enum_integer']) && !in_array($this->container['enum_integer'], $allowedValues, true)) {
-            return false;
-        }
-        $allowedValues = $this->getEnumNumberAllowableValues();
-        if (!is_null($this->container['enum_number']) && !in_array($this->container['enum_number'], $allowedValues, true)) {
-            return false;
-        }
-        return true;
+        return count($this->listInvalidProperties()) === 0;
     }
 
 

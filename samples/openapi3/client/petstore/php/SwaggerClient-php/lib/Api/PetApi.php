@@ -253,7 +253,7 @@ class PetApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 [],
-                []
+                ['application/json', 'application/xml']
             );
         }
 
@@ -1512,7 +1512,7 @@ class PetApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 [],
-                []
+                ['application/json', 'application/xml']
             );
         }
 

@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 
 # **fakeOuterBooleanSerialize**
-> \Swagger\Client\Model\OuterBoolean fakeOuterBooleanSerialize($body)
+> bool fakeOuterBooleanSerialize($body)
 
 
 
@@ -51,7 +51,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**\Swagger\Client\Model\OuterBoolean**](../Model/OuterBoolean.md)
+**bool**
 
 ### Authorization
 
@@ -114,7 +114,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **fakeOuterNumberSerialize**
-> \Swagger\Client\Model\OuterNumber fakeOuterNumberSerialize($body)
+> float fakeOuterNumberSerialize($body)
 
 
 
@@ -149,7 +149,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**\Swagger\Client\Model\OuterNumber**](../Model/OuterNumber.md)
+**float**
 
 ### Authorization
 
@@ -163,7 +163,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **fakeOuterStringSerialize**
-> \Swagger\Client\Model\OuterString fakeOuterStringSerialize($body)
+> string fakeOuterStringSerialize($body)
 
 
 
@@ -198,7 +198,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**\Swagger\Client\Model\OuterString**](../Model/OuterString.md)
+**string**
 
 ### Authorization
 
@@ -255,7 +255,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -365,7 +365,7 @@ $enum_query_string = "-efg"; // string | Query parameter enum test (string)
 $enum_query_integer = 56; // int | Query parameter enum test (double)
 $enum_query_double = 3.4; // double | Query parameter enum test (double)
 $enum_form_string_array = new \Swagger\Client\Model\array(); // string[] | Form parameter enum test (string array)
-$enum_form_string = "enum_form_string_example"; // string | Form parameter enum test (string)
+$enum_form_string = "'-efg'"; // string | Form parameter enum test (string)
 
 try {
     $apiInstance->testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
@@ -386,7 +386,7 @@ Name | Type | Description  | Notes
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional]
  **enum_form_string_array** | [**string[]**](../Model/array.md)| Form parameter enum test (string array) | [optional]
- **enum_form_string** | **string**| Form parameter enum test (string) | [optional]
+ **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
 ### Return type
 

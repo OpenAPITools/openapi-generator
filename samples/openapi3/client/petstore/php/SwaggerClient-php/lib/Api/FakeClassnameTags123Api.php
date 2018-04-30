@@ -290,7 +290,7 @@ class FakeClassnameTags123Api
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                []
+                ['application/json']
             );
         }
 
