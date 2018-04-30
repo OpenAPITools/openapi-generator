@@ -213,11 +213,7 @@ class Animal implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-
-        if ($this->container['class_name'] === null) {
-            return false;
-        }
-        return true;
+        return count($this->listInvalidProperties()) === 0;
     }
 
 

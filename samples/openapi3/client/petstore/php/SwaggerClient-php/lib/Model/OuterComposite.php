@@ -57,9 +57,9 @@ class OuterComposite implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'my_number' => '\Swagger\Client\Model\OuterNumber',
-        'my_string' => '\Swagger\Client\Model\OuterString',
-        'my_boolean' => '\Swagger\Client\Model\OuterBoolean'
+        'my_number' => 'float',
+        'my_string' => 'string',
+        'my_boolean' => 'bool'
     ];
 
     /**
@@ -212,15 +212,14 @@ class OuterComposite implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-
-        return true;
+        return count($this->listInvalidProperties()) === 0;
     }
 
 
     /**
      * Gets my_number
      *
-     * @return \Swagger\Client\Model\OuterNumber
+     * @return float
      */
     public function getMyNumber()
     {
@@ -230,7 +229,7 @@ class OuterComposite implements ModelInterface, ArrayAccess
     /**
      * Sets my_number
      *
-     * @param \Swagger\Client\Model\OuterNumber $my_number my_number
+     * @param float $my_number my_number
      *
      * @return $this
      */
@@ -244,7 +243,7 @@ class OuterComposite implements ModelInterface, ArrayAccess
     /**
      * Gets my_string
      *
-     * @return \Swagger\Client\Model\OuterString
+     * @return string
      */
     public function getMyString()
     {
@@ -254,7 +253,7 @@ class OuterComposite implements ModelInterface, ArrayAccess
     /**
      * Sets my_string
      *
-     * @param \Swagger\Client\Model\OuterString $my_string my_string
+     * @param string $my_string my_string
      *
      * @return $this
      */
@@ -268,7 +267,7 @@ class OuterComposite implements ModelInterface, ArrayAccess
     /**
      * Gets my_boolean
      *
-     * @return \Swagger\Client\Model\OuterBoolean
+     * @return bool
      */
     public function getMyBoolean()
     {
@@ -278,7 +277,7 @@ class OuterComposite implements ModelInterface, ArrayAccess
     /**
      * Sets my_boolean
      *
-     * @param \Swagger\Client\Model\OuterBoolean $my_boolean my_boolean
+     * @param bool $my_boolean my_boolean
      *
      * @return $this
      */

@@ -473,7 +473,7 @@ class UserApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 [],
-                []
+                ['application/json']
             );
         }
 
@@ -693,7 +693,7 @@ class UserApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 [],
-                []
+                ['application/json']
             );
         }
 

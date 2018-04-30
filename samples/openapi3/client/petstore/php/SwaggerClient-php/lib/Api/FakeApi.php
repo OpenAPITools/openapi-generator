@@ -94,7 +94,7 @@ class FakeApi
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \Swagger\Client\Model\OuterBoolean
+     * @return bool
      */
     public function fakeOuterBooleanSerialize($body = null)
     {
@@ -109,11 +109,11 @@ class FakeApi
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \Swagger\Client\Model\OuterBoolean, HTTP status code, HTTP response headers (array of strings)
+     * @return array of bool, HTTP status code, HTTP response headers (array of strings)
      */
     public function fakeOuterBooleanSerializeWithHttpInfo($body = null)
     {
-        $returnType = '\Swagger\Client\Model\OuterBoolean';
+        $returnType = 'bool';
         $request = $this->fakeOuterBooleanSerializeRequest($body);
 
         try {
@@ -165,7 +165,7 @@ class FakeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Swagger\Client\Model\OuterBoolean',
+                        'bool',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -207,7 +207,7 @@ class FakeApi
      */
     public function fakeOuterBooleanSerializeAsyncWithHttpInfo($body = null)
     {
-        $returnType = '\Swagger\Client\Model\OuterBoolean';
+        $returnType = 'bool';
         $request = $this->fakeOuterBooleanSerializeRequest($body);
 
         return $this->client
@@ -588,7 +588,7 @@ class FakeApi
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \Swagger\Client\Model\OuterNumber
+     * @return float
      */
     public function fakeOuterNumberSerialize($body = null)
     {
@@ -603,11 +603,11 @@ class FakeApi
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \Swagger\Client\Model\OuterNumber, HTTP status code, HTTP response headers (array of strings)
+     * @return array of float, HTTP status code, HTTP response headers (array of strings)
      */
     public function fakeOuterNumberSerializeWithHttpInfo($body = null)
     {
-        $returnType = '\Swagger\Client\Model\OuterNumber';
+        $returnType = 'float';
         $request = $this->fakeOuterNumberSerializeRequest($body);
 
         try {
@@ -659,7 +659,7 @@ class FakeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Swagger\Client\Model\OuterNumber',
+                        'float',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -701,7 +701,7 @@ class FakeApi
      */
     public function fakeOuterNumberSerializeAsyncWithHttpInfo($body = null)
     {
-        $returnType = '\Swagger\Client\Model\OuterNumber';
+        $returnType = 'float';
         $request = $this->fakeOuterNumberSerializeRequest($body);
 
         return $this->client
@@ -835,7 +835,7 @@ class FakeApi
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \Swagger\Client\Model\OuterString
+     * @return string
      */
     public function fakeOuterStringSerialize($body = null)
     {
@@ -850,11 +850,11 @@ class FakeApi
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \Swagger\Client\Model\OuterString, HTTP status code, HTTP response headers (array of strings)
+     * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function fakeOuterStringSerializeWithHttpInfo($body = null)
     {
-        $returnType = '\Swagger\Client\Model\OuterString';
+        $returnType = 'string';
         $request = $this->fakeOuterStringSerializeRequest($body);
 
         try {
@@ -906,7 +906,7 @@ class FakeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Swagger\Client\Model\OuterString',
+                        'string',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -948,7 +948,7 @@ class FakeApi
      */
     public function fakeOuterStringSerializeAsyncWithHttpInfo($body = null)
     {
-        $returnType = '\Swagger\Client\Model\OuterString';
+        $returnType = 'string';
         $request = $this->fakeOuterStringSerializeRequest($body);
 
         return $this->client
@@ -1278,7 +1278,7 @@ class FakeApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json'],
-                []
+                ['application/json']
             );
         }
 
@@ -1744,13 +1744,13 @@ class FakeApi
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
      * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
-     * @param  string $enum_form_string Form parameter enum test (string) (optional)
+     * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testEnumParameters($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
+    public function testEnumParameters($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = ''-efg'')
     {
         $this->testEnumParametersWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
     }
@@ -1767,13 +1767,13 @@ class FakeApi
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
      * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
-     * @param  string $enum_form_string Form parameter enum test (string) (optional)
+     * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEnumParametersWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
+    public function testEnumParametersWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = ''-efg'')
     {
         $returnType = '';
         $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
@@ -1827,12 +1827,12 @@ class FakeApi
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
      * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
-     * @param  string $enum_form_string Form parameter enum test (string) (optional)
+     * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEnumParametersAsync($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
+    public function testEnumParametersAsync($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = ''-efg'')
     {
         return $this->testEnumParametersAsyncWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string)
             ->then(
@@ -1854,12 +1854,12 @@ class FakeApi
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
      * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
-     * @param  string $enum_form_string Form parameter enum test (string) (optional)
+     * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEnumParametersAsyncWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
+    public function testEnumParametersAsyncWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = ''-efg'')
     {
         $returnType = '';
         $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
@@ -1897,12 +1897,12 @@ class FakeApi
      * @param  int $enum_query_integer Query parameter enum test (double) (optional)
      * @param  double $enum_query_double Query parameter enum test (double) (optional)
      * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional)
-     * @param  string $enum_form_string Form parameter enum test (string) (optional)
+     * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testEnumParametersRequest($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = null)
+    protected function testEnumParametersRequest($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = null, $enum_form_string = ''-efg'')
     {
 
         $resourcePath = '/fake';

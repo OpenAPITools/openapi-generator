@@ -255,12 +255,7 @@ class Order implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-
-        $allowedValues = $this->getStatusAllowableValues();
-        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
-            return false;
-        }
-        return true;
+        return count($this->listInvalidProperties()) === 0;
     }
 
 

@@ -1,5 +1,6 @@
 package org.openapitools.codegen;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -8,11 +9,13 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 
+import io.swagger.v3.parser.core.models.ParseOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -156,5 +159,16 @@ public class DefaultCodegenTest {
         Map<String, String> aliases = (Map<String, String>)method.invoke(null, schemas);
 
         Assert.assertEquals(aliases.size(), 0);
+    }
+
+    @Test
+    public void testFormParameterHasDefaultValue() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        Schema requestBodySchema = codegen.getSchemaFromBody(openAPI.getPaths().get("/fake").getGet().getRequestBody());
+        CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
+
+        Assert.assertEquals(codegenParameter.defaultValue, "-efg");
     }
 }

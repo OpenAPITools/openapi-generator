@@ -199,11 +199,7 @@ class AnimalFarm implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-        if (!parent::valid()) {
-            return false;
-        }
-
-        return true;
+        return count($this->listInvalidProperties()) === 0;
     }
 
     /**

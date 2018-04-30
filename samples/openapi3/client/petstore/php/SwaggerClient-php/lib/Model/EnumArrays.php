@@ -244,12 +244,7 @@ class EnumArrays implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-
-        $allowedValues = $this->getJustSymbolAllowableValues();
-        if (!is_null($this->container['just_symbol']) && !in_array($this->container['just_symbol'], $allowedValues, true)) {
-            return false;
-        }
-        return true;
+        return count($this->listInvalidProperties()) === 0;
     }
 
 
