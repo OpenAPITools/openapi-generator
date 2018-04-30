@@ -9,7 +9,6 @@
  */
 
 package petstore
-
 import (
 	"time"
 )
@@ -17,5 +16,5 @@ import (
 type MixedPropertiesAndAdditionalPropertiesClass struct {
 	Uuid string `json:"uuid,omitempty"`
 	DateTime time.Time `json:"dateTime,omitempty"`
-	Map_ map[string]Animal `json:"map,omitempty"`
+	Map map[string]Animal `json:"map,omitempty"`
 }

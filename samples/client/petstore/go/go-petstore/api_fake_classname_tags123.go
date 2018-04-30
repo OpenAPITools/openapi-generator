@@ -30,7 +30,6 @@ FakeClassnameTags123ApiService To test class name in snake case
 To test class name in snake case
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param client client model
-
 @return Client
 */
 func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, client Client) (Client, *http.Response, error) {
@@ -81,6 +80,7 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, clie
 			localVarQueryParams.Add("api_key_query", key)
 		}
 	}
+
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -110,7 +110,6 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, clie
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		if localVarHttpResponse.StatusCode == 200 {
 			var v Client
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
@@ -121,7 +120,6 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, clie
 				newErr.model = v
 				return localVarReturnValue, localVarHttpResponse, newErr
 		}
-		
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 

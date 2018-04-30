@@ -1,10 +1,20 @@
 {{>partial_header}}
 package {{packageName}}
-{{#models}}{{#imports}}
-import ({{/imports}}{{#imports}}
-	"{{import}}"{{/imports}}{{#imports}}
+{{#models}}
+{{#imports}}
+{{#-first}}
+import (
+{{/-first}}
+	"{{import}}"
+{{#-last}}
 )
-{{/imports}}{{#model}}{{#isEnum}}{{#description}}// {{{classname}}} : {{{description}}}{{/description}}
+{{/-last}}
+{{/imports}}
+{{#model}}
+{{#isEnum}}
+{{#description}}
+// {{{classname}}} : {{{description}}}
+{{/description}}
 type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
 
 // List of {{{name}}}
@@ -27,4 +37,7 @@ type {{classname}} struct {
 {{/description}}
 	{{name}} {{^isEnum}}{{^isPrimitiveType}}{{^isContainer}}{{^isDateTime}}*{{/isDateTime}}{{/isContainer}}{{/isPrimitiveType}}{{/isEnum}}{{{datatype}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}"{{/withXml}}`
 {{/vars}}
-}{{/isEnum}}{{/model}}{{/models}}
+}
+{{/isEnum}}
+{{/model}}
+{{/models}}

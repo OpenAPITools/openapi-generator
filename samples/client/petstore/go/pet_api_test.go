@@ -8,6 +8,7 @@ import (
 	sw "./go-petstore"
 	"golang.org/x/net/context"
 
+	"github.com/antihax/optional"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -58,7 +59,12 @@ func TestGetPetById(t *testing.T) {
 func TestGetPetByIdWithInvalidID(t *testing.T) {
 	resp, r, err := client.PetApi.GetPetById(context.Background(), 999999999)
 	if r != nil && r.StatusCode == 404 {
-		return // This is a pass condition. API will return with a 404 error.
+		assertedError, ok := err.(sw.GenericSwaggerError)
+		a := assert.New(t)
+		a.True(ok)
+		a.Contains(string(assertedError.Body()), "type")
+
+		a.Contains(assertedError.Error(), "Not Found")
 	} else if err != nil {
 		t.Errorf("Error while getting pet by invalid id")
 		t.Log(err)
@@ -69,8 +75,10 @@ func TestGetPetByIdWithInvalidID(t *testing.T) {
 }
 
 func TestUpdatePetWithForm(t *testing.T) {
-	r, err := client.PetApi.UpdatePetWithForm(context.Background(), 12830, map[string]interface{}{"name": "golang", "status": "available"})
-
+	r, err := client.PetApi.UpdatePetWithForm(context.Background(), 12830, &sw.UpdatePetWithFormOpts{
+		Name:   optional.NewString("golang"),
+		Status: optional.NewString("available"),
+	})
 	if err != nil {
 		t.Errorf("Error while updating pet by id")
 		t.Log(err)
@@ -137,7 +145,10 @@ func TestFindPetsByStatus(t *testing.T) {
 func TestUploadFile(t *testing.T) {
 	file, _ := os.Open("../python/testfiles/foo.png")
 
-	_, r, err := client.PetApi.UploadFile(context.Background(), 12830, map[string]interface{}{"name": "golang", "file": file})
+	_, r, err := client.PetApi.UploadFile(context.Background(), 12830, &sw.UploadFileOpts{
+		AdditionalMetadata: optional.NewString("golang"),
+		File:               optional.NewInterface(file),
+	})
 
 	if err != nil {
 		t.Errorf("Error while uploading file")
