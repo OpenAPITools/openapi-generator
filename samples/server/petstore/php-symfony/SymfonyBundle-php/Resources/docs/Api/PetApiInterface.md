@@ -1,4 +1,4 @@
-# Swagger\Server\Api\PetApiInterface
+# OpenAPI\Server\Api\PetApiInterface
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
@@ -22,7 +22,7 @@ services:
     acme.my_bundle.api.pet:
         class: Acme\MyBundle\Api\PetApi
         tags:
-            - { name: "swagger_server.api", api: "pet" }
+            - { name: "open_apiserver.api", api: "pet" }
     # ...
 ```
 
@@ -38,7 +38,7 @@ Add a new pet to the store
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\PetApiInterface;
+use OpenAPI\Server\Api\PetApiInterface;
 
 class PetApi implements PetApiInterface
 {
@@ -69,7 +69,7 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Swagger\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**OpenAPI\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -98,7 +98,7 @@ Deletes a pet
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\PetApiInterface;
+use OpenAPI\Server\Api\PetApiInterface;
 
 class PetApi implements PetApiInterface
 {
@@ -148,7 +148,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **findPetsByStatus**
-> Swagger\Server\Model\Pet findPetsByStatus($status)
+> OpenAPI\Server\Model\Pet findPetsByStatus($status)
 
 Finds Pets by status
 
@@ -161,7 +161,7 @@ Multiple status values can be provided with comma separated strings
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\PetApiInterface;
+use OpenAPI\Server\Api\PetApiInterface;
 
 class PetApi implements PetApiInterface
 {
@@ -196,7 +196,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Swagger\Server\Model\Pet**](../Model/Pet.md)
+[**OpenAPI\Server\Model\Pet**](../Model/Pet.md)
 
 ### Authorization
 
@@ -210,7 +210,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **findPetsByTags**
-> Swagger\Server\Model\Pet findPetsByTags($tags)
+> OpenAPI\Server\Model\Pet findPetsByTags($tags)
 
 Finds Pets by tags
 
@@ -223,7 +223,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\PetApiInterface;
+use OpenAPI\Server\Api\PetApiInterface;
 
 class PetApi implements PetApiInterface
 {
@@ -258,7 +258,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Swagger\Server\Model\Pet**](../Model/Pet.md)
+[**OpenAPI\Server\Model\Pet**](../Model/Pet.md)
 
 ### Authorization
 
@@ -272,7 +272,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **getPetById**
-> Swagger\Server\Model\Pet getPetById($petId)
+> OpenAPI\Server\Model\Pet getPetById($petId)
 
 Find pet by ID
 
@@ -285,7 +285,7 @@ Returns a single pet
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\PetApiInterface;
+use OpenAPI\Server\Api\PetApiInterface;
 
 class PetApi implements PetApiInterface
 {
@@ -320,7 +320,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Swagger\Server\Model\Pet**](../Model/Pet.md)
+[**OpenAPI\Server\Model\Pet**](../Model/Pet.md)
 
 ### Authorization
 
@@ -345,7 +345,7 @@ Update an existing pet
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\PetApiInterface;
+use OpenAPI\Server\Api\PetApiInterface;
 
 class PetApi implements PetApiInterface
 {
@@ -376,7 +376,7 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Swagger\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**OpenAPI\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -405,7 +405,7 @@ Updates a pet in the store with form data
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\PetApiInterface;
+use OpenAPI\Server\Api\PetApiInterface;
 
 class PetApi implements PetApiInterface
 {
@@ -456,7 +456,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **uploadFile**
-> Swagger\Server\Model\ApiResponse uploadFile($petId, $additionalMetadata, $file)
+> OpenAPI\Server\Model\ApiResponse uploadFile($petId, $additionalMetadata, $file)
 
 uploads an image
 
@@ -467,7 +467,7 @@ uploads an image
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\PetApiInterface;
+use OpenAPI\Server\Api\PetApiInterface;
 
 class PetApi implements PetApiInterface
 {
@@ -504,7 +504,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Swagger\Server\Model\ApiResponse**](../Model/ApiResponse.md)
+[**OpenAPI\Server\Model\ApiResponse**](../Model/ApiResponse.md)
 
 ### Authorization
 

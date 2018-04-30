@@ -1,4 +1,4 @@
-# Swagger\Server\Api\UserApiInterface
+# OpenAPI\Server\Api\UserApiInterface
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
@@ -22,7 +22,7 @@ services:
     acme.my_bundle.api.user:
         class: Acme\MyBundle\Api\UserApi
         tags:
-            - { name: "swagger_server.api", api: "user" }
+            - { name: "open_apiserver.api", api: "user" }
     # ...
 ```
 
@@ -40,7 +40,7 @@ This can only be done by the logged in user.
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\UserApiInterface;
+use OpenAPI\Server\Api\UserApiInterface;
 
 class UserApi implements UserApiInterface
 {
@@ -63,7 +63,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**Swagger\Server\Model\User**](../Model/User.md)| Created user object |
+ **user** | [**OpenAPI\Server\Model\User**](../Model/User.md)| Created user object |
 
 ### Return type
 
@@ -75,7 +75,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -92,7 +92,7 @@ Creates list of users with given input array
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\UserApiInterface;
+use OpenAPI\Server\Api\UserApiInterface;
 
 class UserApi implements UserApiInterface
 {
@@ -115,7 +115,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**Swagger\Server\Model\User**](../Model/array.md)| List of user object |
+ **user** | [**OpenAPI\Server\Model\User**](../Model/array.md)| List of user object |
 
 ### Return type
 
@@ -127,7 +127,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -144,7 +144,7 @@ Creates list of users with given input array
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\UserApiInterface;
+use OpenAPI\Server\Api\UserApiInterface;
 
 class UserApi implements UserApiInterface
 {
@@ -167,7 +167,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**Swagger\Server\Model\User**](../Model/array.md)| List of user object |
+ **user** | [**OpenAPI\Server\Model\User**](../Model/array.md)| List of user object |
 
 ### Return type
 
@@ -179,7 +179,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -198,7 +198,7 @@ This can only be done by the logged in user.
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\UserApiInterface;
+use OpenAPI\Server\Api\UserApiInterface;
 
 class UserApi implements UserApiInterface
 {
@@ -239,7 +239,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **getUserByName**
-> Swagger\Server\Model\User getUserByName($username)
+> OpenAPI\Server\Model\User getUserByName($username)
 
 Get user by user name
 
@@ -250,7 +250,7 @@ Get user by user name
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\UserApiInterface;
+use OpenAPI\Server\Api\UserApiInterface;
 
 class UserApi implements UserApiInterface
 {
@@ -277,7 +277,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Swagger\Server\Model\User**](../Model/User.md)
+[**OpenAPI\Server\Model\User**](../Model/User.md)
 
 ### Authorization
 
@@ -302,7 +302,7 @@ Logs user into the system
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\UserApiInterface;
+use OpenAPI\Server\Api\UserApiInterface;
 
 class UserApi implements UserApiInterface
 {
@@ -355,7 +355,7 @@ Logs out current logged in user session
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\UserApiInterface;
+use OpenAPI\Server\Api\UserApiInterface;
 
 class UserApi implements UserApiInterface
 {
@@ -406,7 +406,7 @@ This can only be done by the logged in user.
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\UserApiInterface;
+use OpenAPI\Server\Api\UserApiInterface;
 
 class UserApi implements UserApiInterface
 {
@@ -430,7 +430,7 @@ class UserApi implements UserApiInterface
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted |
- **user** | [**Swagger\Server\Model\User**](../Model/User.md)| Updated user object |
+ **user** | [**OpenAPI\Server\Model\User**](../Model/User.md)| Updated user object |
 
 ### Return type
 
@@ -442,7 +442,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)

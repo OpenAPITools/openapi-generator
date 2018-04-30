@@ -1,5 +1,5 @@
 {
-    "name": "swagger/server-bundle",
+    "name": "openapi/server-bundle",
     "description": "",
     "keywords": [
         "swagger",
@@ -12,7 +12,7 @@
     "authors": [
         {
             "name": "Swagger and contributors",
-            "homepage": "https://github.com/swagger-api/swagger-codegen"
+            "homepage": "https://github.com/openapitools/openapi-generator"
         }
     ],
     "require": {
@@ -33,6 +33,6 @@
         "hoa/regex": "~1.0"
     },
     "autoload": {
-        "psr-4": { "Swagger\\Server\\" : "./" }
+        "psr-4": { "OpenAPI\\Server\\" : "./" }
     }
 }

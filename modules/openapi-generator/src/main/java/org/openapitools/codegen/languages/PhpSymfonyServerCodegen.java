@@ -29,7 +29,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     protected String testsPackage;
     protected String apiTestsPackage;
     protected String modelTestsPackage;
-    protected String composerVendorName = "swagger";
+    protected String composerVendorName = "openapi";
     protected String composerProjectName = "server-bundle";
     protected String testsDirName = "Tests";
     protected String bundleName;
@@ -72,8 +72,8 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
         supportsInheritance = true;
         srcBasePath = ".";
-        setInvokerPackage("Swagger\\Server");
-        setBundleName("SwaggerServer");
+        setInvokerPackage("OpenAPI\\Server");
+        setBundleName("OpenAPIServer");
         packagePath = "SymfonyBundle-php";
         modelDirName = "Model";
         docsBasePath = "Resources" + File.separator + "docs";
@@ -96,7 +96,14 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                         "formParams", "_header_accept", "_tempBody",
 
                         // PHP reserved words
-                        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor"
+                        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch",
+                        "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else",
+                        "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile",
+                        "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if",
+                        "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset",
+                        "list", "namespace", "new", "or", "print", "private", "protected", "public", "require",
+                        "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use",
+                        "var", "while", "xor"
                 )
         );
 
@@ -153,9 +160,11 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
 
-        cliOptions.add(new CliOption(COMPOSER_VENDOR_NAME, "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets. IMPORTANT NOTE (2016/03): composerVendorName will be deprecated and replaced by gitUserId in the next openapi-generator release"));
+        cliOptions.add(new CliOption(COMPOSER_VENDOR_NAME, "The vendor name used in the composer package name." +
+                " The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets"));
         cliOptions.add(new CliOption(BUNDLE_NAME, "The name of the Symfony bundle. The template uses {{bundleName}}"));
-        cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client. IMPORTANT NOTE (2016/03): composerProjectName will be deprecated and replaced by gitRepoId in the next openapi-generator release"));
+        cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name." +
+                " The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(PHP_LEGACY_SUPPORT, "Should the generated code be compatible with PHP 5.x?").defaultValue(Boolean.TRUE.toString()));
@@ -201,16 +210,16 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
     @Override
     public String getHelp() {
-        return "Generates a Symfony server bundle.";
+        return "Generates a PHP Symfony server bundle.";
     }
 
     @Override
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
         if (templateName.equals("api_controller.mustache"))
-            return controllerFileFolder() + '/' + toControllerName(tag) + suffix;
+            return controllerFileFolder() + File.separator + toControllerName(tag) + suffix;
 
-        return apiFileFolder() + '/' + toApiFilename(tag) + suffix;
+        return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
     }
 
     @Override
@@ -486,7 +495,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     /**
      * Output the type declaration of the property
      *
-     * @param p Swagger Schema object
+     * @param p OpenAPI Schema object
      * @return a string presentation of the property type
      */
     public String getPropertyTypeDeclaration(Schema p) {
