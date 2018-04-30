@@ -30,28 +30,43 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         hideGenerationTimestamp = Boolean.FALSE;
 
         defaultIncludes = new HashSet<String>(
-            Arrays.asList(
-                "map",
-                "array")
-            );
+                Arrays.asList(
+                        "map",
+                        "array")
+        );
+
+        setReservedWordsLowerCase(
+                Arrays.asList(
+                        // data type
+                        "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",
+                        "int", "int8", "int16", "int32", "int64", "float32", "float64",
+                        "complex64", "complex128", "rune", "byte", "uintptr",
+
+                        "break", "default", "func", "interface", "select",
+                        "case", "defer", "go", "map", "struct",
+                        "chan", "else", "goto", "package", "switch",
+                        "const", "fallthrough", "if", "range", "type",
+                        "continue", "for", "import", "return", "var", "error", "nil")
+                // Added "error" as it's used so frequently that it may as well be a keyword
+        );
 
         languageSpecificPrimitives = new HashSet<String>(
-            Arrays.asList(
-                "string",
-                "bool",
-                "uint",
-                "uint32",
-                "uint64",
-                "int",
-                "int32",
-                "int64",
-                "float32",
-                "float64",
-                "complex64",
-                "complex128",
-                "rune",
-                "byte")
-            );
+                Arrays.asList(
+                        "string",
+                        "bool",
+                        "uint",
+                        "uint32",
+                        "uint64",
+                        "int",
+                        "int32",
+                        "int64",
+                        "float32",
+                        "float64",
+                        "complex64",
+                        "complex128",
+                        "rune",
+                        "byte")
+        );
 
         instantiationTypes.clear();
         /*instantiationTypes.put("array", "GoArray");
@@ -71,12 +86,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("password", "string");
         typeMapping.put("File", "*os.File");
         typeMapping.put("file", "*os.File");
-        // map binary to string as a workaround
-        // the correct solution is to use []byte
-        typeMapping.put("binary", "string");
+        typeMapping.put("binary", "*os.File");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("object", "interface{}");
-        typeMapping.put("UUID", "string");
 
         importMapping = new HashMap<String, String>();
 
@@ -126,9 +138,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // pet_id => PetId
         name = camelize(name);
 
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name))
+        // for reserved word append _
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as variable name. Renamed to "+ escapeReservedWord(name));
             name = escapeReservedWord(name);
+        }
 
         // for reserved word or word starting with number, append _
         if (name.matches("^\\d.*"))
@@ -138,14 +152,26 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
+    protected boolean isReservedWord(String word) {
+        return word != null && reservedWords.contains(word);
+    }
+
+    @Override
     public String toParamName(String name) {
         // params should be lowerCamelCase. E.g. "person Person", instead of
         // "Person Person".
         //
+        name = camelize(toVarName(name), true);
+
         // REVISIT: Actually, for idiomatic go, the param name should
         // really should just be a letter, e.g. "p Person"), but we'll get
         // around to that some other time... Maybe.
-        return camelize(toVarName(name), true);
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as parameter name. Renamed to "+ name + "_");
+            name = name + "_";
+        }
+        
+        return name;
     }
 
     @Override
@@ -196,39 +222,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return "api_" + underscore(name);
     }
 
-    /**
-     * Overrides postProcessParameter to add a vendor extension "x-exportParamName".
-     * This is useful when paramName starts with a lowercase letter, but we need that
-     * param to be exportable (starts with an Uppercase letter).
-     *
-     * @param parameter CodegenParameter object to be processed.
-     */
-    @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-
-        // Give the base class a chance to process
-        super.postProcessParameter(parameter);
-
-        char nameFirstChar = parameter.paramName.charAt(0);
-        if (Character.isUpperCase(nameFirstChar)) {
-            // First char is already uppercase, just use paramName.
-            parameter.vendorExtensions.put("x-exportParamName", parameter.paramName);
-        } else {
-            // It's a lowercase first char, let's convert it to uppercase
-            StringBuilder sb = new StringBuilder(parameter.paramName);
-            sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
-            parameter.vendorExtensions.put("x-exportParamName", sb.toString());
-        }
-    }
-
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "[]" + getTypeDeclaration(inner);
-        }
-        else if (ModelUtils.isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "[string]" + getTypeDeclaration(inner);
         }
@@ -316,14 +316,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && param.dataType == "*os.File") {
+                if (!addedOSImport && "*os.File".equals(param.dataType)) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
 
                 // import "time" if the operation has a required time parameter.
                 if (param.required) {
-                    if (!addedTimeImport && param.dataType == "time.Time") {
+                    if (!addedTimeImport && "time.Time".equals(param.dataType)) {
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
                     }
@@ -336,15 +336,36 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         addedOptionalImport = true;
                     }
                     // We need to specially map Time type to the optionals package
-                    if (param.dataType == "time.Time") {
+                    if ("time.Time".equals(param.dataType)) {
                         param.vendorExtensions.put("x-optionalDataType", "Time");
-                        continue;
+                    } else {
+                        // Map optional type to dataType
+                        param.vendorExtensions.put("x-optionalDataType",
+                                param.dataType.substring(0, 1).toUpperCase() + param.dataType.substring(1));
                     }
-                    // Map optional type to dataType
-                    param.vendorExtensions.put("x-optionalDataType",
-                            param.dataType.substring(0, 1).toUpperCase() + param.dataType.substring(1));
+                }
+
+                // set x-exportParamName
+                char nameFirstChar = param.paramName.charAt(0);
+                if (Character.isUpperCase(nameFirstChar)) {
+                    // First char is already uppercase, just use paramName.
+                    param.vendorExtensions.put("x-exportParamName", param.paramName);
+                } else {
+                    // It's a lowercase first char, let's convert it to uppercase
+                    StringBuilder sb = new StringBuilder(param.paramName);
+                    sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
+                    param.vendorExtensions.put("x-exportParamName", sb.toString());
                 }
             }
+
+            setExportParameterName(operation.queryParams);
+            setExportParameterName(operation.formParams);
+            setExportParameterName(operation.headerParams);
+            setExportParameterName(operation.bodyParams);
+            setExportParameterName(operation.cookieParams);
+            setExportParameterName(operation.optionalParams);
+            setExportParameterName(operation.requiredParams);
+
         }
 
         // recursively add import for mapping one type to multiple imports
@@ -363,6 +384,21 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         return objs;
+    }
+
+    private void setExportParameterName(List<CodegenParameter> codegenParameters) {
+        for (CodegenParameter param : codegenParameters) {
+            char nameFirstChar = param.paramName.charAt(0);
+            if (Character.isUpperCase(nameFirstChar)) {
+                // First char is already uppercase, just use paramName.
+                param.vendorExtensions.put("x-exportParamName", param.paramName);
+            } else {
+                // It's a lowercase first char, let's convert it to uppercase
+                StringBuilder sb = new StringBuilder(param.paramName);
+                sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
+                param.vendorExtensions.put("x-exportParamName", sb.toString());
+            }
+        }
     }
 
     @Override
@@ -385,11 +421,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             if (v instanceof CodegenModel) {
                 CodegenModel model = (CodegenModel) v;
                 for (CodegenProperty param : model.vars) {
-                    if (!addedTimeImport && param.baseType == "time.Time") {
+                    if (!addedTimeImport && "time.Time".equals(param.baseType)) {
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
                     }
-                    if (!addedOSImport && param.baseType == "*os.File") {
+                    if (!addedOSImport && "*os.File".equals(param.baseType)) {
                         imports.add(createMapping("import", "os"));
                         addedOSImport = true;
                     }

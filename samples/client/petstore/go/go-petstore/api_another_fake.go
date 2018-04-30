@@ -30,7 +30,6 @@ AnotherFakeApiService To test special tags
 To test special tags
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param client client model
-
 @return Client
 */
 func (a *AnotherFakeApiService) TestSpecialTags(ctx context.Context, client Client) (Client, *http.Response, error) {
@@ -97,7 +96,6 @@ func (a *AnotherFakeApiService) TestSpecialTags(ctx context.Context, client Clie
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		if localVarHttpResponse.StatusCode == 200 {
 			var v Client
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
@@ -108,7 +106,6 @@ func (a *AnotherFakeApiService) TestSpecialTags(ctx context.Context, client Clie
 				newErr.model = v
 				return localVarReturnValue, localVarHttpResponse, newErr
 		}
-		
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 

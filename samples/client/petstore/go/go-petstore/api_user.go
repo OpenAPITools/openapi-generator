@@ -31,8 +31,6 @@ UserApiService Create user
 This can only be done by the logged in user.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param user Created user object
-
-
 */
 func (a *UserApiService) CreateUser(ctx context.Context, user User) (*http.Response, error) {
 	var (
@@ -40,7 +38,6 @@ func (a *UserApiService) CreateUser(ctx context.Context, user User) (*http.Respo
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		
 	)
 
 	// create path and map variables
@@ -85,13 +82,11 @@ func (a *UserApiService) CreateUser(ctx context.Context, user User) (*http.Respo
 		return localVarHttpResponse, err
 	}
 
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericSwaggerError{
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		return localVarHttpResponse, newErr
 	}
 
@@ -102,8 +97,6 @@ func (a *UserApiService) CreateUser(ctx context.Context, user User) (*http.Respo
 UserApiService Creates list of users with given input array
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param user List of user object
-
-
 */
 func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []User) (*http.Response, error) {
 	var (
@@ -111,7 +104,6 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []U
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		
 	)
 
 	// create path and map variables
@@ -156,13 +148,11 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []U
 		return localVarHttpResponse, err
 	}
 
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericSwaggerError{
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		return localVarHttpResponse, newErr
 	}
 
@@ -173,8 +163,6 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []U
 UserApiService Creates list of users with given input array
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param user List of user object
-
-
 */
 func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, user []User) (*http.Response, error) {
 	var (
@@ -182,7 +170,6 @@ func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, user []Us
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		
 	)
 
 	// create path and map variables
@@ -227,13 +214,11 @@ func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, user []Us
 		return localVarHttpResponse, err
 	}
 
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericSwaggerError{
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		return localVarHttpResponse, newErr
 	}
 
@@ -245,8 +230,6 @@ UserApiService Delete user
 This can only be done by the logged in user.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param username The name that needs to be deleted
-
-
 */
 func (a *UserApiService) DeleteUser(ctx context.Context, username string) (*http.Response, error) {
 	var (
@@ -254,7 +237,6 @@ func (a *UserApiService) DeleteUser(ctx context.Context, username string) (*http
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		
 	)
 
 	// create path and map variables
@@ -298,13 +280,11 @@ func (a *UserApiService) DeleteUser(ctx context.Context, username string) (*http
 		return localVarHttpResponse, err
 	}
 
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericSwaggerError{
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		return localVarHttpResponse, newErr
 	}
 
@@ -315,7 +295,6 @@ func (a *UserApiService) DeleteUser(ctx context.Context, username string) (*http
 UserApiService Get user by user name
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param username The name that needs to be fetched. Use user1 for testing.
-
 @return User
 */
 func (a *UserApiService) GetUserByName(ctx context.Context, username string) (User, *http.Response, error) {
@@ -381,7 +360,6 @@ func (a *UserApiService) GetUserByName(ctx context.Context, username string) (Us
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		if localVarHttpResponse.StatusCode == 200 {
 			var v User
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
@@ -392,7 +370,6 @@ func (a *UserApiService) GetUserByName(ctx context.Context, username string) (Us
 				newErr.model = v
 				return localVarReturnValue, localVarHttpResponse, newErr
 		}
-		
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
@@ -404,7 +381,6 @@ UserApiService Logs user into the system
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param username The user name for login
  * @param password The password for login in clear text
-
 @return string
 */
 func (a *UserApiService) LoginUser(ctx context.Context, username string, password string) (string, *http.Response, error) {
@@ -423,8 +399,8 @@ func (a *UserApiService) LoginUser(ctx context.Context, username string, passwor
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	localVarQueryParams.Add("username", parameterToString(username, "csv"))
-	localVarQueryParams.Add("password", parameterToString(password, "csv"))
+	localVarQueryParams.Add("username", parameterToString(username, ""))
+	localVarQueryParams.Add("password", parameterToString(password, ""))
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
 
@@ -471,7 +447,6 @@ func (a *UserApiService) LoginUser(ctx context.Context, username string, passwor
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		if localVarHttpResponse.StatusCode == 200 {
 			var v string
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
@@ -482,7 +457,6 @@ func (a *UserApiService) LoginUser(ctx context.Context, username string, passwor
 				newErr.model = v
 				return localVarReturnValue, localVarHttpResponse, newErr
 		}
-		
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
@@ -492,8 +466,6 @@ func (a *UserApiService) LoginUser(ctx context.Context, username string, passwor
 /* 
 UserApiService Logs out current logged in user session
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-
-
 */
 func (a *UserApiService) LogoutUser(ctx context.Context) (*http.Response, error) {
 	var (
@@ -501,7 +473,6 @@ func (a *UserApiService) LogoutUser(ctx context.Context) (*http.Response, error)
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		
 	)
 
 	// create path and map variables
@@ -544,13 +515,11 @@ func (a *UserApiService) LogoutUser(ctx context.Context) (*http.Response, error)
 		return localVarHttpResponse, err
 	}
 
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericSwaggerError{
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		return localVarHttpResponse, newErr
 	}
 
@@ -563,8 +532,6 @@ This can only be done by the logged in user.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param username name that need to be deleted
  * @param user Updated user object
-
-
 */
 func (a *UserApiService) UpdateUser(ctx context.Context, username string, user User) (*http.Response, error) {
 	var (
@@ -572,7 +539,6 @@ func (a *UserApiService) UpdateUser(ctx context.Context, username string, user U
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		
 	)
 
 	// create path and map variables
@@ -618,13 +584,11 @@ func (a *UserApiService) UpdateUser(ctx context.Context, username string, user U
 		return localVarHttpResponse, err
 	}
 
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericSwaggerError{
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		
 		return localVarHttpResponse, newErr
 	}
 
