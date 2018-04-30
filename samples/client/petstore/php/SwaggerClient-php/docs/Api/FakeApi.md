@@ -180,7 +180,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = "body_example"; // string | Input string as post body
+$body = 'body_example'; // string | Input string as post body
 
 try {
     $result = $apiInstance->fakeOuterStringSerialize($body);
@@ -227,7 +227,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$query = "query_example"; // string | 
+$query = 'query_example'; // string | 
 $user = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | 
 
 try {
@@ -335,18 +335,18 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
 );
 $number = 3.4; // float | None
 $double = 3.4; // double | None
-$pattern_without_delimiter = "pattern_without_delimiter_example"; // string | None
-$byte = "byte_example"; // string | None
+$pattern_without_delimiter = 'pattern_without_delimiter_example'; // string | None
+$byte = 'byte_example'; // string | None
 $integer = 56; // int | None
 $int32 = 56; // int | None
 $int64 = 56; // int | None
 $float = 3.4; // float | None
-$string = "string_example"; // string | None
+$string = 'string_example'; // string | None
 $binary = "/path/to/file.txt"; // \SplFileObject | None
 $date = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
 $date_time = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
-$password = "password_example"; // string | None
-$callback = "callback_example"; // string | None
+$password = 'password_example'; // string | None
+$callback = 'callback_example'; // string | None
 
 try {
     $apiInstance->testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
@@ -407,14 +407,14 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$enum_header_string_array = array("enum_header_string_array_example"); // string[] | Header parameter enum test (string array)
-$enum_header_string = "-efg"; // string | Header parameter enum test (string)
-$enum_query_string_array = array("enum_query_string_array_example"); // string[] | Query parameter enum test (string array)
-$enum_query_string = "-efg"; // string | Query parameter enum test (string)
+$enum_header_string_array = array('enum_header_string_array_example'); // string[] | Header parameter enum test (string array)
+$enum_header_string = '-efg'; // string | Header parameter enum test (string)
+$enum_query_string_array = array('enum_query_string_array_example'); // string[] | Query parameter enum test (string array)
+$enum_query_string = '-efg'; // string | Query parameter enum test (string)
 $enum_query_integer = 56; // int | Query parameter enum test (double)
 $enum_query_double = 3.4; // double | Query parameter enum test (double)
 $enum_form_string_array = new \Swagger\Client\Model\array(); // string[] | Form parameter enum test (string array)
-$enum_form_string = "'-efg'"; // string | Form parameter enum test (string)
+$enum_form_string = '-efg'; // string | Form parameter enum test (string)
 
 try {
     $apiInstance->testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
@@ -429,9 +429,9 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enum_header_string_array** | [**string[]**](../Model/string.md)| Header parameter enum test (string array) | [optional]
- **enum_header_string** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
+ **enum_header_string** | **string**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_string_array** | [**string[]**](../Model/string.md)| Query parameter enum test (string array) | [optional]
- **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
+ **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional]
  **enum_form_string_array** | [**string[]**](../Model/array.md)| Form parameter enum test (string array) | [optional]
@@ -467,7 +467,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$request_body = array('key' => "request_body_example"); // string | request body
+$request_body = array('key' => 'request_body_example'); // string | request body
 
 try {
     $apiInstance->testInlineAdditionalProperties($request_body);
@@ -513,8 +513,8 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$param = "param_example"; // string | field1
-$param2 = "param2_example"; // string | field2
+$param = 'param_example'; // string | field1
+$param2 = 'param2_example'; // string | field2
 
 try {
     $apiInstance->testJsonFormData($param, $param2);
