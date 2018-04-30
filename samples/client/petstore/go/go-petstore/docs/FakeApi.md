@@ -34,7 +34,7 @@ Optional parameters are passed through a pointer to a FakeOuterBooleanSerializeO
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **booleanPostBody** | **optional.Bool**| Input boolean as post body | 
+ **body** | **optional.Bool**| Input boolean as post body | 
 
 ### Return type
 
