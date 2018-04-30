@@ -1,6 +1,6 @@
 <?php
 
-namespace Swagger\Server\Service;
+namespace OpenAPI\Server\Service;
 
 interface SerializerInterface
 {

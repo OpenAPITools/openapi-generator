@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace Swagger\Server\Service;
+namespace OpenAPI\Server\Service;
 
 use JMS\Serializer\Context;
 use JMS\Serializer\JsonDeserializationVisitor;

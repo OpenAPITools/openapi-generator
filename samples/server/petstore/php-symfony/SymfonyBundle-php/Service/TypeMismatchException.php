@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace Swagger\Server\Service;
+namespace OpenAPI\Server\Service;
 
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\Exception\RuntimeException;

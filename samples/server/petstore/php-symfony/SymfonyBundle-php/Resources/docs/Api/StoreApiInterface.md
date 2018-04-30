@@ -1,4 +1,4 @@
-# Swagger\Server\Api\StoreApiInterface
+# OpenAPI\Server\Api\StoreApiInterface
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
@@ -18,7 +18,7 @@ services:
     acme.my_bundle.api.store:
         class: Acme\MyBundle\Api\StoreApi
         tags:
-            - { name: "swagger_server.api", api: "store" }
+            - { name: "open_apiserver.api", api: "store" }
     # ...
 ```
 
@@ -36,7 +36,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\StoreApiInterface;
+use OpenAPI\Server\Api\StoreApiInterface;
 
 class StoreApi implements StoreApiInterface
 {
@@ -90,7 +90,7 @@ Returns a map of status codes to quantities
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\StoreApiInterface;
+use OpenAPI\Server\Api\StoreApiInterface;
 
 class StoreApi implements StoreApiInterface
 {
@@ -136,7 +136,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **getOrderById**
-> Swagger\Server\Model\Order getOrderById($orderId)
+> OpenAPI\Server\Model\Order getOrderById($orderId)
 
 Find purchase order by ID
 
@@ -149,7 +149,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\StoreApiInterface;
+use OpenAPI\Server\Api\StoreApiInterface;
 
 class StoreApi implements StoreApiInterface
 {
@@ -176,7 +176,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Swagger\Server\Model\Order**](../Model/Order.md)
+[**OpenAPI\Server\Model\Order**](../Model/Order.md)
 
 ### Authorization
 
@@ -190,7 +190,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **placeOrder**
-> Swagger\Server\Model\Order placeOrder($order)
+> OpenAPI\Server\Model\Order placeOrder($order)
 
 Place an order for a pet
 
@@ -201,7 +201,7 @@ Place an order for a pet
 
 namespace Acme\MyBundle\Api;
 
-use Swagger\Server\Api\StoreApiInterface;
+use OpenAPI\Server\Api\StoreApiInterface;
 
 class StoreApi implements StoreApiInterface
 {
@@ -224,11 +224,11 @@ class StoreApi implements StoreApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Swagger\Server\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
+ **order** | [**OpenAPI\Server\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
-[**Swagger\Server\Model\Order**](../Model/Order.md)
+[**OpenAPI\Server\Model\Order**](../Model/Order.md)
 
 ### Authorization
 
@@ -236,7 +236,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)

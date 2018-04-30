@@ -30,13 +30,11 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
     public PhpSilexServerCodegen() {
         super();
 
-        invokerPackage = camelize("SwaggerServer");
-
-        String packagePath = "SwaggerServer";
-
-        modelPackage = packagePath + "/lib/models";
-        apiPackage = packagePath + "/lib";
-        outputFolder = "generated-code/php-silex";
+        invokerPackage = camelize("OpenAPIServer");
+        String packagePath = "OpenAPIServer";
+        modelPackage = packagePath + File.separator + "lib" + File.separator + "models";
+        apiPackage = packagePath + File.separator + "lib";
+        outputFolder = "generated-code" + File.separator + "php-silex";
 
         // no model, api files
         modelTemplateFiles.clear();
@@ -46,7 +44,14 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
+                        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch",
+                        "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else",
+                        "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile",
+                        "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if",
+                        "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset",
+                        "list", "namespace", "new", "or", "print", "private", "protected", "public", "require",
+                        "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use",
+                        "var", "while", "xor")
         );
 
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
@@ -125,12 +130,12 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/" + apiPackage()).replace('/', File.separatorChar);
+        return (outputFolder + File.separator + apiPackage()).replace('/', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return (outputFolder + "/" + modelPackage()).replace('/', File.separatorChar);
+        return (outputFolder + File.separator + modelPackage()).replace('/', File.separatorChar);
     }
 
     @Override

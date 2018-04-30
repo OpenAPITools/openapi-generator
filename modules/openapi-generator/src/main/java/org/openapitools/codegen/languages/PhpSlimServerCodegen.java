@@ -37,10 +37,7 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
         // at the moment
         importMapping.clear();
 
-        invokerPackage = camelize("SwaggerServer");
-
-        //String packagePath = "SwaggerServer";
-
+        invokerPackage = camelize("OpenAPIServer");
         modelPackage = packagePath + "\\Models";
         apiPackage = packagePath;
         outputFolder = "generated-code" + File.separator + "slim";
@@ -130,12 +127,12 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/" + toPackagePath(apiPackage, srcBasePath));
+        return (outputFolder + File.separator + toPackagePath(apiPackage, srcBasePath));
     }
 
     @Override
     public String modelFileFolder() {
-        return (outputFolder + "/" + toPackagePath(modelPackage, srcBasePath));
+        return (outputFolder + File.separator + toPackagePath(modelPackage, srcBasePath));
     }
 
     @Override
