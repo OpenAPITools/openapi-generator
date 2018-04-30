@@ -32,12 +32,12 @@ FakeApiService
 Test serialization of outer boolean types
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *FakeOuterBooleanSerializeOpts - Optional Parameters:
- * @param "BooleanPostBody" (optional.Bool) -  Input boolean as post body
+ * @param "Body" (optional.Bool) -  Input boolean as post body
 @return bool
 */
 
 type FakeOuterBooleanSerializeOpts struct {
-    BooleanPostBody optional.Bool
+    Body optional.Bool
 }
 
 func (a *FakeApiService) FakeOuterBooleanSerialize(ctx context.Context, localVarOptionals *FakeOuterBooleanSerializeOpts) (bool, *http.Response, error) {
@@ -74,8 +74,8 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx context.Context, localVar
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	if localVarOptionals != nil && localVarOptionals.BooleanPostBody.IsSet() {
-		localVarPostBody = localVarOptionals.BooleanPostBody.Value()
+	if localVarOptionals != nil && localVarOptionals.Body.IsSet() {
+		localVarPostBody = localVarOptionals.Body.Value()
 	}
 
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
