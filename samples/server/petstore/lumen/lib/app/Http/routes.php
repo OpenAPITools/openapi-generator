@@ -39,14 +39,14 @@ $app->patch('/v2/fake', 'FakeApi@testClientModel');
  * post testEndpointParameters
  * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
  * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
- * Output-Formats: [application/xml; charset=utf-8, application/json; charset=utf-8]
+
  */
 $app->post('/v2/fake', 'FakeApi@testEndpointParameters');
 /**
  * get testEnumParameters
  * Summary: To test enum parameters
  * Notes: To test enum parameters
- * Output-Formats: [*/*]
+
  */
 $app->get('/v2/fake', 'FakeApi@testEnumParameters');
 /**
@@ -67,34 +67,34 @@ $app->get('/v2/fake/jsonFormData', 'FakeApi@testJsonFormData');
  * post fakeOuterBooleanSerialize
  * Summary: 
  * Notes: Test serialization of outer boolean types
-
+ * Output-Formats: [*/*]
  */
 $app->post('/v2/fake/outer/boolean', 'FakeApi@fakeOuterBooleanSerialize');
 /**
  * post fakeOuterCompositeSerialize
  * Summary: 
  * Notes: Test serialization of object with outer number type
-
+ * Output-Formats: [*/*]
  */
 $app->post('/v2/fake/outer/composite', 'FakeApi@fakeOuterCompositeSerialize');
 /**
  * post fakeOuterNumberSerialize
  * Summary: 
  * Notes: Test serialization of outer number types
-
+ * Output-Formats: [*/*]
  */
 $app->post('/v2/fake/outer/number', 'FakeApi@fakeOuterNumberSerialize');
 /**
  * post fakeOuterStringSerialize
  * Summary: 
  * Notes: Test serialization of outer string types
-
+ * Output-Formats: [*/*]
  */
 $app->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
 /**
  * patch testClassname
  * Summary: To test class name in snake case
- * Notes: 
+ * Notes: To test class name in snake case
  * Output-Formats: [application/json]
  */
 $app->patch('/v2/fake_classname_test', 'FakeClassnameTags123Api@testClassname');
@@ -102,14 +102,14 @@ $app->patch('/v2/fake_classname_test', 'FakeClassnameTags123Api@testClassname');
  * post addPet
  * Summary: Add a new pet to the store
  * Notes: 
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->post('/v2/pet', 'PetApi@addPet');
 /**
  * put updatePet
  * Summary: Update an existing pet
  * Notes: 
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->put('/v2/pet', 'PetApi@updatePet');
 /**
@@ -130,7 +130,7 @@ $app->get('/v2/pet/findByTags', 'PetApi@findPetsByTags');
  * delete deletePet
  * Summary: Deletes a pet
  * Notes: 
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->delete('/v2/pet/{petId}', 'PetApi@deletePet');
 /**
@@ -144,7 +144,7 @@ $app->get('/v2/pet/{petId}', 'PetApi@getPetById');
  * post updatePetWithForm
  * Summary: Updates a pet in the store with form data
  * Notes: 
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->post('/v2/pet/{petId}', 'PetApi@updatePetWithForm');
 /**
@@ -172,7 +172,7 @@ $app->post('/v2/store/order', 'StoreApi@placeOrder');
  * delete deleteOrder
  * Summary: Delete purchase order by ID
  * Notes: For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->delete('/v2/store/order/{order_id}', 'StoreApi@deleteOrder');
 /**
@@ -186,21 +186,21 @@ $app->get('/v2/store/order/{order_id}', 'StoreApi@getOrderById');
  * post createUser
  * Summary: Create user
  * Notes: This can only be done by the logged in user.
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->post('/v2/user', 'UserApi@createUser');
 /**
  * post createUsersWithArrayInput
  * Summary: Creates list of users with given input array
  * Notes: 
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->post('/v2/user/createWithArray', 'UserApi@createUsersWithArrayInput');
 /**
  * post createUsersWithListInput
  * Summary: Creates list of users with given input array
  * Notes: 
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->post('/v2/user/createWithList', 'UserApi@createUsersWithListInput');
 /**
@@ -214,14 +214,14 @@ $app->get('/v2/user/login', 'UserApi@loginUser');
  * get logoutUser
  * Summary: Logs out current logged in user session
  * Notes: 
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->get('/v2/user/logout', 'UserApi@logoutUser');
 /**
  * delete deleteUser
  * Summary: Delete user
  * Notes: This can only be done by the logged in user.
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->delete('/v2/user/{username}', 'UserApi@deleteUser');
 /**
@@ -235,7 +235,7 @@ $app->get('/v2/user/{username}', 'UserApi@getUserByName');
  * put updateUser
  * Summary: Updated user
  * Notes: This can only be done by the logged in user.
- * Output-Formats: [application/xml, application/json]
+
  */
 $app->put('/v2/user/{username}', 'UserApi@updateUser');
 

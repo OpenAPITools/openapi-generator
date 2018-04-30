@@ -42,10 +42,10 @@ class FakeApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling testClientModel');
+        if (!isset($input['client'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $client when calling testClientModel');
         }
-        $body = $input['body'];
+        $client = $input['client'];
 
 
         return response('How about implementing testClientModel as a patch method ?');
@@ -91,9 +91,6 @@ class FakeApi extends Controller
         if (!isset($input['pattern_without_delimiter'])) {
             throw new \InvalidArgumentException('Missing the required parameter $pattern_without_delimiter when calling testEndpointParameters');
         }
-        if (!preg_match("/^[A-Z].*/", $input['pattern_without_delimiter'])) {
-            throw new \InvalidArgumentException('invalid value for $pattern_without_delimiter when calling FakeApi.testEndpointParameters, must conform to the pattern /^[A-Z].*/.');
-        }
         $pattern_without_delimiter = $input['pattern_without_delimiter'];
 
         if (!isset($input['byte'])) {
@@ -124,9 +121,6 @@ class FakeApi extends Controller
         }
         $float = $input['float'];
 
-        if (!preg_match("/[a-z]/i", $input['string'])) {
-            throw new \InvalidArgumentException('invalid value for $string when calling FakeApi.testEndpointParameters, must conform to the pattern /[a-z]/i.');
-        }
         $string = $input['string'];
 
         $binary = $input['binary'];
@@ -164,10 +158,6 @@ class FakeApi extends Controller
 
 
         //not path params validation
-        $enum_form_string_array = $input['enum_form_string_array'];
-
-        $enum_form_string = $input['enum_form_string'];
-
         $enum_header_string_array = $input['enum_header_string_array'];
 
         $enum_header_string = $input['enum_header_string'];
@@ -179,6 +169,10 @@ class FakeApi extends Controller
         $enum_query_integer = $input['enum_query_integer'];
 
         $enum_query_double = $input['enum_query_double'];
+
+        $enum_form_string_array = $input['enum_form_string_array'];
+
+        $enum_form_string = $input['enum_form_string'];
 
 
         return response('How about implementing testEnumParameters as a get method ?');
@@ -199,10 +193,10 @@ class FakeApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['param'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $param when calling testInlineAdditionalProperties');
+        if (!isset($input['UNKNOWN_PARAM_NAME'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $UNKNOWN_PARAM_NAME when calling testInlineAdditionalProperties');
         }
-        $param = $input['param'];
+        $UNKNOWN_PARAM_NAME = $input['UNKNOWN_PARAM_NAME'];
 
 
         return response('How about implementing testInlineAdditionalProperties as a post method ?');
@@ -273,7 +267,7 @@ class FakeApi extends Controller
 
 
         //not path params validation
-        $body = $input['body'];
+        $outer_composite = $input['outer_composite'];
 
 
         return response('How about implementing fakeOuterCompositeSerialize as a post method ?');
