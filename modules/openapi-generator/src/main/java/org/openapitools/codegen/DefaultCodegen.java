@@ -2514,7 +2514,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             // set default value
             if (parameterSchema.getDefault() != null) {
-                codegenParameter.defaultValue = String.valueOf(parameterSchema.getDefault());
+                codegenParameter.defaultValue = toDefaultValue(parameterSchema);
             }
             // TDOO revise collectionFormat
             String collectionFormat = null;

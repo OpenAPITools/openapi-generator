@@ -27,7 +27,7 @@ $apiInstance = new Swagger\Client\Api\StoreApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$order_id = "order_id_example"; // string | ID of the order that needs to be deleted
+$order_id = 'order_id_example'; // string | ID of the order that needs to be deleted
 
 try {
     $apiInstance->deleteOrder($order_id);

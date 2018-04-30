@@ -171,7 +171,7 @@ $apiInstance = new Swagger\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$username = "username_example"; // string | The name that needs to be deleted
+$username = 'username_example'; // string | The name that needs to be deleted
 
 try {
     $apiInstance->deleteUser($username);
@@ -217,7 +217,7 @@ $apiInstance = new Swagger\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$username = "username_example"; // string | The name that needs to be fetched. Use user1 for testing.
+$username = 'username_example'; // string | The name that needs to be fetched. Use user1 for testing.
 
 try {
     $result = $apiInstance->getUserByName($username);
@@ -264,8 +264,8 @@ $apiInstance = new Swagger\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$username = "username_example"; // string | The user name for login
-$password = "password_example"; // string | The password for login in clear text
+$username = 'username_example'; // string | The user name for login
+$password = 'password_example'; // string | The password for login in clear text
 
 try {
     $result = $apiInstance->loginUser($username, $password);
@@ -357,7 +357,7 @@ $apiInstance = new Swagger\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$username = "username_example"; // string | name that need to be deleted
+$username = 'username_example'; // string | name that need to be deleted
 $user = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Updated user object
 
 try {

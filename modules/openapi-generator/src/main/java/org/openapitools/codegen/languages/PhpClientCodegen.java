@@ -586,9 +586,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if ("String".equalsIgnoreCase(type) || p.isString) {
             if (example == null) {
-                example = p.paramName + "_example";
+                example = "'" + p.paramName + "_example'";
             }
-            example = "\"" + escapeText(example) + "\"";
+            example = escapeText(example);
         } else if ("Integer".equals(type) || "int".equals(type)) {
             if (example == null) {
                 example = "56";

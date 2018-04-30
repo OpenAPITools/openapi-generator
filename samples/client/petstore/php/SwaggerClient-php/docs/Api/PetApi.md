@@ -84,7 +84,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     $config
 );
 $pet_id = 56; // int | Pet id to delete
-$api_key = "api_key_example"; // string | 
+$api_key = 'api_key_example'; // string | 
 
 try {
     $apiInstance->deletePet($pet_id, $api_key);
@@ -137,7 +137,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$status = array("status_example"); // string[] | Status values that need to be considered for filter
+$status = array('status_example'); // string[] | Status values that need to be considered for filter
 
 try {
     $result = $apiInstance->findPetsByStatus($status);
@@ -190,7 +190,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$tags = array("tags_example"); // string[] | Tags to filter by
+$tags = array('tags_example'); // string[] | Tags to filter by
 
 try {
     $result = $apiInstance->findPetsByTags($tags);
@@ -347,8 +347,8 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     $config
 );
 $pet_id = 56; // int | ID of pet that needs to be updated
-$name = "name_example"; // string | Updated name of the pet
-$status = "status_example"; // string | Updated status of the pet
+$name = 'name_example'; // string | Updated name of the pet
+$status = 'status_example'; // string | Updated status of the pet
 
 try {
     $apiInstance->updatePetWithForm($pet_id, $name, $status);
@@ -401,7 +401,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     $config
 );
 $pet_id = 56; // int | ID of pet to update
-$additional_metadata = "additional_metadata_example"; // string | Additional data to pass to server
+$additional_metadata = 'additional_metadata_example'; // string | Additional data to pass to server
 $file = "/path/to/file.txt"; // \SplFileObject | file to upload
 
 try {
