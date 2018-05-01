@@ -52,13 +52,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
     protected String packageVersion = "1.0.0";
-    protected String packageName = "IO.Swagger";
-    protected String packageTitle = "Swagger Library";
-    protected String packageProductName = "SwaggerLibrary";
-    protected String packageDescription = "A library generated from a Swagger doc";
-    protected String packageCompany = "Swagger";
+    protected String packageName = "Org.OpenAPITools";
+    protected String packageTitle = "OpenAPI Library";
+    protected String packageProductName = "OpenAPILibrary";
+    protected String packageDescription = "A library generated from a OpenAPI doc";
+    protected String packageCompany = "OpenAPI";
     protected String packageCopyright = "No Copyright";
-    protected String packageAuthors = "Swagger";
+    protected String packageAuthors = "OpenAPI";
 
     protected String interfacePrefix = "I";
 
@@ -98,7 +98,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
         reservedWords.addAll(
                 Arrays.asList(
-                        // set "client" as a reserved word to avoid conflicts with IO.Swagger.Client
+                        // set "client" as a reserved word to avoid conflicts with Org.OpenAPITools.Client
                         // this is a workaround and can be removed if c# api client is updated to use
                         // fully qualified name
                         "Client", "client", "parameter",
@@ -233,7 +233,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            LOGGER.warn(String.format("%s is not used by C# generators. Please use %s", CodegenConstants.INVOKER_PACKAGE, CodegenConstants.PACKAGE_NAME));
+            LOGGER.warn(String.format("%s is not used by C# generators. Please use %s",
+                    CodegenConstants.INVOKER_PACKAGE, CodegenConstants.PACKAGE_NAME));
         }
 
         // {{packageTitle}}
@@ -663,7 +664,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     /**
      * Return the example value of the property
      *
-     * @param p Swagger property object
+     * @param p OpenAPI property object
      * @return string presentation of the example value of the property
      */
     @Override
@@ -696,7 +697,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     /**
      * Return the default value of the property
      *
-     * @param p Swagger property object
+     * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
     @Override

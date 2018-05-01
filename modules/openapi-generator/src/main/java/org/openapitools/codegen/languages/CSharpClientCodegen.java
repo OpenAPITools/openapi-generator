@@ -55,7 +55,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     private static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
 
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase() + "}";
-    protected String clientPackage = "IO.Swagger.Client";
+    protected String clientPackage = "Org.OpenAPITools.Client";
     protected String localVariablePrefix = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -379,8 +379,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 clientPackageDir, "ApiResponse.cs"));
         supportingFiles.add(new SupportingFile("ExceptionFactory.mustache",
                 clientPackageDir, "ExceptionFactory.cs"));
-        supportingFiles.add(new SupportingFile("SwaggerDateConverter.mustache",
-                clientPackageDir, "SwaggerDateConverter.cs"));
+        supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache",
+                clientPackageDir, "OpenAPIDateConverter.cs"));
 
         if (NET40.equals(this.targetFramework)) {
             // .net 4.0 doesn't include ReadOnlyDictionary…

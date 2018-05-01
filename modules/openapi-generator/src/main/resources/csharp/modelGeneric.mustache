@@ -105,7 +105,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
         /// </summary>{{#description}}
         /// <value>{{description}}</value>{{/description}}
         [DataMember(Name="{{baseName}}", EmitDefaultValue={{emitDefaultValue}})]{{#isDate}}
-        [JsonConverter(typeof(SwaggerDateConverter))]{{/isDate}}
+        [JsonConverter(typeof(OpenAPIDateConverter))]{{/isDate}}
         public {{{datatype}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
         {{/isEnum}}
         {{/isInherited}}
