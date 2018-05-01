@@ -544,7 +544,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
         if (typeMapping.containsKey(openAPIType)) {
             return typeMapping.get(openAPIType);
-        } else if (openAPIType == "object") {
+        } else if ("object".equals(openAPIType)) {
             return "A.Value";
         } else {
             return toModelName(openAPIType);
@@ -564,8 +564,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             return "(Map.Map Text " + inner + ")";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
-            return inner;
+            return getSchemaType(ap.getItems());
         } else {
             return null;
         }
@@ -575,7 +574,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation op, Map<String, List<CodegenOperation>> operations) {
 
         List<CodegenOperation> opList = operations.get(tag);
-        if (opList == null) {
+        if (opList == null || opList.isEmpty()) {
             opList = new ArrayList<CodegenOperation>();
             operations.put(tag, opList);
         }
@@ -797,7 +796,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 }
             }
         }
-        if (returnType.indexOf(" ") >= 0) {
+        if (returnType.contains(" ")) {
             returnType = "(" + returnType + ")";
         }
         op.vendorExtensions.put(X_RETURN_TYPE, returnType);
@@ -829,8 +828,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (op.vendorExtensions.containsKey(X_INLINE_CONTENT_TYPE)) return;
         if ((boolean) additionalProperties.get(PROP_INLINE_MIME_TYPES)
                 && op.consumes.size() == 1
-                && op.consumes.get(0).get(X_MEDIA_DATA_TYPE) != MIME_ANY
-                && op.consumes.get(0).get(X_MEDIA_DATA_TYPE) != MIME_NO_CONTENT) {
+                && !MIME_ANY.equals(op.consumes.get(0).get(X_MEDIA_DATA_TYPE))
+                && !MIME_NO_CONTENT.equals(op.consumes.get(0).get(X_MEDIA_DATA_TYPE))) {
             op.vendorExtensions.put(X_INLINE_CONTENT_TYPE, m);
             for (CodegenParameter param : op.allParams) {
                 if (param.isBodyParam && param.required) {
@@ -843,8 +842,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     private void processInlineProducesContentType(CodegenOperation op, Map<String, String> m) {
         if ((boolean) additionalProperties.get(PROP_INLINE_MIME_TYPES)
                 && op.produces.size() == 1
-                && op.produces.get(0).get(X_MEDIA_DATA_TYPE) != MIME_ANY
-                && op.produces.get(0).get(X_MEDIA_DATA_TYPE) != MIME_NO_CONTENT) {
+                && !MIME_ANY.equals(op.produces.get(0).get(X_MEDIA_DATA_TYPE))
+                && !MIME_NO_CONTENT.equals(op.produces.get(0).get(X_MEDIA_DATA_TYPE))) {
             op.vendorExtensions.put(X_INLINE_ACCEPT, m);
         }
     }
