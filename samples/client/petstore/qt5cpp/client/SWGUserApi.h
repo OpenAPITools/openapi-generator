@@ -15,6 +15,7 @@
 
 #include "SWGHttpRequest.h"
 
+#include <QList>
 #include <QString>
 #include "SWGUser.h"
 
@@ -34,14 +35,14 @@ public:
     QString basePath;
     QMap<QString, QString> defaultHeaders;
 
-    void createUser(SWGUser& swg_user);
+    void createUser(std::shared_ptr<SWGSWGUser>& swg_user);
     void createUsersWithArrayInput(QList<SWGUser*>*& swg_user);
     void createUsersWithListInput(QList<SWGUser*>*& swg_user);
     void deleteUser(QString* username);
     void getUserByName(QString* username);
     void loginUser(QString* username, QString* password);
     void logoutUser();
-    void updateUser(QString* username, SWGUser& swg_user);
+    void updateUser(QString* username, std::shared_ptr<SWGSWGUser>& swg_user);
     
 private:
     void createUserCallback (SWGHttpRequestWorker * worker);

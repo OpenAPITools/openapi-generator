@@ -30,7 +30,7 @@ SWGUserApi::SWGUserApi(QString host, QString basePath) {
 }
 
 void
-SWGUserApi::createUser(SWGUser& swg_user) {
+SWGUserApi::createUser(std::shared_ptr<SWGSWGUser>& swg_user) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user");
 
@@ -418,7 +418,7 @@ SWGUserApi::logoutUserCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGUserApi::updateUser(QString* username, SWGUser& swg_user) {
+SWGUserApi::updateUser(QString* username, std::shared_ptr<SWGSWGUser>& swg_user) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
 
