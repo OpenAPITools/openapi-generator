@@ -22,7 +22,7 @@
 {{classname}} <- R6::R6Class(
   '{{classname}}',
   public = list(
-    userAgent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{{packageVersion}}}/r{{/httpUserAgent}}",
+    userAgent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/r{{/httpUserAgent}}",
     apiClient = NULL,
     initialize = function(apiClient){
       if (!missing(apiClient)) {
