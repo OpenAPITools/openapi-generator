@@ -546,4 +546,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public void setWithXml(boolean withXml) {
         this.withXml = withXml;
     }
+
+    @Override
+    public String toDefaultValue(Schema schema) {
+        if (schema.getDefault() != null) {
+            return schema.getDefault().toString();
+        } else {
+            return null;
+        }
+    }
 }

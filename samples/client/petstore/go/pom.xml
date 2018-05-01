@@ -69,21 +69,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>go-get-resty</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>go</executable>
-                            <arguments>
-                                <argument>get</argument>
-                                <argument>gopkg.in/go-resty/resty.v0</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>go-get-resty</id>
+                        <id>go-get-optional</id>
                         <phase>pre-integration-test</phase>
                         <goals>
                             <goal>exec</goal>
