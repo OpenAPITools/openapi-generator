@@ -4207,49 +4207,29 @@ public class DefaultCodegen implements CodegenConfig {
             schema = schemas.get(name);
         }
 
-        if (ModelUtils.isObjectSchema(schema)) {
-            CodegenModel codegenModel = null;
-            if (StringUtils.isNotBlank(name)) {
-                schema.setName(name);
-                codegenModel = fromModel(name, schema, schemas);
+        if (ModelUtils.isMapSchema(schema)) {
+            Schema inner = (Schema) schema.getAdditionalProperties();
+            if (inner == null) {
+                inner = new StringSchema().description("//TODO automatically added by openapi-generator");
+                schema.setAdditionalProperties(inner);
             }
+            CodegenProperty codegenProperty = fromProperty("property", schema);
+            // only support 1-dimension map only
+            imports.add(codegenProperty.baseType);
 
-            if (codegenModel != null && !codegenModel.emptyVars) {
-                if (StringUtils.isEmpty(bodyParameterName)) {
-                    codegenParameter.baseName = codegenModel.classname;
-                } else {
-                    codegenParameter.baseName = bodyParameterName;
-                }
-                codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                codegenParameter.baseType = codegenModel.classname;
-                codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
-                codegenParameter.description = codegenModel.description;
-                imports.add(codegenParameter.baseType);
+            if (StringUtils.isEmpty(bodyParameterName)) {
+                codegenParameter.baseName = "request_body";
             } else {
-                CodegenProperty codegenProperty = fromProperty("property", schema);
-                if (schema.getAdditionalProperties() != null) {// http body is map
-                    LOGGER.info("Map not supported in HTTP request body");
-                } else if (codegenProperty != null) {
-                    LOGGER.warn("The folowing schema has undefined (null) baseType. " +
-                            "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
-                            "A correct 'consumes' for form parameters should be " +
-                            "'application/x-www-form-urlencoded' or 'multipart/form-data'");
-                    LOGGER.warn("schema: " + schema);
-                    LOGGER.warn("Defaulting baseType to UNKNOWN_BASE_TYPE");
-                    codegenProperty.baseType = "UNKNOWN_BASE_TYPE";
-
-                    codegenParameter.baseName = codegenProperty.baseType;
-                    codegenParameter.baseType = codegenProperty.baseType;
-                    codegenParameter.dataType = codegenProperty.datatype;
-                    codegenParameter.description = codegenProperty.description;
-                    codegenParameter.paramName = toParamName(codegenProperty.baseType);
-
-                    if (codegenProperty.complexType != null) {
-                        imports.add(codegenProperty.complexType);
-                    }
-                }
-                setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+                codegenParameter.baseName = bodyParameterName;
             }
+            codegenParameter.paramName = toParamName(codegenParameter.baseName);
+            codegenParameter.items = codegenProperty.items;
+            codegenParameter.dataType = getTypeDeclaration(inner);
+            codegenParameter.baseType = getSchemaType(inner);
+            codegenParameter.isContainer = Boolean.TRUE;
+            codegenParameter.isMapContainer = Boolean.TRUE;
+
+            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
         } else if (ModelUtils.isArraySchema(schema)) {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = arraySchema.getItems();
@@ -4289,29 +4269,51 @@ public class DefaultCodegen implements CodegenConfig {
                 imports.add(codegenProperty.baseType);
                 codegenProperty = codegenProperty.items;
             }
-        } else if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = (Schema) schema.getAdditionalProperties();
-            if (inner == null) {
-                inner = new StringSchema().description("//TODO automatically added by openapi-generator");
-                schema.setAdditionalProperties(inner);
-            }
-            CodegenProperty codegenProperty = fromProperty("property", schema);
-            // only support 1-dimension map only
-            imports.add(codegenProperty.baseType);
 
-            if (StringUtils.isEmpty(bodyParameterName)) {
-                codegenParameter.baseName = "request_body";
+        } else if (ModelUtils.isObjectSchema(schema)) {
+            CodegenModel codegenModel = null;
+            if (StringUtils.isNotBlank(name)) {
+                schema.setName(name);
+                codegenModel = fromModel(name, schema, schemas);
+            }
+
+            if (codegenModel != null && !codegenModel.emptyVars) {
+                if (StringUtils.isEmpty(bodyParameterName)) {
+                    codegenParameter.baseName = codegenModel.classname;
+                } else {
+                    codegenParameter.baseName = bodyParameterName;
+                }
+                codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                codegenParameter.baseType = codegenModel.classname;
+                codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
+                codegenParameter.description = codegenModel.description;
+                imports.add(codegenParameter.baseType);
             } else {
-                codegenParameter.baseName = bodyParameterName;
-            }
-            codegenParameter.paramName = toParamName(codegenParameter.baseName);
-            codegenParameter.items = codegenProperty.items;
-            codegenParameter.dataType = getTypeDeclaration(inner);
-            codegenParameter.baseType = getSchemaType(inner);
-            codegenParameter.isContainer = Boolean.TRUE;
-            codegenParameter.isMapContainer = Boolean.TRUE;
+                CodegenProperty codegenProperty = fromProperty("property", schema);
+                if (schema.getAdditionalProperties() != null) {// http body is map
+                    LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
+                } else if (codegenProperty != null) {
+                    LOGGER.warn("The folowing schema has undefined (null) baseType. " +
+                            "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
+                            "A correct 'consumes' for form parameters should be " +
+                            "'application/x-www-form-urlencoded' or 'multipart/form-data'");
+                    LOGGER.warn("schema: " + schema);
+                    LOGGER.warn("Defaulting baseType to UNKNOWN_BASE_TYPE");
+                    codegenProperty.baseType = "UNKNOWN_BASE_TYPE";
 
-            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+                    codegenParameter.baseName = codegenProperty.baseType;
+                    codegenParameter.baseType = codegenProperty.baseType;
+                    codegenParameter.dataType = codegenProperty.datatype;
+                    codegenParameter.description = codegenProperty.description;
+                    codegenParameter.paramName = toParamName(codegenProperty.baseType);
+
+                    if (codegenProperty.complexType != null) {
+                        imports.add(codegenProperty.complexType);
+                    }
+                }
+                setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+            }
+
         } else {
             // HTTP request body is primitive type (e.g. integer, string, etc)
             CodegenProperty codegenProperty = fromProperty("PRIMITIVE_REQUEST_BODY", schema);
