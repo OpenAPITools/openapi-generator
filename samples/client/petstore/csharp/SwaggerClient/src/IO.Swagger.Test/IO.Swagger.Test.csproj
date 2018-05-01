@@ -85,9 +85,6 @@ Contact: apiteam@swagger.io
       </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Client\" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="linux-logo.png" />
   </ItemGroup>
 </Project>

@@ -507,7 +507,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **long?**| ID of pet to update | 
  **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
- **file** | **System.IO.Stream****System.IO.Stream**| file to upload | [optional] 
+ **file** | **System.IO.Stream**| file to upload | [optional] 
 
 ### Return type
 
