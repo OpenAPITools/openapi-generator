@@ -196,7 +196,7 @@ SWGStoreApi::getOrderByIdCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGStoreApi::placeOrder(SWGOrder& swg_order) {
+SWGStoreApi::placeOrder(std::shared_ptr<SWGSWGOrder>& swg_order) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order");
 

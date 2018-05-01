@@ -1148,6 +1148,18 @@ public class DefaultCodegen implements CodegenConfig {
      **/
     @SuppressWarnings("static-method")
     public String getSchemaType(Schema schema) {
+        // TODO better logic to handle compose schema
+        if (schema instanceof ComposedSchema) { // composed schema
+            ComposedSchema cs = (ComposedSchema) schema;
+            for (Schema s : cs.getAllOf()) {
+                if (s != null) {
+                    // using the first schema defined in allOf
+                    schema = s;
+                    break;
+                }
+            }
+        }
+
         if (StringUtils.isNotBlank(schema.get$ref())) { // object
             // get the schema/model name from $ref
             String schemaName = ModelUtils.getSimpleRef(schema.get$ref());

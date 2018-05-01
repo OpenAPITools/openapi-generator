@@ -38,7 +38,7 @@ public:
     void deleteOrder(QString* order_id);
     void getInventory();
     void getOrderById(qint64 order_id);
-    void placeOrder(SWGOrder& swg_order);
+    void placeOrder(std::shared_ptr<SWGSWGOrder>& swg_order);
     
 private:
     void deleteOrderCallback (SWGHttpRequestWorker * worker);

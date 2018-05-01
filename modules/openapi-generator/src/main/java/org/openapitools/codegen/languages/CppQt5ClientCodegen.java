@@ -345,6 +345,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
+
         String type = null;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
@@ -362,6 +363,11 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
 
     @Override
     public String toModelName(String type) {
+        if (type == null) {
+            LOGGER.warn("Model name can't be null. Defaul to 'UnknownModel'.");
+            type = "UnknownModel";
+        }
+
         if (typeMapping.keySet().contains(type) ||
                 typeMapping.values().contains(type) ||
                 importMapping.values().contains(type) ||

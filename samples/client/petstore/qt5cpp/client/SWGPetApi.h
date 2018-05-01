@@ -36,12 +36,12 @@ public:
     QString basePath;
     QMap<QString, QString> defaultHeaders;
 
-    void addPet(SWGPet& swg_pet);
+    void addPet(std::shared_ptr<SWGSWGPet>& swg_pet);
     void deletePet(qint64 pet_id, QString* api_key);
     void findPetsByStatus(QList<QString*>* status);
     void findPetsByTags(QList<QString*>* tags);
     void getPetById(qint64 pet_id);
-    void updatePet(SWGPet& swg_pet);
+    void updatePet(std::shared_ptr<SWGSWGPet>& swg_pet);
     void updatePetWithForm(qint64 pet_id, QString* name, QString* status);
     void uploadFile(qint64 pet_id, QString* additional_metadata, SWGHttpRequestInputFileElement* file);
     
