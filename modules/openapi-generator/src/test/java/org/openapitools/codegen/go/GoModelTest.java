@@ -38,7 +38,7 @@ public class GoModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.datatype, "int64");
         Assert.assertEquals(property1.name, "Id");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int64");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
@@ -49,7 +49,7 @@ public class GoModelTest {
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.datatype, "string");
         Assert.assertEquals(property2.name, "Name");
-        Assert.assertEquals(property2.defaultValue, "null");
+        Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "string");
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
@@ -61,7 +61,7 @@ public class GoModelTest {
         Assert.assertEquals(property3.complexType, "time.Time");
         Assert.assertEquals(property3.datatype, "time.Time");
         Assert.assertEquals(property3.name, "CreatedAt");
-        Assert.assertEquals(property3.defaultValue, "null");
+        Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "time.Time");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
@@ -88,7 +88,7 @@ public class GoModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.datatype, "int64");
         Assert.assertEquals(property1.name, "Id");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int64");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
