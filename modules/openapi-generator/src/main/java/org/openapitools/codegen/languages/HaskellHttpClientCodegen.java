@@ -807,6 +807,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             SetNoContent(op, X_INLINE_CONTENT_TYPE);
         }
         if (op.hasConsumes) {
+            // deduplicate
+            Map<String, Map<String, String>> consumes = new HashMap<>();
+            for (Map<String, String> m : op.consumes) {
+                consumes.put(m.get(MEDIA_TYPE), m);
+            }
+            op.consumes = new ArrayList<>(consumes.values());
+
+            // add metadata
             for (Map<String, String> m : op.consumes) {
                 processMediaType(op, m);
                 processInlineConsumesContentType(op, m);
@@ -817,6 +825,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             }
         }
         if (op.hasProduces) {
+            // deduplicate
+            Map<String, Map<String, String>> produces = new HashMap<>();
+            for (Map<String, String> m : op.produces) {
+                produces.put(m.get(MEDIA_TYPE), m);
+            }
+            op.produces = new ArrayList<>(produces.values());
+
+            // add metadata
             for (Map<String, String> m : op.produces) {
                 processMediaType(op, m);
                 processInlineProducesContentType(op, m);
@@ -920,8 +936,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     private void processPathExpr(CodegenOperation op) {
         String xPath = "[\"" + escapeText(op.path) + "\"]";
         if (op.getHasPathParams()) {
-            for (CodegenParameter param : op.pathParams) {
-                xPath = xPath.replaceAll("\\{" + param.baseName + "\\}", "\",toPath " + param.paramName + ",\"");
+            for (CodegenParameter param : op.allParams) {
+                if(param.isPathParam) {
+                  xPath = xPath.replaceAll("\\{" + param.baseName + "\\}", "\",toPath " + param.paramName + ",\"");
+                }
             }
             xPath = xPath.replaceAll(",\"\",", ",");
             xPath = xPath.replaceAll("\"\",", ",");
