@@ -94,9 +94,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-spring";
 
-        additionalProperties.put(CONFIG_PACKAGE, configPackage);
-        additionalProperties.put(BASE_PACKAGE, basePackage);
-
         // spring uses the jackson lib
         additionalProperties.put("jackson", "true");
 
@@ -158,8 +155,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
         }
 
-        // set invokerPackage as basePackage
-        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+        if (!additionalProperties.containsKey(BASE_PACKAGE) && additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            // set invokerPackage as basePackage:
             this.setBasePackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
             additionalProperties.put(BASE_PACKAGE, basePackage);
             LOGGER.info("Set base package to invoker package (" + basePackage + ")");
@@ -179,10 +176,14 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(CONFIG_PACKAGE)) {
             this.setConfigPackage((String) additionalProperties.get(CONFIG_PACKAGE));
+        } else {
+            additionalProperties.put(CONFIG_PACKAGE, configPackage);
         }
 
         if (additionalProperties.containsKey(BASE_PACKAGE)) {
             this.setBasePackage((String) additionalProperties.get(BASE_PACKAGE));
+        } else {
+            additionalProperties.put(BASE_PACKAGE, basePackage);
         }
 
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
@@ -622,8 +623,16 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.configPackage = configPackage;
     }
 
-    public void setBasePackage(String configPackage) {
-        this.basePackage = configPackage;
+    public String getConfigPackage() {
+        return this.configPackage;
+    }
+
+    public void setBasePackage(String basePackage) {
+        this.basePackage = basePackage;
+    }
+
+    public String getBasePackage() {
+        return this.basePackage;
     }
 
     public void setInterfaceOnly(boolean interfaceOnly) { this.interfaceOnly = interfaceOnly; }
