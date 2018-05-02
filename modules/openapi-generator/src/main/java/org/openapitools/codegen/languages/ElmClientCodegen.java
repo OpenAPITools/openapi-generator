@@ -48,7 +48,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private Set<String> customPrimitives = new HashSet<String>();
 
-    protected String packageName = "swagger";
+    protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
 
     public CodegenType getTag() {
