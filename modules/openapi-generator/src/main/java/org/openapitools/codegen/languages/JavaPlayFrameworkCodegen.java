@@ -17,14 +17,16 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.features.*;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.media.Schema;
 
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 
 import java.io.File;
 import java.util.List;
@@ -68,8 +70,6 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         projectTestFolder = projectFolder + File.separator + "test";
         testFolder = projectTestFolder;
 
-        additionalProperties.put(CONFIG_PACKAGE, configPackage);
-        additionalProperties.put(BASE_PACKAGE, basePackage);
         additionalProperties.put("java8", true);
         additionalProperties.put("jackson", "true");
 
@@ -117,10 +117,14 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
         if (additionalProperties.containsKey(CONFIG_PACKAGE)) {
             this.setConfigPackage((String) additionalProperties.get(CONFIG_PACKAGE));
+        } else {
+            additionalProperties.put(CONFIG_PACKAGE, configPackage);
         }
 
         if (additionalProperties.containsKey(BASE_PACKAGE)) {
             this.setBasePackage((String) additionalProperties.get(BASE_PACKAGE));
+        } else {
+            additionalProperties.put(BASE_PACKAGE, basePackage);
         }
 
         if (additionalProperties.containsKey(CONTROLLER_ONLY)) {
@@ -233,12 +237,20 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         this.title = title;
     }
 
+    public String getConfigPackage() {
+        return configPackage;
+    }
+
     public void setConfigPackage(String configPackage) {
         this.configPackage = configPackage;
     }
 
-    public void setBasePackage(String configPackage) {
-        this.basePackage = configPackage;
+    public String getBasePackage() {
+        return basePackage;
+    }
+
+    public void setBasePackage(String basePackage) {
+        this.basePackage = basePackage;
     }
 
     public void setControllerOnly(boolean controllerOnly) {
