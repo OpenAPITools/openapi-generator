@@ -524,6 +524,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [Takuro Wada](https://github.com/taxpon)
 - [Tomasz Prus](https://github.com/tomplus)
 - [Tristan Sloughter](https://github.com/tsloughter)
+- [Victor Orlovsky](https://github.com/viclovsky)
 - [Victor Trakhtenberg](https://github.com/victorgit)
 - [Vlad Frolov](https://github.com/frol)
 - [Vladimir Pouzanov](https://github.com/farcaller)
