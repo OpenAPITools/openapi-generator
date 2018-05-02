@@ -146,55 +146,55 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         );
         reservedWords = new HashSet<>(
                 Arrays.asList(
-                    // name used by swift client
-                    "ErrorResponse", "Response",
+                        // name used by swift client
+                        "ErrorResponse", "Response",
 
-                    // Added for Objective-C compatibility
-                    "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
-                    "NSError", "NSDictionary", 
+                        // Added for Objective-C compatibility
+                        "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
+                        "NSError", "NSDictionary",
 
-                    //
-                    // Swift keywords. This list is taken from here:
-                    // https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/LexicalStructure.html#//apple_ref/doc/uid/TP40014097-CH30-ID410
-                    //
-                    // Keywords used in declarations
-                    "associatedtype", "class", "deinit", "enum", "extension", "fileprivate", "func", "import", "init",
-                    "inout", "internal", "let", "open", "operator", "private", "protocol", "public", "static", "struct",
-                    "subscript", "typealias", "var",
-                    // Keywords uses in statements
-                    "break", "case", "continue", "default", "defer", "do", "else", "fallthrough", "for", "guard", "if",
-                    "in", "repeat", "return", "switch", "where", "while",
-                    // Keywords used in expressions and types
-                    "as", "Any", "catch", "false", "is", "nil", "rethrows", "super", "self", "Self", "throw", "throws", "true", "try",
-                    // Keywords used in patterns
-                    "_",
-                    // Keywords that begin with a number sign
-                    "#available", "#colorLiteral", "#column", "#else", "#elseif", "#endif", "#file", "#fileLiteral", "#function", "#if",
-                    "#imageLiteral", "#line", "#selector", "#sourceLocation",
-                    // Keywords reserved in particular contexts
-                    "associativity", "convenience", "dynamic", "didSet", "final", "get", "infix", "indirect", "lazy", "left",
-                    "mutating", "none", "nonmutating", "optional", "override", "postfix", "precedence", "prefix", "Protocol",
-                    "required", "right", "set", "Type", "unowned", "weak", "willSet",
+                        //
+                        // Swift keywords. This list is taken from here:
+                        // https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/LexicalStructure.html#//apple_ref/doc/uid/TP40014097-CH30-ID410
+                        //
+                        // Keywords used in declarations
+                        "associatedtype", "class", "deinit", "enum", "extension", "fileprivate", "func", "import", "init",
+                        "inout", "internal", "let", "open", "operator", "private", "protocol", "public", "static", "struct",
+                        "subscript", "typealias", "var",
+                        // Keywords uses in statements
+                        "break", "case", "continue", "default", "defer", "do", "else", "fallthrough", "for", "guard", "if",
+                        "in", "repeat", "return", "switch", "where", "while",
+                        // Keywords used in expressions and types
+                        "as", "Any", "catch", "false", "is", "nil", "rethrows", "super", "self", "Self", "throw", "throws", "true", "try",
+                        // Keywords used in patterns
+                        "_",
+                        // Keywords that begin with a number sign
+                        "#available", "#colorLiteral", "#column", "#else", "#elseif", "#endif", "#file", "#fileLiteral", "#function", "#if",
+                        "#imageLiteral", "#line", "#selector", "#sourceLocation",
+                        // Keywords reserved in particular contexts
+                        "associativity", "convenience", "dynamic", "didSet", "final", "get", "infix", "indirect", "lazy", "left",
+                        "mutating", "none", "nonmutating", "optional", "override", "postfix", "precedence", "prefix", "Protocol",
+                        "required", "right", "set", "Type", "unowned", "weak", "willSet",
 
-                    //
-                    // Swift Standard Library types
-                    // https://developer.apple.com/documentation/swift
-                    //
-                    // Numbers and Basic Values
-                    "Bool", "Int", "Double", "Float", "Range", "ClosedRange", "Error", "Optional",
-                    // Special-Use Numeric Types
-                    "UInt", "UInt8", "UInt16", "UInt32", "UInt64", "Int8", "Int16", "Int32", "Int64", "Float80", "Float32", "Float64",
-                    // Strings and Text
-                    "String", "Character", "Unicode", "StaticString",
-                    // Collections
-                    "Array", "Dictionary", "Set", "OptionSet", "CountableRange", "CountableClosedRange",
+                        //
+                        // Swift Standard Library types
+                        // https://developer.apple.com/documentation/swift
+                        //
+                        // Numbers and Basic Values
+                        "Bool", "Int", "Double", "Float", "Range", "ClosedRange", "Error", "Optional",
+                        // Special-Use Numeric Types
+                        "UInt", "UInt8", "UInt16", "UInt32", "UInt64", "Int8", "Int16", "Int32", "Int64", "Float80", "Float32", "Float64",
+                        // Strings and Text
+                        "String", "Character", "Unicode", "StaticString",
+                        // Collections
+                        "Array", "Dictionary", "Set", "OptionSet", "CountableRange", "CountableClosedRange",
 
-                    // The following are commonly-used Foundation types
-                    "URL", "Data", "Codable", "Encodable", "Decodable",
+                        // The following are commonly-used Foundation types
+                        "URL", "Data", "Codable", "Encodable", "Decodable",
 
-                    // The following are other words we want to reserve
-                    "Void", "AnyObject", "Class", "dynamicType", "COLUMN", "FILE", "FUNCTION", "LINE"
-                    )
+                        // The following are other words we want to reserve
+                        "Void", "AnyObject", "Class", "dynamicType", "COLUMN", "FILE", "FUNCTION", "LINE"
+                )
         );
 
         typeMapping = new HashMap<>();
@@ -217,7 +217,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("double", "Double");
         typeMapping.put("object", "Any");
         typeMapping.put("file", "URL");
-        typeMapping.put("binary", "Data");
+        typeMapping.put("binary", "URL");
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
 
@@ -225,16 +225,16 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
         cliOptions.add(new CliOption(PROJECT_NAME, "Project name in Xcode"));
         cliOptions.add(new CliOption(RESPONSE_AS,
-                                     "Optionally use libraries to manage response.  Currently "
-                                     + StringUtils.join(RESPONSE_LIBRARIES, ", ")
-                                     + " are available."));
+                "Optionally use libraries to manage response.  Currently "
+                        + StringUtils.join(RESPONSE_LIBRARIES, ", ")
+                        + " are available."));
         cliOptions.add(new CliOption(UNWRAP_REQUIRED,
-                                     "Treat 'required' properties in response as non-optional "
-                                     + "(which would crash the app if api returns null as opposed "
-                                     + "to required option specified in json schema"));
+                "Treat 'required' properties in response as non-optional "
+                        + "(which would crash the app if api returns null as opposed "
+                        + "to required option specified in json schema"));
         cliOptions.add(new CliOption(OBJC_COMPATIBLE,
-                                     "Add additional properties and methods for Objective-C "
-                                     + "compatibility (default: false)"));
+                "Add additional properties and methods for Objective-C "
+                        + "compatibility (default: false)"));
         cliOptions.add(new CliOption(POD_SOURCE, "Source information used for Podspec"));
         cliOptions.add(new CliOption(CodegenConstants.POD_VERSION, "Version used for Podspec"));
         cliOptions.add(new CliOption(POD_AUTHORS, "Authors used for Podspec"));
@@ -246,16 +246,16 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(POD_DESCRIPTION, "Description used for Podspec"));
         cliOptions.add(new CliOption(POD_SCREENSHOTS, "Screenshots used for Podspec"));
         cliOptions.add(new CliOption(POD_DOCUMENTATION_URL,
-                                     "Documentation URL used for Podspec"));
+                "Documentation URL used for Podspec"));
         cliOptions.add(new CliOption(SWIFT_USE_API_NAMESPACE,
-                                     "Flag to make all the API classes inner-class "
-                                     + "of {{projectName}}API"));
+                "Flag to make all the API classes inner-class "
+                        + "of {{projectName}}API"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                                     CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
+                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(LENIENT_TYPE_CAST,
-                                     "Accept and cast values for simple types (string->bool, "
-                                     + "string->int, int->string)")
+                "Accept and cast values for simple types (string->bool, "
+                        + "string->int, int->string)")
                 .defaultValue(Boolean.FALSE.toString()));
     }
 
@@ -315,44 +315,44 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
 
         supportingFiles.add(new SupportingFile("Podspec.mustache",
-                                               "",
-                                               projectName + ".podspec"));
+                "",
+                projectName + ".podspec"));
         supportingFiles.add(new SupportingFile("Cartfile.mustache",
-                                               "",
-                                               "Cartfile"));
+                "",
+                "Cartfile"));
         supportingFiles.add(new SupportingFile("APIHelper.mustache",
-                                               sourceFolder,
-                                               "APIHelper.swift"));
+                sourceFolder,
+                "APIHelper.swift"));
         supportingFiles.add(new SupportingFile("AlamofireImplementations.mustache",
-                                               sourceFolder,
-                                               "AlamofireImplementations.swift"));
+                sourceFolder,
+                "AlamofireImplementations.swift"));
         supportingFiles.add(new SupportingFile("Configuration.mustache",
-                                               sourceFolder,
-                                               "Configuration.swift"));
+                sourceFolder,
+                "Configuration.swift"));
         supportingFiles.add(new SupportingFile("Extensions.mustache",
-                                               sourceFolder,
-                                               "Extensions.swift"));
+                sourceFolder,
+                "Extensions.swift"));
         supportingFiles.add(new SupportingFile("Models.mustache",
-                                               sourceFolder,
-                                               "Models.swift"));
+                sourceFolder,
+                "Models.swift"));
         supportingFiles.add(new SupportingFile("APIs.mustache",
-                                               sourceFolder,
-                                               "APIs.swift"));
+                sourceFolder,
+                "APIs.swift"));
         supportingFiles.add(new SupportingFile("CodableHelper.mustache",
-                                               sourceFolder,
-                                               "CodableHelper.swift"));
+                sourceFolder,
+                "CodableHelper.swift"));
         supportingFiles.add(new SupportingFile("JSONEncodableEncoding.mustache",
-                                               sourceFolder,
-                                               "JSONEncodableEncoding.swift"));
+                sourceFolder,
+                "JSONEncodableEncoding.swift"));
         supportingFiles.add(new SupportingFile("JSONEncodingHelper.mustache",
-                                               sourceFolder,
-                                               "JSONEncodingHelper.swift"));
+                sourceFolder,
+                "JSONEncodingHelper.swift"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache",
-                                               "",
-                                               "git_push.sh"));
+                "",
+                "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache",
-                                               "",
-                                               ".gitignore"));
+                "",
+                ".gitignore"));
 
     }
 
@@ -372,13 +372,13 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder
-               + modelPackage().replace('.', File.separatorChar);
+                + modelPackage().replace('.', File.separatorChar);
     }
 
     @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + sourceFolder
-               + apiPackage().replace('.', File.separatorChar);
+                + apiPackage().replace('.', File.separatorChar);
     }
 
     @Override
@@ -446,7 +446,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         if (isReservedWord(name)) {
             String modelName = "Model" + name;
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to "
-                        + modelName);
+                    + modelName);
             return modelName;
         }
 
@@ -455,8 +455,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             // e.g. 200Response => Model200Response (after camelize)
             String modelName = "Model" + name;
             LOGGER.warn(name
-                        + " (model name starts with number) cannot be used as model name."
-                        + " Renamed to " + modelName);
+                    + " (model name starts with number) cannot be used as model name."
+                    + " Renamed to " + modelName);
             return modelName;
         }
 
@@ -516,7 +516,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         if (isReservedWord(operationId)) {
             String newOperationId = camelize(("call_" + operationId), true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name."
-                        + " Renamed to " + newOperationId);
+                    + " Renamed to " + newOperationId);
             return newOperationId;
         }
 
@@ -583,8 +583,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             while (parentSchema != null) {
                 final Schema parentModel = allDefinitions.get(parentSchema);
                 final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent,
-                                                                        parentModel,
-                                                                        allDefinitions);
+                        parentModel,
+                        allDefinitions);
                 codegenModel = Swift4Codegen.reconcileProperties(codegenModel, parentCodegenModel);
 
                 // get the next parent
@@ -680,8 +680,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
         char[] separators = {'-', '_', ' ', ':', '(', ')'};
         return camelize(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
-                                 .replaceAll("[-_ :\\(\\)]", ""),
-                        true);
+                        .replaceAll("[-_ :\\(\\)]", ""),
+                true);
     }
 
     @Override
@@ -759,7 +759,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         // due to short-circuit evaluation of the || operator.
         boolean isSwiftOptional = !unwrapRequired || !property.required;
         boolean isSwiftScalarType = property.isInteger || property.isLong || property.isFloat
-                                    || property.isDouble || property.isBoolean;
+                || property.isDouble || property.isBoolean;
         if (isSwiftOptional && isSwiftScalarType) {
             // Optional scalar types like Int?, Int64?, Float?, Double?, and Bool?
             // do not translate to Objective-C. So we want to flag those
@@ -803,7 +803,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             Iterator<CodegenProperty> iterator = codegenProperties.iterator();
             while (iterator.hasNext()) {
                 CodegenProperty codegenProperty = iterator.next();
-                if (codegenProperty.baseName == parentModelCodegenProperty.baseName) {
+                if (codegenProperty.baseName.equals(parentModelCodegenProperty.baseName)) {
                     // We found a property in the child class that is
                     // a duplicate of the one in the parent, so remove it.
                     iterator.remove();
