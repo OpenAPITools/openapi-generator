@@ -11,11 +11,11 @@ import Foundation
 
 public struct OuterComposite: Codable {
 
-    public var myNumber: OuterNumber?
-    public var myString: OuterString?
-    public var myBoolean: OuterBoolean?
+    public var myNumber: Double?
+    public var myString: String?
+    public var myBoolean: Bool?
 
-    public init(myNumber: OuterNumber?, myString: OuterString?, myBoolean: OuterBoolean?) {
+    public init(myNumber: Double?, myString: String?, myBoolean: Bool?) {
         self.myNumber = myNumber
         self.myString = myString
         self.myBoolean = myBoolean

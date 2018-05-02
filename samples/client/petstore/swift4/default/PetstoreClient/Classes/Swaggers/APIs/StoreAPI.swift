@@ -32,9 +32,7 @@ open class StoreAPI {
      Delete purchase order by ID
      - DELETE /store/order/{order_id}
      - For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-     
      - parameter orderId: (path) ID of the order that needs to be deleted 
-
      - returns: RequestBuilder<Void> 
      */
     open class func deleteOrderWithRequestBuilder(orderId: String) -> RequestBuilder<Void> {
@@ -71,10 +69,6 @@ open class StoreAPI {
      - API Key:
        - type: apiKey api_key 
        - name: api_key
-     - examples: [{contentType=application/json, example={
-  "key" : 0
-}}]
-
      - returns: RequestBuilder<[String:Int]> 
      */
     open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String:Int]> {
@@ -106,39 +100,7 @@ open class StoreAPI {
      Find purchase order by ID
      - GET /store/order/{order_id}
      - For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-     - examples: [{contentType=application/xml, example=<Order>
-  <id>123456789</id>
-  <petId>123456789</petId>
-  <quantity>123</quantity>
-  <shipDate>2000-01-23T04:56:07.000Z</shipDate>
-  <status>aeiou</status>
-  <complete>true</complete>
-</Order>}, {contentType=application/json, example={
-  "petId" : 6,
-  "quantity" : 1,
-  "id" : 0,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : false,
-  "status" : "placed"
-}}]
-     - examples: [{contentType=application/xml, example=<Order>
-  <id>123456789</id>
-  <petId>123456789</petId>
-  <quantity>123</quantity>
-  <shipDate>2000-01-23T04:56:07.000Z</shipDate>
-  <status>aeiou</status>
-  <complete>true</complete>
-</Order>}, {contentType=application/json, example={
-  "petId" : 6,
-  "quantity" : 1,
-  "id" : 0,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : false,
-  "status" : "placed"
-}}]
-     
      - parameter orderId: (path) ID of pet that needs to be fetched 
-
      - returns: RequestBuilder<Order> 
      */
     open class func getOrderByIdWithRequestBuilder(orderId: Int64) -> RequestBuilder<Order> {
@@ -159,11 +121,11 @@ open class StoreAPI {
     /**
      Place an order for a pet
      
-     - parameter body: (body) order placed for purchasing the pet 
+     - parameter order: (body) order placed for purchasing the pet 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func placeOrder(body: Order, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void)) {
-        placeOrderWithRequestBuilder(body: body).execute { (response, error) -> Void in
+    open class func placeOrder(order: Order, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void)) {
+        placeOrderWithRequestBuilder(order: order).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -172,46 +134,13 @@ open class StoreAPI {
     /**
      Place an order for a pet
      - POST /store/order
-     - 
-     - examples: [{contentType=application/xml, example=<Order>
-  <id>123456789</id>
-  <petId>123456789</petId>
-  <quantity>123</quantity>
-  <shipDate>2000-01-23T04:56:07.000Z</shipDate>
-  <status>aeiou</status>
-  <complete>true</complete>
-</Order>}, {contentType=application/json, example={
-  "petId" : 6,
-  "quantity" : 1,
-  "id" : 0,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : false,
-  "status" : "placed"
-}}]
-     - examples: [{contentType=application/xml, example=<Order>
-  <id>123456789</id>
-  <petId>123456789</petId>
-  <quantity>123</quantity>
-  <shipDate>2000-01-23T04:56:07.000Z</shipDate>
-  <status>aeiou</status>
-  <complete>true</complete>
-</Order>}, {contentType=application/json, example={
-  "petId" : 6,
-  "quantity" : 1,
-  "id" : 0,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : false,
-  "status" : "placed"
-}}]
-     
-     - parameter body: (body) order placed for purchasing the pet 
-
+     - parameter order: (body) order placed for purchasing the pet 
      - returns: RequestBuilder<Order> 
      */
-    open class func placeOrderWithRequestBuilder(body: Order) -> RequestBuilder<Order> {
+    open class func placeOrderWithRequestBuilder(order: Order) -> RequestBuilder<Order> {
         let path = "/store/order"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: order)
 
         let url = URLComponents(string: URLString)
 

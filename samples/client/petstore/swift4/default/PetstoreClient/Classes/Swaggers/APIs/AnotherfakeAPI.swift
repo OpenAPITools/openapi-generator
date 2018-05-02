@@ -14,11 +14,11 @@ open class AnotherFakeAPI {
     /**
      To test special tags
      
-     - parameter body: (body) client model 
+     - parameter client: (body) client model 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testSpecialTags(body: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
-        testSpecialTagsWithRequestBuilder(body: body).execute { (response, error) -> Void in
+    open class func testSpecialTags(client: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
+        testSpecialTagsWithRequestBuilder(client: client).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -28,18 +28,13 @@ open class AnotherFakeAPI {
      To test special tags
      - PATCH /another-fake/dummy
      - To test special tags
-     - examples: [{contentType=application/json, example={
-  "client" : "client"
-}}]
-     
-     - parameter body: (body) client model 
-
+     - parameter client: (body) client model 
      - returns: RequestBuilder<Client> 
      */
-    open class func testSpecialTagsWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
+    open class func testSpecialTagsWithRequestBuilder(client: Client) -> RequestBuilder<Client> {
         let path = "/another-fake/dummy"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: client)
 
         let url = URLComponents(string: URLString)
 
