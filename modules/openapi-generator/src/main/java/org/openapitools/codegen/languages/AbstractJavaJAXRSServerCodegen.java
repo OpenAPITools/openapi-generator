@@ -40,7 +40,8 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
-    /**
+    public static final String SERVER_PORT = "serverPort";
+	/**
      * Name of the sub-directory in "src/main/resource" where to find the
      * Mustache template for the JAX-RS Codegen.
      */
@@ -72,7 +73,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         cliOptions.add(new CliOption("title", "a title describing the application"));
 
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
-        cliOptions.add(new CliOption("serverPort", "The port on which the server should be started"));
+        cliOptions.add(new CliOption(SERVER_PORT, "The port on which the server should be started"));
     }
 
 
@@ -111,10 +112,10 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         }
         */
 
-        if (!this.additionalProperties.containsKey("serverPort")) {
+        if (!this.additionalProperties.containsKey(SERVER_PORT)) {
             URL url = URLPathUtils.getServerURL(openAPI);
             // 8080 is the default value for a JEE Server:
-            this.additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
+            this.additionalProperties.put(SERVER_PORT, URLPathUtils.getPort(url, 8080));
         }
 
         if (openAPI.getPaths() != null) {

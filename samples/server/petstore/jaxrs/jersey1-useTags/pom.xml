@@ -38,7 +38,7 @@
           <stopKey>stopit</stopKey>
           <stopWait>10</stopWait>
           <httpConnector>
-            <port>8080</port>
+            <port>8082</port>
             <idleTimeout>60000</idleTimeout>
           </httpConnector>
         </configuration>

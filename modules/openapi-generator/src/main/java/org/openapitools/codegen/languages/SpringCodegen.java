@@ -53,6 +53,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, OptionalFeatures {
     public static final String DEFAULT_LIBRARY = "spring-boot";
     public static final String TITLE = "title";
+    public static final String SERVER_PORT = "serverPort";
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String INTERFACE_ONLY = "interfaceOnly";
@@ -211,7 +212,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(USE_TAGS)) {
             this.setUseTags(Boolean.valueOf(additionalProperties.get(USE_TAGS).toString()));
         }
-        
+
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
@@ -234,7 +235,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         typeMapping.put("file", "Resource");
         importMapping.put("Resource", "org.springframework.core.io.Resource");
-        
+
         if (useOptional) {
             writePropertyBack(USE_OPTIONAL, useOptional);
         }
@@ -313,7 +314,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "JacksonConfiguration.java"));
             }
         }
-        
+
         if ((!this.delegatePattern && this.java8) || this.delegateMethod) {
             additionalProperties.put("jdk8-no-delegate", true);
         }
@@ -429,8 +430,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(TITLE, this.title);
         }
 
-        URL url = URLPathUtils.getServerURL(openAPI);
-        this.additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
+        if(!additionalProperties.containsKey(SERVER_PORT)) {
+            URL url = URLPathUtils.getServerURL(openAPI);
+            this.additionalProperties.put(SERVER_PORT, URLPathUtils.getPort(url, 8080));
+        }
 
         if (openAPI.getPaths() != null) {
             for (String pathname : openAPI.getPaths().keySet()) {
@@ -693,7 +696,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         return objs;
     }
-    
+
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
     }

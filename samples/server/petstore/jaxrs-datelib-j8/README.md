@@ -16,7 +16,7 @@ mvn clean package jetty:run
 You can then view the swagger listing here:
 
 ```
-http://localhost:80/v2/openapi.json
+http://localhost:8082/v2/openapi.json
 ```
 
 Note that if you have configured the `host` to be something other than localhost, the calls through
