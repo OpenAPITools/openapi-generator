@@ -456,15 +456,15 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getSchemaType(Schema p) {
-        String swaggerType = super.getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
         String type;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
         } else
-            type = swaggerType;
+            type = openAPIType;
         return toModelName(type);
     }
 
@@ -504,10 +504,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
-        final CodegenParameter parameter = super.fromParameter(param, imports);
+    public void postProcessParameter(CodegenParameter parameter) {
         addEncoderAndDecoder(parameter.vendorExtensions, parameter.dataType, parameter.isPrimitiveType);
-        return parameter;
     }
 
     private void addEncoderAndDecoder(Map<String, Object> vendorExtensions, String dataType, Boolean isPrimitiveType) {
