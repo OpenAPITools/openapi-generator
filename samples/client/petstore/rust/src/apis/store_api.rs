@@ -38,7 +38,7 @@ pub trait StoreApi {
     fn delete_order(&self, order_id: &str) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
     fn get_inventory(&self, ) -> Box<Future<Item = ::std::collections::HashMap<String, i32>, Error = Error<serde_json::Value>>>;
     fn get_order_by_id(&self, order_id: i64) -> Box<Future<Item = ::models::Order, Error = Error<serde_json::Value>>>;
-    fn place_order(&self, body: ::models::Order) -> Box<Future<Item = ::models::Order, Error = Error<serde_json::Value>>>;
+    fn place_order(&self, order: ::models::Order) -> Box<Future<Item = ::models::Order, Error = Error<serde_json::Value>>>;
 }
 
 
@@ -206,7 +206,7 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
         )
     }
 
-    fn place_order(&self, body: ::models::Order) -> Box<Future<Item = ::models::Order, Error = Error<serde_json::Value>>> {
+    fn place_order(&self, order: ::models::Order) -> Box<Future<Item = ::models::Order, Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;
@@ -231,7 +231,7 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
 
 
 
-        let serialized = serde_json::to_string(&body).unwrap();
+        let serialized = serde_json::to_string(&order).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
         req.headers_mut().set(hyper::header::ContentLength(serialized.len() as u64));
         req.set_body(serialized);

@@ -46,7 +46,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
-    protected String modelFolder= "src/models";
+    protected String modelFolder = "src/models";
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -75,34 +75,34 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         embeddedTemplateDir = templateDir = "rust";
 
         setReservedWordsLowerCase(
-            Arrays.asList(
-                "abstract", "alignof", "as", "become", "box",
-                "break", "const", "continue", "crate", "do",
-                "else", "enum", "extern", "false", "final",
-                "fn", "for", "if", "impl", "in",
-                "let", "loop", "macro", "match", "mod",
-                "move", "mut", "offsetof", "override", "priv",
-                "proc", "pub", "pure", "ref", "return",
-                "Self", "self", "sizeof", "static", "struct",
-                "super", "trait", "true", "type", "typeof",
-                "unsafe", "unsized", "use", "virtual", "where",
-                "while", "yield"
-            )
+                Arrays.asList(
+                        "abstract", "alignof", "as", "become", "box",
+                        "break", "const", "continue", "crate", "do",
+                        "else", "enum", "extern", "false", "final",
+                        "fn", "for", "if", "impl", "in",
+                        "let", "loop", "macro", "match", "mod",
+                        "move", "mut", "offsetof", "override", "priv",
+                        "proc", "pub", "pure", "ref", "return",
+                        "Self", "self", "sizeof", "static", "struct",
+                        "super", "trait", "true", "type", "typeof",
+                        "unsafe", "unsized", "use", "virtual", "where",
+                        "while", "yield"
+                )
         );
 
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
-                    "map",
-                    "array")
-                );
+                        "map",
+                        "array")
+        );
 
         languageSpecificPrimitives = new HashSet<String>(
-            Arrays.asList(
-                "i8", "i16", "i32", "i64",
-                "u8", "u16", "u32", "u64",
-                "f32", "f64",
-                "char", "bool", "String", "Vec<u8>", "File")
-            );
+                Arrays.asList(
+                        "i8", "i16", "i32", "i64",
+                        "u8", "u16", "u32", "u64",
+                        "f32", "f64",
+                        "char", "bool", "String", "Vec<u8>", "File")
+        );
 
         instantiationTypes.clear();
         /*instantiationTypes.put("array", "GoArray");
@@ -121,8 +121,8 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("DateTime", "String");
         typeMapping.put("password", "String");
         // TODO(farcaller): map file
-        typeMapping.put("file", "File");
-        typeMapping.put("binary", "Vec<u8>");
+        typeMapping.put("file", "::models::File");
+        typeMapping.put("binary", "::models::File");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("object", "Value");
 
@@ -145,15 +145,13 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        }
-        else {
+        } else {
             setPackageName("swagger");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        }
-        else {
+        } else {
             setPackageVersion("1.0.0");
         }
 
@@ -180,8 +178,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String escapeReservedWord(String name)
-    {
+    public String escapeReservedWord(String name) {
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
@@ -294,8 +291,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "Vec<" + getTypeDeclaration(inner) + ">";
-        }
-        else if (ModelUtils.isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return "::std::collections::HashMap<String, " + getTypeDeclaration(inner) + ">";
         }
@@ -324,12 +320,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
         String type = null;
-        if(typeMapping.containsKey(schemaType)) {
+        if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
-            if(languageSpecificPrimitives.contains(type))
+            if (languageSpecificPrimitives.contains(type))
                 return (type);
-        }
-        else
+        } else
             type = schemaType;
         return type;
     }
@@ -413,7 +408,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type)
-            && !languageSpecificPrimitives.contains(type);
+                && !languageSpecificPrimitives.contains(type);
     }
 
     public void setPackageName(String packageName) {
@@ -493,6 +488,15 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             return "_" + enumName;
         } else {
             return enumName;
+        }
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (p.getDefault() != null) {
+            return p.getDefault().toString();
+        } else {
+            return null;
         }
     }
 }
