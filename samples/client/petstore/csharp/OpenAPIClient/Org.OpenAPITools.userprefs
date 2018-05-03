@@ -6,7 +6,7 @@
       <File FileName="src/Org.OpenAPITools.Test/Client/ConfigurationTests.cs" Line="12" Column="30" />
       <File FileName="src/Org.OpenAPITools.Test/Api/PetApiTests.cs" Line="289" Column="49" />
       <File FileName="src/Org.OpenAPITools.Test/Model/PetTests.cs" Line="16" Column="16" />
-      <File FileName="src/Org.OpenAPITools/Api/PetApi.cs" Line="13" Column="38" />
+      <File FileName="src/Org.OpenAPITools/Api/PetApi.cs" Line="20" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
