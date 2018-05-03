@@ -263,15 +263,15 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         }
 
         if (ModelUtils.isBooleanSchema(p)) {
-            return "null";
+            return null;
         } else if (ModelUtils.isDateSchema(p)) {
-            return "null";
+            return null;
         } else if (ModelUtils.isDateTimeSchema(p)) {
-            return "null";
+            return null;
         } else if (ModelUtils.isNumberSchema(p)) {
-            return "null";
+            return null;
         } else if (ModelUtils.isIntegerSchema(p)) {
-            return "null";
+            return null;
         } else if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return "Map[String, " + inner + "].empty ";
@@ -280,9 +280,9 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
             String inner = getSchemaType(ap.getItems());
             return "Seq[" + inner + "].empty ";
         } else if (ModelUtils.isStringSchema(p)) {
-            return "null";
+            return null;
         } else {
-            return "null";
+            return null;
         }
     }
 
