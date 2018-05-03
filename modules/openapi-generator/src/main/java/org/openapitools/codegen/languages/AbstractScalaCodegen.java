@@ -220,20 +220,19 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     public String toDefaultValue(Schema p) {
         if (p.getDefault() != null) {
             return p.getDefault().toString();
-        } else {
-            return null;
         }
+
         // comment out the following as the default value is no handled differently
-        /*if (ModelUtils.isBooleanSchema(p)) {
-            return "null";
+        if (ModelUtils.isBooleanSchema(p)) {
+            return null;
         } else if (ModelUtils.isDateSchema(p)) {
-            return "null";
+            return null;
         } else if (ModelUtils.isDateTimeSchema(p)) {
-            return "null";
+            return null;
         } else if (ModelUtils.isNumberSchema(p)) {
-            return "null";
+            return null;
         } else if (ModelUtils.isIntegerSchema(p)) {
-            return "null";
+            return null;
         } else if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return "new HashMap[String, " + inner + "]() ";
@@ -242,10 +241,10 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             String inner = getSchemaType(ap.getItems());
             return "new ListBuffer[" + inner + "]() ";
         } else if (ModelUtils.isStringSchema(p)) {
-            return "null";
+            return null;
         } else {
-            return "null";
-        }*/
+            return null;
+        }
     }
 
     @Override
