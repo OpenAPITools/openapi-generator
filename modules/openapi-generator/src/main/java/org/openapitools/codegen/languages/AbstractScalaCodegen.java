@@ -218,7 +218,13 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        if (p.getDefault() != null) {
+            return p.getDefault().toString();
+        } else {
+            return null;
+        }
+        // comment out the following as the default value is no handled differently
+        /*if (ModelUtils.isBooleanSchema(p)) {
             return "null";
         } else if (ModelUtils.isDateSchema(p)) {
             return "null";
@@ -239,7 +245,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             return "null";
         } else {
             return "null";
-        }
+        }*/
     }
 
     @Override
@@ -290,4 +296,5 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         // remove " to avoid code injection
         return input.replace("\"", "");
     }
+
 }
