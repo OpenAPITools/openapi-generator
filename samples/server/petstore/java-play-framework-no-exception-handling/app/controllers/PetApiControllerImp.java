@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 
 public class PetApiControllerImp implements PetApiControllerImpInterface {
     @Override
-    public void addPet(Pet body)  {
+    public void addPet(Pet pet)  {
         //Do your magic!!!
     }
 
@@ -41,7 +41,7 @@ public class PetApiControllerImp implements PetApiControllerImpInterface {
     }
 
     @Override
-    public void updatePet(Pet body)  {
+    public void updatePet(Pet pet)  {
         //Do your magic!!!
     }
 

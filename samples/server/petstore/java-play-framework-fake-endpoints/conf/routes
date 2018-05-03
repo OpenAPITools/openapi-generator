@@ -13,6 +13,7 @@ POST     /v2/fake/outer/boolean                     controllers.FakeApiControlle
 POST     /v2/fake/outer/composite                     controllers.FakeApiController.fakeOuterCompositeSerialize()
 POST     /v2/fake/outer/number                     controllers.FakeApiController.fakeOuterNumberSerialize()
 POST     /v2/fake/outer/string                     controllers.FakeApiController.fakeOuterStringSerialize()
+PUT     /v2/fake/body-with-query-params                     controllers.FakeApiController.testBodyWithQueryParams()
 PATCH     /v2/fake                     controllers.FakeApiController.testClientModel()
 POST     /v2/fake                     controllers.FakeApiController.testEndpointParameters()
 GET     /v2/fake                     controllers.FakeApiController.testEnumParameters()

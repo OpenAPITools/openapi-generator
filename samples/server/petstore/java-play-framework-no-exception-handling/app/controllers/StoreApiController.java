@@ -62,17 +62,17 @@ public class StoreApiController extends Controller {
 
     @ApiAction
     public Result placeOrder() throws IOException {
-        JsonNode nodebody = request().body().asJson();
-        Order body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), Order.class);
+        JsonNode nodeorder = request().body().asJson();
+        Order order;
+        if (nodeorder != null) {
+            order = mapper.readValue(nodeorder.toString(), Order.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(body);
+                SwaggerUtils.validate(order);
             }
         } else {
-            throw new IllegalArgumentException("'body' parameter is required");
+            throw new IllegalArgumentException("'Order' parameter is required");
         }
-        Order obj = imp.placeOrder(body);
+        Order obj = imp.placeOrder(order);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             SwaggerUtils.validate(obj);
         }

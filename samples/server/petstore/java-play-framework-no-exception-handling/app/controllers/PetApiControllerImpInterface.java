@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
 public interface PetApiControllerImpInterface {
-    void addPet(Pet body) ;
+    void addPet(Pet pet) ;
 
     void deletePet(Long petId, String apiKey) ;
 
@@ -23,7 +23,7 @@ public interface PetApiControllerImpInterface {
 
     Pet getPetById(Long petId) ;
 
-    void updatePet(Pet body) ;
+    void updatePet(Pet pet) ;
 
     void updatePetWithForm(Long petId, String name, String status) ;
 

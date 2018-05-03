@@ -18,6 +18,6 @@ public interface StoreApiControllerImpInterface {
 
     Order getOrderById( @Min(1) @Max(5)Long orderId) ;
 
-    Order placeOrder(Order body) ;
+    Order placeOrder(Order order) ;
 
 }
