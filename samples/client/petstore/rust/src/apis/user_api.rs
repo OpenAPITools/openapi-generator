@@ -35,19 +35,19 @@ impl<C: hyper::client::Connect> UserApiClient<C> {
 }
 
 pub trait UserApi {
-    fn create_user(&self, body: ::models::User) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
-    fn create_users_with_array_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
-    fn create_users_with_list_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn create_user(&self, user: ::models::User) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn create_users_with_array_input(&self, user: Vec<::models::User>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn create_users_with_list_input(&self, user: Vec<::models::User>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
     fn delete_user(&self, username: &str) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
     fn get_user_by_name(&self, username: &str) -> Box<Future<Item = ::models::User, Error = Error<serde_json::Value>>>;
     fn login_user(&self, username: &str, password: &str) -> Box<Future<Item = String, Error = Error<serde_json::Value>>>;
     fn logout_user(&self, ) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
-    fn update_user(&self, username: &str, body: ::models::User) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn update_user(&self, username: &str, user: ::models::User) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
 }
 
 
 impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
-    fn create_user(&self, body: ::models::User) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn create_user(&self, user: ::models::User) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;
@@ -72,7 +72,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
 
 
-        let serialized = serde_json::to_string(&body).unwrap();
+        let serialized = serde_json::to_string(&user).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
         req.headers_mut().set(hyper::header::ContentLength(serialized.len() as u64));
         req.set_body(serialized);
@@ -98,7 +98,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         )
     }
 
-    fn create_users_with_array_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn create_users_with_array_input(&self, user: Vec<::models::User>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;
@@ -123,7 +123,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
 
 
-        let serialized = serde_json::to_string(&body).unwrap();
+        let serialized = serde_json::to_string(&user).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
         req.headers_mut().set(hyper::header::ContentLength(serialized.len() as u64));
         req.set_body(serialized);
@@ -149,7 +149,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         )
     }
 
-    fn create_users_with_list_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn create_users_with_list_input(&self, user: Vec<::models::User>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;
@@ -174,7 +174,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
 
 
-        let serialized = serde_json::to_string(&body).unwrap();
+        let serialized = serde_json::to_string(&user).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
         req.headers_mut().set(hyper::header::ContentLength(serialized.len() as u64));
         req.set_body(serialized);
@@ -396,7 +396,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         )
     }
 
-    fn update_user(&self, username: &str, body: ::models::User) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn update_user(&self, username: &str, user: ::models::User) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Put;
@@ -421,7 +421,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
 
 
-        let serialized = serde_json::to_string(&body).unwrap();
+        let serialized = serde_json::to_string(&user).unwrap();
         req.headers_mut().set(hyper::header::ContentType::json());
         req.headers_mut().set(hyper::header::ContentLength(serialized.len() as u64));
         req.set_body(serialized);

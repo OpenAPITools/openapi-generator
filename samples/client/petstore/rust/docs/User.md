@@ -3,14 +3,14 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **i64** |  | [optional] [default to null]
-**username** | **String** |  | [optional] [default to null]
-**first_name** | **String** |  | [optional] [default to null]
-**last_name** | **String** |  | [optional] [default to null]
-**email** | **String** |  | [optional] [default to null]
-**password** | **String** |  | [optional] [default to null]
-**phone** | **String** |  | [optional] [default to null]
-**user_status** | **i32** | User Status | [optional] [default to null]
+**id** | **i64** |  | [optional] 
+**username** | **String** |  | [optional] 
+**first_name** | **String** |  | [optional] 
+**last_name** | **String** |  | [optional] 
+**email** | **String** |  | [optional] 
+**password** | **String** |  | [optional] 
+**phone** | **String** |  | [optional] 
+**user_status** | **i32** | User Status | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
