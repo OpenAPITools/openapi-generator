@@ -2,9 +2,12 @@ package controllers;
 
 import java.math.BigDecimal;
 import apimodels.Client;
+import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.Map;
 import java.time.OffsetDateTime;
 import apimodels.OuterComposite;
+import apimodels.User;
 
 import play.mvc.Http;
 import java.util.List;
@@ -21,7 +24,7 @@ public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     }
 
     @Override
-    public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws Exception {
+    public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws Exception {
         //Do your magic!!!
         return new OuterComposite();
     }
@@ -39,23 +42,28 @@ public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     }
 
     @Override
-    public Client testClientModel(Client body) throws Exception {
+    public void testBodyWithQueryParams( @NotNull String query, User user) throws Exception {
+        //Do your magic!!!
+    }
+
+    @Override
+    public Client testClientModel(Client client) throws Exception {
         //Do your magic!!!
         return new Client();
     }
 
     @Override
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws Exception {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, Http.MultipartFormData.FilePart binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void testEnumParameters(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble) throws Exception {
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void testInlineAdditionalProperties(Object param) throws Exception {
+    public void testInlineAdditionalProperties(String requestBody) throws Exception {
         //Do your magic!!!
     }
 

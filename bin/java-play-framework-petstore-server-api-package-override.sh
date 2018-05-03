@@ -30,3 +30,5 @@ export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/
 ags="$@ generate -t modules/openapi-generator/src/main/resources/JavaPlayFramework -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l java-play-framework -o samples/server/petstore/java-play-framework-api-package-override -DhideGenerationTimestamp=true,apiPackage=com.puppies.store.apis"
 
 java $JAVA_OPTS -jar $executable $ags
+
+cp samples.ci/server/petstore/java-play-framework-api-package-override/pom.xml samples/server/petstore/java-play-framework-api-package-override/pom.xml

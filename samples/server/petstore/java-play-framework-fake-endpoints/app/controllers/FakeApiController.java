@@ -2,9 +2,12 @@ package controllers;
 
 import java.math.BigDecimal;
 import apimodels.Client;
+import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.Map;
 import java.time.OffsetDateTime;
 import apimodels.OuterComposite;
+import apimodels.User;
 
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -58,17 +61,17 @@ public class FakeApiController extends Controller {
 
     @ApiAction
     public Result fakeOuterCompositeSerialize() throws Exception {
-        JsonNode nodebody = request().body().asJson();
-        OuterComposite body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), OuterComposite.class);
+        JsonNode nodeouterComposite = request().body().asJson();
+        OuterComposite outerComposite;
+        if (nodeouterComposite != null) {
+            outerComposite = mapper.readValue(nodeouterComposite.toString(), OuterComposite.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(body);
+                SwaggerUtils.validate(outerComposite);
             }
         } else {
-            body = null;
+            outerComposite = null;
         }
-        OuterComposite obj = imp.fakeOuterCompositeSerialize(body);
+        OuterComposite obj = imp.fakeOuterCompositeSerialize(outerComposite);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             SwaggerUtils.validate(obj);
         }
@@ -114,18 +117,41 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result testClientModel() throws Exception {
-        JsonNode nodebody = request().body().asJson();
-        Client body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), Client.class);
+    public Result testBodyWithQueryParams() throws Exception {
+        JsonNode nodeuser = request().body().asJson();
+        User user;
+        if (nodeuser != null) {
+            user = mapper.readValue(nodeuser.toString(), User.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(body);
+                SwaggerUtils.validate(user);
             }
         } else {
-            throw new IllegalArgumentException("'body' parameter is required");
+            throw new IllegalArgumentException("'User' parameter is required");
         }
-        Client obj = imp.testClientModel(body);
+        String valuequery = request().getQueryString("query");
+        String query;
+        if (valuequery != null) {
+            query = valuequery;
+        } else {
+            throw new IllegalArgumentException("'query' parameter is required");
+        }
+        imp.testBodyWithQueryParams(query, user);
+        return ok();
+    }
+
+    @ApiAction
+    public Result testClientModel() throws Exception {
+        JsonNode nodeclient = request().body().asJson();
+        Client client;
+        if (nodeclient != null) {
+            client = mapper.readValue(nodeclient.toString(), Client.class);
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                SwaggerUtils.validate(client);
+            }
+        } else {
+            throw new IllegalArgumentException("'Client' parameter is required");
+        }
+        Client obj = imp.testClientModel(client);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             SwaggerUtils.validate(obj);
         }
@@ -182,7 +208,7 @@ public class FakeApiController extends Controller {
         if (valuestring != null) {
             string = valuestring;
         } else {
-            string = null;
+            string = "null";
         }
         String valuepatternWithoutDelimiter = (request().body().asMultipartFormData().asFormUrlEncoded().get("pattern_without_delimiter"))[0];
         String patternWithoutDelimiter;
@@ -198,13 +224,7 @@ public class FakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'byte' parameter is required");
         }
-        String valuebinary = (request().body().asMultipartFormData().asFormUrlEncoded().get("binary"))[0];
-        byte[] binary;
-        if (valuebinary != null) {
-            binary = valuebinary.getBytes();
-        } else {
-            binary = null;
-        }
+        Http.MultipartFormData.FilePart binary = request().body().asMultipartFormData().getFile("binary");
         String valuedate = (request().body().asMultipartFormData().asFormUrlEncoded().get("date"))[0];
         LocalDate date;
         if (valuedate != null) {
@@ -224,14 +244,14 @@ public class FakeApiController extends Controller {
         if (valuepassword != null) {
             password = valuepassword;
         } else {
-            password = null;
+            password = "null";
         }
         String valueparamCallback = (request().body().asMultipartFormData().asFormUrlEncoded().get("callback"))[0];
         String paramCallback;
         if (valueparamCallback != null) {
             paramCallback = valueparamCallback;
         } else {
-            paramCallback = null;
+            paramCallback = "null";
         }
         imp.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
         return ok();
@@ -262,14 +282,19 @@ public class FakeApiController extends Controller {
         } else {
             enumQueryInteger = null;
         }
-        String[] enumFormStringArrayArray = request().body().asMultipartFormData().asFormUrlEncoded().get("enum_form_string_array");
-        List<String> enumFormStringArrayList = SwaggerUtils.parametersToList("csv", enumFormStringArrayArray);
-        List<String> enumFormStringArray = new ArrayList<String>();
-        for (String curParam : enumFormStringArrayList) {
-            if (!curParam.isEmpty()) {
-                //noinspection UseBulkOperation
-                enumFormStringArray.add(curParam);
-            }
+        String valueenumQueryDouble = request().getQueryString("enum_query_double");
+        Double enumQueryDouble;
+        if (valueenumQueryDouble != null) {
+            enumQueryDouble = Double.parseDouble(valueenumQueryDouble);
+        } else {
+            enumQueryDouble = null;
+        }
+        String valueenumFormStringArray = (request().body().asMultipartFormData().asFormUrlEncoded().get("enum_form_string_array"))[0];
+        List<String> enumFormStringArray;
+        if (valueenumFormStringArray != null) {
+            enumFormStringArray = valueenumFormStringArray;
+        } else {
+            enumFormStringArray = new ArrayList<>();
         }
         String valueenumFormString = (request().body().asMultipartFormData().asFormUrlEncoded().get("enum_form_string"))[0];
         String enumFormString;
@@ -277,13 +302,6 @@ public class FakeApiController extends Controller {
             enumFormString = valueenumFormString;
         } else {
             enumFormString = "-efg";
-        }
-        String valueenumQueryDouble = (request().body().asMultipartFormData().asFormUrlEncoded().get("enum_query_double"))[0];
-        Double enumQueryDouble;
-        if (valueenumQueryDouble != null) {
-            enumQueryDouble = Double.parseDouble(valueenumQueryDouble);
-        } else {
-            enumQueryDouble = null;
         }
         String[] enumHeaderStringArrayArray = request().headers().get("enum_header_string_array");
         List<String> enumHeaderStringArrayList = SwaggerUtils.parametersToList("csv", enumHeaderStringArrayArray);
@@ -301,23 +319,25 @@ public class FakeApiController extends Controller {
         } else {
             enumHeaderString = "-efg";
         }
-        imp.testEnumParameters(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble);
+        imp.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
         return ok();
     }
 
     @ApiAction
     public Result testInlineAdditionalProperties() throws Exception {
-        JsonNode nodeparam = request().body().asJson();
-        Object param;
-        if (nodeparam != null) {
-            param = mapper.readValue(nodeparam.toString(), Object.class);
+        JsonNode noderequestBody = request().body().asJson();
+        String requestBody;
+        if (noderequestBody != null) {
+            requestBody = mapper.readValue(noderequestBody.toString(), new TypeReference<String>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(param);
+                for (Map.Entry<String, String> entry : requestBody.entrySet()) {
+                    SwaggerUtils.validate(entry.getValue());
+                }
             }
         } else {
-            throw new IllegalArgumentException("'param' parameter is required");
+            throw new IllegalArgumentException("'request_body' parameter is required");
         }
-        imp.testInlineAdditionalProperties(param);
+        imp.testInlineAdditionalProperties(requestBody);
         return ok();
     }
 

@@ -1,4 +1,4 @@
-name := """swagger-java-playframework"""
+name := """openapi-java-playframework"""
 
 version := "1.0-SNAPSHOT"
 

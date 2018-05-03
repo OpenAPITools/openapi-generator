@@ -37,17 +37,17 @@ public class FakeClassnameTags123ApiController extends Controller {
 
     @ApiAction
     public Result testClassname() throws Exception {
-        JsonNode nodebody = request().body().asJson();
-        Client body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), Client.class);
+        JsonNode nodeclient = request().body().asJson();
+        Client client;
+        if (nodeclient != null) {
+            client = mapper.readValue(nodeclient.toString(), Client.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(body);
+                SwaggerUtils.validate(client);
             }
         } else {
-            throw new IllegalArgumentException("'body' parameter is required");
+            throw new IllegalArgumentException("'Client' parameter is required");
         }
-        Client obj = imp.testClassname(body);
+        Client obj = imp.testClassname(client);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             SwaggerUtils.validate(obj);
         }

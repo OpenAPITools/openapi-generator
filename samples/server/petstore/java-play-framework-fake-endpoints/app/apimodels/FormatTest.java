@@ -1,5 +1,6 @@
 package apimodels;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -40,7 +41,7 @@ public class FormatTest   {
   private byte[] _byte = null;
 
   @JsonProperty("binary")
-  private byte[] binary = null;
+  private InputStream binary = null;
 
   @JsonProperty("date")
   private LocalDate date = null;
@@ -215,7 +216,7 @@ public class FormatTest   {
     this._byte = _byte;
   }
 
-  public FormatTest binary(byte[] binary) {
+  public FormatTest binary(InputStream binary) {
     this.binary = binary;
     return this;
   }
@@ -224,11 +225,12 @@ public class FormatTest   {
    * Get binary
    * @return binary
   **/
-    public byte[] getBinary() {
+  @Valid
+  public InputStream getBinary() {
     return binary;
   }
 
-  public void setBinary(byte[] binary) {
+  public void setBinary(InputStream binary) {
     this.binary = binary;
   }
 
