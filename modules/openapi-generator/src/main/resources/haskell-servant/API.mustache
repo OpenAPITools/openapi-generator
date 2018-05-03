@@ -76,7 +76,7 @@ lookupEither key assocs =
         Right result -> Right $ result
 
 {{#apiInfo}}
--- | Servant type-level API, generated from the Swagger spec for {{title}}.
+-- | Servant type-level API, generated from the OpenAPI spec for {{title}}.
 type {{title}}API
     =    {{#apis}}{{#operations}}{{#operation}}{{& vendorExtensions.x-routeType}} -- '{{operationId}}' route{{#hasMore}}
     :<|> {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}}
@@ -141,7 +141,7 @@ formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryPa
 
 {{#apiInfo}}
 -- | Backend for {{title}}.
--- The backend can be used both for the client and the server. The client generated from the {{title}} Swagger spec
+-- The backend can be used both for the client and the server. The client generated from the {{title}} OpenAPI spec
 -- is a backend that executes actions by sending HTTP requests (see @create{{title}}Client@). Alternatively, provided
 -- a backend, the API can be served using @run{{title}}Server@.
 data {{title}}Backend m = {{title}}Backend

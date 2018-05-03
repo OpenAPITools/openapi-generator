@@ -1,4 +1,4 @@
-# Swagger Codegen for the myClientCodegen library
+# OpenAPI Generator for the myClientCodegen library
 
 ## Overview
 This is a boiler-plate project to generate your own client library with Swagger.  Its goal is
@@ -46,7 +46,7 @@ mvn package
 In your generator project.  A single jar file will be produced in `target`.  You can now use that with codegen:
 
 ```
-java -cp /path/to/swagger-codegen-cli.jar:/path/to/your.jar org.openapitools.codegen.Codegen -l myClientCodegen -i /path/to/openapi.yaml -o ./test
+java -cp /path/to/openapi-generator-cli.jar:/path/to/your.jar org.openapitools.codegen.Codegen -l myClientCodegen -i /path/to/openapi.yaml -o ./test
 ```
 
 Now your templates are available to the client generator and you can write output values
@@ -67,7 +67,7 @@ the object you have available during client generation:
 # -DdebugOperations prints operations passed to the template engine
 # -DdebugSupportingFiles prints additional data passed to the template engine
 
-java -DdebugOperations -cp /path/to/swagger-codegen-cli.jar:/path/to/your.jar org.openapitools.codegen.Codegen -l myClientCodegen -i /path/to/swagger.yaml -o ./test
+java -DdebugOperations -cp /path/to/openapi-generator-cli.jar:/path/to/your.jar org.openapitools.codegen.Codegen -l myClientCodegen -i /path/to/swagger.yaml -o ./test
 ```
 
 Will, for example, output the debug info for operations.  You can use this info

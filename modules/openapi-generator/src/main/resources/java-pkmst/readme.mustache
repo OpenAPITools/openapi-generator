@@ -23,14 +23,14 @@ i)Allow you to configure Oauth2 security based authorization for your microservi
  
  
 Working:
-Using swagger specification you can convert any definition to spring boot microservice.
+Using OpenAPI specification you can convert any definition to spring boot microservice.
 It has the integration with the below services:
 eureka registry, zipkin , spring boot admin, circuit breaker.
 
 By default only the circuit breaker annotation is enabled. But one has to write the fallback method. The needed dependency for it is also been enabled. To generate the integration and 
 related configuration for eureka, zipkin, spring boot admin one has two options:
 
-1) When generating from UI one has to provide vendor extensions inside the swagger specification as below:
+1) When generating from UI one has to provide vendor extensions inside the OpenAPI specification as below:
 swagger: "2.0"
 info:
   description: "This is a sample Product Catalogue Server.\
@@ -43,11 +43,11 @@ info:
     springBootAdminUri: "http://localhost:8000"
     pkmstInterceptor: "true"
     
-PLease note the vendor extensions are inside the info tag of the swagger specification. All the tags are case sensitive. Once given all the related configuration and the dependency 
+PLease note the vendor extensions are inside the info tag of the OpenAPI specification. All the tags are case sensitive. Once given all the related configuration and the dependency
 will be enabled.
 
 2) When generating from the maven plugin one has to provide configuration inside pom as below:
-inside the swagger codegen maven plugin under the configuration section 
+inside the openapi generator maven plugin under the configuration section
 
 						<configuration>
 							<inputSpec>product-openapi.yaml</inputSpec>

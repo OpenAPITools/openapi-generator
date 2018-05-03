@@ -34,4 +34,4 @@ mvn verify -f samples/meta-codegen/lib/pom.xml
 
 ags2="generate -l myClientCodegen -i modules/openapi-generator/src/test/resources/2_0/petstore.json -o samples/meta-codegen/usage $@"
 
-java $JAVA_OPTS -cp samples/meta-codegen/lib/target/myClientCodegen-swagger-codegen-1.0.0.jar:$executable org.openapitools.codegen.OpenAPIGenerator $ags2
+java $JAVA_OPTS -cp samples/meta-codegen/lib/target/myClientCodegen-openapi-generator-1.0.0.jar:$executable org.openapitools.codegen.OpenAPIGenerator $ags2

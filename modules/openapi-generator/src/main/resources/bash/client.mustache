@@ -5,8 +5,8 @@
 # ! Note:
 # !
 # ! THIS SCRIPT HAS BEEN AUTOMATICALLY GENERATED USING
-# ! swagger-codegen (https://github.com/swagger-api/swagger-codegen)
-# ! FROM SWAGGER SPECIFICATION IN JSON.
+# ! openapi-generator (https://openapi-generator.tech)
+# ! FROM OPENAPI SPECIFICATION IN JSON.
 # !
 {{^hideGenerationTimestamp}}# ! Generated on: {{generatedDate}}
 {{/hideGenerationTimestamp}}# !
@@ -783,7 +783,7 @@ call_{{operationId}}() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
 {{#hasConsumes}}

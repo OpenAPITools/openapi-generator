@@ -325,7 +325,7 @@ export class {{classname}} {
 {{/hasQueryParams}}
             withCredentials:this.configuration.withCredentials
         });
-        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        // issues#4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }

@@ -142,7 +142,7 @@ impl ::std::ops::DerefMut for {{classname}} {
 #[serde(rename = "{{xmlName}}")]{{/xmlName}}
 pub struct {{classname}} {
 {{#vars}}{{#description}}    /// {{{description}}}
-{{/description}}{{#isEnum}}    // Note: inline enums are not fully supported by swagger-codegen
+{{/description}}{{#isEnum}}    // Note: inline enums are not fully supported by openapi-generator
 {{/isEnum}}    #[serde(rename = "{{baseName}}")]{{#vendorExtensions}}{{#itemXmlName}}
     #[serde(serialize_with = "wrap_in_{{itemXmlName}}")]{{/itemXmlName}}{{/vendorExtensions}}{{#required}}
     pub {{name}}: {{#vendorExtensions}}{{#x-nullable}}swagger::Nullable<{{/x-nullable}}{{/vendorExtensions}}{{{datatype}}}{{#vendorExtensions}}{{#x-nullable}}>{{/x-nullable}}{{/vendorExtensions}},
