@@ -306,7 +306,7 @@ toQuery :: WH.ToHttpApiData a => (BC.ByteString, Maybe a) -> [NH.QueryItem]
 toQuery x = [(fmap . fmap) toQueryParam x]
   where toQueryParam = T.encodeUtf8 . WH.toQueryParam
 
--- *** Swagger `CollectionFormat` Utils
+-- *** OpenAPI `CollectionFormat` Utils
 
 -- | Determines the format of the array if type array is used.
 data CollectionFormat

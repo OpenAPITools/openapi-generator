@@ -5,8 +5,8 @@
 # ! Note:
 # !
 # ! THIS SCRIPT HAS BEEN AUTOMATICALLY GENERATED USING
-# ! swagger-codegen (https://github.com/swagger-api/swagger-codegen)
-# ! FROM SWAGGER SPECIFICATION IN JSON.
+# ! openapi-generator (https://openapi-generator.tech)
+# ! FROM OPENAPI SPECIFICATION IN JSON.
 # !
 {{^hideGenerationTimestamp}}# ! Generated on: {{generatedDate}}
 {{/hideGenerationTimestamp}}# !
@@ -271,7 +271,7 @@ _{{scriptName}}()
     if [[ $cur =~ ^[A-Za-z_0-9]* ]]; then
         # If operation has not been yet selected, suggest the list of operations
         # otherwise suggest arguments of this operation as declared in the
-        # Swagger specification
+        # OpenAPI specification
         if [[ -z $operation ]]; then
             COMPREPLY=( $(compgen -W '${!operations[*]}' -- ${cur}) )
         else
