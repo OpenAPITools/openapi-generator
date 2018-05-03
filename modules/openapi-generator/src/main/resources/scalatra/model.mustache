@@ -8,9 +8,11 @@ package {{package}}
 case class {{classname}}(
   {{#vars}}
   {{#description}}
-/* {{{description}}} */
+  /* {{{description}}} */
   {{/description}}
   {{name}}: {{^required}}Option[{{/required}}{{datatype}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}
-  {{/vars}})
+
+  {{/vars}}
+ )
 {{/model}}
 {{/models}}

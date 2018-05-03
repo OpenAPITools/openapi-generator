@@ -40,126 +40,97 @@ class UserApi(implicit val swagger: Swagger) extends ScalatraServlet
   
 
   val createUserOperation = (apiOperation[Unit]("createUser")
-      summary "Create user"
-      parameters(bodyParam[User]("user").description(""))
+    summary "Create user"
+    parameters(bodyParam[User]("user").description(""))
   )
 
-  post("/user",operation(createUserOperation)) {
-    
-    
-          val user = parsedBody.extract[User]
-
-    println("user: " + user)
+  post("/user", operation(createUserOperation)) {
+    //println("user: " + user)
   }
 
   
 
   val createUsersWithArrayInputOperation = (apiOperation[Unit]("createUsersWithArrayInput")
-      summary "Creates list of users with given input array"
-      parameters(bodyParam[List[User]]("user").description(""))
+    summary "Creates list of users with given input array"
+    parameters(bodyParam[List[User]]("user").description(""))
   )
 
-  post("/user/createWithArray",operation(createUsersWithArrayInputOperation)) {
-    
-    
-          val user = parsedBody.extract[List[User]]
-
-    println("user: " + user)
+  post("/user/createWithArray", operation(createUsersWithArrayInputOperation)) {
+    //println("user: " + user)
   }
 
   
 
   val createUsersWithListInputOperation = (apiOperation[Unit]("createUsersWithListInput")
-      summary "Creates list of users with given input array"
-      parameters(bodyParam[List[User]]("user").description(""))
+    summary "Creates list of users with given input array"
+    parameters(bodyParam[List[User]]("user").description(""))
   )
 
-  post("/user/createWithList",operation(createUsersWithListInputOperation)) {
-    
-    
-          val user = parsedBody.extract[List[User]]
-
-    println("user: " + user)
+  post("/user/createWithList", operation(createUsersWithListInputOperation)) {
+    //println("user: " + user)
   }
 
   
 
   val deleteUserOperation = (apiOperation[Unit]("deleteUser")
-      summary "Delete user"
-      parameters(pathParam[String]("username").description(""))
+    summary "Delete user"
+    parameters(pathParam[String]("username").description(""))
   )
 
-  delete("/user/:username",operation(deleteUserOperation)) {
-    
-    
-      val username = params.getOrElse("username", halt(400))
-    
-    println("username: " + username)
+  delete("/user/:username", operation(deleteUserOperation)) {
+    val username = params.getOrElse("username", halt(400))
+    //println("username: " + username)
   }
 
   
 
   val getUserByNameOperation = (apiOperation[User]("getUserByName")
-      summary "Get user by user name"
-      parameters(pathParam[String]("username").description(""))
+    summary "Get user by user name"
+    parameters(pathParam[String]("username").description(""))
   )
 
-  get("/user/:username",operation(getUserByNameOperation)) {
-    
-    
-      val username = params.getOrElse("username", halt(400))
-    
-    println("username: " + username)
+  get("/user/:username", operation(getUserByNameOperation)) {
+    val username = params.getOrElse("username", halt(400))
+    //println("username: " + username)
   }
 
   
 
   val loginUserOperation = (apiOperation[String]("loginUser")
-      summary "Logs user into the system"
-      parameters(queryParam[String]("username").description(""), queryParam[String]("password").description(""))
+    summary "Logs user into the system"
+    parameters(queryParam[String]("username").description(""), queryParam[String]("password").description(""))
   )
 
-  get("/user/login",operation(loginUserOperation)) {
-    
-    
-                val username = params.getAs[String]("username")
+  get("/user/login", operation(loginUserOperation)) {
+            val username = params.getAs[String]("username")
 
-    println("username: " + username)
-    
-    
-                val password = params.getAs[String]("password")
+    //println("username: " + username)
+            val password = params.getAs[String]("password")
 
-    println("password: " + password)
+    //println("password: " + password)
   }
 
   
 
   val logoutUserOperation = (apiOperation[Unit]("logoutUser")
-      summary "Logs out current logged in user session"
-      parameters()
+    summary "Logs out current logged in user session"
+    parameters()
   )
 
-  get("/user/logout",operation(logoutUserOperation)) {
+  get("/user/logout", operation(logoutUserOperation)) {
   }
 
   
 
   val updateUserOperation = (apiOperation[Unit]("updateUser")
-      summary "Updated user"
-      parameters(pathParam[String]("username").description(""), bodyParam[User]("user").description(""))
+    summary "Updated user"
+    parameters(pathParam[String]("username").description(""), bodyParam[User]("user").description(""))
   )
 
-  put("/user/:username",operation(updateUserOperation)) {
-    
-    
-      val username = params.getOrElse("username", halt(400))
-    
-    println("username: " + username)
-    
-    
-          val user = parsedBody.extract[User]
-
-    println("user: " + user)
+  put("/user/:username", operation(updateUserOperation)) {
+    val username = params.getOrElse("username", halt(400))
+    //println("username: " + username)
+    //println("user: " + user)
   }
 
 }

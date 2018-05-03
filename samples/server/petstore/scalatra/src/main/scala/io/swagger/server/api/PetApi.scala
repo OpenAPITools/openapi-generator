@@ -42,143 +42,118 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
   
 
   val addPetOperation = (apiOperation[Unit]("addPet")
-      summary "Add a new pet to the store"
-      parameters(bodyParam[Pet]("pet").description(""))
+    summary "Add a new pet to the store"
+    parameters(bodyParam[Pet]("pet").description(""))
   )
 
-  post("/pet",operation(addPetOperation)) {
-    
-    
-          val pet = parsedBody.extract[Pet]
-
-    println("pet: " + pet)
+  post("/pet", operation(addPetOperation)) {
+    //println("pet: " + pet)
   }
 
   
 
   val deletePetOperation = (apiOperation[Unit]("deletePet")
-      summary "Deletes a pet"
-      parameters(pathParam[Long]("petId").description(""), headerParam[String]("apiKey").description("").optional)
+    summary "Deletes a pet"
+    parameters(pathParam[Long]("petId").description(""), headerParam[String]("apiKey").description("").optional)
   )
 
-  delete("/pet/:petId",operation(deletePetOperation)) {
-    
-    
-      val petId = params.getOrElse("petId", halt(400))
-    
-    println("petId: " + petId)
-    
-    
-          val apiKey = request.getHeader("apiKey")
-
-    println("apiKey: " + apiKey)
+  delete("/pet/:petId", operation(deletePetOperation)) {
+    val petId = params.getOrElse("petId", halt(400))
+    //println("petId: " + petId)
+    val apiKey = request.getHeader("apiKey")
+    //println("apiKey: " + apiKey)
   }
 
   
 
   val findPetsByStatusOperation = (apiOperation[List[Pet]]("findPetsByStatus")
-      summary "Finds Pets by status"
-      parameters(queryParam[List[String]]("status").description(""))
+    summary "Finds Pets by status"
+    parameters(queryParam[List[String]]("status").description(""))
   )
 
-  get("/pet/findByStatus",operation(findPetsByStatusOperation)) {
-    
-    
-                val status = params.getAs[List[String]]("status")
+  get("/pet/findByStatus", operation(findPetsByStatusOperation)) {
+        val statusString = params.getAs[String]("status")
+    val status = if("csv" == "default" || "csv" == "csv") {
+      statusString match {
+        case Some(str) => str.split(",").toSeq
+        case None => Seq()
+      }
+    } else
+      Seq()
 
-    println("status: " + status)
+    //println("status: " + status)
   }
 
   
 
   val findPetsByTagsOperation = (apiOperation[List[Pet]]("findPetsByTags")
-      summary "Finds Pets by tags"
-      parameters(queryParam[List[String]]("tags").description(""))
+    summary "Finds Pets by tags"
+    parameters(queryParam[List[String]]("tags").description(""))
   )
 
-  get("/pet/findByTags",operation(findPetsByTagsOperation)) {
-    
-    
-                val tags = params.getAs[List[String]]("tags")
+  get("/pet/findByTags", operation(findPetsByTagsOperation)) {
+        val tagsString = params.getAs[String]("tags")
+    val tags = if("csv" == "default" || "csv" == "csv") {
+      tagsString match {
+        case Some(str) => str.split(",").toSeq
+        case None => Seq()
+      }
+    } else
+      Seq()
 
-    println("tags: " + tags)
+    //println("tags: " + tags)
   }
 
   
 
   val getPetByIdOperation = (apiOperation[Pet]("getPetById")
-      summary "Find pet by ID"
-      parameters(pathParam[Long]("petId").description(""))
+    summary "Find pet by ID"
+    parameters(pathParam[Long]("petId").description(""))
   )
 
-  get("/pet/:petId",operation(getPetByIdOperation)) {
-    
-    
-      val petId = params.getOrElse("petId", halt(400))
-    
-    println("petId: " + petId)
+  get("/pet/:petId", operation(getPetByIdOperation)) {
+    val petId = params.getOrElse("petId", halt(400))
+    //println("petId: " + petId)
   }
 
   
 
   val updatePetOperation = (apiOperation[Unit]("updatePet")
-      summary "Update an existing pet"
-      parameters(bodyParam[Pet]("pet").description(""))
+    summary "Update an existing pet"
+    parameters(bodyParam[Pet]("pet").description(""))
   )
 
-  put("/pet",operation(updatePetOperation)) {
-    
-    
-          val pet = parsedBody.extract[Pet]
-
-    println("pet: " + pet)
+  put("/pet", operation(updatePetOperation)) {
+    //println("pet: " + pet)
   }
 
   
 
   val updatePetWithFormOperation = (apiOperation[Unit]("updatePetWithForm")
-      summary "Updates a pet in the store with form data"
-      parameters(pathParam[Long]("petId").description(""), formParam[String]("name").description("").optional, formParam[String]("status").description("").optional)
+    summary "Updates a pet in the store with form data"
+    parameters(pathParam[Long]("petId").description(""), formParam[String]("name").description("").optional, formParam[String]("status").description("").optional)
   )
 
-  post("/pet/:petId",operation(updatePetWithFormOperation)) {
-    
-    
-      val petId = params.getOrElse("petId", halt(400))
-    
-    println("petId: " + petId)
-    
-    
-          val name = params.getAs[String]("name")
-
-    println("name: " + name)
-    
-    
-          val status = params.getAs[String]("status")
-
-    println("status: " + status)
+  post("/pet/:petId", operation(updatePetWithFormOperation)) {
+    val petId = params.getOrElse("petId", halt(400))
+    //println("petId: " + petId)
+    //println("name: " + name)
+    //println("status: " + status)
   }
 
   
 
   val uploadFileOperation = (apiOperation[ApiResponse]("uploadFile")
-      summary "uploads an image"
-      parameters(pathParam[Long]("petId").description(""), formParam[String]("additionalMetadata").description("").optional, formParam[File]("file").description("").optional)
+    summary "uploads an image"
+    parameters(pathParam[Long]("petId").description(""), formParam[String]("additionalMetadata").description("").optional, formParam[File]("file").description("").optional)
   )
 
-  post("/pet/:petId/uploadImage",operation(uploadFileOperation)) {
-    
-    
-      val petId = params.getOrElse("petId", halt(400))
-    
-    println("petId: " + petId)
-    
-    
-          val additionalMetadata = params.getAs[String]("additionalMetadata")
-
-    println("additionalMetadata: " + additionalMetadata)
+  post("/pet/:petId/uploadImage", operation(uploadFileOperation)) {
+    val petId = params.getOrElse("petId", halt(400))
+    //println("petId: " + petId)
+    //println("additionalMetadata: " + additionalMetadata)
     val file = fileParams("file")
-        println("file: " + file)
+    //println("file: " + file)
   }
 
 }

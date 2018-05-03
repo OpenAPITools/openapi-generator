@@ -33,19 +33,34 @@ class {{classname}}(implicit val swagger: Swagger) extends ScalatraServlet
   {{newline}}
 
   val {{nickname}}Operation = (apiOperation[{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}]("{{nickname}}")
-      summary "{{{summary}}}"
-      parameters({{#allParams}}{{>queryParam}}{{>pathParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    summary "{{{summary}}}"
+    parameters({{#allParams}}{{>queryParam}}{{>pathParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
   )
 
-  {{httpMethod}}("{{{vendorExtensions.x-scalatra-path}}}",operation({{nickname}}Operation)) {
+  {{httpMethod}}("{{{vendorExtensions.x-scalatra-path}}}", operation({{nickname}}Operation)) {
     {{#allParams}}
-    {{#isFile}}val {{paramName}} = fileParams("{{paramName}}"){{/isFile}}
-    {{^isFile}}{{#isPathParam}}
-      val {{paramName}} = params.getOrElse("{{paramName}}", halt(400)){{/isPathParam}}
-    {{>queryParamOperation}}{{>headerParamOperation}}{{>formParamMustache}}{{>bodyParamOperation}}
+    {{#isFile}}
+    val {{paramName}} = fileParams("{{paramName}}")
     {{/isFile}}
-    println("{{paramName}}: " + {{paramName}})
-  {{/allParams}}
+    {{^isFile}}
+    {{#isPathParam}}
+    val {{paramName}} = params.getOrElse("{{paramName}}", halt(400))
+    {{/isPathParam}}
+    {{#isQueryParam}}
+    {{>queryParamOperation}}
+    {{/isQueryParam}}
+    {{#isHeaderParam}}
+    {{>headerParamOperation}}
+    {{/isHeaderParam}}
+    {{#isFormParams}}
+    {{>formParamOperation}}
+    {{/isFormParams}}
+    {{#isBodyParams}}
+    {{>bodyParamOperation}}
+    {{/isBodyParams}}
+    {{/isFile}}
+    //println("{{paramName}}: " + {{paramName}})
+    {{/allParams}}
   }
 
 {{/operation}}

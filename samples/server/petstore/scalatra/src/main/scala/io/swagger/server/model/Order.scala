@@ -14,10 +14,16 @@ import java.util.Date
 
 case class Order(
   id: Option[Long],
-    petId: Option[Long],
-    quantity: Option[Int],
-    shipDate: Option[Date],
+
+  petId: Option[Long],
+
+  quantity: Option[Int],
+
+  shipDate: Option[Date],
+
   /* Order Status */
   status: Option[String],
-    complete: Option[Boolean]
-  )
+
+  complete: Option[Boolean]
+
+ )
