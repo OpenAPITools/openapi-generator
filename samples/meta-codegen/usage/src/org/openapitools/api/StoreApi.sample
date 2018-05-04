@@ -5,7 +5,7 @@
 # like such:
 
 # use the package from the `apiPackage` variable
-package: io.swagger.client.api
+package: org.openapitools.api
 
 # operations block
 classname: StoreApi

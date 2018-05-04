@@ -5,68 +5,72 @@
 # like such:
 
 # use the package from the `apiPackage` variable
-package: io.swagger.client.api
+package: org.openapitools.api
 
 # operations block
-classname: UserApi
+classname: PetApi
 
 # loop over each operation in the API:
 
 # each operation has an `operationId`:
-operationId: createUser
+operationId: addPet
 
 # and parameters:
-user: User
+pet: Pet
 
 
 # each operation has an `operationId`:
-operationId: createUsersWithArrayInput
+operationId: deletePet
 
 # and parameters:
-user: List
+petId: Long
+apiKey: String
 
 
 # each operation has an `operationId`:
-operationId: createUsersWithListInput
+operationId: findPetsByStatus
 
 # and parameters:
-user: List
+status: List
 
 
 # each operation has an `operationId`:
-operationId: deleteUser
+operationId: findPetsByTags
 
 # and parameters:
-username: String
+tags: List
 
 
 # each operation has an `operationId`:
-operationId: getUserByName
+operationId: getPetById
 
 # and parameters:
-username: String
+petId: Long
 
 
 # each operation has an `operationId`:
-operationId: loginUser
+operationId: updatePet
 
 # and parameters:
-username: String
-password: String
+pet: Pet
 
 
 # each operation has an `operationId`:
-operationId: logoutUser
+operationId: updatePetWithForm
 
 # and parameters:
+petId: String
+name: String
+status: String
 
 
 # each operation has an `operationId`:
-operationId: updateUser
+operationId: uploadFile
 
 # and parameters:
-username: String
-user: User
+petId: Long
+additionalMetadata: String
+file: File
 
 
 # end of operations block
