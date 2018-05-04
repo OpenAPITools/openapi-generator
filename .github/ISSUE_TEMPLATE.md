@@ -37,7 +37,7 @@ link it here.
 
 ##### Related issues/PRs
 
-<!-- has a similar issue/PR been reported/opened before? Please do a search in https://github.com/wing328/openapi-generator/issues?utf8=%E2%9C%93&q=is%3Aissue%20 -->
+<!-- has a similar issue/PR been reported/opened before? Please do a search in https://github.com/openapitools/openapi-generator/issues?utf8=%E2%9C%93&q=is%3Aissue%20 -->
 
 ##### Suggest a fix/enhancement
 
