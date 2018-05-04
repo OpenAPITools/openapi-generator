@@ -18,20 +18,19 @@ defmodule SwaggerPetstore.Api.User do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - body (User): Created user object
+  - user (User): Created user object
   - opts (KeywordList): [optional] Optional parameters
-
   ## Returns
 
   {:ok, %{}} on success
   {:error, info} on failure
   """
   @spec create_user(Tesla.Env.client, SwaggerPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def create_user(connection, body, _opts \\ []) do
+  def create_user(connection, user, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/user")
-    |> add_param(:body, :"body", body)
+    |> add_param(:body, :"User", user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(false)
@@ -39,25 +38,23 @@ defmodule SwaggerPetstore.Api.User do
 
   @doc """
   Creates list of users with given input array
-  
 
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - body ([User]): List of user object
+  - user ([User]): List of user object
   - opts (KeywordList): [optional] Optional parameters
-
   ## Returns
 
   {:ok, %{}} on success
   {:error, info} on failure
   """
   @spec create_users_with_array_input(Tesla.Env.client, list(SwaggerPetstore.Model.User.t), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def create_users_with_array_input(connection, body, _opts \\ []) do
+  def create_users_with_array_input(connection, user, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/user/createWithArray")
-    |> add_param(:body, :"body", body)
+    |> add_param(:body, :"User", user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(false)
@@ -65,25 +62,23 @@ defmodule SwaggerPetstore.Api.User do
 
   @doc """
   Creates list of users with given input array
-  
 
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - body ([User]): List of user object
+  - user ([User]): List of user object
   - opts (KeywordList): [optional] Optional parameters
-
   ## Returns
 
   {:ok, %{}} on success
   {:error, info} on failure
   """
   @spec create_users_with_list_input(Tesla.Env.client, list(SwaggerPetstore.Model.User.t), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def create_users_with_list_input(connection, body, _opts \\ []) do
+  def create_users_with_list_input(connection, user, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/user/createWithList")
-    |> add_param(:body, :"body", body)
+    |> add_param(:body, :"User", user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(false)
@@ -98,7 +93,6 @@ defmodule SwaggerPetstore.Api.User do
   - connection (SwaggerPetstore.Connection): Connection to server
   - username (String.t): The name that needs to be deleted
   - opts (KeywordList): [optional] Optional parameters
-
   ## Returns
 
   {:ok, %{}} on success
@@ -116,14 +110,12 @@ defmodule SwaggerPetstore.Api.User do
 
   @doc """
   Get user by user name
-  
 
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - username (String.t): The name that needs to be fetched. Use user1 for testing. 
+  - username (String.t): The name that needs to be fetched. Use user1 for testing.
   - opts (KeywordList): [optional] Optional parameters
-
   ## Returns
 
   {:ok, %SwaggerPetstore.Model.User{}} on success
@@ -141,7 +133,6 @@ defmodule SwaggerPetstore.Api.User do
 
   @doc """
   Logs user into the system
-  
 
   ## Parameters
 
@@ -149,7 +140,6 @@ defmodule SwaggerPetstore.Api.User do
   - username (String.t): The user name for login
   - password (String.t): The password for login in clear text
   - opts (KeywordList): [optional] Optional parameters
-
   ## Returns
 
   {:ok, %SwaggerPetstore.Model.String.t{}} on success
@@ -169,13 +159,11 @@ defmodule SwaggerPetstore.Api.User do
 
   @doc """
   Logs out current logged in user session
-  
 
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
-
   ## Returns
 
   {:ok, %{}} on success
@@ -199,20 +187,19 @@ defmodule SwaggerPetstore.Api.User do
 
   - connection (SwaggerPetstore.Connection): Connection to server
   - username (String.t): name that need to be deleted
-  - body (User): Updated user object
+  - user (User): Updated user object
   - opts (KeywordList): [optional] Optional parameters
-
   ## Returns
 
   {:ok, %{}} on success
   {:error, info} on failure
   """
   @spec update_user(Tesla.Env.client, String.t, SwaggerPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def update_user(connection, username, body, _opts \\ []) do
+  def update_user(connection, username, user, _opts \\ []) do
     %{}
     |> method(:put)
     |> url("/user/#{username}")
-    |> add_param(:body, :"body", body)
+    |> add_param(:body, :"User", user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(false)

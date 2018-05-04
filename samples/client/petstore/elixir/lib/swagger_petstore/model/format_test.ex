@@ -33,7 +33,7 @@ defmodule SwaggerPetstore.Model.FormatTest do
     :"double" => float(),
     :"string" => String.t,
     :"byte" => binary(),
-    :"binary" => binary(),
+    :"binary" => String.t,
     :"date" => Date.t,
     :"dateTime" => DateTime.t,
     :"uuid" => String.t,

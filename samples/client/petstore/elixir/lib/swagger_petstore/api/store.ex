@@ -20,7 +20,6 @@ defmodule SwaggerPetstore.Api.Store do
   - connection (SwaggerPetstore.Connection): Connection to server
   - order_id (String.t): ID of the order that needs to be deleted
   - opts (KeywordList): [optional] Optional parameters
-
   ## Returns
 
   {:ok, %{}} on success
@@ -44,7 +43,6 @@ defmodule SwaggerPetstore.Api.Store do
 
   - connection (SwaggerPetstore.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
-
   ## Returns
 
   {:ok, %{}} on success
@@ -69,7 +67,6 @@ defmodule SwaggerPetstore.Api.Store do
   - connection (SwaggerPetstore.Connection): Connection to server
   - order_id (integer()): ID of pet that needs to be fetched
   - opts (KeywordList): [optional] Optional parameters
-
   ## Returns
 
   {:ok, %SwaggerPetstore.Model.Order{}} on success
@@ -87,25 +84,23 @@ defmodule SwaggerPetstore.Api.Store do
 
   @doc """
   Place an order for a pet
-  
 
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - body (Order): order placed for purchasing the pet
+  - order (Order): order placed for purchasing the pet
   - opts (KeywordList): [optional] Optional parameters
-
   ## Returns
 
   {:ok, %SwaggerPetstore.Model.Order{}} on success
   {:error, info} on failure
   """
   @spec place_order(Tesla.Env.client, SwaggerPetstore.Model.Order.t, keyword()) :: {:ok, SwaggerPetstore.Model.Order.t} | {:error, Tesla.Env.t}
-  def place_order(connection, body, _opts \\ []) do
+  def place_order(connection, order, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/store/order")
-    |> add_param(:body, :"body", body)
+    |> add_param(:body, :"Order", order)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(%SwaggerPetstore.Model.Order{})

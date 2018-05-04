@@ -21,35 +21,42 @@ defmodule {{moduleName}}.Api.{{classname}} do
   ## Parameters
 
   - connection ({{moduleName}}.Connection): Connection to server
-{{#allParams}}{{#required}}  - {{#underscored}}{{paramName}}{{/underscored}} ({{dataType}}): {{description}}
-{{/required}}{{/allParams}}  - opts (KeywordList): [optional] Optional parameters
-{{#allParams}}{{^required}}    - {{#underscored}}:{{paramName}}{{/underscored}} ({{dataType}}): {{description}}
-{{/required}}{{/allParams}}
+{{#requiredParams}}
+  - {{#underscored}}{{paramName}}{{/underscored}} ({{dataType}}): {{description}}
+{{/requiredParams}}
+  - opts (KeywordList): [optional] Optional parameters
+{{#optionalParams}}
+    - {{#underscored}}:{{paramName}}{{/underscored}} ({{dataType}}): {{description}}
+{{/optionalParams}}
   ## Returns
 
-  {:ok, {{#isListContainer}}[%{{returnBaseType}}{}, ...]{{/isListContainer}}{{#isMapContainer}}%{}{{/isMapContainer}}{{^returnType}}%{}{{/returnType}}{{#returnSimpleType}}%{{#returnType}}{{#isMapContainer}}{{/isMapContainer}}{{moduleName}}.Model.{{{returnType}}}{{/returnType}}{}{{/returnSimpleType}}} on success
+  {:ok, {{#isListContainer}}[%{{returnBaseType}}{}, ...]{{/isListContainer}}{{#isMapContainer}}%{}{{/isMapContainer}}{{^returnType}}%{}{{/returnType}}{{#returnSimpleType}}%{{#returnType}}{{#isMapContainer}}{{/isMapContainer}}{{{moduleName}}}.Model.{{{returnType}}}{{/returnType}}{}{{/returnSimpleType}}} on success
   {:error, info} on failure
   """
-  {{typespec}}
-  def {{#underscored}}{{operationId}}{{/underscored}}(connection, {{#allParams}}{{#required}}{{#underscored}}{{paramName}}{{/underscored}}, {{/required}}{{/allParams}}{{^hasOptionalParams}}_{{/hasOptionalParams}}opts \\ []) do
-{{#hasOptionalParams}}
+  {{{typespec}}}
+  def {{#underscored}}{{{operationId}}}{{/underscored}}(connection, {{#requiredParams}}{{#underscored}}{{{paramName}}}{{/underscored}}, {{/requiredParams}}{{^hasOptionalParams}}_{{/hasOptionalParams}}opts \\ []) do
+{{#optionalParams}}
+{{#-first}}
     optional_params = %{
-      {{#allParams}}{{^required}}{{^isPathParam}}:"{{baseName}}" => {{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{/isPathParam}}{{#hasMore}},
-      {{/hasMore}}{{/required}}{{/allParams}}
+{{/-first}}
+      :"{{baseName}}" => {{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{#hasMore}},{{/hasMore}}
+{{#-last}}
     }
-{{/hasOptionalParams}}
+{{/-last}}
+{{/optionalParams}}
     %{}
     |> method(:{{#underscored}}{{httpMethod}}{{/underscored}})
     |> url("{{replacedPathName}}")
-{{#allParams}}
-{{#required}}
-{{^isPathParam}}    |> add_param({{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}, :"{{baseName}}", {{#underscored}}{{paramName}}{{/underscored}})
+{{#requiredParams}}
+{{^isPathParam}}
+    |> add_param({{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}, :"{{baseName}}", {{#underscored}}{{paramName}}{{/underscored}})
 {{/isPathParam}}
-{{/required}}
-{{/allParams}}
-{{#hasOptionalParams}}
+{{/requiredParams}}
+{{#optionalParams}}
+{{#-first}}
     |> add_optional_params(optional_params, opts)
-{{/hasOptionalParams}}
+{{/-first}}
+{{/optionalParams}}
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode({{decodedStruct}})
