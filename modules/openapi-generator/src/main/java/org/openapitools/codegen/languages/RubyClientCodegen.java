@@ -17,11 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
@@ -32,11 +30,9 @@ import org.openapitools.codegen.utils.ModelUtils;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -584,7 +580,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (p.defaultValue == null) {
             example = p.example;
         } else {
-            example = p.defaultValue;
+            p.example = p.defaultValue;
+            return;
         }
 
         String type = p.baseType;
