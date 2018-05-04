@@ -24,11 +24,15 @@ defmodule SwaggerPetstore.Deserializer do
     |> Map.update!(field, &(Map.new(&1, fn {key, val} -> {key, Poison.Decode.decode(val, Keyword.merge(options, [as: struct(mod)]))} end)))
   end
   def deserialize(model, field, :date, _, _options) do
-    case DateTime.from_iso8601(Map.get(model, field)) do
-      {:ok, datetime} ->
-        Map.put(model, field, datetime)
-      _ ->
-        model
+    value = Map.get(model, field)
+    case is_binary(value) do
+      true -> case DateTime.from_iso8601(value) do
+                {:ok, datetime, _offset} ->
+                  Map.put(model, field, datetime)
+                _ ->
+                  model
+              end
+      false -> model
     end
   end
 end

@@ -28,6 +28,8 @@ import io.swagger.v3.oas.models.media.*;
 
 import org.apache.commons.lang3.StringUtils;
 
+import javax.jws.WebParam;
+import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
@@ -347,7 +349,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         for (String word : moduleName.split("\\.")) {
             underscoredWords.add(underscore(word));
         }
-        return "lib/" + join("/", underscoredWords);
+        return ("lib/" + join("/", underscoredWords)).replace('/', File.separatorChar);
     }
 
     /**
@@ -355,7 +357,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      * instantiated
      */
     public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder() + "/" + "model";
+        return outputFolder + File.separator + sourceFolder() + File.separator + "model";
     }
 
     /**
@@ -364,7 +366,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder() + "/" + "api";
+        return outputFolder + File.separator + sourceFolder() + File.separator + "api";
     }
 
     @Override
@@ -456,14 +458,14 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         } else if (ModelUtils.isDateTimeSchema(p)) {
             return "DateTime.t";
         } else if (ModelUtils.isObjectSchema(p)) {
-            // How to map it?
+            // TODO How to map it?
             return super.getTypeDeclaration(p);
         } else if (ModelUtils.isIntegerSchema(p)) {
             return "integer()";
         } else if (ModelUtils.isNumberSchema(p)) {
             return "float()";
-        } else if (ModelUtils.isBinarySchema(p)) {
-            return "binary()";
+        } else if (ModelUtils.isBinarySchema(p) || ModelUtils.isFileSchema(p)) {
+            return "String.t";
         } else if (ModelUtils.isBooleanSchema(p)) {
             return "boolean()";
         } else if (!StringUtils.isEmpty(p.get$ref())) { // model
@@ -546,6 +548,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.queryParams = o.queryParams;
             this.headerParams = o.headerParams;
             this.formParams = o.formParams;
+            this.requiredParams = o.requiredParams;
+            this.optionalParams = o.optionalParams;
             this.authMethods = o.authMethods;
             this.tags = o.tags;
             this.responses = o.responses;
@@ -622,11 +626,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             } else if (param.isListContainer) {
                 // list(<subtype>)
                 sb.append("list(");
-                if (param.isBodyParam) {
-                    buildTypespec(param.items.items, sb);
-                } else {
-                    buildTypespec(param.items, sb);
-                }
+                buildTypespec(param.items, sb);
                 sb.append(")");
             } else if (param.isMapContainer) {
                 // %{optional(String.t) => <subtype>}
@@ -636,7 +636,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             } else if (param.isPrimitiveType) {
                 // like `integer()`, `String.t`
                 sb.append(param.dataType);
-            } else if (param.isFile) {
+            } else if (param.isFile || param.isBinary) {
                 sb.append("String.t");
             } else {
                 // <module>.Model.<type>.t
@@ -649,7 +649,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         private void buildTypespec(CodegenProperty property, StringBuilder sb) {
             if (property == null) {
-                LOGGER.warn("CodegenProperty cannot be null");
+                LOGGER.error("CodegenProperty cannot be null. Please report the issue to https://github.com/openapitools/openapi-generator with the spec");
             } else if (property.isListContainer) {
                 sb.append("list(");
                 buildTypespec(property.items, sb);

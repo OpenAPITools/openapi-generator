@@ -13,24 +13,24 @@ defmodule SwaggerPetstore.Api.FakeClassnameTags123 do
 
   @doc """
   To test class name in snake case
+  To test class name in snake case
 
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - body (Client): client model
+  - client (Client): client model
   - opts (KeywordList): [optional] Optional parameters
-
   ## Returns
 
   {:ok, %SwaggerPetstore.Model.Client{}} on success
   {:error, info} on failure
   """
   @spec test_classname(Tesla.Env.client, SwaggerPetstore.Model.Client.t, keyword()) :: {:ok, SwaggerPetstore.Model.Client.t} | {:error, Tesla.Env.t}
-  def test_classname(connection, body, _opts \\ []) do
+  def test_classname(connection, client, _opts \\ []) do
     %{}
     |> method(:patch)
     |> url("/fake_classname_test")
-    |> add_param(:body, :"body", body)
+    |> add_param(:body, :"Client", client)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(%SwaggerPetstore.Model.Client{})
