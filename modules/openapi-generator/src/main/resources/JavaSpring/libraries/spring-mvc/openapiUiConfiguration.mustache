@@ -31,8 +31,8 @@ import java.util.List;
 @EnableWebMvc
 @EnableSwagger2 //Loads the spring beans required by the framework
 @PropertySource("classpath:swagger.properties")
-@Import(SwaggerDocumentationConfig.class)
-public class SwaggerUiConfiguration extends WebMvcConfigurerAdapter {
+@Import(OpenAPIDocumentationConfig.class)
+public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {
   private static final String[] SERVLET_RESOURCE_LOCATIONS = { "/" };
 
   private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {

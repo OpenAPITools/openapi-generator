@@ -17,14 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
+
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
 
 public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfig {
 
@@ -64,7 +67,7 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
         supportingFiles.add(new SupportingFile("server-spec.mustache", null, implPrefix + "-servers.ads"));
         supportingFiles.add(new SupportingFile("server-body.mustache", null, implPrefix + "-servers.adb"));
 
-        supportingFiles.add(new SupportingFile("swagger.mustache", "web" + File.separator + "swagger", "swagger.json"));
+        supportingFiles.add(new SupportingFile("openapi.mustache", "web" + File.separator + "swagger", "openapi.json"));
 
         if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
             projectName = (String) additionalProperties.get(CodegenConstants.PROJECT_NAME);

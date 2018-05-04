@@ -17,6 +17,22 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.tags.Tag;
+
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.URLPathUtils;
+
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -24,21 +40,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.utils.URLPathUtils;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.tags.Tag;
 
 /**
  * Created by prokarma on 04/09/17.
@@ -209,10 +210,10 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                 this.getServiceName() + "Application" + ".java"));
 
         this.supportingFiles
-                .add(new SupportingFile("config" + File.separator + "swaggerDocumentationConfig.mustache",
+                .add(new SupportingFile("config" + File.separator + "openapiDocumentationConfig.mustache",
                         (this.sourceFolder + File.separator + this.getConfigPackage()).replace(".",
                                 java.io.File.separator) + File.separator + "swagger",
-                        "SwaggerDocumentationConfig.java"));
+                        "OpenAPIDocumentationConfig.java"));
 
         this.supportingFiles.add(new SupportingFile("config" + File.separator + "pkmstproperties.mustache",
                 (this.sourceFolder + File.separator + this.getConfigPackage()).replace(".", java.io.File.separator)
