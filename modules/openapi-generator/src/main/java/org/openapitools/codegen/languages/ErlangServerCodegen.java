@@ -17,27 +17,20 @@
 
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
-import org.openapitools.codegen.*;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
-import java.util.Map.Entry;
-import org.apache.commons.lang3.StringUtils;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -140,7 +133,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("server.mustache", "",  toSourceFilePath("server", "erl")));
         supportingFiles.add(new SupportingFile("utils.mustache", "",  toSourceFilePath("utils", "erl")));
         supportingFiles.add(new SupportingFile("auth.mustache", "",  toSourceFilePath("auth", "erl")));
-        supportingFiles.add(new SupportingFile("swagger.mustache", "", toPrivFilePath("openapi", "json")));
+        supportingFiles.add(new SupportingFile("openapi.mustache", "", toPrivFilePath("openapi", "json")));
         supportingFiles.add(new SupportingFile("default_logic_handler.mustache", "",  toSourceFilePath("default_logic_handler", "erl")));
         supportingFiles.add(new SupportingFile("logic_handler.mustache", "",  toSourceFilePath("logic_handler", "erl")));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));

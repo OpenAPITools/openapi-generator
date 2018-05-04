@@ -7,7 +7,7 @@ public class WebApplication extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { SwaggerUiConfiguration.class };
+        return new Class[] { OpenAPIUiConfiguration.class };
     }
 
     @Override

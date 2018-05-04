@@ -16,7 +16,7 @@ import java.io.File;
 {{^handleExceptions}}
 import java.io.IOException;
 {{/handleExceptions}}
-import swagger.SwaggerUtils;
+import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 {{#supportAsync}}
 
@@ -30,7 +30,7 @@ import play.Configuration;
 {{/useBeanValidation}}
 
 {{#wrapCalls}}
-import swagger.SwaggerUtils.ApiAction;
+import openapitools.OpenAPIUtils.ApiAction;
 {{/wrapCalls}}
 
 {{>generatedAnnotation}}
@@ -70,16 +70,16 @@ public class {{classname}}Controller extends Controller {
             if (configuration.getBoolean("useInputBeanValidation")) {
                 {{#isListContainer}}
                 for ({{{items.baseType}}} curItem : {{paramName}}) {
-                    SwaggerUtils.validate(curItem);
+                    OpenAPIUtils.validate(curItem);
                 }
                 {{/isListContainer}}
                 {{#isMapContainer}}
                 for (Map.Entry<String, {{{items.baseType}}}> entry : {{paramName}}.entrySet()) {
-                    SwaggerUtils.validate(entry.getValue());
+                    OpenAPIUtils.validate(entry.getValue());
                 }
                 {{/isMapContainer}}
                 {{^isContainer}}
-                SwaggerUtils.validate({{paramName}});
+                OpenAPIUtils.validate({{paramName}});
                 {{/isContainer}}
             }
             {{/useBeanValidation}}
@@ -101,7 +101,7 @@ public class {{classname}}Controller extends Controller {
             throw new IllegalArgumentException("'{{baseName}}' parameter is required");
         }
         {{/required}}
-        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
+        List<String> {{paramName}}List = OpenAPIUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
             if (!curParam.isEmpty()) {
@@ -142,7 +142,7 @@ public class {{classname}}Controller extends Controller {
             throw new IllegalArgumentException("'{{baseName}}' parameter is required");
         }
         {{/required}}
-        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
+        List<String> {{paramName}}List = OpenAPIUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
             if (!curParam.isEmpty()) {
@@ -175,7 +175,7 @@ public class {{classname}}Controller extends Controller {
             throw new IllegalArgumentException("'{{baseName}}' parameter is required");
         }
         {{/required}}
-        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
+        List<String> {{paramName}}List = OpenAPIUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
             if (!curParam.isEmpty()) {
@@ -214,16 +214,16 @@ public class {{classname}}Controller extends Controller {
         if (configuration.getBoolean("useOutputBeanValidation")) {
             {{#isListContainer}}
             for ({{{returnType}}} curItem : obj) {
-                SwaggerUtils.validate(curItem);
+                OpenAPIUtils.validate(curItem);
             }
             {{/isListContainer}}
             {{#isMapContainer}}
             for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
-                SwaggerUtils.validate(entry.getValue());
+                OpenAPIUtils.validate(entry.getValue());
             }
             {{/isMapContainer}}
             {{^returnContainer}}
-            SwaggerUtils.validate(obj);
+            OpenAPIUtils.validate(obj);
             {{/returnContainer}}
         }
         {{/supportAsync}}
@@ -231,16 +231,16 @@ public class {{classname}}Controller extends Controller {
             if (configuration.getBoolean("useOutputBeanValidation")) {
                 {{#isListContainer}}
                 for ({{{returnType}}} curItem : obj) {
-                    SwaggerUtils.validate(curItem);
+                    OpenAPIUtils.validate(curItem);
                 }
                 {{/isListContainer}}
                 {{#isMapContainer}}
                 for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
-                    SwaggerUtils.validate(entry.getValue());
+                    OpenAPIUtils.validate(entry.getValue());
                 }
                 {{/isMapContainer}}
                 {{^returnContainer}}
-                SwaggerUtils.validate(obj);
+                OpenAPIUtils.validate(obj);
                 {{/returnContainer}}
             }
         {{/supportAsync}}

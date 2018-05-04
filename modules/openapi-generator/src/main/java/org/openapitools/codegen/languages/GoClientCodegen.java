@@ -17,18 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
-import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Arrays;
 
 public class GoClientCodegen extends AbstractGoCodegen {
 
@@ -89,7 +84,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         modelPackage = packageName;
         apiPackage = packageName;
 
-        supportingFiles.add(new SupportingFile("swagger.mustache", "api", "openapi.yaml"));
+        supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
