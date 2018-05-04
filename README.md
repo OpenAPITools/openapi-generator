@@ -305,15 +305,15 @@ Other languages have petstore samples, too:
 ```
 ### Customization
 
-Please refer to [customization.md](customization.md) on how to customize the output (e.g. package name, version)
+Please refer to [customization.md](docs/customization.md) on how to customize the output (e.g. package name, version)
 
 ### Workflow Integration (Maven, Gradle, Github, CI/CD)
 
-Please refer to [integration.md](integration.md) on how to integrate OpenAPI generator with Maven, Gradle, Github and CI/CD.
+Please refer to [integration.md](docs/integration.md) on how to integrate OpenAPI generator with Maven, Gradle, Github and CI/CD.
 
 ### Online OpenAPI generator
 
-Please refer to [online-openapi-generator.md](online-openapi-generator.md) on how to run and use the `openapi-generator-online` - a web service for `openapi-generator`.
+Please refer to [online-openapi-generator.md](docs/online-openapi-generator.md) on how to run and use the `openapi-generator-online` - a web service for `openapi-generator`.
 
 ### License information on Generated Code
 
