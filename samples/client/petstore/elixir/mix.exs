@@ -1,8 +1,8 @@
-defmodule SwaggerPetstore.Mixfile do
+defmodule OpenapiPetstore.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :swagger_petstore,
+    [app: :openapi_petstore,
      version: "0.1.0",
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,

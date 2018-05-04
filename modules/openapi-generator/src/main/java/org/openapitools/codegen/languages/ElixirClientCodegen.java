@@ -39,10 +39,10 @@ import java.util.regex.Pattern;
 public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String apiVersion = "1.0.0";
     protected String moduleName;
-    protected static final String defaultModuleName = "Swagger.Client";
+    protected static final String defaultModuleName = "OpenAPI.Client";
 
     // This is the name of elixir project name;
-    protected static final String defaultPackageName = "swagger_client";
+    protected static final String defaultPackageName = "openapi_client";
 
     String supportedElixirVersion = "1.4";
     List<String> extraApplications = Arrays.asList(":logger");
@@ -480,7 +480,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     /**
-     * Optional - swagger type conversion.  This is used to map swagger types in a `Schema` into
+     * Optional - OpenAPI type conversion.  This is used to map OpenAPI types in a `Schema` into
      * either language specific types via `typeMapping` or into complex models if there is not a mapping.
      *
      * @return a string value of the type or complex model for this property
