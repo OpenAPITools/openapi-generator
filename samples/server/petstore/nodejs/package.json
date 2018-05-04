@@ -8,7 +8,7 @@
     "start": "node index.js"
   },
   "keywords": [
-    "swagger"
+    "openapi-tools"
   ],
   "license": "Unlicense",
   "private": true,
