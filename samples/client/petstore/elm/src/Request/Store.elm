@@ -14,7 +14,6 @@
 module Request.Store exposing (deleteOrder, getInventory, getOrderById, placeOrder)
 
 import Data.Order exposing (Order, orderDecoder, orderEncoder)
-import Data.Int exposing (Int, intDecoder)
 import Http
 import Json.Decode as Decode
 
