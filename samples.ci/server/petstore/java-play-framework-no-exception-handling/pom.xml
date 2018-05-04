@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.swagger</groupId>
+    <groupId>org.openapitools</groupId>
     <artifactId>PlayServerTests-no-exception-handling</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>Play Petstore Server</name>
+    <name>java-play-framework-no-exception-handling Project</name>
     <build>
         <plugins>
             <plugin>
