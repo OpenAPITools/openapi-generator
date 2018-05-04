@@ -30,7 +30,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  boolean_post_body: true # BOOLEAN | Input boolean as post body
+  body: true # BOOLEAN | Input boolean as post body
 }
 
 begin
@@ -45,7 +45,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **boolean_post_body** | **BOOLEAN**| Input boolean as post body | [optional] 
+ **body** | **BOOLEAN**| Input boolean as post body | [optional] 
 
 ### Return type
 
@@ -387,7 +387,7 @@ opts = {
   enum_query_integer: 56, # Integer | Query parameter enum test (double)
   enum_query_double: 3.4, # Float | Query parameter enum test (double)
   enum_form_string_array: nil, # Array<String> | Form parameter enum test (string array)
-  enum_form_string: 'enum_form_string_example' # String | Form parameter enum test (string)
+  enum_form_string: '-efg' # String | Form parameter enum test (string)
 }
 
 begin
@@ -403,13 +403,13 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enum_header_string_array** | [**Array&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] 
- **enum_header_string** | **String**| Header parameter enum test (string) | [optional] [default to -efg]
+ **enum_header_string** | **String**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_string_array** | [**Array&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] 
- **enum_query_string** | **String**| Query parameter enum test (string) | [optional] [default to -efg]
+ **enum_query_string** | **String**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_integer** | **Integer**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **Float**| Query parameter enum test (double) | [optional] 
  **enum_form_string_array** | [**Array&lt;String&gt;**](Array.md)| Form parameter enum test (string array) | [optional] 
- **enum_form_string** | **String**| Form parameter enum test (string) | [optional] 
+ **enum_form_string** | **String**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
 ### Return type
 
