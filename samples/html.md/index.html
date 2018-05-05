@@ -239,13 +239,19 @@ font-style: italic;
     <!--Todo: process Response Object and its headers, schema, examples -->
 
     <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
+    <div class="example-data-content-type">Content-Type: */*</div>
     <pre class="example"><code>{
   "sequence" : 1,
-  "seed" : 6.027456183070403,
-  "value" : 0.8008281904610115
+  "seed" : 6.02745618307040320615897144307382404804229736328125,
+  "value" : 0.80082819046101150206595775671303272247314453125
 }</code></pre>
 
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>*/*</code></li>
+    </ul>
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
