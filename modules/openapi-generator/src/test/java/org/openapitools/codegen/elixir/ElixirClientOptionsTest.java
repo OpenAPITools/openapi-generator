@@ -42,10 +42,8 @@ public class ElixirClientOptionsTest extends AbstractOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
-            // TODO
             clientCodegen.setModuleName(ElixirClientOptionsProvider.INVOKER_PACKAGE_VALUE);
             times = 1;
-
         }};
     }
 }

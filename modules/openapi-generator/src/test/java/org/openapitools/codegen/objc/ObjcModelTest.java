@@ -275,7 +275,7 @@ public class ObjcModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("SWGChildren")).size(), 1);
     }
 
-    @Test(description = "convert an map model", enabled = false)
+    @Test(description = "convert an map model")
     public void mapModelTest() {
         final Schema model = new Schema()
                 .description("a map model for testing ObjC generator")
@@ -329,7 +329,7 @@ public class ObjcModelTest {
     }
 
 
-    @Test(description = "test binary data", enabled = false)
+    @Test(description = "test binary data")
     public void binaryDataModelTest() {
         final OpenAPI model =  new OpenAPIParser().readLocation("src/test/resources/2_0/binaryDataTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
@@ -339,8 +339,8 @@ public class ObjcModelTest {
 
         Assert.assertTrue(op.bodyParam.isBinary);
         Assert.assertTrue(op.responses.get(0).isBinary);
-        Assert.assertEquals(op.returnType, "NSData*");
-        Assert.assertEquals(op.bodyParam.dataType, "NSData*");
+        Assert.assertEquals(op.returnType, "NSURL*");
+        Assert.assertEquals(op.bodyParam.dataType, "NSURL*");
     }
 
     @Test(description = "create proper imports per #316")
