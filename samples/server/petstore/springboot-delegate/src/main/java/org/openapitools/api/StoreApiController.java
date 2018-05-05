@@ -3,9 +3,8 @@ package org.openapitools.api;
 import java.util.Map;
 import org.openapitools.model.Order;
 import io.swagger.annotations.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class StoreApiController implements StoreApi {
@@ -36,7 +36,7 @@ public class StoreApiController implements StoreApi {
         return delegate.getInventory();
     }
 
-    public ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true, allowableValues = "") @PathVariable("order_id") Long orderId) {
+    public ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId) {
         return delegate.getOrderById(orderId);
     }
 

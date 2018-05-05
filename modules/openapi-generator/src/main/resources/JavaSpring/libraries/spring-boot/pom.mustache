@@ -9,12 +9,14 @@
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <springfox-version>2.7.0</springfox-version>
+        {{^reactive}}
+        <springfox-version>2.8.0</springfox-version>
+        {{/reactive}}
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.9.RELEASE</version>
+        <version>{{#java8}}2.0.1.RELEASE{{/java8}}{{^java8}}1.5.12.RELEASE{{/java8}}</version>
     </parent>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -37,12 +39,9 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-        </dependency>
+        {{^reactive}}
         <!--SpringFox dependencies -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -54,6 +53,14 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-version}</version>
         </dependency>
+        {{/reactive}}
+        {{#reactive}}
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.14</version>
+        </dependency>
+        {{/reactive}}
         {{#withXml}}
 
         <!-- XML processing: Jackson -->
