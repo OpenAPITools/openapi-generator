@@ -38,7 +38,7 @@ use std::collections::{HashMap, BTreeMap};
 #[allow(unused_imports)]
 use swagger;
 
-use swagger::{Context, ApiError, XSpanId};
+use swagger::{ApiError, XSpanId, XSpanIdString, Has, AuthData};
 
 use {Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
      {{operationId}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
@@ -67,8 +67,7 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
 /// A client that implements the API by making HTTP calls out to a server.
 #[derive(Clone)]
 pub struct Client {
-    hyper_client: Arc<Fn(&Handle) -> Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>> + Sync + Send>,
-    handle: Arc<Handle>,
+    hyper_client: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
     base_path: String,
 }
 
@@ -173,25 +172,13 @@ impl Client {
     where
         C: hyper::client::Connect + hyper::client::Service,
     {
-        let hyper_client = {
-            move |handle: &Handle| -> Box<
-                hyper::client::Service<
-                    Request = hyper::Request<hyper::Body>,
-                    Response = hyper::Response,
-                    Error = hyper::Error,
-                    Future = hyper::client::FutureResponse,
-                >,
-            > {
-                let connector = connector_fn(handle);
-                Box::new(hyper::Client::configure().connector(connector).build(
-                    handle,
-                ))
-            }
-        };
+        let connector = connector_fn(&handle);
+        let hyper_client = Box::new(hyper::Client::configure().connector(connector).build(
+            &handle,
+        ));
 
         Ok(Client {
             hyper_client: Arc::new(hyper_client),
-            handle: Arc::new(handle),
             base_path: into_base_path(base_path, protocol)?,
         })
     }
@@ -205,22 +192,21 @@ impl Client {
     /// The reason for this function's existence is to support legacy test code, which did mocking at the hyper layer.
     /// This is not a recommended way to write new tests. If other reasons are found for using this function, they
     /// should be mentioned here.
-    pub fn try_new_with_hyper_client(hyper_client: Arc<Fn(&Handle) -> Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>> + Sync + Send>,
+    pub fn try_new_with_hyper_client(hyper_client: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
                                      handle: Handle,
                                      base_path: &str)
                                     -> Result<Client, ClientInitError>
     {
         Ok(Client {
             hyper_client: hyper_client,
-            handle: Arc::new(handle),
             base_path: into_base_path(base_path, None)?,
         })
     }
 }
 
-impl Api for Client {
+impl<C> Api<C> for Client where C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<AuthData>>{{/hasAuthMethods}}{
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, param_{{paramName}}: {{^required}}{{#isFile}}Box<Future<Item={{/isFile}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{#isFile}}, Error=Error> + Send>{{/isFile}}{{/required}}{{/allParams}}, context: &Context) -> Box<Future<Item={{operationId}}Response, Error=ApiError>> {
+    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, param_{{paramName}}: {{^required}}{{#isFile}}Box<Future<Item={{/isFile}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{#isFile}}, Error=Error> + Send>{{/isFile}}{{/required}}{{/allParams}}, context: &C) -> Box<Future<Item={{operationId}}Response, Error=ApiError>> {
 {{#queryParams}}{{#-first}}
         // Query parameters
 {{/-first}}{{#required}}        let query_{{paramName}} = format!("{{baseName}}={{=<% %>=}}{<% paramName %>}<%={{ }}=%>&", {{paramName}}=param_{{paramName}}{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});
@@ -306,9 +292,9 @@ impl Api for Client {
 
         request.headers_mut().set(ContentType(mimetypes::requests::{{#vendorExtensions}}{{uppercase_operation_id}}{{/vendorExtensions}}.clone()));
 {{/bodyParam}}
-        context.x_span_id.as_ref().map(|header| request.headers_mut().set(XSpanId(header.clone())));
-{{#authMethods}}{{#isBasic}}        context.auth_data.as_ref().map(|auth_data| {
-            if let &swagger::AuthData::Basic(ref basic_header) = auth_data {
+        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+{{#authMethods}}{{#isBasic}}        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            if let &AuthData::Basic(ref basic_header) = auth_data {
                 request.headers_mut().set(hyper::header::Authorization(
                     basic_header.clone(),
                 ))
@@ -326,8 +312,7 @@ impl Api for Client {
         request.set_body(body_string.into_bytes());
 {{/hasFile}}{{/vendorExtensions}}
 
-        let hyper_client = (self.hyper_client)(&*self.handle);
-        Box::new(hyper_client.call(request)
+        Box::new(self.hyper_client.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {

@@ -472,11 +472,20 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         String modifiedName = name.replaceAll("\\.", "");
         modifiedName = sanitizeKotlinSpecificNames(modifiedName);
 
+        // Camelize name of nested properties
+        modifiedName = camelize(modifiedName);
+
         if (reservedWords.contains(modifiedName)) {
             modifiedName = escapeReservedWord(modifiedName);
         }
 
         return titleCase(modifiedName);
+    }
+
+    @Override
+    public String toModelFilename(String name) {
+        // Should be the same as the model name
+        return toModelName(name);
     }
 
     /**

@@ -7,23 +7,33 @@ use chrono;
 {{#apiHasFile}}use futures::Stream;{{/apiHasFile}}
 use std::collections::HashMap;
 {{#apiHasFile}}use std::io::Error;{{/apiHasFile}}
+use std::marker::PhantomData;
 {{#apiUsesUuid}}use uuid;{{/apiUsesUuid}}
 use swagger;
+use swagger::{Has, XSpanIdString};
 
-use {{externCrateName}}::{Api, ApiError, Context{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
+use {{externCrateName}}::{Api, ApiError{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
                       {{operationId}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 };
 use {{externCrateName}}::models;
 
 #[derive(Copy, Clone)]
-pub struct Server;
+pub struct Server<C> {
+    marker: PhantomData<C>,
+}
 
-impl Api for Server {
+impl<C> Server<C> {
+    pub fn new() -> Self {
+        Server{marker: PhantomData}
+    }
+}
+
+impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
 {{#summary}}    /// {{{summary}}}{{/summary}}
-    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, {{paramName}}: {{^required}}{{#isFile}}Box<Future<Item={{/isFile}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{#isFile}}, Error=Error> + Send>{{/isFile}}{{/required}}{{/allParams}}, context: &Context) -> Box<Future<Item={{operationId}}Response, Error=ApiError>> {
+    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, {{paramName}}: {{^required}}{{#isFile}}Box<Future<Item={{/isFile}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{#isFile}}, Error=Error> + Send>{{/isFile}}{{/required}}{{/allParams}}, context: &C) -> Box<Future<Item={{operationId}}Response, Error=ApiError>> {
         let context = context.clone();
-        println!("{{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}({{#allParams}}{{^isFile}}{{#vendorExtensions}}{{{formatString}}}{{/vendorExtensions}}{{#hasMore}}, {{/hasMore}}{{/isFile}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}{{^isFile}}, {{paramName}}{{/isFile}}{{/allParams}}, context.x_span_id.unwrap_or(String::from("<none>")).clone());{{#allParams}}{{#isFile}}
+        println!("{{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}({{#allParams}}{{^isFile}}{{#vendorExtensions}}{{{formatString}}}{{/vendorExtensions}}{{#hasMore}}, {{/hasMore}}{{/isFile}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}{{^isFile}}, {{paramName}}{{/isFile}}{{/allParams}}, context.get().0.clone());{{#allParams}}{{#isFile}}
         let _ = {{paramName}}; //Suppresses unused param warning{{/isFile}}{{/allParams}}
         Box::new(futures::failed("Generic failure".into()))
     }
