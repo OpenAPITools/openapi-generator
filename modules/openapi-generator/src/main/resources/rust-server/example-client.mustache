@@ -4,11 +4,14 @@ extern crate {{externCrateName}};
 #[allow(unused_extern_crates)]
 extern crate futures;
 #[allow(unused_extern_crates)]
+#[macro_use]
 extern crate swagger;
 #[allow(unused_extern_crates)]
 extern crate uuid;
 extern crate clap;
 extern crate tokio_core;
+
+use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
 
 #[allow(unused_imports)]
 use futures::{Future, future, Stream, stream};
@@ -60,15 +63,16 @@ fn main() {
             .expect("Failed to create HTTP client")
     };
 
-    // Using a non-default `Context` is not required; this is just an example!
-    let client = client.with_context({{externCrateName}}::Context::new_with_span_id(self::uuid::Uuid::new_v4().to_string()));
+    let context: make_context_ty!(ContextBuilder, EmptyContext, Option<AuthData>, XSpanIdString) =
+        make_context!(ContextBuilder, EmptyContext, None, XSpanIdString(self::uuid::Uuid::new_v4().to_string()));
+    let client = client.with_context(context);
 
     match matches.value_of("operation") {
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
         {{#vendorExtensions}}{{#noClientExample}}// Disabled because there's no example.
         // {{/noClientExample}}Some("{{operationId}}") => {
         {{#noClientExample}}// {{/noClientExample}}    let result = core.run(client.{{operation_id}}{{/vendorExtensions}}({{#allParams}}{{^-first}}, {{/-first}}{{#vendorExtensions}}{{{example}}}{{/vendorExtensions}}{{/allParams}}));
-        {{#vendorExtensions}}{{#noClientExample}}// {{/noClientExample}}{{/vendorExtensions}}    println!("{:?} (X-Span-ID: {:?})", result, client.context().x_span_id.clone().unwrap_or(String::from("<none>")));
+        {{#vendorExtensions}}{{#noClientExample}}// {{/noClientExample}}{{/vendorExtensions}}    println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         {{#vendorExtensions}}{{#noClientExample}}// {{/noClientExample}}{{/vendorExtensions}} },
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
         _ => {

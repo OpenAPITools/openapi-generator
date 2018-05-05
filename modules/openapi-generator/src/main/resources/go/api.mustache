@@ -3,11 +3,11 @@ package {{packageName}}
 
 {{#operations}}
 import (
+	"context"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
-	"context"
 {{#imports}}	"{{import}}"
 {{/imports}}
 )

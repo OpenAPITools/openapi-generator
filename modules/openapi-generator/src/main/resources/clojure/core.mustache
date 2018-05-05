@@ -169,6 +169,13 @@
        (map (fn [[k v]] [k (normalize-param v)]))
        (into {})))
 
+(defn default-to-json-mime
+  "Default to JSON MIME if given */* MIME"
+  [mime]
+  (if (= mime "*/*")
+    "application/json"
+    mime))
+
 (defn json-mime?
   "Check if the given MIME is a standard JSON MIME or :json."
   [mime]
@@ -182,7 +189,7 @@
   [mimes]
   (-> (filter json-mime? mimes)
       first
-      (or (first mimes))))
+      (or (default-to-json-mime (first mimes)))))
 
 (defn serialize
   "Serialize the given data according to content-type.

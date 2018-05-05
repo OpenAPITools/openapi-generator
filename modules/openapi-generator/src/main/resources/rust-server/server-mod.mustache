@@ -13,6 +13,7 @@ extern crate url;
 
 {{#apiUsesUuid}}use uuid;{{/apiUsesUuid}}
 use std::sync::Arc;
+use std::marker::PhantomData;
 use futures::{Future, future, Stream, stream};
 use hyper;
 use hyper::{Request, Response, Error, StatusCode};
@@ -35,7 +36,7 @@ use std::io;
 use std::collections::BTreeSet;
 
 pub use swagger::auth::Authorization;
-use swagger::{ApiError, Context, XSpanId};
+use swagger::{ApiError, XSpanId, XSpanIdString, Has};
 use swagger::auth::Scopes;
 
 use {Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
@@ -68,39 +69,56 @@ mod paths {
 {{/pathSet}}
 }
 
-pub struct NewService<T> {
+pub struct NewService<T, C> {
     api_impl: Arc<T>,
+    marker: PhantomData<C>,
 }
 
-impl<T> NewService<T> where T: Api + Clone + 'static {
-    pub fn new<U: Into<Arc<T>>>(api_impl: U) -> NewService<T> {
-        NewService{api_impl: api_impl.into()}
+impl<T, C> NewService<T, C>
+where
+    T: Api<C> + Clone + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + 'static
+{
+    pub fn new<U: Into<Arc<T>>>(api_impl: U) -> NewService<T, C> {
+        NewService{api_impl: api_impl.into(), marker: PhantomData}
     }
 }
 
-impl<T> hyper::server::NewService for NewService<T> where T: Api + Clone + 'static {
-    type Request = (Request, Context);
+impl<T, C> hyper::server::NewService for NewService<T, C>
+where
+    T: Api<C> + Clone + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + 'static
+{
+    type Request = (Request, C);
     type Response = Response;
     type Error = Error;
-    type Instance = Service<T>;
+    type Instance = Service<T, C>;
 
     fn new_service(&self) -> Result<Self::Instance, io::Error> {
         Ok(Service::new(self.api_impl.clone()))
     }
 }
 
-pub struct Service<T> {
+pub struct Service<T, C> {
     api_impl: Arc<T>,
+    marker: PhantomData<C>,
 }
 
-impl<T> Service<T> where T: Api + Clone + 'static {
-    pub fn new<U: Into<Arc<T>>>(api_impl: U) -> Service<T> {
-        Service{api_impl: api_impl.into()}
+impl<T, C> Service<T, C>
+where
+    T: Api<C> + Clone + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + 'static {
+    pub fn new<U: Into<Arc<T>>>(api_impl: U) -> Service<T, C> {
+        Service{api_impl: api_impl.into(), marker: PhantomData}
     }
 }
 
-impl<T> hyper::server::Service for Service<T> where T: Api + Clone + 'static {
-    type Request = (Request, Context);
+impl<T, C> hyper::server::Service for Service<T, C>
+where
+    T: Api<C> + Clone + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + 'static
+{
+    type Request = (Request, C);
     type Response = Response;
     type Error = Error;
     type Future = Box<Future<Item=Response, Error=Error>>;
@@ -113,14 +131,11 @@ impl<T> hyper::server::Service for Service<T> where T: Api + Clone + 'static {
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
             // {{operationId}} - {{httpMethod}} {{path}}
             &hyper::Method::{{vendorExtensions.HttpMethod}} if path.matched(paths::ID_{{vendorExtensions.PATH_ID}}) => {
-                if context.x_span_id.is_none() {
-                    context.x_span_id = Some(headers.get::<XSpanId>().map(XSpanId::to_string).unwrap_or_else(|| self::uuid::Uuid::new_v4().to_string()));
-                }
 {{#hasAuthMethods}}
                 {
-                    let authorization = match context.authorization.as_ref() {
-                        Some(authorization) => authorization,
-                        None => return Box::new(future::ok(Response::new()
+                    let authorization = match (&context as &Has<Option<Authorization>>).get() {
+                        &Some(ref authorization) => authorization,
+                        &None => return Box::new(future::ok(Response::new()
                                                 .with_status(StatusCode::Forbidden)
                                                 .with_body("Unauthenticated"))),
                     };
@@ -304,7 +319,7 @@ impl<T> hyper::server::Service for Service<T> where T: Api + Clone + 'static {
 {{^required}}{{#isFile}}                                let param_{{paramName}} = Box::new(future::ok(param_{{paramName}}));{{/isFile}}{{/required}}
 {{/formParams}}
 {{/hasFile}}{{^hasFile}}
-                Box::new(({
+                Box::new({
                         {{
 {{#formParams}}{{#-first}}
                                 // Form parameters
@@ -315,7 +330,7 @@ impl<T> hyper::server::Service for Service<T> where T: Api + Clone + 'static {
                                 Box::new(api_impl.{{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}({{#allParams}}param_{{paramName}}{{#isListContainer}}.as_ref(){{/isListContainer}}, {{/allParams}}&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        context.x_span_id.as_ref().map(|header| response.headers_mut().set(XSpanId(header.clone())));
+                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
 {{#bodyParams}}{{#vendorExtensions}}{{^consumesPlainText}}
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -410,7 +425,7 @@ impl<T> hyper::server::Service for Service<T> where T: Api + Clone + 'static {
                                 ))
 {{^bodyParams}}{{#vendorExtensions}}{{^hasFile}}
                         }}
-                })) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<Future<Item=Response, Error=Error>>
 {{/hasFile}}{{#hasFile}}
                                 as Box<Future<Item=Response, Error=Error>>
                             },
