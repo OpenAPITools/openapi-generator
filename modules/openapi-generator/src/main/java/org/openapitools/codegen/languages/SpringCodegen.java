@@ -61,6 +61,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String JAVA_8 = "java8";
     public static final String ASYNC = "async";
+    public static final String REACTIVE = "reactive";
     public static final String RESPONSE_WRAPPER = "responseWrapper";
     public static final String USE_TAGS = "useTags";
     public static final String SPRING_MVC_LIBRARY = "spring-mvc";
@@ -75,8 +76,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean delegatePattern = false;
     protected boolean delegateMethod = false;
     protected boolean singleContentTypes = false;
-    protected boolean java8 = false;
+    protected boolean java8 = true;
     protected boolean async = false;
+    protected boolean reactive = false;
     protected String responseWrapper = "";
     protected boolean useTags = false;
     protected boolean useBeanValidation = true;
@@ -105,6 +107,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation."));
         cliOptions.add(CliOption.newBoolean(JAVA_8, "use java8 default interface"));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers"));
+        cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)"));
         cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)"));
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
@@ -147,12 +150,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(JAVA_8)) {
             this.setJava8(Boolean.valueOf(additionalProperties.get(JAVA_8).toString()));
         }
-        if (this.java8) {
-            additionalProperties.put("javaVersion", "1.8");
-            additionalProperties.put("jdk8", "true");
-            if (!additionalProperties.containsKey(DATE_LIBRARY)) {
-                setDateLibrary("java8");
-            }
+        if (this.java8 && !additionalProperties.containsKey(DATE_LIBRARY)) {
+            setDateLibrary("java8");
         }
 
         if (!additionalProperties.containsKey(BASE_PACKAGE) && additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
@@ -198,12 +197,15 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setSingleContentTypes(Boolean.valueOf(additionalProperties.get(SINGLE_CONTENT_TYPES).toString()));
         }
 
-        if (additionalProperties.containsKey(JAVA_8)) {
-            this.setJava8(Boolean.valueOf(additionalProperties.get(JAVA_8).toString()));
-        }
-
         if (additionalProperties.containsKey(ASYNC)) {
             this.setAsync(Boolean.valueOf(additionalProperties.get(ASYNC).toString()));
+        }
+
+        if (additionalProperties.containsKey(REACTIVE)) {
+            if (!library.equals(DEFAULT_LIBRARY)) {
+                throw new IllegalArgumentException("Currently, reactive option is only supported with Spring-boot");
+            }
+            this.setReactive(Boolean.valueOf(additionalProperties.get(REACTIVE).toString()));
         }
 
         if (additionalProperties.containsKey(RESPONSE_WRAPPER)) {
@@ -256,10 +258,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         if (!this.interfaceOnly) {
-
             if (library.equals(DEFAULT_LIBRARY)) {
-                supportingFiles.add(new SupportingFile("homeController.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HomeController.java"));
+                if (!this.reactive) {
+                    supportingFiles.add(new SupportingFile("homeController.mustache",
+                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HomeController.java"));
+                }
                 supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "OpenAPI2SpringBoot.java"));
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
@@ -297,14 +300,21 @@ public class SpringCodegen extends AbstractJavaCodegen
                         (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiResponseMessage.java"));
                 supportingFiles.add(new SupportingFile("notFoundException.mustache",
                         (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "NotFoundException.java"));
-                supportingFiles.add(new SupportingFile("apiOriginFilter.mustache",
-                        (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiOriginFilter.java"));
-                supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "OpenAPIDocumentationConfig.java"));
+                if (!this.reactive) {
+                    supportingFiles.add(new SupportingFile("apiOriginFilter.mustache",
+                            (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiOriginFilter.java"));
+                    supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
+                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "OpenAPIDocumentationConfig.java"));
+                }
             }
-        } else if ( this.swaggerDocketConfig && !library.equals(SPRING_CLOUD_LIBRARY)) {
+        } else if (this.swaggerDocketConfig && !library.equals(SPRING_CLOUD_LIBRARY) && !this.reactive) {
             supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "OpenAPIDocumentationConfig.java"));
+        }
+
+        if (!SPRING_CLOUD_LIBRARY.equals(library)) {
+            supportingFiles.add(new SupportingFile("apiUtil.mustache",
+                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.java"));
         }
 
         if ("threetenbp".equals(dateLibrary)) {
@@ -328,7 +338,9 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (this.java8) {
             additionalProperties.put("javaVersion", "1.8");
-            additionalProperties.put("jdk8", "true");
+            if (!SPRING_CLOUD_LIBRARY.equals(library)) {
+                additionalProperties.put("jdk8", "true");
+            }
             if (this.async) {
                 additionalProperties.put(RESPONSE_WRAPPER, "CompletableFuture");
             }
@@ -341,7 +353,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             case "Future":
             case "Callable":
             case "CompletableFuture":
-                additionalProperties.put(RESPONSE_WRAPPER, "java.util.concurrent" + this.responseWrapper);
+                additionalProperties.put(RESPONSE_WRAPPER, "java.util.concurrent." + this.responseWrapper);
                 break;
             case "ListenableFuture":
                 additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.util.concurrent.ListenableFuture");
@@ -646,6 +658,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void setJava8(boolean java8) { this.java8 = java8; }
 
     public void setAsync(boolean async) { this.async = async; }
+
+    public void setReactive(boolean reactive) { this.reactive = reactive; }
 
     public void setResponseWrapper(String responseWrapper) { this.responseWrapper = responseWrapper; }
 

@@ -1,30 +1,21 @@
 package org.openapitools.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.context.request.NativeWebRequest;
 import java.util.Optional;
 
 @Controller
 public class FakeApiController implements FakeApi {
 
-    private final ObjectMapper objectMapper;
-
-    private final HttpServletRequest request;
+    private final NativeWebRequest request;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public FakeApiController(ObjectMapper objectMapper, HttpServletRequest request) {
-        this.objectMapper = objectMapper;
+    public FakeApiController(NativeWebRequest request) {
         this.request = request;
     }
 
     @Override
-    public Optional<ObjectMapper> getObjectMapper() {
-        return Optional.ofNullable(objectMapper);
-    }
-
-    @Override
-    public Optional<HttpServletRequest> getRequest() {
+    public Optional<NativeWebRequest> getRequest() {
         return Optional.ofNullable(request);
     }
 
