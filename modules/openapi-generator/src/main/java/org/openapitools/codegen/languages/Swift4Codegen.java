@@ -476,8 +476,16 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toDefaultValue(Schema prop) {
-        // nil
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "\"" + escapeText((String) p.getDefault()) + "\"";
+            }
+        }
         return null;
     }
 
@@ -621,7 +629,12 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        return String.valueOf(value);
+        // for string, array of string
+        if ("String".equals(datatype) || "[String]".equals(datatype) || "[String:String]".equals(datatype)) {
+            return "\"" + String.valueOf(value) + "\"";
+        } else {
+            return String.valueOf(value);
+        }
     }
 
     @Override

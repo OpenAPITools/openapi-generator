@@ -4086,7 +4086,43 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
                 // key => property name
                 // value => property schema
-                codegenParameter = fromFormProperty(entry.getKey(), entry.getValue(), imports);
+                String collectionFormat = null;
+                Schema s = entry.getValue();
+                // array of schema
+                if (ModelUtils.isArraySchema(s)) {
+                    final ArraySchema arraySchema = (ArraySchema) s;
+                    Schema inner = arraySchema.getItems();
+                    if (inner == null) {
+                        LOGGER.warn("warning! No inner type supplied for array parameter \"" + s.getName() + "\", using String");
+                        inner = new StringSchema().description("//TODO automatically added by openapi-generator due to missing iner type definition in the spec");
+                        arraySchema.setItems(inner);
+                    }
+
+                    //TODO fix collectformat for form parameters
+                    //collectionFormat = getCollectionFormat(s);
+                    // default to csv:
+                    collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
+                    codegenParameter = fromFormProperty(entry.getKey(), inner, imports);
+
+                    CodegenProperty codegenProperty = fromProperty("inner", inner);
+                    codegenParameter.items = codegenProperty;
+                    codegenParameter.baseType = codegenProperty.datatype;
+                    codegenParameter.isContainer = true;
+                    codegenParameter.isListContainer = true;
+                    codegenParameter.description = s.getDescription();
+
+                    // recursively add import
+                    while (codegenProperty != null) {
+                        imports.add(codegenProperty.baseType);
+                        codegenProperty = codegenProperty.items;
+                    }
+
+                } else if (ModelUtils.isMapSchema(s)) {
+                    LOGGER.error("Map of form parameters not supported. Please report the issue to https://github.com/openapitools/openapi-generator if you need help.");
+                    continue;
+                } else {
+                    codegenParameter = fromFormProperty(entry.getKey(), entry.getValue(), imports);
+                }
 
                 // Set 'required' flag defined in the schema element
                 if (!codegenParameter.required && schema.getRequired() != null) {
