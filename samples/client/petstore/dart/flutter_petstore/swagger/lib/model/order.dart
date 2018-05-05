@@ -4,21 +4,16 @@ class Order {
   
   int id = null;
   
-
   int petId = null;
   
-
   int quantity = null;
   
-
   DateTime shipDate = null;
-  
-/* Order Status */
+  /* Order Status */
   String status = null;
-  //enum statusEnum {  placed,  approved,  delivered,  };
-
-  bool complete = null;
+  //enum statusEnum {  placed,  approved,  delivered,  };{
   
+  bool complete = false;
   Order();
 
   @override
@@ -28,17 +23,12 @@ class Order {
 
   Order.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    id =
-    json['id'];
-    petId =
-    json['petId'];
-    quantity =
-    json['quantity'];
+    id = json['id'];
+    petId = json['petId'];
+    quantity = json['quantity'];
     shipDate = json['shipDate'] == null ? null : DateTime.parse(json['shipDate']);
-    status =
-    json['status'];
-    complete =
-    json['complete'];
+    status = json['status'];
+    complete = json['complete'];
   }
 
   Map<String, dynamic> toJson() {
@@ -49,15 +39,11 @@ class Order {
       'shipDate': shipDate == null ? '' : shipDate.toUtc().toIso8601String(),
       'status': status,
       'complete': complete
-     };
+    };
   }
 
-  static List<Order> listFromJson(List<Map<String, dynamic>> json) {
-    var list = new List<Order>();
-    if (json != null && json.length > 0) {
-      json.forEach((Map<String, dynamic> value) => list.add(new Order.fromJson(value)));
-    }
-    return list;
+  static List<Order> listFromJson(List<dynamic> json) {
+    return json == null ? new List<Order>() : json.map((value) => new Order.fromJson(value)).toList();
   }
 
   static Map<String, Order> mapFromJson(Map<String, Map<String, dynamic>> json) {

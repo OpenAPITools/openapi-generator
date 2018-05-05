@@ -4,27 +4,19 @@ class User {
   
   int id = null;
   
-
   String username = null;
   
-
   String firstName = null;
   
-
   String lastName = null;
   
-
   String email = null;
   
-
   String password = null;
   
-
   String phone = null;
-  
-/* User Status */
+  /* User Status */
   int userStatus = null;
-  
   User();
 
   @override
@@ -34,22 +26,14 @@ class User {
 
   User.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    id =
-    json['id'];
-    username =
-    json['username'];
-    firstName =
-    json['firstName'];
-    lastName =
-    json['lastName'];
-    email =
-    json['email'];
-    password =
-    json['password'];
-    phone =
-    json['phone'];
-    userStatus =
-    json['userStatus'];
+    id = json['id'];
+    username = json['username'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    email = json['email'];
+    password = json['password'];
+    phone = json['phone'];
+    userStatus = json['userStatus'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,15 +46,11 @@ class User {
       'password': password,
       'phone': phone,
       'userStatus': userStatus
-     };
+    };
   }
 
-  static List<User> listFromJson(List<Map<String, dynamic>> json) {
-    var list = new List<User>();
-    if (json != null && json.length > 0) {
-      json.forEach((Map<String, dynamic> value) => list.add(new User.fromJson(value)));
-    }
-    return list;
+  static List<User> listFromJson(List<dynamic> json) {
+    return json == null ? new List<User>() : json.map((value) => new User.fromJson(value)).toList();
   }
 
   static Map<String, User> mapFromJson(Map<String, Map<String, dynamic>> json) {

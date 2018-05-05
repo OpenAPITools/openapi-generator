@@ -1,7 +1,10 @@
 class {{classname}} {
-  {{#vars}}{{#description}}/* {{{description}}} */{{/description}}
+  {{#vars}}
+  {{#description}}/* {{{description}}} */{{/description}}
   {{{datatype}}} {{name}} = {{{defaultValue}}};
-  {{#allowableValues}}{{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}{{/allowableValues}}
+  {{#allowableValues}}
+  {{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}{
+  {{/allowableValues}}
   {{/vars}}
   {{classname}}();
 
@@ -17,20 +20,27 @@ class {{classname}} {
     {{name}} = json['{{name}}'] == null ? null : DateTime.parse(json['{{name}}']);
   {{/isDateTime}}
   {{^isDateTime}}
-    {{name}} =
     {{#complexType}}
-      {{#isListContainer}}{{complexType}}.listFromJson(json['{{name}}']){{/isListContainer}}{{^isListContainer}}
-      {{#isMapContainer}}{{complexType}}.mapFromJson(json['{{name}}']){{/isMapContainer}}
-      {{^isMapContainer}}new {{complexType}}.fromJson(json['{{name}}']){{/isMapContainer}}{{/isListContainer}}
+      {{#isListContainer}}
+    {{name}} = {{complexType}}.listFromJson(json['{{name}}']);
+      {{/isListContainer}}
+      {{^isListContainer}}
+      {{#isMapContainer}}
+    {{name}} = {{complexType}}.mapFromJson(json['{{name}}']);
+      {{/isMapContainer}}
+      {{^isMapContainer}}
+    {{name}} = new {{complexType}}.fromJson(json['{{name}}']);
+      {{/isMapContainer}}
+      {{/isListContainer}}
     {{/complexType}}
     {{^complexType}}
       {{#isListContainer}}
-        (json['{{name}}'] as List).map((item) => item as {{items.datatype}}).toList()
+    {{name}} = (json['{{name}}'] as List).map((item) => item as {{items.datatype}}).toList();
       {{/isListContainer}}
       {{^isListContainer}}
-        json['{{name}}']
+    {{name}} = json['{{name}}'];
       {{/isListContainer}}
-    {{/complexType}};
+    {{/complexType}}
   {{/isDateTime}}
   {{/vars}}
   }
@@ -38,9 +48,14 @@ class {{classname}} {
   Map<String, dynamic> toJson() {
     return {
     {{#vars}}
-      {{#isDateTime}}'{{name}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}{{/isDateTime}}{{^isDateTime}}'{{name}}': {{name}}{{^-last}},{{/-last}}{{/isDateTime}}
+      {{#isDateTime}}
+      '{{name}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
+      {{/isDateTime}}
+      {{^isDateTime}}
+      '{{name}}': {{name}}{{^-last}},{{/-last}}
+      {{/isDateTime}}
     {{/vars}}
-     };
+    };
   }
 
   static List<{{classname}}> listFromJson(List<dynamic> json) {

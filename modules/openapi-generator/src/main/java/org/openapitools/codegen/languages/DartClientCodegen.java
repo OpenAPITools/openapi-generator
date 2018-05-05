@@ -283,13 +283,18 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
+    public String toDefaultValue(Schema schema) {
+        if (ModelUtils.isMapSchema(schema)) {
             return "{}";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (ModelUtils.isArraySchema(schema)) {
             return "[]";
         }
-        return super.toDefaultValue(p);
+
+        if (schema.getDefault() != null) {
+            return schema.getDefault().toString();
+        } else {
+            return "null";
+        }
     }
 
     @Override

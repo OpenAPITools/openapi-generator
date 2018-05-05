@@ -2,6 +2,11 @@ part of {{pubName}}.api;
 
 {{#models}}
 {{#model}}
-{{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}{{>class}}{{/isEnum}}
+{{#isEnum}}
+{{>enum}}
+{{/isEnum}}
+{{^isEnum}}
+{{>class}}
+{{/isEnum}}
 {{/model}}
 {{/models}}

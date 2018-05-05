@@ -40,7 +40,8 @@ class {{classname}} {
     }
     {{/required}}
     {{/queryParams}}
-    {{#headerParams}}headerParams["{{baseName}}"] = {{paramName}};
+    {{#headerParams}}
+    headerParams["{{baseName}}"] = {{paramName}};
     {{/headerParams}}
 
     List<String> contentTypes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}];
@@ -90,20 +91,25 @@ class {{classname}} {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return 
       {{#isListContainer}}
-        {{#returnType}}(apiClient.deserialize(response.body, '{{{returnType}}}') as List).map((item) => item as {{returnBaseType}}).toList();{{/returnType}}
+        {{#returnType}}
+      return (apiClient.deserialize(response.body, '{{{returnType}}}') as List).map((item) => item as {{returnBaseType}}).toList();
+        {{/returnType}}
       {{/isListContainer}}
       {{^isListContainer}}
         {{#isMapContainer}}
-          {{#returnType}}new {{{returnType}}}.from(apiClient.deserialize(response.body, '{{{returnType}}}')) {{/returnType}};
+          {{#returnType}}
+      return new {{{returnType}}}.from(apiClient.deserialize(response.body, '{{{returnType}}}'));
+          {{/returnType}};
         {{/isMapContainer}}
         {{^isMapContainer}}
-          {{#returnType}}apiClient.deserialize(response.body, '{{{returnType}}}') as {{{returnType}}} {{/returnType}};
+          {{#returnType}}
+      return apiClient.deserialize(response.body, '{{{returnType}}}') as {{{returnType}}};
+          {{/returnType}}
         {{/isMapContainer}}
       {{/isListContainer}}
     } else {
-      return {{#returnType}}null{{/returnType}};
+      return{{#returnType}} null{{/returnType}};
     }
   }
   {{/operation}}

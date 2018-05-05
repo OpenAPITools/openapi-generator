@@ -4,9 +4,7 @@ class Category {
   
   int id = null;
   
-
   String name = null;
-  
   Category();
 
   @override
@@ -16,25 +14,19 @@ class Category {
 
   Category.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    id =
-    json['id'];
-    name =
-    json['name'];
+    id = json['id'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': name
-     };
+    };
   }
 
-  static List<Category> listFromJson(List<Map<String, dynamic>> json) {
-    var list = new List<Category>();
-    if (json != null && json.length > 0) {
-      json.forEach((Map<String, dynamic> value) => list.add(new Category.fromJson(value)));
-    }
-    return list;
+  static List<Category> listFromJson(List<dynamic> json) {
+    return json == null ? new List<Category>() : json.map((value) => new Category.fromJson(value)).toList();
   }
 
   static Map<String, Category> mapFromJson(Map<String, Map<String, dynamic>> json) {
