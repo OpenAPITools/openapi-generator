@@ -25,7 +25,7 @@ class PetApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
+
     List<String> contentTypes = ["application/json","application/xml"];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -52,9 +52,8 @@ class PetApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return ;
     } else {
-      return ;
+      return;
     }
   }
   /// Deletes a pet
@@ -103,9 +102,8 @@ class PetApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return ;
     } else {
-      return ;
+      return;
     }
   }
   /// Finds Pets by status
@@ -126,8 +124,8 @@ class PetApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-      queryParams.addAll(_convertParametersForCollectionFormat("", "status", status));
-    
+      queryParams.addAll(_convertParametersForCollectionFormat("csv", "status", status));
+
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -154,7 +152,7 @@ class PetApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return apiClient.deserialize(response.body, 'List<Pet>') as List<Pet> ;
+      return (apiClient.deserialize(response.body, 'List<Pet>') as List).map((item) => item as Pet).toList();
     } else {
       return null;
     }
@@ -177,8 +175,8 @@ class PetApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-      queryParams.addAll(_convertParametersForCollectionFormat("", "tags", tags));
-    
+      queryParams.addAll(_convertParametersForCollectionFormat("csv", "tags", tags));
+
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -205,7 +203,7 @@ class PetApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return apiClient.deserialize(response.body, 'List<Pet>') as List<Pet> ;
+      return (apiClient.deserialize(response.body, 'List<Pet>') as List).map((item) => item as Pet).toList();
     } else {
       return null;
     }
@@ -228,7 +226,7 @@ class PetApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
+
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -255,7 +253,7 @@ class PetApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return apiClient.deserialize(response.body, 'Pet') as Pet ;
+      return apiClient.deserialize(response.body, 'Pet') as Pet;
     } else {
       return null;
     }
@@ -278,7 +276,7 @@ class PetApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
+
     List<String> contentTypes = ["application/json","application/xml"];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -305,9 +303,8 @@ class PetApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return ;
     } else {
-      return ;
+      return;
     }
   }
   /// Updates a pet in the store with form data
@@ -328,7 +325,7 @@ class PetApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
+
     List<String> contentTypes = ["application/x-www-form-urlencoded"];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -367,9 +364,8 @@ class PetApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return ;
     } else {
-      return ;
+      return;
     }
   }
   /// uploads an image
@@ -390,7 +386,7 @@ class PetApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
+
     List<String> contentTypes = ["multipart/form-data"];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -428,7 +424,7 @@ class PetApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return apiClient.deserialize(response.body, 'ApiResponse') as ApiResponse ;
+      return apiClient.deserialize(response.body, 'ApiResponse') as ApiResponse;
     } else {
       return null;
     }

@@ -25,7 +25,7 @@ class StoreApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
+
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -52,9 +52,8 @@ class StoreApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return ;
     } else {
-      return ;
+      return;
     }
   }
   /// Returns pet inventories by status
@@ -72,7 +71,7 @@ class StoreApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
+
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -99,7 +98,8 @@ class StoreApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return apiClient.deserialize(response.body, 'Map<String, int>') as Map<String, int> ;
+      return new Map<String, int>.from(apiClient.deserialize(response.body, 'Map<String, int>'));
+          ;
     } else {
       return null;
     }
@@ -122,7 +122,7 @@ class StoreApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
+
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -149,7 +149,7 @@ class StoreApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return apiClient.deserialize(response.body, 'Order') as Order ;
+      return apiClient.deserialize(response.body, 'Order') as Order;
     } else {
       return null;
     }
@@ -172,8 +172,8 @@ class StoreApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
-    List<String> contentTypes = [];
+
+    List<String> contentTypes = ["application/json"];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
@@ -199,7 +199,7 @@ class StoreApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return apiClient.deserialize(response.body, 'Order') as Order ;
+      return apiClient.deserialize(response.body, 'Order') as Order;
     } else {
       return null;
     }

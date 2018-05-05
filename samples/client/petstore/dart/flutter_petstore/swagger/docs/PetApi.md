@@ -312,8 +312,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **int**| ID of pet that needs to be updated | 
- **name** | **String**| Updated name of the pet | [optional] 
- **status** | **String**| Updated status of the pet | [optional] 
+ **name** | **String**| Updated name of the pet | [optional] [default to null]
+ **status** | **String**| Updated status of the pet | [optional] [default to null]
 
 ### Return type
 
@@ -359,8 +359,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **int**| ID of pet to update | 
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
- **file** | **MultipartFile**| file to upload | [optional] 
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
+ **file** | **MultipartFile**| file to upload | [optional] [default to null]
 
 ### Return type
 

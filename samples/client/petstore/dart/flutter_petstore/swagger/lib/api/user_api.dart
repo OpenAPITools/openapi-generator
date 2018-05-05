@@ -25,8 +25,8 @@ class UserApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
-    List<String> contentTypes = [];
+
+    List<String> contentTypes = ["application/json"];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
@@ -52,9 +52,8 @@ class UserApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return ;
     } else {
-      return ;
+      return;
     }
   }
   /// Creates list of users with given input array
@@ -75,8 +74,8 @@ class UserApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
-    List<String> contentTypes = [];
+
+    List<String> contentTypes = ["application/json"];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
@@ -102,9 +101,8 @@ class UserApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return ;
     } else {
-      return ;
+      return;
     }
   }
   /// Creates list of users with given input array
@@ -125,8 +123,8 @@ class UserApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
-    List<String> contentTypes = [];
+
+    List<String> contentTypes = ["application/json"];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
@@ -152,9 +150,8 @@ class UserApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return ;
     } else {
-      return ;
+      return;
     }
   }
   /// Delete user
@@ -175,7 +172,7 @@ class UserApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
+
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -202,9 +199,8 @@ class UserApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return ;
     } else {
-      return ;
+      return;
     }
   }
   /// Get user by user name
@@ -225,7 +221,7 @@ class UserApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
+
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -252,7 +248,7 @@ class UserApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return apiClient.deserialize(response.body, 'User') as User ;
+      return apiClient.deserialize(response.body, 'User') as User;
     } else {
       return null;
     }
@@ -280,7 +276,7 @@ class UserApi {
     Map<String, String> formParams = {};
       queryParams.addAll(_convertParametersForCollectionFormat("", "username", username));
       queryParams.addAll(_convertParametersForCollectionFormat("", "password", password));
-    
+
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -307,7 +303,7 @@ class UserApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return apiClient.deserialize(response.body, 'String') as String ;
+      return apiClient.deserialize(response.body, 'String') as String;
     } else {
       return null;
     }
@@ -327,7 +323,7 @@ class UserApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
+
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -354,9 +350,8 @@ class UserApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return ;
     } else {
-      return ;
+      return;
     }
   }
   /// Updated user
@@ -380,8 +375,8 @@ class UserApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    
-    List<String> contentTypes = [];
+
+    List<String> contentTypes = ["application/json"];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
@@ -407,9 +402,8 @@ class UserApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return ;
     } else {
-      return ;
+      return;
     }
   }
 }
