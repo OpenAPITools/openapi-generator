@@ -197,3 +197,8 @@ samples/client/petstore/erlang-client/_build/
 samples/client/petstore/erlang-client/rebar.lock
 samples/server/petstore/erlang-server/_build/
 samples/server/petstore/erlang-server/rebar.lock
+
+# dart
+samples/client/petstore/dart/petstore/packages
+samples/client/petstore/dart/flutter_petstore/test/packages
+samples/client/petstore/dart/petstore/test/packages

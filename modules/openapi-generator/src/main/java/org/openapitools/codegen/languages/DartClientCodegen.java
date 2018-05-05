@@ -44,13 +44,13 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PUB_DESCRIPTION = "pubDescription";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
     protected boolean browserClient = true;
-    protected String pubName = "swagger";
+    protected String pubName = "openapi";
     protected String pubVersion = "1.0.0";
-    protected String pubDescription = "Swagger API client";
+    protected String pubDescription = "OpenAPI API client";
     protected boolean useEnumExtension = false;
     protected String sourceFolder = "";
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
+    protected String apiDocPath = "docs" + File.separator;
+    protected String modelDocPath = "docs" + File.separator;
 
     public DartClientCodegen() {
         super();
@@ -110,10 +110,9 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("Date", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("File", "MultipartFile");
+        typeMapping.put("binary", "MultipartFile");
         typeMapping.put("UUID", "String");
-        //TODO binary should be mapped to byte array
-        // mapped to String as a workaround
-        typeMapping.put("binary", "String");
+        typeMapping.put("ByteArray", "String");
 
         cliOptions.add(new CliOption(BROWSER_CLIENT, "Is the client browser based"));
         cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
@@ -210,12 +209,12 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }
 
     @Override
@@ -231,7 +230,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = name.replaceAll("-", "_");
 
         // if it's all uppper case, do nothing
         if (name.matches("^[A-Z_]*$")) {

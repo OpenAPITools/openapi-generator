@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:http/http.dart';
 import 'package:guinness/guinness.dart';
-import 'package:swagger/api.dart';
+import 'package:openapi/api.dart';
 
 part 'pet_test.dart';
 part 'store_test.dart';
