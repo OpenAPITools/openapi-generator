@@ -4110,6 +4110,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.isContainer = true;
                     codegenParameter.isListContainer = true;
                     codegenParameter.description = s.getDescription();
+                    codegenParameter.dataType = getTypeDeclaration(s);
 
                     // recursively add import
                     while (codegenProperty != null) {
