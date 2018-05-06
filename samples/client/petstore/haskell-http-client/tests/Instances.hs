@@ -103,7 +103,9 @@ instance Arbitrary Animal where
     
 instance Arbitrary AnimalFarm where
   arbitrary =
-    AnimalFarm <$> arbitrary
+    
+    pure AnimalFarm
+     
 instance Arbitrary ApiResponse where
   arbitrary =
     ApiResponse
@@ -228,7 +230,7 @@ instance Arbitrary Model200Response where
 instance Arbitrary ModelList where
   arbitrary =
     ModelList
-      <$> arbitrary -- modelList123List :: Maybe Text
+      <$> arbitrary -- modelList123list :: Maybe Text
     
 instance Arbitrary ModelReturn where
   arbitrary =
@@ -241,7 +243,7 @@ instance Arbitrary Name where
       <$> arbitrary -- nameName :: Int
       <*> arbitrary -- nameSnakeCase :: Maybe Int
       <*> arbitrary -- nameProperty :: Maybe Text
-      <*> arbitrary -- name123Number :: Maybe Int
+      <*> arbitrary -- name123number :: Maybe Int
     
 instance Arbitrary NumberOnly where
   arbitrary =
@@ -258,22 +260,13 @@ instance Arbitrary Order where
       <*> arbitrary -- orderStatus :: Maybe Text
       <*> arbitrary -- orderComplete :: Maybe Bool
     
-instance Arbitrary OuterBoolean where
-  arbitrary =
-    OuterBoolean <$> arbitrary
 instance Arbitrary OuterComposite where
   arbitrary =
     OuterComposite
-      <$> arbitrary -- outerCompositeMyNumber :: Maybe OuterNumber
-      <*> arbitrary -- outerCompositeMyString :: Maybe OuterString
-      <*> arbitrary -- outerCompositeMyBoolean :: Maybe OuterBoolean
+      <$> arbitrary -- outerCompositeMyNumber :: Maybe Double
+      <*> arbitrary -- outerCompositeMyString :: Maybe Text
+      <*> arbitrary -- outerCompositeMyBoolean :: Maybe Bool
     
-instance Arbitrary OuterNumber where
-  arbitrary =
-    OuterNumber <$> arbitrary
-instance Arbitrary OuterString where
-  arbitrary =
-    OuterString <$> arbitrary
 instance Arbitrary Pet where
   arbitrary =
     Pet

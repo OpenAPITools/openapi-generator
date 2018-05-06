@@ -1233,7 +1233,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if (StringUtils.isNotBlank(schema.get$ref())) { // object
+        if (StringUtils.isNotBlank(schema.get$ref())) { // reference to another definition/schema
             // get the schema/model name from $ref
             String schemaName = ModelUtils.getSimpleRef(schema.get$ref());
             if (StringUtils.isNotEmpty(schemaName)) {
@@ -1242,7 +1242,7 @@ public class DefaultCodegen implements CodegenConfig {
                 LOGGER.warn("Error obtaining the datatype from ref:" + schema.get$ref() + ". Default to 'object'");
                 return "object";
             }
-        } else { // primitive type (non-model)
+        } else { // primitive type or model
             return getAlias(getPrimitiveType(schema));
         }
     }
@@ -1255,7 +1255,9 @@ public class DefaultCodegen implements CodegenConfig {
      * @return type
      */
     private static String getPrimitiveType(Schema schema) {
-        if (ModelUtils.isStringSchema(schema) && "number".equals(schema.getFormat())) {
+        if (schema == null) {
+            throw new RuntimeException("schema cannnot be null in getPrimitiveType");
+        } else if (ModelUtils.isStringSchema(schema) && "number".equals(schema.getFormat())) {
             // special handle of type: string, format: number
             return "BigDecimal";
         } else if (ModelUtils.isByteArraySchema(schema)) {
@@ -1294,16 +1296,13 @@ public class DefaultCodegen implements CodegenConfig {
             return "UUID";
         } else if (ModelUtils.isStringSchema(schema)) {
             return "string";
-        } else {
-            if (schema != null) {
-                // TODO the following check should be covered by ModelUtils.isMapSchema(schema) above so can be removed
-                if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && schema.getAdditionalProperties() != null) {
-                    return "map";
-                } else {
-                    return schema.getType();
-                }
-            }
+        } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // having property implies it's a model
+            return "object";
+        } else if (StringUtils.isNotEmpty(schema.getType())) {
+            LOGGER.warn("Unknown type found in the schema: " + schema.getType());
+            return schema.getType();
         }
+
         return "object";
     }
 
