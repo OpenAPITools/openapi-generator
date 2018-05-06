@@ -3,8 +3,8 @@ package org.openapitools.codegen.cmd;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
 
-import io.swagger.parser.SwaggerParser;
-import io.swagger.parser.util.SwaggerDeserializationResult;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.parser.core.models.SwaggerParseResult;
 
 import java.util.HashSet;
 import java.util.List;
@@ -21,8 +21,7 @@ public class Validate implements Runnable {
     public void run() {
         System.out.println("Validating spec file (" + spec + ")");
 
-        SwaggerParser parser = new SwaggerParser();
-        SwaggerDeserializationResult result = parser.readWithInfo(spec, null, true);
+        SwaggerParseResult result = new OpenAPIParser().readLocation(spec, null, null);
         List<String> messageList = result.getMessages();
         Set<String> messages = new HashSet<String>(messageList);
 
