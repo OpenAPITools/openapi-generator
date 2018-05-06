@@ -954,8 +954,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         String xPath = "[\"" + escapeText(op.path) + "\"]";
         if (op.getHasPathParams()) {
             for (CodegenParameter param : op.allParams) {
-                if(param.isPathParam) {
-                  xPath = xPath.replaceAll("\\{" + param.baseName + "\\}", "\",toPath " + param.paramName + ",\"");
+                if (param.isPathParam) {
+                    xPath = xPath.replaceAll("\\{" + param.baseName + "\\}", "\",toPath " + param.paramName + ",\"");
                 }
             }
             xPath = xPath.replaceAll(",\"\",", ",");
@@ -1195,8 +1195,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             cm.isEnum = genEnums && cm.isEnum;
             if (cm.isAlias) {
                 String dataType = cm.dataType;
-                if(dataType == null && cm.isArrayModel) { // isAlias + arrayModelType missing "datatype"
-                   dataType = "[" + cm.arrayModelType +"]" ;
+                if (dataType == null && cm.isArrayModel) { // isAlias + arrayModelType missing "datatype"
+                    dataType = "[" + cm.arrayModelType + "]";
                 }
                 cm.vendorExtensions.put(X_DATA_TYPE, dataType);
             }

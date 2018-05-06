@@ -1,8 +1,8 @@
-## Swagger Auto-Generated [http-client](https://www.stackage.org/lts-10.0/package/http-client-0.5.7.1) Bindings to `Swagger Petstore` 
+## OpenAPI Auto-Generated [http-client](https://www.stackage.org/lts-10.0/package/http-client-0.5.7.1) Bindings to `Swagger Petstore`
 
-The library in `lib` provides auto-generated-from-Swagger [http-client](https://www.stackage.org/lts-10.0/package/http-client-0.5.7.1) bindings to the Swagger Petstore API.
+The library in `lib` provides auto-generated-from-OpenAPI [http-client](https://www.stackage.org/lts-10.0/package/http-client-0.5.7.1) bindings to the Swagger Petstore API.
 
-OpenApi Version: 3.0.1
+OpenApi Version: 3.0.0
 
 ## Installation
 
@@ -29,12 +29,12 @@ from the stack.yaml file and run `stack haddock` again.
 stack test
 ```
 
-## Swagger-Codegen
+## OpenAPI-Generator
 
 The code generator that produced this library, and which explains how
-to obtain and use the swagger-codegen cli tool lives at
+to obtain and use the openapi-generator cli tool lives at
 
-https://github.com/swagger-api/swagger-codegen
+https://openapi-generator.tech
 
 The _language_ argument (`--lang`) passed to the cli tool used should be 
 
@@ -42,7 +42,7 @@ The _language_ argument (`--lang`) passed to the cli tool used should be
 haskell-http-client
 ```
 
-### Unsupported Swagger Features
+### Unsupported OpenAPI Features
 
 * Model Inheritance
 
@@ -65,7 +65,7 @@ These options allow some customization of the code generation process.
 | configType                      | Set the name of the type used for configuration                                                                               |          | SwaggerPetstoreConfig                      |
 | dateFormat                      | format string used to parse/render a date                                                                                     | %Y-%m-%d | %Y-%m-%d                      |
 | dateTimeFormat                  | format string used to parse/render a datetime. (Defaults to [formatISO8601Millis][1] when not provided)                       |          |                   |
-| generateEnums                   | Generate specific datatypes for swagger enums                                                                                 | true     | true                   |
+| generateEnums                   | Generate specific datatypes for OpenAPI enums                                                                                 | true     | true                   |
 | generateFormUrlEncodedInstances | Generate FromForm/ToForm instances for models used by x-www-form-urlencoded operations (model fields must be primitive types) | true     | true |
 | generateLenses                  | Generate Lens optics for Models                                                                                               | true     | true                  |
 | generateModelConstructors       | Generate smart constructors (only supply required fields) for models                                                          | true     | true       |
@@ -80,28 +80,28 @@ These options allow some customization of the code generation process.
 An example setting _strictFields_ and _dateTimeFormat_:
 
 ```
-java -jar swagger-codegen-cli.jar generate -i petstore.yaml -l haskell-http-client -o output/haskell-http-client -DstrictFields=true -DdateTimeFormat="%Y-%m-%dT%H:%M:%S%Q%z"
+java -jar openapi-generator-cli.jar generate -i petstore.yaml -l haskell-http-client -o output/haskell-http-client -DstrictFields=true -DdateTimeFormat="%Y-%m-%dT%H:%M:%S%Q%z"
 ```
 
 View the full list of Codegen "config option" parameters with the command:
 
 ```
-java -jar swagger-codegen-cli.jar config-help -l haskell-http-client
+java -jar openapi-generator-cli.jar config-help -l haskell-http-client
 ```
 
 ## Usage Notes
 
-### Example SwaggerPetstore Haddock documentation 
+### Example Petstore Haddock documentation
 
-An example of the generated haddock documentation targeting the server http://petstore.swagger.io/ (SwaggerPetstore) can be found [here][2]
+An example of the generated haddock documentation targeting the server http://petstore.swagger.io/ (Petstore) can be found [here][2]
 
 [2]: https://hackage.haskell.org/package/swagger-petstore
 
-### Example SwaggerPetstore App
+### Example Petstore App
 
 An example application using the auto-generated haskell-http-client bindings for the server http://petstore.swagger.io/ can be found [here][3]
 
-[3]: https://github.com/swagger-api/swagger-codegen/tree/master/samples/client/petstore/haskell-http-client/example-app
+[3]: https://github.com/openapitools/openapi-generator/master/samples/client/petstore/haskell-http-client/example-app
 
 This library is intended to be imported qualified.
 
@@ -120,7 +120,7 @@ This library is intended to be imported qualified.
 
 ### MimeTypes
 
-This library adds type safety around what swagger specifies as
+This library adds type safety around what OpenAPI specifies as
 Produces and Consumes for each Operation (e.g. the list of MIME types an
 Operation can Produce (using 'accept' headers) and Consume (using 'content-type' headers).
 
@@ -153,10 +153,10 @@ this would indicate that:
 * the _addFoo_ operation can set it's body param of _FooModel_ via `setBodyParam`
 * the _addFoo_ operation can set 2 different optional parameters via `applyOptionalParam`
 
-If the swagger spec doesn't declare it can accept or produce a certain
+If the OpenAPI spec doesn't declare it can accept or produce a certain
 MIME type for a given Operation, you should either add a Produces or
 Consumes instance for the desired MIME types (assuming the server
-supports it), use `dispatchLbsUnsafe` or modify the swagger spec and
+supports it), use `dispatchLbsUnsafe` or modify the OpenAPI spec and
 run the generator again.
 
 New MIME type instances can be added via MimeType/MimeRender/MimeUnrender
@@ -168,7 +168,7 @@ Operations using x-www-form-urlencoded which use those models.
 
 ### Authentication
 
-A haskell data type will be generated for each swagger authentication type.
+A haskell data type will be generated for each OpenAPI authentication type.
 
 If for example the AuthMethod `AuthOAuthFoo` is generated for OAuth operations, then
 `addAuthMethod` should be used to add the AuthMethod config.
