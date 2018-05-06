@@ -386,7 +386,7 @@ opts = {
   enum_query_string: '-efg', # String | Query parameter enum test (string)
   enum_query_integer: 56, # Integer | Query parameter enum test (double)
   enum_query_double: 3.4, # Float | Query parameter enum test (double)
-  enum_form_string_array: nil, # Array<String> | Form parameter enum test (string array)
+  enum_form_string_array: '$', # Array<String> | Form parameter enum test (string array)
   enum_form_string: '-efg' # String | Form parameter enum test (string)
 }
 
@@ -408,7 +408,7 @@ Name | Type | Description  | Notes
  **enum_query_string** | **String**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_integer** | **Integer**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **Float**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | [**Array&lt;String&gt;**](Array.md)| Form parameter enum test (string array) | [optional] 
+ **enum_form_string_array** | **Array&lt;String&gt;**| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enum_form_string** | **String**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
 ### Return type
