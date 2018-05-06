@@ -1,4 +1,4 @@
-package io.swagger.handler;
+package org.openapitools.handler;
 
 import com.networknt.config.Config;
 import com.networknt.server.HandlerProvider;

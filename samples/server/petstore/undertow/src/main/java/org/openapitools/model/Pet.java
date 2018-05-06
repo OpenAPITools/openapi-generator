@@ -1,4 +1,4 @@
-package io.swagger.model;
+package org.openapitools.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,10 +6,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Category;
-import io.swagger.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.model.Category;
+import org.openapitools.model.Tag;
 
 
 
@@ -18,7 +18,7 @@ import java.util.List;
  **/
 
 @ApiModel(description = "A pet for sale in the pet store")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.UndertowCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
 public class Pet   {
   
   private Long id = null;

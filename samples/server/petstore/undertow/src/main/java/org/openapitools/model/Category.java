@@ -1,4 +1,4 @@
-package io.swagger.model;
+package org.openapitools.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,19 +9,19 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 /**
- * A tag for a pet
+ * A category for a pet
  **/
 
-@ApiModel(description = "A tag for a pet")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.UndertowCodegen")
-public class Tag   {
+@ApiModel(description = "A category for a pet")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
+public class Category   {
   
   private Long id = null;
   private String name = null;
 
   /**
    **/
-  public Tag id(Long id) {
+  public Category id(Long id) {
     this.id = id;
     return this;
   }
@@ -38,7 +38,7 @@ public class Tag   {
 
   /**
    **/
-  public Tag name(String name) {
+  public Category name(String name) {
     this.name = name;
     return this;
   }
@@ -62,9 +62,9 @@ public class Tag   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Tag tag = (Tag) o;
-    return Objects.equals(id, tag.id) &&
-        Objects.equals(name, tag.name);
+    Category category = (Category) o;
+    return Objects.equals(id, category.id) &&
+        Objects.equals(name, category.name);
   }
 
   @Override
@@ -75,7 +75,7 @@ public class Tag   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Tag {\n");
+    sb.append("class Category {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
