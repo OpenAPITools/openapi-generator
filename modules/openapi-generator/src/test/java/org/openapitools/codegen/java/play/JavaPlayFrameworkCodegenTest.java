@@ -5,7 +5,7 @@ import org.openapitools.codegen.languages.JavaPlayFrameworkCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class JavaPlayCodegenFrameworkTest {
+public class JavaPlayFrameworkCodegenTest {
 
     @Test
     public void testInitialConfigValues() throws Exception {
@@ -18,12 +18,12 @@ public class JavaPlayCodegenFrameworkTest {
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "apimodels");
         Assert.assertEquals(codegen.apiPackage(), "controllers");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "controllers");
-        Assert.assertEquals(codegen.getInvokerPackage(), "io.swagger.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "io.swagger.api");
-        Assert.assertEquals(codegen.getBasePackage(), "io.swagger");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaPlayFrameworkCodegen.BASE_PACKAGE), "io.swagger");
-        Assert.assertEquals(codegen.getConfigPackage(), "io.swagger.configuration");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaPlayFrameworkCodegen.CONFIG_PACKAGE), "io.swagger.configuration");
+        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
+        Assert.assertEquals(codegen.getBasePackage(), "org.openapitools");
+        Assert.assertEquals(codegen.additionalProperties().get(JavaPlayFrameworkCodegen.BASE_PACKAGE), "org.openapitools");
+        Assert.assertEquals(codegen.getConfigPackage(), "org.openapitools.configuration");
+        Assert.assertEquals(codegen.additionalProperties().get(JavaPlayFrameworkCodegen.CONFIG_PACKAGE), "org.openapitools.configuration");
     }
 
     @Test
