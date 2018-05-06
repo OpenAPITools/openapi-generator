@@ -17,21 +17,20 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
+
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.SupportingFile;
+
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.io.FileUtils;
-
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.JbossFeature;
-import org.openapitools.codegen.languages.features.SwaggerFeatures;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.core.util.Json;
 
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
@@ -45,14 +44,14 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     public JavaJAXRSSpecServerCodegen() {
         super();
-        invokerPackage = "io.swagger.api";
+        invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-server";
         outputFolder = "generated-code/JavaJaxRS-Spec";
 
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
-        apiPackage = "io.swagger.api";
-        modelPackage = "io.swagger.model";
+        apiPackage = "org.openapitools.api";
+        modelPackage = "org.openapitools.model";
 
         apiTestTemplateFiles.clear(); // TODO: add api test template
         modelTestTemplateFiles.clear(); // TODO: add model test template
