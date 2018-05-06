@@ -7,18 +7,34 @@
     <relativePath>../pom.xml/pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>io.swagger</groupId>
-  <artifactId>swagger-undertow-server</artifactId>
-  <name>swagger-undertow-server</name>
+  <groupId>org.openapitools</groupId>
+  <artifactId>openapi-undertow-server</artifactId>
+  <name>openapi-undertow-server</name>
   <version>1.0.0</version>
-  <prerequisites>
-    <maven>2.2.0</maven>
-  </prerequisites>
   <build>
     <defaultGoal>install</defaultGoal>
     <directory>target</directory>
     <finalName>${project.artifactId}-${project.version}</finalName>
     <plugins>
+      <plugin>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.0.0-M1</version>
+        <executions>
+          <execution>
+            <id>enforce-maven</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>2.2.0</version>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
         <version>2.4.3</version>

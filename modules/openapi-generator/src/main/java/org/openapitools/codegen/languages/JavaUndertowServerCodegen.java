@@ -17,13 +17,18 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-
 import org.apache.commons.lang3.BooleanUtils;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
@@ -38,7 +43,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         sourceFolder = "src/main/java";
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "undertow";
-        invokerPackage = "io.swagger.handler";
+        invokerPackage = "org.openapitools.handler";
         artifactId = "openapi-undertow-server";
         dateLibrary = "legacy"; //TODO: add joda support
 
@@ -48,9 +53,18 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-
-        apiPackage = System.getProperty("swagger.codegen.undertow.apipackage", "io.swagger.handler");
-        modelPackage = System.getProperty("swagger.codegen.undertow.modelpackage", "io.swagger.model");
+        if(System.getProperty("swagger.codegen.undertow.apipackage") != null && System.getProperty("openapi.codegen.undertow.apipackage") == null) {
+            LOGGER.warn("System property 'swagger.codegen.undertow.apipackage' was renamed to 'swagger.codegen.undertow.apipackage'");
+            apiPackage = System.getProperty("swagger.codegen.undertow.apipackage", "org.openapitools.handler");
+        } else {
+            apiPackage = System.getProperty("openapi.codegen.undertow.apipackage", "org.openapitools.handler");
+        }
+        if(System.getProperty("swagger.codegen.undertow.modelpackage") != null && System.getProperty("openapi.codegen.undertow.modelpackage") == null) {
+            LOGGER.warn("System property 'swagger.codegen.undertow.modelpackage' was renamed to 'openapi.codegen.undertow.modelpackage'");
+            modelPackage = System.getProperty("swagger.codegen.undertow.modelpackage", "org.openapitools.model");
+        } else {
+            modelPackage = System.getProperty("openapi.codegen.undertow.modelpackage", "org.openapitools.model");
+        }
 
         additionalProperties.put("title", title);
     }
@@ -81,7 +95,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
         // keep the yaml in config folder for framework validation.
         supportingFiles.add(new SupportingFile("openapi.mustache", ("src.main.resources.config").replace(".", java.io.File.separator), "openapi.json"));
-        supportingFiles.add(new SupportingFile("handler.mustache", ("src.main.java.io.swagger.handler").replace(".", java.io.File.separator), "PathHandlerProvider.java"));
+        supportingFiles.add(new SupportingFile("handler.mustache", ("src.main.java.org.openapitools.handler").replace(".", java.io.File.separator), "PathHandlerProvider.java"));
         supportingFiles.add(new SupportingFile("service.mustache", ("src.main.resources.META-INF.services").replace(".", java.io.File.separator), "com.networknt.server.HandlerProvider"));
 
         // configuration files
