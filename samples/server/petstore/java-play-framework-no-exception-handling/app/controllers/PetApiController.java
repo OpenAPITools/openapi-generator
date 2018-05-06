@@ -15,13 +15,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;
-import swagger.SwaggerUtils;
+import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
 import play.Configuration;
 
-import swagger.SwaggerUtils.ApiAction;
+import openapitools.OpenAPIUtils.ApiAction;
 
 
 public class PetApiController extends Controller {
@@ -45,7 +45,7 @@ public class PetApiController extends Controller {
         if (nodepet != null) {
             pet = mapper.readValue(nodepet.toString(), Pet.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(pet);
+                OpenAPIUtils.validate(pet);
             }
         } else {
             throw new IllegalArgumentException("'Pet' parameter is required");
@@ -73,7 +73,7 @@ public class PetApiController extends Controller {
         if (statusArray == null) {
             throw new IllegalArgumentException("'status' parameter is required");
         }
-        List<String> statusList = SwaggerUtils.parametersToList("csv", statusArray);
+        List<String> statusList = OpenAPIUtils.parametersToList("csv", statusArray);
         List<String> status = new ArrayList<String>();
         for (String curParam : statusList) {
             if (!curParam.isEmpty()) {
@@ -84,7 +84,7 @@ public class PetApiController extends Controller {
         List<Pet> obj = imp.findPetsByStatus(status);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             for (Pet curItem : obj) {
-                SwaggerUtils.validate(curItem);
+                OpenAPIUtils.validate(curItem);
             }
         }
         JsonNode result = mapper.valueToTree(obj);
@@ -97,7 +97,7 @@ public class PetApiController extends Controller {
         if (tagsArray == null) {
             throw new IllegalArgumentException("'tags' parameter is required");
         }
-        List<String> tagsList = SwaggerUtils.parametersToList("csv", tagsArray);
+        List<String> tagsList = OpenAPIUtils.parametersToList("csv", tagsArray);
         List<String> tags = new ArrayList<String>();
         for (String curParam : tagsList) {
             if (!curParam.isEmpty()) {
@@ -108,7 +108,7 @@ public class PetApiController extends Controller {
         List<Pet> obj = imp.findPetsByTags(tags);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             for (Pet curItem : obj) {
-                SwaggerUtils.validate(curItem);
+                OpenAPIUtils.validate(curItem);
             }
         }
         JsonNode result = mapper.valueToTree(obj);
@@ -119,7 +119,7 @@ public class PetApiController extends Controller {
     public Result getPetById(Long petId)  {
         Pet obj = imp.getPetById(petId);
         if (configuration.getBoolean("useOutputBeanValidation")) {
-            SwaggerUtils.validate(obj);
+            OpenAPIUtils.validate(obj);
         }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
@@ -132,7 +132,7 @@ public class PetApiController extends Controller {
         if (nodepet != null) {
             pet = mapper.readValue(nodepet.toString(), Pet.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(pet);
+                OpenAPIUtils.validate(pet);
             }
         } else {
             throw new IllegalArgumentException("'Pet' parameter is required");
@@ -173,7 +173,7 @@ public class PetApiController extends Controller {
         Http.MultipartFormData.FilePart file = request().body().asMultipartFormData().getFile("file");
         ModelApiResponse obj = imp.uploadFile(petId, additionalMetadata, file);
         if (configuration.getBoolean("useOutputBeanValidation")) {
-            SwaggerUtils.validate(obj);
+            OpenAPIUtils.validate(obj);
         }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);

@@ -14,11 +14,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
-import swagger.SwaggerUtils;
+import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 
-import swagger.SwaggerUtils.ApiAction;
+import openapitools.OpenAPIUtils.ApiAction;
 
 
 public class PetApiController extends Controller {
@@ -65,7 +65,7 @@ public class PetApiController extends Controller {
         if (statusArray == null) {
             throw new IllegalArgumentException("'status' parameter is required");
         }
-        List<String> statusList = SwaggerUtils.parametersToList("csv", statusArray);
+        List<String> statusList = OpenAPIUtils.parametersToList("csv", statusArray);
         List<String> status = new ArrayList<String>();
         for (String curParam : statusList) {
             if (!curParam.isEmpty()) {
@@ -84,7 +84,7 @@ public class PetApiController extends Controller {
         if (tagsArray == null) {
             throw new IllegalArgumentException("'tags' parameter is required");
         }
-        List<String> tagsList = SwaggerUtils.parametersToList("csv", tagsArray);
+        List<String> tagsList = OpenAPIUtils.parametersToList("csv", tagsArray);
         List<String> tags = new ArrayList<String>();
         for (String curParam : tagsList) {
             if (!curParam.isEmpty()) {

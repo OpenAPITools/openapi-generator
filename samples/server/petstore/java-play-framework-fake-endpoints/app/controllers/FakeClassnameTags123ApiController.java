@@ -12,13 +12,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
-import swagger.SwaggerUtils;
+import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
 import play.Configuration;
 
-import swagger.SwaggerUtils.ApiAction;
+import openapitools.OpenAPIUtils.ApiAction;
 
 
 public class FakeClassnameTags123ApiController extends Controller {
@@ -42,14 +42,14 @@ public class FakeClassnameTags123ApiController extends Controller {
         if (nodeclient != null) {
             client = mapper.readValue(nodeclient.toString(), Client.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(client);
+                OpenAPIUtils.validate(client);
             }
         } else {
             throw new IllegalArgumentException("'Client' parameter is required");
         }
         Client obj = imp.testClassname(client);
         if (configuration.getBoolean("useOutputBeanValidation")) {
-            SwaggerUtils.validate(obj);
+            OpenAPIUtils.validate(obj);
         }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
