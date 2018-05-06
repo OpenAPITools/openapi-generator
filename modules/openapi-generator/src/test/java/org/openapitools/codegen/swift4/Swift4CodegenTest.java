@@ -1,12 +1,13 @@
 package org.openapitools.codegen.swift4;
 
+import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.languages.Swift4Codegen;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.parser.OpenAPIV3Parser;
+import io.swagger.parser.OpenAPIParser;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -76,7 +77,7 @@ public class Swift4CodegenTest {
     public void binaryDataTest() {
         // TODO update json file
 
-        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/binaryDataTest.json");
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/binaryDataTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new Swift4Codegen();
         final String path = "/tests/binaryResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
@@ -90,7 +91,7 @@ public class Swift4CodegenTest {
 
     @Test(description = "returns Date when response format is date", enabled = false)
     public void dateTest() {
-        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/datePropertyTest.json");
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/datePropertyTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new Swift4Codegen();
         final String path = "/tests/dateResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
