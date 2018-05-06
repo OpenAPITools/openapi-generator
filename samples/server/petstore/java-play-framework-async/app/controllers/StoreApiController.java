@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
-import swagger.SwaggerUtils;
+import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.concurrent.CompletionStage;
@@ -22,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
 import javax.validation.constraints.*;
 import play.Configuration;
 
-import swagger.SwaggerUtils.ApiAction;
+import openapitools.OpenAPIUtils.ApiAction;
 
 
 public class StoreApiController extends Controller {
@@ -62,7 +62,7 @@ public class StoreApiController extends Controller {
     public CompletionStage<Result> getOrderById( @Min(1) @Max(5)Long orderId) throws Exception {
         CompletionStage<Order> stage = imp.getOrderById(orderId).thenApply(obj -> { 
             if (configuration.getBoolean("useOutputBeanValidation")) {
-                SwaggerUtils.validate(obj);
+                OpenAPIUtils.validate(obj);
             }
             return obj;
         });
@@ -79,14 +79,14 @@ public class StoreApiController extends Controller {
         if (nodeorder != null) {
             order = mapper.readValue(nodeorder.toString(), Order.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(order);
+                OpenAPIUtils.validate(order);
             }
         } else {
             throw new IllegalArgumentException("'Order' parameter is required");
         }
         CompletionStage<Order> stage = imp.placeOrder(order).thenApply(obj -> { 
             if (configuration.getBoolean("useOutputBeanValidation")) {
-                SwaggerUtils.validate(obj);
+                OpenAPIUtils.validate(obj);
             }
             return obj;
         });

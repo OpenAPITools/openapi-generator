@@ -13,13 +13,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
-import swagger.SwaggerUtils;
+import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
 import play.Configuration;
 
-import swagger.SwaggerUtils.ApiAction;
+import openapitools.OpenAPIUtils.ApiAction;
 
 
 public class StoreApiController extends Controller {
@@ -56,7 +56,7 @@ public class StoreApiController extends Controller {
         if (nodeorder != null) {
             order = mapper.readValue(nodeorder.toString(), Order.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(order);
+                OpenAPIUtils.validate(order);
             }
         } else {
             throw new IllegalArgumentException("'Order' parameter is required");

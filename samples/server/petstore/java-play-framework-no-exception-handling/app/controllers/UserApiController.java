@@ -14,13 +14,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;
-import swagger.SwaggerUtils;
+import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
 import play.Configuration;
 
-import swagger.SwaggerUtils.ApiAction;
+import openapitools.OpenAPIUtils.ApiAction;
 
 
 public class UserApiController extends Controller {
@@ -44,7 +44,7 @@ public class UserApiController extends Controller {
         if (nodeuser != null) {
             user = mapper.readValue(nodeuser.toString(), User.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(user);
+                OpenAPIUtils.validate(user);
             }
         } else {
             throw new IllegalArgumentException("'User' parameter is required");
@@ -61,7 +61,7 @@ public class UserApiController extends Controller {
             user = mapper.readValue(nodeuser.toString(), new TypeReference<List<User>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
                 for (User curItem : user) {
-                    SwaggerUtils.validate(curItem);
+                    OpenAPIUtils.validate(curItem);
                 }
             }
         } else {
@@ -79,7 +79,7 @@ public class UserApiController extends Controller {
             user = mapper.readValue(nodeuser.toString(), new TypeReference<List<User>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
                 for (User curItem : user) {
-                    SwaggerUtils.validate(curItem);
+                    OpenAPIUtils.validate(curItem);
                 }
             }
         } else {
@@ -99,7 +99,7 @@ public class UserApiController extends Controller {
     public Result getUserByName(String username)  {
         User obj = imp.getUserByName(username);
         if (configuration.getBoolean("useOutputBeanValidation")) {
-            SwaggerUtils.validate(obj);
+            OpenAPIUtils.validate(obj);
         }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
@@ -139,7 +139,7 @@ public class UserApiController extends Controller {
         if (nodeuser != null) {
             user = mapper.readValue(nodeuser.toString(), User.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(user);
+                OpenAPIUtils.validate(user);
             }
         } else {
             throw new IllegalArgumentException("'User' parameter is required");

@@ -19,13 +19,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
-import swagger.SwaggerUtils;
+import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
 import play.Configuration;
 
-import swagger.SwaggerUtils.ApiAction;
+import openapitools.OpenAPIUtils.ApiAction;
 
 
 public class FakeApiController extends Controller {
@@ -49,7 +49,7 @@ public class FakeApiController extends Controller {
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), Boolean.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(body);
+                OpenAPIUtils.validate(body);
             }
         } else {
             body = null;
@@ -66,14 +66,14 @@ public class FakeApiController extends Controller {
         if (nodeouterComposite != null) {
             outerComposite = mapper.readValue(nodeouterComposite.toString(), OuterComposite.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(outerComposite);
+                OpenAPIUtils.validate(outerComposite);
             }
         } else {
             outerComposite = null;
         }
         OuterComposite obj = imp.fakeOuterCompositeSerialize(outerComposite);
         if (configuration.getBoolean("useOutputBeanValidation")) {
-            SwaggerUtils.validate(obj);
+            OpenAPIUtils.validate(obj);
         }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
@@ -86,14 +86,14 @@ public class FakeApiController extends Controller {
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), BigDecimal.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(body);
+                OpenAPIUtils.validate(body);
             }
         } else {
             body = null;
         }
         BigDecimal obj = imp.fakeOuterNumberSerialize(body);
         if (configuration.getBoolean("useOutputBeanValidation")) {
-            SwaggerUtils.validate(obj);
+            OpenAPIUtils.validate(obj);
         }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
@@ -106,7 +106,7 @@ public class FakeApiController extends Controller {
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), String.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(body);
+                OpenAPIUtils.validate(body);
             }
         } else {
             body = null;
@@ -123,7 +123,7 @@ public class FakeApiController extends Controller {
         if (nodeuser != null) {
             user = mapper.readValue(nodeuser.toString(), User.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(user);
+                OpenAPIUtils.validate(user);
             }
         } else {
             throw new IllegalArgumentException("'User' parameter is required");
@@ -146,14 +146,14 @@ public class FakeApiController extends Controller {
         if (nodeclient != null) {
             client = mapper.readValue(nodeclient.toString(), Client.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(client);
+                OpenAPIUtils.validate(client);
             }
         } else {
             throw new IllegalArgumentException("'Client' parameter is required");
         }
         Client obj = imp.testClientModel(client);
         if (configuration.getBoolean("useOutputBeanValidation")) {
-            SwaggerUtils.validate(obj);
+            OpenAPIUtils.validate(obj);
         }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
@@ -260,7 +260,7 @@ public class FakeApiController extends Controller {
     @ApiAction
     public Result testEnumParameters() throws Exception {
         String[] enumQueryStringArrayArray = request().queryString().get("enum_query_string_array");
-        List<String> enumQueryStringArrayList = SwaggerUtils.parametersToList("csv", enumQueryStringArrayArray);
+        List<String> enumQueryStringArrayList = OpenAPIUtils.parametersToList("csv", enumQueryStringArrayArray);
         List<String> enumQueryStringArray = new ArrayList<String>();
         for (String curParam : enumQueryStringArrayList) {
             if (!curParam.isEmpty()) {
@@ -290,11 +290,11 @@ public class FakeApiController extends Controller {
             enumQueryDouble = null;
         }
         String valueenumFormStringArray = (request().body().asMultipartFormData().asFormUrlEncoded().get("enum_form_string_array"))[0];
-        List<String> enumFormStringArray;
+        String enumFormStringArray;
         if (valueenumFormStringArray != null) {
             enumFormStringArray = valueenumFormStringArray;
         } else {
-            enumFormStringArray = new ArrayList<>();
+            enumFormStringArray = "$";
         }
         String valueenumFormString = (request().body().asMultipartFormData().asFormUrlEncoded().get("enum_form_string"))[0];
         String enumFormString;
@@ -304,7 +304,7 @@ public class FakeApiController extends Controller {
             enumFormString = "-efg";
         }
         String[] enumHeaderStringArrayArray = request().headers().get("enum_header_string_array");
-        List<String> enumHeaderStringArrayList = SwaggerUtils.parametersToList("csv", enumHeaderStringArrayArray);
+        List<String> enumHeaderStringArrayList = OpenAPIUtils.parametersToList("csv", enumHeaderStringArrayArray);
         List<String> enumHeaderStringArray = new ArrayList<String>();
         for (String curParam : enumHeaderStringArrayList) {
             if (!curParam.isEmpty()) {
@@ -331,7 +331,7 @@ public class FakeApiController extends Controller {
             requestBody = mapper.readValue(noderequestBody.toString(), new TypeReference<String>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
                 for (Map.Entry<String, String> entry : requestBody.entrySet()) {
-                    SwaggerUtils.validate(entry.getValue());
+                    OpenAPIUtils.validate(entry.getValue());
                 }
             }
         } else {

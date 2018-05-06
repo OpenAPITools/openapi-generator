@@ -14,13 +14,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;
-import swagger.SwaggerUtils;
+import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
 import play.Configuration;
 
-import swagger.SwaggerUtils.ApiAction;
+import openapitools.OpenAPIUtils.ApiAction;
 
 
 public class StoreApiController extends Controller {
@@ -54,7 +54,7 @@ public class StoreApiController extends Controller {
     public Result getOrderById( @Min(1) @Max(5)Long orderId)  {
         Order obj = imp.getOrderById(orderId);
         if (configuration.getBoolean("useOutputBeanValidation")) {
-            SwaggerUtils.validate(obj);
+            OpenAPIUtils.validate(obj);
         }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
@@ -67,14 +67,14 @@ public class StoreApiController extends Controller {
         if (nodeorder != null) {
             order = mapper.readValue(nodeorder.toString(), Order.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                SwaggerUtils.validate(order);
+                OpenAPIUtils.validate(order);
             }
         } else {
             throw new IllegalArgumentException("'Order' parameter is required");
         }
         Order obj = imp.placeOrder(order);
         if (configuration.getBoolean("useOutputBeanValidation")) {
-            SwaggerUtils.validate(obj);
+            OpenAPIUtils.validate(obj);
         }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
