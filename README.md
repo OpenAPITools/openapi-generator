@@ -500,6 +500,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 
 - [Akihito Nakano](https://github.com/ackintosh)
 - [Artem Ocheredko](https://github.com/galaxie)
+- [Arthur Mogliev](https://github.com/Articus)
 - [Bartek Kryza](https://github.com/bkryza)
 - [Ben Wells](https://github.com/bvwells)
 - [Benjamin Gill](https://github.com/bjgill)
