@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -25,17 +29,12 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AndroidClientCodegen.class);
@@ -43,7 +42,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     public static final String ANDROID_GRADLE_VERSION = "androidGradleVersion";
     public static final String ANDROID_SDK_VERSION = "androidSdkVersion";
     public static final String ANDROID_BUILD_TOOLS_VERSION = "androidBuildToolsVersion";
-    protected String invokerPackage = "io.swagger.client";
+    protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-android-client";
     protected String artifactVersion = "1.0.0";
@@ -56,8 +55,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     protected Boolean serializableModel = false;
 
     // requestPackage and authPackage are used by the "volley" template/library
-    protected String requestPackage = "io.swagger.client.request";
-    protected String authPackage = "io.swagger.client.auth";
+    protected String requestPackage = "org.openapitools.client.request";
+    protected String authPackage = "org.openapitools.client.auth";
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -68,8 +67,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
         embeddedTemplateDir = templateDir = "android";
-        apiPackage = "io.swagger.client.api";
-        modelPackage = "io.swagger.client.model";
+        apiPackage = "org.openapitools.client.api";
+        modelPackage = "org.openapitools.client.model";
 
         setReservedWordsLowerCase(
                 Arrays.asList(
