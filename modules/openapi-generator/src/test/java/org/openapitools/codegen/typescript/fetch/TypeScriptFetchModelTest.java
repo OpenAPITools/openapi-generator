@@ -33,7 +33,7 @@ import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 @SuppressWarnings("static-method")
 public class TypeScriptFetchModelTest {
 
-    @Test(enabled = false, description = "convert a simple TypeScript Angular model")
+    @Test(description = "convert a simple TypeScript Angular model")
     public void simpleModelTest() {
         final Schema model = new Schema()
                 .description("a sample model")
@@ -93,7 +93,7 @@ public class TypeScriptFetchModelTest {
         Assert.assertTrue(property4.isNotContainer);
     }
 
-    @Test(enabled = false, description = "convert a model with list property")
+    @Test(description = "convert a model with list property")
     public void listPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
@@ -125,10 +125,9 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(property2.baseType, "Array");
         Assert.assertFalse(property2.hasMore);
         Assert.assertFalse(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
     }
 
-    @Test(description = "convert a model with complex property", enabled = false)
+    @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
@@ -148,10 +147,9 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(property1.defaultValue, "undefined");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
     }
 
-    @Test(description = "convert a model with complex list property", enabled = false)
+    @Test(description = "convert a model with complex list property")
     public void complexListPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
@@ -172,10 +170,9 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Array");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
     }
 
-    @Test(enabled = false, description = "convert an array model")
+    @Test(description = "convert an array model")
     public void arrayModelTest() {
         final Schema model = new ArraySchema()
                 .items(new Schema().$ref("#/definitions/Children"))
@@ -189,7 +186,7 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(cm.vars.size(), 0);
     }
 
-    @Test(description = "convert a map model", enabled = false)
+    @Test(description = "convert a map model")
     public void mapModelTest() {
         final Schema model = new Schema()
                 .description("a map model")
@@ -205,7 +202,7 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
-    @Test(description = "test enum array model", enabled = false)
+    @Test(description = "test enum array model")
     public void enumArrayMdoelTest() {
         // TODO: update yaml file.
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
@@ -240,9 +237,9 @@ public class TypeScriptFetchModelTest {
 
     }
 
-    @Test(description = "test enum model for values (numeric, string, etc)", enabled = false)
+    @Test(description = "test enum model for values (numeric, string, etc)")
     public void enumMdoelValueTest() {
-        final OpenAPI openAPI = new OpenAPIParser().readContents("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         final Schema schema = openAPI.getComponents().getSchemas().get("Enum_Test");
 
@@ -268,6 +265,5 @@ public class TypeScriptFetchModelTest {
         //by postProcessModels
 
     }
-
 
 }

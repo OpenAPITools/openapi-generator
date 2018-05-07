@@ -86,7 +86,6 @@ public class PythonTest {
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -97,7 +96,6 @@ public class PythonTest {
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isNotContainer);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -107,7 +105,6 @@ public class PythonTest {
         Assert.assertEquals(property3.baseType, "datetime");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
     }
 
     @Test(description = "convert a model with list property")
@@ -135,7 +132,6 @@ public class PythonTest {
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
@@ -247,12 +243,11 @@ public class PythonTest {
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
-        Assert.assertFalse(property1.isNotContainer);
     }
 
 
     // should not start with 'null'. need help from the community to investigate further
-    @Test(enabled = false, description = "convert an array model")
+    @Test(description = "convert an array model")
     public void arrayModelTest() {
         final Schema model = new ArraySchema()
                 //.description()
@@ -271,7 +266,7 @@ public class PythonTest {
     }
 
     // should not start with 'null'. need help from the community to investigate further
-    @Test(enabled = false, description = "convert an map model")
+    @Test(description = "convert an map model")
     public void mapModelTest() {
         final Schema model = new Schema()
                 .description("a map model")
@@ -284,7 +279,7 @@ public class PythonTest {
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "null<String, Children>");
-        Assert.assertEquals(cm.imports.size(), 2); // TODO: need to verify
+        Assert.assertEquals(cm.imports.size(), 1);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
