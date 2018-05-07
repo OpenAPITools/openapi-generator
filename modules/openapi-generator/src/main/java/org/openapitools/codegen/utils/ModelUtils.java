@@ -348,7 +348,7 @@ public class ModelUtils {
 
     /**
      * If a Schema contains a reference to an other Schema with '$ref', returns the referenced Schema or the actual Schema in the other cases.
-     * @param openAPI OpenAPI
+     * @param openAPI
      * @param schema potentially containing a '$ref'
      * @return schema without '$ref'
      */
@@ -374,7 +374,7 @@ public class ModelUtils {
 
     /**
      * If a RequestBody contains a reference to an other RequestBody with '$ref', returns the referenced RequestBody or the actual RequestBody in the other cases.
-     * @param openAPI OpenAPI
+     * @param openAPI
      * @param requestBody potentially containing a '$ref'
      * @return requestBody without '$ref'
      */
@@ -399,7 +399,7 @@ public class ModelUtils {
 
     /**
      * If a ApiResponse contains a reference to an other ApiResponse with '$ref', returns the referenced ApiResponse or the actual ApiResponse in the other cases.
-     * @param openAPI OpenAPI
+     * @param openAPI
      * @param apiResponse potentially containing a '$ref'
      * @return apiResponse without '$ref'
      */

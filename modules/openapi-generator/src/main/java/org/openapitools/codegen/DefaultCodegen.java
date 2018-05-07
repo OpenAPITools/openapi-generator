@@ -1046,70 +1046,14 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param codegenParameter Codegen parameter
      */
-    protected void setParameterExampleValueFromVendorExtensions(CodegenParameter codegenParameter) {
-        if (codegenParameter.vendorExtensions == null || !codegenParameter.vendorExtensions.containsKey("x-example")) {
-            return;
-        }
-
-        codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
-    }
-
-    /**
-     * Return the example value of the parameter.
-     *
-     * @param codegenParameter Codegen parameter
-     * @param parameter parameter
-     */
-    protected void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
-        setParameterExampleValueFromVendorExtensions(codegenParameter);
-        if (codegenParameter.example != null) {
-            return;
-        }
-
-        if (parameter.getExample() != null) {
-            codegenParameter.example = parameter.getExample().toString();
-            return;
-        }
-
-        setParameterExampleValue(codegenParameter);
-    }
-
-    /**
-     * Return the example value of the parameter.
-     *
-     * @param codegenParameter Codegen parameter
-     * @param schema schema
-     */
-    protected void setParameterExampleValue(CodegenParameter codegenParameter, Schema schema) {
-        setParameterExampleValueFromVendorExtensions(codegenParameter);
-        if (codegenParameter.example != null) {
-            return;
-        }
-
-        if (schema.getExample() != null) {
-            codegenParameter.example = schema.getExample().toString();
-            return;
-        }
-
-        setParameterExampleValue(codegenParameter);
-    }
-
-    /**
-     * Return the example value of the parameter.
-     *
-     * @param codegenParameter Codegen parameter
-     */
-    protected void setParameterExampleValue(CodegenParameter codegenParameter) {
+    public void setParameterExampleValue(CodegenParameter codegenParameter) {
 
         // set the example value
         // if not specified in x-example, generate a default value
-        setParameterExampleValueFromVendorExtensions(codegenParameter);
-        if (codegenParameter.example != null) {
-            return;
-        }
-
         // TODO need to revise how to obtain the example value
-        if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
+        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
+            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+        } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
             codegenParameter.example = "true";
         } else if (Boolean.TRUE.equals(codegenParameter.isLong)) {
             codegenParameter.example = "789";
@@ -2799,7 +2743,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set the parameter excample value
         // should be overridden by lang codegen
-        setParameterExampleValue(codegenParameter, parameter);
+        setParameterExampleValue(codegenParameter);
 
         postProcessParameter(codegenParameter);
         LOGGER.debug("debugging codegenParameter return: " + codegenParameter);
@@ -4040,7 +3984,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * returns the list of MIME types the APIs can produce
      *
-     * @param openAPI OpenAPI
+     * @param openAPI
      * @param operation Operation
      * @return a set of MIME types
      */
@@ -4266,7 +4210,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
-        setParameterExampleValue(codegenParameter, propertySchema);
+        setParameterExampleValue(codegenParameter);
 
         //TODO collectionFormat for form parameter not yet supported
         //codegenParameter.collectionFormat = getCollectionFormat(propertySchema);
@@ -4424,7 +4368,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set the parameter's example value
         // should be overridden by lang codegen
-        setParameterExampleValue(codegenParameter, schema);
+        setParameterExampleValue(codegenParameter);
 
         return codegenParameter;
     }
