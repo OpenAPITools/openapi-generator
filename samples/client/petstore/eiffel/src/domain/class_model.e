@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class CLASS_MODEL 
 
 inherit
@@ -47,9 +46,11 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass CLASS_MODEL%N")
         if attached var_class as l_var_class then
-          Result.append ("%N")
+          Result.append ("%Nvar_class:")
           Result.append (l_var_class.out)
           Result.append ("%N")    
         end  
       end
 end
+
+

@@ -1,6 +1,6 @@
 # PET_API
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Feature | HTTP request | Description
 ------------- | ------------- | -------------
@@ -15,19 +15,17 @@ Feature | HTTP request | Description
 
 
 # **add_pet**
-> add_pet (body: PET )
+> add_pet (pet: PET )
 	
 
 Add a new pet to the store
-
-
 
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PET**](PET.md)| Pet object that needs to be added to the store | 
+ **pet** | [**PET**](PET.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -40,7 +38,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -49,8 +47,6 @@ Name | Type | Description  | Notes
 	
 
 Deletes a pet
-
-
 
 
 ### Parameters
@@ -71,7 +67,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -166,19 +162,17 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet**
-> update_pet (body: PET )
+> update_pet (pet: PET )
 	
 
 Update an existing pet
-
-
 
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PET**](PET.md)| Pet object that needs to be added to the store | 
+ **pet** | [**PET**](PET.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -191,7 +185,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -200,8 +194,6 @@ Name | Type | Description  | Notes
 	
 
 Updates a pet in the store with form data
-
-
 
 
 ### Parameters
@@ -223,7 +215,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -232,8 +224,6 @@ Name | Type | Description  | Notes
 	
 
 uploads an image
-
-
 
 
 ### Parameters

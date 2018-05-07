@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class CLIENT 
 
 inherit
@@ -47,9 +46,11 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass CLIENT%N")
         if attached client as l_client then
-          Result.append ("%N")
+          Result.append ("%Nclient:")
           Result.append (l_client.out)
           Result.append ("%N")    
         end  
       end
 end
+
+

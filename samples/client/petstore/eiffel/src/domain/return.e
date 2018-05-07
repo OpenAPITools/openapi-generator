@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class RETURN 
 
 inherit
@@ -47,9 +46,11 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass RETURN%N")
         if attached return as l_return then
-          Result.append ("%N")
+          Result.append ("%Nreturn:")
           Result.append (l_return.out)
           Result.append ("%N")    
         end  
       end
 end
+
+

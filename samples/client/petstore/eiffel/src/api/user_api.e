@@ -1,7 +1,7 @@
 note
  description:"[
 		Swagger Petstore
- 		This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ 		This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
   		OpenAPI spec version: 1.0.0
  	    Contact: apiteam@swagger.io
 
@@ -24,11 +24,11 @@ inherit
 feature -- API Access
 
 
-	create_user (body: USER)
+	create_user (user: USER)
 			-- Create user
 			-- This can only be done by the logged in user.
 			-- 
-			-- argument: body Created user object (required)
+			-- argument: user Created user object (required)
 			-- 
 			-- 
 		require
@@ -39,11 +39,11 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(body)
+			l_request.set_body(user)
 			l_path := "/user"
 
 
-			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<>>),"Content-Type")
@@ -54,11 +54,11 @@ feature -- API Access
 			end
 		end	
 
-	create_users_with_array_input (body: LIST [USER])
+	create_users_with_array_input (user: LIST [USER])
 			-- Creates list of users with given input array
 			-- 
 			-- 
-			-- argument: body List of user object (required)
+			-- argument: user List of user object (required)
 			-- 
 			-- 
 		require
@@ -69,11 +69,11 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(body)
+			l_request.set_body(user)
 			l_path := "/user/createWithArray"
 
 
-			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<>>),"Content-Type")
@@ -84,11 +84,11 @@ feature -- API Access
 			end
 		end	
 
-	create_users_with_list_input (body: LIST [USER])
+	create_users_with_list_input (user: LIST [USER])
 			-- Creates list of users with given input array
 			-- 
 			-- 
-			-- argument: body List of user object (required)
+			-- argument: user List of user object (required)
 			-- 
 			-- 
 		require
@@ -99,11 +99,11 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(body)
+			l_request.set_body(user)
 			l_path := "/user/createWithList"
 
 
-			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<>>),"Content-Type")
@@ -134,7 +134,7 @@ feature -- API Access
 			l_path.replace_substring_all ("{"+"username"+"}", api_client.url_encode (username.out))
 
 
-			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<>>),"Content-Type")
@@ -201,7 +201,7 @@ feature -- API Access
 			l_path := "/user/logout"
 
 
-			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<>>),"Content-Type")
@@ -212,13 +212,13 @@ feature -- API Access
 			end
 		end	
 
-	update_user (username: STRING_32; body: USER)
+	update_user (username: STRING_32; user: USER)
 			-- Updated user
 			-- This can only be done by the logged in user.
 			-- 
 			-- argument: username name that need to be deleted (required)
 			-- 
-			-- argument: body Updated user object (required)
+			-- argument: user Updated user object (required)
 			-- 
 			-- 
 		require
@@ -229,12 +229,12 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(body)
+			l_request.set_body(user)
 			l_path := "/user/{username}"
 			l_path.replace_substring_all ("{"+"username"+"}", api_client.url_encode (username.out))
 
 
-			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<>>),"Content-Type")
@@ -249,7 +249,7 @@ feature -- API Access
 			-- Get user by user name
 			-- 
 			-- 
-			-- argument: username The name that needs to be fetched. Use user1 for testing.  (required)
+			-- argument: username The name that needs to be fetched. Use user1 for testing. (required)
 			-- 
 			-- 
 			-- Result USER

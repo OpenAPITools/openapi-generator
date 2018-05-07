@@ -1,7 +1,7 @@
 note
  description:"[
 		Swagger Petstore
- 		This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ 		This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
   		OpenAPI spec version: 1.0.0
  	    Contact: apiteam@swagger.io
 
@@ -24,11 +24,11 @@ inherit
 feature -- API Access
 
 
-	add_pet (body: PET)
+	add_pet (pet: PET)
 			-- Add a new pet to the store
 			-- 
 			-- 
-			-- argument: body Pet object that needs to be added to the store (required)
+			-- argument: pet Pet object that needs to be added to the store (required)
 			-- 
 			-- 
 		require
@@ -39,11 +39,11 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(body)
+			l_request.set_body(pet)
 			l_path := "/pet"
 
 
-			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<"application/json", "application/xml">>),"Content-Type")
@@ -79,7 +79,7 @@ feature -- API Access
 				l_request.add_header(l_api_key.out,"api_key");
 			end
 
-			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<>>),"Content-Type")
@@ -198,11 +198,11 @@ feature -- API Access
 			end
 		end	
 
-	update_pet (body: PET)
+	update_pet (pet: PET)
 			-- Update an existing pet
 			-- 
 			-- 
-			-- argument: body Pet object that needs to be added to the store (required)
+			-- argument: pet Pet object that needs to be added to the store (required)
 			-- 
 			-- 
 		require
@@ -213,11 +213,11 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(body)
+			l_request.set_body(pet)
 			l_path := "/pet"
 
 
-			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<"application/json", "application/xml">>),"Content-Type")
@@ -258,7 +258,7 @@ feature -- API Access
 				l_request.add_form(l_status,"status");
 			end
 
-			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<"application/x-www-form-urlencoded">>),"Content-Type")
@@ -269,7 +269,7 @@ feature -- API Access
 			end
 		end	
 
-	upload_file (pet_id: INTEGER_64; additional_metadata: STRING_32; file: detachable FILE): detachable API_RESPONSE
+	upload_file (pet_id: INTEGER_64; additional_metadata: STRING_32; file: FILE): detachable API_RESPONSE
 			-- uploads an image
 			-- 
 			-- 

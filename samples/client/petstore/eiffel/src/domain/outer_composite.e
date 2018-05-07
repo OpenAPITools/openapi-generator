@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class OUTER_COMPOSITE 
 
 inherit
@@ -25,11 +24,11 @@ inherit
 
 feature --Access
 
-    my_number: detachable OUTER_NUMBER 
+    my_number: REAL_32 
       
-    my_string: detachable OUTER_STRING 
+    my_string: detachable STRING_32 
       
-    my_boolean: detachable OUTER_BOOLEAN 
+    my_boolean: BOOLEAN 
       
 
 feature -- Change Element  
@@ -67,19 +66,21 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass OUTER_COMPOSITE%N")
         if attached my_number as l_my_number then
-          Result.append ("%N")
+          Result.append ("%Nmy_number:")
           Result.append (l_my_number.out)
           Result.append ("%N")    
         end  
         if attached my_string as l_my_string then
-          Result.append ("%N")
+          Result.append ("%Nmy_string:")
           Result.append (l_my_string.out)
           Result.append ("%N")    
         end  
         if attached my_boolean as l_my_boolean then
-          Result.append ("%N")
+          Result.append ("%Nmy_boolean:")
           Result.append (l_my_boolean.out)
           Result.append ("%N")    
         end  
       end
 end
+
+

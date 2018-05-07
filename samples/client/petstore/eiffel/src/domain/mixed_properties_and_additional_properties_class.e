@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class MIXED_PROPERTIES_AND_ADDITIONAL_PROPERTIES_CLASS 
 
 inherit
@@ -67,16 +66,17 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass MIXED_PROPERTIES_AND_ADDITIONAL_PROPERTIES_CLASS%N")
         if attached uuid as l_uuid then
-          Result.append ("%N")
+          Result.append ("%Nuuid:")
           Result.append (l_uuid.out)
           Result.append ("%N")    
         end  
         if attached date_time as l_date_time then
-          Result.append ("%N")
+          Result.append ("%Ndate_time:")
           Result.append (l_date_time.out)
           Result.append ("%N")    
         end  
         if attached map as l_map then
+          Result.append ("%Nmap:")
           across l_map as ic loop
             Result.append ("%N")
             Result.append ("key:")
@@ -89,3 +89,5 @@ feature -- Change Element
         end        
       end
 end
+
+

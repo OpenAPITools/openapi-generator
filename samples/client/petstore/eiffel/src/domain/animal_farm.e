@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class ANIMAL_FARM 
 
 inherit
@@ -26,7 +25,12 @@ inherit
 
   ARRAYED_LIST [ANIMAL] 
       rename
-          out as out_ 
+          out as out_,
+          is_equal as is_equal_,
+          copy as copy_
+      select
+          is_equal_,
+          copy_     
       end   
 
 feature --Access
@@ -45,3 +49,5 @@ feature -- Change Element
         Result.append("%Nclass ANIMAL_FARM%N")
       end
 end
+
+

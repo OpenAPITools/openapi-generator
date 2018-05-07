@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class CAPITALIZATION 
 
 inherit
@@ -97,34 +96,36 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass CAPITALIZATION%N")
         if attached small_camel as l_small_camel then
-          Result.append ("%N")
+          Result.append ("%Nsmall_camel:")
           Result.append (l_small_camel.out)
           Result.append ("%N")    
         end  
         if attached capital_camel as l_capital_camel then
-          Result.append ("%N")
+          Result.append ("%Ncapital_camel:")
           Result.append (l_capital_camel.out)
           Result.append ("%N")    
         end  
         if attached small__snake as l_small__snake then
-          Result.append ("%N")
+          Result.append ("%Nsmall__snake:")
           Result.append (l_small__snake.out)
           Result.append ("%N")    
         end  
         if attached capital__snake as l_capital__snake then
-          Result.append ("%N")
+          Result.append ("%Ncapital__snake:")
           Result.append (l_capital__snake.out)
           Result.append ("%N")    
         end  
         if attached s_ca__et_h__flow__points as l_s_ca__et_h__flow__points then
-          Result.append ("%N")
+          Result.append ("%Ns_ca__et_h__flow__points:")
           Result.append (l_s_ca__et_h__flow__points.out)
           Result.append ("%N")    
         end  
         if attached ATT_NAME as l_ATT_NAME then
-          Result.append ("%N")
+          Result.append ("%NATT_NAME:")
           Result.append (l_ATT_NAME.out)
           Result.append ("%N")    
         end  
       end
 end
+
+

@@ -24,14 +24,15 @@ inherit
 feature -- API Access
 
 
-	fake_outer_boolean_serialize (body: detachable OUTER_BOOLEAN): detachable OUTER_BOOLEAN
+	fake_outer_boolean_serialize (body: BOOLEAN): detachable BOOLEAN
 			-- 
 			-- Test serialization of outer boolean types
 			-- 
 			-- argument: body Input boolean as post body (optional)
 			-- 
 			-- 
-			-- Result OUTER_BOOLEAN
+			-- Result BOOLEAN
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -42,7 +43,8 @@ feature -- API Access
 			l_request.set_body(body)
 			l_path := "/fake/outer/boolean"
 
-			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
+
+			if attached {STRING} api_client.select_header_accept (<<"*/*">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<>>),"Content-Type")
@@ -50,21 +52,22 @@ feature -- API Access
 			l_response := api_client.call_api (l_path, "Post", l_request, Void, agent deserializer)
 			if l_response.has_error then
 				last_error := l_response.error
-			elseif attached { OUTER_BOOLEAN } l_response.data ({ OUTER_BOOLEAN }) as l_data then
+			elseif attached { BOOLEAN } l_response.data ({ BOOLEAN }) as l_data then
 				Result := l_data
 			else
 				create last_error.make ("Unknown error: Status response [ " + l_response.status.out + "]")
 			end
 		end	
 
-	fake_outer_composite_serialize (body: detachable OUTER_COMPOSITE): detachable OUTER_COMPOSITE
+	fake_outer_composite_serialize (outer_composite: detachable OUTER_COMPOSITE): detachable OUTER_COMPOSITE
 			-- 
 			-- Test serialization of object with outer number type
 			-- 
-			-- argument: body Input composite as post body (optional)
+			-- argument: outer_composite Input composite as post body (optional)
 			-- 
 			-- 
 			-- Result OUTER_COMPOSITE
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -72,10 +75,11 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(body)
+			l_request.set_body(outer_composite)
 			l_path := "/fake/outer/composite"
 
-			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
+
+			if attached {STRING} api_client.select_header_accept (<<"*/*">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<>>),"Content-Type")
@@ -90,14 +94,15 @@ feature -- API Access
 			end
 		end	
 
-	fake_outer_number_serialize (body: detachable OUTER_NUMBER): detachable OUTER_NUMBER
+	fake_outer_number_serialize (body: REAL_32): detachable REAL_32
 			-- 
 			-- Test serialization of outer number types
 			-- 
 			-- argument: body Input number as post body (optional)
 			-- 
 			-- 
-			-- Result OUTER_NUMBER
+			-- Result REAL_32
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -108,7 +113,8 @@ feature -- API Access
 			l_request.set_body(body)
 			l_path := "/fake/outer/number"
 
-			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
+
+			if attached {STRING} api_client.select_header_accept (<<"*/*">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<>>),"Content-Type")
@@ -116,21 +122,22 @@ feature -- API Access
 			l_response := api_client.call_api (l_path, "Post", l_request, Void, agent deserializer)
 			if l_response.has_error then
 				last_error := l_response.error
-			elseif attached { OUTER_NUMBER } l_response.data ({ OUTER_NUMBER }) as l_data then
+			elseif attached { REAL_32 } l_response.data ({ REAL_32 }) as l_data then
 				Result := l_data
 			else
 				create last_error.make ("Unknown error: Status response [ " + l_response.status.out + "]")
 			end
 		end	
 
-	fake_outer_string_serialize (body: detachable OUTER_STRING): detachable OUTER_STRING
+	fake_outer_string_serialize (body: STRING_32): detachable STRING_32
 			-- 
 			-- Test serialization of outer string types
 			-- 
 			-- argument: body Input string as post body (optional)
 			-- 
 			-- 
-			-- Result OUTER_STRING
+			-- Result STRING_32
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -141,7 +148,8 @@ feature -- API Access
 			l_request.set_body(body)
 			l_path := "/fake/outer/string"
 
-			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
+
+			if attached {STRING} api_client.select_header_accept (<<"*/*">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<>>),"Content-Type")
@@ -149,21 +157,23 @@ feature -- API Access
 			l_response := api_client.call_api (l_path, "Post", l_request, Void, agent deserializer)
 			if l_response.has_error then
 				last_error := l_response.error
-			elseif attached { OUTER_STRING } l_response.data ({ OUTER_STRING }) as l_data then
+			elseif attached { STRING_32 } l_response.data ({ STRING_32 }) as l_data then
 				Result := l_data
 			else
 				create last_error.make ("Unknown error: Status response [ " + l_response.status.out + "]")
 			end
 		end	
 
-	test_client_model (body: CLIENT): detachable CLIENT
-			-- To test \&quot;client\&quot; model
-			-- To test \&quot;client\&quot; model
-			-- 
-			-- argument: body client model (required)
+	test_body_with_query_params (query: STRING_32; user: USER)
 			-- 
 			-- 
-			-- Result CLIENT
+			-- 
+			-- argument: query  (required)
+			-- 
+			-- argument: user  (required)
+			-- 
+			-- 
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -171,8 +181,41 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(body)
+			l_request.set_body(user)
+			l_path := "/fake/body-with-query-params"
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "query", query));
+
+
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
+				l_request.add_header(l_accept,"Accept");
+			end
+			l_request.add_header(api_client.select_header_content_type (<<"application/json">>),"Content-Type")
+			l_request.set_auth_names (<<>>)
+			l_response := api_client.call_api (l_path, "Put", l_request, agent serializer, Void)
+			if l_response.has_error then
+				last_error := l_response.error
+			end
+		end	
+
+	test_client_model (client: CLIENT): detachable CLIENT
+			-- To test \&quot;client\&quot; model
+			-- To test \&quot;client\&quot; model
+			-- 
+			-- argument: client client model (required)
+			-- 
+			-- 
+			-- Result CLIENT
+		require
+		local
+  			l_path: STRING
+  			l_request: API_CLIENT_REQUEST
+  			l_response: API_CLIENT_RESPONSE
+		do
+			reset_error
+			create l_request
+			l_request.set_body(client)
 			l_path := "/fake"
+
 
 			if attached {STRING} api_client.select_header_accept (<<"application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -189,7 +232,7 @@ feature -- API Access
 			end
 		end	
 
-	test_endpoint_parameters (number: REAL_32; double: REAL_64; pattern_without_delimiter: STRING_32; byte: ARRAY [NATURAL_8]; integer: detachable INTEGER_32; int32: detachable INTEGER_32; int64: detachable INTEGER_64; float: detachable REAL_32; string: detachable STRING_32; binary: detachable STRING_32; date: detachable DATE; date_time: detachable DATE_TIME; password: detachable STRING_32; callback: detachable STRING_32)
+	test_endpoint_parameters (number: REAL_32; double: REAL_64; pattern_without_delimiter: STRING_32; byte: ARRAY [NATURAL_8]; integer: INTEGER_32; int32: INTEGER_32; int64: INTEGER_64; float: REAL_32; string: STRING_32; binary: FILE; date: DATE; date_time: DATE_TIME; password: STRING_32; callback: STRING_32)
 			-- Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 			-- Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 			-- 
@@ -222,6 +265,16 @@ feature -- API Access
 			-- argument: callback None (optional)
 			-- 
 			-- 
+		require
+			number_is_less_or_equal_than: number <= 543.2 
+     		number_is_greater_or_equal_than: number >= 32.1 
+			double_is_less_or_equal_than: double <= 123.4 
+     		double_is_greater_or_equal_than: double >= 67.8 
+			integer_is_less_or_equal_than: integer <= 100 
+     		integer_is_greater_or_equal_than: integer >= 10 
+			int32_is_less_or_equal_than: int32 <= 200 
+     		int32_is_greater_or_equal_than: int32 >= 20 
+			float_is_less_or_equal_than: float <= 987.6 
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -231,6 +284,7 @@ feature -- API Access
 			create l_request
 			
 			l_path := "/fake"
+
 			if attached integer as l_integer then
 				l_request.add_form(l_integer,"integer");
 			end
@@ -274,10 +328,10 @@ feature -- API Access
 				l_request.add_form(l_callback,"callback");
 			end
 
-			if attached {STRING} api_client.select_header_accept (<<"application/xml; charset=utf-8", "application/json; charset=utf-8">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
-			l_request.add_header(api_client.select_header_content_type (<<"application/xml; charset=utf-8", "application/json; charset=utf-8">>),"Content-Type")
+			l_request.add_header(api_client.select_header_content_type (<<"application/x-www-form-urlencoded">>),"Content-Type")
 			l_request.set_auth_names (<<"http_basic_test">>)
 			l_response := api_client.call_api (l_path, "Post", l_request, agent serializer, Void)
 			if l_response.has_error then
@@ -285,13 +339,9 @@ feature -- API Access
 			end
 		end	
 
-	test_enum_parameters (enum_form_string_array: detachable LIST [STRING_32]; enum_form_string: detachable STRING_32; enum_header_string_array: detachable LIST [STRING_32]; enum_header_string: detachable STRING_32; enum_query_string_array: detachable LIST [STRING_32]; enum_query_string: detachable STRING_32; enum_query_integer: detachable INTEGER_32; enum_query_double: detachable REAL_64)
+	test_enum_parameters (enum_header_string_array: detachable LIST [STRING_32]; enum_header_string: STRING_32; enum_query_string_array: detachable LIST [STRING_32]; enum_query_string: STRING_32; enum_query_integer: INTEGER_32; enum_query_double: REAL_64; enum_form_string_array: detachable LIST [STRING_32]; enum_form_string: STRING_32)
 			-- To test enum parameters
 			-- To test enum parameters
-			-- 
-			-- argument: enum_form_string_array Form parameter enum test (string array) (optional)
-			-- 
-			-- argument: enum_form_string Form parameter enum test (string) (optional, default to -efg)
 			-- 
 			-- argument: enum_header_string_array Header parameter enum test (string array) (optional)
 			-- 
@@ -305,7 +355,12 @@ feature -- API Access
 			-- 
 			-- argument: enum_query_double Query parameter enum test (double) (optional)
 			-- 
+			-- argument: enum_form_string_array Form parameter enum test (string array) (optional)
 			-- 
+			-- argument: enum_form_string Form parameter enum test (string) (optional)
+			-- 
+			-- 
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -318,6 +373,8 @@ feature -- API Access
 			l_request.fill_query_params(api_client.parameter_to_tuple("csv", "enum_query_string_array", enum_query_string_array));
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "enum_query_string", enum_query_string));
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "enum_query_integer", enum_query_integer));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enum_query_double", enum_query_double));
+
 			if attached enum_header_string_array as l_enum_header_string_array then
 				l_request.add_header(l_enum_header_string_array.out,"enum_header_string_array");
 			end
@@ -330,16 +387,43 @@ feature -- API Access
 			if attached enum_form_string as l_enum_form_string then
 				l_request.add_form(l_enum_form_string,"enum_form_string");
 			end
-			if attached enum_query_double as l_enum_query_double then
-				l_request.add_form(l_enum_query_double,"enum_query_double");
-			end
 
-			if attached {STRING} api_client.select_header_accept (<<"*/*">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
-			l_request.add_header(api_client.select_header_content_type (<<"*/*">>),"Content-Type")
+			l_request.add_header(api_client.select_header_content_type (<<"application/x-www-form-urlencoded">>),"Content-Type")
 			l_request.set_auth_names (<<>>)
 			l_response := api_client.call_api (l_path, "Get", l_request, agent serializer, Void)
+			if l_response.has_error then
+				last_error := l_response.error
+			end
+		end	
+
+	test_inline_additional_properties (request_body: STRING_32)
+			-- test inline additionalProperties
+			-- 
+			-- 
+			-- argument: request_body request body (required)
+			-- 
+			-- 
+		require
+		local
+  			l_path: STRING
+  			l_request: API_CLIENT_REQUEST
+  			l_response: API_CLIENT_RESPONSE
+		do
+			reset_error
+			create l_request
+			l_request.set_body(request_body)
+			l_path := "/fake/inline-additionalProperties"
+
+
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
+				l_request.add_header(l_accept,"Accept");
+			end
+			l_request.add_header(api_client.select_header_content_type (<<"application/json">>),"Content-Type")
+			l_request.set_auth_names (<<>>)
+			l_response := api_client.call_api (l_path, "Post", l_request, agent serializer, Void)
 			if l_response.has_error then
 				last_error := l_response.error
 			end
@@ -354,6 +438,7 @@ feature -- API Access
 			-- argument: param2 field2 (required)
 			-- 
 			-- 
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -363,6 +448,7 @@ feature -- API Access
 			create l_request
 			
 			l_path := "/fake/jsonFormData"
+
 			if attached param as l_param then
 				l_request.add_form(l_param,"param");
 			end
@@ -373,7 +459,7 @@ feature -- API Access
 			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
-			l_request.add_header(api_client.select_header_content_type (<<"application/json">>),"Content-Type")
+			l_request.add_header(api_client.select_header_content_type (<<"application/x-www-form-urlencoded">>),"Content-Type")
 			l_request.set_auth_names (<<>>)
 			l_response := api_client.call_api (l_path, "Get", l_request, agent serializer, Void)
 			if l_response.has_error then

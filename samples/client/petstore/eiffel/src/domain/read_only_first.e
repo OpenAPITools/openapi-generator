@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class READ_ONLY_FIRST 
 
 inherit
@@ -57,14 +56,16 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass READ_ONLY_FIRST%N")
         if attached bar as l_bar then
-          Result.append ("%N")
+          Result.append ("%Nbar:")
           Result.append (l_bar.out)
           Result.append ("%N")    
         end  
         if attached baz as l_baz then
-          Result.append ("%N")
+          Result.append ("%Nbaz:")
           Result.append (l_baz.out)
           Result.append ("%N")    
         end  
       end
 end
+
+

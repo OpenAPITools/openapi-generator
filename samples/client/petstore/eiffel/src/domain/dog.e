@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class DOG 
 
 inherit
@@ -26,7 +25,12 @@ inherit
 
   ANIMAL 
       rename
-          out as out_animal 
+          out as out_animal,
+          is_equal as is_equal_animal,
+          copy as copy_animal
+      select
+          is_equal_animal,
+          copy_animal     
       end   
 
 feature --Access
@@ -54,9 +58,11 @@ feature -- Change Element
         Result.append(out_animal)
         Result.append("%Nclass DOG%N")
         if attached breed as l_breed then
-          Result.append ("%N")
+          Result.append ("%Nbreed:")
           Result.append (l_breed.out)
           Result.append ("%N")    
         end  
       end
 end
+
+

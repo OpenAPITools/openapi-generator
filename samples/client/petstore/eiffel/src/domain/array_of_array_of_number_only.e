@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class ARRAY_OF_ARRAY_OF_NUMBER_ONLY 
 
 inherit
@@ -48,10 +47,12 @@ feature -- Change Element
         Result.append("%Nclass ARRAY_OF_ARRAY_OF_NUMBER_ONLY%N")
         if attached array_array_number as l_array_array_number then
           across l_array_array_number as ic loop
-            Result.append ("%N")
+            Result.append ("%N array_array_number:")
             Result.append (ic.item.out)
             Result.append ("%N")
           end
         end 
       end
 end
+
+

@@ -12,29 +12,49 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
+class OUTER_ENUM
 
-class OUTER_ENUM 
+feature -- Access
 
-inherit
+  value: detachable STRING_32
+      -- enumerated value.
+    note
+            option: stable
+    attribute
+    end
 
-  ANY
-      redefine
-          out 
-      end
+feature -- Enum
+
+ val_placed: OUTER_ENUM
+    once
+      create Result
+      Result.set_value ("placed")
+    end
+
+ val_approved: OUTER_ENUM
+    once
+      create Result
+      Result.set_value ("approved")
+    end
+
+ val_delivered: OUTER_ENUM
+    once
+      create Result
+      Result.set_value ("delivered")
+    end
 
 
-feature --Access
+feature -- Element Change
+
+  set_value (a_val: like value)
+      -- Set `value' with `a_value'.
+    do
+      value := a_val
+    ensure
+      value_set: value = a_val
+    end
 
 
-feature -- Change Element  
- 
-
- feature -- Status Report
-
-    out: STRING
-          -- <Precursor>
-      do
-        create Result.make_empty
-        Result.append("%Nclass OUTER_ENUM%N")
-      end
 end
+
+

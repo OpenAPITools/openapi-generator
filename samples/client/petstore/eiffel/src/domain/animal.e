@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class ANIMAL 
 
 inherit
@@ -57,14 +56,16 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass ANIMAL%N")
         if attached class_name as l_class_name then
-          Result.append ("%N")
+          Result.append ("%Nclass_name:")
           Result.append (l_class_name.out)
           Result.append ("%N")    
         end  
         if attached color as l_color then
-          Result.append ("%N")
+          Result.append ("%Ncolor:")
           Result.append (l_color.out)
           Result.append ("%N")    
         end  
       end
 end
+
+
