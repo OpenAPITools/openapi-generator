@@ -1,7 +1,7 @@
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
-group = 'io.swagger'
+group = 'org.openapitools'
 version = '1.0.0'
 
 buildscript {
@@ -83,7 +83,7 @@ if(hasProperty('target') && target == 'android') {
 
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'swagger-petstore-okhttp-gson'
+            pom.artifactId = 'petstore-okhttp-gson'
         }
     }
 
@@ -94,10 +94,11 @@ if(hasProperty('target') && target == 'android') {
 }
 
 dependencies {
-    compile 'io.swagger:swagger-annotations:1.5.15'
+    compile 'io.swagger:swagger-annotations:1.5.17'
     compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile 'com.squareup.okhttp:logging-interceptor:2.7.5'
     compile 'com.google.code.gson:gson:2.8.1'
+    compile 'io.gsonfire:gson-fire:1.8.0'
     compile 'org.threeten:threetenbp:1.3.5'
     testCompile 'junit:junit:4.12'
 }
