@@ -174,24 +174,30 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
                             continue;
                         }
 
+                        List<String> requiredProperties = new ArrayList<>();
                         for (Parameter parameter : operation.getParameters()) {
                             Schema schema = convertParameterToSchema(parameter);
                             if (schema != null) {
                                 schemas.put(schema.getName(), schema);
+                                if (Boolean.TRUE.equals(parameter.getRequired())) {
+                                    requiredProperties.add(schema.getName());
+                                }
                             }
                         }
 
                         if (!schemas.isEmpty()) {
-                            Schema model = new Schema();
+                            ObjectSchema model = new ObjectSchema();
                             String operationId = getOrGenerateOperationId(operation, pathname, method.name());
                             model.setDescription("Query parameters for " + operationId);
                             model.setProperties(schemas);
-                            model.addExtension(VEN_FROM_QUERY, Boolean.TRUE);
+                            model.setRequired(requiredProperties);
+                            //Add internal extension directly, because addExtension filters extension names
+                            addInternalExtensionToSchema(model, VEN_FROM_QUERY, Boolean.TRUE);
                             String definitionName = generateUniqueDefinitionName(operationId + "QueryData", openAPI);
                             openAPI.getComponents().addSchemas(definitionName, model);
                             String definitionModel = "\\" + modelPackage + "\\" + toModelName(definitionName);
-                            operation.addExtension(VEN_QUERY_DATA_TYPE, definitionModel);
-                            operation.addExtension(VEN_HAS_QUERY_DATA, Boolean.TRUE);
+                            addInternalExtensionToOperation(operation, VEN_QUERY_DATA_TYPE, definitionModel);
+                            addInternalExtensionToOperation(operation, VEN_HAS_QUERY_DATA, Boolean.TRUE);
                         }
                     }
                 }
@@ -214,7 +220,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
                 if (collectionFormat == null) {
                     collectionFormat = "csv";
                 }
-                arraySchema.addExtension(VEN_COLLECTION_FORMAT, collectionFormat);
+                addInternalExtensionToSchema(arraySchema, VEN_COLLECTION_FORMAT, collectionFormat);
                 property = arraySchema;
             } else { // non-array e.g. string, integer
                 switch (queryParameter.getSchema().getType()) {
@@ -252,15 +258,26 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
             if (property != null) {
                 property.setName(queryParameter.getName());
                 property.setDescription(queryParameter.getDescription());
-                if (Boolean.TRUE.equals(queryParameter.getRequired())) {
-                    List<String> required = new ArrayList<String>();
-                    required.add(queryParameter.getName());
-                }
-
-                property.addExtension(VEN_FROM_QUERY, Boolean.TRUE);
+                addInternalExtensionToSchema(property, VEN_FROM_QUERY, Boolean.TRUE);
             }
         }
         return property;
+    }
+
+    protected void addInternalExtensionToSchema(Schema schema, String name, Object value) {
+        //Add internal extension directly, because addExtension filters extension names
+        if (schema.getExtensions() == null) {
+            schema.setExtensions(new HashMap<>());
+        }
+        schema.getExtensions().put(name, value);
+    }
+
+    protected void addInternalExtensionToOperation(Operation operation, String name, Object value) {
+        //Add internal extension directly, because addExtension filters extension names
+        if (operation.getExtensions() == null) {
+            operation.setExtensions(new HashMap<>());
+        }
+        operation.getExtensions().put(name, value);
     }
 
     protected String generateUniqueDefinitionName(String name, OpenAPI openAPI) {
