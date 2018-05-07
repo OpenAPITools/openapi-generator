@@ -58,12 +58,12 @@ public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     }
 
     @Override
-    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, String enumFormStringArray, String enumFormString) throws Exception {
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void testInlineAdditionalProperties(String requestBody) throws Exception {
+    public void testInlineAdditionalProperties(Map<String, String> requestBody) throws Exception {
         //Do your magic!!!
     }
 
