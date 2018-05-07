@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class NUMBER_ONLY 
 
 inherit
@@ -47,9 +46,11 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass NUMBER_ONLY%N")
         if attached just_number as l_just_number then
-          Result.append ("%N")
+          Result.append ("%Njust_number:")
           Result.append (l_just_number.out)
           Result.append ("%N")    
         end  
       end
 end
+
+

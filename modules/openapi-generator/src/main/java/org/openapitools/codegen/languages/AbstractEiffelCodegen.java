@@ -89,7 +89,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         typeMapping.put("password", "STRING");
         typeMapping.put("File", "FILE");
         typeMapping.put("file", "FILE");
-        typeMapping.put("binary", "STRING_32");
+        typeMapping.put("binary", "FILE");
         typeMapping.put("ByteArray", "ARRAY [NATURAL_8]");
         typeMapping.put("object", "ANY");
         typeMapping.put("map", "STRING_TABLE");

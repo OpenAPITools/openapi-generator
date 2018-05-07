@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class ADDITIONAL_PROPERTIES_CLASS 
 
 inherit
@@ -57,6 +56,7 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass ADDITIONAL_PROPERTIES_CLASS%N")
         if attached map_property as l_map_property then
+          Result.append ("%Nmap_property:")
           across l_map_property as ic loop
             Result.append ("%N")
             Result.append ("key:")
@@ -68,6 +68,7 @@ feature -- Change Element
           end
         end        
         if attached map_of_map_property as l_map_of_map_property then
+          Result.append ("%Nmap_of_map_property:")
           across l_map_of_map_property as ic loop
             Result.append ("%N")
             Result.append ("key:")
@@ -80,3 +81,5 @@ feature -- Change Element
         end        
       end
 end
+
+

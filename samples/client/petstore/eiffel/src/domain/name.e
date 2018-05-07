@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class NAME 
 
 inherit
@@ -77,24 +76,26 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass NAME%N")
         if attached name as l_name then
-          Result.append ("%N")
+          Result.append ("%Nname:")
           Result.append (l_name.out)
           Result.append ("%N")    
         end  
         if attached snake_case as l_snake_case then
-          Result.append ("%N")
+          Result.append ("%Nsnake_case:")
           Result.append (l_snake_case.out)
           Result.append ("%N")    
         end  
         if attached property as l_property then
-          Result.append ("%N")
+          Result.append ("%Nproperty:")
           Result.append (l_property.out)
           Result.append ("%N")    
         end  
         if attached var_123_number as l_var_123_number then
-          Result.append ("%N")
+          Result.append ("%Nvar_123_number:")
           Result.append (l_var_123_number.out)
           Result.append ("%N")    
         end  
       end
 end
+
+

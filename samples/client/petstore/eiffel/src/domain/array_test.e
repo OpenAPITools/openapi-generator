@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class ARRAY_TEST 
 
 inherit
@@ -68,24 +67,26 @@ feature -- Change Element
         Result.append("%Nclass ARRAY_TEST%N")
         if attached array_of_string as l_array_of_string then
           across l_array_of_string as ic loop
-            Result.append ("%N")
+            Result.append ("%N array_of_string:")
             Result.append (ic.item.out)
             Result.append ("%N")
           end
         end 
         if attached array_array_of_integer as l_array_array_of_integer then
           across l_array_array_of_integer as ic loop
-            Result.append ("%N")
+            Result.append ("%N array_array_of_integer:")
             Result.append (ic.item.out)
             Result.append ("%N")
           end
         end 
         if attached array_array_of_model as l_array_array_of_model then
           across l_array_array_of_model as ic loop
-            Result.append ("%N")
+            Result.append ("%N array_array_of_model:")
             Result.append (ic.item.out)
             Result.append ("%N")
           end
         end 
       end
 end
+
+

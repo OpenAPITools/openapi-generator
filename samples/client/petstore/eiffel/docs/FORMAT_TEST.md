@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **double** | **REAL_64** |  | [optional] [default to null]
 **string** | [**STRING_32**](STRING_32.md) |  | [optional] [default to null]
 **byte** | [**ARRAY [NATURAL_8]**](ARRAY [NATURAL_8].md) |  | [default to null]
-**binary** | [**STRING_32**](STRING_32.md) |  | [optional] [default to null]
+**binary** | [**FILE**](FILE.md) |  | [optional] [default to null]
 **date** | [**DATE**](DATE.md) |  | [default to null]
 **date_time** | [**DATE_TIME**](DATE_TIME.md) |  | [optional] [default to null]
 **uuid** | [**UUID**](UUID.md) |  | [optional] [default to null]

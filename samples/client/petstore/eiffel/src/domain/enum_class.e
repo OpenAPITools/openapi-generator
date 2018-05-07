@@ -12,29 +12,49 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
+class ENUM_CLASS
 
-class ENUM_CLASS 
+feature -- Access
 
-inherit
+  value: detachable STRING_32
+      -- enumerated value.
+    note
+            option: stable
+    attribute
+    end
 
-  ANY
-      redefine
-          out 
-      end
+feature -- Enum
+
+ val_abc: ENUM_CLASS
+    once
+      create Result
+      Result.set_value ("_abc")
+    end
+
+ val_efg: ENUM_CLASS
+    once
+      create Result
+      Result.set_value ("-efg")
+    end
+
+ val_xyz_: ENUM_CLASS
+    once
+      create Result
+      Result.set_value ("(xyz)")
+    end
 
 
-feature --Access
+feature -- Element Change
+
+  set_value (a_val: like value)
+      -- Set `value' with `a_value'.
+    do
+      value := a_val
+    ensure
+      value_set: value = a_val
+    end
 
 
-feature -- Change Element  
- 
-
- feature -- Status Report
-
-    out: STRING
-          -- <Precursor>
-      do
-        create Result.make_empty
-        Result.append("%Nclass ENUM_CLASS%N")
-      end
 end
+
+

@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class FORMAT_TEST 
 
 inherit
@@ -41,7 +40,7 @@ feature --Access
       
     byte: detachable ARRAY [NATURAL_8] 
       
-    binary: detachable STRING_32 
+    binary: detachable FILE 
       
     date: detachable DATE 
       
@@ -167,69 +166,71 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass FORMAT_TEST%N")
         if attached integer as l_integer then
-          Result.append ("%N")
+          Result.append ("%Ninteger:")
           Result.append (l_integer.out)
           Result.append ("%N")    
         end  
         if attached int32 as l_int32 then
-          Result.append ("%N")
+          Result.append ("%Nint32:")
           Result.append (l_int32.out)
           Result.append ("%N")    
         end  
         if attached int64 as l_int64 then
-          Result.append ("%N")
+          Result.append ("%Nint64:")
           Result.append (l_int64.out)
           Result.append ("%N")    
         end  
         if attached number as l_number then
-          Result.append ("%N")
+          Result.append ("%Nnumber:")
           Result.append (l_number.out)
           Result.append ("%N")    
         end  
         if attached float as l_float then
-          Result.append ("%N")
+          Result.append ("%Nfloat:")
           Result.append (l_float.out)
           Result.append ("%N")    
         end  
         if attached double as l_double then
-          Result.append ("%N")
+          Result.append ("%Ndouble:")
           Result.append (l_double.out)
           Result.append ("%N")    
         end  
         if attached string as l_string then
-          Result.append ("%N")
+          Result.append ("%Nstring:")
           Result.append (l_string.out)
           Result.append ("%N")    
         end  
         if attached byte as l_byte then
-          Result.append ("%N")
+          Result.append ("%Nbyte:")
           Result.append (l_byte.out)
           Result.append ("%N")    
         end  
         if attached binary as l_binary then
-          Result.append ("%N")
+          Result.append ("%Nbinary:")
           Result.append (l_binary.out)
           Result.append ("%N")    
         end  
         if attached date as l_date then
-          Result.append ("%N")
+          Result.append ("%Ndate:")
           Result.append (l_date.out)
           Result.append ("%N")    
         end  
         if attached date_time as l_date_time then
-          Result.append ("%N")
+          Result.append ("%Ndate_time:")
           Result.append (l_date_time.out)
           Result.append ("%N")    
         end  
         if attached uuid as l_uuid then
-          Result.append ("%N")
+          Result.append ("%Nuuid:")
           Result.append (l_uuid.out)
           Result.append ("%N")    
         end  
         if attached password as l_password then
-          Result.append ("%N")
+          Result.append ("%Npassword:")
           Result.append (l_password.out)
           Result.append ("%N")    
         end  
       end
 end
+
+

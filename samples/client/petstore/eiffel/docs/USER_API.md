@@ -1,6 +1,6 @@
 # USER_API
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Feature | HTTP request | Description
 ------------- | ------------- | -------------
@@ -15,7 +15,7 @@ Feature | HTTP request | Description
 
 
 # **create_user**
-> create_user (body: USER )
+> create_user (user: USER )
 	
 
 Create user
@@ -27,7 +27,7 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**USER**](USER.md)| Created user object | 
+ **user** | [**USER**](USER.md)| Created user object | 
 
 ### Return type
 
@@ -40,24 +40,22 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_array_input**
-> create_users_with_array_input (body: LIST [USER] )
+> create_users_with_array_input (user: LIST [USER] )
 	
 
 Creates list of users with given input array
-
-
 
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**LIST [USER]**](User.md)| List of user object | 
+ **user** | [**LIST [USER]**](LIST.md)| List of user object | 
 
 ### Return type
 
@@ -70,24 +68,22 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_list_input**
-> create_users_with_list_input (body: LIST [USER] )
+> create_users_with_list_input (user: LIST [USER] )
 	
 
 Creates list of users with given input array
-
-
 
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**LIST [USER]**](User.md)| List of user object | 
+ **user** | [**LIST [USER]**](LIST.md)| List of user object | 
 
 ### Return type
 
@@ -100,7 +96,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -130,7 +126,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -139,8 +135,6 @@ No authorization required
 	
 
 Logs user into the system
-
-
 
 
 ### Parameters
@@ -172,8 +166,6 @@ No authorization required
 Logs out current logged in user session
 
 
-
-
 ### Parameters
 This endpoint does not need any parameter.
 
@@ -188,12 +180,12 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_user**
-> update_user (username: STRING_32 ; body: USER )
+> update_user (username: STRING_32 ; user: USER )
 	
 
 Updated user
@@ -206,7 +198,7 @@ This can only be done by the logged in user.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **STRING_32**| name that need to be deleted | 
- **body** | [**USER**](USER.md)| Updated user object | 
+ **user** | [**USER**](USER.md)| Updated user object | 
 
 ### Return type
 
@@ -219,7 +211,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -230,13 +222,11 @@ No authorization required
 Get user by user name
 
 
-
-
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **STRING_32**| The name that needs to be fetched. Use user1 for testing.  | 
+ **username** | **STRING_32**| The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
 

@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class CAT 
 
 inherit
@@ -26,7 +25,12 @@ inherit
 
   ANIMAL 
       rename
-          out as out_animal 
+          out as out_animal,
+          is_equal as is_equal_animal,
+          copy as copy_animal
+      select
+          is_equal_animal,
+          copy_animal     
       end   
 
 feature --Access
@@ -54,9 +58,11 @@ feature -- Change Element
         Result.append(out_animal)
         Result.append("%Nclass CAT%N")
         if attached declawed as l_declawed then
-          Result.append ("%N")
+          Result.append ("%Ndeclawed:")
           Result.append (l_declawed.out)
           Result.append ("%N")    
         end  
       end
 end
+
+

@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class MAP_TEST 
 
 inherit
@@ -57,6 +56,7 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass MAP_TEST%N")
         if attached map_map_of_string as l_map_map_of_string then
+          Result.append ("%Nmap_map_of_string:")
           across l_map_map_of_string as ic loop
             Result.append ("%N")
             Result.append ("key:")
@@ -68,6 +68,7 @@ feature -- Change Element
           end
         end        
         if attached map_of_enum_string as l_map_of_enum_string then
+          Result.append ("%Nmap_of_enum_string:")
           across l_map_of_enum_string as ic loop
             Result.append ("%N")
             Result.append ("key:")
@@ -80,3 +81,5 @@ feature -- Change Element
         end        
       end
 end
+
+

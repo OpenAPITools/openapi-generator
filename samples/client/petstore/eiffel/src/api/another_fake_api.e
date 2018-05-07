@@ -14,7 +14,7 @@ note
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
 
 class
-	FAKECLASSNAMETAGS123_API
+	ANOTHERFAKE_API
 
 inherit
 
@@ -24,9 +24,9 @@ inherit
 feature -- API Access
 
 
-	test_classname (client: CLIENT): detachable CLIENT
-			-- To test class name in snake case
-			-- To test class name in snake case
+	test_special_tags (client: CLIENT): detachable CLIENT
+			-- To test special tags
+			-- To test special tags
 			-- 
 			-- argument: client client model (required)
 			-- 
@@ -41,14 +41,14 @@ feature -- API Access
 			reset_error
 			create l_request
 			l_request.set_body(client)
-			l_path := "/fake_classname_test"
+			l_path := "/another-fake/dummy"
 
 
 			if attached {STRING} api_client.select_header_accept (<<"application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<"application/json">>),"Content-Type")
-			l_request.set_auth_names (<<"api_key_query">>)
+			l_request.set_auth_names (<<>>)
 			l_response := api_client.call_api (l_path, "Patch", l_request, Void, agent deserializer)
 			if l_response.has_error then
 				last_error := l_response.error

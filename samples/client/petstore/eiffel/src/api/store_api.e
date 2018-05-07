@@ -1,7 +1,7 @@
 note
  description:"[
 		Swagger Petstore
- 		This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ 		This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
   		OpenAPI spec version: 1.0.0
  	    Contact: apiteam@swagger.io
 
@@ -40,11 +40,11 @@ feature -- API Access
 			reset_error
 			create l_request
 			
-			l_path := "/store/order/{orderId}"
-			l_path.replace_substring_all ("{"+"orderId"+"}", api_client.url_encode (order_id.out))
+			l_path := "/store/order/{order_id}"
+			l_path.replace_substring_all ("{"+"order_id"+"}", api_client.url_encode (order_id.out))
 
 
-			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
+			if attached {STRING} api_client.select_header_accept (<<>>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
 			end
 			l_request.add_header(api_client.select_header_content_type (<<>>),"Content-Type")
@@ -107,8 +107,8 @@ feature -- API Access
 			reset_error
 			create l_request
 			
-			l_path := "/store/order/{orderId}"
-			l_path.replace_substring_all ("{"+"orderId"+"}", api_client.url_encode (order_id.out))
+			l_path := "/store/order/{order_id}"
+			l_path.replace_substring_all ("{"+"order_id"+"}", api_client.url_encode (order_id.out))
 
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
@@ -126,11 +126,11 @@ feature -- API Access
 			end
 		end	
 
-	place_order (body: ORDER): detachable ORDER
+	place_order (order: ORDER): detachable ORDER
 			-- Place an order for a pet
 			-- 
 			-- 
-			-- argument: body order placed for purchasing the pet (required)
+			-- argument: order order placed for purchasing the pet (required)
 			-- 
 			-- 
 			-- Result ORDER
@@ -142,7 +142,7 @@ feature -- API Access
 		do
 			reset_error
 			create l_request
-			l_request.set_body(body)
+			l_request.set_body(order)
 			l_path := "/store/order"
 
 

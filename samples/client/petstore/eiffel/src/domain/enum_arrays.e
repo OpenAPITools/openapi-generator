@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class ENUM_ARRAYS 
 
 inherit
@@ -27,7 +26,7 @@ feature --Access
 
     just_symbol: detachable STRING_32 
       
-    array_enum: detachable LIST [Array_enumEnum] 
+    array_enum: detachable LIST [STRING_32] 
       
 
 feature -- Change Element  
@@ -57,16 +56,18 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass ENUM_ARRAYS%N")
         if attached just_symbol as l_just_symbol then
-          Result.append ("%N")
+          Result.append ("%Njust_symbol:")
           Result.append (l_just_symbol.out)
           Result.append ("%N")    
         end  
         if attached array_enum as l_array_enum then
           across l_array_enum as ic loop
-            Result.append ("%N")
+            Result.append ("%N array_enum:")
             Result.append (ic.item.out)
             Result.append ("%N")
           end
         end 
       end
 end
+
+

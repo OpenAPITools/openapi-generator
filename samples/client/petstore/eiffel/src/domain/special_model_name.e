@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class SPECIAL_MODEL_NAME 
 
 inherit
@@ -47,9 +46,11 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass SPECIAL_MODEL_NAME%N")
         if attached special_property_name as l_special_property_name then
-          Result.append ("%N")
+          Result.append ("%Nspecial_property_name:")
           Result.append (l_special_property_name.out)
           Result.append ("%N")    
         end  
       end
 end
+
+
