@@ -27,7 +27,7 @@ import org.openapitools.codegen.SupportingFile;
 import java.io.File;
 
 public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String invokerPackage = "io.swagger.client";
+    protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";

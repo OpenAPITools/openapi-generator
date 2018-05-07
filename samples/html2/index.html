@@ -1001,10 +1001,10 @@ margin-bottom: 20px;
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/pet"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-addPet-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -1019,7 +1019,7 @@ public class PetApiExample {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi();
-        Pet pet = ; // Pet | 
+        Pet pet = {photoUrls=[Ljava.lang.Object;@1afdd473, name=doggie, id=0, category={name=name, id=6}, tags=[Ljava.lang.Object;@40238dd0, status=available}; // Pet | 
         try {
             apiInstance.addPet(pet);
         } catch (ApiException e) {
@@ -1031,13 +1031,13 @@ public class PetApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-addPet-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
 
     public static void main(String[] args) {
         PetApi apiInstance = new PetApi();
-        Pet pet = ; // Pet | 
+        Pet pet = {photoUrls=[Ljava.lang.Object;@1afdd473, name=doggie, id=0, category={name=name, id=6}, tags=[Ljava.lang.Object;@40238dd0, status=available}; // Pet | 
         try {
             apiInstance.addPet(pet);
         } catch (ApiException e) {
@@ -1057,7 +1057,7 @@ public class PetApiExample {
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-Pet *pet = ; // 
+Pet *pet = {photoUrls=[Ljava.lang.Object;@1afdd473, name=doggie, id=0, category={name=name, id=6}, tags=[Ljava.lang.Object;@40238dd0, status=available}; // 
 
 PetApi *apiInstance = [[PetApi alloc] init];
 
@@ -1080,7 +1080,7 @@ var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
 var api = new SwaggerPetstore.PetApi()
-var pet = ; // {Pet} 
+var pet = {photoUrls=[Ljava.lang.Object;@1afdd473, name=doggie, id=0, category={name=name, id=6}, tags=[Ljava.lang.Object;@40238dd0, status=available}; // {Pet} 
 
 var callback = function(error, data, response) {
   if (error) {
@@ -1139,7 +1139,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new Swagger\Client\Api\PetApi();
-$pet = ; // Pet | 
+$pet = {photoUrls=[Ljava.lang.Object;@1afdd473, name=doggie, id=0, category={name=name, id=6}, tags=[Ljava.lang.Object;@40238dd0, status=available}; // Pet | 
 
 try {
     $api_instance->addPet($pet);
@@ -1180,7 +1180,7 @@ swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = swagger_client.PetApi()
-pet =  # Pet | 
+pet = {photoUrls=[Ljava.lang.Object;@1afdd473, name=doggie, id=0, category={name=name, id=6}, tags=[Ljava.lang.Object;@40238dd0, status=available} # Pet | 
 
 try: 
     # Add a new pet to the store
@@ -1278,10 +1278,10 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-deletePet-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -1309,7 +1309,7 @@ public class PetApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-deletePet-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -1589,10 +1589,10 @@ except ApiException as e:
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/pet/findByStatus?status="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -1620,7 +1620,7 @@ public class PetApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -1929,10 +1929,10 @@ except ApiException as e:
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/pet/findByTags?tags="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-findPetsByTags-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -1960,7 +1960,7 @@ public class PetApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-findPetsByTags-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -2269,10 +2269,10 @@ except ApiException as e:
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-getPetById-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -2302,7 +2302,7 @@ public class PetApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-getPetById-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -2628,10 +2628,10 @@ except ApiException as e:
                             <pre class="prettyprint"><code class="language-bsh">curl -X PUT "http://petstore.swagger.io/v2/pet"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-updatePet-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -2658,7 +2658,7 @@ public class PetApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-updatePet-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -2921,10 +2921,10 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -2953,7 +2953,7 @@ public class PetApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -2982,8 +2982,8 @@ public class PetApiExample {
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 Long *petId = 789; // ID of pet that needs to be updated
-String *name = name_example; // Updated name of the pet (optional)
-String *status = status_example; // Updated status of the pet (optional)
+String *name = name_example; // Updated name of the pet (optional) (default to null)
+String *status = status_example; // Updated status of the pet (optional) (default to null)
 
 PetApi *apiInstance = [[PetApi alloc] init];
 
@@ -3047,8 +3047,8 @@ namespace Example
 
             var apiInstance = new PetApi();
             var petId = 789;  // Long | ID of pet that needs to be updated
-            var name = name_example;  // String | Updated name of the pet (optional) 
-            var status = status_example;  // String | Updated status of the pet (optional) 
+            var name = name_example;  // String | Updated name of the pet (optional)  (default to null)
+            var status = status_example;  // String | Updated status of the pet (optional)  (default to null)
 
             try
             {
@@ -3119,8 +3119,8 @@ swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # create an instance of the API class
 api_instance = swagger_client.PetApi()
 petId = 789 # Long | ID of pet that needs to be updated
-name = name_example # String | Updated name of the pet (optional)
-status = status_example # String | Updated status of the pet (optional)
+name = name_example # String | Updated name of the pet (optional) (default to null)
+status = status_example # String | Updated status of the pet (optional) (default to null)
 
 try: 
     # Updates a pet in the store with form data
@@ -3264,10 +3264,10 @@ except ApiException as e:
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/pet/{petId}/uploadImage"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-uploadFile-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -3297,7 +3297,7 @@ public class PetApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-uploadFile-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -3327,8 +3327,8 @@ public class PetApiExample {
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 Long *petId = 789; // ID of pet to update
-String *additionalMetadata = additionalMetadata_example; // Additional data to pass to server (optional)
-File *file = BINARY_DATA_HERE; // file to upload (optional)
+String *additionalMetadata = additionalMetadata_example; // Additional data to pass to server (optional) (default to null)
+File *file = BINARY_DATA_HERE; // file to upload (optional) (default to null)
 
 PetApi *apiInstance = [[PetApi alloc] init];
 
@@ -3395,8 +3395,8 @@ namespace Example
 
             var apiInstance = new PetApi();
             var petId = 789;  // Long | ID of pet to update
-            var additionalMetadata = additionalMetadata_example;  // String | Additional data to pass to server (optional) 
-            var file = BINARY_DATA_HERE;  // File | file to upload (optional) 
+            var additionalMetadata = additionalMetadata_example;  // String | Additional data to pass to server (optional)  (default to null)
+            var file = BINARY_DATA_HERE;  // File | file to upload (optional)  (default to null)
 
             try
             {
@@ -3470,8 +3470,8 @@ swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # create an instance of the API class
 api_instance = swagger_client.PetApi()
 petId = 789 # Long | ID of pet to update
-additionalMetadata = additionalMetadata_example # String | Additional data to pass to server (optional)
-file = BINARY_DATA_HERE # File | file to upload (optional)
+additionalMetadata = additionalMetadata_example # String | Additional data to pass to server (optional) (default to null)
+file = BINARY_DATA_HERE # File | file to upload (optional) (default to null)
 
 try: 
     # uploads an image
@@ -3661,10 +3661,10 @@ except ApiException as e:
                             <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "http://petstore.swagger.io/v2/store/order/{orderId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-deleteOrder-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.StoreApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.StoreApi;
 
 import java.io.File;
 import java.util.*;
@@ -3686,7 +3686,7 @@ public class StoreApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-Store-deleteOrder-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.StoreApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.StoreApi;
 
 public class StoreApiExample {
 
@@ -3915,10 +3915,10 @@ except ApiException as e:
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/store/inventory"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-getInventory-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.StoreApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.StoreApi;
 
 import java.io.File;
 import java.util.*;
@@ -3947,7 +3947,7 @@ public class StoreApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-Store-getInventory-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.StoreApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.StoreApi;
 
 public class StoreApiExample {
 
@@ -4215,10 +4215,10 @@ except ApiException as e:
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/store/order/{orderId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-getOrderById-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.StoreApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.StoreApi;
 
 import java.io.File;
 import java.util.*;
@@ -4241,7 +4241,7 @@ public class StoreApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-Store-getOrderById-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.StoreApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.StoreApi;
 
 public class StoreApiExample {
 
@@ -4533,10 +4533,10 @@ except ApiException as e:
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/store/order"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-placeOrder-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.StoreApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.StoreApi;
 
 import java.io.File;
 import java.util.*;
@@ -4546,7 +4546,7 @@ public class StoreApiExample {
     public static void main(String[] args) {
         
         StoreApi apiInstance = new StoreApi();
-        Order order = ; // Order | 
+        Order order = {petId=6, quantity=1, id=0, shipDate=2000-01-23T04:56:07.000+00:00, complete=false, status=placed}; // Order | 
         try {
             Order result = apiInstance.placeOrder(order);
             System.out.println(result);
@@ -4559,13 +4559,13 @@ public class StoreApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-Store-placeOrder-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.StoreApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.StoreApi;
 
 public class StoreApiExample {
 
     public static void main(String[] args) {
         StoreApi apiInstance = new StoreApi();
-        Order order = ; // Order | 
+        Order order = {petId=6, quantity=1, id=0, shipDate=2000-01-23T04:56:07.000+00:00, complete=false, status=placed}; // Order | 
         try {
             Order result = apiInstance.placeOrder(order);
             System.out.println(result);
@@ -4581,7 +4581,7 @@ public class StoreApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Store-placeOrder-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Order *order = ; // 
+                              <pre class="prettyprint"><code class="language-cpp">Order *order = {petId=6, quantity=1, id=0, shipDate=2000-01-23T04:56:07.000+00:00, complete=false, status=placed}; // 
 
 StoreApi *apiInstance = [[StoreApi alloc] init];
 
@@ -4602,7 +4602,7 @@ StoreApi *apiInstance = [[StoreApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
 
 var api = new SwaggerPetstore.StoreApi()
-var order = ; // {Order} 
+var order = {petId=6, quantity=1, id=0, shipDate=2000-01-23T04:56:07.000+00:00, complete=false, status=placed}; // {Order} 
 
 var callback = function(error, data, response) {
   if (error) {
@@ -4656,7 +4656,7 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\StoreApi();
-$order = ; // Order | 
+$order = {petId=6, quantity=1, id=0, shipDate=2000-01-23T04:56:07.000+00:00, complete=false, status=placed}; // Order | 
 
 try {
     $result = $api_instance->placeOrder($order);
@@ -4693,7 +4693,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.StoreApi()
-order =  # Order | 
+order = {petId=6, quantity=1, id=0, shipDate=2000-01-23T04:56:07.000+00:00, complete=false, status=placed} # Order | 
 
 try: 
     # Place an order for a pet
@@ -4847,10 +4847,10 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/user"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -4872,7 +4872,7 @@ public class UserApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-User-createUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -5097,10 +5097,10 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/user/createWithArray"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -5122,7 +5122,7 @@ public class UserApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -5347,10 +5347,10 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/user/createWithList"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUsersWithListInput-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -5372,7 +5372,7 @@ public class UserApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-User-createUsersWithListInput-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -5597,10 +5597,10 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "http://petstore.swagger.io/v2/user/{username}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-deleteUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -5622,7 +5622,7 @@ public class UserApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-User-deleteUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -5851,10 +5851,10 @@ except ApiException as e:
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/user/{username}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-getUserByName-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -5877,7 +5877,7 @@ public class UserApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-User-getUserByName-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -6166,10 +6166,10 @@ except ApiException as e:
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/user/login?username=&password="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-loginUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -6193,7 +6193,7 @@ public class UserApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-User-loginUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -6546,10 +6546,10 @@ except ApiException as e:
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/user/logout"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-logoutUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -6570,7 +6570,7 @@ public class UserApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-User-logoutUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -6753,10 +6753,10 @@ except ApiException as e:
                             <pre class="prettyprint"><code class="language-bsh">curl -X PUT "http://petstore.swagger.io/v2/user/{username}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-updateUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -6767,7 +6767,7 @@ public class UserApiExample {
         
         UserApi apiInstance = new UserApi();
         String username = username_example; // String | name that need to be deleted
-        User user = ; // User | 
+        User user = {firstName=firstName, lastName=lastName, password=password, userStatus=6, phone=phone, id=0, email=email, username=username}; // User | 
         try {
             apiInstance.updateUser(username, user);
         } catch (ApiException e) {
@@ -6779,14 +6779,14 @@ public class UserApiExample {
                           </div>
 
                           <div class="tab-pane" id="examples-User-updateUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.UserApi;
 
 public class UserApiExample {
 
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
         String username = username_example; // String | name that need to be deleted
-        User user = ; // User | 
+        User user = {firstName=firstName, lastName=lastName, password=password, userStatus=6, phone=phone, id=0, email=email, username=username}; // User | 
         try {
             apiInstance.updateUser(username, user);
         } catch (ApiException e) {
@@ -6802,7 +6802,7 @@ public class UserApiExample {
   </div> -->
                             <div class="tab-pane" id="examples-User-updateUser-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // name that need to be deleted
-User *user = ; // 
+User *user = {firstName=firstName, lastName=lastName, password=password, userStatus=6, phone=phone, id=0, email=email, username=username}; // 
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
@@ -6822,7 +6822,7 @@ UserApi *apiInstance = [[UserApi alloc] init];
 
 var api = new SwaggerPetstore.UserApi()
 var username = username_example; // {String} name that need to be deleted
-var user = ; // {User} 
+var user = {firstName=firstName, lastName=lastName, password=password, userStatus=6, phone=phone, id=0, email=email, username=username}; // {User} 
 
 var callback = function(error, data, response) {
   if (error) {
@@ -6877,7 +6877,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\UserApi();
 $username = username_example; // String | name that need to be deleted
-$user = ; // User | 
+$user = {firstName=firstName, lastName=lastName, password=password, userStatus=6, phone=phone, id=0, email=email, username=username}; // User | 
 
 try {
     $api_instance->updateUser($username, $user);
@@ -6914,7 +6914,7 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = swagger_client.UserApi()
 username = username_example # String | name that need to be deleted
-user =  # User | 
+user = {firstName=firstName, lastName=lastName, password=password, userStatus=6, phone=phone, id=0, email=email, username=username} # User | 
 
 try: 
     # Updated user

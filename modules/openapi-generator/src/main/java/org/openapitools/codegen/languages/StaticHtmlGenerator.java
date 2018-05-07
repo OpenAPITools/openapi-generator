@@ -17,6 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Escapers;
+import com.samskivert.mustache.Mustache.Compiler;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -31,21 +39,13 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.Markdown;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.info.Info;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import com.samskivert.mustache.Escapers;
-import com.samskivert.mustache.Mustache.Compiler;
-
 public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig {
-    protected String invokerPackage = "io.swagger.client";
+    protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
