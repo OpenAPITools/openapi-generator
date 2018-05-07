@@ -7,26 +7,17 @@ info:
     models. Please do not use this for any other purpose. Special characters: "
     \
   version: 1.0.0
-  title: Swagger Petstore
-  termsOfService: 'http://swagger.io/terms/'
-  contact:
-    email: apiteam@swagger.io
+  title: OpenAPI Petstore
   license:
     name: Apache-2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 tags:
   - name: pet
     description: Everything about your Pets
-    externalDocs:
-      description: Find out more
-      url: 'http://swagger.io'
   - name: store
     description: Access to Petstore orders
   - name: user
     description: Operations about user
-    externalDocs:
-      description: Find out more about our store
-      url: 'http://swagger.io'
 paths:
   /pet:
     post:

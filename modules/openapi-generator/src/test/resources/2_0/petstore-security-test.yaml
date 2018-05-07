@@ -2,10 +2,10 @@ swagger: '2.0'
 info:
   description: "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  */ ' \" =end -- \r\n \n \r"
   version: 1.0.0 */ ' " =end -- \r\n \n \r
-  title: Swagger Petstore */ ' " =end -- \r\n \n \r
-  termsOfService: http://swagger.io/terms/ */ ' " =end -- \r\n \n \r
+  title: OpenAPI Petstore */ ' " =end -- \r\n \n \r
+  termsOfService: http://url.to/terms/ */ ' " =end -- \r\n \n \r
   contact:
-    email: apiteam@swagger.io */ ' " =end -- \r\n \n \r
+    email: something@something.abc */ ' " =end -- \r\n \n \r
   license:
     name: Apache-2.0 */ ' " =end -- \r\n \n \r
     url: http://www.apache.org/licenses/LICENSE-2.0.html */ ' " =end -- \r\n \n \r
@@ -16,7 +16,7 @@ tags:
     description: Everything about your Pets */ ' " =end -- \r\n \n \r
     externalDocs:
       description: Find out more */ ' " =end -- \r\n \n \r
-      url: 'http://swagger.io'
+      url: 'https://openapis.org'
 schemes:
   - http */ ' " =end -- \r\n \n \r
 paths:
@@ -64,5 +64,5 @@ definitions:
     xml:
       name: Return
 externalDocs:
-  description: Find out more about Swagger  */ ' " =end -- \r\n \n \r
-  url: 'http://swagger.io'
+  description: Find out more about OpenAPI  */ ' " =end -- \r\n \n \r
+  url: 'https://openapis.org'

@@ -3,11 +3,7 @@
   "info": {
     "description": "This is a test spec",
     "version": "1.0.0",
-    "title": "Swagger Additional Properties",
-    "termsOfService": "http://swagger.io/terms/",
-    "contact": {
-      "email": "apiteam@swagger.io"
-    },
+    "title": "OpenAPI Additional Properties",
     "license": {
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"

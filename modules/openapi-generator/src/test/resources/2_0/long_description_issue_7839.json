@@ -3,11 +3,7 @@
   "info" : {
     "description" : "Are creatures of the cosmos Rig Veda? Trillion! Made in the interiors of collapsing stars Apollonius of Perga, globular star cluster emerged into consciousness bits of moving fluff brain is the seed of intelligence citizens of distant epochs another world courage of our questions a mote of dust suspended in a sunbeam ship of the imagination, paroxysm of global death intelligent beings? Two ghostly white figures in coveralls and helmets are soflty dancing hearts of the stars brain is the seed of intelligence quasar, Drake Equation billions upon billions and billions upon billions upon billions upon billions upon billions upon billions upon billions!\n",
     "version" : "1.0.0",
-    "title" : "Swagger Petstore",
-    "termsOfService" : "http://swagger.io/terms/",
-    "contact" : {
-      "email" : "apiteam@swagger.io"
-    },
+    "title" : "OpenAPI Petstore",
     "license" : {
       "name" : "Apache 2.0",
       "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
@@ -20,7 +16,7 @@
     "description" : "Light years, culture, dispassionate extraterrestrial observer citizens of distant epochs intelligent beings Jean-Francois Champollion encyclopaedia galactica Sea of Tranquility emerged into consciousness Cambrian explosion another world Cambrian explosion globular star cluster. Emerged into consciousness take root and flourish explorations a mote of dust suspended in a sunbeam encyclopaedia galactica, not a sunrise but a galaxyrise, Orion's sword encyclopaedia galactica vastness is bearable only through love cosmos. Birth and billions upon billions upon billions upon billions upon billions upon billions upon billions.",
     "externalDocs" : {
       "description" : "Find out more",
-      "url" : "http://swagger.io"
+      "url" : "http://openapis.org"
     }
   }, {
     "name" : "store",
@@ -805,9 +801,5 @@
         }
       }
     }
-  },
-  "externalDocs" : {
-    "description" : "Find out more about Swagger",
-    "url" : "http://swagger.io"
   }
 }
