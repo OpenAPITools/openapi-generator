@@ -23,10 +23,10 @@ Add a new pet to the store
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
-Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+Pet pet = {photoUrls=[Ljava.lang.Object;@5f9be66c, name=doggie, id=0, category={name=name, id=6}, tags=[Ljava.lang.Object;@3abada5a, status=available}; // Pet | Pet object that needs to be added to the store
 try {
     apiInstance.addPet(pet);
 } catch (ApiException e) {
@@ -51,7 +51,7 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
 <a name="deletePet"></a>
@@ -63,7 +63,7 @@ Deletes a pet
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | Pet id to delete
@@ -107,7 +107,7 @@ Multiple status values can be provided with comma separated strings
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
 List<String> status = Arrays.asList("status_example"); // List<String> | Status values that need to be considered for filter
@@ -150,7 +150,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
 List<String> tags = Arrays.asList("tags_example"); // List<String> | Tags to filter by
@@ -193,7 +193,7 @@ Returns a single pet
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet to return
@@ -234,7 +234,7 @@ Update an existing pet
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
 Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
@@ -262,7 +262,7 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
 <a name="updatePetWithForm"></a>
@@ -274,12 +274,12 @@ Updates a pet in the store with form data
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet that needs to be updated
-String name = "name_example"; // String | Updated name of the pet
-String status = "status_example"; // String | Updated status of the pet
+String name = "null"; // String | Updated name of the pet
+String status = "null"; // String | Updated status of the pet
 try {
     apiInstance.updatePetWithForm(petId, name, status);
 } catch (ApiException e) {
@@ -293,8 +293,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet that needs to be updated |
- **name** | **String**| Updated name of the pet | [optional]
- **status** | **String**| Updated status of the pet | [optional]
+ **name** | **String**| Updated name of the pet | [optional] [default to null]
+ **status** | **String**| Updated status of the pet | [optional] [default to null]
 
 ### Return type
 
@@ -318,12 +318,12 @@ uploads an image
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.PetApi;
+//import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet to update
-String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
-File file = new File("/path/to/file"); // File | file to upload
+String additionalMetadata = "null"; // String | Additional data to pass to server
+File file = new File("null"); // File | file to upload
 try {
     ApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
     System.out.println(result);
@@ -338,8 +338,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
- **additionalMetadata** | **String**| Additional data to pass to server | [optional]
- **file** | **File**| file to upload | [optional]
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
+ **file** | **File**| file to upload | [optional] [default to null]
 
 ### Return type
 

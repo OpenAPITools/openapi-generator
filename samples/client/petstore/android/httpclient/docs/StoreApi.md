@@ -21,7 +21,7 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.StoreApi;
+//import org.openapitools.client.api.StoreApi;
 
 StoreApi apiInstance = new StoreApi();
 String orderId = "orderId_example"; // String | ID of the order that needs to be deleted
@@ -63,7 +63,7 @@ Returns a map of status codes to quantities
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.StoreApi;
+//import org.openapitools.client.api.StoreApi;
 
 StoreApi apiInstance = new StoreApi();
 try {
@@ -102,7 +102,7 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.StoreApi;
+//import org.openapitools.client.api.StoreApi;
 
 StoreApi apiInstance = new StoreApi();
 Long orderId = 56L; // Long | ID of pet that needs to be fetched
@@ -119,7 +119,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **Long**| ID of pet that needs to be fetched | [enum: ]
+ **orderId** | **Long**| ID of pet that needs to be fetched |
 
 ### Return type
 
@@ -143,10 +143,10 @@ Place an order for a pet
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.StoreApi;
+//import org.openapitools.client.api.StoreApi;
 
 StoreApi apiInstance = new StoreApi();
-Order order = new Order(); // Order | order placed for purchasing the pet
+Order order = {petId=6, quantity=1, id=0, shipDate=2000-01-23T04:56:07.000+00:00, complete=false, status=placed}; // Order | order placed for purchasing the pet
 try {
     Order result = apiInstance.placeOrder(order);
     System.out.println(result);
@@ -172,6 +172,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 

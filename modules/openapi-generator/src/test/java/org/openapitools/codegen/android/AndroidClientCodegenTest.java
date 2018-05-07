@@ -17,11 +17,10 @@
 
 package org.openapitools.codegen.android;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.AndroidClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class AndroidClientCodegenTest {
 
@@ -32,12 +31,12 @@ public class AndroidClientCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
-        Assert.assertEquals(codegen.modelPackage(), "io.swagger.client.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "io.swagger.client.model");
-        Assert.assertEquals(codegen.apiPackage(), "io.swagger.client.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "io.swagger.client.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "io.swagger.client");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "io.swagger.client");
+        Assert.assertEquals(codegen.modelPackage(), "org.openapitools.client.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.client.model");
+        Assert.assertEquals(codegen.apiPackage(), "org.openapitools.client.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.client.api");
+        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.client");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.client");
     }
 
     @Test

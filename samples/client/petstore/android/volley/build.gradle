@@ -1,4 +1,4 @@
-group = 'io.swagger'
+group = 'org.openapitools'
 project.version = '1.0.0'
 
 buildscript {

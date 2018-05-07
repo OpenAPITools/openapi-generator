@@ -25,7 +25,7 @@ This can only be done by the logged in user.
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
 User user = new User(); // User | Created user object
@@ -53,7 +53,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 <a name="createUsersWithArrayInput"></a>
@@ -65,7 +65,7 @@ Creates list of users with given input array
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
 List<User> user = Arrays.asList(new List()); // List<User> | List of user object
@@ -105,7 +105,7 @@ Creates list of users with given input array
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
 List<User> user = Arrays.asList(new List()); // List<User> | List of user object
@@ -147,7 +147,7 @@ This can only be done by the logged in user.
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
 String username = "username_example"; // String | The name that needs to be deleted
@@ -187,7 +187,7 @@ Get user by user name
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
 String username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing.
@@ -228,7 +228,7 @@ Logs user into the system
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
 String username = "username_example"; // String | The user name for login
@@ -271,7 +271,7 @@ Logs out current logged in user session
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
 try {
@@ -309,11 +309,11 @@ This can only be done by the logged in user.
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.api.UserApi;
+//import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
 String username = "username_example"; // String | name that need to be deleted
-User user = new User(); // User | Updated user object
+User user = {firstName=firstName, lastName=lastName, password=password, userStatus=6, phone=phone, id=0, email=email, username=username}; // User | Updated user object
 try {
     apiInstance.updateUser(username, user);
 } catch (ApiException e) {
@@ -339,6 +339,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 

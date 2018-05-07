@@ -1,4 +1,4 @@
-# swagger-petstore-android-volley
+# petstore-android-volley
 
 ## Requirements
 
@@ -26,8 +26,8 @@ Add this dependency to your project's POM:
 
 ```xml
 <dependency>
-    <groupId>io.swagger</groupId>
-    <artifactId>swagger-petstore-android-volley</artifactId>
+    <groupId>org.openapitools</groupId>
+    <artifactId>petstore-android-volley</artifactId>
     <version>1.0.0</version>
     <scope>compile</scope>
 </dependency>
@@ -38,7 +38,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "io.swagger:swagger-petstore-android-volley:1.0.0"
+compile "org.openapitools:petstore-android-volley:1.0.0"
 ```
 
 ### Others
@@ -49,7 +49,7 @@ At first generate the JAR by executing:
 
 Then manually install the following JARs:
 
-* target/swagger-petstore-android-volley-1.0.0.jar
+* target/petstore-android-volley-1.0.0.jar
 * target/lib/*.jar
 
 ## Getting Started
@@ -58,13 +58,13 @@ Please follow the [installation](#installation) instruction and execute the foll
 
 ```java
 
-import io.swagger.client.api.PetApi;
+import org.openapitools.client.api.PetApi;
 
 public class PetApiExample {
 
     public static void main(String[] args) {
         PetApi apiInstance = new PetApi();
-        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet pet = {photoUrls=[Ljava.lang.Object;@5f9be66c, name=doggie, id=0, category={name=name, id=6}, tags=[Ljava.lang.Object;@3abada5a, status=available}; // Pet | Pet object that needs to be added to the store
         try {
             apiInstance.addPet(pet);
         } catch (ApiException e) {
