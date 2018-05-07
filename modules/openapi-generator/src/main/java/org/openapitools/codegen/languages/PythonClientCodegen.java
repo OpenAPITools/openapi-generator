@@ -146,7 +146,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
-                .defaultValue("swagger_client"));
+                .defaultValue("openapi_client"));
         cliOptions.add(new CliOption(CodegenConstants.PROJECT_NAME, "python project name in setup.py (e.g. petstore-api)."));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version.")
                 .defaultValue("1.0.0"));
@@ -177,7 +177,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
-            setPackageName("swagger_client");
+            setPackageName("openapi_client");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
@@ -277,7 +277,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     /*
-     * The swagger pattern spec follows the Perl convention and style of modifiers. Python
+     * The OpenAPI pattern spec follows the Perl convention and style of modifiers. Python
      * does not support this in as natural a way so it needs to convert it. See
      * https://docs.python.org/2/howto/regex.html#compilation-flags for details.
      */
@@ -386,15 +386,15 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String getSchemaType(Schema p) {
-        String swaggerType = super.getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
         } else {
-            type = toModelName(swaggerType);
+            type = toModelName(openAPIType);
         }
         return type;
     }
@@ -561,7 +561,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     /**
      * Return the default value of the property
      *
-     * @param p Swagger property object
+     * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
     @Override
@@ -604,7 +604,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (p.defaultValue == null) {
             example = p.example;
         } else {
-            example = p.defaultValue;
+            p.example = p.defaultValue;
+            return;
         }
 
         String type = p.baseType;
