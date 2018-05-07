@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **fake_outer_boolean_serialize**
-> OuterBoolean fake_outer_boolean_serialize(boolean_post_body=boolean_post_body)
+> bool fake_outer_boolean_serialize(body=body)
 
 
 
@@ -33,10 +33,10 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
-boolean_post_body = True # bool | Input boolean as post body (optional)
+body = True # bool | Input boolean as post body (optional)
 
 try:
-    api_response = api_instance.fake_outer_boolean_serialize(boolean_post_body=boolean_post_body)
+    api_response = api_instance.fake_outer_boolean_serialize(body=body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling FakeApi->fake_outer_boolean_serialize: %s\n" % e)
@@ -46,11 +46,11 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **boolean_post_body** | **bool**| Input boolean as post body | [optional] 
+ **body** | **bool**| Input boolean as post body | [optional] 
 
 ### Return type
 
-[**OuterBoolean**](OuterBoolean.md)
+**bool**
 
 ### Authorization
 
@@ -111,7 +111,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_number_serialize**
-> OuterNumber fake_outer_number_serialize(body=body)
+> float fake_outer_number_serialize(body=body)
 
 
 
@@ -144,7 +144,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**OuterNumber**](OuterNumber.md)
+**float**
 
 ### Authorization
 
@@ -158,7 +158,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_string_serialize**
-> OuterString fake_outer_string_serialize(body=body)
+> str fake_outer_string_serialize(body=body)
 
 
 
@@ -191,7 +191,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**OuterString**](OuterString.md)
+**str**
 
 ### Authorization
 
@@ -394,13 +394,13 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
 enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
-enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (default to -efg)
+enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (default to '-efg')
 enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Query parameter enum test (string array) (optional)
-enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) (default to -efg)
+enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) (default to '-efg')
 enum_query_integer = 56 # int | Query parameter enum test (double) (optional)
 enum_query_double = 3.4 # float | Query parameter enum test (double) (optional)
-enum_form_string_array = NULL # list[str] | Form parameter enum test (string array) (optional)
-enum_form_string = 'enum_form_string_example' # str | Form parameter enum test (string) (optional)
+enum_form_string_array = '$' # list[str] | Form parameter enum test (string array) (optional) (default to '$')
+enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) (default to '-efg')
 
 try:
     # To test enum parameters
@@ -414,13 +414,13 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enum_header_string_array** | [**list[str]**](str.md)| Header parameter enum test (string array) | [optional] 
- **enum_header_string** | **str**| Header parameter enum test (string) | [optional] [default to -efg]
+ **enum_header_string** | **str**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_string_array** | [**list[str]**](str.md)| Query parameter enum test (string array) | [optional] 
- **enum_query_string** | **str**| Query parameter enum test (string) | [optional] [default to -efg]
+ **enum_query_string** | **str**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **float**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | [**list[str]**](list.md)| Form parameter enum test (string array) | [optional] 
- **enum_form_string** | **str**| Form parameter enum test (string) | [optional] 
+ **enum_form_string_array** | **list[str]**| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
+ **enum_form_string** | **str**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
 ### Return type
 
@@ -452,7 +452,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
-request_body = {'key': 'request_body_example'} # str | request body
+request_body = {'key': 'request_body_example'} # dict(str, str) | request body
 
 try:
     # test inline additionalProperties
@@ -465,7 +465,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**str**](str.md)| request body | 
+ **request_body** | [**dict(str, str)**](str.md)| request body | 
 
 ### Return type
 
