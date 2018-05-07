@@ -21,7 +21,7 @@ h2. Endpoints
 
         h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |body |Pet object that needs to be added to the store |(/) | |  |
+        |pet |Pet object that needs to be added to the store |(/) | |  |
 
 
 
@@ -41,7 +41,8 @@ h2. Endpoints
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Invalid input"
+  "description" : "Invalid input",
+  "content" : { }
 }
         {code}
     ----
@@ -81,7 +82,8 @@ h2. Endpoints
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Invalid pet value"
+  "description" : "Invalid pet value",
+  "content" : { }
 }
         {code}
     ----
@@ -120,10 +122,22 @@ array[Pet]
         {code:title=Response Schema |collapse=true}
 {
   "description" : "successful operation",
-  "schema" : {
-    "type" : "array",
-    "items" : {
-      "$ref" : "#/definitions/Pet"
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pet"
+        }
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pet"
+        }
+      }
     }
   }
 }
@@ -139,7 +153,8 @@ array[Pet]
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Invalid status value"
+  "description" : "Invalid status value",
+  "content" : { }
 }
         {code}
     ----
@@ -178,10 +193,22 @@ array[Pet]
         {code:title=Response Schema |collapse=true}
 {
   "description" : "successful operation",
-  "schema" : {
-    "type" : "array",
-    "items" : {
-      "$ref" : "#/definitions/Pet"
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pet"
+        }
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pet"
+        }
+      }
     }
   }
 }
@@ -197,7 +224,8 @@ array[Pet]
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Invalid tag value"
+  "description" : "Invalid tag value",
+  "content" : { }
 }
         {code}
     ----
@@ -236,8 +264,17 @@ Pet
         {code:title=Response Schema |collapse=true}
 {
   "description" : "successful operation",
-  "schema" : {
-    "$ref" : "#/definitions/Pet"
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
   }
 }
         {code}
@@ -252,7 +289,8 @@ Pet
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Invalid ID supplied"
+  "description" : "Invalid ID supplied",
+  "content" : { }
 }
         {code}
         *Status Code:* 404
@@ -266,7 +304,8 @@ Pet
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Pet not found"
+  "description" : "Pet not found",
+  "content" : { }
 }
         {code}
     ----
@@ -284,7 +323,7 @@ Pet
 
         h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |body |Pet object that needs to be added to the store |(/) | |  |
+        |pet |Pet object that needs to be added to the store |(/) | |  |
 
 
 
@@ -304,7 +343,8 @@ Pet
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Invalid ID supplied"
+  "description" : "Invalid ID supplied",
+  "content" : { }
 }
         {code}
         *Status Code:* 404
@@ -318,7 +358,8 @@ Pet
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Pet not found"
+  "description" : "Pet not found",
+  "content" : { }
 }
         {code}
         *Status Code:* 405
@@ -332,7 +373,8 @@ Pet
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Validation exception"
+  "description" : "Validation exception",
+  "content" : { }
 }
         {code}
     ----
@@ -370,7 +412,8 @@ Pet
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Invalid input"
+  "description" : "Invalid input",
+  "content" : { }
 }
         {code}
     ----
@@ -409,8 +452,12 @@ ApiResponse
         {code:title=Response Schema |collapse=true}
 {
   "description" : "successful operation",
-  "schema" : {
-    "$ref" : "#/definitions/ApiResponse"
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ApiResponse"
+      }
+    }
   }
 }
         {code}
@@ -449,7 +496,8 @@ ApiResponse
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Invalid ID supplied"
+  "description" : "Invalid ID supplied",
+  "content" : { }
 }
         {code}
         *Status Code:* 404
@@ -463,7 +511,8 @@ ApiResponse
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Order not found"
+  "description" : "Order not found",
+  "content" : { }
 }
         {code}
     ----
@@ -498,11 +547,15 @@ map[String, Integer]
         {code:title=Response Schema |collapse=true}
 {
   "description" : "successful operation",
-  "schema" : {
-    "type" : "object",
-    "additionalProperties" : {
-      "type" : "integer",
-      "format" : "int32"
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "object",
+        "additionalProperties" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
     }
   }
 }
@@ -543,8 +596,17 @@ Order
         {code:title=Response Schema |collapse=true}
 {
   "description" : "successful operation",
-  "schema" : {
-    "$ref" : "#/definitions/Order"
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    }
   }
 }
         {code}
@@ -559,7 +621,8 @@ Order
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Invalid ID supplied"
+  "description" : "Invalid ID supplied",
+  "content" : { }
 }
         {code}
         *Status Code:* 404
@@ -573,7 +636,8 @@ Order
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Order not found"
+  "description" : "Order not found",
+  "content" : { }
 }
         {code}
     ----
@@ -591,7 +655,7 @@ Order
 
         h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |body |order placed for purchasing the pet |(/) | |  |
+        |order |order placed for purchasing the pet |(/) | |  |
 
 
 
@@ -612,8 +676,17 @@ Order
         {code:title=Response Schema |collapse=true}
 {
   "description" : "successful operation",
-  "schema" : {
-    "$ref" : "#/definitions/Order"
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    }
   }
 }
         {code}
@@ -628,7 +701,8 @@ Order
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Invalid Order"
+  "description" : "Invalid Order",
+  "content" : { }
 }
         {code}
     ----
@@ -646,7 +720,7 @@ Order
 
         h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |body |Created user object |(/) | |  |
+        |user |Created user object |(/) | |  |
 
 
 
@@ -666,7 +740,8 @@ Order
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "successful operation"
+  "description" : "successful operation",
+  "content" : { }
 }
         {code}
     ----
@@ -684,7 +759,7 @@ Order
 
         h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |body |List of user object |(/) | |  |
+        |user |List of user object |(/) | |  |
 
 
 
@@ -704,7 +779,8 @@ Order
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "successful operation"
+  "description" : "successful operation",
+  "content" : { }
 }
         {code}
     ----
@@ -722,7 +798,7 @@ Order
 
         h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |body |List of user object |(/) | |  |
+        |user |List of user object |(/) | |  |
 
 
 
@@ -742,7 +818,8 @@ Order
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "successful operation"
+  "description" : "successful operation",
+  "content" : { }
 }
         {code}
     ----
@@ -780,7 +857,8 @@ Order
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Invalid username supplied"
+  "description" : "Invalid username supplied",
+  "content" : { }
 }
         {code}
         *Status Code:* 404
@@ -794,7 +872,8 @@ Order
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "User not found"
+  "description" : "User not found",
+  "content" : { }
 }
         {code}
     ----
@@ -811,7 +890,7 @@ Order
     h4. Parameters
         h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
-        |username |The name that needs to be fetched. Use user1 for testing.  |(/) | |  |
+        |username |The name that needs to be fetched. Use user1 for testing. |(/) | |  |
 
 
 
@@ -833,8 +912,17 @@ User
         {code:title=Response Schema |collapse=true}
 {
   "description" : "successful operation",
-  "schema" : {
-    "$ref" : "#/definitions/User"
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/User"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/User"
+      }
+    }
   }
 }
         {code}
@@ -849,7 +937,8 @@ User
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Invalid username supplied"
+  "description" : "Invalid username supplied",
+  "content" : { }
 }
         {code}
         *Status Code:* 404
@@ -863,7 +952,8 @@ User
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "User not found"
+  "description" : "User not found",
+  "content" : { }
 }
         {code}
     ----
@@ -904,19 +994,32 @@ String
         {code:title=Response Schema |collapse=true}
 {
   "description" : "successful operation",
-  "schema" : {
-    "type" : "string"
-  },
   "headers" : {
     "X-Rate-Limit" : {
-      "type" : "integer",
-      "format" : "int32",
-      "description" : "calls per hour allowed by the user"
+      "description" : "calls per hour allowed by the user",
+      "schema" : {
+        "type" : "integer",
+        "format" : "int32"
+      }
     },
     "X-Expires-After" : {
-      "type" : "string",
-      "format" : "date-time",
-      "description" : "date in UTC when toekn expires"
+      "description" : "date in UTC when toekn expires",
+      "schema" : {
+        "type" : "string",
+        "format" : "date-time"
+      }
+    }
+  },
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "type" : "string"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "type" : "string"
+      }
     }
   }
 }
@@ -932,7 +1035,8 @@ String
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Invalid username/password supplied"
+  "description" : "Invalid username/password supplied",
+  "content" : { }
 }
         {code}
     ----
@@ -966,7 +1070,8 @@ String
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "successful operation"
+  "description" : "successful operation",
+  "content" : { }
 }
         {code}
     ----
@@ -988,7 +1093,7 @@ String
 
         h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |body |Updated user object |(/) | |  |
+        |user |Updated user object |(/) | |  |
 
 
 
@@ -1008,7 +1113,8 @@ String
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "Invalid user supplied"
+  "description" : "Invalid user supplied",
+  "content" : { }
 }
         {code}
         *Status Code:* 404
@@ -1022,7 +1128,8 @@ String
 
         {code:title=Response Schema |collapse=true}
 {
-  "description" : "User not found"
+  "description" : "User not found",
+  "content" : { }
 }
         {code}
     ----
