@@ -33,8 +33,8 @@ class ObjectSerializer
      * Serialize data
      *
      * @param mixed  $data   the data to serialize
-     * @param string $type   the SwaggerType of the data
-     * @param string $format the format of the Swagger type of the data
+     * @param string $type   the OpenAPIToolsType of the data
+     * @param string $format the format of the OpenAPITools type of the data
      *
      * @return string|object serialized form of $data
      */
@@ -51,19 +51,19 @@ class ObjectSerializer
             return $data;
         } elseif (is_object($data)) {
             $values = [];
-            $formats = $data::swaggerFormats();
-            foreach ($data::swaggerTypes() as $property => $swaggerType) {
+            $formats = $data::openAPIToolsFormats();
+            foreach ($data::openAPIToolsTypes() as $property => $openAPIToolsType) {
                 $getter = $data::getters()[$property];
                 $value = $data->$getter();
                 if ($value !== null
-                    && !in_array($swaggerType, [{{&primitives}}], true)
-                    && method_exists($swaggerType, 'getAllowableEnumValues')
-                    && !in_array($value, $swaggerType::getAllowableEnumValues())) {
-                    $imploded = implode("', '", $swaggerType::getAllowableEnumValues());
-                    throw new \InvalidArgumentException("Invalid value for enum '$swaggerType', must be one of: '$imploded'");
+                    && !in_array($openAPIToolsType, [{{&primitives}}], true)
+                    && method_exists($openAPIToolsType, 'getAllowableEnumValues')
+                    && !in_array($value, $openAPIToolsType::getAllowableEnumValues())) {
+                    $imploded = implode("', '", $openAPIToolsType::getAllowableEnumValues());
+                    throw new \InvalidArgumentException("Invalid value for enum '$openAPIToolsType', must be one of: '$imploded'");
                 }
                 if ($value !== null) {
-                    $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($value, $swaggerType, $formats[$property]);
+                    $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($value, $openAPIToolsType, $formats[$property]);
                 }
             }
             return (object)$values;
@@ -289,7 +289,7 @@ class ObjectSerializer
                 }
             }
             $instance = new $class();
-            foreach ($instance::swaggerTypes() as $property => $type) {
+            foreach ($instance::openAPIToolsTypes() as $property => $type) {
                 $propertySetter = $instance::setters()[$property];
 
                 if (!isset($propertySetter) || !isset($data->{$instance::attributeMap()[$property]})) {
