@@ -237,6 +237,12 @@ font-style: italic;
     <div class="method-notes"></div>
 
 
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
@@ -533,6 +539,12 @@ font-style: italic;
     <div class="method-notes"></div>
 
 
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
@@ -589,9 +601,9 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Updated name of the pet </div><div class="param">status (optional)</div>
+      <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Updated name of the pet default: null </div><div class="param">status (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Updated status of the pet </div>
+      <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Updated status of the pet default: null </div>
     </div>  <!-- field-items -->
 
 
@@ -632,9 +644,9 @@ font-style: italic;
     <div class="field-items">
       <div class="param">additionalMetadata (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Additional data to pass to server </div><div class="param">file (optional)</div>
+      <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Additional data to pass to server default: null </div><div class="param">file (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; file to upload format: binary</div>
+      <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; file to upload default: null format: binary</div>
     </div>  <!-- field-items -->
 
     <h3 class="field-label">Return type</h3>
@@ -721,11 +733,6 @@ font-style: italic;
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
-  "key" : 0
-}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -816,11 +823,6 @@ font-style: italic;
     <div class="method-notes"></div>
 
 
-    <h3 class="field-label">Consumes</h3>
-    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
@@ -888,11 +890,6 @@ font-style: italic;
     <div class="method-notes">This can only be done by the logged in user.</div>
 
 
-    <h3 class="field-label">Consumes</h3>
-    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
@@ -927,7 +924,7 @@ font-style: italic;
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">array <a href="#array">array</a> (required)</div>
+      <div class="param">User <a href="#array">array</a> (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
 
@@ -958,7 +955,7 @@ font-style: italic;
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">array <a href="#array">array</a> (required)</div>
+      <div class="param">User <a href="#array">array</a> (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
 
@@ -1112,12 +1109,6 @@ font-style: italic;
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>""</code></pre>
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code>aeiou</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -1174,11 +1165,6 @@ font-style: italic;
       <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; name that need to be deleted </div>
     </div>  <!-- field-items -->
 
-    <h3 class="field-label">Consumes</h3>
-    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
