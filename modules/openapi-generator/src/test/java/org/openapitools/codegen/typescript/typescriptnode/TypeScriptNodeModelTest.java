@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
 @SuppressWarnings("static-method")
 public class TypeScriptNodeModelTest {
 
-    @Test(enabled = false, description = "convert a simple TypeScript Node model")
+    @Test(description = "convert a simple TypeScript Node model")
     public void simpleModelTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -47,7 +47,6 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property1.baseType, "number");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -57,7 +56,6 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property2.baseType, "string");
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -67,7 +65,6 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property3.defaultValue, "undefined");
         Assert.assertTrue(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
 
         final CodegenProperty property4 = cm.vars.get(3);
         Assert.assertEquals(property4.baseName, "birthDate");
@@ -77,10 +74,9 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property4.defaultValue, "undefined");
         Assert.assertFalse(property4.hasMore);
         Assert.assertFalse(property4.required);
-        Assert.assertTrue(property4.isNotContainer);
     }
 
-    @Test(enabled = false, description = "convert a model with list property")
+    @Test(description = "convert a model with list property")
     public void listPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -103,7 +99,6 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property1.baseType, "number");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
@@ -112,10 +107,9 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property2.baseType, "Array");
         Assert.assertFalse(property2.hasMore);
         Assert.assertFalse(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
     }
 
-    @Test(description = "convert a model with complex property", enabled = false)
+    @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -134,10 +128,9 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
     }
 
-    @Test(description = "convert a model with complex list property", enabled = false)
+    @Test(description = "convert a model with complex list property")
     public void complexListPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -158,10 +151,9 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Array");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
     }
 
-    @Test(enabled = false, description = "convert an array model")
+    @Test(description = "convert an array model")
     public void arrayModelTest() {
         final Schema schema = new ArraySchema()
                 .items(new Schema().$ref("#/definitions/Children"))
@@ -175,7 +167,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(cm.vars.size(), 0);
     }
 
-    @Test(description = "convert a map model", enabled = false)
+    @Test(description = "convert a map model")
     public void mapModelTest() {
         final Schema schema = new Schema()
                 .description("a map model")

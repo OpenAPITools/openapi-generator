@@ -60,7 +60,6 @@ public class GoModelTest {
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -71,7 +70,6 @@ public class GoModelTest {
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isNotContainer);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -82,7 +80,6 @@ public class GoModelTest {
         Assert.assertEquals(property3.baseType, "time.Time");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
     }
 
     @Test(description = "convert a model with list property")
@@ -110,7 +107,6 @@ public class GoModelTest {
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
@@ -121,7 +117,6 @@ public class GoModelTest {
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isContainer);
     }
 
     @Test(description = "convert a model with a map property")
@@ -169,7 +164,6 @@ public class GoModelTest {
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
     }
 
     @Test(description = "convert a model with complex list property")
@@ -220,7 +214,6 @@ public class GoModelTest {
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
-        Assert.assertFalse(property1.isNotContainer);
     }
 
     @Test(description = "convert an array model")

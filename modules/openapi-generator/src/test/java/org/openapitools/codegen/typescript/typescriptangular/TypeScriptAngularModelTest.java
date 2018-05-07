@@ -21,7 +21,7 @@ import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
 @SuppressWarnings("static-method")
 public class TypeScriptAngularModelTest {
 
-    @Test(enabled = false, description = "convert a simple TypeScript Angular model")
+    @Test(description = "convert a simple TypeScript Angular model")
     public void simpleModelTest() {
         final Schema model = new Schema()
                 .description("a sample model")
@@ -82,7 +82,7 @@ public class TypeScriptAngularModelTest {
         Assert.assertTrue(property4.isNotContainer);
     }
 
-    @Test(description = "convert a model with list property", enabled = false)
+    @Test(description = "convert a model with list property")
     public void listPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -112,12 +112,11 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property2.datatype, "Array<string>");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertEquals(property2.baseType, "Array");
-        Assert.assertTrue(property2.hasMore);
+        Assert.assertFalse(property2.hasMore);
         Assert.assertFalse(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
     }
 
-    @Test(description = "convert a model with complex property", enabled = false)
+    @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -137,10 +136,9 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property1.defaultValue, "undefined");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
     }
 
-    @Test(description = "convert a model with complex list property", enabled = false)
+    @Test(description = "convert a model with complex list property")
     public void complexListPropertyTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -161,10 +159,9 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Array");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
     }
 
-    @Test(enabled = false, description = "convert an array model")
+    @Test(description = "convert an array model")
     public void arrayModelTest() {
         final Schema schema = new ArraySchema()
                 .items(new Schema().$ref("#/definitions/Children"))
@@ -178,7 +175,7 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(cm.vars.size(), 0);
     }
 
-    @Test(description = "convert a map model", enabled = false)
+    @Test(description = "convert a map model")
     public void mapModelTest() {
         final Schema schema = new Schema()
                 .description("a map model")
