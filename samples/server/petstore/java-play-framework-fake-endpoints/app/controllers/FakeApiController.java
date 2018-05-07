@@ -289,12 +289,14 @@ public class FakeApiController extends Controller {
         } else {
             enumQueryDouble = null;
         }
-        String valueenumFormStringArray = (request().body().asMultipartFormData().asFormUrlEncoded().get("enum_form_string_array"))[0];
-        String enumFormStringArray;
-        if (valueenumFormStringArray != null) {
-            enumFormStringArray = valueenumFormStringArray;
-        } else {
-            enumFormStringArray = "$";
+        String[] enumFormStringArrayArray = request().body().asMultipartFormData().asFormUrlEncoded().get("enum_form_string_array");
+        List<String> enumFormStringArrayList = OpenAPIUtils.parametersToList("csv", enumFormStringArrayArray);
+        List<String> enumFormStringArray = new ArrayList<String>();
+        for (String curParam : enumFormStringArrayList) {
+            if (!curParam.isEmpty()) {
+                //noinspection UseBulkOperation
+                enumFormStringArray.add(curParam);
+            }
         }
         String valueenumFormString = (request().body().asMultipartFormData().asFormUrlEncoded().get("enum_form_string"))[0];
         String enumFormString;
@@ -326,9 +328,9 @@ public class FakeApiController extends Controller {
     @ApiAction
     public Result testInlineAdditionalProperties() throws Exception {
         JsonNode noderequestBody = request().body().asJson();
-        String requestBody;
+        Map<String, String> requestBody;
         if (noderequestBody != null) {
-            requestBody = mapper.readValue(noderequestBody.toString(), new TypeReference<String>(){});
+            requestBody = mapper.readValue(noderequestBody.toString(), new TypeReference<Map<String, String>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
                 for (Map.Entry<String, String> entry : requestBody.entrySet()) {
                     OpenAPIUtils.validate(entry.getValue());

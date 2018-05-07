@@ -4097,12 +4097,7 @@ public class DefaultCodegen implements CodegenConfig {
                         arraySchema.setItems(inner);
                     }
 
-                    //TODO fix collectformat for form parameters
-                    //collectionFormat = getCollectionFormat(s);
-                    // default to csv:
-                    collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
                     codegenParameter = fromFormProperty(entry.getKey(), inner, imports);
-
                     CodegenProperty codegenProperty = fromProperty("inner", inner);
                     codegenParameter.items = codegenProperty;
                     codegenParameter.baseType = codegenProperty.datatype;
@@ -4110,6 +4105,10 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.isListContainer = true;
                     codegenParameter.description = s.getDescription();
                     codegenParameter.dataType = getTypeDeclaration(s);
+                    //TODO fix collectformat for form parameters
+                    //collectionFormat = getCollectionFormat(s);
+                    // default to csv:
+                    codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
 
                     // recursively add import
                     while (codegenProperty != null) {
@@ -4253,7 +4252,8 @@ public class DefaultCodegen implements CodegenConfig {
             }
             codegenParameter.paramName = toParamName(codegenParameter.baseName);
             codegenParameter.items = codegenProperty.items;
-            codegenParameter.dataType = getTypeDeclaration(inner);
+            codegenParameter.dataType = getTypeDeclaration(schema);
+            LOGGER.info("debugging inline map: " + codegenParameter.dataType);
             codegenParameter.baseType = getSchemaType(inner);
             codegenParameter.isContainer = Boolean.TRUE;
             codegenParameter.isMapContainer = Boolean.TRUE;
