@@ -1,6 +1,6 @@
 # FakeApi
 
-All URIs are relative to *https://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
+All URIs are relative to *petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -9,21 +9,21 @@ Method | HTTP request | Description
 
 <a name="testCodeInjectEndRnNR"></a>
 # **testCodeInjectEndRnNR**
-> testCodeInjectEndRnNR(testCodeInjectEndRnNR)
+> testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE)
 
 To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.FakeApi;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.FakeApi;
 
 
 FakeApi apiInstance = new FakeApi();
-String testCodeInjectEndRnNR = "testCodeInjectEndRnNR_example"; // String | To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
+ERRORUNKNOWN UNKNOWN_BASE_TYPE = new UNKNOWN_BASE_TYPE(); // ERRORUNKNOWN | 
 try {
-    apiInstance.testCodeInjectEndRnNR(testCodeInjectEndRnNR);
+    apiInstance.testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE);
 } catch (ApiException e) {
     System.err.println("Exception when calling FakeApi#testCodeInjectEndRnNR");
     e.printStackTrace();
@@ -34,7 +34,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **testCodeInjectEndRnNR** | **String**| To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r | [optional]
+ **UNKNOWN_BASE_TYPE** | [**ERRORUNKNOWN**](UNKNOWN_BASE_TYPE.md)|  | [optional]
 
 ### Return type
 
@@ -47,5 +47,5 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json, *_/ '  =end --       
- - **Accept**: application/json, *_/ '  =end --       
+ - **Accept**: Not defined
 
