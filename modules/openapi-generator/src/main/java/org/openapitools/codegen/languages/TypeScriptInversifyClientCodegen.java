@@ -30,9 +30,6 @@ import java.util.Set;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.JbossFeature;
-import org.openapitools.codegen.languages.features.SwaggerFeatures;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.media.*;
 
@@ -181,12 +178,12 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     public String getSchemaType(Schema p) {
-        String swaggerType = super.getSchemaType(p);
-        if (isLanguagePrimitive(swaggerType) || isLanguageGenericType(swaggerType)) {
-            return swaggerType;
+        String openAPIType = super.getSchemaType(p);
+        if (isLanguagePrimitive(openAPIType) || isLanguageGenericType(openAPIType)) {
+            return openAPIType;
         }
-        applyLocalTypeMapping(swaggerType);
-        return swaggerType;
+        applyLocalTypeMapping(openAPIType);
+        return openAPIType;
     }
 
     private String applyLocalTypeMapping(String type) {
