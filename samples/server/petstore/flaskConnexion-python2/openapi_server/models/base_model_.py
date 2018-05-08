@@ -1,15 +1,8 @@
 import pprint
 
 import six
-{{^supportPython2}}
-import typing
-{{/supportPython2}}
 
-from {{packageName}} import util
-{{^supportPython2}}
-
-T = typing.TypeVar('T')
-{{/supportPython2}}
+from openapi_server import util
 
 
 class Model(object):
@@ -22,7 +15,7 @@ class Model(object):
     attribute_map = {}
 
     @classmethod
-    def from_dict(cls{{^supportPython2}}: typing.Type[T]{{/supportPython2}}, dikt){{^supportPython2}} -> T{{/supportPython2}}:
+    def from_dict(cls, dikt):
         """Returns the dict as a model"""
         return util.deserialize_model(dikt, cls)
 

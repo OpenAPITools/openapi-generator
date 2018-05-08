@@ -28,14 +28,14 @@ class {{classname}}(Model):
 {{/enumVars}}{{/allowableValues}}
 
     def __init__(self{{#vars}}, {{name}}{{^supportPython2}}: {{datatype}}{{/supportPython2}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
-        """{{classname}} - a model defined in Swagger
+        """{{classname}} - a model defined in OpenAPI
 
         {{#vars}}
         :param {{name}}: The {{name}} of this {{classname}}.  # noqa: E501
         :type {{name}}: {{datatype}}
         {{/vars}}
         """
-        self.swagger_types = {
+        self.openapi_types = {
 {{#vars}}
             '{{name}}': {{{datatype}}}{{#hasMore}},{{/hasMore}}
 {{/vars}}

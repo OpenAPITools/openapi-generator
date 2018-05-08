@@ -3,7 +3,7 @@
 import sys
 from setuptools import setup, find_packages
 
-NAME = "swagger_server"
+NAME = "openapi_server"
 VERSION = "1.0.0"
 
 # To install the library, run the following
@@ -18,18 +18,18 @@ REQUIRES = ["connexion"]
 setup(
     name=NAME,
     version=VERSION,
-    description="Swagger Petstore",
-    author_email="apiteam@swagger.io",
+    description="OpenAPI Petstore",
+    author_email="",
     url="",
-    keywords=["OpenAPI", "Swagger Petstore"],
+    keywords=["OpenAPI", "OpenAPI Petstore"],
     install_requires=REQUIRES,
     packages=find_packages(),
     package_data={'': ['openapi/openapi.yaml']},
     include_package_data=True,
     entry_points={
-        'console_scripts': ['swagger_server=swagger_server.__main__:main']},
+        'console_scripts': ['openapi_server=openapi_server.__main__:main']},
     long_description="""\
-    This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters.
+    This is a sample server Petstore server. For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters.
     """
 )
 

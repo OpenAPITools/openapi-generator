@@ -140,7 +140,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
         regexModifiers.put('x', "VERBOSE");
 
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
-                .defaultValue("swagger_server"));
+                .defaultValue("openapi_server"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version.")
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CONTROLLER_PACKAGE, "controller package").
@@ -161,7 +161,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
-            setPackageName("swagger_server");
+            setPackageName("openapi_server");
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, this.packageName);
         }
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
@@ -315,7 +315,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        // need vendor extensions for x-swagger-router-controller
+        // need vendor extensions for x-openapi-router-controller
         Map<String, PathItem> paths = openAPI.getPaths();
         if (paths != null) {
             for (String pathname : paths.keySet()) {
@@ -333,9 +333,9 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
                             operationId = getOrGenerateOperationId(operation, pathname, method.toString());
                         }
                         operation.setOperationId(toOperationId(operationId));
-                        if (operation.getExtensions().get("x-swagger-router-controller") == null) {
+                        if (operation.getExtensions().get("x-openapi-router-controller") == null) {
                             operation.addExtension(
-                                    "x-swagger-router-controller",
+                                    "x-openapi-router-controller",
                                     controllerPackage + "." + toApiFilename(tag)
                             );
                         }
@@ -489,7 +489,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
     /**
      * Return the default value of the property
      *
-     * @param p Swagger property object
+     * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
     @Override
