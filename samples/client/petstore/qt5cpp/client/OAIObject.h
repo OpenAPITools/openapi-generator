@@ -10,22 +10,22 @@
  * Do not edit the class manually.
  */
 
-#ifndef _SWG_OBJECT_H_
-#define _SWG_OBJECT_H_
+#ifndef _OAI_OBJECT_H_
+#define _OAI_OBJECT_H_
 
 #include <QJsonObject>
 
-namespace Swagger {
+namespace OpenAPI {
 
-class SWGObject {
+class OAIObject {
   public:
     virtual QJsonObject asJsonObject() {
       return QJsonObject();
     }
-    virtual ~SWGObject() {}
-    virtual SWGObject* fromJson(QString jsonString) {
+    virtual ~OAIObject() {}
+    virtual OAIObject* fromJson(QString jsonString) {
         Q_UNUSED(jsonString);
-        return new SWGObject();
+        return new OAIObject();
     }
     virtual void fromJsonObject(QJsonObject json) {
         Q_UNUSED(json);
@@ -40,4 +40,4 @@ class SWGObject {
 
 }
 
-#endif /* _SWG_OBJECT_H_ */
+#endif /* _OAI_OBJECT_H_ */

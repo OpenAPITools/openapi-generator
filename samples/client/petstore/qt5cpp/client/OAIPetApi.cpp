@@ -10,38 +10,38 @@
  * Do not edit the class manually.
  */
 
-#include "SWGPetApi.h"
-#include "SWGHelpers.h"
-#include "SWGModelFactory.h"
-#include "SWGQObjectWrapper.h"
+#include "OAIPetApi.h"
+#include "OAIHelpers.h"
+#include "OAIModelFactory.h"
+#include "OAIQObjectWrapper.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
 
-namespace Swagger {
+namespace OpenAPI {
 
-SWGPetApi::SWGPetApi() {}
+OAIPetApi::OAIPetApi() {}
 
-SWGPetApi::~SWGPetApi() {}
+OAIPetApi::~OAIPetApi() {}
 
-SWGPetApi::SWGPetApi(QString host, QString basePath) {
+OAIPetApi::OAIPetApi(QString host, QString basePath) {
     this->host = host;
     this->basePath = basePath;
 }
 
 void
-SWGPetApi::addPet(std::shared_ptr<SWGSWGPet>& swg_pet) {
+OAIPetApi::addPet(std::shared_ptr<OAIOAIPet>& oai_pet) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
 
 
 
-    SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
-    SWGHttpRequestInput input(fullPath, "POST");
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestInput input(fullPath, "POST");
 
 
     
-    QString output = swg_pet.asJson();
+    QString output = oai_pet.asJson();
     input.request_body.append(output);
     
 
@@ -51,15 +51,15 @@ SWGPetApi::addPet(std::shared_ptr<SWGSWGPet>& swg_pet) {
     }
 
     connect(worker,
-            &SWGHttpRequestWorker::on_execution_finished,
+            &OAIHttpRequestWorker::on_execution_finished,
             this,
-            &SWGPetApi::addPetCallback);
+            &OAIPetApi::addPetCallback);
 
     worker->execute(&input);
 }
 
 void
-SWGPetApi::addPetCallback(SWGHttpRequestWorker * worker) {
+OAIPetApi::addPetCallback(OAIHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -82,7 +82,7 @@ SWGPetApi::addPetCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::deletePet(qint64 pet_id, QString* api_key) {
+OAIPetApi::deletePet(qint64 pet_id, QString* api_key) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
@@ -90,8 +90,8 @@ SWGPetApi::deletePet(qint64 pet_id, QString* api_key) {
     fullPath.replace(pet_idPathParam, stringValue(pet_id));
 
 
-    SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
-    SWGHttpRequestInput input(fullPath, "DELETE");
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestInput input(fullPath, "DELETE");
 
 
 
@@ -105,15 +105,15 @@ SWGPetApi::deletePet(qint64 pet_id, QString* api_key) {
     }
 
     connect(worker,
-            &SWGHttpRequestWorker::on_execution_finished,
+            &OAIHttpRequestWorker::on_execution_finished,
             this,
-            &SWGPetApi::deletePetCallback);
+            &OAIPetApi::deletePetCallback);
 
     worker->execute(&input);
 }
 
 void
-SWGPetApi::deletePetCallback(SWGHttpRequestWorker * worker) {
+OAIPetApi::deletePetCallback(OAIHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -136,7 +136,7 @@ SWGPetApi::deletePetCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::findPetsByStatus(QList<QString*>* status) {
+OAIPetApi::findPetsByStatus(QList<QString*>* status) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/findByStatus");
 
@@ -184,8 +184,8 @@ SWGPetApi::findPetsByStatus(QList<QString*>* status) {
     }
 
 
-    SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
-    SWGHttpRequestInput input(fullPath, "GET");
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestInput input(fullPath, "GET");
 
 
 
@@ -196,15 +196,15 @@ SWGPetApi::findPetsByStatus(QList<QString*>* status) {
     }
 
     connect(worker,
-            &SWGHttpRequestWorker::on_execution_finished,
+            &OAIHttpRequestWorker::on_execution_finished,
             this,
-            &SWGPetApi::findPetsByStatusCallback);
+            &OAIPetApi::findPetsByStatusCallback);
 
     worker->execute(&input);
 }
 
 void
-SWGPetApi::findPetsByStatusCallback(SWGHttpRequestWorker * worker) {
+OAIPetApi::findPetsByStatusCallback(OAIHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -216,19 +216,19 @@ SWGPetApi::findPetsByStatusCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    QList<SWGPet*>* output = new QList<SWGPet*>();
+    QList<OAIPet*>* output = new QList<OAIPet*>();
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
-    auto wrapper = new SWGQObjectWrapper<QList<SWGPet*>*> (output);
+    auto wrapper = new OAIQObjectWrapper<QList<OAIPet*>*> (output);
     wrapper->deleteLater();
     foreach(QJsonValue obj, jsonArray) {
-        SWGPet* o = new SWGPet();
+        OAIPet* o = new OAIPet();
         QJsonObject jv = obj.toObject();
         QJsonObject * ptr = (QJsonObject*)&jv;
         o->fromJsonObject(*ptr);
-        auto objwrapper = new SWGQObjectWrapper<SWGPet*> (o);
+        auto objwrapper = new OAIQObjectWrapper<OAIPet*> (o);
         objwrapper->deleteLater();
         output->append(o);
     }
@@ -243,7 +243,7 @@ SWGPetApi::findPetsByStatusCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::findPetsByTags(QList<QString*>* tags) {
+OAIPetApi::findPetsByTags(QList<QString*>* tags) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/findByTags");
 
@@ -291,8 +291,8 @@ SWGPetApi::findPetsByTags(QList<QString*>* tags) {
     }
 
 
-    SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
-    SWGHttpRequestInput input(fullPath, "GET");
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestInput input(fullPath, "GET");
 
 
 
@@ -303,15 +303,15 @@ SWGPetApi::findPetsByTags(QList<QString*>* tags) {
     }
 
     connect(worker,
-            &SWGHttpRequestWorker::on_execution_finished,
+            &OAIHttpRequestWorker::on_execution_finished,
             this,
-            &SWGPetApi::findPetsByTagsCallback);
+            &OAIPetApi::findPetsByTagsCallback);
 
     worker->execute(&input);
 }
 
 void
-SWGPetApi::findPetsByTagsCallback(SWGHttpRequestWorker * worker) {
+OAIPetApi::findPetsByTagsCallback(OAIHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -323,19 +323,19 @@ SWGPetApi::findPetsByTagsCallback(SWGHttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    QList<SWGPet*>* output = new QList<SWGPet*>();
+    QList<OAIPet*>* output = new QList<OAIPet*>();
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
-    auto wrapper = new SWGQObjectWrapper<QList<SWGPet*>*> (output);
+    auto wrapper = new OAIQObjectWrapper<QList<OAIPet*>*> (output);
     wrapper->deleteLater();
     foreach(QJsonValue obj, jsonArray) {
-        SWGPet* o = new SWGPet();
+        OAIPet* o = new OAIPet();
         QJsonObject jv = obj.toObject();
         QJsonObject * ptr = (QJsonObject*)&jv;
         o->fromJsonObject(*ptr);
-        auto objwrapper = new SWGQObjectWrapper<SWGPet*> (o);
+        auto objwrapper = new OAIQObjectWrapper<OAIPet*> (o);
         objwrapper->deleteLater();
         output->append(o);
     }
@@ -350,7 +350,7 @@ SWGPetApi::findPetsByTagsCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::getPetById(qint64 pet_id) {
+OAIPetApi::getPetById(qint64 pet_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
@@ -358,8 +358,8 @@ SWGPetApi::getPetById(qint64 pet_id) {
     fullPath.replace(pet_idPathParam, stringValue(pet_id));
 
 
-    SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
-    SWGHttpRequestInput input(fullPath, "GET");
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestInput input(fullPath, "GET");
 
 
 
@@ -370,15 +370,15 @@ SWGPetApi::getPetById(qint64 pet_id) {
     }
 
     connect(worker,
-            &SWGHttpRequestWorker::on_execution_finished,
+            &OAIHttpRequestWorker::on_execution_finished,
             this,
-            &SWGPetApi::getPetByIdCallback);
+            &OAIPetApi::getPetByIdCallback);
 
     worker->execute(&input);
 }
 
 void
-SWGPetApi::getPetByIdCallback(SWGHttpRequestWorker * worker) {
+OAIPetApi::getPetByIdCallback(OAIHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -391,8 +391,8 @@ SWGPetApi::getPetByIdCallback(SWGHttpRequestWorker * worker) {
     }
 
     QString json(worker->response);
-    SWGPet* output = static_cast<SWGPet*>(create(json, QString("SWGPet")));
-    auto wrapper = new SWGQObjectWrapper<SWGPet*> (output);
+    OAIPet* output = static_cast<OAIPet*>(create(json, QString("OAIPet")));
+    auto wrapper = new OAIQObjectWrapper<OAIPet*> (output);
     wrapper->deleteLater();
     worker->deleteLater();
 
@@ -405,18 +405,18 @@ SWGPetApi::getPetByIdCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::updatePet(std::shared_ptr<SWGSWGPet>& swg_pet) {
+OAIPetApi::updatePet(std::shared_ptr<OAIOAIPet>& oai_pet) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
 
 
 
-    SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
-    SWGHttpRequestInput input(fullPath, "PUT");
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestInput input(fullPath, "PUT");
 
 
     
-    QString output = swg_pet.asJson();
+    QString output = oai_pet.asJson();
     input.request_body.append(output);
     
 
@@ -426,15 +426,15 @@ SWGPetApi::updatePet(std::shared_ptr<SWGSWGPet>& swg_pet) {
     }
 
     connect(worker,
-            &SWGHttpRequestWorker::on_execution_finished,
+            &OAIHttpRequestWorker::on_execution_finished,
             this,
-            &SWGPetApi::updatePetCallback);
+            &OAIPetApi::updatePetCallback);
 
     worker->execute(&input);
 }
 
 void
-SWGPetApi::updatePetCallback(SWGHttpRequestWorker * worker) {
+OAIPetApi::updatePetCallback(OAIHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -457,7 +457,7 @@ SWGPetApi::updatePetCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::updatePetWithForm(qint64 pet_id, QString* name, QString* status) {
+OAIPetApi::updatePetWithForm(qint64 pet_id, QString* name, QString* status) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
@@ -465,8 +465,8 @@ SWGPetApi::updatePetWithForm(qint64 pet_id, QString* name, QString* status) {
     fullPath.replace(pet_idPathParam, stringValue(pet_id));
 
 
-    SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
-    SWGHttpRequestInput input(fullPath, "POST");
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestInput input(fullPath, "POST");
 
     if (name != nullptr) {
         input.add_var("name", *name);
@@ -483,15 +483,15 @@ SWGPetApi::updatePetWithForm(qint64 pet_id, QString* name, QString* status) {
     }
 
     connect(worker,
-            &SWGHttpRequestWorker::on_execution_finished,
+            &OAIHttpRequestWorker::on_execution_finished,
             this,
-            &SWGPetApi::updatePetWithFormCallback);
+            &OAIPetApi::updatePetWithFormCallback);
 
     worker->execute(&input);
 }
 
 void
-SWGPetApi::updatePetWithFormCallback(SWGHttpRequestWorker * worker) {
+OAIPetApi::updatePetWithFormCallback(OAIHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -514,7 +514,7 @@ SWGPetApi::updatePetWithFormCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::uploadFile(qint64 pet_id, QString* additional_metadata, SWGHttpRequestInputFileElement* file) {
+OAIPetApi::uploadFile(qint64 pet_id, QString* additional_metadata, OAIHttpRequestInputFileElement* file) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}/uploadImage");
 
@@ -522,8 +522,8 @@ SWGPetApi::uploadFile(qint64 pet_id, QString* additional_metadata, SWGHttpReques
     fullPath.replace(pet_idPathParam, stringValue(pet_id));
 
 
-    SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
-    SWGHttpRequestInput input(fullPath, "POST");
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestInput input(fullPath, "POST");
 
     if (additional_metadata != nullptr) {
         input.add_var("additionalMetadata", *additional_metadata);
@@ -540,15 +540,15 @@ SWGPetApi::uploadFile(qint64 pet_id, QString* additional_metadata, SWGHttpReques
     }
 
     connect(worker,
-            &SWGHttpRequestWorker::on_execution_finished,
+            &OAIHttpRequestWorker::on_execution_finished,
             this,
-            &SWGPetApi::uploadFileCallback);
+            &OAIPetApi::uploadFileCallback);
 
     worker->execute(&input);
 }
 
 void
-SWGPetApi::uploadFileCallback(SWGHttpRequestWorker * worker) {
+OAIPetApi::uploadFileCallback(OAIHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -561,8 +561,8 @@ SWGPetApi::uploadFileCallback(SWGHttpRequestWorker * worker) {
     }
 
     QString json(worker->response);
-    SWGApiResponse* output = static_cast<SWGApiResponse*>(create(json, QString("SWGApiResponse")));
-    auto wrapper = new SWGQObjectWrapper<SWGApiResponse*> (output);
+    OAIApiResponse* output = static_cast<OAIApiResponse*>(create(json, QString("OAIApiResponse")));
+    auto wrapper = new OAIQObjectWrapper<OAIApiResponse*> (output);
     wrapper->deleteLater();
     worker->deleteLater();
 

@@ -45,7 +45,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-
 public class CppRestClientCodegen extends AbstractCppCodegen {
 
     public static final String DECLSPEC = "declspec";
@@ -91,8 +90,8 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
     public CppRestClientCodegen() {
         super();
 
-        apiPackage = "io.swagger.client.api";
-        modelPackage = "io.swagger.client.model";
+        apiPackage = "org.openapitools.client.api";
+        modelPackage = "org.openapitools.client.model";
 
         modelTemplateFiles.put("model-header.mustache", ".h");
         modelTemplateFiles.put("model-source.mustache", ".cpp");
@@ -359,7 +358,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Optional - swagger type conversion. This is used to map swagger types in
+     * Optional - OpenAPI type conversion. This is used to map OpenAPI types in
      * a `Schema` into either language specific types via `typeMapping` or
      * into complex models if there is not a mapping.
      *

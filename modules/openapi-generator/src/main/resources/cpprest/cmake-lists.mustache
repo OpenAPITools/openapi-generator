@@ -11,7 +11,7 @@
 cmake_minimum_required (VERSION 2.8)
 
 #PROJECT's NAME
-project(CppRestSwaggerClient)
+project(CppRestOpenAPIClient)
 
 
 # THE LOCATION OF OUTPUT BINARIES

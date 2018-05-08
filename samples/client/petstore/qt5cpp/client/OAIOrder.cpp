@@ -11,32 +11,32 @@
  */
 
 
-#include "SWGOrder.h"
+#include "OAIOrder.h"
 
-#include "SWGHelpers.h"
+#include "OAIHelpers.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
 
-namespace Swagger {
+namespace OpenAPI {
 
-SWGOrder::SWGOrder(QString json) {
+OAIOrder::OAIOrder(QString json) {
     init();
     this->fromJson(json);
 }
 
-SWGOrder::SWGOrder() {
+OAIOrder::OAIOrder() {
     init();
 }
 
-SWGOrder::~SWGOrder() {
+OAIOrder::~OAIOrder() {
     this->cleanup();
 }
 
 void
-SWGOrder::init() {
+OAIOrder::init() {
     id = 0L;
     m_id_isSet = false;
     pet_id = 0L;
@@ -52,7 +52,7 @@ SWGOrder::init() {
 }
 
 void
-SWGOrder::cleanup() {
+OAIOrder::cleanup() {
 
 
 
@@ -65,8 +65,8 @@ SWGOrder::cleanup() {
 
 }
 
-SWGOrder*
-SWGOrder::fromJson(QString json) {
+OAIOrder*
+OAIOrder::fromJson(QString json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -75,23 +75,23 @@ SWGOrder::fromJson(QString json) {
 }
 
 void
-SWGOrder::fromJsonObject(QJsonObject pJson) {
-    ::Swagger::setValue(&id, pJson["id"], "qint64", "");
+OAIOrder::fromJsonObject(QJsonObject pJson) {
+    ::OpenAPI::setValue(&id, pJson["id"], "qint64", "");
     
-    ::Swagger::setValue(&pet_id, pJson["petId"], "qint64", "");
+    ::OpenAPI::setValue(&pet_id, pJson["petId"], "qint64", "");
     
-    ::Swagger::setValue(&quantity, pJson["quantity"], "qint32", "");
+    ::OpenAPI::setValue(&quantity, pJson["quantity"], "qint32", "");
     
-    ::Swagger::setValue(&ship_date, pJson["shipDate"], "QDateTime", "QDateTime");
+    ::OpenAPI::setValue(&ship_date, pJson["shipDate"], "QDateTime", "QDateTime");
     
-    ::Swagger::setValue(&status, pJson["status"], "QString", "QString");
+    ::OpenAPI::setValue(&status, pJson["status"], "QString", "QString");
     
-    ::Swagger::setValue(&complete, pJson["complete"], "bool", "");
+    ::OpenAPI::setValue(&complete, pJson["complete"], "bool", "");
     
 }
 
 QString
-SWGOrder::asJson ()
+OAIOrder::asJson ()
 {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
@@ -100,7 +100,7 @@ SWGOrder::asJson ()
 }
 
 QJsonObject
-SWGOrder::asJsonObject() {
+OAIOrder::asJsonObject() {
     QJsonObject obj;
     if(m_id_isSet){
         obj.insert("id", QJsonValue(id));
@@ -125,68 +125,68 @@ SWGOrder::asJsonObject() {
 }
 
 qint64
-SWGOrder::getId() {
+OAIOrder::getId() {
     return id;
 }
 void
-SWGOrder::setId(qint64 id) {
+OAIOrder::setId(qint64 id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
 qint64
-SWGOrder::getPetId() {
+OAIOrder::getPetId() {
     return pet_id;
 }
 void
-SWGOrder::setPetId(qint64 pet_id) {
+OAIOrder::setPetId(qint64 pet_id) {
     this->pet_id = pet_id;
     this->m_pet_id_isSet = true;
 }
 
 qint32
-SWGOrder::getQuantity() {
+OAIOrder::getQuantity() {
     return quantity;
 }
 void
-SWGOrder::setQuantity(qint32 quantity) {
+OAIOrder::setQuantity(qint32 quantity) {
     this->quantity = quantity;
     this->m_quantity_isSet = true;
 }
 
 QDateTime*
-SWGOrder::getShipDate() {
+OAIOrder::getShipDate() {
     return ship_date;
 }
 void
-SWGOrder::setShipDate(QDateTime* ship_date) {
+OAIOrder::setShipDate(QDateTime* ship_date) {
     this->ship_date = ship_date;
     this->m_ship_date_isSet = true;
 }
 
 QString*
-SWGOrder::getStatus() {
+OAIOrder::getStatus() {
     return status;
 }
 void
-SWGOrder::setStatus(QString* status) {
+OAIOrder::setStatus(QString* status) {
     this->status = status;
     this->m_status_isSet = true;
 }
 
 bool
-SWGOrder::isComplete() {
+OAIOrder::isComplete() {
     return complete;
 }
 void
-SWGOrder::setComplete(bool complete) {
+OAIOrder::setComplete(bool complete) {
     this->complete = complete;
     this->m_complete_isSet = true;
 }
 
 
 bool
-SWGOrder::isSet(){
+OAIOrder::isSet(){
     bool isObjectUpdated = false;
     do{
         if(m_id_isSet){ isObjectUpdated = true; break;}

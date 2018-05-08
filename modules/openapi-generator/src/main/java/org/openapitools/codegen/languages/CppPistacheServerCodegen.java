@@ -62,8 +62,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public CppPistacheServerCodegen() {
         super();
 
-        apiPackage = "io.swagger.server.api";
-        modelPackage = "io.swagger.server.model";
+        apiPackage = "org.openapitools.server.api";
+        modelPackage = "org.openapitools.server.model";
 
         modelTemplateFiles.put("model-header.mustache", ".h");
         modelTemplateFiles.put("model-source.mustache", ".cpp");
@@ -374,7 +374,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Optional - swagger type conversion. This is used to map swagger types in
+     * Optional - OpenAPI type conversion. This is used to map OpenAPI types in
      * a `Schema` into either language specific types via `typeMapping` or
      * into complex models if there is not a mapping.
      *

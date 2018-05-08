@@ -26,17 +26,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.core.util.Yaml;
 
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
@@ -50,8 +44,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     public CppRestbedServerCodegen() {
         super();
 
-        apiPackage = "io.swagger.server.api";
-        modelPackage = "io.swagger.server.model";
+        apiPackage = "org.openapitools.server.api";
+        modelPackage = "org.openapitools.server.model";
 
         modelTemplateFiles.put("model-header.mustache", ".h");
         modelTemplateFiles.put("model-source.mustache", ".cpp");
@@ -226,7 +220,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();
         for (CodegenOperation op : operationList) {
-            String path = new String(op.path);
+            String path = op.path;
 
             String[] items = path.split("/", -1);
             String resourceNameCamelCase = "";
@@ -349,7 +343,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Optional - swagger type conversion. This is used to map swagger types in
+     * Optional - OpenAPI type conversion. This is used to map OpenAPI types in
      * a `Schema` into either language specific types via `typeMapping` or
      * into complex models if there is not a mapping.
      *

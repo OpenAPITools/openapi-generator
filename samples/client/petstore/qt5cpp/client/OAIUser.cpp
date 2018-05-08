@@ -11,32 +11,32 @@
  */
 
 
-#include "SWGUser.h"
+#include "OAIUser.h"
 
-#include "SWGHelpers.h"
+#include "OAIHelpers.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
 
-namespace Swagger {
+namespace OpenAPI {
 
-SWGUser::SWGUser(QString json) {
+OAIUser::OAIUser(QString json) {
     init();
     this->fromJson(json);
 }
 
-SWGUser::SWGUser() {
+OAIUser::OAIUser() {
     init();
 }
 
-SWGUser::~SWGUser() {
+OAIUser::~OAIUser() {
     this->cleanup();
 }
 
 void
-SWGUser::init() {
+OAIUser::init() {
     id = 0L;
     m_id_isSet = false;
     username = new QString("");
@@ -56,7 +56,7 @@ SWGUser::init() {
 }
 
 void
-SWGUser::cleanup() {
+OAIUser::cleanup() {
 
     if(username != nullptr) { 
         delete username;
@@ -79,8 +79,8 @@ SWGUser::cleanup() {
 
 }
 
-SWGUser*
-SWGUser::fromJson(QString json) {
+OAIUser*
+OAIUser::fromJson(QString json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -89,27 +89,27 @@ SWGUser::fromJson(QString json) {
 }
 
 void
-SWGUser::fromJsonObject(QJsonObject pJson) {
-    ::Swagger::setValue(&id, pJson["id"], "qint64", "");
+OAIUser::fromJsonObject(QJsonObject pJson) {
+    ::OpenAPI::setValue(&id, pJson["id"], "qint64", "");
     
-    ::Swagger::setValue(&username, pJson["username"], "QString", "QString");
+    ::OpenAPI::setValue(&username, pJson["username"], "QString", "QString");
     
-    ::Swagger::setValue(&first_name, pJson["firstName"], "QString", "QString");
+    ::OpenAPI::setValue(&first_name, pJson["firstName"], "QString", "QString");
     
-    ::Swagger::setValue(&last_name, pJson["lastName"], "QString", "QString");
+    ::OpenAPI::setValue(&last_name, pJson["lastName"], "QString", "QString");
     
-    ::Swagger::setValue(&email, pJson["email"], "QString", "QString");
+    ::OpenAPI::setValue(&email, pJson["email"], "QString", "QString");
     
-    ::Swagger::setValue(&password, pJson["password"], "QString", "QString");
+    ::OpenAPI::setValue(&password, pJson["password"], "QString", "QString");
     
-    ::Swagger::setValue(&phone, pJson["phone"], "QString", "QString");
+    ::OpenAPI::setValue(&phone, pJson["phone"], "QString", "QString");
     
-    ::Swagger::setValue(&user_status, pJson["userStatus"], "qint32", "");
+    ::OpenAPI::setValue(&user_status, pJson["userStatus"], "qint32", "");
     
 }
 
 QString
-SWGUser::asJson ()
+OAIUser::asJson ()
 {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
@@ -118,7 +118,7 @@ SWGUser::asJson ()
 }
 
 QJsonObject
-SWGUser::asJsonObject() {
+OAIUser::asJsonObject() {
     QJsonObject obj;
     if(m_id_isSet){
         obj.insert("id", QJsonValue(id));
@@ -149,88 +149,88 @@ SWGUser::asJsonObject() {
 }
 
 qint64
-SWGUser::getId() {
+OAIUser::getId() {
     return id;
 }
 void
-SWGUser::setId(qint64 id) {
+OAIUser::setId(qint64 id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
 QString*
-SWGUser::getUsername() {
+OAIUser::getUsername() {
     return username;
 }
 void
-SWGUser::setUsername(QString* username) {
+OAIUser::setUsername(QString* username) {
     this->username = username;
     this->m_username_isSet = true;
 }
 
 QString*
-SWGUser::getFirstName() {
+OAIUser::getFirstName() {
     return first_name;
 }
 void
-SWGUser::setFirstName(QString* first_name) {
+OAIUser::setFirstName(QString* first_name) {
     this->first_name = first_name;
     this->m_first_name_isSet = true;
 }
 
 QString*
-SWGUser::getLastName() {
+OAIUser::getLastName() {
     return last_name;
 }
 void
-SWGUser::setLastName(QString* last_name) {
+OAIUser::setLastName(QString* last_name) {
     this->last_name = last_name;
     this->m_last_name_isSet = true;
 }
 
 QString*
-SWGUser::getEmail() {
+OAIUser::getEmail() {
     return email;
 }
 void
-SWGUser::setEmail(QString* email) {
+OAIUser::setEmail(QString* email) {
     this->email = email;
     this->m_email_isSet = true;
 }
 
 QString*
-SWGUser::getPassword() {
+OAIUser::getPassword() {
     return password;
 }
 void
-SWGUser::setPassword(QString* password) {
+OAIUser::setPassword(QString* password) {
     this->password = password;
     this->m_password_isSet = true;
 }
 
 QString*
-SWGUser::getPhone() {
+OAIUser::getPhone() {
     return phone;
 }
 void
-SWGUser::setPhone(QString* phone) {
+OAIUser::setPhone(QString* phone) {
     this->phone = phone;
     this->m_phone_isSet = true;
 }
 
 qint32
-SWGUser::getUserStatus() {
+OAIUser::getUserStatus() {
     return user_status;
 }
 void
-SWGUser::setUserStatus(qint32 user_status) {
+OAIUser::setUserStatus(qint32 user_status) {
     this->user_status = user_status;
     this->m_user_status_isSet = true;
 }
 
 
 bool
-SWGUser::isSet(){
+OAIUser::isSet(){
     bool isObjectUpdated = false;
     do{
         if(m_id_isSet){ isObjectUpdated = true; break;}

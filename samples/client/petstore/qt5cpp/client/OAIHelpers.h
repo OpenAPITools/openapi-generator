@@ -10,15 +10,15 @@
  * Do not edit the class manually.
  */
 
-#ifndef SWG_HELPERS_H
-#define SWG_HELPERS_H
+#ifndef OAI_HELPERS_H
+#define OAI_HELPERS_H
 
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QList>
 #include <QMap>
 
-namespace Swagger {
+namespace OpenAPI {
 
     void setValue(void* value, QJsonValue obj, QString type, QString complexType);
     void toJsonArray(QList<void*>* value, QJsonObject& output, QString innerName, QString innerType);
@@ -32,4 +32,4 @@ namespace Swagger {
 
 }
 
-#endif // SWG_HELPERS_H
+#endif // OAI_HELPERS_H

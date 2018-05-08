@@ -13,35 +13,35 @@
 #ifndef ModelFactory_H_
 #define ModelFactory_H_
 
-#include "SWGObject.h"
+#include "OAIObject.h"
 
-#include "SWGApiResponse.h"
-#include "SWGCategory.h"
-#include "SWGOrder.h"
-#include "SWGPet.h"
-#include "SWGTag.h"
-#include "SWGUser.h"
+#include "OAIApiResponse.h"
+#include "OAICategory.h"
+#include "OAIOrder.h"
+#include "OAIPet.h"
+#include "OAITag.h"
+#include "OAIUser.h"
 
-namespace Swagger {
+namespace OpenAPI {
 
   inline void* create(QString type) {
-    if(QString("SWGApiResponse").compare(type) == 0) {
-      return new SWGApiResponse();
+    if(QString("OAIApiResponse").compare(type) == 0) {
+      return new OAIApiResponse();
     }
-    if(QString("SWGCategory").compare(type) == 0) {
-      return new SWGCategory();
+    if(QString("OAICategory").compare(type) == 0) {
+      return new OAICategory();
     }
-    if(QString("SWGOrder").compare(type) == 0) {
-      return new SWGOrder();
+    if(QString("OAIOrder").compare(type) == 0) {
+      return new OAIOrder();
     }
-    if(QString("SWGPet").compare(type) == 0) {
-      return new SWGPet();
+    if(QString("OAIPet").compare(type) == 0) {
+      return new OAIPet();
     }
-    if(QString("SWGTag").compare(type) == 0) {
-      return new SWGTag();
+    if(QString("OAITag").compare(type) == 0) {
+      return new OAITag();
     }
-    if(QString("SWGUser").compare(type) == 0) {
-      return new SWGUser();
+    if(QString("OAIUser").compare(type) == 0) {
+      return new OAIUser();
     }
     
     return nullptr;
@@ -51,7 +51,7 @@ namespace Swagger {
     if(type.startsWith("QString")) {
       return new QString();
     }    
-    auto val = static_cast<SWGObject*>(create(type));
+    auto val = static_cast<OAIObject*>(create(type));
     if(val != nullptr) {
       return val->fromJson(json);
     }

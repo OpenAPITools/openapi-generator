@@ -10,20 +10,20 @@
  * Do not edit the class manually.
  */
 
-#ifndef SWG_QOBJECT_WRAPPER_H
-#define SWG_QOBJECT_WRAPPER_H
+#ifndef OAI_QOBJECT_WRAPPER_H
+#define OAI_QOBJECT_WRAPPER_H
 
 #include <QObject>
 
-namespace Swagger {
+namespace OpenAPI {
 
     template <typename ObjectPtrT>
-    class SWGQObjectWrapper : public QObject {
+    class OAIQObjectWrapper : public QObject {
         public:
-            SWGQObjectWrapper(ObjectPtrT ptr){
+            OAIQObjectWrapper(ObjectPtrT ptr){
                 data = ptr;
             }
-            ~SWGQObjectWrapper(){
+            ~OAIQObjectWrapper(){
                 delete data;
             }
         private :
@@ -32,4 +32,4 @@ namespace Swagger {
 
 }
 
-#endif // SWG_QOBJECT_WRAPPER_H
+#endif // OAI_QOBJECT_WRAPPER_H

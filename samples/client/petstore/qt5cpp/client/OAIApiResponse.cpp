@@ -11,32 +11,32 @@
  */
 
 
-#include "SWGApiResponse.h"
+#include "OAIApiResponse.h"
 
-#include "SWGHelpers.h"
+#include "OAIHelpers.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
 
-namespace Swagger {
+namespace OpenAPI {
 
-SWGApiResponse::SWGApiResponse(QString json) {
+OAIApiResponse::OAIApiResponse(QString json) {
     init();
     this->fromJson(json);
 }
 
-SWGApiResponse::SWGApiResponse() {
+OAIApiResponse::OAIApiResponse() {
     init();
 }
 
-SWGApiResponse::~SWGApiResponse() {
+OAIApiResponse::~OAIApiResponse() {
     this->cleanup();
 }
 
 void
-SWGApiResponse::init() {
+OAIApiResponse::init() {
     code = 0;
     m_code_isSet = false;
     type = new QString("");
@@ -46,7 +46,7 @@ SWGApiResponse::init() {
 }
 
 void
-SWGApiResponse::cleanup() {
+OAIApiResponse::cleanup() {
 
     if(type != nullptr) { 
         delete type;
@@ -56,8 +56,8 @@ SWGApiResponse::cleanup() {
     }
 }
 
-SWGApiResponse*
-SWGApiResponse::fromJson(QString json) {
+OAIApiResponse*
+OAIApiResponse::fromJson(QString json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -66,17 +66,17 @@ SWGApiResponse::fromJson(QString json) {
 }
 
 void
-SWGApiResponse::fromJsonObject(QJsonObject pJson) {
-    ::Swagger::setValue(&code, pJson["code"], "qint32", "");
+OAIApiResponse::fromJsonObject(QJsonObject pJson) {
+    ::OpenAPI::setValue(&code, pJson["code"], "qint32", "");
     
-    ::Swagger::setValue(&type, pJson["type"], "QString", "QString");
+    ::OpenAPI::setValue(&type, pJson["type"], "QString", "QString");
     
-    ::Swagger::setValue(&message, pJson["message"], "QString", "QString");
+    ::OpenAPI::setValue(&message, pJson["message"], "QString", "QString");
     
 }
 
 QString
-SWGApiResponse::asJson ()
+OAIApiResponse::asJson ()
 {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
@@ -85,7 +85,7 @@ SWGApiResponse::asJson ()
 }
 
 QJsonObject
-SWGApiResponse::asJsonObject() {
+OAIApiResponse::asJsonObject() {
     QJsonObject obj;
     if(m_code_isSet){
         obj.insert("code", QJsonValue(code));
@@ -101,38 +101,38 @@ SWGApiResponse::asJsonObject() {
 }
 
 qint32
-SWGApiResponse::getCode() {
+OAIApiResponse::getCode() {
     return code;
 }
 void
-SWGApiResponse::setCode(qint32 code) {
+OAIApiResponse::setCode(qint32 code) {
     this->code = code;
     this->m_code_isSet = true;
 }
 
 QString*
-SWGApiResponse::getType() {
+OAIApiResponse::getType() {
     return type;
 }
 void
-SWGApiResponse::setType(QString* type) {
+OAIApiResponse::setType(QString* type) {
     this->type = type;
     this->m_type_isSet = true;
 }
 
 QString*
-SWGApiResponse::getMessage() {
+OAIApiResponse::getMessage() {
     return message;
 }
 void
-SWGApiResponse::setMessage(QString* message) {
+OAIApiResponse::setMessage(QString* message) {
     this->message = message;
     this->m_message_isSet = true;
 }
 
 
 bool
-SWGApiResponse::isSet(){
+OAIApiResponse::isSet(){
     bool isObjectUpdated = false;
     do{
         if(m_code_isSet){ isObjectUpdated = true; break;}

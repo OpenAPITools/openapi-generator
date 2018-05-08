@@ -13,8 +13,8 @@
 
 #include "ApiResponse.h"
 
-namespace io {
-namespace swagger {
+namespace org {
+namespace openapitools {
 namespace server {
 namespace model {
 

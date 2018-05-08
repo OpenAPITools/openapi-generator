@@ -28,12 +28,12 @@
 #include "Pet.h"
 #include <string>
 
-namespace io {
-namespace swagger {
+namespace org {
+namespace openapitools {
 namespace server {
 namespace api {
 
-using namespace io::swagger::server::model;
+using namespace org::openapitools::server::model;
 
 class  PetApi {
 public:

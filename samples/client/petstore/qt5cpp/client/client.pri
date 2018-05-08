@@ -2,36 +2,36 @@ QT += network
 
 HEADERS += \
 # Models
-    $${PWD}/SWGApiResponse.h \
-    $${PWD}/SWGCategory.h \
-    $${PWD}/SWGOrder.h \
-    $${PWD}/SWGPet.h \
-    $${PWD}/SWGTag.h \
-    $${PWD}/SWGUser.h \
+    $${PWD}/OAIApiResponse.h \
+    $${PWD}/OAICategory.h \
+    $${PWD}/OAIOrder.h \
+    $${PWD}/OAIPet.h \
+    $${PWD}/OAITag.h \
+    $${PWD}/OAIUser.h \
 # APIs
-    $${PWD}/SWGPetApi.h \
-    $${PWD}/SWGStoreApi.h \
-    $${PWD}/SWGUserApi.h \
+    $${PWD}/OAIPetApi.h \
+    $${PWD}/OAIStoreApi.h \
+    $${PWD}/OAIUserApi.h \
 # Others
-    $${PWD}/SWGHelpers.h \
-    $${PWD}/SWGHttpRequest.h \
-    $${PWD}/SWGModelFactory.h \
-    $${PWD}/SWGObject.h \
-    $${PWD}/SWGQObjectWrapper.h
+    $${PWD}/OAIHelpers.h \
+    $${PWD}/OAIHttpRequest.h \
+    $${PWD}/OAIModelFactory.h \
+    $${PWD}/OAIObject.h \
+    $${PWD}/OAIQObjectWrapper.h
 
 SOURCES += \
 # Models
-    $${PWD}/SWGApiResponse.cpp \
-    $${PWD}/SWGCategory.cpp \
-    $${PWD}/SWGOrder.cpp \
-    $${PWD}/SWGPet.cpp \
-    $${PWD}/SWGTag.cpp \
-    $${PWD}/SWGUser.cpp \
+    $${PWD}/OAIApiResponse.cpp \
+    $${PWD}/OAICategory.cpp \
+    $${PWD}/OAIOrder.cpp \
+    $${PWD}/OAIPet.cpp \
+    $${PWD}/OAITag.cpp \
+    $${PWD}/OAIUser.cpp \
 # APIs
-    $${PWD}/SWGPetApi.cpp \
-    $${PWD}/SWGStoreApi.cpp \
-    $${PWD}/SWGUserApi.cpp \
+    $${PWD}/OAIPetApi.cpp \
+    $${PWD}/OAIStoreApi.cpp \
+    $${PWD}/OAIUserApi.cpp \
 # Others
-    $${PWD}/SWGHelpers.cpp \
-    $${PWD}/SWGHttpRequest.cpp
+    $${PWD}/OAIHelpers.cpp \
+    $${PWD}/OAIHttpRequest.cpp
 

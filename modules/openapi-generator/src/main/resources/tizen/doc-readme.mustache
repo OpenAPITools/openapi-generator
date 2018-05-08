@@ -1,4 +1,4 @@
-# Documentation for {{#swagger}}{{#info}}{{title}} {{version}} Tizen Client SDK{{/info}}{{/swagger}}
+# Documentation for {{#openAPI}}{{#info}}{{title}} {{version}} Tizen Client SDK{{/info}}{{/openAPI}}
 
 ## How do I get the doc files?
 First generate source code by running `openapi-generator`
@@ -16,7 +16,7 @@ This is the structure of the doc folder:
 ├── Doxyfile                  \\Doxygen config files
 ├── generateDocumentation.sh  \\Script to run to generate documentation
 ├── README.md                 \\This file
-├── SDK                       \\Documentation for all classes in {{#swagger}}{{#info}}{{title}} Tizen Client SDK{{/info}}{{/swagger}}. See ./html/index.html
+├── SDK                       \\Documentation for all classes in {{#openAPI}}{{#info}}{{title}} Tizen Client SDK{{/info}}{{/openAPI}}. See ./html/index.html
 │   └── html
 
 ```
@@ -42,8 +42,8 @@ All URIs are relative to {{{scheme}}}://{{{host}}}{{{basePath}}}
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 {{#operation}}
-*{{nickname}}Sync* | *{{httpMethod}}* {{{path}}} | {{{summary}}}.
-*{{nickname}}ASync* | *{{httpMethod}}* {{{path}}} | {{{summary}}}.
+*{{operationId}}Sync* | *{{httpMethod}}* {{{path}}} | {{{summary}}}.
+*{{operationId}}ASync* | *{{httpMethod}}* {{{path}}} | {{{summary}}}.
 {{/operation}}
 {{/operations}}{{/apis}}{{/apiInfo}}
 

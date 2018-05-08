@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-#include "SWGHttpRequest.h"
+#include "OAIHttpRequest.h"
 #include <QDateTime>
 #include <QUrl>
 #include <QFileInfo>
@@ -18,30 +18,30 @@
 #include <QtGlobal>
 
 
-namespace Swagger {
+namespace OpenAPI {
 
-SWGHttpRequestInput::SWGHttpRequestInput() {
+OAIHttpRequestInput::OAIHttpRequestInput() {
     initialize();
 }
 
-SWGHttpRequestInput::SWGHttpRequestInput(QString v_url_str, QString v_http_method) {
+OAIHttpRequestInput::OAIHttpRequestInput(QString v_url_str, QString v_http_method) {
     initialize();
     url_str = v_url_str;
     http_method = v_http_method;
 }
 
-void SWGHttpRequestInput::initialize() {
+void OAIHttpRequestInput::initialize() {
     var_layout = NOT_SET;
     url_str = "";
     http_method = "GET";
 }
 
-void SWGHttpRequestInput::add_var(QString key, QString value) {
+void OAIHttpRequestInput::add_var(QString key, QString value) {
     vars[key] = value;
 }
 
-void SWGHttpRequestInput::add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type) {
-    SWGHttpRequestInputFileElement file;
+void OAIHttpRequestInput::add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type) {
+    OAIHttpRequestInputFileElement file;
     file.variable_name = variable_name;
     file.local_filename = local_filename;
     file.request_filename = request_filename;
@@ -50,19 +50,19 @@ void SWGHttpRequestInput::add_file(QString variable_name, QString local_filename
 }
 
 
-SWGHttpRequestWorker::SWGHttpRequestWorker(QObject *parent)
+OAIHttpRequestWorker::OAIHttpRequestWorker(QObject *parent)
     : QObject(parent), manager(nullptr)
 {
     qsrand(QDateTime::currentDateTime().toTime_t());
 
     manager = new QNetworkAccessManager(this);
-    connect(manager, &QNetworkAccessManager::finished, this, &SWGHttpRequestWorker::on_manager_finished);
+    connect(manager, &QNetworkAccessManager::finished, this, &OAIHttpRequestWorker::on_manager_finished);
 }
 
-SWGHttpRequestWorker::~SWGHttpRequestWorker() {
+OAIHttpRequestWorker::~OAIHttpRequestWorker() {
 }
 
-QString SWGHttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
+QString OAIHttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
     // result structure follows RFC 5987
     bool need_utf_encoding = false;
     QString result = "";
@@ -110,7 +110,7 @@ QString SWGHttpRequestWorker::http_attribute_encode(QString attribute_name, QStr
     return QString("%1=\"%2\"; %1*=utf-8''%3").arg(attribute_name, result, result_utf8);
 }
 
-void SWGHttpRequestWorker::execute(SWGHttpRequestInput *input) {
+void OAIHttpRequestWorker::execute(OAIHttpRequestInput *input) {
 
     // reset variables
 
@@ -190,7 +190,7 @@ void SWGHttpRequestWorker::execute(SWGHttpRequestInput *input) {
         }
 
         // add files
-        for (QList<SWGHttpRequestInputFileElement>::iterator file_info = input->files.begin(); file_info != input->files.end(); file_info++) {
+        for (QList<OAIHttpRequestInputFileElement>::iterator file_info = input->files.begin(); file_info != input->files.end(); file_info++) {
             QFileInfo fi(file_info->local_filename);
 
             // ensure necessary variables are available
@@ -262,10 +262,10 @@ void SWGHttpRequestWorker::execute(SWGHttpRequestInput *input) {
     // prepare connection
 
     QNetworkRequest request = QNetworkRequest(QUrl(input->url_str));
-    if (SWGHttpRequestWorker::sslDefaultConfiguration != nullptr) {
-        request.setSslConfiguration(*SWGHttpRequestWorker::sslDefaultConfiguration);
+    if (OAIHttpRequestWorker::sslDefaultConfiguration != nullptr) {
+        request.setSslConfiguration(*OAIHttpRequestWorker::sslDefaultConfiguration);
     }
-    request.setRawHeader("User-Agent", "Swagger-Client");
+    request.setRawHeader("User-Agent", "OpenAPI-Generator/1.0.0/cpp-qt5");
     foreach(QString key, input->headers.keys()) {
         request.setRawHeader(key.toStdString().c_str(), input->headers.value(key).toStdString().c_str());
     }
@@ -310,7 +310,7 @@ void SWGHttpRequestWorker::execute(SWGHttpRequestInput *input) {
 
 }
 
-void SWGHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
+void OAIHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
     error_type = reply->error();
     response = reply->readAll();
     error_str = reply->errorString();
@@ -319,7 +319,7 @@ void SWGHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
 
     emit on_execution_finished(this);
 }
-QSslConfiguration* SWGHttpRequestWorker::sslDefaultConfiguration;
+QSslConfiguration* OAIHttpRequestWorker::sslDefaultConfiguration;
 
 
 }

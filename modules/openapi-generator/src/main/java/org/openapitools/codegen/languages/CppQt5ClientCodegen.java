@@ -21,10 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import java.io.File;
@@ -39,14 +36,14 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
     public static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate client.pri.";
 
-    protected final String PREFIX = "SWG";
+    protected final String PREFIX = "OAI";
     protected Set<String> foundationClasses = new HashSet<String>();
     // source folder where to write the files
     protected String sourceFolder = "client";
     protected String apiVersion = "1.0.0";
     protected Map<String, String> namespaces = new HashMap<String, String>();
     protected Set<String> systemIncludes = new HashSet<String>();
-    protected String cppNamespace = "Swagger";
+    protected String cppNamespace = "OpenAPI";
     protected boolean optionalProjectFileFlag = true;
 
     public CppQt5ClientCodegen() {
@@ -56,7 +53,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
         outputFolder = "generated-code/qt5cpp";
 
         // set modelNamePrefix as default for QT5CPP
-        if (modelNamePrefix == "") {
+        if ("".equals(modelNamePrefix)) {
             modelNamePrefix = PREFIX;
         }
 
@@ -143,11 +140,10 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "QList");
         typeMapping.put("map", "QMap");
-        typeMapping.put("file", "SWGHttpRequestInputFileElement");
+        typeMapping.put("file", "OAIHttpRequestInputFileElement");
         typeMapping.put("object", PREFIX + "Object");
-        //TODO binary should be mapped to byte array
         // mapped as "file" type for OAS 3.0
-        typeMapping.put("binary", "SWGHttpRequestInputFileElement");
+        typeMapping.put("binary", "OAIHttpRequestInputFileElement");
         typeMapping.put("ByteArray", "QByteArray");
         // UUID support - possible enhancement : use QUuid instead of QString.
         //   beware though that Serialisation/deserialisation of QUuid does not
@@ -157,7 +153,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
 
         importMapping = new HashMap<String, String>();
 
-        importMapping.put("SWGHttpRequestInputFileElement", "#include \"" + PREFIX + "HttpRequest.h\"");
+        importMapping.put("OAIHttpRequestInputFileElement", "#include \"" + PREFIX + "HttpRequest.h\"");
 
         namespaces = new HashMap<String, String>();
 
@@ -354,7 +350,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
     }
 
     /**
-     * Optional - swagger type conversion.  This is used to map swagger types in a `Schema` into
+     * Optional - OpenAPI type conversion.  This is used to map OpenAPI types in a `Schema` into
      * either language specific types via `typeMapping` or into complex models if there is not a mapping.
      *
      * @return a string value of the type or complex model for this property

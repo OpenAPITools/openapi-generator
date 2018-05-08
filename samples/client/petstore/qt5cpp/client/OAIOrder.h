@@ -11,13 +11,13 @@
  */
 
 /*
- * SWGOrder.h
+ * OAIOrder.h
  *
  * An order for a pets from the pet store
  */
 
-#ifndef SWGOrder_H_
-#define SWGOrder_H_
+#ifndef OAIOrder_H_
+#define OAIOrder_H_
 
 #include <QJsonObject>
 
@@ -25,22 +25,22 @@
 #include <QDateTime>
 #include <QString>
 
-#include "SWGObject.h"
+#include "OAIObject.h"
 
-namespace Swagger {
+namespace OpenAPI {
 
-class SWGOrder: public SWGObject {
+class OAIOrder: public OAIObject {
 public:
-    SWGOrder();
-    SWGOrder(QString json);
-    ~SWGOrder();
+    OAIOrder();
+    OAIOrder(QString json);
+    ~OAIOrder();
     void init();
     void cleanup();
 
     QString asJson () override;
     QJsonObject asJsonObject() override;
     void fromJsonObject(QJsonObject json) override;
-    SWGOrder* fromJson(QString jsonString) override;
+    OAIOrder* fromJson(QString jsonString) override;
 
     qint64 getId();
     void setId(qint64 id);
@@ -86,4 +86,4 @@ private:
 
 }
 
-#endif /* SWGOrder_H_ */
+#endif /* OAIOrder_H_ */

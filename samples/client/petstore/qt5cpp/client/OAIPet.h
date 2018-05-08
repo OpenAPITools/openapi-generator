@@ -11,44 +11,44 @@
  */
 
 /*
- * SWGPet.h
+ * OAIPet.h
  *
  * A pet for sale in the pet store
  */
 
-#ifndef SWGPet_H_
-#define SWGPet_H_
+#ifndef OAIPet_H_
+#define OAIPet_H_
 
 #include <QJsonObject>
 
 
-#include "SWGCategory.h"
-#include "SWGTag.h"
+#include "OAICategory.h"
+#include "OAITag.h"
 #include <QList>
 #include <QString>
 
-#include "SWGObject.h"
+#include "OAIObject.h"
 
-namespace Swagger {
+namespace OpenAPI {
 
-class SWGPet: public SWGObject {
+class OAIPet: public OAIObject {
 public:
-    SWGPet();
-    SWGPet(QString json);
-    ~SWGPet();
+    OAIPet();
+    OAIPet(QString json);
+    ~OAIPet();
     void init();
     void cleanup();
 
     QString asJson () override;
     QJsonObject asJsonObject() override;
     void fromJsonObject(QJsonObject json) override;
-    SWGPet* fromJson(QString jsonString) override;
+    OAIPet* fromJson(QString jsonString) override;
 
     qint64 getId();
     void setId(qint64 id);
 
-    SWGCategory* getCategory();
-    void setCategory(SWGCategory* category);
+    OAICategory* getCategory();
+    void setCategory(OAICategory* category);
 
     QString* getName();
     void setName(QString* name);
@@ -56,8 +56,8 @@ public:
     QList<QString*>* getPhotoUrls();
     void setPhotoUrls(QList<QString*>* photo_urls);
 
-    QList<SWGTag*>* getTags();
-    void setTags(QList<SWGTag*>* tags);
+    QList<OAITag*>* getTags();
+    void setTags(QList<OAITag*>* tags);
 
     QString* getStatus();
     void setStatus(QString* status);
@@ -69,7 +69,7 @@ private:
     qint64 id;
     bool m_id_isSet;
 
-    SWGCategory* category;
+    OAICategory* category;
     bool m_category_isSet;
 
     QString* name;
@@ -78,7 +78,7 @@ private:
     QList<QString*>* photo_urls;
     bool m_photo_urls_isSet;
 
-    QList<SWGTag*>* tags;
+    QList<OAITag*>* tags;
     bool m_tags_isSet;
 
     QString* status;
@@ -88,4 +88,4 @@ private:
 
 }
 
-#endif /* SWGPet_H_ */
+#endif /* OAIPet_H_ */

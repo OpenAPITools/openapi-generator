@@ -256,7 +256,7 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
     if ({{prefix}}HttpRequestWorker::sslDefaultConfiguration != nullptr) {
         request.setSslConfiguration(*{{prefix}}HttpRequestWorker::sslDefaultConfiguration);
     }
-    request.setRawHeader("User-Agent", "Swagger-Client");
+    request.setRawHeader("User-Agent", "{{#httpUserAgent}}{{.}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{apiVersion}}/cpp-qt5{{/httpUserAgent}}");
     foreach(QString key, input->headers.keys()) {
         request.setRawHeader(key.toStdString().c_str(), input->headers.value(key).toStdString().c_str());
     }
