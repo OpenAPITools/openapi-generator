@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.media.BinarySchema;
 import io.swagger.v3.oas.models.media.BooleanSchema;
 import io.swagger.v3.oas.models.media.ByteArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.DateSchema;
 import io.swagger.v3.oas.models.media.DateTimeSchema;
 import io.swagger.v3.oas.models.media.EmailSchema;
@@ -48,6 +49,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -365,11 +367,14 @@ public class ModelUtils {
             return null;
         }
 
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getSchemas() != null) {
-            return openAPI.getComponents().getSchemas().get(name);
-        }
+        return getSchemas(openAPI).get(name);
+    }
 
-        return null;
+    public static Map<String, Schema> getSchemas(OpenAPI openAPI) {
+        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getSchemas() != null) {
+            return openAPI.getComponents().getSchemas();
+        }
+        return Collections.emptyMap();
     }
 
     /**
@@ -420,5 +425,22 @@ public class ModelUtils {
             return openAPI.getComponents().getResponses().get(name);
         }
         return null;
+    }
+    
+
+    public static Schema getSchemaFromRequestBody(RequestBody requestBody) {
+        return getSchemaFromContent(requestBody.getContent());
+    }
+
+    public static Schema getSchemaFromResponse(ApiResponse response) {
+        return getSchemaFromContent(response.getContent());
+    }
+
+    private static Schema getSchemaFromContent(Content content) {
+        if (content == null || content.isEmpty()) {
+            return null;
+        }
+        MediaType mediaType = content.values().iterator().next();
+        return mediaType.getSchema();
     }
 }

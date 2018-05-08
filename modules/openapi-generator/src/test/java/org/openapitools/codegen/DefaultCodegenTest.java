@@ -27,6 +27,8 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 
 import io.swagger.v3.parser.core.models.ParseOptions;
+
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -183,9 +185,21 @@ public class DefaultCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new DefaultCodegen();
 
-        Schema requestBodySchema = codegen.getSchemaFromBody(openAPI.getPaths().get("/fake").getGet().getRequestBody());
+        Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/fake").getGet().getRequestBody());
         CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
 
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
+    }
+
+    @Test
+    public void testEnsureNoDuplicateProduces() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/two-responses.yaml", null, new ParseOptions()).getOpenAPI();
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        Operation operation = openAPI.getPaths().get("/test").getGet();
+        CodegenOperation co = codegen.fromOperation("/test", "get", operation, ModelUtils.getSchemas(openAPI), openAPI);
+
+        Assert.assertEquals(co.produces.size(), 1);
+        Assert.assertEquals(co.produces.get(0).get("mediaType"), "application/json");
     }
 }

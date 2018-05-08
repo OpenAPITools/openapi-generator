@@ -27,8 +27,6 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.CookieParameter;
@@ -2142,7 +2140,7 @@ public class DefaultCodegen implements CodegenConfig {
             op.responses.get(op.responses.size() - 1).hasMore = false;
 
             if (methodResponse != null) {
-                final Schema responseSchema = getSchemaFromResponse(methodResponse);
+                final Schema responseSchema = ModelUtils.getSchemaFromResponse(methodResponse);
                 if (responseSchema != null) {
                     CodegenProperty cm = fromProperty("response", responseSchema);
 
@@ -2386,7 +2384,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             r.code = responseCode;
         }
-        final Schema responseSchema = getSchemaFromResponse(response);
+        final Schema responseSchema = ModelUtils.getSchemaFromResponse(response);
         r.schema = responseSchema;
         r.message = escapeText(response.getDescription());
         // TODO need to revise and test examples in responses
@@ -3819,22 +3817,6 @@ public class DefaultCodegen implements CodegenConfig {
         return new ArrayList<>(requestBody.getContent().keySet()).get(0);
     }
 
-    protected Schema getSchemaFromBody(RequestBody requestBody) {
-        return getSchemaFromContent(requestBody.getContent());
-    }
-
-    protected Schema getSchemaFromResponse(ApiResponse response) {
-        return getSchemaFromContent(response.getContent());
-    }
-
-    private Schema getSchemaFromContent(Content content) {
-        if (content == null || content.isEmpty()) {
-            return null;
-        }
-        MediaType mediaType = content.values().iterator().next();
-        return mediaType.getSchema();
-    }
-
     protected Parameter getParameterFromRef(String ref, OpenAPI openAPI) {
         String parameterName = ref.substring(ref.lastIndexOf('/') + 1);
         Map<String, Parameter> parameterMap = openAPI.getComponents().getParameters();
@@ -3944,7 +3926,7 @@ public class DefaultCodegen implements CodegenConfig {
             return false;
         }
 
-        Schema schema = getSchemaFromBody(requestBody);
+        Schema schema = ModelUtils.getSchemaFromRequestBody(requestBody);
         return ModelUtils.getReferencedSchema(openAPI, schema) != null;
     }
 
@@ -3959,25 +3941,30 @@ public class DefaultCodegen implements CodegenConfig {
             codegenOperation.produces = new ArrayList<>();
         }
 
+        Set<String> existingMediaTypes = new HashSet<>();
+        for (Map<String, String> mediaType: codegenOperation.produces) {
+            existingMediaTypes.add(mediaType.get("mediaType"));
+        }
+
         int count = 0;
         for (String key : produces) {
-            Map<String, String> mediaType = new HashMap<String, String>();
-            // escape quotation to avoid code injection
-            if ("*/*".equals(key)) { // "*/*" is a special case, do nothing
-                mediaType.put("mediaType", key);
-            } else {
-                mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
-            }
+            // escape quotation to avoid code injection, "*/*" is a special case, do nothing
+            String encodedKey = "*/*".equals(key)? key : escapeText(escapeQuotationMark(key));
+            //Only unique media types should be added to "produces"
+            if (!existingMediaTypes.contains(encodedKey)) {
+                Map<String, String> mediaType = new HashMap<String, String>();
+                mediaType.put("mediaType", encodedKey);
 
-            count += 1;
-            if (count < produces.size()) {
-                mediaType.put("hasMore", "true");
-            } else {
-                mediaType.put("hasMore", null);
-            }
+                count += 1;
+                if (count < produces.size()) {
+                    mediaType.put("hasMore", "true");
+                } else {
+                    mediaType.put("hasMore", null);
+                }
 
-            codegenOperation.produces.add(mediaType);
-            codegenOperation.hasProduces = Boolean.TRUE;
+                codegenOperation.produces.add(mediaType);
+                codegenOperation.hasProduces = Boolean.TRUE;
+            }
         }
     }
 
@@ -4075,7 +4062,7 @@ public class DefaultCodegen implements CodegenConfig {
     public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Map<String, Schema> schemas, Set<String> imports) {
         List<CodegenParameter> parameters = new ArrayList<CodegenParameter>();
         LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
-        Schema schema = getSchemaFromBody(body);
+        Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         if (StringUtils.isNotBlank(schema.get$ref())) {
             schema = schemas.get(getSimpleRef(schema.get$ref()));
         }
@@ -4229,7 +4216,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         String name = null;
         LOGGER.debug("Request body = " + body);
-        Schema schema = getSchemaFromBody(body);
+        Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = getSimpleRef(schema.get$ref());
             schema = schemas.get(name);

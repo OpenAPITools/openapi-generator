@@ -17,22 +17,31 @@
 
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
 
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.core.util.Json;
 
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenSecurity;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
     protected String packageName = "defaultPackage";
@@ -397,8 +406,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
-            if (methodResponse != null && getSchemaFromResponse(methodResponse) != null) {
-                CodegenProperty cm = fromProperty("response", getSchemaFromResponse(methodResponse));
+            if (methodResponse != null && ModelUtils.getSchemaFromResponse(methodResponse) != null) {
+                CodegenProperty cm = fromProperty("response", ModelUtils.getSchemaFromResponse(methodResponse));
                 op.vendorExtensions.put("x-codegen-response", cm);
                 if ("HttpContent".equals(cm.datatype)) {
                     op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
