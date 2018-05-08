@@ -722,7 +722,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         URL url = URLPathUtils.getServerURL(openAPI);
 
         bundle.put("openAPI", openAPI);
-        bundle.put("swagger", openAPI); // for backward compatibility
         bundle.put("basePath", basePath);
         bundle.put("basePathWithoutHost", basePathWithoutHost);
         bundle.put("scheme", URLPathUtils.getScheme(url, config));

@@ -91,7 +91,7 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();
         for (CodegenOperation op : operationList) {
-            String path = new String(op.path);
+            String path = op.path;
 
             String[] items = path.split("/", -1);
             List<String> splitPath = new ArrayList<String>();

@@ -19,5 +19,5 @@ restbed
 
 
 ## Namespaces
-io::swagger::server::api
-io::swagger::server::model
+org.openapitools.server.api
+org.openapitools.server.model

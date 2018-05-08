@@ -32,19 +32,19 @@ DOXYFILE_ENCODING      = UTF-8
 # title of most generated pages and in a few other places.
 # The default value is: My Project.
 
-PROJECT_NAME           = {{#swagger}}{{#info}}"{{title}} {{version}} Tizen SDK"{{/info}}{{/swagger}}
+PROJECT_NAME           = {{#openAPI}}{{#info}}"{{title}} {{version}} Tizen SDK"{{/info}}{{/openAPI}}
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. This
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = {{#swagger}}{{#info}}{{version}}{{/info}}{{/swagger}}
+PROJECT_NUMBER         = {{#openAPI}}{{#info}}{{version}}{{/info}}{{/openAPI}}
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "An SDK for creating client applications for {{#swagger}}{{#info}}{{title}}{{/info}}{{/swagger}} on Tizen Platform (http://tizen.org/)"
+PROJECT_BRIEF          = "An SDK for creating client applications for {{#openAPI}}{{#info}}{{title}}{{/info}}{{/openAPI}} on Tizen Platform (http://tizen.org/)"
 
 # With the PROJECT_LOGO tag one can specify an logo or icon that is included in
 # the documentation. The maximum height of the logo should not exceed 55 pixels

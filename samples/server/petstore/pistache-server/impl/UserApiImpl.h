@@ -31,14 +31,14 @@
 #include <string>
 #include <vector>
 
-namespace io {
-namespace swagger {
+namespace org {
+namespace openapitools {
 namespace server {
 namespace api {
 
-using namespace io::swagger::server::model;
+using namespace org::openapitools::server::model;
 
-class UserApiImpl : public io::swagger::server::api::UserApi {
+class UserApiImpl : public org::openapitools::server::api::UserApi {
 public:
     UserApiImpl(Pistache::Address addr);
     ~UserApiImpl() { };

@@ -26,8 +26,8 @@
 #include "Category.h"
 #include <vector>
 
-namespace io {
-namespace swagger {
+namespace org {
+namespace openapitools {
 namespace server {
 namespace model {
 

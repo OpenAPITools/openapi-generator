@@ -4,9 +4,9 @@
 #include <QtTest/QtTest>
 #include <QTimer>
 
-#include "../client/SWGPetApi.h"
+#include "../client/OAIPetApi.h"
 
-using namespace Swagger;
+using namespace OpenAPI;
 
 class PetApiTests: public QObject {
 Q_OBJECT
@@ -17,8 +17,8 @@ public:
     static void runTests();
 
 private:
-    SWGPetApi* getApi();
-    SWGPet* createRandomPet();
+    OAIPetApi* getApi();
+    OAIPet* createRandomPet();
 
 signals:
     void quit();

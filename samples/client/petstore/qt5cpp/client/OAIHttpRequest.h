@@ -16,8 +16,8 @@
  *
  **/
 
-#ifndef SWG_HTTPREQUESTWORKER_H
-#define SWG_HTTPREQUESTWORKER_H
+#ifndef OAI_HTTPREQUESTWORKER_H
+#define OAI_HTTPREQUESTWORKER_H
 
 #include <QObject>
 #include <QString>
@@ -27,11 +27,11 @@
 
 
 
-namespace Swagger {
+namespace OpenAPI {
 
-enum SWGHttpRequestVarLayout {NOT_SET, ADDRESS, URL_ENCODED, MULTIPART};
+enum OAIHttpRequestVarLayout {NOT_SET, ADDRESS, URL_ENCODED, MULTIPART};
 
-class SWGHttpRequestInputFileElement {
+class OAIHttpRequestInputFileElement {
 
 public:
     QString variable_name;
@@ -42,19 +42,19 @@ public:
 };
 
 
-class SWGHttpRequestInput {
+class OAIHttpRequestInput {
 
 public:
     QString url_str;
     QString http_method;
-    SWGHttpRequestVarLayout var_layout;
+    OAIHttpRequestVarLayout var_layout;
     QMap<QString, QString> vars;
     QMap<QString, QString> headers;
-    QList<SWGHttpRequestInputFileElement> files;
+    QList<OAIHttpRequestInputFileElement> files;
     QByteArray request_body;
 
-    SWGHttpRequestInput();
-    SWGHttpRequestInput(QString v_url_str, QString v_http_method);
+    OAIHttpRequestInput();
+    OAIHttpRequestInput(QString v_url_str, QString v_http_method);
     void initialize();
     void add_var(QString key, QString value);
     void add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type);
@@ -62,7 +62,7 @@ public:
 };
 
 
-class SWGHttpRequestWorker : public QObject {
+class OAIHttpRequestWorker : public QObject {
     Q_OBJECT
 
 public:
@@ -70,15 +70,15 @@ public:
     QNetworkReply::NetworkError error_type;
     QString error_str;
 
-    explicit SWGHttpRequestWorker(QObject *parent = 0);
-    virtual ~SWGHttpRequestWorker();
+    explicit OAIHttpRequestWorker(QObject *parent = 0);
+    virtual ~OAIHttpRequestWorker();
 
     QString http_attribute_encode(QString attribute_name, QString input);
-    void execute(SWGHttpRequestInput *input);
+    void execute(OAIHttpRequestInput *input);
     static QSslConfiguration* sslDefaultConfiguration;
 
 signals:
-    void on_execution_finished(SWGHttpRequestWorker *worker);
+    void on_execution_finished(OAIHttpRequestWorker *worker);
 
 private:
     QNetworkAccessManager *manager;
@@ -90,4 +90,4 @@ private slots:
 
 }
 
-#endif // SWG_HTTPREQUESTWORKER_H
+#endif // OAI_HTTPREQUESTWORKER_H

@@ -11,35 +11,35 @@
  */
 
 /*
- * SWGApiResponse.h
+ * OAIApiResponse.h
  *
  * Describes the result of uploading an image resource
  */
 
-#ifndef SWGApiResponse_H_
-#define SWGApiResponse_H_
+#ifndef OAIApiResponse_H_
+#define OAIApiResponse_H_
 
 #include <QJsonObject>
 
 
 #include <QString>
 
-#include "SWGObject.h"
+#include "OAIObject.h"
 
-namespace Swagger {
+namespace OpenAPI {
 
-class SWGApiResponse: public SWGObject {
+class OAIApiResponse: public OAIObject {
 public:
-    SWGApiResponse();
-    SWGApiResponse(QString json);
-    ~SWGApiResponse();
+    OAIApiResponse();
+    OAIApiResponse(QString json);
+    ~OAIApiResponse();
     void init();
     void cleanup();
 
     QString asJson () override;
     QJsonObject asJsonObject() override;
     void fromJsonObject(QJsonObject json) override;
-    SWGApiResponse* fromJson(QString jsonString) override;
+    OAIApiResponse* fromJson(QString jsonString) override;
 
     qint32 getCode();
     void setCode(qint32 code);
@@ -67,4 +67,4 @@ private:
 
 }
 
-#endif /* SWGApiResponse_H_ */
+#endif /* OAIApiResponse_H_ */

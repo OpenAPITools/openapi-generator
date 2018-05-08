@@ -10,27 +10,27 @@
  * Do not edit the class manually.
  */
 
-#include "SWGStoreApi.h"
-#include "SWGHelpers.h"
-#include "SWGModelFactory.h"
-#include "SWGQObjectWrapper.h"
+#include "OAIStoreApi.h"
+#include "OAIHelpers.h"
+#include "OAIModelFactory.h"
+#include "OAIQObjectWrapper.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
 
-namespace Swagger {
+namespace OpenAPI {
 
-SWGStoreApi::SWGStoreApi() {}
+OAIStoreApi::OAIStoreApi() {}
 
-SWGStoreApi::~SWGStoreApi() {}
+OAIStoreApi::~OAIStoreApi() {}
 
-SWGStoreApi::SWGStoreApi(QString host, QString basePath) {
+OAIStoreApi::OAIStoreApi(QString host, QString basePath) {
     this->host = host;
     this->basePath = basePath;
 }
 
 void
-SWGStoreApi::deleteOrder(QString* order_id) {
+OAIStoreApi::deleteOrder(QString* order_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
 
@@ -38,8 +38,8 @@ SWGStoreApi::deleteOrder(QString* order_id) {
     fullPath.replace(order_idPathParam, stringValue(order_id));
 
 
-    SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
-    SWGHttpRequestInput input(fullPath, "DELETE");
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestInput input(fullPath, "DELETE");
 
 
 
@@ -50,15 +50,15 @@ SWGStoreApi::deleteOrder(QString* order_id) {
     }
 
     connect(worker,
-            &SWGHttpRequestWorker::on_execution_finished,
+            &OAIHttpRequestWorker::on_execution_finished,
             this,
-            &SWGStoreApi::deleteOrderCallback);
+            &OAIStoreApi::deleteOrderCallback);
 
     worker->execute(&input);
 }
 
 void
-SWGStoreApi::deleteOrderCallback(SWGHttpRequestWorker * worker) {
+OAIStoreApi::deleteOrderCallback(OAIHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -81,14 +81,14 @@ SWGStoreApi::deleteOrderCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGStoreApi::getInventory() {
+OAIStoreApi::getInventory() {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/inventory");
 
 
 
-    SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
-    SWGHttpRequestInput input(fullPath, "GET");
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestInput input(fullPath, "GET");
 
 
 
@@ -99,15 +99,15 @@ SWGStoreApi::getInventory() {
     }
 
     connect(worker,
-            &SWGHttpRequestWorker::on_execution_finished,
+            &OAIHttpRequestWorker::on_execution_finished,
             this,
-            &SWGStoreApi::getInventoryCallback);
+            &OAIStoreApi::getInventoryCallback);
 
     worker->execute(&input);
 }
 
 void
-SWGStoreApi::getInventoryCallback(SWGHttpRequestWorker * worker) {
+OAIStoreApi::getInventoryCallback(OAIHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -141,7 +141,7 @@ SWGStoreApi::getInventoryCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGStoreApi::getOrderById(qint64 order_id) {
+OAIStoreApi::getOrderById(qint64 order_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
 
@@ -149,8 +149,8 @@ SWGStoreApi::getOrderById(qint64 order_id) {
     fullPath.replace(order_idPathParam, stringValue(order_id));
 
 
-    SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
-    SWGHttpRequestInput input(fullPath, "GET");
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestInput input(fullPath, "GET");
 
 
 
@@ -161,15 +161,15 @@ SWGStoreApi::getOrderById(qint64 order_id) {
     }
 
     connect(worker,
-            &SWGHttpRequestWorker::on_execution_finished,
+            &OAIHttpRequestWorker::on_execution_finished,
             this,
-            &SWGStoreApi::getOrderByIdCallback);
+            &OAIStoreApi::getOrderByIdCallback);
 
     worker->execute(&input);
 }
 
 void
-SWGStoreApi::getOrderByIdCallback(SWGHttpRequestWorker * worker) {
+OAIStoreApi::getOrderByIdCallback(OAIHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -182,8 +182,8 @@ SWGStoreApi::getOrderByIdCallback(SWGHttpRequestWorker * worker) {
     }
 
     QString json(worker->response);
-    SWGOrder* output = static_cast<SWGOrder*>(create(json, QString("SWGOrder")));
-    auto wrapper = new SWGQObjectWrapper<SWGOrder*> (output);
+    OAIOrder* output = static_cast<OAIOrder*>(create(json, QString("OAIOrder")));
+    auto wrapper = new OAIQObjectWrapper<OAIOrder*> (output);
     wrapper->deleteLater();
     worker->deleteLater();
 
@@ -196,18 +196,18 @@ SWGStoreApi::getOrderByIdCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGStoreApi::placeOrder(std::shared_ptr<SWGSWGOrder>& swg_order) {
+OAIStoreApi::placeOrder(std::shared_ptr<OAIOAIOrder>& oai_order) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order");
 
 
 
-    SWGHttpRequestWorker *worker = new SWGHttpRequestWorker();
-    SWGHttpRequestInput input(fullPath, "POST");
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    OAIHttpRequestInput input(fullPath, "POST");
 
 
     
-    QString output = swg_order.asJson();
+    QString output = oai_order.asJson();
     input.request_body.append(output);
     
 
@@ -217,15 +217,15 @@ SWGStoreApi::placeOrder(std::shared_ptr<SWGSWGOrder>& swg_order) {
     }
 
     connect(worker,
-            &SWGHttpRequestWorker::on_execution_finished,
+            &OAIHttpRequestWorker::on_execution_finished,
             this,
-            &SWGStoreApi::placeOrderCallback);
+            &OAIStoreApi::placeOrderCallback);
 
     worker->execute(&input);
 }
 
 void
-SWGStoreApi::placeOrderCallback(SWGHttpRequestWorker * worker) {
+OAIStoreApi::placeOrderCallback(OAIHttpRequestWorker * worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -238,8 +238,8 @@ SWGStoreApi::placeOrderCallback(SWGHttpRequestWorker * worker) {
     }
 
     QString json(worker->response);
-    SWGOrder* output = static_cast<SWGOrder*>(create(json, QString("SWGOrder")));
-    auto wrapper = new SWGQObjectWrapper<SWGOrder*> (output);
+    OAIOrder* output = static_cast<OAIOrder*>(create(json, QString("OAIOrder")));
+    auto wrapper = new OAIQObjectWrapper<OAIOrder*> (output);
     wrapper->deleteLater();
     worker->deleteLater();
 

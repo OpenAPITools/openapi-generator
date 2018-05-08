@@ -23,18 +23,13 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import java.io.File;
 import java.util.Arrays;
@@ -373,7 +368,7 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
     private void generateScalaPath(CodegenOperation op) {
         op.httpMethod = op.httpMethod.toLowerCase();
 
-        String path = new String(op.path);
+        String path = op.path;
 
         // remove first /
         if (path.startsWith("/")) {

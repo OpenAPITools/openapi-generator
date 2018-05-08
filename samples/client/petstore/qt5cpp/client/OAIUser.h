@@ -11,35 +11,35 @@
  */
 
 /*
- * SWGUser.h
+ * OAIUser.h
  *
  * A User who is purchasing from the pet store
  */
 
-#ifndef SWGUser_H_
-#define SWGUser_H_
+#ifndef OAIUser_H_
+#define OAIUser_H_
 
 #include <QJsonObject>
 
 
 #include <QString>
 
-#include "SWGObject.h"
+#include "OAIObject.h"
 
-namespace Swagger {
+namespace OpenAPI {
 
-class SWGUser: public SWGObject {
+class OAIUser: public OAIObject {
 public:
-    SWGUser();
-    SWGUser(QString json);
-    ~SWGUser();
+    OAIUser();
+    OAIUser(QString json);
+    ~OAIUser();
     void init();
     void cleanup();
 
     QString asJson () override;
     QJsonObject asJsonObject() override;
     void fromJsonObject(QJsonObject json) override;
-    SWGUser* fromJson(QString jsonString) override;
+    OAIUser* fromJson(QString jsonString) override;
 
     qint64 getId();
     void setId(qint64 id);
@@ -97,4 +97,4 @@ private:
 
 }
 
-#endif /* SWGUser_H_ */
+#endif /* OAIUser_H_ */

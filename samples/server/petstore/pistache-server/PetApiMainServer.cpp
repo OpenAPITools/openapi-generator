@@ -15,7 +15,7 @@
 #include "pistache/router.h"
 #include "PetApiImpl.h"
 
-using namespace io::swagger::server::api;
+using namespace org::openapitools::server::api;
 
 int main() {
     Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port(8080));

@@ -10,16 +10,16 @@
  * Do not edit the class manually.
  */
 
-#include "SWGHelpers.h"
-#include "SWGModelFactory.h"
-#include "SWGObject.h"
+#include "OAIHelpers.h"
+#include "OAIModelFactory.h"
+#include "OAIObject.h"
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QDateTime>
 
 
-namespace Swagger {
+namespace OpenAPI {
 
 void
 setValue(void* value, QJsonValue obj, QString type, QString complexType) {
@@ -121,21 +121,21 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             qDebug() << "Can't set value because the target pointer is nullptr";
         }
     }
-    else if(type.startsWith("SWG") && obj.isObject()) {
+    else if(type.startsWith("OAI") && obj.isObject()) {
         // complex type
         QJsonObject jsonObj = obj.toObject();
-        SWGObject * so = (SWGObject*)::Swagger::create(complexType);
+        OAIObject * so = (OAIObject*)::OpenAPI::create(complexType);
         if(so != nullptr) {
             so->fromJsonObject(jsonObj);
-            SWGObject **val = static_cast<SWGObject**>(value);
+            OAIObject **val = static_cast<OAIObject**>(value);
             if(*val != nullptr) delete *val;
             *val = so;
         }
     }
     else if(type.startsWith("QList") && QString("").compare(complexType) != 0 && obj.isArray()) {
         // list of values
-        if(complexType.startsWith("SWG")) {
-            auto output = reinterpret_cast<QList<SWGObject *> **> (value);
+        if(complexType.startsWith("OAI")) {
+            auto output = reinterpret_cast<QList<OAIObject *> **> (value);
             for (auto item : **output) {
                 if(item != nullptr) delete item;
             }
@@ -143,7 +143,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             QJsonArray arr = obj.toArray();
             for (const QJsonValue & jval : arr) {
                 // it's an object
-                SWGObject * val = (SWGObject*)::Swagger::create(complexType);
+                OAIObject * val = (OAIObject*)::OpenAPI::create(complexType);
                 QJsonObject t = jval.toObject();
                 val->fromJsonObject(t);
                 (*output)->append(val);
@@ -155,7 +155,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             QJsonArray arr = obj.toArray();
             for (const QJsonValue & jval : arr){
                 qint32 val;
-                ::Swagger::setValue(&val, jval, QStringLiteral("qint32"), QStringLiteral(""));
+                ::OpenAPI::setValue(&val, jval, QStringLiteral("qint32"), QStringLiteral(""));
                 (*output)->push_back(val);
             }
         }
@@ -165,7 +165,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             QJsonArray arr = obj.toArray();
             for (const QJsonValue & jval : arr){
                 qint64 val;
-                ::Swagger::setValue(&val, jval, QStringLiteral("qint64"), QStringLiteral(""));
+                ::OpenAPI::setValue(&val, jval, QStringLiteral("qint64"), QStringLiteral(""));
                 (*output)->push_back(val);
             }
         }
@@ -175,7 +175,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             QJsonArray arr = obj.toArray();
             for (const QJsonValue & jval : arr){
                 bool val;
-                ::Swagger::setValue(&val, jval, QStringLiteral("bool"), QStringLiteral(""));
+                ::OpenAPI::setValue(&val, jval, QStringLiteral("bool"), QStringLiteral(""));
                 (*output)->push_back(val);
             }
         }
@@ -185,7 +185,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             QJsonArray arr = obj.toArray();
             for (const QJsonValue & jval : arr){
                 float val;
-                ::Swagger::setValue(&val, jval, QStringLiteral("float"), QStringLiteral(""));
+                ::OpenAPI::setValue(&val, jval, QStringLiteral("float"), QStringLiteral(""));
                 (*output)->push_back(val);
             }
         }
@@ -195,7 +195,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             QJsonArray arr = obj.toArray();
             for (const QJsonValue & jval : arr){
                 double val;
-                ::Swagger::setValue(&val, jval, QStringLiteral("double"), QStringLiteral(""));
+                ::OpenAPI::setValue(&val, jval, QStringLiteral("double"), QStringLiteral(""));
                 (*output)->push_back(val);
             }
         }
@@ -208,7 +208,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             QJsonArray arr = obj.toArray();
             for (const QJsonValue & jval : arr){
                 QString * val = new QString();
-                ::Swagger::setValue(&val, jval, QStringLiteral("QString"), QStringLiteral(""));
+                ::OpenAPI::setValue(&val, jval, QStringLiteral("QString"), QStringLiteral(""));
                 (*output)->push_back(val);
             }
         }
@@ -221,7 +221,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             QJsonArray arr = obj.toArray();
             for (const QJsonValue & jval : arr){
                 QDate * val = new QDate();
-                ::Swagger::setValue(&val, jval, QStringLiteral("QDate"), QStringLiteral(""));
+                ::OpenAPI::setValue(&val, jval, QStringLiteral("QDate"), QStringLiteral(""));
                 (*output)->push_back(val);
             }
         }
@@ -234,15 +234,15 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             QJsonArray arr = obj.toArray();
             for (const QJsonValue & jval : arr){
                 QDateTime * val = new QDateTime();
-                ::Swagger::setValue(&val, jval, QStringLiteral("QDateTime"), QStringLiteral(""));
+                ::OpenAPI::setValue(&val, jval, QStringLiteral("QDateTime"), QStringLiteral(""));
                 (*output)->push_back(val);
             }
         }
     }
     else if(type.startsWith("QMap") && QString("").compare(complexType) != 0 && obj.isObject()) {
         // list of values
-        if(complexType.startsWith("SWG")) {
-            auto output = reinterpret_cast<QMap<QString, SWGObject*> **> (value);
+        if(complexType.startsWith("OAI")) {
+            auto output = reinterpret_cast<QMap<QString, OAIObject*> **> (value);
             for (auto item : **output) {
                 if(item != nullptr) delete item;
             }
@@ -250,9 +250,9 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             auto varmap = obj.toObject().toVariantMap();
             if(varmap.count() > 0){
                 for(auto itemkey : varmap.keys() ){
-                    auto  val = (SWGObject*)::Swagger::create(complexType);
+                    auto  val = (OAIObject*)::OpenAPI::create(complexType);
                     auto  jsonval = QJsonValue::fromVariant(varmap.value(itemkey));
-                    ::Swagger::setValue(&val, jsonval, complexType, complexType);
+                    ::OpenAPI::setValue(&val, jsonval, complexType, complexType);
                     (*output)->insert(itemkey, val);
                 }
             }
@@ -265,7 +265,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                 for(auto itemkey : varmap.keys() ){
                     qint32 val;
                     auto  jsonval = QJsonValue::fromVariant(varmap.value(itemkey));
-                    ::Swagger::setValue(&val, jsonval, QStringLiteral("qint32"), QStringLiteral(""));
+                    ::OpenAPI::setValue(&val, jsonval, QStringLiteral("qint32"), QStringLiteral(""));
                     (*output)->insert( itemkey, val);
                 }
             }
@@ -278,7 +278,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                 for(auto itemkey : varmap.keys() ){
                     qint64 val;
                     auto  jsonval = QJsonValue::fromVariant(varmap.value(itemkey));
-                    ::Swagger::setValue(&val, jsonval, QStringLiteral("qint64"), QStringLiteral(""));
+                    ::OpenAPI::setValue(&val, jsonval, QStringLiteral("qint64"), QStringLiteral(""));
                     (*output)->insert( itemkey, val);
                 }
             }
@@ -291,7 +291,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                 for(auto itemkey : varmap.keys() ){
                     bool val;
                     auto  jsonval = QJsonValue::fromVariant(varmap.value(itemkey));
-                    ::Swagger::setValue(&val, jsonval, QStringLiteral("bool"), QStringLiteral(""));
+                    ::OpenAPI::setValue(&val, jsonval, QStringLiteral("bool"), QStringLiteral(""));
                     (*output)->insert( itemkey, val);
                 }
             }
@@ -304,7 +304,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                 for(auto itemkey : varmap.keys() ){
                     float val;
                     auto  jsonval = QJsonValue::fromVariant(varmap.value(itemkey));
-                    ::Swagger::setValue(&val, jsonval, QStringLiteral("float"), QStringLiteral(""));
+                    ::OpenAPI::setValue(&val, jsonval, QStringLiteral("float"), QStringLiteral(""));
                     (*output)->insert( itemkey, val);
                 }
             }
@@ -317,7 +317,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                 for(auto itemkey : varmap.keys() ){
                     double val;
                     auto  jsonval = QJsonValue::fromVariant(varmap.value(itemkey));
-                    ::Swagger::setValue(&val, jsonval, QStringLiteral("double"), QStringLiteral(""));
+                    ::OpenAPI::setValue(&val, jsonval, QStringLiteral("double"), QStringLiteral(""));
                     (*output)->insert( itemkey, val);
                 }
             }
@@ -333,7 +333,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                 for(auto itemkey : varmap.keys() ){
                     QString * val = new QString();
                     auto  jsonval = QJsonValue::fromVariant(varmap.value(itemkey));
-                    ::Swagger::setValue(&val, jsonval, QStringLiteral("QString"), QStringLiteral(""));
+                    ::OpenAPI::setValue(&val, jsonval, QStringLiteral("QString"), QStringLiteral(""));
                     (*output)->insert( itemkey, val);
                 }
             }
@@ -349,7 +349,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                 for(auto itemkey : varmap.keys() ){
                     QDate * val = new QDate();
                     auto  jsonval = QJsonValue::fromVariant(varmap.value(itemkey));
-                    ::Swagger::setValue(&val, jsonval, QStringLiteral("QDate"), QStringLiteral(""));
+                    ::OpenAPI::setValue(&val, jsonval, QStringLiteral("QDate"), QStringLiteral(""));
                     (*output)->insert( itemkey, val);
                 }
             }
@@ -365,7 +365,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                 for(auto itemkey : varmap.keys() ){
                     QDateTime * val = new QDateTime();
                     auto  jsonval = QJsonValue::fromVariant(varmap.value(itemkey));
-                    ::Swagger::setValue(&val, jsonval, QStringLiteral("QDateTime"), QStringLiteral(""));
+                    ::OpenAPI::setValue(&val, jsonval, QStringLiteral("QDateTime"), QStringLiteral(""));
                     (*output)->insert( itemkey, val);
                 }
             }
@@ -378,10 +378,10 @@ toJsonValue(QString name, void* value, QJsonObject& output, QString type) {
     if(value == nullptr) {
         return;
     }
-    if(type.startsWith("SWG")) {
-        SWGObject *SWGobject = reinterpret_cast<SWGObject *>(value);
-        if(SWGobject != nullptr) {
-            QJsonObject o = SWGobject->asJsonObject();
+    if(type.startsWith("OAI")) {
+        OAIObject *OAIobject = reinterpret_cast<OAIObject *>(value);
+        if(OAIobject != nullptr) {
+            QJsonObject o = OAIobject->asJsonObject();
             if(!name.isNull()) {
                 output.insert(name, o);
             }
@@ -437,11 +437,11 @@ toJsonArray(QList<void*>* value, QJsonObject& output, QString innerName, QString
         return;
     }
     QJsonArray outputarray;
-    if(innerType.startsWith("SWG")){
+    if(innerType.startsWith("OAI")){
         for(void* obj : *value) {
-            SWGObject *SWGobject = reinterpret_cast<SWGObject *>(obj);
-            if(SWGobject != nullptr) {
-                outputarray.append(SWGobject->asJsonObject());
+            OAIObject *OAIobject = reinterpret_cast<OAIObject *>(obj);
+            if(OAIobject != nullptr) {
+                outputarray.append(OAIobject->asJsonObject());
             }
         }
     }
@@ -493,69 +493,69 @@ toJsonMap(QMap<QString, void*>* value, QJsonObject& output, QString innerName, Q
         return;
     }
     QJsonObject mapobj;
-    if(innerType.startsWith("SWG")){
-        auto items = reinterpret_cast< QMap<QString, SWGObject*> *>(value);
+    if(innerType.startsWith("OAI")){
+        auto items = reinterpret_cast< QMap<QString, OAIObject*> *>(value);
         for(auto itemkey: items->keys()) {
-            ::Swagger::toJsonValue(itemkey, items->value(itemkey),mapobj, innerType);
+            ::OpenAPI::toJsonValue(itemkey, items->value(itemkey),mapobj, innerType);
         }
     }
     else if(QStringLiteral("QString").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, QString*> *>(value);
         for(auto itemkey: items->keys()) {
-            ::Swagger::toJsonValue(itemkey, items->value(itemkey), mapobj, innerType);
+            ::OpenAPI::toJsonValue(itemkey, items->value(itemkey), mapobj, innerType);
         }
     }
     else if(QStringLiteral("QDate").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, QDate*> *>(value);
         for(auto itemkey: items->keys()) {
-            ::Swagger::toJsonValue(itemkey, items->value(itemkey), mapobj, innerType);
+            ::OpenAPI::toJsonValue(itemkey, items->value(itemkey), mapobj, innerType);
         }
     }
     else if(QStringLiteral("QDateTime").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, QDateTime*> *>(value);
         for(auto itemkey: items->keys()) {
-            ::Swagger::toJsonValue(itemkey, items->value(itemkey), mapobj, innerType);
+            ::OpenAPI::toJsonValue(itemkey, items->value(itemkey), mapobj, innerType);
         }
     }
     else if(QStringLiteral("QByteArray").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, QByteArray*> *>(value);
         for(auto itemkey: items->keys()) {
-            ::Swagger::toJsonValue(itemkey, items->value(itemkey), mapobj, innerType);
+            ::OpenAPI::toJsonValue(itemkey, items->value(itemkey), mapobj, innerType);
         }
     }
     else if(QStringLiteral("qint32").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, qint32> *>(value);
         for(auto itemkey: items->keys()) {
             auto val = items->value(itemkey);
-            ::Swagger::toJsonValue(itemkey, &val, mapobj, innerType);
+            ::OpenAPI::toJsonValue(itemkey, &val, mapobj, innerType);
         }
     }
     else if(QStringLiteral("qint64").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, qint64> *>(value);
         for(auto itemkey: items->keys()) {
             auto val = items->value(itemkey);
-            ::Swagger::toJsonValue(itemkey, &val, mapobj, innerType);
+            ::OpenAPI::toJsonValue(itemkey, &val, mapobj, innerType);
         }
     }
     else if(QStringLiteral("bool").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, bool> *>(value);
         for(auto itemkey: items->keys()) {
             auto val = items->value(itemkey);
-            ::Swagger::toJsonValue(itemkey, &val, mapobj, innerType);
+            ::OpenAPI::toJsonValue(itemkey, &val, mapobj, innerType);
         }
     }
     else if(QStringLiteral("float").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, float> *>(value);
         for(auto itemkey: items->keys()) {
             auto val = items->value(itemkey);
-            ::Swagger::toJsonValue(itemkey, &val, mapobj, innerType);
+            ::OpenAPI::toJsonValue(itemkey, &val, mapobj, innerType);
         }
     }
     else if(QStringLiteral("double").compare(innerType) == 0) {
         auto items = reinterpret_cast< QMap<QString, double> *>(value);
         for(auto itemkey: items->keys() ) {
             auto val = items->value(itemkey);
-            ::Swagger::toJsonValue(itemkey, &val, mapobj, innerType);
+            ::OpenAPI::toJsonValue(itemkey, &val, mapobj, innerType);
         }
     }
     output.insert(innerName, mapobj);

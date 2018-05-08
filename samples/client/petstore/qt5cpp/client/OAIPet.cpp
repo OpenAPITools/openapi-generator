@@ -11,48 +11,48 @@
  */
 
 
-#include "SWGPet.h"
+#include "OAIPet.h"
 
-#include "SWGHelpers.h"
+#include "OAIHelpers.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
 
-namespace Swagger {
+namespace OpenAPI {
 
-SWGPet::SWGPet(QString json) {
+OAIPet::OAIPet(QString json) {
     init();
     this->fromJson(json);
 }
 
-SWGPet::SWGPet() {
+OAIPet::OAIPet() {
     init();
 }
 
-SWGPet::~SWGPet() {
+OAIPet::~OAIPet() {
     this->cleanup();
 }
 
 void
-SWGPet::init() {
+OAIPet::init() {
     id = 0L;
     m_id_isSet = false;
-    category = new SWGCategory();
+    category = new OAICategory();
     m_category_isSet = false;
     name = new QString("");
     m_name_isSet = false;
     photo_urls = new QList<QString*>();
     m_photo_urls_isSet = false;
-    tags = new QList<SWGTag*>();
+    tags = new QList<OAITag*>();
     m_tags_isSet = false;
     status = new QString("");
     m_status_isSet = false;
 }
 
 void
-SWGPet::cleanup() {
+OAIPet::cleanup() {
 
     if(category != nullptr) { 
         delete category;
@@ -79,8 +79,8 @@ SWGPet::cleanup() {
     }
 }
 
-SWGPet*
-SWGPet::fromJson(QString json) {
+OAIPet*
+OAIPet::fromJson(QString json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -89,23 +89,23 @@ SWGPet::fromJson(QString json) {
 }
 
 void
-SWGPet::fromJsonObject(QJsonObject pJson) {
-    ::Swagger::setValue(&id, pJson["id"], "qint64", "");
+OAIPet::fromJsonObject(QJsonObject pJson) {
+    ::OpenAPI::setValue(&id, pJson["id"], "qint64", "");
     
-    ::Swagger::setValue(&category, pJson["category"], "SWGCategory", "SWGCategory");
+    ::OpenAPI::setValue(&category, pJson["category"], "OAICategory", "OAICategory");
     
-    ::Swagger::setValue(&name, pJson["name"], "QString", "QString");
+    ::OpenAPI::setValue(&name, pJson["name"], "QString", "QString");
     
     
-    ::Swagger::setValue(&photo_urls, pJson["photoUrls"], "QList", "QString");
+    ::OpenAPI::setValue(&photo_urls, pJson["photoUrls"], "QList", "QString");
     
-    ::Swagger::setValue(&tags, pJson["tags"], "QList", "SWGTag");
-    ::Swagger::setValue(&status, pJson["status"], "QString", "QString");
+    ::OpenAPI::setValue(&tags, pJson["tags"], "QList", "OAITag");
+    ::OpenAPI::setValue(&status, pJson["status"], "QString", "QString");
     
 }
 
 QString
-SWGPet::asJson ()
+OAIPet::asJson ()
 {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
@@ -114,13 +114,13 @@ SWGPet::asJson ()
 }
 
 QJsonObject
-SWGPet::asJsonObject() {
+OAIPet::asJsonObject() {
     QJsonObject obj;
     if(m_id_isSet){
         obj.insert("id", QJsonValue(id));
     }
     if((category != nullptr) && (category->isSet())){
-        toJsonValue(QString("category"), category, obj, QString("SWGCategory"));
+        toJsonValue(QString("category"), category, obj, QString("OAICategory"));
     }
     if(name != nullptr && *name != QString("")){
         toJsonValue(QString("name"), name, obj, QString("QString"));
@@ -129,7 +129,7 @@ SWGPet::asJsonObject() {
         toJsonArray((QList<void*>*)photo_urls, obj, "photoUrls", "QString");
     }
     if(tags->size() > 0){
-        toJsonArray((QList<void*>*)tags, obj, "tags", "SWGTag");
+        toJsonArray((QList<void*>*)tags, obj, "tags", "OAITag");
     }
     if(status != nullptr && *status != QString("")){
         toJsonValue(QString("status"), status, obj, QString("QString"));
@@ -139,68 +139,68 @@ SWGPet::asJsonObject() {
 }
 
 qint64
-SWGPet::getId() {
+OAIPet::getId() {
     return id;
 }
 void
-SWGPet::setId(qint64 id) {
+OAIPet::setId(qint64 id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
-SWGCategory*
-SWGPet::getCategory() {
+OAICategory*
+OAIPet::getCategory() {
     return category;
 }
 void
-SWGPet::setCategory(SWGCategory* category) {
+OAIPet::setCategory(OAICategory* category) {
     this->category = category;
     this->m_category_isSet = true;
 }
 
 QString*
-SWGPet::getName() {
+OAIPet::getName() {
     return name;
 }
 void
-SWGPet::setName(QString* name) {
+OAIPet::setName(QString* name) {
     this->name = name;
     this->m_name_isSet = true;
 }
 
 QList<QString*>*
-SWGPet::getPhotoUrls() {
+OAIPet::getPhotoUrls() {
     return photo_urls;
 }
 void
-SWGPet::setPhotoUrls(QList<QString*>* photo_urls) {
+OAIPet::setPhotoUrls(QList<QString*>* photo_urls) {
     this->photo_urls = photo_urls;
     this->m_photo_urls_isSet = true;
 }
 
-QList<SWGTag*>*
-SWGPet::getTags() {
+QList<OAITag*>*
+OAIPet::getTags() {
     return tags;
 }
 void
-SWGPet::setTags(QList<SWGTag*>* tags) {
+OAIPet::setTags(QList<OAITag*>* tags) {
     this->tags = tags;
     this->m_tags_isSet = true;
 }
 
 QString*
-SWGPet::getStatus() {
+OAIPet::getStatus() {
     return status;
 }
 void
-SWGPet::setStatus(QString* status) {
+OAIPet::setStatus(QString* status) {
     this->status = status;
     this->m_status_isSet = true;
 }
 
 
 bool
-SWGPet::isSet(){
+OAIPet::isSet(){
     bool isObjectUpdated = false;
     do{
         if(m_id_isSet){ isObjectUpdated = true; break;}

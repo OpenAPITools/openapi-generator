@@ -11,32 +11,32 @@
  */
 
 
-#include "SWGCategory.h"
+#include "OAITag.h"
 
-#include "SWGHelpers.h"
+#include "OAIHelpers.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
 
-namespace Swagger {
+namespace OpenAPI {
 
-SWGCategory::SWGCategory(QString json) {
+OAITag::OAITag(QString json) {
     init();
     this->fromJson(json);
 }
 
-SWGCategory::SWGCategory() {
+OAITag::OAITag() {
     init();
 }
 
-SWGCategory::~SWGCategory() {
+OAITag::~OAITag() {
     this->cleanup();
 }
 
 void
-SWGCategory::init() {
+OAITag::init() {
     id = 0L;
     m_id_isSet = false;
     name = new QString("");
@@ -44,15 +44,15 @@ SWGCategory::init() {
 }
 
 void
-SWGCategory::cleanup() {
+OAITag::cleanup() {
 
     if(name != nullptr) { 
         delete name;
     }
 }
 
-SWGCategory*
-SWGCategory::fromJson(QString json) {
+OAITag*
+OAITag::fromJson(QString json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -61,15 +61,15 @@ SWGCategory::fromJson(QString json) {
 }
 
 void
-SWGCategory::fromJsonObject(QJsonObject pJson) {
-    ::Swagger::setValue(&id, pJson["id"], "qint64", "");
+OAITag::fromJsonObject(QJsonObject pJson) {
+    ::OpenAPI::setValue(&id, pJson["id"], "qint64", "");
     
-    ::Swagger::setValue(&name, pJson["name"], "QString", "QString");
+    ::OpenAPI::setValue(&name, pJson["name"], "QString", "QString");
     
 }
 
 QString
-SWGCategory::asJson ()
+OAITag::asJson ()
 {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
@@ -78,7 +78,7 @@ SWGCategory::asJson ()
 }
 
 QJsonObject
-SWGCategory::asJsonObject() {
+OAITag::asJsonObject() {
     QJsonObject obj;
     if(m_id_isSet){
         obj.insert("id", QJsonValue(id));
@@ -91,28 +91,28 @@ SWGCategory::asJsonObject() {
 }
 
 qint64
-SWGCategory::getId() {
+OAITag::getId() {
     return id;
 }
 void
-SWGCategory::setId(qint64 id) {
+OAITag::setId(qint64 id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
 QString*
-SWGCategory::getName() {
+OAITag::getName() {
     return name;
 }
 void
-SWGCategory::setName(QString* name) {
+OAITag::setName(QString* name) {
     this->name = name;
     this->m_name_isSet = true;
 }
 
 
 bool
-SWGCategory::isSet(){
+OAITag::isSet(){
     bool isObjectUpdated = false;
     do{
         if(m_id_isSet){ isObjectUpdated = true; break;}

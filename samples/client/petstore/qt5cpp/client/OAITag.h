@@ -11,35 +11,35 @@
  */
 
 /*
- * SWGCategory.h
+ * OAITag.h
  *
- * A category for a pet
+ * A tag for a pet
  */
 
-#ifndef SWGCategory_H_
-#define SWGCategory_H_
+#ifndef OAITag_H_
+#define OAITag_H_
 
 #include <QJsonObject>
 
 
 #include <QString>
 
-#include "SWGObject.h"
+#include "OAIObject.h"
 
-namespace Swagger {
+namespace OpenAPI {
 
-class SWGCategory: public SWGObject {
+class OAITag: public OAIObject {
 public:
-    SWGCategory();
-    SWGCategory(QString json);
-    ~SWGCategory();
+    OAITag();
+    OAITag(QString json);
+    ~OAITag();
     void init();
     void cleanup();
 
     QString asJson () override;
     QJsonObject asJsonObject() override;
     void fromJsonObject(QJsonObject json) override;
-    SWGCategory* fromJson(QString jsonString) override;
+    OAITag* fromJson(QString jsonString) override;
 
     qint64 getId();
     void setId(qint64 id);
@@ -61,4 +61,4 @@ private:
 
 }
 
-#endif /* SWGCategory_H_ */
+#endif /* OAITag_H_ */

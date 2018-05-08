@@ -12,12 +12,12 @@
 
 #include "PetApi.h"
 
-namespace io {
-namespace swagger {
+namespace org {
+namespace openapitools {
 namespace server {
 namespace api {
 
-using namespace io::swagger::server::model;
+using namespace org::openapitools::server::model;
 
 PetApi::PetApi(Pistache::Address addr)
     : httpEndpoint(std::make_shared<Pistache::Http::Endpoint>(addr))
