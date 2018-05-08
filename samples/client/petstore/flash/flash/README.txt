@@ -26,10 +26,10 @@ After creating an application in java, you will have a mxml file. In this mxml f
     // Import the different libraries you need
     // ... 
 
-    // Import the io.swagger libraries
-    import io.swagger.common.ApiUserCredentials;
-	import io.swagger.event.ApiClientEvent;
-    import io.swagger.client.api.[[API]]; // Put your Api here.
+    // Import the org.openapitools libraries
+    import org.openapitools.common.ApiUserCredentials;
+	import org.openapitools.event.ApiClientEvent;
+    import org.openapitools.client.api.[[API]]; // Put your Api here.
 
     // Variables
 	private var cred:ApiUserCredentials;
@@ -52,7 +52,7 @@ After creating an application in java, you will have a mxml file. In this mxml f
 
         // To create the API, you need the ApiUserCredentials and the dispatcher.
         cred = new ApiUserCredentials([[host]], [[basePath]] , [[apiToken]]); 
-        // You can add more parameters. Go see the function in ApiUserCredential.as in io/swagger/common
+        // You can add more parameters. Go see the function in ApiUserCredential.as in org/openapitools/common
 
         // Create the API
         myAPI = new [[API]](cred, dispatcher); // change [[API]] to be the real name
