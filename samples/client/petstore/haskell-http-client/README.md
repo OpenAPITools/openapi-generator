@@ -1,8 +1,8 @@
-## OpenAPI Auto-Generated [http-client](https://www.stackage.org/lts-10.0/package/http-client-0.5.7.1) Bindings to `Swagger Petstore`
+## OpenAPI Auto-Generated [http-client](https://www.stackage.org/lts-10.0/package/http-client-0.5.7.1) Bindings to `OpenAPI Petstore`
 
-The library in `lib` provides auto-generated-from-OpenAPI [http-client](https://www.stackage.org/lts-10.0/package/http-client-0.5.7.1) bindings to the Swagger Petstore API.
+The library in `lib` provides auto-generated-from-OpenAPI [http-client](https://www.stackage.org/lts-10.0/package/http-client-0.5.7.1) bindings to the OpenAPI Petstore API.
 
-OpenApi Version: 3.0.0
+OpenApi Version: 3.0.1
 
 ## Installation
 
@@ -59,10 +59,10 @@ These options allow some customization of the code generation process.
 | allowFromJsonNulls              | allow JSON Null during model decoding from JSON                                                                               | true     | true              |
 | allowNonUniqueOperationIds      | allow *different* API modules to contain the same operationId. Each API must be imported qualified                            | false    | false    |
 | allowToJsonNulls                | allow emitting JSON Null during model encoding to JSON                                                                        | false    | false                |
-| baseModule                      | Set the base module namespace                                                                                                 |          | SwaggerPetstore                      |
-| cabalPackage                    | Set the cabal package name, which consists of one or more alphanumeric words separated by hyphens                             |          | swagger-petstore                    |
+| baseModule                      | Set the base module namespace                                                                                                 |          | OpenAPIPetstore                      |
+| cabalPackage                    | Set the cabal package name, which consists of one or more alphanumeric words separated by hyphens                             |          | openapi-petstore                    |
 | cabalVersion                    | Set the cabal version number, consisting of a sequence of one or more integers separated by dots                              | 0.1.0.0  | 0.1.0.0                    |
-| configType                      | Set the name of the type used for configuration                                                                               |          | SwaggerPetstoreConfig                      |
+| configType                      | Set the name of the type used for configuration                                                                               |          | OpenAPIPetstoreConfig                      |
 | dateFormat                      | format string used to parse/render a date                                                                                     | %Y-%m-%d | %Y-%m-%d                      |
 | dateTimeFormat                  | format string used to parse/render a datetime. (Defaults to [formatISO8601Millis][1] when not provided)                       |          |                   |
 | generateEnums                   | Generate specific datatypes for OpenAPI enums                                                                                 | true     | true                   |
@@ -71,7 +71,7 @@ These options allow some customization of the code generation process.
 | generateModelConstructors       | Generate smart constructors (only supply required fields) for models                                                          | true     | true       |
 | inlineMimeTypes                 | Inline (hardcode) the content-type and accept parameters on operations, when there is only 1 option                           | true     | true                 |
 | modelDeriving                   | Additional classes to include in the deriving() clause of Models                                                              |          |                    |
-| requestType                     | Set the name of the type used to generate requests                                                                            |          | SwaggerPetstoreRequest                     |
+| requestType                     | Set the name of the type used to generate requests                                                                            |          | OpenAPIPetstoreRequest                     |
 | strictFields                    | Add strictness annotations to all model fields                                                                                | true     | true                  |
 | useMonadLogger                  | Use the monad-logger package to provide logging (if instead false, use the katip logging package)                             | false    | false                |
 
@@ -109,13 +109,13 @@ This library is intended to be imported qualified.
 
 | MODULE              | NOTES                                               |
 | ------------------- | --------------------------------------------------- |
-| SwaggerPetstore.Client    | use the "dispatch" functions to send requests       |
-| SwaggerPetstore.Core      | core funcions, config and request types             |
-| SwaggerPetstore.API       | construct api requests                              |
-| SwaggerPetstore.Model     | describes api models                                |
-| SwaggerPetstore.MimeTypes | encoding/decoding MIME types (content-types/accept) |
-| SwaggerPetstore.ModelLens | lenses for model fields                             |
-| SwaggerPetstore.Logging   | logging functions and utils                         |
+| OpenAPIPetstore.Client    | use the "dispatch" functions to send requests       |
+| OpenAPIPetstore.Core      | core funcions, config and request types             |
+| OpenAPIPetstore.API       | construct api requests                              |
+| OpenAPIPetstore.Model     | describes api models                                |
+| OpenAPIPetstore.MimeTypes | encoding/decoding MIME types (content-types/accept) |
+| OpenAPIPetstore.ModelLens | lenses for model fields                             |
+| OpenAPIPetstore.Logging   | logging functions and utils                         |
 
 
 ### MimeTypes

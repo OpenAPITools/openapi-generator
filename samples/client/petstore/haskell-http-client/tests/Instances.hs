@@ -2,8 +2,8 @@
 
 module Instances where
 
-import SwaggerPetstore.Model
-import SwaggerPetstore.Core
+import OpenAPIPetstore.Model
+import OpenAPIPetstore.Core
 
 import qualified Data.Aeson as A
 import qualified Data.ByteString.Lazy as BL

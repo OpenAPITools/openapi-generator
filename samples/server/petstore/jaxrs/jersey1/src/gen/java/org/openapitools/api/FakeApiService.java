@@ -26,7 +26,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
 public abstract class FakeApiService {
-      public abstract Response fakeOuterBooleanSerialize(Boolean booleanPostBody,SecurityContext securityContext)
+      public abstract Response fakeOuterBooleanSerialize(Boolean body,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response fakeOuterCompositeSerialize(OuterComposite outerComposite,SecurityContext securityContext)
       throws NotFoundException;
@@ -42,7 +42,7 @@ public abstract class FakeApiService {
       throws NotFoundException;
       public abstract Response testEnumParameters(List<String> enumHeaderStringArray,String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble,List<String> enumFormStringArray,String enumFormString,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response testInlineAdditionalProperties(String requestBody,SecurityContext securityContext)
+      public abstract Response testInlineAdditionalProperties(Map<String, String> requestBody,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response testJsonFormData(String param,String param2,SecurityContext securityContext)
       throws NotFoundException;

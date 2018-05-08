@@ -16,9 +16,9 @@ public class Bootstrap extends HttpServlet {
     Info info = new Info()
       .title("OpenAPI Server")
       .description("This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\")
-      .termsOfService("http://swagger.io/terms/")
+      .termsOfService("")
       .contact(new Contact()
-        .email("apiteam@swagger.io"))
+        .email(""))
       .license(new License()
         .name("Apache-2.0")
         .url("http://www.apache.org/licenses/LICENSE-2.0.html"));

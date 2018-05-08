@@ -162,8 +162,8 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     public Response updatePetWithForm(
         @ApiParam(value = "ID of pet that needs to be updated",required=true) @PathParam("petId") Long petId,
-        @ApiParam(value = "Updated name of the pet")  @FormParam("name")  String name,
-        @ApiParam(value = "Updated status of the pet")  @FormParam("status")  String status,
+        @ApiParam(value = "Updated name of the pet", defaultValue="null")  @DefaultValue("null") @FormParam("name")  String name,
+        @ApiParam(value = "Updated status of the pet", defaultValue="null")  @DefaultValue("null") @FormParam("status")  String status,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updatePetWithForm(petId,name,status,securityContext);

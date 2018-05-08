@@ -350,8 +350,8 @@ petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet that needs to be updated
-String name = "name_example"; // String | Updated name of the pet
-String status = "status_example"; // String | Updated status of the pet
+String name = "null"; // String | Updated name of the pet
+String status = "null"; // String | Updated status of the pet
 try {
     apiInstance.updatePetWithForm(petId, name, status);
 } catch (ApiException e) {
@@ -365,8 +365,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet that needs to be updated |
- **name** | **String**| Updated name of the pet | [optional]
- **status** | **String**| Updated status of the pet | [optional]
+ **name** | **String**| Updated name of the pet | [optional] [default to null]
+ **status** | **String**| Updated status of the pet | [optional] [default to null]
 
 ### Return type
 
@@ -404,7 +404,7 @@ petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet to update
-String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
+String additionalMetadata = "null"; // String | Additional data to pass to server
 AsyncFile file = new AsyncFile(); // AsyncFile | file to upload
 try {
     ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
@@ -420,8 +420,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
- **additionalMetadata** | **String**| Additional data to pass to server | [optional]
- **file** | **AsyncFile**| file to upload | [optional]
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
+ **file** | **AsyncFile**| file to upload | [optional] [default to null]
 
 ### Return type
 

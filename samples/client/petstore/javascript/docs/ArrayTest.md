@@ -1,4 +1,4 @@
-# SwaggerPetstore.ArrayTest
+# OpenApiPetstore.ArrayTest
 
 ## Properties
 Name | Type | Description | Notes

@@ -1,6 +1,6 @@
-# IO.Swagger - ASP.NET Core 2.0 Server
+# Org.OpenAPITools - ASP.NET Core 2.0 Server
 
-This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
 ## Run
 
@@ -19,7 +19,7 @@ build.bat
 ## Run in Docker
 
 ```
-cd src/IO.Swagger
-docker build -t io.swagger .
-docker run -p 5000:5000 io.swagger
+cd src/Org.OpenAPITools
+docker build -t org.openapitools .
+docker run -p 5000:5000 org.openapitools
 ```

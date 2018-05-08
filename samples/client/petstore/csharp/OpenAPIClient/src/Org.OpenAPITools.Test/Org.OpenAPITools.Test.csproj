@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Swagger Petstore
+OpenAPI Petstore
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 OpenAPI spec version: 1.0.0
-Contact: apiteam@swagger.io
+
 -->
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
@@ -72,7 +72,8 @@ Contact: apiteam@swagger.io
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="**\*.cs" Exclude="obj\**" />
+    <Compile Include="**\*.cs"
+             Exclude="obj\**"/>
   </ItemGroup>
   <ItemGroup>
       <None Include="packages.config" />
@@ -83,9 +84,6 @@ Contact: apiteam@swagger.io
           <Project>{321C8C3F-0156-40C1-AE42-D59761FB9B6C}</Project>
           <Name>Org.OpenAPITools</Name>
       </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="linux-logo.png" />
   </ItemGroup>
 </Project>
 

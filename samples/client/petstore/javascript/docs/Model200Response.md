@@ -1,4 +1,4 @@
-# SwaggerPetstore.Model200Response
+# OpenApiPetstore.Model200Response
 
 ## Properties
 Name | Type | Description | Notes

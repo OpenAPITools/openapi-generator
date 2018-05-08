@@ -155,8 +155,8 @@ public class PetApi {
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated (required)
-     * @param name Updated name of the pet (optional)
-     * @param status Updated status of the pet (optional)
+     * @param name Updated name of the pet (optional, default to null)
+     * @param status Updated status of the pet (optional, default to null)
      * @param resultHandler Asynchronous result handler
      */
     public void updatePetWithForm(Long petId, String name, String status, Handler<AsyncResult<Void>> resultHandler) {
@@ -167,8 +167,8 @@ public class PetApi {
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated (required)
-     * @param name Updated name of the pet (optional)
-     * @param status Updated status of the pet (optional)
+     * @param name Updated name of the pet (optional, default to null)
+     * @param status Updated status of the pet (optional, default to null)
      * @return Asynchronous result handler (RxJava Single)
      */
     public Single<Void> rxUpdatePetWithForm(Long petId, String name, String status) {
@@ -180,8 +180,8 @@ public class PetApi {
      * uploads an image
      * 
      * @param petId ID of pet to update (required)
-     * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @param file file to upload (optional, default to null)
      * @param resultHandler Asynchronous result handler
      */
     public void uploadFile(Long petId, String additionalMetadata, AsyncFile file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
@@ -192,8 +192,8 @@ public class PetApi {
      * uploads an image
      * 
      * @param petId ID of pet to update (required)
-     * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @param file file to upload (optional, default to null)
      * @return Asynchronous result handler (RxJava Single)
      */
     public Single<ModelApiResponse> rxUploadFile(Long petId, String additionalMetadata, AsyncFile file) {

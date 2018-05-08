@@ -1,4 +1,4 @@
-# SwaggerPetstore.OuterEnum
+# OpenApiPetstore.OuterEnum
 
 ## Enum
 

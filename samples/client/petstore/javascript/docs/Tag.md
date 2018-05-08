@@ -1,4 +1,4 @@
-# SwaggerPetstore.Tag
+# OpenApiPetstore.Tag
 
 ## Properties
 Name | Type | Description | Notes

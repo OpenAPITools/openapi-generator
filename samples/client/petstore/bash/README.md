@@ -1,7 +1,7 @@
-# Swagger Petstore Bash client
+# OpenAPI Petstore Bash client
 
 ## Overview
-This is a Bash client script for accessing Swagger Petstore service.
+This is a Bash client script for accessing OpenAPI Petstore service.
 
 The script uses cURL underneath for making all REST calls.
 
@@ -99,6 +99,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](docs/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters
 假端點
@@ -132,6 +133,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [$special[model.name]](docs/$special[model.name].md)
  - [200_response](docs/200_response.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Animal](docs/Animal.md)
@@ -140,7 +142,6 @@ Class | Method | HTTP request | Description
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
- - [Body_4](docs/Body_4.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
@@ -157,17 +158,13 @@ Class | Method | HTTP request | Description
  - [Name](docs/Name.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [Order](docs/Order.md)
- - [OuterBoolean](docs/OuterBoolean.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)
- - [OuterNumber](docs/OuterNumber.md)
- - [OuterString](docs/OuterString.md)
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Return](docs/Return.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
- - [_special_model.name_](docs/_special_model.name_.md)
 
 
 ## Documentation For Authorization

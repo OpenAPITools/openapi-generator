@@ -313,7 +313,7 @@ This can only be done by the logged in user.
 
 UserApi apiInstance = new UserApi();
 String username = "username_example"; // String | name that need to be deleted
-User user = {firstName=firstName, lastName=lastName, password=password, userStatus=6, phone=phone, id=0, email=email, username=username}; // User | Updated user object
+User user = new User(); // User | Updated user object
 try {
     apiInstance.updateUser(username, user);
 } catch (ApiException e) {

@@ -287,8 +287,8 @@ api.updatePetWithForm()
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet that needs to be updated |
- **name** | **String**| Updated name of the pet | [optional]
- **status** | **String**| Updated status of the pet | [optional]
+ **name** | **String**| Updated name of the pet | [optional] [default to null]
+ **status** | **String**| Updated status of the pet | [optional] [default to null]
 
 ### Return type
 
@@ -329,8 +329,8 @@ api.uploadFile()
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
- **additionalMetadata** | **String**| Additional data to pass to server | [optional]
- **file** | **File**| file to upload | [optional]
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
+ **file** | **File**| file to upload | [optional] [default to null]
 
 ### Return type
 

@@ -158,8 +158,8 @@ public interface PetApi extends ApiClient.Api {
    * Updates a pet in the store with form data
    * 
     * @param petId ID of pet that needs to be updated (required)
-    * @param name Updated name of the pet (optional)
-    * @param status Updated status of the pet (optional)
+    * @param name Updated name of the pet (optional, default to null)
+    * @param status Updated status of the pet (optional, default to null)
    */
   @RequestLine("POST /pet/{petId}")
   @Headers({
@@ -172,8 +172,8 @@ public interface PetApi extends ApiClient.Api {
    * uploads an image
    * 
     * @param petId ID of pet to update (required)
-    * @param additionalMetadata Additional data to pass to server (optional)
-    * @param file file to upload (optional)
+    * @param additionalMetadata Additional data to pass to server (optional, default to null)
+    * @param file file to upload (optional, default to null)
    * @return ModelApiResponse
    */
   @RequestLine("POST /pet/{petId}/uploadImage")

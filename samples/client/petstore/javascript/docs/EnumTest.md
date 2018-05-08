@@ -1,4 +1,4 @@
-# SwaggerPetstore.EnumTest
+# OpenApiPetstore.EnumTest
 
 ## Properties
 Name | Type | Description | Notes

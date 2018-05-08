@@ -24,13 +24,13 @@ import org.apache.cxf.jaxrs.ext.multipart.*;
 import io.swagger.annotations.Api;
 
 /**
- * Swagger Petstore
+ * OpenAPI Petstore
  *
  * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  */
 public class FakeApiServiceImpl implements FakeApi {
-    public Boolean fakeOuterBooleanSerialize(Boolean booleanPostBody) {
+    public Boolean fakeOuterBooleanSerialize(Boolean body) {
         // TODO: Implement...
         
         return null;
@@ -100,7 +100,7 @@ public class FakeApiServiceImpl implements FakeApi {
      * test inline additionalProperties
      *
      */
-    public void testInlineAdditionalProperties(String requestBody) {
+    public void testInlineAdditionalProperties(Map<String, String> requestBody) {
         // TODO: Implement...
         
         

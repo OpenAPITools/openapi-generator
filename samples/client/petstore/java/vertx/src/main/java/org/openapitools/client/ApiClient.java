@@ -579,7 +579,7 @@ public class ApiClient {
     protected WebClient buildWebClient(Vertx vertx, JsonObject config) {
 
         if (!config.containsKey("userAgent")) {
-            config.put("userAgent", "Swagger-Codegen/1.0.0/java");
+            config.put("userAgent", "OpenAPI-Generator/1.0.0/java");
         }
 
         return WebClient.create(vertx, new WebClientOptions(config));

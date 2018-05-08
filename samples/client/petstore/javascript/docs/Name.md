@@ -1,4 +1,4 @@
-# SwaggerPetstore.Name
+# OpenApiPetstore.Name
 
 ## Properties
 Name | Type | Description | Notes
@@ -6,6 +6,6 @@ Name | Type | Description | Notes
 **name** | **Number** |  | 
 **snakeCase** | **Number** |  | [optional] 
 **property** | **String** |  | [optional] 
-**_123Number** | **Number** |  | [optional] 
+**_123number** | **Number** |  | [optional] 
 
 

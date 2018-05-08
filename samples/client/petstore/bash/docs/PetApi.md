@@ -39,7 +39,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
+ - **Content-Type**: application/json, application/xml
  - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -196,7 +196,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
+ - **Content-Type**: application/json, application/xml
  - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -215,8 +215,8 @@ petstore-cli updatePetWithForm petId=value
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **integer** | ID of pet that needs to be updated |
- **name** | **string** | Updated name of the pet | [optional]
- **status** | **string** | Updated status of the pet | [optional]
+ **name** | **string** | Updated name of the pet | [optional] [default to null]
+ **status** | **string** | Updated status of the pet | [optional] [default to null]
 
 ### Return type
 
@@ -247,8 +247,8 @@ petstore-cli uploadFile petId=value
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **integer** | ID of pet to update |
- **additionalMetadata** | **string** | Additional data to pass to server | [optional]
- **file** | **binary** | file to upload | [optional]
+ **additionalMetadata** | **string** | Additional data to pass to server | [optional] [default to null]
+ **file** | **binary** | file to upload | [optional] [default to null]
 
 ### Return type
 

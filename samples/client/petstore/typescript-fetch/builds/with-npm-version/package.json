@@ -1,12 +1,13 @@
 {
   "name": "@swagger/typescript-fetch-petstore",
   "version": "1.0.0",
-  "description": "swagger client for @swagger/typescript-fetch-petstore",
-  "author": "Swagger Codegen Contributors",
+  "description": "OpenAPI client for @swagger/typescript-fetch-petstore",
+  "author": "OpenAPI-Generator Contributors",
   "keywords": [
     "fetch",
     "typescript",
-    "swagger-client",
+    "openapi-client",
+    "openapi-generator",
     "@swagger/typescript-fetch-petstore"
   ],
   "license": "Unlicense",
