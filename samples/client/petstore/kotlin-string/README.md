@@ -1,4 +1,4 @@
-# io.swagger.client - Kotlin client library for Swagger Petstore
+# io.swagger.client - Kotlin client library for OpenAPI Petstore
 
 ## Requires
 
@@ -25,7 +25,7 @@ This runs all tests and packages the library.
 
 * Supports JSON inputs/outputs, File inputs, and Form inputs.
 * Supports collection formats for query parameters: csv, tsv, ssv, pipes.
-* Some Kotlin and Java types are fully qualified to avoid conflicts with types defined in Swagger definitions.
+* Some Kotlin and Java types are fully qualified to avoid conflicts with types defined in OpenAPI definitions.
 * Implementation of ApiClient is intended to reduce method counts, specifically to benefit Android targets.
 
 <a name="documentation-for-api-endpoints"></a>
