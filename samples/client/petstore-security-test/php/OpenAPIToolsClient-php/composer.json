@@ -2,17 +2,17 @@
     "name": "GIT_USER_ID/GIT_REPO_ID",
     "description": "",
     "keywords": [
-        "swagger",
+        "openapitools",
         "php",
         "sdk",
         "api"
     ],
-    "homepage": "http://swagger.io",
+    "homepage": "http://openapi-generator.tech",
     "license": "proprietary",
     "authors": [
         {
-            "name": "Swagger and contributors",
-            "homepage": "https://github.com/swagger-api/swagger-codegen"
+            "name": "OpenAPI-Generator contributors",
+            "homepage": "https://openapi-generator.tech"
         }
     ],
     "require": {
@@ -28,9 +28,9 @@
         "friendsofphp/php-cs-fixer": "~1.12"
     },
     "autoload": {
-        "psr-4": { "Swagger\\Client\\" : "lib/" }
+        "psr-4": { "OpenAPITools\\Client\\" : "lib/" }
     },
     "autoload-dev": {
-        "psr-4": { "Swagger\\Client\\" : "test/" }
+        "psr-4": { "OpenAPITools\\Client\\" : "test/" }
     }
 }
