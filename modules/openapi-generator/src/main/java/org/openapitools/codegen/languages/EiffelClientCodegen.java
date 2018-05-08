@@ -18,26 +18,17 @@
 package org.openapitools.codegen.languages;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.*;
-import org.openapitools.codegen.mustache.*;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.parameters.*;
 
 public class EiffelClientCodegen extends AbstractEiffelCodegen {
     static Logger LOGGER = LoggerFactory.getLogger(EiffelClientCodegen.class);
 
-    protected String libraryTarget = "swagger_eiffel_client";
+    protected String libraryTarget = "openapi_eiffel_client";
     protected String packageName = "Eiffel";
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs";
@@ -85,7 +76,7 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
-            setPackageName("swagger");
+            setPackageName("openapi");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {

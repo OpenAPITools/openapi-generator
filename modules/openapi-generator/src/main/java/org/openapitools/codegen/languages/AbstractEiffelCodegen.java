@@ -103,7 +103,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Eiffel Cluster name (convention: lowercase).")
-                .defaultValue("swagger"));
+                .defaultValue("openapi"));
         cliOptions
                 .add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Eiffel package version.").defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,

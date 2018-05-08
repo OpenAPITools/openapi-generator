@@ -208,20 +208,20 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **REAL_32**| None | 
- **double** | **REAL_64**| None | 
- **pattern_without_delimiter** | **STRING_32**| None | 
- **byte** | **ARRAY [NATURAL_8]**| None | 
- **integer** | **INTEGER_32**| None | [optional] 
- **int32** | **INTEGER_32**| None | [optional] 
- **int64** | **INTEGER_64**| None | [optional] 
- **float** | **REAL_32**| None | [optional] 
- **string** | **STRING_32**| None | [optional] 
- **binary** | **FILE**| None | [optional] 
- **date** | **DATE**| None | [optional] 
- **date_time** | **DATE_TIME**| None | [optional] 
- **password** | **STRING_32**| None | [optional] 
- **callback** | **STRING_32**| None | [optional] 
+ **number** | **REAL_32**| None | [default to null]
+ **double** | **REAL_64**| None | [default to null]
+ **pattern_without_delimiter** | **STRING_32**| None | [default to null]
+ **byte** | **ARRAY [NATURAL_8]**| None | [default to null]
+ **integer** | **INTEGER_32**| None | [optional] [default to null]
+ **int32** | **INTEGER_32**| None | [optional] [default to null]
+ **int64** | **INTEGER_64**| None | [optional] [default to null]
+ **float** | **REAL_32**| None | [optional] [default to null]
+ **string** | **STRING_32**| None | [optional] [default to null]
+ **binary** | **FILE**| None | [optional] [default to null]
+ **date** | **DATE**| None | [optional] [default to null]
+ **date_time** | **DATE_TIME**| None | [optional] [default to null]
+ **password** | **STRING_32**| None | [optional] [default to null]
+ **callback** | **STRING_32**| None | [optional] [default to null]
 
 ### Return type
 
@@ -257,8 +257,8 @@ Name | Type | Description  | Notes
  **enum_query_string** | **STRING_32**| Query parameter enum test (string) | [optional] [default to -efg]
  **enum_query_integer** | **INTEGER_32**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **REAL_64**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | [**LIST [STRING_32]**](LIST.md)| Form parameter enum test (string array) | [optional] 
- **enum_form_string** | **STRING_32**| Form parameter enum test (string) | [optional] 
+ **enum_form_string_array** | **LIST [STRING_32]**| Form parameter enum test (string array) | [optional] [default to $]
+ **enum_form_string** | **STRING_32**| Form parameter enum test (string) | [optional] [default to -efg]
 
 ### Return type
 
@@ -276,7 +276,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_inline_additional_properties**
-> test_inline_additional_properties (request_body: STRING_32 )
+> test_inline_additional_properties (request_body: STRING_TABLE[STRING_32] )
 	
 
 test inline additionalProperties
@@ -286,7 +286,7 @@ test inline additionalProperties
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**STRING_32**](STRING_32.md)| request body | 
+ **request_body** | [**STRING_TABLE[STRING_32]**](STRING_32.md)| request body | 
 
 ### Return type
 
@@ -314,8 +314,8 @@ test json serialization of form data
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **STRING_32**| field1 | 
- **param2** | **STRING_32**| field2 | 
+ **param** | **STRING_32**| field1 | [default to null]
+ **param2** | **STRING_32**| field2 | [default to null]
 
 ### Return type
 
