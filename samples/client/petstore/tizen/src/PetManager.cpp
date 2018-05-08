@@ -95,6 +95,7 @@ static bool addPetHelper(char * accessToken,
 	accessHeader.append(accessToken);
 	headerList = curl_slist_append(headerList, accessHeader.c_str());
 	headerList = curl_slist_append(headerList, "Content-Type: application/json");
+	headerList = curl_slist_append(headerList, "Content-Type: application/xml");
 
 	map <string, string> queryParams;
 	string itemAtq;
@@ -808,6 +809,7 @@ static bool updatePetHelper(char * accessToken,
 	accessHeader.append(accessToken);
 	headerList = curl_slist_append(headerList, accessHeader.c_str());
 	headerList = curl_slist_append(headerList, "Content-Type: application/json");
+	headerList = curl_slist_append(headerList, "Content-Type: application/xml");
 
 	map <string, string> queryParams;
 	string itemAtq;

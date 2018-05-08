@@ -86,7 +86,7 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testInlineAdditionalProperties
      */
-    ResponseEntity<Void> testInlineAdditionalProperties( String  requestBody);
+    ResponseEntity<Void> testInlineAdditionalProperties( Map<String, String>  requestBody);
 
     /**
      * @see FakeApi#testJsonFormData

@@ -1,7 +1,7 @@
-# Documentation for Swagger Petstore 1.0.0 Tizen Client SDK
+# Documentation for OpenAPI Petstore 1.0.0 Tizen Client SDK
 
 ## How do I get the doc files?
-First generate source code by running `swagger-codegen`
+First generate source code by running `openapi-generator`
 Then run `doc/generateDocumentation.sh` from the output folder. It will generate all the doc files and put them in the `doc/SDK` directory.
 To successfully generate documentation it needs `Doxygen` installed in the path.
 *Note* - Before generating the documentation, put the logo of the project as the file `doc/logo.png` before running `doxygen`.
@@ -16,7 +16,7 @@ This is the structure of the doc folder:
 ├── Doxyfile                  \\Doxygen config files
 ├── generateDocumentation.sh  \\Script to run to generate documentation
 ├── README.md                 \\This file
-├── SDK                       \\Documentation for all classes in Swagger Petstore Tizen Client SDK. See ./html/index.html
+├── SDK                       \\Documentation for all classes in OpenAPI Petstore Tizen Client SDK. See ./html/index.html
 │   └── html
 
 ```

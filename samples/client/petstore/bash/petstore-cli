@@ -5,23 +5,23 @@
 # ! Note:
 # !
 # ! THIS SCRIPT HAS BEEN AUTOMATICALLY GENERATED USING
-# ! swagger-codegen (https://github.com/swagger-api/swagger-codegen)
-# ! FROM SWAGGER SPECIFICATION IN JSON.
+# ! openapi-generator (https://openapi-generator.tech)
+# ! FROM OPENAPI SPECIFICATION IN JSON.
 # !
 # !
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 #
-# This is a Bash client for Swagger Petstore.
+# This is a Bash client for OpenAPI Petstore.
 #
 # LICENSE:
 # http://www.apache.org/licenses/LICENSE-2.0.html
 #
 # CONTACT:
-# apiteam@swagger.io
+# 
 #
 # MORE INFORMATION:
-# http://swagger.io
+# 
 #
 
 # For improved pattern matching in case statemets
@@ -100,6 +100,8 @@ operation_parameters_minimum_occurrences["fakeOuterBooleanSerialize:::body"]=0
 operation_parameters_minimum_occurrences["fakeOuterCompositeSerialize:::OuterComposite"]=0
 operation_parameters_minimum_occurrences["fakeOuterNumberSerialize:::body"]=0
 operation_parameters_minimum_occurrences["fakeOuterStringSerialize:::body"]=0
+operation_parameters_minimum_occurrences["testBodyWithQueryParams:::query"]=1
+operation_parameters_minimum_occurrences["testBodyWithQueryParams:::User"]=1
 operation_parameters_minimum_occurrences["testClientModel:::Client"]=1
 operation_parameters_minimum_occurrences["testEndpointParameters:::number"]=1
 operation_parameters_minimum_occurrences["testEndpointParameters:::double"]=1
@@ -123,8 +125,9 @@ operation_parameters_minimum_occurrences["testEnumParameters:::enum_query_intege
 operation_parameters_minimum_occurrences["testEnumParameters:::enum_query_double"]=0
 operation_parameters_minimum_occurrences["testEnumParameters:::enum_form_string_array"]=0
 operation_parameters_minimum_occurrences["testEnumParameters:::enum_form_string"]=0
-operation_parameters_minimum_occurrences["testInlineAdditionalProperties:::UNKNOWN_BASE_NAME"]=1
-operation_parameters_minimum_occurrences["testJsonFormData:::Body_4"]=0
+operation_parameters_minimum_occurrences["testInlineAdditionalProperties:::request_body"]=1
+operation_parameters_minimum_occurrences["testJsonFormData:::param"]=1
+operation_parameters_minimum_occurrences["testJsonFormData:::param2"]=1
 operation_parameters_minimum_occurrences["testClassname:::Client"]=1
 operation_parameters_minimum_occurrences["addPet:::Pet"]=1
 operation_parameters_minimum_occurrences["deletePet:::petId"]=1
@@ -164,6 +167,8 @@ operation_parameters_maximum_occurrences["fakeOuterBooleanSerialize:::body"]=0
 operation_parameters_maximum_occurrences["fakeOuterCompositeSerialize:::OuterComposite"]=0
 operation_parameters_maximum_occurrences["fakeOuterNumberSerialize:::body"]=0
 operation_parameters_maximum_occurrences["fakeOuterStringSerialize:::body"]=0
+operation_parameters_maximum_occurrences["testBodyWithQueryParams:::query"]=0
+operation_parameters_maximum_occurrences["testBodyWithQueryParams:::User"]=0
 operation_parameters_maximum_occurrences["testClientModel:::Client"]=0
 operation_parameters_maximum_occurrences["testEndpointParameters:::number"]=0
 operation_parameters_maximum_occurrences["testEndpointParameters:::double"]=0
@@ -187,8 +192,9 @@ operation_parameters_maximum_occurrences["testEnumParameters:::enum_query_intege
 operation_parameters_maximum_occurrences["testEnumParameters:::enum_query_double"]=0
 operation_parameters_maximum_occurrences["testEnumParameters:::enum_form_string_array"]=0
 operation_parameters_maximum_occurrences["testEnumParameters:::enum_form_string"]=0
-operation_parameters_maximum_occurrences["testInlineAdditionalProperties:::UNKNOWN_BASE_NAME"]=0
-operation_parameters_maximum_occurrences["testJsonFormData:::Body_4"]=0
+operation_parameters_maximum_occurrences["testInlineAdditionalProperties:::request_body"]=0
+operation_parameters_maximum_occurrences["testJsonFormData:::param"]=0
+operation_parameters_maximum_occurrences["testJsonFormData:::param2"]=0
 operation_parameters_maximum_occurrences["testClassname:::Client"]=0
 operation_parameters_maximum_occurrences["addPet:::Pet"]=0
 operation_parameters_maximum_occurrences["deletePet:::petId"]=0
@@ -225,6 +231,8 @@ operation_parameters_collection_type["fakeOuterBooleanSerialize:::body"]=""
 operation_parameters_collection_type["fakeOuterCompositeSerialize:::OuterComposite"]=""
 operation_parameters_collection_type["fakeOuterNumberSerialize:::body"]=""
 operation_parameters_collection_type["fakeOuterStringSerialize:::body"]=""
+operation_parameters_collection_type["testBodyWithQueryParams:::query"]=""
+operation_parameters_collection_type["testBodyWithQueryParams:::User"]=""
 operation_parameters_collection_type["testClientModel:::Client"]=""
 operation_parameters_collection_type["testEndpointParameters:::number"]=""
 operation_parameters_collection_type["testEndpointParameters:::double"]=""
@@ -242,14 +250,15 @@ operation_parameters_collection_type["testEndpointParameters:::password"]=""
 operation_parameters_collection_type["testEndpointParameters:::callback"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_header_string_array"]="csv"
 operation_parameters_collection_type["testEnumParameters:::enum_header_string"]=""
-operation_parameters_collection_type["testEnumParameters:::enum_query_string_array"]="multi"
+operation_parameters_collection_type["testEnumParameters:::enum_query_string_array"]="csv"
 operation_parameters_collection_type["testEnumParameters:::enum_query_string"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_query_integer"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_query_double"]=""
-operation_parameters_collection_type["testEnumParameters:::enum_form_string_array"]=""
+operation_parameters_collection_type["testEnumParameters:::enum_form_string_array"]=
 operation_parameters_collection_type["testEnumParameters:::enum_form_string"]=""
-operation_parameters_collection_type["testInlineAdditionalProperties:::UNKNOWN_BASE_NAME"]=""
-operation_parameters_collection_type["testJsonFormData:::Body_4"]=""
+operation_parameters_collection_type["testInlineAdditionalProperties:::request_body"]=
+operation_parameters_collection_type["testJsonFormData:::param"]=""
+operation_parameters_collection_type["testJsonFormData:::param2"]=""
 operation_parameters_collection_type["testClassname:::Client"]=""
 operation_parameters_collection_type["addPet:::Pet"]=""
 operation_parameters_collection_type["deletePet:::petId"]=""
@@ -632,7 +641,7 @@ build_request_path() {
 print_help() {
 cat <<EOF
 
-${BOLD}${WHITE}Swagger Petstore command line client (API version 1.0.0)${OFF}
+${BOLD}${WHITE}OpenAPI Petstore command line client (API version 1.0.0)${OFF}
 
 ${BOLD}${WHITE}Usage${OFF}
 
@@ -688,6 +697,7 @@ read -r -d '' ops <<EOF
   ${CYAN}fakeOuterCompositeSerialize${OFF};
   ${CYAN}fakeOuterNumberSerialize${OFF};
   ${CYAN}fakeOuterStringSerialize${OFF};
+  ${CYAN}testBodyWithQueryParams${OFF};
   ${CYAN}testClientModel${OFF};To test \"client\" model
   ${CYAN}testEndpointParameters${OFF};Fake endpoint for testing various parameters
 假端點
@@ -766,10 +776,10 @@ echo -e "              \\t\\t\\t\\t(e.g. 'https://petstore.swagger.io')"
 ##############################################################################
 print_about() {
     echo ""
-    echo -e "${BOLD}${WHITE}Swagger Petstore command line client (API version 1.0.0)${OFF}"
+    echo -e "${BOLD}${WHITE}OpenAPI Petstore command line client (API version 1.0.0)${OFF}"
     echo ""
     echo -e "License: Apache-2.0"
-    echo -e "Contact: apiteam@swagger.io"
+    echo -e "Contact: "
     echo ""
 read -r -d '' appdescription <<EOF
 
@@ -786,7 +796,7 @@ echo "$appdescription" | paste -sd' ' | fold -sw 80
 ##############################################################################
 print_version() {
     echo ""
-    echo -e "${BOLD}Swagger Petstore command line client (API version 1.0.0)${OFF}"
+    echo -e "${BOLD}OpenAPI Petstore command line client (API version 1.0.0)${OFF}"
     echo ""
 }
 
@@ -802,7 +812,7 @@ print_testSpecialTags_help() {
     echo -e "To test special tags" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -821,7 +831,7 @@ print_fakeOuterBooleanSerialize_help() {
     echo -e "Test serialization of outer boolean types" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF}${OFF} - Input boolean as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input boolean as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -840,7 +850,7 @@ print_fakeOuterCompositeSerialize_help() {
     echo -e "Test serialization of object with outer number type" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF}${OFF} - Input composite as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input composite as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -859,7 +869,7 @@ print_fakeOuterNumberSerialize_help() {
     echo -e "Test serialization of outer number types" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF}${OFF} - Input number as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input number as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -878,12 +888,31 @@ print_fakeOuterStringSerialize_help() {
     echo -e "Test serialization of outer string types" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF}${OFF} - Input string as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input string as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
     echo -e "${result_color_table[${code:0:1}]}  200;Output string${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for testBodyWithQueryParams operation
+#
+##############################################################################
+print_testBodyWithQueryParams_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}testBodyWithQueryParams - ${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}query${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF}${OFF} - ${YELLOW} Specify as: query=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - " | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;Success${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -897,7 +926,7 @@ print_testClientModel_help() {
     echo -e "To test \"client\" model" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -942,10 +971,10 @@ print_testEnumParameters_help() {
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}enum_header_string_array${OFF} ${BLUE}[array[string]]${OFF}${OFF} - Header parameter enum test (string array) ${YELLOW}Specify as: enum_header_string_array:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enum_header_string${OFF} ${BLUE}[string]${OFF}${OFF} - Header parameter enum test (string) ${YELLOW}Specify as: enum_header_string:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enum_query_string_array${OFF} ${BLUE}[array[string]]${OFF}${OFF} - Query parameter enum test (string array)${YELLOW} Specify as: enum_query_string_array=value1 enum_query_string_array=value2 enum_query_string_array=...${OFF}" \
+    echo -e "  * ${GREEN}enum_header_string${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: -efg)${OFF} - Header parameter enum test (string) ${YELLOW}Specify as: enum_header_string:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enum_query_string_array${OFF} ${BLUE}[array[string]]${OFF}${OFF} - Query parameter enum test (string array)${YELLOW} Specify as: enum_query_string_array="value1,value2,..."${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enum_query_string${OFF} ${BLUE}[string]${OFF}${OFF} - Query parameter enum test (string)${YELLOW} Specify as: enum_query_string=value${OFF}" \
+    echo -e "  * ${GREEN}enum_query_string${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: -efg)${OFF} - Query parameter enum test (string)${YELLOW} Specify as: enum_query_string=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}enum_query_integer${OFF} ${BLUE}[integer]${OFF}${OFF} - Query parameter enum test (double)${YELLOW} Specify as: enum_query_integer=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -985,8 +1014,6 @@ print_testJsonFormData_help() {
     echo -e "${BOLD}${WHITE}testJsonFormData - test json serialization of form data${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF}${OFF} - " | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
@@ -1004,7 +1031,7 @@ print_testClassname_help() {
     echo -e "To test class name in snake case" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1021,7 +1048,7 @@ print_addPet_help() {
     echo -e "${BOLD}${WHITE}addPet - Add a new pet to the store${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - Pet object that needs to be added to the store" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json,application/xml]${OFF} ${RED}(required)${OFF}${OFF} - Pet object that needs to be added to the store" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1119,7 +1146,7 @@ print_updatePet_help() {
     echo -e "${BOLD}${WHITE}updatePet - Update an existing pet${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - Pet object that needs to be added to the store" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json,application/xml]${OFF} ${RED}(required)${OFF}${OFF} - Pet object that needs to be added to the store" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1230,7 +1257,7 @@ print_placeOrder_help() {
     echo -e "${BOLD}${WHITE}placeOrder - Place an order for a pet${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - order placed for purchasing the pet" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - order placed for purchasing the pet" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1251,7 +1278,7 @@ print_createUser_help() {
     echo -e "This can only be done by the logged in user." | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - Created user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - Created user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1351,8 +1378,8 @@ print_loginUser_help() {
     code=200
     echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
         echo -e "       ${BOLD}${WHITE}Response headers${OFF}"
-        echo -e "       ${BLUE}X-Rate-Limit${OFF} - " | paste -sd' ' | fold -sw 80 | sed '2,$s/^/        /'
-        echo -e "       ${BLUE}X-Expires-After${OFF} - " | paste -sd' ' | fold -sw 80 | sed '2,$s/^/        /'
+        echo -e "       ${BLUE}X-Rate-Limit${OFF} - calls per hour allowed by the user" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/        /'
+        echo -e "       ${BLUE}X-Expires-After${OFF} - date in UTC when token expires" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/        /'
     code=400
     echo -e "${result_color_table[${code:0:1}]}  400;Invalid username/password supplied${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
@@ -1383,7 +1410,7 @@ print_updateUser_help() {
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}username${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF}${OFF} - name that need to be deleted ${YELLOW}Specify as: username=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - Updated user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - Updated user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1427,13 +1454,22 @@ call_testSpecialTags() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -1496,22 +1532,13 @@ call_fakeOuterBooleanSerialize() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
-    if [[ -z $header_content_type ]]; then
-        header_content_type="application/json"
-    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "ERROR: Request's content-type not specified!!!"
-        echo "This operation expects content-type in one of the following formats:"
-        echo -e "\\t- application/json"
-        echo ""
-        echo "Use '--content-type' to set proper content type"
-        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -1574,22 +1601,13 @@ call_fakeOuterCompositeSerialize() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
-    if [[ -z $header_content_type ]]; then
-        header_content_type="application/json"
-    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "ERROR: Request's content-type not specified!!!"
-        echo "This operation expects content-type in one of the following formats:"
-        echo -e "\\t- application/json"
-        echo ""
-        echo "Use '--content-type' to set proper content type"
-        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -1652,22 +1670,13 @@ call_fakeOuterNumberSerialize() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
-    if [[ -z $header_content_type ]]; then
-        header_content_type="application/json"
-    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "ERROR: Request's content-type not specified!!!"
-        echo "This operation expects content-type in one of the following formats:"
-        echo -e "\\t- application/json"
-        echo ""
-        echo "Use '--content-type' to set proper content type"
-        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -1730,7 +1739,76 @@ call_fakeOuterStringSerialize() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
+    # if values produces and consumes are defined unambigously
+    #
+
+
+    if [[ -z $header_content_type && "$force" = false ]]; then
+        :
+    else
+        headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
+    fi
+
+
+    #
+    # If we have received some body content over pipe, pass it from the
+    # temporary file to cURL
+    #
+    if [[ -n $body_content_temp_file ]]; then
+        if [[ "$print_curl" = true ]]; then
+            echo "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        else
+            eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        fi
+        rm "${body_content_temp_file}"
+    #
+    # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
+    #
+    else
+        body_json_curl=$(body_parameters_to_json)
+        if [[ "$print_curl" = true ]]; then
+            echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        else
+            eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        fi
+    fi
+}
+
+##############################################################################
+#
+# Call testBodyWithQueryParams operation
+#
+##############################################################################
+call_testBodyWithQueryParams() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=(query)
+    local path
+
+    if ! path=$(build_request_path "/v2/fake/body-with-query-params" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="PUT"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    local body_json_curl=""
+
+    #
+    # Check if the user provided 'Content-type' headers in the
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
@@ -1808,13 +1886,22 @@ call_testClientModel() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -1949,7 +2036,7 @@ call_testInlineAdditionalProperties() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
     if [[ -z $header_content_type ]]; then
@@ -2023,52 +2110,10 @@ call_testJsonFormData() {
     if [[ -n $basic_auth_credential ]]; then
         basic_auth_option="-u ${basic_auth_credential}"
     fi
-    local body_json_curl=""
-
-    #
-    # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
-    # if values produces and consumes are defined unambigously
-    #
-    if [[ -z $header_content_type ]]; then
-        header_content_type="application/json"
-    fi
-
-
-    if [[ -z $header_content_type && "$force" = false ]]; then
-        :
-        echo "ERROR: Request's content-type not specified!!!"
-        echo "This operation expects content-type in one of the following formats:"
-        echo -e "\\t- application/json"
-        echo ""
-        echo "Use '--content-type' to set proper content type"
-        exit 1
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
-    fi
-
-
-    #
-    # If we have received some body content over pipe, pass it from the
-    # temporary file to cURL
-    #
-    if [[ -n $body_content_temp_file ]]; then
-        if [[ "$print_curl" = true ]]; then
-            echo "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
-        else
-            eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
-        fi
-        rm "${body_content_temp_file}"
-    #
-    # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
-    #
-    else
-        body_json_curl=$(body_parameters_to_json)
-        if [[ "$print_curl" = true ]]; then
-            echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
-        else
-            eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
-        fi
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2105,13 +2150,22 @@ call_testClassname() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -2174,13 +2228,20 @@ call_addPet() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo -e "\\t- application/xml"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -2387,13 +2448,20 @@ call_updatePet() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\\t- application/json"
+        echo -e "\\t- application/xml"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -2636,22 +2704,13 @@ call_placeOrder() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
-    if [[ -z $header_content_type ]]; then
-        header_content_type="application/json"
-    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "ERROR: Request's content-type not specified!!!"
-        echo "This operation expects content-type in one of the following formats:"
-        echo -e "\\t- application/json"
-        echo ""
-        echo "Use '--content-type' to set proper content type"
-        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -2714,22 +2773,13 @@ call_createUser() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
-    if [[ -z $header_content_type ]]; then
-        header_content_type="application/json"
-    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "ERROR: Request's content-type not specified!!!"
-        echo "This operation expects content-type in one of the following formats:"
-        echo -e "\\t- application/json"
-        echo ""
-        echo "Use '--content-type' to set proper content type"
-        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -2792,7 +2842,7 @@ call_createUsersWithArrayInput() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
 
@@ -2861,7 +2911,7 @@ call_createUsersWithListInput() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
 
@@ -3074,22 +3124,13 @@ call_updateUser() {
 
     #
     # Check if the user provided 'Content-type' headers in the
-    # command line. If not try to set them based on the Swagger specification
+    # command line. If not try to set them based on the OpenAPI specification
     # if values produces and consumes are defined unambigously
     #
-    if [[ -z $header_content_type ]]; then
-        header_content_type="application/json"
-    fi
 
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "ERROR: Request's content-type not specified!!!"
-        echo "This operation expects content-type in one of the following formats:"
-        echo -e "\\t- application/json"
-        echo ""
-        echo "Use '--content-type' to set proper content type"
-        exit 1
     else
         headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
     fi
@@ -3230,6 +3271,9 @@ case $key in
     ;;
     fakeOuterStringSerialize)
     operation="fakeOuterStringSerialize"
+    ;;
+    testBodyWithQueryParams)
+    operation="testBodyWithQueryParams"
     ;;
     testClientModel)
     operation="testClientModel"
@@ -3407,6 +3451,9 @@ case $operation in
     ;;
     fakeOuterStringSerialize)
     call_fakeOuterStringSerialize
+    ;;
+    testBodyWithQueryParams)
+    call_testBodyWithQueryParams
     ;;
     testClientModel)
     call_testClientModel

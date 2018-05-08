@@ -1,4 +1,4 @@
-# SwaggerPetstore.Capitalization
+# OpenApiPetstore.Capitalization
 
 ## Properties
 Name | Type | Description | Notes

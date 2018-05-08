@@ -10,19 +10,18 @@
         "build": "tsc",
         "test": "npm run build && node client.js"
     },
-    "author": "Swagger Codegen Contributors",
+    "author": "OpenAPI-Generator Contributors",
     "license": "Unlicense",
     "dependencies": {
-        "@types/bluebird": "*",
-        "@types/request": "*",
         "bluebird": "^3.5.0",
         "request": "^2.81.0",
-        "rewire": "^3.0.2"
+        "@types/bluebird": "*",
+        "@types/request": "*"
     },
     "devDependencies": {
         "typescript": "^2.4.2"
     },
-    "publishConfig": {
-        "registry": "https://skimdb.npmjs.com/registry"
+    "publishConfig":{
+        "registry":"https://skimdb.npmjs.com/registry"
     }
 }

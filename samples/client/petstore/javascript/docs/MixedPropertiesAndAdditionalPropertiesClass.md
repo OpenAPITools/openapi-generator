@@ -1,4 +1,4 @@
-# SwaggerPetstore.MixedPropertiesAndAdditionalPropertiesClass
+# OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass
 
 ## Properties
 Name | Type | Description | Notes

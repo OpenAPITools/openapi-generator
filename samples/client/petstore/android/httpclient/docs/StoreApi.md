@@ -146,7 +146,7 @@ Place an order for a pet
 //import org.openapitools.client.api.StoreApi;
 
 StoreApi apiInstance = new StoreApi();
-Order order = {petId=6, quantity=1, id=0, shipDate=2000-01-23T04:56:07.000+00:00, complete=false, status=placed}; // Order | order placed for purchasing the pet
+Order order = new Order(); // Order | order placed for purchasing the pet
 try {
     Order result = apiInstance.placeOrder(order);
     System.out.println(result);

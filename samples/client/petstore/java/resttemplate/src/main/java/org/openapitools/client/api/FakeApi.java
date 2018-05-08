@@ -55,12 +55,12 @@ public class FakeApi {
      * 
      * Test serialization of outer boolean types
      * <p><b>200</b> - Output boolean
-     * @param booleanPostBody Input boolean as post body
+     * @param body Input boolean as post body
      * @return Boolean
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Boolean fakeOuterBooleanSerialize(Boolean booleanPostBody) throws RestClientException {
-        Object postBody = booleanPostBody;
+    public Boolean fakeOuterBooleanSerialize(Boolean body) throws RestClientException {
+        Object postBody = body;
         
         String path = UriComponentsBuilder.fromPath("/fake/outer/boolean").build().toUriString();
         
@@ -393,7 +393,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testInlineAdditionalProperties(String requestBody) throws RestClientException {
+    public void testInlineAdditionalProperties(Map<String, String> requestBody) throws RestClientException {
         Object postBody = requestBody;
         
         // verify the required parameter 'requestBody' is set

@@ -167,8 +167,8 @@ public interface PetApi {
    * Sync method
    * 
    * @param petId ID of pet that needs to be updated (required)
-   * @param name Updated name of the pet (optional)
-   * @param status Updated status of the pet (optional)
+   * @param name Updated name of the pet (optional, default to null)
+   * @param status Updated status of the pet (optional, default to null)
    * @return Void
    */
   
@@ -182,8 +182,8 @@ public interface PetApi {
    * Updates a pet in the store with form data
    * Async method
    * @param petId ID of pet that needs to be updated (required)
-   * @param name Updated name of the pet (optional)
-   * @param status Updated status of the pet (optional)
+   * @param name Updated name of the pet (optional, default to null)
+   * @param status Updated status of the pet (optional, default to null)
    * @param cb callback method
    */
   
@@ -197,8 +197,8 @@ public interface PetApi {
    * Sync method
    * 
    * @param petId ID of pet to update (required)
-   * @param additionalMetadata Additional data to pass to server (optional)
-   * @param file file to upload (optional)
+   * @param additionalMetadata Additional data to pass to server (optional, default to null)
+   * @param file file to upload (optional, default to null)
    * @return ModelApiResponse
    */
   
@@ -212,8 +212,8 @@ public interface PetApi {
    * uploads an image
    * Async method
    * @param petId ID of pet to update (required)
-   * @param additionalMetadata Additional data to pass to server (optional)
-   * @param file file to upload (optional)
+   * @param additionalMetadata Additional data to pass to server (optional, default to null)
+   * @param file file to upload (optional, default to null)
    * @param cb callback method
    */
   

@@ -1,4 +1,4 @@
-# SwaggerPetstore.EnumArrays
+# OpenApiPetstore.EnumArrays
 
 ## Properties
 Name | Type | Description | Notes

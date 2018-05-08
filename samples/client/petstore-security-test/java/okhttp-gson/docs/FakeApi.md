@@ -21,7 +21,7 @@ To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
 
 FakeApi apiInstance = new FakeApi();
-ERRORUNKNOWN UNKNOWN_BASE_TYPE = new UNKNOWN_BASE_TYPE(); // ERRORUNKNOWN | 
+Object UNKNOWN_BASE_TYPE = new UNKNOWN_BASE_TYPE(); // Object | 
 try {
     apiInstance.testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE);
 } catch (ApiException e) {
@@ -34,7 +34,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_BASE_TYPE** | [**ERRORUNKNOWN**](UNKNOWN_BASE_TYPE.md)|  | [optional]
+ **UNKNOWN_BASE_TYPE** | [**Object**](UNKNOWN_BASE_TYPE.md)|  | [optional]
 
 ### Return type
 

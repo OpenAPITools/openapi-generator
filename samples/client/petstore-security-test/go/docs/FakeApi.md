@@ -23,7 +23,7 @@ Optional parameters are passed through a pointer to a TestCodeInjectEndRnNROpts 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **uNKNOWNBASETYPE** | [**optional.Interface of ErrorUnknown**](UNKNOWN_BASE_TYPE.md)|  | 
+ **uNKNOWNBASETYPE** | [**optional.Interface of interface{}**](UNKNOWN_BASE_TYPE.md)|  | 
 
 ### Return type
 

@@ -5,8 +5,8 @@
 # ! Note:
 # !
 # ! THIS SCRIPT HAS BEEN AUTOMATICALLY GENERATED USING
-# ! swagger-codegen (https://github.com/swagger-api/swagger-codegen)
-# ! FROM SWAGGER SPECIFICATION IN JSON.
+# ! openapi-generator (https://openapi-generator.tech)
+# ! FROM OPENAPI SPECIFICATION IN JSON.
 # !
 # !
 # !
@@ -73,6 +73,7 @@ _petstore-cli()
     operations["fakeOuterCompositeSerialize"]=1
     operations["fakeOuterNumberSerialize"]=1
     operations["fakeOuterStringSerialize"]=1
+    operations["testBodyWithQueryParams"]=1
     operations["testClientModel"]=1
     operations["testEndpointParameters"]=1
     operations["testEnumParameters"]=1
@@ -108,6 +109,7 @@ _petstore-cli()
     operation_parameters["fakeOuterCompositeSerialize"]=""
     operation_parameters["fakeOuterNumberSerialize"]=""
     operation_parameters["fakeOuterStringSerialize"]=""
+    operation_parameters["testBodyWithQueryParams"]="query= "
     operation_parameters["testClientModel"]=""
     operation_parameters["testEndpointParameters"]=""
     operation_parameters["testEnumParameters"]="enum_query_string_array= enum_query_string= enum_query_integer= enum_query_double= enum_header_string_array: enum_header_string: "
@@ -286,7 +288,7 @@ _petstore-cli()
     if [[ $cur =~ ^[A-Za-z_0-9]* ]]; then
         # If operation has not been yet selected, suggest the list of operations
         # otherwise suggest arguments of this operation as declared in the
-        # Swagger specification
+        # OpenAPI specification
         if [[ -z $operation ]]; then
             COMPREPLY=( $(compgen -W '${!operations[*]}' -- ${cur}) )
         else

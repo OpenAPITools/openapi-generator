@@ -27,7 +27,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
- * Swagger Petstore
+ * OpenAPI Petstore
  *
  * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -42,7 +42,7 @@ public interface FakeApi  {
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
-    public Boolean fakeOuterBooleanSerialize(@Valid Boolean booleanPostBody);
+    public Boolean fakeOuterBooleanSerialize(@Valid Boolean body);
 
     @POST
     @Path("/fake/outer/composite")
@@ -131,7 +131,7 @@ public interface FakeApi  {
     @ApiOperation(value = "test inline additionalProperties", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void testInlineAdditionalProperties(@Valid String requestBody);
+    public void testInlineAdditionalProperties(@Valid Map<String, String> requestBody);
 
     /**
      * test json serialization of form data

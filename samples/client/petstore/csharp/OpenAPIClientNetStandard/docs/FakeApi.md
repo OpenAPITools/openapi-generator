@@ -495,7 +495,7 @@ namespace Example
             var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
             var enumQueryInteger = 56;  // int? | Query parameter enum test (double) (optional) 
             var enumQueryDouble = 1.2;  // double? | Query parameter enum test (double) (optional) 
-            var enumFormStringArray = enumFormStringArray_example;  // List<string> | Form parameter enum test (string array) (optional) 
+            var enumFormStringArray = enumFormStringArray_example;  // List<string> | Form parameter enum test (string array) (optional)  (default to $)
             var enumFormString = enumFormString_example;  // string | Form parameter enum test (string) (optional)  (default to -efg)
 
             try
@@ -522,7 +522,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
- **enumFormStringArray** | **List&lt;string&gt;**| Form parameter enum test (string array) | [optional] 
+ **enumFormStringArray** | **List&lt;string&gt;**| Form parameter enum test (string array) | [optional] [default to $]
  **enumFormString** | **string**| Form parameter enum test (string) | [optional] [default to -efg]
 
 ### Return type
@@ -542,7 +542,7 @@ No authorization required
 
 <a name="testinlineadditionalproperties"></a>
 # **TestInlineAdditionalProperties**
-> void TestInlineAdditionalProperties (string requestBody)
+> void TestInlineAdditionalProperties (Dictionary<string, string> requestBody)
 
 test inline additionalProperties
 
@@ -561,7 +561,7 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var requestBody = new string(); // string | request body
+            var requestBody = new Dictionary<string, string>(); // Dictionary<string, string> | request body
 
             try
             {
@@ -581,7 +581,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**string**](string.md)| request body | 
+ **requestBody** | [**Dictionary&lt;string, string&gt;**](string.md)| request body | 
 
 ### Return type
 

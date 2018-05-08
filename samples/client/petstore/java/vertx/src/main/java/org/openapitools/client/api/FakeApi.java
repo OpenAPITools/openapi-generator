@@ -15,7 +15,7 @@ import java.util.*;
 
 public interface FakeApi {
 
-    void fakeOuterBooleanSerialize(Boolean booleanPostBody, Handler<AsyncResult<Boolean>> handler);
+    void fakeOuterBooleanSerialize(Boolean body, Handler<AsyncResult<Boolean>> handler);
 
     void fakeOuterCompositeSerialize(OuterComposite outerComposite, Handler<AsyncResult<OuterComposite>> handler);
 
@@ -31,7 +31,7 @@ public interface FakeApi {
 
     void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, Handler<AsyncResult<Void>> handler);
 
-    void testInlineAdditionalProperties(String requestBody, Handler<AsyncResult<Void>> handler);
+    void testInlineAdditionalProperties(Map<String, String> requestBody, Handler<AsyncResult<Void>> handler);
 
     void testJsonFormData(String param, String param2, Handler<AsyncResult<Void>> handler);
 

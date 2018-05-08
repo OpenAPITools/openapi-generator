@@ -1,6 +1,6 @@
 <?php
 /**
- * Swagger Petstore
+ * OpenAPI Petstore
  * @version 1.0.0
  */
 

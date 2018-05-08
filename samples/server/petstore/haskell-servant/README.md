@@ -1,6 +1,6 @@
-# Auto-Generated Swagger Bindings to `SwaggerPetstore`
+# Auto-Generated OpenAPI Bindings to `OpenAPIPetstore`
 
-The library in `lib` provides auto-generated-from-Swagger bindings to the SwaggerPetstore API.
+The library in `lib` provides auto-generated-from-OpenAPI bindings to the OpenAPIPetstore API.
 
 ## Installation
 
@@ -11,46 +11,46 @@ Installation follows the standard approach to installing Stack-based projects.
 
 ## Main Interface
 
-The main interface to this library is in the `SwaggerPetstore.API` module, which exports the SwaggerPetstoreBackend type. The SwaggerPetstoreBackend
+The main interface to this library is in the `OpenAPIPetstore.API` module, which exports the OpenAPIPetstoreBackend type. The OpenAPIPetstoreBackend
 type can be used to create and define servers and clients for the API.
 
 ## Creating a Client
 
-A client can be created via the `createSwaggerPetstoreClient` function, which, if provided with a hostname and a port, will generate
+A client can be created via the `createOpenAPIPetstoreClient` function, which, if provided with a hostname and a port, will generate
 a client that can be used to access the API if it is being served at that hostname / port combination. For example, if
-`localhost:8080` is serving the SwaggerPetstore API, you can write:
+`localhost:8080` is serving the OpenAPIPetstore API, you can write:
 
 ```haskell
 {-# LANGUAGE RecordWildCards #-}
 
-import SwaggerPetstore.API
+import OpenAPIPetstore.API
 
 main :: IO ()
 main = do
-  SwaggerPetstoreBackend{..} <- createSwaggerPetstoreClient (ServerConfig "localhost" 8080)
-  -- Any SwaggerPetstore API call can go here.
+  OpenAPIPetstoreBackend{..} <- createOpenAPIPetstoreClient (ServerConfig "localhost" 8080)
+  -- Any OpenAPIPetstore API call can go here.
   return ()
 ```
 
 ## Creating a Server
 
-In order to create a server, you must use the `runSwaggerPetstoreServer` function. However, you unlike the client, in which case you *got* a `SwaggerPetstoreBackend`
-from the library, you must instead *provide* a `SwaggerPetstoreBackend`. For example, if you have defined handler functions for all the
-functions in `SwaggerPetstore.Handlers`, you can write:
+In order to create a server, you must use the `runOpenAPIPetstoreServer` function. However, you unlike the client, in which case you *got* a `OpenAPIPetstoreBackend`
+from the library, you must instead *provide* a `OpenAPIPetstoreBackend`. For example, if you have defined handler functions for all the
+functions in `OpenAPIPetstore.Handlers`, you can write:
 
 ```haskell
 {-# LANGUAGE RecordWildCards #-}
 
-import SwaggerPetstore.API
+import OpenAPIPetstore.API
 
--- A module you wrote yourself, containing all handlers needed for the SwaggerPetstoreBackend type.
-import SwaggerPetstore.Handlers
+-- A module you wrote yourself, containing all handlers needed for the OpenAPIPetstoreBackend type.
+import OpenAPIPetstore.Handlers
 
--- Run a SwaggerPetstore server on localhost:8080
+-- Run a OpenAPIPetstore server on localhost:8080
 main :: IO ()
 main = do
-  let server = SwaggerPetstoreBackend{..}
-  runSwaggerPetstoreServer (ServerConfig "localhost" 8080) server
+  let server = OpenAPIPetstoreBackend{..}
+  runOpenAPIPetstoreServer (ServerConfig "localhost" 8080) server
 ```
 
 You could use `optparse-applicative` or a similar library to read the host and port from command-line arguments:
@@ -59,7 +59,7 @@ You could use `optparse-applicative` or a similar library to read the host and p
 
 module Main (main) where
 
-import SwaggerPetstore.API (runSwaggerPetstoreServer, SwaggerPetstoreBackend(..), ServerConfig(..))
+import OpenAPIPetstore.API (runOpenAPIPetstoreServer, OpenAPIPetstoreBackend(..), ServerConfig(..))
 
 import Control.Applicative ((<$>), (<*>))
 import Options.Applicative (execParser, option, str, auto, long, metavar, help)
@@ -67,7 +67,7 @@ import Options.Applicative (execParser, option, str, auto, long, metavar, help)
 main :: IO ()
 main = do
   config <- parseArguments
-  runSwaggerPetstoreServer config SwaggerPetstoreBackend{}
+  runOpenAPIPetstoreServer config OpenAPIPetstoreBackend{}
 
 -- | Parse host and port from the command line arguments.
 parseArguments :: IO ServerConfig

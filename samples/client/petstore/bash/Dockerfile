@@ -24,8 +24,8 @@ source /etc/bash-completion.d/petstore-cli\n\
 #
 # Setup prompt
 #
-RUN echo 'export PS1="[Swagger Petstore] \$ "' >> ~/.bashrc
-RUN echo 'export PROMPT="[Swagger Petstore] \$ "' >> ~/.zshrc
+RUN echo 'export PS1="[OpenAPI Petstore] \$ "' >> ~/.bashrc
+RUN echo 'export PROMPT="[OpenAPI Petstore] \$ "' >> ~/.zshrc
 
 #
 # Setup a welcome message with basic instruction
@@ -33,7 +33,7 @@ RUN echo 'export PROMPT="[Swagger Petstore] \$ "' >> ~/.zshrc
 RUN echo 'cat << EOF\n\
 \n\
 This Docker provides preconfigured environment for running the command\n\
-line REST client for $(tput setaf 6)Swagger Petstore$(tput sgr0).\n\
+line REST client for $(tput setaf 6)OpenAPI Petstore$(tput sgr0).\n\
 \n\
 For convenience, you can export the following environment variables:\n\
 \n\

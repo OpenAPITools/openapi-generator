@@ -11,9 +11,9 @@ Pod::Spec.new do |s|
     s.name             = "SwaggerClient"
     s.version          = "1.0.0"
 
-    s.summary          = "Swagger Petstore"
+    s.summary          = "OpenAPI Petstore"
     s.description      = <<-DESC
-                         This is a sample server Petstore server.  You can find out more about Swagger at http://swagger.io or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters
+                         This is a sample server Petstore server. For this sample, you can use the api key \"special-key\" to test the authorization filters
                          DESC
 
     s.platform     = :ios, '7.0'
@@ -21,10 +21,10 @@ Pod::Spec.new do |s|
 
     s.framework    = 'SystemConfiguration'
 
-    s.homepage     = "https://github.com/swagger-api/swagger-codegen"
+    s.homepage     = "https://github.com/openapitools/openapi-generator"
     s.license      = "Proprietary"
-    s.source       = { :git => "https://github.com/swagger-api/swagger-codegen.git", :tag => "#{s.version}" }
-    s.author       = { "Swagger" => "apiteam@swagger.io" }
+    s.source       = { :git => "https://github.com/openapitools/openapi-generator.git", :tag => "#{s.version}" }
+    s.author       = { "Swagger" => "team@openapitools.org" }
 
     s.source_files = 'SwaggerClient/**/*.{m,h}'
     s.public_header_files = 'SwaggerClient/**/*.h'

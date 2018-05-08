@@ -1,4 +1,4 @@
-# SwaggerPetstore.StoreApi
+# OpenApiPetstore.StoreApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -20,13 +20,10 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+var OpenApiPetstore = require('open_api_petstore');
 
-var apiInstance = new SwaggerPetstore.StoreApi();
-
+var apiInstance = new OpenApiPetstore.StoreApi();
 var orderId = "orderId_example"; // String | ID of the order that needs to be deleted
-
-
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -54,11 +51,11 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="getInventory"></a>
 # **getInventory**
-> {&#39;String&#39;: &#39;Number&#39;} getInventory()
+> {String: Number} getInventory()
 
 Returns pet inventories by status
 
@@ -66,17 +63,15 @@ Returns a map of status codes to quantities
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
-
+var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 // Configure API key authorization: api_key
 var api_key = defaultClient.authentications['api_key'];
 api_key.apiKey = 'YOUR API KEY';
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //api_key.apiKeyPrefix = 'Token';
 
-var apiInstance = new SwaggerPetstore.StoreApi();
-
+var apiInstance = new OpenApiPetstore.StoreApi();
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -92,7 +87,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{&#39;String&#39;: &#39;Number&#39;}**
+**{String: Number}**
 
 ### Authorization
 
@@ -113,13 +108,10 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+var OpenApiPetstore = require('open_api_petstore');
 
-var apiInstance = new SwaggerPetstore.StoreApi();
-
+var apiInstance = new OpenApiPetstore.StoreApi();
 var orderId = 789; // Number | ID of pet that needs to be fetched
-
-
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -151,21 +143,16 @@ No authorization required
 
 <a name="placeOrder"></a>
 # **placeOrder**
-> Order placeOrder(body)
+> Order placeOrder(order)
 
 Place an order for a pet
 
-
-
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+var OpenApiPetstore = require('open_api_petstore');
 
-var apiInstance = new SwaggerPetstore.StoreApi();
-
-var body = new SwaggerPetstore.Order(); // Order | order placed for purchasing the pet
-
-
+var apiInstance = new OpenApiPetstore.StoreApi();
+var order = new OpenApiPetstore.Order(); // Order | order placed for purchasing the pet
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -173,14 +160,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.placeOrder(body, callback);
+apiInstance.placeOrder(order, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 

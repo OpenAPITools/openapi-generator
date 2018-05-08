@@ -32,7 +32,7 @@ DOXYFILE_ENCODING      = UTF-8
 # title of most generated pages and in a few other places.
 # The default value is: My Project.
 
-PROJECT_NAME           = "Swagger Petstore 1.0.0 Tizen SDK"
+PROJECT_NAME           = "OpenAPI Petstore 1.0.0 Tizen SDK"
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. This
 # could be handy for archiving the generated documentation or if some version
@@ -44,7 +44,7 @@ PROJECT_NUMBER         = 1.0.0
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "An SDK for creating client applications for Swagger Petstore on Tizen Platform (http://tizen.org/)"
+PROJECT_BRIEF          = "An SDK for creating client applications for OpenAPI Petstore on Tizen Platform (http://tizen.org/)"
 
 # With the PROJECT_LOGO tag one can specify an logo or icon that is included in
 # the documentation. The maximum height of the logo should not exceed 55 pixels

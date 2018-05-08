@@ -49,12 +49,12 @@ public class FakeApi {
   /**
     * Test serialization of outer boolean types
     * <p><b>200</b> - Output boolean
-    * @param booleanPostBody Input boolean as post body
+    * @param body Input boolean as post body
     * @return Boolean
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Boolean fakeOuterBooleanSerialize(Boolean booleanPostBody) throws IOException {
-        HttpResponse response = fakeOuterBooleanSerializeForHttpResponse(booleanPostBody);
+    public Boolean fakeOuterBooleanSerialize(Boolean body) throws IOException {
+        HttpResponse response = fakeOuterBooleanSerializeForHttpResponse(body);
         TypeReference typeRef = new TypeReference<Boolean>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
@@ -66,37 +66,37 @@ public class FakeApi {
     * @return Boolean
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Boolean fakeOuterBooleanSerialize(Boolean booleanPostBody, Map<String, Object> params) throws IOException {
-        HttpResponse response = fakeOuterBooleanSerializeForHttpResponse(booleanPostBody, params);
+    public Boolean fakeOuterBooleanSerialize(Boolean body, Map<String, Object> params) throws IOException {
+        HttpResponse response = fakeOuterBooleanSerializeForHttpResponse(body, params);
         TypeReference typeRef = new TypeReference<Boolean>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse fakeOuterBooleanSerializeForHttpResponse(Boolean booleanPostBody) throws IOException {
+    public HttpResponse fakeOuterBooleanSerializeForHttpResponse(Boolean body) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/boolean");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(booleanPostBody);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
-      public HttpResponse fakeOuterBooleanSerializeForHttpResponse(java.io.InputStream booleanPostBody, String mediaType) throws IOException {
+      public HttpResponse fakeOuterBooleanSerializeForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
           
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/boolean");
 
               String url = uriBuilder.build().toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = booleanPostBody == null ?
+              HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, booleanPostBody);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse fakeOuterBooleanSerializeForHttpResponse(Boolean booleanPostBody, Map<String, Object> params) throws IOException {
+    public HttpResponse fakeOuterBooleanSerializeForHttpResponse(Boolean body, Map<String, Object> params) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/boolean");
 
@@ -121,7 +121,7 @@ public class FakeApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(booleanPostBody);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
@@ -800,7 +800,7 @@ public class FakeApi {
     * @param requestBody request body
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testInlineAdditionalProperties(String requestBody) throws IOException {
+    public void testInlineAdditionalProperties(Map<String, String> requestBody) throws IOException {
         testInlineAdditionalPropertiesForHttpResponse(requestBody);
     }
 
@@ -811,11 +811,11 @@ public class FakeApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testInlineAdditionalProperties(String requestBody, Map<String, Object> params) throws IOException {
+    public void testInlineAdditionalProperties(Map<String, String> requestBody, Map<String, Object> params) throws IOException {
         testInlineAdditionalPropertiesForHttpResponse(requestBody, params);
     }
 
-    public HttpResponse testInlineAdditionalPropertiesForHttpResponse(String requestBody) throws IOException {
+    public HttpResponse testInlineAdditionalPropertiesForHttpResponse(Map<String, String> requestBody) throws IOException {
         // verify the required parameter 'requestBody' is set
         if (requestBody == null) {
             throw new IllegalArgumentException("Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
@@ -845,7 +845,7 @@ public class FakeApi {
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse testInlineAdditionalPropertiesForHttpResponse(String requestBody, Map<String, Object> params) throws IOException {
+    public HttpResponse testInlineAdditionalPropertiesForHttpResponse(Map<String, String> requestBody, Map<String, Object> params) throws IOException {
         // verify the required parameter 'requestBody' is set
         if (requestBody == null) {
             throw new IllegalArgumentException("Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");

@@ -158,7 +158,7 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testInlineAdditionalProperties
      */
-    default ResponseEntity<Void> testInlineAdditionalProperties( String  requestBody) {
+    default ResponseEntity<Void> testInlineAdditionalProperties( Map<String, String>  requestBody) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

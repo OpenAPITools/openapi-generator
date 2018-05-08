@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 <a name="fakeOuterBooleanSerialize"></a>
 # **fakeOuterBooleanSerialize**
-> Boolean fakeOuterBooleanSerialize(booleanPostBody)
+> Boolean fakeOuterBooleanSerialize(body)
 
 
 
@@ -42,7 +42,7 @@ api.fakeOuterBooleanSerialize().execute(r -> r.prettyPeek());
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **booleanPostBody** | **Boolean**| Input boolean as post body | [optional]
+ **body** | **Boolean**| Input boolean as post body | [optional]
 
 ### Return type
 
@@ -294,20 +294,20 @@ api.testEndpointParameters()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **BigDecimal**| None |
- **_double** | **Double**| None |
- **patternWithoutDelimiter** | **String**| None |
- **_byte** | **byte[]**| None |
- **integer** | **Integer**| None | [optional] [enum: ]
- **int32** | **Integer**| None | [optional] [enum: ]
- **int64** | **Long**| None | [optional]
- **_float** | **Float**| None | [optional]
- **string** | **String**| None | [optional]
- **binary** | **File**| None | [optional]
- **date** | **LocalDate**| None | [optional]
- **dateTime** | **OffsetDateTime**| None | [optional]
- **password** | **String**| None | [optional]
- **paramCallback** | **String**| None | [optional]
+ **number** | **BigDecimal**| None | [default to null]
+ **_double** | **Double**| None | [default to null]
+ **patternWithoutDelimiter** | **String**| None | [default to null]
+ **_byte** | **byte[]**| None | [default to null]
+ **integer** | **Integer**| None | [optional] [default to null]
+ **int32** | **Integer**| None | [optional] [default to null]
+ **int64** | **Long**| None | [optional] [default to null]
+ **_float** | **Float**| None | [optional] [default to null]
+ **string** | **String**| None | [optional] [default to null]
+ **binary** | **File**| None | [optional] [default to null]
+ **date** | **LocalDate**| None | [optional] [default to null]
+ **dateTime** | **OffsetDateTime**| None | [optional] [default to null]
+ **password** | **String**| None | [optional] [default to null]
+ **paramCallback** | **String**| None | [optional] [default to null]
 
 ### Return type
 
@@ -354,8 +354,8 @@ Name | Type | Description  | Notes
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
  **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2]
  **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
- **enumFormStringArray** | [**List&lt;String&gt;**](List.md)| Form parameter enum test (string array) | [optional] [enum: >, $]
- **enumFormString** | **String**| Form parameter enum test (string) | [optional] [enum: _abc, -efg, (xyz)]
+ **enumFormStringArray** | **List&lt;String&gt;**| Form parameter enum test (string array) | [optional] [default to $] [enum: >, $]
+ **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
 
 ### Return type
 
@@ -395,7 +395,7 @@ api.testInlineAdditionalProperties()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**String**](String.md)| request body |
+ **requestBody** | [**Map&lt;String, String&gt;**](String.md)| request body |
 
 ### Return type
 
@@ -436,8 +436,8 @@ api.testJsonFormData()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 |
- **param2** | **String**| field2 |
+ **param** | **String**| field1 | [default to null]
+ **param2** | **String**| field2 | [default to null]
 
 ### Return type
 

@@ -24,25 +24,25 @@ public interface FakeApi {
    * 
    * Sync method
    * Test serialization of outer boolean types
-   * @param booleanPostBody Input boolean as post body (optional)
+   * @param body Input boolean as post body (optional)
    * @return Boolean
    */
   
   @POST("/fake/outer/boolean")
   Boolean fakeOuterBooleanSerialize(
-    @retrofit.http.Body Boolean booleanPostBody
+    @retrofit.http.Body Boolean body
   );
 
   /**
    * 
    * Async method
-   * @param booleanPostBody Input boolean as post body (optional)
+   * @param body Input boolean as post body (optional)
    * @param cb callback method
    */
   
   @POST("/fake/outer/boolean")
   void fakeOuterBooleanSerialize(
-    @retrofit.http.Body Boolean booleanPostBody, Callback<Boolean> cb
+    @retrofit.http.Body Boolean body, Callback<Boolean> cb
   );
   /**
    * 
@@ -174,16 +174,16 @@ public interface FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional)
-   * @param int32 None (optional)
-   * @param int64 None (optional)
-   * @param _float None (optional)
-   * @param string None (optional)
-   * @param binary None (optional)
-   * @param date None (optional)
-   * @param dateTime None (optional)
-   * @param password None (optional)
-   * @param paramCallback None (optional)
+   * @param integer None (optional, default to null)
+   * @param int32 None (optional, default to null)
+   * @param int64 None (optional, default to null)
+   * @param _float None (optional, default to null)
+   * @param string None (optional, default to null)
+   * @param binary None (optional, default to null)
+   * @param date None (optional, default to null)
+   * @param dateTime None (optional, default to null)
+   * @param password None (optional, default to null)
+   * @param paramCallback None (optional, default to null)
    * @return Void
    */
   
@@ -200,16 +200,16 @@ public interface FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional)
-   * @param int32 None (optional)
-   * @param int64 None (optional)
-   * @param _float None (optional)
-   * @param string None (optional)
-   * @param binary None (optional)
-   * @param date None (optional)
-   * @param dateTime None (optional)
-   * @param password None (optional)
-   * @param paramCallback None (optional)
+   * @param integer None (optional, default to null)
+   * @param int32 None (optional, default to null)
+   * @param int64 None (optional, default to null)
+   * @param _float None (optional, default to null)
+   * @param string None (optional, default to null)
+   * @param binary None (optional, default to null)
+   * @param date None (optional, default to null)
+   * @param dateTime None (optional, default to null)
+   * @param password None (optional, default to null)
+   * @param paramCallback None (optional, default to null)
    * @param cb callback method
    */
   
@@ -228,8 +228,8 @@ public interface FakeApi {
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
-   * @param enumFormStringArray Form parameter enum test (string array) (optional)
-   * @param enumFormString Form parameter enum test (string) (optional)
+   * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+   * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @return Void
    */
   
@@ -248,8 +248,8 @@ public interface FakeApi {
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
-   * @param enumFormStringArray Form parameter enum test (string array) (optional)
-   * @param enumFormString Form parameter enum test (string) (optional)
+   * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+   * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @param cb callback method
    */
   
@@ -268,7 +268,7 @@ public interface FakeApi {
   
   @POST("/fake/inline-additionalProperties")
   Void testInlineAdditionalProperties(
-    @retrofit.http.Body String requestBody
+    @retrofit.http.Body Map<String, String> requestBody
   );
 
   /**
@@ -280,7 +280,7 @@ public interface FakeApi {
   
   @POST("/fake/inline-additionalProperties")
   void testInlineAdditionalProperties(
-    @retrofit.http.Body String requestBody, Callback<Void> cb
+    @retrofit.http.Body Map<String, String> requestBody, Callback<Void> cb
   );
   /**
    * test json serialization of form data

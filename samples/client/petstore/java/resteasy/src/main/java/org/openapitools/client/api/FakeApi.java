@@ -43,12 +43,12 @@ public class FakeApi {
   /**
    * 
    * Test serialization of outer boolean types
-   * @param booleanPostBody Input boolean as post body (optional)
+   * @param body Input boolean as post body (optional)
    * @return Boolean
    * @throws ApiException if fails to make API call
    */
-  public Boolean fakeOuterBooleanSerialize(Boolean booleanPostBody) throws ApiException {
-    Object localVarPostBody = booleanPostBody;
+  public Boolean fakeOuterBooleanSerialize(Boolean body) throws ApiException {
+    Object localVarPostBody = body;
     
     // create path and map variables
     String localVarPath = "/fake/outer/boolean".replaceAll("\\{format\\}","json");
@@ -279,16 +279,16 @@ public class FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional)
-   * @param int32 None (optional)
-   * @param int64 None (optional)
-   * @param _float None (optional)
-   * @param string None (optional)
-   * @param binary None (optional)
-   * @param date None (optional)
-   * @param dateTime None (optional)
-   * @param password None (optional)
-   * @param paramCallback None (optional)
+   * @param integer None (optional, default to null)
+   * @param int32 None (optional, default to null)
+   * @param int64 None (optional, default to null)
+   * @param _float None (optional, default to null)
+   * @param string None (optional, default to null)
+   * @param binary None (optional, default to null)
+   * @param date None (optional, default to null)
+   * @param dateTime None (optional, default to null)
+   * @param password None (optional, default to null)
+   * @param paramCallback None (optional, default to null)
    * @throws ApiException if fails to make API call
    */
   public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
@@ -377,8 +377,8 @@ if (paramCallback != null)
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
-   * @param enumFormStringArray Form parameter enum test (string array) (optional)
-   * @param enumFormString Form parameter enum test (string) (optional)
+   * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+   * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @throws ApiException if fails to make API call
    */
   public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
@@ -428,7 +428,7 @@ if (enumFormString != null)
    * @param requestBody request body (required)
    * @throws ApiException if fails to make API call
    */
-  public void testInlineAdditionalProperties(String requestBody) throws ApiException {
+  public void testInlineAdditionalProperties(Map<String, String> requestBody) throws ApiException {
     Object localVarPostBody = requestBody;
     
     // verify the required parameter 'requestBody' is set

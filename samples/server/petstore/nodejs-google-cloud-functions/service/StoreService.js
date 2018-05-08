@@ -24,9 +24,6 @@ exports.deleteOrder = function(orderId) {
 exports.getInventory = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "key" : 0
-};
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {

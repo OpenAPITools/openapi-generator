@@ -1,4 +1,4 @@
-# SwaggerPetstore.ClassModel
+# OpenApiPetstore.ClassModel
 
 ## Properties
 Name | Type | Description | Notes

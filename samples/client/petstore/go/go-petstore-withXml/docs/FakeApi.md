@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **FakeOuterBooleanSerialize**
-> OuterBoolean FakeOuterBooleanSerialize(ctx, optional)
+> bool FakeOuterBooleanSerialize(ctx, optional)
 
 
 Test serialization of outer boolean types
@@ -34,11 +34,11 @@ Optional parameters are passed through a pointer to a FakeOuterBooleanSerializeO
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **booleanPostBody** | **optional.Bool**| Input boolean as post body | 
+ **body** | **optional.Bool**| Input boolean as post body | 
 
 ### Return type
 
-[**OuterBoolean**](OuterBoolean.md)
+**bool**
 
 ### Authorization
 
@@ -87,7 +87,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FakeOuterNumberSerialize**
-> OuterNumber FakeOuterNumberSerialize(ctx, optional)
+> float32 FakeOuterNumberSerialize(ctx, optional)
 
 
 Test serialization of outer number types
@@ -108,7 +108,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**OuterNumber**](OuterNumber.md)
+**float32**
 
 ### Authorization
 
@@ -122,7 +122,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FakeOuterStringSerialize**
-> OuterString FakeOuterStringSerialize(ctx, optional)
+> string FakeOuterStringSerialize(ctx, optional)
 
 
 Test serialization of outer string types
@@ -143,7 +143,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**OuterString**](OuterString.md)
+**string**
 
 ### Authorization
 
@@ -212,7 +212,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **TestEndpointParameters**
-> TestEndpointParameters(ctx, number, double, patternWithoutDelimiter, byte, optional)
+> TestEndpointParameters(ctx, number, double, patternWithoutDelimiter, byte_, optional)
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -225,7 +225,7 @@ Name | Type | Description  | Notes
   **number** | **float32**| None | 
   **double** | **float64**| None | 
   **patternWithoutDelimiter** | **string**| None | 
-  **byte** | **string**| None | 
+  **byte_** | **string**| None | 
  **optional** | ***TestEndpointParametersOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -238,10 +238,10 @@ Name | Type | Description  | Notes
 
 
  **integer** | **optional.Int32**| None | 
- **int32** | **optional.Int32**| None | 
- **int64** | **optional.Int64**| None | 
+ **int32_** | **optional.Int32**| None | 
+ **int64_** | **optional.Int64**| None | 
  **float** | **optional.Float32**| None | 
- **string** | **optional.String**| None | 
+ **string_** | **optional.String**| None | 
  **binary** | **optional.Interface of *os.File****optional.*os.File**| None | 
  **date** | **optional.String**| None | 
  **dateTime** | **optional.Time**| None | 
@@ -287,8 +287,8 @@ Name | Type | Description  | Notes
  **enumQueryString** | **optional.String**| Query parameter enum test (string) | [default to -efg]
  **enumQueryInteger** | **optional.Int32**| Query parameter enum test (double) | 
  **enumQueryDouble** | **optional.Float64**| Query parameter enum test (double) | 
- **enumFormStringArray** | [**optional.Interface of []string**](array.md)| Form parameter enum test (string array) | 
- **enumFormString** | **optional.String**| Form parameter enum test (string) | 
+ **enumFormStringArray** | **optional.[]string**| Form parameter enum test (string array) | [default to $]
+ **enumFormString** | **optional.String**| Form parameter enum test (string) | [default to -efg]
 
 ### Return type
 
@@ -314,7 +314,7 @@ test inline additionalProperties
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **requestBody** | [**string**](string.md)| request body | 
+  **requestBody** | [**map[string]string**](string.md)| request body | 
 
 ### Return type
 

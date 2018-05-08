@@ -64,7 +64,7 @@ public class PetApiExample {
 
     public static void main(String[] args) {
         PetApi apiInstance = new PetApi();
-        Pet pet = {photoUrls=[Ljava.lang.Object;@5f9be66c, name=doggie, id=0, category={name=name, id=6}, tags=[Ljava.lang.Object;@3abada5a, status=available}; // Pet | Pet object that needs to be added to the store
+        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
             apiInstance.addPet(pet);
         } catch (ApiException e) {
@@ -139,5 +139,5 @@ It's recommended to create an instance of `ApiClient` per thread in a multithrea
 
 ## Author
 
-apiteam@swagger.io
+
 

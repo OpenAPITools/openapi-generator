@@ -31,12 +31,12 @@ public interface FakeApi {
   /**
    * 
    * Test serialization of outer boolean types
-   * @param booleanPostBody Input boolean as post body (optional)
+   * @param body Input boolean as post body (optional)
    * @return Call&lt;Boolean&gt;
    */
   @POST("fake/outer/boolean")
   F.Promise<Response<Boolean>> fakeOuterBooleanSerialize(
-    @retrofit2.http.Body Boolean booleanPostBody
+    @retrofit2.http.Body Boolean body
   );
 
   /**
@@ -108,16 +108,16 @@ public interface FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional)
-   * @param int32 None (optional)
-   * @param int64 None (optional)
-   * @param _float None (optional)
-   * @param string None (optional)
-   * @param binary None (optional)
-   * @param date None (optional)
-   * @param dateTime None (optional)
-   * @param password None (optional)
-   * @param paramCallback None (optional)
+   * @param integer None (optional, default to null)
+   * @param int32 None (optional, default to null)
+   * @param int64 None (optional, default to null)
+   * @param _float None (optional, default to null)
+   * @param string None (optional, default to null)
+   * @param binary None (optional, default to null)
+   * @param date None (optional, default to null)
+   * @param dateTime None (optional, default to null)
+   * @param password None (optional, default to null)
+   * @param paramCallback None (optional, default to null)
    * @return Call&lt;Void&gt;
    */
   @retrofit2.http.FormUrlEncoded
@@ -135,8 +135,8 @@ public interface FakeApi {
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
-   * @param enumFormStringArray Form parameter enum test (string array) (optional)
-   * @param enumFormString Form parameter enum test (string) (optional)
+   * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+   * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @return Call&lt;Void&gt;
    */
   @retrofit2.http.FormUrlEncoded
@@ -156,7 +156,7 @@ public interface FakeApi {
   })
   @POST("fake/inline-additionalProperties")
   F.Promise<Response<Void>> testInlineAdditionalProperties(
-    @retrofit2.http.Body String requestBody
+    @retrofit2.http.Body Map<String, String> requestBody
   );
 
   /**

@@ -4,7 +4,7 @@ apply plugin: 'eclipse'
 
 def artifactory = 'buildserver.supportspace.com'
 group = 'com.supportspace'
-archivesBaseName = 'swagger-gen-groovy'
+archivesBaseName = 'openapi-gen-groovy'
 version = '0.1'
 
 buildscript {

@@ -93,7 +93,7 @@ public class StoreApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    public Response getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true, allowableValues="range=[1, 5]") @PathParam("order_id") Long orderId
+    public Response getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("order_id") Long orderId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getOrderById(orderId,securityContext);

@@ -1,5 +1,5 @@
 version := "1.0.0"
-name := "swagger-scala-client"
+name := "openapi-scala-client"
 organization := "io.swagger"
 scalaVersion := "2.11.12"
 

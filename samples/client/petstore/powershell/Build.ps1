@@ -53,9 +53,9 @@ Copy-Item "$ClientPath\bin\*.dll" $BinPath
 $Manifest = @{
     Path = "$ScriptDir\src\IO.Swagger\IO.Swagger.psd1"
 
-    Author = 'Swagger Codegen Team'
+    Author = 'OpenAPI Generator Team'
     CompanyName = 'swagger.io'
-    Description = 'IO.Swagger - the PowerShell module for Swagger Petstore'
+    Description = 'IO.Swagger - the PowerShell module for OpenAPI Petstore'
 
     RootModule = 'IO.Swagger.psm1'
     Guid = 'a27b908d-2a20-467f-bc32-af6f3a654ac5' # Has to be static, otherwise each new build will be considered different module

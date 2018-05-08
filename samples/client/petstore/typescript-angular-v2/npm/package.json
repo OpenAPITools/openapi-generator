@@ -1,10 +1,11 @@
 {
   "name": "@swagger/angular2-typescript-petstore",
   "version": "0.0.1",
-  "description": "swagger client for @swagger/angular2-typescript-petstore",
-  "author": "Swagger Codegen Contributors",
+  "description": "OpenAPI client for @swagger/angular2-typescript-petstore",
+  "author": "OpenAPI-Generator Contributors",
   "keywords": [
-    "swagger-client"
+    "openapi-client",
+    "openapi-generator"
   ],
   "license": "Unlicense",
   "main": "dist/index.js",

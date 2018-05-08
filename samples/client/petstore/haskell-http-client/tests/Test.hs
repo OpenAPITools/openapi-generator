@@ -12,8 +12,8 @@ import Test.Hspec.QuickCheck
 import PropMime
 import Instances ()
 
-import SwaggerPetstore.Model
-import SwaggerPetstore.MimeTypes
+import OpenAPIPetstore.Model
+import OpenAPIPetstore.MimeTypes
 
 main :: IO ()
 main =

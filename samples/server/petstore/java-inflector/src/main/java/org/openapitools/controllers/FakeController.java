@@ -27,7 +27,7 @@ public class FakeController  {
    **/
 
   /*
-    public ResponseContext fakeOuterBooleanSerialize(RequestContext request , Boolean booleanPostBody) {
+    public ResponseContext fakeOuterBooleanSerialize(RequestContext request , Boolean body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
@@ -75,7 +75,7 @@ public class FakeController  {
   */
 
   /*
-    public ResponseContext testInlineAdditionalProperties(RequestContext request , String requestBody) {
+    public ResponseContext testInlineAdditionalProperties(RequestContext request , Map<String, String> requestBody) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */

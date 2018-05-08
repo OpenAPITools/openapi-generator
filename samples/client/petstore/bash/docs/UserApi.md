@@ -41,7 +41,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not Applicable
  - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -59,7 +59,7 @@ petstore-cli createUsersWithArrayInput
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**array[User]**](User.md) | List of user object |
+ **user** | [**array[User]**](array.md) | List of user object |
 
 ### Return type
 
@@ -89,7 +89,7 @@ petstore-cli createUsersWithListInput
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**array[User]**](User.md) | List of user object |
+ **user** | [**array[User]**](array.md) | List of user object |
 
 ### Return type
 
@@ -254,7 +254,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not Applicable
  - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

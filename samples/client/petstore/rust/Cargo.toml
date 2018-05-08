@@ -1,7 +1,7 @@
 [package]
 name = "petstore_client"
 version = "1.0.0"
-authors = ["Swagger Codegen team and contributors"]
+authors = ["OpenAPI Generator team and contributors"]
 
 [dependencies]
 serde = "1.0"

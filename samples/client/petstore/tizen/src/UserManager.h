@@ -6,6 +6,7 @@
 #include <list>
 #include <glib.h>
 #include "User.h"
+#include <list>
 #include "Error.h"
 
 /** \defgroup Operations API Endpoints
@@ -60,7 +61,7 @@ bool createUserAsync(char * accessToken,
  * \param userData The user data to be passed to the callback function.
  */
 bool createUsersWithArrayInputSync(char * accessToken,
-	std::list<User> user, 
+	std::list<std::list> user, 
 	
 	void(* handler)(Error, void* ) , void* userData);
 
@@ -73,7 +74,7 @@ bool createUsersWithArrayInputSync(char * accessToken,
  * \param userData The user data to be passed to the callback function.
  */
 bool createUsersWithArrayInputAsync(char * accessToken,
-	std::list<User> user, 
+	std::list<std::list> user, 
 	
 	void(* handler)(Error, void* ) , void* userData);
 
@@ -87,7 +88,7 @@ bool createUsersWithArrayInputAsync(char * accessToken,
  * \param userData The user data to be passed to the callback function.
  */
 bool createUsersWithListInputSync(char * accessToken,
-	std::list<User> user, 
+	std::list<std::list> user, 
 	
 	void(* handler)(Error, void* ) , void* userData);
 
@@ -100,7 +101,7 @@ bool createUsersWithListInputSync(char * accessToken,
  * \param userData The user data to be passed to the callback function.
  */
 bool createUsersWithListInputAsync(char * accessToken,
-	std::list<User> user, 
+	std::list<std::list> user, 
 	
 	void(* handler)(Error, void* ) , void* userData);
 

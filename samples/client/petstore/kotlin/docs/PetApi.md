@@ -321,8 +321,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **kotlin.Long**| ID of pet that needs to be updated |
- **name** | **kotlin.String**| Updated name of the pet | [optional]
- **status** | **kotlin.String**| Updated status of the pet | [optional]
+ **name** | **kotlin.String**| Updated name of the pet | [optional] [default to null]
+ **status** | **kotlin.String**| Updated status of the pet | [optional] [default to null]
 
 ### Return type
 
@@ -370,8 +370,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **kotlin.Long**| ID of pet to update |
- **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional]
- **file** | **java.io.File**| file to upload | [optional]
+ **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] [default to null]
+ **file** | **java.io.File**| file to upload | [optional] [default to null]
 
 ### Return type
 

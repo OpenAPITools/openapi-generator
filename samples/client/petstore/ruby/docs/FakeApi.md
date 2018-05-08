@@ -437,7 +437,7 @@ test inline additionalProperties
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-request_body = {'key' => 'request_body_example'} # String | request body
+request_body = {'key' => 'request_body_example'} # Hash<String, String> | request body
 
 begin
   #test inline additionalProperties
@@ -451,7 +451,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**String**](String.md)| request body | 
+ **request_body** | [**Hash&lt;String, String&gt;**](String.md)| request body | 
 
 ### Return type
 
