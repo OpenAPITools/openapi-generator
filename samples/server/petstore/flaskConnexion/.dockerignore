@@ -1,5 +1,5 @@
 .travis.yaml
-.swagger-codegen-ignore
+.openapi-generator-ignore
 README.md
 tox.ini
 git_push.sh

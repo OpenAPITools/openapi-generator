@@ -13,4 +13,4 @@ EXPOSE 8080
 
 ENTRYPOINT ["python"]
 
-CMD ["-m", "swagger_server"]
+CMD ["-m", "openapi_server"]
