@@ -56,7 +56,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected Set<String> foundationClasses = new HashSet<String>();
     protected String podName = "OpenAPIClient";
     protected String podVersion = "1.0.0";
-    protected String classPrefix = "SWG";
+    protected String classPrefix = "OAI";
     protected String authorName = "OpenAPI";
     protected String authorEmail = "team@openapitools.org";
     protected String license = DEFAULT_LICENSE;
@@ -141,7 +141,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("List", "NSArray");
         typeMapping.put("object", "NSObject");
         typeMapping.put("file", "NSURL");
-        typeMapping.put("binary", "NSData");
+        typeMapping.put("binary", "NSURL");
         typeMapping.put("bytearray", "NSData");
         typeMapping.put("byte", "NSData");
         typeMapping.put("uuid", "NSString");
@@ -189,7 +189,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.clear();
         cliOptions.add(new CliOption(CORE_DATA, "Should generate core data models").defaultValue("false"));
         cliOptions.add(new CliOption(CLASS_PREFIX, "prefix for generated classes (convention: Abbreviation of pod name e.g. `HN` for `HackerNews`).`")
-                .defaultValue("SWG"));
+                .defaultValue("OAI"));
         cliOptions.add(new CliOption(POD_NAME, "cocoapods package name (convention: CameCase).")
                 .defaultValue("OpenAPIClient"));
         cliOptions.add(new CliOption(CodegenConstants.POD_VERSION, "cocoapods package version.")
@@ -698,7 +698,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (p.defaultValue == null) {
             example = p.example;
         } else {
-            example = p.defaultValue;
+            p.example = p.defaultValue;
+            return;
         }
 
         String type = p.baseType;

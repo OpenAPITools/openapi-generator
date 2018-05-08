@@ -330,7 +330,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
                             operationId = getOrGenerateOperationId(operation, pathname, method.toString());
                         }
                         operation.setOperationId(toOperationId(operationId));
-                        if (operation.getExtensions().get("x-openapi-router-controller") == null) {
+                        if (operation.getExtensions() == null || operation.getExtensions().get("x-openapi-router-controller") == null) {
                             operation.addExtension(
                                     "x-openapi-router-controller",
                                     controllerPackage + "." + toApiFilename(tag)
@@ -526,7 +526,8 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
         if (p.defaultValue == null) {
             example = p.example;
         } else {
-            example = p.defaultValue;
+            p.example = p.defaultValue;
+            return;
         }
 
         String type = p.baseType;

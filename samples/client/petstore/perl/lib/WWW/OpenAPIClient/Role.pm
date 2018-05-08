@@ -291,7 +291,7 @@ Your library files will be built under C<WWW::MyProjectName>.
 	$ cd openapi-generator
 	$ mvn package
 	$ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
-  -i [URL or file path to JSON swagger API spec] \
+  -i [URL or file path to JSON OpenAPI API spec] \
   -l perl \
   -c /path/to/config/file.json \
   -o /path/to/output/folder
@@ -320,7 +320,7 @@ namespace is used if you don't supply your own class.
 
 =head1 DOCUMENTATION FROM THE OpenAPI Spec
 
-Additional documentation for each class and method may be provided by the Swagger
+Additional documentation for each class and method may be provided by the OpenAPI
 spec. If so, this is available via the C<class_documentation()> and
 C<method_documentation()> methods on each generated object class, and the
 C<method_documentation()> method on the endpoint API classes:

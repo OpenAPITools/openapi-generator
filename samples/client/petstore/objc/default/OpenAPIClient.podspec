@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint SwaggerClient.podspec' to ensure this is a
+# Be sure to run `pod lib lint OpenAPIClient.podspec' to ensure this is a
 # valid spec and remove all comments before submitting the spec.
 #
 # Any lines starting with a # are optional, but encouraged
@@ -8,7 +8,7 @@
 #
 
 Pod::Spec.new do |s|
-    s.name             = "SwaggerClient"
+    s.name             = "OpenAPIClient"
     s.version          = "1.0.0"
 
     s.summary          = "OpenAPI Petstore"
@@ -26,8 +26,8 @@ Pod::Spec.new do |s|
     s.source       = { :git => "https://github.com/openapitools/openapi-generator.git", :tag => "#{s.version}" }
     s.author       = { "OpenAPI" => "team@openapitools.org" }
 
-    s.source_files = 'SwaggerClient/**/*.{m,h}'
-    s.public_header_files = 'SwaggerClient/**/*.h'
+    s.source_files = 'OpenAPIClient/**/*.{m,h}'
+    s.public_header_files = 'OpenAPIClient/**/*.h'
 
 
     s.dependency 'AFNetworking', '~> 3'

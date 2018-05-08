@@ -51,7 +51,7 @@ public class ObjcModelTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
         
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.classname, "OAISample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
         
@@ -79,7 +79,7 @@ public class ObjcModelTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.classname, "OAISample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 3);
         Assert.assertEquals(cm.discriminator.getMapping().get("test"),"test");
@@ -129,7 +129,7 @@ public class ObjcModelTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.classname, "OAISample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 2);
 
@@ -168,7 +168,7 @@ public class ObjcModelTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.classname, "OAISample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
 
@@ -193,15 +193,15 @@ public class ObjcModelTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.classname, "OAISample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "SWGChildren*");
+        Assert.assertEquals(property1.datatype, "OAIChildren*");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "SWGChildren");
+        Assert.assertEquals(property1.baseType, "OAIChildren");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isNotContainer);
     }
@@ -216,14 +216,14 @@ public class ObjcModelTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.classname, "OAISample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.complexType, "SWGChildren");
-        Assert.assertEquals(property1.datatype, "NSArray<SWGChildren>*");
+        Assert.assertEquals(property1.complexType, "OAIChildren");
+        Assert.assertEquals(property1.datatype, "NSArray<OAIChildren>*");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "NSArray");
         Assert.assertEquals(property1.containerType, "array");
@@ -241,15 +241,15 @@ public class ObjcModelTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.classname, "OAISample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("SWGChildren")).size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("OAIChildren")).size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.complexType, "SWGChildren");
-        Assert.assertEquals(property1.datatype, "NSDictionary<SWGChildren>*");
+        Assert.assertEquals(property1.complexType, "OAIChildren");
+        Assert.assertEquals(property1.datatype, "NSDictionary<OAIChildren>*");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "NSDictionary");
         Assert.assertEquals(property1.containerType, "map");
@@ -267,12 +267,12 @@ public class ObjcModelTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.classname, "OAISample");
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "NSMutableArray");
         Assert.assertEquals(cm.imports.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("SWGChildren")).size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("OAIChildren")).size(), 1);
     }
 
     @Test(description = "convert an map model")
@@ -284,12 +284,12 @@ public class ObjcModelTest {
         final CodegenModel cm = codegen.fromModel("map_model", model);
 
         Assert.assertEquals(cm.name, "map_model");
-        Assert.assertEquals(cm.classname, "SWGMapModel");
+        Assert.assertEquals(cm.classname, "OAIMapModel");
         Assert.assertEquals(cm.description, "a map model for testing ObjC generator");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "NSMutableDictionary");
         Assert.assertEquals(cm.imports.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("SWGChildren")).size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("OAIChildren")).size(), 1);
     }
 
     @Test(description = "test udid")
@@ -325,7 +325,7 @@ public class ObjcModelTest {
         final CodegenModel codegenModel = codegen.fromModel("AnimalFarm",definition);
 
         Assert.assertEquals(codegenModel.isArrayModel, true);
-        Assert.assertEquals(codegenModel.arrayModelType,"SWGAnimal");
+        Assert.assertEquals(codegenModel.arrayModelType,"OAIAnimal");
     }
 
 
@@ -355,7 +355,7 @@ public class ObjcModelTest {
 
         final CodegenOperation animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost(), model.getComponents().getSchemas());
         Assert.assertEquals(animalCo.imports.size(), 1);
-        Assert.assertTrue(animalCo.imports.contains("SWGAnimal"));
+        Assert.assertTrue(animalCo.imports.contains("OAIAnimal"));
 
         final Map<String, PathItem> insectPaths = model.getPaths();
         final PathItem insectOps = insectPaths.get("/insects");
@@ -363,6 +363,6 @@ public class ObjcModelTest {
 
         final CodegenOperation insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost(), model.getComponents().getSchemas());
         Assert.assertEquals(insectCo.imports.size(), 1);
-        Assert.assertTrue(insectCo.imports.contains("SWGInsect"));
+        Assert.assertTrue(insectCo.imports.contains("OAIInsect"));
     }
 }
