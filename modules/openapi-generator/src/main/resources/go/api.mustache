@@ -274,7 +274,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 
 	{{/returnType}}
 	if localVarHttpResponse.StatusCode >= 300 {
-		newErr := GenericSwaggerError{
+		newErr := GenericOpenAPIError{
 			body: localVarBody,
 			error: localVarHttpResponse.Status,
 		}

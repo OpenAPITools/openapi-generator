@@ -88,7 +88,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
-            setPackageName("swagger");
+            setPackageName("openapi");
         }
 
         /*
@@ -150,8 +150,8 @@ public class GoServerCodegen extends AbstractGoCodegen {
      */
     @Override
     public String getHelp() {
-        return "Generates a Go server library using the swagger-tools project.  By default, " +
-                "it will also generate service classes--which you can disable with the `-Dnoservice` environment variable.";
+        return "Generates a Go server library using OpenAPI-Generator. By default, " +
+                "it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable.";
     }
 
     /**

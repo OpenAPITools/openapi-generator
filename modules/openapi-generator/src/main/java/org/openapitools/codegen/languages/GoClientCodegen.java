@@ -66,7 +66,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
-            setPackageName("swagger");
+            setPackageName("openapi");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {

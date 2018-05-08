@@ -287,7 +287,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **optional.String**| Query parameter enum test (string) | [default to -efg]
  **enumQueryInteger** | **optional.Int32**| Query parameter enum test (double) | 
  **enumQueryDouble** | **optional.Float64**| Query parameter enum test (double) | 
- **enumFormStringArray** | [**optional.Interface of []string**](array.md)| Form parameter enum test (string array) | 
+ **enumFormStringArray** | **optional.[]string**| Form parameter enum test (string array) | [default to $]
  **enumFormString** | **optional.String**| Form parameter enum test (string) | [default to -efg]
 
 ### Return type
@@ -314,7 +314,7 @@ test inline additionalProperties
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **requestBody** | [**string**](string.md)| request body | 
+  **requestBody** | [**map[string]string**](string.md)| request body | 
 
 ### Return type
 
