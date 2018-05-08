@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
     s.homepage     = "https://github.com/openapitools/openapi-generator"
     s.license      = "Proprietary"
     s.source       = { :git => "https://github.com/openapitools/openapi-generator.git", :tag => "#{s.version}" }
-    s.author       = { "Swagger" => "team@openapitools.org" }
+    s.author       = { "OpenAPI" => "team@openapitools.org" }
 
     s.source_files = 'SwaggerClient/**/*.{m,h}'
     s.public_header_files = 'SwaggerClient/**/*.h'

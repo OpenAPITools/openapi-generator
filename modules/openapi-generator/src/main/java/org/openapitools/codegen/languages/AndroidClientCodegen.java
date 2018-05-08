@@ -289,7 +289,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         if (p.defaultValue == null) {
             example = p.example;
         } else {
-            example = p.defaultValue;
+            p.example = p.defaultValue;
+            return;
         }
 
         String type = p.baseType;

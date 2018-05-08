@@ -532,7 +532,7 @@ build_request_path() {
 print_help() {
 cat <<EOF
 
-${BOLD}${WHITE}{{appName}} command line client (API version {{#swagger}}{{#info}}{{version}}{{/info}}{{/swagger}})${OFF}
+${BOLD}${WHITE}{{appName}} command line client (API version {{#openAPI}}{{#info}}{{version}}{{/info}}{{/openAPI}})${OFF}
 
 ${BOLD}${WHITE}Usage${OFF}
 
@@ -611,10 +611,10 @@ echo "  $ops" | column -t -s ';'
     echo -e "  -V,--version\\t\\t\\t\\tPrint API version"
     echo -e "  --about\\t\\t\\t\\tPrint the information about service"
     echo -e "  --host ${CYAN}<url>${OFF}\\t\\t\\t\\tSpecify the host URL "
-{{#swagger}}
+{{#openAPI}}
 {{#host}}echo -e "              \\t\\t\\t\\t(e.g. 'https://{{host}}')"{{/host}}
 {{^host}}echo -e "              \\t\\t\\t\\t(e.g. 'https://127.0.0.1:8080')"{{/host}}
-{{/swagger}}
+{{/openAPI}}
     echo -e "  --force\\t\\t\\t\\tForce command invocation in spite of missing"
     echo -e "         \\t\\t\\t\\trequired parameters or wrong content type"
     echo -e "  --dry-run\\t\\t\\t\\tPrint out the cURL command without"
@@ -634,10 +634,10 @@ echo "  $ops" | column -t -s ';'
 ##############################################################################
 print_about() {
     echo ""
-    echo -e "${BOLD}${WHITE}{{appName}} command line client (API version {{#swagger}}{{#info}}{{version}}{{/info}}{{/swagger}})${OFF}"
+    echo -e "${BOLD}${WHITE}{{appName}} command line client (API version {{#openAPI}}{{#info}}{{version}}{{/info}}{{/openAPI}})${OFF}"
     echo ""
-    echo -e "License: {{#swagger}}{{#info}}{{#license}}{{name}}{{/license}}{{/info}}{{/swagger}}"
-    echo -e "Contact: {{#swagger}}{{#info}}{{#contact}}{{email}}{{/contact}}{{/info}}{{/swagger}}"
+    echo -e "License: {{#openAPI}}{{#info}}{{#license}}{{name}}{{/license}}{{/info}}{{/openAPI}}"
+    echo -e "Contact: {{#openAPI}}{{#info}}{{#contact}}{{email}}{{/contact}}{{/info}}{{/openAPI}}"
     echo ""
 read -r -d '' appdescription <<EOF
 {{#x-bash-codegen-app-description}}{{{x-bash-codegen-app-description}}}{{/x-bash-codegen-app-description}}
@@ -654,7 +654,7 @@ echo "$appdescription" | paste -sd' ' | fold -sw 80
 ##############################################################################
 print_version() {
     echo ""
-    echo -e "${BOLD}{{appName}} command line client (API version {{#swagger}}{{#info}}{{version}}{{/info}}{{/swagger}})${OFF}"
+    echo -e "${BOLD}{{appName}} command line client (API version {{#openAPI}}{{#info}}{{version}}{{/info}}{{/openAPI}})${OFF}"
     echo ""
 }
 

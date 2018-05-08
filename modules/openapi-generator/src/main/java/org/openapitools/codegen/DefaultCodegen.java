@@ -4240,7 +4240,6 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.paramName = toParamName(codegenParameter.baseName);
             codegenParameter.items = codegenProperty.items;
             codegenParameter.dataType = getTypeDeclaration(schema);
-            LOGGER.info("debugging inline map: " + codegenParameter.dataType);
             codegenParameter.baseType = getSchemaType(inner);
             codegenParameter.isContainer = Boolean.TRUE;
             codegenParameter.isMapContainer = Boolean.TRUE;

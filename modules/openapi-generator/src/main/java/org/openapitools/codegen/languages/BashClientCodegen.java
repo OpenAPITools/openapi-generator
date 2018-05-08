@@ -691,7 +691,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (p.defaultValue == null) {
             example = p.example;
         } else {
-            example = p.defaultValue;
+            p.example = p.defaultValue;
+            return;
         }
 
         String type = p.baseType;

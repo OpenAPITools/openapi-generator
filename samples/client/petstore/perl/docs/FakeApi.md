@@ -386,13 +386,13 @@ my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 );
 
 my $enum_header_string_array = [("'$'")]; # ARRAY[string] | Header parameter enum test (string array)
-my $enum_header_string = "'-efg'"; # string | Header parameter enum test (string)
+my $enum_header_string = '-efg'; # string | Header parameter enum test (string)
 my $enum_query_string_array = [("'$'")]; # ARRAY[string] | Query parameter enum test (string array)
-my $enum_query_string = "'-efg'"; # string | Query parameter enum test (string)
+my $enum_query_string = '-efg'; # string | Query parameter enum test (string)
 my $enum_query_integer = 56; # int | Query parameter enum test (double)
 my $enum_query_double = 3.4; # double | Query parameter enum test (double)
-my $enum_form_string_array = ["'$'"]; # ARRAY[string] | Form parameter enum test (string array)
-my $enum_form_string = "'-efg'"; # string | Form parameter enum test (string)
+my $enum_form_string_array = ['$']; # ARRAY[string] | Form parameter enum test (string array)
+my $enum_form_string = '-efg'; # string | Form parameter enum test (string)
 
 eval { 
     $api_instance->test_enum_parameters(enum_header_string_array => $enum_header_string_array, enum_header_string => $enum_header_string, enum_query_string_array => $enum_query_string_array, enum_query_string => $enum_query_string, enum_query_integer => $enum_query_integer, enum_query_double => $enum_query_double, enum_form_string_array => $enum_form_string_array, enum_form_string => $enum_form_string);

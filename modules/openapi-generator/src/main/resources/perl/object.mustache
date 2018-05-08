@@ -52,7 +52,7 @@ __PACKAGE__->method_documentation({
 {{/vars}}
 });
 
-__PACKAGE__->swagger_types( {
+__PACKAGE__->openapi_types( {
     {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
     {{/hasMore}}{{/vars}}
 } );
