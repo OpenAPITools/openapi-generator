@@ -19,18 +19,16 @@ package org.openapitools.codegen.languages;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
@@ -39,11 +37,13 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 
 public class CppRestClientCodegen extends AbstractCppCodegen {
@@ -238,7 +238,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
 
             if (methodResponse != null) {
-                Schema response = getSchemaFromResponse(methodResponse);
+                Schema response = ModelUtils.getSchemaFromResponse(methodResponse);
                 if (response != null) {
                     CodegenProperty cm = fromProperty("response", response);
                     op.vendorExtensions.put("x-codegen-response", cm);
