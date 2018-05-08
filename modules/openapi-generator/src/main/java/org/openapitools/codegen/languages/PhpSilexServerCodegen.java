@@ -170,17 +170,17 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String getSchemaType(Schema p) {
-        String swaggerType = super.getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             } else if (instantiationTypes.containsKey(type)) {
                 return type;
             }
         } else {
-            type = swaggerType;
+            type = openAPIType;
         }
         if (type == null) {
             return null;

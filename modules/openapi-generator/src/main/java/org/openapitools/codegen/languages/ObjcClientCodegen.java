@@ -54,10 +54,10 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String CORE_DATA = "coreData";
 
     protected Set<String> foundationClasses = new HashSet<String>();
-    protected String podName = "SwaggerClient";
+    protected String podName = "OpenAPIClient";
     protected String podVersion = "1.0.0";
     protected String classPrefix = "SWG";
-    protected String authorName = "Swagger";
+    protected String authorName = "OpenAPI";
     protected String authorEmail = "team@openapitools.org";
     protected String license = DEFAULT_LICENSE;
     protected String gitRepoURL = "https://github.com/openapitools/openapi-generator";
@@ -191,10 +191,10 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CLASS_PREFIX, "prefix for generated classes (convention: Abbreviation of pod name e.g. `HN` for `HackerNews`).`")
                 .defaultValue("SWG"));
         cliOptions.add(new CliOption(POD_NAME, "cocoapods package name (convention: CameCase).")
-                .defaultValue("SwaggerClient"));
+                .defaultValue("OpenAPIClient"));
         cliOptions.add(new CliOption(CodegenConstants.POD_VERSION, "cocoapods package version.")
                 .defaultValue("1.0.0"));
-        cliOptions.add(new CliOption(AUTHOR_NAME, "Name to use in the podspec file.").defaultValue("Swagger"));
+        cliOptions.add(new CliOption(AUTHOR_NAME, "Name to use in the podspec file.").defaultValue("OpenAPI"));
         cliOptions.add(new CliOption(AUTHOR_EMAIL, "Email to use in the podspec file.").defaultValue("team@openapitools.org"));
         cliOptions.add(new CliOption(GIT_REPO_URL, "URL for the git repo where this podspec should point to.")
                 .defaultValue("https://github.com/openapitools/openapi-generator"));
@@ -329,21 +329,21 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getSchemaType(Schema p) {
-        String swaggerType = super.getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
         String type = null;
 
-        if (swaggerType == null) {
-            swaggerType = ""; // set swagger type to empty string if null
+        if (openAPIType == null) {
+            openAPIType = ""; // set OpenAPI type to empty string if null
         }
 
         // TODO avoid using toLowerCase as typeMapping should be case-sensitive
-        if (typeMapping.containsKey(swaggerType.toLowerCase())) {
-            type = typeMapping.get(swaggerType.toLowerCase());
+        if (typeMapping.containsKey(openAPIType.toLowerCase())) {
+            type = typeMapping.get(openAPIType.toLowerCase());
             if (languageSpecificPrimitives.contains(type) && !foundationClasses.contains(type)) {
                 return toModelNameWithoutReservedWordCheck(type);
             }
         } else {
-            type = swaggerType;
+            type = openAPIType;
         }
         return toModelNameWithoutReservedWordCheck(type);
     }
@@ -391,22 +391,22 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 return getSchemaType(p) + "<" + innerTypeDeclaration + ">*";
             }
         } else {
-            String swaggerType = getSchemaType(p);
+            String openAPIType = getSchemaType(p);
             // In this condition, type of p is objective-c primitive type, e.g. `NSSNumber',
             // return type of p with pointer, e.g. `NSNumber*'
-            if (languageSpecificPrimitives.contains(swaggerType) &&
-                    foundationClasses.contains(swaggerType)) {
-                return swaggerType + "*";
+            if (languageSpecificPrimitives.contains(openAPIType) &&
+                    foundationClasses.contains(openAPIType)) {
+                return openAPIType + "*";
             }
             // In this condition, type of p is c primitive type, e.g. `bool',
             // return type of p, e.g. `bool'
-            else if (languageSpecificPrimitives.contains(swaggerType)) {
-                return swaggerType;
+            else if (languageSpecificPrimitives.contains(openAPIType)) {
+                return openAPIType;
             }
             // In this condition, type of p is objective-c object type, e.g. `SWGPet',
             // return type of p with pointer, e.g. `SWGPet*'
             else {
-                return swaggerType + "*";
+                return openAPIType + "*";
             }
         }
     }
@@ -658,7 +658,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     /**
      * Return the default value of the schema
      *
-     * @param p Swagger schema object
+     * @param p OpenAPI schema object
      * @return string presentation of the default value of the schema
      */
     @Override

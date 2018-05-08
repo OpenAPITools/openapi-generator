@@ -189,15 +189,15 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String getSchemaType(Schema p) {
-        String swaggerType = super.getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
                 return toModelName(type);
             }
         } else {
-            type = swaggerType;
+            type = openAPIType;
         }
         return toModelName(type);
     }

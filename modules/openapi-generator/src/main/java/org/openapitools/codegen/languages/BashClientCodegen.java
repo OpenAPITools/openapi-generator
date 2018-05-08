@@ -151,7 +151,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                 "Whether to generate the Zsh completion script"));
         cliOptions.add(CliOption.newString(HOST_ENVIRONMENT_VARIABLE_NAME,
                 "Name of environment variable where host can be defined " +
-                        "(e.g. PETSTORE_HOST='http://petstore.swagger.io:8080')"));
+                        "(e.g. PETSTORE_HOST='http://api.openapitools.org:8080')"));
         cliOptions.add(CliOption.newString(BASIC_AUTH_ENVIRONMENT_VARIABLE_NAME,
                 "Name of environment variable where username and password "
                         +

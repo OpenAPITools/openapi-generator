@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.ruby;
 
-import io.swagger.models.parameters.FormParameter;
 import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.RubyClientCodegen;
