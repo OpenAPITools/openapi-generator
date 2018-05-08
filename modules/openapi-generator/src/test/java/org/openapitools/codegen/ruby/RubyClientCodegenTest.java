@@ -152,6 +152,8 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(op.formParams.size(), 2);
         CodegenParameter fp = op.formParams.get(0);
         Assert.assertEquals(fp.dataType, "Array<String>");
+        Assert.assertEquals(fp.datatypeWithEnum, "Array<ENUM_FORM_STRING_ARRAY>");
+        Assert.assertEquals(fp.enumName, "ENUM_FORM_STRING_ARRAY");
     }
 
     @Test(description = "test example value for body parameter")

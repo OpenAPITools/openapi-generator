@@ -4092,6 +4092,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.isListContainer = true;
                     codegenParameter.description = s.getDescription();
                     codegenParameter.dataType = getTypeDeclaration(s);
+                    codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(codegenParameter.baseType, codegenParameter.enumName);
                     //TODO fix collectformat for form parameters
                     //collectionFormat = getCollectionFormat(s);
                     // default to csv:

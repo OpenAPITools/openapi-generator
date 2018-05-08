@@ -92,7 +92,7 @@ newtype Callback = Callback { unCallback :: Text } deriving (P.Eq, P.Show)
 newtype EnumFormString = EnumFormString { unEnumFormString :: E'EnumFormString } deriving (P.Eq, P.Show)
 
 -- ** EnumFormStringArray
-newtype EnumFormStringArray = EnumFormStringArray { unEnumFormStringArray :: E'EnumFormStringArray } deriving (P.Eq, P.Show)
+newtype EnumFormStringArray = EnumFormStringArray { unEnumFormStringArray :: [E'EnumFormStringArray] } deriving (P.Eq, P.Show)
 
 -- ** EnumHeaderString
 newtype EnumHeaderString = EnumHeaderString { unEnumHeaderString :: E'EnumFormString } deriving (P.Eq, P.Show)
