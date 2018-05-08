@@ -201,8 +201,8 @@ Updates a pet in the store with form data
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **INTEGER_64**| ID of pet that needs to be updated | 
- **name** | **STRING_32**| Updated name of the pet | [optional] 
- **status** | **STRING_32**| Updated status of the pet | [optional] 
+ **name** | **STRING_32**| Updated name of the pet | [optional] [default to null]
+ **status** | **STRING_32**| Updated status of the pet | [optional] [default to null]
 
 ### Return type
 
@@ -231,8 +231,8 @@ uploads an image
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **INTEGER_64**| ID of pet to update | 
- **additional_metadata** | **STRING_32**| Additional data to pass to server | [optional] 
- **file** | **FILE**| file to upload | [optional] 
+ **additional_metadata** | **STRING_32**| Additional data to pass to server | [optional] [default to null]
+ **file** | **FILE**| file to upload | [optional] [default to null]
 
 ### Return type
 
