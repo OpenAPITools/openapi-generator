@@ -1,11 +1,11 @@
 package {{package}} {
 
-import io.swagger.common.ApiInvoker;
-import io.swagger.exception.ApiErrorCodes;
-import io.swagger.exception.ApiError;
-import io.swagger.common.ApiUserCredentials;
-import io.swagger.event.Response;
-import io.swagger.common.SwaggerApi;
+import org.openapitools.common.ApiInvoker;
+import org.openapitools.exception.ApiErrorCodes;
+import org.openapitools.exception.ApiError;
+import org.openapitools.common.ApiUserCredentials;
+import org.openapitools.event.Response;
+import org.openapitools.common.OpenApi;
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -15,7 +15,7 @@ import flash.utils.Dictionary;
 import flash.events.EventDispatcher;
 
 {{#operations}}
-public class {{classname}} extends SwaggerApi {
+public class {{classname}} extends OpenApi {
     /**
     * Constructor for the {{classname}} api client
     * @param apiCredentials Wrapper object for tokens and hostName required towards authentication

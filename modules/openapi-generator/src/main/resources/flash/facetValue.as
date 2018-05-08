@@ -1,4 +1,4 @@
-package com.wordnik.client.model {
+package org.openapitools.client.model {
 
     public class FacetValue {
         public var value: String = null;

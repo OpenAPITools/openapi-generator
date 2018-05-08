@@ -75,9 +75,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("object", "Object");
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "String");
-        //TODO binary should be mapped to byte array
-        // mapped to String as a workaround
-        typeMapping.put("binary", "String");
+        typeMapping.put("binary", "File");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("File", "flash.filesystem.File");
@@ -140,7 +138,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         supportingFiles.add(new SupportingFile("ApiUrlHelper.as", invokerFolder + "common", "ApiUrlHelper.as"));
         supportingFiles.add(new SupportingFile("ApiUserCredentials.as", invokerFolder + "common", "ApiUserCredentials.as"));
         supportingFiles.add(new SupportingFile("ListWrapper.as", invokerFolder + "common", "ListWrapper.as"));
-        supportingFiles.add(new SupportingFile("SwaggerApi.as", invokerFolder + "common", "SwaggerApi.as"));
+        supportingFiles.add(new SupportingFile("OpenApi.as", invokerFolder + "common", "OpenApi.as"));
         supportingFiles.add(new SupportingFile("XMLWriter.as", invokerFolder + "common", "XMLWriter.as"));
         supportingFiles.add(new SupportingFile("ApiError.as", invokerFolder + "exception", "ApiError.as"));
         supportingFiles.add(new SupportingFile("ApiErrorCodes.as", invokerFolder + "exception", "ApiErrorCodes.as"));
