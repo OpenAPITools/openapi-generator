@@ -150,11 +150,22 @@ public class RubyClientCodegenTest {
         final String path = "/fake";
         final Operation p = openAPI.getPaths().get(path).getGet();
         final CodegenOperation op = codegen.fromOperation(path, "get", p, openAPI.getComponents().getSchemas());
-
         Assert.assertEquals(op.formParams.size(), 2);
         CodegenParameter fp = op.formParams.get(0);
-
         Assert.assertEquals(fp.dataType, "Array<String>");
+    }
+
+    @Test(description = "test example value for body parameter")
+    public void bodyParameterTest() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/pet";
+        final Operation p = openAPI.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas());
+        Assert.assertEquals(op.bodyParams.size(), 1);
+        CodegenParameter bp = op.bodyParams.get(0);
+        Assert.assertEquals(bp.example, "OnlinePetstore::Pet.new");
     }
 
 }
