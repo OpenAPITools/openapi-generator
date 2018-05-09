@@ -1,8 +1,8 @@
-(ns swagger-petstore.api.pet-test
+(ns open-api-petstore.api.pet-test
   (:require [clojure.test :refer :all]
             [clojure.java.io :as io]
-            [swagger-petstore.core :refer [with-api-context]]
-            [swagger-petstore.api.pet :refer :all]))
+            [open-api-petstore.core :refer [with-api-context]]
+            [open-api-petstore.api.pet :refer :all]))
 
 (defn credentials-fixture [f]
   (with-api-context {:auths {"api_key" "special-key"}}
