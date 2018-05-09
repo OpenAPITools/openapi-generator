@@ -17,26 +17,26 @@ Examples:
   $0 -n kotlin -s
 
     Creates:
-    modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/KotlinServerCodegen.java
-    modules/swagger-codegen/src/main/resources/kotlin-server/README.md
-    modules/swagger-codegen/src/main/resources/kotlin-server/model.mustache
-    modules/swagger-codegen/src/main/resources/kotlin-server/api.mustache
+    modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/KotlinServerCodegen.java
+    modules/openapi-generator/src/main/resources/kotlin-server/README.md
+    modules/openapi-generator/src/main/resources/kotlin-server/model.mustache
+    modules/openapi-generator/src/main/resources/kotlin-server/api.mustache
     bin/windows/kotlin-server-petstore.bat
     bin/kotlin-server-petstore.sh
 
   Create a generic C# server generator:
   $0 -n csharp -s -t
     Creates:
-    modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/CsharpServerCodegen.java
-    modules/swagger-codegen/src/main/resources/csharp-server/README.md
-    modules/swagger-codegen/src/main/resources/csharp-server/model.mustache
-    modules/swagger-codegen/src/main/resources/csharp-server/api.mustache
+    modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CsharpServerCodegen.java
+    modules/openapi-generator/src/main/resources/csharp-server/README.md
+    modules/openapi-generator/src/main/resources/csharp-server/model.mustache
+    modules/openapi-generator/src/main/resources/csharp-server/api.mustache
     bin/windows/csharp-server-petstore.bat
     bin/csharp-server-petstore.sh
-    modules/swagger-codegen/src/test/java/io/swagger/codegen/csharp/CsharpServerCodegenTest.java
-    modules/swagger-codegen/src/test/java/io/swagger/codegen/csharp/CsharpServerCodegenModelTest.java
-    modules/swagger-codegen/src/test/java/io/swagger/codegen/csharp/CsharpServerCodegenOptionsTest.java
-    modules/swagger-codegen/src/test/java/io/swagger/codegen/options/CsharpServerCodegenOptionsProvider.java
+    modules/openapi-generator/src/test/java/org/openapitools/codegen/csharp/CsharpServerCodegenTest.java
+    modules/openapi-generator/src/test/java/org/openapitools/codegen/csharp/CsharpServerCodegenModelTest.java
+    modules/openapi-generator/src/test/java/org/openapitools/codegen/csharp/CsharpServerCodegenOptionsTest.java
+    modules/openapi-generator/src/test/java/org/openapitools/codegen/options/CsharpServerCodegenOptionsProvider.java
 EOF
     exit 0;
 }
@@ -107,14 +107,14 @@ declare gen_name_camel=$(kebabCase "${gen_name}")
 declare codegen_type_enum=$(upperCase "${gen_type}")
 
 # Step 1: Add Language Generator
-[ -f "${root}/modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/${lang_classname}.java" ] && \
+[ -f "${root}/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/${lang_classname}.java" ] && \
     echo "${lang_classname} already exists" && exit 1;
 
-echo "Creating modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/${lang_classname}.java"
-cat > "${root}/modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/${lang_classname}.java" <<EOF
-package io.swagger.codegen.languages;
+echo "Creating modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/${lang_classname}.java"
+cat > "${root}/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/${lang_classname}.java" <<EOF
+package org.openapitools.codegen.languages;
 
-import io.swagger.codegen.*;
+import org.openapitools.codegen.*;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
@@ -160,30 +160,30 @@ public class ${lang_classname} extends DefaultCodegen implements CodegenConfig {
 EOF
 
 # Step 2: Register the new class with service loader
-echo -e "\nio.swagger.codegen.languages.${lang_classname}" >> "${root}/modules/swagger-codegen/src/main/resources/META-INF/services/io.swagger.codegen.CodegenConfig"
+echo -e "\norg.openapitools.codegen.languages.${lang_classname}" >> "${root}/modules/openapi-generator/src/main/resources/META-INF/services/org.openapitools.codegen.CodegenConfig"
 
 # Step 3: Create resource files
-mkdir -p "${root}/modules/swagger-codegen/src/main/resources/${gen_name}-${gen_type}"
-echo "Creating modules/swagger-codegen/src/main/resources/${gen_name}-${gen_type}/README.md" && \
-    touch "${root}/modules/swagger-codegen/src/main/resources/${gen_name}-${gen_type}/README.md"
-echo "Creating modules/swagger-codegen/src/main/resources/${gen_name}-${gen_type}/model.mustache" && \
-    touch "${root}/modules/swagger-codegen/src/main/resources/${gen_name}-${gen_type}/model.mustache"
-echo "Creating modules/swagger-codegen/src/main/resources/${gen_name}-${gen_type}/api.mustache" && \
-    touch "${root}/modules/swagger-codegen/src/main/resources/${gen_name}-${gen_type}/api.mustache"
+mkdir -p "${root}/modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}"
+echo "Creating modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/README.md" && \
+    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/README.md"
+echo "Creating modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/model.mustache" && \
+    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/model.mustache"
+echo "Creating modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/api.mustache" && \
+    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/api.mustache"
 
 # Step 4: Create bash/batch scripts
 
 ## Windows batch file
 echo "Creating bin/windows/${gen_name}-${gen_type}-petstore.bat"
 cat > "${root}/bin/windows/${gen_name}-${gen_type}-petstore.bat"<<EOF
-set executable=.\modules\swagger-codegen-cli\target\swagger-codegen-cli.jar
+set executable=.\modules\openapi-generator-cli\target\openapi-generator-cli.jar
 
 If Not Exist %executable% (
   mvn clean package
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M -DloggerPath=conf/log4j.properties
-set ags=generate  --artifact-id "${gen_name}-petstore-${gen_type}" -i modules\swagger-codegen\src\test\resources\2_0\petstore.yaml -l ${gen_name} -o samples\\${gen_type}\petstore\\${gen_name}
+set ags=generate  --artifact-id "${gen_name}-petstore-${gen_type}" -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -l ${gen_name} -o samples\\${gen_type}\petstore\\${gen_name}
 
 java %JAVA_OPTS% -jar %executable% %ags%
 EOF
@@ -210,7 +210,7 @@ if [ ! -d "\${APP_DIR}" ]; then
   APP_DIR=\$(cd "\${APP_DIR}"; pwd)
 fi
 
-executable="./modules/swagger-codegen-cli/target/swagger-codegen-cli.jar"
+executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
 if [ ! -f "\$executable" ]
 then
@@ -219,21 +219,21 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="\${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="\$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml -l ${gen_name} -o samples/${gen_type}/petstore/${gen_name}"
+ags="\$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l ${gen_name} -o samples/${gen_type}/petstore/${gen_name}"
 
 java \${JAVA_OPTS} -jar \${executable} \${ags}
 EOF
 
-# Step 5: (optional) Create Swagger Codegen test files
+# Step 5: (optional) Create OpenAPI Generator test files
 if [ "1" -eq "${tests}" ]; then
-    mkdir -p "${root}/modules/swagger-codegen/src/test/java/io/swagger/codegen/${gen_name_camel}"
+    mkdir -p "${root}/modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel}"
     # Codegen
-    echo "Creating modules/swagger-codegen/src/test/java/io/swagger/codegen/${gen_name_camel}/${lang_classname}Test.java"
-    cat > "${root}/modules/swagger-codegen/src/test/java/io/swagger/codegen/${gen_name_camel}/${lang_classname}Test.java"<<EOF
-package io.swagger.codegen.${gen_name_camel};
+    echo "Creating modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel}/${lang_classname}Test.java"
+    cat > "${root}/modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel}/${lang_classname}Test.java"<<EOF
+package org.openapitools.codegen.${gen_name_camel};
 
-import io.swagger.codegen.*;
-import io.swagger.codegen.languages.${lang_classname};
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.${lang_classname};
 import io.swagger.models.*;
 import io.swagger.parser.SwaggerParser;
 import org.testng.Assert;
@@ -252,12 +252,12 @@ public class ${lang_classname}Test {
 EOF
 
     # Model
-    echo "Creating modules/swagger-codegen/src/test/java/io/swagger/codegen/${gen_name_camel}/${lang_classname}ModelTest.java"
-    cat > "${root}/modules/swagger-codegen/src/test/java/io/swagger/codegen/${gen_name_camel}/${lang_classname}ModelTest.java"<<EOF
-package io.swagger.codegen.${gen_name_camel};
+    echo "Creating modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel}/${lang_classname}ModelTest.java"
+    cat > "${root}/modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel}/${lang_classname}ModelTest.java"<<EOF
+package org.openapitools.codegen.${gen_name_camel};
 
-import io.swagger.codegen.*;
-import io.swagger.codegen.languages.${lang_classname};
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.${lang_classname};
 import io.swagger.models.*;
 import io.swagger.models.properties.*;
 
@@ -286,14 +286,14 @@ public class ${lang_classname}ModelTest {
 EOF
 
     # Options
-    echo "Creating modules/swagger-codegen/src/test/java/io/swagger/codegen/${gen_name_camel}/${lang_classname}OptionsTest.java"
-    cat > "${root}/modules/swagger-codegen/src/test/java/io/swagger/codegen/${gen_name_camel}/${lang_classname}OptionsTest.java"<<EOF
-package io.swagger.codegen.${gen_name_camel};
+    echo "Creating modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel}/${lang_classname}OptionsTest.java"
+    cat > "${root}/modules/openapi-generator/src/test/java/org/openapitools/codegen/${gen_name_camel}/${lang_classname}OptionsTest.java"<<EOF
+package org.openapitools.codegen.${gen_name_camel};
 
-import io.swagger.codegen.AbstractOptionsTest;
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.languages.${lang_classname};
-import io.swagger.codegen.options.${lang_classname}OptionsProvider;
+import org.openapitools.codegen.AbstractOptionsTest;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.languages.${lang_classname};
+import org.openapitools.codegen.options.${lang_classname}OptionsProvider;
 
 import mockit.Expectations;
 import mockit.Tested;
@@ -325,19 +325,19 @@ public class ${lang_classname}OptionsTest extends AbstractOptionsTest {
 EOF
 
     # Options Provider
-    echo "Creating modules/swagger-codegen/src/test/java/io/swagger/codegen/options/${lang_classname}OptionsProvider.java"
-    cat > "${root}/modules/swagger-codegen/src/test/java/io/swagger/codegen/options/${lang_classname}OptionsProvider.java"<<EOF
-package io.swagger.codegen.options;
+    echo "Creating modules/openapi-generator/src/test/java/org/openapitools/codegen/options/${lang_classname}OptionsProvider.java"
+    cat > "${root}/modules/openapi-generator/src/test/java/org/openapitools/codegen/options/${lang_classname}OptionsProvider.java"<<EOF
+package org.openapitools.codegen.options;
 
-import io.swagger.codegen.CodegenConstants;
-import io.swagger.codegen.languages.${lang_classname};
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.languages.${lang_classname};
 
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
 public class ${lang_classname}OptionsProvider implements OptionsProvider {
-    public static final String PROJECT_NAME_VALUE = "Swagger";
+    public static final String PROJECT_NAME_VALUE = "OpenAPI";
 
     @Override
     public String getLanguage() {
