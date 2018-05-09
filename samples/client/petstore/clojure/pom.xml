@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.swagger</groupId>
-    <artifactId>swagger-petstore-clojure</artifactId>
+    <groupId>org.openapitools</groupId>
+    <artifactId>openapi-petstore-clojure</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>Swagger Petstore - Clojure Client</name>
+    <name>OpenAPI Clogure Petstore Client</name>
     <build>
         <plugins>
             <plugin>

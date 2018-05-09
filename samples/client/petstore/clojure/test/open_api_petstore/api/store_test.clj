@@ -1,7 +1,7 @@
-(ns swagger-petstore.api.store-test
+(ns open-api-petstore.api.store-test
   (:require [clojure.test :refer :all]
-            [swagger-petstore.core :refer [with-api-context]]
-            [swagger-petstore.api.store :refer :all])
+            [open-api-petstore.core :refer [with-api-context]]
+            [open-api-petstore.api.store :refer :all])
   (:import (java.util Date)))
 
 (defn credentials-fixture [f]

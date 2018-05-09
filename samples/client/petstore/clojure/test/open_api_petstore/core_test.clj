@@ -1,7 +1,7 @@
-(ns swagger-petstore.core-test
+(ns open-api-petstore.core-test
   (:require [clojure.java.io :as io]
             [clojure.test :refer :all]
-            [swagger-petstore.core :refer :all])
+            [open-api-petstore.core :refer :all])
   (:import (java.text ParseException)))
 
 (deftest test-api-context
