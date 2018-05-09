@@ -1,14 +1,14 @@
-# swagger-petstore-app
+# openapi-petstore-app
 
 This contains an example application which uses the auto-generated
-swagger-petstore API Client: `haskell-http-client`
+openapi-petstore API Client: `haskell-http-client`
 
 This module is not auto-generated.
 
-The application requires a swagger petstore server running at
+The application requires a openapi petstore server running at
 `http://0.0.0.0/v2`, or the value of the `HOST` environment variable.
 
-To compile this application, the api client library bindings generated for swagger-petstore are expected to live in the parent folder.
+To compile this application, the api client library bindings generated for openapi-petstore are expected to live in the parent folder.
 
 ### Petstore Server
 
@@ -25,7 +25,7 @@ server (the docker branch is used here, but docker is not required)
 2. Start the petstore server (described above)
 3. To run the application: 
 ```
-stack --install-ghc exec swagger-petstore-app
+stack --install-ghc exec openapi-petstore-app
 ```
 4. After stack installs ghc on the first run, `--install-ghc` can be omitted
 
@@ -37,7 +37,7 @@ stack --install-ghc exec swagger-petstore-app
 Example: 
 
 ```
-HOST=http://0.0.0.0/v2  http_proxy=http://0.0.0.0:8080 stack --install-ghc exec swagger-petstore-app
+HOST=http://0.0.0.0/v2  http_proxy=http://0.0.0.0:8080 stack --install-ghc exec openapi-petstore-app
 ```
 
 ### Source Documentation

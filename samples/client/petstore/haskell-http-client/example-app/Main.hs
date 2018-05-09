@@ -9,7 +9,7 @@ import qualified Data.Time as TI
 import qualified Lens.Micro as L
 import qualified Network.HTTP.Client as NH
 
-import qualified SwaggerPetstore as S
+import qualified OpenAPIPetstore as S
 
 import Data.Monoid ((<>))
 
@@ -56,7 +56,7 @@ main = do
 
 -- * PET
 
-runPet :: NH.Manager -> S.SwaggerPetstoreConfig -> IO ()
+runPet :: NH.Manager -> S.OpenAPIPetstoreConfig -> IO ()
 runPet mgr config = do
 
   -- create the request for addPet, encoded with content-type application/json, with accept header application/json
@@ -74,20 +74,20 @@ runPet mgr config = do
   -- content-type and accept types (mimeTypes) are valid
 
   -- :i S.AddPet
-    -- data S.AddPet 	-- Defined in ‘SwaggerPetstore.API’
+    -- data S.AddPet 	-- Defined in ‘OpenAPIPetstore.API’
     -- instance S.Produces S.AddPet S.MimeXML
-    --   -- Defined in ‘SwaggerPetstore.API’
+    --   -- Defined in ‘OpenAPIPetstore.API’
     -- instance S.Produces S.AddPet S.MimeJSON
-    --   -- Defined in ‘SwaggerPetstore.API’
+    --   -- Defined in ‘OpenAPIPetstore.API’
     -- instance S.Consumes S.AddPet S.MimeXML
-    --   -- Defined in ‘SwaggerPetstore.API’
+    --   -- Defined in ‘OpenAPIPetstore.API’
     -- instance S.Consumes S.AddPet S.MimeJSON
-    --   -- Defined in ‘SwaggerPetstore.API’
+    --   -- Defined in ‘OpenAPIPetstore.API’
     -- instance S.HasBodyParam S.AddPet S.Pet
-    --   -- Defined in ‘SwaggerPetstore.API’
+    --   -- Defined in ‘OpenAPIPetstore.API’
 
   
-  -- since this swagger definition has no response schema defined for
+  -- since this openapi definition has no response schema defined for
   -- the 'addPet' response, we decode the response bytestring manually
   case A.eitherDecode (NH.responseBody addPetResponse) of
     Right pet@S.Pet { S.petId = Just pid } -> do
@@ -125,9 +125,9 @@ runPet mgr config = do
         -- requred parameters are included as function arguments, optional parameters are included with applyOptionalParam
         -- inspect the UpdatePetWithForm type to see typeclasses indicating optional paramteters (:i S.UpdatePetWithForm)
         -- instance S.HasOptionalParam S.UpdatePetWithForm S.Name
-        --   -- Defined in ‘SwaggerPetstore.API’
+        --   -- Defined in ‘OpenAPIPetstore.API’
         -- instance S.HasOptionalParam S.UpdatePetWithForm S.Status
-        --   -- Defined in ‘SwaggerPetstore.API’
+        --   -- Defined in ‘OpenAPIPetstore.API’
         let updatePetWithFormRequest = S.updatePetWithForm (S.PetId pid)
                 `S.applyOptionalParam` S.Name2 "petName"
                 `S.applyOptionalParam` S.StatusText "pending"
@@ -156,10 +156,7 @@ runPet mgr config = do
 
 -- * STORE
   
--- declare that 'placeOrder' can recieve a JSON content-type request
-instance S.Consumes S.PlaceOrder S.MimeJSON 
-
-runStore :: NH.Manager -> S.SwaggerPetstoreConfig -> IO ()
+runStore :: NH.Manager -> S.OpenAPIPetstoreConfig -> IO ()
 runStore mgr config = do
 
   -- we can set arbitrary headers with setHeader
@@ -170,7 +167,7 @@ runStore mgr config = do
 
   -- placeOrder
   now <- TI.getCurrentTime
-  let placeOrderRequest = S.placeOrder (S.ContentType S.MimeJSON) (S.Accept S.MimeJSON) (S.mkOrder { S.orderId = Just 21, S.orderQuantity = Just 210, S.orderShipDate = Just (S.DateTime now)})
+  let placeOrderRequest = S.placeOrder (S.Accept S.MimeJSON) (S.mkOrder { S.orderId = Just 21, S.orderQuantity = Just 210, S.orderShipDate = Just (S.DateTime now)})
   placeOrderResult <- S.dispatchMime mgr config placeOrderRequest
   mapM_ (\r -> putStrLn $ "placeOrderResult: " <> show r) placeOrderResult
 
@@ -191,29 +188,22 @@ runStore mgr config = do
 
 -- * USER
 
--- this swagger definition doesn't declare what content-type the
--- server actually expects for these operations, so delcare it here
-instance S.Consumes S.CreateUser S.MimeJSON
-instance S.Consumes S.UpdateUser S.MimeJSON
-instance S.Consumes S.CreateUsersWithArrayInput S.MimeJSON
-instance S.Consumes S.CreateUsersWithListInput S.MimeJSON
-
-runUser :: NH.Manager -> S.SwaggerPetstoreConfig -> IO ()
+runUser :: NH.Manager -> S.OpenAPIPetstoreConfig -> IO ()
 runUser mgr config = do
 
   let username = "hsusername"
   -- createUser
   let user = S.mkUser { S.userId = Just 21, S.userUsername = Just username } 
-  let createUserRequest = S.createUser (S.ContentType S.MimeJSON) user
+  let createUserRequest = S.createUser user
   _ <- S.dispatchLbs mgr config createUserRequest
 
   -- can use lenses (model record names are appended L) to view or modify records
   let users = take 8 $ drop 1 $ iterate (L.over S.userUsernameL (fmap (<> "*")) . L.over S.userIdL (fmap (+ 1))) user
-  let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.ContentType S.MimeJSON) (S.User2 users)
+  let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.User2 users)
   _ <- S.dispatchLbs mgr config createUsersWithArrayInputRequest 
 
   -- createUsersWithArrayInput
-  let createUsersWithListInputRequest = S.createUsersWithListInput (S.ContentType S.MimeJSON) (S.User2 users)
+  let createUsersWithListInputRequest = S.createUsersWithListInput (S.User2 users)
   _ <- S.dispatchLbs mgr config createUsersWithListInputRequest
 
   -- getUserByName
@@ -227,7 +217,7 @@ runUser mgr config = do
   BCL.putStrLn $ "loginUser: " <> (NH.responseBody loginUserResult)
 
   -- updateUser
-  let updateUserRequest = S.updateUser (S.ContentType S.MimeJSON) (user { S.userEmail = Just "xyz@example.com" }) (S.Username username) 
+  let updateUserRequest = S.updateUser (user { S.userEmail = Just "xyz@example.com" }) (S.Username username) 
   _ <- S.dispatchLbs mgr config updateUserRequest
 
   -- logoutUser
