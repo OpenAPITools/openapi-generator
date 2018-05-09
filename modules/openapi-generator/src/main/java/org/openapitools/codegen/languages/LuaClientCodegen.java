@@ -36,11 +36,11 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     static Logger LOGGER = LoggerFactory.getLogger(LuaClientCodegen.class);
 
     protected String specFolder = "spec";
-    protected String packageName = "swagger-client";
+    protected String packageName = "openapi-client";
     protected String packageVersion = "1.0.0-1";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected String luaRocksFilename = "swagger-client-1.0.0-1.rockspec";
+    protected String luaRocksFilename = "openapi-client-1.0.0-1.rockspec";
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
