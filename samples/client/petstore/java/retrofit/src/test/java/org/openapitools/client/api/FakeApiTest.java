@@ -36,8 +36,8 @@ public class FakeApiTest {
      */
     @Test
     public void fakeOuterBooleanSerializeTest() {
-        Boolean booleanPostBody = null;
-        // Boolean response = api.fakeOuterBooleanSerialize(booleanPostBody);
+        Boolean body = null;
+        // Boolean response = api.fakeOuterBooleanSerialize(body);
 
         // TODO: test validations
     }
@@ -161,7 +161,7 @@ public class FakeApiTest {
      */
     @Test
     public void testInlineAdditionalPropertiesTest() {
-        String requestBody = null;
+        Map<String, String> requestBody = null;
         // api.testInlineAdditionalProperties(requestBody);
 
         // TODO: test validations
