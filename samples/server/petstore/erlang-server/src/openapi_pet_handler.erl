@@ -1,5 +1,5 @@
 %% basic handler
--module(swagger_pet_handler).
+-module(openapi_pet_handler).
 
 %% Cowboy REST callbacks
 -export([allowed_methods/2]).
@@ -19,7 +19,7 @@
 -export([handle_request_json/2]).
 
 -record(state, {
-    operation_id :: swagger_api:operation_id(),
+    operation_id :: openapi_api:operation_id(),
     logic_handler :: atom(),
     validator_state :: jesse_state:state(),
     context=#{} :: #{}
@@ -27,13 +27,13 @@
 
 -type state() :: state().
 
--spec init(TransportName :: atom(), Req :: cowboy_req:req(), Opts :: swagger_router:init_opts()) ->
-    {upgrade, protocol, cowboy_rest, Req :: cowboy_req:req(), Opts :: swagger_router:init_opts()}.
+-spec init(TransportName :: atom(), Req :: cowboy_req:req(), Opts :: openapi_router:init_opts()) ->
+    {upgrade, protocol, cowboy_rest, Req :: cowboy_req:req(), Opts :: openapi_router:init_opts()}.
 
 init(_Transport, Req, Opts) ->
     {upgrade, protocol, cowboy_rest, Req, Opts}.
 
--spec rest_init(Req :: cowboy_req:req(), Opts :: swagger_router:init_opts()) ->
+-spec rest_init(Req :: cowboy_req:req(), Opts :: openapi_router:init_opts()) ->
     {ok, Req :: cowboy_req:req(), State :: state()}.
 
 rest_init(Req0, {Operations, LogicHandler, ValidatorState}) ->
@@ -134,7 +134,7 @@ is_authorized(
     }
 ) ->
     From = header,
-    Result = swagger_auth:authorize_api_key(
+    Result = openapi_auth:authorize_api_key(
         LogicHandler,
         OperationID,
         From,
@@ -153,7 +153,7 @@ is_authorized(
     }
 ) ->
     From = header,
-    Result = swagger_auth:authorize_api_key(
+    Result = openapi_auth:authorize_api_key(
         LogicHandler,
         OperationID,
         From,
@@ -172,7 +172,7 @@ is_authorized(
     }
 ) ->
     From = header,
-    Result = swagger_auth:authorize_api_key(
+    Result = openapi_auth:authorize_api_key(
         LogicHandler,
         OperationID,
         From,
@@ -191,7 +191,7 @@ is_authorized(
     }
 ) ->
     From = header,
-    Result = swagger_auth:authorize_api_key(
+    Result = openapi_auth:authorize_api_key(
         LogicHandler,
         OperationID,
         From,
@@ -210,7 +210,7 @@ is_authorized(
     }
 ) ->
     From = header,
-    Result = swagger_auth:authorize_api_key(
+    Result = openapi_auth:authorize_api_key(
         LogicHandler,
         OperationID,
         From,
@@ -229,7 +229,7 @@ is_authorized(
     }
 ) ->
     From = header,
-    Result = swagger_auth:authorize_api_key(
+    Result = openapi_auth:authorize_api_key(
         LogicHandler,
         OperationID,
         From,
@@ -248,7 +248,7 @@ is_authorized(
     }
 ) ->
     From = header,
-    Result = swagger_auth:authorize_api_key(
+    Result = openapi_auth:authorize_api_key(
         LogicHandler,
         OperationID,
         From,
@@ -267,7 +267,7 @@ is_authorized(
     }
 ) ->
     From = header,
-    Result = swagger_auth:authorize_api_key(
+    Result = openapi_auth:authorize_api_key(
         LogicHandler,
         OperationID,
         From,
@@ -459,15 +459,15 @@ handle_request_json(
         context = Context
     }
 ) ->
-    case swagger_api:populate_request(OperationID, Req0, ValidatorState) of
+    case openapi_api:populate_request(OperationID, Req0, ValidatorState) of
         {ok, Populated, Req1} ->
-            {Code, Headers, Body} = swagger_logic_handler:handle_request(
+            {Code, Headers, Body} = openapi_logic_handler:handle_request(
                 LogicHandler,
                 OperationID,
                 Populated,
                 Context
             ),
-            _ = swagger_api:validate_response(
+            _ = openapi_api:validate_response(
                 OperationID,
                 Code,
                 Body,

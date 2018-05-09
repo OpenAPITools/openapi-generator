@@ -1,10 +1,10 @@
--module(swagger_api).
+-module(openapi_api).
 
 -export([request_params/1]).
 -export([request_param_info/2]).
 -export([populate_request/3]).
 -export([validate_response/4]).
-%% exported to silence swagger complains
+%% exported to silence openapi complains
 -export([get_value/3, validate_response_body/4]).
 
 -type operation_id() :: atom().
@@ -546,7 +546,7 @@ validate(_, _Name, undefined, _ValidatorState) ->
 
 validate(Rule = {type, 'integer'}, Name, Value, _ValidatorState) ->
     try
-        {ok, swagger_utils:to_int(Value)}
+        {ok, openapi_utils:to_int(Value)}
     catch
         error:badarg ->
             validation_error(Rule, Name)
@@ -554,7 +554,7 @@ validate(Rule = {type, 'integer'}, Name, Value, _ValidatorState) ->
 
 validate(Rule = {type, 'float'}, Name, Value, _ValidatorState) ->
     try
-        {ok, swagger_utils:to_float(Value)}
+        {ok, openapi_utils:to_float(Value)}
     catch
         error:badarg ->
             validation_error(Rule, Name)
@@ -649,7 +649,7 @@ validate(Rule = {pattern, Pattern}, Name, Value, _ValidatorState) ->
     end;
 
 validate(Rule = schema, Name, Value, ValidatorState) ->
-    Definition =  list_to_binary("#/definitions/" ++ swagger_utils:to_list(Name)),
+    Definition =  list_to_binary("#/definitions/" ++ openapi_utils:to_list(Name)),
     try
         _ = validate_with_schema(Value, Definition, ValidatorState),
         ok
@@ -698,17 +698,17 @@ get_value(body, _Name, Req0) ->
 
 get_value(qs_val, Name, Req0) ->
     {QS, Req} = cowboy_req:qs_vals(Req0),
-    Value = swagger_utils:get_opt(swagger_utils:to_qs(Name), QS),
+    Value = openapi_utils:get_opt(openapi_utils:to_qs(Name), QS),
     {Value, Req};
 
 get_value(header, Name, Req0) ->
     {Headers, Req} = cowboy_req:headers(Req0),
-    Value = swagger_utils:get_opt(swagger_utils:to_header(Name), Headers),
+    Value = openapi_utils:get_opt(openapi_utils:to_header(Name), Headers),
     {Value, Req};
 
 get_value(binding, Name, Req0) ->
     {Bindings, Req} = cowboy_req:bindings(Req0),
-    Value = swagger_utils:get_opt(swagger_utils:to_binding(Name), Bindings),
+    Value = openapi_utils:get_opt(openapi_utils:to_binding(Name), Bindings),
     {Value, Req}.
 
 prepare_body(Body) ->
@@ -749,4 +749,4 @@ prepare_param(Rules, Name, Value, ValidatorState) ->
     end.
 
 binary_to_lower(V) when is_binary(V) ->
-    list_to_binary(string:to_lower(swagger_utils:to_list(V))).
+    list_to_binary(string:to_lower(openapi_utils:to_list(V))).

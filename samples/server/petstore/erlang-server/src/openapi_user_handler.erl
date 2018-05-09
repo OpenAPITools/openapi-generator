@@ -1,5 +1,5 @@
 %% basic handler
--module(swagger_store_handler).
+-module(openapi_user_handler).
 
 %% Cowboy REST callbacks
 -export([allowed_methods/2]).
@@ -19,7 +19,7 @@
 -export([handle_request_json/2]).
 
 -record(state, {
-    operation_id :: swagger_api:operation_id(),
+    operation_id :: openapi_api:operation_id(),
     logic_handler :: atom(),
     validator_state :: jesse_state:state(),
     context=#{} :: #{}
@@ -27,13 +27,13 @@
 
 -type state() :: state().
 
--spec init(TransportName :: atom(), Req :: cowboy_req:req(), Opts :: swagger_router:init_opts()) ->
-    {upgrade, protocol, cowboy_rest, Req :: cowboy_req:req(), Opts :: swagger_router:init_opts()}.
+-spec init(TransportName :: atom(), Req :: cowboy_req:req(), Opts :: openapi_router:init_opts()) ->
+    {upgrade, protocol, cowboy_rest, Req :: cowboy_req:req(), Opts :: openapi_router:init_opts()}.
 
 init(_Transport, Req, Opts) ->
     {upgrade, protocol, cowboy_rest, Req, Opts}.
 
--spec rest_init(Req :: cowboy_req:req(), Opts :: swagger_router:init_opts()) ->
+-spec rest_init(Req :: cowboy_req:req(), Opts :: openapi_router:init_opts()) ->
     {ok, Req :: cowboy_req:req(), State :: state()}.
 
 rest_init(Req0, {Operations, LogicHandler, ValidatorState}) ->
@@ -56,7 +56,31 @@ rest_init(Req0, {Operations, LogicHandler, ValidatorState}) ->
 allowed_methods(
     Req,
     State = #state{
-        operation_id = 'DeleteOrder'
+        operation_id = 'CreateUser'
+    }
+) ->
+    {[<<"POST">>], Req, State};
+
+allowed_methods(
+    Req,
+    State = #state{
+        operation_id = 'CreateUsersWithArrayInput'
+    }
+) ->
+    {[<<"POST">>], Req, State};
+
+allowed_methods(
+    Req,
+    State = #state{
+        operation_id = 'CreateUsersWithListInput'
+    }
+) ->
+    {[<<"POST">>], Req, State};
+
+allowed_methods(
+    Req,
+    State = #state{
+        operation_id = 'DeleteUser'
     }
 ) ->
     {[<<"DELETE">>], Req, State};
@@ -64,7 +88,7 @@ allowed_methods(
 allowed_methods(
     Req,
     State = #state{
-        operation_id = 'GetInventory'
+        operation_id = 'GetUserByName'
     }
 ) ->
     {[<<"GET">>], Req, State};
@@ -72,7 +96,7 @@ allowed_methods(
 allowed_methods(
     Req,
     State = #state{
-        operation_id = 'GetOrderById'
+        operation_id = 'LoginUser'
     }
 ) ->
     {[<<"GET">>], Req, State};
@@ -80,10 +104,18 @@ allowed_methods(
 allowed_methods(
     Req,
     State = #state{
-        operation_id = 'PlaceOrder'
+        operation_id = 'LogoutUser'
     }
 ) ->
-    {[<<"POST">>], Req, State};
+    {[<<"GET">>], Req, State};
+
+allowed_methods(
+    Req,
+    State = #state{
+        operation_id = 'UpdateUser'
+    }
+) ->
+    {[<<"PUT">>], Req, State};
 
 allowed_methods(Req, State) ->
     {[], Req, State}.
@@ -94,25 +126,6 @@ allowed_methods(Req, State) ->
         Req :: cowboy_req:req(),
         State :: state()
     }.
-is_authorized(
-    Req0,
-    State = #state{
-        operation_id = 'GetInventory' = OperationID,
-        logic_handler = LogicHandler
-    }
-) ->
-    From = header,
-    Result = swagger_auth:authorize_api_key(
-        LogicHandler,
-        OperationID,
-        From,
-        "api_key",
-        Req0
-    ),
-    case Result of
-        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
-        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
-    end;
 is_authorized(Req, State) ->
     {true, Req, State}.
 
@@ -134,7 +147,7 @@ content_types_accepted(Req, State) ->
 valid_content_headers(
     Req0,
     State = #state{
-        operation_id = 'DeleteOrder'
+        operation_id = 'CreateUser'
     }
 ) ->
     Headers = [],
@@ -144,7 +157,7 @@ valid_content_headers(
 valid_content_headers(
     Req0,
     State = #state{
-        operation_id = 'GetInventory'
+        operation_id = 'CreateUsersWithArrayInput'
     }
 ) ->
     Headers = [],
@@ -154,7 +167,7 @@ valid_content_headers(
 valid_content_headers(
     Req0,
     State = #state{
-        operation_id = 'GetOrderById'
+        operation_id = 'CreateUsersWithListInput'
     }
 ) ->
     Headers = [],
@@ -164,7 +177,47 @@ valid_content_headers(
 valid_content_headers(
     Req0,
     State = #state{
-        operation_id = 'PlaceOrder'
+        operation_id = 'DeleteUser'
+    }
+) ->
+    Headers = [],
+    {Result, Req} = validate_headers(Headers, Req0),
+    {Result, Req, State};
+
+valid_content_headers(
+    Req0,
+    State = #state{
+        operation_id = 'GetUserByName'
+    }
+) ->
+    Headers = [],
+    {Result, Req} = validate_headers(Headers, Req0),
+    {Result, Req, State};
+
+valid_content_headers(
+    Req0,
+    State = #state{
+        operation_id = 'LoginUser'
+    }
+) ->
+    Headers = [],
+    {Result, Req} = validate_headers(Headers, Req0),
+    {Result, Req, State};
+
+valid_content_headers(
+    Req0,
+    State = #state{
+        operation_id = 'LogoutUser'
+    }
+) ->
+    Headers = [],
+    {Result, Req} = validate_headers(Headers, Req0),
+    {Result, Req, State};
+
+valid_content_headers(
+    Req0,
+    State = #state{
+        operation_id = 'UpdateUser'
     }
 ) ->
     Headers = [],
@@ -254,15 +307,15 @@ handle_request_json(
         context = Context
     }
 ) ->
-    case swagger_api:populate_request(OperationID, Req0, ValidatorState) of
+    case openapi_api:populate_request(OperationID, Req0, ValidatorState) of
         {ok, Populated, Req1} ->
-            {Code, Headers, Body} = swagger_logic_handler:handle_request(
+            {Code, Headers, Body} = openapi_logic_handler:handle_request(
                 LogicHandler,
                 OperationID,
                 Populated,
                 Context
             ),
-            _ = swagger_api:validate_response(
+            _ = openapi_api:validate_response(
                 OperationID,
                 Code,
                 Body,

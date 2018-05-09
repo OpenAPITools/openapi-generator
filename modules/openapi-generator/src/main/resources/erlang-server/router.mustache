@@ -63,11 +63,11 @@ get_operations() ->
     }.
 
 prepare_validator() ->
-    R = jsx:decode(element(2, file:read_file(get_swagger_path()))),
+    R = jsx:decode(element(2, file:read_file(get_openapi_path()))),
     jesse_state:new(R, [{default_schema_ver, <<"http://json-schema.org/draft-04/schema#">>}]).
 
 
-get_swagger_path() ->
+get_openapi_path() ->
     {ok, AppName} = application:get_application(?MODULE),
     filename:join({{packageName}}_utils:priv_dir(AppName), "openapi.json").
 

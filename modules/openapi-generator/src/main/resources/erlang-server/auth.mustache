@@ -39,7 +39,7 @@ authorize_api_key(LogicHandler, OperationID, From, KeyParam, Req0) ->
 get_api_key(header, KeyParam, Req0) ->
     {Headers, Req} = cowboy_req:headers(Req0),
     {
-        swagger_utils:get_opt(
+        openapi_utils:get_opt(
             {{packageName}}_utils:to_header(KeyParam),
             Headers
         ),

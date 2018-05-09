@@ -38,7 +38,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
 
     protected String apiVersion = "1.0.0";
     protected String apiPath = "src";
-    protected String packageName = "swagger";
+    protected String packageName = "openapi";
 
     public ErlangServerCodegen() {
         super();
@@ -50,7 +50,8 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
-        };
+        }
+        ;
 
         /**
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -66,8 +67,8 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
          * class
          */
         apiTemplateFiles.put(
-            "handler.mustache",   // the template to use
-            ".erl");       // the extension for each file to write
+                "handler.mustache",   // the template to use
+                ".erl");       // the extension for each file to write
 
         /**
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -79,12 +80,12 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
          * Reserved words.  Override this with reserved words specific to your language
          */
         setReservedWordsLowerCase(
-            Arrays.asList(
-                "after","and","andalso","band","begin","bnot","bor","bsl","bsr","bxor","case",
-                "catch","cond","div","end","fun","if","let","not","of","or","orelse","receive",
-                "rem","try","when","xor"
-            )
-       );
+                Arrays.asList(
+                        "after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr", "bxor", "case",
+                        "catch", "cond", "div", "end", "fun", "if", "let", "not", "of", "or", "orelse", "receive",
+                        "rem", "try", "when", "xor"
+                )
+        );
 
         instantiationTypes.clear();
 
@@ -114,7 +115,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Erlang package name (convention: lowercase).")
-            .defaultValue(this.packageName));
+                .defaultValue(this.packageName));
         /**
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
@@ -126,16 +127,16 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
          * entire object tree available.  If the input file has a suffix of `.mustache
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
-        supportingFiles.add(new SupportingFile("rebar.config.mustache","", "rebar.config"));
+        supportingFiles.add(new SupportingFile("rebar.config.mustache", "", "rebar.config"));
         supportingFiles.add(new SupportingFile("app.src.mustache", "", "src" + File.separator + this.packageName + ".app.src"));
-        supportingFiles.add(new SupportingFile("router.mustache", "",  toSourceFilePath("router", "erl")));
-        supportingFiles.add(new SupportingFile("api.mustache", "",  toSourceFilePath("api", "erl")));
-        supportingFiles.add(new SupportingFile("server.mustache", "",  toSourceFilePath("server", "erl")));
-        supportingFiles.add(new SupportingFile("utils.mustache", "",  toSourceFilePath("utils", "erl")));
-        supportingFiles.add(new SupportingFile("auth.mustache", "",  toSourceFilePath("auth", "erl")));
+        supportingFiles.add(new SupportingFile("router.mustache", "", toSourceFilePath("router", "erl")));
+        supportingFiles.add(new SupportingFile("api.mustache", "", toSourceFilePath("api", "erl")));
+        supportingFiles.add(new SupportingFile("server.mustache", "", toSourceFilePath("server", "erl")));
+        supportingFiles.add(new SupportingFile("utils.mustache", "", toSourceFilePath("utils", "erl")));
+        supportingFiles.add(new SupportingFile("auth.mustache", "", toSourceFilePath("auth", "erl")));
         supportingFiles.add(new SupportingFile("openapi.mustache", "", toPrivFilePath("openapi", "json")));
-        supportingFiles.add(new SupportingFile("default_logic_handler.mustache", "",  toSourceFilePath("default_logic_handler", "erl")));
-        supportingFiles.add(new SupportingFile("logic_handler.mustache", "",  toSourceFilePath("logic_handler", "erl")));
+        supportingFiles.add(new SupportingFile("default_logic_handler.mustache", "", toSourceFilePath("default_logic_handler", "erl")));
+        supportingFiles.add(new SupportingFile("logic_handler.mustache", "", toSourceFilePath("logic_handler", "erl")));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
     }
 
@@ -174,7 +175,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String getHelp() {
-        return "Generates an Erlang server library (beta) using the Swagger Codegen project. By default, " +
+        return "Generates an Erlang server library (beta) using OpenAPI Generator (https://openapi-generator.tech). By default, " +
                 "it will also generate service classes, which can be disabled with the `-Dnoservice` environment variable.";
     }
 
@@ -193,8 +194,8 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
      * @return the escaped term
      */
     @Override
-    public String escapeReservedWord(String name) {           
-        if(this.reservedWordsMappings().containsKey(name)) {
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -261,7 +262,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     protected String toSourceFilePath(String name, String extension) {
-        return "src" + File.separator +  toModuleName(name) + "." + extension;
+        return "src" + File.separator + toModuleName(name) + "." + extension;
     }
 
     protected String toIncludeFilePath(String name, String extension) {
