@@ -28,6 +28,6 @@ cd /var/tmp/perl/petstore
 
 Some generators also generate CI/CD configuration files (.travis.yml) so that the output will be ready to be tested by the CI (e.g. Travis)
 
-If you're looking for the configuration files of a particular CI that is not yet supported, please open an [issue](https://github.com/swagger-api/swagger-codegen/issues/new) to let us know.
+If you're looking for the configuration files of a particular CI that is not yet supported, please open an [issue](https://github.com/openapitools/openapi-generator/issues/new) to let us know.
 
 [Back to OpenAPI-Generator's README page](../README.md)

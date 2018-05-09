@@ -14,7 +14,7 @@ sinatra-cross_origin
 ```
 
 ## Getting started
-This sample was generated with the [swagger-codegen](https://github.com/swagger-api/swagger-codegen) project.
+This sample was generated with the [OpenAPI Generator](https://github.com/openapitools/openapi-generator) project.
 
 ```
 rackup -p 4567 config.ru

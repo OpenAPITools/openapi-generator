@@ -24,11 +24,11 @@ https://github.com/openapitools/openapi-generator/wiki/FAQ#git
 
 ### Code generators
 
-All the code generators can be found in [modules/swagger-codegen/src/main/java/io/swagger/codegen/languages](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages)
+All the code generators can be found in [modules/openapi-generator/src/main/java/org/openapitools/codegen/languages](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages)
 
 ### Templates
 
-All the templates ([mustache](https://mustache.github.io/)) can be found in [modules/swagger-codegen/src/main/resources](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources).
+All the templates ([mustache](https://mustache.github.io/)) can be found in [modules/openapi-generator/src/main/resources](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources).
 
 For a list of variables available in the template, please refer to this [page](https://github.com/openapitools/openapi-generator/wiki/Mustache-Template-Variables)
 
@@ -75,7 +75,7 @@ For [Vendor Extensions](https://github.com/OAI/OpenAPI-Specification/blob/master
 
 ### Testing
 
-To add test cases (optional) covering the change in the code generator, please refer to [modules/swagger-codegen/src/test/java/io/swagger/codegen](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/test/java/org/openapitools/codegen)
+To add test cases (optional) covering the change in the code generator, please refer to [modules/openapi-generator/src/test/java/org/openapitools/codegen](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/test/java/org/openapitools/codegen)
 
 To test the templates, please perform the following:
 - Update the [Petstore](http://petstore.swagger.io/) sample by running the shell script under `bin` folder. For example, run `./bin/ruby-petstore.sh` to update the Ruby PetStore API client under [`samples/client/petstore/ruby`](https://github.com/openapitools/openapi-generator/tree/master/samples/client/petstore/ruby) For Windows, the batch files can be found under `bin\windows` folder. (If you find that there are new files generated or unexpected changes as a result of the update, that's not unusual as the test cases are added to the OpenAPI/Swagger spec from time to time. If you've questions or concerns, please open a ticket to start a discussion)
@@ -83,7 +83,7 @@ To test the templates, please perform the following:
 - Finally, git commit the updated samples files: `git commit -a`
   (`git add -A` if added files with new test cases)
 
-To start the CI tests, you can run `mvn verify -Psamples` (assuming you've all the required tools installed to run tests for different languages) or you can leverage http://travis-ci.org to run the CI tests by adding your own Swagger-Codegen repository.
+To start the CI tests, you can run `mvn verify -Psamples` (assuming you've all the required tools installed to run tests for different languages) or you can leverage http://travis-ci.org to run the CI tests by adding your own openapi-generator repository.
 
 ### Tips
 - Smaller changes are easier to review
