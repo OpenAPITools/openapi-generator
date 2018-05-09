@@ -525,6 +525,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [Ravindra Nikam](https://github.com/ravinikam)
 - [Sebastian Haas](https://github.com/sebastianhaas)
 - [Sreenidhi Sreesha](https://github.com/sreeshas)
+- [Stefan Krismann](https://github.com/stkrwork)
 - [Takuro Wada](https://github.com/taxpon)
 - [Tomasz Prus](https://github.com/tomplus)
 - [Tristan Sloughter](https://github.com/tsloughter)
@@ -540,7 +541,6 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [etherealjoy](https://github.com/etherealjoy)
 - [jfiala](https://github.com/jfiala)
 - [lukoyanov](https://github.com/lukoyanov)
-- [stkrwork](https://github.com/stkrwork)
 
 
 
