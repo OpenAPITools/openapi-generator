@@ -25,8 +25,8 @@ This can only be done by the logged in user.
 ### Example
 ```kotlin
 // Import classes:
-//import io.swagger.client.infrastructure.*
-//import io.swagger.client.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
 val user : User =  // User | Created user object
@@ -69,8 +69,8 @@ Creates list of users with given input array
 ### Example
 ```kotlin
 // Import classes:
-//import io.swagger.client.infrastructure.*
-//import io.swagger.client.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
 val user : kotlin.Array<User> =  // kotlin.Array<User> | List of user object
@@ -113,8 +113,8 @@ Creates list of users with given input array
 ### Example
 ```kotlin
 // Import classes:
-//import io.swagger.client.infrastructure.*
-//import io.swagger.client.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
 val user : kotlin.Array<User> =  // kotlin.Array<User> | List of user object
@@ -159,8 +159,8 @@ This can only be done by the logged in user.
 ### Example
 ```kotlin
 // Import classes:
-//import io.swagger.client.infrastructure.*
-//import io.swagger.client.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
 val username : kotlin.String = username_example // kotlin.String | The name that needs to be deleted
@@ -203,8 +203,8 @@ Get user by user name
 ### Example
 ```kotlin
 // Import classes:
-//import io.swagger.client.infrastructure.*
-//import io.swagger.client.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
 val username : kotlin.String = username_example // kotlin.String | The name that needs to be fetched. Use user1 for testing.
@@ -248,8 +248,8 @@ Logs user into the system
 ### Example
 ```kotlin
 // Import classes:
-//import io.swagger.client.infrastructure.*
-//import io.swagger.client.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
 val username : kotlin.String = username_example // kotlin.String | The user name for login
@@ -295,8 +295,8 @@ Logs out current logged in user session
 ### Example
 ```kotlin
 // Import classes:
-//import io.swagger.client.infrastructure.*
-//import io.swagger.client.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
 try {
@@ -337,8 +337,8 @@ This can only be done by the logged in user.
 ### Example
 ```kotlin
 // Import classes:
-//import io.swagger.client.infrastructure.*
-//import io.swagger.client.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
 val username : kotlin.String = username_example // kotlin.String | name that need to be deleted

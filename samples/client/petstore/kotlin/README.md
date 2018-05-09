@@ -1,4 +1,4 @@
-# io.swagger.client - Kotlin client library for OpenAPI Petstore
+# org.openapitools.client - Kotlin client library for OpenAPI Petstore
 
 ## Requires
 
@@ -60,12 +60,12 @@ Class | Method | HTTP request | Description
 <a name="documentation-for-models"></a>
 ## Documentation for Models
 
- - [io.swagger.client.models.ApiResponse](docs/ApiResponse.md)
- - [io.swagger.client.models.Category](docs/Category.md)
- - [io.swagger.client.models.Order](docs/Order.md)
- - [io.swagger.client.models.Pet](docs/Pet.md)
- - [io.swagger.client.models.Tag](docs/Tag.md)
- - [io.swagger.client.models.User](docs/User.md)
+ - [org.openapitools.client.models.ApiResponse](docs/ApiResponse.md)
+ - [org.openapitools.client.models.Category](docs/Category.md)
+ - [org.openapitools.client.models.Order](docs/Order.md)
+ - [org.openapitools.client.models.Pet](docs/Pet.md)
+ - [org.openapitools.client.models.Tag](docs/Tag.md)
+ - [org.openapitools.client.models.User](docs/User.md)
 
 
 <a name="documentation-for-authorization"></a>

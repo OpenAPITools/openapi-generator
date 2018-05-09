@@ -1,4 +1,4 @@
-# io.swagger.client - Kotlin client library for Swagger Petstore
+# org.openapitools.client - Kotlin client library for OpenAPI Petstore
 
 ## Requires
 
@@ -25,7 +25,7 @@ This runs all tests and packages the library.
 
 * Supports JSON inputs/outputs, File inputs, and Form inputs.
 * Supports collection formats for query parameters: csv, tsv, ssv, pipes.
-* Some Kotlin and Java types are fully qualified to avoid conflicts with types defined in Swagger definitions.
+* Some Kotlin and Java types are fully qualified to avoid conflicts with types defined in OpenAPI definitions.
 * Implementation of ApiClient is intended to reduce method counts, specifically to benefit Android targets.
 
 <a name="documentation-for-api-endpoints"></a>
@@ -60,12 +60,12 @@ Class | Method | HTTP request | Description
 <a name="documentation-for-models"></a>
 ## Documentation for Models
 
- - [io.swagger.client.models.ApiResponse](docs/ApiResponse.md)
- - [io.swagger.client.models.Category](docs/Category.md)
- - [io.swagger.client.models.Order](docs/Order.md)
- - [io.swagger.client.models.Pet](docs/Pet.md)
- - [io.swagger.client.models.Tag](docs/Tag.md)
- - [io.swagger.client.models.User](docs/User.md)
+ - [org.openapitools.client.models.ApiResponse](docs/ApiResponse.md)
+ - [org.openapitools.client.models.Category](docs/Category.md)
+ - [org.openapitools.client.models.Order](docs/Order.md)
+ - [org.openapitools.client.models.Pet](docs/Pet.md)
+ - [org.openapitools.client.models.Tag](docs/Tag.md)
+ - [org.openapitools.client.models.User](docs/User.md)
 
 
 <a name="documentation-for-authorization"></a>
