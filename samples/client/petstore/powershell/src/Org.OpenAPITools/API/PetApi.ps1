@@ -2,7 +2,7 @@ function Invoke-PetApiAddPet {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [IO.Swagger.Model.Pet]
+        [Org.OpenAPITools.Model.Pet]
         ${pet}
     )
 
@@ -96,7 +96,7 @@ function Invoke-PetApiUpdatePet {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [IO.Swagger.Model.Pet]
+        [Org.OpenAPITools.Model.Pet]
         ${pet}
     )
 

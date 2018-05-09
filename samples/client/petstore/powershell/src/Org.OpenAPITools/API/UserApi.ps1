@@ -2,7 +2,7 @@ function Invoke-UserApiCreateUser {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [IO.Swagger.Model.User]
+        [Org.OpenAPITools.Model.User]
         ${user}
     )
 
@@ -20,7 +20,7 @@ function Invoke-UserApiCreateUsersWithArrayInput {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [IO.Swagger.Model.User[]]
+        [Org.OpenAPITools.Model.User[]]
         ${user}
     )
 
@@ -38,7 +38,7 @@ function Invoke-UserApiCreateUsersWithListInput {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [IO.Swagger.Model.User[]]
+        [Org.OpenAPITools.Model.User[]]
         ${user}
     )
 
@@ -131,7 +131,7 @@ function Invoke-UserApiUpdateUser {
         [String]
         ${username},
         [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [IO.Swagger.Model.User]
+        [Org.OpenAPITools.Model.User]
         ${user}
     )
 

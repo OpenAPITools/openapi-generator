@@ -5,7 +5,7 @@ function New-Pet {
         [System.Nullable[Int64]]
         ${id},
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
-        [System.Nullable[IO.Swagger.Model.Category]]
+        [System.Nullable[Org.OpenAPITools.Model.Category]]
         ${category},
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [String]
@@ -14,7 +14,7 @@ function New-Pet {
         [String[]]
         ${photoUrls},
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
-        [System.Nullable[IO.Swagger.Model.Tag[]]]
+        [System.Nullable[Org.OpenAPITools.Model.Tag[]]]
         ${tags},
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
         [String]
@@ -22,10 +22,10 @@ function New-Pet {
     )
 
     Process {
-        'Creating object: IO.Swagger.Model.Pet' | Write-Verbose
+        'Creating object: Org.OpenAPITools.Model.Pet' | Write-Verbose
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        New-Object -TypeName IO.Swagger.Model.Pet -ArgumentList @(
+        New-Object -TypeName Org.OpenAPITools.Model.Pet -ArgumentList @(
             ${id},
             ${category},
             ${name},
