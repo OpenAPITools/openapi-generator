@@ -1,4 +1,4 @@
-package io.swagger.client.api
+package org.openapitools.client.api
 
 import argonaut._
 import argonaut.EncodeJson._
