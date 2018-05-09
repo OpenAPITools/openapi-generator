@@ -34,6 +34,6 @@ After the client library is installed/deployed, you can use it in your Maven pro
 
 ## Author
 
-apiteam@swagger.io
+
 
 
