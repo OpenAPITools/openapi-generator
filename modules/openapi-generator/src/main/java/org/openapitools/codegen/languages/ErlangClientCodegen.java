@@ -17,15 +17,11 @@
 
 package org.openapitools.codegen.languages;
 
-
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
 import org.openapitools.codegen.*;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.core.util.Json;
 
 import java.io.File;
 import java.util.*;
@@ -34,15 +30,13 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig {
     static Logger LOGGER = LoggerFactory.getLogger(ErlangClientCodegen.class);
 
-    protected String packageName = "swagger";
+    protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
     protected String sourceFolder = "src";
 
@@ -142,7 +136,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
-            setPackageName("swagger");
+            setPackageName("openapi");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
@@ -178,7 +172,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     public String qsEncode(Object o) {
-        String r = new String();
+        String r = "";
         CodegenParameter q = (CodegenParameter) o;
         if (q.required) {
             if (q.isListContainer) {
@@ -344,8 +338,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     int lengthRequired(List<CodegenParameter> allParams) {
         int l = 0;
         for (CodegenParameter o : allParams) {
-            CodegenParameter q = (CodegenParameter) o;
-            if (q.required || q.isBodyParam)
+            if (o.required || o.isBodyParam)
                 l++;
         }
 

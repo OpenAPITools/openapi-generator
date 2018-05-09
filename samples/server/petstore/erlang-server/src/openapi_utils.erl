@@ -1,4 +1,4 @@
--module(swagger_utils).
+-module(openapi_utils).
 
 -export([to_binary/1]).
 -export([to_list/1]).

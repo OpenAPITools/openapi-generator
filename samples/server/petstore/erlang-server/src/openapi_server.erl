@@ -1,8 +1,8 @@
--module(swagger_server).
+-module(openapi_server).
 
 
 -define(DEFAULT_ACCEPTORS_POOLSIZE, 100).
--define(DEFAULT_LOGIC_HANDLER, swagger_default_logic_handler).
+-define(DEFAULT_LOGIC_HANDLER, openapi_default_logic_handler).
 
 -export([child_spec/2]).
 
@@ -31,7 +31,7 @@ get_socket_transport(IP, Port, Options) ->
         {ip,   IP},
         {port, Port}
     ],
-    case swagger_utils:get_opt(ssl, Options) of
+    case openapi_utils:get_opt(ssl, Options) of
         SslOpts = [_|_] ->
             {ranch_ssl, Opts ++ SslOpts};
         undefined ->
@@ -55,7 +55,7 @@ get_cowboy_config(LogicHandler, [{Key, Value}| Rest], Opts) ->
     get_cowboy_config(LogicHandler, Rest, store_key(Key, Value, Opts)).
 
 get_default_dispatch(LogicHandler) ->
-    Paths = swagger_router:get_paths(LogicHandler),
+    Paths = openapi_router:get_paths(LogicHandler),
     {dispatch, cowboy_router:compile(Paths)}.
 
 get_default_opts(LogicHandler) ->

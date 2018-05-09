@@ -1,4 +1,4 @@
-# Swagger client server library for Erlang
+# OpenAPI client server library for Erlang
 
 ## Overview
 

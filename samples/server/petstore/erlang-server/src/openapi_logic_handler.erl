@@ -1,4 +1,4 @@
--module(swagger_logic_handler).
+-module(openapi_logic_handler).
 
 -export([handle_request/4]).
 -export([authorize_api_key/3]).
@@ -12,18 +12,18 @@
 -export_type([handler_response/0]).
 
 -callback authorize_api_key(
-    OperationID :: swagger_api:operation_id(),
+    OperationID :: openapi_api:operation_id(),
     ApiKey :: binary()
 ) ->
     Result :: boolean() | {boolean(), context()}.
 
 
--callback handle_request(OperationID :: swagger_api:operation_id(), Request :: any(), Context :: context()) ->
+-callback handle_request(OperationID :: openapi_api:operation_id(), Request :: any(), Context :: context()) ->
     handler_response().
 
 -spec handle_request(
     Handler :: atom(),
-    OperationID :: swagger_api:operation_id(),
+    OperationID :: openapi_api:operation_id(),
     Request :: any(),
     Context :: context()
 ) ->
@@ -32,7 +32,7 @@
 handle_request(Handler, OperationID, Req, Context) ->
     Handler:handle_request(OperationID, Req, Context).
 
--spec authorize_api_key(Handler :: atom(), OperationID :: swagger_api:operation_id(), ApiKey :: binary()) ->
+-spec authorize_api_key(Handler :: atom(), OperationID :: openapi_api:operation_id(), ApiKey :: binary()) ->
     Result :: false | {true, context()}.
 authorize_api_key(Handler, OperationID, ApiKey) ->
     Handler:authorize_api_key(OperationID, ApiKey).

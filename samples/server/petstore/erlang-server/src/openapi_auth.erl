@@ -1,10 +1,10 @@
--module(swagger_auth).
+-module(openapi_auth).
 
 -export([authorize_api_key/5]).
 
 -spec authorize_api_key(
     LogicHandler :: atom(),
-    OperationID :: swagger_api:operation_id(),
+    OperationID :: openapi_api:operation_id(),
     From :: header | qs_val,
     KeyParam :: iodata() | atom(),
     Req ::cowboy_req:req()
@@ -18,7 +18,7 @@ authorize_api_key(LogicHandler, OperationID, From, KeyParam, Req0) ->
             AuthHeader = <<"">>,
             {false, AuthHeader, Req};
         _ ->
-            Result = swagger_logic_handler:authorize_api_key(
+            Result = openapi_logic_handler:authorize_api_key(
                 LogicHandler,
                 OperationID,
                 ApiKey
@@ -35,8 +35,8 @@ authorize_api_key(LogicHandler, OperationID, From, KeyParam, Req0) ->
 get_api_key(header, KeyParam, Req0) ->
     {Headers, Req} = cowboy_req:headers(Req0),
     {
-        swagger_utils:get_opt(
-            swagger_utils:to_header(KeyParam),
+        openapi_utils:get_opt(
+            openapi_utils:to_header(KeyParam),
             Headers
         ),
         Req
@@ -44,7 +44,7 @@ get_api_key(header, KeyParam, Req0) ->
 
 get_api_key(qs_val, KeyParam, Req0) ->
     {QS, Req} = cowboy_req:qs_vals(Req0),
-    { swagger_utils:get_opt(KeyParam, QS), Req}.
+    { openapi_utils:get_opt(KeyParam, QS), Req}.
 
 
 
