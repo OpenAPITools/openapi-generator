@@ -1,10 +1,10 @@
-# swagger-petstore-tests-integration
+# openapi-petstore-tests-integration
 
-This contains integration tests for the haskell http-client swagger-petstore api client library.
+This contains integration tests for the haskell http-client openapi-petstore api client library.
 
 This module is not auto-generated.
 
-The integration tests require a swagger petstore server running at
+The integration tests require a openapi petstore server running at
 `http://0.0.0.0/v2`, or the value of the `HOST` environment variable.
 
 The api client library bindings are expected to live in the parent folder

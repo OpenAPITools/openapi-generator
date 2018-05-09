@@ -23,7 +23,7 @@ import qualified Data.Map.Strict as Map
 import Data.Map.Strict (Map)
 import System.Environment (getEnvironment)
 
-import qualified SwaggerPetstore as S
+import qualified OpenAPIPetstore as S
 
 import Data.Monoid ((<>))
 
@@ -31,14 +31,6 @@ import Data.Monoid ((<>))
 
 assertSuccess :: Expectation
 assertSuccess = Success `shouldBe` Success
-
--- * INSTANCES 
-
-instance S.Consumes S.PlaceOrder S.MimeJSON 
-instance S.Consumes S.CreateUser S.MimeJSON
-instance S.Consumes S.UpdateUser S.MimeJSON
-instance S.Consumes S.CreateUsersWithArrayInput S.MimeJSON
-instance S.Consumes S.CreateUsersWithListInput S.MimeJSON
 
 -- * MAIN
 
@@ -73,7 +65,7 @@ main = do
 
 -- * PET TESTS
 
-testPetOps :: NH.Manager -> S.SwaggerPetstoreConfig -> Spec
+testPetOps :: NH.Manager -> S.OpenAPIPetstoreConfig -> Spec
 testPetOps mgr config = 
 
   describe "** pet operations" $ do
@@ -173,7 +165,7 @@ testPetOps mgr config =
 -- * STORE TESTS
   
 
-testStoreOps :: NH.Manager -> S.SwaggerPetstoreConfig -> Spec
+testStoreOps :: NH.Manager -> S.OpenAPIPetstoreConfig -> Spec
 testStoreOps mgr config = do
 
   describe "** store operations" $ do
@@ -191,7 +183,7 @@ testStoreOps mgr config = do
 
     it "placeOrder" $ do
       now <- TI.getCurrentTime
-      let placeOrderRequest = S.placeOrder (S.ContentType S.MimeJSON) (S.Accept S.MimeJSON)
+      let placeOrderRequest = S.placeOrder (S.Accept S.MimeJSON)
             (S.mkOrder
              { S.orderId = Just 21
              , S.orderQuantity = Just 210
@@ -229,7 +221,7 @@ testStoreOps mgr config = do
 
 -- * USER TESTS
 
-testUserOps :: NH.Manager -> S.SwaggerPetstoreConfig -> Spec
+testUserOps :: NH.Manager -> S.OpenAPIPetstoreConfig -> Spec
 testUserOps mgr config = do
 
   describe "** user operations" $ do
@@ -253,19 +245,19 @@ testUserOps mgr config = do
 
     before (pure _user) $
       it "createUser" $ \user -> do
-        let createUserRequest = S.createUser (S.ContentType S.MimeJSON) user
+        let createUserRequest = S.createUser user
         createUserResult <- S.dispatchLbs mgr config createUserRequest 
         NH.responseStatus createUserResult `shouldBe` NH.status200
 
     before (pure _users) $
       it "createUsersWithArrayInput" $ \users -> do
-        let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.ContentType S.MimeJSON) (S.User2 users)
+        let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.User2 users)
         createUsersWithArrayInputResult <- S.dispatchLbs mgr config createUsersWithArrayInputRequest
         NH.responseStatus createUsersWithArrayInputResult `shouldBe` NH.status200
 
     before (pure _users) $
       it "createUsersWithListInput" $ \users -> do
-        let createUsersWithListInputRequest = S.createUsersWithListInput (S.ContentType S.MimeJSON) (S.User2 users)
+        let createUsersWithListInputRequest = S.createUsersWithListInput (S.User2 users)
         createUsersWithListInputResult <- S.dispatchLbs mgr config createUsersWithListInputRequest 
         NH.responseStatus createUsersWithListInputResult `shouldBe` NH.status200
 
@@ -286,7 +278,7 @@ testUserOps mgr config = do
 
     before (pure (_username, _user)) $
       it "updateUser" $ \(username, user) -> do
-        let updateUserRequest = S.updateUser (S.ContentType S.MimeJSON) user (S.Username username) 
+        let updateUserRequest = S.updateUser user (S.Username username) 
         updateUserResult <- S.dispatchLbs mgr config updateUserRequest
         NH.responseStatus updateUserResult `shouldBe` NH.status200
 

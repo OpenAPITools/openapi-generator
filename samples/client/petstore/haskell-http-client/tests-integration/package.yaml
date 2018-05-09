@@ -1,15 +1,15 @@
-name: swagger-petstore-tests-integration
+name: openapi-petstore-tests-integration
 version: '0.1.0.0'
-synopsis: integration tests for auto-generated swagger-petstore API Client
+synopsis: integration tests for auto-generated openapi-petstore API Client
 description: ! '
-    integration tests for auto-generated swagger-petstore API Client
+    integration tests for auto-generated openapi-petstore API Client
 '
 category: Web
 author: Author Name Here
 maintainer: author.name@email.com
 copyright: YEAR - AUTHOR
 license: UnspecifiedLicense
-homepage: https://github.com/swagger-api/swagger-codegen#readme
+homepage: https://openapi-generator.tech
 extra-source-files:
 - README.md
 ghc-options: -Wall
@@ -33,7 +33,7 @@ dependencies:
 - case-insensitive
 - safe-exceptions <0.2
 - microlens >= 0.4.3 && <0.5
-- swagger-petstore
+- openapi-petstore
 tests:
   tests:
     main: Test.hs
@@ -41,7 +41,7 @@ tests:
     ghc-options:
     - -fno-warn-orphans
     dependencies:
-    - swagger-petstore
+    - openapi-petstore
     - bytestring >=0.10.0 && <0.11
     - containers
     - hspec >=1.8

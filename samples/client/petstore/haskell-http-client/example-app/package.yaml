@@ -1,15 +1,15 @@
-name: swagger-petstore-app
+name: openapi-petstore-app
 version: '0.1.0.0'
-synopsis: Auto-generated swagger-petstore API Client
+synopsis: Auto-generated openapi-petstore API Client
 description: ! '
-    Sample app for calling the swagger-petstore API based on http-client.
+    Sample app for calling the openapi-petstore API based on http-client.
 '
 category: Web
 author: Author Name Here
 maintainer: author.name@email.com
 copyright: YEAR - AUTHOR
 license: UnspecifiedLicense
-homepage: https://github.com/swagger-api/swagger-codegen#readme
+homepage: https://openapi-generator.tech
 extra-source-files:
 - README.md
 ghc-options: -Wall
@@ -30,8 +30,8 @@ dependencies:
 - time >=1.5 && <1.9
 - vector >=0.10.9 && <0.13
 - case-insensitive
-- swagger-petstore
+- openapi-petstore
 - microlens >= 0.4.3 && <0.5
 executables:
-  swagger-petstore-app:
+  openapi-petstore-app:
     main: Main.hs
