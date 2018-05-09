@@ -55,7 +55,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         super();
 
         artifactId = "kotlin-client";
-        packageName = "io.swagger.client";
+        packageName = "org.openapitools.client";
 
         outputFolder = "generated-code" + File.separator + "kotlin-client";
         modelTemplateFiles.put("model.mustache", ".kt");

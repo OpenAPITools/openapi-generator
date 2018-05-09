@@ -21,8 +21,8 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 ### Example
 ```kotlin
 // Import classes:
-//import io.swagger.client.infrastructure.*
-//import io.swagger.client.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = StoreApi()
 val orderId : kotlin.String = orderId_example // kotlin.String | ID of the order that needs to be deleted
@@ -67,8 +67,8 @@ Returns a map of status codes to quantities
 ### Example
 ```kotlin
 // Import classes:
-//import io.swagger.client.infrastructure.*
-//import io.swagger.client.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = StoreApi()
 try {
@@ -110,8 +110,8 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 ### Example
 ```kotlin
 // Import classes:
-//import io.swagger.client.infrastructure.*
-//import io.swagger.client.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = StoreApi()
 val orderId : kotlin.Long = 789 // kotlin.Long | ID of pet that needs to be fetched
@@ -155,8 +155,8 @@ Place an order for a pet
 ### Example
 ```kotlin
 // Import classes:
-//import io.swagger.client.infrastructure.*
-//import io.swagger.client.models.*
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
 
 val apiInstance = StoreApi()
 val order : Order =  // Order | order placed for purchasing the pet
