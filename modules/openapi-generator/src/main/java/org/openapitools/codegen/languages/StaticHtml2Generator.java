@@ -50,8 +50,8 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     protected String artifactVersion = "1.0.0";
     protected String jsProjectName;
     protected String jsModuleName;
-    protected String perlModuleName = "WWW::SwaggerClient";
-    protected String pythonPackageName = "swagger_client";
+    protected String perlModuleName = "WWW::OPenAPIClient";
+    protected String pythonPackageName = "openapi_client";
 
     public StaticHtml2Generator() {
         super();
@@ -77,8 +77,8 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
 
         additionalProperties.put("appName", "OpenAPI Sample");
         additionalProperties.put("appDescription", "A sample openapi server");
-        additionalProperties.put("infoUrl", "https://helloreverb.com");
-        additionalProperties.put("infoEmail", "hello@helloreverb.com");
+        additionalProperties.put("infoUrl", "https://openapi-generator.tech");
+        additionalProperties.put("infoEmail", "contributors@openapitools.org");
         additionalProperties.put("licenseInfo", "All rights reserved");
         additionalProperties.put("licenseUrl", "http://apache.org/licenses/LICENSE-2.0.html");
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
@@ -161,7 +161,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
 
         // default values
         if (StringUtils.isBlank(jsProjectName)) {
-            jsProjectName = "swagger-js-client";
+            jsProjectName = "openapi-js-client";
         }
         if (StringUtils.isBlank(jsModuleName)) {
             jsModuleName = camelize(underscore(jsProjectName));

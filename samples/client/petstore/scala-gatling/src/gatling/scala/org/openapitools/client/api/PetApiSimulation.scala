@@ -1,6 +1,6 @@
-package io.swagger.client.api
+package org.openapitools.client.api
 
-import io.swagger.client.model._
+import org.openapitools.client.model._
 import com.typesafe.config.ConfigFactory
 
 import io.gatling.core.Predef._
@@ -68,27 +68,21 @@ class PetApiSimulation extends Simulation {
     val scenarioBuilders: mutable.MutableList[PopulationBuilder] = new mutable.MutableList[PopulationBuilder]()
 
     // Set up CSV feeders
-    val addPetBodyFeeder = csv(userDataDirectory + File.separator + "addPet-bodyParams.csv", escapeChar = '\\').random
     val deletePetHEADERFeeder = csv(userDataDirectory + File.separator + "deletePet-headerParams.csv").random
     val deletePetPATHFeeder = csv(userDataDirectory + File.separator + "deletePet-pathParams.csv").random
     val findPetsByStatusQUERYFeeder = csv(userDataDirectory + File.separator + "findPetsByStatus-queryParams.csv").random
     val findPetsByTagsQUERYFeeder = csv(userDataDirectory + File.separator + "findPetsByTags-queryParams.csv").random
     val getPetByIdPATHFeeder = csv(userDataDirectory + File.separator + "getPetById-pathParams.csv").random
-    val updatePetBodyFeeder = csv(userDataDirectory + File.separator + "updatePet-bodyParams.csv", escapeChar = '\\').random
-    val updatePetWithFormFORMFeeder = csv(userDataDirectory + File.separator + "updatePetWithForm-formParams.csv").random
     val updatePetWithFormPATHFeeder = csv(userDataDirectory + File.separator + "updatePetWithForm-pathParams.csv").random
-    val uploadFileFORMFeeder = csv(userDataDirectory + File.separator + "uploadFile-formParams.csv").random
     val uploadFilePATHFeeder = csv(userDataDirectory + File.separator + "uploadFile-pathParams.csv").random
 
     // Setup all scenarios
 
     
     val scnaddPet = scenario("addPetSimulation")
-        .feed(addPetBodyFeeder)
         .exec(http("addPet")
         .httpRequest("POST","/pet")
-        .body(StringBody(Pet.toStringBody("${id}","${category}","${name}","${tags}","${status}","${photoUrls}")))
-        )
+)
 
     // Run scnaddPet with warm up and reach a constant rate for entire duration
     scenarioBuilders += scnaddPet.inject(
@@ -159,11 +153,9 @@ class PetApiSimulation extends Simulation {
 
     
     val scnupdatePet = scenario("updatePetSimulation")
-        .feed(updatePetBodyFeeder)
         .exec(http("updatePet")
         .httpRequest("PUT","/pet")
-        .body(StringBody(Pet.toStringBody("${id}","${category}","${name}","${tags}","${status}","${photoUrls}")))
-        )
+)
 
     // Run scnupdatePet with warm up and reach a constant rate for entire duration
     scenarioBuilders += scnupdatePet.inject(
@@ -174,12 +166,9 @@ class PetApiSimulation extends Simulation {
 
     
     val scnupdatePetWithForm = scenario("updatePetWithFormSimulation")
-        .feed(updatePetWithFormFORMFeeder)
         .feed(updatePetWithFormPATHFeeder)
         .exec(http("updatePetWithForm")
         .httpRequest("POST","/pet/${petId}")
-        .formParam("name","${name}")
-        .formParam("status","${status}")
 )
 
     // Run scnupdatePetWithForm with warm up and reach a constant rate for entire duration
@@ -191,12 +180,9 @@ class PetApiSimulation extends Simulation {
 
     
     val scnuploadFile = scenario("uploadFileSimulation")
-        .feed(uploadFileFORMFeeder)
         .feed(uploadFilePATHFeeder)
         .exec(http("uploadFile")
         .httpRequest("POST","/pet/${petId}/uploadImage")
-        .formParam("file","${file}")
-        .formParam("additionalMetadata","${additionalMetadata}")
 )
 
     // Run scnuploadFile with warm up and reach a constant rate for entire duration

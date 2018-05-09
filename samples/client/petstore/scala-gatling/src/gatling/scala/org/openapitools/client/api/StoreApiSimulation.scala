@@ -1,6 +1,6 @@
-package io.swagger.client.api
+package org.openapitools.client.api
 
-import io.swagger.client.model._
+import org.openapitools.client.model._
 import com.typesafe.config.ConfigFactory
 
 import io.gatling.core.Predef._
@@ -66,7 +66,6 @@ class StoreApiSimulation extends Simulation {
     // Set up CSV feeders
     val deleteOrderPATHFeeder = csv(userDataDirectory + File.separator + "deleteOrder-pathParams.csv").random
     val getOrderByIdPATHFeeder = csv(userDataDirectory + File.separator + "getOrderById-pathParams.csv").random
-    val placeOrderBodyFeeder = csv(userDataDirectory + File.separator + "placeOrder-bodyParams.csv", escapeChar = '\\').random
 
     // Setup all scenarios
 
@@ -113,11 +112,9 @@ class StoreApiSimulation extends Simulation {
 
     
     val scnplaceOrder = scenario("placeOrderSimulation")
-        .feed(placeOrderBodyFeeder)
         .exec(http("placeOrder")
         .httpRequest("POST","/store/order")
-        .body(StringBody(Order.toStringBody("${id}","${shipDate}","${complete}","${quantity}","${status}","${petId}")))
-        )
+)
 
     // Run scnplaceOrder with warm up and reach a constant rate for entire duration
     scenarioBuilders += scnplaceOrder.inject(

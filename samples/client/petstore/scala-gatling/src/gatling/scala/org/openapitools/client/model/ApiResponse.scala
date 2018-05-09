@@ -1,5 +1,5 @@
 
-package io.swagger.client.model
+package org.openapitools.client.model
 
 
 case class ApiResponse (

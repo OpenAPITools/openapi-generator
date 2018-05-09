@@ -1,12 +1,12 @@
 
-package io.swagger.client.model
+package org.openapitools.client.model
 
 
-case class Category (
+case class Tag (
     _id: Option[Long],
     _name: Option[String]
 )
-object Category {
+object Tag {
     def toStringBody(var_id: Object, var_name: Object) =
         s"""
         | {

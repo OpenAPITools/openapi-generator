@@ -1,6 +1,6 @@
-package io.swagger.client.api
+package org.openapitools.client.api
 
-import io.swagger.client.model._
+import org.openapitools.client.model._
 import com.typesafe.config.ConfigFactory
 
 import io.gatling.core.Predef._
@@ -68,22 +68,18 @@ class UserApiSimulation extends Simulation {
     val scenarioBuilders: mutable.MutableList[PopulationBuilder] = new mutable.MutableList[PopulationBuilder]()
 
     // Set up CSV feeders
-    val createUserBodyFeeder = csv(userDataDirectory + File.separator + "createUser-bodyParams.csv", escapeChar = '\\').random
     val deleteUserPATHFeeder = csv(userDataDirectory + File.separator + "deleteUser-pathParams.csv").random
     val getUserByNamePATHFeeder = csv(userDataDirectory + File.separator + "getUserByName-pathParams.csv").random
     val loginUserQUERYFeeder = csv(userDataDirectory + File.separator + "loginUser-queryParams.csv").random
     val updateUserPATHFeeder = csv(userDataDirectory + File.separator + "updateUser-pathParams.csv").random
-    val updateUserBodyFeeder = csv(userDataDirectory + File.separator + "updateUser-bodyParams.csv", escapeChar = '\\').random
 
     // Setup all scenarios
 
     
     val scncreateUser = scenario("createUserSimulation")
-        .feed(createUserBodyFeeder)
         .exec(http("createUser")
         .httpRequest("POST","/user")
-        .body(StringBody(User.toStringBody("${password}","${id}","${lastName}","${firstName}","${email}","${userStatus}","${phone}","${username}")))
-        )
+)
 
     // Run scncreateUser with warm up and reach a constant rate for entire duration
     scenarioBuilders += scncreateUser.inject(
@@ -96,8 +92,7 @@ class UserApiSimulation extends Simulation {
     val scncreateUsersWithArrayInput = scenario("createUsersWithArrayInputSimulation")
         .exec(http("createUsersWithArrayInput")
         .httpRequest("POST","/user/createWithArray")
-        .body(StringBody(StringBody("[]")))
-        )
+)
 
     // Run scncreateUsersWithArrayInput with warm up and reach a constant rate for entire duration
     scenarioBuilders += scncreateUsersWithArrayInput.inject(
@@ -110,8 +105,7 @@ class UserApiSimulation extends Simulation {
     val scncreateUsersWithListInput = scenario("createUsersWithListInputSimulation")
         .exec(http("createUsersWithListInput")
         .httpRequest("POST","/user/createWithList")
-        .body(StringBody(StringBody("[]")))
-        )
+)
 
     // Run scncreateUsersWithListInput with warm up and reach a constant rate for entire duration
     scenarioBuilders += scncreateUsersWithListInput.inject(
@@ -179,12 +173,10 @@ class UserApiSimulation extends Simulation {
 
     
     val scnupdateUser = scenario("updateUserSimulation")
-        .feed(updateUserBodyFeeder)
         .feed(updateUserPATHFeeder)
         .exec(http("updateUser")
         .httpRequest("PUT","/user/${username}")
-        .body(StringBody(User.toStringBody("${password}","${id}","${lastName}","${firstName}","${email}","${userStatus}","${phone}","${username}")))
-        )
+)
 
     // Run scnupdateUser with warm up and reach a constant rate for entire duration
     scenarioBuilders += scnupdateUser.inject(

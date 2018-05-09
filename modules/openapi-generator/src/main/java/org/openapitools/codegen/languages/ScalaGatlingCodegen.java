@@ -96,12 +96,12 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
         /**
          * Api Package.  Optional, if needed, this can be used in templates
          */
-        apiPackage = "io.swagger.client.api";
+        apiPackage = "org.openapitools.client.api";
 
         /**
          * Model Package.  Optional, if needed, this can be used in templates
          */
-        modelPackage = "io.swagger.client.model";
+        modelPackage = "org.openapitools.client.model";
 
         /**
          * Additional Properties.  These values can be passed to the templates and
@@ -305,9 +305,9 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
     /**
      * Creates all the necessary openapi vendor extensions and feeder files for gatling
      *
-     * @param operation     Swagger Operation
-     * @param parameters    Swagger Parameters
-     * @param parameterType Swagger Parameter Type
+     * @param operation     OpoenAPI Operation
+     * @param parameters    OpenAPI Parameters
+     * @param parameterType OpenAPI Parameter Type
      */
     private void prepareGatlingData(Operation operation, Set<Parameter> parameters, String parameterType) {
         if (parameters.size() > 0) {
