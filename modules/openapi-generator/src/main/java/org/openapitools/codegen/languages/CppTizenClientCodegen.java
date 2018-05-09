@@ -281,7 +281,7 @@ public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toOperationId(String operationId) {
         // throw exception if method name is empty
-        if ("".equals(operationId)) {
+        if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 

@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.v3.oas.models.*;
 
 import java.util.*;
@@ -171,7 +170,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 basePath = basePath.substring(0, pos);
             }
 
-            if (basePath == "") {
+            if (StringUtils.isEmpty(basePath)) {
                 basePath = "default";
             } else {
                 if (co.path.startsWith("/" + basePath)) {
@@ -180,7 +179,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 co.subresourceOperation = !co.path.isEmpty();
             }
             List<CodegenOperation> opList = operations.get(basePath);
-            if (opList == null) {
+            if (opList == null || opList.isEmpty()) {
                 opList = new ArrayList<CodegenOperation>();
                 operations.put(basePath, opList);
             }

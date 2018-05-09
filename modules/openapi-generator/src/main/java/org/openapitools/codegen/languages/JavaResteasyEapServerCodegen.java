@@ -126,7 +126,7 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
             basePath = basePath.substring(0, pos);
         }
 
-        if (basePath == "") {
+        if (StringUtils.isEmpty("")) {
             basePath = "default";
         } else {
             if (co.path.startsWith("/" + basePath)) {
@@ -135,7 +135,7 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
             co.subresourceOperation = !co.path.isEmpty();
         }
         List<CodegenOperation> opList = operations.get(basePath);
-        if (opList == null) {
+        if (opList == null || opList.isEmpty()) {
             opList = new ArrayList<CodegenOperation>();
             operations.put(basePath, opList);
         }

@@ -152,7 +152,7 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
             basePath = basePath.substring(0, pos);
         }
 
-        if (basePath == "") {
+        if (StringUtils.isEmpty(basePath)) {
             basePath = "default";
         } else {
             if (co.path.startsWith("/" + basePath)) {
