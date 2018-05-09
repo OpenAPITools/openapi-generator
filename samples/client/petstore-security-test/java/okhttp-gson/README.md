@@ -1,6 +1,6 @@
 # petstore-okhttp-gson
 
-Swagger Petstore *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+OpenAPI Petstore *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 - API version: 1.0.0 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  *_/ ' \" =end --       
@@ -84,7 +84,7 @@ public class FakeApiExample {
     public static void main(String[] args) {
         
         FakeApi apiInstance = new FakeApi();
-        ERRORUNKNOWN UNKNOWN_BASE_TYPE = new UNKNOWN_BASE_TYPE(); // ERRORUNKNOWN | 
+        Object UNKNOWN_BASE_TYPE = new UNKNOWN_BASE_TYPE(); // Object | 
         try {
             apiInstance.testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE);
         } catch (ApiException e) {
@@ -135,5 +135,5 @@ It's recommended to create an instance of `ApiClient` per thread in a multithrea
 
 ## Author
 
-apiteam@swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+something@something.abc *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
