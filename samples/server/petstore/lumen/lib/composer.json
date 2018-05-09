@@ -2,7 +2,8 @@
     "name": "GIT_USER_ID/GIT_REPO_ID",
     "description": "",
     "keywords": [
-        "swagger",
+        "openapi",
+        "openapitools",
         "php",
         "sdk",
         "api"

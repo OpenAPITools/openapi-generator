@@ -2,17 +2,18 @@
     "name": "GIT_USER_ID/GIT_REPO_ID",
     "description": "",
     "keywords": [
-        "swagger",
+        "openapi",
+        "openapitools",
         "php",
         "sdk",
         "api"
     ],
-    "homepage": "http://swagger.io",
+    "homepage": "http://openapi-generator.tech",
     "license": "proprietary",
     "authors": [
         {
-            "name": "Swagger and contributors",
-            "homepage": "https://github.com/swagger-api/swagger-codegen"
+            "name": "OpenAPI-Generator contributors",
+            "homepage": "https://openapi-generator.tech"
         }
     ],
     "require": {

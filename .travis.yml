@@ -9,7 +9,7 @@ cache:
   - $HOME/.ivy2
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
-  - $HOME/samples/client/petstore/php/SwaggerClient-php/vendor
+  - $HOME/samples/client/petstore/php/OpenAPIToolsClient-php/vendor
   - $HOME/samples/client/petstore/ruby/venodr/bundle
   - $HOME/samples/client/petstore/python/.venv/
   - $HOME/samples/client/petstore/typescript-node/npm/node_modules

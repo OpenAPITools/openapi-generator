@@ -180,6 +180,6 @@ Class | Method | HTTP request | Description
 
 ## Author
 
-apiteam@swagger.io
+
 
 

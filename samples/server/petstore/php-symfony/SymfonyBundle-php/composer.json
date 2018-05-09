@@ -2,16 +2,16 @@
     "name": "openapi/server-bundle",
     "description": "",
     "keywords": [
-        "swagger",
+        "openapi",
         "php",
         "sdk",
         "api"
     ],
-    "homepage": "http://swagger.io",
+    "homepage": "https://github.com/openapitools/openapi-generator",
     "license": "proprietary",
     "authors": [
         {
-            "name": "Swagger and contributors",
+            "name": "openapi-generator contributors",
             "homepage": "https://github.com/openapitools/openapi-generator"
         }
     ],
