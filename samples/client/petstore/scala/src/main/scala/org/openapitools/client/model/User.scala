@@ -10,11 +10,18 @@
  * Do not edit the class manually.
  */
 
-package io.swagger.client.model
+package org.openapitools.client.model
 
 
-case class Category (
+case class User (
   id: Option[Long] = None,
-  name: Option[String] = None
+  username: Option[String] = None,
+  firstName: Option[String] = None,
+  lastName: Option[String] = None,
+  email: Option[String] = None,
+  password: Option[String] = None,
+  phone: Option[String] = None,
+  // User Status
+  userStatus: Option[Integer] = None
 )
 

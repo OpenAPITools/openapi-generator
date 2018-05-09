@@ -10,16 +10,11 @@
  * Do not edit the class manually.
  */
 
-package io.swagger.client.model
+package org.openapitools.client.model
 
 
-case class Pet (
+case class Tag (
   id: Option[Long] = None,
-  category: Option[Category] = None,
-  name: String,
-  photoUrls: List[String],
-  tags: Option[List[Tag]] = None,
-  // pet status in the store
-  status: Option[String] = None
+  name: Option[String] = None
 )
 

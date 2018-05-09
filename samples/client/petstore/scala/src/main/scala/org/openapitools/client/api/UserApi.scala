@@ -10,36 +10,30 @@
  * Do not edit the class manually.
  */
 
-package io.swagger.client.api
+package org.openapitools.client.api
 
 import java.text.SimpleDateFormat
 
-import io.swagger.client.model.User
-import io.swagger.client.{ApiInvoker, ApiException}
+import org.openapitools.client.model.User
+import org.openapitools.client.{ApiInvoker, ApiException}
 
+import collection.mutable
 import com.sun.jersey.multipart.FormDataMultiPart
 import com.sun.jersey.multipart.file.FileDataBodyPart
+import com.wordnik.swagger.client._
+import com.wordnik.swagger.client.ClientResponseReaders.Json4sFormatsReader._
+import com.wordnik.swagger.client.RequestWriters.Json4sFormatsWriter._
 
-import javax.ws.rs.core.MediaType
-
+import java.net.URI
 import java.io.File
 import java.util.Date
 import java.util.TimeZone
-
-import scala.collection.mutable.HashMap
-
-import com.wordnik.swagger.client._
-import scala.concurrent.Future
-import collection.mutable
-
-import java.net.URI
-
-import com.wordnik.swagger.client.ClientResponseReaders.Json4sFormatsReader._
-import com.wordnik.swagger.client.RequestWriters.Json4sFormatsWriter._
+import javax.ws.rs.core.MediaType
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.concurrent.duration._
+import scala.collection.mutable.HashMap
 import scala.util.{Failure, Success, Try}
 
 import org.json4s._

@@ -18,12 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -34,19 +29,19 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean authPreemptive;
     protected boolean asyncHttpClient = !authScheme.isEmpty();
-    protected String groupId = "io.swagger";
+    protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-scala-client";
     protected String artifactVersion = "1.0.0";
     protected String clientName = "AsyncClient";
 
     public ScalaHttpClientCodegen() {
         super();
-        outputFolder = "generated-code/scala";
+        outputFolder = "generated-code/scala-http-client";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
         embeddedTemplateDir = templateDir = "scala";
-        apiPackage = "io.swagger.client.api";
-        modelPackage = "io.swagger.client.model";
+        apiPackage = "org.openapitools.client.api";
+        modelPackage = "org.openapitools.client.model";
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -115,7 +110,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
         typeMapping.put("double", "Double");
         typeMapping.put("object", "Any");
         typeMapping.put("file", "File");
-        typeMapping.put("binary", "Array[Byte]");
+        typeMapping.put("binary", "File");
         typeMapping.put("ByteArray", "Array[Byte]");
         typeMapping.put("ArrayByte", "Array[Byte]");
         typeMapping.put("date-time", "Date");

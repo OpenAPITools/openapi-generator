@@ -1,6 +1,6 @@
-import io.swagger.client._
-import io.swagger.client.api._
-import io.swagger.client.model._
+import org.openapitools.client._
+import org.openapitools.client.api._
+import org.openapitools.client.model._
  
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner

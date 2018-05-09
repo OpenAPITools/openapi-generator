@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-package io.swagger.client
+package org.openapitools.client
 
 import com.sun.jersey.api.client.Client
 import com.sun.jersey.api.client.ClientResponse

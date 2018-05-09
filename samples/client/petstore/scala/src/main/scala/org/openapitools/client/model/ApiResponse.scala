@@ -10,17 +10,12 @@
  * Do not edit the class manually.
  */
 
-package io.swagger.client.model
+package org.openapitools.client.model
 
-import java.util.Date
 
-case class Order (
-  id: Option[Long] = None,
-  petId: Option[Long] = None,
-  quantity: Option[Integer] = None,
-  shipDate: Option[Date] = None,
-  // Order Status
-  status: Option[String] = None,
-  complete: Option[Boolean] = None
+case class ApiResponse (
+  code: Option[Integer] = None,
+  `type`: Option[String] = None,
+  message: Option[String] = None
 )
 
