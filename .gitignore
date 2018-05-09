@@ -84,8 +84,8 @@ samples/client/petstore/java/retrofit2/hello.txt
 samples/client/petstore/java/feign/hello.txt
 
 #PHP
-samples/client/petstore/php/SwaggerClient-php/composer.lock
-samples/client/petstore/php/SwaggerClient-php/vendor/
+samples/client/petstore/php/OpenAPIToolsClient-php/composer.lock
+samples/client/petstore/php/OpenAPIToolsClient-php/vendor/
 samples/client/petstore/silex/SwaggerServer/composer.lock
 samples/client/petstore/silex/SwaggerServer/venodr/
 **/vendor/

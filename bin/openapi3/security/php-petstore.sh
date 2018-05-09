@@ -26,7 +26,7 @@ then
 fi
 
 # cleanup tests
-TEST_DIR="./samples/client/petstore-security-test/php/SwaggerClient-php/test"
+TEST_DIR="./samples/client/petstore-security-test/php/OpenAPIToolsClient-php/test"
 if [ -d $TEST_DIR ]; then
   rm -rf $TEST_DIR
 fi

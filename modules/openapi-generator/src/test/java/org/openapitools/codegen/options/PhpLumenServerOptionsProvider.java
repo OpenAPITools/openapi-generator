@@ -33,8 +33,8 @@ public class PhpLumenServerOptionsProvider implements OptionsProvider {
     public static final String INVOKER_PACKAGE_VALUE = "lumen";
     public static final String PACKAGE_PATH_VALUE = "php";
     public static final String SRC_BASE_PATH_VALUE = "libPhp";
-    public static final String GIT_USER_ID_VALUE = "gitSwaggerPhp";
-    public static final String GIT_REPO_ID_VALUE = "git-swagger-php";
+    public static final String GIT_USER_ID_VALUE = "gitOpenAPIToolsPhp";
+    public static final String GIT_REPO_ID_VALUE = "git-openapi-tools-php";
     public static final String ARTIFACT_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";

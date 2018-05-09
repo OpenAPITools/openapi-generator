@@ -364,7 +364,7 @@ $enum_query_string_array = array('enum_query_string_array_example'); // string[]
 $enum_query_string = '-efg'; // string | Query parameter enum test (string)
 $enum_query_integer = 56; // int | Query parameter enum test (double)
 $enum_query_double = 3.4; // double | Query parameter enum test (double)
-$enum_form_string_array = new \OpenAPITools\Client\Model\array(); // string[] | Form parameter enum test (string array)
+$enum_form_string_array = '$'; // string[] | Form parameter enum test (string array)
 $enum_form_string = '-efg'; // string | Form parameter enum test (string)
 
 try {
@@ -385,7 +385,7 @@ Name | Type | Description  | Notes
  **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional]
- **enum_form_string_array** | [**string[]**](../Model/array.md)| Form parameter enum test (string array) | [optional]
+ **enum_form_string_array** | **string[]**| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
 ### Return type
@@ -418,7 +418,7 @@ $apiInstance = new OpenAPITools\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$request_body = array('key' => 'request_body_example'); // string | request body
+$request_body = array('key' => 'request_body_example'); // map[string,string] | request body
 
 try {
     $apiInstance->testInlineAdditionalProperties($request_body);
@@ -432,7 +432,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**string**](../Model/string.md)| request body |
+ **request_body** | [**map[string,string]**](../Model/string.md)| request body |
 
 ### Return type
 

@@ -878,7 +878,7 @@
                 <module>samples/client/petstore/groovy</module>
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/perl</module>
-                <module>samples/client/petstore/php/SwaggerClient-php</module>
+                <module>samples/client/petstore/php/OpenAPIToolsClient-php</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/javascript</module>
