@@ -1,4 +1,4 @@
-function New-Category {
+function New-Tag {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
@@ -10,10 +10,10 @@ function New-Category {
     )
 
     Process {
-        'Creating object: IO.Swagger.Model.Category' | Write-Verbose
+        'Creating object: Org.OpenAPITools.Model.Tag' | Write-Verbose
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        New-Object -TypeName IO.Swagger.Model.Category -ArgumentList @(
+        New-Object -TypeName Org.OpenAPITools.Model.Tag -ArgumentList @(
             ${id},
             ${name}
         )

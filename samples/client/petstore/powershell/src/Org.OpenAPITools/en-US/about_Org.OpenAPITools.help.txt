@@ -1,8 +1,8 @@
 PSTOPIC
-    about_IO.Swagger
+    about_Org.OpenAPITools
 
 SHORT DESCRIPTION
-    IO.Swagger - the PowerShell module for the OpenAPI Petstore
+    Org.OpenAPITools - the PowerShell module for the OpenAPI Petstore
 
 LONG DESCRIPTION
     This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.

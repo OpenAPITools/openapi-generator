@@ -52,7 +52,7 @@ function Invoke-StoreApiPlaceOrder {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [IO.Swagger.Model.Order]
+        [Org.OpenAPITools.Model.Order]
         ${order}
     )
 

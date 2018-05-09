@@ -28,10 +28,10 @@ function New-User {
     )
 
     Process {
-        'Creating object: IO.Swagger.Model.User' | Write-Verbose
+        'Creating object: Org.OpenAPITools.Model.User' | Write-Verbose
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        New-Object -TypeName IO.Swagger.Model.User -ArgumentList @(
+        New-Object -TypeName Org.OpenAPITools.Model.User -ArgumentList @(
             ${id},
             ${username},
             ${firstName},

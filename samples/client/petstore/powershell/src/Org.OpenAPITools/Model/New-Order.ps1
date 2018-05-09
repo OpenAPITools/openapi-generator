@@ -22,10 +22,10 @@ function New-Order {
     )
 
     Process {
-        'Creating object: IO.Swagger.Model.Order' | Write-Verbose
+        'Creating object: Org.OpenAPITools.Model.Order' | Write-Verbose
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        New-Object -TypeName IO.Swagger.Model.Order -ArgumentList @(
+        New-Object -TypeName Org.OpenAPITools.Model.Order -ArgumentList @(
             ${id},
             ${petId},
             ${quantity},

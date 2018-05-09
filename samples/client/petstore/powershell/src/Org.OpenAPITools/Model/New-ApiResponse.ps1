@@ -13,10 +13,10 @@ function New-ApiResponse {
     )
 
     Process {
-        'Creating object: IO.Swagger.Model.ApiResponse' | Write-Verbose
+        'Creating object: Org.OpenAPITools.Model.ApiResponse' | Write-Verbose
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        New-Object -TypeName IO.Swagger.Model.ApiResponse -ArgumentList @(
+        New-Object -TypeName Org.OpenAPITools.Model.ApiResponse -ArgumentList @(
             ${code},
             ${type},
             ${message}
