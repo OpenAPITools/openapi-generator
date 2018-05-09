@@ -17,28 +17,26 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Escapers;
+import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.samskivert.mustache.Escapers;
-import com.samskivert.mustache.Mustache;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-
-import org.apache.commons.lang3.StringUtils;
-
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     protected String modelPropertyNaming = "camelCase";
-    protected String invokerPackage = "io.swagger.client";
+    protected String invokerPackage = "org.openapitools.client";
     protected String sourceFolder = "src/main/scala";
     protected boolean stripPackageName = true;
 
@@ -123,12 +121,12 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         }
     }
 
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
     public String getSourceFolder() {
         return sourceFolder;
+    }
+
+    public void setSourceFolder(String sourceFolder) {
+        this.sourceFolder = sourceFolder;
     }
 
     @Override

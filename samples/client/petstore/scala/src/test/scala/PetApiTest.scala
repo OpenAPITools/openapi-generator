@@ -1,6 +1,6 @@
-import io.swagger.client._
-import io.swagger.client.api._
-import io.swagger.client.model._
+import org.openapitools.client._
+import org.openapitools.client.api._
+import org.openapitools.client.model._
  
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -21,7 +21,7 @@ class PetApiTest extends FlatSpec with Matchers {
       Some(Category(Some(1), Some("sold"))),
       "dragon",
       (for (i <- (1 to 10)) yield "http://foo.com/photo/" + i).toList,
-      Some((for (i <- (1 to 5)) yield io.swagger.client.model.Tag(Some(i), Some("tag-" + i))).toList),
+      Some((for (i <- (1 to 5)) yield org.openapitools.client.model.Tag(Some(i), Some("tag-" + i))).toList),
       Some("lost")
     )
 
@@ -46,7 +46,7 @@ class PetApiTest extends FlatSpec with Matchers {
       Some(Category(Some(1), Some("sold"))),
       "programmer",
       (for (i <- (1 to 10)) yield "http://foo.com/photo/" + i).toList,
-      Some((for (i <- (1 to 5)) yield io.swagger.client.model.Tag(Some(i), Some("tag-" + i))).toList),
+      Some((for (i <- (1 to 5)) yield org.openapitools.client.model.Tag(Some(i), Some("tag-" + i))).toList),
       Some("confused")
     )
 

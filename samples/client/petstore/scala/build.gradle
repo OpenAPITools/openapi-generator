@@ -1,7 +1,7 @@
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
-group = 'io.swagger'
+group = 'org.openapitools'
 version = '1.0.0'
 
 buildscript {

@@ -10,12 +10,16 @@
  * Do not edit the class manually.
  */
 
-package io.swagger.client.model
+package org.openapitools.client.model
 
 
-case class ApiResponse (
-  code: Option[Integer] = None,
-  `type`: Option[String] = None,
-  message: Option[String] = None
+case class Pet (
+  id: Option[Long] = None,
+  category: Option[Category] = None,
+  name: String,
+  photoUrls: List[String],
+  tags: Option[List[Tag]] = None,
+  // pet status in the store
+  status: Option[String] = None
 )
 

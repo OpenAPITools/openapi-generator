@@ -1,6 +1,6 @@
 version := "1.0.0"
 name := "openapi-scala-client"
-organization := "io.swagger"
+organization := "org.openapitools"
 scalaVersion := "2.11.12"
 
 libraryDependencies ++= Seq(
