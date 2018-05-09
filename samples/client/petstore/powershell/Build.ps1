@@ -38,7 +38,7 @@ function Get-FunctionsToExport {
 }
 
 $ScriptDir = Split-Path $script:MyInvocation.MyCommand.Path
-$ClientPath = ("$ScriptDir\..\..\petstore\csharp\SwaggerClient" | Resolve-Path).ProviderPath
+$ClientPath = ("$ScriptDir\..\..\petstore\csharp\OpenAPIClient" | Resolve-Path).ProviderPath
 $FunctionPath = 'API', 'Model' | ForEach-Object {Join-Path "$ScriptDir\src\Org.OpenAPITools\" $_}
 $BinPath = "$ScriptDir\src\Org.OpenAPITools\Bin"
 

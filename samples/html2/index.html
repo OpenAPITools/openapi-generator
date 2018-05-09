@@ -1151,14 +1151,14 @@ try {
 
                             <div class="tab-pane" id="examples-Pet-addPet-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::PetApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::PetApi;
 
 # Configure OAuth2 access token for authorization: petstore_auth
-$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+$WWW::OPenAPIClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api_instance = WWW::SwaggerClient::PetApi->new();
-my $pet = WWW::SwaggerClient::Object::Pet->new(); # Pet | 
+my $api_instance = WWW::OPenAPIClient::PetApi->new();
+my $pet = WWW::OPenAPIClient::Object::Pet->new(); # Pet | 
 
 eval { 
     $api_instance->addPet(pet => $pet);
@@ -1171,15 +1171,15 @@ if ($@) {
                             <div class="tab-pane" id="examples-Pet-addPet-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = swagger_client.PetApi()
+api_instance = openapi_client.PetApi()
 pet =  # Pet | 
 
 try: 
@@ -1437,13 +1437,13 @@ try {
 
                             <div class="tab-pane" id="examples-Pet-deletePet-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::PetApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::PetApi;
 
 # Configure OAuth2 access token for authorization: petstore_auth
-$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+$WWW::OPenAPIClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api_instance = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $petId = 789; # Long | Pet id to delete
 my $apiKey = apiKey_example; # String | 
 
@@ -1458,15 +1458,15 @@ if ($@) {
                             <div class="tab-pane" id="examples-Pet-deletePet-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = swagger_client.PetApi()
+api_instance = openapi_client.PetApi()
 petId = 789 # Long | Pet id to delete
 apiKey = apiKey_example # String |  (optional)
 
@@ -1746,13 +1746,13 @@ try {
 
                             <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::PetApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::PetApi;
 
 # Configure OAuth2 access token for authorization: petstore_auth
-$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+$WWW::OPenAPIClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api_instance = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $status = []; # array[String] | Status values that need to be considered for filter
 
 eval { 
@@ -1767,15 +1767,15 @@ if ($@) {
                             <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = swagger_client.PetApi()
+api_instance = openapi_client.PetApi()
 status =  # array[String] | Status values that need to be considered for filter
 
 try: 
@@ -2086,13 +2086,13 @@ try {
 
                             <div class="tab-pane" id="examples-Pet-findPetsByTags-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::PetApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::PetApi;
 
 # Configure OAuth2 access token for authorization: petstore_auth
-$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+$WWW::OPenAPIClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api_instance = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $tags = []; # array[String] | Tags to filter by
 
 eval { 
@@ -2107,15 +2107,15 @@ if ($@) {
                             <div class="tab-pane" id="examples-Pet-findPetsByTags-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = swagger_client.PetApi()
+api_instance = openapi_client.PetApi()
 tags =  # array[String] | Tags to filter by
 
 try: 
@@ -2436,15 +2436,15 @@ try {
 
                             <div class="tab-pane" id="examples-Pet-getPetById-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::PetApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::PetApi;
 
 # Configure API key authorization: api_key
-$WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
+$WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
 
-my $api_instance = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $petId = 789; # Long | ID of pet to return
 
 eval { 
@@ -2459,17 +2459,17 @@ if ($@) {
                             <div class="tab-pane" id="examples-Pet-getPetById-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_key
-swagger_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
+openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# swagger_client.configuration.api_key_prefix['api_key'] = 'Bearer'
+# openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = swagger_client.PetApi()
+api_instance = openapi_client.PetApi()
 petId = 789 # Long | ID of pet to return
 
 try: 
@@ -2778,14 +2778,14 @@ try {
 
                             <div class="tab-pane" id="examples-Pet-updatePet-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::PetApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::PetApi;
 
 # Configure OAuth2 access token for authorization: petstore_auth
-$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+$WWW::OPenAPIClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api_instance = WWW::SwaggerClient::PetApi->new();
-my $pet = WWW::SwaggerClient::Object::Pet->new(); # Pet | 
+my $api_instance = WWW::OPenAPIClient::PetApi->new();
+my $pet = WWW::OPenAPIClient::Object::Pet->new(); # Pet | 
 
 eval { 
     $api_instance->updatePet(pet => $pet);
@@ -2798,15 +2798,15 @@ if ($@) {
                             <div class="tab-pane" id="examples-Pet-updatePet-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = swagger_client.PetApi()
+api_instance = openapi_client.PetApi()
 pet =  # Pet | 
 
 try: 
@@ -3087,13 +3087,13 @@ try {
 
                             <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::PetApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::PetApi;
 
 # Configure OAuth2 access token for authorization: petstore_auth
-$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+$WWW::OPenAPIClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api_instance = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $petId = 789; # Long | ID of pet that needs to be updated
 my $name = name_example; # String | Updated name of the pet
 my $status = status_example; # String | Updated status of the pet
@@ -3109,15 +3109,15 @@ if ($@) {
                             <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = swagger_client.PetApi()
+api_instance = openapi_client.PetApi()
 petId = 789 # Long | ID of pet that needs to be updated
 name = name_example # String | Updated name of the pet (optional) (default to null)
 status = status_example # String | Updated status of the pet (optional) (default to null)
@@ -3437,13 +3437,13 @@ try {
 
                             <div class="tab-pane" id="examples-Pet-uploadFile-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::PetApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::PetApi;
 
 # Configure OAuth2 access token for authorization: petstore_auth
-$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+$WWW::OPenAPIClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api_instance = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $petId = 789; # Long | ID of pet to update
 my $additionalMetadata = additionalMetadata_example; # String | Additional data to pass to server
 my $file = BINARY_DATA_HERE; # File | file to upload
@@ -3460,15 +3460,15 @@ if ($@) {
                             <div class="tab-pane" id="examples-Pet-uploadFile-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = swagger_client.PetApi()
+api_instance = openapi_client.PetApi()
 petId = 789 # Long | ID of pet to update
 additionalMetadata = additionalMetadata_example # String | Additional data to pass to server (optional) (default to null)
 file = BINARY_DATA_HERE # File | file to upload (optional) (default to null)
@@ -3790,10 +3790,10 @@ try {
 
                             <div class="tab-pane" id="examples-Store-deleteOrder-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::StoreApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::StoreApi;
 
-my $api_instance = WWW::SwaggerClient::StoreApi->new();
+my $api_instance = WWW::OPenAPIClient::StoreApi->new();
 my $orderId = orderId_example; # String | ID of the order that needs to be deleted
 
 eval { 
@@ -3807,12 +3807,12 @@ if ($@) {
                             <div class="tab-pane" id="examples-Store-deleteOrder-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.StoreApi()
+api_instance = openapi_client.StoreApi()
 orderId = orderId_example # String | ID of the order that needs to be deleted
 
 try: 
@@ -4075,15 +4075,15 @@ try {
 
                             <div class="tab-pane" id="examples-Store-getInventory-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::StoreApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::StoreApi;
 
 # Configure API key authorization: api_key
-$WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
+$WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
 
-my $api_instance = WWW::SwaggerClient::StoreApi->new();
+my $api_instance = WWW::OPenAPIClient::StoreApi->new();
 
 eval { 
     my $result = $api_instance->getInventory();
@@ -4097,17 +4097,17 @@ if ($@) {
                             <div class="tab-pane" id="examples-Store-getInventory-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_key
-swagger_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
+openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# swagger_client.configuration.api_key_prefix['api_key'] = 'Bearer'
+# openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = swagger_client.StoreApi()
+api_instance = openapi_client.StoreApi()
 
 try: 
     # Returns pet inventories by status
@@ -4351,10 +4351,10 @@ try {
 
                             <div class="tab-pane" id="examples-Store-getOrderById-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::StoreApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::StoreApi;
 
-my $api_instance = WWW::SwaggerClient::StoreApi->new();
+my $api_instance = WWW::OPenAPIClient::StoreApi->new();
 my $orderId = 789; # Long | ID of pet that needs to be fetched
 
 eval { 
@@ -4369,12 +4369,12 @@ if ($@) {
                             <div class="tab-pane" id="examples-Store-getOrderById-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.StoreApi()
+api_instance = openapi_client.StoreApi()
 orderId = 789 # Long | ID of pet that needs to be fetched
 
 try: 
@@ -4669,11 +4669,11 @@ try {
 
                             <div class="tab-pane" id="examples-Store-placeOrder-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::StoreApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::StoreApi;
 
-my $api_instance = WWW::SwaggerClient::StoreApi->new();
-my $order = WWW::SwaggerClient::Object::Order->new(); # Order | 
+my $api_instance = WWW::OPenAPIClient::StoreApi->new();
+my $order = WWW::OPenAPIClient::Object::Order->new(); # Order | 
 
 eval { 
     my $result = $api_instance->placeOrder(order => $order);
@@ -4687,12 +4687,12 @@ if ($@) {
                             <div class="tab-pane" id="examples-Store-placeOrder-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.StoreApi()
+api_instance = openapi_client.StoreApi()
 order =  # Order | 
 
 try: 
@@ -4976,11 +4976,11 @@ try {
 
                             <div class="tab-pane" id="examples-User-createUser-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::UserApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::UserApi;
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
-my $user = WWW::SwaggerClient::Object::User->new(); # User | 
+my $api_instance = WWW::OPenAPIClient::UserApi->new();
+my $user = WWW::OPenAPIClient::Object::User->new(); # User | 
 
 eval { 
     $api_instance->createUser(user => $user);
@@ -4993,12 +4993,12 @@ if ($@) {
                             <div class="tab-pane" id="examples-User-createUser-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.UserApi()
+api_instance = openapi_client.UserApi()
 user =  # User | 
 
 try: 
@@ -5226,11 +5226,11 @@ try {
 
                             <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::UserApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::UserApi;
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
-my $user = [WWW::SwaggerClient::Object::array[User]->new()]; # array[User] | 
+my $api_instance = WWW::OPenAPIClient::UserApi->new();
+my $user = [WWW::OPenAPIClient::Object::array[User]->new()]; # array[User] | 
 
 eval { 
     $api_instance->createUsersWithArrayInput(user => $user);
@@ -5243,12 +5243,12 @@ if ($@) {
                             <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.UserApi()
+api_instance = openapi_client.UserApi()
 user =  # array[User] | 
 
 try: 
@@ -5476,11 +5476,11 @@ try {
 
                             <div class="tab-pane" id="examples-User-createUsersWithListInput-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::UserApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::UserApi;
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
-my $user = [WWW::SwaggerClient::Object::array[User]->new()]; # array[User] | 
+my $api_instance = WWW::OPenAPIClient::UserApi->new();
+my $user = [WWW::OPenAPIClient::Object::array[User]->new()]; # array[User] | 
 
 eval { 
     $api_instance->createUsersWithListInput(user => $user);
@@ -5493,12 +5493,12 @@ if ($@) {
                             <div class="tab-pane" id="examples-User-createUsersWithListInput-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.UserApi()
+api_instance = openapi_client.UserApi()
 user =  # array[User] | 
 
 try: 
@@ -5726,10 +5726,10 @@ try {
 
                             <div class="tab-pane" id="examples-User-deleteUser-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::UserApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::UserApi;
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $username = username_example; # String | The name that needs to be deleted
 
 eval { 
@@ -5743,12 +5743,12 @@ if ($@) {
                             <div class="tab-pane" id="examples-User-deleteUser-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.UserApi()
+api_instance = openapi_client.UserApi()
 username = username_example # String | The name that needs to be deleted
 
 try: 
@@ -5987,10 +5987,10 @@ try {
 
                             <div class="tab-pane" id="examples-User-getUserByName-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::UserApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::UserApi;
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $username = username_example; # String | The name that needs to be fetched. Use user1 for testing.
 
 eval { 
@@ -6005,12 +6005,12 @@ if ($@) {
                             <div class="tab-pane" id="examples-User-getUserByName-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.UserApi()
+api_instance = openapi_client.UserApi()
 username = username_example # String | The name that needs to be fetched. Use user1 for testing.
 
 try: 
@@ -6309,10 +6309,10 @@ try {
 
                             <div class="tab-pane" id="examples-User-loginUser-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::UserApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::UserApi;
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $username = username_example; # String | The user name for login
 my $password = password_example; # String | The password for login in clear text
 
@@ -6328,12 +6328,12 @@ if ($@) {
                             <div class="tab-pane" id="examples-User-loginUser-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.UserApi()
+api_instance = openapi_client.UserApi()
 username = username_example # String | The user name for login
 password = password_example # String | The password for login in clear text
 
@@ -6668,10 +6668,10 @@ try {
 
                             <div class="tab-pane" id="examples-User-logoutUser-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::UserApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::UserApi;
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $api_instance = WWW::OPenAPIClient::UserApi->new();
 
 eval { 
     $api_instance->logoutUser();
@@ -6684,12 +6684,12 @@ if ($@) {
                             <div class="tab-pane" id="examples-User-logoutUser-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.UserApi()
+api_instance = openapi_client.UserApi()
 
 try: 
     # Logs out current logged in user session
@@ -6889,12 +6889,12 @@ try {
 
                             <div class="tab-pane" id="examples-User-updateUser-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::UserApi;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::UserApi;
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $username = username_example; # String | name that need to be deleted
-my $user = WWW::SwaggerClient::Object::User->new(); # User | 
+my $user = WWW::OPenAPIClient::Object::User->new(); # User | 
 
 eval { 
     $api_instance->updateUser(username => $username, user => $user);
@@ -6907,12 +6907,12 @@ if ($@) {
                             <div class="tab-pane" id="examples-User-updateUser-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.UserApi()
+api_instance = openapi_client.UserApi()
 username = username_example # String | name that need to be deleted
 user =  # User | 
 
@@ -7020,8 +7020,8 @@ $(document).ready(function() {
           <div id="footer">
             <div id="api-_footer">
               <p>Suggestions, contact, support and error reporting;
-                  <div class="app-desc">Information URL: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
-                  <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
+                  <div class="app-desc">Information URL: <a href="https://openapi-generator.tech">https://openapi-generator.tech</a></div>
+                  <div class="app-desc">Contact Info: <a href="contributors@openapitools.org">contributors@openapitools.org</a></div>
               </p>
                 <div class="license-info">Apache-2.0</div>
                 <div class="license-url">http://www.apache.org/licenses/LICENSE-2.0.html</div>

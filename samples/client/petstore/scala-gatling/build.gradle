@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.lkishalmi.gatling' version '0.4.1'
+    id 'com.github.lkishalmi.gatling' version '0.7.1'
 }
 
 repositories {
