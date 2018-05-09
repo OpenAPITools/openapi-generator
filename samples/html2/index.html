@@ -1099,9 +1099,9 @@ api.addPet(pet, callback);
                             <div class="tab-pane" id="examples-Pet-addPet-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -1136,9 +1136,9 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new OpenAPITools\Client\Api\PetApi();
 $pet = ; // Pet | 
 
 try {
@@ -1383,9 +1383,9 @@ api.deletePet(petId, opts, callback);
                             <div class="tab-pane" id="examples-Pet-deletePet-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -1421,9 +1421,9 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new OpenAPITools\Client\Api\PetApi();
 $petId = 789; // Long | Pet id to delete
 $apiKey = apiKey_example; // String | 
 
@@ -1692,9 +1692,9 @@ api.findPetsByStatus(status, callback);
                             <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -1730,9 +1730,9 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new OpenAPITools\Client\Api\PetApi();
 $status = ; // array[String] | Status values that need to be considered for filter
 
 try {
@@ -2032,9 +2032,9 @@ api.findPetsByTags(tags, callback);
                             <div class="tab-pane" id="examples-Pet-findPetsByTags-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -2070,9 +2070,9 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new OpenAPITools\Client\Api\PetApi();
 $tags = ; // array[String] | Tags to filter by
 
 try {
@@ -2378,9 +2378,9 @@ api.getPetById(petId, callback);
                             <div class="tab-pane" id="examples-Pet-getPetById-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -2418,11 +2418,11 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure API key authorization: api_key
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new OpenAPITools\Client\Api\PetApi();
 $petId = 789; // Long | ID of pet to return
 
 try {
@@ -2726,9 +2726,9 @@ api.updatePet(pet, callback);
                             <div class="tab-pane" id="examples-Pet-updatePet-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -2763,9 +2763,9 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new OpenAPITools\Client\Api\PetApi();
 $pet = ; // Pet | 
 
 try {
@@ -3031,9 +3031,9 @@ api.updatePetWithForm(petId, opts, callback);
                             <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -3070,9 +3070,9 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new OpenAPITools\Client\Api\PetApi();
 $petId = 789; // Long | ID of pet that needs to be updated
 $name = name_example; // String | Updated name of the pet
 $status = status_example; // String | Updated status of the pet
@@ -3379,9 +3379,9 @@ api.uploadFile(petId, opts, callback);
                             <div class="tab-pane" id="examples-Pet-uploadFile-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -3419,9 +3419,9 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new OpenAPITools\Client\Api\PetApi();
 $petId = 789; // Long | ID of pet to update
 $additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
 $file = BINARY_DATA_HERE; // File | file to upload
@@ -3744,9 +3744,9 @@ api.deleteOrder(orderId, callback);
                             <div class="tab-pane" id="examples-Store-deleteOrder-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -3777,7 +3777,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\StoreApi();
+$api_instance = new OpenAPITools\Client\Api\StoreApi();
 $orderId = orderId_example; // String | ID of the order that needs to be deleted
 
 try {
@@ -4019,9 +4019,9 @@ api.getInventory(callback);
                             <div class="tab-pane" id="examples-Store-getInventory-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -4058,11 +4058,11 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure API key authorization: api_key
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
-$api_instance = new Swagger\Client\Api\StoreApi();
+$api_instance = new OpenAPITools\Client\Api\StoreApi();
 
 try {
     $result = $api_instance->getInventory();
@@ -4303,9 +4303,9 @@ api.getOrderById(orderId, callback);
                             <div class="tab-pane" id="examples-Store-getOrderById-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -4337,7 +4337,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\StoreApi();
+$api_instance = new OpenAPITools\Client\Api\StoreApi();
 $orderId = 789; // Long | ID of pet that needs to be fetched
 
 try {
@@ -4621,9 +4621,9 @@ api.placeOrder(order, callback);
                             <div class="tab-pane" id="examples-Store-placeOrder-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -4655,7 +4655,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\StoreApi();
+$api_instance = new OpenAPITools\Client\Api\StoreApi();
 $order = ; // Order | 
 
 try {
@@ -4930,9 +4930,9 @@ api.createUser(user, callback);
                             <div class="tab-pane" id="examples-User-createUser-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -4963,7 +4963,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new OpenAPITools\Client\Api\UserApi();
 $user = ; // User | 
 
 try {
@@ -5180,9 +5180,9 @@ api.createUsersWithArrayInput(user, callback);
                             <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -5213,7 +5213,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new OpenAPITools\Client\Api\UserApi();
 $user = ; // array[User] | 
 
 try {
@@ -5430,9 +5430,9 @@ api.createUsersWithListInput(user, callback);
                             <div class="tab-pane" id="examples-User-createUsersWithListInput-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -5463,7 +5463,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new OpenAPITools\Client\Api\UserApi();
 $user = ; // array[User] | 
 
 try {
@@ -5680,9 +5680,9 @@ api.deleteUser(username, callback);
                             <div class="tab-pane" id="examples-User-deleteUser-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -5713,7 +5713,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new OpenAPITools\Client\Api\UserApi();
 $username = username_example; // String | The name that needs to be deleted
 
 try {
@@ -5939,9 +5939,9 @@ api.getUserByName(username, callback);
                             <div class="tab-pane" id="examples-User-getUserByName-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -5973,7 +5973,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new OpenAPITools\Client\Api\UserApi();
 $username = username_example; // String | The name that needs to be fetched. Use user1 for testing.
 
 try {
@@ -6259,9 +6259,9 @@ api.loginUser(username, password, callback);
                             <div class="tab-pane" id="examples-User-loginUser-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -6294,7 +6294,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new OpenAPITools\Client\Api\UserApi();
 $username = username_example; // String | The user name for login
 $password = password_example; // String | The password for login in clear text
 
@@ -6624,9 +6624,9 @@ api.logoutUser(callback);
                             <div class="tab-pane" id="examples-User-logoutUser-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -6656,7 +6656,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new OpenAPITools\Client\Api\UserApi();
 
 try {
     $api_instance->logoutUser();
@@ -6841,9 +6841,9 @@ api.updateUser(username, user, callback);
                             <div class="tab-pane" id="examples-User-updateUser-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -6875,7 +6875,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new OpenAPITools\Client\Api\UserApi();
 $username = username_example; // String | name that need to be deleted
 $user = ; // User | 
 

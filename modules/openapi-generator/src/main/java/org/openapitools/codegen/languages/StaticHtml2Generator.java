@@ -44,7 +44,7 @@ import java.util.Map;
 public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "org.openapitools.client"; // default for Java and Android
     protected String phpInvokerPackage = "OpenAPITools\\Client"; // default for PHP
-    protected String packageName = "IO.Swagger"; // default for C#
+    protected String packageName = "Org.OpenAPITools"; // default for C#
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
