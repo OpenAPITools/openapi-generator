@@ -165,7 +165,7 @@ export declare class PetApi {
     setDefaultAuthentication(auth: Authentication): void;
     setApiKey(key: PetApiApiKeys, value: string): void;
     accessToken: string;
-    addPet(body: Pet): Promise<{
+    addPet(pet: Pet): Promise<{
         response: http.ClientResponse;
         body?: any;
     }>;
@@ -185,7 +185,7 @@ export declare class PetApi {
         response: http.ClientResponse;
         body: Pet;
     }>;
-    updatePet(body: Pet): Promise<{
+    updatePet(pet: Pet): Promise<{
         response: http.ClientResponse;
         body?: any;
     }>;
@@ -230,7 +230,7 @@ export declare class StoreApi {
         response: http.ClientResponse;
         body: Order;
     }>;
-    placeOrder(body: Order): Promise<{
+    placeOrder(order: Order): Promise<{
         response: http.ClientResponse;
         body: Order;
     }>;
@@ -253,15 +253,15 @@ export declare class UserApi {
     setDefaultAuthentication(auth: Authentication): void;
     setApiKey(key: UserApiApiKeys, value: string): void;
     accessToken: string;
-    createUser(body: User): Promise<{
+    createUser(user: User): Promise<{
         response: http.ClientResponse;
         body?: any;
     }>;
-    createUsersWithArrayInput(body: Array<User>): Promise<{
+    createUsersWithArrayInput(user: Array<User>): Promise<{
         response: http.ClientResponse;
         body?: any;
     }>;
-    createUsersWithListInput(body: Array<User>): Promise<{
+    createUsersWithListInput(user: Array<User>): Promise<{
         response: http.ClientResponse;
         body?: any;
     }>;
@@ -281,7 +281,7 @@ export declare class UserApi {
         response: http.ClientResponse;
         body?: any;
     }>;
-    updateUser(username: string, body: User): Promise<{
+    updateUser(username: string, user: User): Promise<{
         response: http.ClientResponse;
         body?: any;
     }>;

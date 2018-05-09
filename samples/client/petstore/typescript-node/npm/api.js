@@ -466,13 +466,13 @@ var PetApi = (function () {
         enumerable: true,
         configurable: true
     });
-    PetApi.prototype.addPet = function (body) {
+    PetApi.prototype.addPet = function (pet) {
         var localVarPath = this.basePath + '/pet';
         var localVarQueryParameters = {};
         var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
         var localVarFormParams = {};
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling addPet.');
+        if (pet === null || pet === undefined) {
+            throw new Error('Required parameter pet was null or undefined when calling addPet.');
         }
         var localVarUseFormData = false;
         var localVarRequestOptions = {
@@ -482,7 +482,7 @@ var PetApi = (function () {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Pet")
+            body: ObjectSerializer.serialize(pet, "Pet")
         };
         this.authentications.petstore_auth.applyToRequest(localVarRequestOptions);
         this.authentications.default.applyToRequest(localVarRequestOptions);
@@ -694,13 +694,13 @@ var PetApi = (function () {
             });
         });
     };
-    PetApi.prototype.updatePet = function (body) {
+    PetApi.prototype.updatePet = function (pet) {
         var localVarPath = this.basePath + '/pet';
         var localVarQueryParameters = {};
         var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
         var localVarFormParams = {};
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling updatePet.');
+        if (pet === null || pet === undefined) {
+            throw new Error('Required parameter pet was null or undefined when calling updatePet.');
         }
         var localVarUseFormData = false;
         var localVarRequestOptions = {
@@ -710,7 +710,7 @@ var PetApi = (function () {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Pet")
+            body: ObjectSerializer.serialize(pet, "Pet")
         };
         this.authentications.petstore_auth.applyToRequest(localVarRequestOptions);
         this.authentications.default.applyToRequest(localVarRequestOptions);
@@ -1026,13 +1026,13 @@ var StoreApi = (function () {
             });
         });
     };
-    StoreApi.prototype.placeOrder = function (body) {
+    StoreApi.prototype.placeOrder = function (order) {
         var localVarPath = this.basePath + '/store/order';
         var localVarQueryParameters = {};
         var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
         var localVarFormParams = {};
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling placeOrder.');
+        if (order === null || order === undefined) {
+            throw new Error('Required parameter order was null or undefined when calling placeOrder.');
         }
         var localVarUseFormData = false;
         var localVarRequestOptions = {
@@ -1042,7 +1042,7 @@ var StoreApi = (function () {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Order")
+            body: ObjectSerializer.serialize(order, "Order")
         };
         this.authentications.default.applyToRequest(localVarRequestOptions);
         if (Object.keys(localVarFormParams).length) {
@@ -1128,13 +1128,13 @@ var UserApi = (function () {
         enumerable: true,
         configurable: true
     });
-    UserApi.prototype.createUser = function (body) {
+    UserApi.prototype.createUser = function (user) {
         var localVarPath = this.basePath + '/user';
         var localVarQueryParameters = {};
         var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
         var localVarFormParams = {};
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling createUser.');
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling createUser.');
         }
         var localVarUseFormData = false;
         var localVarRequestOptions = {
@@ -1144,7 +1144,7 @@ var UserApi = (function () {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "User")
+            body: ObjectSerializer.serialize(user, "User")
         };
         this.authentications.default.applyToRequest(localVarRequestOptions);
         if (Object.keys(localVarFormParams).length) {
@@ -1171,13 +1171,13 @@ var UserApi = (function () {
             });
         });
     };
-    UserApi.prototype.createUsersWithArrayInput = function (body) {
+    UserApi.prototype.createUsersWithArrayInput = function (user) {
         var localVarPath = this.basePath + '/user/createWithArray';
         var localVarQueryParameters = {};
         var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
         var localVarFormParams = {};
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling createUsersWithArrayInput.');
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
         }
         var localVarUseFormData = false;
         var localVarRequestOptions = {
@@ -1187,7 +1187,7 @@ var UserApi = (function () {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Array<User>")
+            body: ObjectSerializer.serialize(user, "Array<User>")
         };
         this.authentications.default.applyToRequest(localVarRequestOptions);
         if (Object.keys(localVarFormParams).length) {
@@ -1214,13 +1214,13 @@ var UserApi = (function () {
             });
         });
     };
-    UserApi.prototype.createUsersWithListInput = function (body) {
+    UserApi.prototype.createUsersWithListInput = function (user) {
         var localVarPath = this.basePath + '/user/createWithList';
         var localVarQueryParameters = {};
         var localVarHeaderParams = Object.assign({}, this.defaultHeaders);
         var localVarFormParams = {};
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling createUsersWithListInput.');
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling createUsersWithListInput.');
         }
         var localVarUseFormData = false;
         var localVarRequestOptions = {
@@ -1230,7 +1230,7 @@ var UserApi = (function () {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Array<User>")
+            body: ObjectSerializer.serialize(user, "Array<User>")
         };
         this.authentications.default.applyToRequest(localVarRequestOptions);
         if (Object.keys(localVarFormParams).length) {
@@ -1435,7 +1435,7 @@ var UserApi = (function () {
             });
         });
     };
-    UserApi.prototype.updateUser = function (username, body) {
+    UserApi.prototype.updateUser = function (username, user) {
         var localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
         var localVarQueryParameters = {};
@@ -1444,8 +1444,8 @@ var UserApi = (function () {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling updateUser.');
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling updateUser.');
         }
         var localVarUseFormData = false;
         var localVarRequestOptions = {
@@ -1455,7 +1455,7 @@ var UserApi = (function () {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "User")
+            body: ObjectSerializer.serialize(user, "User")
         };
         this.authentications.default.applyToRequest(localVarRequestOptions);
         if (Object.keys(localVarFormParams).length) {
