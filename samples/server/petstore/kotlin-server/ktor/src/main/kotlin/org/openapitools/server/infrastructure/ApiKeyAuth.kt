@@ -1,4 +1,4 @@
-package io.swagger.server.infrastructure
+package org.openapitools.server.infrastructure
 
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call

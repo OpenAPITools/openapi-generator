@@ -176,6 +176,7 @@ effective.pom
 samples/client/petstore/kotlin/src/main/kotlin/test/
 samples/client/petstore/kotlin-threetenbp/build
 samples/client/petstore/kotlin-string/build
+samples/server/petstore/kotlin-server/ktor/build
 \?
 
 # haskell

@@ -1,4 +1,4 @@
-package io.swagger.server
+package org.openapitools.server
 
 import com.codahale.metrics.*
 import com.typesafe.config.ConfigFactory
@@ -13,7 +13,7 @@ import io.ktor.locations.*
 import io.ktor.metrics.*
 import io.ktor.routing.*
 import java.util.concurrent.*
-import io.swagger.server.apis.*
+import org.openapitools.server.apis.*
 
 
 internal val settings = HoconApplicationConfig(ConfigFactory.defaultApplication(HTTP::class.java.classLoader))

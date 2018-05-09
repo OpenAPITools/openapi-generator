@@ -19,18 +19,17 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.mustache.*;
-
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-
+import org.openapitools.codegen.mustache.CamelCaseLambda;
+import org.openapitools.codegen.mustache.IndentedLambda;
+import org.openapitools.codegen.mustache.LowercaseLambda;
+import org.openapitools.codegen.mustache.TitlecaseLambda;
+import org.openapitools.codegen.mustache.UppercaseLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,7 +66,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         super();
 
         artifactId = "kotlin-server";
-        packageName = "io.swagger.server";
+        packageName = "org.openapitools.server";
         outputFolder = "generated-code" + File.separator + "kotlin-server";
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("api.mustache", ".kt");

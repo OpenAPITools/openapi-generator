@@ -30,3 +30,5 @@ export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/
 ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -t modules/openapi-generator/src/main/resources/kotlin-server -l kotlin-server --library=ktor -o samples/server/petstore/kotlin-server/ktor $@"
 
 java ${JAVA_OPTS} -jar ${executable} ${ags}
+
+cp samples.ci/server/petstore/kotlin-server/ktor/pom.xml samples/server/petstore/kotlin-server/ktor/pom.xml

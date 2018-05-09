@@ -1,4 +1,4 @@
-package io.swagger.server
+package org.openapitools.server
 
 // Use this file to hold package-level internal functions that return receiver object passed to the `install` method.
 import io.ktor.auth.OAuthServerSettings
@@ -7,13 +7,13 @@ import io.ktor.http.*
 import java.time.Duration
 import java.util.concurrent.Executors
 
-import io.swagger.server.settings
+import org.openapitools.server.settings
 
 
 /**
  * Application block for [HSTS] configuration.
  *
- * This file may be excluded in .swagger-codegen-ignore,
+ * This file may be excluded in .openapi-generator-ignore,
  * and application specific configuration can be applied in this function.
  *
  * See http://ktor.io/features/hsts.html
@@ -32,7 +32,7 @@ internal fun ApplicationHstsConfiguration(): HSTS.Configuration.() -> Unit {
 /**
  * Application block for [Compression] configuration.
  *
- * This file may be excluded in .swagger-codegen-ignore,
+ * This file may be excluded in .openapi-generator-ignore,
  * and application specific configuration can be applied in this function.
  *
  * See http://ktor.io/features/compression.html
