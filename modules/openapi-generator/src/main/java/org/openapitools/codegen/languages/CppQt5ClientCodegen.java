@@ -53,7 +53,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
         outputFolder = "generated-code/qt5cpp";
 
         // set modelNamePrefix as default for QT5CPP
-        if ("".equals(modelNamePrefix)) {
+        if (StringUtils.isEmpty(modelNamePrefix)) {
             modelNamePrefix = PREFIX;
         }
 

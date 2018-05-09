@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.Operation;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
@@ -107,7 +108,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
             basePath = basePath.substring(0, pos);
         }
 
-        if (basePath == "") {
+        if (StringUtils.isEmpty(basePath)) {
             basePath = "default";
         } else {
             if (co.path.startsWith("/" + basePath)) {

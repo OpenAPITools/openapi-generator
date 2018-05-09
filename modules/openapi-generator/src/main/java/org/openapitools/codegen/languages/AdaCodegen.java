@@ -21,11 +21,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.apache.commons.lang3.StringUtils;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
-
 
 public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
 
@@ -54,7 +53,7 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             packageName = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
         }
-        if (packageName == "") {
+        if (StringUtils.isEmpty(packageName)) {
             packageName = modelPackage;
         }
         String srcPrefix = "src" + File.separator;
