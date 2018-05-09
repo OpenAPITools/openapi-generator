@@ -17,29 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.*;
-import org.openapitools.codegen.mustache.*;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.parameters.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class ScalazClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
 
@@ -47,8 +35,8 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         super();
         outputFolder = "generated-code/scalaz";
         embeddedTemplateDir = templateDir = "scalaz";
-        apiPackage = "io.swagger.client.api";
-        modelPackage = "io.swagger.client.api";
+        apiPackage = "org.openapitools.client.api";
+        modelPackage = "org.openapitools.client.api";
 
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
@@ -96,12 +84,11 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         typeMapping.put("double", "Double");
         typeMapping.put("object", "Any");
         typeMapping.put("file", "File");
+        typeMapping.put("binary", "File");
         typeMapping.put("number", "BigDecimal");
         typeMapping.put("date-time", "DateTime");
         typeMapping.put("date", "DateTime");
 
-
-        //instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "HashMap");
 

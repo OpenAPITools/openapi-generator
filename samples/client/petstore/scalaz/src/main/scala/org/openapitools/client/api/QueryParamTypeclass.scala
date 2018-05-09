@@ -1,4 +1,4 @@
-package io.swagger.client.api
+package org.openapitools.client.api
 
 trait QueryParam[A] {
   def toParamString(a: A): String

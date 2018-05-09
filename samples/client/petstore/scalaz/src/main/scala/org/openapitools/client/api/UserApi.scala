@@ -1,4 +1,4 @@
-package io.swagger.client.api
+package org.openapitools.client.api
 
 import argonaut._
 import argonaut.EncodeJson._
@@ -21,14 +21,14 @@ import scalaz.concurrent.Task
 
 import HelperCodecs._
 
-object PetApi {
+object UserApi {
 
   val client = PooledHttp1Client()
 
   def escape(value: String): String = URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20")
 
-  def addPet(host: String, pet: Pet): Task[Unit] = {
-    val path = "/pet"
+  def createUser(host: String, user: User): Task[Unit] = {
+    val path = "/user"
     
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
@@ -40,19 +40,57 @@ object PetApi {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(host + path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(pet)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
 
     } yield resp
   }
   
-  def deletePet(host: String, petId: Long, apiKey: String): Task[Unit] = {
-    val path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
+  def createUsersWithArrayInput(host: String, user: List[User]): Task[Unit] = {
+    val path = "/user/createWithArray"
+    
+    val httpMethod = Method.POST
+    val contentType = `Content-Type`(MediaType.`application/json`)
+    val headers = Headers(
+      )
+    val queryParams = Query(
+      )
+
+    for {
+      uri           <- Task.fromDisjunction(Uri.fromString(host + path))
+      uriWithParams =  uri.copy(query = queryParams)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
+      resp          <- client.fetch[Unit](req)(_ => Task.now(()))
+
+    } yield resp
+  }
+  
+  def createUsersWithListInput(host: String, user: List[User]): Task[Unit] = {
+    val path = "/user/createWithList"
+    
+    val httpMethod = Method.POST
+    val contentType = `Content-Type`(MediaType.`application/json`)
+    val headers = Headers(
+      )
+    val queryParams = Query(
+      )
+
+    for {
+      uri           <- Task.fromDisjunction(Uri.fromString(host + path))
+      uriWithParams =  uri.copy(query = queryParams)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
+      resp          <- client.fetch[Unit](req)(_ => Task.now(()))
+
+    } yield resp
+  }
+  
+  def deleteUser(host: String, username: String): Task[Unit] = {
+    val path = "/user/{username}".replaceAll("\\{" + "username" + "\\}",escape(username.toString))
     
     val httpMethod = Method.DELETE
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
-      Header("api_key", apiKey))
+      )
     val queryParams = Query(
       )
 
@@ -65,52 +103,10 @@ object PetApi {
     } yield resp
   }
   
-  def findPetsByStatus(host: String, status: List[String])(implicit statusQuery: QueryParam[List[String]]): Task[List[Pet]] = {
-    implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
+  def getUserByName(host: String, username: String): Task[User] = {
+    implicit val returnTypeDecoder: EntityDecoder[User] = jsonOf[User]
 
-    val path = "/pet/findByStatus"
-    
-    val httpMethod = Method.GET
-    val contentType = `Content-Type`(MediaType.`application/json`)
-    val headers = Headers(
-      )
-    val queryParams = Query(
-      ("status", Some(statusQuery.toParamString(status))))
-
-    for {
-      uri           <- Task.fromDisjunction(Uri.fromString(host + path))
-      uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
-      resp          <- client.expect[List[Pet]](req)
-
-    } yield resp
-  }
-  
-  def findPetsByTags(host: String, tags: List[String])(implicit tagsQuery: QueryParam[List[String]]): Task[List[Pet]] = {
-    implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
-
-    val path = "/pet/findByTags"
-    
-    val httpMethod = Method.GET
-    val contentType = `Content-Type`(MediaType.`application/json`)
-    val headers = Headers(
-      )
-    val queryParams = Query(
-      ("tags", Some(tagsQuery.toParamString(tags))))
-
-    for {
-      uri           <- Task.fromDisjunction(Uri.fromString(host + path))
-      uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
-      resp          <- client.expect[List[Pet]](req)
-
-    } yield resp
-  }
-  
-  def getPetById(host: String, petId: Long): Task[Pet] = {
-    implicit val returnTypeDecoder: EntityDecoder[Pet] = jsonOf[Pet]
-
-    val path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
+    val path = "/user/{username}".replaceAll("\\{" + "username" + "\\}",escape(username.toString))
     
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
@@ -123,13 +119,53 @@ object PetApi {
       uri           <- Task.fromDisjunction(Uri.fromString(host + path))
       uriWithParams =  uri.copy(query = queryParams)
       req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
-      resp          <- client.expect[Pet](req)
+      resp          <- client.expect[User](req)
 
     } yield resp
   }
   
-  def updatePet(host: String, pet: Pet): Task[Unit] = {
-    val path = "/pet"
+  def loginUser(host: String, username: String, password: String)(implicit usernameQuery: QueryParam[String], passwordQuery: QueryParam[String]): Task[String] = {
+    implicit val returnTypeDecoder: EntityDecoder[String] = jsonOf[String]
+
+    val path = "/user/login"
+    
+    val httpMethod = Method.GET
+    val contentType = `Content-Type`(MediaType.`application/json`)
+    val headers = Headers(
+      )
+    val queryParams = Query(
+      ("username", Some(usernameQuery.toParamString(username))), ("password", Some(passwordQuery.toParamString(password))))
+
+    for {
+      uri           <- Task.fromDisjunction(Uri.fromString(host + path))
+      uriWithParams =  uri.copy(query = queryParams)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
+      resp          <- client.expect[String](req)
+
+    } yield resp
+  }
+  
+  def logoutUser(host: String): Task[Unit] = {
+    val path = "/user/logout"
+    
+    val httpMethod = Method.GET
+    val contentType = `Content-Type`(MediaType.`application/json`)
+    val headers = Headers(
+      )
+    val queryParams = Query(
+      )
+
+    for {
+      uri           <- Task.fromDisjunction(Uri.fromString(host + path))
+      uriWithParams =  uri.copy(query = queryParams)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
+      resp          <- client.fetch[Unit](req)(_ => Task.now(()))
+
+    } yield resp
+  }
+  
+  def updateUser(host: String, username: String, user: User): Task[Unit] = {
+    val path = "/user/{username}".replaceAll("\\{" + "username" + "\\}",escape(username.toString))
     
     val httpMethod = Method.PUT
     val contentType = `Content-Type`(MediaType.`application/json`)
@@ -141,61 +177,21 @@ object PetApi {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(host + path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(pet)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
-
-    } yield resp
-  }
-  
-  def updatePetWithForm(host: String, petId: Long, name: String, status: String): Task[Unit] = {
-    val path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
-    
-    val httpMethod = Method.POST
-    val contentType = `Content-Type`(MediaType.`application/json`)
-    val headers = Headers(
-      )
-    val queryParams = Query(
-      )
-
-    for {
-      uri           <- Task.fromDisjunction(Uri.fromString(host + path))
-      uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
-      resp          <- client.fetch[Unit](req)(_ => Task.now(()))
-
-    } yield resp
-  }
-  
-  def uploadFile(host: String, petId: Long, additionalMetadata: String, file: File): Task[ApiResponse] = {
-    implicit val returnTypeDecoder: EntityDecoder[ApiResponse] = jsonOf[ApiResponse]
-
-    val path = "/pet/{petId}/uploadImage".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
-    
-    val httpMethod = Method.POST
-    val contentType = `Content-Type`(MediaType.`application/json`)
-    val headers = Headers(
-      )
-    val queryParams = Query(
-      )
-
-    for {
-      uri           <- Task.fromDisjunction(Uri.fromString(host + path))
-      uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
-      resp          <- client.expect[ApiResponse](req)
 
     } yield resp
   }
   
 }
 
-class HttpServicePetApi(service: HttpService) {
+class HttpServiceUserApi(service: HttpService) {
   val client = Client.fromHttpService(service)
 
   def escape(value: String): String = URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20")
 
-  def addPet(pet: Pet): Task[Unit] = {
-    val path = "/pet"
+  def createUser(user: User): Task[Unit] = {
+    val path = "/user"
     
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
@@ -207,19 +203,57 @@ class HttpServicePetApi(service: HttpService) {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(pet)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
 
     } yield resp
   }
   
-  def deletePet(petId: Long, apiKey: String): Task[Unit] = {
-    val path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
+  def createUsersWithArrayInput(user: List[User]): Task[Unit] = {
+    val path = "/user/createWithArray"
+    
+    val httpMethod = Method.POST
+    val contentType = `Content-Type`(MediaType.`application/json`)
+    val headers = Headers(
+      )
+    val queryParams = Query(
+      )
+
+    for {
+      uri           <- Task.fromDisjunction(Uri.fromString(path))
+      uriWithParams =  uri.copy(query = queryParams)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
+      resp          <- client.fetch[Unit](req)(_ => Task.now(()))
+
+    } yield resp
+  }
+  
+  def createUsersWithListInput(user: List[User]): Task[Unit] = {
+    val path = "/user/createWithList"
+    
+    val httpMethod = Method.POST
+    val contentType = `Content-Type`(MediaType.`application/json`)
+    val headers = Headers(
+      )
+    val queryParams = Query(
+      )
+
+    for {
+      uri           <- Task.fromDisjunction(Uri.fromString(path))
+      uriWithParams =  uri.copy(query = queryParams)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
+      resp          <- client.fetch[Unit](req)(_ => Task.now(()))
+
+    } yield resp
+  }
+  
+  def deleteUser(username: String): Task[Unit] = {
+    val path = "/user/{username}".replaceAll("\\{" + "username" + "\\}",escape(username.toString))
     
     val httpMethod = Method.DELETE
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
-      Header("api_key", apiKey))
+      )
     val queryParams = Query(
       )
 
@@ -232,52 +266,10 @@ class HttpServicePetApi(service: HttpService) {
     } yield resp
   }
   
-  def findPetsByStatus(status: List[String])(implicit statusQuery: QueryParam[List[String]]): Task[List[Pet]] = {
-    implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
+  def getUserByName(username: String): Task[User] = {
+    implicit val returnTypeDecoder: EntityDecoder[User] = jsonOf[User]
 
-    val path = "/pet/findByStatus"
-    
-    val httpMethod = Method.GET
-    val contentType = `Content-Type`(MediaType.`application/json`)
-    val headers = Headers(
-      )
-    val queryParams = Query(
-      ("status", Some(statusQuery.toParamString(status))))
-
-    for {
-      uri           <- Task.fromDisjunction(Uri.fromString(path))
-      uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
-      resp          <- client.expect[List[Pet]](req)
-
-    } yield resp
-  }
-  
-  def findPetsByTags(tags: List[String])(implicit tagsQuery: QueryParam[List[String]]): Task[List[Pet]] = {
-    implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
-
-    val path = "/pet/findByTags"
-    
-    val httpMethod = Method.GET
-    val contentType = `Content-Type`(MediaType.`application/json`)
-    val headers = Headers(
-      )
-    val queryParams = Query(
-      ("tags", Some(tagsQuery.toParamString(tags))))
-
-    for {
-      uri           <- Task.fromDisjunction(Uri.fromString(path))
-      uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
-      resp          <- client.expect[List[Pet]](req)
-
-    } yield resp
-  }
-  
-  def getPetById(petId: Long): Task[Pet] = {
-    implicit val returnTypeDecoder: EntityDecoder[Pet] = jsonOf[Pet]
-
-    val path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
+    val path = "/user/{username}".replaceAll("\\{" + "username" + "\\}",escape(username.toString))
     
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
@@ -290,13 +282,53 @@ class HttpServicePetApi(service: HttpService) {
       uri           <- Task.fromDisjunction(Uri.fromString(path))
       uriWithParams =  uri.copy(query = queryParams)
       req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
-      resp          <- client.expect[Pet](req)
+      resp          <- client.expect[User](req)
 
     } yield resp
   }
   
-  def updatePet(pet: Pet): Task[Unit] = {
-    val path = "/pet"
+  def loginUser(username: String, password: String)(implicit usernameQuery: QueryParam[String], passwordQuery: QueryParam[String]): Task[String] = {
+    implicit val returnTypeDecoder: EntityDecoder[String] = jsonOf[String]
+
+    val path = "/user/login"
+    
+    val httpMethod = Method.GET
+    val contentType = `Content-Type`(MediaType.`application/json`)
+    val headers = Headers(
+      )
+    val queryParams = Query(
+      ("username", Some(usernameQuery.toParamString(username))), ("password", Some(passwordQuery.toParamString(password))))
+
+    for {
+      uri           <- Task.fromDisjunction(Uri.fromString(path))
+      uriWithParams =  uri.copy(query = queryParams)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
+      resp          <- client.expect[String](req)
+
+    } yield resp
+  }
+  
+  def logoutUser(): Task[Unit] = {
+    val path = "/user/logout"
+    
+    val httpMethod = Method.GET
+    val contentType = `Content-Type`(MediaType.`application/json`)
+    val headers = Headers(
+      )
+    val queryParams = Query(
+      )
+
+    for {
+      uri           <- Task.fromDisjunction(Uri.fromString(path))
+      uriWithParams =  uri.copy(query = queryParams)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
+      resp          <- client.fetch[Unit](req)(_ => Task.now(()))
+
+    } yield resp
+  }
+  
+  def updateUser(username: String, user: User): Task[Unit] = {
+    val path = "/user/{username}".replaceAll("\\{" + "username" + "\\}",escape(username.toString))
     
     val httpMethod = Method.PUT
     val contentType = `Content-Type`(MediaType.`application/json`)
@@ -308,48 +340,8 @@ class HttpServicePetApi(service: HttpService) {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(pet)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
-
-    } yield resp
-  }
-  
-  def updatePetWithForm(petId: Long, name: String, status: String): Task[Unit] = {
-    val path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
-    
-    val httpMethod = Method.POST
-    val contentType = `Content-Type`(MediaType.`application/json`)
-    val headers = Headers(
-      )
-    val queryParams = Query(
-      )
-
-    for {
-      uri           <- Task.fromDisjunction(Uri.fromString(path))
-      uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
-      resp          <- client.fetch[Unit](req)(_ => Task.now(()))
-
-    } yield resp
-  }
-  
-  def uploadFile(petId: Long, additionalMetadata: String, file: File): Task[ApiResponse] = {
-    implicit val returnTypeDecoder: EntityDecoder[ApiResponse] = jsonOf[ApiResponse]
-
-    val path = "/pet/{petId}/uploadImage".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
-    
-    val httpMethod = Method.POST
-    val contentType = `Content-Type`(MediaType.`application/json`)
-    val headers = Headers(
-      )
-    val queryParams = Query(
-      )
-
-    for {
-      uri           <- Task.fromDisjunction(Uri.fromString(path))
-      uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
-      resp          <- client.expect[ApiResponse](req)
 
     } yield resp
   }
