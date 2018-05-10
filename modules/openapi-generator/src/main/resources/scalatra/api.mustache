@@ -32,12 +32,12 @@ class {{classname}}(implicit val swagger: Swagger) extends ScalatraServlet
 {{#operation}}
   {{newline}}
 
-  val {{nickname}}Operation = (apiOperation[{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}]("{{nickname}}")
+  val {{operationId}}Operation = (apiOperation[{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}]("{{operationId}}")
     summary "{{{summary}}}"
     parameters({{#allParams}}{{>queryParam}}{{>pathParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
   )
 
-  {{httpMethod}}("{{{vendorExtensions.x-scalatra-path}}}", operation({{nickname}}Operation)) {
+  {{httpMethod}}("{{{vendorExtensions.x-scalatra-path}}}", operation({{operationId}}Operation)) {
     {{#allParams}}
     {{#isFile}}
     val {{paramName}} = fileParams("{{paramName}}")

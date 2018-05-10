@@ -10,11 +10,11 @@
  */
 
 
-package io.swagger.server.api
+package org.openapitools.server.api
 
-import io.swagger.server.model.ApiResponse
+import org.openapitools.server.model.ApiResponse
 import java.io.File
-import io.swagger.server.model.Pet
+import org.openapitools.server.model.Pet
 
 import java.io.File
 

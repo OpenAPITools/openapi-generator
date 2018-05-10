@@ -9,11 +9,20 @@
  * https://openapi-generator.tech
  */
 
-package io.swagger.server.model
+package org.openapitools.server.model
 
-case class Category(
+case class Pet(
   id: Option[Long],
 
-  name: Option[String]
+  category: Option[Category],
+
+  name: String,
+
+  photoUrls: List[String],
+
+  tags: Option[List[Tag]],
+
+  /* pet status in the store */
+  status: Option[String]
 
  )

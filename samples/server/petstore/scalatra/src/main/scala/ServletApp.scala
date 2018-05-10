@@ -10,23 +10,23 @@
  */
 
 
-package io.swagger.app
+package org.openapitools.app
 
 import org.scalatra.swagger.{ ApiInfo, SwaggerWithAuth, Swagger }
 import org.scalatra.swagger.{ JacksonSwaggerBase, Swagger }
 import org.scalatra.ScalatraServlet
 import org.json4s.{ DefaultFormats, Formats }
 
-class ResourcesApp(implicit protected val swagger: SwaggerApp)
+class ResourcesApp(implicit protected val swagger: OpenAPIApp)
   extends ScalatraServlet with JacksonSwaggerBase {
   before() {
     response.headers += ("Access-Control-Allow-Origin" -> "*")
   }
 }
 
-class SwaggerApp extends Swagger(apiInfo = ApiSwagger.apiInfo, apiVersion = "1.0", swaggerVersion = Swagger.SpecVersion)
+class OpenAPIApp extends Swagger(apiInfo = OpenAPIInfo.apiInfo, apiVersion = "1.0", swaggerVersion = Swagger.SpecVersion)
 
-object ApiSwagger {
+object OpenAPIInfo {
   val apiInfo = ApiInfo(
     """OpenAPI Petstore""",
     """This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.""",

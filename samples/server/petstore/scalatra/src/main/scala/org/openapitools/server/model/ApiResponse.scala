@@ -9,11 +9,13 @@
  * https://openapi-generator.tech
  */
 
-package io.swagger.server.model
+package org.openapitools.server.model
 
-case class Tag(
-  id: Option[Long],
+case class ApiResponse(
+  code: Option[Int],
 
-  name: Option[String]
+  `type`: Option[String],
+
+  message: Option[String]
 
  )

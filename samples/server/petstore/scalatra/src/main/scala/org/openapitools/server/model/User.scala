@@ -9,7 +9,7 @@
  * https://openapi-generator.tech
  */
 
-package io.swagger.server.model
+package org.openapitools.server.model
 
 case class User(
   id: Option[Long],

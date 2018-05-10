@@ -10,13 +10,13 @@
  */
 
 
-import io.swagger.server.api._
-import io.swagger.app.{ ResourcesApp, SwaggerApp }
+import org.openapitools.server.api._
+import org.openapitools.app.{ ResourcesApp, OpenAPIApp }
 import javax.servlet.ServletContext
 import org.scalatra.LifeCycle
 
 class ScalatraBootstrap extends LifeCycle {
-  implicit val swagger = new SwaggerApp
+  implicit val openapi = new OpenAPIApp
 
   override def init(context: ServletContext) {
     try {
