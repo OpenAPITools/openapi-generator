@@ -17,31 +17,26 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.*;
-import org.openapitools.codegen.mustache.*;
-import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.parameters.*;
-
-import java.io.File;
-import java.util.*;
-
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
-
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     static Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
 
-    protected String packageName = "swagger";
+    protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -131,7 +126,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Rust package name (convention: lowercase).")
-                .defaultValue("swagger"));
+                .defaultValue("openapi"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Rust package version.")
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
@@ -146,7 +141,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
-            setPackageName("swagger");
+            setPackageName("openapi");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
