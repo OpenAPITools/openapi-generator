@@ -10,9 +10,9 @@
  */
 
 
-package io.swagger.server.api
+package org.openapitools.server.api
 
-import io.swagger.server.model.Order
+import org.openapitools.server.model.Order
 
 import java.io.File
 

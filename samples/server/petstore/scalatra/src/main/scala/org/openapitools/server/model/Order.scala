@@ -9,13 +9,21 @@
  * https://openapi-generator.tech
  */
 
-package io.swagger.server.model
+package org.openapitools.server.model
+import java.util.Date
 
-case class ApiResponse(
-  code: Option[Int],
+case class Order(
+  id: Option[Long],
 
-  `type`: Option[String],
+  petId: Option[Long],
 
-  message: Option[String]
+  quantity: Option[Int],
+
+  shipDate: Option[Date],
+
+  /* Order Status */
+  status: Option[String],
+
+  complete: Option[Boolean]
 
  )

@@ -44,8 +44,9 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
         embeddedTemplateDir = templateDir = "scalatra";
-        apiPackage = "io.swagger.server.api";
-        modelPackage = "io.swagger.server.model";
+        invokerPackage = "org.openapitools";
+        apiPackage = "org.openapitools.server.api";
+        modelPackage = "org.openapitools.server.model";
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -80,9 +81,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
 
         typeMapping.put("integer", "Int");
         typeMapping.put("long", "Long");
-        //TODO binary should be mapped to byte array
-        // mapped to String as a workaround
-        typeMapping.put("binary", "String");
+        typeMapping.put("binary", "File");
 
         additionalProperties.put("appName", "OpenAPI Sample");
         additionalProperties.put("appDescription", "A sample openapi server");
