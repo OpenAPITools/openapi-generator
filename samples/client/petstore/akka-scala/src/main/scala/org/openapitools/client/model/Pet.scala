@@ -9,22 +9,30 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package io.swagger.client.model
+package org.openapitools.client.model
 
-import io.swagger.client.core.ApiModel
+import org.openapitools.client.core.ApiModel
 import org.joda.time.DateTime
 import java.util.UUID
 
-case class User (
+case class Pet (
   id: Option[Long],
-  username: Option[String],
-  firstName: Option[String],
-  lastName: Option[String],
-  email: Option[String],
-  password: Option[String],
-  phone: Option[String],
-  /* User Status */
-  userStatus: Option[Int]
+  category: Option[Category],
+  name: String,
+  photoUrls: Seq[String],
+  tags: Option[Seq[Tag]],
+  /* pet status in the store */
+  status: Option[PetEnums.Status]
 ) extends ApiModel
 
+object PetEnums {
+
+  type Status = Status.Value
+  object Status extends Enumeration {
+    val Available = Value("available")
+    val Pending = Value("pending")
+    val Sold = Value("sold")
+  }
+
+}
 

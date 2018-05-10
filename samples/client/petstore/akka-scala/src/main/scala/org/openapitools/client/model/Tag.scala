@@ -9,13 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package io.swagger.client.model
+package org.openapitools.client.model
 
-import io.swagger.client.core.ApiModel
+import org.openapitools.client.core.ApiModel
 import org.joda.time.DateTime
 import java.util.UUID
 
-case class Category (
+case class Tag (
   id: Option[Long],
   name: Option[String]
 ) extends ApiModel

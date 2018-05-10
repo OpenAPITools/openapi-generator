@@ -9,9 +9,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package io.swagger.client.api
+package org.openapitools.client.api
 
-import io.swagger.client.model._
+import org.openapitools.client.model._
 import org.json4s._
 import scala.reflect.ClassTag
 

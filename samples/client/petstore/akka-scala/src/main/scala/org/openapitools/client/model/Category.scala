@@ -9,30 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package io.swagger.client.model
+package org.openapitools.client.model
 
-import io.swagger.client.core.ApiModel
+import org.openapitools.client.core.ApiModel
 import org.joda.time.DateTime
 import java.util.UUID
 
-case class Order (
+case class Category (
   id: Option[Long],
-  petId: Option[Long],
-  quantity: Option[Int],
-  shipDate: Option[DateTime],
-  /* Order Status */
-  status: Option[OrderEnums.Status],
-  complete: Option[Boolean]
+  name: Option[String]
 ) extends ApiModel
 
-object OrderEnums {
-
-  type Status = Status.Value
-  object Status extends Enumeration {
-    val Placed = Value("placed")
-    val Approved = Value("approved")
-    val Delivered = Value("delivered")
-  }
-
-}
 

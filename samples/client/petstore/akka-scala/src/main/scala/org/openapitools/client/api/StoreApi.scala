@@ -9,12 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package io.swagger.client.api
+package org.openapitools.client.api
 
-import io.swagger.client.model.Order
-import io.swagger.client.core._
-import io.swagger.client.core.CollectionFormats._
-import io.swagger.client.core.ApiKeyLocations._
+import org.openapitools.client.model.Order
+import org.openapitools.client.core._
+import org.openapitools.client.core.CollectionFormats._
+import org.openapitools.client.core.ApiKeyLocations._
 
 object StoreApi {
 

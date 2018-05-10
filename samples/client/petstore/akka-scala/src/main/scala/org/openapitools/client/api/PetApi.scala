@@ -9,14 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package io.swagger.client.api
+package org.openapitools.client.api
 
-import io.swagger.client.model.ApiResponse
+import org.openapitools.client.model.ApiResponse
 import java.io.File
-import io.swagger.client.model.Pet
-import io.swagger.client.core._
-import io.swagger.client.core.CollectionFormats._
-import io.swagger.client.core.ApiKeyLocations._
+import org.openapitools.client.model.Pet
+import org.openapitools.client.core._
+import org.openapitools.client.core.CollectionFormats._
+import org.openapitools.client.core.ApiKeyLocations._
 
 object PetApi {
 

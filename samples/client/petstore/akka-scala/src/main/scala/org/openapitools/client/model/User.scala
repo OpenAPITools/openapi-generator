@@ -9,16 +9,22 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package io.swagger.client.model
+package org.openapitools.client.model
 
-import io.swagger.client.core.ApiModel
+import org.openapitools.client.core.ApiModel
 import org.joda.time.DateTime
 import java.util.UUID
 
-case class ApiResponse (
-  code: Option[Int],
-  `type`: Option[String],
-  message: Option[String]
+case class User (
+  id: Option[Long],
+  username: Option[String],
+  firstName: Option[String],
+  lastName: Option[String],
+  email: Option[String],
+  password: Option[String],
+  phone: Option[String],
+  /* User Status */
+  userStatus: Option[Int]
 ) extends ApiModel
 
 
