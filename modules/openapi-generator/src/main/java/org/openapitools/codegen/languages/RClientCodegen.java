@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     static Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
 
-    protected String packageName = "swagger";
+    protected String packageName = "openapitools";
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -111,7 +111,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "R package name (convention: lowercase).")
-                .defaultValue("swagger"));
+                .defaultValue("openapitools"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "R package version.")
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
@@ -126,7 +126,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
-            setPackageName("swagger");
+            setPackageName("openapitools");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
