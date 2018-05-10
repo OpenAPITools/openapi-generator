@@ -9,13 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package io.swagger.client.core
+package org.openapitools.client.core
 
 import java.util.concurrent.TimeUnit
 
 import akka.actor.{ExtendedActorSystem, Extension, ExtensionKey}
 import com.typesafe.config.Config
-import io.swagger.client.core.ApiInvoker.CustomStatusCode
+import org.openapitools.client.core.ApiInvoker.CustomStatusCode
 import spray.http.HttpHeaders.RawHeader
 
 import scala.collection.JavaConversions._
@@ -24,7 +24,7 @@ import scala.concurrent.duration.FiniteDuration
 class ApiSettings(config: Config) extends Extension {
   def this(system: ExtendedActorSystem) = this(system.settings.config)
 
-  private def cfg = config.getConfig("io.swagger.client.apiRequest")
+  private def cfg = config.getConfig("org.openapitools.client.apiRequest")
 
   val alwaysTrustCertificates: Boolean = cfg.getBoolean("trust-certificates")
   val defaultHeaders: List[RawHeader] = cfg.getConfig("default-headers").entrySet.toList.map(c => RawHeader(c.getKey, c.getValue.render))

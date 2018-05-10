@@ -4,9 +4,9 @@ package {{package}}
 {{#imports}}
 import {{import}}
 {{/imports}}
-import {{invokerPackage}}._
-import {{invokerPackage}}.CollectionFormats._
-import {{invokerPackage}}.ApiKeyLocations._
+import {{mainPackage}}.core._
+import {{mainPackage}}.core.CollectionFormats._
+import {{mainPackage}}.core.ApiKeyLocations._
 
 {{#operations}}
 object {{classname}} {

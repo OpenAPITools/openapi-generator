@@ -9,7 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package io.swagger.client.core
+package org.openapitools.client.core
 
 import java.io.File
 import java.security.cert.X509Certificate
@@ -99,8 +99,8 @@ object ApiInvoker {
 
 class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends UntrustedSslContext with CustomContentTypes {
 
-  import io.swagger.client.core.ApiInvoker._
-  import io.swagger.client.core.ParametersMap._
+  import org.openapitools.client.core.ApiInvoker._
+  import org.openapitools.client.core.ParametersMap._
 
   implicit val ec: ExecutionContextExecutor = system.dispatcher
   implicit val jsonFormats: Formats = formats

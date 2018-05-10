@@ -9,29 +9,29 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package io.swagger.client.model
+package org.openapitools.client.model
 
-import io.swagger.client.core.ApiModel
+import org.openapitools.client.core.ApiModel
 import org.joda.time.DateTime
 import java.util.UUID
 
-case class Pet (
+case class Order (
   id: Option[Long],
-  category: Option[Category],
-  name: String,
-  photoUrls: Seq[String],
-  tags: Option[Seq[Tag]],
-  /* pet status in the store */
-  status: Option[PetEnums.Status]
+  petId: Option[Long],
+  quantity: Option[Int],
+  shipDate: Option[DateTime],
+  /* Order Status */
+  status: Option[OrderEnums.Status],
+  complete: Option[Boolean]
 ) extends ApiModel
 
-object PetEnums {
+object OrderEnums {
 
   type Status = Status.Value
   object Status extends Enumeration {
-    val Available = Value("available")
-    val Pending = Value("pending")
-    val Sold = Value("sold")
+    val Placed = Value("placed")
+    val Approved = Value("approved")
+    val Delivered = Value("delivered")
   }
 
 }

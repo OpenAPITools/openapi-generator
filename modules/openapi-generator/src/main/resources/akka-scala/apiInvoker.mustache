@@ -1,5 +1,5 @@
 {{>licenseInfo}}
-package {{invokerPackage}}
+package {{{mainPackage}}}.core
 
 import java.io.File
 import java.security.cert.X509Certificate
@@ -89,8 +89,8 @@ object ApiInvoker {
 
 class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends UntrustedSslContext with CustomContentTypes {
 
-  import io.swagger.client.core.ApiInvoker._
-  import io.swagger.client.core.ParametersMap._
+  import {{mainPackage}}.core.ApiInvoker._
+  import {{mainPackage}}.core.ParametersMap._
 
   implicit val ec: ExecutionContextExecutor = system.dispatcher
   implicit val jsonFormats: Formats = formats

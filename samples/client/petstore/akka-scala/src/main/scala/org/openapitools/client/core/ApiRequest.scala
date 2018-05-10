@@ -9,7 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package io.swagger.client.core
+package org.openapitools.client.core
 
 sealed trait ResponseState
 

@@ -9,7 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package io.swagger.client.core
+package org.openapitools.client.core
 
 import java.io.File
 import java.net.URLEncoder

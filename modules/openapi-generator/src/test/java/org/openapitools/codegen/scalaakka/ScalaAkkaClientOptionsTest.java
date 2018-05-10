@@ -53,6 +53,8 @@ public class ScalaAkkaClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(ScalaAkkaClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
             times = 1;
+            clientCodegen.setMainPackage(ScalaAkkaClientOptionsProvider.MAIN_PACKAGE_VALUE);
+            times = 1;
         }};
     }
 }
