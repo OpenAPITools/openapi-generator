@@ -17,16 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.PathItem.HttpMethod;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.oas.models.info.*;
 
 import java.util.HashSet;
 import java.util.List;
