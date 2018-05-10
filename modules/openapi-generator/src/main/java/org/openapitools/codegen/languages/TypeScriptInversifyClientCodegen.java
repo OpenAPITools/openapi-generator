@@ -17,21 +17,15 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.BinarySchema;
+import io.swagger.v3.oas.models.media.FileSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.openapitools.codegen.*;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
+import java.util.*;
 
 
 public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCodegen {
