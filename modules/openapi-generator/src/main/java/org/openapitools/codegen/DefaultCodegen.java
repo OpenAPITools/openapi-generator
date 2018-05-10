@@ -2228,8 +2228,8 @@ public class DefaultCodegen implements CodegenConfig {
                 }
 
                 String bodyParameterName = "";
-                if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-body-parameter-name")) {
-                    bodyParameterName = (String) op.vendorExtensions.get("x-codegen-body-parameter-name");
+                if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
+                    bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
                 }
                 bodyParam = fromRequestBody(requestBody, schemas, imports, bodyParameterName);
                 bodyParam.description = requestBody.getDescription();
