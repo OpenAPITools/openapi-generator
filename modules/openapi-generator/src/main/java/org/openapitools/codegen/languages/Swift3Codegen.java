@@ -17,26 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
-
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.*;
-import org.openapitools.codegen.mustache.*;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.core.util.Yaml;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -58,7 +46,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     public static final String POD_SCREENSHOTS = "podScreenshots";
     public static final String POD_DOCUMENTATION_URL = "podDocumentationURL";
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
-    public static final String DEFAULT_POD_AUTHORS = "Swagger Codegen";
+    public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
     protected static final String LIBRARY_PROMISE_KIT = "PromiseKit";
     protected static final String LIBRARY_RX_SWIFT = "RxSwift";
@@ -69,7 +57,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     protected boolean lenientTypeCast = false;
     protected boolean swiftUseApiNamespace;
     protected String[] responseAs = new String[0];
-    protected String sourceFolder = "Classes" + File.separator + "Swaggers";
+    protected String sourceFolder = "Classes" + File.separator + "OpenAPIs";
 
     public Swift3Codegen() {
         super();
@@ -174,6 +162,50 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(LENIENT_TYPE_CAST, "Accept and cast values for simple types (string->bool, string->int, int->string)")
                 .defaultValue(Boolean.FALSE.toString()));
+    }
+
+    private static CodegenModel reconcileProperties(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+        // To support inheritance in this generator, we will analyze
+        // the parent and child models, look for properties that match, and remove
+        // them from the child models and leave them in the parent.
+        // Because the child models extend the parents, the properties will be available via the parent.
+
+        // Get the properties for the parent and child models
+        final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
+        List<CodegenProperty> codegenProperties = codegenModel.vars;
+        codegenModel.allVars = new ArrayList<CodegenProperty>(codegenProperties);
+        codegenModel.parentVars = parentCodegenModel.allVars;
+
+        // Iterate over all of the parent model properties
+        boolean removedChildProperty = false;
+
+        for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
+            // Now that we have found a prop in the parent class,
+            // and search the child class for the same prop.
+            Iterator<CodegenProperty> iterator = codegenProperties.iterator();
+            while (iterator.hasNext()) {
+                CodegenProperty codegenProperty = iterator.next();
+                if (codegenProperty.baseName.equals(parentModelCodegenProperty.baseName)) {
+                    // We found a property in the child class that is
+                    // a duplicate of the one in the parent, so remove it.
+                    iterator.remove();
+                    removedChildProperty = true;
+                }
+            }
+        }
+
+        if (removedChildProperty) {
+            // If we removed an entry from this model's vars, we need to ensure hasMore is updated
+            int count = 0, numVars = codegenProperties.size();
+            for (CodegenProperty codegenProperty : codegenProperties) {
+                count += 1;
+                codegenProperty.hasMore = count < numVars;
+            }
+            codegenModel.vars = codegenProperties;
+        }
+
+
+        return codegenModel;
     }
 
     @Override
@@ -386,8 +418,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema) p.getAdditionalProperties());
-            return inner;
+            return getSchemaType((Schema) p.getAdditionalProperties());
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
@@ -638,49 +669,5 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
-
-    private static CodegenModel reconcileProperties(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
-        // To support inheritance in this generator, we will analyze
-        // the parent and child models, look for properties that match, and remove
-        // them from the child models and leave them in the parent.
-        // Because the child models extend the parents, the properties will be available via the parent.
-
-        // Get the properties for the parent and child models
-        final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
-        List<CodegenProperty> codegenProperties = codegenModel.vars;
-        codegenModel.allVars = new ArrayList<CodegenProperty>(codegenProperties);
-        codegenModel.parentVars = parentCodegenModel.allVars;
-
-        // Iterate over all of the parent model properties
-        boolean removedChildProperty = false;
-
-        for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
-            // Now that we have found a prop in the parent class,
-            // and search the child class for the same prop.
-            Iterator<CodegenProperty> iterator = codegenProperties.iterator();
-            while (iterator.hasNext()) {
-                CodegenProperty codegenProperty = iterator.next();
-                if (codegenProperty.baseName == parentModelCodegenProperty.baseName) {
-                    // We found a property in the child class that is
-                    // a duplicate of the one in the parent, so remove it.
-                    iterator.remove();
-                    removedChildProperty = true;
-                }
-            }
-        }
-
-        if (removedChildProperty) {
-            // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-            int count = 0, numVars = codegenProperties.size();
-            for (CodegenProperty codegenProperty : codegenProperties) {
-                count += 1;
-                codegenProperty.hasMore = (count < numVars) ? true : false;
-            }
-            codegenModel.vars = codegenProperties;
-        }
-
-
-        return codegenModel;
     }
 }

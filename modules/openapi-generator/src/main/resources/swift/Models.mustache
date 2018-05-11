@@ -80,7 +80,7 @@ class Decoders {
         if let decoder = decoders[key] {
            return decoder(source) as! T
         } else {
-            fatalError("Source \(source) is not convertible to type \(clazz): Maybe swagger file is insufficient")
+            fatalError("Source \(source) is not convertible to type \(clazz): Maybe OpenAPI spec file is insufficient")
         }
     }
 
