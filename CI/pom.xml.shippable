@@ -1,4 +1,3 @@
-<!-- for integration tests with Java7 -->
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.sonatype.oss</groupId>
@@ -10,16 +9,13 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>2.4.0-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
         <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>
         <url>https://github.com/openapitools/openapi-generator</url>
     </scm>
-    <prerequisites>
-        <maven>2.2.0</maven>
-    </prerequisites>
     <developers>
         <!-- original author of the project -->
         <developer>
@@ -64,12 +60,6 @@
         <system>github</system>
         <url>https://github.com/openapitools/openapi-generator/issues</url>
     </issueManagement>
-    <mailingLists>
-        <mailingList>
-            <name>swagger-swaggersocket</name>
-            <archive>https://groups.google.com/forum/#!forum/swagger-swaggersocket</archive>
-        </mailingList>
-    </mailingLists>
     <licenses>
         <license>
             <name>Apache License 2.0</name>
@@ -121,7 +111,7 @@
                     <lineEnding>LF</lineEnding>
                 </configuration>
             </plugin>
-            <!--<plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.17</version>
@@ -131,7 +121,7 @@
                         <phase>validate</phase>
                         <configuration>
                             <configLocation>google_checkstyle.xml</configLocation>
-                            Don't include generated sources a la http://stackoverflow.com/a/30406454
+                            <!-- Don't include generated sources a la http://stackoverflow.com/a/30406454 -->
                             <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
                             <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
@@ -150,7 +140,7 @@
                         <version>6.19</version>
                     </dependency>
                 </dependencies>
-            </plugin>-->
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -205,7 +195,7 @@
                             <mode>development</mode>
                             <url>${project.url}</url>
                             <implementation-version>${project.version}</implementation-version>
-                            <package>io.swagger</package>
+                            <package>org.openapitools</package>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -253,6 +243,26 @@
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.4.1</version>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.2.5</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -370,6 +380,30 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/clojure</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>haskell-http-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>haskell-http-client</value>
+                </property>
+            </activation>
+            <modules>
+                <!--<module>samples/client/petstore/haskell-http-client</module>-->
+            </modules>
+        </profile>
+        <profile>
+            <id>haskell-http-client-integration-test</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>haskell-http-client</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/haskell-http-client/tests-integration</module>
             </modules>
         </profile>
         <profile>
@@ -505,30 +539,6 @@
             </modules>
         </profile>
         <profile>
-            <id>objc-client</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>objc</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/objc/default/SwaggerClientTests</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>swift-client</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>swift</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/swift/default/SwaggerClientTests</module>
-            </modules>
-        </profile>
-        <profile>
             <id>java-msf4j-server</id>
             <activation>
                 <property>
@@ -586,18 +596,6 @@
             </activation>
             <modules>
                 <module>samples/server/petstore/jaxrs-resteasy/eap</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>jaxrs-resteasy-eap-server-java8</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
             </modules>
         </profile>
         <profile>
@@ -757,18 +755,6 @@
             </modules>
         </profile>
         <profile>
-            <id>springboot-useoptional</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/server/petstore/springboot-useoptional</module>
-            </modules>
-        </profile>
-        <profile>
             <id>springboot-beanvalidation</id>
             <activation>
                 <property>
@@ -862,52 +848,11 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <!-- test java-related projects -->
-                <module>samples/client/petstore/akka-scala</module>
-                <module>samples/client/petstore/scala</module>
-                <module>samples/client/petstore/scalaz</module>
-                <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/java/feign</module>
-                <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2</module>
-                <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit</module>
-                <module>samples/client/petstore/java/retrofit2</module>
-                <module>samples/client/petstore/java/retrofit2rx</module>
-                <module>samples/client/petstore/jaxrs-cxf-client</module>
-                <module>samples/client/petstore/java/resttemplate</module>
-                <module>samples/client/petstore/java/resttemplate-withXml</module>
-                <module>samples/client/petstore/java/vertx</module>
-                <module>samples/client/petstore/java/resteasy</module>
-                <module>samples/client/petstore/java/google-api-client</module>
-                <module>samples/client/petstore/kotlin/</module>
-                <!-- test non-java projects -->
-                <module>samples/client/petstore/go</module>
+                <module>samples/client/petstore/elixir</module>
+                <!--<module>samples/client/petstore/haskell-http-client</module>-->
+                <module>samples/client/petstore/erlang-client</module>
                 <!-- servers -->
-                <module>samples/server/petstore/java-vertx/rx</module>
-                <module>samples/server/petstore/java-vertx/async</module>
-                <module>samples/server/petstore/java-inflector</module>
-                <module>samples/server/petstore/undertow</module>
-                <module>samples/server/petstore/jaxrs/jersey1</module>
-                <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs/jersey1-useTags</module>
-                <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
-                <module>samples/server/petstore/jaxrs-resteasy/default</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
-                <module>samples/server/petstore/jaxrs-resteasy/joda</module>
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/client/petstore/spring-cloud</module>
-                <module>samples/server/petstore/springboot</module>
-                <module>samples/server/petstore/springboot-beanvalidation</module>
-                <module>samples/server/petstore/springboot-useoptional</module>
-                <module>samples/server/petstore/jaxrs-cxf</module>
-                <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
-                <module>samples/server/petstore/jaxrs-cxf-cdi</module>
-                <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
-                <module>samples/server/petstore/java-msf4j</module>
-                <module>samples/server/petstore/jaxrs-spec-interface</module>
+                <module>samples/server/petstore/erlang-server</module>
             </modules>
         </profile>
     </profiles>

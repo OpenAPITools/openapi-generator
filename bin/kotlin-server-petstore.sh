@@ -31,4 +31,4 @@ ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml 
 
 java ${JAVA_OPTS} -jar ${executable} ${ags}
 
-cp samples.ci/server/petstore/kotlin-server/ktor/pom.xml samples/server/petstore/kotlin-server/ktor/pom.xml
+cp CI/samples.ci/server/petstore/kotlin-server/ktor/pom.xml samples/server/petstore/kotlin-server/ktor/pom.xml

@@ -31,4 +31,4 @@ ags="$@ generate -t modules/openapi-generator/src/main/resources/JavaPlayFramewo
 
 java $JAVA_OPTS -jar $executable $ags
 
-cp samples.ci/server/petstore/java-play-framework-no-bean-validation/pom.xml samples/server/petstore/java-play-framework-no-bean-validation/pom.xml
+cp CI/samples.ci/server/petstore/java-play-framework-no-bean-validation/pom.xml samples/server/petstore/java-play-framework-no-bean-validation/pom.xml
