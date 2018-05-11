@@ -56,10 +56,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String SRC_BASE_PATH = "srcBasePath";
     public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
     public static final String COMPOSER_PROJECT_NAME = "composerProjectName";
-    protected String invokerPackage = "OpenAPITools\\Client";
+    protected String invokerPackage = "OpenAPI\\Client";
     protected String composerVendorName = null;
     protected String composerProjectName = null;
-    protected String packagePath = "OpenAPIToolsClient-php";
+    protected String packagePath = "OpenAPIClient-php";
     protected String artifactVersion = null;
     protected String srcBasePath = "lib";
     protected String testBasePath = "test";

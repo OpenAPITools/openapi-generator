@@ -32,11 +32,11 @@ public class PhpClientCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
-        Assert.assertEquals(codegen.modelPackage(), "OpenAPITools\\Client\\Model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "OpenAPITools\\Client\\Model");
-        Assert.assertEquals(codegen.apiPackage(), "OpenAPITools\\Client\\Api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "OpenAPITools\\Client\\Api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "OpenAPITools\\Client");
+        Assert.assertEquals(codegen.modelPackage(), "OpenAPI\\Client\\Model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "OpenAPI\\Client\\Model");
+        Assert.assertEquals(codegen.apiPackage(), "OpenAPI\\Client\\Api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "OpenAPI\\Client\\Api");
+        Assert.assertEquals(codegen.getInvokerPackage(), "OpenAPI\\Client");
     }
 
     @Test
