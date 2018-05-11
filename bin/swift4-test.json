@@ -1,6 +1,6 @@
 {
   "podSummary": "TestClient",
-  "podHomepage": "https://github.com/swagger-api/swagger-codegen",
+  "podHomepage": "https://github.com/openapitools/openapi-generator",
   "podAuthors": "",
   "projectName": "TestClient"
 }
