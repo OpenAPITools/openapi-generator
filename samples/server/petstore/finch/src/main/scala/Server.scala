@@ -1,4 +1,4 @@
-package io.swagger
+package org.openapitools
 
 import io.finch._
 import io.finch.circe._
@@ -14,7 +14,7 @@ import com.twitter.util.{Await, Future}
 
 class Server {
 
-  // Loads implementation defined in resources/META-INF/services/io.swagger.DataAccessor
+  // Loads implementation defined in resources/META-INF/services/org.openapitools.DataAccessor
   val impls: Seq[DataAccessor] = LoadService[DataAccessor]()
   val db = if (impls.isEmpty) new DataAccessor { } else impls.head
 

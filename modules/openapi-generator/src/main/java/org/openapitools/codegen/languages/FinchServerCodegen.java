@@ -17,34 +17,21 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenSecurity;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.media.*;
-
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String invokerPackage = "io.swagger.client";
+    protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "finch-server";
     protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "src/main/scala";
-    protected String packageName = "io.swagger";
+    protected String packageName = "org.openapitools";
 
     public FinchServerCodegen() {
         super();
@@ -181,7 +168,7 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
         importMapping.put("ZonedDateTime", "java.time.ZonedDateTime");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Finch package name (e.g. io.swagger).")
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Finch package name (e.g. org.openapitools).")
                 .defaultValue(this.packageName));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -194,7 +181,7 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getName() {
-        return "finch";
+        return "scala-finch";
     }
 
     @Override
@@ -303,10 +290,10 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
 
 
     /**
-     * @param prim
-     * @param isRequired
-     * @param canBeOptional
-     * @return
+     * @param prim          primitive type
+     * @param isRequired    true if it's required
+     * @param canBeOptional true if it can be optional
+     * @return string representation of the primitive type
      */
     private String toPrimitive(String prim, Boolean isRequired, Boolean canBeOptional) {
 

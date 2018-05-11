@@ -1,4 +1,4 @@
-package io.swagger
+package org.openapitools
 
 // TODO: properly handle custom imports
 import java.io._
@@ -6,7 +6,7 @@ import java.util.UUID
 import java.time._
 
 
-import io.swagger.models._
+import org.openapitools.models._
 
 trait DataAccessor {
     // TODO: apiInfo -> apis -> operations = ???

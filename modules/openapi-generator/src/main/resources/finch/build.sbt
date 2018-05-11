@@ -1,6 +1,6 @@
 scalariformSettings
 
-organization := "io.swagger"
+organization := "org.openapitools"
 
 name := "finch-sample"
 

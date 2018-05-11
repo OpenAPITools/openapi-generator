@@ -1,10 +1,10 @@
-package io.swagger.models
+package org.openapitools.models
 
 import io.circe._
 import io.finch.circe._
 import io.circe.generic.semiauto._
 import io.circe.java8.time._
-import io.swagger._
+import org.openapitools._
 
 /**
  * A tag for a pet

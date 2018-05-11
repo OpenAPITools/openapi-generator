@@ -1,12 +1,12 @@
-package io.swagger.petstore.models
+package org.openapitools.models
 
 import io.circe._
 import io.finch.circe._
 import io.circe.generic.semiauto._
 import io.circe.java8.time._
-import io.swagger.petstore._
-import io.swagger.petstore.models.Category
-import io.swagger.petstore.models.Tag
+import org.openapitools._
+import org.openapitools.models.Category
+import org.openapitools.models.Tag
 import scala.collection.immutable.Seq
 
 /**
