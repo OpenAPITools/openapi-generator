@@ -855,7 +855,7 @@
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/perl</module>
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
-                <module>samples/openapi3/client/petstore/php/OpenAPIClient-php/<module>
+                <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/javascript</module>
