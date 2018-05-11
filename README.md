@@ -13,7 +13,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.swagger/openapi-generator-project/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.swagger/openapi-generator-project)
 [![PR Stats](http://issuestats.com/github/swagger-api/openapi-generator/badge/pr)](http://issuestats.com/github/swagger-api/openapi-generator) [![Issue Stats](http://issuestats.com/github/swagger-api/openapi-generator/badge/issue)](http://issuestats.com/github/swagger-api/openapi-generator)
 
-:star::star::star: If you would like to contribute, please refer to [guidelines](https://github.com/swagger-api/openapi-generator/blob/master/CONTRIBUTING.md) and a list of [open tasks](https://github.com/swagger-api/openapi-generator/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22).:star::star::star:
+:star::star::star: If you would like to contribute, please refer to [guidelines](CONTRIBUTING.md) and a list of [open tasks](https://github.com/swagger-api/openapi-generator/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22).:star::star::star:
 
 :notebook_with_decorative_cover: For more information, please refer to the [Wiki page](https://github.com/swagger-api/openapi-generator/wiki) and [FAQ](https://github.com/swagger-api/openapi-generator/wiki/FAQ) :notebook_with_decorative_cover:
 
@@ -325,7 +325,7 @@ The OpenAPI Generator project is intended as a benefit for users of the Open API
 When code is generated from this project, it shall be considered **AS IS** and owned by the user of the software.  There are no warranties--expressed or implied--for generated code.  You can do what you wish with it, and once generated, the code is your responsibility and subject to the licensing terms that you deem appropriate.
  
 # Companies/Projects using OpenAPI Generator
-Here are some companies/projects using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](https://github.com/openapitools/openapi-generator/blob/master/README.md) and click on the icon to edit the page.
+Here are some companies/projects using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
 - [REST United](https://restunited.com)
 
@@ -339,6 +339,7 @@ Here are some companies/projects using OpenAPI Generator in production. To add y
 OpenAPI Generator core team members are contributors who have been making significant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
 
 ### Core Team Members
+* [@wing328](https://github.com/wing328) (2015/07)
 * [@jimschubert](https://github.com/jimschubert) (2016/05)
 * [@cbornet](https://github.com/cbornet) (2016/05)
 * [@jaz-ah](https://github.com/jaz-ah) (2016/05)
@@ -494,7 +495,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 
 ## History of OpenAPI Generator
 
-OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/swagger-codegen). In view of the issues with the Swagger Codegen 3.0.0 (beta) release and the disagreement on the project's direction, more than 30 top contributors and template creators of Swagger Codegen decided to fork Swagger Codegen and maintain a community-driven version called "OpenAPI Generator".
+OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/swagger-codegen). In view of the issues with the Swagger Codegen 3.0.0 (beta) release and the disagreement on the project's direction, more than 40 top contributors and template creators of Swagger Codegen decided to fork Swagger Codegen and maintain a community-driven version called "OpenAPI Generator". Please refer to the [Q&A](docs/qna.md) for more information.
 
 ### Founding Members (alphabetical order):
 
@@ -547,8 +548,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 License
 -------
 
-Copyright 2018 OpenAPI-Generator Contributors
-
+Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)  
 Copyright 2018 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
