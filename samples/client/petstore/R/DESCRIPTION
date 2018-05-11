@@ -1,8 +1,8 @@
 Package: petstore
-Title: R Package Client for Swagger Petstore
+Title: R Package Client for OpenAPI Petstore
 Version: 1.0.0
-Authors@R: person("Swagger Codegen community", email = "apiteam@swagger.io", role = c("aut", "cre"))
-Description: This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+Authors@R: person("OpenAPI Generator community", email = "team@openapitools.org", role = c("aut", "cre"))
+Description: This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 Depends: R (>= 3.3.3)
 Encoding: UTF-8
 License: Unlicense

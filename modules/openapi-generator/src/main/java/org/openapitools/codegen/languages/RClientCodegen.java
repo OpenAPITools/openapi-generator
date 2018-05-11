@@ -17,25 +17,21 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
-import org.apache.commons.lang3.StringUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     static Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
 
-    protected String packageName = "openapitools";
+    protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -67,26 +63,26 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         hideGenerationTimestamp = Boolean.TRUE;
 
         setReservedWordsLowerCase(
-            Arrays.asList(
-                // reserved words: https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html
-                "if", "else", "repeat", "while", "function", "for", "in",
-                "next", "break", "TRUE", "FALSE", "NULL", "Inf", "NaN",
-                "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_"
-            )
+                Arrays.asList(
+                        // reserved words: https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html
+                        "if", "else", "repeat", "while", "function", "for", "in",
+                        "next", "break", "TRUE", "FALSE", "NULL", "Inf", "NaN",
+                        "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_"
+                )
         );
 
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
-                    "map",
-                    "array")
-                );
+                        "map",
+                        "array")
+        );
 
         languageSpecificPrimitives = new HashSet<String>(
-            Arrays.asList(
-                "Integer",
-                "Numeric",
-                "Character")
-            );
+                Arrays.asList(
+                        "Integer",
+                        "Numeric",
+                        "Character")
+        );
 
         instantiationTypes.clear();
 
@@ -102,16 +98,14 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("date", "Character");
         typeMapping.put("DateTime", "Character");
         typeMapping.put("password", "Character");
-        typeMapping.put("file", "TODO_FILE_MAPPING");
-        // map binary to string as a workaround
-        // the correct solution is to use []byte
-        typeMapping.put("binary", "Character");
+        typeMapping.put("file", "data.frame");
+        typeMapping.put("binary", "data.frame");
         typeMapping.put("ByteArray", "Character");
-        typeMapping.put("object", "TODO_OBJECT_MAPPING");
+        typeMapping.put("object", "object");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "R package name (convention: lowercase).")
-                .defaultValue("openapitools"));
+                .defaultValue("openapi"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "R package version.")
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
@@ -126,7 +120,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
-            setPackageName("openapitools");
+            setPackageName("openapi");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
@@ -163,8 +157,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String escapeReservedWord(String name)
-    {
+    public String escapeReservedWord(String name) {
         // Can't start with an underscore, as our fields need to start with an
         // UppercaseLetter so that R treats them as public/visible.
 
@@ -176,7 +169,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         // - X_Name
         // ... or maybe a suffix?
         // - Name_ ... think this will work.
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return camelize(name) + '_';
@@ -288,7 +281,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if(ModelUtils.isArraySchema(p)) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner);
@@ -375,7 +368,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type)
-            && !languageSpecificPrimitives.contains(type);
+                && !languageSpecificPrimitives.contains(type);
     }
 
     public void setPackageName(String packageName) {
@@ -397,7 +390,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         return input.replace("]]", "] ]");
     }
 
-    public Map<String, String> createMapping(String key, String value){
+    public Map<String, String> createMapping(String key, String value) {
         Map<String, String> customImport = new HashMap<String, String>();
         customImport.put(key, value);
 
