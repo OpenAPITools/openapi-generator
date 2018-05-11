@@ -16,7 +16,7 @@ class ArrayMapObject < Petstore::Category
     }
   end
 
-  def self.swagger_types
+  def self.openapi_types
     {
       :int_arr => :'Array<Integer>',
       :pet_arr => :'Array<Pet>',
