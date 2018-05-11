@@ -180,7 +180,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(PROJECT_NAME,
-                "name of the project (Default: generated from info.title or \"swagger-js-client\")"));
+                "name of the project (Default: generated from info.title or \"openapi-js-client\")"));
         cliOptions.add(new CliOption(MODULE_NAME,
                 "module name for AMD, Node or globals (Default: generated from <projectName>)"));
         cliOptions.add(new CliOption(PROJECT_DESCRIPTION,
