@@ -7,14 +7,14 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
       *
       * @var string
       */
-    protected static $openAPIToolsModelName = '{{name}}';
+    protected static $openAPIModelName = '{{name}}';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       *
       * @var string[]
       */
-    protected static $openAPIToolsTypes = [
+    protected static $openAPITypes = [
         {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
         {{/hasMore}}{{/vars}}
     ];
@@ -24,7 +24,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
       *
       * @var string[]
       */
-    protected static $openAPIToolsFormats = [
+    protected static $openAPIFormats = [
         {{#vars}}'{{name}}' => {{#dataFormat}}'{{{dataFormat}}}'{{/dataFormat}}{{^dataFormat}}null{{/dataFormat}}{{#hasMore}},
         {{/hasMore}}{{/vars}}
     ];
@@ -34,9 +34,9 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
      *
      * @return array
      */
-    public static function openAPIToolsTypes()
+    public static function openAPITypes()
     {
-        return self::$openAPIToolsTypes{{#parentSchema}} + parent::openAPIToolsTypes(){{/parentSchema}};
+        return self::$openAPITypes{{#parentSchema}} + parent::openAPITypes(){{/parentSchema}};
     }
 
     /**
@@ -44,9 +44,9 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
      *
      * @return array
      */
-    public static function openAPIToolsFormats()
+    public static function openAPIFormats()
     {
-        return self::$openAPIToolsFormats{{#parentSchema}} + parent::openAPIToolsFormats(){{/parentSchema}};
+        return self::$openAPIFormats{{#parentSchema}} + parent::openAPIFormats(){{/parentSchema}};
     }
 
     /**
@@ -118,7 +118,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
      */
     public function getModelName()
     {
-        return self::$openAPIToolsModelName;
+        return self::$openAPIModelName;
     }
 
     {{#vars}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}const {{enumName}}_{{{name}}} = {{{value}}};
@@ -167,7 +167,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
 
         // Initialize discriminator property with the model name.
         $discriminator = array_search('{{discriminatorName}}', self::$attributeMap);
-        $this->container[$discriminator] = static::$openAPIToolsModelName;
+        $this->container[$discriminator] = static::$openAPIModelName;
         {{/discriminator}}
     }
 

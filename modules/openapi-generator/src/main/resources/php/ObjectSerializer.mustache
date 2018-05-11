@@ -51,19 +51,19 @@ class ObjectSerializer
             return $data;
         } elseif (is_object($data)) {
             $values = [];
-            $formats = $data::openAPIToolsFormats();
-            foreach ($data::openAPIToolsTypes() as $property => $openAPIToolsType) {
+            $formats = $data::openAPIFormats();
+            foreach ($data::openAPITypes() as $property => $openAPIType) {
                 $getter = $data::getters()[$property];
                 $value = $data->$getter();
                 if ($value !== null
-                    && !in_array($openAPIToolsType, [{{&primitives}}], true)
-                    && method_exists($openAPIToolsType, 'getAllowableEnumValues')
-                    && !in_array($value, $openAPIToolsType::getAllowableEnumValues())) {
-                    $imploded = implode("', '", $openAPIToolsType::getAllowableEnumValues());
-                    throw new \InvalidArgumentException("Invalid value for enum '$openAPIToolsType', must be one of: '$imploded'");
+                    && !in_array($openAPIType, [{{&primitives}}], true)
+                    && method_exists($openAPIType, 'getAllowableEnumValues')
+                    && !in_array($value, $openAPIType::getAllowableEnumValues())) {
+                    $imploded = implode("', '", $openAPIType::getAllowableEnumValues());
+                    throw new \InvalidArgumentException("Invalid value for enum '$openAPIType', must be one of: '$imploded'");
                 }
                 if ($value !== null) {
-                    $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($value, $openAPIToolsType, $formats[$property]);
+                    $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($value, $openAPIType, $formats[$property]);
                 }
             }
             return (object)$values;
@@ -289,7 +289,7 @@ class ObjectSerializer
                 }
             }
             $instance = new $class();
-            foreach ($instance::openAPIToolsTypes() as $property => $type) {
+            foreach ($instance::openAPITypes() as $property => $type) {
                 $propertySetter = $instance::setters()[$property];
 
                 if (!isset($propertySetter) || !isset($data->{$instance::attributeMap()[$property]})) {
