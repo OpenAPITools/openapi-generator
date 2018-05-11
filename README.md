@@ -1,21 +1,21 @@
 # OpenAPI Generator
 
-- Master (2.4.0): [![Build Status](https://img.shields.io/travis/swagger-api/openapi-generator/master.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/swagger-api/openapi-generator)
+- Master (2.4.0): [![Build Status](https://img.shields.io/travis/openapitools/openapi-generator/master.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/openapitools/openapi-generator)
 [![Run Status](https://img.shields.io/shippable/5782588a3be4f4faa56c5bea.svg?label=Mustache%20Template%20Test)](https://app.shippable.com/projects/5782588a3be4f4faa56c5bea)
-[![Windows Test](https://ci.appveyor.com/api/projects/status/github/swagger-api/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
-[![Java Test](https://circleci.com/gh/swagger-api/openapi-generator.svg?style=shield)](https://circleci.com/gh/swagger-api/openapi-generator)
-- 3.0.0:  [![Build Status](https://img.shields.io/travis/swagger-api/openapi-generator/3.0.0.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/swagger-api/openapi-generator)
+[![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
+[![Java Test](https://circleci.com/gh/openapitools/openapi-generator.svg?style=shield)](https://circleci.com/gh/openapitools/openapi-generator)
+- 3.0.0:  [![Build Status](https://img.shields.io/travis/openapitools/openapi-generator/3.0.0.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/openapitools/openapi-generator)
 [![Run Status](https://img.shields.io/shippable/5782588a3be4f4faa56c5bea/3.0.0.svg?label=Mustache%20Template%20Test)](https://app.shippable.com/projects/5782588a3be4f4faa56c5bea)
-[![Windows Test](https://ci.appveyor.com/api/projects/status/github/swagger-api/openapi-generator?branch=3.0.0&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
-[![Java Test](https://circleci.com/gh/swagger-api/openapi-generator/tree/3.0.0.svg?style=shield)](https://circleci.com/gh/swagger-api/openapi-generator)
+[![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=3.0.0&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
+[![Java Test](https://circleci.com/gh/openapitools/openapi-generator/tree/3.0.0.svg?style=shield)](https://circleci.com/gh/openapitools/openapi-generator)
 
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.swagger/openapi-generator-project/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.swagger/openapi-generator-project)
-[![PR Stats](http://issuestats.com/github/swagger-api/openapi-generator/badge/pr)](http://issuestats.com/github/swagger-api/openapi-generator) [![Issue Stats](http://issuestats.com/github/swagger-api/openapi-generator/badge/issue)](http://issuestats.com/github/swagger-api/openapi-generator)
+[![PR Stats](http://issuestats.com/github/openapitools/openapi-generator/badge/pr)](http://issuestats.com/github/openapitools/openapi-generator) [![Issue Stats](http://issuestats.com/github/openapitools/openapi-generator/badge/issue)](http://issuestats.com/github/openapitools/openapi-generator)
 
-:star::star::star: If you would like to contribute, please refer to [guidelines](CONTRIBUTING.md) and a list of [open tasks](https://github.com/swagger-api/openapi-generator/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22).:star::star::star:
+:star::star::star: If you would like to contribute, please refer to [guidelines](CONTRIBUTING.md) and a list of [open tasks](https://github.com/openapitools/openapi-generator/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22).:star::star::star:
 
-:notebook_with_decorative_cover: For more information, please refer to the [Wiki page](https://github.com/swagger-api/openapi-generator/wiki) and [FAQ](https://github.com/swagger-api/openapi-generator/wiki/FAQ) :notebook_with_decorative_cover:
+:notebook_with_decorative_cover: For more information, please refer to the [Wiki page](https://github.com/openapitools/openapi-generator/wiki) and [FAQ](https://github.com/openapitools/openapi-generator/wiki/FAQ) :notebook_with_decorative_cover:
 
 :warning: If the OpenAPI spec is obtained from an untrusted source, please make sure you've reviewed the spec before using OpenAPI Generator to generate the API client, server stub or documentation as [code injection](https://en.wikipedia.org/wiki/Code_injection) may occur :warning:
 
@@ -48,7 +48,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
     - [Workflow Integration](#workflow-integration)
     - [Online Generators](#online-generators)
     - [License Information on Generated Code](#license-information-on-generated-code)
-  - [Companies/Projects using Swagger Codegen](#companiesprojects-using-openapi-generator)
+  - [Companies/Projects using OpenAPI Generator](#companiesprojects-using-openapi-generator)
   - [Presentations/Videos/Tutorials/Books](#presentationsvideostutorialsbooks)
   - [About Us](#about-us)
     - [OpenAPI Generator Core Team](#openapi-generator-core-team)
@@ -62,8 +62,8 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 The OpenAPI Specification has undergone 3 revisions since initial creation in 2010.  The openapi-generator project has the following compatibilities with the OpenAPI Specification:
 
-Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
--------------------------- | ------------ | -------------------------- | -----
+OpenAPI Generator Version    | Release Date | OpenAPI Spec compatibility | Notes
+---------------------------- | ------------ | -------------------------- | -----
 4.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.0.0-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Major release with breaking changes (no fallback)
 3.1.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.1.0-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Minor release with breaking changes (with fallbacks)
 3.0.0 (current master, upcoming release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.0.0-SNAPSHOT/)| TBD   | 1.0, 1.1, 1.2, 2.0, 3.0   | Minor release without breaking changes
@@ -176,7 +176,7 @@ in the docker container. It also maps `~/.m2/repository` to the appropriate cont
 To execute `mvn package`:
 
 ```sh
-git clone https://github.com/swagger-api/openapi-generator
+git clone https://github.com/openapitools/openapi-generator
 cd openapi-generator
 ./run-in-docker.sh mvn package
 ```
@@ -208,7 +208,7 @@ cd /vagrant
 
 To generate a PHP client for [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml), please run the following
 ```sh
-git clone https://github.com/swagger-api/openapi-generator
+git clone https://github.com/openapitools/openapi-generator
 cd openapi-generator
 mvn clean package
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
