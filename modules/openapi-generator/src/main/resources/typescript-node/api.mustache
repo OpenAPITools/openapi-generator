@@ -145,10 +145,10 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{/vars}}
 
     {{#discriminator}}
-    static discriminator = {{{discriminatorName}}};
+    static discriminator: string | undefined = "{{discriminatorName}}";
     {{/discriminator}}
     {{^discriminator}}
-    static discriminator = undefined;
+    static discriminator: string | undefined = undefined;
     {{/discriminator}}
 
     {{^isArrayModel}}
