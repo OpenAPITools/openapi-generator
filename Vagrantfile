@@ -9,7 +9,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
 
   config.vm.provider "virtualbox" do |v|
-    v.name = "swagger-codegen"
+    v.name = "openapi-generator"
     v.memory = 2048
     v.cpus = 2
   end

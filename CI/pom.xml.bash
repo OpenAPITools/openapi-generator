@@ -5,16 +5,16 @@
         <version>5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.swagger</groupId>
-    <artifactId>swagger-codegen-project</artifactId>
+    <groupId>org.openapitools</groupId>
+    <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
-    <name>swagger-codegen-project</name>
-    <version>2.4.0-SNAPSHOT</version>
-    <url>https://github.com/swagger-api/swagger-codegen</url>
+    <name>openapi-generator-project</name>
+    <version>3.0.0-SNAPSHOT</version>
+    <url>https://github.com/openapi-tools/openapi-generator</url>
     <scm>
-        <connection>scm:git:git@github.com:swagger-api/swagger-codegen.git</connection>
-        <developerConnection>scm:git:git@github.com:swagger-api/swagger-codegen.git</developerConnection>
-        <url>https://github.com/swagger-api/swagger-codegen</url>
+        <connection>scm:git:git@github.com:openapi-tools/openapi-generator.git</connection>
+        <developerConnection>scm:git:git@github.com:openapi-tools/openapi-generator.git</developerConnection>
+        <url>https://github.com/openapi-tools/openapi-generator</url>
     </scm>
     <developers>
         <!-- original author of the project -->
@@ -58,14 +58,8 @@
     </developers>
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/swagger-api/swagger-codegen/issues</url>
+        <url>https://github.com/openapi-tools/openapi-generator/issues</url>
     </issueManagement>
-    <mailingLists>
-        <mailingList>
-            <name>swagger-swaggersocket</name>
-            <archive>https://groups.google.com/forum/#!forum/swagger-swaggersocket</archive>
-        </mailingList>
-    </mailingLists>
     <licenses>
         <license>
             <name>Apache License 2.0</name>
@@ -201,7 +195,7 @@
                             <mode>development</mode>
                             <url>${project.url}</url>
                             <implementation-version>${project.version}</implementation-version>
-                            <package>io.swagger</package>
+                            <package>org.openapi-tools</package>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -545,30 +539,6 @@
             </modules>
         </profile>
         <profile>
-            <id>objc-client</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>objc</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/objc/default/SwaggerClientTests</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>swift-client</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>swift</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/swift/default/SwaggerClientTests</module>
-            </modules>
-        </profile>
-        <profile>
             <id>java-msf4j-server</id>
             <activation>
                 <property>
@@ -877,23 +847,15 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/swift3/default/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift3/promisekit/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift3/rxswift/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift/default/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift/promisekit/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift/rxswift/SwaggerClientTests</module>
-                <!-- comment out objc tests as it's timing out
-                <module>samples/client/petstore/objc/default/SwaggerClientTests</module>
-                <module>samples/client/petstore/objc/core-data/SwaggerClientTests</module>--> 
+                <module>samples/client/petstore/bash</module>
             </modules>
         </profile>
     </profiles>
     <modules>
-        <module>modules/swagger-codegen</module>
-        <module>modules/swagger-codegen-cli</module>
-        <module>modules/swagger-codegen-maven-plugin</module>
-        <module>modules/swagger-generator</module>
+        <module>modules/openapi-generator</module>
+        <module>modules/openapi-generator-cli</module>
+        <module>modules/openapi-generator-maven-plugin</module>
+        <module>modules/openapi-generator-online</module>
     </modules>
     <reporting>
         <outputDirectory>target/site</outputDirectory>
@@ -969,7 +931,7 @@
         <commons-lang-version>3.4</commons-lang-version>
         <slf4j-version>1.7.12</slf4j-version>
         <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
-        <jmustache-version>1.12</jmustache-version>
+        <jmustache-version>1.14</jmustache-version>
         <testng-version>6.9.6</testng-version>
         <surefire-version>2.19.1</surefire-version>
         <jmockit-version>1.25</jmockit-version>

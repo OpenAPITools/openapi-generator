@@ -8,8 +8,8 @@ machine:
   hosts:
     petstore.swagger.io: 127.0.0.1
   environment:
-    DOCKER_GENERATOR_IMAGE_NAME: swaggerapi/openapi-generator
-    DOCKER_CODEGEN_CLI_IMAGE_NAME: swaggerapi/openapi-generator-cli
+    DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
+    DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
 
 dependencies:
   cache_directories:
@@ -29,7 +29,7 @@ dependencies:
     # show host table to confirm petstore.swagger.io is mapped to localhost
     - cat /etc/hosts
   override:
-    - cp pom.xml.circleci pom.xml
+    - cp CI/pom.xml.circleci pom.xml
 
 test:
   override:
@@ -42,7 +42,7 @@ test:
     ## test with jdk7
     - sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
     - java -version
-    - cp pom.xml.circleci.java7 pom.xml # use jdk7 pom
+    - cp CI/pom.xml.circleci.java7 pom.xml # use jdk7 pom
     - mvn clean install
     - mvn -q verify -Psamples
     # skip the rest if previous mvn task fails
