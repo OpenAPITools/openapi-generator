@@ -1,10 +1,10 @@
-package io.swagger.apis
+package org.openapitools.apis
 
 import java.io._
-import io.swagger._
-import io.swagger.models._
+import org.openapitools._
+import org.openapitools.models._
 import scala.collection.immutable.Seq
-import io.swagger.models.User
+import org.openapitools.models.User
 import io.finch.circe._
 import io.circe.generic.semiauto._
 import com.twitter.concurrent.AsyncStream

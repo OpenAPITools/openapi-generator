@@ -1,9 +1,9 @@
-package io.swagger.apis
+package org.openapitools.apis
 
 import java.io._
-import io.swagger._
-import io.swagger.models._
-import io.swagger.models.Order
+import org.openapitools._
+import org.openapitools.models._
+import org.openapitools.models.Order
 import io.finch.circe._
 import io.circe.generic.semiauto._
 import com.twitter.concurrent.AsyncStream

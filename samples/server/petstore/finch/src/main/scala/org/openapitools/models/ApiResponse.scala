@@ -1,10 +1,10 @@
-package io.swagger.petstore.models
+package org.openapitools.models
 
 import io.circe._
 import io.finch.circe._
 import io.circe.generic.semiauto._
 import io.circe.java8.time._
-import io.swagger.petstore._
+import org.openapitools._
 
 /**
  * Describes the result of uploading an image resource
