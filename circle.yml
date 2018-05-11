@@ -8,8 +8,8 @@ machine:
   hosts:
     petstore.swagger.io: 127.0.0.1
   environment:
-    DOCKER_GENERATOR_IMAGE_NAME: swaggerapi/swagger-generator
-    DOCKER_CODEGEN_CLI_IMAGE_NAME: swaggerapi/swagger-codegen-cli
+    DOCKER_GENERATOR_IMAGE_NAME: swaggerapi/openapi-generator
+    DOCKER_CODEGEN_CLI_IMAGE_NAME: swaggerapi/openapi-generator-cli
 
 dependencies:
   cache_directories:
@@ -50,4 +50,4 @@ test:
     ## docker: build generator image and push to Docker Hub
     - if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build --rm=false -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/swagger-generator && if [ ! -z "$CIRCLE_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$CIRCLE_TAG; fi && if [ ! -z "$CIRCLE_TAG" ] || [ "$CIRCLE_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME; fi; fi
     ### docker: build cli image and push to Docker Hub
-    - if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build --rm=false -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/swagger-codegen-cli && if [ ! -z "$CIRCLE_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$CIRCLE_TAG; fi && if [ ! -z "$CIRCLE_TAG" ] || [ "$CIRCLE_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME; fi; fi
+    - if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build --rm=false -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli && if [ ! -z "$CIRCLE_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$CIRCLE_TAG; fi && if [ ! -z "$CIRCLE_TAG" ] || [ "$CIRCLE_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME; fi; fi
