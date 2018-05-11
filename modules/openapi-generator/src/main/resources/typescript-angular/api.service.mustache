@@ -14,7 +14,12 @@ import { Response, ResponseContentType }                     from '@angular/http
 import { CustomQueryEncoderHelper }                          from '../encoder';
 {{/useHttpClient}}
 
+{{^useRxJS6}}
 import { Observable }                                        from 'rxjs/Observable';
+{{/useRxJS6}}
+{{#useRxJS6}}
+import { Observable }                                        from 'rxjs';
+{{/useRxJS6}}
 {{^useHttpClient}}
 import '../rxjs-operators';
 {{/useHttpClient}}
