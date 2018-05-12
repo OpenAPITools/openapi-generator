@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.Animal();
+    instance = new OpenAPIPetstore.Animal();
   });
 
   var getProperty = function(object, getter, property) {
@@ -37,19 +37,19 @@
   describe('Animal', function() {
     it('should create an instance of Animal', function() {
       // uncomment below and update the code to test Animal
-      //var instane = new SwaggerPetstore.Animal();
-      //expect(instance).to.be.a(SwaggerPetstore.Animal);
+      //var instane = new OpenAPIPetstore.Animal();
+      //expect(instance).to.be.a(OpenAPIPetstore.Animal);
     });
 
     it('should have the property className (base name: "className")', function() {
       // uncomment below and update the code to test the property className
-      //var instane = new SwaggerPetstore.Animal();
+      //var instane = new OpenAPIPetstore.Animal();
       //expect(instance).to.be();
     });
 
     it('should have the property color (base name: "color")', function() {
       // uncomment below and update the code to test the property color
-      //var instane = new SwaggerPetstore.Animal();
+      //var instane = new OpenAPIPetstore.Animal();
       //expect(instance).to.be();
     });
 

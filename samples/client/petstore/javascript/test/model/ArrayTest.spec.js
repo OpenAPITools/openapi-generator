@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.ArrayTest();
+    instance = new OpenAPIPetstore.ArrayTest();
   });
 
   var getProperty = function(object, getter, property) {
@@ -37,25 +37,25 @@
   describe('ArrayTest', function() {
     it('should create an instance of ArrayTest', function() {
       // uncomment below and update the code to test ArrayTest
-      //var instane = new SwaggerPetstore.ArrayTest();
-      //expect(instance).to.be.a(SwaggerPetstore.ArrayTest);
+      //var instane = new OpenAPIPetstore.ArrayTest();
+      //expect(instance).to.be.a(OpenAPIPetstore.ArrayTest);
     });
 
     it('should have the property arrayOfString (base name: "array_of_string")', function() {
       // uncomment below and update the code to test the property arrayOfString
-      //var instane = new SwaggerPetstore.ArrayTest();
+      //var instane = new OpenAPIPetstore.ArrayTest();
       //expect(instance).to.be();
     });
 
     it('should have the property arrayArrayOfInteger (base name: "array_array_of_integer")', function() {
       // uncomment below and update the code to test the property arrayArrayOfInteger
-      //var instane = new SwaggerPetstore.ArrayTest();
+      //var instane = new OpenAPIPetstore.ArrayTest();
       //expect(instance).to.be();
     });
 
     it('should have the property arrayArrayOfModel (base name: "array_array_of_model")', function() {
       // uncomment below and update the code to test the property arrayArrayOfModel
-      //var instane = new SwaggerPetstore.ArrayTest();
+      //var instane = new OpenAPIPetstore.ArrayTest();
       //expect(instance).to.be();
     });
 

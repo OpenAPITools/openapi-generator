@@ -1,5 +1,5 @@
 /**
- * Swagger Petstore
+ * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
@@ -31,15 +31,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.HasOnlyReadOnly();
+    instance = new OpenAPIPetstore.HasOnlyReadOnly();
   });
 
   var getProperty = function(object, getter, property) {
@@ -61,19 +61,19 @@
   describe('HasOnlyReadOnly', function() {
     it('should create an instance of HasOnlyReadOnly', function() {
       // uncomment below and update the code to test HasOnlyReadOnly
-      //var instane = new SwaggerPetstore.HasOnlyReadOnly();
-      //expect(instance).to.be.a(SwaggerPetstore.HasOnlyReadOnly);
+      //var instane = new OpenAPIPetstore.HasOnlyReadOnly();
+      //expect(instance).to.be.a(OpenAPIPetstore.HasOnlyReadOnly);
     });
 
     it('should have the property bar (base name: "bar")', function() {
       // uncomment below and update the code to test the property bar
-      //var instane = new SwaggerPetstore.HasOnlyReadOnly();
+      //var instane = new OpenAPIPetstore.HasOnlyReadOnly();
       //expect(instance).to.be();
     });
 
     it('should have the property foo (base name: "foo")', function() {
       // uncomment below and update the code to test the property foo
-      //var instane = new SwaggerPetstore.HasOnlyReadOnly();
+      //var instane = new OpenAPIPetstore.HasOnlyReadOnly();
       //expect(instance).to.be();
     });
 

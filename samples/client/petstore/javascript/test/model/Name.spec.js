@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.Name();
+    instance = new OpenAPIPetstore.Name();
   });
 
   var getProperty = function(object, getter, property) {
@@ -37,31 +37,31 @@
   describe('Name', function() {
     it('should create an instance of Name', function() {
       // uncomment below and update the code to test Name
-      //var instane = new SwaggerPetstore.Name();
-      //expect(instance).to.be.a(SwaggerPetstore.Name);
+      //var instane = new OpenAPIPetstore.Name();
+      //expect(instance).to.be.a(OpenAPIPetstore.Name);
     });
 
     it('should have the property name (base name: "name")', function() {
       // uncomment below and update the code to test the property name
-      //var instane = new SwaggerPetstore.Name();
+      //var instane = new OpenAPIPetstore.Name();
       //expect(instance).to.be();
     });
 
     it('should have the property snakeCase (base name: "snake_case")', function() {
       // uncomment below and update the code to test the property snakeCase
-      //var instane = new SwaggerPetstore.Name();
+      //var instane = new OpenAPIPetstore.Name();
       //expect(instance).to.be();
     });
 
     it('should have the property property (base name: "property")', function() {
       // uncomment below and update the code to test the property property
-      //var instane = new SwaggerPetstore.Name();
+      //var instane = new OpenAPIPetstore.Name();
       //expect(instance).to.be();
     });
 
     it('should have the property _123Number (base name: "123Number")', function() {
       // uncomment below and update the code to test the property _123Number
-      //var instane = new SwaggerPetstore.Name();
+      //var instane = new OpenAPIPetstore.Name();
       //expect(instance).to.be();
     });
 

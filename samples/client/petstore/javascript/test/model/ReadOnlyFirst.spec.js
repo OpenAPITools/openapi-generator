@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.ReadOnlyFirst();
+    instance = new OpenAPIPetstore.ReadOnlyFirst();
   });
 
   var getProperty = function(object, getter, property) {
@@ -37,19 +37,19 @@
   describe('ReadOnlyFirst', function() {
     it('should create an instance of ReadOnlyFirst', function() {
       // uncomment below and update the code to test ReadOnlyFirst
-      //var instane = new SwaggerPetstore.ReadOnlyFirst();
-      //expect(instance).to.be.a(SwaggerPetstore.ReadOnlyFirst);
+      //var instane = new OpenAPIPetstore.ReadOnlyFirst();
+      //expect(instance).to.be.a(OpenAPIPetstore.ReadOnlyFirst);
     });
 
     it('should have the property bar (base name: "bar")', function() {
       // uncomment below and update the code to test the property bar
-      //var instane = new SwaggerPetstore.ReadOnlyFirst();
+      //var instane = new OpenAPIPetstore.ReadOnlyFirst();
       //expect(instance).to.be();
     });
 
     it('should have the property baz (base name: "baz")', function() {
       // uncomment below and update the code to test the property baz
-      //var instane = new SwaggerPetstore.ReadOnlyFirst();
+      //var instane = new OpenAPIPetstore.ReadOnlyFirst();
       //expect(instance).to.be();
     });
 

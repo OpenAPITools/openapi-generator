@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.Cat();
+    instance = new OpenAPIPetstore.Cat();
   });
 
   var getProperty = function(object, getter, property) {
@@ -37,13 +37,13 @@
   describe('Cat', function() {
     it('should create an instance of Cat', function() {
       // uncomment below and update the code to test Cat
-      //var instane = new SwaggerPetstore.Cat();
-      //expect(instance).to.be.a(SwaggerPetstore.Cat);
+      //var instane = new OpenAPIPetstore.Cat();
+      //expect(instance).to.be.a(OpenAPIPetstore.Cat);
     });
 
     it('should have the property declawed (base name: "declawed")', function() {
       // uncomment below and update the code to test the property declawed
-      //var instane = new SwaggerPetstore.Cat();
+      //var instane = new OpenAPIPetstore.Cat();
       //expect(instance).to.be();
     });
 

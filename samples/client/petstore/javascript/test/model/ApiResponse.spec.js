@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.ApiResponse();
+    instance = new OpenAPIPetstore.ApiResponse();
   });
 
   var getProperty = function(object, getter, property) {
@@ -37,25 +37,25 @@
   describe('ApiResponse', function() {
     it('should create an instance of ApiResponse', function() {
       // uncomment below and update the code to test ApiResponse
-      //var instane = new SwaggerPetstore.ApiResponse();
-      //expect(instance).to.be.a(SwaggerPetstore.ApiResponse);
+      //var instane = new OpenAPIPetstore.ApiResponse();
+      //expect(instance).to.be.a(OpenAPIPetstore.ApiResponse);
     });
 
     it('should have the property code (base name: "code")', function() {
       // uncomment below and update the code to test the property code
-      //var instane = new SwaggerPetstore.ApiResponse();
+      //var instane = new OpenAPIPetstore.ApiResponse();
       //expect(instance).to.be();
     });
 
     it('should have the property type (base name: "type")', function() {
       // uncomment below and update the code to test the property type
-      //var instane = new SwaggerPetstore.ApiResponse();
+      //var instane = new OpenAPIPetstore.ApiResponse();
       //expect(instance).to.be();
     });
 
     it('should have the property message (base name: "message")', function() {
       // uncomment below and update the code to test the property message
-      //var instane = new SwaggerPetstore.ApiResponse();
+      //var instane = new OpenAPIPetstore.ApiResponse();
       //expect(instance).to.be();
     });
 
