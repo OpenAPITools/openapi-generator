@@ -11,9 +11,10 @@
 
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.swagger/openapi-generator-project/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.swagger/openapi-generator-project)
-[![PR Stats](http://issuestats.com/github/openapitools/openapi-generator/badge/pr)](http://issuestats.com/github/openapitools/openapi-generator) [![Issue Stats](http://issuestats.com/github/openapitools/openapi-generator/badge/issue)](http://issuestats.com/github/openapitools/openapi-generator)
 
 :star::star::star: If you would like to contribute, please refer to [guidelines](CONTRIBUTING.md) and a list of [open tasks](https://github.com/openapitools/openapi-generator/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22).:star::star::star:
+
+:bangbang: To migrate from Swagger Codegen to OpenAPI Generator, please refer to the [migration guide](docs/migration-from-swagger-codegen.md) :bangbang:
 
 :notebook_with_decorative_cover: For more information, please refer to the [Wiki page](https://github.com/openapitools/openapi-generator/wiki) and [FAQ](https://github.com/openapitools/openapi-generator/wiki/FAQ) :notebook_with_decorative_cover:
 

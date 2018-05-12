@@ -76,7 +76,14 @@ All languages of `swagger-codegen` have been migrated to `openapi-generator`, bu
 | `scala` | `scala-httpclient` |
 | `jaxrs` | `jaxrs-jersey` |
 | `qt5cpp` | `cpp-qt5` |
+| `cpprest` | `cpp-restsdk` |
+| `tizen` | `cpp-tizen` |
+| `sinatra` | `ruby-sinatra` |
 | `swift` | `swift2-deprecated` |
+| `lumen` | `php-lumen` |
+| `slim` | `php-slim` |
+| `ze-ph` | `php-ze-ph` |
+| `nancyfx` | `csharp-nancyfx` |
 
 
 ### New parameters name
@@ -120,7 +127,7 @@ If this is a problem for you, you need to explicitly set the the parameter value
 
 ### New fully qualified name for the classes 
 
-If you have extended some generators in your project, and you are looking for a specific class, replace the  `io.swagger.codegen` package (old name) with `org.openapitools.codegen` package (new name).
+If you have extended some generators in your project, and you are looking for a specific class, replace the `io.swagger.codegen` package (old name) with `org.openapitools.codegen` package (new name).
 
 Example: `org.openapitools.codegen.DefaultGenerator`
 
