@@ -29,7 +29,9 @@ No, OpenAPI Generator is still using [Apache license (version 2)](https://www.ap
 
 Swagger Codegen is driven by SmartBear while OpenAPI Generator is driven by the community. More than 40 top contributors and template creators of Swagger Codegen have joined OpenAPI Generator as the founding team members.
 
-#### I’m currently using Swagger Codegen 2.x. How can I upggrade the generator to OpenAPI Generator?
+Swagger is a trademark owned by SmartBear and the use of the term "Swagger" found in this project is for demo purpose (reference) only.
+
+#### I’m currently using Swagger Codegen 2.x. How can I upgrade the generator to OpenAPI Generator?
 
 OpenAPI Generator is based on Swagger Codegen 2.4.0-SNAPSHOT version so the migration should be easy, straightforward and almost seamless. Please refer to the [migration guide](migration-from-swagger-codegen.md) for more information. 
 
