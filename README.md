@@ -51,7 +51,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 **Configuration files**          | [**Apache2**](https://httpd.apache.org/)
 **Others**                       | **JMeter**
 
-# Table of contents
+## Table of contents
 
   - [OpenAPI Generator](#openapi-generator)
   - [Overview](#overview)
@@ -345,21 +345,21 @@ The OpenAPI Generator project is intended as a benefit for users of the Open API
 
 When code is generated from this project, it shall be considered **AS IS** and owned by the user of the software.  There are no warranties--expressed or implied--for generated code.  You can do what you wish with it, and once generated, the code is your responsibility and subject to the licensing terms that you deem appropriate.
  
-# 4 - Companies/Projects using OpenAPI Generator
+## 4 - Companies/Projects using OpenAPI Generator
 Here are some companies/projects using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
 - [REST United](https://restunited.com)
 
-# 5 - Presentations/Videos/Tutorials/Books
+## 5 - Presentations/Videos/Tutorials/Books
 
 
-# 6 - About Us
+## 6 - About Us
 
-## 6.1 - OpenAPI Generator Core Team
+### 6.1 - OpenAPI Generator Core Team
 
 OpenAPI Generator core team members are contributors who have been making significant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
 
-### Core Team Members
+#### Core Team Members
 * [@wing328](https://github.com/wing328) (2015/07)
 * [@jimschubert](https://github.com/jimschubert) (2016/05)
 * [@cbornet](https://github.com/cbornet) (2016/05)
@@ -368,7 +368,7 @@ OpenAPI Generator core team members are contributors who have been making signif
 * [@JFCote](https://github.com/JFCote) (2018/03)
 * [@jmini](https://github.com/jmini) (2018/04)
 
-### Template Creator
+#### Template Creator
 Here is a list of template creators:
  * API Clients:
    * Ada: @stcarrez
@@ -453,7 +453,7 @@ Here is a list of template creators:
  * Configuration
    * Apache2: @stkrwork
 
-### How to join the core team
+#### How to join the core team
 
 Here are the requirements to become a core team member:
 - rank within top 50 in https://github.com/openapitools/openapi-generator/graphs/contributors
@@ -466,7 +466,7 @@ Here are the requirements to become a core team member:
 
  To become a Template Creator, simply submit a PR for new API client (e.g. Rust, Elixir) or server stub (e.g. Ruby Grape) generator.
 
-## 6.2 - OpenAPI Generator Technical Committee
+### 6.2 - OpenAPI Generator Technical Committee
 
 Members of the OpenAPI Generator technical committee shoulder the following responsibilities:
 
@@ -479,7 +479,7 @@ Who is eligible? Those who want to join must have at least 3 PRs merged into a g
 
 If you want to join the committee, please kindly apply by sending an email to wing328hk@gmail.com ([@wing328](https://github.com/wing328)) with your Github ID.
 
-### Members of Technical Committee
+#### Members of Technical Committee
 
 | Languages     | Member (join date) |
 |:-------------|:-------------|
@@ -514,11 +514,11 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | Swift     | @jgavris (2017/07) @ehyche (2017/08) @Edubits (2017/09) @jaz-ah (2017/09) @d-date  (2018/03) |
 | TypeScript | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) |
 
-## 6.3 - History of OpenAPI Generator
+### 6.3 - History of OpenAPI Generator
 
 OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/swagger-codegen). In view of the issues with the Swagger Codegen 3.0.0 (beta) release and the disagreement on the project's direction, more than 40 top contributors and template creators of Swagger Codegen decided to fork Swagger Codegen and maintain a community-driven version called "OpenAPI Generator". Please refer to the [Q&A](docs/qna.md) for more information.
 
-### Founding Members (alphabetical order):
+#### Founding Members (alphabetical order):
 
 - [Akihito Nakano](https://github.com/ackintosh)
 - [Artem Ocheredko](https://github.com/galaxie)
