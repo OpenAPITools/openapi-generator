@@ -79,7 +79,7 @@ describe "Pet" do
         expect(e.code).to eq(404)
         expect(e.message).to eq('Not Found')
         expect(e.response_body).to eq('{"code":1,"type":"error","message":"Pet not found"}')
-        expect(e.response_headers).to be_a(Hash)
+        expect(e.response_headers).to include('Content-Type')
         expect(e.response_headers['Content-Type']).to eq('application/json')
       end
     end

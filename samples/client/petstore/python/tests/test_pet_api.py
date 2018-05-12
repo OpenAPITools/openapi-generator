@@ -68,7 +68,7 @@ class PetApiTests(unittest.TestCase):
         self.category.name = "dog"
         self.tag = petstore_api.Tag()
         self.tag.id = id_gen()
-        self.tag.name = "swagger-codegen-python-pet-tag"
+        self.tag.name = "python-pet-tag"
         self.pet = petstore_api.Pet(name="hello kity", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet.id = id_gen()
         self.pet.status = "sold"
@@ -108,13 +108,13 @@ class PetApiTests(unittest.TestCase):
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ',
-                                          'User-Agent': 'Swagger-Codegen/1.0.0/python'},
+                                          'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(total=5))
         mock_pool.expect_request('POST', 'http://localhost/v2/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ',
-                                          'User-Agent': 'Swagger-Codegen/1.0.0/python'},
+                                          'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(connect=1, read=2))
 
         self.pet_api.add_pet(self.pet, _request_timeout=5)
