@@ -1,16 +1,32 @@
-# OpenAPI Generator
+<h1 align="center">OpenAPI Generator</h1>
 
-- Master (2.4.0): [![Build Status](https://img.shields.io/travis/openapitools/openapi-generator/master.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/openapitools/openapi-generator)
+<div align="center">
+Master (2.4.0)
+
+[![Build Status](https://img.shields.io/travis/openapitools/openapi-generator/master.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/openapitools/openapi-generator)
 [![Run Status](https://img.shields.io/shippable/5782588a3be4f4faa56c5bea.svg?label=Mustache%20Template%20Test)](https://app.shippable.com/projects/5782588a3be4f4faa56c5bea)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
 [![Java Test](https://circleci.com/gh/openapitools/openapi-generator.svg?style=shield)](https://circleci.com/gh/openapitools/openapi-generator)
-- 3.0.0:  [![Build Status](https://img.shields.io/travis/openapitools/openapi-generator/3.0.0.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/openapitools/openapi-generator)
+
+</div>
+
+<div align="center">
+3.0.0
+
+[![Build Status](https://img.shields.io/travis/openapitools/openapi-generator/3.0.0.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/openapitools/openapi-generator)
 [![Run Status](https://img.shields.io/shippable/5782588a3be4f4faa56c5bea/3.0.0.svg?label=Mustache%20Template%20Test)](https://app.shippable.com/projects/5782588a3be4f4faa56c5bea)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=3.0.0&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
 [![Java Test](https://circleci.com/gh/openapitools/openapi-generator/tree/3.0.0.svg?style=shield)](https://circleci.com/gh/openapitools/openapi-generator)
 
+</div>
+
+<div align="center">
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.swagger/openapi-generator-project/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.swagger/openapi-generator-project)
+
+</div>
+
+<div align="center">
 
 :star::star::star: If you would like to contribute, please refer to [guidelines](CONTRIBUTING.md) and a list of [open tasks](https://github.com/openapitools/openapi-generator/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22).:star::star::star:
 
@@ -18,48 +34,51 @@
 
 :notebook_with_decorative_cover: For more information, please refer to the [Wiki page](https://github.com/openapitools/openapi-generator/wiki) and [FAQ](https://github.com/openapitools/openapi-generator/wiki/FAQ) :notebook_with_decorative_cover:
 
+:notebook_with_decorative_cover: The eBook [A Beginner's Guide to Code Generation for REST APIs](https://gumroad.com/l/swagger_codegen_beginner) is a good starting point for begineers :notebook_with_decorative_cover:
+
 :warning: If the OpenAPI spec is obtained from an untrusted source, please make sure you've reviewed the spec before using OpenAPI Generator to generate the API client, server stub or documentation as [code injection](https://en.wikipedia.org/wiki/Code_injection) may occur :warning:
 
-:notebook_with_decorative_cover: The eBook [A Beginner's Guide to Code Generation for REST APIs](https://gumroad.com/l/swagger_codegen_beginner) is a good starting point for begineers.
+</div>
 
 ## Overview
 OpenAPI Generator allows generation of API client libraries (SDK generation), server stubs,  documentation and configuration automatically given an [OpenAPI Spec](https://github.com/OAI/OpenAPI-Specification). Currently, the following languages/frameworks are supported:
 
-- **API clients**: **ActionScript**, **Ada**, **Apex**, **Bash**, **C#** (.net 2.0, 3.5 or later), **C++** (cpprest, Qt5, Tizen), **Clojure**, **Dart**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured), **Kotlin**, **Lua**, **Node.js** (ES5, ES6, AngularJS with Google Closure Compiler annotations) **Objective-C**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x), **Typescript** (Angular1.x, Angular2.x, Fetch, jQuery, Node)
-- **Server stubs**: **Ada**, **C#** (ASP.NET Core, NancyFx), **C++** (Pistache, Restbed), **Erlang**, **Go**, **Haskell** (Servant), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples)), **Kotlin**, **PHP** (Lumen, Slim, Silex, [Symfony](https://symfony.com/), [Zend Expressive](https://github.com/zendframework/zend-expressive)), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** ([Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), Scalatra)
-- **API documentation generators**: **HTML**, **Confluence Wiki**
-- **Configuration files**: [**Apache2**](https://httpd.apache.org/)
-- **Others**: **JMeter**
+|                                | Languages/Frameworks |
+|-|-|
+**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C#** (.net 2.0, 3.5 or later), **C++** (cpprest, Qt5, Tizen), **Clojure**, **Dart**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured), **Kotlin**, **Lua**, **Node.js** (ES5, ES6, AngularJS with Google Closure Compiler annotations) **Objective-C**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x), **Typescript** (Angular1.x, Angular2.x, Fetch, jQuery, Node)
+**Server stubs**                 | **Ada**, **C#** (ASP.NET Core, NancyFx), **C++** (Pistache, Restbed), **Erlang**, **Go**, **Haskell** (Servant), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples)), **Kotlin**, **PHP** (Lumen, Slim, Silex, [Symfony](https://symfony.com/), [Zend Expressive](https://github.com/zendframework/zend-expressive)), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** ([Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), Scalatra)
+**API documentation generators** | **HTML**, **Confluence Wiki**
+**Configuration files**          | [**Apache2**](https://httpd.apache.org/)
+**Others**                       | **JMeter**
 
-
-# Table of contents
+## Table of contents
 
   - [OpenAPI Generator](#openapi-generator)
   - [Overview](#overview)
   - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-    - [Compatibility](#compatibility)
-    - [Download JAR](#download-jar)
-    - [Build Projects](#building-projects)
-    - [Homebrew](#homebrew)
-    - [Docker](#docker)
-  - [Getting Started](#getting-started)
-  - [Usage](#usage)
-    - [Customization](#customization)
-    - [Workflow Integration](#workflow-integration)
-    - [Online Generators](#online-generators)
-    - [License Information on Generated Code](#license-information-on-generated-code)
-  - [Companies/Projects using OpenAPI Generator](#companiesprojects-using-openapi-generator)
-  - [Presentations/Videos/Tutorials/Books](#presentationsvideostutorialsbooks)
-  - [About Us](#about-us)
-    - [OpenAPI Generator Core Team](#openapi-generator-core-team)
-    - [OpenAPI Generator Technical Committee](#openapi-generator-technical-committee)
-    - [History of OpenAPI Generator](#history-of-openapi-generator)
-  - [License](#license)
+  - [1 - Installation](#1---installation)
+    - [1.1 - Compatibility](#11---compatibility)
+    - [1.2 - Download JAR](#12---download-jar)
+    - [1.3 - Build Projects](#13---build-projects)
+    - [1.4 - Homebrew](#14---homebrew)
+    - [1.5 - Docker](#15---docker)
+  - [2 - Getting Started](#2---getting-started)
+  - [3 - Usage](#3---usage)
+    - [3.1 - Customization](#31---customization)
+    - [3.2 - Workflow Integration](#32---workflow-integration-maven-gradle-github-cicd)
+    - [3.3 - Online Generators](#33---online-openapi-generator)
+    - [3.4 - License Information on Generated Code](#34---license-information-on-generated-code)
+  - [4 - Companies/Projects using OpenAPI Generator](#4---companiesprojects-using-openapi-generator)
+  - [5 - Presentations/Videos/Tutorials/Books](#5---presentationsvideostutorialsbooks)
+  - [6 - About Us](#6---about-us)
+    - [6.1 - OpenAPI Generator Core Team](#61---openapi-generator-core-team)
+    - [6.2 - OpenAPI Generator Technical Committee](#62---openapi-generator-technical-committee)
+    - [6.3 - History of OpenAPI Generator](#63---history-of-openapi-generator)
+  - [7 - License](#7---license)
 
-## Installation
+## [1 - Installation](#table-of-contents)
 
-### Compatibility
+### [1.1 - Compatibility](#table-of-contents)
 
 The OpenAPI Specification has undergone 3 revisions since initial creation in 2010.  The openapi-generator project has the following compatibilities with the OpenAPI Specification:
 
@@ -70,7 +89,8 @@ OpenAPI Generator Version    | Release Date | OpenAPI Spec compatibility | Notes
 3.0.0 (current master, upcoming release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.0.0-SNAPSHOT/)| TBD   | 1.0, 1.1, 1.2, 2.0, 3.0   | Minor release without breaking changes
 
 
-### Download JAR
+### [1.2 - Download JAR](#table-of-contents)
+
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
 JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.0.0/openapi-generator-cli-3.0.0.jar`
@@ -93,7 +113,7 @@ export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export PATH=${JAVA_HOME}/bin:$PATH
 ```
 
-### Build Projects
+### [1.3 - Build Projects](#table-of-contents)
 
 To build from source, you need the following installed and available in your `$PATH:`
 
@@ -111,7 +131,7 @@ If you don't have maven installed, you may directly use the included [maven wrap
 ./mvnw clean install
 ```
 
-### Homebrew
+### [1.4 - Homebrew](#table-of-contents)
 
 To install, run `brew install openapi-generator`
 
@@ -120,7 +140,7 @@ Here is an example usage to generate a Ruby client:
 openapi-generator generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l ruby -o /tmp/test/
 ```
 
-### Docker
+### [1.5 - Docker](#table-of-contents)
 
 #### Public Pre-built Docker images
 
@@ -205,7 +225,7 @@ cd /vagrant
 ./run-in-docker.sh mvn package
 ```
 
-## Getting Started
+## [2 - Getting Started](#table-of-contents)
 
 To generate a PHP client for [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml), please run the following
 ```sh
@@ -225,7 +245,7 @@ To get a list of **general** options available, please run `java -jar modules/op
 
 To get a list of PHP specified options (which can be passed to the generator with a config file via the `-c` option), please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar config-help -l php`
 
-## Usage
+## [3 - Usage](#table-of-contents)
 
 ### To generate a sample client library
 You can build a client against the [Petstore API](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml) as follows:
@@ -304,19 +324,19 @@ Other languages have petstore samples, too:
 ./bin/java-petstore.sh
 ./bin/objc-petstore.sh
 ```
-### Customization
+### [3.1 - Customization](#table-of-contents)
 
 Please refer to [customization.md](docs/customization.md) on how to customize the output (e.g. package name, version)
 
-### Workflow Integration (Maven, Gradle, Github, CI/CD)
+### [3.2 - Workflow Integration (Maven, Gradle, Github, CI/CD)](#table-of-contents)
 
 Please refer to [integration.md](docs/integration.md) on how to integrate OpenAPI generator with Maven, Gradle, Github and CI/CD.
 
-### Online OpenAPI generator
+### [3.3 - Online OpenAPI generator](#table-of-contents)
 
 Please refer to [online-openapi-generator.md](docs/online-openapi-generator.md) on how to run and use the `openapi-generator-online` - a web service for `openapi-generator`.
 
-### License information on Generated Code
+### [3.4 - License information on Generated Code](#table-of-contents)
 
 The OpenAPI Generator project is intended as a benefit for users of the Open API Specification.  The project itself has the [License](#license) as specified. In addition, please understand the following points:
 
@@ -325,21 +345,21 @@ The OpenAPI Generator project is intended as a benefit for users of the Open API
 
 When code is generated from this project, it shall be considered **AS IS** and owned by the user of the software.  There are no warranties--expressed or implied--for generated code.  You can do what you wish with it, and once generated, the code is your responsibility and subject to the licensing terms that you deem appropriate.
  
-# Companies/Projects using OpenAPI Generator
+## [4 - Companies/Projects using OpenAPI Generator](#table-of-contents)
 Here are some companies/projects using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
 - [REST United](https://restunited.com)
 
-# Presentations/Videos/Tutorials/Books
+## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
 
 
-# About Us
+## [6 - About Us](#table-of-contents)
 
-## OpenAPI Generator Core Team
+### [6.1 - OpenAPI Generator Core Team](#table-of-contents)
 
 OpenAPI Generator core team members are contributors who have been making significant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
 
-### Core Team Members
+#### Core Team Members
 * [@wing328](https://github.com/wing328) (2015/07)
 * [@jimschubert](https://github.com/jimschubert) (2016/05)
 * [@cbornet](https://github.com/cbornet) (2016/05)
@@ -348,7 +368,7 @@ OpenAPI Generator core team members are contributors who have been making signif
 * [@JFCote](https://github.com/JFCote) (2018/03)
 * [@jmini](https://github.com/jmini) (2018/04)
 
-### Template Creator
+#### Template Creator
 Here is a list of template creators:
  * API Clients:
    * Ada: @stcarrez
@@ -433,7 +453,7 @@ Here is a list of template creators:
  * Configuration
    * Apache2: @stkrwork
 
-### How to join the core team
+#### How to join the core team
 
 Here are the requirements to become a core team member:
 - rank within top 50 in https://github.com/openapitools/openapi-generator/graphs/contributors
@@ -446,7 +466,7 @@ Here are the requirements to become a core team member:
 
  To become a Template Creator, simply submit a PR for new API client (e.g. Rust, Elixir) or server stub (e.g. Ruby Grape) generator.
 
-## OpenAPI Generator Technical Committee
+### [6.2 - OpenAPI Generator Technical Committee](#table-of-contents)
 
 Members of the OpenAPI Generator technical committee shoulder the following responsibilities:
 
@@ -459,7 +479,7 @@ Who is eligible? Those who want to join must have at least 3 PRs merged into a g
 
 If you want to join the committee, please kindly apply by sending an email to wing328hk@gmail.com ([@wing328](https://github.com/wing328)) with your Github ID.
 
-### Members of Technical Committee
+#### Members of Technical Committee
 
 | Languages     | Member (join date) |
 |:-------------|:-------------|
@@ -494,11 +514,11 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | Swift     | @jgavris (2017/07) @ehyche (2017/08) @Edubits (2017/09) @jaz-ah (2017/09) @d-date  (2018/03) |
 | TypeScript | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) |
 
-## History of OpenAPI Generator
+### [6.3 - History of OpenAPI Generator](#table-of-contents)
 
 OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/swagger-codegen). In view of the issues with the Swagger Codegen 3.0.0 (beta) release and the disagreement on the project's direction, more than 40 top contributors and template creators of Swagger Codegen decided to fork Swagger Codegen and maintain a community-driven version called "OpenAPI Generator". Please refer to the [Q&A](docs/qna.md) for more information.
 
-### Founding Members (alphabetical order):
+#### Founding Members (alphabetical order):
 
 - [Akihito Nakano](https://github.com/ackintosh)
 - [Artem Ocheredko](https://github.com/galaxie)
@@ -546,7 +566,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 
 
 
-License
+## [7 - License](#table-of-contents)
 -------
 
 Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)  
