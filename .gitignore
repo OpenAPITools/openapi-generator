@@ -205,3 +205,6 @@ samples/server/petstore/erlang-server/rebar.lock
 samples/client/petstore/dart/petstore/packages
 samples/client/petstore/dart/flutter_petstore/test/packages
 samples/client/petstore/dart/petstore/test/packages
+
+## JS
+samples/client/petstore/javascript/package-lock.json
