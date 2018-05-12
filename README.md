@@ -56,29 +56,29 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
   - [OpenAPI Generator](#openapi-generator)
   - [Overview](#overview)
   - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-    - [Compatibility](#compatibility)
-    - [Download JAR](#download-jar)
-    - [Build Projects](#building-projects)
-    - [Homebrew](#homebrew)
-    - [Docker](#docker)
-  - [Getting Started](#getting-started)
-  - [Usage](#usage)
-    - [Customization](#customization)
-    - [Workflow Integration](#workflow-integration)
-    - [Online Generators](#online-generators)
-    - [License Information on Generated Code](#license-information-on-generated-code)
-  - [Companies/Projects using OpenAPI Generator](#companiesprojects-using-openapi-generator)
-  - [Presentations/Videos/Tutorials/Books](#presentationsvideostutorialsbooks)
-  - [About Us](#about-us)
-    - [OpenAPI Generator Core Team](#openapi-generator-core-team)
-    - [OpenAPI Generator Technical Committee](#openapi-generator-technical-committee)
-    - [History of OpenAPI Generator](#history-of-openapi-generator)
-  - [License](#license)
+  - [1 - Installation](#installation)
+    - [1.1 - Compatibility](#compatibility)
+    - [1.2 - Download JAR](#download-jar)
+    - [1.3 - Build Projects](#building-projects)
+    - [1.4 - Homebrew](#homebrew)
+    - [1.5 - Docker](#docker)
+  - [2 - Getting Started](#getting-started)
+  - [3 - Usage](#usage)
+    - [3.1 - Customization](#customization)
+    - [3.2 - Workflow Integration](#workflow-integration)
+    - [3.3 - Online Generators](#online-generators)
+    - [3.4 - License Information on Generated Code](#license-information-on-generated-code)
+  - [4 - Companies/Projects using OpenAPI Generator](#companiesprojects-using-openapi-generator)
+  - [5 - Presentations/Videos/Tutorials/Books](#presentationsvideostutorialsbooks)
+  - [6 - About Us](#about-us)
+    - [6.1 - OpenAPI Generator Core Team](#openapi-generator-core-team)
+    - [6.2 - OpenAPI Generator Technical Committee](#openapi-generator-technical-committee)
+    - [6.3 - History of OpenAPI Generator](#history-of-openapi-generator)
+  - [7 - License](#license)
 
-## Installation
+## 1 - Installation
 
-### Compatibility
+### 1.1 - Compatibility
 
 The OpenAPI Specification has undergone 3 revisions since initial creation in 2010.  The openapi-generator project has the following compatibilities with the OpenAPI Specification:
 
@@ -89,7 +89,8 @@ OpenAPI Generator Version    | Release Date | OpenAPI Spec compatibility | Notes
 3.0.0 (current master, upcoming release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.0.0-SNAPSHOT/)| TBD   | 1.0, 1.1, 1.2, 2.0, 3.0   | Minor release without breaking changes
 
 
-### Download JAR
+### 1.2 - Download JAR
+
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
 JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.0.0/openapi-generator-cli-3.0.0.jar`
@@ -112,7 +113,7 @@ export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export PATH=${JAVA_HOME}/bin:$PATH
 ```
 
-### Build Projects
+### 1.3 - Build Projects
 
 To build from source, you need the following installed and available in your `$PATH:`
 
@@ -130,7 +131,7 @@ If you don't have maven installed, you may directly use the included [maven wrap
 ./mvnw clean install
 ```
 
-### Homebrew
+### 1.4 - Homebrew
 
 To install, run `brew install openapi-generator`
 
@@ -139,7 +140,7 @@ Here is an example usage to generate a Ruby client:
 openapi-generator generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l ruby -o /tmp/test/
 ```
 
-### Docker
+### 1.5 - Docker
 
 #### Public Pre-built Docker images
 
@@ -224,7 +225,7 @@ cd /vagrant
 ./run-in-docker.sh mvn package
 ```
 
-## Getting Started
+## 2 - Getting Started
 
 To generate a PHP client for [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml), please run the following
 ```sh
@@ -244,7 +245,7 @@ To get a list of **general** options available, please run `java -jar modules/op
 
 To get a list of PHP specified options (which can be passed to the generator with a config file via the `-c` option), please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar config-help -l php`
 
-## Usage
+## 3 - Usage
 
 ### To generate a sample client library
 You can build a client against the [Petstore API](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml) as follows:
@@ -323,19 +324,19 @@ Other languages have petstore samples, too:
 ./bin/java-petstore.sh
 ./bin/objc-petstore.sh
 ```
-### Customization
+### 3.1 - Customization
 
 Please refer to [customization.md](docs/customization.md) on how to customize the output (e.g. package name, version)
 
-### Workflow Integration (Maven, Gradle, Github, CI/CD)
+### 3.2 - Workflow Integration (Maven, Gradle, Github, CI/CD)
 
 Please refer to [integration.md](docs/integration.md) on how to integrate OpenAPI generator with Maven, Gradle, Github and CI/CD.
 
-### Online OpenAPI generator
+### 3.3 - Online OpenAPI generator
 
 Please refer to [online-openapi-generator.md](docs/online-openapi-generator.md) on how to run and use the `openapi-generator-online` - a web service for `openapi-generator`.
 
-### License information on Generated Code
+### 3.4 - License information on Generated Code
 
 The OpenAPI Generator project is intended as a benefit for users of the Open API Specification.  The project itself has the [License](#license) as specified. In addition, please understand the following points:
 
@@ -344,17 +345,17 @@ The OpenAPI Generator project is intended as a benefit for users of the Open API
 
 When code is generated from this project, it shall be considered **AS IS** and owned by the user of the software.  There are no warranties--expressed or implied--for generated code.  You can do what you wish with it, and once generated, the code is your responsibility and subject to the licensing terms that you deem appropriate.
  
-# Companies/Projects using OpenAPI Generator
+# 4 - Companies/Projects using OpenAPI Generator
 Here are some companies/projects using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
 - [REST United](https://restunited.com)
 
-# Presentations/Videos/Tutorials/Books
+# 5 - Presentations/Videos/Tutorials/Books
 
 
-# About Us
+# 6 - About Us
 
-## OpenAPI Generator Core Team
+## 6.1 - OpenAPI Generator Core Team
 
 OpenAPI Generator core team members are contributors who have been making significant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
 
@@ -465,7 +466,7 @@ Here are the requirements to become a core team member:
 
  To become a Template Creator, simply submit a PR for new API client (e.g. Rust, Elixir) or server stub (e.g. Ruby Grape) generator.
 
-## OpenAPI Generator Technical Committee
+## 6.2 - OpenAPI Generator Technical Committee
 
 Members of the OpenAPI Generator technical committee shoulder the following responsibilities:
 
@@ -513,7 +514,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | Swift     | @jgavris (2017/07) @ehyche (2017/08) @Edubits (2017/09) @jaz-ah (2017/09) @d-date  (2018/03) |
 | TypeScript | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) |
 
-## History of OpenAPI Generator
+## 6.3 - History of OpenAPI Generator
 
 OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/swagger-codegen). In view of the issues with the Swagger Codegen 3.0.0 (beta) release and the disagreement on the project's direction, more than 40 top contributors and template creators of Swagger Codegen decided to fork Swagger Codegen and maintain a community-driven version called "OpenAPI Generator". Please refer to the [Q&A](docs/qna.md) for more information.
 
