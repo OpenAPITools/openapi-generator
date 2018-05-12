@@ -56,25 +56,25 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
   - [OpenAPI Generator](#openapi-generator)
   - [Overview](#overview)
   - [Table of Contents](#table-of-contents)
-  - [1 - Installation](#installation)
-    - [1.1 - Compatibility](#compatibility)
-    - [1.2 - Download JAR](#download-jar)
-    - [1.3 - Build Projects](#building-projects)
-    - [1.4 - Homebrew](#homebrew)
-    - [1.5 - Docker](#docker)
-  - [2 - Getting Started](#getting-started)
-  - [3 - Usage](#usage)
-    - [3.1 - Customization](#customization)
-    - [3.2 - Workflow Integration](#workflow-integration)
-    - [3.3 - Online Generators](#online-generators)
-    - [3.4 - License Information on Generated Code](#license-information-on-generated-code)
-  - [4 - Companies/Projects using OpenAPI Generator](#companiesprojects-using-openapi-generator)
-  - [5 - Presentations/Videos/Tutorials/Books](#presentationsvideostutorialsbooks)
-  - [6 - About Us](#about-us)
-    - [6.1 - OpenAPI Generator Core Team](#openapi-generator-core-team)
-    - [6.2 - OpenAPI Generator Technical Committee](#openapi-generator-technical-committee)
-    - [6.3 - History of OpenAPI Generator](#history-of-openapi-generator)
-  - [7 - License](#license)
+  - [1 - Installation](#1---installation)
+    - [1.1 - Compatibility](#11---compatibility)
+    - [1.2 - Download JAR](#12---download-jar)
+    - [1.3 - Build Projects](#13---build-projects)
+    - [1.4 - Homebrew](#14---homebrew)
+    - [1.5 - Docker](#15---docker)
+  - [2 - Getting Started](#2---getting-started)
+  - [3 - Usage](#3---usage)
+    - [3.1 - Customization](#31---customization)
+    - [3.2 - Workflow Integration](#32---workflow-integration-maven-gradle-github-cicd)
+    - [3.3 - Online Generators](#33---online-openapi-generator)
+    - [3.4 - License Information on Generated Code](#34---license-information-on-generated-code)
+  - [4 - Companies/Projects using OpenAPI Generator](#4---companiesprojects-using-openapi-generator)
+  - [5 - Presentations/Videos/Tutorials/Books](#5---presentationsvideostutorialsbooks)
+  - [6 - About Us](#6---about-us)
+    - [6.1 - OpenAPI Generator Core Team](#61---openapi-generator-core-team)
+    - [6.2 - OpenAPI Generator Technical Committee](#62---openapi-generator-technical-committee)
+    - [6.3 - History of OpenAPI Generator](#63---history-of-openapi-generator)
+  - [7 - License](#7---license)
 
 ## 1 - Installation
 
@@ -566,7 +566,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 
 
 
-License
+## 7 - License
 -------
 
 Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)  
