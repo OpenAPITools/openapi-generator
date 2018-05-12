@@ -36,7 +36,7 @@ addons:
 
 before_install:
   # install rust
-  - $ curl -sSf https://static.rust-lang.org/rustup.sh | sh
+  - curl -sSf https://static.rust-lang.org/rustup.sh | sh
   # required when sudo: required for the Ruby petstore tests
   - gem install bundler
   - npm install -g typescript
