@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.AdditionalPropertiesClass();
+    instance = new OpenAPIPetstore.AdditionalPropertiesClass();
   });
 
   var getProperty = function(object, getter, property) {
@@ -37,19 +37,19 @@
   describe('AdditionalPropertiesClass', function() {
     it('should create an instance of AdditionalPropertiesClass', function() {
       // uncomment below and update the code to test AdditionalPropertiesClass
-      //var instane = new SwaggerPetstore.AdditionalPropertiesClass();
-      //expect(instance).to.be.a(SwaggerPetstore.AdditionalPropertiesClass);
+      //var instane = new OpenAPIPetstore.AdditionalPropertiesClass();
+      //expect(instance).to.be.a(OpenAPIPetstore.AdditionalPropertiesClass);
     });
 
     it('should have the property mapProperty (base name: "map_property")', function() {
       // uncomment below and update the code to test the property mapProperty
-      //var instane = new SwaggerPetstore.AdditionalPropertiesClass();
+      //var instane = new OpenAPIPetstore.AdditionalPropertiesClass();
       //expect(instance).to.be();
     });
 
     it('should have the property mapOfMapProperty (base name: "map_of_map_property")', function() {
       // uncomment below and update the code to test the property mapOfMapProperty
-      //var instane = new SwaggerPetstore.AdditionalPropertiesClass();
+      //var instane = new OpenAPIPetstore.AdditionalPropertiesClass();
       //expect(instance).to.be();
     });
 

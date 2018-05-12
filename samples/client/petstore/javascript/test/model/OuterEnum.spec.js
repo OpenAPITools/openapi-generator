@@ -1,5 +1,5 @@
 /**
- * Swagger Petstore
+ * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
@@ -20,9 +20,9 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
@@ -49,8 +49,8 @@
   describe('OuterEnum', function() {
     it('should create an instance of OuterEnum', function() {
       // uncomment below and update the code to test OuterEnum
-      //var instane = new SwaggerPetstore.OuterEnum();
-      //expect(instance).to.be.a(SwaggerPetstore.OuterEnum);
+      //var instane = new OpenAPIPetstore.OuterEnum();
+      //expect(instance).to.be.a(OpenAPIPetstore.OuterEnum);
     });
 
   });

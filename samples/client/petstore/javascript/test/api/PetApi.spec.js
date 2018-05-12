@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var api;
 
   beforeEach(function() {
-    api = new SwaggerPetstore.PetApi();
+    api = new OpenAPIPetstore.PetApi();
   });
 
   var getProperty = function(object, getter, property) {
@@ -36,11 +36,11 @@
 
   var createRandomPet = function() {
     var id = new Date().getTime();
-    var pet = new SwaggerPetstore.Pet();
+    var pet = new OpenAPIPetstore.Pet();
     setProperty(pet, "setId", "id", id);
     setProperty(pet, "setName", "name", "pet" + id);
 
-    var category = new SwaggerPetstore.Category();
+    var category = new OpenAPIPetstore.Category();
     setProperty(category, "setId", "id", id);
     setProperty(category, "setName", "name", "category" + id);
     setProperty(pet, "setCategory", "category", category);
@@ -64,12 +64,12 @@
           expect(response.ok).to.be(true);
           expect(response.get('Content-Type')).to.be('application/json');
 
-          expect(fetched).to.be.a(SwaggerPetstore.Pet);
+          expect(fetched).to.be.a(OpenAPIPetstore.Pet);
           expect(fetched.id).to.be(pet.id);
           expect(getProperty(fetched, "getPhotoUrls", "photoUrls"))
             .to.eql(getProperty(pet, "getPhotoUrls", "photoUrls"));
           expect(getProperty(fetched, "getCategory", "category"))
-            .to.be.a(SwaggerPetstore.Category);
+            .to.be.a(OpenAPIPetstore.Category);
           expect(getProperty(getProperty(fetched, "getCategory", "category"), "getName", "name"))
             .to.be(getProperty(getProperty(pet, "getCategory", "category"), "getName", "name"));
 
@@ -89,13 +89,13 @@
         api.getPetByIdInObject(pet.id, function(error, fetched) {
           if (error) throw error;
 
-          expect(fetched).to.be.a(SwaggerPetstore.InlineResponse200);
+          expect(fetched).to.be.a(OpenAPIPetstore.InlineResponse200);
           expect(fetched.id).to.be(pet.id);
           expect(fetched.name).to.be(pet.name);
 
           var categoryObj = fetched.category;
           expect(categoryObj).to.be.a(Object);
-          expect(categoryObj).not.to.be.a(SwaggerPetstore.Category);
+          expect(categoryObj).not.to.be.a(OpenAPIPetstore.Category);
           expect(categoryObj.id)
             .to.be(getProperty(getProperty(pet, "getCategory", "category"), "getId", "id"));
           expect(categoryObj.name)
