@@ -1,5 +1,5 @@
 /**
- * Swagger Petstore
+ * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
@@ -20,15 +20,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.ClassModel();
+    instance = new OpenAPIPetstore.ClassModel();
   });
 
   var getProperty = function(object, getter, property) {
@@ -50,13 +50,13 @@
   describe('ClassModel', function() {
     it('should create an instance of ClassModel', function() {
       // uncomment below and update the code to test ClassModel
-      //var instane = new SwaggerPetstore.ClassModel();
-      //expect(instance).to.be.a(SwaggerPetstore.ClassModel);
+      //var instane = new OpenAPIPetstore.ClassModel();
+      //expect(instance).to.be.a(OpenAPIPetstore.ClassModel);
     });
 
     it('should have the property _class (base name: "_class")', function() {
       // uncomment below and update the code to test the property _class
-      //var instane = new SwaggerPetstore.ClassModel();
+      //var instane = new OpenAPIPetstore.ClassModel();
       //expect(instance).to.be();
     });
 

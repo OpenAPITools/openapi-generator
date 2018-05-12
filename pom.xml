@@ -847,18 +847,17 @@
                 </property>
             </activation>
             <modules>
-                <!-- <module>samples/server/petstore/erlang-server</module> note: make sample compilation work -->
                 <!-- clients -->
                 <!-- elm client not fully ready for CI yet
                 <module>samples/client/petstore/elm</module>-->
                 <module>samples/client/petstore/groovy</module>
                 <module>samples/client/petstore/rust</module>
-                <module>samples/client/petstore/perl</module>
+                <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/client/petstore/akka-scala</module>
-                <module>samples/client/petstore/javascript</module>
+                <!--<module>samples/client/petstore/javascript</module>-->
                 <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/python-tornado</module>
                 <module>samples/client/petstore/python-asyncio</module>

@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.Model200Response();
+    instance = new OpenAPIPetstore.Model200Response();
   });
 
   var getProperty = function(object, getter, property) {
@@ -37,13 +37,13 @@
   describe('Model200Response', function() {
     it('should create an instance of Model200Response', function() {
       // uncomment below and update the code to test Model200Response
-      //var instane = new SwaggerPetstore.Model200Response();
-      //expect(instance).to.be.a(SwaggerPetstore.Model200Response);
+      //var instane = new OpenAPIPetstore.Model200Response();
+      //expect(instance).to.be.a(OpenAPIPetstore.Model200Response);
     });
 
     it('should have the property name (base name: "name")', function() {
       // uncomment below and update the code to test the property name
-      //var instane = new SwaggerPetstore.Model200Response();
+      //var instane = new OpenAPIPetstore.Model200Response();
       //expect(instance).to.be();
     });
 

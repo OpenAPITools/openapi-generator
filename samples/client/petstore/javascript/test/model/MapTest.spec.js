@@ -1,5 +1,5 @@
 /**
- * Swagger Petstore
+ * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
@@ -31,15 +31,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.MapTest();
+    instance = new OpenAPIPetstore.MapTest();
   });
 
   var getProperty = function(object, getter, property) {
@@ -61,25 +61,25 @@
   describe('MapTest', function() {
     it('should create an instance of MapTest', function() {
       // uncomment below and update the code to test MapTest
-      //var instane = new SwaggerPetstore.MapTest();
-      //expect(instance).to.be.a(SwaggerPetstore.MapTest);
+      //var instane = new OpenAPIPetstore.MapTest();
+      //expect(instance).to.be.a(OpenAPIPetstore.MapTest);
     });
 
     it('should have the property mapMapOfString (base name: "map_map_of_string")', function() {
       // uncomment below and update the code to test the property mapMapOfString
-      //var instane = new SwaggerPetstore.MapTest();
+      //var instane = new OpenAPIPetstore.MapTest();
       //expect(instance).to.be();
     });
 
     it('should have the property mapMapOfEnum (base name: "map_map_of_enum")', function() {
       // uncomment below and update the code to test the property mapMapOfEnum
-      //var instane = new SwaggerPetstore.MapTest();
+      //var instane = new OpenAPIPetstore.MapTest();
       //expect(instance).to.be();
     });
 
     it('should have the property mapOfEnumString (base name: "map_of_enum_string")', function() {
       // uncomment below and update the code to test the property mapOfEnumString
-      //var instane = new SwaggerPetstore.MapTest();
+      //var instane = new OpenAPIPetstore.MapTest();
       //expect(instance).to.be();
     });
 

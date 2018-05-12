@@ -7,9 +7,9 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
@@ -36,8 +36,8 @@
   describe('EnumClass', function() {
     it('should create an instance of EnumClass', function() {
       // uncomment below and update the code to test EnumClass
-      //var instane = new SwaggerPetstore.EnumClass();
-      //expect(instance).to.be.a(SwaggerPetstore.EnumClass);
+      //var instane = new OpenAPIPetstore.EnumClass();
+      //expect(instance).to.be.a(OpenAPIPetstore.EnumClass);
     });
 
   });

@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.SpecialModelName();
+    instance = new OpenAPIPetstore.SpecialModelName();
   });
 
   var getProperty = function(object, getter, property) {
@@ -37,13 +37,13 @@
   describe('SpecialModelName', function() {
     it('should create an instance of SpecialModelName', function() {
       // uncomment below and update the code to test SpecialModelName
-      //var instane = new SwaggerPetstore.SpecialModelName();
-      //expect(instance).to.be.a(SwaggerPetstore.SpecialModelName);
+      //var instane = new OpenAPIPetstore.SpecialModelName();
+      //expect(instance).to.be.a(OpenAPIPetstore.SpecialModelName);
     });
 
     it('should have the property specialPropertyName (base name: "$special[property.name]")', function() {
       // uncomment below and update the code to test the property specialPropertyName
-      //var instane = new SwaggerPetstore.SpecialModelName();
+      //var instane = new OpenAPIPetstore.SpecialModelName();
       //expect(instance).to.be();
     });
 

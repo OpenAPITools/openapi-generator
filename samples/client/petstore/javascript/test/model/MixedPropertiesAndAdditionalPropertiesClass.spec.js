@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.MixedPropertiesAndAdditionalPropertiesClass();
+    instance = new OpenAPIPetstore.MixedPropertiesAndAdditionalPropertiesClass();
   });
 
   var getProperty = function(object, getter, property) {
@@ -37,25 +37,25 @@
   describe('MixedPropertiesAndAdditionalPropertiesClass', function() {
     it('should create an instance of MixedPropertiesAndAdditionalPropertiesClass', function() {
       // uncomment below and update the code to test MixedPropertiesAndAdditionalPropertiesClass
-      //var instane = new SwaggerPetstore.MixedPropertiesAndAdditionalPropertiesClass();
-      //expect(instance).to.be.a(SwaggerPetstore.MixedPropertiesAndAdditionalPropertiesClass);
+      //var instane = new OpenAPIPetstore.MixedPropertiesAndAdditionalPropertiesClass();
+      //expect(instance).to.be.a(OpenAPIPetstore.MixedPropertiesAndAdditionalPropertiesClass);
     });
 
     it('should have the property uuid (base name: "uuid")', function() {
       // uncomment below and update the code to test the property uuid
-      //var instane = new SwaggerPetstore.MixedPropertiesAndAdditionalPropertiesClass();
+      //var instane = new OpenAPIPetstore.MixedPropertiesAndAdditionalPropertiesClass();
       //expect(instance).to.be();
     });
 
     it('should have the property dateTime (base name: "dateTime")', function() {
       // uncomment below and update the code to test the property dateTime
-      //var instane = new SwaggerPetstore.MixedPropertiesAndAdditionalPropertiesClass();
+      //var instane = new OpenAPIPetstore.MixedPropertiesAndAdditionalPropertiesClass();
       //expect(instance).to.be();
     });
 
     it('should have the property map (base name: "map")', function() {
       // uncomment below and update the code to test the property map
-      //var instane = new SwaggerPetstore.MixedPropertiesAndAdditionalPropertiesClass();
+      //var instane = new OpenAPIPetstore.MixedPropertiesAndAdditionalPropertiesClass();
       //expect(instance).to.be();
     });
 

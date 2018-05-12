@@ -1,5 +1,5 @@
 /**
- * Swagger Petstore
+ * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
@@ -20,15 +20,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.OuterComposite();
+    instance = new OpenAPIPetstore.OuterComposite();
   });
 
   var getProperty = function(object, getter, property) {
@@ -50,25 +50,25 @@
   describe('OuterComposite', function() {
     it('should create an instance of OuterComposite', function() {
       // uncomment below and update the code to test OuterComposite
-      //var instane = new SwaggerPetstore.OuterComposite();
-      //expect(instance).to.be.a(SwaggerPetstore.OuterComposite);
+      //var instane = new OpenAPIPetstore.OuterComposite();
+      //expect(instance).to.be.a(OpenAPIPetstore.OuterComposite);
     });
 
     it('should have the property myNumber (base name: "my_number")', function() {
       // uncomment below and update the code to test the property myNumber
-      //var instane = new SwaggerPetstore.OuterComposite();
+      //var instane = new OpenAPIPetstore.OuterComposite();
       //expect(instance).to.be();
     });
 
     it('should have the property myString (base name: "my_string")', function() {
       // uncomment below and update the code to test the property myString
-      //var instane = new SwaggerPetstore.OuterComposite();
+      //var instane = new OpenAPIPetstore.OuterComposite();
       //expect(instance).to.be();
     });
 
     it('should have the property myBoolean (base name: "my_boolean")', function() {
       // uncomment below and update the code to test the property myBoolean
-      //var instane = new SwaggerPetstore.OuterComposite();
+      //var instane = new OpenAPIPetstore.OuterComposite();
       //expect(instance).to.be();
     });
 

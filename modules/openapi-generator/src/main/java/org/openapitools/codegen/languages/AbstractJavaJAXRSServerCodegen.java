@@ -41,7 +41,7 @@ import java.util.Map;
 
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     public static final String SERVER_PORT = "serverPort";
-	/**
+    /**
      * Name of the sub-directory in "src/main/resource" where to find the
      * Mustache template for the JAX-RS Codegen.
      */

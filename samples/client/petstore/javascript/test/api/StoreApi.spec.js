@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var api;
 
   beforeEach(function() {
-    api = new SwaggerPetstore.StoreApi();
+    api = new OpenAPIPetstore.StoreApi();
   });
 
   describe('StoreApi', function() {
