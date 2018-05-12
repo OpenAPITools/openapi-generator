@@ -52,7 +52,7 @@ before_install:
   - sudo apt-get install -qq curl
   # install perl module
   - cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
-  - cpanm Test::Exception Test::More Log::Any LWP::UserAgent JSON URI:Query Module::Runtime DateTime Module::Find Moose::Role
+  #- cpanm Test::Exception Test::More Log::Any LWP::UserAgent JSON URI:Query Module::Runtime DateTime Module::Find Moose::Role
   # comment out below as installation failed in travis
   # Add rebar3 build tool and recent Erlang/OTP for Erlang petstore server tests.
   # - Travis CI does not support rebar3 [yet](https://github.com/travis-ci/travis-ci/issues/6506#issuecomment-275189490).
