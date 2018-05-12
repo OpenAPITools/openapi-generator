@@ -5,7 +5,7 @@
 """
 Run the tests.
 $ pip install nose (optional)
-$ cd SwaggerPetstore-python
+$ cd OpenAP/Petstore-python
 $ nosetests -v
 """
 

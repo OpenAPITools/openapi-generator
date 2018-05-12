@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.swagger</groupId>
+    <groupId>org.openapitools</groupId>
     <artifactId>PythonPetstoreClientTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>Python Swagger Petstore Client</name>
+    <name>Python OpenAPI Petstore Client</name>
     <build>
         <plugins>
             <plugin>
