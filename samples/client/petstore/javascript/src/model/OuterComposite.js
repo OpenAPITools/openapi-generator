@@ -64,13 +64,13 @@
       obj = obj || new exports();
 
       if (data.hasOwnProperty('my_number')) {
-        obj['my_number'] = 'Number'.constructFromObject(data['Number']);
+        obj['my_number'] = 'Number'.constructFromObject(data['my_number']);
       }
       if (data.hasOwnProperty('my_string')) {
-        obj['my_string'] = 'String'.constructFromObject(data['String']);
+        obj['my_string'] = 'String'.constructFromObject(data['my_string']);
       }
       if (data.hasOwnProperty('my_boolean')) {
-        obj['my_boolean'] = 'Boolean'.constructFromObject(data['Boolean']);
+        obj['my_boolean'] = 'Boolean'.constructFromObject(data['my_boolean']);
       }
     }
     return obj;

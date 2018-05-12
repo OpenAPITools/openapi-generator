@@ -1,5 +1,5 @@
 /**
- * Swagger Petstore
+ * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
@@ -31,15 +31,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.EnumArrays();
+    instance = new OpenAPIPetstore.EnumArrays();
   });
 
   var getProperty = function(object, getter, property) {
@@ -61,19 +61,19 @@
   describe('EnumArrays', function() {
     it('should create an instance of EnumArrays', function() {
       // uncomment below and update the code to test EnumArrays
-      //var instane = new SwaggerPetstore.EnumArrays();
-      //expect(instance).to.be.a(SwaggerPetstore.EnumArrays);
+      //var instane = new OpenAPIPetstore.EnumArrays();
+      //expect(instance).to.be.a(OpenAPIPetstore.EnumArrays);
     });
 
     it('should have the property justSymbol (base name: "just_symbol")', function() {
       // uncomment below and update the code to test the property justSymbol
-      //var instane = new SwaggerPetstore.EnumArrays();
+      //var instane = new OpenAPIPetstore.EnumArrays();
       //expect(instance).to.be();
     });
 
     it('should have the property arrayEnum (base name: "array_enum")', function() {
       // uncomment below and update the code to test the property arrayEnum
-      //var instane = new SwaggerPetstore.EnumArrays();
+      //var instane = new OpenAPIPetstore.EnumArrays();
       //expect(instance).to.be();
     });
 

@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.Order();
+    instance = new OpenAPIPetstore.Order();
   });
 
   var getProperty = function(object, getter, property) {
@@ -37,43 +37,43 @@
   describe('Order', function() {
     it('should create an instance of Order', function() {
       // uncomment below and update the code to test Order
-      //var instane = new SwaggerPetstore.Order();
-      //expect(instance).to.be.a(SwaggerPetstore.Order);
+      //var instane = new OpenAPIPetstore.Order();
+      //expect(instance).to.be.a(OpenAPIPetstore.Order);
     });
 
     it('should have the property id (base name: "id")', function() {
       // uncomment below and update the code to test the property id
-      //var instane = new SwaggerPetstore.Order();
+      //var instane = new OpenAPIPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property petId (base name: "petId")', function() {
       // uncomment below and update the code to test the property petId
-      //var instane = new SwaggerPetstore.Order();
+      //var instane = new OpenAPIPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property quantity (base name: "quantity")', function() {
       // uncomment below and update the code to test the property quantity
-      //var instane = new SwaggerPetstore.Order();
+      //var instane = new OpenAPIPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property shipDate (base name: "shipDate")', function() {
       // uncomment below and update the code to test the property shipDate
-      //var instane = new SwaggerPetstore.Order();
+      //var instane = new OpenAPIPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property status (base name: "status")', function() {
       // uncomment below and update the code to test the property status
-      //var instane = new SwaggerPetstore.Order();
+      //var instane = new OpenAPIPetstore.Order();
       //expect(instance).to.be();
     });
 
     it('should have the property complete (base name: "complete")', function() {
       // uncomment below and update the code to test the property complete
-      //var instane = new SwaggerPetstore.Order();
+      //var instane = new OpenAPIPetstore.Order();
       //expect(instance).to.be();
     });
 

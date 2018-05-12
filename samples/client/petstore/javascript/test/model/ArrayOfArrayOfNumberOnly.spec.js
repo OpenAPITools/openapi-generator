@@ -1,5 +1,5 @@
 /**
- * Swagger Petstore
+ * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
@@ -31,15 +31,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.ArrayOfArrayOfNumberOnly();
+    instance = new OpenAPIPetstore.ArrayOfArrayOfNumberOnly();
   });
 
   var getProperty = function(object, getter, property) {
@@ -61,13 +61,13 @@
   describe('ArrayOfArrayOfNumberOnly', function() {
     it('should create an instance of ArrayOfArrayOfNumberOnly', function() {
       // uncomment below and update the code to test ArrayOfArrayOfNumberOnly
-      //var instane = new SwaggerPetstore.ArrayOfArrayOfNumberOnly();
-      //expect(instance).to.be.a(SwaggerPetstore.ArrayOfArrayOfNumberOnly);
+      //var instane = new OpenAPIPetstore.ArrayOfArrayOfNumberOnly();
+      //expect(instance).to.be.a(OpenAPIPetstore.ArrayOfArrayOfNumberOnly);
     });
 
     it('should have the property arrayArrayNumber (base name: "ArrayArrayNumber")', function() {
       // uncomment below and update the code to test the property arrayArrayNumber
-      //var instane = new SwaggerPetstore.ArrayOfArrayOfNumberOnly();
+      //var instane = new OpenAPIPetstore.ArrayOfArrayOfNumberOnly();
       //expect(instance).to.be();
     });
 

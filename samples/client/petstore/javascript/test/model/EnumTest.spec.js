@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.EnumTest();
+    instance = new OpenAPIPetstore.EnumTest();
   });
 
   var getProperty = function(object, getter, property) {
@@ -37,25 +37,25 @@
   describe('EnumTest', function() {
     it('should create an instance of EnumTest', function() {
       // uncomment below and update the code to test EnumTest
-      //var instane = new SwaggerPetstore.EnumTest();
-      //expect(instance).to.be.a(SwaggerPetstore.EnumTest);
+      //var instane = new OpenAPIPetstore.EnumTest();
+      //expect(instance).to.be.a(OpenAPIPetstore.EnumTest);
     });
 
     it('should have the property enumString (base name: "enum_string")', function() {
       // uncomment below and update the code to test the property enumString
-      //var instane = new SwaggerPetstore.EnumTest();
+      //var instane = new OpenAPIPetstore.EnumTest();
       //expect(instance).to.be();
     });
 
     it('should have the property enumInteger (base name: "enum_integer")', function() {
       // uncomment below and update the code to test the property enumInteger
-      //var instane = new SwaggerPetstore.EnumTest();
+      //var instane = new OpenAPIPetstore.EnumTest();
       //expect(instance).to.be();
     });
 
     it('should have the property enumNumber (base name: "enum_number")', function() {
       // uncomment below and update the code to test the property enumNumber
-      //var instane = new SwaggerPetstore.EnumTest();
+      //var instane = new OpenAPIPetstore.EnumTest();
       //expect(instance).to.be();
     });
 

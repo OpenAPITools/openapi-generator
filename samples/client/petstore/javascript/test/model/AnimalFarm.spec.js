@@ -7,15 +7,15 @@
     factory(require('expect.js'), require('../../src/index'));
   } else {
     // Browser globals (root is window)
-    factory(root.expect, root.SwaggerPetstore);
+    factory(root.expect, root.OpenAPIPetstore);
   }
-}(this, function(expect, SwaggerPetstore) {
+}(this, function(expect, OpenAPIPetstore) {
   'use strict';
 
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.AnimalFarm();
+    instance = new OpenAPIPetstore.AnimalFarm();
   });
 
   var getProperty = function(object, getter, property) {
@@ -37,8 +37,8 @@
   describe('AnimalFarm', function() {
     it('should create an instance of AnimalFarm', function() {
       // uncomment below and update the code to test AnimalFarm
-      //var instane = new SwaggerPetstore.AnimalFarm();
-      //expect(instance).to.be.a(SwaggerPetstore.AnimalFarm);
+      //var instane = new OpenAPIPetstore.AnimalFarm();
+      //expect(instance).to.be.a(OpenAPIPetstore.AnimalFarm);
     });
 
   });
