@@ -23,6 +23,8 @@ import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
@@ -32,6 +34,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CppQt5ClientCodegen.class);
+
     public static final String CPP_NAMESPACE = "cppNamespace";
     public static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate client.pri.";

@@ -34,7 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig {
-    static Logger LOGGER = LoggerFactory.getLogger(ErlangClientCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ErlangClientCodegen.class);
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";

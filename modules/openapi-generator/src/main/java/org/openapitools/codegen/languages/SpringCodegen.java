@@ -37,6 +37,8 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.utils.URLPathUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +53,8 @@ import java.util.regex.Matcher;
 
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, OptionalFeatures {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
+
     public static final String DEFAULT_LIBRARY = "spring-boot";
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";

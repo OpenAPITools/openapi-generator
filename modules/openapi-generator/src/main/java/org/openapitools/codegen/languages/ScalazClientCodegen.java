@@ -21,6 +21,8 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +32,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class ScalazClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScalazClientCodegen.class);
 
     public ScalazClientCodegen() {
         super();

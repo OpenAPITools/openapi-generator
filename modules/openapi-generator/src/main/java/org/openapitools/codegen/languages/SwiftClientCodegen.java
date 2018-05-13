@@ -26,6 +26,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
@@ -38,6 +40,8 @@ import java.util.regex.Pattern;
  */
 
 public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SwiftClientCodegen.class);
+
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
     public static final String UNWRAP_REQUIRED = "unwrapRequired";

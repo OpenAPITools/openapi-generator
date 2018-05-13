@@ -32,6 +32,8 @@ import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
@@ -44,6 +46,8 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ObjcClientCodegen.class);
+
     public static final String CLASS_PREFIX = "classPrefix";
     public static final String POD_NAME = "podName";
     public static final String AUTHOR_NAME = "authorName";

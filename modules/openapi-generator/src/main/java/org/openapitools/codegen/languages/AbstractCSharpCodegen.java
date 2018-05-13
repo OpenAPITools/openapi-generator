@@ -71,7 +71,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected Set<String> collectionTypes;
     protected Set<String> mapTypes;
 
-    protected Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
     public AbstractCSharpCodegen() {
         super();

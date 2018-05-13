@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
 
 public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
-    static Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
 
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
     public static final String PACKAGE_PATH = "packagePath";
