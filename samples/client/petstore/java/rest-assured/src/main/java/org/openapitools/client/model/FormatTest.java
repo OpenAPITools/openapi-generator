@@ -34,43 +34,56 @@ import org.threeten.bp.OffsetDateTime;
  */
 
 public class FormatTest {
-  @SerializedName("integer")
+  public static final String SERIALIZED_NAME_Integer = "integer";
+  @SerializedName(SERIALIZED_NAME_Integer)
   private Integer integer = null;
 
-  @SerializedName("int32")
+  public static final String SERIALIZED_NAME_Int32 = "int32";
+  @SerializedName(SERIALIZED_NAME_Int32)
   private Integer int32 = null;
 
-  @SerializedName("int64")
+  public static final String SERIALIZED_NAME_Int64 = "int64";
+  @SerializedName(SERIALIZED_NAME_Int64)
   private Long int64 = null;
 
-  @SerializedName("number")
+  public static final String SERIALIZED_NAME_Number = "number";
+  @SerializedName(SERIALIZED_NAME_Number)
   private BigDecimal number = null;
 
-  @SerializedName("float")
+  public static final String SERIALIZED_NAME_Float = "float";
+  @SerializedName(SERIALIZED_NAME_Float)
   private Float _float = null;
 
-  @SerializedName("double")
+  public static final String SERIALIZED_NAME_Double = "double";
+  @SerializedName(SERIALIZED_NAME_Double)
   private Double _double = null;
 
-  @SerializedName("string")
+  public static final String SERIALIZED_NAME_String = "string";
+  @SerializedName(SERIALIZED_NAME_String)
   private String string = null;
 
-  @SerializedName("byte")
+  public static final String SERIALIZED_NAME_Byte = "byte";
+  @SerializedName(SERIALIZED_NAME_Byte)
   private byte[] _byte = null;
 
-  @SerializedName("binary")
+  public static final String SERIALIZED_NAME_Binary = "binary";
+  @SerializedName(SERIALIZED_NAME_Binary)
   private File binary = null;
 
-  @SerializedName("date")
+  public static final String SERIALIZED_NAME_Date = "date";
+  @SerializedName(SERIALIZED_NAME_Date)
   private LocalDate date = null;
 
-  @SerializedName("dateTime")
+  public static final String SERIALIZED_NAME_DateTime = "dateTime";
+  @SerializedName(SERIALIZED_NAME_DateTime)
   private OffsetDateTime dateTime = null;
 
-  @SerializedName("uuid")
+  public static final String SERIALIZED_NAME_Uuid = "uuid";
+  @SerializedName(SERIALIZED_NAME_Uuid)
   private UUID uuid = null;
 
-  @SerializedName("password")
+  public static final String SERIALIZED_NAME_Password = "password";
+  @SerializedName(SERIALIZED_NAME_Password)
   private String password = null;
 
   public FormatTest integer(Integer integer) {

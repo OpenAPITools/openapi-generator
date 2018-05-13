@@ -31,10 +31,12 @@ import android.os.Parcel;
  */
 
 public class ReadOnlyFirst implements Parcelable {
-  @SerializedName("bar")
+  public static final String SERIALIZED_NAME_Bar = "bar";
+  @SerializedName(SERIALIZED_NAME_Bar)
   private String bar = null;
 
-  @SerializedName("baz")
+  public static final String SERIALIZED_NAME_Baz = "baz";
+  @SerializedName(SERIALIZED_NAME_Baz)
   private String baz = null;
 
   public ReadOnlyFirst() {

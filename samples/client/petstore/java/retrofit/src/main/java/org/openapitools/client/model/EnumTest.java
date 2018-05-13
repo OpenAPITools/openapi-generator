@@ -79,7 +79,8 @@ public class EnumTest {
     }
   }
 
-  @SerializedName("enum_string")
+  public static final String SERIALIZED_NAME_EnumString = "enum_string";
+  @SerializedName(SERIALIZED_NAME_EnumString)
   private EnumStringEnum enumString = null;
 
   /**
@@ -131,7 +132,8 @@ public class EnumTest {
     }
   }
 
-  @SerializedName("enum_string_required")
+  public static final String SERIALIZED_NAME_EnumStringRequired = "enum_string_required";
+  @SerializedName(SERIALIZED_NAME_EnumStringRequired)
   private EnumStringRequiredEnum enumStringRequired = null;
 
   /**
@@ -181,7 +183,8 @@ public class EnumTest {
     }
   }
 
-  @SerializedName("enum_integer")
+  public static final String SERIALIZED_NAME_EnumInteger = "enum_integer";
+  @SerializedName(SERIALIZED_NAME_EnumInteger)
   private EnumIntegerEnum enumInteger = null;
 
   /**
@@ -231,10 +234,12 @@ public class EnumTest {
     }
   }
 
-  @SerializedName("enum_number")
+  public static final String SERIALIZED_NAME_EnumNumber = "enum_number";
+  @SerializedName(SERIALIZED_NAME_EnumNumber)
   private EnumNumberEnum enumNumber = null;
 
-  @SerializedName("outerEnum")
+  public static final String SERIALIZED_NAME_OuterEnum = "outerEnum";
+  @SerializedName(SERIALIZED_NAME_OuterEnum)
   private OuterEnum outerEnum = null;
 
   public EnumTest enumString(EnumStringEnum enumString) {

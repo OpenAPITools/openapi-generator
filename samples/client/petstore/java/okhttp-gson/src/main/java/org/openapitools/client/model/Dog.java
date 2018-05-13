@@ -30,7 +30,8 @@ import org.openapitools.client.model.Animal;
  */
 
 public class Dog extends Animal {
-  @SerializedName("breed")
+  public static final String SERIALIZED_NAME_Breed = "breed";
+  @SerializedName(SERIALIZED_NAME_Breed)
   private String breed = null;
 
   public Dog breed(String breed) {

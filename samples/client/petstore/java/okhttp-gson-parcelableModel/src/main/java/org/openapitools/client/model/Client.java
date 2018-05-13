@@ -31,7 +31,8 @@ import android.os.Parcel;
  */
 
 public class Client implements Parcelable {
-  @SerializedName("client")
+  public static final String SERIALIZED_NAME_Client = "client";
+  @SerializedName(SERIALIZED_NAME_Client)
   private String client = null;
 
   public Client() {

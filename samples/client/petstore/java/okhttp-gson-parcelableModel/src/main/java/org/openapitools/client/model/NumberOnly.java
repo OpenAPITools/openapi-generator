@@ -32,7 +32,8 @@ import android.os.Parcel;
  */
 
 public class NumberOnly implements Parcelable {
-  @SerializedName("JustNumber")
+  public static final String SERIALIZED_NAME_JustNumber = "JustNumber";
+  @SerializedName(SERIALIZED_NAME_JustNumber)
   private BigDecimal justNumber = null;
 
   public NumberOnly() {
