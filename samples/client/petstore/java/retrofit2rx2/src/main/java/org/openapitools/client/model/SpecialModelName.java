@@ -29,7 +29,8 @@ import java.io.IOException;
  */
 
 public class SpecialModelName {
-  @SerializedName("$special[property.name]")
+  public static final String SERIALIZED_NAME_$SpecialPropertyName = "$special[property.name]";
+  @SerializedName(SERIALIZED_NAME_$SpecialPropertyName)
   private Long $specialPropertyName = null;
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {

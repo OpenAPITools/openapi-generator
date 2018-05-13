@@ -29,10 +29,12 @@ import java.io.IOException;
  */
 
 public class ReadOnlyFirst {
-  @SerializedName("bar")
+  public static final String SERIALIZED_NAME_Bar = "bar";
+  @SerializedName(SERIALIZED_NAME_Bar)
   private String bar = null;
 
-  @SerializedName("baz")
+  public static final String SERIALIZED_NAME_Baz = "baz";
+  @SerializedName(SERIALIZED_NAME_Baz)
   private String baz = null;
 
    /**

@@ -32,7 +32,8 @@ import java.util.List;
  */
 
 public class ArrayOfArrayOfNumberOnly {
-  @SerializedName("ArrayArrayNumber")
+  public static final String SERIALIZED_NAME_ArrayArrayNumber = "ArrayArrayNumber";
+  @SerializedName(SERIALIZED_NAME_ArrayArrayNumber)
   private List<List<BigDecimal>> arrayArrayNumber = null;
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {

@@ -32,16 +32,20 @@ import android.os.Parcel;
  */
 
 public class Order implements Parcelable {
-  @SerializedName("id")
+  public static final String SERIALIZED_NAME_Id = "id";
+  @SerializedName(SERIALIZED_NAME_Id)
   private Long id = null;
 
-  @SerializedName("petId")
+  public static final String SERIALIZED_NAME_PetId = "petId";
+  @SerializedName(SERIALIZED_NAME_PetId)
   private Long petId = null;
 
-  @SerializedName("quantity")
+  public static final String SERIALIZED_NAME_Quantity = "quantity";
+  @SerializedName(SERIALIZED_NAME_Quantity)
   private Integer quantity = null;
 
-  @SerializedName("shipDate")
+  public static final String SERIALIZED_NAME_ShipDate = "shipDate";
+  @SerializedName(SERIALIZED_NAME_ShipDate)
   private OffsetDateTime shipDate = null;
 
   /**
@@ -93,10 +97,12 @@ public class Order implements Parcelable {
     }
   }
 
-  @SerializedName("status")
+  public static final String SERIALIZED_NAME_Status = "status";
+  @SerializedName(SERIALIZED_NAME_Status)
   private StatusEnum status = null;
 
-  @SerializedName("complete")
+  public static final String SERIALIZED_NAME_Complete = "complete";
+  @SerializedName(SERIALIZED_NAME_Complete)
   private Boolean complete = false;
 
   public Order() {

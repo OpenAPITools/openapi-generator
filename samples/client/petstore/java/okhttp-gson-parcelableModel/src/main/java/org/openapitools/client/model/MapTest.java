@@ -34,7 +34,8 @@ import android.os.Parcel;
  */
 
 public class MapTest implements Parcelable {
-  @SerializedName("map_map_of_string")
+  public static final String SERIALIZED_NAME_MapMapOfString = "map_map_of_string";
+  @SerializedName(SERIALIZED_NAME_MapMapOfString)
   private Map<String, Map<String, String>> mapMapOfString = null;
 
   /**
@@ -84,7 +85,8 @@ public class MapTest implements Parcelable {
     }
   }
 
-  @SerializedName("map_of_enum_string")
+  public static final String SERIALIZED_NAME_MapOfEnumString = "map_of_enum_string";
+  @SerializedName(SERIALIZED_NAME_MapOfEnumString)
   private Map<String, InnerEnum> mapOfEnumString = null;
 
   public MapTest() {
