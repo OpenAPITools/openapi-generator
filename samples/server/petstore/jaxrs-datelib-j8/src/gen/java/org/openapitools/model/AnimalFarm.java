@@ -14,40 +14,17 @@
 package org.openapitools.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
+import org.openapitools.model.Animal;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 
 /**
- * Client
+ * AnimalFarm
  */
 
-public class Client  implements Serializable {
-  @JsonProperty("client")
-  private String client = null;
-
-  public Client client(String client) {
-    this.client = client;
-    return this;
-  }
-
-  /**
-   * Get client
-   * @return client
-   **/
-  @JsonProperty("client")
-  @ApiModelProperty(value = "")
-  public String getClient() {
-    return client;
-  }
-
-  public void setClient(String client) {
-    this.client = client;
-  }
-
+public class AnimalFarm extends ArrayList<Animal> implements Serializable {
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -57,22 +34,20 @@ public class Client  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Client client = (Client) o;
-    return Objects.equals(this.client, client.client);
+    return true;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(client);
+    return Objects.hash(super.hashCode());
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Client {\n");
-    
-    sb.append("    client: ").append(toIndentedString(client)).append("\n");
+    sb.append("class AnimalFarm {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("}");
     return sb.toString();
   }
