@@ -11,7 +11,7 @@
 
 <div align="center">
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.swagger/openapi-generator-project/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.swagger/openapi-generator-project)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.swagger/openapi-generator-project/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.swagger/openapi-generator-project) [![Join the chat at https://gitter.im/OpenAPITools/openapi-generator](https://badges.gitter.im/OpenAPITools/openapi-generator.svg)](https://gitter.im/OpenAPITools/openapi-generator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 </div>
 
