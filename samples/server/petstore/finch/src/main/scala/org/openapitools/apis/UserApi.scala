@@ -59,7 +59,7 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def createUser(da: DataAccessor): Endpoint[Unit] =
-        post("user" :: jsonBody[User]) { (user: User) => 
+        post("user" :: jsonBody[User]) { (user: User) =>
           da.User_createUser(user) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
@@ -73,7 +73,7 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def createUsersWithArrayInput(da: DataAccessor): Endpoint[Unit] =
-        post("user" :: "createWithArray" :: jsonBody[Seq[User]]) { (user: Seq[User]) => 
+        post("user" :: "createWithArray" :: jsonBody[Seq[User]]) { (user: Seq[User]) =>
           da.User_createUsersWithArrayInput(user) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
@@ -87,7 +87,7 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def createUsersWithListInput(da: DataAccessor): Endpoint[Unit] =
-        post("user" :: "createWithList" :: jsonBody[Seq[User]]) { (user: Seq[User]) => 
+        post("user" :: "createWithList" :: jsonBody[Seq[User]]) { (user: Seq[User]) =>
           da.User_createUsersWithListInput(user) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
@@ -101,7 +101,7 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def deleteUser(da: DataAccessor): Endpoint[Unit] =
-        delete("user" :: string) { (username: String) => 
+        delete("user" :: string) { (username: String) =>
           da.User_deleteUser(username) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
@@ -115,7 +115,7 @@ object UserApi {
         * @return An endpoint representing a User
         */
         private def getUserByName(da: DataAccessor): Endpoint[User] =
-        get("user" :: string) { (username: String) => 
+        get("user" :: string) { (username: String) =>
           da.User_getUserByName(username) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
@@ -129,7 +129,7 @@ object UserApi {
         * @return An endpoint representing a String
         */
         private def loginUser(da: DataAccessor): Endpoint[String] =
-        get("user" :: "login" :: param("username") :: param("password")) { (username: String, password: String) => 
+        get("user" :: "login" :: param("username") :: param("password")) { (username: String, password: String) =>
           da.User_loginUser(username, password) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
@@ -143,7 +143,7 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def logoutUser(da: DataAccessor): Endpoint[Unit] =
-        get("user" :: "logout") { 
+        get("user" :: "logout") { () =>
           da.User_logoutUser() match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
@@ -157,7 +157,7 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def updateUser(da: DataAccessor): Endpoint[Unit] =
-        put("user" :: string :: jsonBody[User]) { (username: String, user: User) => 
+        put("user" :: string :: jsonBody[User]) { (username: String, user: User) =>
           da.User_updateUser(username, user) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)

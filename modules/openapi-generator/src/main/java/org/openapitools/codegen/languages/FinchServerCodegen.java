@@ -204,20 +204,7 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
         return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }
 
-    /**
-     * Convert OpenAPI Model object to Codegen Model object
-     *
-     * @param name           the name of the model
-     * @param model          OpenAPI Model object
-     * @param allDefinitions a map of all OpenAPI models from the spec
-     * @return Codegen Model object
-     */
-    @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
-        return codegenModel;
-    }
-
+    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
@@ -244,6 +231,7 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
 
+    @SuppressWarnings("Duplicates")
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
@@ -261,7 +249,7 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type)) {
@@ -371,9 +359,9 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
         String scalaPath = "";
         Integer pathParamIndex = 0;
 
-        for (int i = 0; i < items.length; ++i) {
+        for (String item : items) {
 
-            if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
+            if (item.matches("^\\{(.*)}$")) { // wrap in {}
                 // find the datatype of the parameter
                 final CodegenParameter cp = op.pathParams.get(pathParamIndex);
 
@@ -382,7 +370,7 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
 
                 pathParamIndex++;
             } else {
-                scalaPath = colConcat(scalaPath, "\"" + items[i] + "\"");
+                scalaPath = colConcat(scalaPath, "\"" + item + "\"");
             }
         }
 
@@ -431,7 +419,14 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
                 p.vendorExtensions.put("x-codegen-normalized-path-type", "fileUpload(\"" + p.paramName + "\")");
                 p.vendorExtensions.put("x-codegen-normalized-input-type", "FileUpload");
             } else if (p.isPrimitiveType && !p.isPathParam) {
-                p.vendorExtensions.put("x-codegen-normalized-path-type", p.dataType.toLowerCase());
+                if (!p.required) {
+                    // Generator's current version of Finch doesn't support something like stringOption, but finch aggregates all
+                    // parameter types under "param", so optional params can be grabbed by "paramOption".
+                    p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p, "param", true));
+                } else {
+                    // If parameter is primitive and required, we can rely on data types like "string" or "long"
+                    p.vendorExtensions.put("x-codegen-normalized-path-type", p.dataType.toLowerCase());
+                }
                 p.vendorExtensions.put("x-codegen-normalized-input-type", toInputParameter(p));
             } else {
                 //Path paremeters are handled in generateScalaPath()

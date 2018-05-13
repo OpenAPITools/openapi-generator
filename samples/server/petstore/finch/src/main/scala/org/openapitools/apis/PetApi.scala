@@ -60,7 +60,7 @@ object PetApi {
         * @return An endpoint representing a Unit
         */
         private def addPet(da: DataAccessor): Endpoint[Unit] =
-        post("pet" :: jsonBody[Pet]) { (pet: Pet) => 
+        post("pet" :: jsonBody[Pet]) { (pet: Pet) =>
           da.Pet_addPet(pet) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
@@ -74,7 +74,7 @@ object PetApi {
         * @return An endpoint representing a Unit
         */
         private def deletePet(da: DataAccessor): Endpoint[Unit] =
-        delete("pet" :: long :: headerOption("api_key")) { (petId: Long, apiKey: Option[String]) => 
+        delete("pet" :: long :: headerOption("api_key")) { (petId: Long, apiKey: Option[String]) =>
           da.Pet_deletePet(petId, apiKey) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
@@ -88,7 +88,7 @@ object PetApi {
         * @return An endpoint representing a Seq[Pet]
         */
         private def findPetsByStatus(da: DataAccessor): Endpoint[Seq[Pet]] =
-        get("pet" :: "findByStatus" :: params("status")) { (status: Seq[String]) => 
+        get("pet" :: "findByStatus" :: params("status")) { (status: Seq[String]) =>
           da.Pet_findPetsByStatus(status) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
@@ -102,7 +102,7 @@ object PetApi {
         * @return An endpoint representing a Seq[Pet]
         */
         private def findPetsByTags(da: DataAccessor): Endpoint[Seq[Pet]] =
-        get("pet" :: "findByTags" :: params("tags")) { (tags: Seq[String]) => 
+        get("pet" :: "findByTags" :: params("tags")) { (tags: Seq[String]) =>
           da.Pet_findPetsByTags(tags) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
@@ -116,7 +116,7 @@ object PetApi {
         * @return An endpoint representing a Pet
         */
         private def getPetById(da: DataAccessor): Endpoint[Pet] =
-        get("pet" :: long :: header("api_key")) { (petId: Long, authParamapi_key: String) => 
+        get("pet" :: long :: header("api_key")) { (petId: Long, authParamapi_key: String) =>
           da.Pet_getPetById(petId, authParamapi_key) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
@@ -130,7 +130,7 @@ object PetApi {
         * @return An endpoint representing a Unit
         */
         private def updatePet(da: DataAccessor): Endpoint[Unit] =
-        put("pet" :: jsonBody[Pet]) { (pet: Pet) => 
+        put("pet" :: jsonBody[Pet]) { (pet: Pet) =>
           da.Pet_updatePet(pet) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
@@ -144,7 +144,7 @@ object PetApi {
         * @return An endpoint representing a Unit
         */
         private def updatePetWithForm(da: DataAccessor): Endpoint[Unit] =
-        post("pet" :: long :: string :: string) { (petId: Long, name: Option[String], status: Option[String]) => 
+        post("pet" :: long :: paramOption("name") :: paramOption("status")) { (petId: Long, name: Option[String], status: Option[String]) =>
           da.Pet_updatePetWithForm(petId, name, status) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
@@ -158,7 +158,7 @@ object PetApi {
         * @return An endpoint representing a ApiResponse
         */
         private def uploadFile(da: DataAccessor): Endpoint[ApiResponse] =
-        post("pet" :: long :: "uploadImage" :: string :: fileUpload("file")) { (petId: Long, additionalMetadata: Option[String], file: FileUpload) => 
+        post("pet" :: long :: "uploadImage" :: paramOption("additionalMetadata") :: fileUpload("file")) { (petId: Long, additionalMetadata: Option[String], file: FileUpload) =>
           da.Pet_uploadFile(petId, additionalMetadata, file) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
