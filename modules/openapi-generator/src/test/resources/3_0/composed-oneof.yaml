@@ -1,0 +1,61 @@
+openapi: 3.0.1
+info:
+  title: oneOf test
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8000/'
+paths:
+  /state:
+    get:
+      operationId: getState
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ObjA'
+                  - $ref: '#/components/schemas/ObjB'
+                discriminator:
+                  propertyName: realtype
+                  mapping:
+                    a-type: '#/components/schemas/ObjA'
+                    b-type: '#/components/schemas/ObjB'
+    post:
+      operationId: createState
+      requestBody:
+        content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ObjA'
+                  - $ref: '#/components/schemas/ObjB'
+                discriminator:
+                  propertyName: realtype
+                  mapping:
+                    a-type: '#/components/schemas/ObjA'
+                    b-type: '#/components/schemas/ObjB'
+        required: true
+      responses:
+        '201':
+          description: OK
+components:
+  schemas:
+    ObjA:
+      type: object
+      properties:
+        realtype:
+          type: string
+        message:
+          type: string
+    ObjB:
+      type: object
+      properties:
+        realtype:
+          type: string
+        description:
+          type: string
+        code:
+          type: integer
+          format: int32
