@@ -30,7 +30,8 @@ import java.io.IOException;
 @ApiModel(description = "Model for testing reserved words")
 
 public class ModelReturn {
-  @SerializedName("return")
+  public static final String SERIALIZED_NAME_Return = "return";
+  @SerializedName(SERIALIZED_NAME_Return)
   private Integer _return = null;
 
   public ModelReturn _return(Integer _return) {

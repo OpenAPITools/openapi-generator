@@ -31,13 +31,16 @@ import android.os.Parcel;
  */
 
 public class ModelApiResponse implements Parcelable {
-  @SerializedName("code")
+  public static final String SERIALIZED_NAME_Code = "code";
+  @SerializedName(SERIALIZED_NAME_Code)
   private Integer code = null;
 
-  @SerializedName("type")
+  public static final String SERIALIZED_NAME_Type = "type";
+  @SerializedName(SERIALIZED_NAME_Type)
   private String type = null;
 
-  @SerializedName("message")
+  public static final String SERIALIZED_NAME_Message = "message";
+  @SerializedName(SERIALIZED_NAME_Message)
   private String message = null;
 
   public ModelApiResponse() {

@@ -29,22 +29,28 @@ import java.io.IOException;
  */
 
 public class Capitalization {
-  @SerializedName("smallCamel")
+  public static final String SERIALIZED_NAME_SmallCamel = "smallCamel";
+  @SerializedName(SERIALIZED_NAME_SmallCamel)
   private String smallCamel = null;
 
-  @SerializedName("CapitalCamel")
+  public static final String SERIALIZED_NAME_CapitalCamel = "CapitalCamel";
+  @SerializedName(SERIALIZED_NAME_CapitalCamel)
   private String capitalCamel = null;
 
-  @SerializedName("small_Snake")
+  public static final String SERIALIZED_NAME_SmallSnake = "small_Snake";
+  @SerializedName(SERIALIZED_NAME_SmallSnake)
   private String smallSnake = null;
 
-  @SerializedName("Capital_Snake")
+  public static final String SERIALIZED_NAME_CapitalSnake = "Capital_Snake";
+  @SerializedName(SERIALIZED_NAME_CapitalSnake)
   private String capitalSnake = null;
 
-  @SerializedName("SCA_ETH_Flow_Points")
+  public static final String SERIALIZED_NAME_ScAETHFlowPoints = "SCA_ETH_Flow_Points";
+  @SerializedName(SERIALIZED_NAME_ScAETHFlowPoints)
   private String scAETHFlowPoints = null;
 
-  @SerializedName("ATT_NAME")
+  public static final String SERIALIZED_NAME_ATTNAME = "ATT_NAME";
+  @SerializedName(SERIALIZED_NAME_ATTNAME)
   private String ATT_NAME = null;
 
   public Capitalization smallCamel(String smallCamel) {

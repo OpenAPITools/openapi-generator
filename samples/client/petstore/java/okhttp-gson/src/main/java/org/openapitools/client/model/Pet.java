@@ -33,19 +33,24 @@ import org.openapitools.client.model.Tag;
  */
 
 public class Pet {
-  @SerializedName("id")
+  public static final String SERIALIZED_NAME_Id = "id";
+  @SerializedName(SERIALIZED_NAME_Id)
   private Long id = null;
 
-  @SerializedName("category")
+  public static final String SERIALIZED_NAME_Category = "category";
+  @SerializedName(SERIALIZED_NAME_Category)
   private Category category = null;
 
-  @SerializedName("name")
+  public static final String SERIALIZED_NAME_Name = "name";
+  @SerializedName(SERIALIZED_NAME_Name)
   private String name = null;
 
-  @SerializedName("photoUrls")
+  public static final String SERIALIZED_NAME_PhotoUrls = "photoUrls";
+  @SerializedName(SERIALIZED_NAME_PhotoUrls)
   private List<String> photoUrls = new ArrayList<String>();
 
-  @SerializedName("tags")
+  public static final String SERIALIZED_NAME_Tags = "tags";
+  @SerializedName(SERIALIZED_NAME_Tags)
   private List<Tag> tags = null;
 
   /**
@@ -97,7 +102,8 @@ public class Pet {
     }
   }
 
-  @SerializedName("status")
+  public static final String SERIALIZED_NAME_Status = "status";
+  @SerializedName(SERIALIZED_NAME_Status)
   private StatusEnum status = null;
 
   public Pet id(Long id) {
