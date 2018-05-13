@@ -2,10 +2,10 @@
 
 <div align="center">
 
-- Master (3.0.0):  [![Build Status](https://img.shields.io/travis/openapitools/openapi-generator/3.0.0.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/openapitools/openapi-generator)
-[![Run Status](https://img.shields.io/shippable/5782588a3be4f4faa56c5bea/3.0.0.svg?label=Mustache%20Template%20Test)](https://app.shippable.com/github/OpenAPITools/openapi-generator/dashboard)
+Master (3.0.0): [![Build Status](https://img.shields.io/travis/openapitools/openapi-generator/3.0.0.svg?label=Integration%20Test1)](https://travis-ci.org/openapitools/openapi-generator)
+[![Integration Test2](https://circleci.com/gh/openapitools/openapi-generator/tree/3.0.0.svg?style=shield)](https://circleci.com/gh/openapitools/openapi-generator)
+[![Run Status](https://img.shields.io/shippable/5782588a3be4f4faa56c5bea/master.svg?label=Template%20Test)](https://app.shippable.com/github/OpenAPITools/openapi-generator/dashboard)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
-[![Java Test](https://circleci.com/gh/openapitools/openapi-generator/tree/3.0.0.svg?style=shield)](https://circleci.com/gh/openapitools/openapi-generator)
 
 </div>
 
