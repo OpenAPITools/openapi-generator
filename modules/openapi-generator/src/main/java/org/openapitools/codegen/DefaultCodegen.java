@@ -1166,11 +1166,13 @@ public class DefaultCodegen implements CodegenConfig {
         // TODO better logic to handle compose schema
         if (schema instanceof ComposedSchema) { // composed schema
             ComposedSchema cs = (ComposedSchema) schema;
-            for (Schema s : cs.getAllOf()) {
-                if (s != null) {
-                    // using the first schema defined in allOf
-                    schema = s;
-                    break;
+            if(cs.getAllOf() != null) {
+                for (Schema s : cs.getAllOf()) {
+                    if (s != null) {
+                        // using the first schema defined in allOf
+                        schema = s;
+                        break;
+                    }
                 }
             }
         }
