@@ -688,7 +688,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 Schema response = (Schema) rsp.schema;
                 // Check whether we're returning an object with a defined XML namespace.
                 if (response != null && (!StringUtils.isEmpty(response.get$ref()))) {
-                    Schema model = definitions.get(getSimpleRef(response.get$ref()));
+                    Schema model = definitions.get(ModelUtils.getSimpleRef(response.get$ref()));
                     if ((model != null)) {
                         XML xml = model.getXml();
                         if ((xml != null) && (xml.getNamespace() != null)) {
@@ -826,7 +826,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         CodegenModel mdl = super.fromModel(name, model, allDefinitions);
         mdl.vendorExtensions.put("upperCaseName", name.toUpperCase());
         if (!StringUtils.isEmpty(model.get$ref())) {
-            Schema schema = allDefinitions.get(getSimpleRef(model.get$ref()));
+            Schema schema = allDefinitions.get(ModelUtils.getSimpleRef(model.get$ref()));
             mdl.dataType = typeMapping.get(schema.getType());
         }
         if (ModelUtils.isArraySchema(model)) {
@@ -1051,7 +1051,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         if ((refName != null) && (refName instanceof String)) {
             String name = (String) refName;
-            Schema model = definitions.get(getSimpleRef(name));
+            Schema model = definitions.get(ModelUtils.getSimpleRef(name));
 
             if (model != null) {
                 XML xml = model.getXml();

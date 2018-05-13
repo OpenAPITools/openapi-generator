@@ -1472,7 +1472,7 @@ public class DefaultCodegen implements CodegenConfig {
                         continue;
                     }
                     Schema refSchema = null;
-                    String ref = getSimpleRef(interfaceSchema.get$ref());
+                    String ref = ModelUtils.getSimpleRef(interfaceSchema.get$ref());
                     if (allDefinitions != null) {
                         refSchema = allDefinitions.get(ref);
                     }
@@ -1593,7 +1593,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
-            Schema interfaceSchema = allSchemas.get(getSimpleRef(schema.get$ref()));
+            Schema interfaceSchema = allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref()));
             addProperties(properties, required, interfaceSchema, allSchemas);
             return;
         }
@@ -2225,9 +2225,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             } else {
                 // process body parameter
-                if (StringUtils.isNotBlank(requestBody.get$ref())) {
-                    requestBody = openAPI.getComponents().getRequestBodies().get(getSimpleRef(requestBody.get$ref()));
-                }
+                requestBody = ModelUtils.getReferencedRequestBody(openAPI, requestBody);
 
                 String bodyParameterName = "";
                 if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
@@ -4001,7 +3999,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (StringUtils.isBlank(ref)) {
                 return null;
             }
-            ref = getSimpleRef(ref);
+            ref = ModelUtils.getSimpleRef(ref);
             return allSchemas.get(ref);
         }
         return null;
@@ -4014,14 +4012,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (StringUtils.isBlank(ref)) {
                 return null;
             }
-            return getSimpleRef(ref);
+            return ModelUtils.getSimpleRef(ref);
         }
         return null;
-    }
-
-    // TODO decommission this function and replace it with ModelUtils.getSimpleRef() directly
-    protected String getSimpleRef(String ref) {
-        return ModelUtils.getSimpleRef(ref);
     }
 
     protected String getCollectionFormat(Parameter parameter) {
@@ -4066,7 +4059,7 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         if (StringUtils.isNotBlank(schema.get$ref())) {
-            schema = schemas.get(getSimpleRef(schema.get$ref()));
+            schema = schemas.get(ModelUtils.getSimpleRef(schema.get$ref()));
         }
         if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             Map<String, Schema> properties = schema.getProperties();
@@ -4221,7 +4214,7 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("Request body = " + body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         if (StringUtils.isNotBlank(schema.get$ref())) {
-            name = getSimpleRef(schema.get$ref());
+            name = ModelUtils.getSimpleRef(schema.get$ref());
             schema = schemas.get(name);
         }
 
