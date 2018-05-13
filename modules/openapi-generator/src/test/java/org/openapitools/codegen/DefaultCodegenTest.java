@@ -202,4 +202,16 @@ public class DefaultCodegenTest {
         Assert.assertEquals(co.produces.size(), 1);
         Assert.assertEquals(co.produces.get(0).get("mediaType"), "application/json");
     }
+    
+    @Test
+    public void testGetSchemaTypeWithComposedSchemaWithOneOf() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/composed-oneof.yaml", null, new ParseOptions()).getOpenAPI();
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        Operation operation = openAPI.getPaths().get("/state").getPost();
+        Schema schema = ModelUtils.getSchemaFromRequestBody(operation.getRequestBody());
+        String type = codegen.getSchemaType(schema);
+
+        Assert.assertNotNull(type);
+    }
 }
