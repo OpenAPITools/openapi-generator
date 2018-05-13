@@ -25,7 +25,7 @@ import javax.validation.constraints.*;
 
 public class FakeApiServiceImpl extends FakeApiService {
     @Override
-    public Response fakeOuterBooleanSerialize(Boolean booleanPostBody, SecurityContext securityContext) throws NotFoundException {
+    public Response fakeOuterBooleanSerialize(Boolean body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -65,7 +65,7 @@ public class FakeApiServiceImpl extends FakeApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response testInlineAdditionalProperties(String requestBody, SecurityContext securityContext) throws NotFoundException {
+    public Response testInlineAdditionalProperties(Map<String, String> requestBody, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
