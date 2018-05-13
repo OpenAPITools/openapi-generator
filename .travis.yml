@@ -84,8 +84,8 @@ script:
   # fail if generators contain tab '\t'
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
-  - mvn clean install
-  - mvn -q --batch-mode verify -Psamples
+  #- mvn clean install
+  #- mvn -q --batch-mode verify -Psamples
 after_success:
   ## docker: build and push openapi-generator-online to DockerHub
   #- if [ $DOCKER_HUB_USERNAME ]; then docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME && echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME"; fi; fi
