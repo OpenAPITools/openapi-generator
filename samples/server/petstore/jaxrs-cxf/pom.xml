@@ -37,6 +37,13 @@
             <idleTimeout>60000</idleTimeout>
           </httpConnector>
         </configuration>
+        <dependencies>
+          <dependency>
+              <groupId>javax.validation</groupId>
+              <artifactId>validation-api</artifactId>
+              <version>${beanvalidation-version}</version>
+          </dependency>
+        </dependencies>
         <executions>
           <execution>
             <id>start-jetty</id>
