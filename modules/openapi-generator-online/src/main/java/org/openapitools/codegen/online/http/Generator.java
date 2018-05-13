@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Generator {
-    static Logger LOGGER = LoggerFactory.getLogger(Generator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Generator.class);
 
     public static Map<String, CliOption> getOptions(String language) throws ApiException {
         CodegenConfig config = null;

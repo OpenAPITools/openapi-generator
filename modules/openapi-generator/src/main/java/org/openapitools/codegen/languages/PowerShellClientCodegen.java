@@ -38,7 +38,7 @@ import java.util.Map;
 import static java.util.UUID.randomUUID;
 
 public class PowerShellClientCodegen extends DefaultCodegen implements CodegenConfig {
-    static Logger LOGGER = LoggerFactory.getLogger(PowerShellClientCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PowerShellClientCodegen.class);
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase() + "}";
 

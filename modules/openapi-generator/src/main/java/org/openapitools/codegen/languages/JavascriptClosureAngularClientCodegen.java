@@ -34,6 +34,8 @@ import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.parameters.*;
 import io.swagger.v3.oas.models.info.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.TreeSet;
 import java.util.*;
@@ -42,6 +44,7 @@ import java.io.File;
 import org.apache.commons.lang3.StringUtils;
 
 public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClosureAngularClientCodegen.class);
 
     public static final String USE_ES6 = "useEs6";
 

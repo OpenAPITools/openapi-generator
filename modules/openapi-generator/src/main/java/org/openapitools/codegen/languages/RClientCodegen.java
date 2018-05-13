@@ -29,7 +29,7 @@ import java.io.File;
 import java.util.*;
 
 public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
-    static Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
