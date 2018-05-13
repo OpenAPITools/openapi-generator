@@ -11,6 +11,8 @@ Master (3.0.0): [![Build Status](https://travis-ci.org/OpenAPITools/openapi-gene
 
 <div align="center">
 
+[![Join the chat at https://gitter.im/OpenAPITools/openapi-generator](https://badges.gitter.im/OpenAPITools/openapi-generator.svg)](https://gitter.im/OpenAPITools/openapi-generator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 </div>
 
 <div align="center">

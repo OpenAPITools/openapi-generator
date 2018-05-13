@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("static-method")
 public class PhpModelTest {
-    protected static final Logger LOGGER = LoggerFactory.getLogger(PhpModelTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PhpModelTest.class);
 
     @Test(description = "convert a simple php model")
     public void simpleModelTest() {

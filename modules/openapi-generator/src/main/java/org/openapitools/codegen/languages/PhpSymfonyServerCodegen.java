@@ -36,7 +36,7 @@ import java.util.*;
 
 public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
-    static Logger LOGGER = LoggerFactory.getLogger(PhpSymfonyServerCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PhpSymfonyServerCodegen.class);
 
     public static final String BUNDLE_NAME = "bundleName";
     public static final String COMPOSER_VENDOR_NAME = "composerVendorName";

@@ -21,8 +21,11 @@ import org.openapitools.codegen.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaLagomServerCodegen.class);
 
     private String authScheme = "";
     private boolean authPreemptive = false;

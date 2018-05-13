@@ -35,13 +35,16 @@ import org.openapitools.client.model.Animal;
  */
 
 public class MixedPropertiesAndAdditionalPropertiesClass {
-  @SerializedName("uuid")
+  public static final String SERIALIZED_NAME_Uuid = "uuid";
+  @SerializedName(SERIALIZED_NAME_Uuid)
   private UUID uuid = null;
 
-  @SerializedName("dateTime")
+  public static final String SERIALIZED_NAME_DateTime = "dateTime";
+  @SerializedName(SERIALIZED_NAME_DateTime)
   private DateTime dateTime = null;
 
-  @SerializedName("map")
+  public static final String SERIALIZED_NAME_Map = "map";
+  @SerializedName(SERIALIZED_NAME_Map)
   private Map<String, Animal> map = null;
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {

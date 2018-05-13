@@ -37,7 +37,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
-    static Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 
     protected String artifactId;
     protected String artifactVersion = "1.0.0";

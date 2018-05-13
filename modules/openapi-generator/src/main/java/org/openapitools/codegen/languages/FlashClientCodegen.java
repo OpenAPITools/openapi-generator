@@ -27,6 +27,8 @@ import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.parameters.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
@@ -36,6 +38,8 @@ import java.util.HashSet;
 import org.apache.commons.lang3.StringUtils;
 
 public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlashClientCodegen.class);
+
     protected String packageName = "org.openapitools";
     protected String packageVersion;
 

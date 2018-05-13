@@ -22,12 +22,16 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
+
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
 

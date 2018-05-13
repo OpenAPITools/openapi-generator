@@ -31,10 +31,12 @@ import android.os.Parcel;
  */
 
 public class Tag implements Parcelable {
-  @SerializedName("id")
+  public static final String SERIALIZED_NAME_Id = "id";
+  @SerializedName(SERIALIZED_NAME_Id)
   private Long id = null;
 
-  @SerializedName("name")
+  public static final String SERIALIZED_NAME_Name = "name";
+  @SerializedName(SERIALIZED_NAME_Name)
   private String name = null;
 
   public Tag() {

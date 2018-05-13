@@ -41,6 +41,15 @@
                         <idleTimeout>60000</idleTimeout>
                     </httpConnector>
                 </configuration>
+{{#useBeanValidation}}
+                <dependencies>
+                    <dependency>
+                        <groupId>javax.validation</groupId>
+                        <artifactId>validation-api</artifactId>
+                        <version>${beanvalidation-version}</version>
+                    </dependency>
+                </dependencies>
+{{/useBeanValidation}}
                 <executions>
                     <execution>
                         <id>start-jetty</id>
@@ -156,10 +165,10 @@
     <dependency>
         <groupId>javax.validation</groupId>
         <artifactId>validation-api</artifactId>
-        <version>1.1.0.Final</version>
+        <version>${beanvalidation-version}</version>
         <scope>provided</scope>
     </dependency>
-{{/useBeanValidation}}        
+{{/useBeanValidation}}
     </dependencies>
     <properties>
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
@@ -172,6 +181,9 @@
         <springfox-version>2.7.0</springfox-version>
         <jackson-version>2.8.9</jackson-version>
         <jackson-threetenbp-version>2.6.4</jackson-threetenbp-version>
+{{#useBeanValidation}}
+        <beanvalidation-version>1.1.0.Final</beanvalidation-version>
+{{/useBeanValidation}}
         <spring-version>4.3.9.RELEASE</spring-version>
     </properties>
 </project>
