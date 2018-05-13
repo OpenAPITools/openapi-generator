@@ -79,7 +79,7 @@
         obj['enum_number'] = ApiClient.convertToType(data['enum_number'], 'Number');
       }
       if (data.hasOwnProperty('outerEnum')) {
-        obj['outerEnum'] = OuterEnum.constructFromObject(data['OuterEnum']);
+        obj['outerEnum'] = OuterEnum.constructFromObject(data['outerEnum']);
       }
     }
     return obj;

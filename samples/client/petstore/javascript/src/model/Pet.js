@@ -72,7 +72,7 @@
         obj['id'] = ApiClient.convertToType(data['id'], 'Number');
       }
       if (data.hasOwnProperty('category')) {
-        obj['category'] = Category.constructFromObject(data['Category']);
+        obj['category'] = Category.constructFromObject(data['category']);
       }
       if (data.hasOwnProperty('name')) {
         obj['name'] = ApiClient.convertToType(data['name'], 'String');
