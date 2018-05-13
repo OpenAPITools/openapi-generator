@@ -344,7 +344,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
         } else if (ModelUtils.isStringSchema(p)) {
             return "new QString(\"\")";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return "new " + toModelName(getSimpleRef(p.get$ref())) + "()";
+            return "new " + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
         }
         return "NULL";
     }
