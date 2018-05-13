@@ -30,7 +30,7 @@
 </div>
 
 ## Overview
-OpenAPI Generator allows generation of API client libraries (SDK generation), server stubs,  documentation and configuration automatically given an [OpenAPI Spec](https://github.com/OAI/OpenAPI-Specification). Currently, the following languages/frameworks are supported:
+OpenAPI Generator allows generation of API client libraries (SDK generation), server stubs,  documentation and configuration automatically given an [OpenAPI Spec](https://github.com/OAI/OpenAPI-Specification) (both 2.0 and 3.0 are supported). Currently, the following languages/frameworks are supported:
 
 |                                | Languages/Frameworks |
 |-|-|
@@ -450,8 +450,9 @@ Here are the requirements to become a core team member:
 - regular contributions to the project
   - about 3 hours per week
   - for contribution, it can be addressing issues, reviewing PRs submitted by others, submitting PR to fix bugs or make enhancements, etc
+  - must be active in the past 3 months at the time of application
 
- To join the core team, please reach out to wing328hk@gmail.com (@wing328) for more information.
+ To join the core team, please reach out to team@openapitools.org for more information.
 
  To become a Template Creator, simply submit a PR for new API client (e.g. Rust, Elixir) or server stub (e.g. Ruby Grape) generator.
 
@@ -466,7 +467,7 @@ Members of the OpenAPI Generator technical committee shoulder the following resp
 
 Who is eligible? Those who want to join must have at least 3 PRs merged into a generator. (Exceptions can be granted to template creators or contributors who have made a lot of code changes with less than 3 merged PRs)
 
-If you want to join the committee, please kindly apply by sending an email to wing328hk@gmail.com ([@wing328](https://github.com/wing328)) with your Github ID.
+If you want to join the committee, please kindly apply by sending an email to team@openapitools.org with your Github ID.
 
 #### Members of Technical Committee
 
@@ -552,7 +553,6 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [etherealjoy](https://github.com/etherealjoy)
 - [jfiala](https://github.com/jfiala)
 - [lukoyanov](https://github.com/lukoyanov)
-
 
 
 ## [7 - License](#table-of-contents)
