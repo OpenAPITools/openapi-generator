@@ -11,8 +11,6 @@ Master (3.0.0): [![Build Status](https://img.shields.io/travis/openapitools/open
 
 <div align="center">
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.swagger/openapi-generator-project/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.swagger/openapi-generator-project)
-
 </div>
 
 <div align="center">
