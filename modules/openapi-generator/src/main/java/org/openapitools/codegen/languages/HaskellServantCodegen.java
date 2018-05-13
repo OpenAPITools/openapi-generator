@@ -36,9 +36,12 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.media.*;
 
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.regex.Pattern;
 
 public class HaskellServantCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HaskellServantCodegen.class);
 
     // source folder where to write the files
     protected String sourceFolder = "src";

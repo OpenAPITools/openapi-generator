@@ -37,6 +37,8 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.*;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -45,6 +47,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BashClientCodegen.class);
 
     protected String apiVersion = "1.0.0";
 

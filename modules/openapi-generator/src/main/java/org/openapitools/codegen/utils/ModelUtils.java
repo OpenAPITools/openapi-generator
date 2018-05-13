@@ -55,7 +55,7 @@ import java.util.Map;
 
 
 public class ModelUtils {
-    static Logger LOGGER = LoggerFactory.getLogger(ModelUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModelUtils.class);
 
     /**
      * Searches for the model by name in the map of models and returns it

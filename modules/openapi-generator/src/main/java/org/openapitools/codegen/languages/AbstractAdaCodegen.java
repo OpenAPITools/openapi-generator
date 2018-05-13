@@ -35,6 +35,8 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +46,8 @@ import java.util.List;
 import java.util.Map;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
+
     protected String packageName = "defaultPackage";
     protected String projectName = "defaultProject";
     protected List<Map<String, Object>> orderedModels;

@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractGoCodegen extends DefaultCodegen implements CodegenConfig {
 
-    protected static Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
 
     protected boolean withXml = false;
 

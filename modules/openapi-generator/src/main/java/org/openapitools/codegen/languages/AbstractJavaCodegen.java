@@ -54,7 +54,7 @@ import java.util.regex.Pattern;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig {
 
-    static Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     public static final String FULL_JAVA_UTIL = "fullJavaUtil";
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";

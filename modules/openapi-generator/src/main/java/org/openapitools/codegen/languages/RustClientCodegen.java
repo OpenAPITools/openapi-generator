@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
-    static Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
 

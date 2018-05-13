@@ -23,6 +23,8 @@ import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
@@ -32,6 +34,8 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang3.StringUtils;
 
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PerlClientCodegen.class);
+
     public static final String MODULE_NAME = "moduleName";
     public static final String MODULE_VERSION = "moduleVersion";
     protected String moduleName = "WWW::OpenAPIClient";

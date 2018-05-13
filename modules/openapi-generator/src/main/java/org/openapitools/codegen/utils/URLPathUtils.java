@@ -30,7 +30,7 @@ import java.util.List;
 
 public class URLPathUtils {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(URLPathUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(URLPathUtils.class);
     public static final String LOCAL_HOST = "http://localhost";
 
     public static URL getServerURL(OpenAPI openAPI) {
