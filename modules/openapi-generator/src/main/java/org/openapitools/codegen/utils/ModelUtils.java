@@ -50,7 +50,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -89,14 +88,9 @@ public class ModelUtils {
     public static List<String> getUnusedSchemas(OpenAPI openAPI) {
         List<String> unusedSchemas = new ArrayList<String>();
 
-        // no model defined
-        if (openAPI.getComponents().getSchemas() == null) {
-            openAPI.getComponents().setSchemas(new HashMap<String, Schema>());
-        }
-
         // operations
         Map<String, PathItem> paths = openAPI.getPaths();
-        Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
+        Map<String, Schema> schemas = getSchemas(openAPI);
 
         if (paths != null) {
             for (String pathname : paths.keySet()) {
