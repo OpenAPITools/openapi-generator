@@ -58,7 +58,7 @@ object {{classname}} {
         * @return An endpoint representing a {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}
         */
         private def {{operationId}}(da: DataAccessor): Endpoint[{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}] =
-        {{httpMethod}}({{{vendorExtensions.x-codegen-paths}}}) { {{#hasParams}}({{{vendorExtensions.x-codegen-typedParams}}}) => {{/hasParams}}
+        {{httpMethod}}({{{vendorExtensions.x-codegen-paths}}}) { {{#vendorExtensions.x-codegen-typedParams}}({{{vendorExtensions.x-codegen-typedParams}}}) =>{{/vendorExtensions.x-codegen-typedParams}}
           da.{{baseName}}_{{operationId}}({{{vendorExtensions.x-codegen-params}}}) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)

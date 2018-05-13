@@ -6,7 +6,7 @@ name := "finch-sample"
 
 version := "0.1.0-SNAPSHOT"
 
-scalaVersion := "2.11.12"
+scalaVersion := "2.12.3"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
