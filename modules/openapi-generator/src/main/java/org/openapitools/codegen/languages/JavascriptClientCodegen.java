@@ -617,7 +617,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public String toDefaultValueWithParam(String name, Schema p) {
         String type = normalizeType(getTypeDeclaration(p));
         if (!StringUtils.isEmpty(p.get$ref())) {
-            return " = " + type + ".constructFromObject(data['" + getSchemaType(p) + "']);";
+            return " = " + type + ".constructFromObject(data['" + name + "']);";
         } else {
             return " = ApiClient.convertToType(data['" + name + "'], " + type + ");";
         }
