@@ -31,7 +31,6 @@ import java.util.Map;
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String DATE_LIBRARY = "dateLibrary";
-    protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
     private static final Logger LOGGER = LoggerFactory.getLogger(KotlinClientCodegen.class);
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
@@ -65,6 +64,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         embeddedTemplateDir = templateDir = "kotlin-client";
         apiPackage = packageName + ".apis";
         modelPackage = packageName + ".models";
+
+        enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
         Map<String, String> dateOptions = new HashMap<>();

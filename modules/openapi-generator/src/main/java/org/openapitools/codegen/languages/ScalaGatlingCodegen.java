@@ -38,7 +38,6 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
     private static final Logger LOGGER = LoggerFactory.getLogger(ScalaGatlingCodegen.class);
 
     // source folder where to write the files
-    protected String sourceFolder = "src" + File.separator + "gatling" + File.separator + "scala";
     protected String resourceFolder = "src" + File.separator + "gatling" + File.separator + "resources";
     protected String confFolder = resourceFolder + File.separator + "conf";
     protected String dataFolder = resourceFolder + File.separator + "data";
@@ -75,6 +74,8 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
 
     public ScalaGatlingCodegen() {
         super();
+
+        sourceFolder = "src" + File.separator + "gatling" + File.separator + "scala";
 
         // set the output folder here
         outputFolder = "generated-code/gatling";

@@ -55,7 +55,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, OptionalFeatures {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
 
-    public static final String DEFAULT_LIBRARY = "spring-boot";
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -69,6 +68,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String RESPONSE_WRAPPER = "responseWrapper";
     public static final String USE_TAGS = "useTags";
     public static final String SPRING_MVC_LIBRARY = "spring-mvc";
+    public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String SWAGGER_DOCKET_CONFIG = "swaggerDocketConfig";
@@ -120,15 +120,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_OPTIONAL,
                 "Use Optional container for optional parameters"));
 
-        supportedLibraries.put(DEFAULT_LIBRARY, "Spring-boot Server application using the SpringFox integration.");
+        supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY, "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
-        setLibrary(DEFAULT_LIBRARY);
+        setLibrary(SPRING_BOOT);
 
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
-        library.setDefault(DEFAULT_LIBRARY);
+        library.setDefault(SPRING_BOOT);
         library.setEnum(supportedLibraries);
-        library.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(library);
     }
 
@@ -206,7 +205,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(REACTIVE)) {
-            if (!library.equals(DEFAULT_LIBRARY)) {
+            if (!library.equals(SPRING_BOOT)) {
                 throw new IllegalArgumentException("Currently, reactive option is only supported with Spring-boot");
             }
             this.setReactive(Boolean.valueOf(additionalProperties.get(REACTIVE).toString()));
@@ -262,7 +261,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         if (!this.interfaceOnly) {
-            if (library.equals(DEFAULT_LIBRARY)) {
+            if (library.equals(SPRING_BOOT)) {
                 if (!this.reactive) {
                     supportingFiles.add(new SupportingFile("homeController.mustache",
                             (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HomeController.java"));
@@ -324,7 +323,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         if ("threetenbp".equals(dateLibrary)) {
             supportingFiles.add(new SupportingFile("customInstantDeserializer.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "CustomInstantDeserializer.java"));
-            if (library.equals(DEFAULT_LIBRARY) || library.equals(SPRING_CLOUD_LIBRARY)) {
+            if (library.equals(SPRING_BOOT) || library.equals(SPRING_CLOUD_LIBRARY)) {
                 supportingFiles.add(new SupportingFile("jacksonConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "JacksonConfiguration.java"));
             }
@@ -395,7 +394,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if((library.equals(DEFAULT_LIBRARY) || library.equals(SPRING_MVC_LIBRARY)) && !useTags) {
+        if((library.equals(SPRING_BOOT) || library.equals(SPRING_MVC_LIBRARY)) && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);

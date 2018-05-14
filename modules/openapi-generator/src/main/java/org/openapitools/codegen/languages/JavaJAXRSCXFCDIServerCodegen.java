@@ -19,9 +19,6 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.JbossFeature;
-import org.openapitools.codegen.languages.features.SwaggerFeatures;
-import io.swagger.v3.oas.models.*;
 
 import java.io.File;
 
@@ -34,8 +31,6 @@ import java.io.File;
  */
 public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen implements BeanValidationFeatures {
 
-    protected boolean useBeanValidation = true;
-
     /**
      * Default constructor
      */
@@ -43,6 +38,7 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
         outputFolder = "generated-code/JavaJaxRS-CXF-CDI";
         artifactId = "openapi-jaxrs-cxf-cdi-server";
         sourceFolder = "src" + File.separator + "gen" + File.separator + "java";
+        useBeanValidation = true;
 
         // Three API templates to support CDI injection
         apiTemplateFiles.put("apiService.mustache", ".java");
