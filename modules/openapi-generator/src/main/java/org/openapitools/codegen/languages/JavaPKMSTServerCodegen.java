@@ -46,29 +46,16 @@ import java.util.Map;
  */
 public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
-    public static final String FULL_JAVA_UTIL = "fullJavaUtil";
-    public static final String SUPPORT_JAVA6 = "supportJava6";
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String TITLE = "title";
-    public static final String WITH_XML = "withXml";
     public static final String EUREKA_URI = "eurekaUri";
     public static final String ZIPKIN_URI = "zipkinUri";
     public static final String SPRINGADMIN_URI = "springBootAdminUri";
-    protected String projectFolder;
-    protected String projectTestFolder;
-    protected String sourceFolder;
-    protected String testFolder;
     protected String basePackage = "com.prokarma.pkmst";
     protected String serviceName = "Pkmst";
     protected String configPackage = "com.prokarma.pkmst.config";
     protected boolean implicitHeaders = false;
-    protected boolean serializeBigDecimalAsString = false;
-    protected boolean withXml = false;
-    protected boolean fullJavaUtil;
-    protected String javaUtilPrefix = "";
-    protected Boolean serializableModel = false;
-    protected String invokerPackage;
     protected String title;
     protected String eurekaUri;
     protected String zipkinUri;
@@ -88,6 +75,10 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         modelPackage = "com.prokarma.pkmst.model";
         invokerPackage = "com.prokarma.pkmst.controller";
         additionalProperties.put("jackson", "true");
+        serializeBigDecimalAsString = false;
+        withXml = false;
+        javaUtilPrefix = "";
+        serializableModel = false;
         this.cliOptions.add(new CliOption("groupId", "groupId in generated pom.xml"));
         this.cliOptions.add(new CliOption("artifactId", "artifactId in generated pom.xml"));
         this.cliOptions.add(new CliOption("artifactVersion", "artifact version in generated pom.xml"));

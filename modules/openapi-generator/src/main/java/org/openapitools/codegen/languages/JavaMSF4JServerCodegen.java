@@ -36,7 +36,7 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
     protected static final String LIBRARY_JERSEY2 = "jersey2";
 
 
-    public static final String DEFAULT_LIBRARY = LIBRARY_JERSEY2;
+    public static final String DEFAULT_MSF4J_LIBRARY = LIBRARY_JERSEY2;
 
     public JavaMSF4JServerCodegen() {
         super();
@@ -52,7 +52,7 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
         supportedLibraries.put(LIBRARY_JERSEY1, "Jersey core 1.x");
         supportedLibraries.put(LIBRARY_JERSEY2, "Jersey core 2.x");
         library.setEnum(supportedLibraries);
-        library.setDefault(DEFAULT_LIBRARY);
+        library.setDefault(DEFAULT_MSF4J_LIBRARY);
         cliOptions.add(library);
 
     }
@@ -90,7 +90,7 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         // use default library if unset
         if (StringUtils.isEmpty(library)) {
-            setLibrary(DEFAULT_LIBRARY);
+            setLibrary(DEFAULT_MSF4J_LIBRARY);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
