@@ -28,6 +28,8 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,6 +40,8 @@ import java.util.List;
 import java.util.Map;
 
 public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
+
     public static final String BROWSER_CLIENT = "browserClient";
     public static final String PUB_NAME = "pubName";
     public static final String PUB_VERSION = "pubVersion";

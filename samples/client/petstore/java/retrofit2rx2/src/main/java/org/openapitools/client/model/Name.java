@@ -30,16 +30,20 @@ import java.io.IOException;
 @ApiModel(description = "Model for testing model name same as property name")
 
 public class Name {
-  @SerializedName("name")
+  public static final String SERIALIZED_NAME_Name = "name";
+  @SerializedName(SERIALIZED_NAME_Name)
   private Integer name = null;
 
-  @SerializedName("snake_case")
+  public static final String SERIALIZED_NAME_SnakeCase = "snake_case";
+  @SerializedName(SERIALIZED_NAME_SnakeCase)
   private Integer snakeCase = null;
 
-  @SerializedName("property")
+  public static final String SERIALIZED_NAME_Property = "property";
+  @SerializedName(SERIALIZED_NAME_Property)
   private String property = null;
 
-  @SerializedName("123Number")
+  public static final String SERIALIZED_NAME_123number = "123Number";
+  @SerializedName(SERIALIZED_NAME_123number)
   private Integer _123number = null;
 
   public Name name(Integer name) {

@@ -19,12 +19,16 @@ package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaHttpClientCodegen.class);
+
     protected String authScheme = "";
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean authPreemptive;

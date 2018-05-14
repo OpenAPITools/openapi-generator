@@ -69,7 +69,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class DefaultCodegen implements CodegenConfig {
-    protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
     protected String inputSpec;
     protected String outputFolder = "";

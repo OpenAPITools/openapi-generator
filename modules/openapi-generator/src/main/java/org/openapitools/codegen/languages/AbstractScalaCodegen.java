@@ -26,6 +26,8 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
@@ -34,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractScalaCodegen.class);
 
     protected String modelPropertyNaming = "camelCase";
     protected String invokerPackage = "org.openapitools.client";

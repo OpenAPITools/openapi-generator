@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractPhpCodegen extends DefaultCodegen implements CodegenConfig {
 
-    static Logger LOGGER = LoggerFactory.getLogger(AbstractPhpCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractPhpCodegen.class);
 
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
     public static final String PACKAGE_PATH = "packagePath";

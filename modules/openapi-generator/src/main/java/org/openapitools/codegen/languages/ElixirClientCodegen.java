@@ -27,6 +27,8 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.*;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.jws.WebParam;
 import java.io.File;
@@ -37,6 +39,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
+
     protected String apiVersion = "1.0.0";
     protected String moduleName;
     protected static final String defaultModuleName = "OpenAPI.Client";

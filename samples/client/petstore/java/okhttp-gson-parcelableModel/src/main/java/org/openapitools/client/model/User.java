@@ -31,28 +31,36 @@ import android.os.Parcel;
  */
 
 public class User implements Parcelable {
-  @SerializedName("id")
+  public static final String SERIALIZED_NAME_Id = "id";
+  @SerializedName(SERIALIZED_NAME_Id)
   private Long id = null;
 
-  @SerializedName("username")
+  public static final String SERIALIZED_NAME_Username = "username";
+  @SerializedName(SERIALIZED_NAME_Username)
   private String username = null;
 
-  @SerializedName("firstName")
+  public static final String SERIALIZED_NAME_FirstName = "firstName";
+  @SerializedName(SERIALIZED_NAME_FirstName)
   private String firstName = null;
 
-  @SerializedName("lastName")
+  public static final String SERIALIZED_NAME_LastName = "lastName";
+  @SerializedName(SERIALIZED_NAME_LastName)
   private String lastName = null;
 
-  @SerializedName("email")
+  public static final String SERIALIZED_NAME_Email = "email";
+  @SerializedName(SERIALIZED_NAME_Email)
   private String email = null;
 
-  @SerializedName("password")
+  public static final String SERIALIZED_NAME_Password = "password";
+  @SerializedName(SERIALIZED_NAME_Password)
   private String password = null;
 
-  @SerializedName("phone")
+  public static final String SERIALIZED_NAME_Phone = "phone";
+  @SerializedName(SERIALIZED_NAME_Phone)
   private String phone = null;
 
-  @SerializedName("userStatus")
+  public static final String SERIALIZED_NAME_UserStatus = "userStatus";
+  @SerializedName(SERIALIZED_NAME_UserStatus)
   private Integer userStatus = null;
 
   public User() {

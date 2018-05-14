@@ -30,10 +30,12 @@ import java.io.IOException;
 @ApiModel(description = "Model for testing model name starting with number")
 
 public class Model200Response {
-  @SerializedName("name")
+  public static final String SERIALIZED_NAME_Name = "name";
+  @SerializedName(SERIALIZED_NAME_Name)
   private Integer name = null;
 
-  @SerializedName("class")
+  public static final String SERIALIZED_NAME_PropertyClass = "class";
+  @SerializedName(SERIALIZED_NAME_PropertyClass)
   private String propertyClass = null;
 
   public Model200Response name(Integer name) {

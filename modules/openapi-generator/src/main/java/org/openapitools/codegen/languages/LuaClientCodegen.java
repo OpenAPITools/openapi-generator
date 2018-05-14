@@ -33,7 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
-    static Logger LOGGER = LoggerFactory.getLogger(LuaClientCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LuaClientCodegen.class);
 
     protected String specFolder = "spec";
     protected String packageName = "openapi-client";

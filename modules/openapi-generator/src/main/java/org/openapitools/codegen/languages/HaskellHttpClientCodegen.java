@@ -27,6 +27,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
@@ -34,6 +36,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HaskellHttpClientCodegen.class);
 
     // source folder where to write the files
     protected String sourceFolder = "lib";

@@ -35,6 +35,8 @@ import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.Markdown;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,6 +44,8 @@ import java.util.List;
 import java.util.Map;
 
 public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StaticHtml2Generator.class);
+
     protected String invokerPackage = "org.openapitools.client"; // default for Java and Android
     protected String phpInvokerPackage = "OpenAPITools\\Client"; // default for PHP
     protected String packageName = "Org.OpenAPITools"; // default for C#

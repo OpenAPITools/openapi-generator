@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.openapitools.codegen.*;
 
 public class EiffelClientCodegen extends AbstractEiffelCodegen {
-    static Logger LOGGER = LoggerFactory.getLogger(EiffelClientCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EiffelClientCodegen.class);
 
     protected String libraryTarget = "openapi_eiffel_client";
     protected String packageName = "Eiffel";
