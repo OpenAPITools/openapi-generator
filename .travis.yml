@@ -41,6 +41,7 @@ before_install:
   - gem install bundler
   - npm install -g typescript
   - npm install -g npm
+  - npm install -g elm
   - npm config set registry http://registry.npmjs.org/
   # set python 3.6.3 as default
   - source ~/virtualenv/python3.6/bin/activate
