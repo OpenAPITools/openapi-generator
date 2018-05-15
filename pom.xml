@@ -853,7 +853,7 @@
                 <module>samples/client/petstore/elm</module>
                 <module>samples/client/petstore/groovy</module>
                 <module>samples/client/petstore/rust</module>
-                <module>samples/client/petstore/perl</module>
+                <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/client/petstore/scala</module>
