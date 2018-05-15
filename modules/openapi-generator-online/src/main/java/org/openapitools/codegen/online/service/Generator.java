@@ -1,35 +1,17 @@
-/*
- * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package org.openapitools.codegen.online.http;
+package org.openapitools.codegen.online.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.online.exception.ApiException;
-import org.openapitools.codegen.online.exception.BadRequestException;
-import org.openapitools.codegen.online.model.GeneratorInput;
-import org.openapitools.codegen.online.model.InputOption;
-import org.openapitools.codegen.online.util.ZipUtil;
-import io.swagger.models.Swagger;
-import io.swagger.models.auth.AuthorizationValue;
-import io.swagger.parser.SwaggerParser;
+import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.util.Json;
+import org.openapitools.codegen.online.model.GeneratorInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,14 +20,14 @@ import java.util.List;
 import java.util.Map;
 
 public class Generator {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Generator.class);
+    static Logger LOGGER = LoggerFactory.getLogger(Generator.class);
 
-    public static Map<String, CliOption> getOptions(String language) throws ApiException {
+    public static Map<String, CliOption> getOptions(String language) {
         CodegenConfig config = null;
         try {
             config = CodegenConfigLoader.forName(language);
         } catch (Exception e) {
-            throw new BadRequestException(String.format("Unsupported target %s supplied. %s",
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("Unsupported target %s supplied. %s",
                     language, e));
         }
         Map<String, CliOption> map = new LinkedHashMap<String, CliOption>();
@@ -69,51 +51,49 @@ public class Generator {
         }
     }
 
-    public static String generateClient(String language, GeneratorInput opts) throws ApiException {
+    public static String generateClient(String language, GeneratorInput opts) {
         return generate(language, opts, Type.CLIENT);
     }
 
-    public static String generateServer(String language, GeneratorInput opts) throws ApiException {
+    public static String generateServer(String language, GeneratorInput opts) {
         return generate(language, opts, Type.SERVER);
     }
 
-    private static String generate(String language, GeneratorInput opts, Type type)
-            throws ApiException {
+    private static String generate(String language, GeneratorInput opts, Type type) {
         LOGGER.debug(String.format("generate %s for %s", type.getTypeName(), language));
         if (opts == null) {
-            throw new BadRequestException("No options were supplied");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No options were supplied");
         }
         JsonNode node = opts.getSpec();
         if (node != null && "{}".equals(node.toString())) {
             LOGGER.debug("ignoring empty spec");
             node = null;
         }
-        Swagger swagger;
+        OpenAPI openapi;
+        ParseOptions parseOptions = new ParseOptions();
+        parseOptions.setResolve(true);
         if (node == null) {
-            if (opts.getSwaggerUrl() != null) {
+            if (opts.getOpenAPIUrl() != null) {
                 if (opts.getAuthorizationValue() != null) {
-                    List<AuthorizationValue> authorizationValues =
-                            new ArrayList<AuthorizationValue>();
+                    List<AuthorizationValue> authorizationValues = new ArrayList<>();
                     authorizationValues.add(opts.getAuthorizationValue());
-
-                    swagger =
-                            new SwaggerParser().read(opts.getSwaggerUrl(), authorizationValues,
-                                    true);
+                    openapi = new OpenAPIParser().readLocation(opts.getOpenAPIUrl(), authorizationValues, parseOptions).getOpenAPI();
                 } else {
-                    swagger = new SwaggerParser().read(opts.getSwaggerUrl());
+                    openapi = new OpenAPIParser().readLocation(opts.getOpenAPIUrl(), null, parseOptions).getOpenAPI();
                 }
             } else {
-                throw new BadRequestException("No OpenAPI specification was supplied");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No OpenAPI specification was supplied");
             }
         } else if (opts.getAuthorizationValue() != null) {
             List<AuthorizationValue> authorizationValues = new ArrayList<AuthorizationValue>();
             authorizationValues.add(opts.getAuthorizationValue());
-            swagger = new SwaggerParser().read(node, authorizationValues, true);
+            openapi = new OpenAPIParser().readContents(node.toString(), authorizationValues, parseOptions).getOpenAPI();
+
         } else {
-            swagger = new SwaggerParser().read(node, true);
+            openapi = new OpenAPIParser().readContents(node.toString(), null, parseOptions).getOpenAPI();
         }
-        if (swagger == null) {
-            throw new BadRequestException("The OpenAPI specification supplied was not valid");
+        if (openapi == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The OpenAPI specification supplied was not valid");
         }
 
         String destPath = null;
@@ -130,19 +110,18 @@ public class Generator {
         String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + destPath;
         String outputFilename = outputFolder + "-bundle.zip";
 
-        // TODO revise below
-        //clientOptInput.opts(clientOpts).swagger(swagger);
+        clientOptInput.opts(clientOpts).openAPI(openapi);
 
         CodegenConfig codegenConfig = null;
         try {
             codegenConfig = CodegenConfigLoader.forName(language);
         } catch (RuntimeException e) {
-            throw new BadRequestException("Unsupported target " + language + " supplied");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unsupported target " + language + " supplied");
         }
 
         if (opts.getOptions() != null) {
             codegenConfig.additionalProperties().putAll(opts.getOptions());
-            codegenConfig.additionalProperties().put("swagger", swagger);
+            codegenConfig.additionalProperties().put("openAPI", openapi);
         }
 
         codegenConfig.setOutputDir(outputFolder);
@@ -160,33 +139,25 @@ public class Generator {
                 ZipUtil zip = new ZipUtil();
                 zip.compressFiles(filesToAdd, outputFilename);
             } else {
-                throw new BadRequestException(
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         "A target generation was attempted, but no files were created!");
             }
             for (File file : files) {
                 try {
                     file.delete();
                 } catch (Exception e) {
-                    LOGGER.error("unable to delete file " + file.getAbsolutePath());
+                    LOGGER.error("unable to delete file " + file.getAbsolutePath(), e);
                 }
             }
             try {
                 new File(outputFolder).delete();
             } catch (Exception e) {
-                LOGGER.error("unable to delete output folder " + outputFolder);
+                LOGGER.error("unable to delete output folder " + outputFolder, e);
             }
         } catch (Exception e) {
-            throw new BadRequestException("Unable to build target: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to build target: " + e.getMessage(), e);
         }
         return outputFilename;
-    }
-
-    public static InputOption clientOptions(@SuppressWarnings("unused") String language) {
-        return null;
-    }
-
-    public static InputOption serverOptions(@SuppressWarnings("unused") String language) {
-        return null;
     }
 
     protected static File getTmpFolder() {
