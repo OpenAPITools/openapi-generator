@@ -75,12 +75,14 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.baseType, "List");
         Assert.assertTrue(enumVar.isEnum);
 
-        Assert.assertEquals(enumVar.items.baseName, "name");
-        Assert.assertEquals(enumVar.items.datatype, "String");
-        Assert.assertEquals(enumVar.items.datatypeWithEnum, "NameEnum");
-        Assert.assertEquals(enumVar.items.name, "name");
-        Assert.assertEquals(enumVar.items.defaultValue, "null");
-        Assert.assertEquals(enumVar.items.baseType, "String");
+        Assert.assertEquals(enumVar.mostInnerItems.baseName, "name");
+        Assert.assertEquals(enumVar.mostInnerItems.datatype, "String");
+        Assert.assertEquals(enumVar.mostInnerItems.datatypeWithEnum, "NameEnum");
+        Assert.assertEquals(enumVar.mostInnerItems.name, "name");
+        Assert.assertEquals(enumVar.mostInnerItems.defaultValue, "null");
+        Assert.assertEquals(enumVar.mostInnerItems.baseType, "String");
+
+        Assert.assertEquals(enumVar.mostInnerItems.baseType, enumVar.items.baseType);
     }
 
     @Test(description = "convert a java model with an enum inside a list")
@@ -104,12 +106,14 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.baseType, "List");
         Assert.assertTrue(enumVar.isEnum);
 
-        Assert.assertEquals(enumVar.items.items.baseName, "name");
-        Assert.assertEquals(enumVar.items.items.datatype, "String");
-        Assert.assertEquals(enumVar.items.items.datatypeWithEnum, "NameEnum");
-        Assert.assertEquals(enumVar.items.items.name, "name");
-        Assert.assertEquals(enumVar.items.items.defaultValue, "null");
-        Assert.assertEquals(enumVar.items.items.baseType, "String");
+        Assert.assertEquals(enumVar.mostInnerItems.baseName, "name");
+        Assert.assertEquals(enumVar.mostInnerItems.datatype, "String");
+        Assert.assertEquals(enumVar.mostInnerItems.datatypeWithEnum, "NameEnum");
+        Assert.assertEquals(enumVar.mostInnerItems.name, "name");
+        Assert.assertEquals(enumVar.mostInnerItems.defaultValue, "null");
+        Assert.assertEquals(enumVar.mostInnerItems.baseType, "String");
+
+        Assert.assertEquals(enumVar.mostInnerItems.baseType, enumVar.items.items.baseType);
     }
 
     @Test(description = "not override identical parent enums")

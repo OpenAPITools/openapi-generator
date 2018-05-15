@@ -19,8 +19,8 @@ package org.openapitools.codegen;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 public class CodegenParameter {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
@@ -38,6 +38,7 @@ public class CodegenParameter {
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
+    public CodegenProperty mostInnerItems;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation;
 
@@ -141,6 +142,9 @@ public class CodegenParameter {
         }
         if (this.items != null) {
             output.items = this.items;
+        }
+        if (this.mostInnerItems != null) {
+            output.mostInnerItems = this.mostInnerItems;
         }
         if(this.vendorExtensions != null){
             output.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
@@ -259,6 +263,8 @@ public class CodegenParameter {
             return false;
         if (items != null ? !items.equals(that.items) : that.items != null)
             return false;
+        if (mostInnerItems != null ? !mostInnerItems.equals(that.mostInnerItems) : that.mostInnerItems != null)
+            return false;
         if (vendorExtensions != null ? !vendorExtensions.equals(that.vendorExtensions) : that.vendorExtensions != null)
             return false;
         if (hasValidation != that.hasValidation)
@@ -335,6 +341,7 @@ public class CodegenParameter {
         result = 31 * result + (_enum != null ? _enum.hashCode() : 0);
         result = 31 * result + (allowableValues != null ? allowableValues.hashCode() : 0);
         result = 31 * result + (items != null ? items.hashCode() : 0);
+        result = 31 * result + (mostInnerItems != null ? mostInnerItems.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         result = 31 * result + (hasValidation ? 13:31);
         result = 31 * result + (required ? 13:31);
@@ -399,6 +406,7 @@ public class CodegenParameter {
                 ", _enum=" + _enum +
                 ", allowableValues=" + allowableValues +
                 ", items=" + items +
+                ", mostInnerItems=" + mostInnerItems +
                 ", vendorExtensions=" + vendorExtensions +
                 ", hasValidation=" + hasValidation +
                 ", required=" + required +
