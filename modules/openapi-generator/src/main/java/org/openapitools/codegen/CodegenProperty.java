@@ -68,6 +68,7 @@ public class CodegenProperty implements Cloneable {
     public boolean isInherited;
     public String discriminatorValue;
     public String nameInCamelCase; // property name in camel case
+    public String nameInSnakeCase; // property name in upper snake case
     // enum name based on the property name, usually use as a prefix (e.g. VAR_NAME) for enum name (e.g. VAR_NAME_VALUE1)
     public String enumName;
     public Integer maxItems;
@@ -342,6 +343,10 @@ public class CodegenProperty implements Cloneable {
 
     public void setNameInCamelCase(String nameInCamelCase) {
         this.nameInCamelCase = nameInCamelCase;
+    }
+
+    public String getNameInSnakeCase() {
+        return nameInSnakeCase;
     }
 
     public String getEnumName() {
