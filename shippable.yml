@@ -13,6 +13,8 @@ build:
     - sudo apt-get update -qq
     # install go
     - sudo apt-get install golang-go
+    - export GOPATH=$HOME/go
+    - export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
     # install stack
     - curl -sSL https://get.haskellstack.org/ | sh
     - stack upgrade
