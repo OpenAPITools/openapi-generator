@@ -13,6 +13,7 @@ build:
     - sudo apt-get update -qq
     # install stack
     - curl -sSL https://get.haskellstack.org/ | sh
+    - stack upgrade --binary
     # install elixir
     - sudo apt-get install erlang
     - wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb
@@ -24,6 +25,8 @@ build:
     - rebar3 -v
     - elixir --version
     - mix --version
+    # show go version
+    - go version
     # test samples defined in pom.xml
     - cp CI/pom.xml.shippable pom.xml
     - mvn clean install
