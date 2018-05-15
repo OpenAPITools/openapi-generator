@@ -11,6 +11,8 @@ build:
     - $SHIPPABLE_REPO_DIR/samples/client/petstore/elixir/deps
   ci:
     - sudo apt-get update -qq
+    # install go
+    - sudo apt-get install golang-go
     # install stack
     - curl -sSL https://get.haskellstack.org/ | sh
     - stack upgrade
