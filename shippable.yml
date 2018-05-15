@@ -13,7 +13,8 @@ build:
     - sudo apt-get update -qq
     # install stack
     - curl -sSL https://get.haskellstack.org/ | sh
-    - stack upgrade --binary
+    - stack upgrade
+    - stack --version
     # install elixir
     - sudo apt-get install erlang
     - wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb
