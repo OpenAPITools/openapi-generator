@@ -31,9 +31,9 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
     protected static final String LIBRARY_JERSEY2 = "jersey2";
 
     /**
-     * Default library template to use. (Default:{@value #DEFAULT_LIBRARY})
+     * Default library template to use. (Default:{@value #DEFAULT_JERSEY_LIBRARY})
      */
-    public static final String DEFAULT_LIBRARY = LIBRARY_JERSEY2;
+    public static final String DEFAULT_JERSEY_LIBRARY = LIBRARY_JERSEY2;
     public static final String USE_TAGS = "useTags";
 
     protected boolean useTags = false;
@@ -61,7 +61,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         supportedLibraries.put(LIBRARY_JERSEY1, "Jersey core 1.x");
         supportedLibraries.put(LIBRARY_JERSEY2, "Jersey core 2.x");
         library.setEnum(supportedLibraries);
-        library.setDefault(DEFAULT_LIBRARY);
+        library.setDefault(DEFAULT_JERSEY_LIBRARY);
 
         cliOptions.add(library);
         cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1/2 library."));
@@ -101,7 +101,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         // use default library if unset
         if (StringUtils.isEmpty(library)) {
-            setLibrary(DEFAULT_LIBRARY);
+            setLibrary(DEFAULT_JERSEY_LIBRARY);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {

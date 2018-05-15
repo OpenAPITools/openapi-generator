@@ -33,7 +33,12 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>./elm-compile-test</executable>
+                            <executable>elm</executable>
+                            <arguments>
+                                <argument>make</argument>
+                                <argument>--yes</argument>
+                                <argument>src/Main.elm</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>

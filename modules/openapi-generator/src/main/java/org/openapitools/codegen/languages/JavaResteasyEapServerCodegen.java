@@ -34,7 +34,6 @@ import org.apache.commons.lang3.StringUtils;
 public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         implements JbossFeature, BeanValidationFeatures, SwaggerFeatures {
 
-    protected boolean useBeanValidation = true;
     protected boolean generateJbossDeploymentDescriptor = true;
     protected boolean useSwaggerFeature = false;
 
@@ -43,6 +42,7 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         super();
 
         artifactId = "openapi-jaxrs-resteasy-eap-server";
+        useBeanValidation = true;
 
         outputFolder = "generated-code/JavaJaxRS-Resteasy-eap";
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");

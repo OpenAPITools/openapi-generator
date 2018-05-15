@@ -4083,6 +4083,7 @@ public class DefaultCodegen implements CodegenConfig {
                     CodegenProperty codegenProperty = fromProperty("inner", inner);
                     codegenParameter.items = codegenProperty;
                     codegenParameter.baseType = codegenProperty.datatype;
+                    codegenParameter.isPrimitiveType = false;
                     codegenParameter.isContainer = true;
                     codegenParameter.isListContainer = true;
                     codegenParameter.description = s.getDescription();
