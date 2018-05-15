@@ -35,6 +35,10 @@ addons:
     - petstore.swagger.io
 
 before_install:
+  # install haskell
+  - curl -sSL https://get.haskellstack.org/ | sh
+  - stack upgrade
+  - stack --version
   # install rust
   - curl -sSf https://static.rust-lang.org/rustup.sh | sh
   # required when sudo: required for the Ruby petstore tests
@@ -74,6 +78,7 @@ install:
   - eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme | GIMME_GO_VERSION=1.4 bash)"
   - export GOPATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace"
   - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$PATH"
+  - go version
 
 script:
   # fail fast
