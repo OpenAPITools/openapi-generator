@@ -10,9 +10,10 @@ build:
     - $HOME/.stack
     - $SHIPPABLE_REPO_DIR/samples/client/petstore/elixir/deps
   ci:
+    - sudo add-apt-repository ppa:gophers/archive
     - sudo apt-get update -qq
     # install go
-    - sudo apt-get install golang-go
+    - sudo apt-get install golang-1.10-go
     - export GOPATH=$HOME/go
     - export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
     # install stack
