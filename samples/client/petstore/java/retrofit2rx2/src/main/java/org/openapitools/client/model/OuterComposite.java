@@ -30,16 +30,16 @@ import java.math.BigDecimal;
  */
 
 public class OuterComposite {
-  public static final String SERIALIZED_NAME_MyNumber = "my_number";
-  @SerializedName(SERIALIZED_NAME_MyNumber)
+  public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
+  @SerializedName(SERIALIZED_NAME_MY_NUMBER)
   private BigDecimal myNumber = null;
 
-  public static final String SERIALIZED_NAME_MyString = "my_string";
-  @SerializedName(SERIALIZED_NAME_MyString)
+  public static final String SERIALIZED_NAME_MY_STRING = "my_string";
+  @SerializedName(SERIALIZED_NAME_MY_STRING)
   private String myString = null;
 
-  public static final String SERIALIZED_NAME_MyBoolean = "my_boolean";
-  @SerializedName(SERIALIZED_NAME_MyBoolean)
+  public static final String SERIALIZED_NAME_MY_BOOLEAN = "my_boolean";
+  @SerializedName(SERIALIZED_NAME_MY_BOOLEAN)
   private Boolean myBoolean = null;
 
   public OuterComposite myNumber(BigDecimal myNumber) {

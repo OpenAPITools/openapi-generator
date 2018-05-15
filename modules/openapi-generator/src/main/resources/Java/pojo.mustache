@@ -57,8 +57,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   {{/isXmlAttribute}}
   {{/withXml}}
   {{#gson}}
-  public static final String SERIALIZED_NAME_{{nameInCamelCase}} = "{{baseName}}";
-  @SerializedName(SERIALIZED_NAME_{{nameInCamelCase}})
+  public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
+  @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
   {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};

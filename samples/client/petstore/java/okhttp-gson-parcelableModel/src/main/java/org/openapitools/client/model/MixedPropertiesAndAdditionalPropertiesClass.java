@@ -37,16 +37,16 @@ import android.os.Parcel;
  */
 
 public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
-  public static final String SERIALIZED_NAME_Uuid = "uuid";
-  @SerializedName(SERIALIZED_NAME_Uuid)
+  public static final String SERIALIZED_NAME_UUID = "uuid";
+  @SerializedName(SERIALIZED_NAME_UUID)
   private UUID uuid = null;
 
-  public static final String SERIALIZED_NAME_DateTime = "dateTime";
-  @SerializedName(SERIALIZED_NAME_DateTime)
+  public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
+  @SerializedName(SERIALIZED_NAME_DATE_TIME)
   private OffsetDateTime dateTime = null;
 
-  public static final String SERIALIZED_NAME_Map = "map";
-  @SerializedName(SERIALIZED_NAME_Map)
+  public static final String SERIALIZED_NAME_MAP = "map";
+  @SerializedName(SERIALIZED_NAME_MAP)
   private Map<String, Animal> map = null;
 
   public MixedPropertiesAndAdditionalPropertiesClass() {

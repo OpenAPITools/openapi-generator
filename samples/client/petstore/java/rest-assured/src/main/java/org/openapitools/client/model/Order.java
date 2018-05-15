@@ -30,20 +30,20 @@ import org.threeten.bp.OffsetDateTime;
  */
 
 public class Order {
-  public static final String SERIALIZED_NAME_Id = "id";
-  @SerializedName(SERIALIZED_NAME_Id)
+  public static final String SERIALIZED_NAME_ID = "id";
+  @SerializedName(SERIALIZED_NAME_ID)
   private Long id = null;
 
-  public static final String SERIALIZED_NAME_PetId = "petId";
-  @SerializedName(SERIALIZED_NAME_PetId)
+  public static final String SERIALIZED_NAME_PET_ID = "petId";
+  @SerializedName(SERIALIZED_NAME_PET_ID)
   private Long petId = null;
 
-  public static final String SERIALIZED_NAME_Quantity = "quantity";
-  @SerializedName(SERIALIZED_NAME_Quantity)
+  public static final String SERIALIZED_NAME_QUANTITY = "quantity";
+  @SerializedName(SERIALIZED_NAME_QUANTITY)
   private Integer quantity = null;
 
-  public static final String SERIALIZED_NAME_ShipDate = "shipDate";
-  @SerializedName(SERIALIZED_NAME_ShipDate)
+  public static final String SERIALIZED_NAME_SHIP_DATE = "shipDate";
+  @SerializedName(SERIALIZED_NAME_SHIP_DATE)
   private OffsetDateTime shipDate = null;
 
   /**
@@ -95,12 +95,12 @@ public class Order {
     }
   }
 
-  public static final String SERIALIZED_NAME_Status = "status";
-  @SerializedName(SERIALIZED_NAME_Status)
+  public static final String SERIALIZED_NAME_STATUS = "status";
+  @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status = null;
 
-  public static final String SERIALIZED_NAME_Complete = "complete";
-  @SerializedName(SERIALIZED_NAME_Complete)
+  public static final String SERIALIZED_NAME_COMPLETE = "complete";
+  @SerializedName(SERIALIZED_NAME_COMPLETE)
   private Boolean complete = false;
 
   public Order id(Long id) {

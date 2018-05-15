@@ -32,8 +32,8 @@ import java.util.Map;
  */
 
 public class MapTest {
-  public static final String SERIALIZED_NAME_MapMapOfString = "map_map_of_string";
-  @SerializedName(SERIALIZED_NAME_MapMapOfString)
+  public static final String SERIALIZED_NAME_MAP_MAP_OF_STRING = "map_map_of_string";
+  @SerializedName(SERIALIZED_NAME_MAP_MAP_OF_STRING)
   private Map<String, Map<String, String>> mapMapOfString = null;
 
   /**
@@ -83,8 +83,8 @@ public class MapTest {
     }
   }
 
-  public static final String SERIALIZED_NAME_MapOfEnumString = "map_of_enum_string";
-  @SerializedName(SERIALIZED_NAME_MapOfEnumString)
+  public static final String SERIALIZED_NAME_MAP_OF_ENUM_STRING = "map_of_enum_string";
+  @SerializedName(SERIALIZED_NAME_MAP_OF_ENUM_STRING)
   private Map<String, InnerEnum> mapOfEnumString = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {

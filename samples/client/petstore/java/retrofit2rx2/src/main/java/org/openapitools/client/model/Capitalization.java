@@ -29,28 +29,28 @@ import java.io.IOException;
  */
 
 public class Capitalization {
-  public static final String SERIALIZED_NAME_SmallCamel = "smallCamel";
-  @SerializedName(SERIALIZED_NAME_SmallCamel)
+  public static final String SERIALIZED_NAME_SMALL_CAMEL = "smallCamel";
+  @SerializedName(SERIALIZED_NAME_SMALL_CAMEL)
   private String smallCamel = null;
 
-  public static final String SERIALIZED_NAME_CapitalCamel = "CapitalCamel";
-  @SerializedName(SERIALIZED_NAME_CapitalCamel)
+  public static final String SERIALIZED_NAME_CAPITAL_CAMEL = "CapitalCamel";
+  @SerializedName(SERIALIZED_NAME_CAPITAL_CAMEL)
   private String capitalCamel = null;
 
-  public static final String SERIALIZED_NAME_SmallSnake = "small_Snake";
-  @SerializedName(SERIALIZED_NAME_SmallSnake)
+  public static final String SERIALIZED_NAME_SMALL_SNAKE = "small_Snake";
+  @SerializedName(SERIALIZED_NAME_SMALL_SNAKE)
   private String smallSnake = null;
 
-  public static final String SERIALIZED_NAME_CapitalSnake = "Capital_Snake";
-  @SerializedName(SERIALIZED_NAME_CapitalSnake)
+  public static final String SERIALIZED_NAME_CAPITAL_SNAKE = "Capital_Snake";
+  @SerializedName(SERIALIZED_NAME_CAPITAL_SNAKE)
   private String capitalSnake = null;
 
-  public static final String SERIALIZED_NAME_ScAETHFlowPoints = "SCA_ETH_Flow_Points";
-  @SerializedName(SERIALIZED_NAME_ScAETHFlowPoints)
+  public static final String SERIALIZED_NAME_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
+  @SerializedName(SERIALIZED_NAME_SC_A_E_T_H_FLOW_POINTS)
   private String scAETHFlowPoints = null;
 
-  public static final String SERIALIZED_NAME_ATTNAME = "ATT_NAME";
-  @SerializedName(SERIALIZED_NAME_ATTNAME)
+  public static final String SERIALIZED_NAME_A_T_T_N_A_M_E = "ATT_NAME";
+  @SerializedName(SERIALIZED_NAME_A_T_T_N_A_M_E)
   private String ATT_NAME = null;
 
   public Capitalization smallCamel(String smallCamel) {

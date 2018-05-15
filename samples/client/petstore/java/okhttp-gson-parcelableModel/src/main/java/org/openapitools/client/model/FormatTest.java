@@ -36,56 +36,56 @@ import android.os.Parcel;
  */
 
 public class FormatTest implements Parcelable {
-  public static final String SERIALIZED_NAME_Integer = "integer";
-  @SerializedName(SERIALIZED_NAME_Integer)
+  public static final String SERIALIZED_NAME_INTEGER = "integer";
+  @SerializedName(SERIALIZED_NAME_INTEGER)
   private Integer integer = null;
 
-  public static final String SERIALIZED_NAME_Int32 = "int32";
-  @SerializedName(SERIALIZED_NAME_Int32)
+  public static final String SERIALIZED_NAME_INT32 = "int32";
+  @SerializedName(SERIALIZED_NAME_INT32)
   private Integer int32 = null;
 
-  public static final String SERIALIZED_NAME_Int64 = "int64";
-  @SerializedName(SERIALIZED_NAME_Int64)
+  public static final String SERIALIZED_NAME_INT64 = "int64";
+  @SerializedName(SERIALIZED_NAME_INT64)
   private Long int64 = null;
 
-  public static final String SERIALIZED_NAME_Number = "number";
-  @SerializedName(SERIALIZED_NAME_Number)
+  public static final String SERIALIZED_NAME_NUMBER = "number";
+  @SerializedName(SERIALIZED_NAME_NUMBER)
   private BigDecimal number = null;
 
-  public static final String SERIALIZED_NAME_Float = "float";
-  @SerializedName(SERIALIZED_NAME_Float)
+  public static final String SERIALIZED_NAME_FLOAT = "float";
+  @SerializedName(SERIALIZED_NAME_FLOAT)
   private Float _float = null;
 
-  public static final String SERIALIZED_NAME_Double = "double";
-  @SerializedName(SERIALIZED_NAME_Double)
+  public static final String SERIALIZED_NAME_DOUBLE = "double";
+  @SerializedName(SERIALIZED_NAME_DOUBLE)
   private Double _double = null;
 
-  public static final String SERIALIZED_NAME_String = "string";
-  @SerializedName(SERIALIZED_NAME_String)
+  public static final String SERIALIZED_NAME_STRING = "string";
+  @SerializedName(SERIALIZED_NAME_STRING)
   private String string = null;
 
-  public static final String SERIALIZED_NAME_Byte = "byte";
-  @SerializedName(SERIALIZED_NAME_Byte)
+  public static final String SERIALIZED_NAME_BYTE = "byte";
+  @SerializedName(SERIALIZED_NAME_BYTE)
   private byte[] _byte = null;
 
-  public static final String SERIALIZED_NAME_Binary = "binary";
-  @SerializedName(SERIALIZED_NAME_Binary)
+  public static final String SERIALIZED_NAME_BINARY = "binary";
+  @SerializedName(SERIALIZED_NAME_BINARY)
   private File binary = null;
 
-  public static final String SERIALIZED_NAME_Date = "date";
-  @SerializedName(SERIALIZED_NAME_Date)
+  public static final String SERIALIZED_NAME_DATE = "date";
+  @SerializedName(SERIALIZED_NAME_DATE)
   private LocalDate date = null;
 
-  public static final String SERIALIZED_NAME_DateTime = "dateTime";
-  @SerializedName(SERIALIZED_NAME_DateTime)
+  public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
+  @SerializedName(SERIALIZED_NAME_DATE_TIME)
   private OffsetDateTime dateTime = null;
 
-  public static final String SERIALIZED_NAME_Uuid = "uuid";
-  @SerializedName(SERIALIZED_NAME_Uuid)
+  public static final String SERIALIZED_NAME_UUID = "uuid";
+  @SerializedName(SERIALIZED_NAME_UUID)
   private UUID uuid = null;
 
-  public static final String SERIALIZED_NAME_Password = "password";
-  @SerializedName(SERIALIZED_NAME_Password)
+  public static final String SERIALIZED_NAME_PASSWORD = "password";
+  @SerializedName(SERIALIZED_NAME_PASSWORD)
   private String password = null;
 
   public FormatTest() {

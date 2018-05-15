@@ -81,8 +81,8 @@ public class EnumTest implements Parcelable {
     }
   }
 
-  public static final String SERIALIZED_NAME_EnumString = "enum_string";
-  @SerializedName(SERIALIZED_NAME_EnumString)
+  public static final String SERIALIZED_NAME_ENUM_STRING = "enum_string";
+  @SerializedName(SERIALIZED_NAME_ENUM_STRING)
   private EnumStringEnum enumString = null;
 
   /**
@@ -134,8 +134,8 @@ public class EnumTest implements Parcelable {
     }
   }
 
-  public static final String SERIALIZED_NAME_EnumStringRequired = "enum_string_required";
-  @SerializedName(SERIALIZED_NAME_EnumStringRequired)
+  public static final String SERIALIZED_NAME_ENUM_STRING_REQUIRED = "enum_string_required";
+  @SerializedName(SERIALIZED_NAME_ENUM_STRING_REQUIRED)
   private EnumStringRequiredEnum enumStringRequired = null;
 
   /**
@@ -185,8 +185,8 @@ public class EnumTest implements Parcelable {
     }
   }
 
-  public static final String SERIALIZED_NAME_EnumInteger = "enum_integer";
-  @SerializedName(SERIALIZED_NAME_EnumInteger)
+  public static final String SERIALIZED_NAME_ENUM_INTEGER = "enum_integer";
+  @SerializedName(SERIALIZED_NAME_ENUM_INTEGER)
   private EnumIntegerEnum enumInteger = null;
 
   /**
@@ -236,12 +236,12 @@ public class EnumTest implements Parcelable {
     }
   }
 
-  public static final String SERIALIZED_NAME_EnumNumber = "enum_number";
-  @SerializedName(SERIALIZED_NAME_EnumNumber)
+  public static final String SERIALIZED_NAME_ENUM_NUMBER = "enum_number";
+  @SerializedName(SERIALIZED_NAME_ENUM_NUMBER)
   private EnumNumberEnum enumNumber = null;
 
-  public static final String SERIALIZED_NAME_OuterEnum = "outerEnum";
-  @SerializedName(SERIALIZED_NAME_OuterEnum)
+  public static final String SERIALIZED_NAME_OUTER_ENUM = "outerEnum";
+  @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
   private OuterEnum outerEnum = null;
 
   public EnumTest() {

@@ -29,12 +29,12 @@ import java.io.IOException;
  */
 
 public class Category {
-  public static final String SERIALIZED_NAME_Id = "id";
-  @SerializedName(SERIALIZED_NAME_Id)
+  public static final String SERIALIZED_NAME_ID = "id";
+  @SerializedName(SERIALIZED_NAME_ID)
   private Long id = null;
 
-  public static final String SERIALIZED_NAME_Name = "name";
-  @SerializedName(SERIALIZED_NAME_Name)
+  public static final String SERIALIZED_NAME_NAME = "name";
+  @SerializedName(SERIALIZED_NAME_NAME)
   private String name = null;
 
   public Category id(Long id) {
