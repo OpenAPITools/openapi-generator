@@ -41,6 +41,6 @@ test_script:
 
   # generate all petstore clients
   - .\bin\windows\run-all-petstore.cmd
-#cache:
-#  - C:\maven\
-#  - C:\Users\appveyor\.m2
+cache:
+  - C:\maven\
+  - C:\Users\appveyor\.m2
