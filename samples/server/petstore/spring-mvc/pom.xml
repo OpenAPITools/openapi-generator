@@ -37,7 +37,7 @@
                     <stopPort>8079</stopPort>
                     <stopKey>stopit</stopKey>
                     <httpConnector>
-                        <port>8002</port>
+                        <port>8004</port>
                         <idleTimeout>60000</idleTimeout>
                     </httpConnector>
                 </configuration>
