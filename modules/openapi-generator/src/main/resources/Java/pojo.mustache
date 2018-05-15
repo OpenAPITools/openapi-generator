@@ -13,14 +13,12 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
     {{^isContainer}}
 {{>modelInnerEnum}}
     {{/isContainer}}
-    {{/isEnum}}
-    {{#items.isEnum}}
-      {{#items}}
-      {{^isContainer}}
+    {{#isContainer}}
+    {{#mostInnerItems}}
 {{>modelInnerEnum}}
-      {{/isContainer}}
-      {{/items}}
-    {{/items.isEnum}}
+    {{/mostInnerItems}}
+    {{/isContainer}}
+    {{/isEnum}}
   {{#jackson}}
   @JsonProperty("{{baseName}}")
   {{#withXml}}
