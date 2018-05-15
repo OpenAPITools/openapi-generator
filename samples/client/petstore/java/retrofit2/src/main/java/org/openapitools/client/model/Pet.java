@@ -33,24 +33,24 @@ import org.openapitools.client.model.Tag;
  */
 
 public class Pet {
-  public static final String SERIALIZED_NAME_Id = "id";
-  @SerializedName(SERIALIZED_NAME_Id)
+  public static final String SERIALIZED_NAME_ID = "id";
+  @SerializedName(SERIALIZED_NAME_ID)
   private Long id = null;
 
-  public static final String SERIALIZED_NAME_Category = "category";
-  @SerializedName(SERIALIZED_NAME_Category)
+  public static final String SERIALIZED_NAME_CATEGORY = "category";
+  @SerializedName(SERIALIZED_NAME_CATEGORY)
   private Category category = null;
 
-  public static final String SERIALIZED_NAME_Name = "name";
-  @SerializedName(SERIALIZED_NAME_Name)
+  public static final String SERIALIZED_NAME_NAME = "name";
+  @SerializedName(SERIALIZED_NAME_NAME)
   private String name = null;
 
-  public static final String SERIALIZED_NAME_PhotoUrls = "photoUrls";
-  @SerializedName(SERIALIZED_NAME_PhotoUrls)
+  public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
+  @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
   private List<String> photoUrls = new ArrayList<String>();
 
-  public static final String SERIALIZED_NAME_Tags = "tags";
-  @SerializedName(SERIALIZED_NAME_Tags)
+  public static final String SERIALIZED_NAME_TAGS = "tags";
+  @SerializedName(SERIALIZED_NAME_TAGS)
   private List<Tag> tags = null;
 
   /**
@@ -102,8 +102,8 @@ public class Pet {
     }
   }
 
-  public static final String SERIALIZED_NAME_Status = "status";
-  @SerializedName(SERIALIZED_NAME_Status)
+  public static final String SERIALIZED_NAME_STATUS = "status";
+  @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status = null;
 
   public Pet id(Long id) {

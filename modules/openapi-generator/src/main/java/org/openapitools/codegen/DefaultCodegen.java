@@ -18,6 +18,7 @@
 package org.openapitools.codegen;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache.Compiler;
 
 import io.swagger.v3.core.util.Json;
@@ -1636,6 +1637,7 @@ public class DefaultCodegen implements CodegenConfig {
         property.name = toVarName(name);
         property.baseName = name;
         property.nameInCamelCase = camelize(property.name, false);
+        property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
         property.title = p.getTitle();

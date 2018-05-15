@@ -86,6 +86,8 @@ public class JavaModelTest {
 
         final CodegenProperty property1 = vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.nameInCamelCase, "Id");
+        Assert.assertEquals(property1.nameInSnakeCase, "ID");
         Assert.assertEquals(property1.getter, "getId");
         Assert.assertEquals(property1.setter, "setId");
         Assert.assertEquals(property1.datatype, "Long");
@@ -98,6 +100,8 @@ public class JavaModelTest {
 
         final CodegenProperty property2 = vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
+        Assert.assertEquals(property2.nameInCamelCase, "Name");
+        Assert.assertEquals(property2.nameInSnakeCase, "NAME");
         Assert.assertEquals(property2.getter, "getName");
         Assert.assertEquals(property2.setter, "setName");
         Assert.assertEquals(property2.datatype, "String");
@@ -111,6 +115,8 @@ public class JavaModelTest {
 
         final CodegenProperty property3 = vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
+        Assert.assertEquals(property3.nameInCamelCase, "CreatedAt");
+        Assert.assertEquals(property3.nameInSnakeCase, "CREATED_AT");
         Assert.assertEquals(property3.getter, "getCreatedAt");
         Assert.assertEquals(property3.setter, "setCreatedAt");
         Assert.assertEquals(property3.datatype, "Date");
@@ -790,6 +796,8 @@ public class JavaModelTest {
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
         Assert.assertEquals(cp.baseName, "property");
+        Assert.assertEquals(cp.nameInCamelCase, "Property");
+        Assert.assertEquals(cp.nameInSnakeCase, "PROPERTY");
         Assert.assertEquals(cp.datatype, "Long");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "Long");
@@ -813,6 +821,8 @@ public class JavaModelTest {
 
         CodegenProperty cp1 = cm.vars.get(0);
         Assert.assertEquals(cp1.baseName, "Integer1");
+        Assert.assertEquals(cp1.nameInCamelCase, "Integer1");
+        Assert.assertEquals(cp1.nameInSnakeCase, "INTEGER1");
         Assert.assertEquals(cp1.datatype, "Integer");
         Assert.assertEquals(cp1.name, "integer1");
         Assert.assertEquals(cp1.baseType, "Integer");
@@ -820,6 +830,8 @@ public class JavaModelTest {
 
         CodegenProperty cp2 = cm.vars.get(1);
         Assert.assertEquals(cp2.baseName, "Integer2");
+        Assert.assertEquals(cp2.nameInCamelCase, "Integer2");
+        Assert.assertEquals(cp2.nameInSnakeCase, "INTEGER2");
         Assert.assertEquals(cp2.datatype, "Integer");
         Assert.assertEquals(cp2.name, "integer2");
         Assert.assertEquals(cp2.baseType, "Integer");

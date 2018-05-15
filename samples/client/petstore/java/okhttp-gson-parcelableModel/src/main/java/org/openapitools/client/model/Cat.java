@@ -32,8 +32,8 @@ import android.os.Parcel;
  */
 
 public class Cat extends Animal implements Parcelable {
-  public static final String SERIALIZED_NAME_Declawed = "declawed";
-  @SerializedName(SERIALIZED_NAME_Declawed)
+  public static final String SERIALIZED_NAME_DECLAWED = "declawed";
+  @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed = null;
 
   public Cat() {

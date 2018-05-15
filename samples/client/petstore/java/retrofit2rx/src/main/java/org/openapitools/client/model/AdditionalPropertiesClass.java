@@ -32,12 +32,12 @@ import java.util.Map;
  */
 
 public class AdditionalPropertiesClass {
-  public static final String SERIALIZED_NAME_MapProperty = "map_property";
-  @SerializedName(SERIALIZED_NAME_MapProperty)
+  public static final String SERIALIZED_NAME_MAP_PROPERTY = "map_property";
+  @SerializedName(SERIALIZED_NAME_MAP_PROPERTY)
   private Map<String, String> mapProperty = null;
 
-  public static final String SERIALIZED_NAME_MapOfMapProperty = "map_of_map_property";
-  @SerializedName(SERIALIZED_NAME_MapOfMapProperty)
+  public static final String SERIALIZED_NAME_MAP_OF_MAP_PROPERTY = "map_of_map_property";
+  @SerializedName(SERIALIZED_NAME_MAP_OF_MAP_PROPERTY)
   private Map<String, Map<String, String>> mapOfMapProperty = null;
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {

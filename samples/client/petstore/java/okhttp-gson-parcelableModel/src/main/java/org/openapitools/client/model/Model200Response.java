@@ -32,12 +32,12 @@ import android.os.Parcel;
 @ApiModel(description = "Model for testing model name starting with number")
 
 public class Model200Response implements Parcelable {
-  public static final String SERIALIZED_NAME_Name = "name";
-  @SerializedName(SERIALIZED_NAME_Name)
+  public static final String SERIALIZED_NAME_NAME = "name";
+  @SerializedName(SERIALIZED_NAME_NAME)
   private Integer name = null;
 
-  public static final String SERIALIZED_NAME_PropertyClass = "class";
-  @SerializedName(SERIALIZED_NAME_PropertyClass)
+  public static final String SERIALIZED_NAME_PROPERTY_CLASS = "class";
+  @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
   private String propertyClass = null;
 
   public Model200Response() {

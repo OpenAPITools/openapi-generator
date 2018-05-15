@@ -30,8 +30,8 @@ import java.math.BigDecimal;
  */
 
 public class NumberOnly {
-  public static final String SERIALIZED_NAME_JustNumber = "JustNumber";
-  @SerializedName(SERIALIZED_NAME_JustNumber)
+  public static final String SERIALIZED_NAME_JUST_NUMBER = "JustNumber";
+  @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
   private BigDecimal justNumber = null;
 
   public NumberOnly justNumber(BigDecimal justNumber) {

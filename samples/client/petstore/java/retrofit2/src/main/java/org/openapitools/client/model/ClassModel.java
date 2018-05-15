@@ -30,8 +30,8 @@ import java.io.IOException;
 @ApiModel(description = "Model for testing model with \"_class\" property")
 
 public class ClassModel {
-  public static final String SERIALIZED_NAME_PropertyClass = "_class";
-  @SerializedName(SERIALIZED_NAME_PropertyClass)
+  public static final String SERIALIZED_NAME_PROPERTY_CLASS = "_class";
+  @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
   private String propertyClass = null;
 
   public ClassModel propertyClass(String propertyClass) {
