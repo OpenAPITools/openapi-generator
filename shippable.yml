@@ -10,12 +10,7 @@ build:
     - $HOME/.stack
     - $SHIPPABLE_REPO_DIR/samples/client/petstore/elixir/deps
   ci:
-    - sudo add-apt-repository ppa:gophers/archive
     - sudo apt-get update -qq
-    # install go
-    - sudo apt-get install golang-1.10-go
-    - export GOPATH=$HOME/go
-    - export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
     # install stack
     - curl -sSL https://get.haskellstack.org/ | sh
     - stack upgrade
@@ -31,8 +26,6 @@ build:
     - rebar3 -v
     - elixir --version
     - mix --version
-    # show go version
-    - go version
     # test samples defined in pom.xml
     - cp CI/pom.xml.shippable pom.xml
     - mvn clean install
