@@ -848,8 +848,8 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <!-- elm client not fully ready for CI yet
-                <module>samples/client/petstore/elm</module>-->
+                <!-- elm client not fully ready for CI yet -->
+                <module>samples/client/petstore/elm</module>
                 <module>samples/client/petstore/groovy</module>
                 <module>samples/client/petstore/rust</module>
                 <!--<module>samples/client/petstore/perl</module>-->
