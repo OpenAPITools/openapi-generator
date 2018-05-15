@@ -34,8 +34,8 @@ import android.os.Parcel;
  */
 
 public class ArrayOfArrayOfNumberOnly implements Parcelable {
-  public static final String SERIALIZED_NAME_ArrayArrayNumber = "ArrayArrayNumber";
-  @SerializedName(SERIALIZED_NAME_ArrayArrayNumber)
+  public static final String SERIALIZED_NAME_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
+  @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_NUMBER)
   private List<List<BigDecimal>> arrayArrayNumber = null;
 
   public ArrayOfArrayOfNumberOnly() {

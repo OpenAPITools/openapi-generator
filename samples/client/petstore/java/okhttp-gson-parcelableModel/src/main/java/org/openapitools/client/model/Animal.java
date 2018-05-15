@@ -32,12 +32,12 @@ import android.os.Parcel;
 
 
 public class Animal implements Parcelable {
-  public static final String SERIALIZED_NAME_ClassName = "className";
-  @SerializedName(SERIALIZED_NAME_ClassName)
+  public static final String SERIALIZED_NAME_CLASS_NAME = "className";
+  @SerializedName(SERIALIZED_NAME_CLASS_NAME)
   private String className = null;
 
-  public static final String SERIALIZED_NAME_Color = "color";
-  @SerializedName(SERIALIZED_NAME_Color)
+  public static final String SERIALIZED_NAME_COLOR = "color";
+  @SerializedName(SERIALIZED_NAME_COLOR)
   private String color = "red";
 
   public Animal() {

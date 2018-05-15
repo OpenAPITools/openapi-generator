@@ -29,16 +29,16 @@ import java.io.IOException;
  */
 
 public class ModelApiResponse {
-  public static final String SERIALIZED_NAME_Code = "code";
-  @SerializedName(SERIALIZED_NAME_Code)
+  public static final String SERIALIZED_NAME_CODE = "code";
+  @SerializedName(SERIALIZED_NAME_CODE)
   private Integer code = null;
 
-  public static final String SERIALIZED_NAME_Type = "type";
-  @SerializedName(SERIALIZED_NAME_Type)
+  public static final String SERIALIZED_NAME_TYPE = "type";
+  @SerializedName(SERIALIZED_NAME_TYPE)
   private String type = null;
 
-  public static final String SERIALIZED_NAME_Message = "message";
-  @SerializedName(SERIALIZED_NAME_Message)
+  public static final String SERIALIZED_NAME_MESSAGE = "message";
+  @SerializedName(SERIALIZED_NAME_MESSAGE)
   private String message = null;
 
   public ModelApiResponse code(Integer code) {

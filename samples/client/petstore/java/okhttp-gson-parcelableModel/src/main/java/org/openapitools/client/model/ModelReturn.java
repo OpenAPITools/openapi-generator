@@ -32,8 +32,8 @@ import android.os.Parcel;
 @ApiModel(description = "Model for testing reserved words")
 
 public class ModelReturn implements Parcelable {
-  public static final String SERIALIZED_NAME_Return = "return";
-  @SerializedName(SERIALIZED_NAME_Return)
+  public static final String SERIALIZED_NAME_RETURN = "return";
+  @SerializedName(SERIALIZED_NAME_RETURN)
   private Integer _return = null;
 
   public ModelReturn() {

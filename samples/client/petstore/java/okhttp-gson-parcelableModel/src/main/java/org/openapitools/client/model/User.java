@@ -31,36 +31,36 @@ import android.os.Parcel;
  */
 
 public class User implements Parcelable {
-  public static final String SERIALIZED_NAME_Id = "id";
-  @SerializedName(SERIALIZED_NAME_Id)
+  public static final String SERIALIZED_NAME_ID = "id";
+  @SerializedName(SERIALIZED_NAME_ID)
   private Long id = null;
 
-  public static final String SERIALIZED_NAME_Username = "username";
-  @SerializedName(SERIALIZED_NAME_Username)
+  public static final String SERIALIZED_NAME_USERNAME = "username";
+  @SerializedName(SERIALIZED_NAME_USERNAME)
   private String username = null;
 
-  public static final String SERIALIZED_NAME_FirstName = "firstName";
-  @SerializedName(SERIALIZED_NAME_FirstName)
+  public static final String SERIALIZED_NAME_FIRST_NAME = "firstName";
+  @SerializedName(SERIALIZED_NAME_FIRST_NAME)
   private String firstName = null;
 
-  public static final String SERIALIZED_NAME_LastName = "lastName";
-  @SerializedName(SERIALIZED_NAME_LastName)
+  public static final String SERIALIZED_NAME_LAST_NAME = "lastName";
+  @SerializedName(SERIALIZED_NAME_LAST_NAME)
   private String lastName = null;
 
-  public static final String SERIALIZED_NAME_Email = "email";
-  @SerializedName(SERIALIZED_NAME_Email)
+  public static final String SERIALIZED_NAME_EMAIL = "email";
+  @SerializedName(SERIALIZED_NAME_EMAIL)
   private String email = null;
 
-  public static final String SERIALIZED_NAME_Password = "password";
-  @SerializedName(SERIALIZED_NAME_Password)
+  public static final String SERIALIZED_NAME_PASSWORD = "password";
+  @SerializedName(SERIALIZED_NAME_PASSWORD)
   private String password = null;
 
-  public static final String SERIALIZED_NAME_Phone = "phone";
-  @SerializedName(SERIALIZED_NAME_Phone)
+  public static final String SERIALIZED_NAME_PHONE = "phone";
+  @SerializedName(SERIALIZED_NAME_PHONE)
   private String phone = null;
 
-  public static final String SERIALIZED_NAME_UserStatus = "userStatus";
-  @SerializedName(SERIALIZED_NAME_UserStatus)
+  public static final String SERIALIZED_NAME_USER_STATUS = "userStatus";
+  @SerializedName(SERIALIZED_NAME_USER_STATUS)
   private Integer userStatus = null;
 
   public User() {
