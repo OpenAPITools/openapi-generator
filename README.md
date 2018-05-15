@@ -4,7 +4,7 @@
 
 Master (3.0.0): [![Build Status](https://travis-ci.org/OpenAPITools/openapi-generator.svg?branch=master)](https://travis-ci.org/OpenAPITools/openapi-generator)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
-[![Run Status](https://img.shields.io/shippable/5782588a3be4f4faa56c5bea/master.svg?label=Template%20Test)](https://app.shippable.com/github/OpenAPITools/openapi-generator/dashboard)
+[![Run Status](https://api.shippable.com/projects/5af6bf74e790f4070084a115/badge?branch=master?label=Template%20Test)](https://app.shippable.com/github/OpenAPITools/openapi-generator/dashboard)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
 
 </div>
