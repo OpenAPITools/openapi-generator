@@ -202,17 +202,11 @@ public class ExampleGenerator {
                 }
                 return objectProperties;
             }
-        } else if (ModelUtils.isDateSchema(property))
-
-        {
+        } else if (ModelUtils.isDateSchema(property)) {
             return "2000-01-23";
-        } else if (ModelUtils.isDateTimeSchema(property))
-
-        {
+        } else if (ModelUtils.isDateTimeSchema(property)) {
             return "2000-01-23T04:56:07.000+00:00";
-        } else if (ModelUtils.isNumberSchema(property))
-
-        {
+        } else if (ModelUtils.isNumberSchema(property)) {
             Double min = property.getMinimum() == null ? null : property.getMinimum().doubleValue();
             Double max = property.getMaximum() == null ? null : property.getMaximum().doubleValue();
             if (ModelUtils.isFloatSchema(property)) { // float
@@ -222,23 +216,17 @@ public class ExampleGenerator {
             } else { // no format defined
                 return randomNumber(min, max);
             }
-        } else if (ModelUtils.isFileSchema(property))
-
-        {
+        } else if (ModelUtils.isFileSchema(property)) {
             return "";  // TODO
 
-        } else if (ModelUtils.isIntegerSchema(property))
-
-        {
+        } else if (ModelUtils.isIntegerSchema(property)) {
             Double min = property.getMinimum() == null ? null : property.getMinimum().doubleValue();
             Double max = property.getMaximum() == null ? null : property.getMaximum().doubleValue();
             if (ModelUtils.isLongSchema(property)) {
                 return (long) randomNumber(min, max);
             }
             return (int) randomNumber(min, max);
-        } else if (ModelUtils.isMapSchema(property))
-
-        {
+        } else if (ModelUtils.isMapSchema(property)) {
             Map<String, Object> mp = new HashMap<String, Object>();
             if (property.getName() != null) {
                 mp.put(property.getName(),
@@ -248,13 +236,9 @@ public class ExampleGenerator {
                         resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels));
             }
             return mp;
-        } else if (ModelUtils.isUUIDSchema(property))
-
-        {
+        } else if (ModelUtils.isUUIDSchema(property)) {
             return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
-        } else if (ModelUtils.isStringSchema(property))
-
-        {
+        } else if (ModelUtils.isStringSchema(property)) {
             LOGGER.debug("String property");
             String defaultValue = (String) property.getDefault();
             if (defaultValue != null && !defaultValue.isEmpty()) {
@@ -273,9 +257,7 @@ public class ExampleGenerator {
             }
             LOGGER.debug("No values found, using property name " + propertyName + " as example");
             return propertyName;
-        } else if (!StringUtils.isEmpty(property.get$ref()))
-
-        { // model
+        } else if (!StringUtils.isEmpty(property.get$ref())) { // model
             String simpleName = ModelUtils.getSimpleRef(property.get$ref());
             Schema schema = ModelUtils.getSchema(openAPI, simpleName);
             if (schema == null) { // couldn't find the model/schema
@@ -283,9 +265,7 @@ public class ExampleGenerator {
             }
             return resolveModelToExample(simpleName, mediaType, schema, processedModels);
 
-        } else if (ModelUtils.isObjectSchema(property))
-
-        {
+        } else if (ModelUtils.isObjectSchema(property)) {
             return "{}";
         }
 
