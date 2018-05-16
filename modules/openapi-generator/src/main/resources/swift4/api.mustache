@@ -114,9 +114,6 @@ open class {{classname}} {
      {{#hasResponseHeaders}}
      - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{datatype}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
      {{/hasResponseHeaders}}
-     {{#hasExamples}}
-     - examples: {{{examples}}}
-     {{/hasExamples}}
      {{#externalDocs}}
      - externalDocs: {{externalDocs}}
      {{/externalDocs}}
