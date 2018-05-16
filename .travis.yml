@@ -91,7 +91,7 @@ script:
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
   - mvn clean install
-    #- mvn -q --batch-mode verify -Psamples
+  - mvn -q --batch-mode verify -Psamples
 after_success:
   # push a snapshot version to maven repo
   - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_BRANCH" = "master" ]; then
