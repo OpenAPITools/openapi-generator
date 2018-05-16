@@ -884,7 +884,7 @@
                 <!--<module>samples/server/petstore/kotlin-server/ktor</module>-->
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
+                <!--<module>samples/server/petstore/spring-mvc-j8-localdatetime</module>-->
                 <module>samples/client/petstore/spring-cloud</module>
                 <module>samples/server/petstore/springboot</module>
                 <module>samples/server/petstore/springboot-beanvalidation</module>
