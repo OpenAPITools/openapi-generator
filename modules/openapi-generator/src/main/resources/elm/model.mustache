@@ -15,7 +15,7 @@ import Maybe exposing (map, withDefault)
    {{{description}}}
 -}
 {{/description}}
-{{#isEnum}}{{>modelTypeUnion}}{{/isEnum}}{{^isEnum}}{{#hasChildren}}{{>modelTypeDiscriminator}}{{/hasChildren}}{{^hasChildren}}{{#isAlias}}{{>modelTypePrimitive}}{{/isAlias}}{{^isAlias}}{{>modelTypeAlias}}{{/isAlias}}{{/hasChildren}}{{/isEnum}}
+{{#isEnum}}{{>modelTypeUnion}}{{/isEnum}}{{^isEnum}}{{#hasChildren}}{{>modelTypeDiscriminator}}{{/hasChildren}}{{^hasChildren}}{{#isAlias}}{{>modelTypePrimitive}}{{/isAlias}}{{^isAlias}}{{#isArrayModel}}{{>modelTypeArray}}{{/isArrayModel}}{{^isArrayModel}}{{>modelTypeAlias}}{{/isArrayModel}}{{/isAlias}}{{/hasChildren}}{{/isEnum}}
 {{/model}}
 {{^-last}}
 
