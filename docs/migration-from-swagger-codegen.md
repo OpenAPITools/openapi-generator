@@ -100,6 +100,12 @@ Some examples:
 | `swagger.codegen.undertow.modelpackage` | `openapi.codegen.undertow.modelpackage` |
 
 
+### Renamed Mustache Template Variables 
+
+The template variable `{{datatype}}` was renamed to `{{dataType}}` for consistency reason.
+Corresponding java code: `CodegenProperty.datatype` is renamed to `CodegenProperty.datatype`.
+
+
 ### Ignore file
 
 `.swagger-codegen-ignore` is replaced by `.openapi-generator-ignore`.
