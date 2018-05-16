@@ -58,6 +58,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -864,6 +865,83 @@ public class JavaModelTest {
         Assert.assertEquals(cp2.name, "long2");
         Assert.assertEquals(cp2.baseType, "Long");
         Assert.assertEquals(cp2.getter, "getLong2");
+    }
+
+    @Test(description = "convert string property")
+    public void stringPropertyTest() {
+        final Schema property = new StringSchema().maxLength(10).minLength(3).pattern("^[A-Z]+$");
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenProperty cp = codegen.fromProperty("somePropertyWithMinMaxAndPattern", property);
+
+        Assert.assertEquals(cp.baseName, "somePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.nameInCamelCase, "SomePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.nameInSnakeCase, "SOME_PROPERTY_WITH_MIN_MAX_AND_PATTERN");
+        Assert.assertEquals(cp.datatype, "String");
+        Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.baseType, "String");
+        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isLong);
+        Assert.assertFalse(cp.isInteger);
+        Assert.assertTrue(cp.isString);
+        Assert.assertEquals(cp.getter, "getSomePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.minLength, Integer.valueOf(3));
+        Assert.assertEquals(cp.maxLength, Integer.valueOf(10));
+        Assert.assertEquals(cp.pattern, "^[A-Z]+$");
+    }
+
+    @Test(description = "convert string property in an object")
+    public void stringPropertyInObjectTest() {
+        final Schema property = new StringSchema().maxLength(10).minLength(3).pattern("^[A-Z]+$");
+        final Schema myObject = new ObjectSchema().addProperties("somePropertyWithMinMaxAndPattern", property);
+
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        CodegenModel cm = codegen.fromModel("myObject", myObject, Collections.singletonMap("myObject", myObject));
+
+        Assert.assertEquals(cm.getVars().size(), 1);
+        CodegenProperty cp = cm.getVars().get(0);
+        Assert.assertEquals(cp.baseName, "somePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.nameInCamelCase, "SomePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.nameInSnakeCase, "SOME_PROPERTY_WITH_MIN_MAX_AND_PATTERN");
+        Assert.assertEquals(cp.datatype, "String");
+        Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.baseType, "String");
+        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isLong);
+        Assert.assertFalse(cp.isInteger);
+        Assert.assertTrue(cp.isString);
+        Assert.assertEquals(cp.getter, "getSomePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.minLength, Integer.valueOf(3));
+        Assert.assertEquals(cp.maxLength, Integer.valueOf(10));
+        Assert.assertEquals(cp.pattern, "^[A-Z]+$");
+    }
+
+    @Test(description = "convert referenced string property in an object")
+    public void stringPropertyReferencedInObjectTest() {
+        final Schema property = new StringSchema().maxLength(10).minLength(3).pattern("^[A-Z]+$");
+        final Schema myObject = new ObjectSchema().addProperties("somePropertyWithMinMaxAndPattern", new ObjectSchema().$ref("refObj"));
+
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        Map<String, Schema> schemaMap = new HashMap<>();
+        schemaMap.put("myObject", myObject);
+        schemaMap.put("refObj", property);
+        CodegenModel cm = codegen.fromModel("myObject", myObject, schemaMap);
+
+        Assert.assertEquals(cm.getVars().size(), 1);
+        CodegenProperty cp = cm.getVars().get(0);
+        Assert.assertEquals(cp.baseName, "somePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.nameInCamelCase, "SomePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.nameInSnakeCase, "SOME_PROPERTY_WITH_MIN_MAX_AND_PATTERN");
+        Assert.assertEquals(cp.datatype, "String");
+        Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.baseType, "String");
+        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isLong);
+        Assert.assertFalse(cp.isInteger);
+        Assert.assertTrue(cp.isString);
+        Assert.assertEquals(cp.getter, "getSomePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.minLength, Integer.valueOf(3));
+        Assert.assertEquals(cp.maxLength, Integer.valueOf(10));
+        Assert.assertEquals(cp.pattern, "^[A-Z]+$");
     }
 
     @Test(description = "convert an array schema")
