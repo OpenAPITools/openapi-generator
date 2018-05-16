@@ -100,7 +100,10 @@ namespace Org.OpenAPITools
                 .UseMvc()
                 .UseDefaultFiles()
                 .UseStaticFiles()
-                .UseSwagger()
+                .UseSwagger(c =>
+                {
+                    c.RouteTemplate = "swagger/{documentName}/openapi.json";
+                })
                 .UseSwaggerUI(c =>
                 {
                     //TODO: Either use the SwaggerGen generated Swagger contract (generated from C# classes)
