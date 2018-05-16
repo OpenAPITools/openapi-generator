@@ -1037,31 +1037,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        String sanitzedDataType = sanitizeForEnum(datatype);
-        if ("Integer".equals(sanitzedDataType) || "Double".equals(sanitzedDataType)) {
+        if ("Integer".equals(datatype) || "Double".equals(datatype)) {
             return value;
-        } else if ("Long".equals(sanitzedDataType)) {
+        } else if ("Long".equals(datatype)) {
             // add l to number, e.g. 2048 => 2048l
             return value + "l";
-        } else if ("Float".equals(sanitzedDataType)) {
+        } else if ("Float".equals(datatype)) {
             // add f to number, e.g. 3.14 => 3.14f
             return value + "f";
         } else {
             return "\"" + escapeText(value) + "\"";
-        }
-    }
-
-    /**
-     * @param datatype
-     * @return the contained datatype if datatype is List
-     */
-    private String sanitizeForEnum(String datatype){
-        Pattern p = Pattern.compile("List<(.*)>");
-        Matcher m = p.matcher(datatype);
-        if(m.find()) {
-            return m.group(1);
-        } else {
-            return datatype;
         }
     }
 
