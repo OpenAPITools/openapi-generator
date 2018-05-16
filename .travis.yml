@@ -94,14 +94,14 @@ script:
     #- mvn -q --batch-mode verify -Psamples
 after_success:
   # push a snapshot version to maven repo
-  - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_BRANCH" = "fix_online_docker" ]; then
+  - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_BRANCH" = "master" ]; then
       mvn clean deploy --settings CI/settings.xml;
       echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
     fi;
   ## docker: build and push openapi-generator-online to DockerHub
-  - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && docker build -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "fix_online_docker" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME && echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME"; fi; fi
+  - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && docker build -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME && echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME"; fi; fi
   ## docker: build cli image and push to Docker Hub
-  - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && docker build -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "fix_online_docker" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME && echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME"; fi; fi
+  - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && docker build -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME && echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME"; fi; fi
 
 env:
   - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli
