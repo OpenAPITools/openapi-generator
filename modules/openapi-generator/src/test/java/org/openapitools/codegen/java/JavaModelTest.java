@@ -1033,7 +1033,7 @@ public class JavaModelTest {
         getClass().getClassLoader().getResourceAsStream("src/test/resources/3_0_0/petstore.json");
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setLang("java")
+                .setGeneratorName("java")
                 .setLibrary("jersey2")
                 //.addAdditionalProperty("withXml", true)
                 .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)

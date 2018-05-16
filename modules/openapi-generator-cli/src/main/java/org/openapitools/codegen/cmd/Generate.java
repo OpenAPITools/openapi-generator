@@ -39,7 +39,7 @@ import java.util.List;
 @Command(name = "generate", description = "Generate code with chosen lang")
 public class Generate implements Runnable {
 
-    public static final Logger LOG = LoggerFactory.getLogger(Generate.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;
@@ -47,6 +47,10 @@ public class Generate implements Runnable {
     @Option(name = {"-l", "--lang"}, title = "language", required = true,
             description = "client language to generate (maybe class name in classpath, required)")
     private String lang;
+
+    @Option(name = {"-g", "--generator-name"}, title = "generator name",
+            description = "generator to use (see langs command for list)")
+    private String generatorName;
 
     @Option(name = {"-o", "--output"}, title = "output directory",
             description = "where to write the generated files (current dir by default)")
@@ -215,7 +219,13 @@ public class Generate implements Runnable {
         }
 
         if (isNotEmpty(lang)) {
-            configurator.setLang(lang);
+            LOGGER.warn("The '--lang' and '-l' are deprecated and may reference language names only in the next major release (4.0). Please use '--generator-name' and '-g' instead.");
+            configurator.setGeneratorName(lang);
+        }
+
+        // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang, marking it as optional and generatorName as optional, requiring that at least one is set.
+        if (isNotEmpty(generatorName)) {
+            configurator.setGeneratorName(generatorName);
         }
 
         if (isNotEmpty(output)) {

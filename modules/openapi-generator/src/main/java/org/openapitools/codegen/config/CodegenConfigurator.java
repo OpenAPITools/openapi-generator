@@ -27,7 +27,6 @@ import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.auth.AuthParser;
 import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
@@ -58,7 +57,7 @@ public class CodegenConfigurator implements Serializable {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigurator.class);
 
-    private String lang;
+    private String generatorName;
     private String inputSpec;
     private String outputDir;
     private boolean verbose;
@@ -95,8 +94,33 @@ public class CodegenConfigurator implements Serializable {
         this.setOutputDir(".");
     }
 
+    /**
+     * Set the "language". This has drifted away from language-only to include framework and hyphenated generator types as well as language.
+     * <p>
+     * NOTE: This will eventually become language only again. It is deprecated in its current state.
+     * </p>
+     *
+     * @deprecated Please use {@link #setGeneratorName(String)}, as generators are no longer identified only by language. We may reuse language in the future.
+     * @param lang The generator name. Previously, language name only.
+     * @return The fluent instance of {@link CodegenConfigurator}
+     */
+    @Deprecated
     public CodegenConfigurator setLang(String lang) {
-        this.lang = lang;
+        this.setGeneratorName(lang);
+        return this;
+    }
+
+    /**
+     * Sets the name of the target generator.
+     *
+     * The generator's name is used to uniquely identify the generator as a mechanism to lookup the desired implementation
+     * at runtime.
+     *
+     * @param generatorName The name of the generator.
+     * @return The fluent instance of {@link CodegenConfigurator}
+     */
+    public CodegenConfigurator setGeneratorName(String generatorName) {
+        this.generatorName = generatorName;
         return this;
     }
 
@@ -172,8 +196,24 @@ public class CodegenConfigurator implements Serializable {
         return this;
     }
 
+
+    /**
+     * Gets the "language". This has drifted away from language-only to include framework and hyphenated generator types as well as language.
+     * <p>
+     * NOTE: This will eventually become language only again. It is deprecated in its current state.
+     * </p>
+     *
+     * @deprecated Please use {@link #getGeneratorName()}, as generators are no longer identified only by language. We may reuse language in the future.
+     *
+     * @return A string which defines the generator.
+     */
+    @Deprecated
     public String getLang() {
-        return lang;
+        return getGeneratorName();
+    }
+
+    public String getGeneratorName() {
+        return generatorName;
     }
 
     public String getTemplateDir() {
@@ -400,13 +440,13 @@ public class CodegenConfigurator implements Serializable {
 
     public ClientOptInput toClientOptInput() {
 
-        Validate.notEmpty(lang, "language must be specified");
+        Validate.notEmpty(generatorName, "language/generatorName must be specified");
         Validate.notEmpty(inputSpec, "input spec must be specified");
 
         setVerboseFlags();
         setSystemProperties();
 
-        CodegenConfig config = CodegenConfigLoader.forName(lang);
+        CodegenConfig config = CodegenConfigLoader.forName(generatorName);
 
         config.setInputSpec(inputSpec);
         config.setOutputDir(outputDir);

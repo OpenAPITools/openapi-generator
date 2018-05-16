@@ -560,7 +560,7 @@ public class GenerateTest {
 
         new Verifications() {
             {
-                configurator.setLang(lang);
+                configurator.setGeneratorName(lang);
                 times = 1;
                 configurator.setInputSpec(spec);
                 times = 1;

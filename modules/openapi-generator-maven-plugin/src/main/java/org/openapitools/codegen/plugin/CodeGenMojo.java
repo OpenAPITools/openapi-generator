@@ -49,12 +49,16 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Goal which generates client/server code from a OpenAPI json/yaml definition.
  */
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class CodeGenMojo extends AbstractMojo {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
 
     @Parameter(name = "verbose", required = false, defaultValue = "false")
     private boolean verbose;
@@ -64,6 +68,13 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "language", required = true)
     private String language;
+
+
+    /**
+     * The name of the generator to use.
+     */
+    @Parameter(name = "generatorName")
+    private String generatorName;
 
     /**
      * Location of the output directory.
@@ -361,7 +372,13 @@ public class CodeGenMojo extends AbstractMojo {
             configurator.setIgnoreFileOverride(ignoreFileOverride);
         }
 
-        configurator.setLang(language);
+        LOGGER.warn("The 'language' option is deprecated and may reference language names only in the next major release (4.0). Please use 'generatorName' instead.");
+        configurator.setGeneratorName(language);
+
+        // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang, marking it as optional and generatorName as optional, requiring that at least one is set.
+        if (isNotEmpty(generatorName)) {
+            configurator.setGeneratorName(language);
+        }
 
         configurator.setOutputDir(output.getAbsolutePath());
 
