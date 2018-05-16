@@ -24,11 +24,11 @@ open class FakeAPI {
 
 
     /**
-     - POST /fake/outer/boolean
-     - Test serialization of outer boolean types
-     - examples: [{contentType=*/*, example=null}]
-     - parameter body: (body) Input boolean as post body (optional)
-     - returns: RequestBuilder<Bool> 
+///  - POST /fake/outer/boolean
+///  - Test serialization of outer boolean types
+///  - examples: [{contentType=*/*, example=null}]
+///  - parameter body: (body) Input boolean as post body (optional)
+///  - returns: RequestBuilder<Bool> 
      */
     open class func fakeOuterBooleanSerializeWithRequestBuilder(body: Bool? = nil) -> RequestBuilder<Bool> {
         let path = "/fake/outer/boolean"
@@ -55,11 +55,11 @@ open class FakeAPI {
 
 
     /**
-     - POST /fake/outer/composite
-     - Test serialization of object with outer number type
-     - examples: [{contentType=*/*, example={ }}]
-     - parameter outerComposite: (body) Input composite as post body (optional)
-     - returns: RequestBuilder<OuterComposite> 
+///  - POST /fake/outer/composite
+///  - Test serialization of object with outer number type
+///  - examples: [{contentType=*/*, example={ }}]
+///  - parameter outerComposite: (body) Input composite as post body (optional)
+///  - returns: RequestBuilder<OuterComposite> 
      */
     open class func fakeOuterCompositeSerializeWithRequestBuilder(outerComposite: OuterComposite? = nil) -> RequestBuilder<OuterComposite> {
         let path = "/fake/outer/composite"
@@ -86,11 +86,11 @@ open class FakeAPI {
 
 
     /**
-     - POST /fake/outer/number
-     - Test serialization of outer number types
-     - examples: [{contentType=*/*, example=null}]
-     - parameter body: (body) Input number as post body (optional)
-     - returns: RequestBuilder<Double> 
+///  - POST /fake/outer/number
+///  - Test serialization of outer number types
+///  - examples: [{contentType=*/*, example=null}]
+///  - parameter body: (body) Input number as post body (optional)
+///  - returns: RequestBuilder<Double> 
      */
     open class func fakeOuterNumberSerializeWithRequestBuilder(body: Double? = nil) -> RequestBuilder<Double> {
         let path = "/fake/outer/number"
@@ -117,11 +117,11 @@ open class FakeAPI {
 
 
     /**
-     - POST /fake/outer/string
-     - Test serialization of outer string types
-     - examples: [{contentType=*/*, example=null}]
-     - parameter body: (body) Input string as post body (optional)
-     - returns: RequestBuilder<String> 
+///  - POST /fake/outer/string
+///  - Test serialization of outer string types
+///  - examples: [{contentType=*/*, example=null}]
+///  - parameter body: (body) Input string as post body (optional)
+///  - returns: RequestBuilder<String> 
      */
     open class func fakeOuterStringSerializeWithRequestBuilder(body: String? = nil) -> RequestBuilder<String> {
         let path = "/fake/outer/string"
@@ -153,10 +153,10 @@ open class FakeAPI {
 
 
     /**
-     - PUT /fake/body-with-query-params
-     - parameter query: (query)  
-     - parameter user: (body)  
-     - returns: RequestBuilder<Void> 
+///  - PUT /fake/body-with-query-params
+///  - parameter query: (query)  
+///  - parameter user: (body)  
+///  - returns: RequestBuilder<Void> 
      */
     open class func testBodyWithQueryParamsWithRequestBuilder(query: String, user: User) -> RequestBuilder<Void> {
         let path = "/fake/body-with-query-params"
@@ -187,14 +187,14 @@ open class FakeAPI {
 
 
     /**
-     To test \"client\" model
-     - PATCH /fake
-     - To test \"client\" model
-     - examples: [{contentType=application/json, example={
+///  To test \"client\" model
+///  - PATCH /fake
+///  - To test \"client\" model
+///  - examples: [{contentType=application/json, example={
   "client" : "client"
 }}]
-     - parameter client: (body) client model 
-     - returns: RequestBuilder<Client> 
+///  - parameter client: (body) client model 
+///  - returns: RequestBuilder<Client> 
      */
     open class func testClientModelWithRequestBuilder(client: Client) -> RequestBuilder<Client> {
         let path = "/fake"
@@ -239,27 +239,27 @@ open class FakeAPI {
 
 
     /**
-     Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     - POST /fake
-     - Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     - BASIC:
-       - type: http
-       - name: http_basic_test
-     - parameter number: (form) None 
-     - parameter double: (form) None 
-     - parameter patternWithoutDelimiter: (form) None 
-     - parameter byte: (form) None 
-     - parameter integer: (form) None (optional)
-     - parameter int32: (form) None (optional)
-     - parameter int64: (form) None (optional)
-     - parameter float: (form) None (optional)
-     - parameter string: (form) None (optional)
-     - parameter binary: (form) None (optional)
-     - parameter date: (form) None (optional)
-     - parameter dateTime: (form) None (optional)
-     - parameter password: (form) None (optional)
-     - parameter callback: (form) None (optional)
-     - returns: RequestBuilder<Void> 
+///  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+///  - POST /fake
+///  - Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+///  - BASIC:
+///    - type: http
+///    - name: http_basic_test
+///  - parameter number: (form) None 
+///  - parameter double: (form) None 
+///  - parameter patternWithoutDelimiter: (form) None 
+///  - parameter byte: (form) None 
+///  - parameter integer: (form) None (optional)
+///  - parameter int32: (form) None (optional)
+///  - parameter int64: (form) None (optional)
+///  - parameter float: (form) None (optional)
+///  - parameter string: (form) None (optional)
+///  - parameter binary: (form) None (optional)
+///  - parameter date: (form) None (optional)
+///  - parameter dateTime: (form) None (optional)
+///  - parameter password: (form) None (optional)
+///  - parameter callback: (form) None (optional)
+///  - returns: RequestBuilder<Void> 
      */
     open class func testEndpointParametersWithRequestBuilder(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
@@ -383,18 +383,18 @@ open class FakeAPI {
 
 
     /**
-     To test enum parameters
-     - GET /fake
-     - To test enum parameters
-     - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
-     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to "-efg")
-     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
-     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to "-efg")
-     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
-     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
-     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to "$")
-     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to "-efg")
-     - returns: RequestBuilder<Void> 
+///  To test enum parameters
+///  - GET /fake
+///  - To test enum parameters
+///  - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
+///  - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to "-efg")
+///  - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
+///  - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to "-efg")
+///  - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
+///  - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
+///  - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to "$")
+///  - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to "-efg")
+///  - returns: RequestBuilder<Void> 
      */
     open class func testEnumParametersWithRequestBuilder(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
@@ -443,10 +443,10 @@ open class FakeAPI {
 
 
     /**
-     test inline additionalProperties
-     - POST /fake/inline-additionalProperties
-     - parameter requestBody: (body) request body 
-     - returns: RequestBuilder<Void> 
+///  test inline additionalProperties
+///  - POST /fake/inline-additionalProperties
+///  - parameter requestBody: (body) request body 
+///  - returns: RequestBuilder<Void> 
      */
     open class func testInlineAdditionalPropertiesWithRequestBuilder(requestBody: [String:String]) -> RequestBuilder<Void> {
         let path = "/fake/inline-additionalProperties"
@@ -479,11 +479,11 @@ open class FakeAPI {
 
 
     /**
-     test json serialization of form data
-     - GET /fake/jsonFormData
-     - parameter param: (form) field1 
-     - parameter param2: (form) field2 
-     - returns: RequestBuilder<Void> 
+///  test json serialization of form data
+///  - GET /fake/jsonFormData
+///  - parameter param: (form) field1 
+///  - parameter param2: (form) field2 
+///  - returns: RequestBuilder<Void> 
      */
     open class func testJsonFormDataWithRequestBuilder(param: String, param2: String) -> RequestBuilder<Void> {
         let path = "/fake/jsonFormData"

@@ -23,13 +23,13 @@ open class PetAPI: APIBase {
 
 
     /**
-     Add a new pet to the store
-     - POST /pet
-     - OAuth:
-       - type: oauth2
-       - name: petstore_auth
-     - parameter pet: (body) Pet object that needs to be added to the store 
-     - returns: RequestBuilder<Void> 
+///  Add a new pet to the store
+///  - POST /pet
+///  - OAuth:
+///    - type: oauth2
+///    - name: petstore_auth
+///  - parameter pet: (body) Pet object that needs to be added to the store 
+///  - returns: RequestBuilder<Void> 
      */
     open class func addPetWithRequestBuilder(pet: Pet) -> RequestBuilder<Void> {
         let path = "/pet"
@@ -57,14 +57,14 @@ open class PetAPI: APIBase {
 
 
     /**
-     Deletes a pet
-     - DELETE /pet/{petId}
-     - OAuth:
-       - type: oauth2
-       - name: petstore_auth
-     - parameter petId: (path) Pet id to delete 
-     - parameter apiKey: (header)  (optional)
-     - returns: RequestBuilder<Void> 
+///  Deletes a pet
+///  - DELETE /pet/{petId}
+///  - OAuth:
+///    - type: oauth2
+///    - name: petstore_auth
+///  - parameter petId: (path) Pet id to delete 
+///  - parameter apiKey: (header)  (optional)
+///  - returns: RequestBuilder<Void> 
      */
     open class func deletePetWithRequestBuilder(petId: Int64, apiKey: String? = nil) -> RequestBuilder<Void> {
         var path = "/pet/{petId}"
@@ -107,13 +107,13 @@ open class PetAPI: APIBase {
 
 
     /**
-     Finds Pets by status
-     - GET /pet/findByStatus
-     - Multiple status values can be provided with comma separated strings
-     - OAuth:
-       - type: oauth2
-       - name: petstore_auth
-     - examples: [{contentType=application/json, example={
+///  Finds Pets by status
+///  - GET /pet/findByStatus
+///  - Multiple status values can be provided with comma separated strings
+///  - OAuth:
+///    - type: oauth2
+///    - name: petstore_auth
+///  - examples: [{contentType=application/json, example={
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
@@ -139,7 +139,7 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}]
-     - examples: [{contentType=application/json, example={
+///  - examples: [{contentType=application/json, example={
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
@@ -165,8 +165,8 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}]
-     - parameter status: (query) Status values that need to be considered for filter 
-     - returns: RequestBuilder<[Pet]> 
+///  - parameter status: (query) Status values that need to be considered for filter 
+///  - returns: RequestBuilder<[Pet]> 
      */
     open class func findPetsByStatusWithRequestBuilder(status: [String]) -> RequestBuilder<[Pet]> {
         let path = "/pet/findByStatus"
@@ -196,13 +196,13 @@ open class PetAPI: APIBase {
 
 
     /**
-     Finds Pets by tags
-     - GET /pet/findByTags
-     - Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     - OAuth:
-       - type: oauth2
-       - name: petstore_auth
-     - examples: [{contentType=application/json, example={
+///  Finds Pets by tags
+///  - GET /pet/findByTags
+///  - Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+///  - OAuth:
+///    - type: oauth2
+///    - name: petstore_auth
+///  - examples: [{contentType=application/json, example={
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
@@ -228,7 +228,7 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}]
-     - examples: [{contentType=application/json, example={
+///  - examples: [{contentType=application/json, example={
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
@@ -254,8 +254,8 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}]
-     - parameter tags: (query) Tags to filter by 
-     - returns: RequestBuilder<[Pet]> 
+///  - parameter tags: (query) Tags to filter by 
+///  - returns: RequestBuilder<[Pet]> 
      */
     open class func findPetsByTagsWithRequestBuilder(tags: [String]) -> RequestBuilder<[Pet]> {
         let path = "/pet/findByTags"
@@ -285,13 +285,13 @@ open class PetAPI: APIBase {
 
 
     /**
-     Find pet by ID
-     - GET /pet/{petId}
-     - Returns a single pet
-     - API Key:
-       - type: apiKey api_key 
-       - name: api_key
-     - examples: [{contentType=application/json, example={
+///  Find pet by ID
+///  - GET /pet/{petId}
+///  - Returns a single pet
+///  - API Key:
+///    - type: apiKey api_key 
+///    - name: api_key
+///  - examples: [{contentType=application/json, example={
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
@@ -317,7 +317,7 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}]
-     - examples: [{contentType=application/json, example={
+///  - examples: [{contentType=application/json, example={
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
@@ -343,8 +343,8 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}]
-     - parameter petId: (path) ID of pet to return 
-     - returns: RequestBuilder<Pet> 
+///  - parameter petId: (path) ID of pet to return 
+///  - returns: RequestBuilder<Pet> 
      */
     open class func getPetByIdWithRequestBuilder(petId: Int64) -> RequestBuilder<Pet> {
         var path = "/pet/{petId}"
@@ -374,13 +374,13 @@ open class PetAPI: APIBase {
 
 
     /**
-     Update an existing pet
-     - PUT /pet
-     - OAuth:
-       - type: oauth2
-       - name: petstore_auth
-     - parameter pet: (body) Pet object that needs to be added to the store 
-     - returns: RequestBuilder<Void> 
+///  Update an existing pet
+///  - PUT /pet
+///  - OAuth:
+///    - type: oauth2
+///    - name: petstore_auth
+///  - parameter pet: (body) Pet object that needs to be added to the store 
+///  - returns: RequestBuilder<Void> 
      */
     open class func updatePetWithRequestBuilder(pet: Pet) -> RequestBuilder<Void> {
         let path = "/pet"
@@ -409,15 +409,15 @@ open class PetAPI: APIBase {
 
 
     /**
-     Updates a pet in the store with form data
-     - POST /pet/{petId}
-     - OAuth:
-       - type: oauth2
-       - name: petstore_auth
-     - parameter petId: (path) ID of pet that needs to be updated 
-     - parameter name: (form) Updated name of the pet (optional)
-     - parameter status: (form) Updated status of the pet (optional)
-     - returns: RequestBuilder<Void> 
+///  Updates a pet in the store with form data
+///  - POST /pet/{petId}
+///  - OAuth:
+///    - type: oauth2
+///    - name: petstore_auth
+///  - parameter petId: (path) ID of pet that needs to be updated 
+///  - parameter name: (form) Updated name of the pet (optional)
+///  - parameter status: (form) Updated status of the pet (optional)
+///  - returns: RequestBuilder<Void> 
      */
     open class func updatePetWithFormWithRequestBuilder(petId: Int64, name: String? = nil, status: String? = nil) -> RequestBuilder<Void> {
         var path = "/pet/{petId}"
@@ -455,20 +455,20 @@ open class PetAPI: APIBase {
 
 
     /**
-     uploads an image
-     - POST /pet/{petId}/uploadImage
-     - OAuth:
-       - type: oauth2
-       - name: petstore_auth
-     - examples: [{contentType=application/json, example={
+///  uploads an image
+///  - POST /pet/{petId}/uploadImage
+///  - OAuth:
+///    - type: oauth2
+///    - name: petstore_auth
+///  - examples: [{contentType=application/json, example={
   "code" : 0,
   "type" : "type",
   "message" : "message"
 }}]
-     - parameter petId: (path) ID of pet to update 
-     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
-     - parameter file: (form) file to upload (optional)
-     - returns: RequestBuilder<ApiResponse> 
+///  - parameter petId: (path) ID of pet to update 
+///  - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+///  - parameter file: (form) file to upload (optional)
+///  - returns: RequestBuilder<ApiResponse> 
      */
     open class func uploadFileWithRequestBuilder(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> RequestBuilder<ApiResponse> {
         var path = "/pet/{petId}/uploadImage"

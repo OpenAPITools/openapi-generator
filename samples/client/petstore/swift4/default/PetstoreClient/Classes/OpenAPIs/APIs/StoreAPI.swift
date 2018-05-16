@@ -29,11 +29,11 @@ open class StoreAPI {
 
 
     /**
-     Delete purchase order by ID
-     - DELETE /store/order/{order_id}
-     - For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-     - parameter orderId: (path) ID of the order that needs to be deleted 
-     - returns: RequestBuilder<Void> 
+///  Delete purchase order by ID
+///  - DELETE /store/order/{order_id}
+///  - For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+///  - parameter orderId: (path) ID of the order that needs to be deleted 
+///  - returns: RequestBuilder<Void> 
      */
     open class func deleteOrderWithRequestBuilder(orderId: String) -> RequestBuilder<Void> {
         var path = "/store/order/{order_id}"
@@ -63,13 +63,13 @@ open class StoreAPI {
 
 
     /**
-     Returns pet inventories by status
-     - GET /store/inventory
-     - Returns a map of status codes to quantities
-     - API Key:
-       - type: apiKey api_key 
-       - name: api_key
-     - returns: RequestBuilder<[String:Int]> 
+///  Returns pet inventories by status
+///  - GET /store/inventory
+///  - Returns a map of status codes to quantities
+///  - API Key:
+///    - type: apiKey api_key 
+///    - name: api_key
+///  - returns: RequestBuilder<[String:Int]> 
      */
     open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String:Int]> {
         let path = "/store/inventory"
@@ -97,10 +97,10 @@ open class StoreAPI {
 
 
     /**
-     Find purchase order by ID
-     - GET /store/order/{order_id}
-     - For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-     - examples: [{contentType=application/json, example={
+///  Find purchase order by ID
+///  - GET /store/order/{order_id}
+///  - For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+///  - examples: [{contentType=application/json, example={
   "petId" : 6,
   "quantity" : 1,
   "id" : 0,
@@ -115,8 +115,8 @@ open class StoreAPI {
   <status>aeiou</status>
   <complete>true</complete>
 </Order>}]
-     - parameter orderId: (path) ID of pet that needs to be fetched 
-     - returns: RequestBuilder<Order> 
+///  - parameter orderId: (path) ID of pet that needs to be fetched 
+///  - returns: RequestBuilder<Order> 
      */
     open class func getOrderByIdWithRequestBuilder(orderId: Int64) -> RequestBuilder<Order> {
         var path = "/store/order/{order_id}"
@@ -147,9 +147,9 @@ open class StoreAPI {
 
 
     /**
-     Place an order for a pet
-     - POST /store/order
-     - examples: [{contentType=application/json, example={
+///  Place an order for a pet
+///  - POST /store/order
+///  - examples: [{contentType=application/json, example={
   "petId" : 6,
   "quantity" : 1,
   "id" : 0,
@@ -164,8 +164,8 @@ open class StoreAPI {
   <status>aeiou</status>
   <complete>true</complete>
 </Order>}]
-     - parameter order: (body) order placed for purchasing the pet 
-     - returns: RequestBuilder<Order> 
+///  - parameter order: (body) order placed for purchasing the pet 
+///  - returns: RequestBuilder<Order> 
      */
     open class func placeOrderWithRequestBuilder(order: Order) -> RequestBuilder<Order> {
         let path = "/store/order"

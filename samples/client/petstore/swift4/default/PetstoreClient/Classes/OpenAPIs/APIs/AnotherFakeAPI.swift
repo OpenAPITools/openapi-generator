@@ -25,14 +25,14 @@ open class AnotherFakeAPI {
 
 
     /**
-     To test special tags
-     - PATCH /another-fake/dummy
-     - To test special tags
-     - examples: [{contentType=application/json, example={
+///  To test special tags
+///  - PATCH /another-fake/dummy
+///  - To test special tags
+///  - examples: [{contentType=application/json, example={
   "client" : "client"
 }}]
-     - parameter client: (body) client model 
-     - returns: RequestBuilder<Client> 
+///  - parameter client: (body) client model 
+///  - returns: RequestBuilder<Client> 
      */
     open class func testSpecialTagsWithRequestBuilder(client: Client) -> RequestBuilder<Client> {
         let path = "/another-fake/dummy"
