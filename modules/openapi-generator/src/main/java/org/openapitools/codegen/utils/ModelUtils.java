@@ -39,6 +39,7 @@ import io.swagger.v3.oas.models.media.PasswordSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.media.UUIDSchema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
@@ -91,37 +92,53 @@ public class ModelUtils {
         // operations
         Map<String, PathItem> paths = openAPI.getPaths();
         Map<String, Schema> schemas = getSchemas(openAPI);
+        unusedSchemas.addAll(schemas.keySet());
 
         if (paths != null) {
-            for (String pathname : paths.keySet()) {
-                PathItem path = paths.get(pathname);
-                Map<PathItem.HttpMethod, Operation> operationMap = path.readOperationsMap();
-                if (operationMap != null) {
-                    for (PathItem.HttpMethod method : operationMap.keySet()) {
-                        Operation operation = operationMap.get(method);
-                        RequestBody requestBody = operation.getRequestBody();
-
-                        if (requestBody == null) {
-                            continue;
-                        }
-
-                        //LOGGER.info("debugging resolver: " + requestBody.toString());
-                        if (requestBody.getContent() == null) {
-                            continue;
-                        }
-
-                        // go through "content"
-                        for (String mimeType : requestBody.getContent().keySet()) {
-                            if ("application/x-www-form-urlencoded".equalsIgnoreCase(mimeType) ||
-                                    "multipart/form-data".equalsIgnoreCase(mimeType)) {
-                                // remove the schema that's automatically created by the parser
-                                MediaType mediaType = requestBody.getContent().get(mimeType);
-                                if (mediaType.getSchema().get$ref() != null) {
-                                    LOGGER.debug("mark schema (form parameters) as unused: " + getSimpleRef(mediaType.getSchema().get$ref()));
-                                    unusedSchemas.add(getSimpleRef(mediaType.getSchema().get$ref()));
+            for (PathItem path : paths.values()) {
+                List<Operation> allOperations = path.readOperations();
+                if (allOperations != null) {
+                    for (Operation operation : allOperations) {
+                        //Params:
+                        if(operation.getParameters() != null) {
+                            for (Parameter p : operation.getParameters()) {
+                                Parameter parameter = getReferencedParamter(openAPI, p);
+                                if (parameter.getSchema() != null && parameter.getSchema().get$ref() != null) {
+                                    unusedSchemas.remove(getSimpleRef(parameter.getSchema().get$ref()));
                                 }
                             }
                         }
+
+                        //RequestBody:
+                        RequestBody requestBody = getReferencedRequestBody(openAPI, operation.getRequestBody());
+                        if (requestBody != null && requestBody.getContent() != null) {
+                            // go through "content" in requestBody
+                            for (String mimeType : requestBody.getContent().keySet()) {
+                                if (!"application/x-www-form-urlencoded".equalsIgnoreCase(mimeType) && 
+                                        !"multipart/form-data".equalsIgnoreCase(mimeType)) {
+                                    // remove the schema that's automatically created by the parser
+                                    MediaType mediaType = requestBody.getContent().get(mimeType);
+                                    if (mediaType.getSchema() != null && mediaType.getSchema().get$ref() != null) {
+                                        unusedSchemas.remove(getSimpleRef(mediaType.getSchema().get$ref()));
+                                    }
+                                }
+                            }
+                        }
+
+                        //Responses:
+                        if(operation.getResponses() != null) {
+                            for (ApiResponse r : operation.getResponses().values()) {
+                                ApiResponse apiResponse = getReferencedApiResponse(openAPI, r);
+                                if (apiResponse != null && apiResponse.getContent() != null) {
+                                    for (MediaType mediaType : apiResponse.getContent().values()) {
+                                        if (mediaType.getSchema() != null && mediaType.getSchema().get$ref() != null) {
+                                            unusedSchemas.remove(getSimpleRef(mediaType.getSchema().get$ref()));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                     }
                 }
             }
@@ -420,12 +437,46 @@ public class ModelUtils {
         }
         return null;
     }
-    
 
+    /**
+     * If a Parameter contains a reference to an other Parameter with '$ref', returns the referenced Parameter or the actual Parameter in the other cases.
+     * @param openAPI
+     * @param paramter potentially containing a '$ref'
+     * @return paramter without '$ref'
+     */
+    public static Parameter getReferencedParamter(OpenAPI openAPI, Parameter paramter) {
+        if (paramter != null && StringUtils.isNotEmpty(paramter.get$ref())) {
+            String name = getSimpleRef(paramter.get$ref());
+            return getParameter(openAPI, name);
+        }
+        return paramter;
+    }
+
+    public static Parameter getParameter(OpenAPI openAPI, String name) {
+        if (name == null) {
+            return null;
+        }
+
+        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getRequestBodies() != null) {
+            return openAPI.getComponents().getParameters().get(name);
+        }
+        return null;
+    }
+
+    /**
+     * Return the first defined Schema for a RequestBody
+     * @param requestBody
+     * @return firstSchema
+     */
     public static Schema getSchemaFromRequestBody(RequestBody requestBody) {
         return getSchemaFromContent(requestBody.getContent());
     }
 
+    /**
+     * Return the first defined Schema for a ApiResponse
+     * @param apiResponse
+     * @return firstSchema
+     */
     public static Schema getSchemaFromResponse(ApiResponse response) {
         return getSchemaFromContent(response.getContent());
     }
@@ -433,6 +484,9 @@ public class ModelUtils {
     private static Schema getSchemaFromContent(Content content) {
         if (content == null || content.isEmpty()) {
             return null;
+        }
+        if(content.size() > 1) {
+            LOGGER.warn("Multiple schemas found, returning only the first one");
         }
         MediaType mediaType = content.values().iterator().next();
         return mediaType.getSchema();
