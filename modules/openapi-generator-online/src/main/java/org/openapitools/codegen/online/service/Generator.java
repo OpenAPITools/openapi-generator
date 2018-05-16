@@ -37,17 +37,17 @@ import java.util.List;
 import java.util.Map;
 
 public class Generator {
-    static Logger LOGGER = LoggerFactory.getLogger(Generator.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(Generator.class);
 
     public static Map<String, CliOption> getOptions(String language) {
-        CodegenConfig config = null;
+        CodegenConfig config;
         try {
             config = CodegenConfigLoader.forName(language);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("Unsupported target %s supplied. %s",
                     language, e));
         }
-        Map<String, CliOption> map = new LinkedHashMap<String, CliOption>();
+        Map<String, CliOption> map = new LinkedHashMap<>();
         for (CliOption option : config.cliOptions()) {
             map.put(option.getOpt(), option);
         }
@@ -102,7 +102,7 @@ public class Generator {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No OpenAPI specification was supplied");
             }
         } else if (opts.getAuthorizationValue() != null) {
-            List<AuthorizationValue> authorizationValues = new ArrayList<AuthorizationValue>();
+            List<AuthorizationValue> authorizationValues = new ArrayList<>();
             authorizationValues.add(opts.getAuthorizationValue());
             openapi = new OpenAPIParser().readContents(node.toString(), authorizationValues, parseOptions).getOpenAPI();
 
@@ -115,7 +115,7 @@ public class Generator {
 
         String destPath = null;
 
-        if (opts != null && opts.getOptions() != null) {
+        if (opts.getOptions() != null) {
             destPath = opts.getOptions().get("outputFolder");
         }
         if (destPath == null) {
@@ -129,7 +129,7 @@ public class Generator {
 
         clientOptInput.opts(clientOpts).openAPI(openapi);
 
-        CodegenConfig codegenConfig = null;
+        CodegenConfig codegenConfig;
         try {
             codegenConfig = CodegenConfigLoader.forName(language);
         } catch (RuntimeException e) {
@@ -150,7 +150,7 @@ public class Generator {
         try {
             List<File> files = new DefaultGenerator().opts(clientOptInput).generate();
             if (files.size() > 0) {
-                List<File> filesToAdd = new ArrayList<File>();
+                List<File> filesToAdd = new ArrayList<>();
                 LOGGER.debug("adding to " + outputFolder);
                 filesToAdd.add(new File(outputFolder));
                 ZipUtil zip = new ZipUtil();
@@ -177,7 +177,7 @@ public class Generator {
         return outputFilename;
     }
 
-    protected static File getTmpFolder() {
+    private static File getTmpFolder() {
         try {
             File outputFolder = File.createTempFile("codegen-", "-tmp");
             outputFolder.delete();
