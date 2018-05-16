@@ -3658,11 +3658,11 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // put "enumVars" map into `allowableValues", including `name` and `value`
-        List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> enumVars = new ArrayList<>();
         String commonPrefix = findCommonPrefixOfVars(values);
         int truncateIdx = commonPrefix.length();
         for (Object value : values) {
-            Map<String, String> enumVar = new HashMap<String, String>();
+            Map<String, String> enumVar = new HashMap<>();
             String enumName;
             if (truncateIdx == 0) {
                 enumName = value.toString();
@@ -3672,8 +3672,9 @@ public class DefaultCodegen implements CodegenConfig {
                     enumName = value.toString();
                 }
             }
-            enumVar.put("name", toEnumVarName(enumName, var.dataType));
-            enumVar.put("value", toEnumValue(value.toString(), var.dataType));
+            String datatype = findMostInnerDatatype(var);
+            enumVar.put("name", toEnumVarName(enumName, datatype));
+            enumVar.put("value", toEnumValue(value.toString(), datatype));
             enumVars.add(enumVar);
         }
         allowableValues.put("enumVars", enumVars);
@@ -3690,6 +3691,14 @@ public class DefaultCodegen implements CodegenConfig {
             if (enumName != null) {
                 var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
             }
+        }
+    }
+
+    private String findMostInnerDatatype(CodegenProperty var) {
+        if(var.isContainer){
+            return findMostInnerDatatype(var.items);
+        } else {
+            return var.datatype;
         }
     }
 

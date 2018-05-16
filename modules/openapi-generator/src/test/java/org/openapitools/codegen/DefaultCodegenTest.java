@@ -33,8 +33,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -202,7 +204,7 @@ public class DefaultCodegenTest {
         Assert.assertEquals(co.produces.size(), 1);
         Assert.assertEquals(co.produces.get(0).get("mediaType"), "application/json");
     }
-    
+
     @Test
     public void testGetSchemaTypeWithComposedSchemaWithOneOf() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/composed-oneof.yaml", null, new ParseOptions()).getOpenAPI();
@@ -213,5 +215,31 @@ public class DefaultCodegenTest {
         String type = codegen.getSchemaType(schema);
 
         Assert.assertNotNull(type);
+    }
+
+    @Test
+    public void updateCodegenPropertyEnum() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        CodegenProperty array = codegenPropertyWithArrayOfIntegerValues();
+
+        codegen.updateCodegenPropertyEnum(array);
+
+        List<Map<String, String>> enumVars = (List<Map<String, String>>) array.getItems().getAllowableValues().get("enumVars");
+        Assert.assertNotNull(enumVars);
+        Map<String, String> testedEnumVar = enumVars.get(0);
+        Assert.assertNotNull(testedEnumVar);
+        Assert.assertEquals(testedEnumVar.getOrDefault("name", ""),"_1");
+        Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "\"1\"");
+    }
+
+    private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {
+        CodegenProperty array = new CodegenProperty();
+        final CodegenProperty items = new CodegenProperty();
+        final HashMap<String, Object> allowableValues = new HashMap<>();
+        allowableValues.put("values", Collections.singletonList(1));
+        items.setAllowableValues(allowableValues);
+        items.datatype = "Integer";
+        array.setItems(items);
+        return array;
     }
 }
