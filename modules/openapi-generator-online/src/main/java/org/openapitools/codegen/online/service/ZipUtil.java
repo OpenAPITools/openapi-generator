@@ -49,7 +49,7 @@ public class ZipUtil {
      * @throws IOException if IO exception occurs
      */
     public void compressFiles(List<File> listFiles, String destZipFile)
-            throws FileNotFoundException, IOException {
+            throws IOException {
 
         ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(destZipFile));
 

@@ -39,7 +39,6 @@ public class GeneratorInput {
         this.authorizationValue = authorizationValue;
     }
 
-    @ApiModelProperty(dataType = "Object")
     public JsonNode getSpec() {
         return spec;
     }
