@@ -50,6 +50,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig {
@@ -1036,16 +1037,31 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("Integer".equals(datatype) || "Double".equals(datatype)) {
+        String sanitzedDataType = sanitizeForEnum(datatype);
+        if ("Integer".equals(sanitzedDataType) || "Double".equals(sanitzedDataType)) {
             return value;
-        } else if ("Long".equals(datatype)) {
+        } else if ("Long".equals(sanitzedDataType)) {
             // add l to number, e.g. 2048 => 2048l
             return value + "l";
-        } else if ("Float".equals(datatype)) {
+        } else if ("Float".equals(sanitzedDataType)) {
             // add f to number, e.g. 3.14 => 3.14f
             return value + "f";
         } else {
             return "\"" + escapeText(value) + "\"";
+        }
+    }
+
+    /**
+     * @param datatype
+     * @return the contained datatype if datatype is List
+     */
+    private String sanitizeForEnum(String datatype){
+        Pattern p = Pattern.compile("List<(.*)>");
+        Matcher m = p.matcher(datatype);
+        if(m.find()) {
+            return m.group(1);
+        } else {
+            return datatype;
         }
     }
 
