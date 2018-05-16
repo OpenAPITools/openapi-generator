@@ -114,9 +114,6 @@ open class {{classname}}: APIBase {
      {{#hasResponseHeaders}}
      - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{datatype}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
      {{/hasResponseHeaders}}
-     {{#examples}}
-     - examples: {{{examples}}}
-     {{/examples}}
      {{#externalDocs}}
      - externalDocs: {{externalDocs}}
      {{/externalDocs}}
