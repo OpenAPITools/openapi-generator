@@ -161,6 +161,14 @@ components:
         p2:
           type: integer
           format: int32
+    UnusedObj4:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: integer
+          format: int32
     SomeObj1:
       type: object
       properties:
@@ -289,6 +297,11 @@ components:
           schema:
             $ref: '#/components/schemas/SomeObj9B'
   parameters:
+    UnusedParam:
+      name: id
+      in: query
+      schema:
+        $ref: '#/components/schemas/UnusedObj4'
     QueryParam11:
       name: id
       in: query

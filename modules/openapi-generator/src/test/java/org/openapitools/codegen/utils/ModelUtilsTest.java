@@ -32,13 +32,15 @@ public class ModelUtilsTest {
     public void testGetUnusedSchemas() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/unusedSchemas.yaml", null, new ParseOptions()).getOpenAPI();
         List<String> unusedSchemas = ModelUtils.getUnusedSchemas(openAPI);
-        Assert.assertEquals(unusedSchemas.size(), 6);
+        Assert.assertEquals(unusedSchemas.size(), 7);
         //UnusedObj is not used at all:
         Assert.assertTrue(unusedSchemas.contains("UnusedObj1"), "contains 'UnusedObj1'");
         //SomeObjUnused is used in a request body that is not used.
         Assert.assertTrue(unusedSchemas.contains("UnusedObj2"), "contains 'UnusedObj2'");
         //SomeObjUnused is used in a response that is not used.
         Assert.assertTrue(unusedSchemas.contains("UnusedObj3"), "contains 'UnusedObj3'");
+        //SomeObjUnused is used in a parameter that is not used.
+        Assert.assertTrue(unusedSchemas.contains("UnusedObj4"), "contains 'UnusedObj4'");
         //SomeObj2 is only used in a 'application/x-www-form-urlencoded' request
         Assert.assertTrue(unusedSchemas.contains("SomeObj2"), "contains 'SomeObj2'");
         //SomeObj3 is only used in a 'multipart/form-data' request
