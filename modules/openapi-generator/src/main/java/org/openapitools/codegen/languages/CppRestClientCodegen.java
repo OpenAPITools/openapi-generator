@@ -241,7 +241,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
                 if (response != null) {
                     CodegenProperty cm = fromProperty("response", response);
                     op.vendorExtensions.put("x-codegen-response", cm);
-                    if ("HttpContent".equals(cm.datatype)) {
+                    if ("HttpContent".equals(cm.dataType)) {
                         op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
                     }
                 }

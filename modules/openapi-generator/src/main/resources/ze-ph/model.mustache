@@ -19,7 +19,7 @@ class {{classname}}
      * @DTA\Data(field="{{baseName}}"{{^required}}, nullable=true{{/required}}){{#vendorExtensions}}{{#internal.ze-ph.fromQuery}}
 {{>model_query_var}}{{/internal.ze-ph.fromQuery}}{{/vendorExtensions}}{{#vendorExtensions}}{{^internal.ze-ph.fromQuery}}
 {{>model_normal_var}}{{/internal.ze-ph.fromQuery}}{{/vendorExtensions}}{{^vendorExtensions}}
-{{>model_normal_var}}{{/vendorExtensions}}     * @var {{datatype}}
+{{>model_normal_var}}{{/vendorExtensions}}     * @var {{dataType}}
      */
     public ${{name}};
 {{/vars}}

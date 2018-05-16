@@ -112,7 +112,7 @@ open class {{classname}}: APIBase {
        - name: {{name}}
      {{/authMethods}}
      {{#hasResponseHeaders}}
-     - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{datatype}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
+     - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{dataType}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
      {{/hasResponseHeaders}}
      {{#externalDocs}}
      - externalDocs: {{externalDocs}}

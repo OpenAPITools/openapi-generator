@@ -91,7 +91,7 @@ public class JavaModelTest {
         Assert.assertEquals(property1.nameInSnakeCase, "ID");
         Assert.assertEquals(property1.getter, "getId");
         Assert.assertEquals(property1.setter, "setId");
-        Assert.assertEquals(property1.datatype, "Long");
+        Assert.assertEquals(property1.dataType, "Long");
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, "null");
         Assert.assertEquals(property1.baseType, "Long");
@@ -105,7 +105,7 @@ public class JavaModelTest {
         Assert.assertEquals(property2.nameInSnakeCase, "NAME");
         Assert.assertEquals(property2.getter, "getName");
         Assert.assertEquals(property2.setter, "setName");
-        Assert.assertEquals(property2.datatype, "String");
+        Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property2.defaultValue, "null");
         Assert.assertEquals(property2.baseType, "String");
@@ -120,7 +120,7 @@ public class JavaModelTest {
         Assert.assertEquals(property3.nameInSnakeCase, "CREATED_AT");
         Assert.assertEquals(property3.getter, "getCreatedAt");
         Assert.assertEquals(property3.setter, "setCreatedAt");
-        Assert.assertEquals(property3.datatype, "Date");
+        Assert.assertEquals(property3.dataType, "Date");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
         Assert.assertEquals(property3.baseType, "Date");
@@ -149,7 +149,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseName, "urls");
         Assert.assertEquals(property.getter, "getUrls");
         Assert.assertEquals(property.setter, "setUrls");
-        Assert.assertEquals(property.datatype, "List<String>");
+        Assert.assertEquals(property.dataType, "List<String>");
         Assert.assertEquals(property.name, "urls");
         Assert.assertEquals(property.defaultValue, "new ArrayList<String>()");
         Assert.assertEquals(property.baseType, "List");
@@ -177,7 +177,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseName, "translations");
         Assert.assertEquals(property.getter, "getTranslations");
         Assert.assertEquals(property.setter, "setTranslations");
-        Assert.assertEquals(property.datatype, "Map<String, String>");
+        Assert.assertEquals(property.dataType, "Map<String, String>");
         Assert.assertEquals(property.name, "translations");
         Assert.assertEquals(property.defaultValue, "new HashMap<String, String>()");
         Assert.assertEquals(property.baseType, "Map");
@@ -205,7 +205,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseName, "translations");
         Assert.assertEquals(property.getter, "getTranslations");
         Assert.assertEquals(property.setter, "setTranslations");
-        Assert.assertEquals(property.datatype, "Map<String, List<Pet>>");
+        Assert.assertEquals(property.dataType, "Map<String, List<Pet>>");
         Assert.assertEquals(property.name, "translations");
         Assert.assertEquals(property.defaultValue, "new HashMap<String, List<Pet>>()");
         Assert.assertEquals(property.baseType, "Map");
@@ -229,7 +229,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseName, "list2D");
         Assert.assertEquals(property.getter, "getList2D");
         Assert.assertEquals(property.setter, "setList2D");
-        Assert.assertEquals(property.datatype, "List<List<Pet>>");
+        Assert.assertEquals(property.dataType, "List<List<Pet>>");
         Assert.assertEquals(property.name, "list2D");
         Assert.assertEquals(property.defaultValue, "new ArrayList<List<Pet>>()");
         Assert.assertEquals(property.baseType, "List");
@@ -255,7 +255,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseName, "children");
         Assert.assertEquals(property.getter, "getChildren");
         Assert.assertEquals(property.setter, "setChildren");
-        Assert.assertEquals(property.datatype, "Children");
+        Assert.assertEquals(property.dataType, "Children");
         Assert.assertEquals(property.name, "children");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "Children");
@@ -282,7 +282,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.complexType, "Children");
         Assert.assertEquals(property.getter, "getChildren");
         Assert.assertEquals(property.setter, "setChildren");
-        Assert.assertEquals(property.datatype, "List<Children>");
+        Assert.assertEquals(property.dataType, "List<Children>");
         Assert.assertEquals(property.name, "children");
         Assert.assertEquals(property.defaultValue, "new ArrayList<Children>()");
         Assert.assertEquals(property.baseType, "List");
@@ -311,7 +311,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.complexType, "Children");
         Assert.assertEquals(property.getter, "getChildren");
         Assert.assertEquals(property.setter, "setChildren");
-        Assert.assertEquals(property.datatype, "Map<String, Children>");
+        Assert.assertEquals(property.dataType, "Map<String, Children>");
         Assert.assertEquals(property.name, "children");
         Assert.assertEquals(property.defaultValue, "new HashMap<String, Children>()");
         Assert.assertEquals(property.baseType, "Map");
@@ -348,7 +348,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.complexType, "Child");
         Assert.assertEquals(property.getter, "getChildren");
         Assert.assertEquals(property.setter, "setChildren");
-        Assert.assertEquals(property.datatype, "List<Child>");
+        Assert.assertEquals(property.dataType, "List<Child>");
         Assert.assertEquals(property.name, "children");
         Assert.assertEquals(property.defaultValue, "new ArrayList<Child>()");
         Assert.assertEquals(property.baseType, "List");
@@ -414,7 +414,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseName, "NAME");
         Assert.assertEquals(property.getter, "getNAME");
         Assert.assertEquals(property.setter, "setNAME");
-        Assert.assertEquals(property.datatype, "String");
+        Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "NAME");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
@@ -440,7 +440,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseName, "pId");
         Assert.assertEquals(property.getter, "getPId");
         Assert.assertEquals(property.setter, "setPId");
-        Assert.assertEquals(property.datatype, "String");
+        Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "pId");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
@@ -466,7 +466,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseName, "ATTName");
         Assert.assertEquals(property.getter, "getAtTName");
         Assert.assertEquals(property.setter, "setAtTName");
-        Assert.assertEquals(property.datatype, "String");
+        Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "atTName");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
@@ -528,7 +528,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseName, "inputBinaryData");
         Assert.assertEquals(property.getter, "getInputBinaryData");
         Assert.assertEquals(property.setter, "setInputBinaryData");
-        Assert.assertEquals(property.datatype, "byte[]");
+        Assert.assertEquals(property.dataType, "byte[]");
         Assert.assertEquals(property.name, "inputBinaryData");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "byte[]");
@@ -553,7 +553,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseName, "_");
         Assert.assertEquals(property.getter, "getU");
         Assert.assertEquals(property.setter, "setU");
-        Assert.assertEquals(property.datatype, "String");
+        Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "u");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
@@ -580,7 +580,7 @@ public class JavaModelTest {
                 .description("model with Map<String, List<BigDecimal>>")
                 .addProperties("map", new MapSchema()
                         .additionalProperties(new ArraySchema().items(new NumberSchema()))));
-        Assert.assertEquals(cm1.vars.get(0).datatype, "Map<String, List<BigDecimal>>");
+        Assert.assertEquals(cm1.vars.get(0).dataType, "Map<String, List<BigDecimal>>");
         Assert.assertTrue(cm1.imports.contains("BigDecimal"));
 
         final CodegenModel cm2 = new JavaClientCodegen().fromModel("sample", new Schema()
@@ -588,7 +588,7 @@ public class JavaModelTest {
                 .addProperties("map", new MapSchema()
                         .additionalProperties(new MapSchema()
                                 .additionalProperties(new ArraySchema().items(new NumberSchema())))));
-        Assert.assertEquals(cm2.vars.get(0).datatype, "Map<String, Map<String, List<BigDecimal>>>");
+        Assert.assertEquals(cm2.vars.get(0).dataType, "Map<String, Map<String, List<BigDecimal>>>");
         Assert.assertTrue(cm2.imports.contains("BigDecimal"));
     }
 
@@ -680,7 +680,7 @@ public class JavaModelTest {
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.getter, "getName");
         Assert.assertEquals(property2.setter, "setName");
-        Assert.assertEquals(property2.datatype, "String");
+        Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property2.defaultValue, "null");
         Assert.assertEquals(property2.baseType, "String");
@@ -696,7 +696,7 @@ public class JavaModelTest {
         Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.getter, "getCreatedAt");
         Assert.assertEquals(property3.setter, "setCreatedAt");
-        Assert.assertEquals(property3.datatype, "Date");
+        Assert.assertEquals(property3.dataType, "Date");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
         Assert.assertEquals(property3.baseType, "Date");
@@ -745,7 +745,7 @@ public class JavaModelTest {
         Assert.assertEquals(property2.baseName, "array");
         Assert.assertEquals(property2.getter, "getArray");
         Assert.assertEquals(property2.setter, "setArray");
-        Assert.assertEquals(property2.datatype, "List<String>");
+        Assert.assertEquals(property2.dataType, "List<String>");
         Assert.assertEquals(property2.name, "array");
         Assert.assertEquals(property2.defaultValue, "new ArrayList<String>()");
         Assert.assertEquals(property2.baseType, "List");
@@ -766,7 +766,7 @@ public class JavaModelTest {
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
         Assert.assertEquals(cp.baseName, "property");
-        Assert.assertEquals(cp.datatype, "Boolean");
+        Assert.assertEquals(cp.dataType, "Boolean");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "Boolean");
         Assert.assertTrue(cp.isNotContainer);
@@ -781,7 +781,7 @@ public class JavaModelTest {
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
         Assert.assertEquals(cp.baseName, "property");
-        Assert.assertEquals(cp.datatype, "Integer");
+        Assert.assertEquals(cp.dataType, "Integer");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "Integer");
         Assert.assertTrue(cp.isNotContainer);
@@ -799,7 +799,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.baseName, "property");
         Assert.assertEquals(cp.nameInCamelCase, "Property");
         Assert.assertEquals(cp.nameInSnakeCase, "PROPERTY");
-        Assert.assertEquals(cp.datatype, "Long");
+        Assert.assertEquals(cp.dataType, "Long");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "Long");
         Assert.assertTrue(cp.isNotContainer);
@@ -824,7 +824,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp1.baseName, "Integer1");
         Assert.assertEquals(cp1.nameInCamelCase, "Integer1");
         Assert.assertEquals(cp1.nameInSnakeCase, "INTEGER1");
-        Assert.assertEquals(cp1.datatype, "Integer");
+        Assert.assertEquals(cp1.dataType, "Integer");
         Assert.assertEquals(cp1.name, "integer1");
         Assert.assertEquals(cp1.baseType, "Integer");
         Assert.assertEquals(cp1.getter, "getInteger1");
@@ -833,7 +833,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp2.baseName, "Integer2");
         Assert.assertEquals(cp2.nameInCamelCase, "Integer2");
         Assert.assertEquals(cp2.nameInSnakeCase, "INTEGER2");
-        Assert.assertEquals(cp2.datatype, "Integer");
+        Assert.assertEquals(cp2.dataType, "Integer");
         Assert.assertEquals(cp2.name, "integer2");
         Assert.assertEquals(cp2.baseType, "Integer");
         Assert.assertEquals(cp2.getter, "getInteger2");
@@ -854,14 +854,14 @@ public class JavaModelTest {
 
         CodegenProperty cp1 = cm.vars.get(0);
         Assert.assertEquals(cp1.baseName, "Long1");
-        Assert.assertEquals(cp1.datatype, "Long");
+        Assert.assertEquals(cp1.dataType, "Long");
         Assert.assertEquals(cp1.name, "long1");
         Assert.assertEquals(cp1.baseType, "Long");
         Assert.assertEquals(cp1.getter, "getLong1");
 
         CodegenProperty cp2 = cm.vars.get(1);
         Assert.assertEquals(cp2.baseName, "Long2");
-        Assert.assertEquals(cp2.datatype, "Long");
+        Assert.assertEquals(cp2.dataType, "Long");
         Assert.assertEquals(cp2.name, "long2");
         Assert.assertEquals(cp2.baseType, "Long");
         Assert.assertEquals(cp2.getter, "getLong2");
@@ -876,7 +876,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.baseName, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.nameInCamelCase, "SomePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.nameInSnakeCase, "SOME_PROPERTY_WITH_MIN_MAX_AND_PATTERN");
-        Assert.assertEquals(cp.datatype, "String");
+        Assert.assertEquals(cp.dataType, "String");
         Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.baseType, "String");
         Assert.assertTrue(cp.isNotContainer);
@@ -902,7 +902,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.baseName, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.nameInCamelCase, "SomePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.nameInSnakeCase, "SOME_PROPERTY_WITH_MIN_MAX_AND_PATTERN");
-        Assert.assertEquals(cp.datatype, "String");
+        Assert.assertEquals(cp.dataType, "String");
         Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.baseType, "String");
         Assert.assertTrue(cp.isNotContainer);
@@ -931,7 +931,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.baseName, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.nameInCamelCase, "SomePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.nameInSnakeCase, "SOME_PROPERTY_WITH_MIN_MAX_AND_PATTERN");
-        Assert.assertEquals(cp.datatype, "String");
+        Assert.assertEquals(cp.dataType, "String");
         Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.baseType, "String");
         Assert.assertTrue(cp.isNotContainer);
@@ -956,7 +956,7 @@ public class JavaModelTest {
         Assert.assertEquals(cm.vars.size(), 1);
         CodegenProperty cp1 = cm.vars.get(0);
         Assert.assertEquals(cp1.baseName, "pets");
-        Assert.assertEquals(cp1.datatype, "List<Pet>");
+        Assert.assertEquals(cp1.dataType, "List<Pet>");
         Assert.assertEquals(cp1.name, "pets");
         Assert.assertEquals(cp1.baseType, "List");
         Assert.assertTrue(cp1.isContainer);
@@ -993,7 +993,7 @@ public class JavaModelTest {
         Assert.assertFalse(cp1.isMapContainer);
         Assert.assertEquals(cp1.items.baseType, "Pet");
         Assert.assertEquals(cp1.items.complexType, "Pet");
-        Assert.assertEquals(cp1.items.datatype, "Pet");
+        Assert.assertEquals(cp1.items.dataType, "Pet");
 
         Assert.assertEquals(co.responses.size(), 1);
 
@@ -1036,7 +1036,7 @@ public class JavaModelTest {
         Assert.assertEquals(cm.vars.size(), 1);
         CodegenProperty cp1 = cm.vars.get(0);
         Assert.assertEquals(cp1.baseName, "pets");
-        Assert.assertEquals(cp1.datatype, "List<List<Pet>>");
+        Assert.assertEquals(cp1.dataType, "List<List<Pet>>");
         Assert.assertEquals(cp1.name, "pets");
         Assert.assertEquals(cp1.baseType, "List");
         Assert.assertEquals(cp1.getter, "getPets");
@@ -1070,10 +1070,10 @@ public class JavaModelTest {
         Assert.assertFalse(cp1.isMapContainer);
         Assert.assertEquals(cp1.items.baseType, "List");
         Assert.assertEquals(cp1.items.complexType, "Pet");
-        Assert.assertEquals(cp1.items.datatype, "List<Pet>");
+        Assert.assertEquals(cp1.items.dataType, "List<Pet>");
         Assert.assertEquals(cp1.items.items.baseType, "Pet");
         Assert.assertEquals(cp1.items.items.complexType, "Pet");
-        Assert.assertEquals(cp1.items.items.datatype, "Pet");
+        Assert.assertEquals(cp1.items.items.dataType, "Pet");
 
         Assert.assertEquals(co.responses.size(), 1);
 

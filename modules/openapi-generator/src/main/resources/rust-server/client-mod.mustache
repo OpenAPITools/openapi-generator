@@ -318,7 +318,7 @@ impl<C> Api<C> for Client where C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<O
             match response.status().as_u16() {
 {{#responses}}
                 {{code}} => {
-{{#headers}}                    header! { (Response{{nameInCamelCase}}, "{{baseName}}") => [{{{datatype}}}] }
+{{#headers}}                    header! { (Response{{nameInCamelCase}}, "{{baseName}}") => [{{{dataType}}}] }
                     let response_{{name}} = match response.headers().get::<Response{{nameInCamelCase}}>() {
                         Some(response_{{name}}) => response_{{name}}.0.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header {{baseName}} for response {{code}} was not found.")))) as Box<Future<Item=_, Error=_>>,

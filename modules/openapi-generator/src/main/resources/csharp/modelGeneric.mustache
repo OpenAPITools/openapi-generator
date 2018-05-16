@@ -106,7 +106,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
         /// <value>{{description}}</value>{{/description}}
         [DataMember(Name="{{baseName}}", EmitDefaultValue={{emitDefaultValue}})]{{#isDate}}
         [JsonConverter(typeof(OpenAPIDateConverter))]{{/isDate}}
-        public {{{datatype}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+        public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
         {{/isEnum}}
         {{/isInherited}}
 
@@ -253,7 +253,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{#vars}}
             {{#hasValidation}}
             {{#maxLength}}
-            // {{{name}}} ({{{datatype}}}) maxLength
+            // {{{name}}} ({{{dataType}}}) maxLength
             if(this.{{{name}}} != null && this.{{{name}}}.Length > {{maxLength}})
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be less than {{maxLength}}.", new [] { "{{{name}}}" });
@@ -261,7 +261,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
 
             {{/maxLength}}
             {{#minLength}}
-            // {{{name}}} ({{{datatype}}}) minLength
+            // {{{name}}} ({{{dataType}}}) minLength
             if(this.{{{name}}} != null && this.{{{name}}}.Length < {{minLength}})
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be greater than {{minLength}}.", new [] { "{{{name}}}" });
@@ -269,16 +269,16 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
 
             {{/minLength}}
             {{#maximum}}
-            // {{{name}}} ({{{datatype}}}) maximum
-            if(this.{{{name}}} > ({{{datatype}}}){{maximum}})
+            // {{{name}}} ({{{dataType}}}) maximum
+            if(this.{{{name}}} > ({{{dataType}}}){{maximum}})
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must be a value less than or equal to {{maximum}}.", new [] { "{{{name}}}" });
             }
 
             {{/maximum}}
             {{#minimum}}
-            // {{{name}}} ({{{datatype}}}) minimum
-            if(this.{{{name}}} < ({{{datatype}}}){{minimum}})
+            // {{{name}}} ({{{dataType}}}) minimum
+            if(this.{{{name}}} < ({{{dataType}}}){{minimum}})
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must be a value greater than or equal to {{minimum}}.", new [] { "{{{name}}}" });
             }
@@ -286,7 +286,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/minimum}}
             {{#pattern}}
             {{^isByteArray}}
-            // {{{name}}} ({{{datatype}}}) pattern
+            // {{{name}}} ({{{dataType}}}) pattern
             Regex regex{{{name}}} = new Regex(@"{{{vendorExtensions.x-regex}}}"{{#vendorExtensions.x-modifiers}}{{#-first}}, {{/-first}}RegexOptions.{{{.}}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}});
             if (false == regex{{{name}}}.Match(this.{{{name}}}).Success)
             {

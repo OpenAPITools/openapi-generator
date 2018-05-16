@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CodegenProperty implements Cloneable {
-    public String baseName, complexType, getter, setter, description, datatype,
+    public String baseName, complexType, getter, setter, description, dataType,
           datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
           baseType, containerType, title;
 
@@ -122,11 +122,11 @@ public class CodegenProperty implements Cloneable {
     }
 
     public String getDatatype() {
-        return datatype;
+        return dataType;
     }
 
     public void setDatatype(String datatype) {
-        this.datatype = datatype;
+        this.dataType = datatype;
     }
 
     public String getDatatypeWithEnum() {
@@ -408,7 +408,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((baseType == null) ? 0 : baseType.hashCode());
         result = prime * result + ((complexType == null) ? 0 : complexType.hashCode());
         result = prime * result + ((containerType == null) ? 0 : containerType.hashCode());
-        result = prime * result + ((datatype == null) ? 0 : datatype.hashCode());
+        result = prime * result + ((dataType == null) ? 0 : dataType.hashCode());
         result = prime * result + ((datatypeWithEnum == null) ? 0 : datatypeWithEnum.hashCode());
         result = prime * result + ((dataFormat == null) ? 0 : dataFormat.hashCode());
         result = prime * result + ((defaultValue == null) ? 0 : defaultValue.hashCode());
@@ -500,7 +500,7 @@ public class CodegenProperty implements Cloneable {
         if ((this.title == null) ? (other.title != null) : !this.title.equals(other.title)) {
             return false;
         }
-        if ((this.datatype == null) ? (other.datatype != null) : !this.datatype.equals(other.datatype)) {
+        if ((this.dataType == null) ? (other.dataType != null) : !this.dataType.equals(other.dataType)) {
             return false;
         }
         if ((this.datatypeWithEnum == null) ? (other.datatypeWithEnum != null) : !this.datatypeWithEnum.equals(other.datatypeWithEnum)) {
@@ -708,7 +708,7 @@ public class CodegenProperty implements Cloneable {
                 ", getter='" + getter + '\'' +
                 ", setter='" + setter + '\'' +
                 ", description='" + description + '\'' +
-                ", datatype='" + datatype + '\'' +
+                ", datatype='" + dataType + '\'' +
                 ", datatypeWithEnum='" + datatypeWithEnum + '\'' +
                 ", dataFormat='" + dataFormat + '\'' +
                 ", name='" + name + '\'' +

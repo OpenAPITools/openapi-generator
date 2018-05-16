@@ -1,7 +1,7 @@
 
 
 type alias {{classname}} ={{#parent}} {{parent}}{{/parent}}{{^parent}}
-    { {{#vars}}{{^-first}}    , {{/-first}}{{name}} : {{^required}}Maybe {{/required}}{{#isContainer}}(List {{/isContainer}}{{#isEnum}}{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{datatype}}{{/isEnum}}{{#isContainer}}){{/isContainer}}
+    { {{#vars}}{{^-first}}    , {{/-first}}{{name}} : {{^required}}Maybe {{/required}}{{#isContainer}}(List {{/isContainer}}{{#isEnum}}{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isContainer}}){{/isContainer}}
 {{/vars}}    }
 {{#vars}}
 {{#isEnum}}

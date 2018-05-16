@@ -485,7 +485,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public CodegenProperty fromProperty(String name, Schema p) {
         final CodegenProperty property = super.fromProperty(name, p);
 
-        final String dataType = property.isEnum ? property.baseName : property.datatype;
+        final String dataType = property.isEnum ? property.baseName : property.dataType;
         addEncoderAndDecoder(property.vendorExtensions, dataType, property.isPrimitiveType && !property.isEnum);
         if (property.isEnum) {
             property.vendorExtensions.put(X_UNION_TYPE, property.datatypeWithEnum);
