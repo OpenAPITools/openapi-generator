@@ -29,11 +29,11 @@ open class UserAPI {
 
 
     /**
-     Create user
-     - POST /user
-     - This can only be done by the logged in user.
-     - parameter user: (body) Created user object 
-     - returns: RequestBuilder<Void> 
+///  Create user
+///  - POST /user
+///  - This can only be done by the logged in user.
+///  - parameter user: (body) Created user object 
+///  - returns: RequestBuilder<Void> 
      */
     open class func createUserWithRequestBuilder(user: User) -> RequestBuilder<Void> {
         let path = "/user"
@@ -65,10 +65,10 @@ open class UserAPI {
 
 
     /**
-     Creates list of users with given input array
-     - POST /user/createWithArray
-     - parameter user: (body) List of user object 
-     - returns: RequestBuilder<Void> 
+///  Creates list of users with given input array
+///  - POST /user/createWithArray
+///  - parameter user: (body) List of user object 
+///  - returns: RequestBuilder<Void> 
      */
     open class func createUsersWithArrayInputWithRequestBuilder(user: [User]) -> RequestBuilder<Void> {
         let path = "/user/createWithArray"
@@ -100,10 +100,10 @@ open class UserAPI {
 
 
     /**
-     Creates list of users with given input array
-     - POST /user/createWithList
-     - parameter user: (body) List of user object 
-     - returns: RequestBuilder<Void> 
+///  Creates list of users with given input array
+///  - POST /user/createWithList
+///  - parameter user: (body) List of user object 
+///  - returns: RequestBuilder<Void> 
      */
     open class func createUsersWithListInputWithRequestBuilder(user: [User]) -> RequestBuilder<Void> {
         let path = "/user/createWithList"
@@ -135,11 +135,11 @@ open class UserAPI {
 
 
     /**
-     Delete user
-     - DELETE /user/{username}
-     - This can only be done by the logged in user.
-     - parameter username: (path) The name that needs to be deleted 
-     - returns: RequestBuilder<Void> 
+///  Delete user
+///  - DELETE /user/{username}
+///  - This can only be done by the logged in user.
+///  - parameter username: (path) The name that needs to be deleted 
+///  - returns: RequestBuilder<Void> 
      */
     open class func deleteUserWithRequestBuilder(username: String) -> RequestBuilder<Void> {
         var path = "/user/{username}"
@@ -170,9 +170,9 @@ open class UserAPI {
 
 
     /**
-     Get user by user name
-     - GET /user/{username}
-     - examples: [{contentType=application/json, example={
+///  Get user by user name
+///  - GET /user/{username}
+///  - examples: [{contentType=application/json, example={
   "firstName" : "firstName",
   "lastName" : "lastName",
   "password" : "password",
@@ -191,8 +191,8 @@ open class UserAPI {
   <phone>aeiou</phone>
   <userStatus>123</userStatus>
 </User>}]
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
-     - returns: RequestBuilder<User> 
+///  - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
+///  - returns: RequestBuilder<User> 
      */
     open class func getUserByNameWithRequestBuilder(username: String) -> RequestBuilder<User> {
         var path = "/user/{username}"
@@ -224,12 +224,12 @@ open class UserAPI {
 
 
     /**
-     Logs user into the system
-     - GET /user/login
-     - responseHeaders: [X-Rate-Limit(Int), X-Expires-After(Date)]
-     - parameter username: (query) The user name for login 
-     - parameter password: (query) The password for login in clear text 
-     - returns: RequestBuilder<String> 
+///  Logs user into the system
+///  - GET /user/login
+///  - responseHeaders: [X-Rate-Limit(Int), X-Expires-After(Date)]
+///  - parameter username: (query) The user name for login 
+///  - parameter password: (query) The password for login in clear text 
+///  - returns: RequestBuilder<String> 
      */
     open class func loginUserWithRequestBuilder(username: String, password: String) -> RequestBuilder<String> {
         let path = "/user/login"
@@ -264,9 +264,9 @@ open class UserAPI {
 
 
     /**
-     Logs out current logged in user session
-     - GET /user/logout
-     - returns: RequestBuilder<Void> 
+///  Logs out current logged in user session
+///  - GET /user/logout
+///  - returns: RequestBuilder<Void> 
      */
     open class func logoutUserWithRequestBuilder() -> RequestBuilder<Void> {
         let path = "/user/logout"
@@ -299,12 +299,12 @@ open class UserAPI {
 
 
     /**
-     Updated user
-     - PUT /user/{username}
-     - This can only be done by the logged in user.
-     - parameter username: (path) name that need to be deleted 
-     - parameter user: (body) Updated user object 
-     - returns: RequestBuilder<Void> 
+///  Updated user
+///  - PUT /user/{username}
+///  - This can only be done by the logged in user.
+///  - parameter username: (path) name that need to be deleted 
+///  - parameter user: (body) Updated user object 
+///  - returns: RequestBuilder<Void> 
      */
     open class func updateUserWithRequestBuilder(username: String, user: User) -> RequestBuilder<Void> {
         var path = "/user/{username}"
