@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -240,11 +241,11 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         String result = super.apiFilename(templateName, tag);
 
         if (templateName.endsWith("Impl.mustache")) {
-            int ix = result.lastIndexOf('/');
+            int ix = result.lastIndexOf(File.separator);
             result = result.substring(0, ix) + "/impl" + result.substring(ix, result.length() - 5) + "ServiceImpl.java";
             result = result.replace(apiFileFolder(), implFileFolder(implFolder));
         } else if (templateName.endsWith("Factory.mustache")) {
-            int ix = result.lastIndexOf('/');
+            int ix = result.lastIndexOf(File.separator);
             result = result.substring(0, ix) + "/factories" + result.substring(ix, result.length() - 5) + "ServiceFactory.java";
             result = result.replace(apiFileFolder(), implFileFolder(implFolder));
         } else if (templateName.endsWith("Service.mustache")) {
