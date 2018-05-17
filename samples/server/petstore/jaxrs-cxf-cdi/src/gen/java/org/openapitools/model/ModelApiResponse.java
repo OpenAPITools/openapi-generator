@@ -19,8 +19,11 @@ import javax.xml.bind.annotation.*;
 public class ModelApiResponse   {
   
   private Integer code = null;
+
   private String type = null;
+
   private String message = null;
+
 
   /**
    **/
@@ -39,6 +42,7 @@ public class ModelApiResponse   {
     this.code = code;
   }
 
+
   /**
    **/
   public ModelApiResponse type(String type) {
@@ -56,6 +60,7 @@ public class ModelApiResponse   {
     this.type = type;
   }
 
+
   /**
    **/
   public ModelApiResponse message(String message) {
@@ -72,6 +77,7 @@ public class ModelApiResponse   {
   public void setMessage(String message) {
     this.message = message;
   }
+
 
 
   @Override
