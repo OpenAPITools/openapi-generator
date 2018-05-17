@@ -33,6 +33,8 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Collections;
+
 @SuppressWarnings("static-method")
 public class KotlinClientCodegenModelTest {
 
@@ -72,7 +74,7 @@ public class KotlinClientCodegenModelTest {
         final Schema schema = getSimpleSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
 
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -119,7 +121,7 @@ public class KotlinClientCodegenModelTest {
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.THREETENBP.value);
         codegen.processOpts();
 
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -139,7 +141,7 @@ public class KotlinClientCodegenModelTest {
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.STRING.value);
         codegen.processOpts();
 
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -159,7 +161,7 @@ public class KotlinClientCodegenModelTest {
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.JAVA8.value);
         codegen.processOpts();
 
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -177,7 +179,7 @@ public class KotlinClientCodegenModelTest {
         final Schema model = getArrayTestSchema();
 
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final CodegenModel generated = codegen.fromModel("sample", model);
+        final CodegenModel generated = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.classname, "Sample");
@@ -201,7 +203,7 @@ public class KotlinClientCodegenModelTest {
     public void mapPropertyTest() {
         final Schema schema = getMapSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -223,7 +225,7 @@ public class KotlinClientCodegenModelTest {
     public void complexPropertyTest() {
         final Schema schema = getComplexSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -254,7 +256,7 @@ public class KotlinClientCodegenModelTest {
     public void sanitizeModelNames(final String name, final ModelNameTest testCase) {
         final Schema schema = getComplexSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final CodegenModel cm = codegen.fromModel(name, schema);
+        final CodegenModel cm = codegen.fromModel(name, schema, Collections.singletonMap(name, schema));
 
         Assert.assertEquals(cm.name, testCase.expectedName);
         Assert.assertEquals(cm.classname, testCase.expectedClassName);

@@ -17,16 +17,16 @@
 
 package org.openapitools.codegen;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.samskivert.mustache.Mustache.Compiler;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface CodegenConfig {
     CodegenType getTag();
@@ -103,7 +103,7 @@ public interface CodegenConfig {
 
     void setOutputDir(String dir);
 
-    CodegenModel fromModel(String name, Schema schema);
+    CodegenModel fromModelWithoutProvidingAllSchemas(String name, Schema schema);
 
     CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions);
 

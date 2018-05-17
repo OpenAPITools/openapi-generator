@@ -76,7 +76,7 @@ public class JavaModelTest {
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -138,7 +138,7 @@ public class JavaModelTest {
                         .items(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -166,7 +166,7 @@ public class JavaModelTest {
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -194,7 +194,7 @@ public class JavaModelTest {
                         .additionalProperties(new ArraySchema().items(new Schema().$ref("Pet"))))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -221,7 +221,7 @@ public class JavaModelTest {
                 .addProperties("list2D", new ArraySchema().items(
                         new ArraySchema().items(new Schema().$ref("Pet"))));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.vars.size(), 1);
 
@@ -244,7 +244,7 @@ public class JavaModelTest {
                 .description("a sample model")
                 .addProperties("children", new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -270,7 +270,7 @@ public class JavaModelTest {
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -298,7 +298,7 @@ public class JavaModelTest {
                 .addProperties("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -335,7 +335,7 @@ public class JavaModelTest {
 
 
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -369,7 +369,7 @@ public class JavaModelTest {
                 .name("arraySchema")
                 .description("an array model");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -386,7 +386,7 @@ public class JavaModelTest {
                 .description("an map model")
                 .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -404,7 +404,7 @@ public class JavaModelTest {
                 .addProperties("NAME", new StringSchema())
                 .addRequiredItem("NAME");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -430,7 +430,7 @@ public class JavaModelTest {
                 .addProperties("pId", new StringSchema())
                 .addRequiredItem("pId");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -456,7 +456,7 @@ public class JavaModelTest {
                 .addProperties("ATTName", new StringSchema())
                 .addRequiredItem("ATTName");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -481,7 +481,7 @@ public class JavaModelTest {
                 .description("a sample model")
                 .addProperties("created-at", new DateTimeSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         final CodegenProperty property = cm.vars.get(0);
         Assert.assertEquals(property.baseName, "created-at");
@@ -496,7 +496,7 @@ public class JavaModelTest {
                 .description("a sample model")
                 .addProperties("query[password]", new StringSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         final CodegenProperty property = cm.vars.get(0);
         Assert.assertEquals(property.baseName, "query[password]");
@@ -511,7 +511,7 @@ public class JavaModelTest {
                 .description("a sample model")
                 .addProperties("created-at", new DateTimeSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("with.dots", schema);
+        final CodegenModel cm = codegen.fromModel("with.dots", schema, Collections.singletonMap("with.dots", schema));
 
         Assert.assertEquals(cm.classname, "WithDots");
     }
@@ -522,7 +522,7 @@ public class JavaModelTest {
                 .description("model with binary")
                 .addProperties("inputBinaryData", new ByteArraySchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         final CodegenProperty property = cm.vars.get(0);
         Assert.assertEquals(property.baseName, "inputBinaryData");
@@ -543,7 +543,7 @@ public class JavaModelTest {
                 .description("a model with a 2nd char upper-case property names")
                 .addProperties("_", new StringSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -576,18 +576,20 @@ public class JavaModelTest {
 
     @Test(description = "types used by inner properties should be imported")
     public void mapWithAnListOfBigDecimalTest() {
-        final CodegenModel cm1 = new JavaClientCodegen().fromModel("sample", new Schema()
+        Schema schema1 = new Schema()
                 .description("model with Map<String, List<BigDecimal>>")
                 .addProperties("map", new MapSchema()
-                        .additionalProperties(new ArraySchema().items(new NumberSchema()))));
+                        .additionalProperties(new ArraySchema().items(new NumberSchema())));
+        final CodegenModel cm1 = new JavaClientCodegen().fromModel("sample", schema1, Collections.singletonMap("sample", schema1));
         Assert.assertEquals(cm1.vars.get(0).datatype, "Map<String, List<BigDecimal>>");
         Assert.assertTrue(cm1.imports.contains("BigDecimal"));
 
-        final CodegenModel cm2 = new JavaClientCodegen().fromModel("sample", new Schema()
+        Schema schema2 = new Schema()
                 .description("model with Map<String, Map<String, List<BigDecimal>>>")
                 .addProperties("map", new MapSchema()
                         .additionalProperties(new MapSchema()
-                                .additionalProperties(new ArraySchema().items(new NumberSchema())))));
+                                .additionalProperties(new ArraySchema().items(new NumberSchema()))));
+        final CodegenModel cm2 = new JavaClientCodegen().fromModel("sample", schema2, Collections.singletonMap("sample", schema2));
         Assert.assertEquals(cm2.vars.get(0).datatype, "Map<String, Map<String, List<BigDecimal>>>");
         Assert.assertTrue(cm2.imports.contains("BigDecimal"));
     }
@@ -610,7 +612,7 @@ public class JavaModelTest {
     public void modelNameTest(String name, String expectedName) {
         final Schema schema = new Schema();
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel(name, schema);
+        final CodegenModel cm = codegen.fromModel(name, schema, Collections.singletonMap(name, schema));
 
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);
@@ -631,7 +633,7 @@ public class JavaModelTest {
                 .description("a sample model")
                 .addProperties(baseName, new StringSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         final CodegenProperty property = cm.vars.get(0);
         Assert.assertEquals(property.baseName, baseName);
@@ -664,7 +666,7 @@ public class JavaModelTest {
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -729,7 +731,7 @@ public class JavaModelTest {
                                 .name("xmlArray")))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
