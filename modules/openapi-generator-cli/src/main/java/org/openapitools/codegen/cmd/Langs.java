@@ -28,7 +28,7 @@ import static java.util.ServiceLoader.load;
 /**
  * User: lanwen Date: 24.03.15 Time: 20:25
  */
-@Command(name = "langs", description = "Shows available languages (generators)")
+@Command(name = "langs", description = "Shows available languages (deprecated. use 'list' instead)")
 public class Langs implements Runnable {
     @Override
     public void run() {

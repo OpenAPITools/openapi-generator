@@ -19,12 +19,7 @@ package org.openapitools.codegen;
 
 import io.airlift.airline.Cli;
 import io.airlift.airline.Help;
-import org.openapitools.codegen.cmd.ConfigHelp;
-import org.openapitools.codegen.cmd.Generate;
-import org.openapitools.codegen.cmd.Langs;
-import org.openapitools.codegen.cmd.Meta;
-import org.openapitools.codegen.cmd.Validate;
-import org.openapitools.codegen.cmd.Version;
+import org.openapitools.codegen.cmd.*;
 
 /**
  * User: lanwen Date: 24.03.15 Time: 17:56
@@ -35,7 +30,6 @@ import org.openapitools.codegen.cmd.Version;
  */
 public class OpenAPIGenerator {
 
-
     public static void main(String[] args) {
         String version = Version.readVersionFromResources();
         @SuppressWarnings("unchecked")
@@ -45,9 +39,17 @@ public class OpenAPIGenerator {
                                 String.format(
                                         "OpenAPI generator CLI (version %s).",
                                         version))
-                        .withDefaultCommand(Langs.class)
-                        .withCommands(Generate.class, Meta.class, Langs.class, Help.class,
-                                ConfigHelp.class, Validate.class, Version.class);
+                        .withDefaultCommand(ListGenerators.class)
+                        .withCommands(
+                                ListGenerators.class,
+                                Generate.class,
+                                Meta.class,
+                                Langs.class,
+                                Help.class,
+                                ConfigHelp.class,
+                                Validate.class,
+                                Version.class
+                        );
 
         builder.build().parse(args).run();
     }

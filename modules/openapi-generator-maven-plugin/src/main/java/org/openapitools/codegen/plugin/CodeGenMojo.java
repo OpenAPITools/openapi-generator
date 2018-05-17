@@ -66,7 +66,7 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * Client language to generate.
      */
-    @Parameter(name = "language", required = true)
+    @Parameter(name = "language")
     private String language;
 
 
@@ -372,13 +372,17 @@ public class CodeGenMojo extends AbstractMojo {
             configurator.setIgnoreFileOverride(ignoreFileOverride);
         }
 
-        LOGGER.warn("The 'language' option is deprecated and may reference language names only in the next major release (4.0). Please use 'generatorName' instead.");
-        configurator.setGeneratorName(language);
-
-        // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang, marking it as optional and generatorName as optional, requiring that at least one is set.
+        // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
         if (isNotEmpty(generatorName)) {
             configurator.setGeneratorName(language);
+        } else if (isNotEmpty(language)) {
+            LOGGER.warn("The 'language' option is deprecated and may reference language names only in the next major release (4.0). Please use 'generatorName' instead.");
+            configurator.setGeneratorName(language);
+        } else {
+            LOGGER.error("A generator name (generatorName) is required.");
+            System.exit(1);
         }
+
 
         configurator.setOutputDir(output.getAbsolutePath());
 
