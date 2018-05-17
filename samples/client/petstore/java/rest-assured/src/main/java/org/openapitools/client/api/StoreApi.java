@@ -109,12 +109,14 @@ public class StoreApi {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(DELETE, REQ_URI));
         }
 
+        public static final String ORDER_ID_PATH = "order_id";
+
         /**
          * @param orderId (String) ID of the order that needs to be deleted (required)
          * @return operation
          */
         public DeleteOrderOper orderIdPath(Object orderId) {
-            reqSpec.addPathParam("order_id", orderId);
+            reqSpec.addPathParam(ORDER_ID_PATH, orderId);
             return this;
         }
 
@@ -251,12 +253,14 @@ public class StoreApi {
             return execute(handler).as(type);
         }
 
+        public static final String ORDER_ID_PATH = "order_id";
+
         /**
          * @param orderId (Long) ID of pet that needs to be fetched (required)
          * @return operation
          */
         public GetOrderByIdOper orderIdPath(Object orderId) {
-            reqSpec.addPathParam("order_id", orderId);
+            reqSpec.addPathParam(ORDER_ID_PATH, orderId);
             return this;
         }
 
