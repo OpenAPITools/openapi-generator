@@ -1,6 +1,6 @@
 
 
-type alias {{classname}} ={{#parent}} {{parent}}{{/parent}}{{^parent}}
+type alias {{classname}} =
     { {{#vars}}{{^-first}}    , {{/-first}}{{name}} : {{^required}}Maybe {{/required}}{{#isContainer}}(List {{/isContainer}}{{#isEnum}}{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{datatype}}{{/isEnum}}{{#isContainer}}){{/isContainer}}
 {{/vars}}    }
 {{#vars}}
@@ -10,7 +10,6 @@ type alias {{classname}} ={{#parent}} {{parent}}{{/parent}}{{^parent}}
 {{>union}}
 {{/isEnum}}
 {{/vars}}
-{{/parent}}
 
 
 {{>aliasDecoder}}
