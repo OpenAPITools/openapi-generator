@@ -1,8 +1,8 @@
--- This file has been generated from package.yaml by hpack version 0.20.0.
+-- This file has been generated from package.yaml by hpack version 0.28.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b084e6b4f90a1c0ac580f2eb3d0957a261f1db4e7309ffe2c667bc081812d93f
+-- hash: 56ae3aaeafb9097357340f607e1eaf6de362bdf849f038e8495e41eedc747747
 
 name:           openapi-petstore-app
 version:        0.1.0.0
@@ -16,7 +16,6 @@ copyright:      YEAR - AUTHOR
 license:        UnspecifiedLicense
 build-type:     Simple
 cabal-version:  >= 1.10
-
 extra-source-files:
     README.md
 
