@@ -121,7 +121,16 @@ public class CodegenProperty implements Cloneable {
         this.description = description;
     }
 
+    /**
+     * @deprecated since version 3.0.0, use {@link #getDataType()} instead.<br>
+     * May be removed with the next major release (4.0)
+     */
+    @Deprecated
     public String getDatatype() {
+        return getDataType();
+    }
+
+    public String getDataType() {
         return dataType;
     }
 
