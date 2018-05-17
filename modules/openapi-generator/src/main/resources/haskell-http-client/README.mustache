@@ -101,7 +101,7 @@ An example of the generated haddock documentation targeting the server http://pe
 
 An example application using the auto-generated haskell-http-client bindings for the server http://petstore.swagger.io/ can be found [here][3]
 
-[3]: https://github.com/openapitools/openapi-generator/master/samples/client/petstore/haskell-http-client/example-app
+[3]: https://github.com/openapitools/openapi-generator/tree/master/samples/client/petstore/haskell-http-client/example-app
 
 This library is intended to be imported qualified.
 
