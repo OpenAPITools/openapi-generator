@@ -421,8 +421,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (reservedWords.contains(modified)) {
             return escapeReservedWord(modified);
         }
-
-        return modified;
+        // NOTE: another sanitize because camelize can create an invalid name
+        return sanitizeKotlinSpecificNames(modified);
     }
 
     @Override
