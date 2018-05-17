@@ -102,7 +102,7 @@ public class ModelUtils {
                         //Params:
                         if(operation.getParameters() != null) {
                             for (Parameter p : operation.getParameters()) {
-                                Parameter parameter = getReferencedParamter(openAPI, p);
+                                Parameter parameter = getReferencedParameter(openAPI, p);
                                 if (parameter.getSchema() != null && parameter.getSchema().get$ref() != null) {
                                     unusedSchemas.remove(getSimpleRef(parameter.getSchema().get$ref()));
                                 }
@@ -361,7 +361,7 @@ public class ModelUtils {
 
     /**
      * If a Schema contains a reference to an other Schema with '$ref', returns the referenced Schema or the actual Schema in the other cases.
-     * @param openAPI
+     * @param openAPI specification being checked
      * @param schema potentially containing a '$ref'
      * @return schema without '$ref'
      */
@@ -390,7 +390,7 @@ public class ModelUtils {
 
     /**
      * If a RequestBody contains a reference to an other RequestBody with '$ref', returns the referenced RequestBody or the actual RequestBody in the other cases.
-     * @param openAPI
+     * @param openAPI specification being checked
      * @param requestBody potentially containing a '$ref'
      * @return requestBody without '$ref'
      */
@@ -415,7 +415,7 @@ public class ModelUtils {
 
     /**
      * If a ApiResponse contains a reference to an other ApiResponse with '$ref', returns the referenced ApiResponse or the actual ApiResponse in the other cases.
-     * @param openAPI
+     * @param openAPI specification being checked
      * @param apiResponse potentially containing a '$ref'
      * @return apiResponse without '$ref'
      */
@@ -440,16 +440,16 @@ public class ModelUtils {
 
     /**
      * If a Parameter contains a reference to an other Parameter with '$ref', returns the referenced Parameter or the actual Parameter in the other cases.
-     * @param openAPI
-     * @param paramter potentially containing a '$ref'
-     * @return paramter without '$ref'
+     * @param openAPI specification being checked
+     * @param parameter potentially containing a '$ref'
+     * @return parameter without '$ref'
      */
-    public static Parameter getReferencedParamter(OpenAPI openAPI, Parameter paramter) {
-        if (paramter != null && StringUtils.isNotEmpty(paramter.get$ref())) {
-            String name = getSimpleRef(paramter.get$ref());
+    public static Parameter getReferencedParameter(OpenAPI openAPI, Parameter parameter) {
+        if (parameter != null && StringUtils.isNotEmpty(parameter.get$ref())) {
+            String name = getSimpleRef(parameter.get$ref());
             return getParameter(openAPI, name);
         }
-        return paramter;
+        return parameter;
     }
 
     public static Parameter getParameter(OpenAPI openAPI, String name) {
@@ -465,7 +465,7 @@ public class ModelUtils {
 
     /**
      * Return the first defined Schema for a RequestBody
-     * @param requestBody
+     * @param requestBody request body of the operation
      * @return firstSchema
      */
     public static Schema getSchemaFromRequestBody(RequestBody requestBody) {
@@ -474,7 +474,7 @@ public class ModelUtils {
 
     /**
      * Return the first defined Schema for a ApiResponse
-     * @param apiResponse
+     * @param response api response of the operation
      * @return firstSchema
      */
     public static Schema getSchemaFromResponse(ApiResponse response) {
