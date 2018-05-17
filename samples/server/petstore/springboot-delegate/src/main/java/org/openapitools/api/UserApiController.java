@@ -24,10 +24,10 @@ public class UserApiController implements UserApi {
 
     private final UserApiDelegate delegate;
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public UserApiController(UserApiDelegate delegate) {
+    public UserApiController(@org.springframework.beans.factory.annotation.Autowired(required = false) UserApiDelegate delegate) {
         this.delegate = delegate;
     }
+
     public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User user) {
         return delegate.createUser(user);
     }

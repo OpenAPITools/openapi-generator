@@ -63,7 +63,10 @@ public interface {{classname}} {
         {{/reactive}}
     {{/isDelegate}}
     {{#isDelegate}}
-    {{classname}}Delegate getDelegate();
+
+    default {{classname}}Delegate getDelegate() {
+        return new {{classname}}Delegate() {};
+    }
     {{/isDelegate}}
 {{/jdk8}}
 {{#operation}}

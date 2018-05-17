@@ -25,7 +25,10 @@ import java.util.Map;
 
 @Api(value = "store", description = "the store API")
 public interface StoreApi {
-    StoreApiDelegate getDelegate();
+
+    default StoreApiDelegate getDelegate() {
+        return new StoreApiDelegate() {};
+    }
 
     @ApiOperation(value = "Delete purchase order by ID", nickname = "deleteOrder", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", tags={ "store", })
     @ApiResponses(value = { 

@@ -24,7 +24,10 @@ import java.util.Map;
 
 @Api(value = "another-fake", description = "the another-fake API")
 public interface AnotherFakeApi {
-    AnotherFakeApiDelegate getDelegate();
+
+    default AnotherFakeApiDelegate getDelegate() {
+        return new AnotherFakeApiDelegate() {};
+    }
 
     @ApiOperation(value = "To test special tags", nickname = "testSpecialTags", notes = "To test special tags", response = Client.class, tags={ "$another-fake?", })
     @ApiResponses(value = { 
