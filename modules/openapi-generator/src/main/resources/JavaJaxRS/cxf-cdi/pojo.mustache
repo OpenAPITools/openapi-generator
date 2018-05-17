@@ -11,7 +11,12 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 {{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
 
 {{>enumClass}}{{/items}}{{/items.isEnum}}
-  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
+{{#isContainer}}
+  private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
+{{/isContainer}}
+{{^isContainer}}
+  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};
+{{/isContainer}}{{/vars}}
 
   {{#vars}}
   /**
@@ -33,12 +38,37 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   {{#vendorExtensions.extraAnnotation}}{{{vendorExtensions.extraAnnotation}}}{{/vendorExtensions.extraAnnotation}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
   @JsonProperty("{{baseName}}")
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{#isBoolean}}is{{/isBoolean}}{{getter}}() {
     return {{name}};
   }
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
+  {{#isListContainer}}
+
+  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    {{^required}}
+    if (this.{{name}} == null) {
+      this.{{name}} = {{{defaultValue}}};
+    }
+    {{/required}}
+    this.{{name}}.add({{name}}Item);
+    return this;
+  }
+  {{/isListContainer}}
+
+  {{#isMapContainer}}
+
+  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    {{^required}}
+    if (this.{{name}} == null) {
+      this.{{name}} = {{{defaultValue}}};
+    }
+    {{/required}}
+    this.{{name}}.put(key, {{name}}Item);
+    return this;
+  }
+  {{/isMapContainer}}
 
   {{/vars}}
 
