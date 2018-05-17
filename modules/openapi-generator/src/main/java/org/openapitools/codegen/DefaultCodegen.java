@@ -1519,7 +1519,7 @@ public class DefaultCodegen implements CodegenConfig {
                     addProperties(allProperties, allRequired, child, allDefinitions);
                 }
             }
-            addVars(m, properties, required, allProperties, allRequired, allDefinitions);
+            addVars(m, properties, required, allProperties, allRequired);
             // TODO
             //} else if (schema instanceof RefModel) {
         } else {
@@ -1533,7 +1533,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
             }
-            addVars(m, schema.getProperties(), schema.getRequired(), allDefinitions);
+            addVars(m, schema.getProperties(), schema.getRequired());
         }
 
         if (m.vars != null) {
@@ -3095,12 +3095,12 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private void addVars(CodegenModel model, Map<String, Schema> properties, List<String> required, Map<String, Schema> allDefinitions) {
-        addVars(model, properties, required, null, null, allDefinitions);
+    private void addVars(CodegenModel model, Map<String, Schema> properties, List<String> required) {
+        addVars(model, properties, required, null, null);
     }
 
     private void addVars(CodegenModel m, Map<String, Schema> properties, List<String> required,
-                         Map<String, Schema> allProperties, List<String> allRequired, Map<String, Schema> allDefinitions) {
+                         Map<String, Schema> allProperties, List<String> allRequired) {
 
         m.hasRequired = false;
         if (properties != null && !properties.isEmpty()) {
@@ -3109,7 +3109,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             Set<String> mandatory = required == null ? Collections.<String>emptySet()
                     : new TreeSet<String>(required);
-            addVars(m, m.vars, properties, mandatory, allDefinitions);
+            addVars(m, m.vars, properties, mandatory);
             m.allMandatory = m.mandatory = mandatory;
         } else {
             m.emptyVars = true;
@@ -3120,12 +3120,12 @@ public class DefaultCodegen implements CodegenConfig {
         if (allProperties != null) {
             Set<String> allMandatory = allRequired == null ? Collections.<String>emptySet()
                     : new TreeSet<String>(allRequired);
-            addVars(m, m.allVars, allProperties, allMandatory, allDefinitions);
+            addVars(m, m.allVars, allProperties, allMandatory);
             m.allMandatory = allMandatory;
         }
     }
 
-    private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory, Map<String, Schema> allDefinitions) {
+    private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
         // convert set to list so that we can access the next entry in the loop
         List<Map.Entry<String, Schema>> propertyList = new ArrayList<Map.Entry<String, Schema>>(properties.entrySet());
         final int totalCount = propertyList.size();
@@ -3133,11 +3133,7 @@ public class DefaultCodegen implements CodegenConfig {
             Map.Entry<String, Schema> entry = propertyList.get(i);
 
             final String key = entry.getKey();
-            Schema prop = entry.getValue();
-            if (allDefinitions != null && prop != null && StringUtils.isNotEmpty(prop.get$ref())) {
-                String refName = ModelUtils.getSimpleRef(prop.get$ref());
-                prop = allDefinitions.get(refName);
-            }
+            final Schema prop = entry.getValue();
 
             if (prop == null) {
                 LOGGER.warn("null property for " + key);
