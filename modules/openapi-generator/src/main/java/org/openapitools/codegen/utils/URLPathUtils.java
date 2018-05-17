@@ -72,9 +72,9 @@ public class URLPathUtils {
 
     /**
      * Return the port, example value <code>8080</code>
-     * @param url
+     * @param url server url
      * @param defaultPort if the port is not set
-     * @return
+     * @return port
      */
     public static String getPort(URL url, int defaultPort) {
         return getPort(url, String.valueOf(defaultPort));
@@ -82,9 +82,9 @@ public class URLPathUtils {
 
     /**
      * Return the port, example value <code>8080</code>
-     * @param url
+     * @param url server url
      * @param defaultPort if the port is not set
-     * @return
+     * @return port
      */
     public static String getPort(URL url, String defaultPort) {
         if (url == null || url.getPort() == -1) {
@@ -96,7 +96,7 @@ public class URLPathUtils {
 
     /**
      * Return the path, example value <code>/abcdef/xyz</code>
-     * @param url
+     * @param url server url
      * @param defaultPath if the path is not empty
      * @return path
      */
@@ -110,7 +110,7 @@ public class URLPathUtils {
 
     /**
      * Get the protocol and the host, example value <code>https://www.abcdef.xyz</code>
-     * @param url
+     * @param url server url
      * @return protocolAndHost
      */
     public static String getProtocolAndHost(URL url) {
@@ -124,7 +124,7 @@ public class URLPathUtils {
 
     /**
      * Return the first complete URL from the OpenAPI specification
-     * @param openAPI
+     * @param openAPI current OpenAPI specification
      * @return host
      */
     public static String getHost(OpenAPI openAPI) {
