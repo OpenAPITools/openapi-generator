@@ -64,6 +64,12 @@ New:
 </dependency>
 ```
 
+### Changes in Maven Plugin
+
+OpenAPI Generator 3.0.0 has introduced `<generatorName>` and deprecated `<language>`, because this refers to generator names which embed more than just "language".
+
+If both options are present, you'll be presented with an error. If only `<language>` is provided, you'll be presented instructions for updating to the new config.
+
 
 ### New generators names
 
@@ -85,6 +91,7 @@ All languages of `swagger-codegen` have been migrated to `openapi-generator`, bu
 | `ze-ph` | `php-ze-ph` |
 | `nancyfx` | `csharp-nancyfx` |
 
+We provide a temporary mapping in code for these old values. You'll receive a warning with instructions to migrate to the new names.
 
 ### New parameters name
 
