@@ -217,7 +217,7 @@ public class MyObjcCodegen extends ObjcClientCodegen {
 and specify the `classname` when running the generator:
 
 ```
--l com.mycompany.openapitools.codegen.MyObjcCodegen
+-g com.mycompany.openapitools.codegen.MyObjcCodegen
 ```
 
 Your subclass will now be loaded and overrides the `PREFIX` value in the superclass.

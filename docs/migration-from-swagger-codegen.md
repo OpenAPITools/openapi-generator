@@ -67,7 +67,7 @@ New:
 
 ### New generators names
 
-When you run OpenAPI Generator, you need to select a target language (`-l` option in the cli).
+When you run OpenAPI Generator, you need to select a target generator (`-g` option in the cli).
 All languages of `swagger-codegen` have been migrated to `openapi-generator`, but some names were changed, in order to be more consistent.
 
 | name in `swagger-codegen` | name in `openapi-generator`  |
