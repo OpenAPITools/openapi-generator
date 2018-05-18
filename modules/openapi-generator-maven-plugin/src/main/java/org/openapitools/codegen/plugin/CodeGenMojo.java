@@ -375,12 +375,18 @@ public class CodeGenMojo extends AbstractMojo {
         // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
         if (isNotEmpty(generatorName)) {
             configurator.setGeneratorName(generatorName);
+
+            // check if generatorName & language are set together, inform user this needs to be updated to prevent future issues.
+            if (isNotEmpty(language)) {
+                LOGGER.warn("The 'language' option is deprecated and was replaced by 'generatorName'. Both can not be set together");
+                throw new MojoExecutionException("Illegal configuration: 'language' and  'generatorName' can not be set both, remove 'language' from your configuration");
+            }
         } else if (isNotEmpty(language)) {
             LOGGER.warn("The 'language' option is deprecated and may reference language names only in the next major release (4.0). Please use 'generatorName' instead.");
             configurator.setGeneratorName(language);
         } else {
             LOGGER.error("A generator name (generatorName) is required.");
-            System.exit(1);
+            throw new MojoExecutionException("The generator requires 'generatorName'. Refer to documentation for a list of options.");
         }
 
 

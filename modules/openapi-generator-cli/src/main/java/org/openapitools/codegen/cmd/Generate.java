@@ -84,7 +84,7 @@ public class Generate implements Runnable {
             title = "configuration file",
             description = "Path to json configuration file. "
                     + "File content should be in a json format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...} "
-                    + "Supported options can be different for each language. Run config-help -l {lang} command for language specific config options.")
+                    + "Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.")
     private String configFile;
 
     @Option(name = {"-s", "--skip-overwrite"}, title = "skip overwrite",

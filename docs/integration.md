@@ -13,7 +13,7 @@ To push the auto-generated SDK to GitHub, we provide `git_push.sh` to streamline
  2) Generate the SDK
 ```sh
  java -jar openapi-generator-cli.jar generate \
- -i modules/openapi-generator/src/test/resources/2_0/petstore.json -l perl \
+ -i modules/openapi-generator/src/test/resources/2_0/petstore.json -g perl \
  --git-user-id "wing328" \
  --git-repo-id "petstore-perl" \
  --release-note "Github integration demo" \
