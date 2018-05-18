@@ -1,10 +1,10 @@
 @JsonInclude(JsonInclude.Include.NON_NULL) 
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
-  {{#vars}}{{#isEnum}}
+  {{#vars}}{{#isEnum}}{{^isContainer}}
 
-{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+{{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 
-{{>enumClass}}{{/items}}{{/items.isEnum}}
+{{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
   public {{classname}} () {

@@ -1899,6 +1899,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.isPrimitiveType = true;
         }
         property.items = innerProperty;
+        property.mostInnerItems = getMostInnerItems(innerProperty);
         // inner item is Enum
         if (isPropertyInnerMostEnum(property)) {
             // isEnum is set to true when the type is an enum
@@ -1930,6 +1931,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.isPrimitiveType = true;
         }
         property.items = innerProperty;
+        property.mostInnerItems = getMostInnerItems(innerProperty);
         property.dataFormat = innerProperty.dataFormat;
         // inner item is Enum
         if (isPropertyInnerMostEnum(property)) {
@@ -1952,21 +1954,22 @@ public class DefaultCodegen implements CodegenConfig {
      * @return True if the inner most type is enum
      */
     protected Boolean isPropertyInnerMostEnum(CodegenProperty property) {
-        CodegenProperty currentProperty = property;
-        while (currentProperty != null && (Boolean.TRUE.equals(currentProperty.isMapContainer)
-                || Boolean.TRUE.equals(currentProperty.isListContainer))) {
-            currentProperty = currentProperty.items;
-        }
+        CodegenProperty currentProperty = getMostInnerItems(property);
 
         return currentProperty == null ? false : currentProperty.isEnum;
     }
 
-    protected Map<String, Object> getInnerEnumAllowableValues(CodegenProperty property) {
+    protected CodegenProperty getMostInnerItems(CodegenProperty property) {
         CodegenProperty currentProperty = property;
         while (currentProperty != null && (Boolean.TRUE.equals(currentProperty.isMapContainer)
                 || Boolean.TRUE.equals(currentProperty.isListContainer))) {
             currentProperty = currentProperty.items;
         }
+        return currentProperty;
+    }
+
+    protected Map<String, Object> getInnerEnumAllowableValues(CodegenProperty property) {
+        CodegenProperty currentProperty = getMostInnerItems(property);
 
         return currentProperty == null ? new HashMap<String, Object>() : currentProperty.allowableValues;
     }
@@ -2530,6 +2533,7 @@ public class DefaultCodegen implements CodegenConfig {
                 collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
                 CodegenProperty codegenProperty = fromProperty("inner", inner);
                 codegenParameter.items = codegenProperty;
+                codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
                 codegenParameter.baseType = codegenProperty.dataType;
                 codegenParameter.isContainer = true;
                 codegenParameter.isListContainer = true;
@@ -2544,6 +2548,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (ModelUtils.isMapSchema(parameterSchema)) { // for map parameter
                 CodegenProperty codegenProperty = fromProperty("inner", (Schema) parameterSchema.getAdditionalProperties());
                 codegenParameter.items = codegenProperty;
+                codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
                 codegenParameter.baseType = codegenProperty.dataType;
                 codegenParameter.isContainer = true;
                 codegenParameter.isMapContainer = true;
@@ -2598,6 +2603,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
                 codegenParameter.enumName = codegenProperty.enumName;
                 codegenParameter.items = codegenProperty.items;
+                codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
             }
 
             codegenParameter.collectionFormat = collectionFormat;
@@ -4084,6 +4090,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter = fromFormProperty(entry.getKey(), inner, imports);
                     CodegenProperty codegenProperty = fromProperty("inner", inner);
                     codegenParameter.items = codegenProperty;
+                    codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
                     codegenParameter.baseType = codegenProperty.dataType;
                     codegenParameter.isPrimitiveType = false;
                     codegenParameter.isContainer = true;
@@ -4159,6 +4166,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (codegenProperty.items != null && codegenProperty.items.isEnum) {
             codegenParameter.items = codegenProperty.items;
+            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
         }
 
         // import
@@ -4238,6 +4246,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             codegenParameter.paramName = toParamName(codegenParameter.baseName);
             codegenParameter.items = codegenProperty.items;
+            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
             codegenParameter.dataType = getTypeDeclaration(schema);
             codegenParameter.baseType = getSchemaType(inner);
             codegenParameter.isContainer = Boolean.TRUE;
@@ -4272,6 +4281,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             codegenParameter.paramName = toArrayModelParamName(codegenParameter.baseName);
             codegenParameter.items = codegenProperty.items;
+            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
             codegenParameter.dataType = getTypeDeclaration(arraySchema);
             codegenParameter.baseType = getSchemaType(arraySchema);
             codegenParameter.isContainer = Boolean.TRUE;

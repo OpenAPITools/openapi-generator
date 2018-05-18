@@ -36,7 +36,6 @@ public class Pet  {
   @Valid
   private List<Tag> tags = null;
 
-
 @XmlType(name="StatusEnum")
 @XmlEnum(String.class)
 public enum StatusEnum {

@@ -63,6 +63,7 @@ public class CodegenProperty implements Cloneable {
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
+    public CodegenProperty mostInnerItems;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
     public boolean isInherited;
@@ -436,6 +437,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((isPrimitiveType  ? 13:31));
         result = prime * result + ((isReadOnly  ? 13:31));
         result = prime * result + ((items == null) ? 0 : items.hashCode());
+        result = prime * result + ((mostInnerItems == null) ? 0 : mostInnerItems.hashCode());
         result = prime * result + ((jsonSchema == null) ? 0 : jsonSchema.hashCode());
         result = prime * result + ((max == null) ? 0 : max.hashCode());
         result = prime * result + ((maxLength == null) ? 0 : maxLength.hashCode());
@@ -700,6 +702,9 @@ public class CodegenProperty implements Cloneable {
             if (this.items != null) {
                 cp.items = this.items;
             }
+            if (this.mostInnerItems != null) {
+                cp.mostInnerItems = this.mostInnerItems;
+            }
             if(this.vendorExtensions != null){
                 cp.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
             }
@@ -766,6 +771,7 @@ public class CodegenProperty implements Cloneable {
                 ", _enum=" + _enum +
                 ", allowableValues=" + allowableValues +
                 ", items=" + items +
+                ", mostInnerItems=" + mostInnerItems +
                 ", vendorExtensions=" + vendorExtensions +
                 ", hasValidation=" + hasValidation +
                 ", isInherited=" + isInherited +
