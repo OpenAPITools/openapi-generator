@@ -374,7 +374,7 @@ public class CodeGenMojo extends AbstractMojo {
 
         // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
         if (isNotEmpty(generatorName)) {
-            configurator.setGeneratorName(language);
+            configurator.setGeneratorName(generatorName);
         } else if (isNotEmpty(language)) {
             LOGGER.warn("The 'language' option is deprecated and may reference language names only in the next major release (4.0). Please use 'generatorName' instead.");
             configurator.setGeneratorName(language);

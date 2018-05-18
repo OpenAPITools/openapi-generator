@@ -20,7 +20,6 @@
                         </goals>
                         <configuration>
                             <inputSpec>swagger.yaml</inputSpec>
-                            <language>aspnetcore</language>
                             <generatorName>aspnetcore</generatorName>
                             <configOptions>
                                 <additional-properties>optionalProjectFile=true</additional-properties>
