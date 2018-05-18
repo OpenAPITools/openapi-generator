@@ -95,7 +95,7 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+     * @return {{#responses}}{{^-first}}|{{/-first}}{{{dataType}}}{{/responses}}{{^responses}}void{{/responses}}
      */
     public function {{operationId}}({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
@@ -120,11 +120,10 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
+     * @return array of {{#responses}}{{^-first}}|{{/-first}}{{{dataType}}}{{/responses}}{{^responses}}null{{/responses}}, HTTP status code, HTTP response headers (array of strings)
      */
     public function {{operationId}}WithHttpInfo({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
-        $returnType = '{{returnType}}';
         $request = $this->{{operationId}}Request({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 
         try {
@@ -154,27 +153,35 @@ use {{invokerPackage}}\ObjectSerializer;
                     $response->getBody()
                 );
             }
+        {{#responses}}
+            {{#-first}}
 
-            {{#returnType}}
             $responseBody = $response->getBody();
-            if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
-            } else {
-                $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
-            }
+            switch($statusCode) {
+            {{/-first}}
+            {{#dataType}}
+                {{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
+                    if ('{{dataType}}' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('{{dataType}}' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-            {{/returnType}}
-            {{^returnType}}
+                    return [
+                        ObjectSerializer::deserialize($content, '{{dataType}}', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            {{/dataType}}
+            {{#-last}}
+            }
+            {{/-last}}
+        {{/responses}}
+
             return [null, $statusCode, $response->getHeaders()];
-            {{/returnType}}
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
