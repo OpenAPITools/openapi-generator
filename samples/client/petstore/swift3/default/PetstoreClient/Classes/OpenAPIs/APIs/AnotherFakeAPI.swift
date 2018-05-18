@@ -26,9 +26,6 @@ open class AnotherFakeAPI: APIBase {
      To test special tags
      - PATCH /another-fake/dummy
      - To test special tags
-     - examples: [{contentType=application/json, example={
-  "client" : "client"
-}}]
      - parameter client: (body) client model 
      - returns: RequestBuilder<Client> 
      */

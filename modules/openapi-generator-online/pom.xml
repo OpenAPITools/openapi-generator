@@ -1,5 +1,4 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.openapitools</groupId>
@@ -8,229 +7,83 @@
         <relativePath>../..</relativePath>
     </parent>
     <artifactId>openapi-generator-online</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>openapi-generator-online</name>
+    <version>3.0.0-SNAPSHOT</version>
+    <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <springfox-version>2.8.0</springfox-version>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot-version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/version.prop</include>
-                    <include>logback.xml</include>
-                </includes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <webResources>
-                        <resource>
-                            <!-- this is relative to the pom.xml directory -->
-                            <directory>${project.build.directory}/swagger-ui-master/dist</directory>
-                            <excludes>
-                                <exclude>index.html</exclude>
-                            </excludes>
-                        </resource>
-                    </webResources>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.6</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot-version}</version>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
+                            <goal>repackage</goal>
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty-version}</version>
-                <configuration>
-                    <webApp>
-                        <contextPath>/</contextPath>
-                    </webApp>
-                    <webAppSourceDirectory>target/${project.artifactId}-${project.version}</webAppSourceDirectory>
-                    <stopPort>8079</stopPort>
-                    <stopKey>stopit</stopKey>
-                    <httpConnector>
-                        <idleTimeout>60000</idleTimeout>
-                    </httpConnector>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>start-jetty</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>start</goal>
-                        </goals>
-                        <configuration>
-                            <scanIntervalSeconds>0</scanIntervalSeconds>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>stop-jetty</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.googlecode.maven-download-plugin</groupId>
-                <artifactId>download-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <executions>
-                    <execution>
-                        <id>swagger-ui</id>
-                        <goals>
-                            <goal>wget</goal>
-                        </goals>
-                        <configuration>
-                            <url>https://github.com/swagger-api/swagger-ui/archive/master.tar.gz</url>
-                            <unpack>true</unpack>
-                            <!--<skipCache>true</skipCache>-->
-                            <outputDirectory>${project.build.directory}</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>net.revelc.code</groupId>
-                <artifactId>formatter-maven-plugin</artifactId>
-                <configuration>
-                    <!-- Point at the eclipse-formatter.xml in the openapi-generator parent project directory -->
-                    <configFile>${project.basedir}${file.separator}${project.parent.relativePath}${file.separator}eclipse-formatter.xml</configFile>
-                </configuration>
             </plugin>
         </plugins>
     </build>
     <dependencies>
         <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-jersey2-jaxrs</artifactId>
-            <version>1.5.18</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!--SpringFox dependencies -->
         <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>openapi-generator</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>openapi-generator</artifactId>
-            <version>${project.parent.version}</version>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${logback-version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>${servlet-api-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet-core</artifactId>
-            <version>${jersey2-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-multipart</artifactId>
-            <version>${jersey2-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.lingala.zip4j</groupId>
-            <artifactId>zip4j</artifactId>
-            <version>${zip-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>${jetty-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-start</artifactId>
-            <version>${jetty-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-xml</artifactId>
-            <version>${jetty-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-webapp</artifactId>
-            <version>${jetty-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-deploy</artifactId>
-            <version>${jetty-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-runner</artifactId>
-            <version>${jetty-version}</version>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>org.glassfish</groupId>
-                    <artifactId>javax.el</artifactId>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+            </exclusion>
+                <exclusion>
+                    <groupId>io.swagger</groupId>
+                    <artifactId>swagger-models</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <!-- Bean Validation API support -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.jaxrs</groupId>
-            <artifactId>jackson-jaxrs-json-provider</artifactId>
-            <version>${jackson-version}</version>
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
-    <properties>
-        <servlet-api-version>2.5</servlet-api-version>
-        <logback-version>1.0.1</logback-version>
-        <maven-plugin-version>1.0.0</maven-plugin-version>
-        <servlet-api-version>2.5</servlet-api-version>
-        <zip-version>1.3.2</zip-version>
-        <jetty-version>9.2.9.v20150224</jetty-version>
-        <jersey2-version>2.6</jersey2-version>
-    </properties>
 </project>
