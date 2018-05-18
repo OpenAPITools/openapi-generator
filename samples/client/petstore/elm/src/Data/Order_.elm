@@ -11,7 +11,7 @@
 -}
 
 
-module Data.Order exposing (Order, Status(..), orderDecoder, orderEncoder)
+module Data.Order_ exposing (Order_, Status(..), orderDecoder, orderEncoder)
 
 import DateTime exposing (DateTime, dateTimeDecoder, dateTimeEncoder)
 import Json.Decode as Decode exposing (Decoder)
@@ -25,7 +25,7 @@ import Maybe exposing (map, withDefault)
 -}
 
 
-type alias Order =
+type alias Order_ =
     { id : Maybe Int
     , petId : Maybe Int
     , quantity : Maybe Int
@@ -42,9 +42,9 @@ type Status
 
 
 
-orderDecoder : Decoder Order
+orderDecoder : Decoder Order_
 orderDecoder =
-    decode Order
+    decode Order_
         |> optional "id" (Decode.nullable Decode.int) Nothing
         |> optional "petId" (Decode.nullable Decode.int) Nothing
         |> optional "quantity" (Decode.nullable Decode.int) Nothing
@@ -54,7 +54,7 @@ orderDecoder =
 
 
 
-orderEncoder : Order -> Encode.Value
+orderEncoder : Order_ -> Encode.Value
 orderEncoder model =
     Encode.object
         [ ( "id", withDefault Encode.null (map Encode.int model.id) )
