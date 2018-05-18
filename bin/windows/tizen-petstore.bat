@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% Xmx1024M
-set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -l cpp-tizen -o samples\client\petstore\tizen
+set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g cpp-tizen -o samples\client\petstore\tizen
 
 java %JAVA_OPTS% -jar %executable% %ags%
