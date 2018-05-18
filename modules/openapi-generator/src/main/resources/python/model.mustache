@@ -6,10 +6,6 @@ import pprint
 import re  # noqa: F401
 
 import six
-{{#imports}}{{#-first}}
-{{/-first}}
-{{import}}  # noqa: F401,E501
-{{/imports}}
 
 
 {{#models}}
@@ -170,7 +166,7 @@ class {{classname}}(object):
 {{#discriminator}}
     def get_real_child_model(self, data):
         """Returns the real base class specified by the discriminator"""
-        discriminator_value = data[self.discriminator].lower()
+        discriminator_value = data[self.discriminator]
         return self.discriminator_value_class_map.get(discriminator_value)
 
 {{/discriminator}}
