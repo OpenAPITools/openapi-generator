@@ -13,8 +13,8 @@
 
 module Request.Store exposing (deleteOrder, getInventory, getOrderById, placeOrder)
 
-import Data.Order exposing (Order, orderDecoder, orderEncoder)
-import Data.Int exposing (Int, intDecoder)
+import Data.Order_ exposing (Order_, orderDecoder, orderEncoder)
+import Dict
 import Http
 import Json.Decode as Decode
 
@@ -43,13 +43,13 @@ deleteOrder orderId =
 {-
    Returns a map of status codes to quantities
 -}
-getInventory : Http.Request Int
+getInventory : Http.Request (Dict.Dict String Int)
 getInventory =
     { method = "GET"
     , url = basePath ++ "/store/inventory"
     , headers = []
     , body = Http.emptyBody
-    , expect = Http.expectJson intDecoder
+    , expect = Http.expectJson (Decode.dict Decode.int)
     , timeout = Just 30000
     , withCredentials = False
     }
@@ -59,7 +59,7 @@ getInventory =
 {-
    For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
 -}
-getOrderById : Int -> Http.Request Order
+getOrderById : Int -> Http.Request Order_
 getOrderById orderId =
     { method = "GET"
     , url = basePath ++ "/store/order/" ++ toString orderId
@@ -75,7 +75,7 @@ getOrderById orderId =
 {-
    
 -}
-placeOrder : Order -> Http.Request Order
+placeOrder : Order_ -> Http.Request Order_
 placeOrder model =
     { method = "POST"
     , url = basePath ++ "/store/order"
