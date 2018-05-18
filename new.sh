@@ -183,7 +183,7 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M -DloggerPath=conf/log4j.properties
-set ags=generate  --artifact-id "${gen_name}-petstore-${gen_type}" -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -l ${gen_name} -o samples\\${gen_type}\petstore\\${gen_name}
+set ags=generate  --artifact-id "${gen_name}-petstore-${gen_type}" -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g ${gen_name} -o samples\\${gen_type}\petstore\\${gen_name}
 
 java %JAVA_OPTS% -jar %executable% %ags%
 EOF
@@ -219,7 +219,7 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="\${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="\$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l ${gen_name} -o samples/${gen_type}/petstore/${gen_name}"
+ags="\$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g ${gen_name} -o samples/${gen_type}/petstore/${gen_name}"
 
 java \${JAVA_OPTS} -jar \${executable} \${ags}
 EOF
