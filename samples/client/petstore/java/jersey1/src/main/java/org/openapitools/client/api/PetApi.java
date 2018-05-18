@@ -99,7 +99,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public void deletePet(Long petId, String apiKey) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -144,7 +144,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // verify the required parameter 'status' is set
     if (status == null) {
@@ -189,7 +189,7 @@ public class PetApi {
    */
   @Deprecated
   public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // verify the required parameter 'tags' is set
     if (tags == null) {
@@ -232,7 +232,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public Pet getPetById(Long petId) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -317,7 +317,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -366,7 +366,7 @@ if (status != null)
    * @throws ApiException if fails to make API call
    */
   public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // verify the required parameter 'petId' is set
     if (petId == null) {

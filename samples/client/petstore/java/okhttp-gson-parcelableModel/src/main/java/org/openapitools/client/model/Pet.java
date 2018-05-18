@@ -25,7 +25,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -41,7 +40,7 @@ public class Pet implements Parcelable {
 
   public static final String SERIALIZED_NAME_CATEGORY = "category";
   @SerializedName(SERIALIZED_NAME_CATEGORY)
-  private Category category = null;
+  private Object category = null;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -128,7 +127,7 @@ public class Pet implements Parcelable {
     this.id = id;
   }
 
-  public Pet category(Category category) {
+  public Pet category(Object category) {
     this.category = category;
     return this;
   }
@@ -138,11 +137,11 @@ public class Pet implements Parcelable {
    * @return category
   **/
   @ApiModelProperty(value = "")
-  public Category getCategory() {
+  public Object getCategory() {
     return category;
   }
 
-  public void setCategory(Category category) {
+  public void setCategory(Object category) {
     this.category = category;
   }
 
@@ -293,7 +292,7 @@ public class Pet implements Parcelable {
 
   Pet(Parcel in) {
     id = (Long)in.readValue(null);
-    category = (Category)in.readValue(Category.class.getClassLoader());
+    category = (Object)in.readValue(null);
     name = (String)in.readValue(null);
     photoUrls = (List<String>)in.readValue(null);
     tags = (List<Tag>)in.readValue(Tag.class.getClassLoader());

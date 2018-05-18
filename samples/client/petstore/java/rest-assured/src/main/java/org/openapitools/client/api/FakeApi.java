@@ -463,14 +463,14 @@ public class FakeApi {
             return this;
         }
 
-        public static final String QUERY_QUERY = "query";
+        public static final String _QUERY = "query";
 
         /**
          * @param query (String)  (required)
          * @return operation
          */
         public TestBodyWithQueryParamsOper queryQuery(Object... query) {
-            reqSpec.addQueryParam(QUERY_QUERY, query);
+            reqSpec.addQueryParam(_QUERY, query);
             return this;
         }
 
@@ -623,146 +623,146 @@ public class FakeApi {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
         }
 
-         public static final String INTEGER_FORM = "integer";
+         public static final String _FORM = "integer";
 
          /**
          * @param integer (Integer) None (optional, default to null)
          * @return operation
          */
          public TestEndpointParametersOper integerForm(Object... integer) {
-            reqSpec.addFormParam(INTEGER_FORM, integer);
+            reqSpec.addFormParam(_FORM, integer);
             return this;
          }
 
-         public static final String INT32_FORM = "int32";
+         public static final String _FORM = "int32";
 
          /**
          * @param int32 (Integer) None (optional, default to null)
          * @return operation
          */
          public TestEndpointParametersOper int32Form(Object... int32) {
-            reqSpec.addFormParam(INT32_FORM, int32);
+            reqSpec.addFormParam(_FORM, int32);
             return this;
          }
 
-         public static final String INT64_FORM = "int64";
+         public static final String _FORM = "int64";
 
          /**
          * @param int64 (Long) None (optional, default to null)
          * @return operation
          */
          public TestEndpointParametersOper int64Form(Object... int64) {
-            reqSpec.addFormParam(INT64_FORM, int64);
+            reqSpec.addFormParam(_FORM, int64);
             return this;
          }
 
-         public static final String NUMBER_FORM = "number";
+         public static final String _FORM = "number";
 
          /**
          * @param number (BigDecimal) None (required)
          * @return operation
          */
          public TestEndpointParametersOper numberForm(Object... number) {
-            reqSpec.addFormParam(NUMBER_FORM, number);
+            reqSpec.addFormParam(_FORM, number);
             return this;
          }
 
-         public static final String _FLOAT_FORM = "float";
+         public static final String _FORM = "float";
 
          /**
          * @param _float (Float) None (optional, default to null)
          * @return operation
          */
          public TestEndpointParametersOper _floatForm(Object... _float) {
-            reqSpec.addFormParam(_FLOAT_FORM, _float);
+            reqSpec.addFormParam(_FORM, _float);
             return this;
          }
 
-         public static final String _DOUBLE_FORM = "double";
+         public static final String _FORM = "double";
 
          /**
          * @param _double (Double) None (required)
          * @return operation
          */
          public TestEndpointParametersOper _doubleForm(Object... _double) {
-            reqSpec.addFormParam(_DOUBLE_FORM, _double);
+            reqSpec.addFormParam(_FORM, _double);
             return this;
          }
 
-         public static final String STRING_FORM = "string";
+         public static final String _FORM = "string";
 
          /**
          * @param string (String) None (optional, default to null)
          * @return operation
          */
          public TestEndpointParametersOper stringForm(Object... string) {
-            reqSpec.addFormParam(STRING_FORM, string);
+            reqSpec.addFormParam(_FORM, string);
             return this;
          }
 
-         public static final String PATTERN_WITHOUT_DELIMITER_FORM = "pattern_without_delimiter";
+         public static final String _FORM = "pattern_without_delimiter";
 
          /**
          * @param patternWithoutDelimiter (String) None (required)
          * @return operation
          */
          public TestEndpointParametersOper patternWithoutDelimiterForm(Object... patternWithoutDelimiter) {
-            reqSpec.addFormParam(PATTERN_WITHOUT_DELIMITER_FORM, patternWithoutDelimiter);
+            reqSpec.addFormParam(_FORM, patternWithoutDelimiter);
             return this;
          }
 
-         public static final String _BYTE_FORM = "byte";
+         public static final String _FORM = "byte";
 
          /**
          * @param _byte (byte[]) None (required)
          * @return operation
          */
          public TestEndpointParametersOper _byteForm(Object... _byte) {
-            reqSpec.addFormParam(_BYTE_FORM, _byte);
+            reqSpec.addFormParam(_FORM, _byte);
             return this;
          }
 
-         public static final String DATE_FORM = "date";
+         public static final String _FORM = "date";
 
          /**
          * @param date (LocalDate) None (optional, default to null)
          * @return operation
          */
          public TestEndpointParametersOper dateForm(Object... date) {
-            reqSpec.addFormParam(DATE_FORM, date);
+            reqSpec.addFormParam(_FORM, date);
             return this;
          }
 
-         public static final String DATE_TIME_FORM = "dateTime";
+         public static final String _FORM = "dateTime";
 
          /**
          * @param dateTime (OffsetDateTime) None (optional, default to null)
          * @return operation
          */
          public TestEndpointParametersOper dateTimeForm(Object... dateTime) {
-            reqSpec.addFormParam(DATE_TIME_FORM, dateTime);
+            reqSpec.addFormParam(_FORM, dateTime);
             return this;
          }
 
-         public static final String PASSWORD_FORM = "password";
+         public static final String _FORM = "password";
 
          /**
          * @param password (String) None (optional, default to null)
          * @return operation
          */
          public TestEndpointParametersOper passwordForm(Object... password) {
-            reqSpec.addFormParam(PASSWORD_FORM, password);
+            reqSpec.addFormParam(_FORM, password);
             return this;
          }
 
-         public static final String PARAM_CALLBACK_FORM = "callback";
+         public static final String _FORM = "callback";
 
          /**
          * @param paramCallback (String) None (optional, default to null)
          * @return operation
          */
          public TestEndpointParametersOper paramCallbackForm(Object... paramCallback) {
-            reqSpec.addFormParam(PARAM_CALLBACK_FORM, paramCallback);
+            reqSpec.addFormParam(_FORM, paramCallback);
             return this;
          }
 
@@ -842,91 +842,91 @@ public class FakeApi {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
         }
 
-        public static final String ENUM_HEADER_STRING_ARRAY_HEADER = "enum_header_string_array";
+        public static final String _HEADER = "enum_header_string_array";
 
         /**
          * @param enumHeaderStringArray (List&lt;String&gt;) Header parameter enum test (string array) (optional)
          * @return operation
          */
         public TestEnumParametersOper enumHeaderStringArrayHeader(String enumHeaderStringArray) {
-            reqSpec.addHeader(ENUM_HEADER_STRING_ARRAY_HEADER, enumHeaderStringArray);
+            reqSpec.addHeader(_HEADER, enumHeaderStringArray);
             return this;
         }
 
-        public static final String ENUM_HEADER_STRING_HEADER = "enum_header_string";
+        public static final String _HEADER = "enum_header_string";
 
         /**
          * @param enumHeaderString (String) Header parameter enum test (string) (optional, default to -efg)
          * @return operation
          */
         public TestEnumParametersOper enumHeaderStringHeader(String enumHeaderString) {
-            reqSpec.addHeader(ENUM_HEADER_STRING_HEADER, enumHeaderString);
+            reqSpec.addHeader(_HEADER, enumHeaderString);
             return this;
         }
 
-        public static final String ENUM_QUERY_STRING_ARRAY_QUERY = "enum_query_string_array";
+        public static final String _QUERY = "enum_query_string_array";
 
         /**
          * @param enumQueryStringArray (List&lt;String&gt;) Query parameter enum test (string array) (optional)
          * @return operation
          */
         public TestEnumParametersOper enumQueryStringArrayQuery(Object... enumQueryStringArray) {
-            reqSpec.addQueryParam(ENUM_QUERY_STRING_ARRAY_QUERY, enumQueryStringArray);
+            reqSpec.addQueryParam(_QUERY, enumQueryStringArray);
             return this;
         }
 
-        public static final String ENUM_QUERY_STRING_QUERY = "enum_query_string";
+        public static final String _QUERY = "enum_query_string";
 
         /**
          * @param enumQueryString (String) Query parameter enum test (string) (optional, default to -efg)
          * @return operation
          */
         public TestEnumParametersOper enumQueryStringQuery(Object... enumQueryString) {
-            reqSpec.addQueryParam(ENUM_QUERY_STRING_QUERY, enumQueryString);
+            reqSpec.addQueryParam(_QUERY, enumQueryString);
             return this;
         }
 
-        public static final String ENUM_QUERY_INTEGER_QUERY = "enum_query_integer";
+        public static final String _QUERY = "enum_query_integer";
 
         /**
          * @param enumQueryInteger (Integer) Query parameter enum test (double) (optional)
          * @return operation
          */
         public TestEnumParametersOper enumQueryIntegerQuery(Object... enumQueryInteger) {
-            reqSpec.addQueryParam(ENUM_QUERY_INTEGER_QUERY, enumQueryInteger);
+            reqSpec.addQueryParam(_QUERY, enumQueryInteger);
             return this;
         }
 
-        public static final String ENUM_QUERY_DOUBLE_QUERY = "enum_query_double";
+        public static final String _QUERY = "enum_query_double";
 
         /**
          * @param enumQueryDouble (Double) Query parameter enum test (double) (optional)
          * @return operation
          */
         public TestEnumParametersOper enumQueryDoubleQuery(Object... enumQueryDouble) {
-            reqSpec.addQueryParam(ENUM_QUERY_DOUBLE_QUERY, enumQueryDouble);
+            reqSpec.addQueryParam(_QUERY, enumQueryDouble);
             return this;
         }
 
-         public static final String ENUM_FORM_STRING_ARRAY_FORM = "enum_form_string_array";
+         public static final String _FORM = "enum_form_string_array";
 
          /**
          * @param enumFormStringArray (List&lt;String&gt;) Form parameter enum test (string array) (optional, default to $)
          * @return operation
          */
          public TestEnumParametersOper enumFormStringArrayForm(Object... enumFormStringArray) {
-            reqSpec.addFormParam(ENUM_FORM_STRING_ARRAY_FORM, enumFormStringArray);
+            reqSpec.addFormParam(_FORM, enumFormStringArray);
             return this;
          }
 
-         public static final String ENUM_FORM_STRING_FORM = "enum_form_string";
+         public static final String _FORM = "enum_form_string";
 
          /**
          * @param enumFormString (String) Form parameter enum test (string) (optional, default to -efg)
          * @return operation
          */
          public TestEnumParametersOper enumFormStringForm(Object... enumFormString) {
-            reqSpec.addFormParam(ENUM_FORM_STRING_FORM, enumFormString);
+            reqSpec.addFormParam(_FORM, enumFormString);
             return this;
          }
 
@@ -1056,25 +1056,25 @@ public class FakeApi {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
         }
 
-         public static final String PARAM_FORM = "param";
+         public static final String _FORM = "param";
 
          /**
          * @param param (String) field1 (required)
          * @return operation
          */
          public TestJsonFormDataOper paramForm(Object... param) {
-            reqSpec.addFormParam(PARAM_FORM, param);
+            reqSpec.addFormParam(_FORM, param);
             return this;
          }
 
-         public static final String PARAM2_FORM = "param2";
+         public static final String _FORM = "param2";
 
          /**
          * @param param2 (String) field2 (required)
          * @return operation
          */
          public TestJsonFormDataOper param2Form(Object... param2) {
-            reqSpec.addFormParam(PARAM2_FORM, param2);
+            reqSpec.addFormParam(_FORM, param2);
             return this;
          }
 
