@@ -1,12 +1,17 @@
 {{=< >=}}(ns <package>.<classname>
-  (:require [<baseNamespace>.core :refer [call-api check-required-params with-collection-format]])
+  (:require [<baseNamespace>.core :refer [call-api check-required-params with-collection-format]]
+            [<baseNamespace>.specs :refer :all]
+            [clojure.spec.alpha :as s]
+            [orchestra.core :refer [defn-spec]]
+            [spec-tools.core :as st])
   (:import (java.io File)))
+
 <#operations><#operation>
-(defn <operationId>-with-http-info
+(defn-spec <operationId>-with-http-info any?
   "<&summary><#notes>
   <&notes></notes>"<#hasOptionalParams>
-  ([<#allParams><#required><#isFile>^File </isFile><paramName> </required></allParams>] (<operationId>-with-http-info<#allParams><#required> <paramName></required></allParams> nil))</hasOptionalParams>
-  <#hasOptionalParams>(</hasOptionalParams>[<#allParams><#required><#isFile>^File </isFile><paramName> </required></allParams><#hasOptionalParams>{:keys [<#allParams><^required><#isFile>^File </isFile><paramName> </required></allParams>]}</hasOptionalParams>]<#hasRequiredParams>
+  ([<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><#hasMore>, </hasMore></required></allParams>] (<operationId>-with-http-info<#allParams><#required> <paramName></required></allParams> nil))</hasOptionalParams>
+  <#hasOptionalParams>(</hasOptionalParams>[<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><#hasMore>, </hasMore></required></allParams><#hasOptionalParams>{:keys [<#allParams><^required><#isFile>^File </isFile><paramName><#hasMore> </hasMore></required></allParams>]}</hasOptionalParams>]<#hasRequiredParams>
   <#hasOptionalParams> </hasOptionalParams>(check-required-params<#allParams><#required> <paramName></required></allParams>)</hasRequiredParams>
   <#hasOptionalParams> </hasOptionalParams>(call-api "<path>" :<httpMethod>
   <#hasOptionalParams> </hasOptionalParams>          {:path-params   {<#pathParams>"<baseName>" <#collectionFormat>(with-collection-format <paramName> :<collectionFormat>)</collectionFormat><^collectionFormat><paramName></collectionFormat> </pathParams>}
@@ -18,10 +23,11 @@
   <#hasOptionalParams> </hasOptionalParams>           :accepts       [<#produces>"<& mediaType>"<#hasMore> </hasMore></produces>]
   <#hasOptionalParams> </hasOptionalParams>           :auth-names    [<#authMethods>"<&name>"<#hasMore> </hasMore></authMethods>]})<#hasOptionalParams>)</hasOptionalParams>)
 
-(defn <operationId>
+(defn-spec <operationId> <#returnType><returnType></returnType><^returnType>any?</returnType>
   "<&summary><#notes>
   <&notes></notes>"<#hasOptionalParams>
-  ([<#allParams><#required><#isFile>^File </isFile><paramName> </required></allParams>] (<operationId><#allParams><#required> <paramName></required></allParams> nil))</hasOptionalParams>
-  <#hasOptionalParams>(</hasOptionalParams>[<#allParams><#required><#isFile>^File </isFile><paramName> </required></allParams><#hasOptionalParams>optional-params</hasOptionalParams>]
-  <#hasOptionalParams> </hasOptionalParams>(:data (<operationId>-with-http-info<#allParams><#required> <paramName></required></allParams><#hasOptionalParams> optional-params</hasOptionalParams>))<#hasOptionalParams>)</hasOptionalParams>)
+  ([<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><#hasMore>, </hasMore></required></allParams>] (<operationId><#allParams><#required> <paramName></required></allParams> nil))</hasOptionalParams>
+  <#hasOptionalParams>(</hasOptionalParams>[<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><#hasMore>, </hasMore></required></allParams><#hasOptionalParams>optional-params</hasOptionalParams>]
+  <#hasOptionalParams> </hasOptionalParams>(st/decode <#returnType><returnType></returnType><^returnType>any?</returnType> (:data (<operationId>-with-http-info<#allParams><#required> <paramName></required></allParams><#hasOptionalParams> optional-params</hasOptionalParams>)) st/string-transformer) <#hasOptionalParams>)</hasOptionalParams>)
+
 </operation></operations>

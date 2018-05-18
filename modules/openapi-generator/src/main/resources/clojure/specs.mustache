@@ -1,0 +1,24 @@
+{{=< >=}}(ns <baseNamespace>.specs
+  (:require [<baseNamespace>.core :refer [call-api check-required-params with-collection-format]]
+            [clojure.spec.alpha :as s]
+            [spec-tools.data-spec :as ds]
+            [spec-tools.core :as st])
+  (:import (java.io File)))
+
+<#models><#model>
+(declare <classname> <classname>-spec)
+</model></models>
+
+<#models><#model>
+(def <classname>
+  {
+   <#vars>
+   (ds/<#required>req</required><^required>opt</required> :<name>) <datatype>
+   </vars>
+   })
+
+(def <classname>-spec
+  (ds/spec
+    {:name ::<classname>
+     :spec <classname>}))
+</model></models>

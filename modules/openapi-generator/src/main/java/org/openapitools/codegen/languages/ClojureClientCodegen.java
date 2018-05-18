@@ -17,19 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.info.*;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.util.Map;
@@ -60,7 +55,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         cliOptions.add(new CliOption(PROJECT_NAME,
                 "name of the project (Default: generated from info.title or \"openapi-clj-client\")"));
         cliOptions.add(new CliOption(PROJECT_DESCRIPTION,
-                "description of the project (Default: using info.description or \"Client library of <projectNname>\")"));
+                "description of the project (Default: using info.description or \"Client library of <projectName>\")"));
         cliOptions.add(new CliOption(PROJECT_VERSION,
                 "version of the project (Default: using info.version or \"1.0.0\")"));
         cliOptions.add(new CliOption(PROJECT_URL,
@@ -71,6 +66,33 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
                 "URL of the license the project uses (Default: using info.license.url or not included in project.clj)"));
         cliOptions.add(new CliOption(BASE_NAMESPACE,
                 "the base/top namespace (Default: generated from projectName)"));
+
+        typeMapping.clear();
+
+        // We have specs for most of the types:
+        typeMapping.put("integer", "int?");
+        typeMapping.put("long", "int?");
+        typeMapping.put("short", "int?");
+        typeMapping.put("number", "float?");
+        typeMapping.put("float", "float?");
+        typeMapping.put("double", "float?");
+        typeMapping.put("array", "list?");
+        typeMapping.put("map", "map?");
+        typeMapping.put("boolean", "boolean?");
+        typeMapping.put("string", "string?");
+        typeMapping.put("char", "char?");
+        typeMapping.put("date", "inst?");
+        typeMapping.put("DateTime", "inst?");
+        typeMapping.put("UUID", "uuid?");
+
+        // But some type mappings are not really worth/meaningful to check for:
+        typeMapping.put("object", "any?"); // Like, everything is an object.
+        typeMapping.put("file", "any?");   // We don't really have specs for files,
+        typeMapping.put("binary", "any?"); // nor binary.
+        // And while there is a way to easily check if something is a bytearray,
+        // (https://stackoverflow.com/questions/14796964/), it's not possible
+        // to conform it yet, so we leave it as is.
+        typeMapping.put("ByteArray", "any?");
     }
 
     @Override
@@ -86,6 +108,42 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String getHelp() {
         return "Generates a Clojure client library.";
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        if (p instanceof ArraySchema) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return "(s/coll-of " + getTypeDeclaration(inner) + ")";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
+            return "(s/map-of string? " + getTypeDeclaration(inner) + ")";
+        }
+        return super.getTypeDeclaration(p);
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
+
+        if (typeMapping.containsKey(openAPIType)) {
+            return typeMapping.get(openAPIType);
+        } else {
+            return toModelName(openAPIType) + "-spec";
+        }
+    }
+
+    @Override
+    public String toModelName(String name) {
+        return dashize(name);
+    }
+
+    @Override
+    public String toVarName(String name) {
+        name = name.replaceAll("[^a-zA-Z0-9_-]+", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = dashize(name);
+        return name;
     }
 
     @Override
@@ -161,6 +219,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         final String baseNamespaceFolder = sourceFolder + File.separator + namespaceToFolder(baseNamespace);
         supportingFiles.add(new SupportingFile("project.mustache", "", "project.clj"));
         supportingFiles.add(new SupportingFile("core.mustache", baseNamespaceFolder, "core.clj"));
+        supportingFiles.add(new SupportingFile( "specs.mustache", baseNamespaceFolder, "specs.clj"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
     }
@@ -198,13 +257,6 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String toParamName(String name) {
         return toVarName(name);
-    }
-
-    @Override
-    public String toVarName(String name) {
-        name = name.replaceAll("[^a-zA-Z0-9_-]+", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        name = dashize(name);
-        return name;
     }
 
     @Override
