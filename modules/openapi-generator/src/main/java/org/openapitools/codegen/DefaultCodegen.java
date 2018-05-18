@@ -3973,7 +3973,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * returns the list of MIME types the APIs can produce
      *
-     * @param openAPI
+     * @param openAPI current specification instance
      * @param operation Operation
      * @return a set of MIME types
      */

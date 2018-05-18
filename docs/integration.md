@@ -2,7 +2,7 @@
 
 ### Maven Integration
 
-You can use the [openapi-generator-maven-plugin](modules/openapi-generator-maven-plugin/README.md) for integrating with your workflow, and generating any codegen target.
+You can use the [openapi-generator-maven-plugin](../modules/openapi-generator-maven-plugin/README.md) for integrating with your workflow, and generating any codegen target.
 
 ### GitHub Integration
 

@@ -68,7 +68,7 @@ public interface GenApi {
             @ApiResponse(code = 200, message = "successful operation", response = ResponseCode.class) })
     @RequestMapping(value = "/gen/clients/{language}",
             method = RequestMethod.POST)
-    default ResponseEntity<ResponseCode> generateClient(@ApiParam(value = "The target language for the client library",required=true, allowableValues = "ada, akka-scala, android, apex, bash, clojure, cpprest, csharp, csharp-dotnet2, cwiki, dart, dynamic-html, eiffel, elixir, elm, erlang-client, flash, go, groovy, haskell-http-client, html, html2, java, javascript, javascript-closure-angular, jaxrs-cxf-client, jmeter, kotlin, lua, objc, perl, php, powershell, python, qt5cpp, r, ruby, rust, scala, scalaz, openapi, openapi-yaml, swift, swift3, swift4, tizen, typescript-angular, typescript-angularjs, typescript-aurelia, typescript-fetch, typescript-jquery, typescript-node") @PathVariable("language") String language,@ApiParam(value = "Configuration for building the client library" ,required=true )  @Valid @RequestBody GeneratorInput generatorInput) {
+    default ResponseEntity<ResponseCode> generateClient(@ApiParam(value = "The target language for the client library",required=true) @PathVariable("language") String language,@ApiParam(value = "Configuration for building the client library" ,required=true )  @Valid @RequestBody GeneratorInput generatorInput) {
         return getDelegate().generateClient(language, generatorInput);
     }
 
@@ -78,7 +78,7 @@ public interface GenApi {
             @ApiResponse(code = 200, message = "successful operation", response = ResponseCode.class) })
     @RequestMapping(value = "/gen/servers/{framework}",
             method = RequestMethod.POST)
-    default ResponseEntity<ResponseCode> generateServerForLanguage(@ApiParam(value = "framework",required=true, allowableValues = "ada-server, aspnetcore, erlang-server, finch, go-server, haskell, inflector, java-pkmst, java-play-framework, java-vertx, jaxrs, jaxrs-cxf, jaxrs-cxf-cdi, jaxrs-resteasy, jaxrs-resteasy-eap, jaxrs-spec, lumen, msf4j, nancyfx, nodejs-server, php-silex, php-symfony, pistache-server, python-flask, rails5, restbed, rust-server, scala-lagom-server, scalatra, sinatra, slim, spring, undertow, ze-ph") @PathVariable("framework") String framework,@ApiParam(value = "parameters" ,required=true )  @Valid @RequestBody GeneratorInput generatorInput) {
+    default ResponseEntity<ResponseCode> generateServerForLanguage(@ApiParam(value = "framework",required=true) @PathVariable("framework") String framework,@ApiParam(value = "parameters" ,required=true )  @Valid @RequestBody GeneratorInput generatorInput) {
         return getDelegate().generateServerForLanguage(framework, generatorInput);
     }
 
@@ -89,7 +89,7 @@ public interface GenApi {
     @RequestMapping(value = "/gen/clients/{language}",
             produces = { "application/json" },
             method = RequestMethod.GET)
-    default ResponseEntity<Map<String, CliOption>> getClientOptions(@ApiParam(value = "The target language for the client library",required=true, allowableValues = "ada, akka-scala, android, apex, bash, clojure, cpprest, csharp, csharp-dotnet2, cwiki, dart, dynamic-html, eiffel, elixir, elm, erlang-client, flash, go, groovy, haskell-http-client, html, html2, java, javascript, javascript-closure-angular, jaxrs-cxf-client, jmeter, kotlin, lua, objc, perl, php, powershell, python, qt5cpp, r, ruby, rust, scala, scalaz, openapi, openapi-yaml, swift, swift3, swift4, tizen, typescript-angular, typescript-angularjs, typescript-aurelia, typescript-fetch, typescript-jquery, typescript-node") @PathVariable("language") String language) {
+    default ResponseEntity<Map<String, CliOption>> getClientOptions(@ApiParam(value = "The target language for the client library",required=true) @PathVariable("language") String language) {
         return getDelegate().getClientOptions(language);
     }
 
@@ -100,7 +100,7 @@ public interface GenApi {
     @RequestMapping(value = "/gen/servers/{framework}",
             produces = { "application/json" },
             method = RequestMethod.GET)
-    default ResponseEntity<Map<String, CliOption>> getServerOptions(@ApiParam(value = "The target language for the server framework",required=true, allowableValues = "ada-server, aspnetcore, erlang-server, finch, go-server, haskell, inflector, java-pkmst, java-play-framework, java-vertx, jaxrs, jaxrs-cxf, jaxrs-cxf-cdi, jaxrs-resteasy, jaxrs-resteasy-eap, jaxrs-spec, lumen, msf4j, nancyfx, nodejs-server, php-silex, php-symfony, pistache-server, python-flask, rails5, restbed, rust-server, scala-lagom-server, scalatra, sinatra, slim, spring, undertow, ze-ph") @PathVariable("framework") String framework) {
+    default ResponseEntity<Map<String, CliOption>> getServerOptions(@ApiParam(value = "The target language for the server framework",required=true) @PathVariable("framework") String framework) {
         return getDelegate().getServerOptions(framework);
     }
 

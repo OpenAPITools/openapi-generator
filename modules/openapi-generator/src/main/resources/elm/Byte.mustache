@@ -4,7 +4,8 @@ import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
 
 
-type alias Byte = String
+type alias Byte =
+    String
 
 
 byteDecoder : Decoder Byte

@@ -87,7 +87,14 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
-                        "List")
+                        "Order",
+                        "Never",
+                        "List",
+                        "Maybe",
+                        "Result",
+                        "Program",
+                        "Cmd",
+                        "Sub")
         );
 
         languageSpecificPrimitives = new HashSet<>(
@@ -158,7 +165,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
-        return camelize(name);
+        final String modelName = camelize(name);
+        return defaultIncludes.contains(modelName) ? modelName + "_" : modelName;
     }
 
     @Override
@@ -262,10 +270,10 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             for (Map<String, Object> mo : models) {
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 if (cm.isEnum) {
-                    this.addEncoderAndDecoder(cm.vendorExtensions, cm.classname, false);
+                    this.addEncoderAndDecoder(cm.vendorExtensions, cm.classname, false, false);
                     cm.vendorExtensions.put(X_UNION_TYPE, cm.classname);
                 } else if (cm.isAlias) {
-                    this.addEncoderAndDecoder(cm.vendorExtensions, cm.dataType, true);
+                    this.addEncoderAndDecoder(cm.vendorExtensions, cm.dataType, false, true);
                 }
 
                 List<ElmImport> elmImports = new ArrayList<>();
@@ -380,7 +388,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
             op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
 
-            if (op.bodyParam != null) {
+            if (op.bodyParam != null && !op.bodyParam.isPrimitiveType && !op.bodyParam.isMapContainer) {
                 final String encoder = (String) op.bodyParam.vendorExtensions.get(X_ENCODER);
                 if (encoder != null) {
                     if (!dependencies.containsKey(op.bodyParam.dataType)) {
@@ -390,6 +398,9 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 }
             }
             for (CodegenResponse resp : op.responses) {
+                if (resp.primitiveType || resp.isMapContainer) {
+                    continue;
+                }
                 final String decoder = (String) resp.vendorExtensions.get(X_DECODER);
                 if (decoder != null) {
                     if (!dependencies.containsKey(resp.dataType)) {
@@ -486,7 +497,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         final CodegenProperty property = super.fromProperty(name, p);
 
         final String dataType = property.isEnum ? property.baseName : property.dataType;
-        addEncoderAndDecoder(property.vendorExtensions, dataType, property.isPrimitiveType && !property.isEnum);
+        addEncoderAndDecoder(property.vendorExtensions, dataType, property.isMapContainer, property.isPrimitiveType && !property.isEnum);
         if (property.isEnum) {
             property.vendorExtensions.put(X_UNION_TYPE, property.datatypeWithEnum);
         }
@@ -498,17 +509,24 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public CodegenResponse fromResponse(String responseCode, ApiResponse resp) {
         final CodegenResponse response = super.fromResponse(responseCode, resp);
         if (response.dataType != null) {
-            addEncoderAndDecoder(response.vendorExtensions, response.dataType, response.primitiveType);
+            addEncoderAndDecoder(response.vendorExtensions, response.dataType, response.isMapContainer, response.primitiveType);
         }
         return response;
     }
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
-        addEncoderAndDecoder(parameter.vendorExtensions, parameter.dataType, parameter.isPrimitiveType);
+        addEncoderAndDecoder(parameter.vendorExtensions, parameter.dataType, parameter.isMapContainer, parameter.isPrimitiveType);
     }
 
-    private void addEncoderAndDecoder(Map<String, Object> vendorExtensions, String dataType, Boolean isPrimitiveType) {
+    private boolean isPrimitiveDataType(String dataType) {
+        return languageSpecificPrimitives.contains(dataType);
+    }
+
+    private void addEncoderAndDecoder(Map<String, Object> vendorExtensions, String dataType, Boolean isMapContainer, Boolean isPrimitiveType) {
+        if (isMapContainer) {
+            isPrimitiveType = isPrimitiveDataType(dataType);
+        }
         final String baseName = camelize(dataType, true);
         String encoderName;
         String decoderName;
