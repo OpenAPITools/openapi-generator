@@ -83,8 +83,8 @@ class ObjectSerializer {
             if (!typeMap[type]) { // in case we dont know the type
                 return data;
             }
-			
-			// Get the actual type of this object
+            
+            // Get the actual type of this object
             type = this.findCorrectType(data, type);
 
             // get the map for the correct type.
