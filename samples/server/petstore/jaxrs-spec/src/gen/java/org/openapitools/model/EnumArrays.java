@@ -48,7 +48,7 @@ public enum JustSymbolEnum {
 }
 
   private @Valid JustSymbolEnum justSymbol = null;
-
+ 
 public enum ArrayEnumEnum {
 
     FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));

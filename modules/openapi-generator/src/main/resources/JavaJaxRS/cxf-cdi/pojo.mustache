@@ -6,11 +6,11 @@ import javax.xml.bind.annotation.*;
 {{#description}}@ApiModel(description = "{{{description}}}"){{/description}}
 
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
-  {{#vars}}{{#isEnum}}
+  {{#vars}}{{#isEnum}}{{^isContainer}}
 
-{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+{{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 
-{{>enumClass}}{{/items}}{{/items.isEnum}}
+{{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
 {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
 {{/isContainer}}

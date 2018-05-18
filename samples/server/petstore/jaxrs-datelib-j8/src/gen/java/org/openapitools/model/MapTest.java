@@ -63,7 +63,7 @@ public class MapTest  implements Serializable {
       return null;
     }
   }
-
+ 
   @JsonProperty("map_of_enum_string")
   private Map<String, InnerEnum> mapOfEnumString = null;
 
