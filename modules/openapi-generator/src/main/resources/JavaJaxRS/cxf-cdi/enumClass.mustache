@@ -1,15 +1,15 @@
 @XmlType(name="{{datatypeWithEnum}}")
-@XmlEnum({{datatype}}.class)
+@XmlEnum({{dataType}}.class)
 public enum {{datatypeWithEnum}} {
 
     {{#allowableValues}}
-    {{#enumVars}}@XmlEnumValue({{{value}}}) {{name}}({{datatype}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
+    {{#enumVars}}@XmlEnumValue({{{value}}}) {{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
     {{/allowableValues}}
 
 
-    private {{datatype}} value;
+    private {{dataType}} value;
 
-    {{datatypeWithEnum}} ({{datatype}} v) {
+    {{datatypeWithEnum}} ({{dataType}} v) {
         value = v;
     }
 

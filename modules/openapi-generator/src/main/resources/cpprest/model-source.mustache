@@ -252,7 +252,7 @@ void {{classname}}::fromJson(web::json::value& val)
         {{^isDateTime}}
         if(!val[utility::conversions::to_string_t("{{baseName}}")].is_null())
         {
-            {{{datatype}}} newItem({{{defaultValue}}});
+            {{{dataType}}} newItem({{{defaultValue}}});
             newItem->fromJson(val[utility::conversions::to_string_t("{{baseName}}")]);
             {{setter}}( newItem );
         }
@@ -274,7 +274,7 @@ void {{classname}}::fromJson(web::json::value& val)
     {{setter}}(ModelBase::fileFromJson(val[utility::conversions::to_string_t("{{baseName}}")]));
     {{/vendorExtensions.x-codegen-file}}
     {{^vendorExtensions.x-codegen-file}}
-    {{{datatype}}} new{{name}}({{{defaultValue}}});
+    {{{dataType}}} new{{name}}({{{defaultValue}}});
     new{{name}}->fromJson(val[utility::conversions::to_string_t("{{baseName}}")]);
     {{setter}}( new{{name}} );
     {{/vendorExtensions.x-codegen-file}}
@@ -515,7 +515,7 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         {{^isDateTime}}
         if(multipart->hasContent(utility::conversions::to_string_t("{{baseName}}")))
         {
-            {{{datatype}}} newItem({{{defaultValue}}});
+            {{{dataType}}} newItem({{{defaultValue}}});
             newItem->fromMultiPart(multipart, utility::conversions::to_string_t("{{baseName}}."));
             {{setter}}( newItem );
         }
@@ -536,7 +536,7 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
     {{setter}}(multipart->getContent(utility::conversions::to_string_t("{{baseName}}")));
     {{/vendorExtensions.x-codegen-file}}
     {{^vendorExtensions.x-codegen-file}}
-    {{{datatype}}} new{{name}}({{{defaultValue}}});
+    {{{dataType}}} new{{name}}({{{defaultValue}}});
     new{{name}}->fromMultiPart(multipart, utility::conversions::to_string_t("{{baseName}}."));
     {{setter}}( new{{name}} );
     {{/vendorExtensions.x-codegen-file}}
@@ -552,25 +552,25 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 {{#vars}}
 {{^isInherited}}
 {{^isNotContainer}}
-{{{datatype}}}& {{classname}}::{{getter}}()
+{{{dataType}}}& {{classname}}::{{getter}}()
 {
     return m_{{name}};
 }
 
-void {{classname}}::{{setter}}({{{datatype}}} value)
+void {{classname}}::{{setter}}({{{dataType}}} value)
 {
     m_{{name}} = value;
     {{^required}}m_{{name}}IsSet = true;{{/required}}
 }
 {{/isNotContainer}}
 {{#isNotContainer}}
-{{{datatype}}} {{classname}}::{{getter}}() const
+{{{dataType}}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
 }
 
 
-void {{classname}}::{{setter}}({{{datatype}}} value)
+void {{classname}}::{{setter}}({{{dataType}}} value)
 {
     m_{{name}} = value;
     {{^required}}m_{{name}}IsSet = true;{{/required}}

@@ -57,7 +57,7 @@ public class ObjcModelTest {
         
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.datatype, "NSDictionary<NSString*, NSDictionary<NSString*, NSString*>*>*");
+        Assert.assertEquals(property1.dataType, "NSDictionary<NSString*, NSDictionary<NSString*, NSString*>*>*");
         Assert.assertEquals(property1.name, "translations");
         Assert.assertEquals(property1.baseType, "NSDictionary");
         Assert.assertEquals(property1.containerType, "map");
@@ -86,7 +86,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "NSNumber*");
+        Assert.assertEquals(property1.dataType, "NSNumber*");
         Assert.assertEquals(property1.name, "_id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "NSNumber");
@@ -97,7 +97,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
-        Assert.assertEquals(property2.datatype, "NSString*");
+        Assert.assertEquals(property2.dataType, "NSString*");
         Assert.assertEquals(property2.name, "name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "NSString");
@@ -108,7 +108,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.datatype, "NSDate*");
+        Assert.assertEquals(property3.dataType, "NSDate*");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "NSDate");
@@ -135,7 +135,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "NSNumber*");
+        Assert.assertEquals(property1.dataType, "NSNumber*");
         Assert.assertEquals(property1.name, "_id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "NSNumber");
@@ -146,7 +146,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
-        Assert.assertEquals(property2.datatype, "NSArray<NSString*>*");
+        Assert.assertEquals(property2.dataType, "NSArray<NSString*>*");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "NSArray");
@@ -174,7 +174,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.datatype, "NSDictionary<NSString*, NSString*>*");
+        Assert.assertEquals(property1.dataType, "NSDictionary<NSString*, NSString*>*");
         Assert.assertEquals(property1.name, "translations");
         Assert.assertEquals(property1.baseType, "NSDictionary");
         Assert.assertEquals(property1.containerType, "map");
@@ -199,7 +199,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "OAIChildren*");
+        Assert.assertEquals(property1.dataType, "OAIChildren*");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "OAIChildren");
         Assert.assertFalse(property1.required);
@@ -223,7 +223,7 @@ public class ObjcModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "OAIChildren");
-        Assert.assertEquals(property1.datatype, "NSArray<OAIChildren>*");
+        Assert.assertEquals(property1.dataType, "NSArray<OAIChildren>*");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "NSArray");
         Assert.assertEquals(property1.containerType, "array");
@@ -249,7 +249,7 @@ public class ObjcModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "OAIChildren");
-        Assert.assertEquals(property1.datatype, "NSDictionary<OAIChildren>*");
+        Assert.assertEquals(property1.dataType, "NSDictionary<OAIChildren>*");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "NSDictionary");
         Assert.assertEquals(property1.containerType, "map");
