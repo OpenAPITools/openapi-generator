@@ -74,11 +74,11 @@ void {{classname}}::fromJsonString(std::string const& jsonString)
 }
 
 {{#vars}}
-{{{datatype}}} {{classname}}::{{getter}}() const
+{{{dataType}}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
 }
-void {{classname}}::{{setter}}({{{datatype}}} value)
+void {{classname}}::{{setter}}({{{dataType}}} value)
 {
     m_{{name}} = value;
 }

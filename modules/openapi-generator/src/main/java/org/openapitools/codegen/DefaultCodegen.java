@@ -1820,7 +1820,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        property.datatype = getTypeDeclaration(p);
+        property.dataType = getTypeDeclaration(p);
         property.dataFormat = p.getFormat();
         property.baseType = getSchemaType(p);
 
@@ -1829,7 +1829,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.datatypeWithEnum = toEnumName(property);
             property.enumName = toEnumName(property);
         } else {
-            property.datatypeWithEnum = property.datatype;
+            property.datatypeWithEnum = property.dataType;
         }
 
         if (ModelUtils.isArraySchema(p)) {
@@ -2169,7 +2169,7 @@ public class DefaultCodegen implements CodegenConfig {
                     // generate examples
                     op.examples = new ExampleGenerator(schemas, openAPI).generateFromResponseSchema(responseSchema, getProducesInfo(openAPI, operation));
                     op.defaultResponse = toDefaultValue(responseSchema);
-                    op.returnType = cm.datatype;
+                    op.returnType = cm.dataType;
                     op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
 
                     // lookup discriminator
@@ -2421,7 +2421,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            r.dataType = cp.datatype;
+            r.dataType = cp.dataType;
 
             if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isUuid)) {
                 r.isUuid = true;
@@ -2456,7 +2456,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (Boolean.TRUE.equals(cp.isDateTime)) {
                 r.isDateTime = true;
             } else {
-                LOGGER.debug("Property type is not primitive: " + cp.datatype);
+                LOGGER.debug("Property type is not primitive: " + cp.dataType);
             }
 
             if (cp.isContainer) {
@@ -2534,7 +2534,7 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenProperty codegenProperty = fromProperty("inner", inner);
                 codegenParameter.items = codegenProperty;
                 codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-                codegenParameter.baseType = codegenProperty.datatype;
+                codegenParameter.baseType = codegenProperty.dataType;
                 codegenParameter.isContainer = true;
                 codegenParameter.isListContainer = true;
 
@@ -2549,7 +2549,7 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenProperty codegenProperty = fromProperty("inner", (Schema) parameterSchema.getAdditionalProperties());
                 codegenParameter.items = codegenProperty;
                 codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-                codegenParameter.baseType = codegenProperty.datatype;
+                codegenParameter.baseType = codegenProperty.dataType;
                 codegenParameter.isContainer = true;
                 codegenParameter.isMapContainer = true;
 
@@ -2583,7 +2583,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (parameterDataType != null) {
                 codegenParameter.dataType = parameterDataType;
             } else {
-                codegenParameter.dataType = codegenProperty.datatype;
+                codegenParameter.dataType = codegenProperty.dataType;
             }
             codegenParameter.dataFormat = codegenProperty.dataFormat;
             codegenParameter.required = codegenProperty.required;
@@ -3680,7 +3680,7 @@ public class DefaultCodegen implements CodegenConfig {
             parameter.isDateTime = true;
             parameter.isPrimitiveType = true;
         } else {
-            LOGGER.debug("Property type is not primitive: " + property.datatype);
+            LOGGER.debug("Property type is not primitive: " + property.dataType);
         }
 
         if (Boolean.TRUE.equals(property.isFile)) {
@@ -3726,8 +3726,8 @@ public class DefaultCodegen implements CodegenConfig {
                     enumName = value.toString();
                 }
             }
-            enumVar.put("name", toEnumVarName(enumName, var.datatype));
-            enumVar.put("value", toEnumValue(value.toString(), var.datatype));
+            enumVar.put("name", toEnumVarName(enumName, var.dataType));
+            enumVar.put("value", toEnumValue(value.toString(), var.dataType));
             enumVars.add(enumVar);
         }
         allowableValues.put("enumVars", enumVars);
@@ -3736,7 +3736,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (var.defaultValue != null) {
             String enumName = null;
             for (Map<String, String> enumVar : enumVars) {
-                if (toEnumValue(var.defaultValue, var.datatype).equals(enumVar.get("value"))) {
+                if (toEnumValue(var.defaultValue, var.dataType).equals(enumVar.get("value"))) {
                     enumName = enumVar.get("name");
                     break;
                 }
@@ -4091,7 +4091,7 @@ public class DefaultCodegen implements CodegenConfig {
                     CodegenProperty codegenProperty = fromProperty("inner", inner);
                     codegenParameter.items = codegenProperty;
                     codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-                    codegenParameter.baseType = codegenProperty.datatype;
+                    codegenParameter.baseType = codegenProperty.dataType;
                     codegenParameter.isPrimitiveType = false;
                     codegenParameter.isContainer = true;
                     codegenParameter.isListContainer = true;
@@ -4138,7 +4138,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.baseName = codegenProperty.baseName;
         codegenParameter.paramName = toParamName((codegenParameter.baseName));
         codegenParameter.baseType = codegenProperty.baseType;
-        codegenParameter.dataType = codegenProperty.datatype;
+        codegenParameter.dataType = codegenProperty.dataType;
         codegenParameter.dataFormat = codegenProperty.dataFormat;
         codegenParameter.description = escapeText(codegenProperty.description);
         codegenParameter.unescapedDescription = codegenProperty.getDescription();
@@ -4327,7 +4327,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                     codegenParameter.baseName = codegenProperty.baseType;
                     codegenParameter.baseType = codegenProperty.baseType;
-                    codegenParameter.dataType = codegenProperty.datatype;
+                    codegenParameter.dataType = codegenProperty.dataType;
                     codegenParameter.description = codegenProperty.description;
                     codegenParameter.paramName = toParamName(codegenProperty.baseType);
 
@@ -4349,7 +4349,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 codegenParameter.isPrimitiveType = true;
                 codegenParameter.baseType = codegenProperty.baseType;
-                codegenParameter.dataType = codegenProperty.datatype;
+                codegenParameter.dataType = codegenProperty.dataType;
                 codegenParameter.description = codegenProperty.description;
                 codegenParameter.paramName = toParamName(codegenParameter.baseName);
 

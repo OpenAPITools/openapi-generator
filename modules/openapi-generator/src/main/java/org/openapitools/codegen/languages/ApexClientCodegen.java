@@ -302,7 +302,7 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
 
         String type = p.baseType;
         if (type == null) {
-            type = p.datatype;
+            type = p.dataType;
         }
 
         if (Boolean.TRUE.equals(p.isInteger)) {
@@ -607,7 +607,7 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
         super.updateCodegenPropertyEnum(var);
         if (var.isEnum && var.example != null) {
             String example = var.example.replace("'", "");
-            example = toEnumVarName(example, var.datatype);
+            example = toEnumVarName(example, var.dataType);
             var.example = toEnumDefaultValue(example, var.datatypeWithEnum);
         }
     }

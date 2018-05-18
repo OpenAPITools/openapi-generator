@@ -151,46 +151,54 @@ public class {{classname}} {
         {{/bodyParams}}
         {{#headerParams}}
 
+        public static final String {{#convert}}{{paramName}}{{/convert}}_HEADER = "{{baseName}}";
+
         /**
          * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
          * @return operation
          */
         public {{operationIdCamelCase}}Oper {{paramName}}Header(String {{paramName}}) {
-            reqSpec.addHeader("{{baseName}}", {{paramName}});
+            reqSpec.addHeader({{#convert}}{{paramName}}{{/convert}}_HEADER, {{paramName}});
             return this;
         }
         {{/headerParams}}
         {{#pathParams}}
+
+        public static final String {{#convert}}{{paramName}}{{/convert}}_PATH = "{{baseName}}";
 
         /**
          * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
          * @return operation
          */
         public {{operationIdCamelCase}}Oper {{paramName}}Path(Object {{paramName}}) {
-            reqSpec.addPathParam("{{baseName}}", {{paramName}});
+            reqSpec.addPathParam({{#convert}}{{paramName}}{{/convert}}_PATH, {{paramName}});
             return this;
         }
         {{/pathParams}}
         {{#queryParams}}
+
+        public static final String {{#convert}}{{paramName}}{{/convert}}_QUERY = "{{baseName}}";
 
         /**
          * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
          * @return operation
          */
         public {{operationIdCamelCase}}Oper {{paramName}}Query(Object... {{paramName}}) {
-            reqSpec.addQueryParam("{{baseName}}", {{paramName}});
+            reqSpec.addQueryParam({{#convert}}{{paramName}}{{/convert}}_QUERY, {{paramName}});
             return this;
         }
         {{/queryParams}}
         {{#formParams}}
         {{^isFile}}
 
+         public static final String {{#convert}}{{paramName}}{{/convert}}_FORM = "{{baseName}}";
+
          /**
          * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
          * @return operation
          */
          public {{operationIdCamelCase}}Oper {{paramName}}Form(Object... {{paramName}}) {
-            reqSpec.addFormParam("{{baseName}}", {{paramName}});
+            reqSpec.addFormParam({{#convert}}{{paramName}}{{/convert}}_FORM, {{paramName}});
             return this;
          }
         {{/isFile}}

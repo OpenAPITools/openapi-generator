@@ -7,7 +7,7 @@
 -export_type([{{classname}}/0]).
 
 -type {{classname}}() ::
-    #{ {{#vars}}'{{name}}' {{#required}}:={{/required}}{{^required}}=>{{/required}} {{{datatype}}}{{#hasMore}},
+    #{ {{#vars}}'{{name}}' {{#required}}:={{/required}}{{^required}}=>{{/required}} {{{dataType}}}{{#hasMore}},
        {{/hasMore}}{{/vars}}
      }.
 
