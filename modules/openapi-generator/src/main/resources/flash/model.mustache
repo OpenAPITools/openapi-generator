@@ -18,7 +18,7 @@ package {{package}} {
         {{/isContainer}}
         {{^isContainer}}[XmlElement(name="{{baseName}}")]
         {{/isContainer}}
-        public var {{name}}: {{{datatype}}} = {{{defaultValue}}};
+        public var {{name}}: {{{dataType}}} = {{{defaultValue}}};
     {{/vars}}
 
     public function toString(): String {

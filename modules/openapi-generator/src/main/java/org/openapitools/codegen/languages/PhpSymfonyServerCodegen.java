@@ -422,18 +422,18 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
         // Simplify model var type
         for (CodegenProperty var : model.vars) {
-            if (var.datatype != null) {
+            if (var.dataType != null) {
                 // Determine if the parameter type is supported as a type hint and make it available
                 // to the templating engine
-                String typeHint = getTypeHint(var.datatype);
+                String typeHint = getTypeHint(var.dataType);
                 if (!typeHint.isEmpty()) {
                     var.vendorExtensions.put("x-parameterType", typeHint);
                 }
 
                 // Create a variable to display the correct data type in comments for models
-                var.vendorExtensions.put("x-commentType", var.datatype);
+                var.vendorExtensions.put("x-commentType", var.dataType);
                 if (var.isContainer) {
-                    var.vendorExtensions.put("x-commentType", var.datatype + "[]");
+                    var.vendorExtensions.put("x-commentType", var.dataType + "[]");
                 }
             }
         }

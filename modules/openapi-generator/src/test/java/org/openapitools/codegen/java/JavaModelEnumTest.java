@@ -47,7 +47,7 @@ public class JavaModelEnumTest {
 
         final CodegenProperty enumVar = cm.vars.get(0);
         Assert.assertEquals(enumVar.baseName, "name");
-        Assert.assertEquals(enumVar.datatype, "String");
+        Assert.assertEquals(enumVar.dataType, "String");
         Assert.assertEquals(enumVar.datatypeWithEnum, "NameEnum");
         Assert.assertEquals(enumVar.name, "name");
         Assert.assertEquals(enumVar.defaultValue, "null");
@@ -68,7 +68,7 @@ public class JavaModelEnumTest {
 
         final CodegenProperty enumVar = cm.vars.get(0);
         Assert.assertEquals(enumVar.baseName, "name");
-        Assert.assertEquals(enumVar.datatype, "List<String>");
+        Assert.assertEquals(enumVar.dataType, "List<String>");
         Assert.assertEquals(enumVar.datatypeWithEnum, "List<NameEnum>");
         Assert.assertEquals(enumVar.name, "name");
         Assert.assertEquals(enumVar.defaultValue, "new ArrayList<NameEnum>()");
@@ -76,7 +76,7 @@ public class JavaModelEnumTest {
         Assert.assertTrue(enumVar.isEnum);
 
         Assert.assertEquals(enumVar.items.baseName, "name");
-        Assert.assertEquals(enumVar.items.datatype, "String");
+        Assert.assertEquals(enumVar.items.dataType, "String");
         Assert.assertEquals(enumVar.items.datatypeWithEnum, "NameEnum");
         Assert.assertEquals(enumVar.items.name, "name");
         Assert.assertEquals(enumVar.items.defaultValue, "null");
@@ -97,7 +97,7 @@ public class JavaModelEnumTest {
 
         final CodegenProperty enumVar = cm.vars.get(0);
         Assert.assertEquals(enumVar.baseName, "name");
-        Assert.assertEquals(enumVar.datatype, "List<List<String>>");
+        Assert.assertEquals(enumVar.dataType, "List<List<String>>");
         Assert.assertEquals(enumVar.datatypeWithEnum, "List<List<NameEnum>>");
         Assert.assertEquals(enumVar.name, "name");
         Assert.assertEquals(enumVar.defaultValue, "new ArrayList<List<NameEnum>>()");
@@ -105,7 +105,7 @@ public class JavaModelEnumTest {
         Assert.assertTrue(enumVar.isEnum);
 
         Assert.assertEquals(enumVar.items.items.baseName, "name");
-        Assert.assertEquals(enumVar.items.items.datatype, "String");
+        Assert.assertEquals(enumVar.items.items.dataType, "String");
         Assert.assertEquals(enumVar.items.items.datatypeWithEnum, "NameEnum");
         Assert.assertEquals(enumVar.items.items.name, "name");
         Assert.assertEquals(enumVar.items.items.defaultValue, "null");
