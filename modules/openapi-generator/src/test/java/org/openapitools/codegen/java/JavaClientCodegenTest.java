@@ -30,12 +30,7 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenModelFactory;
-import org.openapitools.codegen.CodegenModelType;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -303,6 +298,36 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.client.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.mmmmm");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.mmmmm");
+    }
+
+    @Test
+    public void updateCodegenPropertyEnum() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        CodegenProperty array = codegenPropertyWithArrayOfIntegerValues();
+
+        codegen.updateCodegenPropertyEnum(array);
+
+        List<Map<String, String>> enumVars = (List<Map<String, String>>) array.getItems().getAllowableValues().get("enumVars");
+        Assert.assertNotNull(enumVars);
+        Map<String, String> testedEnumVar = enumVars.get(0);
+        Assert.assertNotNull(testedEnumVar);
+        Assert.assertEquals(testedEnumVar.getOrDefault("name", ""),"NUMBER_1");
+        Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
+    }
+
+
+
+    private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {
+        CodegenProperty array = new CodegenProperty();
+        final CodegenProperty items = new CodegenProperty();
+        final HashMap<String, Object> allowableValues = new HashMap<>();
+        allowableValues.put("values", Collections.singletonList(1));
+        items.setAllowableValues(allowableValues);
+        items.dataType = "Integer";
+        array.setItems(items);
+        array.dataType = "Array";
+        array.mostInnerItems = items;
+        return array;
     }
 
     private CodegenParameter createPathParam(String name) {

@@ -50,7 +50,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig {

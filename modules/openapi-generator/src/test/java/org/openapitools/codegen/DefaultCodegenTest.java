@@ -238,8 +238,9 @@ public class DefaultCodegenTest {
         final HashMap<String, Object> allowableValues = new HashMap<>();
         allowableValues.put("values", Collections.singletonList(1));
         items.setAllowableValues(allowableValues);
-        items.datatype = "Integer";
+        items.dataType = "Integer";
         array.setItems(items);
+        array.dataType = "Array";
         return array;
     }
 }

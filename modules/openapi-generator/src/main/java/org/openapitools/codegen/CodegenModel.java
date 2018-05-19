@@ -74,6 +74,10 @@ public class CodegenModel {
         allMandatory = mandatory;
     }
 
+    public boolean isInteger(){
+        return "Integer".equals(dataType);
+    }
+
     @Override
     public String toString() {
         return String.format("%s(%s)", name, classname);

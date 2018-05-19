@@ -3672,9 +3672,10 @@ public class DefaultCodegen implements CodegenConfig {
                     enumName = value.toString();
                 }
             }
-            String datatype = findMostInnerDatatype(var);
-            enumVar.put("name", toEnumVarName(enumName, datatype));
-            enumVar.put("value", toEnumValue(value.toString(), datatype));
+
+            final String dataType = var.mostInnerItems != null ? var.mostInnerItems.dataType : var.dataType;
+            enumVar.put("name", toEnumVarName(enumName, dataType));
+            enumVar.put("value", toEnumValue(value.toString(), dataType));
             enumVars.add(enumVar);
         }
         allowableValues.put("enumVars", enumVars);
@@ -3691,14 +3692,6 @@ public class DefaultCodegen implements CodegenConfig {
             if (enumName != null) {
                 var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
             }
-        }
-    }
-
-    private String findMostInnerDatatype(CodegenProperty var) {
-        if(var.isContainer){
-            return findMostInnerDatatype(var.items);
-        } else {
-            return var.datatype;
         }
     }
 
