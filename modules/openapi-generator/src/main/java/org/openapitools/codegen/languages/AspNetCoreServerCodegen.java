@@ -42,8 +42,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public AspNetCoreServerCodegen() {
         super();
 
-        setSourceFolder("src");
-        outputFolder = "generated-code" + File.separator + this.getName();
+        outputFolder = "generated-code" + File.separator + getName();
 
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("controller.mustache", ".cs");
@@ -59,11 +58,11 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         // CLI options
         addOption(CodegenConstants.PACKAGE_NAME,
                 "C# package name (convention: Title.Case).",
-                this.packageName);
+                packageName);
 
         addOption(CodegenConstants.PACKAGE_VERSION,
                 "C# package version.",
-                this.packageVersion);
+                packageVersion);
 
         addOption(CodegenConstants.OPTIONAL_PROJECT_GUID,
                 CodegenConstants.OPTIONAL_PROJECT_GUID_DESC,
@@ -76,19 +75,19 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         // CLI Switches
         addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC,
-                this.sortParamsByRequiredFlag);
+                sortParamsByRequiredFlag);
 
         addSwitch(CodegenConstants.USE_DATETIME_OFFSET,
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
-                this.useDateTimeOffsetFlag);
+                useDateTimeOffsetFlag);
 
         addSwitch(CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
-                this.useCollection);
+                useCollection);
 
         addSwitch(CodegenConstants.RETURN_ICOLLECTION,
                 CodegenConstants.RETURN_ICOLLECTION_DESC,
-                this.returnICollection);
+                returnICollection);
     }
 
     @Override
@@ -115,7 +114,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         }
         additionalProperties.put("packageGuid", packageGuid);
 
-        additionalProperties.put("dockerTag", this.packageName.toLowerCase());
+        additionalProperties.put("dockerTag", packageName.toLowerCase());
 
         apiPackage = packageName + ".Controllers";
         modelPackage = packageName + ".Models";
@@ -125,7 +124,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("build.sh.mustache", "", "build.sh"));
         supportingFiles.add(new SupportingFile("build.bat.mustache", "", "build.bat"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("Solution.mustache", "", this.packageName + ".sln"));
+        supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", packageFolder, "Dockerfile"));
         supportingFiles.add(new SupportingFile("gitignore", packageFolder, ".gitignore"));
         supportingFiles.add(new SupportingFile("appsettings.json", packageFolder, "appsettings.json"));
@@ -135,7 +134,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("validateModel.mustache", packageFolder + File.separator + "Attributes", "ValidateModelStateAttribute.cs"));
         supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
 
-        supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, this.packageName + ".csproj"));
+        supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, packageName + ".csproj"));
 
         supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json", packageFolder + File.separator + "Properties", "launchSettings.json"));
 
@@ -147,19 +146,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "web.config", packageFolder + File.separator + "wwwroot", "web.config"));
 
         supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache", packageFolder + File.separator + "wwwroot", "openapi-original.json"));
-    }
-
-    @Override
-    public void setSourceFolder(final String sourceFolder) {
-        if (sourceFolder == null) {
-            LOGGER.warn("No sourceFolder specified, using default");
-            this.sourceFolder = "src" + File.separator + this.packageName;
-        } else if (!sourceFolder.equals("src") && !sourceFolder.startsWith("src")) {
-            LOGGER.warn("ASP.NET Core requires source code exists under src. Adjusting.");
-            this.sourceFolder = "src" + File.separator + sourceFolder;
-        } else {
-            this.sourceFolder = sourceFolder;
-        }
     }
 
     public void setPackageGuid(String packageGuid) {
@@ -176,13 +162,11 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Models";
     }
 
-
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateJSONSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
     }
-
 
     @Override
     protected void processOperation(CodegenOperation operation) {
