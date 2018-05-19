@@ -34,10 +34,14 @@ import static java.util.UUID.randomUUID;
 
 public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
+    public static final String USE_SWASHBUCKLE = "useSwashbuckle";
+
     private String packageGuid = "{" + randomUUID().toString().toUpperCase() + "}";
 
     @SuppressWarnings("hiding")
     protected Logger LOGGER = LoggerFactory.getLogger(AspNetCoreServerCodegen.class);
+
+    private boolean useSwashbuckle = true;
 
     public AspNetCoreServerCodegen() {
         super();
@@ -88,6 +92,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.RETURN_ICOLLECTION,
                 CodegenConstants.RETURN_ICOLLECTION_DESC,
                 returnICollection);
+
+        addSwitch(USE_SWASHBUCKLE,
+                "Uses the Swashbuckle.AspNetCore NuGet package for documentation.",
+                useSwashbuckle);
     }
 
     @Override
@@ -114,6 +122,12 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         }
         additionalProperties.put("packageGuid", packageGuid);
 
+        if (additionalProperties.containsKey(USE_SWASHBUCKLE)) {
+            useSwashbuckle = convertPropertyToBooleanAndWriteBack(USE_SWASHBUCKLE);
+        } else {
+            additionalProperties.put(USE_SWASHBUCKLE, useSwashbuckle);
+        }
+
         additionalProperties.put("dockerTag", packageName.toLowerCase());
 
         apiPackage = packageName + ".Controllers";
@@ -138,8 +152,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json", packageFolder + File.separator + "Properties", "launchSettings.json"));
 
-        supportingFiles.add(new SupportingFile("Filters" + File.separator + "BasePathFilter.mustache", packageFolder + File.separator + "Filters", "BasePathFilter.cs"));
-        supportingFiles.add(new SupportingFile("Filters" + File.separator + "GeneratePathParamsValidationFilter.mustache", packageFolder + File.separator + "Filters", "GeneratePathParamsValidationFilter.cs"));
+        if (useSwashbuckle) {
+            supportingFiles.add(new SupportingFile("Filters" + File.separator + "BasePathFilter.mustache", packageFolder + File.separator + "Filters", "BasePathFilter.cs"));
+            supportingFiles.add(new SupportingFile("Filters" + File.separator + "GeneratePathParamsValidationFilter.mustache", packageFolder + File.separator + "Filters", "GeneratePathParamsValidationFilter.cs"));
+        }
 
         supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "README.md", packageFolder + File.separator + "wwwroot", "README.md"));
         supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "index.html", packageFolder + File.separator + "wwwroot", "index.html"));
