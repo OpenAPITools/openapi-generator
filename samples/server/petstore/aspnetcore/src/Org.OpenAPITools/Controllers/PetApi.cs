@@ -10,14 +10,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
@@ -34,7 +27,6 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Add a new pet to the store
         /// </summary>
-        
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <response code="405">Invalid input</response>
         [HttpPost]
@@ -53,7 +45,6 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Deletes a pet
         /// </summary>
-        
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"></param>
         /// <response code="400">Invalid pet value</response>
@@ -170,7 +161,6 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Update an existing pet
         /// </summary>
-        
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Pet not found</response>
@@ -197,7 +187,6 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
-        
         /// <param name="petId">ID of pet that needs to be updated</param>
         /// <param name="name">Updated name of the pet</param>
         /// <param name="status">Updated status of the pet</param>
@@ -218,7 +207,6 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// uploads an image
         /// </summary>
-        
         /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server</param>
         /// <param name="file">file to upload</param>
