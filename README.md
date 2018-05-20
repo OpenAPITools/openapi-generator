@@ -133,8 +133,9 @@ openapi-generator generate -i https://raw.githubusercontent.com/openapitools/ope
 
 #### Public Pre-built Docker images
 
- - [https://hub.docker.com/r/openapitools/openapi-generator-online/](https://hub.docker.com/r/openapitools/openapi-generator-online/) (official web service)
  - [https://hub.docker.com/r/openapitools/openapi-generator-cli/](https://hub.docker.com/r/openapitools/openapi-generator-cli/) (official CLI)
+ - [https://hub.docker.com/r/openapitools/openapi-generator-online/](https://hub.docker.com/r/openapitools/openapi-generator-online/) (official web service)
+
 
 #### OpenAPI Generator CLI Docker Image
 
@@ -157,26 +158,34 @@ The generated code will be located under `./out/go` in the current directory.
 
 The openapi-generator-online image can act as a self-hosted web application and API for generating code. This container can be incorporated into a CI pipeline, and requires at least two HTTP requests and some docker orchestration to access generated code.
 
-Example usage (note this assumes `jq` is installed for command line processing of JSON):
+Example usage:
 
 ```sh
-# Start container and save the container id
-CID=$(docker run -d openapitools/openapi-generator-online)
-# allow for startup
-sleep 5
-# Get the IP of the running container
-GEN_IP=$(docker inspect --format '{{.NetworkSettings.IPAddress}}'  $CID)
-# Execute an HTTP request and store the download link
-RESULT=$(curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{
-  "swaggerUrl": "https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"
-}' 'http://localhost:8188/api/gen/clients/python' | jq '.link' | tr -d '"')
-# Download the generated zip and redirect to a file
-curl $RESULT > result.zip
-# Shutdown the swagger generator image
-docker stop $CID && docker rm $CID
-```
+# Start container at port 8888 and save the container id
+> CID=$(docker run -d -p 8888:8080 -e GENERATOR_HOST=http://localhost:8888 openapitools/openapi-generator-online)
 
-In the example above, `result.zip` will contain the generated client.
+# allow for startup
+> sleep 10
+
+# Get the IP of the running container (optional)
+GEN_IP=$(docker inspect --format '{{.NetworkSettings.IPAddress}}'  $CID)
+
+# Execute an HTTP request to generate a Ruby client
+> curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' \
+-d '{"openAPIUrl": "https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"}' \
+'http://localhost:8888/api/gen/clients/ruby'
+
+{"code":"c2d483d3-3672-40e9-91df-b9ffd18d22b8","link":"http://localhost:8888/api/gen/download/c2d483d3-3672-40e9-91df-b9ffd18d22b8"}
+
+# Download the generated zip file  
+> wget http://localhost:8888/api/gen/download/c2d483d3-3672-40e9-91df-b9ffd18d22b8
+
+# Unzip the file
+> unzip c2d483d3-3672-40e9-91df-b9ffd18d22b8
+
+# Shutdown the openapi generator image
+> docker stop $CID && docker rm $CID
+```
 
 #### Development in docker
 
@@ -341,6 +350,9 @@ Here are some companies/projects using OpenAPI Generator in production. To add y
 
 ## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
 
+- 2018/05/12 - [OpenAPI Generator - community drivenで成長するコードジェネレータ](https://ackintosh.github.io/blog/2018/05/12/openapi-generator/) by [中野暁人](https://github.com/ackintosh)
+- 2018/05/15 - [Starting a new open-source project](http://jmini.github.io/blog/2018/2018-05-15_new-open-source-project.html) by [Jeremie Bresson](https://github.com/jmini)
+- 2018/05/15 - [REST API仕様からAPIクライアントやスタブサーバを自動生成する「OpenAPI Generator」オープンソースで公開。Swagger Codegenからのフォーク](https://www.publickey1.jp/blog/18/rest_apiapiopenapi_generatorswagger_generator.html) by [Publickey](https://www.publickey1.jp)
 
 ## [6 - About Us](#table-of-contents)
 

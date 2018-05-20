@@ -1,7 +1,7 @@
 {{classVarName}}Encoder : {{classname}} -> Encode.Value
 {{classVarName}}Encoder model =
-    {{#parent}}Encode.list (List.map {{vendorExtensions.x-encoder}} model){{/parent}}{{^parent}}Encode.object
+    Encode.object
 {{#allVars}}
         {{#-first}}[{{/-first}}{{^-first}},{{/-first}} {{>fieldEncoder}}
 {{/allVars}}
-        ]{{/parent}}
+        ]

@@ -28,7 +28,7 @@ feature --Access
 {{#vars}}
     {{^isInherited}}
     {{#isPrimitiveType}}
-    {{name}}: {{{datatype}}} 
+    {{name}}: {{{dataType}}} 
       {{#description}}-- {{{description}}}{{/description}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
@@ -37,7 +37,7 @@ feature --Access
       {{#description}}-- {{{description}}}{{/description}}
     {{/isContainer}}
     {{^isContainer}}
-    {{name}}: detachable {{{datatype}}} 
+    {{name}}: detachable {{{dataType}}} 
       {{#description}}-- {{{description}}}{{/description}}
     {{/isContainer}}
     {{/isPrimitiveType}}

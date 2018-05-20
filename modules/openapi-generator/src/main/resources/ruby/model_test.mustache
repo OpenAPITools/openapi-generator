@@ -31,7 +31,7 @@ describe '{{classname}}' do
     it 'should work' do
       {{#isEnum}}
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
-      # validator = Petstore::EnumTest::EnumAttributeValidator.new('{{{datatype}}}', [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
+      # validator = Petstore::EnumTest::EnumAttributeValidator.new('{{{dataType}}}', [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
       # validator.allowable_values.each do |value|
       #   expect { @instance.{{name}} = value }.not_to raise_error
       # end

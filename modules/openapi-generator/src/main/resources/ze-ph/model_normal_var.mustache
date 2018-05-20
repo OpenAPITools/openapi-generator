@@ -2,8 +2,8 @@
 {{^isContainer}}
 {{^isDate}}
 {{^isDateTime}}
-     * @DTA\Strategy(name="Object", options={"type":{{datatype}}::class})
-     * @DTA\Validator(name="Dictionary", options={"type":{{datatype}}::class})
+     * @DTA\Strategy(name="Object", options={"type":{{dataType}}::class})
+     * @DTA\Validator(name="Dictionary", options={"type":{{dataType}}::class})
 {{/isDateTime}}
 {{/isDate}}
 {{#isDate}}
@@ -17,9 +17,9 @@
 {{/isContainer}}
 {{#isContainer}}
      * TODO check validator and strategy are correct and can handle container item type
-     * @DTA\Strategy(name="ObjectArray", options={"type":{{#items}}{{datatype}}{{/items}}::class})
+     * @DTA\Strategy(name="ObjectArray", options={"type":{{#items}}{{dataType}}{{/items}}::class})
      * @DTA\Validator(name="Collection", options={"validators":{
-     *     {"name":"Dictionary", "options":{"type":{{#items}}{{datatype}}{{/items}}::class}}
+     *     {"name":"Dictionary", "options":{"type":{{#items}}{{dataType}}{{/items}}::class}}
      * }})
 {{/isContainer}}
 {{/isPrimitiveType}}
@@ -28,12 +28,12 @@
 {{#items}}
      * TODO check validator and strategy are correct and can handle container item type
      * @DTA\Validator(name="Collection", options={"validators":{
-     *     {"name":"Type", "options":{"type":"{{datatype}}"}}
+     *     {"name":"Type", "options":{"type":"{{dataType}}"}}
      * }})
 {{/items}}
 {{/isContainer}}
 {{^isContainer}}
-     * @DTA\Validator(name="Type", options={"type":"{{datatype}}"})
+     * @DTA\Validator(name="Type", options={"type":"{{dataType}}"})
 {{/isContainer}}
 {{/isPrimitiveType}}
 {{#hasValidation}}

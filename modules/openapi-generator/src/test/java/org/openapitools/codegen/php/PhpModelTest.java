@@ -65,7 +65,7 @@ public class PhpModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "int");
+        Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "int");
@@ -76,7 +76,7 @@ public class PhpModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
-        Assert.assertEquals(property2.datatype, "string");
+        Assert.assertEquals(property2.dataType, "string");
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "string");
@@ -88,7 +88,7 @@ public class PhpModelTest {
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.complexType, "\\DateTime");
-        Assert.assertEquals(property3.datatype, "\\DateTime");
+        Assert.assertEquals(property3.dataType, "\\DateTime");
         Assert.assertEquals(property3.name, "created_at");
         Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "\\DateTime");
@@ -115,7 +115,7 @@ public class PhpModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "int");
+        Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "int");
@@ -126,7 +126,7 @@ public class PhpModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
-        Assert.assertEquals(property2.datatype, "string[]");
+        Assert.assertEquals(property2.dataType, "string[]");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertEquals(property2.baseType, "array");
         Assert.assertFalse(property2.hasMore);
@@ -153,7 +153,7 @@ public class PhpModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.datatype, "map[string,string]");
+        Assert.assertEquals(property1.dataType, "map[string,string]");
         Assert.assertEquals(property1.name, "translations");
         Assert.assertEquals(property1.baseType, "map");
         Assert.assertEquals(property1.containerType, "map");
@@ -177,7 +177,7 @@ public class PhpModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "\\OpenAPI\\Client\\Model\\Children");
+        Assert.assertEquals(property1.dataType, "\\OpenAPI\\Client\\Model\\Children");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
@@ -200,7 +200,7 @@ public class PhpModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "\\OpenAPI\\Client\\Model\\Children[]");
+        Assert.assertEquals(property1.dataType, "\\OpenAPI\\Client\\Model\\Children[]");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "array");
         Assert.assertEquals(property1.containerType, "array");
@@ -227,7 +227,7 @@ public class PhpModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.datatype, "map[string,\\OpenAPI\\Client\\Model\\Children]");
+        Assert.assertEquals(property1.dataType, "map[string,\\OpenAPI\\Client\\Model\\Children]");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "map");
         Assert.assertEquals(property1.containerType, "map");

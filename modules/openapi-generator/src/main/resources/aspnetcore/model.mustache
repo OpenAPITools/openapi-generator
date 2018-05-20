@@ -34,7 +34,7 @@ namespace {{packageName}}.Models
         public {{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}?{{/isContainer}}{{/isEnum}} {{name}} { get; set; }
         {{/isEnum}}
         {{^isEnum}}
-        public {{{datatype}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+        public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
         {{/isEnum}}
         {{#hasMore}}
         {{/hasMore}}
