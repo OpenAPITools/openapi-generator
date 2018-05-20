@@ -19,6 +19,8 @@ package org.openapitools.codegen.java;
 
 import com.google.common.collect.Sets;
 
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.BooleanSchema;
@@ -38,10 +40,12 @@ import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import org.junit.rules.TemporaryFolder;
 import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.ClientOpts;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
@@ -1104,24 +1108,54 @@ public class JavaModelTest {
         Assert.assertTrue(co.imports.contains("Pet"));
     }
 
-    @Test(enabled = false, description = "disabled since templates have been moved.")
+    @Test
     public void generateModel() throws Exception {
+        String inputSpec = "src/test/resources/3_0/petstore.json";
+
         folder.create();
         final File output = folder.getRoot();
-        getClass().getClassLoader().getResourceAsStream("src/test/resources/3_0_0/petstore.json");
+        Assert.assertTrue(new File(inputSpec).exists());
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setLang("java")
                 .setLibrary("jersey2")
                 //.addAdditionalProperty("withXml", true)
                 .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)
-                .setInputSpec("src/test/resources/3_0_0/petstore.json")
+                .setInputSpec(inputSpec)
                 .setOutputDir(output.getAbsolutePath());
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         new DefaultGenerator().opts(clientOptInput).generate();
 
-        File orderFile = new File(output, "src/main/java/io/swagger/client/model/Order.java");
+        File orderFile = new File(output, "src/main/java/org/openapitools/client/model/Order.java");
+        Assert.assertTrue(orderFile.exists());
+        folder.delete();
+    }
+
+    @Test
+    public void generateEmpty() throws Exception {
+        String inputSpec = "src/test/resources/3_0/ping.yaml";
+
+        folder.create();
+        final File output = folder.getRoot();
+        Assert.assertTrue(new File(inputSpec).exists());
+
+        JavaClientCodegen config = new org.openapitools.codegen.languages.JavaClientCodegen();
+        config.setJava8Mode(true);
+        config.setHideGenerationTimestamp(true);
+        config.setOutputDir(output.getAbsolutePath());
+
+        final OpenAPIParser openApiParser = new OpenAPIParser();
+        final ParseOptions options = new ParseOptions();
+        final OpenAPI openAPI = openApiParser.readLocation(inputSpec, null, options).getOpenAPI();
+
+        final ClientOptInput opts = new ClientOptInput();
+        opts.setConfig(config);
+        opts.setOpenAPI(openAPI);
+        opts.setOpts(new ClientOpts());
+        new DefaultGenerator().opts(opts).generate();
+
+        File orderFile = new File(output, "src/main/java/org/openapitools/client/api/DefaultApi.java");
         Assert.assertTrue(orderFile.exists());
         folder.delete();
     }

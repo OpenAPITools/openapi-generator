@@ -294,7 +294,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             return;
         }
 
-        final Map<String, Schema> schemas = this.openAPI.getComponents().getSchemas();
+        final Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
         if (schemas == null) {
             return;
         }
