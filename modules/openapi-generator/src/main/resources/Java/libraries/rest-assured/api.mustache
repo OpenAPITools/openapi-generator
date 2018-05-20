@@ -67,7 +67,7 @@ public class {{classname}} {
      * {{notes}}
      *
      {{#allParams}}
-     * @see #{{#isPathParam}}{{paramName}}Path{{/isPathParam}}{{#isQueryParam}}{{paramName}}Query{{/isQueryParam}}{{#isFormParam}}{{^isFile}}{{paramName}}Form{{/isFile}}{{#isFile}}{{paramName}}MultiPart{{/isFile}}{{/isFormParam}}{{#isHeaderParam}}{{paramName}}Header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     * @see #{{#isPathParam}}{{paramName}}Path{{/isPathParam}}{{#isQueryParam}}{{paramName}}Query{{/isQueryParam}}{{#isFormParam}}{{^isFile}}{{paramName}}Form{{/isFile}}{{#isFile}}{{paramName}}MultiPart{{/isFile}}{{/isFormParam}}{{#isHeaderParam}}{{paramName}}Header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
      {{/allParams}}
      {{#returnType}}
      * return {{returnType}}
@@ -141,7 +141,7 @@ public class {{classname}} {
         {{#bodyParams}}
 
          /**
-         * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+         * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
          * @return operation
          */
         public {{operationIdCamelCase}}Oper body({{{dataType}}} {{paramName}}) {
@@ -154,7 +154,7 @@ public class {{classname}} {
         public static final String {{#convert}}{{paramName}}{{/convert}}_HEADER = "{{baseName}}";
 
         /**
-         * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+         * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
          * @return operation
          */
         public {{operationIdCamelCase}}Oper {{paramName}}Header(String {{paramName}}) {
@@ -167,7 +167,7 @@ public class {{classname}} {
         public static final String {{#convert}}{{paramName}}{{/convert}}_PATH = "{{baseName}}";
 
         /**
-         * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+         * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
          * @return operation
          */
         public {{operationIdCamelCase}}Oper {{paramName}}Path(Object {{paramName}}) {
@@ -180,7 +180,7 @@ public class {{classname}} {
         public static final String {{#convert}}{{paramName}}{{/convert}}_QUERY = "{{baseName}}";
 
         /**
-         * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+         * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
          * @return operation
          */
         public {{operationIdCamelCase}}Oper {{paramName}}Query(Object... {{paramName}}) {
@@ -194,7 +194,7 @@ public class {{classname}} {
          public static final String {{#convert}}{{paramName}}{{/convert}}_FORM = "{{baseName}}";
 
          /**
-         * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+         * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
          * @return operation
          */
          public {{operationIdCamelCase}}Oper {{paramName}}Form(Object... {{paramName}}) {
@@ -209,7 +209,7 @@ public class {{classname}} {
          /**
          * It will assume that the control name is file and the &lt;content-type&gt; is &lt;application/octet-stream&gt;
          * @see #reqSpec for customise
-         * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+         * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
          * @return operation
          */
          public {{operationIdCamelCase}}Oper {{paramName}}MultiPart({{{dataType}}} {{paramName}}) {
