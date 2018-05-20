@@ -8,9 +8,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 {{/serializableModel}}
   {{#vars}}{{#isEnum}}{{^isContainer}}
 
-{{>enumClass}}{{/isContainer}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+{{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 
-{{^isContainer}}{{>enumClass}}{{/isContainer}}{{/items}}{{/items.isEnum}}
+{{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
   {{#vars}}

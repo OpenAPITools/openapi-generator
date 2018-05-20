@@ -60,7 +60,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.getter, "getId");
         Assert.assertEquals(property1.setter, "setId");
-        Assert.assertEquals(property1.datatype, "Long");
+        Assert.assertEquals(property1.dataType, "Long");
         Assert.assertEquals(property1.name, "id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "Long");
@@ -72,7 +72,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.getter, "getName");
         Assert.assertEquals(property2.setter, "setName");
-        Assert.assertEquals(property2.datatype, "String");
+        Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "String");
@@ -84,7 +84,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.getter, "getCreatedAt");
         Assert.assertEquals(property3.setter, "setCreatedAt");
-        Assert.assertEquals(property3.datatype, "Date");
+        Assert.assertEquals(property3.dataType, "Date");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "Date");
@@ -113,7 +113,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.baseName, "urls");
         Assert.assertEquals(property1.getter, "getUrls");
         Assert.assertEquals(property1.setter, "setUrls");
-        Assert.assertEquals(property1.datatype, "List[String]");
+        Assert.assertEquals(property1.dataType, "List[String]");
         Assert.assertEquals(property1.name, "urls");
         Assert.assertEquals(property1.defaultValue, "new ListBuffer[String]() ");
         Assert.assertEquals(property1.baseType, "List");
@@ -141,7 +141,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.baseName, "translations");
         Assert.assertEquals(property1.getter, "getTranslations");
         Assert.assertEquals(property1.setter, "setTranslations");
-        Assert.assertEquals(property1.datatype, "Map[String, String]");
+        Assert.assertEquals(property1.dataType, "Map[String, String]");
         Assert.assertEquals(property1.name, "translations");
         Assert.assertEquals(property1.defaultValue, "new HashMap[String, String]() ");
         Assert.assertEquals(property1.baseType, "Map");
@@ -167,7 +167,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.getter, "getChildren");
         Assert.assertEquals(property1.setter, "setChildren");
-        Assert.assertEquals(property1.datatype, "Children");
+        Assert.assertEquals(property1.dataType, "Children");
         Assert.assertEquals(property1.name, "children");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "Children");
@@ -194,7 +194,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.complexType, "Children");
         Assert.assertEquals(property1.getter, "getChildren");
         Assert.assertEquals(property1.setter, "setChildren");
-        Assert.assertEquals(property1.datatype, "List[Children]");
+        Assert.assertEquals(property1.dataType, "List[Children]");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.defaultValue, "new ListBuffer[Children]() ");
         Assert.assertEquals(property1.baseType, "List");
@@ -223,7 +223,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.complexType, "Children");
         Assert.assertEquals(property1.getter, "getChildren");
         Assert.assertEquals(property1.setter, "setChildren");
-        Assert.assertEquals(property1.datatype, "Map[String, Children]");
+        Assert.assertEquals(property1.dataType, "Map[String, Children]");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.defaultValue, "new HashMap[String, Children]() ");
         Assert.assertEquals(property1.baseType, "Map");

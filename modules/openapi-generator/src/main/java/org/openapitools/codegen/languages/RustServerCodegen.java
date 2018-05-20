@@ -698,14 +698,14 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 }
             }
             for (CodegenProperty header : rsp.headers) {
-                if (header.datatype.equals("uuid::Uuid")) {
+                if (header.dataType.equals("uuid::Uuid")) {
                     additionalProperties.put("apiUsesUuid", true);
                 }
                 header.nameInCamelCase = toModelName(header.baseName);
             }
         }
         for (CodegenProperty header : op.responseHeaders) {
-            if (header.datatype.equals("uuid::Uuid")) {
+            if (header.dataType.equals("uuid::Uuid")) {
                 additionalProperties.put("apiUsesUuid", true);
             }
             header.nameInCamelCase = toModelName(header.baseName);
@@ -868,7 +868,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             CodegenModel model = entry.getValue();
 
             for (CodegenProperty prop : model.vars) {
-                String xmlName = modelXmlNames.get(prop.datatype);
+                String xmlName = modelXmlNames.get(prop.dataType);
                 if (xmlName != null) {
                     prop.vendorExtensions.put("itemXmlName", xmlName);
                 }
@@ -934,22 +934,22 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if (!languageSpecificPrimitives.contains(property.datatype)) {
+        if (!languageSpecificPrimitives.contains(property.dataType)) {
             // If we use a more qualified model name, then only camelize the actual type, not the qualifier.
-            if (property.datatype.contains(":")) {
-                int position = property.datatype.lastIndexOf(":");
-                property.datatype = property.datatype.substring(0, position) + camelize(property.datatype.substring(position));
+            if (property.dataType.contains(":")) {
+                int position = property.dataType.lastIndexOf(":");
+                property.dataType = property.dataType.substring(0, position) + camelize(property.dataType.substring(position));
             } else {
-                property.datatype = camelize(property.datatype, false);
+                property.dataType = camelize(property.dataType, false);
             }
         }
 
         if ("integer".equals(property.baseType)) {
             // custom integer formats (legacy)
             if ("uint32".equals(property.dataFormat)) {
-                property.datatype = "u32";
+                property.dataType = "u32";
             } else if ("uint64".equals(property.dataFormat)) {
-                property.datatype = "u64";
+                property.dataType = "u64";
 
             } else {
                 // match int type to schema constraints
@@ -969,21 +969,21 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 switch (property.dataFormat == null ? NO_FORMAT : property.dataFormat) {
                     // standard swagger formats
                     case "int32":
-                        property.datatype = unsigned ? "u32" : "i32";
+                        property.dataType = unsigned ? "u32" : "i32";
                         break;
 
                     case "int64":
-                        property.datatype = unsigned ? "u64" : "i64";
+                        property.dataType = unsigned ? "u64" : "i64";
                         break;
 
                     case NO_FORMAT:
-                        property.datatype = matchingIntType(unsigned, inclusiveMinimum, inclusiveMaximum);
+                        property.dataType = matchingIntType(unsigned, inclusiveMinimum, inclusiveMaximum);
                         break;
 
                     default:
                         // unknown format
                         LOGGER.warn("The integer format '{}' is not recognized and will be ignored.", property.dataFormat);
-                        property.datatype = matchingIntType(unsigned, inclusiveMinimum, inclusiveMaximum);
+                        property.dataType = matchingIntType(unsigned, inclusiveMinimum, inclusiveMaximum);
                 }
             }
         }

@@ -24,10 +24,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 {{/description}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
-
-{{>enumClass}}{{/isContainer}}{{/isEnum}}{{#items.isEnum}}{{#items}}
-
-{{^isContainer}}{{>enumClass}}{{/isContainer}}{{/items}}{{/items.isEnum}}
+{{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
+{{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
 {{#withXml}}
   @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
 {{/withXml}}
@@ -65,7 +63,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
 {{#vendorExtensions.extraAnnotation}}
   {{{vendorExtensions.extraAnnotation}}}
 {{/vendorExtensions.extraAnnotation}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isListContainer}}{{^isMapContainer}}public {{datatype}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isListContainer}}{{^isMapContainer}}public {{dataType}} {{getter}}() {
     if ({{name}} == null) {
       return null;
     }

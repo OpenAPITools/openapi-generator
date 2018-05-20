@@ -7,14 +7,12 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfac
     {{^isContainer}}
 {{>modelInnerEnum}}
     {{/isContainer}}
+    {{#isContainer}}
+    {{#mostInnerItems}}
+{{>modelInnerEnum}} 
+    {{/mostInnerItems}}
+    {{/isContainer}}
     {{/isEnum}}
-    {{#items.isEnum}}
-      {{#items}}
-      {{^isContainer}}
-{{>modelInnerEnum}}
-      {{/isContainer}}
-      {{/items}}
-    {{/items.isEnum}}
     /**
     {{#description}}
      * {{{description}}}

@@ -133,8 +133,9 @@ openapi-generator generate -i https://raw.githubusercontent.com/openapitools/ope
 
 #### Public Pre-built Docker images
 
- - [https://hub.docker.com/r/openapitools/openapi-generator-online/](https://hub.docker.com/r/openapitools/openapi-generator-online/) (official web service)
  - [https://hub.docker.com/r/openapitools/openapi-generator-cli/](https://hub.docker.com/r/openapitools/openapi-generator-cli/) (official CLI)
+ - [https://hub.docker.com/r/openapitools/openapi-generator-online/](https://hub.docker.com/r/openapitools/openapi-generator-online/) (official web service)
+
 
 #### OpenAPI Generator CLI Docker Image
 

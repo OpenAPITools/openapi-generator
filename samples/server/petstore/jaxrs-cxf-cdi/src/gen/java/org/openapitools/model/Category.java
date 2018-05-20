@@ -19,7 +19,9 @@ import javax.xml.bind.annotation.*;
 public class Category   {
   
   private Long id = null;
+
   private String name = null;
+
 
   /**
    **/
@@ -38,6 +40,7 @@ public class Category   {
     this.id = id;
   }
 
+
   /**
    **/
   public Category name(String name) {
@@ -54,6 +57,7 @@ public class Category   {
   public void setName(String name) {
     this.name = name;
   }
+
 
 
   @Override

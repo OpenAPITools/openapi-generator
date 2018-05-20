@@ -12,7 +12,7 @@ case class {{classname}} (
   {{#description}}
   /* {{{description}}} */
   {{/description}}
-  {{{name}}}: {{^required}}Option[{{/required}}{{^isEnum}}{{datatype}}{{/isEnum}}{{#isEnum}}{{classname}}Enums.{{datatypeWithEnum}}{{/isEnum}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}
+  {{{name}}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{classname}}Enums.{{datatypeWithEnum}}{{/isEnum}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}
   {{/vars}}
 ) extends ApiModel
 

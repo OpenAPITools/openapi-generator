@@ -137,7 +137,7 @@ class {{controllerName}} extends Controller
         {{#allParams}}
         {{^isFile}}
         {{#isBodyParam}}
-        ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}{{#items}}array<{{datatype}}>{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', $inputFormat);
+        ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}{{#items}}array<{{dataType}}>{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', $inputFormat);
         {{/isBodyParam}}
         {{^isBodyParam}}
         ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}array<{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}{{^collectionFormat}}csv{{/collectionFormat}},{{dataType}}>{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', 'string');

@@ -55,7 +55,7 @@ public class CSharpModelTest {
         Assert.assertEquals(property.baseName, "examples");
         Assert.assertEquals(property.getter, "getExamples");
         Assert.assertEquals(property.setter, "setExamples");
-        Assert.assertEquals(property.datatype, "List<string>");
+        Assert.assertEquals(property.dataType, "List<string>");
         Assert.assertEquals(property.name, "Examples");
         Assert.assertNull(property.defaultValue);
         Assert.assertEquals(property.baseType, "List");
@@ -80,7 +80,7 @@ public class CSharpModelTest {
         Assert.assertEquals(property.baseName, "examples");
         Assert.assertEquals(property.name, "Examples");
         Assert.assertEquals(property.defaultValue, null);
-        Assert.assertEquals(property.datatype, "Collection<string>");
+        Assert.assertEquals(property.dataType, "Collection<string>");
         Assert.assertEquals(property.baseType, "Collection");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -103,7 +103,7 @@ public class CSharpModelTest {
         final CodegenProperty property = generated.vars.get(1);
         Assert.assertEquals(property.baseName, "examples");
         Assert.assertEquals(property.name, "Examples");
-        Assert.assertEquals(property.datatype, "Collection<string>",
+        Assert.assertEquals(property.dataType, "Collection<string>",
                 "returnICollection option should not modify property datatype");
         Assert.assertNull(property.defaultValue);
         Assert.assertEquals(property.baseType, "Collection",
@@ -140,7 +140,7 @@ public class CSharpModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "long?");
+        Assert.assertEquals(property1.dataType, "long?");
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "long?");
@@ -150,7 +150,7 @@ public class CSharpModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
-        Assert.assertEquals(property2.datatype, "string");
+        Assert.assertEquals(property2.dataType, "string");
         Assert.assertEquals(property2.name, "Name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "string");
@@ -160,7 +160,7 @@ public class CSharpModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.datatype, "DateTime?");
+        Assert.assertEquals(property3.dataType, "DateTime?");
         Assert.assertEquals(property3.name, "CreatedAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "DateTime?");
@@ -186,7 +186,7 @@ public class CSharpModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "long?");
+        Assert.assertEquals(property1.dataType, "long?");
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "long?");
@@ -196,7 +196,7 @@ public class CSharpModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
-        Assert.assertEquals(property2.datatype, "List<string>");
+        Assert.assertEquals(property2.dataType, "List<string>");
         Assert.assertEquals(property2.name, "Urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "List");
@@ -224,7 +224,7 @@ public class CSharpModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.datatype, "Dictionary<string, string>");
+        Assert.assertEquals(property1.dataType, "Dictionary<string, string>");
         Assert.assertEquals(property1.name, "Translations");
         Assert.assertEquals(property1.baseType, "Dictionary");
         Assert.assertEquals(property1.containerType, "map");
@@ -248,7 +248,7 @@ public class CSharpModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "Children");
+        Assert.assertEquals(property1.dataType, "Children");
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
@@ -271,7 +271,7 @@ public class CSharpModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.datatype, "List<Children>");
+        Assert.assertEquals(property1.dataType, "List<Children>");
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "List");
         Assert.assertEquals(property1.containerType, "array");
@@ -297,7 +297,7 @@ public class CSharpModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.datatype, "Dictionary<string, Children>");
+        Assert.assertEquals(property1.dataType, "Dictionary<string, Children>");
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "Dictionary");
         Assert.assertEquals(property1.containerType, "map");
