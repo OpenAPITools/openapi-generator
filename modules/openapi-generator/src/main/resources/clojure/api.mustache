@@ -1,9 +1,10 @@
 {{=< >=}}(ns <package>.<classname>
   (:require [<baseNamespace>.core :refer [call-api check-required-params with-collection-format *api-context*]]
-            [<baseNamespace>.specs :refer :all]
             [clojure.spec.alpha :as s]
+            [spec-tools.core :as st]
             [orchestra.core :refer [defn-spec]]
-            [spec-tools.core :as st])
+            <#operations><#operation><#-first><#vendorExtensions.x-models>[<modelPackage>.<.> :refer :all]
+            </vendorExtensions.x-models></-first></operation></operations>)
   (:import (java.io File)))
 
 <#operations><#operation>
