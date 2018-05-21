@@ -42,6 +42,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
+    public static final String PROVIDED_IN_ROOT ="providedInRoot";
+
 
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
@@ -75,6 +77,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(PROVIDED_IN_ROOT,
+                "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).",
+                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));    
         this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '4.3'"));
     }
 
@@ -133,6 +138,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         if (additionalProperties.containsKey(TAGGED_UNIONS)) {
             taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
+        }
+
+        if (additionalProperties.containsKey(PROVIDED_IN_ROOT) && !ngVersion.atLeast("6.0.0")) {
+            additionalProperties.put(PROVIDED_IN_ROOT,false);
         }
 
         additionalProperties.put(NG_VERSION, ngVersion);
