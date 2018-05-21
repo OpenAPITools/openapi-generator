@@ -1,5 +1,5 @@
 {{=< >=}}(ns <package>.<classname>
-  (:require [<baseNamespace>.core :refer [call-api check-required-params with-collection-format]]
+  (:require [<baseNamespace>.core :refer [call-api check-required-params with-collection-format *api-context*]]
             [<baseNamespace>.specs :refer :all]
             [clojure.spec.alpha :as s]
             [orchestra.core :refer [defn-spec]]
@@ -28,6 +28,9 @@
   <&notes></notes>"<#hasOptionalParams>
   ([<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><#hasMore>, </hasMore></required></allParams>] (<operationId><#allParams><#required> <paramName></required></allParams> nil))</hasOptionalParams>
   <#hasOptionalParams>(</hasOptionalParams>[<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><#hasMore>, </hasMore></required></allParams><#hasOptionalParams>optional-params</hasOptionalParams>]
-  <#hasOptionalParams> </hasOptionalParams>(st/decode <#returnType><returnType></returnType><^returnType>any?</returnType> (:data (<operationId>-with-http-info<#allParams><#required> <paramName></required></allParams><#hasOptionalParams> optional-params</hasOptionalParams>)) st/string-transformer) <#hasOptionalParams>)</hasOptionalParams>)
+  <#hasOptionalParams> </hasOptionalParams>(let [res (:data (<operationId>-with-http-info<#allParams><#required> <paramName></required></allParams><#hasOptionalParams> optional-params</hasOptionalParams>))]
+  <#hasOptionalParams> </hasOptionalParams>  (if (:decode-models *api-context*)
+  <#hasOptionalParams> </hasOptionalParams>     (st/decode <#returnType><returnType></returnType><^returnType>any?</returnType> res st/string-transformer)
+  <#hasOptionalParams> </hasOptionalParams>     res))<#hasOptionalParams>)</hasOptionalParams>)
 
 </operation></operations>
