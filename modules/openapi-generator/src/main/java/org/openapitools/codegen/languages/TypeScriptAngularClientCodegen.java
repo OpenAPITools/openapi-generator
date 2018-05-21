@@ -75,7 +75,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '4.3'"));
+        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '6.0.0'"));
     }
 
     @Override
@@ -91,7 +91,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular (2.x - 5.x) client library.";
+        return "Generates a TypeScript Angular ( greater or equal to 2.0.0) client library.";
     }
 
     @Override
@@ -115,7 +115,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(NG_VERSION)) {
             ngVersion = new SemVer(additionalProperties.get(NG_VERSION).toString());
         } else {
-            ngVersion = new SemVer("4.3.0");
+            ngVersion = new SemVer("6.0.0");
             LOGGER.info("generating code for Angular {} ...", ngVersion);
             LOGGER.info("  (you can select the angular version by setting the additionalProperty ngVersion)");
         }
