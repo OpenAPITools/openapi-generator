@@ -32,7 +32,7 @@ build_script:
   - nuget restore samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln
   - msbuild samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   # install openapi-generator locally
-  - mvn clean install --batch-mode
+  - mvn clean install --quiet
 test_script:
   # test c# API client
   - nunit-console samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
