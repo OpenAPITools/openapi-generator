@@ -112,11 +112,8 @@ open class {{classname}} {
        - name: {{name}}
        {{/authMethods}}
      {{#hasResponseHeaders}}
-     - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{datatype}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
+     - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{dataType}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
      {{/hasResponseHeaders}}
-     {{#hasExamples}}
-     - examples: {{{examples}}}
-     {{/hasExamples}}
      {{#externalDocs}}
      - externalDocs: {{externalDocs}}
      {{/externalDocs}}

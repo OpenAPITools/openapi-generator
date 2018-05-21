@@ -39,7 +39,7 @@ public interface {{classname}} {
    * {{summary}}
    * {{notes}}
 {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
 {{/allParams}}
    * @return {{^doNotUseRx}}{{#useRxJava}}Observable&lt;{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Void{{/returnType}}{{/isResponseFile}}&gt;{{/useRxJava}}{{#useRxJava2}}{{#returnType}}Observable&lt;{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{returnType}}{{/isResponseFile}}&gt;{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava2}}{{/doNotUseRx}}{{#doNotUseRx}}Call&lt;{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Void{{/returnType}}{{/isResponseFile}}&gt;{{/doNotUseRx}}
 {{#isDeprecated}}

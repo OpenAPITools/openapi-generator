@@ -2,12 +2,11 @@ FROM openjdk:8-jre-alpine
 
 WORKDIR /generator
 
-COPY target/lib/jetty-runner* /generator/jetty-runner.jar
-COPY target/*.war /generator/swagger-generator.war
+COPY target/openapi-generator-online-3.0.0-SNAPSHOT.jar /generator/openapi-generator-online.jar
 
-ENV GENERATOR_HOST=https://generator.swaggerhub.com/api/swagger.json
+ENV GENERATOR_HOST=http://localhost
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "/generator/jetty-runner.jar", "/generator/swagger-generator.war"]
+CMD ["java", "-jar", "/generator/openapi-generator-online.jar"]
 

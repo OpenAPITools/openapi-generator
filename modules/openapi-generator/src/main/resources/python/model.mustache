@@ -38,7 +38,7 @@ class {{classname}}(object):
     """
     openapi_types = {
 {{#vars}}
-        '{{name}}': '{{{datatype}}}'{{#hasMore}},{{/hasMore}}
+        '{{name}}': '{{{dataType}}}'{{#hasMore}},{{/hasMore}}
 {{/vars}}
     }
 
@@ -83,7 +83,7 @@ class {{classname}}(object):
 {{/description}}
 
         :return: The {{name}} of this {{classname}}.  # noqa: E501
-        :rtype: {{datatype}}
+        :rtype: {{dataType}}
         """
         return self._{{name}}
 
@@ -96,7 +96,7 @@ class {{classname}}(object):
 {{/description}}
 
         :param {{name}}: The {{name}} of this {{classname}}.  # noqa: E501
-        :type: {{datatype}}
+        :type: {{dataType}}
         """
 {{#required}}
         if {{name}} is None:

@@ -22,7 +22,6 @@ public class MapTest  {
   @Valid
   private Map<String, Map<String, String>> mapMapOfString = null;
 
-
 @XmlType(name="InnerEnum")
 @XmlEnum(String.class)
 public enum InnerEnum {

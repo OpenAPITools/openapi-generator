@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EnumTest  {
   
-
 @XmlType(name="EnumStringEnum")
 @XmlEnum(String.class)
 public enum EnumStringEnum {
@@ -51,7 +50,6 @@ public enum EnumStringEnum {
 
   @ApiModelProperty(value = "")
   private EnumStringEnum enumString = null;
-
 
 @XmlType(name="EnumStringRequiredEnum")
 @XmlEnum(String.class)
@@ -88,7 +86,6 @@ public enum EnumStringRequiredEnum {
   @ApiModelProperty(required = true, value = "")
   private EnumStringRequiredEnum enumStringRequired = null;
 
-
 @XmlType(name="EnumIntegerEnum")
 @XmlEnum(Integer.class)
 public enum EnumIntegerEnum {
@@ -123,7 +120,6 @@ public enum EnumIntegerEnum {
 
   @ApiModelProperty(value = "")
   private EnumIntegerEnum enumInteger = null;
-
 
 @XmlType(name="EnumNumberEnum")
 @XmlEnum(Double.class)

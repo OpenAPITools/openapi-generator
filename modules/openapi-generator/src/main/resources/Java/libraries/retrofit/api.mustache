@@ -24,7 +24,7 @@ public interface {{classname}} {
    * Sync method
    * {{notes}}
 {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
 {{/allParams}}
    * @return {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Void{{/returnType}}
 {{#externalDocs}}
@@ -43,7 +43,7 @@ public interface {{classname}} {
    * {{summary}}
    * Async method
 {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
 {{/allParams}}
    * @param cb callback method
 {{#externalDocs}}

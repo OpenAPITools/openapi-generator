@@ -79,7 +79,7 @@ public class PythonTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "int");
+        Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.name, "id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int");
@@ -89,7 +89,7 @@ public class PythonTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
-        Assert.assertEquals(property2.datatype, "str");
+        Assert.assertEquals(property2.dataType, "str");
         Assert.assertEquals(property2.name, "name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "str");
@@ -99,7 +99,7 @@ public class PythonTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.datatype, "datetime");
+        Assert.assertEquals(property3.dataType, "datetime");
         Assert.assertEquals(property3.name, "created_at");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "datetime");
@@ -125,7 +125,7 @@ public class PythonTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "int");
+        Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.name, "id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int");
@@ -135,7 +135,7 @@ public class PythonTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
-        Assert.assertEquals(property2.datatype, "list[str]");
+        Assert.assertEquals(property2.dataType, "list[str]");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "list");
@@ -163,7 +163,7 @@ public class PythonTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.datatype, "dict(str, str)");
+        Assert.assertEquals(property1.dataType, "dict(str, str)");
         Assert.assertEquals(property1.name, "translations");
         Assert.assertEquals(property1.baseType, "dict");
         Assert.assertEquals(property1.containerType, "map");
@@ -187,7 +187,7 @@ public class PythonTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "Children");
+        Assert.assertEquals(property1.dataType, "Children");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
@@ -211,7 +211,7 @@ public class PythonTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.datatype, "list[Children]");
+        Assert.assertEquals(property1.dataType, "list[Children]");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "list");
         Assert.assertEquals(property1.containerType, "array");
@@ -237,7 +237,7 @@ public class PythonTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.datatype, "dict(str, Children)");
+        Assert.assertEquals(property1.dataType, "dict(str, Children)");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "dict");
         Assert.assertEquals(property1.containerType, "map");

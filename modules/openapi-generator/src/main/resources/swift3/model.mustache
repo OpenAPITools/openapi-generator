@@ -28,7 +28,7 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}JSONEncod
 
 {{#vars}}
 {{#isEnum}}
-    public enum {{enumName}}: {{^isContainer}}{{datatype}}{{/isContainer}}{{#isContainer}}String{{/isContainer}} { {{#allowableValues}}{{#enumVars}}
+    public enum {{enumName}}: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}String{{/isContainer}} { {{#allowableValues}}{{#enumVars}}
         case {{name}} = {{#isContainer}}"{{/isContainer}}{{#isString}}"{{/isString}}{{{value}}}{{#isString}}"{{/isString}}{{#isContainer}}"{{/isContainer}}{{/enumVars}}{{/allowableValues}}
     }
 {{/isEnum}}
@@ -40,7 +40,7 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}JSONEncod
 {{/isEnum}}
 {{^isEnum}}
     {{#description}}/** {{description}} */
-    {{/description}}public var {{name}}: {{{datatype}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#objcCompatible}}{{#vendorExtensions.x-swift-optional-scalar}}
+    {{/description}}public var {{name}}: {{{dataType}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#objcCompatible}}{{#vendorExtensions.x-swift-optional-scalar}}
     public var {{name}}Num: NSNumber? {
         get {
             return {{name}}.map({ return NSNumber(value: $0) })
@@ -56,7 +56,7 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}JSONEncod
 {{^unwrapRequired}}
     {{^parent}}public init() {}{{/parent}}{{/unwrapRequired}}
 {{#unwrapRequired}}
-    public init({{#allVars}}{{^-first}}, {{/-first}}{{name}}: {{#isEnum}}{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{datatype}}{{/isEnum}}{{^required}}?=nil{{/required}}{{/allVars}}) {
+    public init({{#allVars}}{{^-first}}, {{/-first}}{{name}}: {{#isEnum}}{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{^required}}?=nil{{/required}}{{/allVars}}) {
         {{#vars}}
         self.{{name}} = {{name}}
         {{/vars}}

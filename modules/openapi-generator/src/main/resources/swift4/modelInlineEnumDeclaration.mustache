@@ -1,4 +1,4 @@
-    public enum {{enumName}}: {{^isContainer}}{{datatype}}{{/isContainer}}{{#isContainer}}String{{/isContainer}}, Codable {
+    public enum {{enumName}}: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}String{{/isContainer}}, Codable {
         {{#allowableValues}}
         {{#enumVars}}
         case {{name}} = {{{value}}}

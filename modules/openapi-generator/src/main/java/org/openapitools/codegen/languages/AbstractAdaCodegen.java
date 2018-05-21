@@ -413,7 +413,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             if (methodResponse != null && ModelUtils.getSchemaFromResponse(methodResponse) != null) {
                 CodegenProperty cm = fromProperty("response", ModelUtils.getSchemaFromResponse(methodResponse));
                 op.vendorExtensions.put("x-codegen-response", cm);
-                if ("HttpContent".equals(cm.datatype)) {
+                if ("HttpContent".equals(cm.dataType)) {
                     op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
                 }
             }
@@ -498,9 +498,9 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                         item = p.items;
                     }
                     if (item != null && !item.isString && !item.isPrimitiveType && !item.isContainer && !item.isInteger) {
-                        if (!d.contains(item.datatype)) {
+                        if (!d.contains(item.dataType)) {
                             // LOGGER.info("Model " + m.name + " uses " + p.datatype);
-                            d.add(item.datatype);
+                            d.add(item.dataType);
                         }
                         isModel = true;
                     }

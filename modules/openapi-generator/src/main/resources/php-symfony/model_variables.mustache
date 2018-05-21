@@ -23,11 +23,11 @@
 {{#isContainer}}
      * @Assert\All({
     {{#items}}
-     *   @Assert\Type("{{datatype}}")
+     *   @Assert\Type("{{dataType}}")
     {{/items}}
      * })
      {{#items}}
-     * @Type("array<{{datatype}}>")
+     * @Type("array<{{dataType}}>")
      {{/items}}
 {{/isContainer}}
 {{^isContainer}}
@@ -41,8 +41,8 @@
     {{/isDateTime}}
     {{^isDate}}
     {{^isDateTime}}
-     * @Assert\Type("{{datatype}}")
-     * @Type("{{datatype}}")
+     * @Assert\Type("{{dataType}}")
+     * @Type("{{dataType}}")
     {{/isDateTime}}
     {{/isDate}}
 {{/isContainer}}

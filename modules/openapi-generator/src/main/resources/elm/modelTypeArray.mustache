@@ -1,0 +1,12 @@
+type alias {{classname}} =
+    {{parent}}
+
+
+{{classVarName}}Decoder : Decoder {{classname}}
+{{classVarName}}Decoder =
+    Decode.list {{vendorExtensions.x-decoder}}
+
+
+{{classVarName}}Encoder : {{classname}} -> Encode.Value
+{{classVarName}}Encoder model =
+    Encode.list (List.map {{vendorExtensions.x-encoder}} model)

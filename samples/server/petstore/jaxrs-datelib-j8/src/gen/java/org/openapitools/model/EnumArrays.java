@@ -93,7 +93,7 @@ public class EnumArrays  implements Serializable {
       return null;
     }
   }
-
+ 
   @JsonProperty("array_enum")
   private List<ArrayEnumEnum> arrayEnum = null;
 

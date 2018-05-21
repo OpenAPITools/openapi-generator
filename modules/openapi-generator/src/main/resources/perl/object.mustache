@@ -43,7 +43,7 @@ __PACKAGE__->class_documentation({description => '{{description}}',
 __PACKAGE__->method_documentation({
 {{#vars}}
     '{{name}}' => {
-    	datatype => '{{datatype}}',
+    	datatype => '{{dataType}}',
     	base_name => '{{baseName}}',
     	description => '{{description}}',
     	format => '{{format}}',
@@ -53,7 +53,7 @@ __PACKAGE__->method_documentation({
 });
 
 __PACKAGE__->openapi_types( {
-    {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
+    {{#vars}}'{{name}}' => '{{{dataType}}}'{{#hasMore}},
     {{/hasMore}}{{/vars}}
 } );
 

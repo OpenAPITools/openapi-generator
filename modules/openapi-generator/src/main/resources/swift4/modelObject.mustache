@@ -13,7 +13,7 @@ public struct {{classname}}: Codable {
 {{/isEnum}}
 {{^isEnum}}
     {{#description}}/** {{description}} */
-    {{/description}}public var {{name}}: {{{datatype}}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#objcCompatible}}{{#vendorExtensions.x-swift-optional-scalar}}
+    {{/description}}public var {{name}}: {{{dataType}}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#objcCompatible}}{{#vendorExtensions.x-swift-optional-scalar}}
     public var {{name}}Num: NSNumber? {
         get {
             return {{name}}.map({ return NSNumber(value: $0) })

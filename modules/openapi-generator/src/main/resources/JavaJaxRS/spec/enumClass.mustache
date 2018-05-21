@@ -1,13 +1,13 @@
 public enum {{datatypeWithEnum}} {
 
     {{#allowableValues}}
-    {{#enumVars}}{{name}}({{datatype}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
+    {{#enumVars}}{{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
     {{/allowableValues}}
 
 
-    private {{datatype}} value;
+    private {{dataType}} value;
 
-    {{datatypeWithEnum}} ({{datatype}} v) {
+    {{datatypeWithEnum}} ({{dataType}} v) {
         value = v;
     }
 
