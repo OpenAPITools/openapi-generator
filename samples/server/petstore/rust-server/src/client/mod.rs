@@ -96,26 +96,37 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
 }
 
 /// A client that implements the API by making HTTP calls out to a server.
-#[derive(Clone)]
-pub struct Client {
-    hyper_client: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
+pub struct Client<F> where
+  F: Future<Item=hyper::Response, Error=hyper::Error> + 'static {
+    client_service: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
     base_path: String,
 }
 
-impl fmt::Debug for Client {
+impl<F> fmt::Debug for Client<F> where
+   F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "Client {{ base_path: {} }}", self.base_path)
     }
 }
 
-impl Client {
+impl<F> Clone for Client<F> where
+   F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static {
+    fn clone(&self) -> Self {
+        Client {
+            client_service: self.client_service.clone(),
+            base_path: self.base_path.clone()
+        }
+    }
+}
+
+impl Client<hyper::client::FutureResponse> {
 
     /// Create an HTTP client.
     ///
     /// # Arguments
     /// * `handle` - tokio reactor handle to use for execution
     /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
-    pub fn try_new_http(handle: Handle, base_path: &str) -> Result<Client, ClientInitError> {
+    pub fn try_new_http(handle: Handle, base_path: &str) -> Result<Client<hyper::client::FutureResponse>, ClientInitError> {
         let http_connector = swagger::http_connector();
         Self::try_new_with_connector::<hyper::client::HttpConnector>(
             handle,
@@ -135,7 +146,7 @@ impl Client {
         handle: Handle,
         base_path: &str,
         ca_certificate: CA,
-    ) -> Result<Client, ClientInitError>
+    ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
     where
         CA: AsRef<Path>,
     {
@@ -156,13 +167,13 @@ impl Client {
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     /// * `client_key` - Path to the client private key
     /// * `client_certificate` - Path to the client's public certificate associated with the private key
-    pub fn try_new_https_mutual<CA, K, C, T>(
+    pub fn try_new_https_mutual<CA, K, C>(
         handle: Handle,
         base_path: &str,
         ca_certificate: CA,
         client_key: K,
         client_certificate: C,
-    ) -> Result<Client, ClientInitError>
+    ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
     where
         CA: AsRef<Path>,
         K: AsRef<Path>,
@@ -199,43 +210,43 @@ impl Client {
         base_path: &str,
         protocol: Option<&'static str>,
         connector_fn: Box<Fn(&Handle) -> C + Send + Sync>,
-    ) -> Result<Client, ClientInitError>
+    ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
     where
         C: hyper::client::Connect + hyper::client::Service,
     {
         let connector = connector_fn(&handle);
-        let hyper_client = Box::new(hyper::Client::configure().connector(connector).build(
+        let client_service = Box::new(hyper::Client::configure().connector(connector).build(
             &handle,
         ));
 
         Ok(Client {
-            hyper_client: Arc::new(hyper_client),
+            client_service: Arc::new(client_service),
             base_path: into_base_path(base_path, protocol)?,
         })
     }
+}
 
-    /// Constructor for creating a `Client` by passing in a pre-made `hyper` client.
+impl<F> Client<F> where
+    F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static
+{
+    /// Constructor for creating a `Client` by passing in a pre-made `hyper` client Service.
     ///
-    /// One should avoid relying on this function if possible, since it adds a dependency on the underlying transport
-    /// implementation, which it would be better to abstract away. Therefore, using this function may lead to a loss of
-    /// code generality, which may make it harder to move the application to a serverless environment, for example.
-    ///
-    /// The reason for this function's existence is to support legacy test code, which did mocking at the hyper layer.
-    /// This is not a recommended way to write new tests. If other reasons are found for using this function, they
-    /// should be mentioned here.
-    pub fn try_new_with_hyper_client(hyper_client: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
-                                     handle: Handle,
-                                     base_path: &str)
-                                    -> Result<Client, ClientInitError>
+    /// This allows adding custom wrappers around the underlying transport, for example for logging.
+    pub fn try_new_with_client_service(client_service: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
+                                       handle: Handle,
+                                       base_path: &str)
+                                    -> Result<Client<F>, ClientInitError>
     {
         Ok(Client {
-            hyper_client: hyper_client,
+            client_service: client_service,
             base_path: into_base_path(base_path, None)?,
         })
     }
 }
 
-impl<C> Api<C> for Client where C: Has<XSpanIdString> + Has<Option<AuthData>>{
+impl<F, C> Api<C> for Client<F> where
+    F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static,
+    C: Has<XSpanIdString> + Has<Option<AuthData>>{
 
     fn test_special_tags(&self, param_client: models::Client, context: &C) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError>> {
 
@@ -267,7 +278,7 @@ impl<C> Api<C> for Client where C: Has<XSpanIdString> + Has<Option<AuthData>>{
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -347,7 +358,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -425,7 +436,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -503,7 +514,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -581,7 +592,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -661,7 +672,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -726,7 +737,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -839,7 +850,7 @@ if let Some(body) = body {
         request.set_body(body_string.into_bytes());
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -923,7 +934,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -997,7 +1008,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1063,7 +1074,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1130,7 +1141,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1208,7 +1219,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1271,7 +1282,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1334,7 +1345,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1419,7 +1430,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1500,7 +1511,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1596,7 +1607,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1680,7 +1691,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1776,7 +1787,7 @@ if let Some(body) = body {
         request.set_body(body_string.into_bytes());
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1846,7 +1857,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1914,7 +1925,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1984,7 +1995,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2080,7 +2091,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2169,7 +2180,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2234,7 +2245,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2299,7 +2310,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2358,7 +2369,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2426,7 +2437,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2522,7 +2533,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2581,7 +2592,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2646,7 +2657,7 @@ if let Some(body) = body {
 
 
 
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
