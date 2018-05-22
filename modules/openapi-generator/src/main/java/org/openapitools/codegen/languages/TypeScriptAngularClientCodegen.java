@@ -79,7 +79,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(PROVIDED_IN_ROOT,
                 "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).",
-                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));    
+                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '4.3'"));
     }
 
@@ -140,7 +140,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
         }
 
-        if (additionalProperties.containsKey(PROVIDED_IN_ROOT) && !ngVersion.atLeast("6.0.0")) {
+        if (ngVersion.atLeast("6.0.0")) {
+            if (!additionalProperties.containsKey(PROVIDED_IN_ROOT)){
+                additionalProperties.put(PROVIDED_IN_ROOT,true);
+            }else {
+                additionalProperties.put(PROVIDED_IN_ROOT,Boolean.valueOf(
+                    (String) additionalProperties.get(PROVIDED_IN_ROOT)));
+            }
+        }else {
             additionalProperties.put(PROVIDED_IN_ROOT,false);
         }
 
