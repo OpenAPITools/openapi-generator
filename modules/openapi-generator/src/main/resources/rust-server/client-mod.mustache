@@ -193,6 +193,28 @@ impl Client<hyper::client::FutureResponse> {
             base_path: into_base_path(base_path, protocol)?,
         })
     }
+
+    /// Constructor for creating a `Client` by passing in a pre-made `hyper` client.
+    ///
+    /// One should avoid relying on this function if possible, since it adds a dependency on the underlying transport
+    /// implementation, which it would be better to abstract away. Therefore, using this function may lead to a loss of
+    /// code generality, which may make it harder to move the application to a serverless environment, for example.
+    ///
+    /// The reason for this function's existence is to support legacy test code, which did mocking at the hyper layer.
+    /// This is not a recommended way to write new tests. If other reasons are found for using this function, they
+    /// should be mentioned here.
+    #[deprecated(note="Use try_new_with_client_service instead")]
+    pub fn try_new_with_hyper_client(
+        hyper_client: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
+        handle: Handle,
+        base_path: &str
+    ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
+    {
+        Ok(Client {
+            client_service: hyper_client,
+            base_path: into_base_path(base_path, None)?,
+        })
+    }
 }
 
 impl<F> Client<F> where
