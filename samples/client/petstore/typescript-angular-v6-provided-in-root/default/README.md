@@ -53,13 +53,15 @@ In your Angular project:
 ```
 // without configuring providers
 import { ApiModule } from '';
+import { HttpClientModule } from '@angular/common/http';
 
-import { HttpModule } from '@angular/http';
 
 @NgModule({
     imports: [
         ApiModule,
-        HttpModule
+        // make sure to import the HttpClientModule in the AppModule only,
+        // see https://github.com/angular/angular/issues/20575
+        HttpClientModule
     ],
     declarations: [ AppComponent ],
     providers: [],
@@ -106,14 +108,16 @@ in order to avoid naming conflicts:
 ```
 import { ApiModule } from 'my-api-path';
 import { ApiModule as OtherApiModule } from 'my-other-api-path';
+import { HttpClientModule } from '@angular/common/http';
 
-import { HttpModule } from '@angular/http';
 
 @NgModule({
   imports: [
     ApiModule,
     OtherApiModule,
-    HttpModule
+    // make sure to import the HttpClientModule in the AppModule only,
+    // see https://github.com/angular/angular/issues/20575
+    HttpClientModule
   ]
 })
 export class AppModule {
