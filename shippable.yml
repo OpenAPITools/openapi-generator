@@ -27,10 +27,11 @@ build:
     - elixir --version
     - mix --version
     # test samples defined in pom.xml
-    - cp CI/pom.xml.shippable pom.xml
-    - mvn --quiet clean install
-    - mvn --quiet verify -P samples
+    - mvn --quiet clean install -f CI/pom.xml.shippable
     # generate all petstore sampless (client, servers, doc)
-    - ./bin/run-all-petstore 2>&1 > run-all-petstore.log
+    - ./bin/ensure-up-to-date 2>&1 > run.log
+    - mvn --quiet verify -P samples -f CI/pom.xml.shippable
+    # generate all petstore sampless (client, servers, doc)
+    - ./bin/run-all-petstore 2>&1 > run.log
   post_ci:
-    - tail run-all-petstore.log
+    - tail run.log
