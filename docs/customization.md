@@ -30,7 +30,7 @@ Note the `myClientCodegen` is an option now, and you can use the usual arguments
 
 ```sh
 java -cp output/myLibrary/target/myClientCodegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
-  io.openapitools.codegen.OpenAPIGenerator generate -l myClientCodegen\
+  io.openapitools.codegen.OpenAPIGenerator generate -g myClientCodegen\
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
   -o myClient
 ```
@@ -146,7 +146,7 @@ Each of these files creates reasonable defaults so you can get running quickly. 
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
-  -l java \
+  -g java \
   -o samples/client/petstore/java \
   -c path/to/config.json
 ```
@@ -157,11 +157,11 @@ and `config.json` contains the following as an example:
 }
 ```
 
-Supported config options can be different per language. Running `config-help -l {lang}` will show available options.
+Supported config options can be different per language. Running `config-help -g {lang}` will show available options.
 **These options are applied via configuration file (e.g. config.json) or by passing them with `-D{optionName}={optionValue}`**. (If `-D{optionName}` does not work, please open a [ticket](https://github.com/openapitools/openapi-generator/issues/new) and we'll look into it)
 
 ```sh
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar config-help -l java
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar config-help -g java
 ```
 
 Output
@@ -217,7 +217,7 @@ public class MyObjcCodegen extends ObjcClientCodegen {
 and specify the `classname` when running the generator:
 
 ```
--l com.mycompany.openapitools.codegen.MyObjcCodegen
+-g com.mycompany.openapitools.codegen.MyObjcCodegen
 ```
 
 Your subclass will now be loaded and overrides the `PREFIX` value in the superclass.

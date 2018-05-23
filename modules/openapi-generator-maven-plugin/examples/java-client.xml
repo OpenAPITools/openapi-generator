@@ -23,10 +23,10 @@
                             <inputSpec>swagger.yaml</inputSpec>
 
                             <!-- target to generate java client code -->
-                            <language>java</language>
+                            <generatorName>java</generatorName>
 
                             <!-- hint: if you want to generate java server code, e.g. based on Spring Boot,
-                                 you can use the following target: <language>spring</language> -->
+                                 you can use the following target: <generatorName>spring</generatorName> -->
 
                             <!-- pass any necessary config options -->
                             <configOptions>
