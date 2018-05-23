@@ -19,12 +19,9 @@ package org.openapitools.codegen;
 
 import io.airlift.airline.Cli;
 import io.airlift.airline.Help;
-import org.openapitools.codegen.cmd.ConfigHelp;
-import org.openapitools.codegen.cmd.Generate;
-import org.openapitools.codegen.cmd.Langs;
-import org.openapitools.codegen.cmd.Meta;
-import org.openapitools.codegen.cmd.Validate;
-import org.openapitools.codegen.cmd.Version;
+import org.openapitools.codegen.cmd.*;
+
+import java.util.Arrays;
 
 /**
  * User: lanwen Date: 24.03.15 Time: 17:56
@@ -35,7 +32,6 @@ import org.openapitools.codegen.cmd.Version;
  */
 public class OpenAPIGenerator {
 
-
     public static void main(String[] args) {
         String version = Version.readVersionFromResources();
         @SuppressWarnings("unchecked")
@@ -45,10 +41,28 @@ public class OpenAPIGenerator {
                                 String.format(
                                         "OpenAPI generator CLI (version %s).",
                                         version))
-                        .withDefaultCommand(Langs.class)
-                        .withCommands(Generate.class, Meta.class, Langs.class, Help.class,
-                                ConfigHelp.class, Validate.class, Version.class);
+                        .withDefaultCommand(ListGenerators.class)
+                        .withCommands(
+                                ListGenerators.class,
+                                Generate.class,
+                                Meta.class,
+                                Langs.class,
+                                Help.class,
+                                ConfigHelp.class,
+                                Validate.class,
+                                Version.class
+                        );
 
         builder.build().parse(args).run();
+
+        // If CLI is run without a command, consider this an error.
+        // We can check against empty args because unrecognized arguments/commands result in an exception.
+        // This is useful to exit with status 1, for example, so that misconfigured scripts fail fast.
+        // We don't want the default command to exit internally with status 1 because when the default command is something like "list",
+        // it would prevent scripting using the command directly. Example:
+        //     java -jar cli.jar list --short | tr ',' '\n' | xargs -I{} echo "Doing something with {}"
+        if (args.length == 0) {
+            System.exit(1);
+        }
     }
 }

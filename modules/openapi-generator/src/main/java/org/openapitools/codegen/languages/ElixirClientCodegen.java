@@ -191,7 +191,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
     /**
      * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -l flag.
+     * to select the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
