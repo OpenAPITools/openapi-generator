@@ -1,0 +1,21 @@
+#!/bin/bash
+# this bash script run the scripts for the 'mature' generators
+# it ensures that all changes are commited into the 'samples/' folder
+
+echo "IMPORTANT: this script should be run by the CI (e.g. Shippable) to ensure that the 'samples/' folder is up to date."
+echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
+
+sleep 5
+
+# LIST OF SCRIPTS:
+./bin/ruby-petstore.sh
+
+# Check:
+if ! `git diff-index --quiet HEAD -- `; then
+    echo "There are uncommitted changes in working tree after execution of 'bin/run-all-petstore'"
+    git status
+    echo "Please commit changes"
+    exit 1
+else
+    echo "Git working tree is clean"
+fi
