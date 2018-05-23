@@ -11,5 +11,5 @@ declare curdir=$(cd $(dirname "${BASH_SOURCE}") && pwd)
 declare clijar=${SWAGGER_CODEGEN_CLI_JAR:-$(cd $curdir && cd ../../../../../../../swagger-codegen-cli/target/ && echo $PWD)/swagger-codegen-cli.jar}
 
 exec \java ${opts} -jar ${clijar} generate \
-    -i ${prefix}-spec.json -l scala \
+    -i ${prefix}-spec.json -g scala \
     -o ${prefix}-expected;

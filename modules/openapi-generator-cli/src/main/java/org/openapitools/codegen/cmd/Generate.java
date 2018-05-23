@@ -26,6 +26,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -36,17 +37,21 @@ import java.util.List;
  * User: lanwen Date: 24.03.15 Time: 20:22
  */
 
-@Command(name = "generate", description = "Generate code with chosen lang")
+@Command(name = "generate", description = "Generate code with the specified generator.")
 public class Generate implements Runnable {
 
-    public static final Logger LOG = LoggerFactory.getLogger(Generate.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;
 
-    @Option(name = {"-l", "--lang"}, title = "language", required = true,
+    @Option(name = {"-l", "--lang"}, title = "language",
             description = "client language to generate (maybe class name in classpath, required)")
     private String lang;
+
+    @Option(name = {"-g", "--generator-name"}, title = "generator name",
+            description = "generator to use (see langs command for list)")
+    private String generatorName;
 
     @Option(name = {"-o", "--output"}, title = "output directory",
             description = "where to write the generated files (current dir by default)")
@@ -79,7 +84,7 @@ public class Generate implements Runnable {
             title = "configuration file",
             description = "Path to json configuration file. "
                     + "File content should be in a json format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...} "
-                    + "Supported options can be different for each language. Run config-help -l {lang} command for language specific config options.")
+                    + "Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.")
     private String configFile;
 
     @Option(name = {"-s", "--skip-overwrite"}, title = "skip overwrite",
@@ -214,8 +219,15 @@ public class Generate implements Runnable {
             configurator.setInputSpec(spec);
         }
 
-        if (isNotEmpty(lang)) {
-            configurator.setLang(lang);
+        // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
+        if (isNotEmpty(generatorName)) {
+            configurator.setGeneratorName(generatorName);
+        } else if (isNotEmpty(lang)) {
+            LOGGER.warn("The '--lang' and '-l' are deprecated and may reference language names only in the next major release (4.0). Please use --generator-name /-g instead.");
+            configurator.setGeneratorName(lang);
+        } else {
+            LOGGER.error("A generator name (--generator-name / -g) is required. ");
+            System.exit(1);
         }
 
         if (isNotEmpty(output)) {

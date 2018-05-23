@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
-set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -l typescript-inversify -o samples\client\petstore\typescript-inversify
+set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g typescript-inversify -o samples\client\petstore\typescript-inversify
 
 java %JAVA_OPTS% -jar %executable% %ags%

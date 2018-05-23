@@ -28,7 +28,7 @@ fi
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
 # complex module name used for testing
-ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore-security-test.yaml  -l perl -o samples/client/petstore-security-test/perl"
+ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore-security-test.yaml  -l perl -o samples/client/petstore-security-test/perl $@"
 
 java $JAVA_OPTS -jar $executable $ags
 

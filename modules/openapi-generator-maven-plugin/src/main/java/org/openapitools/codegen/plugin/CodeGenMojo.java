@@ -49,6 +49,8 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Goal which generates client/server code from a OpenAPI json/yaml definition.
@@ -56,14 +58,23 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class CodeGenMojo extends AbstractMojo {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
+
     @Parameter(name = "verbose", required = false, defaultValue = "false")
     private boolean verbose;
 
     /**
      * Client language to generate.
      */
-    @Parameter(name = "language", required = true)
+    @Parameter(name = "language")
     private String language;
+
+
+    /**
+     * The name of the generator to use.
+     */
+    @Parameter(name = "generatorName")
+    private String generatorName;
 
     /**
      * Location of the output directory.
@@ -361,7 +372,23 @@ public class CodeGenMojo extends AbstractMojo {
             configurator.setIgnoreFileOverride(ignoreFileOverride);
         }
 
-        configurator.setLang(language);
+        // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
+        if (isNotEmpty(generatorName)) {
+            configurator.setGeneratorName(generatorName);
+
+            // check if generatorName & language are set together, inform user this needs to be updated to prevent future issues.
+            if (isNotEmpty(language)) {
+                LOGGER.warn("The 'language' option is deprecated and was replaced by 'generatorName'. Both can not be set together");
+                throw new MojoExecutionException("Illegal configuration: 'language' and  'generatorName' can not be set both, remove 'language' from your configuration");
+            }
+        } else if (isNotEmpty(language)) {
+            LOGGER.warn("The 'language' option is deprecated and may reference language names only in the next major release (4.0). Please use 'generatorName' instead.");
+            configurator.setGeneratorName(language);
+        } else {
+            LOGGER.error("A generator name (generatorName) is required.");
+            throw new MojoExecutionException("The generator requires 'generatorName'. Refer to documentation for a list of options.");
+        }
+
 
         configurator.setOutputDir(output.getAbsolutePath());
 
