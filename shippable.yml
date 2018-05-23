@@ -29,9 +29,7 @@ build:
     # test samples defined in pom.xml
     - mvn --quiet clean install -f CI/pom.xml.shippable
     # generate all petstore sampless (client, servers, doc)
-    - ./bin/ensure-up-to-date 2>&1 > run.log
+    - ./bin/ensure-up-to-date
     - mvn --quiet verify -P samples -f CI/pom.xml.shippable
     # generate all petstore sampless (client, servers, doc)
-    - ./bin/run-all-petstore 2>&1 > run.log
-  post_ci:
-    - tail run.log
+    - ./bin/run-all-petstore
