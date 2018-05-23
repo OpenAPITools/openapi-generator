@@ -53,7 +53,7 @@ public class GoModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "int64");
+        Assert.assertEquals(property1.dataType, "int64");
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int64");
@@ -63,7 +63,7 @@ public class GoModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
-        Assert.assertEquals(property2.datatype, "string");
+        Assert.assertEquals(property2.dataType, "string");
         Assert.assertEquals(property2.name, "Name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "string");
@@ -74,7 +74,7 @@ public class GoModelTest {
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.complexType, "time.Time");
-        Assert.assertEquals(property3.datatype, "time.Time");
+        Assert.assertEquals(property3.dataType, "time.Time");
         Assert.assertEquals(property3.name, "CreatedAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "time.Time");
@@ -100,7 +100,7 @@ public class GoModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "int64");
+        Assert.assertEquals(property1.dataType, "int64");
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int64");
@@ -110,7 +110,7 @@ public class GoModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
-        Assert.assertEquals(property2.datatype, "[]string");
+        Assert.assertEquals(property2.dataType, "[]string");
         Assert.assertEquals(property2.name, "Urls");
         Assert.assertEquals(property2.baseType, "array");
         Assert.assertFalse(property2.hasMore);
@@ -136,7 +136,7 @@ public class GoModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.datatype, "map[string]string");
+        Assert.assertEquals(property1.dataType, "map[string]string");
         Assert.assertEquals(property1.name, "Translations");
         Assert.assertEquals(property1.baseType, "map");
         Assert.assertEquals(property1.containerType, "map");
@@ -160,7 +160,7 @@ public class GoModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "Children");
+        Assert.assertEquals(property1.dataType, "Children");
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
@@ -182,7 +182,7 @@ public class GoModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "[]Children");
+        Assert.assertEquals(property1.dataType, "[]Children");
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "array");
         Assert.assertEquals(property1.containerType, "array");
@@ -208,7 +208,7 @@ public class GoModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.datatype, "map[string]Children");
+        Assert.assertEquals(property1.dataType, "map[string]Children");
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "map");
         Assert.assertEquals(property1.containerType, "map");

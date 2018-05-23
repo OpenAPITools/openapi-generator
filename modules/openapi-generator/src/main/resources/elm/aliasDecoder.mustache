@@ -1,5 +1,5 @@
 {{classVarName}}Decoder : Decoder {{classname}}
 {{classVarName}}Decoder =
-    {{#parent}}Decode.list {{vendorExtensions.x-decoder}}{{/parent}}{{^parent}}decode {{classname}}
+    decode {{classname}}
 {{#allVars}}{{^discriminatorValue}}        |> {{>fieldDecoder}}
-{{/discriminatorValue}}{{/allVars}}{{/parent}}
+{{/discriminatorValue}}{{/allVars}}

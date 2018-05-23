@@ -23,10 +23,15 @@ import javax.xml.bind.annotation.*;
 public class Pet   {
   
   private Long id = null;
+
   private Category category = null;
+
   private String name = null;
+
   private List<String> photoUrls = new ArrayList<String>();
-  private List<Tag> tags = new ArrayList<Tag>();
+
+  private List<Tag> tags = null;
+
 
 @XmlType(name="StatusEnum")
 @XmlEnum(String.class)
@@ -37,7 +42,7 @@ public enum StatusEnum {
 
     private String value;
 
-    StatusEnum (String v) {
+    StatusEnum(String v) {
         value = v;
     }
 
@@ -62,6 +67,7 @@ public enum StatusEnum {
 
   private StatusEnum status = null;
 
+
   /**
    **/
   public Pet id(Long id) {
@@ -79,6 +85,7 @@ public enum StatusEnum {
     this.id = id;
   }
 
+
   /**
    **/
   public Pet category(Category category) {
@@ -95,6 +102,7 @@ public enum StatusEnum {
   public void setCategory(Category category) {
     this.category = category;
   }
+
 
   /**
    **/
@@ -114,6 +122,7 @@ public enum StatusEnum {
     this.name = name;
   }
 
+
   /**
    **/
   public Pet photoUrls(List<String> photoUrls) {
@@ -132,6 +141,12 @@ public enum StatusEnum {
     this.photoUrls = photoUrls;
   }
 
+  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    this.photoUrls.add(photoUrlsItem);
+    return this;
+  }
+
+
   /**
    **/
   public Pet tags(List<Tag> tags) {
@@ -148,6 +163,15 @@ public enum StatusEnum {
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
+
+  public Pet addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<Tag>();
+    }
+    this.tags.add(tagsItem);
+    return this;
+  }
+
 
   /**
    * pet status in the store
@@ -166,6 +190,7 @@ public enum StatusEnum {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
+
 
 
   @Override

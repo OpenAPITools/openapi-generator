@@ -42,7 +42,7 @@ pub const API_VERSION: &'static str = "{{appVersion}}";
 pub enum {{operationId}}Response {
 {{#responses}}
 {{#message}}    /// {{message}}{{/message}}
-    {{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}} {{#dataType}}{{^headers}}( {{{dataType}}} ) {{/headers}}{{#headers}}{{#-first}}{ body: {{{dataType}}}{{/-first}}{{/headers}}{{/dataType}}{{#headers}}{{#-first}}{{^dataType}} { {{/dataType}}{{#dataType}}, {{/dataType}}{{/-first}}{{^-first}}, {{/-first}}{{name}}: {{{datatype}}}{{#-last}} } {{/-last}}{{/headers}},
+    {{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}} {{#dataType}}{{^headers}}( {{{dataType}}} ) {{/headers}}{{#headers}}{{#-first}}{ body: {{{dataType}}}{{/-first}}{{/headers}}{{/dataType}}{{#headers}}{{#-first}}{{^dataType}} { {{/dataType}}{{#dataType}}, {{/dataType}}{{/-first}}{{^-first}}, {{/-first}}{{name}}: {{{dataType}}}{{#-last}} } {{/-last}}{{/headers}},
 {{/responses}}
 }
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}

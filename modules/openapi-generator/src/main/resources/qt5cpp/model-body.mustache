@@ -203,12 +203,12 @@ QJsonObject
 }
 
 {{#vars}}
-{{{datatype}}}
+{{{dataType}}}
 {{classname}}::{{getter}}() {
     return {{name}};
 }
 void
-{{classname}}::{{setter}}({{{datatype}}} {{name}}) {
+{{classname}}::{{setter}}({{{dataType}}} {{name}}) {
     this->{{name}} = {{name}};
     this->m_{{name}}_isSet = true;
 }

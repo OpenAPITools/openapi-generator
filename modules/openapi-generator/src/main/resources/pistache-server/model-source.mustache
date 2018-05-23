@@ -99,7 +99,7 @@ void {{classname}}::fromJson(nlohmann::json& val)
         {{/isString}}{{^isString}}{{#isDateTime}}{{setter}}(val.at("{{baseName}}"));
         {{/isDateTime}}{{^isDateTime}}if(!val["{{baseName}}"].is_null())
         {
-            {{{datatype}}} newItem({{{defaultValue}}});
+            {{{dataType}}} newItem({{{defaultValue}}});
             newItem->fromJson(val["{{baseName}}"]);
             {{setter}}( newItem );
         }
@@ -111,15 +111,15 @@ void {{classname}}::fromJson(nlohmann::json& val)
 }
 
 
-{{#vars}}{{^isNotContainer}}{{{datatype}}}& {{classname}}::{{getter}}()
+{{#vars}}{{^isNotContainer}}{{{dataType}}}& {{classname}}::{{getter}}()
 {
     return m_{{name}};
 }
-{{/isNotContainer}}{{#isNotContainer}}{{{datatype}}} {{classname}}::{{getter}}() const
+{{/isNotContainer}}{{#isNotContainer}}{{{dataType}}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
 }
-void {{classname}}::{{setter}}({{{datatype}}} value)
+void {{classname}}::{{setter}}({{{dataType}}} value)
 {
     m_{{name}} = value;
     {{^required}}m_{{name}}IsSet = true;{{/required}}

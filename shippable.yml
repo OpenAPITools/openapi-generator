@@ -28,8 +28,8 @@ build:
     - mix --version
     # test samples defined in pom.xml
     - cp CI/pom.xml.shippable pom.xml
-    - mvn clean install
-    - mvn verify -P samples
+    - mvn --quiet clean install
+    - mvn --quiet verify -P samples
     # generate all petstore sampless (client, servers, doc)
     - ./bin/run-all-petstore 2>&1 > run-all-petstore.log
   post_ci:

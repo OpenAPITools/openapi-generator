@@ -20,7 +20,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   @SerializedName("{{baseName}}")
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{^isEnum}}
   @SerializedName("{{baseName}}")
-  private {{{datatype}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{/vars}}
+  private {{{dataType}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{/vars}}
 
   {{#vars}}
   /**{{#description}}

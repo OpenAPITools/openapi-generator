@@ -493,7 +493,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         String type = p.baseType;
         if (type == null) {
-            type = p.datatype;
+            type = p.dataType;
         }
 
         if (Boolean.TRUE.equals(p.isInteger)) {

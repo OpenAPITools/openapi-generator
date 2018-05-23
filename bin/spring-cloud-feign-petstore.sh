@@ -22,12 +22,12 @@ executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
 if [ ! -f "$executable" ]
 then
-  mvn clean package
+  mvn -B clean package
 fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -t modules/openapi-generator/src/main/resources/JavaSpring/libraries/spring-cloud -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g spring -c bin/spring-cloud-feign-petstore.json -o samples/client/petstore/spring-cloud -DhideGenerationTimestamp=true,responseWrapper=HystrixCommand"
+ags="generate -t modules/openapi-generator/src/main/resources/JavaSpring/libraries/spring-cloud -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l spring -c bin/spring-cloud-feign-petstore.json -o samples/client/petstore/spring-cloud -DhideGenerationTimestamp=true,responseWrapper=HystrixCommand $@"
 
 echo "Removing files and folders under samples/client/petstore/spring-cloud/src/main"
 rm -rf samples/client/petstore/spring-cloud/src/main

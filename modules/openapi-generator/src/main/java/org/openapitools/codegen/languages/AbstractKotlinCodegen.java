@@ -235,7 +235,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     /**
      * Sets the naming convention for Kotlin enum properties
      *
-     * @param enumPropertyNamingType The string representation of the naming convention, as defined by {@link CodegenConstants.ENUM_PROPERTY_NAMING_TYPE}
+     * @param enumPropertyNamingType The string representation of the naming convention, as defined by {@link org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE}
      */
     public void setEnumPropertyNaming(final String enumPropertyNamingType) {
         try {
@@ -421,8 +421,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (reservedWords.contains(modified)) {
             return escapeReservedWord(modified);
         }
-
-        return modified;
+        // NOTE: another sanitize because camelize can create an invalid name
+        return sanitizeKotlinSpecificNames(modified);
     }
 
     @Override
