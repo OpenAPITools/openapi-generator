@@ -36,7 +36,7 @@ public enum StatusEnum {
 
     private String value;
 
-    StatusEnum (String v) {
+    StatusEnum(String v) {
         value = v;
     }
 

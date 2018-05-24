@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M -DloggerPath=conf/log4j.properties
-set ags=generate -t modules\openapi-generator\src\main\resources\go -i modules\openapi-generator\src\test\resources\2_0\petstore-with-fake-endpoints-models-for-testing.yaml -l go -o samples\client\petstore\go\go-petstore -DpackageName=petstore
+set ags=generate -t modules\openapi-generator\src\main\resources\go -i modules\openapi-generator\src\test\resources\2_0\petstore-with-fake-endpoints-models-for-testing.yaml -g go -o samples\client\petstore\go\go-petstore -DpackageName=petstore
 
 java %JAVA_OPTS% -jar %executable% %ags%

@@ -5,12 +5,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Serialization;{{#useSwashbuckle}}
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using {{packageName}}.Filters;
+using {{packageName}}.Filters;{{/useSwashbuckle}}
 
 namespace {{packageName}}
 {
@@ -20,8 +19,7 @@ namespace {{packageName}}
     public class Startup
     {
         private readonly IHostingEnvironment _hostingEnv;
-
-        private IConfiguration Configuration { get; }
+        private readonly IConfiguration _configuration;
 
         /// <summary>
         /// Constructor
@@ -31,7 +29,7 @@ namespace {{packageName}}
         public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
             _hostingEnv = env;
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -46,10 +44,11 @@ namespace {{packageName}}
                 .AddJsonOptions(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    opts.SerializerSettings.Converters.Add(new StringEnumConverter {
+                    opts.SerializerSettings.Converters.Add(new StringEnumConverter
+                    {
                         CamelCaseText = true
                     });
-                });
+                });{{#useSwashbuckle}}
 
             services
                 .AddSwaggerGen(c =>
@@ -78,21 +77,19 @@ namespace {{packageName}}
                     // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                     c.OperationFilter<GeneratePathParamsValidationFilter>();
-                });
+                });{{/useSwashbuckle}}
         }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
         /// <param name="app"></param>
-        /// <param name="env"></param>
-        /// <param name="loggerFactory"></param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app)
         {
             app
                 .UseMvc()
                 .UseDefaultFiles()
-                .UseStaticFiles()
+                .UseStaticFiles(){{#useSwashbuckle}}
                 .UseSwagger(c =>
                 {
                     c.RouteTemplate = "swagger/{documentName}/openapi.json";
@@ -104,9 +101,9 @@ namespace {{packageName}}
 
                     //TODO: Or alternatively use the original Swagger contract that's included in the static files
                     // c.SwaggerEndpoint("/openapi-original.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} Original");
-                });
+                }){{/useSwashbuckle}};
 
-            if (env.IsDevelopment())
+            if (_hostingEnv.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }

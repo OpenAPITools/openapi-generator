@@ -27,7 +27,7 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate --artifact-id petstore-java-client-jersey1 -t modules/openapi-generator/src/main/resources/Java -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -l java -o samples/client/petstore/java/jersey1 -DhideGenerationTimestamp=true --library=jersey1"
+ags="generate --artifact-id petstore-java-client-jersey1 -t modules/openapi-generator/src/main/resources/Java -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g java -o samples/client/petstore/java/jersey1 -DhideGenerationTimestamp=true --library=jersey1 $@"
 
 echo "Removing files and folders under samples/client/petstore/java/jersey1/src/main"
 rm -rf samples/client/petstore/java/jersey1/src/main

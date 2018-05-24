@@ -10,14 +10,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
@@ -53,7 +46,6 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
-        
         /// <param name="user">List of user object</param>
         /// <response code="0">successful operation</response>
         [HttpPost]
@@ -72,7 +64,6 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
-        
         /// <param name="user">List of user object</param>
         /// <response code="0">successful operation</response>
         [HttpPost]
@@ -114,7 +105,6 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Get user by user name
         /// </summary>
-        
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid username supplied</response>
@@ -149,7 +139,6 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Logs user into the system
         /// </summary>
-        
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <response code="200">successful operation</response>
@@ -179,7 +168,6 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Logs out current logged in user session
         /// </summary>
-        
         /// <response code="0">successful operation</response>
         [HttpGet]
         [Route("/v2/user/logout")]

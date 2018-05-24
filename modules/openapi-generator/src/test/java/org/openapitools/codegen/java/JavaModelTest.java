@@ -1119,7 +1119,7 @@ public class JavaModelTest {
         Assert.assertTrue(new File(inputSpec).exists());
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setLang("java")
+                .setGeneratorName("java")
                 .setLibrary("jersey2")
                 //.addAdditionalProperty("withXml", true)
                 .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)

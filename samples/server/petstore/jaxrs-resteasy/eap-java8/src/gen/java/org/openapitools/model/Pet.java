@@ -16,10 +16,15 @@ import io.swagger.annotations.*;
 
 public class Pet   {
   
+
   private Long id = null;
+
   private Category category = null;
+
   private String name = null;
+
   private List<String> photoUrls = new ArrayList<>();
+
   private List<Tag> tags = new ArrayList<>();
 
   /**
@@ -43,6 +48,7 @@ public class Pet   {
       return String.valueOf(value);
     }
   }
+
 
   private StatusEnum status = null;
 
