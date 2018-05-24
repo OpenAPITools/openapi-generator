@@ -32,6 +32,6 @@ rm -Rf "samples/client/petstore/elixir/lib/swagger_petstore/lib/"
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-args="generate -t modules/openapi-generator/src/main/resources/elixir -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -l elixir -o samples/client/petstore/elixir/ --additional-properties invokerPackage=OpenapiPetstore $@"
+args="generate -t modules/openapi-generator/src/main/resources/elixir -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g elixir -o samples/client/petstore/elixir/ --additional-properties invokerPackage=OpenapiPetstore $@"
 
 java $JAVA_OPTS -jar $executable $args

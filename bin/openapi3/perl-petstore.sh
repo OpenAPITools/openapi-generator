@@ -28,6 +28,6 @@ fi
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
 # complex module name used for testing
-ags="$@ generate -i modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml  -l perl -o samples/client/petstore/perl -DhideGenerationTimestamp=true"
+ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml  -g perl -o samples/client/petstore/perl -DhideGenerationTimestamp=true $@"
 
 java $JAVA_OPTS -jar $executable $ags

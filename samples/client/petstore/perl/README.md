@@ -175,7 +175,7 @@ Your library files will be built under `WWW::MyProjectName`.
           $ mvn package
           $ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
     -i [URL or file path to JSON OpenAPI API spec] \
-    -l perl \
+    -g perl \
     -c /path/to/config/file.json \
     -o /path/to/output/folder
 
