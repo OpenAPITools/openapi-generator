@@ -13,7 +13,6 @@ sleep 5
 ./bin/ruby-petstore.sh
 ./bin/java-petstore-all.sh
 ./bin/spring-all-pestore.sh
-./bin/java-play-framework-petstore-server-all.sh
 
 # Check:
 if [ -n "$(git status --porcelain)" ]; then
