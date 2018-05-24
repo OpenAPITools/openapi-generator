@@ -7,5 +7,4 @@ import java.util.Optional;
 @Controller
 public class FakeApiController implements FakeApi {
 
-
 }
