@@ -26,7 +26,10 @@ import java.util.Map;
 
 @Api(value = "pet", description = "the pet API")
 public interface PetApi {
-    PetApiDelegate getDelegate();
+
+    default PetApiDelegate getDelegate() {
+        return new PetApiDelegate() {};
+    }
 
     @ApiOperation(value = "Add a new pet to the store", nickname = "addPet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {

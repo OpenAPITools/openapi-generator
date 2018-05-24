@@ -1,19 +1,20 @@
 package org.openapitools.api;
 
 import org.springframework.stereotype.Controller;
+import java.util.Optional;
 
 @Controller
 public class AnotherFakeApiController implements AnotherFakeApi {
 
     private final AnotherFakeApiDelegate delegate;
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public AnotherFakeApiController(AnotherFakeApiDelegate delegate) {
-        this.delegate = delegate;
+    public AnotherFakeApiController(@org.springframework.beans.factory.annotation.Autowired(required = false) AnotherFakeApiDelegate delegate) {
+        this.delegate = Optional.ofNullable(delegate).orElse(new AnotherFakeApiDelegate() {});
     }
 
     @Override
     public AnotherFakeApiDelegate getDelegate() {
         return delegate;
     }
+
 }

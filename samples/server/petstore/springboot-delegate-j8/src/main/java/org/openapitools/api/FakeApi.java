@@ -31,7 +31,10 @@ import java.util.Map;
 
 @Api(value = "fake", description = "the fake API")
 public interface FakeApi {
-    FakeApiDelegate getDelegate();
+
+    default FakeApiDelegate getDelegate() {
+        return new FakeApiDelegate() {};
+    }
 
     @ApiOperation(value = "", nickname = "fakeOuterBooleanSerialize", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
     @ApiResponses(value = { 

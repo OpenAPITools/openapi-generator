@@ -24,10 +24,10 @@ public class StoreApiController implements StoreApi {
 
     private final StoreApiDelegate delegate;
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public StoreApiController(StoreApiDelegate delegate) {
+    public StoreApiController(@org.springframework.beans.factory.annotation.Autowired(required = false) StoreApiDelegate delegate) {
         this.delegate = delegate;
     }
+
     public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
         return delegate.deleteOrder(orderId);
     }
