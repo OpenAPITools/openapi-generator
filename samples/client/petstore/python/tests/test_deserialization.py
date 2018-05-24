@@ -71,6 +71,21 @@ class DeserializationTests(unittest.TestCase):
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['pet'], petstore_api.Pet))
 
+    def test_deserialize_dict_str_dog(self):
+        """ deserialize dict(str, Dog), use discriminator"""
+        data = {
+            'dog': {
+                "id": 0,
+                "className": "Dog",
+                "color": "white",
+                "bread": "Jack Russel Terrier"
+            }
+        }
+
+        deserialized = self.deserialize(data, 'dict(str, Animal)')
+        self.assertTrue(isinstance(deserialized, dict))
+        self.assertTrue(isinstance(deserialized['dog'], petstore_api.Dog))
+
     def test_deserialize_dict_str_int(self):
         """ deserialize dict(str, int) """
         data = {
