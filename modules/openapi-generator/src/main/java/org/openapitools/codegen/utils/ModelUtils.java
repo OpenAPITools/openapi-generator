@@ -149,16 +149,14 @@ public class ModelUtils {
     }
 
     /**
-                                    if (!"application/x-www-form-urlencoded".equalsIgnoreCase(mimeType) && 
-                                        !"multipart/form-data".equalsIgnoreCase(mimeType)) {
-                                    // remove the schema that's automatically created by the parser
-                                    MediaType mediaType = requestBody.getContent().get(mimeType);
-                                    if (mediaType.getSchema() != null && mediaType.getSchema().get$ref() != null) {
-                                        unusedSchemas.remove(getSimpleRef(mediaType.getSchema().get$ref()));
-                                    }
-                                }
+     * Private method used by several methods ({@link #getAllUsedSchemas(OpenAPI)},
+     * {@link #getUnusedSchemas(OpenAPI)},
+     * {@link #getSchemasUsedOnlyInFormParam(OpenAPI)}, ...) to traverse all paths of an
+     * OpenAPI instance and call the visitor functional interface when a schema is found.
+     * 
+     * @param openAPI specification
+     * @param visitor functional interface (can be defined as a lambda) called each time a schema is found.
      */
-
     private static void visitOpenAPI(OpenAPI openAPI, OpenAPISchemaVisitor visitor) {
         Map<String, PathItem> paths = openAPI.getPaths();
 
