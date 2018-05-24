@@ -14,7 +14,7 @@
 module Request.User exposing (createUser, createUsersWithArrayInput, createUsersWithListInput, deleteUser, getUserByName, loginUser, logoutUser, updateUser)
 
 import Data.User exposing (User, userDecoder, userEncoder)
-import Data.String exposing (Decode.string, String)
+import Dict
 import Http
 import Json.Decode as Decode
 

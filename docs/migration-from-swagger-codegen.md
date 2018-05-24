@@ -4,6 +4,27 @@ OpenAPI Generator is a fork of `swagger-codegen` between version `2.3.1` and `2.
 This community-driven version called "OpenAPI Generator" provides similar functionalities and can be used as drop-in replacement.
 This guide explains the major differences in order to help you with the migration.
 
+### New docker images
+
+The docker images are available on DockerHub: https://hub.docker.com/u/openapitools/
+
+**CLI for OpenAPI Generator**
+
+Image to run OpenAPI Generator in the command line (see [OpenAPI Generator CLI Docker Image](../README.md#openapi-generator-cli-docker-image))
+
+Old: `swaggerapi/swagger-codegen-cli`
+
+New: `openapitools/openapi-generator-cli`
+
+**OpenAPI Generator as web service**
+
+Image to run OpenAPI Generator as a web service (see [OpenAPI Generator Online Docker Image](../README.md#openapi-generator-online-docker-image))
+
+Old: `swaggerapi/swagger-generator`
+
+New: `openapitools/openapi-generator-online`
+
+
 ### New maven coordinates
 
 You can find our released artefact on maven central:
@@ -64,10 +85,16 @@ New:
 </dependency>
 ```
 
+### Changes in Maven Plugin
+
+OpenAPI Generator 3.0.0 has introduced `<generatorName>` and deprecated `<language>`, because this refers to generator names which embed more than just "language".
+
+If both options are present, you'll be presented with an error. If only `<language>` is provided, you'll be presented instructions for updating to the new config.
+
 
 ### New generators names
 
-When you run OpenAPI Generator, you need to select a target language (`-l` option in the cli).
+When you run OpenAPI Generator, you need to select a target generator (`-g` option in the cli).
 All languages of `swagger-codegen` have been migrated to `openapi-generator`, but some names were changed, in order to be more consistent.
 
 | name in `swagger-codegen` | name in `openapi-generator`  |
@@ -85,6 +112,7 @@ All languages of `swagger-codegen` have been migrated to `openapi-generator`, bu
 | `ze-ph` | `php-ze-ph` |
 | `nancyfx` | `csharp-nancyfx` |
 
+We provide a temporary mapping in code for these old values. You'll receive a warning with instructions to migrate to the new names.
 
 ### New parameters name
 
@@ -98,6 +126,12 @@ Some examples:
 | `GenerateSwaggerMetadata` | `GenerateOpenAPIMetadata` |
 | `swagger.codegen.undertow.apipackage` | `openapi.codegen.undertow.apipackage` |
 | `swagger.codegen.undertow.modelpackage` | `openapi.codegen.undertow.modelpackage` |
+
+
+### Renamed Mustache Template Variables 
+
+The template variable `{{datatype}}` was renamed to `{{dataType}}` for consistency reason.
+Corresponding java code: `CodegenProperty.datatype` is renamed to `CodegenProperty.datatype`.
 
 
 ### Ignore file

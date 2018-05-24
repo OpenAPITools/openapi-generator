@@ -25,10 +25,10 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
 
     private final FakeClassnameTestApiDelegate delegate;
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public FakeClassnameTestApiController(FakeClassnameTestApiDelegate delegate) {
+    public FakeClassnameTestApiController(@org.springframework.beans.factory.annotation.Autowired(required = false) FakeClassnameTestApiDelegate delegate) {
         this.delegate = delegate;
     }
+
     public ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
         return delegate.testClassname(client);
     }

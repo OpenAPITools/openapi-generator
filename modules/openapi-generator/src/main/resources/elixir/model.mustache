@@ -11,7 +11,7 @@
   ]
 
   @type t :: %__MODULE__{
-    {{#vars}}:"{{baseName}}" => {{{datatype}}}{{#hasMore}},
+    {{#vars}}:"{{baseName}}" => {{{dataType}}}{{#hasMore}},
     {{/hasMore}}{{/vars}}
   }
 end
@@ -23,7 +23,7 @@ defimpl Poison.Decoder, for: {{moduleName}}.Model.{{classname}} do
     value
     {{#vars}}
     {{^isPrimitiveType}}
-    {{#datatype}}|> deserialize(:"{{baseName}}", {{#isListContainer}}:list, {{moduleName}}.Model.{{items.datatype}}{{/isListContainer}}{{#isMapContainer}}:map, {{moduleName}}.Model.{{items.datatype}}{{/isMapContainer}}{{#isDate}}:date, nil{{/isDate}}{{#isDateTime}}:date, nil{{/isDateTime}}{{^isDate}}{{^isDateTime}}{{^isMapContainer}}{{^isListContainer}}:struct, {{moduleName}}.Model.{{datatype}}{{/isListContainer}}{{/isMapContainer}}{{/isDateTime}}{{/isDate}}, options)
+    {{#datatype}}|> deserialize(:"{{baseName}}", {{#isListContainer}}:list, {{moduleName}}.Model.{{items.datatype}}{{/isListContainer}}{{#isMapContainer}}:map, {{moduleName}}.Model.{{items.datatype}}{{/isMapContainer}}{{#isDate}}:date, nil{{/isDate}}{{#isDateTime}}:date, nil{{/isDateTime}}{{^isDate}}{{^isDateTime}}{{^isMapContainer}}{{^isListContainer}}:struct, {{moduleName}}.Model.{{dataType}}{{/isListContainer}}{{/isMapContainer}}{{/isDateTime}}{{/isDate}}, options)
     {{/datatype}}
     {{/isPrimitiveType}}
     {{/vars}}

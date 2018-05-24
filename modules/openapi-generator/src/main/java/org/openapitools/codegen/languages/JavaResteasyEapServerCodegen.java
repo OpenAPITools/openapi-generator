@@ -17,19 +17,20 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
+
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.languages.features.JbossFeature;
+import org.openapitools.codegen.languages.features.SwaggerFeatures;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.JbossFeature;
-import org.openapitools.codegen.languages.features.SwaggerFeatures;
-import io.swagger.v3.oas.models.*;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 
 public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         implements JbossFeature, BeanValidationFeatures, SwaggerFeatures {
@@ -126,7 +127,7 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
             basePath = basePath.substring(0, pos);
         }
 
-        if (StringUtils.isEmpty("")) {
+        if (StringUtils.isEmpty(basePath)) {
             basePath = "default";
         } else {
             if (co.path.startsWith("/" + basePath)) {

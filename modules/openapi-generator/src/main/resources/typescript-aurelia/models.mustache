@@ -18,7 +18,7 @@ export type {{{classname}}} = {{#allowableValues}}{{#values}}'{{{.}}}'{{^-last}}
    * {{{description}}}
    */
 {{/description}}
-  {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+  {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
 {{/vars}}
 {{^isEnum}}
 }

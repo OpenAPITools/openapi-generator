@@ -19,13 +19,21 @@ import javax.xml.bind.annotation.*;
 public class User   {
   
   private Long id = null;
+
   private String username = null;
+
   private String firstName = null;
+
   private String lastName = null;
+
   private String email = null;
+
   private String password = null;
+
   private String phone = null;
+
   private Integer userStatus = null;
+
 
   /**
    **/
@@ -44,6 +52,7 @@ public class User   {
     this.id = id;
   }
 
+
   /**
    **/
   public User username(String username) {
@@ -60,6 +69,7 @@ public class User   {
   public void setUsername(String username) {
     this.username = username;
   }
+
 
   /**
    **/
@@ -78,6 +88,7 @@ public class User   {
     this.firstName = firstName;
   }
 
+
   /**
    **/
   public User lastName(String lastName) {
@@ -94,6 +105,7 @@ public class User   {
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
+
 
   /**
    **/
@@ -112,6 +124,7 @@ public class User   {
     this.email = email;
   }
 
+
   /**
    **/
   public User password(String password) {
@@ -128,6 +141,7 @@ public class User   {
   public void setPassword(String password) {
     this.password = password;
   }
+
 
   /**
    **/
@@ -146,6 +160,7 @@ public class User   {
     this.phone = phone;
   }
 
+
   /**
    * User Status
    **/
@@ -163,6 +178,7 @@ public class User   {
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
+
 
 
   @Override

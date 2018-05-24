@@ -10,9 +10,9 @@
     {{/-last}}
     {{/enumVars}}
     {{/allowableValues}}
-    private {{datatype}} value;
+    private {{dataType}} value;
 
-    {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}({{datatype}} value) {
+    {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}({{dataType}} value) {
       this.value = value;
     }
 

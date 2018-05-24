@@ -19,7 +19,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
             </goals>
             <configuration>
                 <inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
-                <language>java</language>
+                <generatorName>java</generatorName>
                 <configOptions>
                    <sourceFolder>src/gen/java/main</sourceFolder>
                 </configOptions>
@@ -38,7 +38,8 @@ mvn clean compile
 ### General Configuration parameters
 
 - `inputSpec` - OpenAPI Spec file path
-- `language` - target generation language
+- `language` - target generation language (deprecated, replaced by `generatorName` as values here don't represent only 'language' any longer)
+- `generatorName` - target generator name
 - `output` - target output path (default is `${project.build.directory}/generated-sources/swagger`)
 - `templateDirectory` - directory with mustache templates
 - `addCompileSourceRoot` - add the output directory to the project as a source root (`true` by default)
@@ -78,7 +79,7 @@ Specifying a custom generator is a bit different. It doesn't support the classpa
             <configuration>
                 <inputSpec>${project.basedir}/src/main/resources/yaml/yamlfilename.yaml</inputSpec>
                 <!-- language file, like e.g. JavaJaxRSCodegen -->
-                <language>com.my.package.for.GeneratorLanguage</language>
+                <generatorName>com.my.package.for.GeneratorLanguage</generatorName>
                 <templateDirectory>myTemplateDir</templateDirectory>
 
                 <output>${project.build.directory}/generated-sources</output>

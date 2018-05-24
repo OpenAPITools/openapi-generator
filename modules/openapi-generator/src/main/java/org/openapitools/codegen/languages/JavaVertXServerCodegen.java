@@ -106,7 +106,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
     /**
      * Configures a friendly name for the generator. This will be used by the generator to select
-     * the library with the -l flag.
+     * the library with the -g flag.
      *
      * @return the friendly name for the generator
      */

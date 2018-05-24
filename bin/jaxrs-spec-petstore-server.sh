@@ -27,8 +27,8 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate --artifact-id jaxrs-spec-petstore-server -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -l jaxrs-spec -o samples/server/petstore/jaxrs-spec 
+ags="generate --artifact-id jaxrs-spec-petstore-server -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g jaxrs-spec -o samples/server/petstore/jaxrs-spec
 -DhideGenerationTimestamp=true
--DserializableModel=true"
+-DserializableModel=true $@"
 
 java $JAVA_OPTS -jar $executable $ags

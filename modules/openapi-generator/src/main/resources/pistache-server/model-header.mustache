@@ -43,9 +43,9 @@ public:
     /// <summary>
     /// {{description}}
     /// </summary>
-    {{^isNotContainer}}{{{datatype}}}& {{getter}}();
-    {{/isNotContainer}}{{#isNotContainer}}{{{datatype}}} {{getter}}() const;
-    void {{setter}}({{{datatype}}} value);
+    {{^isNotContainer}}{{{dataType}}}& {{getter}}();
+    {{/isNotContainer}}{{#isNotContainer}}{{{dataType}}} {{getter}}() const;
+    void {{setter}}({{{dataType}}} value);
     {{/isNotContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();
     {{/required}}
@@ -53,7 +53,7 @@ public:
 
 protected:
     {{#vars}}
-    {{{datatype}}} m_{{name}};
+    {{{dataType}}} m_{{name}};
     {{^required}}
     bool m_{{name}}IsSet;{{/required}}
     {{/vars}}

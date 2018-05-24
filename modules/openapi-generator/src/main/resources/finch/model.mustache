@@ -16,7 +16,7 @@ import {{packageName}}._
  * @param {{name}} {{{description}}}
 {{/vars}}
  */
-case class {{classname}}({{#vars}}{{name}}: {{^required}}Option[{{{datatype}}}]{{/required}}{{#required}}{{{datatype}}}{{/required}}{{^-last}},{{/-last}}
+case class {{classname}}({{#vars}}{{name}}: {{^required}}Option[{{{dataType}}}]{{/required}}{{#required}}{{{dataType}}}{{/required}}{{^-last}},{{/-last}}
                 {{/vars}})
 
 object {{classname}} {

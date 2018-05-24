@@ -96,7 +96,7 @@ instance Arbitrary {{classname}} where
   arbitrary =
     {{#isAlias}}{{classname}} <$> arbitrary{{/isAlias}}{{^isAlias}}{{^hasVars}}
     pure {{/hasVars}}{{classname}}
-    {{#hasVars}}  <$>{{/hasVars}} {{#vars}}arbitrary -- {{name}} :: {{^required}}Maybe {{/required}}{{datatype}}
+    {{#hasVars}}  <$>{{/hasVars}} {{#vars}}arbitrary -- {{name}} :: {{^required}}Maybe {{/required}}{{dataType}}
     {{#hasMore}}  <*> {{/hasMore}}{{/vars}}{{/isAlias}}
 {{/isEnum}}
 {{/model}}

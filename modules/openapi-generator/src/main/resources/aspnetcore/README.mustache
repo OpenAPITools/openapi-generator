@@ -21,7 +21,7 @@ build.bat
 ## Run in Docker
 
 ```
-cd src/{{packageName}}
+cd {{sourceFolder}}/{{packageName}}
 docker build -t {{dockerTag}} .
 docker run -p 5000:5000 {{dockerTag}}
 ```

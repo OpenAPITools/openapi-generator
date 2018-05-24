@@ -37,7 +37,7 @@ data class Pet (
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(val value: kotlin.Any){
+    enum class Status(val value: kotlin.String){
     
         available("available"),
     

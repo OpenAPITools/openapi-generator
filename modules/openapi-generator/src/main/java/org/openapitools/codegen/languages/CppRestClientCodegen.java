@@ -69,7 +69,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
 
     /**
      * Configures a friendly name for the generator. This will be used by the
-     * generator to select the library with the -l flag.
+     * generator to select the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -241,7 +241,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
                 if (response != null) {
                     CodegenProperty cm = fromProperty("response", response);
                     op.vendorExtensions.put("x-codegen-response", cm);
-                    if ("HttpContent".equals(cm.datatype)) {
+                    if ("HttpContent".equals(cm.dataType)) {
                         op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
                     }
                 }

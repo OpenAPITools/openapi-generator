@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
@@ -29,8 +28,7 @@ namespace Org.OpenAPITools
     public class Startup
     {
         private readonly IHostingEnvironment _hostingEnv;
-
-        private IConfiguration Configuration { get; }
+        private readonly IConfiguration _configuration;
 
         /// <summary>
         /// Constructor
@@ -40,7 +38,7 @@ namespace Org.OpenAPITools
         public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
             _hostingEnv = env;
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -55,7 +53,8 @@ namespace Org.OpenAPITools
                 .AddJsonOptions(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    opts.SerializerSettings.Converters.Add(new StringEnumConverter {
+                    opts.SerializerSettings.Converters.Add(new StringEnumConverter
+                    {
                         CamelCaseText = true
                     });
                 });
@@ -92,9 +91,7 @@ namespace Org.OpenAPITools
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
         /// <param name="app"></param>
-        /// <param name="env"></param>
-        /// <param name="loggerFactory"></param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app)
         {
             app
                 .UseMvc()
@@ -113,7 +110,7 @@ namespace Org.OpenAPITools
                     // c.SwaggerEndpoint("/openapi-original.json", "OpenAPI Petstore Original");
                 });
 
-            if (env.IsDevelopment())
+            if (_hostingEnv.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }

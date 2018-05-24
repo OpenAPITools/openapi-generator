@@ -27,10 +27,10 @@ public class PetApiController implements PetApi {
 
     private final PetApiDelegate delegate;
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public PetApiController(PetApiDelegate delegate) {
+    public PetApiController(@org.springframework.beans.factory.annotation.Autowired(required = false) PetApiDelegate delegate) {
         this.delegate = delegate;
     }
+
     public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
         return delegate.addPet(pet);
     }

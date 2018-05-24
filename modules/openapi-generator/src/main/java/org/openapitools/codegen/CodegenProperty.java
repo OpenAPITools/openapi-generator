@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CodegenProperty implements Cloneable {
-    public String baseName, complexType, getter, setter, description, datatype,
+    public String baseName, complexType, getter, setter, description, dataType,
           datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
           baseType, containerType, title;
 
@@ -63,6 +63,7 @@ public class CodegenProperty implements Cloneable {
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
+    public CodegenProperty mostInnerItems;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
     public boolean isInherited;
@@ -121,12 +122,21 @@ public class CodegenProperty implements Cloneable {
         this.description = description;
     }
 
+    /**
+     * @deprecated since version 3.0.0, use {@link #getDataType()} instead.<br>
+     * May be removed with the next major release (4.0)
+     */
+    @Deprecated
     public String getDatatype() {
-        return datatype;
+        return getDataType();
+    }
+
+    public String getDataType() {
+        return dataType;
     }
 
     public void setDatatype(String datatype) {
-        this.datatype = datatype;
+        this.dataType = datatype;
     }
 
     public String getDatatypeWithEnum() {
@@ -408,7 +418,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((baseType == null) ? 0 : baseType.hashCode());
         result = prime * result + ((complexType == null) ? 0 : complexType.hashCode());
         result = prime * result + ((containerType == null) ? 0 : containerType.hashCode());
-        result = prime * result + ((datatype == null) ? 0 : datatype.hashCode());
+        result = prime * result + ((dataType == null) ? 0 : dataType.hashCode());
         result = prime * result + ((datatypeWithEnum == null) ? 0 : datatypeWithEnum.hashCode());
         result = prime * result + ((dataFormat == null) ? 0 : dataFormat.hashCode());
         result = prime * result + ((defaultValue == null) ? 0 : defaultValue.hashCode());
@@ -427,6 +437,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((isPrimitiveType  ? 13:31));
         result = prime * result + ((isReadOnly  ? 13:31));
         result = prime * result + ((items == null) ? 0 : items.hashCode());
+        result = prime * result + ((mostInnerItems == null) ? 0 : mostInnerItems.hashCode());
         result = prime * result + ((jsonSchema == null) ? 0 : jsonSchema.hashCode());
         result = prime * result + ((max == null) ? 0 : max.hashCode());
         result = prime * result + ((maxLength == null) ? 0 : maxLength.hashCode());
@@ -500,7 +511,7 @@ public class CodegenProperty implements Cloneable {
         if ((this.title == null) ? (other.title != null) : !this.title.equals(other.title)) {
             return false;
         }
-        if ((this.datatype == null) ? (other.datatype != null) : !this.datatype.equals(other.datatype)) {
+        if ((this.dataType == null) ? (other.dataType != null) : !this.dataType.equals(other.dataType)) {
             return false;
         }
         if ((this.datatypeWithEnum == null) ? (other.datatypeWithEnum != null) : !this.datatypeWithEnum.equals(other.datatypeWithEnum)) {
@@ -691,6 +702,9 @@ public class CodegenProperty implements Cloneable {
             if (this.items != null) {
                 cp.items = this.items;
             }
+            if (this.mostInnerItems != null) {
+                cp.mostInnerItems = this.mostInnerItems;
+            }
             if(this.vendorExtensions != null){
                 cp.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
             }
@@ -708,7 +722,7 @@ public class CodegenProperty implements Cloneable {
                 ", getter='" + getter + '\'' +
                 ", setter='" + setter + '\'' +
                 ", description='" + description + '\'' +
-                ", datatype='" + datatype + '\'' +
+                ", datatype='" + dataType + '\'' +
                 ", datatypeWithEnum='" + datatypeWithEnum + '\'' +
                 ", dataFormat='" + dataFormat + '\'' +
                 ", name='" + name + '\'' +
@@ -757,6 +771,7 @@ public class CodegenProperty implements Cloneable {
                 ", _enum=" + _enum +
                 ", allowableValues=" + allowableValues +
                 ", items=" + items +
+                ", mostInnerItems=" + mostInnerItems +
                 ", vendorExtensions=" + vendorExtensions +
                 ", hasValidation=" + hasValidation +
                 ", isInherited=" + isInherited +
