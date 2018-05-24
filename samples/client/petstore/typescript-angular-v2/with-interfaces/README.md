@@ -1,8 +1,8 @@
-## @
+## @swagger/angular2-typescript-petstore@0.0.1
 
 ### Building
 
-To build an compile the typescript sources to javascript use:
+To install the required dependencies and to build the typescript sources run:
 ```
 npm install
 npm run build
@@ -14,15 +14,15 @@ First build the package than run ```npm publish```
 
 ### consuming
 
-navigate to the folder of your consuming project and run one of next commando's.
+Navigate to the folder of your consuming project and run one of next commands.
 
 _published:_
 
 ```
-npm install @ --save
+npm install @swagger/angular2-typescript-petstore@0.0.1 --save
 ```
 
-_unPublished (not recommended):_
+_without publishing (not recommended):_
 
 ```
 npm install PATH_TO_GENERATED_PACKAGE --save
@@ -37,15 +37,22 @@ npm link
 
 In your project:
 ```
-npm link @
+npm link @swagger/angular2-typescript-petstore
 ```
+
+__Note for Windows users:__ The Angular CLI has troubles to use linked npm packages.
+Please refer to this issue https://github.com/angular/angular-cli/issues/8284 for a solution / workaround.
+Published packages are not effected by this issue.
+
+
+#### General usage
 
 In your Angular project:
 
 
 ```
 // without configuring providers
-import { ApiModule } from '';
+import { ApiModule } from '@swagger/angular2-typescript-petstore';
 
 import { HttpModule } from '@angular/http';
 
@@ -63,7 +70,7 @@ export class AppModule {}
 
 ```
 // configuring providers
-import { ApiModule, Configuration, ConfigurationParameters } from '';
+import { ApiModule, Configuration, ConfigurationParameters } from '@swagger/angular2-typescript-petstore';
 
 export function apiConfigFactory (): Configuration => {
   const params: ConfigurationParameters = {
@@ -82,7 +89,7 @@ export class AppModule {}
 ```
 
 ```
-import { DefaultApi } from '';
+import { DefaultApi } from '@swagger/angular2-typescript-petstore';
 
 export class AppComponent {
 	 constructor(private apiGateway: DefaultApi) { }
@@ -92,8 +99,8 @@ export class AppComponent {
 Note: The ApiModule is restricted to being instantiated once app wide.
 This is to ensure that all services are treated as singletons.
 
-#### Using multiple swagger files / APIs / ApiModules
-In order to use multiple `ApiModules` generated from different swagger files,
+#### Using multiple OpenAPI files / APIs / ApiModules
+In order to use multiple `ApiModules` generated from different OpenAPI files,
 you can create an alias name when importing the modules
 in order to avoid naming conflicts:
 ```
@@ -119,7 +126,7 @@ export class AppModule {
 If different than the generated base path, during app bootstrap, you can provide the base path to your service. 
 
 ```
-import { BASE_PATH } from '';
+import { BASE_PATH } from '@swagger/angular2-typescript-petstore';
 
 bootstrap(AppComponent, [
     { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
@@ -128,7 +135,7 @@ bootstrap(AppComponent, [
 or
 
 ```
-import { BASE_PATH } from '';
+import { BASE_PATH } from '@swagger/angular2-typescript-petstore';
 
 @NgModule({
     imports: [],
@@ -152,7 +159,7 @@ export const environment = {
 
 In the src/app/app.module.ts:
 ```
-import { BASE_PATH } from '';
+import { BASE_PATH } from '@swagger/angular2-typescript-petstore';
 import { environment } from '../environments/environment';
 
 @NgModule({
