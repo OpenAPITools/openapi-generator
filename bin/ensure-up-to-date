@@ -13,6 +13,10 @@ sleep 5
 ./bin/ruby-petstore.sh
 ./bin/java-petstore-all.sh
 ./bin/spring-all-pestore.sh
+./bin/kotlin-client-petstore.sh
+./bin/kotlin-client-string.sh
+./bin/kotlin-client-threetenbp.sh
+./bin/kotlin-server-petstore.sh
 
 # Check:
 if [ -n "$(git status --porcelain)" ]; then
