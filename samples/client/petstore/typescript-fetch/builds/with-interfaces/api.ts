@@ -14,7 +14,7 @@
 
 
 import * as url from "url";
-import * as portableFetch from "portable-fetch";
+import portableFetch from "portable-fetch";
 import { Configuration } from "./configuration";
 
 const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
@@ -55,7 +55,7 @@ export interface FetchArgs {
  * @class BaseAPI
  */
 export class BaseAPI {
-    protected configuration: Configuration;
+    protected configuration: Configuration | undefined;
 
     constructor(configuration?: Configuration, protected basePath: string = BASE_PATH, protected fetch: FetchAPI = portableFetch) {
         if (configuration) {
@@ -72,7 +72,7 @@ export class BaseAPI {
  * @extends {Error}
  */
 export class RequiredError extends Error {
-    name: "RequiredError"
+    name: "RequiredError" = "RequiredError";
     constructor(public field: string, msg?: string) {
         super(msg);
     }
@@ -178,9 +178,9 @@ export namespace Order {
      * @enum {string}
      */
     export enum StatusEnum {
-        Placed = <any> 'placed',
-        Approved = <any> 'approved',
-        Delivered = <any> 'delivered'
+        Placed = 'placed',
+        Approved = 'approved',
+        Delivered = 'delivered'
     }
 }
 
@@ -238,9 +238,9 @@ export namespace Pet {
      * @enum {string}
      */
     export enum StatusEnum {
-        Available = <any> 'available',
-        Pending = <any> 'pending',
-        Sold = <any> 'sold'
+        Available = 'available',
+        Pending = 'pending',
+        Sold = 'sold'
     }
 }
 
