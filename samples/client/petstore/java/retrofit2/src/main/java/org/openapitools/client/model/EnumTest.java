@@ -23,6 +23,7 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import org.openapitools.client.model.OuterEnum;
 
 /**
  * EnumTest
@@ -237,58 +238,9 @@ public class EnumTest {
   @SerializedName(SERIALIZED_NAME_ENUM_NUMBER)
   private EnumNumberEnum enumNumber = null;
 
-  /**
-   * Gets or Sets outerEnum
-   */
-  @JsonAdapter(OuterEnumEnum.Adapter.class)
-  public enum OuterEnumEnum {
-    PLACED("placed"),
-    
-    APPROVED("approved"),
-    
-    DELIVERED("delivered");
-
-    private String value;
-
-    OuterEnumEnum(String value) {
-      this.value = value;
-    }
-
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    public static OuterEnumEnum fromValue(String text) {
-      for (OuterEnumEnum b : OuterEnumEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-
-    public static class Adapter extends TypeAdapter<OuterEnumEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final OuterEnumEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public OuterEnumEnum read(final JsonReader jsonReader) throws IOException {
-        String value = jsonReader.nextString();
-        return OuterEnumEnum.fromValue(String.valueOf(value));
-      }
-    }
-  }
-
   public static final String SERIALIZED_NAME_OUTER_ENUM = "outerEnum";
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
-  private OuterEnumEnum outerEnum = null;
+  private OuterEnum outerEnum = null;
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -362,7 +314,7 @@ public class EnumTest {
     this.enumNumber = enumNumber;
   }
 
-  public EnumTest outerEnum(OuterEnumEnum outerEnum) {
+  public EnumTest outerEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
     return this;
   }
@@ -372,11 +324,11 @@ public class EnumTest {
    * @return outerEnum
   **/
   @ApiModelProperty(value = "")
-  public OuterEnumEnum getOuterEnum() {
+  public OuterEnum getOuterEnum() {
     return outerEnum;
   }
 
-  public void setOuterEnum(OuterEnumEnum outerEnum) {
+  public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
 

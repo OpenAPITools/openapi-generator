@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -35,7 +36,7 @@ public class Pet {
   private Long id = null;
 
   @JsonProperty("category")
-  private Object category = null;
+  private Category category = null;
 
   @JsonProperty("name")
   private String name = null;
@@ -104,7 +105,7 @@ public class Pet {
     this.id = id;
   }
 
-  public Pet category(Object category) {
+  public Pet category(Category category) {
     this.category = category;
     return this;
   }
@@ -113,12 +114,13 @@ public class Pet {
    * Get category
    * @return category
   **/
+  @Valid
   @ApiModelProperty(value = "")
-  public Object getCategory() {
+  public Category getCategory() {
     return category;
   }
 
-  public void setCategory(Object category) {
+  public void setCategory(Category category) {
     this.category = category;
   }
 

@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 
 /**
@@ -38,7 +39,7 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_CATEGORY = "category";
   @SerializedName(SERIALIZED_NAME_CATEGORY)
-  private Object category = null;
+  private Category category = null;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -123,7 +124,7 @@ public class Pet {
     this.id = id;
   }
 
-  public Pet category(Object category) {
+  public Pet category(Category category) {
     this.category = category;
     return this;
   }
@@ -133,11 +134,11 @@ public class Pet {
    * @return category
   **/
   @ApiModelProperty(value = "")
-  public Object getCategory() {
+  public Category getCategory() {
     return category;
   }
 
-  public void setCategory(Object category) {
+  public void setCategory(Category category) {
     this.category = category;
   }
 

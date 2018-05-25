@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
@@ -40,9 +41,9 @@ public class Pet {
   private Long id = null;
 
   @JsonProperty("category")
-  @JacksonXmlProperty(localName = "Category")
-  @XmlElement(name = "Category")
-  private Object category = null;
+  @JacksonXmlProperty(localName = "category")
+  @XmlElement(name = "category")
+  private Category category = null;
 
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
@@ -129,7 +130,7 @@ public class Pet {
     this.id = id;
   }
 
-  public Pet category(Object category) {
+  public Pet category(Category category) {
     this.category = category;
     return this;
   }
@@ -139,11 +140,11 @@ public class Pet {
    * @return category
   **/
   @ApiModelProperty(value = "")
-  public Object getCategory() {
+  public Category getCategory() {
     return category;
   }
 
-  public void setCategory(Object category) {
+  public void setCategory(Category category) {
     this.category = category;
   }
 

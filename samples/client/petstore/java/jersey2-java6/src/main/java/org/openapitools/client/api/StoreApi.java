@@ -53,7 +53,7 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> deleteOrderWithHttpInfo(String orderId) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
@@ -104,7 +104,7 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Map<String, Integer>> getInventoryWithHttpInfo() throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // create path and map variables
     String localVarPath = "/store/inventory";
@@ -151,7 +151,7 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Order> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
     if (orderId == null) {

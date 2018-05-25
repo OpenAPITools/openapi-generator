@@ -161,7 +161,7 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    */
   public void deleteUser(String username) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'username' is set
     if (username == null) {
@@ -203,7 +203,7 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    */
   public User getUserByName(String username) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'username' is set
     if (username == null) {
@@ -246,7 +246,7 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    */
   public String loginUser(String username, String password) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'username' is set
     if (username == null) {
@@ -292,7 +292,7 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    */
   public void logoutUser() throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // create path and map variables
     String localVarPath = "/user/logout".replaceAll("\\{format\\}","json");

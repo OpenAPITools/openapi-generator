@@ -196,25 +196,25 @@ public class PetApi {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(DELETE, REQ_URI));
         }
 
-        public static final String _HEADER = "api_key";
+        public static final String API_KEY_HEADER = "api_key";
 
         /**
          * @param apiKey (String)  (optional)
          * @return operation
          */
         public DeletePetOper apiKeyHeader(String apiKey) {
-            reqSpec.addHeader(_HEADER, apiKey);
+            reqSpec.addHeader(API_KEY_HEADER, apiKey);
             return this;
         }
 
-        public static final String _PATH = "petId";
+        public static final String PET_ID_PATH = "petId";
 
         /**
          * @param petId (Long) Pet id to delete (required)
          * @return operation
          */
         public DeletePetOper petIdPath(Object petId) {
-            reqSpec.addPathParam(_PATH, petId);
+            reqSpec.addPathParam(PET_ID_PATH, petId);
             return this;
         }
 
@@ -285,14 +285,14 @@ public class PetApi {
             return execute(handler).as(type);
         }
 
-        public static final String _QUERY = "status";
+        public static final String STATUS_QUERY = "status";
 
         /**
          * @param status (List&lt;String&gt;) Status values that need to be considered for filter (required)
          * @return operation
          */
         public FindPetsByStatusOper statusQuery(Object... status) {
-            reqSpec.addQueryParam(_QUERY, status);
+            reqSpec.addQueryParam(STATUS_QUERY, status);
             return this;
         }
 
@@ -365,14 +365,14 @@ public class PetApi {
             return execute(handler).as(type);
         }
 
-        public static final String _QUERY = "tags";
+        public static final String TAGS_QUERY = "tags";
 
         /**
          * @param tags (List&lt;String&gt;) Tags to filter by (required)
          * @return operation
          */
         public FindPetsByTagsOper tagsQuery(Object... tags) {
-            reqSpec.addQueryParam(_QUERY, tags);
+            reqSpec.addQueryParam(TAGS_QUERY, tags);
             return this;
         }
 
@@ -443,14 +443,14 @@ public class PetApi {
             return execute(handler).as(type);
         }
 
-        public static final String _PATH = "petId";
+        public static final String PET_ID_PATH = "petId";
 
         /**
          * @param petId (Long) ID of pet to return (required)
          * @return operation
          */
         public GetPetByIdOper petIdPath(Object petId) {
-            reqSpec.addPathParam(_PATH, petId);
+            reqSpec.addPathParam(PET_ID_PATH, petId);
             return this;
         }
 
@@ -581,36 +581,36 @@ public class PetApi {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
         }
 
-        public static final String _PATH = "petId";
+        public static final String PET_ID_PATH = "petId";
 
         /**
          * @param petId (Long) ID of pet that needs to be updated (required)
          * @return operation
          */
         public UpdatePetWithFormOper petIdPath(Object petId) {
-            reqSpec.addPathParam(_PATH, petId);
+            reqSpec.addPathParam(PET_ID_PATH, petId);
             return this;
         }
 
-         public static final String _FORM = "name";
+         public static final String NAME_FORM = "name";
 
          /**
          * @param name (String) Updated name of the pet (optional, default to null)
          * @return operation
          */
          public UpdatePetWithFormOper nameForm(Object... name) {
-            reqSpec.addFormParam(_FORM, name);
+            reqSpec.addFormParam(NAME_FORM, name);
             return this;
          }
 
-         public static final String _FORM = "status";
+         public static final String STATUS_FORM = "status";
 
          /**
          * @param status (String) Updated status of the pet (optional, default to null)
          * @return operation
          */
          public UpdatePetWithFormOper statusForm(Object... status) {
-            reqSpec.addFormParam(_FORM, status);
+            reqSpec.addFormParam(STATUS_FORM, status);
             return this;
          }
 
@@ -685,25 +685,25 @@ public class PetApi {
             return execute(handler).as(type);
         }
 
-        public static final String _PATH = "petId";
+        public static final String PET_ID_PATH = "petId";
 
         /**
          * @param petId (Long) ID of pet to update (required)
          * @return operation
          */
         public UploadFileOper petIdPath(Object petId) {
-            reqSpec.addPathParam(_PATH, petId);
+            reqSpec.addPathParam(PET_ID_PATH, petId);
             return this;
         }
 
-         public static final String _FORM = "additionalMetadata";
+         public static final String ADDITIONAL_METADATA_FORM = "additionalMetadata";
 
          /**
          * @param additionalMetadata (String) Additional data to pass to server (optional, default to null)
          * @return operation
          */
          public UploadFileOper additionalMetadataForm(Object... additionalMetadata) {
-            reqSpec.addFormParam(_FORM, additionalMetadata);
+            reqSpec.addFormParam(ADDITIONAL_METADATA_FORM, additionalMetadata);
             return this;
          }
 

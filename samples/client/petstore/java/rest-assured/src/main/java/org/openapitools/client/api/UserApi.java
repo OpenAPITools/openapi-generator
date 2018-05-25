@@ -326,14 +326,14 @@ public class UserApi {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(DELETE, REQ_URI));
         }
 
-        public static final String _PATH = "username";
+        public static final String USERNAME_PATH = "username";
 
         /**
          * @param username (String) The name that needs to be deleted (required)
          * @return operation
          */
         public DeleteUserOper usernamePath(Object username) {
-            reqSpec.addPathParam(_PATH, username);
+            reqSpec.addPathParam(USERNAME_PATH, username);
             return this;
         }
 
@@ -404,14 +404,14 @@ public class UserApi {
             return execute(handler).as(type);
         }
 
-        public static final String _PATH = "username";
+        public static final String USERNAME_PATH = "username";
 
         /**
          * @param username (String) The name that needs to be fetched. Use user1 for testing. (required)
          * @return operation
          */
         public GetUserByNameOper usernamePath(Object username) {
-            reqSpec.addPathParam(_PATH, username);
+            reqSpec.addPathParam(USERNAME_PATH, username);
             return this;
         }
 
@@ -483,25 +483,25 @@ public class UserApi {
             return execute(handler).as(type);
         }
 
-        public static final String _QUERY = "username";
+        public static final String USERNAME_QUERY = "username";
 
         /**
          * @param username (String) The user name for login (required)
          * @return operation
          */
         public LoginUserOper usernameQuery(Object... username) {
-            reqSpec.addQueryParam(_QUERY, username);
+            reqSpec.addQueryParam(USERNAME_QUERY, username);
             return this;
         }
 
-        public static final String _QUERY = "password";
+        public static final String PASSWORD_QUERY = "password";
 
         /**
          * @param password (String) The password for login in clear text (required)
          * @return operation
          */
         public LoginUserOper passwordQuery(Object... password) {
-            reqSpec.addQueryParam(_QUERY, password);
+            reqSpec.addQueryParam(PASSWORD_QUERY, password);
             return this;
         }
 
@@ -628,14 +628,14 @@ public class UserApi {
             return this;
         }
 
-        public static final String _PATH = "username";
+        public static final String USERNAME_PATH = "username";
 
         /**
          * @param username (String) name that need to be deleted (required)
          * @return operation
          */
         public UpdateUserOper usernamePath(Object username) {
-            reqSpec.addPathParam(_PATH, username);
+            reqSpec.addPathParam(USERNAME_PATH, username);
             return this;
         }
 

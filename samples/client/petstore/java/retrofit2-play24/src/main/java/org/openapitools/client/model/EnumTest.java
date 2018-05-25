@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.client.model.OuterEnum;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -184,45 +185,8 @@ public class EnumTest {
   @JsonProperty("enum_number")
   private EnumNumberEnum enumNumber = null;
 
-  /**
-   * Gets or Sets outerEnum
-   */
-  public enum OuterEnumEnum {
-    PLACED("placed"),
-    
-    APPROVED("approved"),
-    
-    DELIVERED("delivered");
-
-    private String value;
-
-    OuterEnumEnum(String value) {
-      this.value = value;
-    }
-
-    @JsonValue
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static OuterEnumEnum fromValue(String text) {
-      for (OuterEnumEnum b : OuterEnumEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
   @JsonProperty("outerEnum")
-  private OuterEnumEnum outerEnum = null;
+  private OuterEnum outerEnum = null;
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -297,7 +261,7 @@ public class EnumTest {
     this.enumNumber = enumNumber;
   }
 
-  public EnumTest outerEnum(OuterEnumEnum outerEnum) {
+  public EnumTest outerEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
     return this;
   }
@@ -306,12 +270,13 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
   **/
+  @Valid
   @ApiModelProperty(value = "")
-  public OuterEnumEnum getOuterEnum() {
+  public OuterEnum getOuterEnum() {
     return outerEnum;
   }
 
-  public void setOuterEnum(OuterEnumEnum outerEnum) {
+  public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
 
