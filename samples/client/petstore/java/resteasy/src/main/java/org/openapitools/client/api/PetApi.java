@@ -124,7 +124,7 @@ public class PetApi {
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
    * @param status Status values that need to be considered for filter (required)
-   * @return List<Pet>
+   * @return a {@code List<Pet>}
    * @throws ApiException if fails to make API call
    */
   public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
@@ -166,7 +166,7 @@ public class PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return List<Pet>
+   * @return a {@code List<Pet>}
    * @throws ApiException if fails to make API call
    * @deprecated
    */
@@ -210,7 +210,7 @@ public class PetApi {
    * Find pet by ID
    * Returns a single pet
    * @param petId ID of pet to return (required)
-   * @return Pet
+   * @return a {@code Pet}
    * @throws ApiException if fails to make API call
    */
   public Pet getPetById(Long petId) throws ApiException {
@@ -341,7 +341,7 @@ if (status != null)
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional, default to null)
    * @param file file to upload (optional, default to null)
-   * @return ModelApiResponse
+   * @return a {@code ModelApiResponse}
    * @throws ApiException if fails to make API call
    */
   public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
