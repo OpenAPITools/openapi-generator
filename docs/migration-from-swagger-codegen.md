@@ -131,8 +131,9 @@ Some examples:
 ### Renamed Mustache Template Variables 
 
 The template variable `{{datatype}}` was renamed to `{{dataType}}` for consistency reason.
-Corresponding java code: `CodegenProperty.datatype` is renamed to `CodegenProperty.datatype`.
+Corresponding java code: `CodegenProperty.datatype` is renamed to `CodegenProperty.dataType`.
 
+(If you're **not** using customized templates with the `-t` option, you can ignore the mustache variable renaming above.)
 
 ### Ignore file
 
