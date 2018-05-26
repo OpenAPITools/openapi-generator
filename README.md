@@ -544,6 +544,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [Jon Schoning](https://github.com/jonschoning)
 - [Jérémie Bresson](https://github.com/jmini)
 - [Jörn Ahrens](https://github.com/jayearn)
+- [Keni Steward](https://github.com/kenisteward)
 - [Marcin Stefaniuk](https://github.com/mstefaniuk)
 - [Martin Delille](https://github.com/MartinDelille)
 - [Masahiro Yamauchi](https://github.com/algas)
