@@ -29,9 +29,64 @@ import java.util.List;
 public class ModelUtilsTest {
 
     @Test
-    public void testEnsureNoDuplicateProduces() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+    public void testGetAllUsedSchemas() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/unusedSchemas.yaml", null, new ParseOptions()).getOpenAPI();
+        List<String> allUsedSchemas = ModelUtils.getAllUsedSchemas(openAPI);
+        Assert.assertEquals(allUsedSchemas.size(), 12);
+
+        Assert.assertTrue(allUsedSchemas.contains("SomeObjShared"), "contains 'SomeObjShared'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj1"), "contains 'UnusedObj1'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj2"), "contains 'SomeObj2'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj3"), "contains 'SomeObj3'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj6"), "contains 'SomeObj6'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj7"), "contains 'SomeObj7'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj8"), "contains 'SomeObj8'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj9A"), "contains 'SomeObj9A'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj9B"), "contains 'SomeObj9B'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj10A"), "contains 'SomeObj10A'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj10B"), "contains 'SomeObj10B'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj11"), "contains 'SomeObj11'");
+    }
+
+    @Test
+    public void testGetUnusedSchemas() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/unusedSchemas.yaml", null, new ParseOptions()).getOpenAPI();
         List<String> unusedSchemas = ModelUtils.getUnusedSchemas(openAPI);
+        Assert.assertEquals(unusedSchemas.size(), 4);
+        //UnusedObj is not used at all:
+        Assert.assertTrue(unusedSchemas.contains("UnusedObj1"), "contains 'UnusedObj1'");
+        //SomeObjUnused is used in a request body that is not used.
+        Assert.assertTrue(unusedSchemas.contains("UnusedObj2"), "contains 'UnusedObj2'");
+        //SomeObjUnused is used in a response that is not used.
+        Assert.assertTrue(unusedSchemas.contains("UnusedObj3"), "contains 'UnusedObj3'");
+        //SomeObjUnused is used in a parameter that is not used.
+        Assert.assertTrue(unusedSchemas.contains("UnusedObj4"), "contains 'UnusedObj4'");
+    }
+
+    @Test
+    public void testSchemasUsedOnlyInFormParam() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/unusedSchemas.yaml", null, new ParseOptions()).getOpenAPI();
+        List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        Assert.assertEquals(unusedSchemas.size(), 3);
+        //SomeObj2 is only used in a 'application/x-www-form-urlencoded' request
+        Assert.assertTrue(unusedSchemas.contains("SomeObj2"), "contains 'SomeObj2'");
+        //SomeObj3 is only used in a 'multipart/form-data' request
+        Assert.assertTrue(unusedSchemas.contains("SomeObj3"), "contains 'SomeObj3'");
+        //SomeObj7 is only used in a 'application/x-www-form-urlencoded' request (with referenced request body)
+        Assert.assertTrue(unusedSchemas.contains("SomeObj7"), "contains 'SomeObj7'");
+    }
+
+    @Test
+    public void testNoComponentsSection() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+        List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        Assert.assertEquals(unusedSchemas.size(), 0);
+    }
+
+    @Test
+    public void testGlobalProducesConsumes() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/globalProducesConsumesTest.yaml", null, new ParseOptions()).getOpenAPI();
+        List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         Assert.assertEquals(unusedSchemas.size(), 0);
     }
 }

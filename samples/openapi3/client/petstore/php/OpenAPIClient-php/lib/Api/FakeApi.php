@@ -1566,6 +1566,10 @@ class FakeApi
                 'Missing the required parameter $pattern_without_delimiter when calling testEndpointParameters'
             );
         }
+        if (!preg_match("/^[A-Z].*/", $pattern_without_delimiter)) {
+            throw new \InvalidArgumentException("invalid value for \"pattern_without_delimiter\" when calling FakeApi.testEndpointParameters, must conform to the pattern /^[A-Z].*/.");
+        }
+
         // verify the required parameter 'byte' is set
         if ($byte === null || (is_array($byte) && count($byte) === 0)) {
             throw new \InvalidArgumentException(
@@ -1588,6 +1592,10 @@ class FakeApi
 
         if ($float !== null && $float > 987.6) {
             throw new \InvalidArgumentException('invalid value for "$float" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 987.6.');
+        }
+
+        if ($string !== null && !preg_match("/[a-z]/i", $string)) {
+            throw new \InvalidArgumentException("invalid value for \"string\" when calling FakeApi.testEndpointParameters, must conform to the pattern /[a-z]/i.");
         }
 
         if ($password !== null && strlen($password) > 64) {

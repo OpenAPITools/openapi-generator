@@ -10,6 +10,10 @@ build:
     - $HOME/.stack
     - $SHIPPABLE_REPO_DIR/samples/client/petstore/elixir/deps
   ci:
+    - mvn --quiet clean install -f CI/pom.xml.shippable
+    # ensure all modifications created by 'mature' generators are in the git repo
+    - ./bin/ensure-up-to-date
+    # prepare enviroment for tests
     - sudo apt-get update -qq
     # install stack
     - curl -sSL https://get.haskellstack.org/ | sh
@@ -27,10 +31,6 @@ build:
     - elixir --version
     - mix --version
     # test samples defined in pom.xml
-    - cp CI/pom.xml.shippable pom.xml
-    - mvn --quiet clean install
-    - mvn --quiet verify -P samples
-    # generate all petstore sampless (client, servers, doc)
-    - ./bin/run-all-petstore 2>&1 > run-all-petstore.log
-  post_ci:
-    - tail run-all-petstore.log
+    - mvn --quiet verify -P samples -f CI/pom.xml.shippable
+    # generate all petstore samples (client, servers, doc)
+    - ./bin/run-all-petstore

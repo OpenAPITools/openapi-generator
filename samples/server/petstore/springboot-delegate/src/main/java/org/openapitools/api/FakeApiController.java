@@ -30,10 +30,10 @@ public class FakeApiController implements FakeApi {
 
     private final FakeApiDelegate delegate;
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public FakeApiController(FakeApiDelegate delegate) {
+    public FakeApiController(@org.springframework.beans.factory.annotation.Autowired(required = false) FakeApiDelegate delegate) {
         this.delegate = delegate;
     }
+
     public ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody Boolean body) {
         return delegate.fakeOuterBooleanSerialize(body);
     }
