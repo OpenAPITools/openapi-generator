@@ -1,6 +1,7 @@
 (ns open-api-petstore.core
   (:require [cheshire.core :refer [generate-string parse-string]]
             [clojure.string :as str]
+            [camel-snake-kebab.core :as format]
             [clj-http.client :as client])
   (:import (com.fasterxml.jackson.core JsonParseException)
            (java.io File)
@@ -16,6 +17,7 @@
   {:base-url        "http://petstore.swagger.io/v2"
    :date-format     "yyyy-MM-dd"
    :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+   :decode-models   false
    :debug           false
    :auths           {"api_key" nil
                      "petstore_auth" nil}})
@@ -210,7 +212,7 @@
   (cond
     (json-mime? content-type)
     (try
-      (parse-string body true)
+      (parse-string body format/->kebab-case-keyword)
       (catch JsonParseException e
         ;; Return the body string directly on JSON parsing error.
         body))

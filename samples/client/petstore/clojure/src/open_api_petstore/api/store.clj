@@ -1,11 +1,21 @@
 (ns open-api-petstore.api.store
-  (:require [open-api-petstore.core :refer [call-api check-required-params with-collection-format]])
+  (:require [open-api-petstore.core :refer [call-api check-required-params with-collection-format *api-context*]]
+            [clojure.spec.alpha :as s]
+            [spec-tools.core :as st]
+            [orchestra.core :refer [defn-spec]]
+            [open-api-petstore.specs.tag :refer :all]
+            [open-api-petstore.specs.category :refer :all]
+            [open-api-petstore.specs.user :refer :all]
+            [open-api-petstore.specs.pet :refer :all]
+            [open-api-petstore.specs.order :refer :all]
+            )
   (:import (java.io File)))
 
-(defn delete-order-with-http-info
+
+(defn-spec delete-order-with-http-info any?
   "Delete purchase order by ID
   For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors"
-  [order-id ]
+  [order-id string?]
   (check-required-params order-id)
   (call-api "/store/order/{orderId}" :delete
             {:path-params   {"orderId" order-id }
@@ -16,13 +26,17 @@
              :accepts       []
              :auth-names    []}))
 
-(defn delete-order
+(defn-spec delete-order any?
   "Delete purchase order by ID
   For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors"
-  [order-id ]
-  (:data (delete-order-with-http-info order-id)))
+  [order-id string?]
+  (let [res (:data (delete-order-with-http-info order-id))]
+    (if (:decode-models *api-context*)
+       (st/decode any? res st/string-transformer)
+       res)))
 
-(defn get-inventory-with-http-info
+
+(defn-spec get-inventory-with-http-info any?
   "Returns pet inventories by status
   Returns a map of status codes to quantities"
   []
@@ -35,16 +49,20 @@
              :accepts       ["application/json" "application/xml"]
              :auth-names    ["api_key"]}))
 
-(defn get-inventory
+(defn-spec get-inventory (s/map-of string? int?)
   "Returns pet inventories by status
   Returns a map of status codes to quantities"
   []
-  (:data (get-inventory-with-http-info)))
+  (let [res (:data (get-inventory-with-http-info))]
+    (if (:decode-models *api-context*)
+       (st/decode (s/map-of string? int?) res st/string-transformer)
+       res)))
 
-(defn get-order-by-id-with-http-info
+
+(defn-spec get-order-by-id-with-http-info any?
   "Find purchase order by ID
   For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions"
-  [order-id ]
+  [order-id string?]
   (check-required-params order-id)
   (call-api "/store/order/{orderId}" :get
             {:path-params   {"orderId" order-id }
@@ -55,16 +73,20 @@
              :accepts       ["application/json" "application/xml"]
              :auth-names    []}))
 
-(defn get-order-by-id
+(defn-spec get-order-by-id order-spec
   "Find purchase order by ID
   For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions"
-  [order-id ]
-  (:data (get-order-by-id-with-http-info order-id)))
+  [order-id string?]
+  (let [res (:data (get-order-by-id-with-http-info order-id))]
+    (if (:decode-models *api-context*)
+       (st/decode order-spec res st/string-transformer)
+       res)))
 
-(defn place-order-with-http-info
+
+(defn-spec place-order-with-http-info any?
   "Place an order for a pet"
   ([] (place-order-with-http-info nil))
-  ([{:keys [order ]}]
+  ([{:keys [order]}]
    (call-api "/store/order" :post
              {:path-params   {}
               :header-params {}
@@ -75,9 +97,13 @@
               :accepts       ["application/json" "application/xml"]
               :auth-names    []})))
 
-(defn place-order
+(defn-spec place-order order-spec
   "Place an order for a pet"
   ([] (place-order nil))
   ([optional-params]
-   (:data (place-order-with-http-info optional-params))))
+   (let [res (:data (place-order-with-http-info optional-params))]
+     (if (:decode-models *api-context*)
+        (st/decode order-spec res st/string-transformer)
+        res))))
+
 
