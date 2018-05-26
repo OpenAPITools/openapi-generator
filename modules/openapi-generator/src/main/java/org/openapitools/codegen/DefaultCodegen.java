@@ -1370,17 +1370,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Convert OAS Model object to Codegen Model object without providing all schemas
-     *
-     * @param name   the name of the model
-     * @param schema OAS Model object
-     * @return Codegen Model object
-     */
-    public CodegenModel fromModelWithoutProvidingAllSchemas(String name, Schema schema) {
-        return fromModel(name, schema, null);
-    }
-
-    /**
      * Convert OAS Model object to Codegen Model object
      *
      * @param name           the name of the model

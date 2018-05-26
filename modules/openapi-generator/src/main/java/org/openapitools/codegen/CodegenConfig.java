@@ -103,8 +103,6 @@ public interface CodegenConfig {
 
     void setOutputDir(String dir);
 
-    CodegenModel fromModelWithoutProvidingAllSchemas(String name, Schema schema);
-
     CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions);
 
     CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI);

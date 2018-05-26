@@ -476,7 +476,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
         if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
-            final CodegenModel parentCodegenModel = super.fromModelWithoutProvidingAllSchemas(codegenModel.parent, parentModel);
+            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
             codegenModel = AbstractEiffelCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
         return codegenModel;
