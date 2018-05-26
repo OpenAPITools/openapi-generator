@@ -868,7 +868,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
-            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
+            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
             codegenModel = AbstractJavaCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
         return codegenModel;
