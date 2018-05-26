@@ -17,6 +17,13 @@ sleep 5
 ./bin/kotlin-client-string.sh
 ./bin/kotlin-client-threetenbp.sh
 ./bin/kotlin-server-petstore.sh
+./bin/php-petstore.sh
+./bin/php-silex-petstore-server.sh
+./bin/php-symfony-petstore.sh
+./bin/lumen-petstore-server.sh
+./bin/slim-petstore-server.sh
+./bin/ze-ph-petstore-server.sh
+./bin/openapi3/php-petstore.sh
 
 # Check:
 if [ -n "$(git status --porcelain)" ]; then
