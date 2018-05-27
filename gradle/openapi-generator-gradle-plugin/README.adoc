@@ -1,0 +1,206 @@
+= OpenAPI Generator Gradle Plugin
+
+This document describes the gradle plugin for OpenAPI Generator.
+
+== Tasks
+
+Tasks are listed under the "OpenAPI Tools" tasks heading.
+
+
+.OpenAPI Tools Tasks
+|===
+|task name |description
+
+|*openApiGenerate*
+|Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents.
+
+|*openApiGenerators*
+|Lists generators available via Open API Generators.
+
+|*openApiMeta*
+|Generates a new generator to be consumed via Open API Generator.
+
+|*openApiValidate*
+|Validates an Open API 2.0 or 3.x specification document.
+|===
+
+== Plugin Setup
+
+[source,groovy]
+----
+buildscript {
+  repositories {
+    mavenLocal()
+    mavenCentral()
+  }
+  dependencies {
+    classpath "org.openapitools:openapi-generator-gradle-plugin:3.0.0-SNAPSHOT"
+  }
+}
+
+apply plugin: 'org.openapi.generator'
+----
+
+[NOTE]
+====
+The gradle plugin is not currently published to https://plugins.gradle.org/m2/.
+====
+
+== Configuration
+
+TODO: list out individual task items.
+
+== Examples
+
+=== openApiGenerate
+
+This task exposes all options available via OpenAPI Generator CLI and the OpenAPI Generator Maven Plugin.
+
+.in build.gradle
+[source,groovy]
+----
+openApiGenerate {
+    generatorName = "kotlin"
+    inputSpec = "$rootDir/specs/petstore-v3.0.yaml".toString()
+    outputDir = "$buildDir/generated".toString()
+    apiPackage = "org.openapi.example.api"
+    invokerPackage = "org.openapi.example.invoker"
+    modelPackage = "org.openapi.example.model"
+    modelFilesConstrainedTo = [
+            "Error"
+    ]
+    configOptions = [
+        dateLibrary: "java8"
+    ]
+}
+----
+
+The above code demonstrates configuration of global options as well as generator-specific config options.
+
+=== openApiGenerators
+
+This is an output-only listing task. There's no need to add configuration to build.gradle.
+
+.Example output of openApiGenerators task
+[source,terminal]
+----
+$ ./gradlew openApiGenerators
+
+> Task :openApiGenerators
+The following generators are available:
+
+CLIENT generators:
+    - ada
+…
+
+SERVER generators:
+    - ada-server
+…
+
+DOCUMENTATION generators:
+    - cwiki
+…
+
+CONFIG generators:
+    - apache2
+
+OTHER generators:
+…
+
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 executed
+----
+
+[NOTE]
+====
+Generator type listings in the above example have been truncated to avoid potential confusion with changing generator support.
+
+Please run the above task to list all available generators.
+====
+
+=== openApiMeta
+
+.in build.gradle
+[source,groovy]
+----
+openApiMeta {
+   generatorName = "Jim"
+   packageName = "us.jimschubert.example"
+}
+----
+
+.Example output of openApiMeta task
+[source,terminal]
+----
+$ ./gradlew openApiMeta
+
+> Task :openApiMeta
+Wrote file to /Users/jim/my_project/pom.xml
+Wrote file to /Users/jim/my_project/src/main/java/us/jimschubert/example/JimGenerator.java
+Wrote file to /Users/jim/my_project/README.md
+Wrote file to /Users/jim/my_project/src/main/resources/jim/api.mustache
+Wrote file to /Users/jim/my_project/src/main/resources/jim/model.mustache
+Wrote file to /Users/jim/my_project/src/main/resources/jim/myFile.mustache
+Wrote file to /Users/jim/my_project/src/main/resources/META-INF/services/org.openapitools.codegen.CodegenConfig
+Created generator JimGenerator
+
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 executed
+----
+
+
+=== openApiValidate
+
+.in buid.gradle
+[source,groovy]
+----
+openApiValidate {
+   inputSpec = "/src/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
+}
+----
+
+.Example output of openApiValidate task (success)
+[source,terminal]
+----
+$ ./gradlew openApiValidate --input=/Users/jim/projects/openapi-generator/modules/openapi-generator/src/test/resources/3_0/ping.yaml
+
+> Task :openApiValidate
+Validating spec /Users/jim/projects/openapi-generator/modules/openapi-generator/src/test/resources/3_0/ping.yaml
+Spec is valid.
+
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 executed
+----
+
+.Example output of openApiValidate task (failure)
+[source,terminal]
+----
+$ ./gradlew openApiValidate
+
+> Task :openApiValidate FAILED
+Validating spec /Users/jim/projects/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+
+Spec is invalid.
+Issues:
+
+        attribute info is missing
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':openApiValidate'.
+> Validation failed.
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+----
+
+.in terminal (alternate)
+[source,terminal]
+----
+$ ./gradlew openApiValidate --input=/Users/jim/projects/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+----
