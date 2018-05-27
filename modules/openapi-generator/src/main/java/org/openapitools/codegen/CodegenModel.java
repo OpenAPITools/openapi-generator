@@ -44,6 +44,7 @@ public class CodegenModel {
     public String defaultValue;
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
+    public boolean isInteger;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
     public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
@@ -72,10 +73,6 @@ public class CodegenModel {
         // store the complete closure of owned and inherited properties in allVars and allMandatory.
         allVars = vars;
         allMandatory = mandatory;
-    }
-
-    public boolean isInteger(){
-        return "Integer".equals(dataType);
     }
 
     @Override

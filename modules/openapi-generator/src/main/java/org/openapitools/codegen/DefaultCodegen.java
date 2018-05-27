@@ -1522,6 +1522,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
             }
+            if (ModelUtils.isIntegerSchema(schema)) { // integer type
+                m.isInteger = Boolean.TRUE;
+            }
             addVars(m, schema.getProperties(), schema.getRequired());
         }
 
