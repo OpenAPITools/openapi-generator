@@ -16,7 +16,7 @@
   "Create user
   This can only be done by the logged in user."
   ([] (create-user-with-http-info nil))
-  ([{:keys [user]}]
+  ([{:keys [user]} (s/map-of keyword? any?)]
    (call-api "/user" :post
              {:path-params   {}
               :header-params {}
@@ -31,7 +31,7 @@
   "Create user
   This can only be done by the logged in user."
   ([] (create-user nil))
-  ([optional-params]
+  ([optional-params any?]
    (let [res (:data (create-user-with-http-info optional-params))]
      (if (:decode-models *api-context*)
         (st/decode any? res st/string-transformer)
@@ -41,7 +41,7 @@
 (defn-spec create-users-with-array-input-with-http-info any?
   "Creates list of users with given input array"
   ([] (create-users-with-array-input-with-http-info nil))
-  ([{:keys [user]}]
+  ([{:keys [user]} (s/map-of keyword? any?)]
    (call-api "/user/createWithArray" :post
              {:path-params   {}
               :header-params {}
@@ -55,7 +55,7 @@
 (defn-spec create-users-with-array-input any?
   "Creates list of users with given input array"
   ([] (create-users-with-array-input nil))
-  ([optional-params]
+  ([optional-params any?]
    (let [res (:data (create-users-with-array-input-with-http-info optional-params))]
      (if (:decode-models *api-context*)
         (st/decode any? res st/string-transformer)
@@ -65,7 +65,7 @@
 (defn-spec create-users-with-list-input-with-http-info any?
   "Creates list of users with given input array"
   ([] (create-users-with-list-input-with-http-info nil))
-  ([{:keys [user]}]
+  ([{:keys [user]} (s/map-of keyword? any?)]
    (call-api "/user/createWithList" :post
              {:path-params   {}
               :header-params {}
@@ -79,7 +79,7 @@
 (defn-spec create-users-with-list-input any?
   "Creates list of users with given input array"
   ([] (create-users-with-list-input nil))
-  ([optional-params]
+  ([optional-params any?]
    (let [res (:data (create-users-with-list-input-with-http-info optional-params))]
      (if (:decode-models *api-context*)
         (st/decode any? res st/string-transformer)
@@ -135,7 +135,7 @@
 (defn-spec login-user-with-http-info any?
   "Logs user into the system"
   ([] (login-user-with-http-info nil))
-  ([{:keys [username password]}]
+  ([{:keys [username password]} (s/map-of keyword? any?)]
    (call-api "/user/login" :get
              {:path-params   {}
               :header-params {}
@@ -148,7 +148,7 @@
 (defn-spec login-user string?
   "Logs user into the system"
   ([] (login-user nil))
-  ([optional-params]
+  ([optional-params any?]
    (let [res (:data (login-user-with-http-info optional-params))]
      (if (:decode-models *api-context*)
         (st/decode string? res st/string-transformer)
@@ -180,7 +180,7 @@
   "Updated user
   This can only be done by the logged in user."
   ([username string?, ] (update-user-with-http-info username nil))
-  ([username string?, {:keys [user]}]
+  ([username string?, {:keys [user]} (s/map-of keyword? any?)]
    (check-required-params username)
    (call-api "/user/{username}" :put
              {:path-params   {"username" username }
@@ -196,7 +196,7 @@
   "Updated user
   This can only be done by the logged in user."
   ([username string?, ] (update-user username nil))
-  ([username string?, optional-params]
+  ([username string?, optional-params any?]
    (let [res (:data (update-user-with-http-info username optional-params))]
      (if (:decode-models *api-context*)
         (st/decode any? res st/string-transformer)

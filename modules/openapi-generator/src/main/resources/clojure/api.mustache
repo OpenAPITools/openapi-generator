@@ -12,7 +12,7 @@
   "<&summary><#notes>
   <&notes></notes>"<#hasOptionalParams>
   ([<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><#hasMore>, </hasMore></required></allParams>] (<operationId>-with-http-info<#allParams><#required> <paramName></required></allParams> nil))</hasOptionalParams>
-  <#hasOptionalParams>(</hasOptionalParams>[<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><#hasMore>, </hasMore></required></allParams><#hasOptionalParams>{:keys [<#allParams><^required><#isFile>^File </isFile><paramName><#hasMore> </hasMore></required></allParams>]}</hasOptionalParams>]<#hasRequiredParams>
+  <#hasOptionalParams>(</hasOptionalParams>[<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><#hasMore>, </hasMore></required></allParams><#hasOptionalParams>{:keys [<#allParams><^required><#isFile>^File </isFile><paramName><#hasMore> </hasMore></required></allParams>]} (s/map-of keyword? any?)</hasOptionalParams>]<#hasRequiredParams>
   <#hasOptionalParams> </hasOptionalParams>(check-required-params<#allParams><#required> <paramName></required></allParams>)</hasRequiredParams>
   <#hasOptionalParams> </hasOptionalParams>(call-api "<path>" :<httpMethod>
   <#hasOptionalParams> </hasOptionalParams>          {:path-params   {<#pathParams>"<baseName>" <#collectionFormat>(with-collection-format <paramName> :<collectionFormat>)</collectionFormat><^collectionFormat><paramName></collectionFormat> </pathParams>}
@@ -28,7 +28,7 @@
   "<&summary><#notes>
   <&notes></notes>"<#hasOptionalParams>
   ([<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><#hasMore>, </hasMore></required></allParams>] (<operationId><#allParams><#required> <paramName></required></allParams> nil))</hasOptionalParams>
-  <#hasOptionalParams>(</hasOptionalParams>[<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><#hasMore>, </hasMore></required></allParams><#hasOptionalParams>optional-params</hasOptionalParams>]
+  <#hasOptionalParams>(</hasOptionalParams>[<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><#hasMore>, </hasMore></required></allParams><#hasOptionalParams>optional-params any?</hasOptionalParams>]
   <#hasOptionalParams> </hasOptionalParams>(let [res (:data (<operationId>-with-http-info<#allParams><#required> <paramName></required></allParams><#hasOptionalParams> optional-params</hasOptionalParams>))]
   <#hasOptionalParams> </hasOptionalParams>  (if (:decode-models *api-context*)
   <#hasOptionalParams> </hasOptionalParams>     (st/decode <#returnType><returnType></returnType><^returnType>any?</returnType> res st/string-transformer)

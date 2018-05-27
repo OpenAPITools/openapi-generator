@@ -86,7 +86,7 @@
 (defn-spec place-order-with-http-info any?
   "Place an order for a pet"
   ([] (place-order-with-http-info nil))
-  ([{:keys [order]}]
+  ([{:keys [order]} (s/map-of keyword? any?)]
    (call-api "/store/order" :post
              {:path-params   {}
               :header-params {}
@@ -100,7 +100,7 @@
 (defn-spec place-order order-spec
   "Place an order for a pet"
   ([] (place-order nil))
-  ([optional-params]
+  ([optional-params any?]
    (let [res (:data (place-order-with-http-info optional-params))]
      (if (:decode-models *api-context*)
         (st/decode order-spec res st/string-transformer)
