@@ -20,7 +20,7 @@ sleep 5
 ./bin/php-petstore.sh
 ./bin/php-silex-petstore-server.sh
 ./bin/php-symfony-petstore.sh
-./bin/lumen-petstore-server.sh
+./bin/php-lumen-petstore-server.sh
 ./bin/php-slim-petstore-server.sh
 ./bin/php-ze-ph-petstore-server.sh
 ./bin/openapi3/php-petstore.sh
