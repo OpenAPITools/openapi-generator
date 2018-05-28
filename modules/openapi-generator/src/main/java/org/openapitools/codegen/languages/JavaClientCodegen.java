@@ -52,9 +52,9 @@ import static java.util.Collections.sort;
 public class JavaClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures,
         GzipFeatures {
+
     static final String MEDIA_TYPE = "mediaType";
 
-    @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
     public static final String USE_RX_JAVA = "useRxJava";
@@ -68,9 +68,17 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
 
+    public static final String FEIGN = "feign";
+    public static final String GOOGLE_API_CLIENT = "google-api-client";
+    public static final String JERSEY1 = "jersey1";
+    public static final String JERSEY2 = "jersey2";
+    public static final String OKHTTP_GSON = "okhttp-gson";
+    public static final String RESTEASY = "resteasy";
+    public static final String RESTTEMPLATE = "resttemplate";
+    public static final String REST_ASSURED = "rest-assured";
     public static final String RETROFIT_1 = "retrofit";
     public static final String RETROFIT_2 = "retrofit2";
-    public static final String REST_ASSURED = "rest-assured";
+    public static final String VERTX = "vertx";
 
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean useRxJava = false;
@@ -105,24 +113,24 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
         cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception"));
 
-        supportedLibraries.put("jersey1", "HTTP client: Jersey client 1.19.4. JSON processing: Jackson 2.8.9. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
-        supportedLibraries.put("feign", "HTTP client: OpenFeign 9.4.0. JSON processing: Jackson 2.8.9");
-        supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.8.9");
-        supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.8.1. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
+        supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.4. JSON processing: Jackson 2.8.9. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
+        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 9.4.0. JSON processing: Jackson 2.8.9");
+        supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.8.9");
+        supportedLibraries.put(OKHTTP_GSON, "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.8.1. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(RETROFIT_1, "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.3.1 (Retrofit 1.9.0). IMPORTANT NOTE: retrofit1.x is no longer actively maintained so please upgrade to 'retrofit2' instead.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.8.0. JSON processing: Gson 2.6.1 (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2]=true'. (RxJava 1.x or 2.x)");
-        supportedLibraries.put("resttemplate", "HTTP client: Spring RestTemplate 4.3.9-RELEASE. JSON processing: Jackson 2.8.9");
-        supportedLibraries.put("resteasy", "HTTP client: Resteasy client 3.1.3.Final. JSON processing: Jackson 2.8.9");
-        supportedLibraries.put("vertx", "HTTP client: VertX client 3.2.4. JSON processing: Jackson 2.8.9");
-        supportedLibraries.put("google-api-client", "HTTP client: Google API client 1.23.0. JSON processing: Jackson 2.8.9");
-        supportedLibraries.put("rest-assured", "HTTP client: rest-assured : 3.1.0. JSON processing: Gson 2.6.1. Only for Java8");
+        supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 4.3.9-RELEASE. JSON processing: Jackson 2.8.9");
+        supportedLibraries.put(RESTEASY, "HTTP client: Resteasy client 3.1.3.Final. JSON processing: Jackson 2.8.9");
+        supportedLibraries.put(VERTX, "HTTP client: VertX client 3.2.4. JSON processing: Jackson 2.8.9");
+        supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 1.23.0. JSON processing: Jackson 2.8.9");
+        supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 3.1.0. JSON processing: Gson 2.6.1. Only for Java8");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
         // set okhttp-gson as the default
-        libraryOption.setDefault("okhttp-gson");
+        libraryOption.setDefault(OKHTTP_GSON);
         cliOptions.add(libraryOption);
-        setLibrary("okhttp-gson");
+        setLibrary(OKHTTP_GSON);
 
     }
 
@@ -202,12 +210,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
-        if (!("resttemplate".equals(getLibrary()) || REST_ASSURED.equals(getLibrary()))) {
+        if (!(RESTTEMPLATE.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
         }
 
         // google-api-client doesn't use the Swagger auth, because it uses Google Credential directly (HttpRequestInitializer)
-        if (!("google-api-client".equals(getLibrary()) || REST_ASSURED.equals(getLibrary()))) {
+        if (!(GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
             supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
             supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
@@ -228,23 +236,23 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         //TODO: add doc to retrofit1 and feign
-        if ("feign".equals(getLibrary()) || "retrofit".equals(getLibrary())) {
+        if (FEIGN.equals(getLibrary()) || RETROFIT_1.equals(getLibrary())) {
             modelDocTemplateFiles.remove("model_doc.mustache");
             apiDocTemplateFiles.remove("api_doc.mustache");
         }
 
-        if (!("feign".equals(getLibrary()) || "resttemplate".equals(getLibrary()) || usesAnyRetrofitLibrary() || "google-api-client".equals(getLibrary()) || REST_ASSURED.equals(getLibrary()))) {
+        if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || usesAnyRetrofitLibrary() || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
             supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         }
 
-        if ("feign".equals(getLibrary())) {
+        if (FEIGN.equals(getLibrary())) {
             additionalProperties.put("jackson", "true");
             supportingFiles.add(new SupportingFile("ParamExpander.mustache", invokerFolder, "ParamExpander.java"));
             supportingFiles.add(new SupportingFile("EncodingUtils.mustache", invokerFolder, "EncodingUtils.java"));
-        } else if ("okhttp-gson".equals(getLibrary()) || StringUtils.isEmpty(getLibrary())) {
+        } else if (OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
@@ -260,19 +268,19 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             if ("retrofit2".equals(getLibrary()) && !usePlayWS) {
                 supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             }
-        } else if ("jersey2".equals(getLibrary())) {
+        } else if (JERSEY2.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
             additionalProperties.put("jackson", "true");
-        } else if ("resteasy".equals(getLibrary())) {
+        } else if (RESTEASY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             additionalProperties.put("jackson", "true");
-        } else if ("jersey1".equals(getLibrary())) {
+        } else if (JERSEY1.equals(getLibrary())) {
             additionalProperties.put("jackson", "true");
-        } else if ("resttemplate".equals(getLibrary())) {
+        } else if (RESTTEMPLATE.equals(getLibrary())) {
             additionalProperties.put("jackson", "true");
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
-        } else if ("vertx".equals(getLibrary())) {
+        } else if (VERTX.equals(getLibrary())) {
             typeMapping.put("file", "AsyncFile");
             importMapping.put("AsyncFile", "io.vertx.core.file.AsyncFile");
             setJava8Mode(true);
@@ -281,7 +289,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             apiTemplateFiles.put("apiImpl.mustache", "Impl.java");
             apiTemplateFiles.put("rxApiImpl.mustache", ".java");
             supportingFiles.remove(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
-        } else if ("google-api-client".equals(getLibrary())) {
+        } else if (GOOGLE_API_CLIENT.equals(getLibrary())) {
             additionalProperties.put("jackson", "true");
 
         } else if (REST_ASSURED.equals(getLibrary())) {
@@ -398,7 +406,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         // camelize path variables for Feign client
-        if ("feign".equals(getLibrary())) {
+        if (FEIGN.equals(getLibrary())) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
             List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation op : operationList) {
@@ -420,7 +428,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public String apiFilename(String templateName, String tag) {
-        if ("vertx".equals(getLibrary())) {
+        if (VERTX.equals(getLibrary())) {
             String suffix = apiTemplateFiles().get(templateName);
             String subFolder = "";
             if (templateName.startsWith("rx")) {
