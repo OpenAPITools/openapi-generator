@@ -19,8 +19,16 @@ package org.openapitools.codegen.utils;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
+import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -88,5 +96,65 @@ public class ModelUtilsTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/globalProducesConsumesTest.yaml", null, new ParseOptions()).getOpenAPI();
         List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         Assert.assertEquals(unusedSchemas.size(), 0);
+    }
+
+    @Test
+    public void testReferencedSchema() {
+        Schema otherObj = new ObjectSchema().addProperties("sprop", new StringSchema()).addProperties("iprop", new IntegerSchema());
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas("OtherObj", otherObj);
+
+        Schema notExistingReferencedSchema = new Schema().$ref("NotExisting");
+        Schema result1 = ModelUtils.getReferencedSchema(openAPI, notExistingReferencedSchema);
+        Assert.assertEquals(result1, notExistingReferencedSchema);
+
+        Schema result2 = ModelUtils.getReferencedSchema(openAPI, new Schema().$ref("#/components/schemas/OtherObj"));
+        Assert.assertEquals(result2, otherObj);
+    }
+
+    @Test
+    public void testReferencedRequestBody() {
+        RequestBody otherRequestBody = new RequestBody().description("Some Description");
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addRequestBodies("OtherRequestBody", otherRequestBody);
+
+        RequestBody notExistingRequestBody = new RequestBody().$ref("NotExisting");
+        RequestBody result1 = ModelUtils.getReferencedRequestBody(openAPI, notExistingRequestBody);
+        Assert.assertEquals(result1, notExistingRequestBody);
+
+        RequestBody result2 = ModelUtils.getReferencedRequestBody(openAPI, new RequestBody().$ref("#/components/requestBodies/OtherRequestBody"));
+        Assert.assertEquals(result2, otherRequestBody);
+    }
+
+    @Test
+    public void testReferencedApiResponse() {
+        ApiResponse otherApiResponse = new ApiResponse().description("Some Description");
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addResponses("OtherApiResponse", otherApiResponse);
+
+        ApiResponse notExistingApiResponse = new ApiResponse().$ref("NotExisting");
+        ApiResponse result1 = ModelUtils.getReferencedApiResponse(openAPI, notExistingApiResponse);
+        Assert.assertEquals(result1, notExistingApiResponse);
+
+        ApiResponse result2 = ModelUtils.getReferencedApiResponse(openAPI, new ApiResponse().$ref("#/components/responses/OtherApiResponse"));
+        Assert.assertEquals(result2, otherApiResponse);
+    }
+
+    @Test
+    public void testReferencedParameter() {
+        Parameter otherParameter = new Parameter().description("Some Description");
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addParameters("OtherParameter", otherParameter);
+
+        Parameter notExistingParameter = new Parameter().$ref("NotExisting");
+        Parameter result1 = ModelUtils.getReferencedParameter(openAPI, notExistingParameter);
+        Assert.assertEquals(result1, notExistingParameter);
+
+        Parameter result2 = ModelUtils.getReferencedParameter(openAPI, new Parameter().$ref("#/components/parameters/OtherParameter"));
+        Assert.assertEquals(result2, otherParameter);
     }
 }
