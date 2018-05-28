@@ -207,7 +207,7 @@ class SpecialModelName implements ModelInterface, ArrayAccess
     /**
      * Gets special_property_name
      *
-     * @return int
+     * @return int|null
      */
     public function getSpecialPropertyName()
     {
@@ -217,7 +217,7 @@ class SpecialModelName implements ModelInterface, ArrayAccess
     /**
      * Sets special_property_name
      *
-     * @param int $special_property_name special_property_name
+     * @param int|null $special_property_name special_property_name
      *
      * @return $this
      */
