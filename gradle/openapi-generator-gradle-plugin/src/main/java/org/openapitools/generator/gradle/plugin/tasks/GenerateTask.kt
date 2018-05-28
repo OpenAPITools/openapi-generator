@@ -239,8 +239,9 @@ open class GenerateTask : DefaultTask() {
      *
      * This option enables/disables generation of ALL api-related files.
      *
-     * For more control over generation of individual files, configure an ignore file and
-     * refer to it via [ignoreFileOverride].
+     * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
+     *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
+     *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
     @get:Internal
     val apiFilesConstrainedTo = project.objects.listProperty<String>()
@@ -248,8 +249,9 @@ open class GenerateTask : DefaultTask() {
     /**
      * Defines which model-related files should be generated. This allows you to create a subset of generated files (or none at all).
      *
-     * For more control over generation of individual files, configure an ignore file and
-     * refer to it via [ignoreFileOverride].
+     * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
+     *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
+     *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
     @get:Internal
     val modelFilesConstrainedTo = project.objects.listProperty<String>()
@@ -260,8 +262,9 @@ open class GenerateTask : DefaultTask() {
      * Supporting files are those related to projects/frameworks which may be modified
      * by consumers.
      *
-     * For more control over generation of individual files, configure an ignore file and
-     * refer to it via [ignoreFileOverride].
+     * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
+     *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
+     *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
     @get:Internal
     val supportingFilesConstrainedTo = project.objects.listProperty<String>()
@@ -325,17 +328,19 @@ open class GenerateTask : DefaultTask() {
 
     private val originalEnvironmentVariables = mutableMapOf<String, String>()
 
-    @Suppress("SENSELESS_COMPARISON", "UNNECESSARY_NOT_NULL_ASSERTION")
-    fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
-        if (isPresent && get() != null) {
-            when (get()) {
-                is String -> if ((get() as String).isNotEmpty()) {
-                    block(get()!!)
+    private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
+        if (isPresent) {
+            val item: T? = get()
+            if (item != null) {
+                when (get()) {
+                    is String -> if ((get() as String).isNotEmpty()) {
+                        block(get())
+                    }
+                    is String? -> if (true == (get() as String?)?.isNotEmpty()) {
+                        block(get())
+                    }
+                    else -> block(get())
                 }
-                is String? -> if (true == (get() as String?)?.isNotEmpty()) {
-                    block(get()!!)
-                }
-                else -> block(get()!!)
             }
         }
     }
@@ -360,19 +365,19 @@ open class GenerateTask : DefaultTask() {
                 }
             }
 
-            if (supportingFilesConstrainedTo.isPresent) {
+            if (supportingFilesConstrainedTo.isPresent && supportingFilesConstrainedTo.get().isNotEmpty()) {
                 System.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesConstrainedTo.get().joinToString(","))
             } else {
                 System.clearProperty(CodegenConstants.SUPPORTING_FILES)
             }
 
-            if (modelFilesConstrainedTo.isPresent) {
+            if (modelFilesConstrainedTo.isPresent && modelFilesConstrainedTo.get().isNotEmpty()) {
                 System.setProperty(CodegenConstants.MODELS, modelFilesConstrainedTo.get().joinToString(","))
             } else {
                 System.clearProperty(CodegenConstants.MODELS)
             }
 
-            if (apiFilesConstrainedTo.isPresent) {
+            if (apiFilesConstrainedTo.isPresent && apiFilesConstrainedTo.get().isNotEmpty()) {
                 System.setProperty(CodegenConstants.APIS, apiFilesConstrainedTo.get().joinToString(","))
             } else {
                 System.clearProperty(CodegenConstants.APIS)

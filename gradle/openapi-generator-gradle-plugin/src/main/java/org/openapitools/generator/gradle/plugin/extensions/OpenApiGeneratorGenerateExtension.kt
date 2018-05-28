@@ -192,16 +192,18 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Defines which API-related files should be generated. This allows you to create a subset of generated files (or none at all).
      *
-     * For more control over generation of individual files, configure an ignore file and
-     * refer to it via [ignoreFileOverride].
+     * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
+     *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
+     *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
     val apiFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
      * Defines which model-related files should be generated. This allows you to create a subset of generated files (or none at all).
      *
-     * For more control over generation of individual files, configure an ignore file and
-     * refer to it via [ignoreFileOverride].
+     * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
+     *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
+     *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
     val modelFilesConstrainedTo = project.objects.listProperty<String>()
 
@@ -211,8 +213,9 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * Supporting files are those related to projects/frameworks which may be modified
      * by consumers.
      *
-     * For more control over generation of individual files, configure an ignore file and
-     * refer to it via [ignoreFileOverride].
+     * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
+     *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
+     *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
     val supportingFilesConstrainedTo = project.objects.listProperty<String>()
 
