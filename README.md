@@ -126,7 +126,7 @@ To install, run `brew install openapi-generator`
 
 Here is an example usage to generate a Ruby client:
 ```sh
-openapi-generator generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l ruby -o /tmp/test/
+openapi-generator generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g ruby -o /tmp/test/
 ```
 
 ### [1.5 - Docker](#table-of-contents)
@@ -148,7 +148,7 @@ Example:
 ```sh
 docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli generate \
     -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
-    -l go \
+    -g go \
     -o /local/out/go
 ```
 
@@ -206,10 +206,10 @@ Once built, `run-in-docker.sh` will act as an executable for openapi-generator-c
 
 ```sh
 ./run-in-docker.sh help # Executes 'help' command for openapi-generator-cli
-./run-in-docker.sh langs # Executes 'langs' command for openapi-generator-cli
+./run-in-docker.sh list # Executes 'list' command for openapi-generator-cli
 ./run-in-docker.sh /gen/bin/go-petstore.sh  # Builds the Go client
 ./run-in-docker.sh generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
-    -l go -o /gen/out/go-petstore -DpackageName=petstore # generates go client, outputs locally to ./out/go-petstore
+    -g go -o /gen/out/go-petstore -DpackageName=petstore # generates go client, outputs locally to ./out/go-petstore
 ```
 
 #### Run Docker in Vagrant
@@ -232,16 +232,16 @@ cd openapi-generator
 mvn clean package
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
    -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
-   -l php \
+   -g php \
    -o /var/tmp/php_api_client
 ```
-(if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l php -o c:\temp\php_api_client`)
+(if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
 You can also download the JAR (latest release) directly from [maven.org](http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.0.0/openapi-generator-cli-3.0.0.jar)
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
 
-To get a list of PHP specified options (which can be passed to the generator with a config file via the `-c` option), please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar config-help -l php`
+To get a list of PHP specified options (which can be passed to the generator with a config file via the `-c` option), please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar config-help -g php`
 
 ## [3 - Usage](#table-of-contents)
 
@@ -259,7 +259,7 @@ This will run the generator with this command:
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
-  -l java \
+  -g java \
   -o samples/client/petstore/java
 ```
 
@@ -267,7 +267,8 @@ with a number of options. You can get the options with the `help generate` comma
 
 ```
 NAME
-        openapi-generator-cli generate - Generate code with chosen lang
+        openapi-generator-cli generate - Generate code with the specified
+        generator.
 
 SYNOPSIS
         openapi-generator-cli generate
@@ -276,15 +277,16 @@ SYNOPSIS
                 [--api-package <api package>] [--artifact-id <artifact id>]
                 [--artifact-version <artifact version>]
                 [(-c <configuration file> | --config <configuration file>)]
-                [-D <system properties>...] [--git-repo-id <git repo id>]
-                [--git-user-id <git user id>] [--group-id <group id>]
-                [--http-user-agent <http user agent>]
+                [-D <system properties>...]
+                [(-g <generator name> | --generator-name <generator name>)]
+                [--git-repo-id <git repo id>] [--git-user-id <git user id>]
+                [--group-id <group id>] [--http-user-agent <http user agent>]
                 (-i <spec file> | --input-spec <spec file>)
                 [--ignore-file-override <ignore file override location>]
                 [--import-mappings <import mappings>...]
                 [--instantiation-types <instantiation types>...]
                 [--invoker-package <invoker package>]
-                (-l <language> | --lang <language>)
+                [(-l <language> | --lang <language>)]
                 [--language-specific-primitives <language specific primitives>...]
                 [--library <library>] [--model-name-prefix <model name prefix>]
                 [--model-name-suffix <model name suffix>]
@@ -298,7 +300,7 @@ SYNOPSIS
 
 OPTIONS
         -a <authorization>, --auth <authorization>
-            adds authorization headers when fetching the swagger definitions
+            adds authorization headers when fetching the OpenAPI definitions
             remotely. Pass in a URL-encoded string of name:header with a comma
             separating multiple values
 
@@ -542,6 +544,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [Jon Schoning](https://github.com/jonschoning)
 - [Jérémie Bresson](https://github.com/jmini)
 - [Jörn Ahrens](https://github.com/jayearn)
+- [Keni Steward](https://github.com/kenisteward)
 - [Marcin Stefaniuk](https://github.com/mstefaniuk)
 - [Martin Delille](https://github.com/MartinDelille)
 - [Masahiro Yamauchi](https://github.com/algas)

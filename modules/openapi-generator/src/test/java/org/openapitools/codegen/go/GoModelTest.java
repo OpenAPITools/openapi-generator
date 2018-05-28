@@ -17,18 +17,25 @@
 
 package org.openapitools.codegen.go;
 
-import org.openapitools.codegen.languages.GoClientCodegen;
-import org.openapitools.codegen.*;
+import com.google.common.collect.Sets;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.DateTimeSchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
-import com.google.common.collect.Sets;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.languages.GoClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.Collections;
 
 @SuppressWarnings("static-method")
 public class GoModelTest {
@@ -43,7 +50,7 @@ public class GoModelTest {
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -53,7 +60,7 @@ public class GoModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "int64");
+        Assert.assertEquals(property1.dataType, "int64");
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int64");
@@ -63,7 +70,7 @@ public class GoModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
-        Assert.assertEquals(property2.datatype, "string");
+        Assert.assertEquals(property2.dataType, "string");
         Assert.assertEquals(property2.name, "Name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "string");
@@ -74,7 +81,7 @@ public class GoModelTest {
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.complexType, "time.Time");
-        Assert.assertEquals(property3.datatype, "time.Time");
+        Assert.assertEquals(property3.dataType, "time.Time");
         Assert.assertEquals(property3.name, "CreatedAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "time.Time");
@@ -91,7 +98,7 @@ public class GoModelTest {
                         .items(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -100,7 +107,7 @@ public class GoModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "int64");
+        Assert.assertEquals(property1.dataType, "int64");
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int64");
@@ -110,7 +117,7 @@ public class GoModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
-        Assert.assertEquals(property2.datatype, "[]string");
+        Assert.assertEquals(property2.dataType, "[]string");
         Assert.assertEquals(property2.name, "Urls");
         Assert.assertEquals(property2.baseType, "array");
         Assert.assertFalse(property2.hasMore);
@@ -127,7 +134,7 @@ public class GoModelTest {
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -136,7 +143,7 @@ public class GoModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.datatype, "map[string]string");
+        Assert.assertEquals(property1.dataType, "map[string]string");
         Assert.assertEquals(property1.name, "Translations");
         Assert.assertEquals(property1.baseType, "map");
         Assert.assertEquals(property1.containerType, "map");
@@ -151,7 +158,7 @@ public class GoModelTest {
                 .description("a sample model")
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -160,7 +167,7 @@ public class GoModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "Children");
+        Assert.assertEquals(property1.dataType, "Children");
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
@@ -173,7 +180,7 @@ public class GoModelTest {
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -182,7 +189,7 @@ public class GoModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "[]Children");
+        Assert.assertEquals(property1.dataType, "[]Children");
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "array");
         Assert.assertEquals(property1.containerType, "array");
@@ -197,7 +204,7 @@ public class GoModelTest {
                 .addProperties("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -208,7 +215,7 @@ public class GoModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.datatype, "map[string]Children");
+        Assert.assertEquals(property1.dataType, "map[string]Children");
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "map");
         Assert.assertEquals(property1.containerType, "map");
@@ -222,7 +229,7 @@ public class GoModelTest {
                 .items(new Schema().$ref("#/definitions/Children"))
                 .description("an array model");
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -237,7 +244,7 @@ public class GoModelTest {
                 .additionalProperties(new Schema().$ref("#/definitions/Children"))
                 .description("a map model");
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -264,7 +271,7 @@ public class GoModelTest {
     public void modelNameTest(String name, String expectedName) {
         final Schema model = new Schema();
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel(name, model);
+        final CodegenModel cm = codegen.fromModel(name, model, Collections.singletonMap(name, model));
 
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);

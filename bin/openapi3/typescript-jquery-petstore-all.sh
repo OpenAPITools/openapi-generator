@@ -29,9 +29,9 @@ fi
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
 
 echo "Typescript Petstore API client (default)"
-ags="$@ generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -l typescript-jquery -o samples/client/petstore/typescript-jquery/default"
+ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g typescript-jquery -o samples/client/petstore/typescript-jquery/default $@"
 java $JAVA_OPTS -jar $executable $ags
 
 echo "Typescript Petstore API client (npm setting)"
-ags="$@ generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -l typescript-jquery -c bin/typescript-jquery-petstore-npm.json -o samples/client/petstore/typescript-jquery/npm"
+ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g typescript-jquery -c bin/typescript-jquery-petstore-npm.json -o samples/client/petstore/typescript-jquery/npm $@"
 java $JAVA_OPTS -jar $executable $ags

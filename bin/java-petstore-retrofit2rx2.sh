@@ -27,7 +27,7 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -t modules/openapi-generator/src/main/resources/Java/libraries/retrofit2 -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -l java -c bin/java-petstore-retrofit2rx2.json -o samples/client/petstore/java/retrofit2rx2 -DuseRxJava2=true,hideGenerationTimestamp=true"
+ags="generate -t modules/openapi-generator/src/main/resources/Java/libraries/retrofit2 -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g java -c bin/java-petstore-retrofit2rx2.json -o samples/client/petstore/java/retrofit2rx2 -DuseRxJava2=true,hideGenerationTimestamp=true $@"
 
 echo "Removing files and folders under samples/client/petstore/java/retrofit2rx2/src/main"
 rm -rf samples/client/petstore/java/retrofit2rx2/src/main

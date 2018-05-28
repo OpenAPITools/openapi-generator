@@ -41,7 +41,14 @@ import { {{classname}}Interface }                            from './{{classFile
  * {{&description}}
  */
 {{/description}}
+{{^providedInRoot}}
 @Injectable()
+{{/providedInRoot}}
+{{#providedInRoot}}
+@Injectable({
+  providedIn: 'root'
+})
+{{/providedInRoot}}
 {{#withInterfaces}}
 export class {{classname}} implements {{classname}}Interface {
 {{/withInterfaces}}

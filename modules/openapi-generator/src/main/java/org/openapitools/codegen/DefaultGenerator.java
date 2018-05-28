@@ -294,7 +294,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             return;
         }
 
-        final Map<String, Schema> schemas = this.openAPI.getComponents().getSchemas();
+        final Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
         if (schemas == null) {
             return;
         }
@@ -778,9 +778,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         List<File> files = new ArrayList<File>();
         // models
-        List<String> unusedSchemas = ModelUtils.getUnusedSchemas(openAPI);
+        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<Object> allModels = new ArrayList<Object>();
-        generateModels(files, allModels, unusedSchemas);
+        generateModels(files, allModels, filteredSchemas);
         // apis
         List<Object> allOperations = new ArrayList<Object>();
         generateApis(files, allOperations, allModels);

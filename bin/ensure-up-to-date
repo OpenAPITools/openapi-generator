@@ -1,0 +1,37 @@
+#!/bin/bash
+# this bash script run the scripts for the 'mature' generators
+# it ensures that all changes are commited into the 'samples/' folder
+
+echo "# START SCRIPT: $0"
+
+echo "IMPORTANT: this script should be run by the CI (e.g. Shippable) to ensure that the 'samples/' folder is up to date."
+echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
+
+sleep 5
+
+# LIST OF SCRIPTS:
+./bin/ruby-petstore.sh
+./bin/java-petstore-all.sh
+./bin/spring-all-pestore.sh
+./bin/kotlin-client-petstore.sh
+./bin/kotlin-client-string.sh
+./bin/kotlin-client-threetenbp.sh
+./bin/kotlin-server-petstore.sh
+./bin/php-petstore.sh
+./bin/php-silex-petstore-server.sh
+./bin/php-symfony-petstore.sh
+./bin/php-lumen-petstore-server.sh
+./bin/php-slim-petstore-server.sh
+./bin/php-ze-ph-petstore-server.sh
+./bin/openapi3/php-petstore.sh
+
+# Check:
+if [ -n "$(git status --porcelain)" ]; then
+    echo "UNCOMMITTED CHANGES ERROR"
+    echo "There are uncommitted changes in working tree after execution of 'bin/ensure-up-to-date'"
+    git status
+    echo "Please run 'bin/ensure-up-to-date' locally and commit changes"
+    exit 1
+else
+    echo "Git working tree is clean"
+fi

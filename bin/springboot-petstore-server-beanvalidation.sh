@@ -27,7 +27,7 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -t modules/openapi-generator/src/main/resources/JavaSpring -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -l spring -o samples/server/petstore/springboot-beanvalidation -c bin/springboot-petstore-server-beanvalidation.json -DhideGenerationTimestamp=true,java8=false"
+ags="generate -t modules/openapi-generator/src/main/resources/JavaSpring -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g spring -o samples/server/petstore/springboot-beanvalidation -c bin/springboot-petstore-server-beanvalidation.json -DhideGenerationTimestamp=true,java8=false $@"
 
 echo "Removing files and folders under samples/server/petstore/springboot-beanvalidation/src/main"
 rm -rf samples/server/petstore/springboot-beanvalidation/src/main

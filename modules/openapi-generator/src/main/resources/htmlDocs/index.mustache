@@ -166,7 +166,7 @@
     <h3><a name="{{name}}"><code>{{name}}</code>{{#title}} - {{title}}{{/title}}</a> <a class="up" href="#__Models">Up</a></h3>
     {{#unescapedDescription}}<div class='model-description'>{{unescapedDescription}}</div>{{/unescapedDescription}}
     <div class="field-items">
-      {{#vars}}<div class="param">{{name}} {{^required}}(optional){{/required}}</div><div class="param-desc"><span class="param-type">{{^isPrimitiveType}}<a href="#{{complexType}}">{{datatype}}</a>{{/isPrimitiveType}}</span> {{unescapedDescription}} {{#dataFormat}}format: {{{dataFormat}}}{{/dataFormat}}</div>
+      {{#vars}}<div class="param">{{name}} {{^required}}(optional){{/required}}</div><div class="param-desc"><span class="param-type">{{^isPrimitiveType}}<a href="#{{complexType}}">{{dataType}}</a>{{/isPrimitiveType}}</span> {{unescapedDescription}} {{#dataFormat}}format: {{{dataFormat}}}{{/dataFormat}}</div>
       {{#isEnum}}
         <div class="param-enum-header">Enum:</div>
         {{#_enum}}<div class="param-enum">{{this}}</div>{{/_enum}}

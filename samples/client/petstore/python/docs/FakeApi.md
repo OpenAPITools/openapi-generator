@@ -419,7 +419,7 @@ Name | Type | Description  | Notes
  **enum_query_string** | **str**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **float**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | **list[str]**| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
+ **enum_form_string_array** | [**list[str]**](str.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enum_form_string** | **str**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
 ### Return type

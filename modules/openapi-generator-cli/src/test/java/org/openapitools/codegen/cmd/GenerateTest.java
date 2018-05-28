@@ -64,7 +64,7 @@ public class GenerateTest {
 
     @Test
     public void testRequiredArgs_ShortArgs() throws Exception {
-        setupAndRunTest("-i", "swagger.yaml", "-l", "java", "-o", "src/main/java", false, null);
+        setupAndRunTest("-i", "swagger.yaml", "-g", "java", "-o", "src/main/java", false, null);
         new FullVerifications() {
             {
             }
@@ -73,7 +73,7 @@ public class GenerateTest {
 
     @Test
     public void testRequiredArgs_LongArgs() throws Exception {
-        setupAndRunTest("--input-spec", "swagger.yaml", "--lang", "java", "--output",
+        setupAndRunTest("--input-spec", "swagger.yaml", "--generator-name", "java", "--output",
                 "src/main/java", false, null);
         new FullVerifications() {
             {
@@ -220,7 +220,7 @@ public class GenerateTest {
     @Test
     public void testConfig() throws Exception {
 
-        setupAndRunTest("-i", "swagger.yaml", "-l", "java", "-o", "src/main/java", true,
+        setupAndRunTest("-i", "swagger.yaml", "-g", "java", "-o", "src/main/java", true,
                 "config.json", "-c", "config.json");
 
         new FullVerifications() {
@@ -228,7 +228,7 @@ public class GenerateTest {
             }
         };
 
-        setupAndRunTest("-i", "swagger.yaml", "-l", "java", "-o", "src/main/java", true,
+        setupAndRunTest("-i", "swagger.yaml", "-g", "java", "-o", "src/main/java", true,
                 "config.json", "--config", "config.json");
 
         new FullVerifications() {
@@ -560,7 +560,7 @@ public class GenerateTest {
 
         new Verifications() {
             {
-                configurator.setLang(lang);
+                configurator.setGeneratorName(lang);
                 times = 1;
                 configurator.setInputSpec(spec);
                 times = 1;
@@ -570,7 +570,7 @@ public class GenerateTest {
     }
 
     private void setupAndRunGenericTest(String... additionalParameters) {
-        setupAndRunTest("-i", "swagger.yaml", "-l", "java", "-o", "src/main/java", false, null,
+        setupAndRunTest("-i", "swagger.yaml", "-g", "java", "-o", "src/main/java", false, null,
                 additionalParameters);
     }
 }

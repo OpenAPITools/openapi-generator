@@ -24,7 +24,7 @@ import java.util.List;
 @Configuration
 @ComponentScan(basePackages = "org.openapitools.api")
 @EnableWebMvc
-@PropertySource("classpath:swagger.properties")
+@PropertySource("classpath:openapi.properties")
 @Import(SwaggerDocumentationConfig.class)
 public class SwaggerUiConfiguration extends WebMvcConfigurerAdapter {
   private static final String[] SERVLET_RESOURCE_LOCATIONS = { "/" };

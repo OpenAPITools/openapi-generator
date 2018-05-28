@@ -711,7 +711,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         String type = p.baseType;
         if (type == null) {
-            type = p.datatype;
+            type = p.dataType;
         }
 
         if (Boolean.TRUE.equals(p.isInteger)) {
@@ -877,7 +877,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     private boolean isModelledType(CodegenProperty cp) {
         // N.B. enums count as modelled types, file is not modelled (SuperAgent uses some 3rd party library).
-        return cp.isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.datatype : cp.baseType);
+        return cp.isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.dataType : cp.baseType);
     }
 
     private String getJSDocType(CodegenParameter cp) {

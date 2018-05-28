@@ -42,8 +42,8 @@ public class {{classname}} {
   /**
    * {{summary}}
    * {{notes}}{{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}{{#returnType}}
-   * @return {{{returnType}}}{{/returnType}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{/allParams}}{{#returnType}}
+   * @return a {@code {{{returnType}}}}{{/returnType}}
    * @throws ApiException if fails to make API call
    {{#isDeprecated}}
    * @deprecated

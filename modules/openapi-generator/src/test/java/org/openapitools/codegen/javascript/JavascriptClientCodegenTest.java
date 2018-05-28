@@ -19,15 +19,15 @@ package org.openapitools.codegen.javascript;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.*;
 
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.languages.JavascriptClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import org.openapitools.codegen.languages.JavascriptClientCodegen;
 
 public class JavascriptClientCodegenTest {
 
@@ -71,7 +71,7 @@ public class JavascriptClientCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
         final JavascriptClientCodegen codegen = new JavascriptClientCodegen();
         final Schema pet = openAPI.getComponents().getSchemas().get("Pet");
-        final CodegenModel cm = codegen.fromModel("Pet", pet);
+        final CodegenModel cm = codegen.fromModel("Pet", pet, openAPI.getComponents().getSchemas());
 
         Assert.assertEquals(cm.name, "Pet");
         Assert.assertEquals(cm.classname, "Pet");
@@ -81,7 +81,7 @@ public class JavascriptClientCodegenTest {
         // category (property)
         final CodegenProperty property1 = cm.vars.get(1);
         Assert.assertEquals(property1.baseName, "category");
-        Assert.assertEquals(property1.datatype, "Category");
+        Assert.assertEquals(property1.dataType, "Category");
         Assert.assertEquals(property1.name, "category");
         Assert.assertEquals(property1.baseType, "Category");
         Assert.assertEquals(property1.defaultValueWithParam, " = Category.constructFromObject(data['category']);");
@@ -91,7 +91,7 @@ public class JavascriptClientCodegenTest {
         // name (property)
         final CodegenProperty property2 = cm.vars.get(2);
         Assert.assertEquals(property2.baseName, "name");
-        Assert.assertEquals(property2.datatype, "String");
+        Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertEquals(property2.defaultValueWithParam, " = ApiClient.convertToType(data['name'], 'String');");

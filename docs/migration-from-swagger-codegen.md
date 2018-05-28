@@ -85,10 +85,16 @@ New:
 </dependency>
 ```
 
+### Changes in Maven Plugin
+
+OpenAPI Generator 3.0.0 has introduced `<generatorName>` and deprecated `<language>`, because this refers to generator names which embed more than just "language".
+
+If both options are present, you'll be presented with an error. If only `<language>` is provided, you'll be presented instructions for updating to the new config.
+
 
 ### New generators names
 
-When you run OpenAPI Generator, you need to select a target language (`-l` option in the cli).
+When you run OpenAPI Generator, you need to select a target generator (`-g` option in the cli).
 All languages of `swagger-codegen` have been migrated to `openapi-generator`, but some names were changed, in order to be more consistent.
 
 | name in `swagger-codegen` | name in `openapi-generator`  |
@@ -106,6 +112,7 @@ All languages of `swagger-codegen` have been migrated to `openapi-generator`, bu
 | `ze-ph` | `php-ze-ph` |
 | `nancyfx` | `csharp-nancyfx` |
 
+We provide a temporary mapping in code for these old values. You'll receive a warning with instructions to migrate to the new names.
 
 ### New parameters name
 
@@ -120,6 +127,13 @@ Some examples:
 | `swagger.codegen.undertow.apipackage` | `openapi.codegen.undertow.apipackage` |
 | `swagger.codegen.undertow.modelpackage` | `openapi.codegen.undertow.modelpackage` |
 
+
+### Renamed Mustache Template Variables 
+
+The template variable `{{datatype}}` was renamed to `{{dataType}}` for consistency reason.
+Corresponding java code: `CodegenProperty.datatype` is renamed to `CodegenProperty.dataType`.
+
+(If you're **not** using customized templates with the `-t` option, you can ignore the mustache variable renaming above.)
 
 ### Ignore file
 

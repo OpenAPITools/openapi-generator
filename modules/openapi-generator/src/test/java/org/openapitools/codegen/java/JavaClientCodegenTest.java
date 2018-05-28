@@ -191,8 +191,9 @@ public class JavaClientCodegenTest {
     @Test
     public void nullValuesInComposedSchema() throws Exception {
         final JavaClientCodegen codegen = new JavaClientCodegen();
+        ComposedSchema schema = new ComposedSchema();
         CodegenModel result = codegen.fromModel("CompSche",
-                new ComposedSchema());
+                schema, Collections.singletonMap("CompSche", schema));
         Assert.assertEquals(result.name, "CompSche");
     }
 

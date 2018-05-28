@@ -78,7 +78,7 @@ public class StoreApi {
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
-   * @return Map<String, Integer>
+   * @return a {@code Map<String, Integer>}
    * @throws ApiException if fails to make API call
    */
   public Map<String, Integer> getInventory() throws ApiException {
@@ -114,7 +114,7 @@ public class StoreApi {
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched (required)
-   * @return Order
+   * @return a {@code Order}
    * @throws ApiException if fails to make API call
    */
   public Order getOrderById(Long orderId) throws ApiException {
@@ -156,7 +156,7 @@ public class StoreApi {
    * Place an order for a pet
    * 
    * @param order order placed for purchasing the pet (required)
-   * @return Order
+   * @return a {@code Order}
    * @throws ApiException if fails to make API call
    */
   public Order placeOrder(Order order) throws ApiException {

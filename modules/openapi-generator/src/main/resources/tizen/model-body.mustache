@@ -57,12 +57,12 @@ void
 		{
 			JsonArray* arr = json_node_get_array(node);
 			JsonNode*  temp_json;
-			list<{{#items}}{{datatype}}{{/items}}> new_list;
-			{{#items}}{{datatype}}{{/items}} inst;
+			list<{{#items}}{{dataType}}{{/items}}> new_list;
+			{{#items}}{{dataType}}{{/items}} inst;
 			for (guint i=0;i<json_array_get_length(arr);i++) {
 				temp_json = json_array_get_element(arr,i);
-				if (isprimitive("{{#items}}{{datatype}}{{/items}}")) {
-					jsonToValue(&inst, temp_json, "{{#items}}{{datatype}}{{/items}}", "");
+				if (isprimitive("{{#items}}{{dataType}}{{/items}}")) {
+					jsonToValue(&inst, temp_json, "{{#items}}{{dataType}}{{/items}}", "");
 				} else {
 					{{#items}}{{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isString}}{{^isDateTime}}{{^isDouble}}{{^isFloat}}
 					inst.fromJson(json_to_string(temp_json, false));
@@ -108,18 +108,18 @@ char*
 	{{#vars}}
 	{{#isContainer}}
 	{{#isListContainer}}
-	if (isprimitive("{{#items}}{{datatype}}{{/items}}")) {
-		list<{{#items}}{{datatype}}{{/items}}> new_list = static_cast<list <{{#items}}{{datatype}}{{/items}}> > ({{getter}}());
-		node = converttoJson(&new_list, "{{#items}}{{datatype}}{{/items}}", "{{containerType}}");
+	if (isprimitive("{{#items}}{{dataType}}{{/items}}")) {
+		list<{{#items}}{{dataType}}{{/items}}> new_list = static_cast<list <{{#items}}{{dataType}}{{/items}}> > ({{getter}}());
+		node = converttoJson(&new_list, "{{#items}}{{dataType}}{{/items}}", "{{containerType}}");
 	} else {
 		node = json_node_alloc();
-		list<{{#items}}{{datatype}}{{/items}}> new_list = static_cast<list <{{#items}}{{datatype}}{{/items}}> > ({{getter}}());
+		list<{{#items}}{{dataType}}{{/items}}> new_list = static_cast<list <{{#items}}{{dataType}}{{/items}}> > ({{getter}}());
 		JsonArray* json_array = json_array_new();
 		GError *mygerror;
 		{{#items}}{{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isString}}{{^isDateTime}}{{^isDouble}}{{^isFloat}}
-		for (list<{{datatype}}>::iterator it = new_list.begin(); it != new_list.end(); it++) {
+		for (list<{{dataType}}>::iterator it = new_list.begin(); it != new_list.end(); it++) {
 			mygerror = NULL;
-			{{datatype}} obj = *it;
+			{{dataType}} obj = *it;
 			JsonNode *node_temp = json_from_string(obj.toJson(), &mygerror);
 			json_array_add_element(json_array, node_temp);
 			g_clear_error(&mygerror);
@@ -174,14 +174,14 @@ char*
 }
 
 {{#vars}}
-{{datatype}}{{#isContainer}}{{#isMapContainer}}<string, string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{datatype}}{{/items}}>{{/isMapContainer}}{{/isContainer}}
+{{dataType}}{{#isContainer}}{{#isMapContainer}}<string, string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{dataType}}{{/items}}>{{/isMapContainer}}{{/isContainer}}
 {{classname}}::{{getter}}()
 {
 	return {{name}};
 }
 
 void
-{{classname}}::{{setter}}({{datatype}} {{#isContainer}}{{#isMapContainer}}<string, string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{datatype}}{{/items}}>{{/isMapContainer}}{{/isContainer}} {{name}})
+{{classname}}::{{setter}}({{dataType}} {{#isContainer}}{{#isMapContainer}}<string, string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{dataType}}{{/items}}>{{/isMapContainer}}{{/isContainer}} {{name}})
 {
 	this->{{name}} = {{name}};
 }

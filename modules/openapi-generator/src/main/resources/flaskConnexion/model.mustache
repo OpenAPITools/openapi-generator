@@ -27,17 +27,17 @@ class {{classname}}(Model):
 {{/-last}}
 {{/enumVars}}{{/allowableValues}}
 
-    def __init__(self{{#vars}}, {{name}}{{^supportPython2}}: {{datatype}}{{/supportPython2}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
+    def __init__(self{{#vars}}, {{name}}{{^supportPython2}}: {{dataType}}{{/supportPython2}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI
 
         {{#vars}}
         :param {{name}}: The {{name}} of this {{classname}}.  # noqa: E501
-        :type {{name}}: {{datatype}}
+        :type {{name}}: {{dataType}}
         {{/vars}}
         """
         self.openapi_types = {
 {{#vars}}
-            '{{name}}': {{{datatype}}}{{#hasMore}},{{/hasMore}}
+            '{{name}}': {{{dataType}}}{{#hasMore}},{{/hasMore}}
 {{/vars}}
         }
 
@@ -64,7 +64,7 @@ class {{classname}}(Model):
 
 {{/-first}}
     @property
-    def {{name}}(self){{^supportPython2}} -> {{datatype}}{{/supportPython2}}:
+    def {{name}}(self){{^supportPython2}} -> {{dataType}}{{/supportPython2}}:
         """Gets the {{name}} of this {{classname}}.
 
         {{#description}}
@@ -72,12 +72,12 @@ class {{classname}}(Model):
         {{/description}}
 
         :return: The {{name}} of this {{classname}}.
-        :rtype: {{datatype}}
+        :rtype: {{dataType}}
         """
         return self._{{name}}
 
     @{{name}}.setter
-    def {{name}}(self, {{name}}{{^supportPython2}}: {{datatype}}{{/supportPython2}}):
+    def {{name}}(self, {{name}}{{^supportPython2}}: {{dataType}}{{/supportPython2}}):
         """Sets the {{name}} of this {{classname}}.
 
         {{#description}}
@@ -85,7 +85,7 @@ class {{classname}}(Model):
         {{/description}}
 
         :param {{name}}: The {{name}} of this {{classname}}.
-        :type {{name}}: {{datatype}}
+        :type {{name}}: {{dataType}}
         """
 {{#isEnum}}
         allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]  # noqa: E501

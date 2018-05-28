@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -41,8 +40,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,7 +68,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
-    public static final String SWAGGER_DOCKET_CONFIG = "swaggerDocketConfig";
+    public static final String OPENAPI_DOCKET_CONFIG = "swaggerDocketConfig";
 
     protected String title = "OpenAPI Spring";
     protected String configPackage = "org.openapitools.configuration";
@@ -87,7 +84,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean useTags = false;
     protected boolean useBeanValidation = true;
     protected boolean implicitHeaders = false;
-    protected boolean swaggerDocketConfig = false;
+    protected boolean openapiDocketConfig = false;
     protected boolean useOptional = false;
 
     public SpringCodegen() {
@@ -116,7 +113,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Use of @ApiImplicitParams for headers."));
-        cliOptions.add(CliOption.newBoolean(SWAGGER_DOCKET_CONFIG, "Generate Spring Swagger Docket configuration class."));
+        cliOptions.add(CliOption.newBoolean(OPENAPI_DOCKET_CONFIG, "Generate Spring OpenAPI Docket configuration class."));
         cliOptions.add(CliOption.newBoolean(USE_OPTIONAL,
                 "Use Optional container for optional parameters"));
 
@@ -235,8 +232,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setImplicitHeaders(Boolean.valueOf(additionalProperties.get(IMPLICIT_HEADERS).toString()));
         }
 
-        if (additionalProperties.containsKey(SWAGGER_DOCKET_CONFIG)) {
-            this.setSwaggerDocketConfig(Boolean.valueOf(additionalProperties.get(SWAGGER_DOCKET_CONFIG).toString()));
+        if (additionalProperties.containsKey(OPENAPI_DOCKET_CONFIG)) {
+            this.setOpenapiDocketConfig(Boolean.valueOf(additionalProperties.get(OPENAPI_DOCKET_CONFIG).toString()));
         }
 
         typeMapping.put("file", "Resource");
@@ -283,7 +280,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "RFC3339DateFormat.java"));
                 supportingFiles.add(new SupportingFile("application.properties",
-                        ("src.main.resources").replace(".", java.io.File.separator), "swagger.properties"));
+                        ("src.main.resources").replace(".", java.io.File.separator), "openapi.properties"));
             }
             if (library.equals(SPRING_CLOUD_LIBRARY)) {
                 supportingFiles.add(new SupportingFile("apiKeyRequestInterceptor.mustache",
@@ -310,7 +307,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                             (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "OpenAPIDocumentationConfig.java"));
                 }
             }
-        } else if (this.swaggerDocketConfig && !library.equals(SPRING_CLOUD_LIBRARY) && !this.reactive) {
+        } else if (this.openapiDocketConfig && !library.equals(SPRING_CLOUD_LIBRARY) && !this.reactive) {
             supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "OpenAPIDocumentationConfig.java"));
         }
@@ -378,18 +375,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         // add lambda for mustache templates
-        additionalProperties.put("lambdaEscapeDoubleQuote", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\"")));
-            }
-        });
-        additionalProperties.put("lambdaRemoveLineBreak", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                writer.write(fragment.execute().replaceAll("\\r|\\n", ""));
-            }
-        });
+        additionalProperties.put("lambdaEscapeDoubleQuote",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
+        additionalProperties.put("lambdaRemoveLineBreak",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
     }
 
     @Override
@@ -409,11 +398,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
             }
-            List<CodegenOperation> opList = operations.get(basePath);
-            if (opList == null) {
-                opList = new ArrayList<CodegenOperation>();
-                operations.put(basePath, opList);
-            }
+            List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
             opList.add(co);
             co.baseName = basePath;
         } else {
@@ -674,8 +659,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.implicitHeaders = implicitHeaders;
     }
 
-    public void setSwaggerDocketConfig(boolean swaggerDocketConfig) {
-        this.swaggerDocketConfig = swaggerDocketConfig;
+    public void setOpenapiDocketConfig(boolean openapiDocketConfig) {
+        this.openapiDocketConfig = openapiDocketConfig;
     }
 
     @Override

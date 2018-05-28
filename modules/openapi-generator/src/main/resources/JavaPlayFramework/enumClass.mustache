@@ -20,9 +20,9 @@
         {{/allowableValues}}
     {{/gson}}
 
-    private final {{{datatype}}} value;
+    private final {{{dataType}}} value;
 
-    {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}({{{datatype}}} value) {
+    {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}({{{dataType}}} value) {
       this.value = value;
     }
 

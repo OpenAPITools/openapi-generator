@@ -38,7 +38,7 @@ public class FakeClassnameTags123Api {
    * To test class name in snake case
    * To test class name in snake case
    * @param client client model (required)
-   * @return Client
+   * @return a {@code Client}
    * @throws ApiException if fails to make API call
    */
   public Client testClassname(Client client) throws ApiException {

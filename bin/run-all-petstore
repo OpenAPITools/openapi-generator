@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 # this bash script will loop through all the .sh files under bin
 # execute the script and check the result (exit code) to see if
 # there's any error
@@ -8,17 +8,26 @@ echo "Please press CTRL+C to stop or the script will continue in 10 seconds."
 
 sleep 10
 
-for SCRIPT in `ls -l ./bin/*.sh | grep -v all`
+successes=0
+failures=0
+for SCRIPT in $(ls -l ./bin/*.sh | grep -v all)
 do
-    if [ -f $SCRIPT -a -x $SCRIPT ]
-    then
+    if [ -f ${SCRIPT} -a -x ${SCRIPT} ]; then
         echo "Running $SCRIPT"
-        $SCRIPT
+        ${SCRIPT}
         rc=$?
-        if [[ $rc != 0 ]]
-        then
-            echo "ERROR!! FAILED TO RUN $SCRIPT"
-            exit $rc;
+        if [[ ${rc} != 0 ]]; then
+            >&2 echo "ERROR!! FAILED TO RUN ${SCRIPT}"
+            ((failures+=1))
+        else
+            ((successes+=1))
         fi
     fi
 done
+
+if (( failures > 0 )); then
+   >&2 echo "[ERROR] ${failures} out of $((failures+successes)) scripts failed."
+   exit 1
+else
+    echo "[SUCCESS] ${successes} generators finished."
+fi

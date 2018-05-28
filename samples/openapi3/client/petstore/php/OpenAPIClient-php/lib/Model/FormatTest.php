@@ -304,6 +304,10 @@ class FormatTest implements ModelInterface, ArrayAccess
             $invalidProperties[] = "invalid value for 'double', must be bigger than or equal to 67.8.";
         }
 
+        if (!is_null($this->container['string']) && !preg_match("/[a-z]/i", $this->container['string'])) {
+            $invalidProperties[] = "invalid value for 'string', must be conform to the pattern /[a-z]/i.";
+        }
+
         if ($this->container['byte'] === null) {
             $invalidProperties[] = "'byte' can't be null";
         }
@@ -539,6 +543,11 @@ class FormatTest implements ModelInterface, ArrayAccess
      */
     public function setString($string)
     {
+
+        if (!is_null($string) && (!preg_match("/[a-z]/i", $string))) {
+            throw new \InvalidArgumentException("invalid value for $string when calling FormatTest., must conform to the pattern /[a-z]/i.");
+        }
+
         $this->container['string'] = $string;
 
         return $this;

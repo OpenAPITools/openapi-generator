@@ -1,15 +1,8 @@
 {{>partial_header}}
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.AspNetCore.Mvc;{{#useSwashbuckle}}
+using Swashbuckle.AspNetCore.SwaggerGen;{{/useSwashbuckle}}
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using {{packageName}}.Attributes;
@@ -25,15 +18,15 @@ namespace {{packageName}}.Controllers
     { {{#operation}}
         /// <summary>
         /// {{#summary}}{{summary}}{{/summary}}
-        /// </summary>
-        {{#notes}}/// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
+        /// </summary>{{#notes}}
+        /// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
         /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
         [{{httpMethod}}]
         [Route("{{{basePathWithoutHost}}}{{{path}}}")]
-        [ValidateModelState]
+        [ValidateModelState]{{#useSwashbuckle}}
         [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
-        [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}
+        [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}
         public virtual IActionResult {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         { {{#responses}}
 {{#dataType}}

@@ -15,7 +15,7 @@ dependencies:
   cache_directories:
     - "~/.m2"
     - "~/.sbt"
-    - "~/.iv2/cache"
+    - "~/.ivy2/cache"
 
   pre:
     - sudo add-apt-repository ppa:duggan/bats --yes
@@ -35,16 +35,16 @@ test:
   override:
     ## test with jdk8
     - java -version
-    - mvn clean install
-    - mvn -q verify -Psamples
+    - mvn --quiet clean install
+    - mvn --quiet verify -Psamples
     # skip the rest if previous mvn task fails
     - if [ $? -ne 0 ]; then exit 1; fi
     ## test with jdk7
     - sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
     - java -version
     - cp CI/pom.xml.circleci.java7 pom.xml # use jdk7 pom
-    - mvn clean install
-    - mvn -q verify -Psamples
+    - mvn --quiet clean install
+    - mvn --quiet verify -Psamples
     # skip the rest if previous mvn task fails
     - if [ $? -ne 0 ]; then exit 1; fi
     ## docker push done in Travis instead
