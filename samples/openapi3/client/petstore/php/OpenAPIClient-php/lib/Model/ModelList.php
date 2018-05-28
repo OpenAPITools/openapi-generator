@@ -207,7 +207,7 @@ class ModelList implements ModelInterface, ArrayAccess
     /**
      * Gets _123_list
      *
-     * @return string
+     * @return string|null
      */
     public function get123List()
     {
@@ -217,7 +217,7 @@ class ModelList implements ModelInterface, ArrayAccess
     /**
      * Sets _123_list
      *
-     * @param string $_123_list _123_list
+     * @param string|null $_123_list _123_list
      *
      * @return $this
      */
