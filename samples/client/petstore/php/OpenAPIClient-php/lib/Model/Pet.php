@@ -268,7 +268,7 @@ class Pet implements ModelInterface, ArrayAccess
     /**
      * Gets id
      *
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -278,7 +278,7 @@ class Pet implements ModelInterface, ArrayAccess
     /**
      * Sets id
      *
-     * @param int $id id
+     * @param int|null $id id
      *
      * @return $this
      */
@@ -292,7 +292,7 @@ class Pet implements ModelInterface, ArrayAccess
     /**
      * Gets category
      *
-     * @return \OpenAPI\Client\Model\Category
+     * @return \OpenAPI\Client\Model\Category|null
      */
     public function getCategory()
     {
@@ -302,7 +302,7 @@ class Pet implements ModelInterface, ArrayAccess
     /**
      * Sets category
      *
-     * @param \OpenAPI\Client\Model\Category $category category
+     * @param \OpenAPI\Client\Model\Category|null $category category
      *
      * @return $this
      */
@@ -364,7 +364,7 @@ class Pet implements ModelInterface, ArrayAccess
     /**
      * Gets tags
      *
-     * @return \OpenAPI\Client\Model\Tag[]
+     * @return \OpenAPI\Client\Model\Tag[]|null
      */
     public function getTags()
     {
@@ -374,7 +374,7 @@ class Pet implements ModelInterface, ArrayAccess
     /**
      * Sets tags
      *
-     * @param \OpenAPI\Client\Model\Tag[] $tags tags
+     * @param \OpenAPI\Client\Model\Tag[]|null $tags tags
      *
      * @return $this
      */
@@ -388,7 +388,7 @@ class Pet implements ModelInterface, ArrayAccess
     /**
      * Gets status
      *
-     * @return string
+     * @return string|null
      */
     public function getStatus()
     {
@@ -398,7 +398,7 @@ class Pet implements ModelInterface, ArrayAccess
     /**
      * Sets status
      *
-     * @param string $status pet status in the store
+     * @param string|null $status pet status in the store
      *
      * @return $this
      */

@@ -207,7 +207,7 @@ class ArrayOfArrayOfNumberOnly implements ModelInterface, ArrayAccess
     /**
      * Gets array_array_number
      *
-     * @return float[][]
+     * @return float[][]|null
      */
     public function getArrayArrayNumber()
     {
@@ -217,7 +217,7 @@ class ArrayOfArrayOfNumberOnly implements ModelInterface, ArrayAccess
     /**
      * Sets array_array_number
      *
-     * @param float[][] $array_array_number array_array_number
+     * @param float[][]|null $array_array_number array_array_number
      *
      * @return $this
      */
