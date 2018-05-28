@@ -213,7 +213,7 @@ class Category implements ModelInterface, ArrayAccess
     /**
      * Gets id
      *
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -223,7 +223,7 @@ class Category implements ModelInterface, ArrayAccess
     /**
      * Sets id
      *
-     * @param int $id id
+     * @param int|null $id id
      *
      * @return $this
      */
@@ -237,7 +237,7 @@ class Category implements ModelInterface, ArrayAccess
     /**
      * Gets name
      *
-     * @return string
+     * @return string|null
      */
     public function getName()
     {
@@ -247,7 +247,7 @@ class Category implements ModelInterface, ArrayAccess
     /**
      * Sets name
      *
-     * @param string $name name
+     * @param string|null $name name
      *
      * @return $this
      */
