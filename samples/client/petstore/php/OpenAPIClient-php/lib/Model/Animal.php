@@ -244,7 +244,7 @@ class Animal implements ModelInterface, ArrayAccess
     /**
      * Gets color
      *
-     * @return string
+     * @return string|null
      */
     public function getColor()
     {
@@ -254,7 +254,7 @@ class Animal implements ModelInterface, ArrayAccess
     /**
      * Sets color
      *
-     * @param string $color color
+     * @param string|null $color color
      *
      * @return $this
      */
