@@ -3,11 +3,11 @@
             [clojure.spec.alpha :as s]
             [spec-tools.core :as st]
             [orchestra.core :refer [defn-spec]]
-            [open-api-petstore.specs.tag :refer :all]
-            [open-api-petstore.specs.category :refer :all]
-            [open-api-petstore.specs.user :refer :all]
-            [open-api-petstore.specs.pet :refer :all]
-            [open-api-petstore.specs.order :refer :all]
+            [open-api-petstore.specs.Order :refer :all]
+            [open-api-petstore.specs.User :refer :all]
+            [open-api-petstore.specs.Category :refer :all]
+            [open-api-petstore.specs.Tag :refer :all]
+            [open-api-petstore.specs.Pet :refer :all]
             )
   (:import (java.io File)))
 
@@ -38,12 +38,12 @@
 
 (defn-spec delete-pet-with-http-info any?
   "Deletes a pet"
-  ([pet-id int?, ] (delete-pet-with-http-info pet-id nil))
-  ([pet-id int?, {:keys [api-key]} (s/map-of keyword? any?)]
-   (check-required-params pet-id)
+  ([petId int?, ] (delete-pet-with-http-info petId nil))
+  ([petId int?, {:keys [api_key]} (s/map-of keyword? any?)]
+   (check-required-params petId)
    (call-api "/pet/{petId}" :delete
-             {:path-params   {"petId" pet-id }
-              :header-params {"api_key" api-key }
+             {:path-params   {"petId" petId }
+              :header-params {"api_key" api_key }
               :query-params  {}
               :form-params   {}
               :content-types []
@@ -52,9 +52,9 @@
 
 (defn-spec delete-pet any?
   "Deletes a pet"
-  ([pet-id int?, ] (delete-pet pet-id nil))
-  ([pet-id int?, optional-params any?]
-   (let [res (:data (delete-pet-with-http-info pet-id optional-params))]
+  ([petId int?, ] (delete-pet petId nil))
+  ([petId int?, optional-params any?]
+   (let [res (:data (delete-pet-with-http-info petId optional-params))]
      (if (:decode-models *api-context*)
         (st/decode any? res st/string-transformer)
         res))))
@@ -74,14 +74,14 @@
               :accepts       ["application/json" "application/xml"]
               :auth-names    ["petstore_auth"]})))
 
-(defn-spec find-pets-by-status (s/coll-of pet-spec)
+(defn-spec find-pets-by-status (s/coll-of Pet-spec)
   "Finds Pets by status
   Multiple status values can be provided with comma separated strings"
   ([] (find-pets-by-status nil))
   ([optional-params any?]
    (let [res (:data (find-pets-by-status-with-http-info optional-params))]
      (if (:decode-models *api-context*)
-        (st/decode (s/coll-of pet-spec) res st/string-transformer)
+        (st/decode (s/coll-of Pet-spec) res st/string-transformer)
         res))))
 
 
@@ -99,24 +99,24 @@
               :accepts       ["application/json" "application/xml"]
               :auth-names    ["petstore_auth"]})))
 
-(defn-spec find-pets-by-tags (s/coll-of pet-spec)
+(defn-spec find-pets-by-tags (s/coll-of Pet-spec)
   "Finds Pets by tags
   Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing."
   ([] (find-pets-by-tags nil))
   ([optional-params any?]
    (let [res (:data (find-pets-by-tags-with-http-info optional-params))]
      (if (:decode-models *api-context*)
-        (st/decode (s/coll-of pet-spec) res st/string-transformer)
+        (st/decode (s/coll-of Pet-spec) res st/string-transformer)
         res))))
 
 
 (defn-spec get-pet-by-id-with-http-info any?
   "Find pet by ID
   Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions"
-  [pet-id int?]
-  (check-required-params pet-id)
+  [petId int?]
+  (check-required-params petId)
   (call-api "/pet/{petId}" :get
-            {:path-params   {"petId" pet-id }
+            {:path-params   {"petId" petId }
              :header-params {}
              :query-params  {}
              :form-params   {}
@@ -124,13 +124,13 @@
              :accepts       ["application/json" "application/xml"]
              :auth-names    ["api_key" "petstore_auth"]}))
 
-(defn-spec get-pet-by-id pet-spec
+(defn-spec get-pet-by-id Pet-spec
   "Find pet by ID
   Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions"
-  [pet-id int?]
-  (let [res (:data (get-pet-by-id-with-http-info pet-id))]
+  [petId int?]
+  (let [res (:data (get-pet-by-id-with-http-info petId))]
     (if (:decode-models *api-context*)
-       (st/decode pet-spec res st/string-transformer)
+       (st/decode Pet-spec res st/string-transformer)
        res)))
 
 
@@ -160,11 +160,11 @@
 
 (defn-spec update-pet-with-form-with-http-info any?
   "Updates a pet in the store with form data"
-  ([pet-id string?, ] (update-pet-with-form-with-http-info pet-id nil))
-  ([pet-id string?, {:keys [name status]} (s/map-of keyword? any?)]
-   (check-required-params pet-id)
+  ([petId string?, ] (update-pet-with-form-with-http-info petId nil))
+  ([petId string?, {:keys [name status]} (s/map-of keyword? any?)]
+   (check-required-params petId)
    (call-api "/pet/{petId}" :post
-             {:path-params   {"petId" pet-id }
+             {:path-params   {"petId" petId }
               :header-params {}
               :query-params  {}
               :form-params   {"name" name "status" status }
@@ -174,9 +174,9 @@
 
 (defn-spec update-pet-with-form any?
   "Updates a pet in the store with form data"
-  ([pet-id string?, ] (update-pet-with-form pet-id nil))
-  ([pet-id string?, optional-params any?]
-   (let [res (:data (update-pet-with-form-with-http-info pet-id optional-params))]
+  ([petId string?, ] (update-pet-with-form petId nil))
+  ([petId string?, optional-params any?]
+   (let [res (:data (update-pet-with-form-with-http-info petId optional-params))]
      (if (:decode-models *api-context*)
         (st/decode any? res st/string-transformer)
         res))))
@@ -184,23 +184,23 @@
 
 (defn-spec upload-file-with-http-info any?
   "uploads an image"
-  ([pet-id int?, ] (upload-file-with-http-info pet-id nil))
-  ([pet-id int?, {:keys [additional-metadata ^File file]} (s/map-of keyword? any?)]
-   (check-required-params pet-id)
+  ([petId int?, ] (upload-file-with-http-info petId nil))
+  ([petId int?, {:keys [additionalMetadata ^File file]} (s/map-of keyword? any?)]
+   (check-required-params petId)
    (call-api "/pet/{petId}/uploadImage" :post
-             {:path-params   {"petId" pet-id }
+             {:path-params   {"petId" petId }
               :header-params {}
               :query-params  {}
-              :form-params   {"additionalMetadata" additional-metadata "file" file }
+              :form-params   {"additionalMetadata" additionalMetadata "file" file }
               :content-types ["multipart/form-data"]
               :accepts       []
               :auth-names    ["petstore_auth"]})))
 
 (defn-spec upload-file any?
   "uploads an image"
-  ([pet-id int?, ] (upload-file pet-id nil))
-  ([pet-id int?, optional-params any?]
-   (let [res (:data (upload-file-with-http-info pet-id optional-params))]
+  ([petId int?, ] (upload-file petId nil))
+  ([petId int?, optional-params any?]
+   (let [res (:data (upload-file-with-http-info petId optional-params))]
      (if (:decode-models *api-context*)
         (st/decode any? res st/string-transformer)
         res))))

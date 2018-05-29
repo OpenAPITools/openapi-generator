@@ -1,7 +1,6 @@
 (ns open-api-petstore.core
   (:require [cheshire.core :refer [generate-string parse-string]]
             [clojure.string :as str]
-            [camel-snake-kebab.core :as format]
             [clj-http.client :as client])
   (:import (com.fasterxml.jackson.core JsonParseException)
            (java.io File)
@@ -212,7 +211,7 @@
   (cond
     (json-mime? content-type)
     (try
-      (parse-string body format/->kebab-case-keyword)
+      (parse-string body true)
       (catch JsonParseException e
         ;; Return the body string directly on JSON parsing error.
         body))

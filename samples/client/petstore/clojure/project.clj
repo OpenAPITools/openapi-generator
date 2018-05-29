@@ -6,5 +6,4 @@
                  [metosin/spec-tools "0.7.0"]
                  [clj-http "3.8.0"]
                  [orchestra "2017.11.12-1"]
-                 [camel-snake-kebab "0.4.0"]
                  [cheshire "5.8.0"]])

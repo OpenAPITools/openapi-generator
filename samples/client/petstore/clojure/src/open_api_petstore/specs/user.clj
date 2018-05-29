@@ -1,23 +1,23 @@
-(ns open-api-petstore.specs.user
+(ns open-api-petstore.specs.User
   (:require [clojure.spec.alpha :as s]
             [spec-tools.data-spec :as ds]
             )
   (:import (java.io File)))
 
 
-(def user
+(def User
   {
    (ds/opt :id) int?
    (ds/opt :username) string?
-   (ds/opt :first-name) string?
-   (ds/opt :last-name) string?
+   (ds/opt :firstName) string?
+   (ds/opt :lastName) string?
    (ds/opt :email) string?
    (ds/opt :password) string?
    (ds/opt :phone) string?
-   (ds/opt :user-status) int?
+   (ds/opt :userStatus) int?
    })
 
-(def user-spec
+(def User-spec
   (ds/spec
-    {:name ::user
-     :spec user}))
+    {:name ::User
+     :spec User}))

@@ -3,11 +3,11 @@
             [clojure.spec.alpha :as s]
             [spec-tools.core :as st]
             [orchestra.core :refer [defn-spec]]
-            [open-api-petstore.specs.tag :refer :all]
-            [open-api-petstore.specs.category :refer :all]
-            [open-api-petstore.specs.user :refer :all]
-            [open-api-petstore.specs.pet :refer :all]
-            [open-api-petstore.specs.order :refer :all]
+            [open-api-petstore.specs.Order :refer :all]
+            [open-api-petstore.specs.User :refer :all]
+            [open-api-petstore.specs.Category :refer :all]
+            [open-api-petstore.specs.Tag :refer :all]
+            [open-api-petstore.specs.Pet :refer :all]
             )
   (:import (java.io File)))
 
@@ -15,10 +15,10 @@
 (defn-spec delete-order-with-http-info any?
   "Delete purchase order by ID
   For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors"
-  [order-id string?]
-  (check-required-params order-id)
+  [orderId string?]
+  (check-required-params orderId)
   (call-api "/store/order/{orderId}" :delete
-            {:path-params   {"orderId" order-id }
+            {:path-params   {"orderId" orderId }
              :header-params {}
              :query-params  {}
              :form-params   {}
@@ -29,8 +29,8 @@
 (defn-spec delete-order any?
   "Delete purchase order by ID
   For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors"
-  [order-id string?]
-  (let [res (:data (delete-order-with-http-info order-id))]
+  [orderId string?]
+  (let [res (:data (delete-order-with-http-info orderId))]
     (if (:decode-models *api-context*)
        (st/decode any? res st/string-transformer)
        res)))
@@ -62,10 +62,10 @@
 (defn-spec get-order-by-id-with-http-info any?
   "Find purchase order by ID
   For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions"
-  [order-id string?]
-  (check-required-params order-id)
+  [orderId string?]
+  (check-required-params orderId)
   (call-api "/store/order/{orderId}" :get
-            {:path-params   {"orderId" order-id }
+            {:path-params   {"orderId" orderId }
              :header-params {}
              :query-params  {}
              :form-params   {}
@@ -73,13 +73,13 @@
              :accepts       ["application/json" "application/xml"]
              :auth-names    []}))
 
-(defn-spec get-order-by-id order-spec
+(defn-spec get-order-by-id Order-spec
   "Find purchase order by ID
   For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions"
-  [order-id string?]
-  (let [res (:data (get-order-by-id-with-http-info order-id))]
+  [orderId string?]
+  (let [res (:data (get-order-by-id-with-http-info orderId))]
     (if (:decode-models *api-context*)
-       (st/decode order-spec res st/string-transformer)
+       (st/decode Order-spec res st/string-transformer)
        res)))
 
 
@@ -97,13 +97,13 @@
               :accepts       ["application/json" "application/xml"]
               :auth-names    []})))
 
-(defn-spec place-order order-spec
+(defn-spec place-order Order-spec
   "Place an order for a pet"
   ([] (place-order nil))
   ([optional-params any?]
    (let [res (:data (place-order-with-http-info optional-params))]
      (if (:decode-models *api-context*)
-        (st/decode order-spec res st/string-transformer)
+        (st/decode Order-spec res st/string-transformer)
         res))))
 
 
