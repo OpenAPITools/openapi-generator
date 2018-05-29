@@ -311,7 +311,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toModelFilename(String name) {
-        return underscore(toModelName(name));
+        return StringUtils.capitalize(underscore(toModelName(name)));
     }
 
     @Override
