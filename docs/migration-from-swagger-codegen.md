@@ -4,6 +4,22 @@ OpenAPI Generator is a fork of `swagger-codegen` between version `2.3.1` and `2.
 This community-driven version called "OpenAPI Generator" provides similar functionalities and can be used as drop-in replacement.
 This guide explains the major differences in order to help you with the migration.
 
+
+**Table of contents**
+
+  - [New docker images](#new-docker-images)
+  - [New maven coordinates](#new-maven-coordinates)
+  - [Changes in Maven Plugin](#changes-in-maven-plugin)
+  - [New generators names](#new-generators-names)
+  - [New parameters name](#new-parameters-name)
+  - [Renamed Mustache Template Variables](#renamed-mustache-template-variables)
+  - [Ignore file](#ignore-file)
+  - [metadata-folder](#metadata-folder)
+  - [New default values for the generated code](#new-default-values-for-the-generated-code)
+  - [New fully qualified name for the classes](#new-fully-qualified-name-for-the-classes)
+  - [Body parameter name](#body-parameter-name)
+  - [Generators not yet fully migrated](#generators-not-yet-fully-migrated)
+
 ### New docker images
 
 The docker images are available on DockerHub: https://hub.docker.com/u/openapitools/
@@ -225,5 +241,15 @@ paths:
             - 'read:pets'
 ```
 If your API client is using named parameters in the function call (e.g. Perl required & optional parameters, Ruby optional parameters), you will need to add `x-codegen-request-body-name` to the spec to restore the original body parameter name.
+
+# Generators not yet fully migrated
+
+The following gnereators are not yet fully migrated and tested
+
+- `rust-server`
+- `apex`
+
+and we welcome contributions from the community to help with the migration
+
 
 [Back to OpenAPI-Generator's README page](../README.md)
