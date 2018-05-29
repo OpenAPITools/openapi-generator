@@ -22,11 +22,11 @@ import io.airlift.airline.Option;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.GeneratorNotFoundException;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -226,7 +226,7 @@ public class Generate implements Runnable {
             LOGGER.warn("The '--lang' and '-l' are deprecated and may reference language names only in the next major release (4.0). Please use --generator-name /-g instead.");
             configurator.setGeneratorName(lang);
         } else {
-            LOGGER.error("A generator name (--generator-name / -g) is required. ");
+            System.err.println("[error] A generator name (--generator-name / -g) is required.");
             System.exit(1);
         }
 
@@ -309,8 +309,14 @@ public class Generate implements Runnable {
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
         applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
-        final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
-        new DefaultGenerator().opts(clientOptInput).generate();
+        try {
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            new DefaultGenerator().opts(clientOptInput).generate();
+        } catch (GeneratorNotFoundException e) {
+            System.err.println(e.getMessage());
+            System.err.println("[error] Check the spelling of the generator's name and try again.");
+            System.exit(1);
+        }
     }
 }
