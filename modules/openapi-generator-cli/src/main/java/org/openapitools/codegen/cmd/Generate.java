@@ -22,6 +22,7 @@ import io.airlift.airline.Option;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.GeneratorNotFoundException;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -309,8 +310,14 @@ public class Generate implements Runnable {
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
         applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
-        final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
-        new DefaultGenerator().opts(clientOptInput).generate();
+        try {
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            new DefaultGenerator().opts(clientOptInput).generate();
+        } catch (GeneratorNotFoundException e) {
+            System.err.println(e.getMessage());
+            System.err.println("Check the spelling of the generator's name and try again.");
+            System.exit(1);
+        }
     }
 }
