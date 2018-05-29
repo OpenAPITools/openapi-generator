@@ -73,7 +73,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));
         cliOptions.add(new CliOption("title", "a title describing the application"));
 
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
+        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
         cliOptions.add(new CliOption(SERVER_PORT, "The port on which the server should be started"));
     }
 
@@ -99,9 +99,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
 
-        if (useBeanValidation) {
-            writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
-        }
+        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
     }
 
