@@ -44,12 +44,12 @@ public class Validate implements Runnable {
 
         if (messages.size() > 0) {
             StringBuilder sb = new StringBuilder();
-            sb.append("\n");
+            sb.append(System.lineSeparator());
             for (String message : messages) {
-                sb.append(String.format("\t- %s\n", message));
+                sb.append(String.format("\t- %s%s", message, System.lineSeparator()));
             }
-            sb.append("\n");
-            sb.append("Spec has errors.");
+            sb.append(System.lineSeparator());
+            sb.append("[error] Spec is invalid.");
             System.err.println(sb.toString());
             System.exit(1);
         } else {

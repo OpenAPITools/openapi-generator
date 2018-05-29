@@ -316,7 +316,7 @@ public class Generate implements Runnable {
             new DefaultGenerator().opts(clientOptInput).generate();
         } catch (GeneratorNotFoundException e) {
             System.err.println(e.getMessage());
-            System.err.println("Check the spelling of the generator's name and try again.");
+            System.err.println("[error] Check the spelling of the generator's name and try again.");
             System.exit(1);
         }
     }
