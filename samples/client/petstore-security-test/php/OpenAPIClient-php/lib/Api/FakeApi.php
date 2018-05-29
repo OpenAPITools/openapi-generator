@@ -96,7 +96,7 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return 
+     * @return void
      */
     public function testCodeInjectEndRnNR($unknown_base_type = null)
     {
@@ -112,7 +112,7 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testCodeInjectEndRnNRWithHttpInfo($unknown_base_type = null)
     {
@@ -144,10 +144,6 @@ class FakeApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];

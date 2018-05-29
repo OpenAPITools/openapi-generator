@@ -166,7 +166,7 @@ class AnotherFakeApi
                     ];
             }
 
-			$returnType = '\OpenAPI\Client\Model\Client';
+            $returnType = '\OpenAPI\Client\Model\Client';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer

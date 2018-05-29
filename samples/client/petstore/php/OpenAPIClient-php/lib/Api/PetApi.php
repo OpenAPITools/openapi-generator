@@ -96,7 +96,7 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return 
+     * @return void
      */
     public function addPet($pet)
     {
@@ -112,7 +112,7 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function addPetWithHttpInfo($pet)
     {
@@ -144,10 +144,6 @@ class PetApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];
@@ -324,7 +320,7 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return 
+     * @return void
      */
     public function deletePet($pet_id, $api_key = null)
     {
@@ -341,7 +337,7 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deletePetWithHttpInfo($pet_id, $api_key = null)
     {
@@ -373,10 +369,6 @@ class PetApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];
@@ -634,7 +626,7 @@ class PetApi
                     ];
             }
 
-			$returnType = '\OpenAPI\Client\Model\Pet[]';
+            $returnType = '\OpenAPI\Client\Model\Pet[]';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -918,7 +910,7 @@ class PetApi
                     ];
             }
 
-			$returnType = '\OpenAPI\Client\Model\Pet[]';
+            $returnType = '\OpenAPI\Client\Model\Pet[]';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -1202,7 +1194,7 @@ class PetApi
                     ];
             }
 
-			$returnType = '\OpenAPI\Client\Model\Pet';
+            $returnType = '\OpenAPI\Client\Model\Pet';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -1418,7 +1410,7 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return ||
+     * @return void
      */
     public function updatePet($pet)
     {
@@ -1434,7 +1426,7 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of ||, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function updatePetWithHttpInfo($pet)
     {
@@ -1466,10 +1458,6 @@ class PetApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];
@@ -1647,7 +1635,7 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return 
+     * @return void
      */
     public function updatePetWithForm($pet_id, $name = null, $status = null)
     {
@@ -1665,7 +1653,7 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function updatePetWithFormWithHttpInfo($pet_id, $name = null, $status = null)
     {
@@ -1697,10 +1685,6 @@ class PetApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];
@@ -1969,7 +1953,7 @@ class PetApi
                     ];
             }
 
-			$returnType = '\OpenAPI\Client\Model\ApiResponse';
+            $returnType = '\OpenAPI\Client\Model\ApiResponse';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer

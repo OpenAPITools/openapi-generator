@@ -96,7 +96,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return 
+     * @return void
      */
     public function createUser($user)
     {
@@ -112,7 +112,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function createUserWithHttpInfo($user)
     {
@@ -144,10 +144,6 @@ class UserApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];
@@ -319,7 +315,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return 
+     * @return void
      */
     public function createUsersWithArrayInput($user)
     {
@@ -335,7 +331,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function createUsersWithArrayInputWithHttpInfo($user)
     {
@@ -367,10 +363,6 @@ class UserApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];
@@ -542,7 +534,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return 
+     * @return void
      */
     public function createUsersWithListInput($user)
     {
@@ -558,7 +550,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function createUsersWithListInputWithHttpInfo($user)
     {
@@ -590,10 +582,6 @@ class UserApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];
@@ -765,7 +753,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return |
+     * @return void
      */
     public function deleteUser($username)
     {
@@ -781,7 +769,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of |, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deleteUserWithHttpInfo($username)
     {
@@ -813,10 +801,6 @@ class UserApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];
@@ -1063,7 +1047,7 @@ class UserApi
                     ];
             }
 
-			$returnType = '\OpenAPI\Client\Model\User';
+            $returnType = '\OpenAPI\Client\Model\User';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -1346,7 +1330,7 @@ class UserApi
                     ];
             }
 
-			$returnType = 'string';
+            $returnType = 'string';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -1565,7 +1549,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return 
+     * @return void
      */
     public function logoutUser()
     {
@@ -1580,7 +1564,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function logoutUserWithHttpInfo()
     {
@@ -1612,10 +1596,6 @@ class UserApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];
@@ -1776,7 +1756,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return |
+     * @return void
      */
     public function updateUser($username, $user)
     {
@@ -1793,7 +1773,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of |, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateUserWithHttpInfo($username, $user)
     {
@@ -1825,10 +1805,6 @@ class UserApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];

@@ -95,7 +95,7 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return {{#responses}}{{^-first}}|{{/-first}}{{{dataType}}}{{/responses}}{{^responses}}void{{/responses}}
+     * @return {{#returnType}}{{#responses}}{{^-first}}|{{/-first}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}void{{/returnType}}
      */
     public function {{operationId}}({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
@@ -120,7 +120,7 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of {{#responses}}{{^-first}}|{{/-first}}{{{dataType}}}{{/responses}}{{^responses}}null{{/responses}}, HTTP status code, HTTP response headers (array of strings)
+     * @return array of {{#returnType}}{{#responses}}{{^-first}}|{{/-first}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
      */
     public function {{operationId}}WithHttpInfo({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
@@ -153,6 +153,7 @@ use {{invokerPackage}}\ObjectSerializer;
                     $response->getBody()
                 );
             }
+            {{#returnType}}
         {{#responses}}
             {{#-first}}
 
@@ -181,8 +182,7 @@ use {{invokerPackage}}\ObjectSerializer;
             {{/-last}}
         {{/responses}}
 
-            {{#returnType}}
-			$returnType = '{{returnType}}';
+            $returnType = '{{returnType}}';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -200,6 +200,7 @@ use {{invokerPackage}}\ObjectSerializer;
             ];
             {{/returnType}}
             {{^returnType}}
+
             return [null, $statusCode, $response->getHeaders()];
             {{/returnType}}
 

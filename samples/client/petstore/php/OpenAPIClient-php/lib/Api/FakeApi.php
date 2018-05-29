@@ -162,7 +162,7 @@ class FakeApi
                     ];
             }
 
-			$returnType = 'bool';
+            $returnType = 'bool';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -428,7 +428,7 @@ class FakeApi
                     ];
             }
 
-			$returnType = '\OpenAPI\Client\Model\OuterComposite';
+            $returnType = '\OpenAPI\Client\Model\OuterComposite';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -694,7 +694,7 @@ class FakeApi
                     ];
             }
 
-			$returnType = 'float';
+            $returnType = 'float';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -960,7 +960,7 @@ class FakeApi
                     ];
             }
 
-			$returnType = 'string';
+            $returnType = 'string';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -1159,7 +1159,7 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return 
+     * @return void
      */
     public function testBodyWithQueryParams($query, $user)
     {
@@ -1174,7 +1174,7 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testBodyWithQueryParamsWithHttpInfo($query, $user)
     {
@@ -1206,10 +1206,6 @@ class FakeApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];
@@ -1464,7 +1460,7 @@ class FakeApi
                     ];
             }
 
-			$returnType = '\OpenAPI\Client\Model\Client';
+            $returnType = '\OpenAPI\Client\Model\Client';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -1683,7 +1679,7 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return |
+     * @return void
      */
     public function testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
@@ -1712,7 +1708,7 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of |, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testEndpointParametersWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
@@ -1744,10 +1740,6 @@ class FakeApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];
@@ -2088,7 +2080,7 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return |
+     * @return void
      */
     public function testEnumParameters($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
@@ -2111,7 +2103,7 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of |, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testEnumParametersWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
@@ -2143,10 +2135,6 @@ class FakeApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];
@@ -2368,7 +2356,7 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return 
+     * @return void
      */
     public function testInlineAdditionalProperties($request_body)
     {
@@ -2384,7 +2372,7 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testInlineAdditionalPropertiesWithHttpInfo($request_body)
     {
@@ -2416,10 +2404,6 @@ class FakeApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];
@@ -2592,7 +2576,7 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return 
+     * @return void
      */
     public function testJsonFormData($param, $param2)
     {
@@ -2609,7 +2593,7 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testJsonFormDataWithHttpInfo($param, $param2)
     {
@@ -2641,10 +2625,6 @@ class FakeApi
                     $response->getHeaders(),
                     $response->getBody()
                 );
-            }
-
-            $responseBody = $response->getBody();
-            switch($statusCode) {
             }
 
             return [null, $statusCode, $response->getHeaders()];
