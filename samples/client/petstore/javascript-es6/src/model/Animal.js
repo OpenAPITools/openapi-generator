@@ -11,51 +11,44 @@
  *
  */
 
-
 import ApiClient from '../ApiClient';
 
-
-
-
-
 /**
-* The Animal model module.
-* @module model/Animal
-* @version 1.0.0
-*/
-export default class Animal {
+ * The Animal model module.
+ * @module model/Animal
+ * @version 1.0.0
+ */
+class Animal {
     /**
-    * Constructs a new <code>Animal</code>.
-    * @alias module:model/Animal
-    * @class
-    * @param className {String} 
-    */
-
-    constructor(className) {
+     * Constructs a new <code>Animal</code>.
+     * @alias module:model/Animal
+     * @param className {String} 
+     */
+    constructor(className) { 
         
+        Animal.initialize(this, className);
+    }
 
-        
-        
-
-        this['className'] = className;
-
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj, className) {
+        obj['className'] = className;
         
     }
 
     /**
-    * Constructs a <code>Animal</code> from a plain JavaScript object, optionally creating a new instance.
-    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-    * @param {Object} data The plain JavaScript object bearing properties of interest.
-    * @param {module:model/Animal} obj Optional instance to populate.
-    * @return {module:model/Animal} The populated <code>Animal</code> instance.
-    */
+     * Constructs a <code>Animal</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Animal} obj Optional instance to populate.
+     * @return {module:model/Animal} The populated <code>Animal</code> instance.
+     */
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new Animal();
-
-            
-            
-            
 
             if (data.hasOwnProperty('className')) {
                 obj['className'] = ApiClient.convertToType(data['className'], 'String');
@@ -67,23 +60,24 @@ export default class Animal {
         return obj;
     }
 
-    /**
-    * @member {String} className
-    */
-    className = undefined;
-    /**
-    * @member {String} color
-    * @default 'red'
-    */
-    color = 'red';
-
-
-
-
-
-
-
 
 }
 
+/**
+ * @member {String} className
+ */
+Animal.prototype['className'] = undefined;
+
+/**
+ * @member {String} color
+ * @default 'red'
+ */
+Animal.prototype['color'] = 'red';
+
+
+
+
+
+
+export default Animal;
 

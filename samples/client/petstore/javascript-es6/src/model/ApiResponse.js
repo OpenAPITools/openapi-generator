@@ -11,50 +11,42 @@
  *
  */
 
-
 import ApiClient from '../ApiClient';
 
-
-
-
-
 /**
-* The ApiResponse model module.
-* @module model/ApiResponse
-* @version 1.0.0
-*/
-export default class ApiResponse {
+ * The ApiResponse model module.
+ * @module model/ApiResponse
+ * @version 1.0.0
+ */
+class ApiResponse {
     /**
-    * Constructs a new <code>ApiResponse</code>.
-    * @alias module:model/ApiResponse
-    * @class
-    */
-
-    constructor() {
+     * Constructs a new <code>ApiResponse</code>.
+     * @alias module:model/ApiResponse
+     */
+    constructor() { 
         
+        ApiResponse.initialize(this);
+    }
 
-        
-        
-
-        
-
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) {
         
     }
 
     /**
-    * Constructs a <code>ApiResponse</code> from a plain JavaScript object, optionally creating a new instance.
-    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-    * @param {Object} data The plain JavaScript object bearing properties of interest.
-    * @param {module:model/ApiResponse} obj Optional instance to populate.
-    * @return {module:model/ApiResponse} The populated <code>ApiResponse</code> instance.
-    */
+     * Constructs a <code>ApiResponse</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/ApiResponse} obj Optional instance to populate.
+     * @return {module:model/ApiResponse} The populated <code>ApiResponse</code> instance.
+     */
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new ApiResponse();
-
-            
-            
-            
 
             if (data.hasOwnProperty('code')) {
                 obj['code'] = ApiClient.convertToType(data['code'], 'Number');
@@ -69,26 +61,28 @@ export default class ApiResponse {
         return obj;
     }
 
-    /**
-    * @member {Number} code
-    */
-    code = undefined;
-    /**
-    * @member {String} type
-    */
-    type = undefined;
-    /**
-    * @member {String} message
-    */
-    message = undefined;
-
-
-
-
-
-
-
 
 }
 
+/**
+ * @member {Number} code
+ */
+ApiResponse.prototype['code'] = undefined;
+
+/**
+ * @member {String} type
+ */
+ApiResponse.prototype['type'] = undefined;
+
+/**
+ * @member {String} message
+ */
+ApiResponse.prototype['message'] = undefined;
+
+
+
+
+
+
+export default ApiResponse;
 

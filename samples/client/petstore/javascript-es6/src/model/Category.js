@@ -11,50 +11,42 @@
  *
  */
 
-
 import ApiClient from '../ApiClient';
 
-
-
-
-
 /**
-* The Category model module.
-* @module model/Category
-* @version 1.0.0
-*/
-export default class Category {
+ * The Category model module.
+ * @module model/Category
+ * @version 1.0.0
+ */
+class Category {
     /**
-    * Constructs a new <code>Category</code>.
-    * @alias module:model/Category
-    * @class
-    */
-
-    constructor() {
+     * Constructs a new <code>Category</code>.
+     * @alias module:model/Category
+     */
+    constructor() { 
         
+        Category.initialize(this);
+    }
 
-        
-        
-
-        
-
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) {
         
     }
 
     /**
-    * Constructs a <code>Category</code> from a plain JavaScript object, optionally creating a new instance.
-    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-    * @param {Object} data The plain JavaScript object bearing properties of interest.
-    * @param {module:model/Category} obj Optional instance to populate.
-    * @return {module:model/Category} The populated <code>Category</code> instance.
-    */
+     * Constructs a <code>Category</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Category} obj Optional instance to populate.
+     * @return {module:model/Category} The populated <code>Category</code> instance.
+     */
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new Category();
-
-            
-            
-            
 
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'Number');
@@ -66,22 +58,23 @@ export default class Category {
         return obj;
     }
 
-    /**
-    * @member {Number} id
-    */
-    id = undefined;
-    /**
-    * @member {String} name
-    */
-    name = undefined;
-
-
-
-
-
-
-
 
 }
 
+/**
+ * @member {Number} id
+ */
+Category.prototype['id'] = undefined;
+
+/**
+ * @member {String} name
+ */
+Category.prototype['name'] = undefined;
+
+
+
+
+
+
+export default Category;
 

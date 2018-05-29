@@ -11,50 +11,42 @@
  *
  */
 
-
 import ApiClient from '../ApiClient';
 
-
-
-
-
 /**
-* The Client model module.
-* @module model/Client
-* @version 1.0.0
-*/
-export default class Client {
+ * The Client model module.
+ * @module model/Client
+ * @version 1.0.0
+ */
+class Client {
     /**
-    * Constructs a new <code>Client</code>.
-    * @alias module:model/Client
-    * @class
-    */
-
-    constructor() {
+     * Constructs a new <code>Client</code>.
+     * @alias module:model/Client
+     */
+    constructor() { 
         
+        Client.initialize(this);
+    }
 
-        
-        
-
-        
-
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) {
         
     }
 
     /**
-    * Constructs a <code>Client</code> from a plain JavaScript object, optionally creating a new instance.
-    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-    * @param {Object} data The plain JavaScript object bearing properties of interest.
-    * @param {module:model/Client} obj Optional instance to populate.
-    * @return {module:model/Client} The populated <code>Client</code> instance.
-    */
+     * Constructs a <code>Client</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Client} obj Optional instance to populate.
+     * @return {module:model/Client} The populated <code>Client</code> instance.
+     */
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new Client();
-
-            
-            
-            
 
             if (data.hasOwnProperty('client')) {
                 obj['client'] = ApiClient.convertToType(data['client'], 'String');
@@ -63,18 +55,18 @@ export default class Client {
         return obj;
     }
 
-    /**
-    * @member {String} client
-    */
-    client = undefined;
-
-
-
-
-
-
-
 
 }
 
+/**
+ * @member {String} client
+ */
+Client.prototype['client'] = undefined;
+
+
+
+
+
+
+export default Client;
 

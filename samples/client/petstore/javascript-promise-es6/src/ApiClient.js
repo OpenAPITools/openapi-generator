@@ -27,7 +27,7 @@ import querystring from "querystring";
 * @alias module:ApiClient
 * @class
 */
-export default class ApiClient {
+class ApiClient {
     constructor() {
         /**
          * The base URL against which to resolve every API call's (relative) path.
@@ -224,43 +224,6 @@ export default class ApiClient {
 
         return newParams;
     }
-
-    /**
-    * Enumeration of collection format separator strategies.
-    * @enum {String}
-    * @readonly
-    */
-    static CollectionFormatEnum = {
-        /**
-         * Comma-separated values. Value: <code>csv</code>
-         * @const
-         */
-        CSV: ',',
-
-        /**
-         * Space-separated values. Value: <code>ssv</code>
-         * @const
-         */
-        SSV: ' ',
-
-        /**
-         * Tab-separated values. Value: <code>tsv</code>
-         * @const
-         */
-        TSV: '\t',
-
-        /**
-         * Pipe(|)-separated values. Value: <code>pipes</code>
-         * @const
-         */
-        PIPES: '|',
-
-        /**
-         * Native array. Value: <code>multi</code>
-         * @const
-         */
-        MULTI: 'multi'
-    };
 
     /**
     * Builds a string representation of an array-type actual parameter, according to the given collection format.
@@ -574,7 +537,45 @@ export default class ApiClient {
 }
 
 /**
+ * Enumeration of collection format separator strategies.
+ * @enum {String}
+ * @readonly
+ */
+ApiClient.CollectionFormatEnum = {
+    /**
+     * Comma-separated values. Value: <code>csv</code>
+     * @const
+     */
+    CSV: ',',
+
+    /**
+     * Space-separated values. Value: <code>ssv</code>
+     * @const
+     */
+    SSV: ' ',
+
+    /**
+     * Tab-separated values. Value: <code>tsv</code>
+     * @const
+     */
+    TSV: '\t',
+
+    /**
+     * Pipe(|)-separated values. Value: <code>pipes</code>
+     * @const
+     */
+    PIPES: '|',
+
+    /**
+     * Native array. Value: <code>multi</code>
+     * @const
+     */
+    MULTI: 'multi'
+};
+
+/**
 * The default API client implementation.
 * @type {module:ApiClient}
 */
 ApiClient.instance = new ApiClient();
+export default ApiClient;

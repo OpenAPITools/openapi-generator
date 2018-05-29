@@ -15,7 +15,7 @@ import querystring from "querystring";
 * @alias module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient
 * @class
 */{{/emitJSDoc}}
-export default class ApiClient {
+class ApiClient {
     constructor() {
         {{#emitJSDoc}}/**
          * The base URL against which to resolve every API call's (relative) path.
@@ -220,43 +220,6 @@ export default class ApiClient {
 
         return newParams;
     }
-
-    {{#emitJSDoc}}/**
-    * Enumeration of collection format separator strategies.
-    * @enum {String}
-    * @readonly
-    */{{/emitJSDoc}}
-    static CollectionFormatEnum = {
-        {{#emitJSDoc}}/**
-         * Comma-separated values. Value: <code>csv</code>
-         * @const
-         */{{/emitJSDoc}}
-        CSV: ',',
-
-        {{#emitJSDoc}}/**
-         * Space-separated values. Value: <code>ssv</code>
-         * @const
-         */{{/emitJSDoc}}
-        SSV: ' ',
-
-        {{#emitJSDoc}}/**
-         * Tab-separated values. Value: <code>tsv</code>
-         * @const
-         */{{/emitJSDoc}}
-        TSV: '\t',
-
-        {{#emitJSDoc}}/**
-         * Pipe(|)-separated values. Value: <code>pipes</code>
-         * @const
-         */{{/emitJSDoc}}
-        PIPES: '|',
-
-        {{#emitJSDoc}}/**
-         * Native array. Value: <code>multi</code>
-         * @const
-         */{{/emitJSDoc}}
-        MULTI: 'multi'
-    };
 
     {{#emitJSDoc}}/**
     * Builds a string representation of an array-type actual parameter, according to the given collection format.
@@ -598,7 +561,45 @@ export default class ApiClient {
 }
 
 {{#emitJSDoc}}/**
+ * Enumeration of collection format separator strategies.
+ * @enum {String}
+ * @readonly
+ */{{/emitJSDoc}}
+ApiClient.CollectionFormatEnum = {
+    {{#emitJSDoc}}/**
+     * Comma-separated values. Value: <code>csv</code>
+     * @const
+     */{{/emitJSDoc}}
+    CSV: ',',
+
+    {{#emitJSDoc}}/**
+     * Space-separated values. Value: <code>ssv</code>
+     * @const
+     */{{/emitJSDoc}}
+    SSV: ' ',
+
+    {{#emitJSDoc}}/**
+     * Tab-separated values. Value: <code>tsv</code>
+     * @const
+     */{{/emitJSDoc}}
+    TSV: '\t',
+
+    {{#emitJSDoc}}/**
+     * Pipe(|)-separated values. Value: <code>pipes</code>
+     * @const
+     */{{/emitJSDoc}}
+    PIPES: '|',
+
+    {{#emitJSDoc}}/**
+     * Native array. Value: <code>multi</code>
+     * @const
+     */{{/emitJSDoc}}
+    MULTI: 'multi'
+};
+
+{{#emitJSDoc}}/**
 * The default API client implementation.
 * @type {module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient}
 */{{/emitJSDoc}}
 ApiClient.instance = new ApiClient();
+export default ApiClient;

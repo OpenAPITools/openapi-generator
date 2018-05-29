@@ -11,50 +11,42 @@
  *
  */
 
-
 import ApiClient from '../ApiClient';
 
-
-
-
-
 /**
-* The ArrayOfNumberOnly model module.
-* @module model/ArrayOfNumberOnly
-* @version 1.0.0
-*/
-export default class ArrayOfNumberOnly {
+ * The ArrayOfNumberOnly model module.
+ * @module model/ArrayOfNumberOnly
+ * @version 1.0.0
+ */
+class ArrayOfNumberOnly {
     /**
-    * Constructs a new <code>ArrayOfNumberOnly</code>.
-    * @alias module:model/ArrayOfNumberOnly
-    * @class
-    */
-
-    constructor() {
+     * Constructs a new <code>ArrayOfNumberOnly</code>.
+     * @alias module:model/ArrayOfNumberOnly
+     */
+    constructor() { 
         
+        ArrayOfNumberOnly.initialize(this);
+    }
 
-        
-        
-
-        
-
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) {
         
     }
 
     /**
-    * Constructs a <code>ArrayOfNumberOnly</code> from a plain JavaScript object, optionally creating a new instance.
-    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-    * @param {Object} data The plain JavaScript object bearing properties of interest.
-    * @param {module:model/ArrayOfNumberOnly} obj Optional instance to populate.
-    * @return {module:model/ArrayOfNumberOnly} The populated <code>ArrayOfNumberOnly</code> instance.
-    */
+     * Constructs a <code>ArrayOfNumberOnly</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/ArrayOfNumberOnly} obj Optional instance to populate.
+     * @return {module:model/ArrayOfNumberOnly} The populated <code>ArrayOfNumberOnly</code> instance.
+     */
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new ArrayOfNumberOnly();
-
-            
-            
-            
 
             if (data.hasOwnProperty('ArrayNumber')) {
                 obj['ArrayNumber'] = ApiClient.convertToType(data['ArrayNumber'], ['Number']);
@@ -63,18 +55,18 @@ export default class ArrayOfNumberOnly {
         return obj;
     }
 
-    /**
-    * @member {Array.<Number>} ArrayNumber
-    */
-    ArrayNumber = undefined;
-
-
-
-
-
-
-
 
 }
 
+/**
+ * @member {Array.<Number>} ArrayNumber
+ */
+ArrayOfNumberOnly.prototype['ArrayNumber'] = undefined;
+
+
+
+
+
+
+export default ArrayOfNumberOnly;
 
