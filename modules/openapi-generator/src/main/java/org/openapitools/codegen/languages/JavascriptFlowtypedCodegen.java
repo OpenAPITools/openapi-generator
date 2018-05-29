@@ -1,11 +1,13 @@
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
-import io.swagger.models.Info;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.*;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -88,7 +90,7 @@ public class JavascriptFlowtypedCodegen extends AbstractTypeScriptClientCodegen 
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
 
     }
 
@@ -98,8 +100,8 @@ public class JavascriptFlowtypedCodegen extends AbstractTypeScriptClientCodegen 
     }
 
     @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, ModelImpl swaggerModel) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(swaggerModel.getAdditionalProperties());
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        codegenModel.additionalPropertiesType = getTypeDeclaration((Schema) schema.getAdditionalProperties());
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -115,17 +117,17 @@ public class JavascriptFlowtypedCodegen extends AbstractTypeScriptClientCodegen 
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        Property inner;
-        if(p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty)p;
-            inner = ap.getItems();
-            return this.getSwaggerType(p) + "<" + this.getTypeDeclaration(inner) + ">";
-        } else if(p instanceof MapProperty) {
-            MapProperty mp = (MapProperty)p;
-            inner = mp.getAdditionalProperties();
+    public String getTypeDeclaration(Schema p) {
+        Schema inner;
+        if (ModelUtils.isArraySchema(p)) {
+            inner = ((ArraySchema) p).getItems();
+            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(p)) {
+            inner = (Schema) p.getAdditionalProperties();
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
-        } else if(p instanceof FileProperty || p instanceof ObjectProperty) {
+        } else if (ModelUtils.isFileSchema(p)) {
+            return "any";
+        } else if (ModelUtils.isBinarySchema(p)) {
             return "any";
         } else {
             return super.getTypeDeclaration(p);
@@ -158,9 +160,11 @@ public class JavascriptFlowtypedCodegen extends AbstractTypeScriptClientCodegen 
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        if (swagger.getInfo() != null) {
-            Info info = swagger.getInfo();
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+
+        if (openAPI.getInfo() != null) {
+            Info info = openAPI.getInfo();
             if (StringUtils.isBlank(npmName) && info.getTitle() != null) {
                 // when projectName is not specified, generate it from info.title
                 npmName = sanitizeName(dashize(info.getTitle()));
