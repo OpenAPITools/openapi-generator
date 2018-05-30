@@ -1083,6 +1083,21 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the example value of the parameter.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param parameter Parameter
+     */
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        if (parameter.getExample() != null) {
+            codegenParameter.example = parameter.getExample().toString();
+            return;
+        }
+
+        setParameterExampleValue(codegenParameter);
+    }
+
+    /**
      * Return the example value of the property
      *
      * @param schema Property schema
@@ -2738,7 +2753,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set the parameter excample value
         // should be overridden by lang codegen
-        setParameterExampleValue(codegenParameter);
+        setParameterExampleValue(codegenParameter, parameter);
 
         postProcessParameter(codegenParameter);
         LOGGER.debug("debugging codegenParameter return: " + codegenParameter);

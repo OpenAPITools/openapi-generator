@@ -1,0 +1,23 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://petstore.swagger.io/v2'
+info:
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /example1:
+    get:
+      operationId: example1Get
+      parameters:
+        - name: parameter
+          in: query
+          example: 'example1 value'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+
