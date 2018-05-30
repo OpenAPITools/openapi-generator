@@ -13,7 +13,8 @@ buildscript {
 }
 
 group 'org.openapitools'
-version '3.0.0-SNAPSHOT'
+// Shared OpenAPI Generator version be passed via command line arg as -PopenApiGeneratorVersion=VERSION
+version "$openApiGeneratorVersion"
 description = """
 This plugin supports common functionality found in Open API Generator CLI as a gradle plugin.
 
@@ -36,8 +37,8 @@ repositories {
 
 dependencies {
     compile gradleApi()
-    // TODO: need to resolve automating this version dependency with parent module project.
-    compile "org.openapitools:openapi-generator:3.0.0-SNAPSHOT"
+    // Shared OpenAPI Generator version be passed via command line arg as -PopenApiGeneratorVersion=VERSION
+    compile "org.openapitools:openapi-generator:$openApiGeneratorVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     testCompile 'org.testng:testng:6.9.6',
