@@ -36,10 +36,36 @@ repositories {
 
 dependencies {
     compile gradleApi()
+    // TODO: need to resolve automating this version dependency with parent module project.
     compile "org.openapitools:openapi-generator:3.0.0-SNAPSHOT"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    testCompile 'org.testng:testng:6.9.6',
+            "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+
+    testCompile "org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlin_version"
 }
+
+test {
+    useTestNG()
+    testClassesDirs = files(project.tasks.compileTestKotlin.destinationDir)
+    testLogging.showStandardStreams = false
+
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+
+    failFast = true
+
+    onOutput { descriptor, event ->
+        // SLF4J may complain about multiple bindings dependign on how this is run.
+        // This is just a warning, but can make test output less readable. So we ignore it specifically.
+        if (!event.message.contains("SLF4J:")) {
+            logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message)
+        }
+    }
+}
+
 
 gradlePlugin {
     plugins {
