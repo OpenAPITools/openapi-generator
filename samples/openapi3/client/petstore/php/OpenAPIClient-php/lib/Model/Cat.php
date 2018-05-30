@@ -201,7 +201,7 @@ class Cat extends Animal
     /**
      * Gets declawed
      *
-     * @return bool
+     * @return bool|null
      */
     public function getDeclawed()
     {
@@ -211,7 +211,7 @@ class Cat extends Animal
     /**
      * Sets declawed
      *
-     * @param bool $declawed declawed
+     * @param bool|null $declawed declawed
      *
      * @return $this
      */

@@ -213,7 +213,7 @@ class HasOnlyReadOnly implements ModelInterface, ArrayAccess
     /**
      * Gets bar
      *
-     * @return string
+     * @return string|null
      */
     public function getBar()
     {
@@ -223,7 +223,7 @@ class HasOnlyReadOnly implements ModelInterface, ArrayAccess
     /**
      * Sets bar
      *
-     * @param string $bar bar
+     * @param string|null $bar bar
      *
      * @return $this
      */
@@ -237,7 +237,7 @@ class HasOnlyReadOnly implements ModelInterface, ArrayAccess
     /**
      * Gets foo
      *
-     * @return string
+     * @return string|null
      */
     public function getFoo()
     {
@@ -247,7 +247,7 @@ class HasOnlyReadOnly implements ModelInterface, ArrayAccess
     /**
      * Sets foo
      *
-     * @param string $foo foo
+     * @param string|null $foo foo
      *
      * @return $this
      */

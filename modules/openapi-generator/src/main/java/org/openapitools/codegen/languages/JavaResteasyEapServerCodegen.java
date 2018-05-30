@@ -17,19 +17,20 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
+
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.languages.features.JbossFeature;
+import org.openapitools.codegen.languages.features.SwaggerFeatures;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.JbossFeature;
-import org.openapitools.codegen.languages.features.SwaggerFeatures;
-import io.swagger.v3.oas.models.*;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 
 public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         implements JbossFeature, BeanValidationFeatures, SwaggerFeatures {
@@ -58,9 +59,9 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "resteasy" + File.separator + "eap";
 
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
-        cliOptions.add(CliOption.newBoolean(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, "Generate Jboss Deployment Descriptor"));
-        cliOptions.add(CliOption.newBoolean(USE_SWAGGER_FEATURE, "Use dynamic Swagger generator"));
+        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
+        cliOptions.add(CliOption.newBoolean(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, "Generate Jboss Deployment Descriptor",generateJbossDeploymentDescriptor));
+        cliOptions.add(CliOption.newBoolean(USE_SWAGGER_FEATURE, "Use dynamic Swagger generator",useSwaggerFeature));
 
     }
 
@@ -87,17 +88,13 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
 
-        if (useBeanValidation) {
-            writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
-        }
+        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
         if (additionalProperties.containsKey(USE_SWAGGER_FEATURE)) {
             this.setUseSwaggerFeature(convertPropertyToBoolean(USE_SWAGGER_FEATURE));
         }
 
-        if (useSwaggerFeature) {
-            writePropertyBack(USE_SWAGGER_FEATURE, useSwaggerFeature);
-        }
+        writePropertyBack(USE_SWAGGER_FEATURE, useSwaggerFeature);
 
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
         writeOptional(outputFolder, new SupportingFile("gradle.mustache", "", "build.gradle"));
@@ -126,7 +123,7 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
             basePath = basePath.substring(0, pos);
         }
 
-        if (StringUtils.isEmpty("")) {
+        if (StringUtils.isEmpty(basePath)) {
             basePath = "default";
         } else {
             if (co.path.startsWith("/" + basePath)) {
@@ -150,6 +147,7 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
         // Add imports for Jackson
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             model.imports.add("JsonProperty");

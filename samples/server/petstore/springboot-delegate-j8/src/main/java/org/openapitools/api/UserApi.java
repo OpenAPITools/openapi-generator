@@ -25,7 +25,10 @@ import java.util.Map;
 
 @Api(value = "user", description = "the user API")
 public interface UserApi {
-    UserApiDelegate getDelegate();
+
+    default UserApiDelegate getDelegate() {
+        return new UserApiDelegate() {};
+    }
 
     @ApiOperation(value = "Create user", nickname = "createUser", notes = "This can only be done by the logged in user.", tags={ "user", })
     @ApiResponses(value = { 

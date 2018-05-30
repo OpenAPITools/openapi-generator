@@ -86,6 +86,7 @@ public class ApiClient {
 
   /**
    * Gets the JSON instance to do JSON serialization and deserialization.
+   * @return the JSON utility class
    */
   public JSON getJSON() {
     return json;
@@ -111,6 +112,7 @@ public class ApiClient {
 
   /**
    * Gets the status code of the previous request
+   * @return the status code of the previous request
    */
   public int getStatusCode() {
     return statusCode;
@@ -118,6 +120,7 @@ public class ApiClient {
 
   /**
    * Gets the response headers of the previous request
+   * @return the response headers of the previous request
    */
   public Map<String, List<String>> getResponseHeaders() {
     return responseHeaders;
@@ -125,6 +128,7 @@ public class ApiClient {
 
   /**
    * Get authentications (key: authentication name, value: authentication).
+   * @return the authentications
    */
   public Map<String, Authentication> getAuthentications() {
     return authentications;
@@ -142,6 +146,7 @@ public class ApiClient {
 
   /**
    * Helper method to set username for the first HTTP basic authentication.
+   * @param username the username
    */
   public void setUsername(String username) {
     for (Authentication auth : authentications.values()) {
@@ -155,6 +160,7 @@ public class ApiClient {
 
   /**
    * Helper method to set password for the first HTTP basic authentication.
+   * @param password the password
    */
   public void setPassword(String password) {
     for (Authentication auth : authentications.values()) {
@@ -168,6 +174,7 @@ public class ApiClient {
 
   /**
    * Helper method to set API key value for the first API key authentication.
+   * @param apiKey the API key
    */
   public void setApiKey(String apiKey) {
     for (Authentication auth : authentications.values()) {
@@ -181,6 +188,7 @@ public class ApiClient {
 
   /**
    * Helper method to set API key prefix for the first API key authentication.
+   * @param apiKeyPrefix the API key prefix
    */
   public void setApiKeyPrefix(String apiKeyPrefix) {
     for (Authentication auth : authentications.values()) {
@@ -194,6 +202,7 @@ public class ApiClient {
 
   /**
    * Helper method to set access token for the first OAuth2 authentication.
+   * @param accessToken the access token
    */
   public void setAccessToken(String accessToken) {
     for (Authentication auth : authentications.values()) {
@@ -207,6 +216,8 @@ public class ApiClient {
 
   /**
    * Set the User-Agent header's value (by adding to the default header map).
+   * @param userAgent the User-Agent header value
+   * @return this {@code ApiClient}
    */
   public ApiClient setUserAgent(String userAgent) {
     addDefaultHeader("User-Agent", userAgent);
@@ -218,6 +229,7 @@ public class ApiClient {
    *
    * @param key The header's key
    * @param value The header's value
+   * @return this {@code ApiClient}
    */
   public ApiClient addDefaultHeader(String key, String value) {
     defaultHeaderMap.put(key, value);
@@ -226,6 +238,7 @@ public class ApiClient {
 
   /**
    * Check that whether debugging is enabled for this API client.
+   * @return {@code true} if debugging is enabled for this API client
    */
   public boolean isDebugging() {
     return debugging;
@@ -235,6 +248,7 @@ public class ApiClient {
    * Enable/disable debugging for this API client.
    *
    * @param debugging To enable (true) or disable (false) debugging
+   * @return this {@code ApiClient}
    */
   public ApiClient setDebugging(boolean debugging) {
     this.debugging = debugging;
@@ -248,7 +262,8 @@ public class ApiClient {
    * with file response. The default value is <code>null</code>, i.e. using
    * the system's default tempopary folder.
    *
-   * @see https://docs.oracle.com/javase/7/docs/api/java/io/File.html#createTempFile(java.lang.String,%20java.lang.String,%20java.io.File)
+   * @return the temporary folder path
+   * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/io/File.html#createTempFile(java.lang.String,%20java.lang.String,%20java.io.File)"></a>
    */
   public String getTempFolderPath() {
     return tempFolderPath;
@@ -261,6 +276,7 @@ public class ApiClient {
 
   /**
    * Get the date format used to parse/format date parameters.
+   * @return the date format used to parse/format date parameters
    */
   public DateFormat getDateFormat() {
     return dateFormat;
@@ -268,6 +284,8 @@ public class ApiClient {
 
   /**
    * Set the date format used to parse/format date parameters.
+   * @param dateFormat a date format used to parse/format date parameters
+   * @return this {@code ApiClient}
    */
   public ApiClient setDateFormat(DateFormat dateFormat) {
     this.dateFormat = dateFormat;
@@ -278,6 +296,8 @@ public class ApiClient {
 
   /**
    * Parse the given string into Date object.
+   * @param str a string to parse
+   * @return a {@code Date} object
    */
   public Date parseDate(String str) {
     try {
@@ -289,6 +309,8 @@ public class ApiClient {
 
   /**
    * Format the given Date object into string.
+   * @param date a {@code Date} object to format
+   * @return the {@code String} version of the {@code Date} object
    */
   public String formatDate(Date date) {
     return dateFormat.format(date);
@@ -296,6 +318,8 @@ public class ApiClient {
 
   /**
    * Format the given parameter object into string.
+   * @param param an object to format
+   * @return the {@code String} version of the object
    */
   public String parameterToString(Object param) {
     if (param == null) {
@@ -431,6 +455,8 @@ public class ApiClient {
 
   /**
    * Escape the given string to be used as URL query value.
+   * @param str a {@code String} to escape
+   * @return the escaped version of the {@code String}
    */
   public String escapeString(String str) {
     try {
@@ -443,6 +469,11 @@ public class ApiClient {
   /**
    * Serialize the given Java object into string entity according the given
    * Content-Type (only JSON is supported for now).
+   * @param obj the object to serialize
+   * @param formParams the form parameters
+   * @param contentType the content type
+   * @return an {@code Entity}
+   * @throws ApiException on failure to serialize
    */
   public Entity<?> serialize(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
     Entity<?> entity = null;
@@ -477,6 +508,11 @@ public class ApiClient {
 
   /**
    * Deserialize response body to Java object according to the Content-Type.
+   * @param <T> a Java type parameter
+   * @param response the response body to deserialize
+   * @param returnType a Java type to deserialize into
+   * @return a deserialized Java object
+   * @throws ApiException on failure to deserialize
    */
   public <T> T deserialize(Response response, GenericType<T> returnType) throws ApiException {
     if (response == null || returnType == null) {
@@ -505,6 +541,8 @@ public class ApiClient {
 
   /**
    * Download file from the given response.
+   * @param response a response
+   * @return a file from the given response
    * @throws ApiException If fail to read file content from response and write to disk
    */
   public File downloadFileFromResponse(Response response) throws ApiException {
@@ -555,6 +593,7 @@ public class ApiClient {
   /**
    * Invoke API by sending HTTP request with the given options.
    *
+   * @param <T> a Java type parameter
    * @param path The sub-path of the HTTP URL
    * @param method The request method, one of "GET", "POST", "PUT", "HEAD" and "DELETE"
    * @param queryParams The query parameters
@@ -566,6 +605,7 @@ public class ApiClient {
    * @param authNames The authentications to apply
    * @param returnType The return type into which to deserialize the response
    * @return The response body in type of string
+   * @throws ApiException if the invocation failed
    */
   public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams);

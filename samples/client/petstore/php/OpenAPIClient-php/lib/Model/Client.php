@@ -207,7 +207,7 @@ class Client implements ModelInterface, ArrayAccess
     /**
      * Gets client
      *
-     * @return string
+     * @return string|null
      */
     public function getClient()
     {
@@ -217,7 +217,7 @@ class Client implements ModelInterface, ArrayAccess
     /**
      * Sets client
      *
-     * @param string $client client
+     * @param string|null $client client
      *
      * @return $this
      */

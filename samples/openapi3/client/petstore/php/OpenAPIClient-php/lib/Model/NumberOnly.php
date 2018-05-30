@@ -207,7 +207,7 @@ class NumberOnly implements ModelInterface, ArrayAccess
     /**
      * Gets just_number
      *
-     * @return float
+     * @return float|null
      */
     public function getJustNumber()
     {
@@ -217,7 +217,7 @@ class NumberOnly implements ModelInterface, ArrayAccess
     /**
      * Sets just_number
      *
-     * @param float $just_number just_number
+     * @param float|null $just_number just_number
      *
      * @return $this
      */

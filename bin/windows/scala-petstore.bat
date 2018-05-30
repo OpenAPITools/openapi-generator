@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
-set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -l scala-httpclient -o samples\client\petstore\scala
+set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g scala-httpclient -o samples\client\petstore\scala
 
 java %JAVA_OPTS% -jar %executable% %ags%

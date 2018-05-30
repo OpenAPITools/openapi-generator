@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
-set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -l typescript-angularjs -o samples\client\petstore\typescript-angularjs
+set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g typescript-angularjs -o samples\client\petstore\typescript-angularjs
 
 java %JAVA_OPTS% -jar %executable% %ags%

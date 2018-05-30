@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l typescript-aurelia -o samples/client/petstore/typescript-aurelia/default"
+ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g typescript-aurelia -o samples/client/petstore/typescript-aurelia/default $@"
 
 java $JAVA_OPTS -jar $executable $ags

@@ -24,7 +24,10 @@ import java.util.Map;
 
 @Api(value = "fake_classname_test", description = "the fake_classname_test API")
 public interface FakeClassnameTestApi {
-    FakeClassnameTestApiDelegate getDelegate();
+
+    default FakeClassnameTestApiDelegate getDelegate() {
+        return new FakeClassnameTestApiDelegate() {};
+    }
 
     @ApiOperation(value = "To test class name in snake case", nickname = "testClassname", notes = "To test class name in snake case", response = Client.class, authorizations = {
         @Authorization(value = "api_key_query")

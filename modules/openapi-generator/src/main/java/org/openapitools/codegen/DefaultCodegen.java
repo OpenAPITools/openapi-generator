@@ -1370,17 +1370,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Convert OAS Model object to Codegen Model object without providing all model definitions
-     *
-     * @param name   the name of the model
-     * @param schema OAS Model object
-     * @return Codegen Model object
-     */
-    public CodegenModel fromModel(String name, Schema schema) {
-        return fromModel(name, schema, null);
-    }
-
-    /**
      * Convert OAS Model object to Codegen Model object
      *
      * @param name           the name of the model
@@ -1459,7 +1448,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             // parent model
             final String parentName = getParentName(composed, allDefinitions);
-            final Schema parent = StringUtils.isBlank(parentName) ? null : allDefinitions.get(parentName);
+            final Schema parent = StringUtils.isBlank(parentName) || allDefinitions == null ? null : allDefinitions.get(parentName);
 
             List<Schema> interfaces = getInterfaces(composed);
 
@@ -4097,7 +4086,12 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.isListContainer = true;
                     codegenParameter.description = s.getDescription();
                     codegenParameter.dataType = getTypeDeclaration(s);
-                    codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(codegenParameter.baseType, codegenParameter.enumName);
+                    if (codegenParameter.baseType != null && codegenParameter.enumName != null){
+                        codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(codegenParameter.baseType, codegenParameter.enumName);
+                    }
+                    else {
+                        LOGGER.warn("Could not compute datatypeWithEnum from " + codegenParameter.baseType + ", " + codegenParameter.enumName);
+                    }
                     //TODO fix collectformat for form parameters
                     //collectionFormat = getCollectionFormat(s);
                     // default to csv:

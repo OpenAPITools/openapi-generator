@@ -9,6 +9,6 @@ declare curdir=$(cd $(dirname "${BASH_SOURCE}") && pwd)
 declare clijar=${SWAGGER_CODEGEN_CLI_JAR:-$(cd $curdir && cd ../../../../../../../swagger-codegen-cli/target/ && echo $PWD)/swagger-codegen-cli.jar}
 
 exec \java ${opts} -jar ${clijar} generate \
-    -i enum-support-spec.json -l csharp \
+    -i enum-support-spec.json -g csharp \
     --additional-properties targetFramework=v4.5 \
     -o enum-support-expected;

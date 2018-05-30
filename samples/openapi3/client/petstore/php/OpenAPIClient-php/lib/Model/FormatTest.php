@@ -304,6 +304,10 @@ class FormatTest implements ModelInterface, ArrayAccess
             $invalidProperties[] = "invalid value for 'double', must be bigger than or equal to 67.8.";
         }
 
+        if (!is_null($this->container['string']) && !preg_match("/[a-z]/i", $this->container['string'])) {
+            $invalidProperties[] = "invalid value for 'string', must be conform to the pattern /[a-z]/i.";
+        }
+
         if ($this->container['byte'] === null) {
             $invalidProperties[] = "'byte' can't be null";
         }
@@ -339,7 +343,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Gets integer
      *
-     * @return int
+     * @return int|null
      */
     public function getInteger()
     {
@@ -349,7 +353,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets integer
      *
-     * @param int $integer integer
+     * @param int|null $integer integer
      *
      * @return $this
      */
@@ -371,7 +375,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Gets int32
      *
-     * @return int
+     * @return int|null
      */
     public function getInt32()
     {
@@ -381,7 +385,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets int32
      *
-     * @param int $int32 int32
+     * @param int|null $int32 int32
      *
      * @return $this
      */
@@ -403,7 +407,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Gets int64
      *
-     * @return int
+     * @return int|null
      */
     public function getInt64()
     {
@@ -413,7 +417,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets int64
      *
-     * @param int $int64 int64
+     * @param int|null $int64 int64
      *
      * @return $this
      */
@@ -459,7 +463,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Gets float
      *
-     * @return float
+     * @return float|null
      */
     public function getFloat()
     {
@@ -469,7 +473,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets float
      *
-     * @param float $float float
+     * @param float|null $float float
      *
      * @return $this
      */
@@ -491,7 +495,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Gets double
      *
-     * @return double
+     * @return double|null
      */
     public function getDouble()
     {
@@ -501,7 +505,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets double
      *
-     * @param double $double double
+     * @param double|null $double double
      *
      * @return $this
      */
@@ -523,7 +527,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Gets string
      *
-     * @return string
+     * @return string|null
      */
     public function getString()
     {
@@ -533,12 +537,17 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets string
      *
-     * @param string $string string
+     * @param string|null $string string
      *
      * @return $this
      */
     public function setString($string)
     {
+
+        if (!is_null($string) && (!preg_match("/[a-z]/i", $string))) {
+            throw new \InvalidArgumentException("invalid value for $string when calling FormatTest., must conform to the pattern /[a-z]/i.");
+        }
+
         $this->container['string'] = $string;
 
         return $this;
@@ -571,7 +580,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Gets binary
      *
-     * @return \SplFileObject
+     * @return \SplFileObject|null
      */
     public function getBinary()
     {
@@ -581,7 +590,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets binary
      *
-     * @param \SplFileObject $binary binary
+     * @param \SplFileObject|null $binary binary
      *
      * @return $this
      */
@@ -619,7 +628,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Gets date_time
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getDateTime()
     {
@@ -629,7 +638,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets date_time
      *
-     * @param \DateTime $date_time date_time
+     * @param \DateTime|null $date_time date_time
      *
      * @return $this
      */
@@ -643,7 +652,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Gets uuid
      *
-     * @return string
+     * @return string|null
      */
     public function getUuid()
     {
@@ -653,7 +662,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets uuid
      *
-     * @param string $uuid uuid
+     * @param string|null $uuid uuid
      *
      * @return $this
      */

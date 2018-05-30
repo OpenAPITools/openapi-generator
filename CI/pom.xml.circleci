@@ -855,7 +855,7 @@
                 <module>samples/client/petstore/kotlin-threetenbp/</module>
                 <module>samples/client/petstore/kotlin-string/</module>
                 <!-- test non-java projects -->
-                <!--<module>samples/client/petstore/go</module>-->
+                <module>samples/client/petstore/go</module>
                 <!-- servers -->
                 <module>samples/server/petstore/java-vertx/rx</module>
                 <module>samples/server/petstore/java-vertx/async</module>
@@ -968,7 +968,7 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-parser-version>2.0.0</swagger-parser-version>
+        <swagger-parser-version>2.0.1</swagger-parser-version>
         <swagger-core-version>2.0.1</swagger-core-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.0</felix-version>

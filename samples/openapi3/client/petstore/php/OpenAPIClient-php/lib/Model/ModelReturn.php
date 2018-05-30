@@ -208,7 +208,7 @@ class ModelReturn implements ModelInterface, ArrayAccess
     /**
      * Gets return
      *
-     * @return int
+     * @return int|null
      */
     public function getReturn()
     {
@@ -218,7 +218,7 @@ class ModelReturn implements ModelInterface, ArrayAccess
     /**
      * Sets return
      *
-     * @param int $return return
+     * @param int|null $return return
      *
      * @return $this
      */

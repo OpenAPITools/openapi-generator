@@ -13,6 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+{{/jdk8}}
+import org.springframework.web.bind.annotation.RequestMapping;
+{{^jdk8}}
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 {{/jdk8}}
@@ -27,14 +30,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
     {{/useBeanValidation}}
 {{/jdk8}}
-{{#jdk8-no-delegate}}
+{{#jdk8}}
 import java.util.Optional;
-{{/jdk8-no-delegate}}
-{{^jdk8-no-delegate}}
-    {{#useOptional}}
-import java.util.Optional;
-    {{/useOptional}}
-{{/jdk8-no-delegate}}
+{{/jdk8}}
 {{^jdk8}}
 import java.util.List;
 import java.util.Map;
@@ -44,26 +42,33 @@ import java.util.concurrent.Callable;
 {{/jdk8}}
 {{>generatedAnnotation}}
 @Controller
+{{=<% %>=}}
+@RequestMapping("${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
+<%={{ }}=%>
 {{#operations}}
 public class {{classname}}Controller implements {{classname}} {
-
 {{#isDelegate}}
+
     private final {{classname}}Delegate delegate;
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public {{classname}}Controller({{classname}}Delegate delegate) {
-        this.delegate = delegate;
-    }
+    public {{classname}}Controller(@org.springframework.beans.factory.annotation.Autowired(required = false) {{classname}}Delegate delegate) {
     {{#jdk8}}
+        this.delegate = Optional.ofNullable(delegate).orElse(new {{classname}}Delegate() {});
+    }
 
     @Override
     public {{classname}}Delegate getDelegate() {
         return delegate;
     }
     {{/jdk8}}
+    {{^jdk8}}
+        this.delegate = delegate;
+    }
+    {{/jdk8}}
 {{/isDelegate}}
 {{^isDelegate}}
-{{^reactive}}
+    {{^reactive}}
+
     private final NativeWebRequest request;
 
     @org.springframework.beans.factory.annotation.Autowired
@@ -77,9 +82,9 @@ public class {{classname}}Controller implements {{classname}} {
         return Optional.ofNullable(request);
     }
     {{/jdk8}}
-{{/reactive}}
-
+    {{/reactive}}
 {{/isDelegate}}
+
 {{^jdk8}}
 {{#operation}}
     public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {

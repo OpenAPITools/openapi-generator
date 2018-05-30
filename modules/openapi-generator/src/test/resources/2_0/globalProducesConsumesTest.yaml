@@ -1,0 +1,39 @@
+swagger: '2.0'
+info:
+  title: Test
+  description: Test API
+  version: 1.0.0
+host: some.example.com
+basePath: /v1
+schemes:
+  - https
+  - http
+consumes:
+  - application/json
+  - application/x-www-form-urlencoded
+produces:
+  - application/json
+paths:
+  /testMe:
+    post:
+      tags:
+        - db
+      operationId: testMeOp
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/SomeObject'
+      responses:
+        '200':
+          description: Successful Operation
+definitions:
+  SomeObject:
+    type: object
+    properties:
+      p1:
+        type: string
+      p2:
+        type: integer
+        format: int32

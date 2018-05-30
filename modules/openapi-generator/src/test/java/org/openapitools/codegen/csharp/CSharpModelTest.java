@@ -17,12 +17,8 @@
 
 package org.openapitools.codegen.csharp;
 
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.languages.CSharpClientCodegen;
-
 import com.google.common.collect.Sets;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.DateTimeSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
@@ -30,8 +26,15 @@ import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.Collections;
 
 @SuppressWarnings("static-method")
 public class CSharpModelTest {
@@ -41,7 +44,7 @@ public class CSharpModelTest {
         final Schema schema = getArrayTestSchema();
 
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel generated = codegen.fromModel("sample", schema);
+        final CodegenModel generated = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.classname, "Sample");
@@ -68,7 +71,7 @@ public class CSharpModelTest {
         final CSharpClientCodegen codegen = new CSharpClientCodegen();
         codegen.setUseCollection(true);
 
-        final CodegenModel generated = codegen.fromModel("sample", schema);
+        final CodegenModel generated = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.vars.size(), 2);
@@ -92,7 +95,7 @@ public class CSharpModelTest {
         codegen.setUseCollection(true);
         codegen.setReturnICollection(true);
 
-        final CodegenModel generated = codegen.fromModel("sample", schema);
+        final CodegenModel generated = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.vars.size(), 2);
@@ -128,7 +131,7 @@ public class CSharpModelTest {
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -174,7 +177,7 @@ public class CSharpModelTest {
                         .items(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -212,7 +215,7 @@ public class CSharpModelTest {
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -236,7 +239,7 @@ public class CSharpModelTest {
                 .description("a sample model")
                 .addProperties("children", new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -258,7 +261,7 @@ public class CSharpModelTest {
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -283,7 +286,7 @@ public class CSharpModelTest {
                 .addProperties("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -308,7 +311,7 @@ public class CSharpModelTest {
                 .items(new Schema().$ref("#/components/schemas/Children"))
                 .description("an array model");
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -325,7 +328,7 @@ public class CSharpModelTest {
                 .description("a map model")
                 .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

@@ -51,7 +51,7 @@ inside the swagger codegen maven plugin under the configuration section
 
 						<configuration>
 							<inputSpec>product-openapi.yaml</inputSpec>
-							<language>pkmst</language>
+							<generatorName>pkmst</generatorName>
 							<output>${project.build.directory}/generated-sources</output>
 							<configOptions>
 								<groupId>com.prokarma</groupId>

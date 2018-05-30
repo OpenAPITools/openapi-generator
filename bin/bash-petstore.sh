@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-args="$@ generate -t modules/openapi-generator/src/main/resources/bash -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -l bash -o samples/client/petstore/bash -c modules/openapi-generator/src/test/resources/2_0/bash-config.json --additional-properties hideGenerationTimestamp=true"
+args="generate -t modules/openapi-generator/src/main/resources/bash -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g bash -o samples/client/petstore/bash -c modules/openapi-generator/src/test/resources/2_0/bash-config.json --additional-properties hideGenerationTimestamp=true $@"
 
 java $JAVA_OPTS -jar $executable $args

@@ -1,0 +1,309 @@
+openapi: 3.0.1
+info:
+  title: Test
+  description: Test API
+  version: 1.0.0
+servers:
+- url: http://some.example.com/v1
+paths:
+  /some/p1:
+    post:
+      operationId: p1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SomeObj1'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SomeObj1'
+        required: false
+      responses:
+        200:
+          description: Successful Operation
+          content: {}
+  /some/p2:
+    post:
+      operationId: p2
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SomeObj2'
+        required: false
+      responses:
+        200:
+          description: Successful Operation
+          content: {}
+  /some/p3:
+    post:
+      operationId: p3
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SomeObj3'
+        required: false
+      responses:
+        200:
+          description: Successful Operation
+          content: {}
+  /some/p4:
+    post:
+      operationId: p4
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SomeObjShared'
+        required: false
+      responses:
+        200:
+          description: Successful Operation
+          content: {}
+  /some/p5:
+    post:
+      operationId: p5
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SomeObjShared'
+        required: false
+      responses:
+        200:
+          description: Successful Operation
+          content: {}
+  /some/p6:
+    post:
+      operationId: p6
+      requestBody:
+        $ref: '#/components/requestBodies/Op6RequestBody'
+      responses:
+        200:
+          description: Successful Operation
+          content: {}
+  /some/p7:
+    post:
+      operationId: p7
+      requestBody:
+        $ref: '#/components/requestBodies/Op7RequestBody'
+      responses:
+        200:
+          description: Successful Operation
+          content: {}
+  /some/p8:
+    post:
+      operationId: p8
+      responses:
+        200:
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SomeObj8'
+  /some/p9:
+    post:
+      operationId: p9
+      responses:
+        200:
+          $ref: '#/components/responses/Rep9'
+  /some/p10/{someParam}:
+    post:
+      operationId: p10
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/SomeObj10A'
+        - name: someParam
+          in: path
+          description: selected value
+          required: true          
+          schema:
+            $ref: '#/components/schemas/SomeObj10B'
+      responses:
+        200:
+          description: Successful Operation
+          content: {}
+  /some/p11:
+    post:
+      operationId: p11
+      parameters:
+        - $ref: '#/components/parameters/QueryParam11'
+      responses:
+        200:
+          description: Successful Operation
+          content: {}
+components:
+  schemas:
+    UnusedObj1:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: integer
+          format: int32
+    UnusedObj2:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: integer
+          format: int32
+    UnusedObj3:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: integer
+          format: int32
+    UnusedObj4:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: integer
+          format: int32
+    SomeObj1:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: integer
+          format: int32
+    SomeObj2:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: integer
+          format: int32
+    SomeObj3:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: integer
+          format: int32
+    SomeObj6:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: integer
+          format: int32
+    SomeObj7:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: integer
+          format: int32
+    SomeObj8:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: integer
+          format: int32
+    SomeObj9A:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: integer
+          format: int32
+    SomeObj9B:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: integer
+          format: int32
+    SomeObj10A:
+      type: array
+      items:
+        type: string
+        enum:
+          - available
+          - pending
+          - sold
+        default: available
+    SomeObj10B:
+      type: string
+      enum:
+        - v1
+        - v2
+      default: v1
+    SomeObj11:
+      type: string
+      enum:
+        - v1
+        - v2
+      default: v1
+    SomeObjShared:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: integer
+          format: int32
+  requestBodies:
+    UnusedRequestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UnusedObj2'
+      required: false
+    Op6RequestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SomeObj6'
+      required: false
+    Op7RequestBody:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/SomeObj7'
+  responses:
+    UnusedResponse:
+      description: Successful Operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UnusedObj3'
+    Rep9:
+      description: Successful Operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SomeObj9A'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/SomeObj9B'
+  parameters:
+    UnusedParam:
+      name: id
+      in: query
+      schema:
+        $ref: '#/components/schemas/UnusedObj4'
+    QueryParam11:
+      name: id
+      in: query
+      schema:
+        $ref: '#/components/schemas/SomeObj11'

@@ -201,7 +201,7 @@ class Dog extends Animal
     /**
      * Gets breed
      *
-     * @return string
+     * @return string|null
      */
     public function getBreed()
     {
@@ -211,7 +211,7 @@ class Dog extends Animal
     /**
      * Sets breed
      *
-     * @param string $breed breed
+     * @param string|null $breed breed
      *
      * @return $this
      */

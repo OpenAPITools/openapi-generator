@@ -22,6 +22,7 @@ import io.airlift.airline.Option;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
+import org.openapitools.codegen.GeneratorNotFoundException;
 
 @Command(name = "config-help", description = "Config help for chosen lang")
 public class ConfigHelp implements Runnable {
@@ -32,14 +33,20 @@ public class ConfigHelp implements Runnable {
 
     @Override
     public void run() {
-        System.out.println();
-        CodegenConfig config = CodegenConfigLoader.forName(lang);
-        System.out.println("CONFIG OPTIONS");
-        for (CliOption langCliOption : config.cliOptions()) {
-            System.out.println("\t" + langCliOption.getOpt());
-            System.out.println("\t    "
-                    + langCliOption.getOptionHelp().replaceAll("\n", "\n\t    "));
+        try {
+            CodegenConfig config = CodegenConfigLoader.forName(lang);
             System.out.println();
+            System.out.println("CONFIG OPTIONS");
+            for (CliOption langCliOption : config.cliOptions()) {
+                System.out.println("\t" + langCliOption.getOpt());
+                System.out.println("\t    "
+                        + langCliOption.getOptionHelp().replaceAll("\n", System.lineSeparator() + "\t    "));
+                System.out.println();
+            }
+        } catch (GeneratorNotFoundException e) {
+            System.err.println(e.getMessage());
+            System.err.println("[error] Check the spelling of the generator's name and try again.");
+            System.exit(1);
         }
     }
 }
