@@ -80,11 +80,10 @@ open class GenerateTask : DefaultTask() {
     val auth = project.objects.property<String>()
 
     /**
-     * Sets specified system properties in the format of name=value,name=value
-     * (or multiple options, each with name=value)
+     * Sets specified system properties.
      */
     @get:Internal
-    val systemProperties = project.objects.listProperty<String>()
+    val systemProperties = project.objects.property<Map<String, String>>()
 
     /**
      * Path to json configuration file.
@@ -125,41 +124,35 @@ open class GenerateTask : DefaultTask() {
     val modelNameSuffix = project.objects.property<String>()
 
     /**
-     * Sets instantiation type mappings in the format of type=instantiatedType,type=instantiatedType.
-     * For example (in Java): array=ArrayList,map=HashMap. In other words array types will get instantiated as ArrayList in generated code.
-     * You can also have multiple occurrences of this option.
+     * Sets instantiation type mappings.
      */
     @get:Internal
-    val instantiationTypes = project.objects.listProperty<String>()
+    val instantiationTypes = project.objects.property<Map<String, String>>()
 
     /**
-     * Sets mappings between OpenAPI spec types and generated code types
-     * in the format of OpenaAPIType=generatedType,OpenAPIType=generatedType. For example: array=List,map=Map,string=String.
-     * You can also have multiple occurrences of this option.
+     * Sets mappings between OpenAPI spec types and generated code types.
      */
     @get:Internal
-    val typeMappings = project.objects.listProperty<String>()
+    val typeMappings = project.objects.property<Map<String, String>>()
 
     /**
      * Sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value.
      * You can also have multiple occurrences of this option.
      */
     @get:Internal
-    val additionalProperties = project.objects.listProperty<String>()
+    val additionalProperties = project.objects.property<Map<String, String>>()
 
     /**
      * Specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double.
-     * You can also have multiple occurrences of this option.
      */
     @get:Internal
     val languageSpecificPrimitives = project.objects.listProperty<String>()
 
     /**
-     * Specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import.
-     * You can also have multiple occurrences of this option.
+     * Specifies mappings between a given class and the import that should be used for that class.
      */
     @get:Internal
-    val importMappings = project.objects.listProperty<String>()
+    val importMappings = project.objects.property<Map<String, String>>()
 
     /**
      * Root package for generated code.
@@ -216,11 +209,10 @@ open class GenerateTask : DefaultTask() {
     val httpUserAgent = project.objects.property<String?>()
 
     /**
-     * Specifies how a reserved name should be escaped to. Otherwise, the default _<name> is used. For example id=identifier.
-     * You can also have multiple occurrences of this option.
+     * Specifies how a reserved name should be escaped to.
      */
     @get:Internal
-    val reservedWordsMappings = project.objects.listProperty<String>()
+    val reservedWordsMappings = project.objects.property<Map<String, String>>()
 
     /**
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
@@ -324,7 +316,7 @@ open class GenerateTask : DefaultTask() {
      * A dynamic map of options specific to a generator.
      */
     @get:Internal
-    val configOptions = project.objects.property<Map<String, Any>>()
+    val configOptions = project.objects.property<Map<String, String>>()
 
     private val originalEnvironmentVariables = mutableMapOf<String, String>()
 
@@ -345,6 +337,7 @@ open class GenerateTask : DefaultTask() {
         }
     }
 
+    @Suppress("unused")
     @TaskAction
     fun doWork() {
         val configurator: CodegenConfigurator = if (configFile.isPresent) {
@@ -353,13 +346,8 @@ open class GenerateTask : DefaultTask() {
 
         try {
             if (systemProperties.isPresent) {
-                val environmentVariables = systemProperties.get().map {
-                    it.substringBefore("=") to it.substringAfter("=")
-                }.toMap()
-
-                systemProperties.get().toSet().forEach { key ->
+                systemProperties.get().forEach { (key, value) ->
                     originalEnvironmentVariables[key] = System.getProperty(key)
-                    val value = environmentVariables[key] ?: ""
                     System.setProperty(key, value)
                     configurator.addSystemProperty(key, value)
                 }
@@ -479,31 +467,45 @@ open class GenerateTask : DefaultTask() {
             }
 
             if (systemProperties.isPresent) {
-                applySystemPropertiesKvpList(systemProperties.get(), configurator)
+                systemProperties.get().forEach { entry ->
+                    configurator.addSystemProperty(entry.key, entry.value)
+                }
             }
 
             if (instantiationTypes.isPresent) {
-                applyInstantiationTypesKvpList(instantiationTypes.get(), configurator)
+                instantiationTypes.get().forEach { entry ->
+                    configurator.addInstantiationType(entry.key, entry.value)
+                }
             }
 
             if (importMappings.isPresent) {
-                applyImportMappingsKvpList(importMappings.get(), configurator)
+                importMappings.get().forEach { entry ->
+                    configurator.addImportMapping(entry.key, entry.value)
+                }
             }
 
             if (typeMappings.isPresent) {
-                applyTypeMappingsKvpList(typeMappings.get(), configurator)
+                typeMappings.get().forEach { entry ->
+                    configurator.addTypeMapping(entry.key, entry.value)
+                }
             }
 
             if (additionalProperties.isPresent) {
-                applyAdditionalPropertiesKvpList(additionalProperties.get(), configurator)
+                additionalProperties.get().forEach { entry ->
+                    configurator.addAdditionalProperty(entry.key, entry.value)
+                }
             }
 
             if (languageSpecificPrimitives.isPresent) {
-                applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives.get(), configurator)
+                languageSpecificPrimitives.get().forEach {
+                    configurator.addLanguageSpecificPrimitive(it)
+                }
             }
 
             if (reservedWordsMappings.isPresent) {
-                applyReservedWordsMappingsKvpList(reservedWordsMappings.get(), configurator)
+                reservedWordsMappings.get().forEach { entry ->
+                    configurator.addAdditionalReservedWordMapping(entry.key, entry.value)
+                }
             }
 
             val clientOptInput = configurator.toClientOptInput()

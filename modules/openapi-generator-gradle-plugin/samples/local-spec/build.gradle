@@ -39,6 +39,9 @@ openApiGenerate {
 task buildGoSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
     generatorName = "go"
     inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+    additionalProperties = [
+            packageName: "petstore"
+    ]
     outputDir = "$buildDir/go".toString()
     configOptions = [
             dateLibrary: "threetenp"

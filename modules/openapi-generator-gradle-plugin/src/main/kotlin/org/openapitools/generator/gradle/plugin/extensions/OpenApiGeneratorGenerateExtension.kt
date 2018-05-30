@@ -62,7 +62,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * Sets specified system properties in the format of name=value,name=value
      * (or multiple options, each with name=value)
      */
-    val systemProperties = project.objects.listProperty<String>()
+    val systemProperties = project.objects.property<Map<String, String>>()
 
     /**
      * Path to json configuration file.
@@ -97,24 +97,19 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val modelNameSuffix = project.objects.property<String>()
 
     /**
-     * Sets instantiation type mappings in the format of type=instantiatedType,type=instantiatedType.
-     * For example (in Java): array=ArrayList,map=HashMap. In other words array types will get instantiated as ArrayList in generated code.
-     * You can also have multiple occurrences of this option.
+     * Sets instantiation type mappings.
      */
-    val instantiationTypes = project.objects.listProperty<String>()
+    val instantiationTypes = project.objects.property<Map<String, String>>()
 
     /**
-     * Sets mappings between OpenAPI spec types and generated code types
-     * in the format of OpenaAPIType=generatedType,OpenAPIType=generatedType. For example: array=List,map=Map,string=String.
-     * You can also have multiple occurrences of this option.
+     * Sets mappings between OpenAPI spec types and generated code types.
      */
-    val typeMappings = project.objects.listProperty<String>()
+    val typeMappings = project.objects.property<Map<String, String>>()
 
     /**
-     * Sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value.
-     * You can also have multiple occurrences of this option.
+     * Sets additional properties that can be referenced by the mustache templates.
      */
-    val additionalProperties = project.objects.listProperty<String>()
+    val additionalProperties = project.objects.property<Map<String, String>>()
 
     /**
      * Specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double.
@@ -126,7 +121,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * Specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import.
      * You can also have multiple occurrences of this option.
      */
-    val importMappings = project.objects.listProperty<String>()
+    val importMappings = project.objects.property<Map<String, String>>()
 
     /**
      * Root package for generated code.
@@ -174,10 +169,9 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val httpUserAgent = project.objects.property<String?>()
 
     /**
-     * Specifies how a reserved name should be escaped to. Otherwise, the default _<name> is used. For example id=identifier.
-     * You can also have multiple occurrences of this option.
+     * Specifies how a reserved name should be escaped to. Otherwise, the default _<name> is used.
      */
-    val reservedWordsMappings = project.objects.listProperty<String>()
+    val reservedWordsMappings = project.objects.property<Map<String, String>>()
 
     /**
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
@@ -268,7 +262,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * A dynamic map of options specific to a generator.
      */
-    val configOptions = project.objects.property<Map<String, Any>>()
+    val configOptions = project.objects.property<Map<String, String>>()
 
     init {
         releaseNote.set("Minor update")

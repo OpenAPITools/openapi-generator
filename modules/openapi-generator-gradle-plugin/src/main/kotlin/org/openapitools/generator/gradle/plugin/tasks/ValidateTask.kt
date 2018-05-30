@@ -54,6 +54,7 @@ open class ValidateTask : DefaultTask() {
             inputSpec.set(value)
         }
 
+    @Suppress("unused")
     @TaskAction
     fun doWork() {
         val spec = inputSpec.get()
