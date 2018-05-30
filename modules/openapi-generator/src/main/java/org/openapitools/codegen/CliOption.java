@@ -18,6 +18,7 @@
 package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import java.util.LinkedHashMap;
@@ -108,7 +109,7 @@ public class CliOption {
      * @param opt Option name
      * @param description Option description
      * @param defaultValue the default value to use if option not specified
-     * @return
+     * @return the CliOption created
      */
     public static CliOption newBoolean(String opt, String description, boolean defaultValue) {
         return new CliOption(opt, description, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(String.valueOf(defaultValue));
