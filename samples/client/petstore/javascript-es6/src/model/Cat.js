@@ -37,8 +37,7 @@ class Cat {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, className) {
-        
+    static initialize(obj, className) { 
     }
 
     /**
