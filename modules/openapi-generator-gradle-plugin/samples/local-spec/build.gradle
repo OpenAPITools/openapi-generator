@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.openapitools:openapi-generator-gradle-plugin:3.0.0-SNAPSHOT"
+    }
+}
+
+apply plugin: 'org.openapi.generator'
+
+openApiMeta {
+    generatorName = "Sample"
+    packageName = "org.openapitools.example"
+    outputFolder = "$buildDir/meta".toString()
+}
+
+openApiValidate {
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+}
+
+// Builds a Kotlin client by default.
+openApiGenerate {
+    generatorName = "kotlin"
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+    outputDir = "$buildDir/kotlin".toString()
+    apiPackage = "org.openapitools.example.api"
+    invokerPackage = "org.openapitools.example.invoker"
+    modelPackage = "org.openapitools.example.model"
+    configOptions = [
+            dateLibrary: "java8"
+    ]
+}
+
+task buildGoSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+    generatorName = "go"
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+    additionalProperties = [
+            packageName: "petstore"
+    ]
+    outputDir = "$buildDir/go".toString()
+    configOptions = [
+            dateLibrary: "threetenp"
+    ]
+}

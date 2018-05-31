@@ -1,0 +1,452 @@
+= OpenAPI Generator Gradle Plugin
+
+This document describes the gradle plugin for OpenAPI Generator.
+
+== Tasks
+
+Tasks are listed under the "OpenAPI Tools" tasks heading.
+
+
+.OpenAPI Tools Tasks
+|===
+|task name |description
+
+|*openApiGenerate*
+|Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents.
+
+|*openApiGenerators*
+|Lists generators available via Open API Generators.
+
+|*openApiMeta*
+|Generates a new generator to be consumed via Open API Generator.
+
+|*openApiValidate*
+|Validates an Open API 2.0 or 3.x specification document.
+|===
+
+== Plugin Setup
+
+[source,groovy]
+----
+buildscript {
+  repositories {
+    mavenLocal()
+    mavenCentral()
+  }
+  dependencies {
+    classpath "org.openapitools:openapi-generator-gradle-plugin:3.0.0-SNAPSHOT"
+  }
+}
+
+apply plugin: 'org.openapi.generator'
+----
+
+[NOTE]
+====
+The gradle plugin is not currently published to https://plugins.gradle.org/m2/.
+====
+
+== Configuration
+
+=== openApiGenerate
+
+.Options
+|===
+|Key |Data Type |Default |Description
+
+|verbose
+|Boolean
+|false
+|The verbosity of generation
+
+|generatorName
+|String
+|None
+|The name of the generator which will handle codegen.
+
+|outputDir
+|String
+|None
+|The output target directory into which code will be generated.
+
+|inputSpec
+|String
+|None
+|The Open API 2.0/3.x specification location.
+
+|templateDir
+|String
+|None
+|The template directory holding a custom template.
+
+|auth
+|String
+|None
+|Adds authorization headers when fetching the OpenAPI definitions remotely. Pass in a URL-encoded string of name:header with a comma separating multiple values.
+
+|systemProperties
+|Map(String,String)
+|None
+|Sets specified system properties.
+
+|configFile
+|String
+|None
+|Path to json configuration file. See OpenAPI Generator readme for structure details.
+
+|skipOverwrite
+|Boolean
+|false
+|Specifies if the existing files should be overwritten during the generation.
+
+|apiPackage
+|String
+|(generator specific)
+|Package for generated api classes.
+
+|modelPackage
+|String
+|(generator specific)
+|Package for generated model classes.
+
+|modelNamePrefix
+|String
+|None
+|Prefix that will be prepended to all model names.
+
+|modelNameSuffix
+|String
+|None
+|Suffix that will be appended to all model names.
+
+|instantiationTypes
+|Map(String,String)
+|None
+|Sets instantiation type mappings.
+
+|typeMappings
+|Map(String,String)
+|None
+|Sets mappings between OpenAPI spec types and generated code types.
+
+|additionalProperties
+|Map(String,String)
+|None
+|Sets additional properties that can be referenced by the mustache templates.
+
+|languageSpecificPrimitives
+|List(String)
+|None
+|Specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double.
+
+|importMappings
+|Map(String,String)
+|None
+|Specifies mappings between a given class and the import that should be used for that class.
+
+|invokerPackage
+|String
+|None
+|Root package for generated code.
+
+|groupId
+|String
+|None
+|GroupId in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+
+|id
+|String
+|None
+|ArtifactId in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+
+|version
+|String
+|None
+|Artifact version in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+
+|library
+|String
+|None
+|Reference the library template (sub-template) of a generator.
+
+|gitUserId
+|String
+|None
+|Git user ID, e.g. openapitools.
+
+|gitRepoId
+|String
+|None
+|Git repo ID, e.g. openapi-generator.
+
+|releaseNote
+|String
+|'Minor update'
+|Release note.
+
+|httpUserAgent
+|String
+|None
+|HTTP user agent, e.g. codegen_csharp_api_client. Generator default is 'OpenAPI-Generator/{packageVersion}}/{language}', but may be generator-specific.
+
+|reservedWordsMappings
+|Map(String,String)
+|None
+|Specifies how a reserved name should be escaped to. Otherwise, the default _<name> is used.
+
+|ignoreFileOverride
+|String
+|None
+|Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
+
+|removeOperationIdPrefix
+|Boolean
+|false
+|Remove prefix of operationId, e.g. config_getId => getId.
+
+|apiFilesConstrainedTo
+|List(String)
+|None
+|Defines which API-related files should be generated. This allows you to create a subset of generated files (or none at all). See Note Below.
+
+|modelFilesConstrainedTo
+|List(String)
+|None
+|Defines which model-related files should be generated. This allows you to create a subset of generated files (or none at all). See Note Below.
+
+|supportingFilesConstrainedTo
+|List(String)
+|None
+|Defines which supporting files should be generated. This allows you to create a subset of generated files (or none at all). See Note Below.
+
+|generateModelTests
+|Boolean
+|true
+|Defines whether or not model-related _test_ files should be generated.
+
+|generateModelDocumentation
+|Boolean
+|true
+|Defines whether or not model-related _documentation_ files should be generated.
+
+|generateApiTests
+|Boolean
+|true
+|Defines whether or not api-related _test_ files should be generated.
+
+|generateApiDocumentation
+|Boolean
+|true
+|Defines whether or not api-related _documentation_ files should be generated.
+
+|withXml
+|Boolean
+|false
+|A special-case setting which configures some generators with XML support. In some cases, this forces json OR xml, so the default here is false.
+
+|configOptions
+|Map(String,String)
+|None
+|A map of options specific to a generator.
+
+|===
+
+[NOTE]
+====
+Configuring any one of `apiFilesConstrainedTo`, `modelFilesConstrainedTo`, or `supportingFilesConstrainedTo` results
+in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
+
+For more control over generation of individual files, configure an ignore file and refer to it via `ignoreFileOverride`.
+====
+
+=== openApiValidate
+
+.Options
+|===
+|Key |Data Type |Default |Description
+
+|inputSpec
+|String
+|None
+|The input specification to validate. Supports all formats supported by the Parser.
+
+|===
+
+=== openApiMeta
+
+.Options
+|===
+|Key |Data Type |Default |Description
+
+|generatorName
+|String
+|None
+|The human-readable generator name of the newly created template generator.
+
+|packageName
+|String
+|org.openapitools.codegen
+|The packageName generatorName to put the main class into.
+
+|outputFolder
+|String
+|Current Directory
+|Where to write the generated files
+
+|===
+
+
+== Examples
+
+=== openApiGenerate
+
+This task exposes all options available via OpenAPI Generator CLI and the OpenAPI Generator Maven Plugin.
+
+.in build.gradle
+[source,groovy]
+----
+openApiGenerate {
+    generatorName = "kotlin"
+    inputSpec = "$rootDir/specs/petstore-v3.0.yaml".toString()
+    outputDir = "$buildDir/generated".toString()
+    apiPackage = "org.openapi.example.api"
+    invokerPackage = "org.openapi.example.invoker"
+    modelPackage = "org.openapi.example.model"
+    modelFilesConstrainedTo = [
+            "Error"
+    ]
+    configOptions = [
+        dateLibrary: "java8"
+    ]
+}
+----
+
+The above code demonstrates configuration of global options as well as generator-specific config options.
+
+=== openApiGenerators
+
+This is an output-only listing task. There's no need to add configuration to build.gradle.
+
+.Example output of openApiGenerators task
+[source,terminal]
+----
+$ ./gradlew openApiGenerators
+
+> Task :openApiGenerators
+The following generators are available:
+
+CLIENT generators:
+    - ada
+…
+
+SERVER generators:
+    - ada-server
+…
+
+DOCUMENTATION generators:
+    - cwiki
+…
+
+CONFIG generators:
+    - apache2
+
+OTHER generators:
+…
+
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 executed
+----
+
+[NOTE]
+====
+Generator type listings in the above example have been truncated to avoid potential confusion with changing generator support.
+
+Please run the above task to list all available generators.
+====
+
+=== openApiMeta
+
+.in build.gradle
+[source,groovy]
+----
+openApiMeta {
+   generatorName = "Jim"
+   packageName = "us.jimschubert.example"
+}
+----
+
+.Example output of openApiMeta task
+[source,terminal]
+----
+$ ./gradlew openApiMeta
+
+> Task :openApiMeta
+Wrote file to /Users/jim/my_project/pom.xml
+Wrote file to /Users/jim/my_project/src/main/java/us/jimschubert/example/JimGenerator.java
+Wrote file to /Users/jim/my_project/README.md
+Wrote file to /Users/jim/my_project/src/main/resources/jim/api.mustache
+Wrote file to /Users/jim/my_project/src/main/resources/jim/model.mustache
+Wrote file to /Users/jim/my_project/src/main/resources/jim/myFile.mustache
+Wrote file to /Users/jim/my_project/src/main/resources/META-INF/services/org.openapitools.codegen.CodegenConfig
+Created generator JimGenerator
+
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 executed
+----
+
+
+=== openApiValidate
+
+.in buid.gradle
+[source,groovy]
+----
+openApiValidate {
+   inputSpec = "/src/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
+}
+----
+
+.Example output of openApiValidate task (success)
+[source,terminal]
+----
+$ ./gradlew openApiValidate --input=/Users/jim/projects/openapi-generator/modules/openapi-generator/src/test/resources/3_0/ping.yaml
+
+> Task :openApiValidate
+Validating spec /Users/jim/projects/openapi-generator/modules/openapi-generator/src/test/resources/3_0/ping.yaml
+Spec is valid.
+
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 executed
+----
+
+.Example output of openApiValidate task (failure)
+[source,terminal]
+----
+$ ./gradlew openApiValidate
+
+> Task :openApiValidate FAILED
+Validating spec /Users/jim/projects/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+
+Spec is invalid.
+Issues:
+
+        attribute info is missing
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':openApiValidate'.
+> Validation failed.
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+----
+
+.in terminal (alternate)
+[source,terminal]
+----
+$ ./gradlew openApiValidate --input=/Users/jim/projects/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+----
