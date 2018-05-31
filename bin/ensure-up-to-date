@@ -26,6 +26,7 @@ sleep 5
 ./bin/openapi3/php-petstore.sh
 
 # Check:
+git --no-pager diff
 if [ -n "$(git status --porcelain)" ]; then
     echo "UNCOMMITTED CHANGES ERROR"
     echo "There are uncommitted changes in working tree after execution of 'bin/ensure-up-to-date'"
