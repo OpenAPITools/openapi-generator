@@ -1094,6 +1094,12 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
 
+        Schema schema = parameter.getSchema();
+        if (schema != null && schema.getExample() != null) {
+            codegenParameter.example = schema.getExample().toString();
+            return;
+        }
+
         setParameterExampleValue(codegenParameter);
     }
 

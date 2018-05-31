@@ -20,4 +20,16 @@ paths:
       responses:
         '200':
           description: successful operation
+  /example2:
+    get:
+      operationId: example2Get
+      parameters:
+        - name: parameter
+          in: query
+          schema:
+            type: string
+            example: 'example2 value'
+      responses:
+        '200':
+          description: successful operation
 
