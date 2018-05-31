@@ -186,8 +186,8 @@ The gradle plugin is not currently published to https://plugins.gradle.org/m2/.
 
 |httpUserAgent
 |String
-|'OpenAPI-Generator/{packageVersion}}/{language}'
-|HTTP user agent, e.g. codegen_csharp_api_client.
+|None
+|HTTP user agent, e.g. codegen_csharp_api_client. Generator default is 'OpenAPI-Generator/{packageVersion}}/{language}', but may be generator-specific.
 
 |reservedWordsMappings
 |Map(String,String)
