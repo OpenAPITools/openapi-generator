@@ -12,7 +12,7 @@ build:
   ci:
     - mvn --quiet clean install -f CI/pom.xml.shippable
     # ensure all modifications created by 'mature' generators are in the git repo
-    - ./bin/ensure-up-to-date
+    #- ./bin/ensure-up-to-date
     # prepare enviroment for tests
     - sudo apt-get update -qq
     # install stack
