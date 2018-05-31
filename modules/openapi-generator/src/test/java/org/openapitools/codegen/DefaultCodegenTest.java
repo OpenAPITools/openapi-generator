@@ -238,4 +238,16 @@ public class DefaultCodegenTest {
 
         Assert.assertEquals(codegenParameter.example, "example2 value");
     }
+
+    @Test
+    public void testExample3() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/examples.yaml", null, new ParseOptions()).getOpenAPI();
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        Operation operation = openAPI.getPaths().get("/example3").getGet();
+        CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+        codegen.setParameterExampleValue(codegenParameter, operation.getParameters().get(0));
+
+        Assert.assertEquals(codegenParameter.example, "example3: parameter value");
+    }
 }

@@ -32,4 +32,17 @@ paths:
       responses:
         '200':
           description: successful operation
+  /example3:
+    get:
+      operationId: example3Get
+      parameters:
+        - name: parameter
+          in: query
+          example: 'example3: parameter value'
+          schema:
+            type: string
+            example: 'example3: schema value'
+      responses:
+        '200':
+          description: successful operation
 
