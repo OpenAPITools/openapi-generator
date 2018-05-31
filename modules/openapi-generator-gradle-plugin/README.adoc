@@ -48,7 +48,253 @@ The gradle plugin is not currently published to https://plugins.gradle.org/m2/.
 
 == Configuration
 
-TODO: list out individual task items.
+=== openApiGenerate
+
+.Options
+|===
+|Key |Data Type |Default |Description
+
+|verbose
+|Boolean
+|false
+|The verbosity of generation
+
+|generatorName
+|String
+|None
+|The name of the generator which will handle codegen.
+
+|outputDir
+|String
+|None
+|The output target directory into which code will be generated.
+
+|inputSpec
+|String
+|None
+|The Open API 2.0/3.x specification location.
+
+|templateDir
+|String
+|None
+|The template directory holding a custom template.
+
+|auth
+|String
+|None
+|Adds authorization headers when fetching the OpenAPI definitions remotely. Pass in a URL-encoded string of name:header with a comma separating multiple values.
+
+|systemProperties
+|Map(String,String)
+|None
+|Sets specified system properties.
+
+|configFile
+|String
+|None
+|Path to json configuration file. See OpenAPI Generator readme for structure details.
+
+|skipOverwrite
+|Boolean
+|false
+|Specifies if the existing files should be overwritten during the generation.
+
+|apiPackage
+|String
+|(generator specific)
+|Package for generated api classes.
+
+|modelPackage
+|String
+|(generator specific)
+|Package for generated model classes.
+
+|modelNamePrefix
+|String
+|None
+|Prefix that will be prepended to all model names.
+
+|modelNameSuffix
+|String
+|None
+|Suffix that will be appended to all model names.
+
+|instantiationTypes
+|Map(String,String)
+|None
+|Sets instantiation type mappings.
+
+|typeMappings
+|Map(String,String)
+|None
+|Sets mappings between OpenAPI spec types and generated code types.
+
+|additionalProperties
+|Map(String,String)
+|None
+|Sets additional properties that can be referenced by the mustache templates.
+
+|languageSpecificPrimitives
+|List(String)
+|None
+|Specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double.
+
+|importMappings
+|Map(String,String)
+|None
+|Specifies mappings between a given class and the import that should be used for that class.
+
+|invokerPackage
+|String
+|None
+|Root package for generated code.
+
+|groupId
+|String
+|None
+|GroupId in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+
+|id
+|String
+|None
+|ArtifactId in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+
+|version
+|String
+|None
+|Artifact version in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
+
+|library
+|String
+|None
+|Reference the library template (sub-template) of a generator.
+
+|gitUserId
+|String
+|None
+|Git user ID, e.g. openapitools.
+
+|gitRepoId
+|String
+|None
+|Git repo ID, e.g. openapi-generator.
+
+|releaseNote
+|String
+|'Minor update'
+|Release note.
+
+|httpUserAgent
+|String
+|'OpenAPI-Generator/{packageVersion}}/{language}'
+|HTTP user agent, e.g. codegen_csharp_api_client.
+
+|reservedWordsMappings
+|Map(String,String)
+|None
+|Specifies how a reserved name should be escaped to. Otherwise, the default _<name> is used.
+
+|ignoreFileOverride
+|String
+|None
+|Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
+
+|removeOperationIdPrefix
+|Boolean
+|false
+|Remove prefix of operationId, e.g. config_getId => getId.
+
+|apiFilesConstrainedTo
+|List(String)
+|None
+|Defines which API-related files should be generated. This allows you to create a subset of generated files (or none at all). See Note Below.
+
+|modelFilesConstrainedTo
+|List(String)
+|None
+|Defines which model-related files should be generated. This allows you to create a subset of generated files (or none at all). See Note Below.
+
+|supportingFilesConstrainedTo
+|List(String)
+|None
+|Defines which supporting files should be generated. This allows you to create a subset of generated files (or none at all). See Note Below.
+
+|generateModelTests
+|Boolean
+|true
+|Defines whether or not model-related _test_ files should be generated.
+
+|generateModelDocumentation
+|Boolean
+|true
+|Defines whether or not model-related _documentation_ files should be generated.
+
+|generateApiTests
+|Boolean
+|true
+|Defines whether or not api-related _test_ files should be generated.
+
+|generateApiDocumentation
+|Boolean
+|true
+|Defines whether or not api-related _documentation_ files should be generated.
+
+|withXml
+|Boolean
+|false
+|A special-case setting which configures some generators with XML support. In some cases, this forces json OR xml, so the default here is false.
+
+|configOptions
+|Map(String,String)
+|None
+|A map of options specific to a generator.
+
+|===
+
+[NOTE]
+====
+Configuring any one of `apiFilesConstrainedTo`, `modelFilesConstrainedTo`, or `supportingFilesConstrainedTo` results
+in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
+
+For more control over generation of individual files, configure an ignore file and refer to it via `ignoreFileOverride`.
+====
+
+=== openApiValidate
+
+.Options
+|===
+|Key |Data Type |Default |Description
+
+|inputSpec
+|String
+|None
+|The input specification to validate. Supports all formats supported by the Parser.
+
+|===
+
+=== openApiMeta
+
+.Options
+|===
+|Key |Data Type |Default |Description
+
+|generatorName
+|String
+|None
+|The human-readable generator name of the newly created template generator.
+
+|packageName
+|String
+|org.openapitools.codegen
+|The packageName generatorName to put the main class into.
+
+|outputFolder
+|String
+|Current Directory
+|Where to write the generated files
+
+|===
+
 
 == Examples
 

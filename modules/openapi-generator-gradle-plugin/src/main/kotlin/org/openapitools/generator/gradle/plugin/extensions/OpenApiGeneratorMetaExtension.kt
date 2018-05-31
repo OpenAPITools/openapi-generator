@@ -26,17 +26,17 @@ import org.gradle.kotlin.dsl.property
  */
 open class OpenApiGeneratorMetaExtension(project: Project) {
     /**
-     * the human-readable generator name of the newly created template generator.
+     * The human-readable generator name of the newly created template generator.
      */
     val generatorName = project.objects.property<String>()
 
     /**
-     * the packageName generatorName to put the main class into (defaults to org.openapitools.codegen)
+     * The packageName generatorName to put the main class into (defaults to org.openapitools.codegen)
      */
     val packageName = project.objects.property<String>()
 
     /**
-     * where to write the generated files (current dir by default)
+     * Where to write the generated files (current dir by default).
      */
     val outputFolder = project.objects.property<String>()
 

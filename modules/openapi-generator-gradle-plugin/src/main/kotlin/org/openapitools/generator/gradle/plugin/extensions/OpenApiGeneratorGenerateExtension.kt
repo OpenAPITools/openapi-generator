@@ -59,8 +59,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val auth = project.objects.property<String>()
 
     /**
-     * Sets specified system properties in the format of name=value,name=value
-     * (or multiple options, each with name=value)
+     * Sets specified system properties.
      */
     val systemProperties = project.objects.property<Map<String, String>>()
 
@@ -113,13 +112,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
 
     /**
      * Specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double.
-     * You can also have multiple occurrences of this option.
      */
     val languageSpecificPrimitives = project.objects.listProperty<String>()
 
     /**
-     * Specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import.
-     * You can also have multiple occurrences of this option.
+     * Specifies mappings between a given class and the import that should be used for that class.
      */
     val importMappings = project.objects.property<Map<String, String>>()
 
@@ -260,7 +257,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val withXml = project.objects.property<Boolean>()
 
     /**
-     * A dynamic map of options specific to a generator.
+     * A map of options specific to a generator.
      */
     val configOptions = project.objects.property<Map<String, String>>()
 
