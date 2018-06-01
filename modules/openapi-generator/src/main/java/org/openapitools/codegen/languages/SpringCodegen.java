@@ -60,6 +60,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String JAVA_8 = "java8";
+    public static final String VIRTUAL_SERVICE = "virtual-service";
     public static final String ASYNC = "async";
     public static final String REACTIVE = "reactive";
     public static final String RESPONSE_WRAPPER = "responseWrapper";
@@ -86,7 +87,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean implicitHeaders = false;
     protected boolean openapiDocketConfig = false;
     protected boolean useOptional = false;
-
+    protected boolean virtualService = false;
+    
     public SpringCodegen() {
         super();
         outputFolder = "generated-code/javaSpring";
@@ -107,6 +109,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern"));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation."));
         cliOptions.add(CliOption.newBoolean(JAVA_8, "use java8 default interface"));
+        cliOptions.add(CliOption.newBoolean(VIRTUAL_SERVICE, "Default generate without virtual service"));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers"));
         cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)"));
         cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)"));
@@ -183,6 +186,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setBasePackage((String) additionalProperties.get(BASE_PACKAGE));
         } else {
             additionalProperties.put(BASE_PACKAGE, basePackage);
+        }
+        
+        if (additionalProperties.containsKey(VIRTUAL_SERVICE)) {
+            this.setVirtualService(Boolean.valueOf(additionalProperties.get(VIRTUAL_SERVICE).toString()));
         }
 
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
@@ -645,6 +652,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setJava8(boolean java8) { this.java8 = java8; }
 
+    public void setVirtualService(boolean virtualService) { this.virtualService = virtualService; }
+    
     public void setAsync(boolean async) { this.async = async; }
 
     public void setReactive(boolean reactive) { this.reactive = reactive; }

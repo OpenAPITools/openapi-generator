@@ -1,0 +1,123 @@
+swagger: '2.0'
+info:
+  description: Virtual Service API
+  version: 1.0.0
+  title: Virtual Service API
+basePath: /v1
+schemes:
+  - http
+produces:
+  - application/json
+paths:
+  /mockservice:
+    post:
+      tags:
+        - VirtualServices
+      summary: Create Mock service data for the Virtual services
+      description: Create Mock service data
+      operationId: "createMockRequest"
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: MockTransferObject
+          description: Create Mock service data
+          required: true
+          schema:
+            $ref: '#/definitions/MockTransferObject'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MockStatus'
+        '400':
+          description: Business Exception
+          schema: 
+            $ref: '#/definitions/MockStatus'
+        '500':
+          description: Server Error
+          schema: 
+            $ref: '#/definitions/MockStatus'
+      security:
+        - basicAuth: []
+  /mockservice/{id}:
+    delete:
+      tags:
+        - VirtualServices
+      summary: Delete Mock service data
+      description: Delete Mock service data
+      operationId: "deleteMockRequest"
+      produces:
+        - application/json
+      parameters:
+        - name: "id"
+          in: "path"
+          description: Mock Request Id
+          required: true
+          type: integer
+      responses:
+        '204':
+          description: OK
+        '400':
+          description: Business Exception
+        '500':
+          description: Server Error
+      security:
+        - basicAuth: []        
+securityDefinitions:
+  basicAuth:
+    description: HTTP Basic Authentication
+    type: basic
+definitions:
+  MockTransferObject:
+    type: object
+    required:
+      - url
+      - httpStatusCode
+      - method
+      - resource
+    properties:
+      id:
+        type: integer
+        format: int64
+      operationId:
+        type: string 
+      httpStatusCode:
+        type: string 
+      url:
+        type: string 
+      method:
+        type: string 
+      input:
+        type: string 
+      output: 
+        type: string 
+      availableParams: 
+        type: string
+        items:
+          $ref: "#/definitions/MockKeyValue"
+      excludeList: 
+        type: string 
+      resource: 
+        type: string 
+  MockStatus:
+    type: object
+    required:
+      - code
+    properties:
+      code:
+        type: string
+      mockTransferObject: 
+         $ref: "#/definitions/MockTransferObject"
+  MockKeyValue:
+    type: object
+    required:
+      - key
+      - value
+    properties:
+      key:
+        type: string
+      value:
+        type: string

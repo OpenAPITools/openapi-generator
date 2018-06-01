@@ -1,0 +1,244 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	 <parent>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-project</artifactId>
+        <version>3.0.0-SNAPSHOT</version>
+        <relativePath>../..</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.openapitools</groupId>
+	<artifactId>openapi-generator-virtualan</artifactId>
+	<packaging>jar</packaging>
+	<name>openapi-generator-virtualan</name>
+	<version>1.0.0</version>
+	<properties>
+		<additionalparam>-Xdoclint:none</additionalparam>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<hsqldb.version>2.3.2</hsqldb.version>
+		<spring.version>5.0.0.RELEASE</spring.version>
+		<spring.boot.version>2.0.0.RELEASE</spring.boot.version>
+	</properties>
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<plugins>
+			<plugin>
+				<groupId>com.googlecode.maven-download-plugin</groupId>
+				<artifactId>download-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+						<id>swagger-editor</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<url>https://github.com/swagger-api/swagger-editor/archive/master.tar.gz</url>
+							<outputFileName>swagger-editor.tar.gz</outputFileName>
+							<unpack>true</unpack>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>swagger-ui</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<url>https://github.com/swagger-api/swagger-ui/archive/master.tar.gz</url>
+							<outputFileName>swagger-ui.tar.gz</outputFileName>
+							<unpack>true</unpack>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>ui-resource</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/classes/META-INF/resources/swagger-ui/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.build.directory}/swagger-ui-master/dist/</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>eui-resource</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/classes/META-INF/resources/swagger-ui/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources/META-INF/resources</directory>
+									<includes>
+										<include>swaggerex-ui.html</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>editor-resource</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/classes/META-INF/resources/swagger-editor/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.build.directory}/swagger-editor-master/</directory>
+									<includes>
+										<include>dist/**</include>
+										<include>index.html</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>1.5.18</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>5.0.0.RELEASE</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.4</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-web</artifactId> 
+			</dependency> <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-tomcat</artifactId> 
+			<scope>provided</scope> </dependency> -->
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<!-- Spring JDBC -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot</artifactId>
+			<version>${spring.boot.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>${spring.boot.version}</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>javax.persistence-api</artifactId>
+			<version>2.2</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<!-- Bean Validation API support -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.1.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.json</groupId>
+			<artifactId>javax.json-api</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.glassfish/javax.json -->
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.json</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+
+		<!-- Bean Validation API support -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.1.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>16.0.1</version>
+		</dependency>
+	</dependencies>
+</project>
