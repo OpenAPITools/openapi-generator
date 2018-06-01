@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<title>Virtualan</title>
+
+<link rel="stylesheet"
+	href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.css">
+
+<link href="/static/css/app.css" rel="stylesheet"></link>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+
+
+<link
+	href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<script src="/static/js/view/jquery.json-view.min.js"></script>
+<link href="/static/js/view/jquery.json-view.min.css"
+	rel="stylesheet">
+
+ <link rel="stylesheet" type="text/css" href="/swagger-ui/swagger-ui.css" >
+  <link rel="icon" type="image/png" href="/swagger-ui/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="/swagger-ui/favicon-16x16.png" sizes="16x16" />
+
+</head>
+
+<style type="text/css">
+
+/* Json Tree Looks */
+json-tree ul {
+	margin: 0;
+	background: rgba(255, 255, 255, 0.1);
+}
+
+json-tree .key {
+	color: #CB4E7F;
+}
+
+json-tree .branch-preview {
+	max-width: 60%;
+}
+
+json-tree .branch-preview::after {
+	content: '...';
+}
+
+@media ( min-width : 768px) {
+	.modal-xl {
+		width: 90%;
+		max-width: 1200px;
+	}
+}
+
+.line-separator{
+	height:1px;
+	background:#717171;
+	border-bottom:1px solid #313030;
+}
+
+
+.tabsDynamicTabs md-content {
+	background-color: transparent !important;
+}
+
+.tabsDynamicTabs md-content md-tabs {
+	border: 1px solid #e1e1e1;
+}
+
+.tabsDynamicTabs md-content md-tabs md-tab-content {
+	background: #f6f6f6;
+}
+
+.tabsDynamicTabs md-content md-tabs md-tabs-wrapper {
+	background: white;
+}
+
+.tabsDynamicTabs md-content h1:first-child {
+	margin-top: 0;
+}
+
+.tabsDynamicTabs md-input-container {
+	padding-bottom: 0;
+}
+
+.tabsDynamicTabs .remove-tab {
+	margin-bottom: 40px;
+}
+
+.tabsDynamicTabs .-tab>div>div {
+	padding: 25px;
+	box-sizing: border-box;
+}
+
+.tabsDynamicTabs .edit-form input {
+	width: 100%;
+}
+
+.tabsDynamicTabs md-tabs {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.tabsDynamicTabs md-tab[disabled] {
+	opacity: 0.5;
+}
+
+.tabsDynamicTabs label {
+	text-align: left;
+}
+
+.tabsDynamicTabs .long>input {
+	width: 264px;
+}
+
+.tabsDynamicTabs .md-button.add-tab {
+	transform: translateY(5px);
+}
+
+.nav-mock {
+	margin: 20px;
+}
+</style>
+<body>
+
+	<!-- main app container -->
+	<div class="nav-mock">
+		<nav class="navbar navbar-default">
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="nav nav-pills" role="tablist">
+					<li role="presentation"><a class="navbar-brand"
+						href="#"><kbd>Virtualan</kbd></a></li>
+					<li role="presentation"><a href="#">Home <span
+							class="sr-only">(current)</span></a></li>
+					<li role="presentation"><a href="#/mock">Virtual
+							Service</a></li>
+					<li role="presentation"><a href="#/swagger">Swagger</a>
+					</li>
+					<li role="presentation"><a href="#/utils">Utilities</a>
+					</li>
+				</ul>
+
+			</div>
+		</nav>
+		<ui-view></ui-view>
+	</div>
+
+
+
+	<!-- underscore -->
+	<script
+		src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+
+
+	<!-- Angular Material requires Angular.js Libraries -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
+	<script
+		src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
+	<script src="/static/js/view/angular-json-tree.min.js"></script>
+
+
+	<!-- Angular Material Library -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.js"></script>
+
+    <script data-require="angular-resource@*" data-semver="1.2.5" src="http://code.angularjs.org/1.2.5/angular-resource.js"></script>
+    <script data-require="angular-route@*" data-semver="1.2.5" src="http://code.angularjs.org/1.2.5/angular-route.js"></script>
+
+
+	<!-- app -->
+	<script src="/static/js/app.js"></script>
+	<script src="/static/js/apiui-route.js"></script>
+	<script src="/static/js/service/mock_service.js"></script>
+	<script src="/static/js/controller/mock_controller.js"></script>
+	<script src="/static/js/controller/swagger_controller.js"></script>
+	<script src="/static/js/controller/utils_controller.js"></script>
+
+</body>
+</html>
