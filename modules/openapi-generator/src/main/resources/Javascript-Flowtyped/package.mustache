@@ -12,7 +12,6 @@
   "license": "Unlicense",
   "main": "./lib/index.js",
   "scripts": {
-    "prepublishOnly": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",
     "build:clean": "rimraf lib",
     "build:lib": "node_modules/.bin/babel -d lib src --ignore '**/__tests__/**'",
