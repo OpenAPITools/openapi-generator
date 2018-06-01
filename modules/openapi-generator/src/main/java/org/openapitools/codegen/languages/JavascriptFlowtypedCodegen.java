@@ -55,7 +55,7 @@ public class JavascriptFlowtypedCodegen extends AbstractTypeScriptClientCodegen 
                 "prototype", "String", "toString", "undefined", "valueOf"));
 
         languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList("string", "Boolean", "number", "Array", "Object", "Date", "File", "Blob")
+                Arrays.asList("string", "boolean", "number", "Array", "Object", "Date", "File", "Blob")
         );
 
         instantiationTypes.put("array", "Array");
@@ -65,7 +65,7 @@ public class JavascriptFlowtypedCodegen extends AbstractTypeScriptClientCodegen 
         typeMapping.put("array", "Array");
         typeMapping.put("map", "Object");
         typeMapping.put("List", "Array");
-        typeMapping.put("boolean", "Boolean");
+        typeMapping.put("boolean", "boolean");
         typeMapping.put("string", "string");
         typeMapping.put("int", "number");
         typeMapping.put("float", "number");
