@@ -29,8 +29,8 @@ export interface Order {
 
 export namespace Order {
     export enum StatusEnum {
-        Placed = <any> 'placed',
-        Approved = <any> 'approved',
-        Delivered = <any> 'delivered'
+        Placed = 'placed',
+        Approved = 'approved',
+        Delivered = 'delivered'
     }
 }

@@ -29,8 +29,8 @@ export interface Pet {
 
 export namespace Pet {
     export enum StatusEnum {
-        Available = <any> 'available',
-        Pending = <any> 'pending',
-        Sold = <any> 'sold'
+        Available = 'available',
+        Pending = 'pending',
+        Sold = 'sold'
     }
 }
