@@ -1,17 +1,17 @@
-{{#hasParams}}	
+{{#hasParams}}
 		Map<String, String> paramMap =  new HashMap<>();
 		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-	{{#allParams}}
+{{#allParams}}
 	{{#isQueryParam}}
-	if({{paramName}} != null && {{paramName}}.getClass().toString().contains("List")) {
-		paramMap.put("{{baseName}}", addQueryParamValue({{paramName}}));					
-	} else {
+	if({{paramName}} != null && {{paramName}}.getClass().toString().contains("List")){
+		paramMap.put("{{baseName}}", addQueryParamValue({{paramName}}));
+	} else{
 		paramMap.put("{{baseName}}", String.valueOf({{paramName}}));
 	}
 	{{/isQueryParam}}
 	{{#isPathParam}}
 		paramMap.put("{{baseName}}", String.valueOf({{paramName}}));{{/isPathParam}}
-	{{/allParams}}
+{{/allParams}}
 		try {
 			mockServiceRequest.setResource("{{baseName}}");
 			mockServiceRequest.setOperationId("{{operationId}}");
@@ -21,7 +21,7 @@
 			mockServiceRequest.setInputObject({{#allParams}}{{>bodyParamsInput}}{{/allParams}});
 			{{/bodyParams}}
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e) {
+		} catch (ClassNotFoundException | IOException e){
 			log.error("Unable to load the mock Response for " + "{{operationId}}", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for {{operationId}}\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
