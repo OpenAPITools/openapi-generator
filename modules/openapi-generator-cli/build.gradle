@@ -1,5 +1,21 @@
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
+  }
+}
+
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+mainClassName = "org.openapitools.codegen.OpenAPIGenerator"
 
 description = 'openapi-generator (executable)'
+
 dependencies {
   compile project(':openapi-generator')
     compile group: 'io.airlift', name: 'airline', version:'0.7'
@@ -8,4 +24,15 @@ dependencies {
     testCompile group: 'org.testng', name: 'testng', version:'6.9.6'
     testCompile group: 'org.jmockit', name: 'jmockit', version:'1.25'
 }
+
 test.useTestNG()
+
+shadowJar {
+  baseName = "openapi-generator-cli-$version"
+  classifier = null
+  version = null
+}
+
+runShadow {
+  args 'help'
+}
