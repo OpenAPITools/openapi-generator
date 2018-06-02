@@ -8,6 +8,16 @@ import * as models from './models';
  * {{{description}}}
  */
 {{/description}}
+{{#isEnum}}
+export enum {{{classname}}} {
+{{#allowableValues}}
+{{#enumVars}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+}
+{{/isEnum}}
+{{^isEnum}}
 export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{#vars}}
 {{#description}}
@@ -26,7 +36,7 @@ export namespace {{classname}} {
     export enum {{enumName}} {
     {{#allowableValues}}
     {{#enumVars}}
-        {{{name}}} = <any> {{{value}}}{{^-last}},{{/-last}}
+        {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
     {{/enumVars}}
     {{/allowableValues}}
     }
@@ -34,5 +44,6 @@ export namespace {{classname}} {
 {{/vars}}
 }
 {{/hasEnums}}
+{{/isEnum}}
 {{/model}}
 {{/models}}
