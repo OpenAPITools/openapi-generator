@@ -49,12 +49,13 @@ fun Route.PetApi() {
     route("/pet") {
         post {
             val principal = call.authentication.principal<OAuthAccessTokenResponse>()
-            
-            if (principal == null) {
-                call.respond(HttpStatusCode.Unauthorized)
-            } else {
-                call.respond(HttpStatusCode.NotImplemented)
-            }
+
+if (principal == null) {
+    call.respond(HttpStatusCode.Unauthorized)
+} else {
+    call.respond(HttpStatusCode.NotImplemented)
+}
+
         }
     }
     .apply {
@@ -76,12 +77,13 @@ fun Route.PetApi() {
 
     delete<Paths.deletePet> {  it: Paths.deletePet ->
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
-        
-        if (principal == null) {
-            call.respond(HttpStatusCode.Unauthorized)
-        } else {
-            call.respond(HttpStatusCode.NotImplemented)
-        }
+
+if (principal == null) {
+    call.respond(HttpStatusCode.Unauthorized)
+} else {
+    call.respond(HttpStatusCode.NotImplemented)
+}
+
     }
     .apply {
       // TODO: ktor doesn't allow different authentication registrations for endpoints sharing the same path but different methods.
@@ -104,12 +106,12 @@ fun Route.PetApi() {
 
     get<Paths.findPetsByStatus> {  it: Paths.findPetsByStatus ->
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
-        
-        if (principal == null) {
-            call.respond(HttpStatusCode.Unauthorized)
-        } else {
-            val exampleContentType = "application/json"
-            val exampleContentString = """{
+
+if (principal == null) {
+    call.respond(HttpStatusCode.Unauthorized)
+} else {
+    val exampleContentType = "application/json"
+val exampleContentString = """{
               "photoUrls" : [ "photoUrls", "photoUrls" ],
               "name" : "doggie",
               "id" : 0,
@@ -126,13 +128,14 @@ fun Route.PetApi() {
               } ],
               "status" : "available"
             }"""
-            
-            when(exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
-                "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
-                else -> call.respondText(exampleContentString)
-            }
-        }
+
+when(exampleContentType) {
+    "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+    "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
+    else -> call.respondText(exampleContentString)
+}
+}
+
     }
     .apply {
       // TODO: ktor doesn't allow different authentication registrations for endpoints sharing the same path but different methods.
@@ -155,12 +158,12 @@ fun Route.PetApi() {
 
     get<Paths.findPetsByTags> {  it: Paths.findPetsByTags ->
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
-        
-        if (principal == null) {
-            call.respond(HttpStatusCode.Unauthorized)
-        } else {
-            val exampleContentType = "application/json"
-            val exampleContentString = """{
+
+if (principal == null) {
+    call.respond(HttpStatusCode.Unauthorized)
+} else {
+    val exampleContentType = "application/json"
+val exampleContentString = """{
               "photoUrls" : [ "photoUrls", "photoUrls" ],
               "name" : "doggie",
               "id" : 0,
@@ -177,13 +180,14 @@ fun Route.PetApi() {
               } ],
               "status" : "available"
             }"""
-            
-            when(exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
-                "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
-                else -> call.respondText(exampleContentString)
-            }
-        }
+
+when(exampleContentType) {
+    "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+    "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
+    else -> call.respondText(exampleContentString)
+}
+}
+
     }
     .apply {
       // TODO: ktor doesn't allow different authentication registrations for endpoints sharing the same path but different methods.
@@ -206,12 +210,12 @@ fun Route.PetApi() {
 
     get<Paths.getPetById> {  it: Paths.getPetById ->
         val principal = call.authentication.principal<ApiPrincipal>()
-        
-        if (principal == null) {
-            call.respond(HttpStatusCode.Unauthorized)
-        } else {
-            val exampleContentType = "application/json"
-            val exampleContentString = """{
+
+if (principal == null) {
+    call.respond(HttpStatusCode.Unauthorized)
+} else {
+    val exampleContentType = "application/json"
+val exampleContentString = """{
               "photoUrls" : [ "photoUrls", "photoUrls" ],
               "name" : "doggie",
               "id" : 0,
@@ -228,13 +232,14 @@ fun Route.PetApi() {
               } ],
               "status" : "available"
             }"""
-            
-            when(exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
-                "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
-                else -> call.respondText(exampleContentString)
-            }
-        }
+
+when(exampleContentType) {
+    "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+    "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
+    else -> call.respondText(exampleContentString)
+}
+}
+
     }
     .apply {
       // TODO: ktor doesn't allow different authentication registrations for endpoints sharing the same path but different methods.
@@ -261,12 +266,13 @@ fun Route.PetApi() {
     route("/pet") {
         put {
             val principal = call.authentication.principal<OAuthAccessTokenResponse>()
-            
-            if (principal == null) {
-                call.respond(HttpStatusCode.Unauthorized)
-            } else {
-                call.respond(HttpStatusCode.NotImplemented)
-            }
+
+if (principal == null) {
+    call.respond(HttpStatusCode.Unauthorized)
+} else {
+    call.respond(HttpStatusCode.NotImplemented)
+}
+
         }
     }
     .apply {
@@ -289,12 +295,13 @@ fun Route.PetApi() {
     route("/pet/{petId}") {
         post {
             val principal = call.authentication.principal<OAuthAccessTokenResponse>()
-            
-            if (principal == null) {
-                call.respond(HttpStatusCode.Unauthorized)
-            } else {
-                call.respond(HttpStatusCode.NotImplemented)
-            }
+
+if (principal == null) {
+    call.respond(HttpStatusCode.Unauthorized)
+} else {
+    call.respond(HttpStatusCode.NotImplemented)
+}
+
         }
     }
     .apply {
@@ -317,23 +324,24 @@ fun Route.PetApi() {
     route("/pet/{petId}/uploadImage") {
         post {
             val principal = call.authentication.principal<OAuthAccessTokenResponse>()
-            
-            if (principal == null) {
-                call.respond(HttpStatusCode.Unauthorized)
-            } else {
-                val exampleContentType = "application/json"
-                val exampleContentString = """{
+
+if (principal == null) {
+    call.respond(HttpStatusCode.Unauthorized)
+} else {
+    val exampleContentType = "application/json"
+val exampleContentString = """{
                   "code" : 0,
                   "type" : "type",
                   "message" : "message"
                 }"""
-                
-                when(exampleContentType) {
-                    "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
-                    "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
-                    else -> call.respondText(exampleContentString)
-                }
-            }
+
+when(exampleContentType) {
+    "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+    "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
+    else -> call.respondText(exampleContentString)
+}
+}
+
         }
     }
     .apply {

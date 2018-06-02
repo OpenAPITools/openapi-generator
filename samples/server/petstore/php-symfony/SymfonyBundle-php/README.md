@@ -124,36 +124,36 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*PetApiInterface* | [**addPet**](Resources/docs/Api/PetApiInterface.md#addpet) | **POST** /pet | Add a new pet to the store
-*PetApiInterface* | [**deletePet**](Resources/docs/Api/PetApiInterface.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
-*PetApiInterface* | [**findPetsByStatus**](Resources/docs/Api/PetApiInterface.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
-*PetApiInterface* | [**findPetsByTags**](Resources/docs/Api/PetApiInterface.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
-*PetApiInterface* | [**getPetById**](Resources/docs/Api/PetApiInterface.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
-*PetApiInterface* | [**updatePet**](Resources/docs/Api/PetApiInterface.md#updatepet) | **PUT** /pet | Update an existing pet
-*PetApiInterface* | [**updatePetWithForm**](Resources/docs/Api/PetApiInterface.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
-*PetApiInterface* | [**uploadFile**](Resources/docs/Api/PetApiInterface.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
-*StoreApiInterface* | [**deleteOrder**](Resources/docs/Api/StoreApiInterface.md#deleteorder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
-*StoreApiInterface* | [**getInventory**](Resources/docs/Api/StoreApiInterface.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
-*StoreApiInterface* | [**getOrderById**](Resources/docs/Api/StoreApiInterface.md#getorderbyid) | **GET** /store/order/{orderId} | Find purchase order by ID
-*StoreApiInterface* | [**placeOrder**](Resources/docs/Api/StoreApiInterface.md#placeorder) | **POST** /store/order | Place an order for a pet
-*UserApiInterface* | [**createUser**](Resources/docs/Api/UserApiInterface.md#createuser) | **POST** /user | Create user
-*UserApiInterface* | [**createUsersWithArrayInput**](Resources/docs/Api/UserApiInterface.md#createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array
-*UserApiInterface* | [**createUsersWithListInput**](Resources/docs/Api/UserApiInterface.md#createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array
-*UserApiInterface* | [**deleteUser**](Resources/docs/Api/UserApiInterface.md#deleteuser) | **DELETE** /user/{username} | Delete user
-*UserApiInterface* | [**getUserByName**](Resources/docs/Api/UserApiInterface.md#getuserbyname) | **GET** /user/{username} | Get user by user name
-*UserApiInterface* | [**loginUser**](Resources/docs/Api/UserApiInterface.md#loginuser) | **GET** /user/login | Logs user into the system
-*UserApiInterface* | [**logoutUser**](Resources/docs/Api/UserApiInterface.md#logoutuser) | **GET** /user/logout | Logs out current logged in user session
-*UserApiInterface* | [**updateUser**](Resources/docs/Api/UserApiInterface.md#updateuser) | **PUT** /user/{username} | Updated user
+*PetApiInterface* | [**addPet**](Resources\docs\Api/PetApiInterface.md#addpet) | **POST** /pet | Add a new pet to the store
+*PetApiInterface* | [**deletePet**](Resources\docs\Api/PetApiInterface.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
+*PetApiInterface* | [**findPetsByStatus**](Resources\docs\Api/PetApiInterface.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
+*PetApiInterface* | [**findPetsByTags**](Resources\docs\Api/PetApiInterface.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
+*PetApiInterface* | [**getPetById**](Resources\docs\Api/PetApiInterface.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
+*PetApiInterface* | [**updatePet**](Resources\docs\Api/PetApiInterface.md#updatepet) | **PUT** /pet | Update an existing pet
+*PetApiInterface* | [**updatePetWithForm**](Resources\docs\Api/PetApiInterface.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
+*PetApiInterface* | [**uploadFile**](Resources\docs\Api/PetApiInterface.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
+*StoreApiInterface* | [**deleteOrder**](Resources\docs\Api/StoreApiInterface.md#deleteorder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+*StoreApiInterface* | [**getInventory**](Resources\docs\Api/StoreApiInterface.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
+*StoreApiInterface* | [**getOrderById**](Resources\docs\Api/StoreApiInterface.md#getorderbyid) | **GET** /store/order/{orderId} | Find purchase order by ID
+*StoreApiInterface* | [**placeOrder**](Resources\docs\Api/StoreApiInterface.md#placeorder) | **POST** /store/order | Place an order for a pet
+*UserApiInterface* | [**createUser**](Resources\docs\Api/UserApiInterface.md#createuser) | **POST** /user | Create user
+*UserApiInterface* | [**createUsersWithArrayInput**](Resources\docs\Api/UserApiInterface.md#createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array
+*UserApiInterface* | [**createUsersWithListInput**](Resources\docs\Api/UserApiInterface.md#createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array
+*UserApiInterface* | [**deleteUser**](Resources\docs\Api/UserApiInterface.md#deleteuser) | **DELETE** /user/{username} | Delete user
+*UserApiInterface* | [**getUserByName**](Resources\docs\Api/UserApiInterface.md#getuserbyname) | **GET** /user/{username} | Get user by user name
+*UserApiInterface* | [**loginUser**](Resources\docs\Api/UserApiInterface.md#loginuser) | **GET** /user/login | Logs user into the system
+*UserApiInterface* | [**logoutUser**](Resources\docs\Api/UserApiInterface.md#logoutuser) | **GET** /user/logout | Logs out current logged in user session
+*UserApiInterface* | [**updateUser**](Resources\docs\Api/UserApiInterface.md#updateuser) | **PUT** /user/{username} | Updated user
 
 
 ## Documentation For Models
 
- - [ApiResponse](Resources/docs/Model/ApiResponse.md)
- - [Category](Resources/docs/Model/Category.md)
- - [Order](Resources/docs/Model/Order.md)
- - [Pet](Resources/docs/Model/Pet.md)
- - [Tag](Resources/docs/Model/Tag.md)
- - [User](Resources/docs/Model/User.md)
+ - [ApiResponse](Resources\docs\Model/ApiResponse.md)
+ - [Category](Resources\docs\Model/Category.md)
+ - [Order](Resources\docs\Model/Order.md)
+ - [Pet](Resources\docs\Model/Pet.md)
+ - [Tag](Resources\docs\Model/Tag.md)
+ - [User](Resources\docs\Model/User.md)
 
 
 ## Documentation For Authorization

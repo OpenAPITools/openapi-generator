@@ -27,6 +27,7 @@ import org.openapitools.virtualan.VirtualServiceUtil;
 {{/isDelegate}}
 {{^jdk8}}
 import org.springframework.web.multipart.MultipartFile;
+
 {{#virtual-service}}
 //Customized for MOCK
 import org.openapitools.virtualan.VirtualServiceUtil;
@@ -82,10 +83,11 @@ public class {{classname}}Controller implements {{classname}} {
 {{/isDelegate}}
 {{^isDelegate}}
     {{^reactive}}
+
     {{^jdk8}}
-    private static final Logger log = LoggerFactory.getLogger({{classname}}Controller.class)
     {{/jdk8}}
 	{{#virtual-service}}
+    private static final Logger log = LoggerFactory.getLogger({{classname}}Controller.class)
 	@org.springframework.beans.factory.annotation.Autowired
 	private VirtualServiceUtil virtualServiceUtil;
 	{{/virtual-service}}
