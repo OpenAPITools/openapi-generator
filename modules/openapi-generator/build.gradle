@@ -1,0 +1,30 @@
+
+description = 'openapi-generator (core library)'
+dependencies {
+    compile group: 'io.swagger.core.v3', name: 'swagger-models', version:'2.0.1'
+    compile group: 'io.swagger.core.v3', name: 'swagger-core', version:'2.0.1'
+    compile group: 'io.swagger.parser.v3', name: 'swagger-parser-core', version:'2.0.1'
+    compile group: 'io.swagger.parser.v3', name: 'swagger-parser-v3', version:'2.0.1'
+    compile group: 'io.swagger.parser.v3', name: 'swagger-parser', version:'2.0.1'
+    compile group: 'com.samskivert', name: 'jmustache', version:'1.14'
+    compile group: 'commons-io', name: 'commons-io', version:'2.4'
+    compile group: 'org.slf4j', name: 'slf4j-ext', version:'1.7.12'
+    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.12'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version:'1.7.12'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version:'3.4'
+    compile group: 'commons-cli', name: 'commons-cli', version:'1.2'
+    compile group: 'com.google.guava', name: 'guava', version:'20.0'
+    compile group: 'com.atlassian.commonmark', name: 'commonmark', version:'0.9.0'
+    testCompile group: 'org.testng', name: 'testng', version:'6.9.6'
+    testCompile group: 'org.reflections', name: 'reflections', version:'0.9.10'
+    testCompile group: 'org.jmockit', name: 'jmockit', version:'1.25'
+    testCompile group: 'com.googlecode.java-diff-utils', name: 'diffutils', version:'1.3.0'
+    testCompile group: 'org.mockito', name: 'mockito-core', version:'2.8.47'
+}
+test.useTestNG()
+
+task packageTests(type: Jar) {
+  from sourceSets.test.output
+  classifier = 'tests'
+}
+artifacts.archives packageTests

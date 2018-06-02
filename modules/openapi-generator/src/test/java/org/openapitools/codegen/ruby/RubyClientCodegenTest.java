@@ -43,10 +43,11 @@ import static org.testng.Assert.*;
  */
 public class RubyClientCodegenTest {
 
-    public TemporaryFolder folder = new TemporaryFolder();
+    public TemporaryFolder folder = null;
 
     @BeforeMethod
     public void setUp() throws Exception {
+        folder = new TemporaryFolder();
         folder.create();
     }
 

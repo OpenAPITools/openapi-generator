@@ -1,0 +1,13 @@
+
+description = 'openapi-generator-online'
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.0.2.RELEASE'
+    compile(group: 'io.springfox', name: 'springfox-swagger2', version:'2.8.0') {
+exclude(module: 'swagger-annotations')
+exclude(module: 'swagger-models')
+    }
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version:'2.8.0'
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version:'2.9.5'
+    compile group: 'javax.validation', name: 'validation-api', version:'2.0.1.Final'
+  compile project(':openapi-generator')
+}

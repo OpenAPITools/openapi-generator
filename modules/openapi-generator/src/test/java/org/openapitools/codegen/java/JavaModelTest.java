@@ -57,8 +57,7 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.io.File;
 import java.util.Collections;
@@ -67,7 +66,18 @@ import java.util.List;
 import java.util.Map;
 
 public class JavaModelTest {
-    private TemporaryFolder folder = new TemporaryFolder();
+    private TemporaryFolder folder = null;
+
+    @BeforeMethod
+    public void setUp() throws Exception {
+        folder = new TemporaryFolder();
+        folder.create();
+    }
+
+    @AfterMethod
+    public void tearDown() throws Exception {
+        folder.delete();
+    }
 
     @Test(description = "convert a simple java model")
     public void simpleModelTest() {

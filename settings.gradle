@@ -1,0 +1,12 @@
+rootProject.name = 'openapi-generator-project'
+include ':openapi-generator'
+include ':openapi-generator-cli'
+include ':openapi-generator-maven-plugin'
+include ':openapi-generator-gradle-plugin'
+include ':openapi-generator-online'
+
+project(':openapi-generator').projectDir = "$rootDir/modules/openapi-generator" as File
+project(':openapi-generator-cli').projectDir = "$rootDir/modules/openapi-generator-cli" as File
+project(':openapi-generator-maven-plugin').projectDir = "$rootDir/modules/openapi-generator-maven-plugin" as File
+project(':openapi-generator-gradle-plugin').projectDir = "$rootDir/modules/openapi-generator-gradle-plugin" as File
+project(':openapi-generator-online').projectDir = "$rootDir/modules/openapi-generator-online" as File

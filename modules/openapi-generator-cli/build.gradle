@@ -1,0 +1,11 @@
+
+description = 'openapi-generator (executable)'
+dependencies {
+  compile project(':openapi-generator')
+    compile group: 'io.airlift', name: 'airline', version:'0.7'
+    compile group: 'com.googlecode.lambdaj', name: 'lambdaj', version:'2.3.3'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version:'1.7.12'
+    testCompile group: 'org.testng', name: 'testng', version:'6.9.6'
+    testCompile group: 'org.jmockit', name: 'jmockit', version:'1.25'
+}
+test.useTestNG()

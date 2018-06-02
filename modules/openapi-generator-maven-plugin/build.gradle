@@ -1,0 +1,11 @@
+
+description = 'openapi-generator (maven-plugin)'
+dependencies {
+    compile group: 'org.apache.maven', name: 'maven-core', version:'3.2.5'
+    compile group: 'org.apache.maven', name: 'maven-compat', version:'3.2.5'
+    compile group: 'org.apache.maven', name: 'maven-plugin-api', version:'3.2.5'
+    compile group: 'org.apache.maven.plugin-tools', name: 'maven-plugin-annotations', version:'3.4'
+  compile project(':openapi-generator')
+    testCompile group: 'junit', name: 'junit', version:'4.8.1'
+    compileOnly group: 'org.apache.maven', name: 'maven-artifact', version:'3.2.5'
+}
