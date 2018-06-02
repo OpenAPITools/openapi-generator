@@ -208,7 +208,7 @@ class ClassModel implements ModelInterface, ArrayAccess
     /**
      * Gets _class
      *
-     * @return string
+     * @return string|null
      */
     public function getClass()
     {
@@ -218,7 +218,7 @@ class ClassModel implements ModelInterface, ArrayAccess
     /**
      * Sets _class
      *
-     * @param string $_class _class
+     * @param string|null $_class _class
      *
      * @return $this
      */

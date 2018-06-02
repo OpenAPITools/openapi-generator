@@ -40,16 +40,7 @@ public class MockServiceImpl implements MockService {
 		return cache.readById(id);
 	}
 
-	/*
-	 * @CacheEvict(value = "mock", key =
-	 * "{ #mockTransferObject.resource+'_'+#mockTransferObject.operationId}")
-	 * public void removeCache(MockTransferObject mockTransferObject) {
-	 * System.out.println("Cache Removed: " + mockTransferObject.getResource() +
-	 * " : "+ mockTransferObject.getOperationId()); }
-	 */
-
-	// @CacheEvict(value = "mock", key = "{
-	// #mockTransferObject.resource+'_'+#mockTransferObject.operationId}")
+	
 	public Mock saveMockRequest(Mock mockTransferObject) {
 		Mock mockTransferObjectResponse = virtualServiceUtil.converterEToR(
 				mockRepository.save(virtualServiceUtil.converterRToE(mockTransferObject)));
@@ -78,35 +69,15 @@ public class MockServiceImpl implements MockService {
 		return p -> (p.getResource().equalsIgnoreCase(resource) && p.getOperationId().equalsIgnoreCase(operationId));
 	}
 
-	/*
-	 * public interface DomainOperations<T> { default List<T>
-	 * filter(Predicate<T> predicate) { return persons.stream().filter(
-	 * predicate ) .collect(Collectors.<Person>toList()); } }
-	 */
+	
 
 	@Override
 	@Transactional
-	// @Cacheable(value = "mock", key = "{ #resource+'_'+#operationId}",
-	// unless="#result==null")
 	public List<Mock> readByOperationId(String resource, String operationId) {
 		long startTime = System.currentTimeMillis();
-		/*
-		 * Iterable<MockEntity> mockTransferObjectList =
-		 * mockRepository.findByOperationIdAndResource(operationId, resource);
-		 * long endTime = System.currentTimeMillis(); System.out.println(
-		 * "DB Call   " + (endTime-startTime)/1000); startTime =
-		 * System.currentTimeMillis(); List<MockTransferObject> requestList =
-		 * new ArrayList<>(); for (MockEntity mockEntity :
-		 * mockTransferObjectList) { if
-		 * (mockEntity.getResource().equals(resource) &&
-		 * mockEntity.getOperationId().equals(operationId)) {
-		 * requestList.add(converterEToR(mockEntity)); } }
-		 */
 		List<Mock> requestList = findAllMockRequests().stream()
 				.filter(filterOperationIdAndResource(resource, operationId))
 				.collect(Collectors.<Mock> toList());
-		long endTime = System.currentTimeMillis();
-		System.out.println("converter Calls   " + (endTime - startTime) / 1000);
 		return requestList;
 	}
 

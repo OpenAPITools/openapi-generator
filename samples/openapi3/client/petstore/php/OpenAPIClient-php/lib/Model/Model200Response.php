@@ -214,7 +214,7 @@ class Model200Response implements ModelInterface, ArrayAccess
     /**
      * Gets name
      *
-     * @return int
+     * @return int|null
      */
     public function getName()
     {
@@ -224,7 +224,7 @@ class Model200Response implements ModelInterface, ArrayAccess
     /**
      * Sets name
      *
-     * @param int $name name
+     * @param int|null $name name
      *
      * @return $this
      */
@@ -238,7 +238,7 @@ class Model200Response implements ModelInterface, ArrayAccess
     /**
      * Gets class
      *
-     * @return string
+     * @return string|null
      */
     public function getClass()
     {
@@ -248,7 +248,7 @@ class Model200Response implements ModelInterface, ArrayAccess
     /**
      * Sets class
      *
-     * @param string $class class
+     * @param string|null $class class
      *
      * @return $this
      */

@@ -253,7 +253,7 @@ class Name implements ModelInterface, ArrayAccess
     /**
      * Gets snake_case
      *
-     * @return int
+     * @return int|null
      */
     public function getSnakeCase()
     {
@@ -263,7 +263,7 @@ class Name implements ModelInterface, ArrayAccess
     /**
      * Sets snake_case
      *
-     * @param int $snake_case snake_case
+     * @param int|null $snake_case snake_case
      *
      * @return $this
      */
@@ -277,7 +277,7 @@ class Name implements ModelInterface, ArrayAccess
     /**
      * Gets property
      *
-     * @return string
+     * @return string|null
      */
     public function getProperty()
     {
@@ -287,7 +287,7 @@ class Name implements ModelInterface, ArrayAccess
     /**
      * Sets property
      *
-     * @param string $property property
+     * @param string|null $property property
      *
      * @return $this
      */
@@ -301,7 +301,7 @@ class Name implements ModelInterface, ArrayAccess
     /**
      * Gets _123_number
      *
-     * @return int
+     * @return int|null
      */
     public function get123Number()
     {
@@ -311,7 +311,7 @@ class Name implements ModelInterface, ArrayAccess
     /**
      * Sets _123_number
      *
-     * @param int $_123_number _123_number
+     * @param int|null $_123_number _123_number
      *
      * @return $this
      */

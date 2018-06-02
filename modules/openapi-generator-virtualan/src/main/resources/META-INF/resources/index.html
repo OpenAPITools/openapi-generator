@@ -163,25 +163,7 @@ json-tree .branch-preview::after {
     </ul>
   </div>
 </nav>
-	<!-- 
-		<nav class="navbar navbar-default">
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="nav nav-pills" role="tablist">
-					<li role="presentation"><a class="navbar-brand"
-						href="#"><h4><kbd>Virtualan</kbd></h4></a></li>
-					<li role="presentation"><a href="#"><h4>Home</h4><span
-							class="sr-only">(current)</span></a></li>
-					<li role="presentation"><a href="#/mock"><h4>Virtual
-							Service</h4></a></li>
-					<li role="presentation"><a href="#/swagger"><h4>Swagger</h4></a>
-					</li>
-					<li role="presentation"><a href="#/utils"><h4>Utilities</h4></a>
-					</li>
-				</ul>
-
-			</div>
-		</nav>
- -->		<ui-view></ui-view>
+			<ui-view></ui-view>
 	</div>
 
 
@@ -337,9 +319,15 @@ json-tree .branch-preview::after {
 												<form ng-submit="ctrl.submit(mockRequest)"
 													name="myForm"
 													class="form-horizontal">
-													<div class="row">
-														<div layout="row" layout-fill layout-align="center center"
-															class="{{ctrl.classCode}}">{{ctrl.message}}</div>
+													<div class="row" ng-show="ctrl.showAlert(mockRequest.operationId)">
+														<div  layout="row" layout-fill layout-align="center center">
+															<div  class="container" >
+																<alert ng-if="ctrl.showDialog" type="{{ctrl.type}}"  close="ctrl.closeAlert(mockRequest.operationId)">
+																<strong>{{ctrl.showMessage(mockRequest.operationId)}} </strong>
+																  </alert>
+																	
+															</div>
+														</div>
 													</div>
 													<div class="row">
 														<div class="form-group col-md-12">
