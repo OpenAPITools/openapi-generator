@@ -9,7 +9,6 @@ package {{package}};
 {{/imports}}
 import io.swagger.annotations.*;
 {{#jdk8-no-delegate}}
-
 {{#virtual-service}}
 import org.openapitools.virtualan.VirtualServiceUtil;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -135,7 +134,6 @@ public interface {{classname}} {
         return getDelegate().{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#reactive}}, exchange{{/reactive}});
         {{/isDelegate}}
 		{{/virtual-service}}
-
     }{{/jdk8}}
 
 {{/operation}}
