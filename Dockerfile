@@ -1,11 +1,12 @@
-FROM jimschubert/8-jdk-alpine-mvn:1.0
+FROM openjdk:8-jdk-alpine
 
 RUN set -x && \
     apk add --no-cache bash
 
 ENV GEN_DIR /opt/openapi-generator
+ENV GRADLE_USER_HOME /opt/gradle_user_home
 WORKDIR ${GEN_DIR}
-VOLUME  ${MAVEN_HOME}/.m2/repository
+VOLUME  ${GRADLE_USER_HOME}
 
 # Required from a licensing standpoint
 COPY ./LICENSE ${GEN_DIR}
@@ -20,8 +21,10 @@ COPY ./modules/openapi-generator-cli ${GEN_DIR}/modules/openapi-generator-cli
 COPY ./modules/openapi-generator ${GEN_DIR}/modules/openapi-generator
 COPY ./pom.xml ${GEN_DIR}
 
+RUN mkdir -p ${GRADLE_USER_HOME}
+
 # Pre-compile openapi-generator-cli
-RUN mvn -am -pl "modules/openapi-generator-cli" package
+RUN ${GEN_DIR}/gradlew :openapi-generator-cli:assemble
 
 # This exists at the end of the file to benefit from cached layers when modifying docker-entrypoint.sh.
 COPY docker-entrypoint.sh /usr/local/bin/

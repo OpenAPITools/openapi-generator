@@ -3,16 +3,16 @@ set -exo pipefail
 
 cd "$(dirname ${BASH_SOURCE})"
 
-maven_cache_repo="${HOME}/.m2/repository"
+local_cache="${HOME}/.gradle"
 
-mkdir -p "${maven_cache_repo}"
+mkdir -p "${local_cache}"
 
 docker run --rm -it \
         -w /gen \
         -e GEN_DIR=/gen \
-        -e MAVEN_CONFIG=/var/maven/.m2 \
+        -e GRADLE_USER_HOME=/opt/g \
         -u "$(id -u):$(id -g)" \
         -v "${PWD}:/gen" \
-        -v "${maven_cache_repo}:/var/maven/.m2/repository" \
+        -v "${local_cache}:/opt/g" \
         --entrypoint /gen/docker-entrypoint.sh \
-        maven:3-jdk-8 "$@"
+        openjdk:8-jdk-alpine "$@"

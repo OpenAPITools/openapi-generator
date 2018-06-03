@@ -7,8 +7,11 @@ buildscript {
   dependencies {
     classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
   }
+
+  ext.unversioned_jars_dir = "${buildDir}/current"
 }
 
+apply plugin: 'base'
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 
@@ -35,4 +38,22 @@ shadowJar {
 
 runShadow {
   args 'help'
+}
+
+// This allows us to more easily maintain things like the Dockerfile
+task copyUnversionedShadowedJar (type: Copy) {
+  from shadowJar.destinationDir
+  into unversioned_jars_dir
+  rename { String filename ->
+    println("Staging $filename without version suffix under $unversioned_jars_dir.")
+    filename.replace("-$version", "")
+  }
+}
+
+// After shadowJar has run, we want to copy
+shadowJar.finalizedBy(copyUnversionedShadowedJar)
+
+clean {
+  // ensures that our copy artifacts are cleaned
+  delete unversioned_jars_dir
 }
