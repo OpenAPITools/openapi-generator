@@ -45,4 +45,19 @@ paths:
       responses:
         '200':
           description: successful operation
+  /example4:
+    get:
+      operationId: example4Get
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            example: 'example4 value'
+      responses:
+        '200':
+          description: successful operation
 

@@ -26,10 +26,7 @@ import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.headers.Header;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.CookieParameter;
 import io.swagger.v3.oas.models.parameters.HeaderParameter;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -1097,6 +1094,29 @@ public class DefaultCodegen implements CodegenConfig {
         Schema schema = parameter.getSchema();
         if (schema != null && schema.getExample() != null) {
             codegenParameter.example = schema.getExample().toString();
+            return;
+        }
+
+        setParameterExampleValue(codegenParameter);
+    }
+
+    /**
+     * Return the example value of the parameter.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param requestBody Request body
+     */
+    public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
+        Content content = requestBody.getContent();
+
+        if (content.size() > 1) {
+            // @see ModelUtils.getSchemaFromContent()
+            LOGGER.warn("Multiple MediaTypes found, using only the first one");
+        }
+
+        MediaType mediaType = content.values().iterator().next();
+        if (mediaType.getExample() != null) {
+            codegenParameter.example = mediaType.getExample().toString();
             return;
         }
 
@@ -4378,7 +4398,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set the parameter's example value
         // should be overridden by lang codegen
-        setParameterExampleValue(codegenParameter);
+        setParameterExampleValue(codegenParameter, body);
 
         return codegenParameter;
     }
