@@ -87,7 +87,6 @@ public class {{classname}}Controller implements {{classname}} {
     {{^jdk8}}
     {{/jdk8}}
 	{{#virtual-service}}
-    private static final Logger log = LoggerFactory.getLogger({{classname}}Controller.class)
 	@org.springframework.beans.factory.annotation.Autowired
 	private VirtualServiceUtil virtualServiceUtil;
 	{{/virtual-service}}
