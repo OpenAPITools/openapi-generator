@@ -12,5 +12,10 @@ This example uses the [Lumen Framework](http://lumen.laravel.com/).  To see how 
 ## Installation & Usage
 ### Composer
 
-Using `composer install` to install the framework and dependencies via [Composer](http://getcomposer.org/).
+Switch to the generated Lumen server stub directory.
+Using `composer update` to install the framework and dependencies via [Composer](http://getcomposer.org/).
 
+## Note
+
+The `composer update` should be the first thing to do right after generating Lumen server stub. The autoload.php will be generated only after excuting `composer update`.
+Or there would be errors during service or model migration.
