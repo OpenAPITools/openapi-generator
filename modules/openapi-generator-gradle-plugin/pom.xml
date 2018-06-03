@@ -1,0 +1,59 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-project</artifactId>
+        <version>3.0.1-SNAPSHOT</version>
+        <relativePath>../..</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>openapi-generator-gradle-plugin</artifactId>
+
+    <name>openapi-generator-gradle-plugin (gradle-plugin)</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- NOTE: Consider this temporary, as a way to cleanly hook into our pipeline.
+                We've discussed moving the entire project to gradle, which would avoid this fitting. -->
+            <plugin>
+                <groupId>org.fortasoft</groupId>
+                <artifactId>gradle-maven-plugin</artifactId>
+                <version>1.0.8</version>
+                <configuration>
+                    <gradleVersion>4.7</gradleVersion>
+                    <args>
+                        <arg>-P openApiGeneratorVersion=${project.version}</arg>
+                    </args>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <!-- goal must be "invoke" -->
+                            <goal>invoke</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <!-- calls "clean build publishToMavenLocal" -->
+                                <task>clean</task>
+                                <task>build</task>
+                                <task>publishToMavenLocal</task>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

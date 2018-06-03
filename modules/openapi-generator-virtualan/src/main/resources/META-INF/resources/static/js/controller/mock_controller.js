@@ -11,7 +11,7 @@ myApp.controller('MockController', ['$scope',  '$filter', '$modal', 'MockService
     self.edit = edit;
     self.remove = remove;
     self.message ='';
-    self.classCode = '';
+    self.type = '';
     self.filtered = {};
     self.searchText ='';
     self.currentPage = 1;
@@ -77,20 +77,43 @@ myApp.controller('MockController', ['$scope',  '$filter', '$modal', 'MockService
         );
     }
 
+	self.showDialog = false;
+	
+	self.showAlert = function(operationId) {
+		if(operationId === self.selectedOperationId){
+			self.closeAlertDialog = true;
+			return true;
+		}
+		return false;
+	}
+	
+	self.closeAlert = function(operationId) {
+		self.showDialog = false;
+	}
+	
+	
+	self.showMessage = function(operationId) {
+		if(operationId === self.selectedOperationId){
+			return self.message;
+		}
+		return;
+	}
     
     function createMockRequest(mockRequest){
+		self.showDialog = false;
     	self.selectedOperationId = mockRequest.operationId;
     	self.message = 'Mock response added successfully for the given request parameter(s)!!!!';
-    	self.classCode ='valid';
-    	MockService.createMockRequest(mockRequest)
+    	self.type = 'success';
+		MockService.createMockRequest(mockRequest)
             .then(
             		fetchAllMockRequest,
             function(errResponse){
+            	self.type = 'danger';
             	self.message = errResponse.data.code;
-            	self.classCode ='invalid';
                 console.error('Error while creating MockRequest');
             }
         );
+		self.showDialog = true;
     }
 
     function updateMockRequest(mockRequest, id){
