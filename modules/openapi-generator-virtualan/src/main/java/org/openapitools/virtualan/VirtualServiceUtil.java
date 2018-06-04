@@ -16,14 +16,13 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.openapitools.virtualan.entity.MockEntity;
 import org.openapitools.virtualan.model.APIResponse;
+import org.openapitools.virtualan.model.Mock;
 import org.openapitools.virtualan.model.MockKeyValue;
 import org.openapitools.virtualan.model.MockRequest;
 import org.openapitools.virtualan.model.MockResponse;
 import org.openapitools.virtualan.model.MockServiceRequest;
-import org.openapitools.virtualan.model.Mock;
 import org.openapitools.virtualan.service.MockService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,21 +46,22 @@ public class VirtualServiceUtil {
 	private MockService mockService;
 
 	@Autowired
-	private ObjectMapper objectMapper;
+	private RequestBodyUtil requestBodyUtil;
 	
 	@Autowired
-	VirtualServiceInfo virtualServiceInfo; // Service which will do all data 
+	private ObjectMapper objectMapper;
 
-	
-	private ObjectMapper getObjectMapper(){
+	@Autowired
+	VirtualServiceInfo virtualServiceInfo; // Service which will do all data
+
+	private ObjectMapper getObjectMapper() {
 		objectMapper.findAndRegisterModules();
-		return objectMapper.enable(
-                DeserializationFeature.FAIL_ON_INVALID_SUBTYPE,
-                DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
-                //,DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES
-        ) ;
+		return objectMapper.enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE,
+				DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
+		// ,DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES
+		);
 	}
-	
+
 	public Map<String, String> getHttpStatusMap() {
 		Map<String, String> map = new LinkedHashMap<>();
 		for (HttpStatus status : HttpStatus.values()) {
@@ -111,12 +111,10 @@ public class VirtualServiceUtil {
 		return mockResponseMap;
 	}
 
-	
-	
 	public boolean compareQueryParams(MockRequest mockRequest, Map<String, String> actualQueryMap) {
-		if(mockRequest.getAvailableParams() == null || mockRequest.getAvailableParams().size()==0) {
+		if (mockRequest.getAvailableParams() == null || mockRequest.getAvailableParams().size() == 0) {
 			return isEmptyRequest(actualQueryMap);
-		}  else {
+		} else {
 			return isParameterMatch(mockRequest, actualQueryMap);
 		}
 	}
@@ -134,8 +132,8 @@ public class VirtualServiceUtil {
 	}
 
 	private boolean isEmptyRequest(Map<String, String> actualQueryMap) {
-		for (Map.Entry<String, String> checkEmpty  : actualQueryMap.entrySet()) {
-			if(!"null".equals(checkEmpty.getValue())){
+		for (Map.Entry<String, String> checkEmpty : actualQueryMap.entrySet()) {
+			if (!"null".equals(checkEmpty.getValue())) {
 				return false;
 			}
 		}
@@ -143,11 +141,10 @@ public class VirtualServiceUtil {
 	}
 
 	public boolean isMockAlreadyExists(Mock mockTransferObject) {
-		
+
 		boolean isValid = false;
-		
 		try {
-			String inputObjectType = virtualServiceInfo.getInputType(mockTransferObject); 
+			Class inputObjectType = virtualServiceInfo.getInputType(mockTransferObject);
 
 			HashMap<String, String> availableParamMap = new HashMap<>();
 			if (mockTransferObject.getAvailableParams() != null && mockTransferObject.getAvailableParams().size() > 0) {
@@ -156,28 +153,20 @@ public class VirtualServiceUtil {
 				}
 			}
 
-			Map<MockRequest, MockResponse> mockDataSetupMap = readDynamicResponse(mockTransferObject.getResource(),  mockTransferObject.getOperationId());
+			Map<MockRequest, MockResponse> mockDataSetupMap = readDynamicResponse(mockTransferObject.getResource(),
+					mockTransferObject.getOperationId());
 			for (Map.Entry<MockRequest, MockResponse> mockRequestResponse : mockDataSetupMap.entrySet()) {
 				if (availableParamMap != null && availableParamMap.size() > 0
 						&& mockTransferObject.getInput() != null) {
 					if (compareQueryParams(mockRequestResponse.getKey(), availableParamMap)
-							&& EqualsBuilder.reflectionEquals(
-									getObjectMapper().readValue(mockRequestResponse.getKey().getInput(),
-											Class.forName(inputObjectType)),
-									getObjectMapper().readValue(mockTransferObject.getInput(),
-											Class.forName(inputObjectType)),
-									mockRequestResponse.getKey().getExcludeSet())) {
+						&& requestBodyUtil.validateRequestBody(mockRequestResponse, inputObjectType, mockTransferObject)) {
 						return true;
 					}
 				} else if (availableParamMap != null && availableParamMap.size() > 0
 						&& compareQueryParams(mockRequestResponse.getKey(), availableParamMap)) {
 					return true;
-				} else if (mockTransferObject.getInput() != null && EqualsBuilder.reflectionEquals(
-						getObjectMapper().readValue(mockRequestResponse.getKey().getInput(),
-								Class.forName(inputObjectType)),
-						getObjectMapper().readValue(mockTransferObject.getInput(),
-								Class.forName(inputObjectType)),
-						mockRequestResponse.getKey().getExcludeSet())) {
+				} else if (mockTransferObject.getInput() != null 
+						&& requestBodyUtil.validateRequestBody(mockRequestResponse, inputObjectType, mockTransferObject)){ 
 					return true;
 				}
 			}
@@ -187,40 +176,21 @@ public class VirtualServiceUtil {
 		return isValid;
 	}
 
-	public boolean isMockRequestBodyValid(Mock mockTransferObject) {
-		boolean isValid = true;
-		String inputObjectType = virtualServiceInfo.getInputType(mockTransferObject);
-		try {
-			 
-			if (mockTransferObject.getInput() != null && mockTransferObject.getInput().length() > 0
-					&& inputObjectType != null
-					&& inputObjectType.length() > 0) {
-				Class classs  = Class.forName(inputObjectType);
-				getObjectMapper().readValue(mockTransferObject.getInput(),classs);				
-				isValid = true;
-			} else if (inputObjectType == null
-					&& (mockTransferObject.getInput() == null || mockTransferObject.getInput().length() == 0)) {
-				isValid = true;
-			} else {
-				isValid = false;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			isValid = false;
-		}
-		
-		return isValid;
-	}
+	
 
 	public boolean isMockResponseBodyValid(Mock mockTransferObject) {
 		boolean isValid = true;
 		try {
 			Mock mockTransferObjectActual = virtualServiceInfo.getResponseType(mockTransferObject);
-			
-			if (mockTransferObjectActual.getResponseType().size() > 0 && validResponse(mockTransferObjectActual, mockTransferObject)) {
+
+			if (mockTransferObjectActual.getResponseType().size() > 0
+					&& validResponse(mockTransferObjectActual, mockTransferObject)) {
 				isValid = true;
-			/*} else if (mockTransferObjectActual.getResponseType().get(mockTransferObject.getHttpStatusCode()) == null) {
-				isValid = true;*/
+				/*
+				 * } else if (mockTransferObjectActual.getResponseType().get(
+				 * mockTransferObject.getHttpStatusCode()) == null) { isValid =
+				 * true;
+				 */
 			} else {
 				isValid = false;
 			}
@@ -233,41 +203,40 @@ public class VirtualServiceUtil {
 
 	private boolean validResponse(Mock mockTransferObjectActual, Mock mockTransferObject)
 			throws JsonParseException, JsonMappingException, ClassNotFoundException, IOException {
-		APIResponse apiResponse = mockTransferObjectActual.getResponseType().get(mockTransferObject.getHttpStatusCode());
+		APIResponse apiResponse = mockTransferObjectActual.getResponseType()
+				.get(mockTransferObject.getHttpStatusCode());
 		if (apiResponse != null && apiResponse.getObjectType() != null) {
 			objectMapper.readValue(mockTransferObject.getOutput(), Class.forName(apiResponse.getObjectType()));
 		}
 		return true;
 	}
+
 	
-	
-	public ResponseEntity returnResponse(MockServiceRequest mockServiceRequest) throws ClassNotFoundException, IOException {
-		Map<MockRequest, MockResponse> mockDataSetupMap = readDynamicResponse(mockServiceRequest.getResource(), mockServiceRequest.getOperationId());
+
+	public ResponseEntity returnResponse(MockServiceRequest mockServiceRequest)
+			throws ClassNotFoundException, IOException {
+		Map<MockRequest, MockResponse> mockDataSetupMap = readDynamicResponse(mockServiceRequest.getResource(),
+				mockServiceRequest.getOperationId());
 		for (Map.Entry<MockRequest, MockResponse> mockRequestResponse : mockDataSetupMap.entrySet()) {
-			if(mockServiceRequest.getParams() != null && mockServiceRequest.getParams().size() > 0 
-					&& mockServiceRequest.getInputObjectType() != null	&& mockServiceRequest.getInputObject() != null ) {
-				if (compareQueryParams(mockRequestResponse.getKey(), mockServiceRequest.getParams()) && EqualsBuilder.reflectionEquals(
-						getObjectMapper().readValue(mockRequestResponse.getKey().getInput(), mockServiceRequest.getInputObjectType()),
-						mockServiceRequest.getInputObjectType().cast(mockServiceRequest.getInputObject()),
-						mockRequestResponse.getKey().getExcludeSet())) {
-						return new ResponseEntity(mockRequestResponse.getValue().getOutput(),
+			if (mockServiceRequest.getParams() != null && mockServiceRequest.getParams().size() > 0
+					&& mockServiceRequest.getInputObjectType() != null && mockServiceRequest.getInputObject() != null) {
+				if (compareQueryParams(mockRequestResponse.getKey(), mockServiceRequest.getParams())
+						&& requestBodyUtil.compareRequestBody(mockRequestResponse, mockServiceRequest)) {
+					return new ResponseEntity(mockRequestResponse.getValue().getOutput(),
 							HttpStatus.valueOf(Integer.parseInt(mockRequestResponse.getValue().getHttpStatusCode())));
 				}
-			} else if(mockServiceRequest.getParams() != null && mockServiceRequest.getParams().size() > 0 ) {
-					if (compareQueryParams(mockRequestResponse.getKey(), mockServiceRequest.getParams())) {
-							return new ResponseEntity(mockRequestResponse.getValue().getOutput(),
-								HttpStatus.valueOf(Integer.parseInt(mockRequestResponse.getValue().getHttpStatusCode())));
-					}
-			} else if(mockServiceRequest.getInputObjectType() != null ) {
-				if (EqualsBuilder.reflectionEquals(
-						getObjectMapper().readValue(mockRequestResponse.getKey().getInput(), mockServiceRequest.getInputObjectType()),
-						mockServiceRequest.getInputObjectType().cast(mockServiceRequest.getInputObject()),
-						mockRequestResponse.getKey().getExcludeSet())) {
-						return new ResponseEntity(mockRequestResponse.getValue().getOutput(),
+			} else if (mockServiceRequest.getParams() != null && mockServiceRequest.getParams().size() > 0) {
+				if (compareQueryParams(mockRequestResponse.getKey(), mockServiceRequest.getParams())) {
+					return new ResponseEntity(mockRequestResponse.getValue().getOutput(),
+							HttpStatus.valueOf(Integer.parseInt(mockRequestResponse.getValue().getHttpStatusCode())));
+				}
+			} else if (mockServiceRequest.getInputObjectType() != null) {
+				if(requestBodyUtil.compareRequestBody(mockRequestResponse, mockServiceRequest)){ 
+					return new ResponseEntity(mockRequestResponse.getValue().getOutput(),
 							HttpStatus.valueOf(Integer.parseInt(mockRequestResponse.getValue().getHttpStatusCode())));
 				}
 			}
-			
+
 		}
 		if (mockDataSetupMap.size() > 0) {
 			return new ResponseEntity(
@@ -281,7 +250,6 @@ public class VirtualServiceUtil {
 		}
 	}
 
-	
 	public Mock converterEToR(MockEntity mockEntity) {
 		Mock request = new Mock();
 		BeanUtils.copyProperties(mockEntity, request);
@@ -322,5 +290,5 @@ public class VirtualServiceUtil {
 		}
 		return mockEntity;
 	}
-	
+
 }

@@ -9,7 +9,7 @@ schemes:
 produces:
   - application/json
 paths:
-  /mockservice:
+  /virtualservices:
     post:
       tags:
         - VirtualServices
@@ -42,7 +42,7 @@ paths:
             $ref: '#/definitions/MockStatus'
       security:
         - basicAuth: []
-  /mockservice/{id}:
+  /virtualservices/{id}:
     delete:
       tags:
         - VirtualServices

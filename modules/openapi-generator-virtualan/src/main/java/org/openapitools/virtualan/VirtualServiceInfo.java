@@ -19,10 +19,7 @@ import java.util.regex.Pattern;
 import org.openapitools.virtualan.model.APIResponse;
 import org.openapitools.virtualan.model.Mock;
 import org.openapitools.virtualan.model.MockKeyValue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +31,6 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.Api;
@@ -46,10 +42,11 @@ public class VirtualServiceInfo {
 
 	private static final String CURLY_PATH = "Curly";
 
-	private static final Logger log = LoggerFactory.getLogger(VirtualServiceInfo.class);
-
 	@Autowired
 	private ObjectMapper objectMapper;
+
+	@Autowired
+	private RequestBodyUtil requestBodyUtil;
 
 	final String rxpCurly = "\\{(.*?)\\}";
 	final Pattern pattern = Pattern.compile(rxpCurly, Pattern.MULTILINE);
@@ -72,10 +69,10 @@ public class VirtualServiceInfo {
 			Map<RequestMappingInfo, HandlerMethod> mapSwaggerAPI = handlerMapping.getHandlerMethods();
 			for (Map.Entry<RequestMappingInfo, HandlerMethod> mapSwaggerAPIEntry : mapSwaggerAPI.entrySet()) {
 				if (mapSwaggerAPIEntry.getValue().getBeanType().toString()
-						.matches("class org.openapitools.virtualan.api.*Controller")) {//TODO
+						.matches("class org.openapitools.virtualan.api.*Controller")) {// TODO
 					String interfaceName = mapSwaggerAPIEntry.getValue().getBeanType().getName().replace("Controller",
 							"");
-					Class intefaceController = Class.forName(interfaceName);
+					Class<?> intefaceController = Class.forName(interfaceName);
 					interfaceName = interfaceName.toLowerCase();
 					interfaceName = interfaceName.substring(interfaceName.lastIndexOf(".") + 1, interfaceName.length());
 					if (!mockLoadChoice.containsKey(interfaceName)) {
@@ -133,10 +130,10 @@ public class VirtualServiceInfo {
 								}
 
 								int i = 0;
-								List<MockKeyValue> availableParams = new ArrayList();
+								List<MockKeyValue> availableParams = new ArrayList<MockKeyValue>();
 
 								for (Annotation[] anns : annotations) {
-									Class parameterType = parameterTypes[i++];
+									Class<?> parameterType = parameterTypes[i++];
 									for (Annotation paramAnnotation : anns) {
 										if (paramAnnotation.annotationType().equals(RequestParam.class)) {
 											RequestParam requestParam = (RequestParam) paramAnnotation;
@@ -145,23 +142,14 @@ public class VirtualServiceInfo {
 											PathVariable pathVariable = (PathVariable) paramAnnotation;
 											availableParams.add(new MockKeyValue(pathVariable.value(), null));
 										} else if (paramAnnotation.annotationType().equals(RequestBody.class)) {
-											mockLoadRequest.setInputObjectType(parameterType.getName());
-											if (parameterType.getName().contains("List")) {
-
-												mockLoadRequest.setInput(objectMapper.writerWithDefaultPrettyPrinter()
-														.writeValueAsString(new TypeReference<List<User>>() {
-														}));
-											} else {
-
-												mockLoadRequest.setInput(objectMapper.writerWithDefaultPrettyPrinter()
-														.writeValueAsString(
-																Class.forName(parameterType.getName()).newInstance()));
-											}
+											mockLoadRequest.setInputObjectType(parameterType);
+											mockLoadRequest.setInput(
+													requestBodyUtil.getJsonRequestBody(parameterType.getName()));
 										}
 									}
 								}
 								// TO build Return Json object
-								String returnObject = method.getGenericReturnType().getTypeName();
+								//String returnObject = method.getGenericReturnType().getTypeName();
 								mockLoadRequest.setOperationId(method.getName());
 								mockLoadRequest.setAvailableParams(availableParams);
 								mockLoadRequest.setHttpStatusMap(getHttpStatusMap());
@@ -177,8 +165,8 @@ public class VirtualServiceInfo {
 
 	}
 
-	public String getInputType(Mock mockTransferInput) {
-		String inputType = null;
+	public Class<?> getInputType(Mock mockTransferInput) {
+		Class<?> inputType = null;
 		if (mockTransferInput.getResource() != null) {
 			String resource = (mockTransferInput.getResource().substring(0, 1).toUpperCase()
 					+ mockTransferInput.getResource().substring(1) + "Api").replaceAll("[^a-zA-Z0-9]", "")
@@ -190,7 +178,7 @@ public class VirtualServiceInfo {
 				}
 			} else {
 				String resourceUrl = mockTransferInput.getUrl().substring(1, mockTransferInput.getUrl().length());
-				List<String> resouceSplitterList = new LinkedList(Arrays.asList(resourceUrl.split("/")));
+				List<String> resouceSplitterList = new LinkedList<String>(Arrays.asList(resourceUrl.split("/")));
 				if (resouceSplitterList.size() > 0) {
 					String operationId = getOperationId(mockTransferInput.getMethod(), resourceParent,
 							resouceSplitterList);
@@ -250,7 +238,7 @@ public class VirtualServiceInfo {
 				String resource = requestMockObject.getValue().getUrl().substring(1,
 						requestMockObject.getValue().getUrl().length());
 
-				List<String> resouceSplitterList = new LinkedList(Arrays.asList(resource.split("/")));
+				List<String> resouceSplitterList = new LinkedList<String>(Arrays.asList(resource.split("/")));
 				if (resouceSplitterList.size() > 0) {
 					ResourceMapper mapperChild = buildHierarchyObject(requestMockObject.getValue().getMethod(),
 							resourceParent, resouceSplitterList, requestMockObject.getKey());

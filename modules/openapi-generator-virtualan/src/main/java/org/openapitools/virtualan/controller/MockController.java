@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.openapitools.virtualan.RequestBodyUtil;
 import org.openapitools.virtualan.VirtualServiceInfo;
 import org.openapitools.virtualan.VirtualServiceUtil;
 import org.openapitools.virtualan.model.Mock;
@@ -41,6 +42,9 @@ public class MockController {
 	VirtualServiceInfo virtualServiceInfo;
 	
 	@Autowired
+	private RequestBodyUtil requestBodyUtil;
+	
+	@Autowired
 	private VirtualServiceUtil virtualServiceUtil;
 
 	private final RequestMappingHandlerMapping handlerMapping;
@@ -56,13 +60,13 @@ public class MockController {
 		virtualServiceInfo.loadMapper();
 	}
 	
-	@RequestMapping(value = "/mockload", method = RequestMethod.GET)
+	@RequestMapping(value = "/virtualservices/load", method = RequestMethod.GET)
 	public Map<String, Map<String, Mock>> listAllMockLoadRequest() throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException, JsonParseException, JsonMappingException, IOException {
 		return virtualServiceInfo.loadVirtualServices(handlerMapping);
 	}
 
-	@RequestMapping(value = "/mockservice", method = RequestMethod.GET)
+	@RequestMapping(value = "/virtualservices", method = RequestMethod.GET)
 	public ResponseEntity<List<Mock>> listAllMockLoadRequests(){//@RequestParam("resource") String resource, @RequestParam("operationId") String operationId) {
 		List<Mock> MockLoadRequests = mockService.findAllMockRequests(); //readByOperationId(resource, operationId);
 		if (MockLoadRequests.isEmpty()) {
@@ -72,7 +76,7 @@ public class MockController {
 	}
 
 
-	@RequestMapping(value = "/mockservice/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/virtualservices/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Mock> getMockLoadRequest(@PathVariable("id") long id) {
 		Mock mockLoadRequest = mockService.findById(id);
 		if (mockLoadRequest == null) {
@@ -82,7 +86,7 @@ public class MockController {
 	}
 
 
-	@RequestMapping(value = "/mockservice", method = RequestMethod.POST)
+	@RequestMapping(value = "/virtualservices", method = RequestMethod.POST)
 	public ResponseEntity createMockRequest(@RequestBody Mock mockLoadRequest) {// ,UriComponentsBuilder
 		try {
 			
@@ -90,7 +94,7 @@ public class MockController {
 					|| mockLoadRequest.getMethod() == null 
 					|| mockLoadRequest.getUrl() == null) {
 				return new ResponseEntity<MockStatus>(
-						new MockStatus("Check HttpStatusCode or HttpVerb or URL, Please add one of the missing field!!!"),
+						new MockStatus("Check HttpStatusCode or HttpVerb or URL, Add one of the missing field!!!"),
 						HttpStatus.BAD_REQUEST);
 			}
 
@@ -105,21 +109,21 @@ public class MockController {
 				}
 			}
 			
-			if (!virtualServiceUtil.isMockRequestBodyValid(mockLoadRequest)) {
+			if (requestBodyUtil.isMockRequestBodyValid(mockLoadRequest) == null) {
 				return new ResponseEntity<MockStatus>(
-						new MockStatus("Check input Json for the Mock Request Body, Please correct the Json!!!"),
+						new MockStatus("Check input Json for the \"Mock Request Body\", Correct the input/Json!!!"),
 						HttpStatus.BAD_REQUEST);
 			}
 
 			if (!virtualServiceUtil.isMockResponseBodyValid(mockLoadRequest)) {
 				return new ResponseEntity<MockStatus>(
-						new MockStatus("Check input Json for the Mock Response Body, Please correct the Json!!!"),
+						new MockStatus("Check input for the \"Mock Response Body\", Correct the Input/Json!!!"),
 						HttpStatus.BAD_REQUEST);
 			}
 
 			if (virtualServiceUtil.isMockAlreadyExists(mockLoadRequest)) {
 				return new ResponseEntity<MockStatus>(
-						new MockStatus("This Mock request already Present, Please change input Data!!!"),
+						new MockStatus("This Mock request already Present, Change the input Data!!!"),
 						HttpStatus.BAD_REQUEST);
 			}
 			Mock mockTransferObject = mockService.saveMockRequest(mockLoadRequest);
@@ -134,7 +138,7 @@ public class MockController {
 		// headers.setLocation(ucBuilder.path("/mockservice/{id}").buildAndExpand(mockLoadRequest.getId()).toUri());
 	}
 
-	@RequestMapping(value = "/mockservice/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/virtualservices/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Mock> updateMockRequest(@PathVariable("id") long id,
 			@RequestBody Mock mockLoadRequest) {
 
@@ -152,7 +156,7 @@ public class MockController {
 	}
 
 
-	@RequestMapping(value = "/mockservice/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/virtualservices/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Mock> deleteMockRequest(@PathVariable("id") long id) {
 		Mock MockLoadRequest = mockService.findById(id);
 		if (MockLoadRequest == null) {

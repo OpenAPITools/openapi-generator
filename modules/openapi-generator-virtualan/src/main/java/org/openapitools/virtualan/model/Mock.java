@@ -10,9 +10,10 @@ public class Mock {
 	private String httpStatusCode;
 	private String url;
 	private String method;
-	private String inputObjectType;
+	private Class inputObjectType;
 	private String outputObjectType;
 	private String input;
+	private Object inputObject;
 	private String output;
 	private List<MockKeyValue> availableParams;
 	private Map<String, APIResponse> responseType;
@@ -131,11 +132,11 @@ public class Mock {
 		this.httpStatusCode = httpStatusCode;
 	}
 
-	public String getInputObjectType() {
+	public Class getInputObjectType() {
 		return inputObjectType;
 	}
 
-	public void setInputObjectType(String inputObjectType) {
+	public void setInputObjectType(Class inputObjectType) {
 		this.inputObjectType = inputObjectType;
 	}
 
@@ -171,4 +172,11 @@ public class Mock {
 		this.mockStatus = mockStatus;
 	}
 
+	public void setInputObject(Object inputObject) {
+		this.inputObject = inputObject;
+	}
+
+	public Object getInputObject() {
+		return inputObject;
+	}
 }

@@ -392,14 +392,14 @@ json-tree .branch-preview::after {
 														</div>
 													</div>
 
-													<div ng-show="mockRequest.input != null" class="row">
+													<div ng-show="mockRequest.inputObjectType != null" class="row">
 														<div class="form-group col-md-12">
 															<label class="col-md-2 control-lable" for="file">Mock
 																Request Body</label>
 															<div class="col-md-7">
 																<textarea ng-model="mockRequest.input" name="input"
 																	class="input form-control input-sm" rows="10"
-																	ng-minlength="10" > {{mockRequest.input}}</textarea>
+																	> {{mockRequest.input}}</textarea>
 																<div layout-align="center center">Type:
 																	{{mockRequest.inputObjectType}}</div>
 															</div>
