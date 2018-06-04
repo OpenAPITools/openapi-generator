@@ -1,13 +1,66 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE"
+    }
+
+    ext.unversioned_jars_dir = "${buildDir}/current"
+}
+
+apply plugin: "org.springframework.boot"
+apply plugin: 'io.spring.dependency-management'
 
 description = 'openapi-generator-online'
-dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.0.2.RELEASE'
-    compile(group: 'io.springfox', name: 'springfox-swagger2', version:'2.8.0') {
-exclude(module: 'swagger-annotations')
-exclude(module: 'swagger-models')
+
+dependencyManagement {
+    imports {
+        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
     }
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version:'2.8.0'
-    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version:'2.9.5'
-    compile group: 'javax.validation', name: 'validation-api', version:'2.0.1.Final'
-  compile project(':openapi-generator')
+}
+
+bootJar {
+    baseName = 'openapi-generator-online'
+    version = project.version
+    mainClassName = "org.openapitools.codegen.online.OpenAPI2SpringBoot"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'ch.qos.logback', name: 'logback-parent', version: '1.2.3'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.2.RELEASE'
+    compile(group: 'io.springfox', name: 'springfox-swagger2', version: '2.8.0') {
+        exclude(module: 'swagger-annotations')
+        exclude(module: 'swagger-models')
+    }
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.8.0'
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.5'
+    compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+    compile project(':openapi-generator')
+}
+
+configurations.compile.exclude module: 'slf4j-simple'
+
+// This allows us to more easily maintain things like the Dockerfile
+task copyUnversionedJar(type: Copy) {
+    from "${buildDir}/libs"
+    into unversioned_jars_dir
+    rename { String filename ->
+        println("Staging $filename without version suffix under $unversioned_jars_dir.")
+        filename.replace("-$version", "")
+    }
+}
+
+// After shadowJar has run, we want to copy
+jar.finalizedBy(copyUnversionedJar)
+
+clean {
+    // ensures that our copy artifacts are cleaned
+    delete unversioned_jars_dir
 }
