@@ -1,5 +1,35 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:3.13.0"
+    }
+}
+
+apply plugin: "com.diffplug.gradle.spotless"
 
 description = 'openapi-generator (core library)'
+
+
+spotless {
+    java {
+        eclipse().configFile "$rootDir/eclipse-formatter.xml"
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/resources"
+            // We want to exclude the root logback.xml, so it doesn't interfere with consumers logging preferences.
+            exclude 'logback.xml'
+        }
+    }
+}
+
 dependencies {
     compile group: 'io.swagger.core.v3', name: 'swagger-models', version:'2.0.1'
     compile group: 'io.swagger.core.v3', name: 'swagger-core', version:'2.0.1'
