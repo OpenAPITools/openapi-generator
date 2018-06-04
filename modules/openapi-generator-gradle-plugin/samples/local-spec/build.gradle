@@ -13,7 +13,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.openapitools:openapi-generator-gradle-plugin:3.0.0"
+        classpath "org.openapitools:openapi-generator-gradle-plugin:3.0.0-SNAPSHOT"
     }
 }
 
