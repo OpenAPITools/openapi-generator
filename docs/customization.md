@@ -10,7 +10,7 @@ You can look at `modules/openapi-generator/src/main/resources/${your-language}` 
 If you're starting a project with a new language and don't see what you need, openapi-generator can help you create a project to generate your own libraries:
 
 ```sh
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar meta \
+java -jar modules/openapi-generator-cli/build/current/openapi-generator-cli.jar meta \
   -o output/myLibrary -n myClientCodegen -p com.my.company.codegen
 ```
 
@@ -19,17 +19,17 @@ This will write, in the folder `output/myLibrary`, all the files you need to get
 You would then compile your library in the `output/myLibrary` folder with `mvn package` and execute the codegen like such:
 
 ```sh
-java -cp output/myLibrary/target/myClientCodegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
+java -cp output/myLibrary/target/myClientCodegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/build/current/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
 ```
 For Windows users, you will need to use `;` instead of `:` in the classpath, e.g.
 ```
-java -cp output/myLibrary/target/myClientCodegen-openapi-generator-1.0.0.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
+java -cp output/myLibrary/target/myClientCodegen-openapi-generator-1.0.0.jar;modules/openapi-generator-cli/build/current/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
 ```
 
 Note the `myClientCodegen` is an option now, and you can use the usual arguments for generating your library:
 
 ```sh
-java -cp output/myLibrary/target/myClientCodegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
+java -cp output/myLibrary/target/myClientCodegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/build/current/openapi-generator-cli.jar \
   io.openapitools.codegen.OpenAPIGenerator generate -g myClientCodegen\
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
   -o myClient
@@ -144,7 +144,7 @@ TypeScriptNodeClientCodegen.java
 Each of these files creates reasonable defaults so you can get running quickly.  But if you want to configure package names, prefixes, model folders, etc. you can use a json config file to pass the values.
 
 ```sh
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
+java -jar modules/openapi-generator-cli/build/current/openapi-generator-cli.jar generate \
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
   -g java \
   -o samples/client/petstore/java \
@@ -161,7 +161,7 @@ Supported config options can be different per language. Running `config-help -g 
 **These options are applied via configuration file (e.g. config.json) or by passing them with `-D{optionName}={optionValue}`**. (If `-D{optionName}` does not work, please open a [ticket](https://github.com/openapitools/openapi-generator/issues/new) and we'll look into it)
 
 ```sh
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar config-help -g java
+java -jar modules/openapi-generator-cli/build/current/openapi-generator-cli.jar config-help -g java
 ```
 
 Output

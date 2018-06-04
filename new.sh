@@ -176,7 +176,7 @@ echo "Creating modules/openapi-generator/src/main/resources/${gen_name}-${gen_ty
 ## Windows batch file
 echo "Creating bin/windows/${gen_name}-${gen_type}-petstore.bat"
 cat > "${root}/bin/windows/${gen_name}-${gen_type}-petstore.bat"<<EOF
-set executable=.\modules\openapi-generator-cli\target\openapi-generator-cli.jar
+set executable=.\modules\openapi-generator-cli\build\current\openapi-generator-cli.jar
 
 If Not Exist %executable% (
   mvn clean package
@@ -210,7 +210,7 @@ if [ ! -d "\${APP_DIR}" ]; then
   APP_DIR=\$(cd "\${APP_DIR}"; pwd)
 fi
 
-executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
+executable="./modules/openapi-generator-cli/build/current/openapi-generator-cli.jar"
 
 if [ ! -f "\$executable" ]
 then

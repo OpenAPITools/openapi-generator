@@ -1,4 +1,4 @@
-set executable=.\modules\openapi-generator-cli\target\openapi-generator-cli.jar
+set executable=.\modules\openapi-generator-cli\build\current\openapi-generator-cli.jar
 
 If Not Exist %executable% (
   mvn clean package

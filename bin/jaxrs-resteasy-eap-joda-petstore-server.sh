@@ -17,7 +17,7 @@ if [ ! -d "${APP_DIR}" ]; then
   APP_DIR=`cd "${APP_DIR}"; pwd`
 fi
 
-executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
+executable="./modules/openapi-generator-cli/build/current/openapi-generator-cli.jar"
 
 if [ ! -f "$executable" ]
 then

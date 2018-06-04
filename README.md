@@ -231,18 +231,18 @@ To generate a PHP client for [petstore.yaml](https://raw.githubusercontent.com/o
 git clone https://github.com/openapitools/openapi-generator
 cd openapi-generator
 mvn clean package
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
+java -jar modules/openapi-generator-cli/build/current/openapi-generator-cli.jar generate \
    -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
    -g php \
    -o /var/tmp/php_api_client
 ```
-(if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g php -o c:\temp\php_api_client`)
+(if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\build\current\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
 You can also download the JAR (latest release) directly from [maven.org](http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.0.0/openapi-generator-cli-3.0.0.jar)
 
-To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
+To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/build/current/openapi-generator-cli.jar help generate`
 
-To get a list of PHP specified options (which can be passed to the generator with a config file via the `-c` option), please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar config-help -g php`
+To get a list of PHP specified options (which can be passed to the generator with a config file via the `-c` option), please run `java -jar modules/openapi-generator-cli/build/current/openapi-generator-cli.jar config-help -g php`
 
 ## [3 - Usage](#table-of-contents)
 
@@ -258,7 +258,7 @@ You can build a client against the [Petstore API](https://raw.githubusercontent.
 This will run the generator with this command:
 
 ```sh
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
+java -jar modules/openapi-generator-cli/build/current/openapi-generator-cli.jar generate \
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
   -g java \
   -o samples/client/petstore/java

@@ -173,7 +173,7 @@ Your library files will be built under `WWW::MyProjectName`.
           $ git clone https://github.com/openapitools/openapi-generator
           $ cd openapi-generator
           $ mvn package
-          $ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
+          $ java -jar modules/openapi-generator-cli/build/current/openapi-generator-cli.jar generate \
     -i [URL or file path to JSON OpenAPI API spec] \
     -g perl \
     -c /path/to/config/file.json \

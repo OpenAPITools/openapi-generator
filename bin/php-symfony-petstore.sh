@@ -28,7 +28,7 @@ if [ -d "$TARGET_DIR" ]; then
 	rm -rf $TARGET_DIR
 fi
 
-executable="$SCRIPT_DIR/../modules/openapi-generator-cli/target/openapi-generator-cli.jar"
+executable="$SCRIPT_DIR/../modules/openapi-generator-cli/build/current/openapi-generator-cli.jar"
 
 if [ ! -f "$executable" ]
 then
