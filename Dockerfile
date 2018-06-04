@@ -19,12 +19,15 @@ COPY ./google_checkstyle.xml ${GEN_DIR}
 COPY ./modules/openapi-generator-maven-plugin ${GEN_DIR}/modules/openapi-generator-maven-plugin
 COPY ./modules/openapi-generator-cli ${GEN_DIR}/modules/openapi-generator-cli
 COPY ./modules/openapi-generator ${GEN_DIR}/modules/openapi-generator
-COPY ./pom.xml ${GEN_DIR}
+COPY ./gradlew ${GEN_DIR}
+COPY ./build.gradle ${GEN_DIR}
+COPY ./settings.gradle ${GEN_DIR}
+COPY ./gradle ${GEN_DIR}/gradle
 
 RUN mkdir -p ${GRADLE_USER_HOME}
 
 # Pre-compile openapi-generator-cli
-RUN ${GEN_DIR}/gradlew :openapi-generator-cli:assemble
+RUN sh gradlew :openapi-generator-cli:assemble
 
 # This exists at the end of the file to benefit from cached layers when modifying docker-entrypoint.sh.
 COPY docker-entrypoint.sh /usr/local/bin/

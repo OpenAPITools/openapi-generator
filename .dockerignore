@@ -24,3 +24,4 @@ target/
 
 # Not needed in a linux container
 bin/windows/*
+!gradle/wrapper/gradle-wrapper.jar
