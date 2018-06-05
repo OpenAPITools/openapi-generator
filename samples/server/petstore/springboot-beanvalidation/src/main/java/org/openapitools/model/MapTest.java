@@ -9,14 +9,12 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * MapTest
  */
-@Validated
 
 public class MapTest   {
   @JsonProperty("map_map_of_string")

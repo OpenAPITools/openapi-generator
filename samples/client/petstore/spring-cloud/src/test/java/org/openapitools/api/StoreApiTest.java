@@ -4,7 +4,6 @@ import com.netflix.hystrix.exception.HystrixRuntimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openapitools.Application;
-import org.openapitools.TestUtils;
 import org.openapitools.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,6 +30,11 @@ public class StoreApiTest {
     @Test
     public void testPlaceOrder() {
         Order order = createOrder();
+        try {
+            client.deleteOrder(order.getId().toString()).execute();
+        } catch (HystrixRuntimeException e) {
+            // noop
+        }
         client.placeOrder(order).execute();
 
         Order fetched = client.getOrderById(order.getId()).execute().getBody();
@@ -43,6 +47,7 @@ public class StoreApiTest {
     @Test
     public void testDeleteOrder() {
         Order order = createOrder();
+        client.deleteOrder(order.getId().toString());
         client.placeOrder(order).execute();
 
         Order fetched = client.getOrderById(order.getId()).execute().getBody();
@@ -60,7 +65,7 @@ public class StoreApiTest {
 
     private Order createOrder() {
         return new Order()
-                .id(TestUtils.nextId())
+                .id(1L)
                 .petId(200L)
                 .quantity(13)
                 //Ensure 3 fractional digits because of a bug in the petstore server
