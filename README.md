@@ -47,10 +47,11 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
   - [Table of Contents](#table-of-contents)
   - [1 - Installation](#1---installation)
     - [1.1 - Compatibility](#11---compatibility)
-    - [1.2 - Download JAR](#12---download-jar)
-    - [1.3 - Build Projects](#13---build-projects)
-    - [1.4 - Homebrew](#14---homebrew)
-    - [1.5 - Docker](#15---docker)
+    - [1.2 - Artifacts on Maven Central](#12---artifacts-on-maven-central)
+    - [1.3 - Download JAR](#13---download-jar)
+    - [1.4 - Build Projects](#14---build-projects)
+    - [1.5 - Homebrew](#15---homebrew)
+    - [1.6 - Docker](#16---docker)
   - [2 - Getting Started](#2---getting-started)
   - [3 - Usage](#3---usage)
     - [3.1 - Customization](#31---customization)
@@ -78,8 +79,53 @@ OpenAPI Generator Version    | Release Date | OpenAPI Spec compatibility | Notes
 3.0.1 (current master, upcoming release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.0.1-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Bug fixes release
 3.0.0 | 01.06.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | First release with breaking changes
 
+### [1.2 - Artifacts on Maven Central](#table-of-contents)
 
-### [1.2 - Download JAR](#table-of-contents)
+You can find our released artefacts on maven central:
+
+**Core:**
+```xml
+<dependency>
+    <groupId>org.openapitools</groupId>
+    <artifactId>openapi-generator</artifactId>
+    <version>${openapi-generator-version}</version>
+</dependency>
+```
+* [openapi-generator](https://mvnrepository.com/artifact/org.openapitools/openapi-generator)
+
+**Cli:**
+```xml
+<dependency>
+    <groupId>org.openapitools</groupId>
+    <artifactId>openapi-generator-cli</artifactId>
+    <version>${openapi-generator-version}</version>
+</dependency>
+```
+* [openapi-generator-cli](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-cli)
+
+**Maven plugin:**
+```xml
+<dependency>
+    <groupId>org.openapitools</groupId>
+    <artifactId>openapi-generator-maven-plugin</artifactId>
+    <version>${openapi-generator-version}</version>
+</dependency>
+```
+* [openapi-generator-maven-plugin](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-maven-plugin)
+* [Readme](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-maven-plugin/README.adoc)
+
+**Gradle plugin:**
+```xml
+<dependency>
+    <groupId>org.openapitools</groupId>
+    <artifactId>openapi-generator-gradle-plugin</artifactId>
+    <version>${openapi-generator-version}</version>
+</dependency>
+```
+* [openapi-generator-gradle-plugin](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-gradle-plugin)
+* [Readme](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-gradle-plugin/README.adoc)
+
+### [1.3 - Download JAR](#table-of-contents)
 
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
@@ -103,7 +149,7 @@ export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export PATH=${JAVA_HOME}/bin:$PATH
 ```
 
-### [1.3 - Build Projects](#table-of-contents)
+### [1.4 - Build Projects](#table-of-contents)
 
 To build from source, you need the following installed and available in your `$PATH:`
 
@@ -121,7 +167,7 @@ If you don't have maven installed, you may directly use the included [maven wrap
 ./mvnw clean install
 ```
 
-### [1.4 - Homebrew](#table-of-contents)
+### [1.5 - Homebrew](#table-of-contents)
 
 To install, run `brew install openapi-generator` (the new brew formula is pending https://github.com/Homebrew/homebrew-core/pull/28584)
 
@@ -130,7 +176,7 @@ Here is an example usage to generate a Ruby client:
 openapi-generator generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g ruby -o /tmp/test/
 ```
 
-### [1.5 - Docker](#table-of-contents)
+### [1.6 - Docker](#table-of-contents)
 
 #### Public Pre-built Docker images
 
