@@ -67,6 +67,11 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 ## [1 - Installation](#table-of-contents)
 
+Use one of the following:
+* [openapi-generator-maven-plugin](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-maven-plugin)
+* [openapi-generator-gradle-plugin](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-gradle-plugin)
+* [openapi-generator-cli](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-cli)
+
 ### [1.1 - Compatibility](#table-of-contents)
 
 The OpenAPI Specification has undergone 3 revisions since initial creation in 2010.  The openapi-generator project has the following compatibilities with the OpenAPI Specification:
