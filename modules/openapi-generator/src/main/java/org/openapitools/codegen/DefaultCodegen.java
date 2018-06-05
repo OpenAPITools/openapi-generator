@@ -1535,36 +1535,6 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
-    /**
-     * Recursively look for a discriminator in the interface tree
-     *
-     * @param schema         composed schema
-     * @param allDefinitions all schema defintion
-     * @return true if it's a discriminator
-     */
-    private boolean isDiscriminatorInInterfaceTree(ComposedSchema schema, Map<String, Schema> allDefinitions) {
-        if (schema == null || allDefinitions == null || allDefinitions.isEmpty()) {
-            return false;
-        }
-        if (schema.getDiscriminator() != null) {
-            return true;
-        }
-        final List<Schema> interfaces = getInterfaces(schema);
-        if (interfaces == null) {
-            return false;
-        }
-        for (Schema interfaceSchema : interfaces) {
-            if (interfaceSchema.getDiscriminator() != null) {
-                return true;
-            }
-            // TODO revise the logic below
-            if (interfaceSchema instanceof ComposedSchema) {
-                return isDiscriminatorInInterfaceTree((ComposedSchema) interfaceSchema, allDefinitions);
-            }
-        }
-        return false;
-    }
-
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         addParentContainer(codegenModel, codegenModel.name, schema);
     }
@@ -2958,20 +2928,6 @@ public class DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
-    private static Map<String, Object> addHasMore(Map<String, Object> objs) {
-        if (objs != null) {
-            for (int i = 0; i < objs.size() - 1; i++) {
-                if (i > 0) {
-                    objs.put("secondaryParam", true);
-                }
-                if (i < objs.size() - 1) {
-                    objs.put("hasMore", true);
-                }
-            }
-        }
-        return objs;
-    }
-
     /**
      * Add operation to group
      *
@@ -3989,19 +3945,6 @@ public class DefaultCodegen implements CodegenConfig {
         return produces;
     }
 
-    protected Schema detectParent(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
-        if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
-            Schema schema = composedSchema.getAllOf().get(0);
-            String ref = schema.get$ref();
-            if (StringUtils.isBlank(ref)) {
-                return null;
-            }
-            ref = ModelUtils.getSimpleRef(ref);
-            return allSchemas.get(ref);
-        }
-        return null;
-    }
-
     protected String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
         if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
             Schema schema = composedSchema.getAllOf().get(0);
@@ -4031,12 +3974,6 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             return null;
         }
-    }
-
-    // TODO do we still need the methdo below?
-    protected static boolean hasSchemaProperties(Schema schema) {
-        final Object additionalProperties = schema.getAdditionalProperties();
-        return additionalProperties != null && additionalProperties instanceof Schema;
     }
 
     public CodegenType getTag() {
@@ -4360,10 +4297,6 @@ public class DefaultCodegen implements CodegenConfig {
         setParameterExampleValue(codegenParameter);
 
         return codegenParameter;
-    }
-
-    protected void addOption(String key, String description) {
-        addOption(key, description, null);
     }
 
     protected void addOption(String key, String description, String defaultValue) {
