@@ -123,7 +123,7 @@ If you don't have maven installed, you may directly use the included [maven wrap
 
 ### [1.4 - Homebrew](#table-of-contents)
 
-To install, run `brew install openapi-generator`
+To install, run `brew install openapi-generator` (the new brew formula is pending https://github.com/Homebrew/homebrew-core/pull/28584)
 
 Here is an example usage to generate a Ruby client:
 ```sh
