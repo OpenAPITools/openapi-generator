@@ -45,7 +45,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class CppRestClientCodegen extends AbstractCppCodegen {
+public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     public static final String DECLSPEC = "declspec";
     public static final String DEFAULT_INCLUDE = "defaultInclude";
@@ -87,7 +87,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
         return "Generates a C++ API client with C++ REST SDK (https://github.com/Microsoft/cpprestsdk).";
     }
 
-    public CppRestClientCodegen() {
+    public CppRestSdkClientCodegen() {
         super();
 
         apiPackage = "org.openapitools.client.api";
