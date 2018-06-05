@@ -350,6 +350,7 @@ When code is generated from this project, it shall be considered **AS IS** and o
 Here are some companies/projects using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
 - [REST United](https://restunited.com)
+- [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
 
 ## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
 
