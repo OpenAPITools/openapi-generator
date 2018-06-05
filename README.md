@@ -68,11 +68,6 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 ## [1 - Installation](#table-of-contents)
 
-Use one of the following:
-* [openapi-generator-maven-plugin](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-maven-plugin)
-* [openapi-generator-gradle-plugin](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-gradle-plugin)
-* [openapi-generator-cli](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-cli)
-
 ### [1.1 - Compatibility](#table-of-contents)
 
 The OpenAPI Specification has undergone 3 revisions since initial creation in 2010.  The openapi-generator project has the following compatibilities with the OpenAPI Specification:
@@ -86,31 +81,49 @@ OpenAPI Generator Version    | Release Date | OpenAPI Spec compatibility | Notes
 
 ### [1.2 - Artifacts on Maven Central](#table-of-contents)
 
-You can find our released artefact on maven central:
+You can find our released artefacts on maven central:
 
 **Core:**
 ```xml
 <dependency>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator</artifactId>
+    <version>${openapi-generator-version}</version>
 </dependency>
 ```
+* [openapi-generator](https://mvnrepository.com/artifact/org.openapitools/openapi-generator)
 
 **Cli:**
 ```xml
 <dependency>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-cli</artifactId>
+    <version>${openapi-generator-version}</version>
 </dependency>
 ```
+* [openapi-generator-cli](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-cli)
 
 **Maven plugin:**
 ```xml
 <dependency>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
+    <version>${openapi-generator-version}</version>
 </dependency>
 ```
+* [openapi-generator-maven-plugin](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-maven-plugin)
+* [Readme](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-maven-plugin/README.adoc)
+
+**Gradle plugin:**
+```xml
+<dependency>
+    <groupId>org.openapitools</groupId>
+    <artifactId>openapi-generator-gradle-plugin</artifactId>
+    <version>${openapi-generator-version}</version>
+</dependency>
+```
+* [openapi-generator-gradle-plugin](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-gradle-plugin)
+* [Readme](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-gradle-plugin/README.adoc)
 
 ### [1.3 - Download JAR](#table-of-contents)
 
