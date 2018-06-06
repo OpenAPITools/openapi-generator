@@ -80,6 +80,7 @@ public class CodegenConfigurator implements Serializable {
     private boolean verbose;
     private boolean skipOverwrite;
     private boolean removeOperationIdPrefix;
+    private String virtualService;
     private String templateDir;
     private String auth;
     private String apiPackage;
@@ -497,7 +498,7 @@ public class CodegenConfigurator implements Serializable {
         checkAndSetAdditionalProperty(gitRepoId, CodegenConstants.GIT_REPO_ID);
         checkAndSetAdditionalProperty(releaseNote, CodegenConstants.RELEASE_NOTE);
         checkAndSetAdditionalProperty(httpUserAgent, CodegenConstants.HTTP_USER_AGENT);
-
+        checkAndSetAdditionalProperty(virtualService,  CodegenConstants.VIRTUAL_SERVICE);
         handleDynamicProperties(config);
 
         if (isNotEmpty(library)) {
@@ -595,5 +596,13 @@ public class CodegenConfigurator implements Serializable {
         }
         return null;
     }
+
+    public String getVirtualService() {
+		return virtualService;
+	}
+
+	public void setVirtualService(String virtualService) {
+		this.virtualService = virtualService;
+	}
 
 }

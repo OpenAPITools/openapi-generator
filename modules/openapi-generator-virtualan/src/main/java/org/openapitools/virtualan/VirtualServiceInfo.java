@@ -1,5 +1,22 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.virtualan;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -16,13 +33,14 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.openapitools.virtualan.model.APIResponse;
-import org.openapitools.virtualan.model.Mock;
-import org.openapitools.virtualan.model.MockKeyValue;
+import org.openapitools.virtualan.model.VirtualServiceRequest;
+import org.openapitools.virtualan.model.VirtualServiceKeyValue;
+import org.openapitools.virtualan.model.ResourceMapper;
+import org.openapitools.virtualan.model.VirtualServiceApiResponse;
+import org.openapitools.virtualan.requestbody.RequestBodyTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,15 +52,23 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @Service("virtualServiceInfo")
 public class VirtualServiceInfo {
+
+	private static final String MATCH_API_CONTROLLER = "[class\\sa-zA-Z0-9]ApiController";
+
+	private static final String API_CONTROLLER = "ApiController";
+
+	private static final String API_SUFFIX = "Api";
+
+	private static final String PARENT_ROOT = "Parent-Root";
 
 	private static final String CURLY_PATH = "Curly";
 
@@ -63,128 +89,170 @@ public class VirtualServiceInfo {
 		this.resourceParent = resourceParent;
 	}
 
-	Map<String, Map<String, Mock>> mockLoadChoice;
+	Map<String, Map<String, VirtualServiceRequest>> mockLoadChoice;
 
-	public Map<String, Map<String, Mock>> loadVirtualServices(RequestMappingHandlerMapping handlerMapping)
+	public Map<String, Class> findVirtualServices(RequestMappingHandlerMapping handlerMapping) {
+		Map<String, Class> virtualInterfaces = new HashMap<>();
+		Pattern p = Pattern.compile(MATCH_API_CONTROLLER);
+		for (Map.Entry<RequestMappingInfo, HandlerMethod> mapSwaggerAPIEntry : handlerMapping.getHandlerMethods()
+				.entrySet()) {
+			Matcher m = p.matcher(mapSwaggerAPIEntry.getValue().getBeanType().toString()); 
+			if (m.find()) {
+				String interfaceName = mapSwaggerAPIEntry.getValue().getBeanType().getName().replace(API_CONTROLLER, API_SUFFIX);
+				try {
+					Class intefaceController = Class.forName(interfaceName);
+					interfaceName = interfaceName.substring(interfaceName.lastIndexOf(".") + 1, interfaceName.length());
+ 					interfaceName = interfaceName.toLowerCase();
+					virtualInterfaces.put(interfaceName, intefaceController);
+				} catch (Exception e) {
+					log.info("Not a interfaceName for  Virtual API : " + interfaceName);
+				}
+			}
+		}
+		return virtualInterfaces;
+	}
+
+	private VirtualServiceRequest getResource(Map.Entry<String, Class> virtualServiceEntry) {
+		VirtualServiceRequest Mock = new VirtualServiceRequest();
+		Api[] apiOperationAnnos = (Api[]) virtualServiceEntry.getValue().getAnnotationsByType(Api.class);
+		if (apiOperationAnnos != null) {
+			for (Api api : apiOperationAnnos) {
+				if (api.value() != null) {
+					Mock.setResource(api.value());
+				}
+			}
+		}
+		return Mock;
+	}
+
+	public Map<String, Map<String, VirtualServiceRequest>> loadVirtualServices(RequestMappingHandlerMapping handlerMapping)
 			throws ClassNotFoundException, JsonProcessingException, InstantiationException, IllegalAccessException {
 		if (mockLoadChoice == null) {
 			mockLoadChoice = new TreeMap<>();
-			Map<RequestMappingInfo, HandlerMethod> mapSwaggerAPI = handlerMapping.getHandlerMethods();
-			for (Map.Entry<RequestMappingInfo, HandlerMethod> mapSwaggerAPIEntry : mapSwaggerAPI.entrySet()) {
-				if (mapSwaggerAPIEntry.getValue().getBeanType().toString()
-						.matches("class org.openapitools.virtualan.api.*Controller")) {//TODO
-					String interfaceName = mapSwaggerAPIEntry.getValue().getBeanType().getName().replace("Controller",
-							"");
-					Class intefaceController = Class.forName(interfaceName);
-					interfaceName = interfaceName.toLowerCase();
-					interfaceName = interfaceName.substring(interfaceName.lastIndexOf(".") + 1, interfaceName.length());
-					if (!mockLoadChoice.containsKey(interfaceName)) {
-						String resource = null;
-						Api[] apiOperationAnnos = (Api[]) intefaceController.getAnnotationsByType(Api.class);
-						if (apiOperationAnnos != null) {
-							for (Api api : apiOperationAnnos) {
-								if (api.value() != null) {
-									resource = api.value();
-								}
-							}
-						}
+			for (Map.Entry<String, Class> virtualServiceEntry : findVirtualServices(handlerMapping).entrySet()) {
+				mockLoadChoice.put(virtualServiceEntry.getKey(), buildVirtualServiceInfo(virtualServiceEntry));
+			}
+		}
+		return mockLoadChoice;
+	}
 
-						Map<String, Mock> mockAPILoadChoice = new LinkedHashMap<String, Mock>();
-						for (Method method : intefaceController.getDeclaredMethods()) {
-							Annotation[][] annotations = method.getParameterAnnotations();
-							Class[] parameterTypes = method.getParameterTypes();
-							RequestMapping[] annotInstance = method.getAnnotationsByType(RequestMapping.class);
-							Mock mockLoadRequest = new Mock();
-							mockLoadRequest.setResource(resource);
-							if (annotInstance != null && annotInstance.length > 0) {
-								RequestMapping requestMapping = ((RequestMapping) annotInstance[0]);
-								if (requestMapping.value() != null && requestMapping.value().length > 0) {
-									mockLoadRequest.setUrl(requestMapping.value()[0]);
-								}
-								if (requestMapping.method() != null && requestMapping.method().length > 0) {
-									mockLoadRequest.setMethod(requestMapping.method()[0].name());
-								}
+	private Map<String, VirtualServiceRequest>  buildVirtualServiceInfo(Map.Entry<String, Class> virtualServiceEntry)
+			throws JsonProcessingException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		Map<String, VirtualServiceRequest>  mockAPILoadChoice = new LinkedHashMap<String, VirtualServiceRequest>();
+		for (Method method : virtualServiceEntry.getValue().getDeclaredMethods()) {
+			VirtualServiceRequest MockReturn  = buildServiceDetails(virtualServiceEntry, method);
+			if(MockReturn != null){
+				mockAPILoadChoice.put(method.getName(), MockReturn);
+			}
+		}
+		return mockAPILoadChoice;
+	}
 
-								ApiResponses[] apiResponsesAnno = method.getAnnotationsByType(ApiResponses.class);
-								if (apiResponsesAnno != null) {
-									Map<String, APIResponse> responseType = new HashMap<>();
-									for (ApiResponses apiResponses : apiResponsesAnno) {
-										for (ApiResponse apiResponse : apiResponses.value()) {
-											if (apiResponse.response().getCanonicalName() != null && apiResponse
-													.response().getCanonicalName().contains("org.openapitools")) {
-												responseType.put(String.valueOf(apiResponse.code()),
-														new APIResponse(String.valueOf(apiResponse.code()),
-																apiResponse.response().getCanonicalName(),
-																objectMapper.writerWithDefaultPrettyPrinter()
-																		.writeValueAsString(Class
-																				.forName(apiResponse.response()
-																						.getCanonicalName())
-																				.newInstance()),
-																apiResponse.message()));
-											} else {
-												responseType.put(String.valueOf(apiResponse.code()),
-														new APIResponse(String.valueOf(apiResponse.code()), null, null,
-																apiResponse.message()));
-											}
-											mockLoadRequest.setResponseType(responseType);
-										}
-									}
+	private VirtualServiceRequest buildServiceDetails(Map.Entry<String, Class> virtualServiceEntry, Method method)
+			throws JsonProcessingException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		RequestMapping[] annotInstance = method.getAnnotationsByType(RequestMapping.class);
+		VirtualServiceRequest mockLoadRequest = getResource(virtualServiceEntry);
+		mockLoadRequest .setDesc(getResourceDesc(method));
+		if (annotInstance != null && annotInstance.length > 0) {
+			RequestMapping requestMapping = ((RequestMapping) annotInstance[0]);
+			if (requestMapping.value() != null && requestMapping.value().length > 0) {
+				mockLoadRequest.setUrl(requestMapping.value()[0]);
+			}
+			if (requestMapping.method() != null && requestMapping.method().length > 0) {
+				mockLoadRequest.setMethod(requestMapping.method()[0].name());
+			}
+			mockLoadRequest.setResponseType(buildResponseType(method));
+			buildInput(method, mockLoadRequest);
+			mockLoadRequest.setOperationId(method.getName());
+			mockLoadRequest.setHttpStatusMap(getHttpStatusMap());
+			return mockLoadRequest;
+		}
+		return null;
+	}
 
-								}
+	private String getResourceDesc(Method method) {
+		ApiOperation[] apiOperationAnno = method.getAnnotationsByType(ApiOperation.class);
+		if(apiOperationAnno != null && apiOperationAnno.length > 0){
+			return apiOperationAnno[0].notes();
+		} 
+		return null; 
+	}
 
-								int i = 0;
-								List<MockKeyValue> availableParams = new ArrayList();
+	private void buildInput(Method method, VirtualServiceRequest mockLoadRequest)
+			throws JsonProcessingException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		int i = 0;
+		List<VirtualServiceKeyValue> availableParams = new ArrayList();
+		Annotation[][] annotations = method.getParameterAnnotations();
+		Class[] parameterTypes = method.getParameterTypes();
+		for (Annotation[] anns : annotations) {
+			Class parameterType = parameterTypes[i++];
+			for (Annotation paramAnnotation : anns) {
+				if (paramAnnotation.annotationType().equals(RequestParam.class)) {
+					RequestParam requestParam = (RequestParam) paramAnnotation;
+					availableParams.add(new VirtualServiceKeyValue(requestParam.value(), null));
+				} else if (paramAnnotation.annotationType().equals(PathVariable.class)) {
+					PathVariable pathVariable = (PathVariable) paramAnnotation;
+					availableParams.add(new VirtualServiceKeyValue(pathVariable.value(), null));
+				} else if (paramAnnotation.annotationType().equals(RequestBody.class)) {
+					org.openapitools.virtualan.requestbody.RequestBody requestBody = new org.openapitools.virtualan.requestbody.RequestBody();
+					requestBody.setInputObjectTypeName(
+							Class.forName(parameterType.getName()).getTypeName());
+					requestBody.setInputObjectType(parameterType);
+					requestBody.setObjectMapper(objectMapper);
+					mockLoadRequest.setInputObjectType(Class.forName(parameterType.getName()));
+					try {
+						mockLoadRequest.setInput(RequestBodyTypes
+								.fromString(requestBody.getInputObjectTypeName())
+								.getDefaultMessageBody(requestBody));
+					} catch (IOException e) {
 
-								for (Annotation[] anns : annotations) {
-									Class parameterType = parameterTypes[i++];
-									for (Annotation paramAnnotation : anns) {
-										if (paramAnnotation.annotationType().equals(RequestParam.class)) {
-											RequestParam requestParam = (RequestParam) paramAnnotation;
-											availableParams.add(new MockKeyValue(requestParam.value(), null));
-										} else if (paramAnnotation.annotationType().equals(PathVariable.class)) {
-											PathVariable pathVariable = (PathVariable) paramAnnotation;
-											availableParams.add(new MockKeyValue(pathVariable.value(), null));
-										} else if (paramAnnotation.annotationType().equals(RequestBody.class)) {
-											mockLoadRequest.setInputObjectType(parameterType.getName());
-											if (parameterType.getName().contains("List")) {
-
-												mockLoadRequest.setInput(objectMapper.writerWithDefaultPrettyPrinter()
-														.writeValueAsString(new TypeReference<List<User>>() {
-														}));
-											} else {
-
-												mockLoadRequest.setInput(objectMapper.writerWithDefaultPrettyPrinter()
-														.writeValueAsString(
-																Class.forName(parameterType.getName()).newInstance()));
-											}
-										}
-									}
-								}
-								// TO build Return Json object
-								String returnObject = method.getGenericReturnType().getTypeName();
-								mockLoadRequest.setOperationId(method.getName());
-								mockLoadRequest.setAvailableParams(availableParams);
-								mockLoadRequest.setHttpStatusMap(getHttpStatusMap());
-								mockAPILoadChoice.put(method.getName(), mockLoadRequest);
-							}
-						}
-						mockLoadChoice.put(interfaceName, mockAPILoadChoice);
+						// TO-DO
 					}
 				}
 			}
 		}
-		return mockLoadChoice;
-
+		mockLoadRequest.setAvailableParams(availableParams);
 	}
 
-	public String getInputType(Mock mockTransferInput) {
-		String inputType = null;
+	private Map<String, VirtualServiceApiResponse> buildResponseType(Method method)
+			throws JsonProcessingException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		Map<String, VirtualServiceApiResponse> responseType = new HashMap<>();
+		ApiResponses[] apiResponsesAnno = method.getAnnotationsByType(ApiResponses.class);
+		if (apiResponsesAnno != null) {
+			for (ApiResponses apiResponses : apiResponsesAnno) {
+				for (ApiResponse apiResponse : apiResponses.value()) {
+					try {
+						responseType.put(String.valueOf(apiResponse.code()),
+								new VirtualServiceApiResponse(
+										String.valueOf(apiResponse.code()),
+										apiResponse.response().getCanonicalName(),
+										objectMapper.writerWithDefaultPrettyPrinter()
+												.writeValueAsString(Class
+														.forName(apiResponse.response()
+																.getCanonicalName())
+														.newInstance()),
+										apiResponse.message()));
+					} catch (Exception e) {
+						responseType.put(String.valueOf(apiResponse.code()),
+								new VirtualServiceApiResponse(
+										String.valueOf(apiResponse.code()), null, null,
+										apiResponse.message()));
+					}
+				}
+			}
+
+		}
+		return responseType;
+	}
+
+	public Class getInputType(VirtualServiceRequest mockTransferInput) {
+		Class inputType = null;
 		if (mockTransferInput.getResource() != null) {
 			String resource = (mockTransferInput.getResource().substring(0, 1).toUpperCase()
-					+ mockTransferInput.getResource().substring(1) + "Api").replaceAll("[^a-zA-Z0-9]", "")
-							.toLowerCase();
+					+ mockTransferInput.getResource().substring(1) + API_SUFFIX).replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
 			if (mockTransferInput.getOperationId() != null) {
-				Mock mockTransferActual = mockLoadChoice.get(resource).get(mockTransferInput.getOperationId());
+				VirtualServiceRequest mockTransferActual = mockLoadChoice.get(resource)
+						.get(mockTransferInput.getOperationId());
 				if (mockTransferActual != null) {
 					inputType = mockTransferActual.getInputObjectType();
 				}
@@ -194,8 +262,7 @@ public class VirtualServiceInfo {
 				if (resouceSplitterList.size() > 0) {
 					String operationId = getOperationId(mockTransferInput.getMethod(), resourceParent,
 							resouceSplitterList);
-
-					Mock mockTransferActual = mockLoadChoice.get(resource).get(operationId);
+					VirtualServiceRequest mockTransferActual = mockLoadChoice.get(resource).get(operationId);
 					if (mockTransferActual != null) {
 						inputType = mockTransferActual.getInputObjectType();
 					}
@@ -216,16 +283,14 @@ public class VirtualServiceInfo {
 		} else {
 			return getOperationId(httpVerb, resourceParent.findResource(CURLY_PATH),
 					resouceSplitterList.subList(1, resouceSplitterList.size()));
-
 		}
 
 	}
 
-	public Mock getResponseType(Mock mockTransferInput) {
+	public VirtualServiceRequest getResponseType(VirtualServiceRequest mockTransferInput) {
 		if (mockTransferInput.getResource() != null) {
 			String resource = (mockTransferInput.getResource().substring(0, 1).toUpperCase()
-					+ mockTransferInput.getResource().substring(1) + "Api").replaceAll("[^a-zA-Z0-9]", "")
-							.toLowerCase();
+					+ mockTransferInput.getResource().substring(1) + API_SUFFIX).toLowerCase();
 			if (mockTransferInput.getOperationId() != null) {
 				return mockLoadChoice.get(resource).get(mockTransferInput.getOperationId());
 			}
@@ -243,18 +308,16 @@ public class VirtualServiceInfo {
 
 	public void loadMapper() {
 		Set<ResourceMapper> resourceMapperList = new LinkedHashSet<>();
-		resourceParent = new ResourceMapper("Parent-Root", resourceMapperList);
-		ResourceMapper resourceParent = new ResourceMapper("Parent-Root", resourceMapperList);
-		for (Entry<String, Map<String, Mock>> obj : mockLoadChoice.entrySet()) {
-			for (Entry<String, Mock> requestMockObject : obj.getValue().entrySet()) {
+		resourceParent = new ResourceMapper(PARENT_ROOT, resourceMapperList);
+		ResourceMapper resourceParent = new ResourceMapper(PARENT_ROOT, resourceMapperList);
+		for (Entry<String, Map<String, VirtualServiceRequest>> obj : mockLoadChoice.entrySet()) {
+			for (Entry<String, VirtualServiceRequest> requestMockObject : obj.getValue().entrySet()) {
 				String resource = requestMockObject.getValue().getUrl().substring(1,
 						requestMockObject.getValue().getUrl().length());
-
 				List<String> resouceSplitterList = new LinkedList(Arrays.asList(resource.split("/")));
 				if (resouceSplitterList.size() > 0) {
 					ResourceMapper mapperChild = buildHierarchyObject(requestMockObject.getValue().getMethod(),
 							resourceParent, resouceSplitterList, requestMockObject.getKey());
-
 					resourceParent.addResourceMapper(mapperChild);
 				}
 			}
@@ -295,122 +358,6 @@ public class VirtualServiceInfo {
 		}
 	}
 
-	class ResourceMapper {
-		String resource;
-		String actualResource;
-		Set<ResourceMapper> resourceMapperList = new LinkedHashSet<>();
-		Map<String, String> operationIdMap = new HashMap<>();
 
-		ResourceMapper(String resource, Set<ResourceMapper> resourceMapperList) {
-			this.resource = resource;
-			this.resourceMapperList = resourceMapperList;
-		}
-
-		ResourceMapper(String resource) {
-			this.resource = resource;
-		}
-
-		public Map<String, String> getOperationIdMap() {
-			return operationIdMap;
-		}
-
-		public void setOperationIdMap(Map<String, String> operationIdMap) {
-			this.operationIdMap = operationIdMap;
-		}
-
-		public void setResourceMapperList(Set<ResourceMapper> resourceMapperList) {
-			this.resourceMapperList = resourceMapperList;
-		}
-
-		@Override
-		public String toString() {
-			return "ResourceMapper [resource=" + resource + ", actualResource=" + actualResource
-					+ ", resourceMapperList=" + resourceMapperList + ", operationId=" + operationIdMap + "]";
-		}
-
-		public ResourceMapper findResource(String resource) {
-			if (resourceMapperList != null) {
-				for (ResourceMapper mapper : resourceMapperList) {
-					if (mapper.getResource().equalsIgnoreCase(resource)) {
-						return mapper;
-					}
-				}
-			}
-			return null;
-		}
-
-		public void addResourceMapper(ResourceMapper resourceMapper) {
-			if (resourceMapperList != null && resourceMapper != null) {
-				resourceMapperList.add(resourceMapper);
-			}
-		}
-
-		public String getActualResource() {
-			return actualResource;
-		}
-
-		public void setActualResource(String actualResource) {
-			this.actualResource = actualResource;
-		}
-
-		public String getResource() {
-			return resource;
-		}
-
-		public void setResource(String resource) {
-			this.resource = resource;
-		}
-
-		public Set<ResourceMapper> getResourceMapperList() {
-			return resourceMapperList;
-		}
-
-		public void setResourceMapper(Set<ResourceMapper> resourceMapperList) {
-			this.resourceMapperList = resourceMapperList;
-		}
-
-		public String getOperationId(String httpVerb) {
-			return operationIdMap.get(httpVerb);
-		}
-
-		public void setOperationId(String httpVerb, String operationId) {
-			operationIdMap.put(httpVerb, operationId);
-			;
-
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + getOuterType().hashCode();
-			result = prime * result + ((resource == null) ? 0 : resource.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ResourceMapper other = (ResourceMapper) obj;
-			if (!getOuterType().equals(other.getOuterType()))
-				return false;
-			if (resource == null) {
-				if (other.resource != null)
-					return false;
-			} else if (!resource.equals(other.resource))
-				return false;
-			return true;
-		}
-
-		private VirtualServiceInfo getOuterType() {
-			return VirtualServiceInfo.this;
-		}
-
-	}
 
 }

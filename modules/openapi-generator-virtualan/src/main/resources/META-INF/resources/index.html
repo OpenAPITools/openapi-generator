@@ -142,7 +142,7 @@ json-tree .branch-preview::after {
       <li class="active"><a href="#">Home</a></li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Virtual
 							Service<span class="caret"></span></a>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu" ng-controller="MockController as ctrl">
           <li><a href="#" data-toggle="modal"  data-target="#add-mock" >Add Mock</a></li>
           <li><a href="#" data-toggle="modal" data-target="#load-mock"  ng-click="ctrl.loadData()">Load Mock</a></li>
         </ul>
@@ -392,14 +392,14 @@ json-tree .branch-preview::after {
 														</div>
 													</div>
 
-													<div ng-show="mockRequest.input != null" class="row">
+													<div ng-show="mockRequest.inputObjectType != null" class="row">
 														<div class="form-group col-md-12">
 															<label class="col-md-2 control-lable" for="file">Mock
 																Request Body</label>
 															<div class="col-md-7">
 																<textarea ng-model="mockRequest.input" name="input"
 																	class="input form-control input-sm" rows="10"
-																	ng-minlength="10" > {{mockRequest.input}}</textarea>
+																	> {{mockRequest.input}}</textarea>
 																<div layout-align="center center">Type:
 																	{{mockRequest.inputObjectType}}</div>
 															</div>

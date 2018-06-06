@@ -791,6 +791,18 @@
             </modules>
         </profile>
         <profile>
+            <id>springboot-virtualan</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/springboot-virtualan</module>
+            </modules>
+        </profile>
+        <profile>
             <id>spring-cloud</id>
             <activation>
                 <property>
