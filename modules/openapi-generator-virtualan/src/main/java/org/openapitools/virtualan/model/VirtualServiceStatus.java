@@ -16,16 +16,35 @@
 
 package org.openapitools.virtualan.model;
 
-import java.util.Map;
+public class VirtualServiceStatus {
 
-public interface Cache<K, T> {
+	private String code;
+	
+	private String message;
+	
+	
+	public VirtualServiceStatus() {
 
-	Map<K, T> readAll();
+	}
 
-	void update(K key, T mock);
+	public VirtualServiceStatus(String code) {
+		this.code = code;
+	}
 
-	void remove(K key);
+	public String getCode() {
+		return code;
+	}
 
-	T readById(K id) ;
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 }

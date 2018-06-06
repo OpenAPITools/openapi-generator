@@ -14,18 +14,26 @@
  * limitations under the License.
  */
 
-package org.openapitools.virtualan.model;
+package org.openapitools.virtualan.service;
 
-import java.util.Map;
+import java.util.List;
 
-public interface Cache<K, T> {
+import org.openapitools.virtualan.model.VirtualServiceRequest;
 
-	Map<K, T> readAll();
+public interface VirtualServiceService {
 
-	void update(K key, T mock);
+	VirtualServiceRequest findById(long id);
 
-	void remove(K key);
+	List<VirtualServiceRequest> readByOperationId(String resource, String name);
 
-	T readById(K id) ;
+	VirtualServiceRequest saveMockRequest(VirtualServiceRequest mockRequest);
+
+	void updateMockRequest(VirtualServiceRequest mockRequest);
+
+	void deleteMockRequestById(long id);
+
+	List<VirtualServiceRequest> findAllMockRequests();
+
+	boolean isMockRequestExist(VirtualServiceRequest mockRequest);
 
 }

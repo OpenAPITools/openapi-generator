@@ -71,7 +71,7 @@ public interface FakeClassnameTestApi {
 			mockServiceRequest.setInputObjectType(client.getClass());
 			mockServiceRequest.setInputObject(client);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "testClassname", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testClassname\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}

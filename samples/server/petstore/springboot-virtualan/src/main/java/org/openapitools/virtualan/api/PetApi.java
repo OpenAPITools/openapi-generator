@@ -75,7 +75,7 @@ public interface PetApi {
 			mockServiceRequest.setInputObjectType(pet.getClass());
 			mockServiceRequest.setInputObject(pet);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "addPet", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for addPet\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -103,7 +103,7 @@ public interface PetApi {
 			mockServiceRequest.setOperationId("deletePet");
 			mockServiceRequest.setParams(paramMap);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "deletePet", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for deletePet\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -137,7 +137,7 @@ public interface PetApi {
 			mockServiceRequest.setOperationId("findPetsByStatus");
 			mockServiceRequest.setParams(paramMap);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "findPetsByStatus", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for findPetsByStatus\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -171,7 +171,7 @@ public interface PetApi {
 			mockServiceRequest.setOperationId("findPetsByTags");
 			mockServiceRequest.setParams(paramMap);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "findPetsByTags", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for findPetsByTags\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -198,7 +198,7 @@ public interface PetApi {
 			mockServiceRequest.setOperationId("getPetById");
 			mockServiceRequest.setParams(paramMap);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "getPetById", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for getPetById\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -230,7 +230,7 @@ public interface PetApi {
 			mockServiceRequest.setInputObjectType(pet.getClass());
 			mockServiceRequest.setInputObject(pet);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "updatePet", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for updatePet\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -260,7 +260,7 @@ public interface PetApi {
 			mockServiceRequest.setOperationId("updatePetWithForm");
 			mockServiceRequest.setParams(paramMap);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "updatePetWithForm", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for updatePetWithForm\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -291,7 +291,7 @@ public interface PetApi {
 			mockServiceRequest.setOperationId("uploadFile");
 			mockServiceRequest.setParams(paramMap);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "uploadFile", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for uploadFile\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}

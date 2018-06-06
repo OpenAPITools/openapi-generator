@@ -61,6 +61,7 @@ mvn clean compile
 - `generateSupportingFiles` - generate the supporting files (`true` by default)
 - `supportingFilesToGenerate` - A comma separated list of supporting files to generate.  All files is the default.
 - `skip` - skip code generation (`false` by default. Can also be set globally through the `codegen.skip` property)
+- `virtualService` - virtualized service code generation (`false` by default. Only available if `generator-name` is `spring`)
 
 ### Custom Generator
 

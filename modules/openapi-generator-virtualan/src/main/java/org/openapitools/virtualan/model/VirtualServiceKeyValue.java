@@ -16,16 +16,34 @@
 
 package org.openapitools.virtualan.model;
 
-import java.util.Map;
+public class VirtualServiceKeyValue {
 
-public interface Cache<K, T> {
+	private String key;
+	private String value;
 
-	Map<K, T> readAll();
+	public VirtualServiceKeyValue() {
 
-	void update(K key, T mock);
+	}
 
-	void remove(K key);
+	public VirtualServiceKeyValue(String key, String value) {
+		this.key = key;
+		this.value = value;
+	}
 
-	T readById(K id) ;
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
 
 }

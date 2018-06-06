@@ -75,7 +75,7 @@ public interface FakeApi {
 			mockServiceRequest.setInputObjectType(body.getClass());
 			mockServiceRequest.setInputObject(body);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "fakeOuterBooleanSerialize", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for fakeOuterBooleanSerialize\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -100,7 +100,7 @@ public interface FakeApi {
 			mockServiceRequest.setInputObjectType(outerComposite.getClass());
 			mockServiceRequest.setInputObject(outerComposite);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "fakeOuterCompositeSerialize", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for fakeOuterCompositeSerialize\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -125,7 +125,7 @@ public interface FakeApi {
 			mockServiceRequest.setInputObjectType(body.getClass());
 			mockServiceRequest.setInputObject(body);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "fakeOuterNumberSerialize", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for fakeOuterNumberSerialize\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -150,7 +150,7 @@ public interface FakeApi {
 			mockServiceRequest.setInputObjectType(body.getClass());
 			mockServiceRequest.setInputObject(body);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "fakeOuterStringSerialize", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for fakeOuterStringSerialize\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -181,7 +181,7 @@ public interface FakeApi {
 			mockServiceRequest.setInputObjectType(user.getClass());
 			mockServiceRequest.setInputObject(user);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "testBodyWithQueryParams", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testBodyWithQueryParams\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -207,7 +207,7 @@ public interface FakeApi {
 			mockServiceRequest.setInputObjectType(client.getClass());
 			mockServiceRequest.setInputObject(client);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "testClientModel", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testClientModel\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -246,7 +246,7 @@ public interface FakeApi {
 			mockServiceRequest.setOperationId("testEndpointParameters");
 			mockServiceRequest.setParams(paramMap);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "testEndpointParameters", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testEndpointParameters\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -297,7 +297,7 @@ public interface FakeApi {
 			mockServiceRequest.setOperationId("testEnumParameters");
 			mockServiceRequest.setParams(paramMap);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "testEnumParameters", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testEnumParameters\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -322,7 +322,7 @@ public interface FakeApi {
 			mockServiceRequest.setInputObjectType(requestBody.getClass());
 			mockServiceRequest.setInputObject(requestBody);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "testInlineAdditionalProperties", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testInlineAdditionalProperties\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -346,7 +346,7 @@ public interface FakeApi {
 			mockServiceRequest.setOperationId("testJsonFormData");
 			mockServiceRequest.setParams(paramMap);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "testJsonFormData", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testJsonFormData\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}

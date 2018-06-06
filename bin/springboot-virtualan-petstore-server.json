@@ -1,7 +1,7 @@
 {
     "artifactId": "springboot-virtualan",
     "library": "spring-boot",
-    "virtual-service": true,
+    "virtualService": true,
 	"modelPackage" : "org.openapitools.virtualan.model",
     "apiPackage"   : "org.openapitools.virtualan.api"
 }

@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-package org.openapitools.virtualan.model;
+package org.openapitools.virtualan.dao;
 
-import java.util.Map;
+import org.openapitools.virtualan.entity.VirtualServiceEntity;
+import org.springframework.data.repository.CrudRepository;
 
-public interface Cache<K, T> {
-
-	Map<K, T> readAll();
-
-	void update(K key, T mock);
-
-	void remove(K key);
-
-	T readById(K id) ;
-
+public interface VirtualServiceRepository extends CrudRepository<VirtualServiceEntity, Long> {
 }

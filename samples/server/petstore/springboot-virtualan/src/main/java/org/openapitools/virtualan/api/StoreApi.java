@@ -67,7 +67,7 @@ public interface StoreApi {
 			mockServiceRequest.setOperationId("deleteOrder");
 			mockServiceRequest.setParams(paramMap);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "deleteOrder", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for deleteOrder\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -106,7 +106,7 @@ public interface StoreApi {
 			mockServiceRequest.setOperationId("getOrderById");
 			mockServiceRequest.setParams(paramMap);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "getOrderById", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for getOrderById\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -132,7 +132,7 @@ public interface StoreApi {
 			mockServiceRequest.setInputObjectType(order.getClass());
 			mockServiceRequest.setInputObject(order);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "placeOrder", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for placeOrder\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}

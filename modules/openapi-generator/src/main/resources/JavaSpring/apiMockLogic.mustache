@@ -21,7 +21,7 @@
 			mockServiceRequest.setInputObject({{#allParams}}{{>bodyParamsInput}}{{/allParams}});
 			{{/bodyParams}}
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "{{operationId}}", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for {{operationId}}\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}

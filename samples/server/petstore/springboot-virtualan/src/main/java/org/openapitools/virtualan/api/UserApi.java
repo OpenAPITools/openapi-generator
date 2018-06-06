@@ -68,7 +68,7 @@ public interface UserApi {
 			mockServiceRequest.setInputObjectType(user.getClass());
 			mockServiceRequest.setInputObject(user);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "createUser", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for createUser\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -92,7 +92,7 @@ public interface UserApi {
 			mockServiceRequest.setInputObjectType(user.getClass());
 			mockServiceRequest.setInputObject(user);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "createUsersWithArrayInput", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for createUsersWithArrayInput\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -116,7 +116,7 @@ public interface UserApi {
 			mockServiceRequest.setInputObjectType(user.getClass());
 			mockServiceRequest.setInputObject(user);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "createUsersWithListInput", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for createUsersWithListInput\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -139,7 +139,7 @@ public interface UserApi {
 			mockServiceRequest.setOperationId("deleteUser");
 			mockServiceRequest.setParams(paramMap);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "deleteUser", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for deleteUser\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -164,7 +164,7 @@ public interface UserApi {
 			mockServiceRequest.setOperationId("getUserByName");
 			mockServiceRequest.setParams(paramMap);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "getUserByName", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for getUserByName\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -199,7 +199,7 @@ public interface UserApi {
 			mockServiceRequest.setOperationId("loginUser");
 			mockServiceRequest.setParams(paramMap);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "loginUser", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for loginUser\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -236,7 +236,7 @@ public interface UserApi {
 			mockServiceRequest.setInputObjectType(user.getClass());
 			mockServiceRequest.setInputObject(user);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "updateUser", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for updateUser\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}

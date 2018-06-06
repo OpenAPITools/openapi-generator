@@ -1,7 +1,5 @@
  {
-   "dateLibrary" : "java8-localdatetime",
-   "java8": true,
-   "virtual-service": true,
+   "virtualService": true,
    "modelPackage" : "org.openapitools.virtualan.model",
    "apiPackage"   : "org.openapitools.virtualan.api"
  }

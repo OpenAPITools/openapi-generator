@@ -60,7 +60,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String JAVA_8 = "java8";
-    public static final String VIRTUAL_SERVICE = "virtual-service";
+    public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String ASYNC = "async";
     public static final String REACTIVE = "reactive";
     public static final String RESPONSE_WRAPPER = "responseWrapper";

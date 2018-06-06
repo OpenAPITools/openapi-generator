@@ -69,7 +69,7 @@ public interface AnotherFakeApi {
 			mockServiceRequest.setInputObjectType(client.getClass());
 			mockServiceRequest.setInputObject(client);
 			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (ClassNotFoundException | IOException e){
+		} catch (Exception e){
 			log.error("Unable to load the mock Response for " + "testSpecialTags", e);
 			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testSpecialTags\"}", HttpStatus.INTERNAL_SERVER_ERROR);
 		}

@@ -22,24 +22,24 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: MockTransferObject
+          name: VirtualServiceRequest
           description: Create Mock service data
           required: true
           schema:
-            $ref: '#/definitions/MockTransferObject'
+            $ref: '#/definitions/VirtualServiceRequest'
       responses:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/MockStatus'
+            $ref: '#/definitions/VirtualServiceRequest'
         '400':
           description: Business Exception
           schema: 
-            $ref: '#/definitions/MockStatus'
+            $ref: '#/definitions/VirtualServiceStatus'
         '500':
           description: Server Error
           schema: 
-            $ref: '#/definitions/MockStatus'
+            $ref: '#/definitions/VirtualServiceStatus'
       security:
         - basicAuth: []
   /virtualservices/{id}:
@@ -71,7 +71,7 @@ securityDefinitions:
     description: HTTP Basic Authentication
     type: basic
 definitions:
-  MockTransferObject:
+  VirtualServiceRequest:
     type: object
     required:
       - url
@@ -97,21 +97,22 @@ definitions:
       availableParams: 
         type: string
         items:
-          $ref: "#/definitions/MockKeyValue"
+          $ref: "#/definitions/VirtualServiceKeyValue"
       excludeList: 
         type: string 
       resource: 
         type: string 
-  MockStatus:
+	  mockStatus:
+			$ref: "#/definitions/VirtualServiceStatus"
+  VirtualServiceStatus:
     type: object
     required:
       - code
     properties:
       code:
         type: string
-      mockTransferObject: 
-         $ref: "#/definitions/MockTransferObject"
-  MockKeyValue:
+      message:
+        type: string  VirtualServiceKeyValue:
     type: object
     required:
       - key

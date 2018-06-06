@@ -58,11 +58,11 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
         </dependency>
-<!-- START MOCK API support -->
+<!-- START Virtual Service API support -->
 		<dependency>
 			<groupId>org.openapitools</groupId>
 			<artifactId>openapi-generator-virtualan</artifactId>
-			<version>1.0.0</version>
+			<version>3.0.1-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
@@ -129,6 +129,6 @@
 		    <artifactId>spring-boot-starter-data-jpa</artifactId>
 		    <version>1.5.9.RELEASE</version>
 		</dependency>
-    <!-- END MOCK API support -->
+    <!-- END Virtual Service API support -->
     </dependencies>
 </project>
