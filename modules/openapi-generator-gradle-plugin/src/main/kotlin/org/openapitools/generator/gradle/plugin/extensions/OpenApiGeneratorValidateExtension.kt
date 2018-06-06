@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +14,19 @@
  * limitations under the License.
  */
 
-package org.openapitools.codegen.cmd;
+package org.openapitools.generator.gradle.plugin.extensions
+
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.property
 
 /**
- * Created by takuro on 2017/05/02.
+ * Gradle project level extension object definition for the generators task
+ *
+ * @author Jim Schubert
  */
-public class ValidateException extends RuntimeException {
+open class OpenApiGeneratorValidateExtension(project: Project) {
+    /**
+     * The input specification to validate. Supports all formats supported by the Parser.
+     */
+    val inputSpec = project.objects.property<String>()
 }

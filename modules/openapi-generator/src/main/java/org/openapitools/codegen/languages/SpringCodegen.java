@@ -103,19 +103,18 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(new CliOption(TITLE, "server title name or client service name"));
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
         cliOptions.add(new CliOption(BASE_PACKAGE, "base package (invokerPackage) for generated code"));
-        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files."));
-        cliOptions.add(CliOption.newBoolean(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern"));
-        cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation."));
-        cliOptions.add(CliOption.newBoolean(JAVA_8, "use java8 default interface"));
-        cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers"));
-        cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)"));
+        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.",interfaceOnly));
+        cliOptions.add(CliOption.newBoolean(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern",delegatePattern));
+        cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation.",singleContentTypes));
+        cliOptions.add(CliOption.newBoolean(JAVA_8, "use java8 default interface",java8));
+        cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers",async));
+        cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)",reactive));
         cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)"));
-        cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
-        cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Use of @ApiImplicitParams for headers."));
-        cliOptions.add(CliOption.newBoolean(OPENAPI_DOCKET_CONFIG, "Generate Spring OpenAPI Docket configuration class."));
-        cliOptions.add(CliOption.newBoolean(USE_OPTIONAL,
-                "Use Optional container for optional parameters"));
+        cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames",useTags));
+        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
+        cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Use of @ApiImplicitParams for headers.",implicitHeaders));
+        cliOptions.add(CliOption.newBoolean(OPENAPI_DOCKET_CONFIG, "Generate Spring OpenAPI Docket configuration class.",openapiDocketConfig));
+        cliOptions.add(CliOption.newBoolean(USE_OPTIONAL,"Use Optional container for optional parameters",useOptional));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -219,13 +218,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
+        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
         if (additionalProperties.containsKey(USE_OPTIONAL)) {
             this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
-        }
-
-        if (useBeanValidation) {
-            writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
         }
 
         if (additionalProperties.containsKey(IMPLICIT_HEADERS)) {

@@ -1,8 +1,19 @@
 ## Workflow Integration (Maven, Github, CI/CD)
 
+### Gradle Integration
+
+See the [openapi-generator-gradle-plugin README](../modules/openapi-generator-gradle-plugin/README.adoc) for details related to configuring and using the Gradle Plugin.
+
+Supported tasks include:
+
+* Listing generators
+* Validation of Open API 2.0 and 3.0 Specs
+* Generating "Meta" generators
+* Generating all generators supported by OpenAPI Generator
+
 ### Maven Integration
 
-You can use the [openapi-generator-maven-plugin](../modules/openapi-generator-maven-plugin/README.md) for integrating with your workflow, and generating any codegen target.
+See the [openapi-generator-maven-plugin README](../modules/openapi-generator-maven-plugin/README.md) for details related to configuring and using the Maven Plugin.
 
 ### GitHub Integration
 

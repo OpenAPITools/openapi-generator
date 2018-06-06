@@ -19,6 +19,8 @@ package org.openapitools.codegen;
 
 import io.airlift.airline.Cli;
 import io.airlift.airline.Help;
+import io.airlift.airline.ParseOptionMissingException;
+import io.airlift.airline.ParseOptionMissingValueException;
 import org.openapitools.codegen.cmd.*;
 
 import java.util.Arrays;
@@ -53,8 +55,6 @@ public class OpenAPIGenerator {
                                 Version.class
                         );
 
-        builder.build().parse(args).run();
-
         // If CLI is run without a command, consider this an error.
         // We can check against empty args because unrecognized arguments/commands result in an exception.
         // This is useful to exit with status 1, for example, so that misconfigured scripts fail fast.
@@ -62,6 +62,13 @@ public class OpenAPIGenerator {
         // it would prevent scripting using the command directly. Example:
         //     java -jar cli.jar list --short | tr ',' '\n' | xargs -I{} echo "Doing something with {}"
         if (args.length == 0) {
+            System.exit(1);
+        }
+
+        try {
+            builder.build().parse(args).run();
+        } catch (ParseOptionMissingException | ParseOptionMissingValueException e) {
+            System.err.printf("[error] %s%n", e.getMessage());
             System.exit(1);
         }
     }

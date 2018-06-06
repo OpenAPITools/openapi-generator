@@ -18,6 +18,7 @@
 package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import java.util.LinkedHashMap;
@@ -91,8 +92,27 @@ public class CliOption {
         this.enumValues = enumValues;
     }
 
+    /**
+     * Create new boolean command line option with a default of false
+     * 
+     * @param opt Option name
+     * @param description Option description
+     * @return the CliOption created
+     */
     public static CliOption newBoolean(String opt, String description) {
-        return new CliOption(opt, description, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString());
+        return newBoolean(opt, description, false);
+    }
+
+    /**
+     * Create new boolean command line option with the provided value as default
+     * 
+     * @param opt Option name
+     * @param description Option description
+     * @param defaultValue the default value to use if option not specified
+     * @return the CliOption created
+     */
+    public static CliOption newBoolean(String opt, String description, boolean defaultValue) {
+        return new CliOption(opt, description, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(String.valueOf(defaultValue));
     }
 
     public static CliOption newString(String opt, String description) {
