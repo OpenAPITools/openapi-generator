@@ -197,7 +197,6 @@ public class VirtualServiceUtil {
 				isValid = false;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			isValid = false;
 		}
 		return isValid;
