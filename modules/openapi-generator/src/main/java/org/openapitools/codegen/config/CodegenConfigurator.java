@@ -596,13 +596,13 @@ public class CodegenConfigurator implements Serializable {
         }
         return null;
     }
-
+    
     public String getVirtualService() {
-		return virtualService;
-	}
-
-	public void setVirtualService(String virtualService) {
-		this.virtualService = virtualService;
-	}
-
+        return virtualService;
+    }
+    
+    public void setVirtualService(String virtualService) {
+        this.virtualService = virtualService;
+    }
+    
 }

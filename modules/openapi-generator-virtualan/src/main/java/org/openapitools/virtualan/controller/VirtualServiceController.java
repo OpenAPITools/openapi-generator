@@ -154,7 +154,6 @@ public class VirtualServiceController {
 			return new ResponseEntity<>(mockTransferObject, HttpStatus.CREATED);
 		
 		} catch (Exception e) {
-			e.printStackTrace();
 			return new ResponseEntity<VirtualServiceStatus>(new VirtualServiceStatus(messageSource.getMessage("VS_UNEXPECTED_ERROR", null, locale) + e.getMessage()),
 					HttpStatus.BAD_REQUEST);
 		}
