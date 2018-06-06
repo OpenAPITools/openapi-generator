@@ -22,7 +22,6 @@ import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache.Compiler;
 
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.headers.Header;
@@ -47,6 +46,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -4336,12 +4336,9 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public void generateYAMLSpecFile(Map<String, Object> objs) {
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
-        if (openAPI != null) {
-            try {
-                objs.put("openapi-yaml", Yaml.mapper().writeValueAsString(openAPI));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
+        String yaml = SerializerUtils.toYamlString(openAPI);
+        if(yaml != null) {
+            objs.put("openapi-yaml", yaml);
         }
     }
 
