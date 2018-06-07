@@ -16,7 +16,6 @@ static listEntry_t* listEntry_create(void *data) {
 }
 
 void listEntry_free(listEntry_t* listEntry) {
-    free(listEntry->data);
     free(listEntry);
 }
 
