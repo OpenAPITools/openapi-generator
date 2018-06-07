@@ -398,6 +398,7 @@ Here are some companies/projects using OpenAPI Generator in production. To add y
 - [REST United](https://restunited.com)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
 - [Bithost GmbH](https://www.bithost.ch)
+- [GMO Pepabo](https://pepabo.com/en/)
 
 ## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
 
