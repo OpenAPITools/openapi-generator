@@ -2801,12 +2801,13 @@ public class DefaultCodegen implements CodegenConfig {
                 cs.isApiKey = true;
                 cs.keyParamName = securityScheme.getName();
                 cs.isKeyInHeader = securityScheme.getIn() == SecurityScheme.In.HEADER;
-                cs.isKeyInQuery = !cs.isKeyInHeader;
+                cs.isKeyInQuery = securityScheme.getIn() == SecurityScheme.In.QUERY;
+                cs.isKeyInCookie = securityScheme.getIn() == SecurityScheme.In.COOKIE;  //it assumes a validation step prior to generation. (cookie-auth supported from OpenAPI 3.0.0)
             } else if (SecurityScheme.Type.HTTP.equals(securityScheme.getType())) {
-                cs.isKeyInHeader = cs.isKeyInQuery = cs.isApiKey = cs.isOAuth = false;
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = false;
                 cs.isBasic = true;
             } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
-                cs.isKeyInHeader = cs.isKeyInQuery = cs.isApiKey = cs.isBasic = false;
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
                 cs.isOAuth = true;
                 final OAuthFlows flows = securityScheme.getFlows();
                 if (securityScheme.getFlows() == null) {
