@@ -10,7 +10,7 @@ package body {{package}}.Clients is
    --  {{#lambdaAdaComment}}{{unescapedNotes}}{{/lambdaAdaComment}}{{/vendorExtensions.x-has-notes}}
    procedure {{operationId}}
       (Client : in out Client_Type{{#hasParams}};{{/hasParams}}{{#allParams}}
-       {{paramName}} : in {{^isFile}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}{{package}}.Models.{{/isContainer}}{{/isPrimitiveType}}{{/isString}}{{/isFile}}{{dataType}}{{#hasMore}};{{/hasMore}}{{/allParams}}{{#returnType}};
+       {{paramName}} : in {{^isFile}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}{{/isContainer}}{{/isPrimitiveType}}{{/isString}}{{/isFile}}{{dataType}}{{#hasMore}};{{/hasMore}}{{/allParams}}{{#returnType}};
        Result : out {{returnType}}{{/returnType}}) is
       URI   : Swagger.Clients.URI_Type;{{#hasBodyParam}}
       Req   : Swagger.Clients.Request_Type;{{/hasBodyParam}}{{#hasFormParams}}
