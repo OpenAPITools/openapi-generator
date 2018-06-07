@@ -1,10 +1,11 @@
 cmake_minimum_required (VERSION 2.6)
 project (CGenerator)
 
-file(GLOB UNIT_TESTS_C unit-tests/*.c)
 file(GLOB SRC_C src/*.c)
+file(GLOB UNIT_TESTS_C unit-tests/*.c)
 file(GLOB MODEL_C model/*.c)
 file(GLOB API_C api/*.c)
+set(ALL_SRC_LIST ${SRC_C} ${UNIT_TESTS_C} ${MODEL_C} ${API_C})
 
 include(CTest)
 include_directories(include)
@@ -34,3 +35,24 @@ foreach(ELEMENT ${UNIT_TESTS_C})
 		)
 	endif()
 endforeach()
+
+#For common coding standard (code beautifier/pretty printing)
+find_program(UNCRUSTIFY uncrustify)
+if(UNCRUSTIFY)
+	add_custom_target(
+		uncrustify
+	)
+
+	foreach(ELEMENT ${ALL_SRC_LIST})
+		string(REGEX REPLACE "/" "_" ELEMENT_NAME ${ELEMENT})
+		set(DEP_NAME "uncrustify-${ELEMENT_NAME}")
+		add_custom_target(
+			${DEP_NAME}
+			uncrustify -c uncrustify-rules.cfg --no-backup ${ELEMENT}
+			DEPENDS ${ELEMENT}
+			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+			VERBATIM
+		)
+		add_dependencies(uncrustify ${DEP_NAME})
+	endforeach()
+endif()
