@@ -126,7 +126,7 @@
       var authNames = ['api_key'];
       var contentTypes = [];
       var accepts = ['application/json'];
-      var returnType = {String: Number};
+      var returnType = {'String': 'Number'};
 
       return this.apiClient.callApi(
         '/store/inventory', 'GET',

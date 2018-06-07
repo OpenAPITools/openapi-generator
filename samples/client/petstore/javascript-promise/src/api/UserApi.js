@@ -340,7 +340,7 @@
       var authNames = [];
       var contentTypes = [];
       var accepts = ['application/xml', 'application/json'];
-      var returnType = String;
+      var returnType = 'String';
 
       return this.apiClient.callApi(
         '/user/login', 'GET',
