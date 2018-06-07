@@ -29,8 +29,11 @@ sleep 5
 if [ -n "$(git status --porcelain)" ]; then
     echo "UNCOMMITTED CHANGES ERROR"
     echo "There are uncommitted changes in working tree after execution of 'bin/ensure-up-to-date'"
+    echo "Perform git diff"
+    git --no-pager diff
+    echo "Perform git status"
     git status
-    echo "Please run 'bin/ensure-up-to-date' locally and commit changes"
+    echo "Please run 'bin/ensure-up-to-date' locally and commit changes (UNCOMMITTED CHANGES ERROR)"
     exit 1
 else
     echo "Git working tree is clean"
