@@ -393,12 +393,13 @@ The OpenAPI Generator project is intended as a benefit for users of the Open API
 When code is generated from this project, it shall be considered **AS IS** and owned by the user of the software.  There are no warranties--expressed or implied--for generated code.  You can do what you wish with it, and once generated, the code is your responsibility and subject to the licensing terms that you deem appropriate.
  
 ## [4 - Companies/Projects using OpenAPI Generator](#table-of-contents)
-Here are some companies/projects using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
+Here are some companies/projects (alphabetical order) using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
-- [REST United](https://restunited.com)
-- [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
 - [Bithost GmbH](https://www.bithost.ch)
 - [GMO Pepabo](https://pepabo.com/en/)
+- [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
+- [REST United](https://restunited.com)
+
 
 ## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
 
