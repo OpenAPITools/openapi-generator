@@ -556,7 +556,7 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Pet[]|
+     * @return \OpenAPI\Client\Model\Pet[]
      */
     public function findPetsByStatus($status)
     {
@@ -573,7 +573,7 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Pet[]|, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      */
     public function findPetsByStatusWithHttpInfo($status)
     {
@@ -840,7 +840,7 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Pet[]|
+     * @return \OpenAPI\Client\Model\Pet[]
      */
     public function findPetsByTags($tags)
     {
@@ -857,7 +857,7 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Pet[]|, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      */
     public function findPetsByTagsWithHttpInfo($tags)
     {
@@ -1124,7 +1124,7 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Pet||
+     * @return \OpenAPI\Client\Model\Pet
      */
     public function getPetById($pet_id)
     {
@@ -1141,7 +1141,7 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Pet||, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
      */
     public function getPetByIdWithHttpInfo($pet_id)
     {

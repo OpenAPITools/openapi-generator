@@ -977,7 +977,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \OpenAPI\Client\Model\User||
+     * @return \OpenAPI\Client\Model\User
      */
     public function getUserByName($username)
     {
@@ -994,7 +994,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\User||, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\User, HTTP status code, HTTP response headers (array of strings)
      */
     public function getUserByNameWithHttpInfo($username)
     {
@@ -1259,7 +1259,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return string|
+     * @return string
      */
     public function loginUser($username, $password)
     {
@@ -1277,7 +1277,7 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of string|, HTTP status code, HTTP response headers (array of strings)
+     * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function loginUserWithHttpInfo($username, $password)
     {

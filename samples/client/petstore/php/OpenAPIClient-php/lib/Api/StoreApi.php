@@ -587,7 +587,7 @@ class StoreApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Order||
+     * @return \OpenAPI\Client\Model\Order
      */
     public function getOrderById($order_id)
     {
@@ -604,7 +604,7 @@ class StoreApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Order||, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      */
     public function getOrderByIdWithHttpInfo($order_id)
     {
@@ -875,7 +875,7 @@ class StoreApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Order|
+     * @return \OpenAPI\Client\Model\Order
      */
     public function placeOrder($order)
     {
@@ -892,7 +892,7 @@ class StoreApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Order|, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      */
     public function placeOrderWithHttpInfo($order)
     {
