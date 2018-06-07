@@ -10,53 +10,53 @@
 #define SEPARATOR "--------------------------------------"
 
 void printSeparator() {
-    puts(SEPARATOR);
+	puts(SEPARATOR);
 }
 
 int main() {
-    long* number1 = malloc(sizeof(long));
-    long* number2 = malloc(sizeof(long));
-    *number1 = NUMBER_1;
-    *number2 = NUMBER_2;
+	long *number1 = malloc(sizeof(long));
+	long *number2 = malloc(sizeof(long));
+	*number1 = NUMBER_1;
+	*number2 = NUMBER_2;
 
-    list_t* myList = list_create();
+	list_t *myList = list_create();
 
-    assert(myList->count == 0);    
+	assert(myList->count == 0);
 
-    list_addElement(myList, number1);
-    list_addElement(myList, number2);
+	list_addElement(myList, number1);
+	list_addElement(myList, number2);
 
-    printSeparator();
-    
-    list_iterateThroughListForward(myList, listEntry_printAsInt);
+	printSeparator();
 
-    printSeparator();
+	list_iterateThroughListForward(myList, listEntry_printAsInt);
 
-    list_iterateThroughListBackward(myList, listEntry_printAsInt);
-    
-    printSeparator();
+	printSeparator();
 
-    assert(* (int*) list_getElementAt(myList, 0)->data == NUMBER_1);
-    assert(* (int*) list_getElementAt(myList, 1)->data == NUMBER_2);
-    assert(myList->count == 2);
+	list_iterateThroughListBackward(myList, listEntry_printAsInt);
 
-    list_removeElement(myList, list_getElementAt(myList, 0));
+	printSeparator();
 
-    assert(* (int*) list_getElementAt(myList, 0)->data == NUMBER_2);
-    assert(myList->count == 1);
+	assert(*(int *) list_getElementAt(myList, 0)->data == NUMBER_1);
+	assert(*(int *) list_getElementAt(myList, 1)->data == NUMBER_2);
+	assert(myList->count == 2);
 
-    list_removeElement(myList, list_getElementAt(myList, 0));
+	list_removeElement(myList, list_getElementAt(myList, 0));
 
-    assert(myList->count == 0);
+	assert(*(int *) list_getElementAt(myList, 0)->data == NUMBER_2);
+	assert(myList->count == 1);
 
-    list_addElement(myList, number2);
+	list_removeElement(myList, list_getElementAt(myList, 0));
 
-    assert(myList->count == 1);
-    listEntry_printAsInt(list_getElementAt(myList, 0));
-    assert(* (int*) list_getElementAt(myList, 0)->data == NUMBER_2);
+	assert(myList->count == 0);
 
-    list_free(myList);
+	list_addElement(myList, number2);
 
-    free(number1);
-    free(number2);
+	assert(myList->count == 1);
+	listEntry_printAsInt(list_getElementAt(myList, 0));
+	assert(*(int *) list_getElementAt(myList, 0)->data == NUMBER_2);
+
+	list_free(myList);
+
+	free(number1);
+	free(number2);
 }
