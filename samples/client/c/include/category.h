@@ -3,7 +3,10 @@
 
 typedef struct category_t {
     long id;
-    char *name;
+    char **name;
 } category_t;
+
+category_t *category_create(long id, char **name);
+void category_free(category_t *category);
 
 #endif // INCLUDE_CATEGORY_H
