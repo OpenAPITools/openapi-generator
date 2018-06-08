@@ -8,6 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -18,9 +19,9 @@ import java.util.List;
 
 
 @Configuration
-@ComponentScan(basePackages = "org.openapitools.api")
+@ComponentScan(basePackages = {"org.openapitools.api", "org.openapitools.configuration"})
 @EnableWebMvc
-@PropertySource("classpath:openapi.properties")
+@PropertySource("classpath:application.properties")
 @Import(OpenAPIDocumentationConfig.class)
 public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {
   private static final String[] SERVLET_RESOURCE_LOCATIONS = { "/" };
@@ -57,18 +58,26 @@ public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {
     }
   }
 
+  /*@Override
+  public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/**")
+            .allowedOrigins("*")
+            .allowedMethods("*")
+            .allowedHeaders("Content-Type");
+  }*/
+
   @Bean
   public Jackson2ObjectMapperBuilder builder() {
-    Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
+    return new Jackson2ObjectMapperBuilder()
         .indentOutput(true)
         .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         .dateFormat(new RFC3339DateFormat());
-    return builder;
   }
 
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
     converters.add(new MappingJackson2HttpMessageConverter(objectMapper()));
+    converters.add(new StringHttpMessageConverter());
     super.configureMessageConverters(converters);
   }
 
