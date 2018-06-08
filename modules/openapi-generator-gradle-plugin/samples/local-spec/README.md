@@ -11,4 +11,5 @@ gradle openApiGenerate
 gradle openApiMeta
 gradle openApiValidate
 gradle buildGoSdk
+gradle generateGoWithInvalidSpec
 ```

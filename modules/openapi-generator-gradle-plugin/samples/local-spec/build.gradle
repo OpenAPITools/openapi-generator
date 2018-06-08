@@ -7,7 +7,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.openapitools:openapi-generator-gradle-plugin:3.0.0-SNAPSHOT"
+        classpath "org.openapitools:openapi-generator-gradle-plugin:3.0.1-SNAPSHOT"
     }
 }
 
@@ -39,6 +39,19 @@ openApiGenerate {
 task buildGoSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
     generatorName = "go"
     inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+    additionalProperties = [
+            packageName: "petstore"
+    ]
+    outputDir = "$buildDir/go".toString()
+    configOptions = [
+            dateLibrary: "threetenp"
+    ]
+}
+
+task generateGoWithInvalidSpec(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+    validateSpec = true
+    generatorName = "go"
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
     additionalProperties = [
             packageName: "petstore"
     ]

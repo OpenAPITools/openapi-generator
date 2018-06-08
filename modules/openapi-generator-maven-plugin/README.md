@@ -38,6 +38,7 @@ mvn clean compile
 ### General Configuration parameters
 
 - `inputSpec` - OpenAPI Spec file path
+- `validateSpec` - Whether or not to validate the input spec prior to generation. Invalid specifications will result in an error.
 - `language` - target generation language (deprecated, replaced by `generatorName` as values here don't represent only 'language' any longer)
 - `generatorName` - target generator name
 - `output` - target output path (default is `${project.build.directory}/generated-sources/swagger`)

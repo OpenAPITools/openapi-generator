@@ -19,12 +19,8 @@ package org.openapitools.codegen.config;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConfigLoader;
-import org.openapitools.codegen.CodegenConstants;
+import io.swagger.v3.oas.models.OpenAPI;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.auth.AuthParser;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.core.util.Json;
@@ -33,6 +29,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.apache.commons.lang3.Validate;
 import org.openapitools.codegen.languages.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,6 +77,7 @@ public class CodegenConfigurator implements Serializable {
     private boolean verbose;
     private boolean skipOverwrite;
     private boolean removeOperationIdPrefix;
+    private boolean validateSpec;
     private String templateDir;
     private String auth;
     private String apiPackage;
@@ -108,6 +106,7 @@ public class CodegenConfigurator implements Serializable {
     private final Map<String, Object> dynamicProperties = new HashMap<String, Object>(); //the map that holds the JsonAnySetter/JsonAnyGetter values
 
     public CodegenConfigurator() {
+        this.validateSpec = true;
         this.setOutputDir(".");
     }
 
@@ -208,6 +207,15 @@ public class CodegenConfigurator implements Serializable {
 
     public CodegenConfigurator setVerbose(boolean verbose) {
         this.verbose = verbose;
+        return this;
+    }
+
+    public boolean isValidateSpec() {
+        return validateSpec;
+    }
+
+    public CodegenConfigurator setValidateSpec(final boolean validateSpec) {
+        this.validateSpec = validateSpec;
         return this;
     }
 
@@ -514,8 +522,45 @@ public class CodegenConfigurator implements Serializable {
         options.setResolve(true);
         options.setFlatten(true);
         SwaggerParseResult result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
+
+        Set<String> validationMessages = new HashSet<>(result.getMessages());
+        OpenAPI specification = result.getOpenAPI();
+
+        // NOTE: We will only expose errors+warnings if there are already errors in the spec.
+        if (validationMessages.size() > 0) {
+            Set<String> warnings = new HashSet<>();
+            if (specification != null) {
+                List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
+                if (unusedModels != null) unusedModels.forEach(name -> warnings.add("Unused model: " + name));
+            }
+
+            if (this.isValidateSpec()) {
+                SpecValidationException ex = new SpecValidationException("Specification has failed validation.");
+                ex.setErrors(validationMessages);
+                ex.setWarnings(warnings);
+                throw ex;
+            } else {
+                StringBuilder sb = new StringBuilder();
+                sb.append("There were issues with the specification, but validation has been explicitly disabled.");
+                sb.append(System.lineSeparator());
+
+                sb.append("Errors: ").append(System.lineSeparator());
+                validationMessages.forEach(msg ->
+                        sb.append("\t-").append(msg).append(System.lineSeparator())
+                );
+
+                if (!warnings.isEmpty()) {
+                    sb.append("Warnings: ").append(System.lineSeparator());
+                    warnings.forEach(msg ->
+                            sb.append("\t-").append(msg).append(System.lineSeparator())
+                    );
+                }
+                LOGGER.warn(sb.toString());
+            }
+        }
+
         input.opts(new ClientOpts())
-                .openAPI(result.getOpenAPI());
+                .openAPI(specification);
 
         return input;
     }

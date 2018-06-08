@@ -28,7 +28,6 @@ import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
-import org.openapitools.codegen.config.CodegenConfiguratorUtils.*
 
 
 /**
@@ -47,6 +46,12 @@ open class GenerateTask : DefaultTask() {
      */
     @get:Internal
     val verbose = project.objects.property<Boolean>()
+
+    /**
+     * Whether or not an input specification should be validated upon generation.
+     */
+    @get:Internal
+    val validateSpec = project.objects.property<Boolean>()
 
     /**
      * The name of the generator which will handle codegen. (see "openApiGenerators" task)
@@ -382,6 +387,10 @@ open class GenerateTask : DefaultTask() {
                 configurator.isVerbose = value
             }
 
+            validateSpec.ifNotEmpty { value ->
+                configurator.isValidateSpec = value
+            }
+
             skipOverwrite.ifNotEmpty { value ->
                 configurator.isSkipOverwrite = value ?: false
             }
@@ -528,8 +537,7 @@ open class GenerateTask : DefaultTask() {
 
                 out.println("Successfully generated code to ${configurator.outputDir}")
             } catch (e: RuntimeException) {
-                logger.error(e.message)
-                throw GradleException("Code generation failed.")
+                throw GradleException("Code generation failed.", e)
             }
         } finally {
             originalEnvironmentVariables.forEach { entry ->
