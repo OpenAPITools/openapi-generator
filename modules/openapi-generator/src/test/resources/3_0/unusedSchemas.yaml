@@ -135,6 +135,48 @@ paths:
         200:
           description: Successful Operation
           content: {}
+  /some/p12:
+    post:
+      operationId: p12
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SomeArrayObj12'
+      responses:
+        200:
+          description: Successful Operation
+          content: {}
+  /some/p13:
+    get:
+      operationId: p13
+      responses:
+        200:
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SomeArrayObj13'
+  /some/p14:
+    get:
+      operationId: p14
+      responses:
+        200:
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SomeObj14'
+  /some/p15:
+    get:
+      operationId: p15
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SomeObj15'
 components:
   schemas:
     UnusedObj1:
@@ -254,6 +296,51 @@ components:
         - v1
         - v2
       default: v1
+    SomeArrayObj12:
+      type: array
+      items:
+        $ref: "#/components/schemas/ArrayItem12"
+    ArrayItem12:
+      type: object
+      properties:
+        prop1:
+          type: string
+        prop2:
+          type: integer
+          format: int32
+    SomeArrayObj13:
+      type: array
+      items:
+        type: array
+        items:
+          $ref: "#/components/schemas/ArrayItem13"
+    ArrayItem13:
+      type: object
+      properties:
+        prop1:
+          type: string
+        prop2:
+          type: integer
+          format: int64
+    SomeObj14:
+      type: object
+      properties:
+        obj14:
+          $ref: "#/components/schemas/PropertyObj14"
+    PropertyObj14:
+      type: object
+      properties:
+        prop1:
+          type: string
+    SomeObj15:
+      type: object
+      properties:
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/SomeObj15'
     SomeObjShared:
       type: object
       properties:
