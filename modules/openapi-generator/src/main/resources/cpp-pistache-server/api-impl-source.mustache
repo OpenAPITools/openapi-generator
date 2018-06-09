@@ -15,7 +15,7 @@ using namespace {{modelNamespace}};
 
 {{#operation}}
 {{#vendorExtensions.x-codegen-pistache-isParsingSupported}}
-void {{classname}}Impl::{{operationIdSnakeCase}}({{#allParams}}const {{^isComplexType}}{{{dataType}}}{{/isComplexType}}{{#isComplexType}}{{{baseType}}}{{/isComplexType}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) {
+void {{classname}}Impl::{{operationIdSnakeCase}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}

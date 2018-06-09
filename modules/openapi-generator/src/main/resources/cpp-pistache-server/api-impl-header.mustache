@@ -35,7 +35,7 @@ public:
 
     {{#operation}}
     {{#vendorExtensions.x-codegen-pistache-isParsingSupported}}
-    void {{operationIdSnakeCase}}({{#allParams}}const {{^isComplexType}}{{{dataType}}}{{/isComplexType}}{{#isComplexType}}{{{baseType}}}{{/isComplexType}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response);
+    void {{operationIdSnakeCase}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response);
     {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
     {{^vendorExtensions.x-codegen-pistache-isParsingSupported}}
     void {{operationIdSnakeCase}}(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response);

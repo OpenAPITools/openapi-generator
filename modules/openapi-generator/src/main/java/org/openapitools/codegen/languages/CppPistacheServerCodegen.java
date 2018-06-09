@@ -339,19 +339,6 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         return "";
     }
 
-    @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-        super.postProcessParameter(parameter);
-
-        boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
-        boolean isListContainer = parameter.isListContainer == Boolean.TRUE;
-        boolean isString = parameter.isString == Boolean.TRUE;
-
-        if (!isPrimitiveType && !isListContainer && !isString) {
-            parameter.dataType = parameter.dataType;
-        }
-    }
-
     /**
      * Location to write model files. You can use the modelPackage() as defined
      * when the class is instantiated
