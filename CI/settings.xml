@@ -13,6 +13,18 @@
     </servers>
     <mirrors/>
     <proxies/>
-    <profiles/>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <gpg.executable>gpg</gpg.executable>
+                <gpg.keyname>${env.SIGNING_KEY}</gpg.keyname>
+                <gpg.passphrase>${env.SIGNING_PASSPHRASE}</gpg.passphrase>
+            </properties>
+        </profile>
+    </profiles>
     <activeProfiles/>
 </settings>
