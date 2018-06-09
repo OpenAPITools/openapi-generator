@@ -104,11 +104,11 @@ after_success:
   - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       mvn clean deploy -DskipTests=true -B -U -P release --settings CI/settings.xml;
       echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
-      pushd .
-      cd modules/openapi-generator-gradle-plugin
-      ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" uploadArchives --no-daemon
-      echo "Finished ./gradlew uploadArchives"
-      popd
+      pushd .;
+      cd modules/openapi-generator-gradle-plugin;
+      ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" uploadArchives --no-daemon;
+      echo "Finished ./gradlew uploadArchives";
+      popd;
     fi;
   ## docker: build and push openapi-generator-online to DockerHub
   - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && docker build -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME && echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME"; fi; fi
