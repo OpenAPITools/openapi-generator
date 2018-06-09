@@ -23,6 +23,7 @@
                 <gpg.executable>gpg</gpg.executable>
                 <gpg.keyname>${env.SIGNING_KEY}</gpg.keyname>
                 <gpg.passphrase>${env.SIGNING_PASSPHRASE}</gpg.passphrase>
+                <gpg.secretKeyring>${env.TRAVIS_BUILD_DIR}/sec.gpg</gpg.secretKeyring>
             </properties>
         </profile>
     </profiles>
