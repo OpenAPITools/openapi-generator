@@ -81,7 +81,7 @@ private:
     /// </remarks>
     /// <param name="petId">Pet id to delete</param>
     /// <param name="apiKey"> (optional)</param>
-    virtual void delete_pet(const int64_t &petId, const Pistache::Optional<Net::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void delete_pet(const int64_t &petId, const Pistache::Optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Finds Pets by status

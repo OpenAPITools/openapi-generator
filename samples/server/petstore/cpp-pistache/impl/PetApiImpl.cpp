@@ -26,7 +26,7 @@ PetApiImpl::PetApiImpl(Pistache::Address addr)
 void PetApiImpl::add_pet(const std::shared_ptr<Pet> &pet, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void PetApiImpl::delete_pet(const int64_t &petId, const Pistache::Optional<Net::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) {
+void PetApiImpl::delete_pet(const int64_t &petId, const Pistache::Optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 void PetApiImpl::find_pets_by_status(const Pistache::Optional<std::string> &status, Pistache::Http::ResponseWriter &response) {
