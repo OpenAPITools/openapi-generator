@@ -223,6 +223,16 @@ paths:
       responses:
         '200':
           description: Updated
+  /some/p20:
+    get:
+      operationId: op20
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SomeObj20'
 components:
   schemas:
     UnusedObj1:
@@ -444,6 +454,15 @@ components:
           type: boolean
       required: 
         - sometype
+    SomeObj20:
+      type: object
+      properties:
+        other:
+          not:
+            $ref: '#/components/schemas/OtherObj20'
+    OtherObj20:
+      type: string
+      enum: [A, B, C]
     SomeObjShared:
       type: object
       properties:

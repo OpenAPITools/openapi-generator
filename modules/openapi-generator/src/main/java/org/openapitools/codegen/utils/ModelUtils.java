@@ -216,7 +216,8 @@ public class ModelUtils {
                     visitSchema(openAPI, referencedSchema, mimeType, visitedSchemas, visitor);
                 }
             }
-        } else if(schema instanceof ComposedSchema) {
+        }
+        if(schema instanceof ComposedSchema) {
             List<Schema> oneOf = ((ComposedSchema) schema).getOneOf();
             if(oneOf != null) {
                 for (Schema s : oneOf) {
@@ -245,12 +246,14 @@ public class ModelUtils {
             if(additionalProperties instanceof Schema) {
                 visitSchema(openAPI, (Schema) additionalProperties, mimeType, visitedSchemas, visitor);
             }
-        } else if(isObjectSchema(schema)) {
-            Map<String, Schema> properties = schema.getProperties();
-            if(properties != null) {
-                for (Schema property : properties.values()) {
-                    visitSchema(openAPI, property, mimeType, visitedSchemas, visitor);
-                }
+        }
+        if(schema.getNot() != null) {
+            visitSchema(openAPI, schema.getNot(), mimeType, visitedSchemas, visitor);
+        }
+        Map<String, Schema> properties = schema.getProperties();
+        if(properties != null) {
+            for (Schema property : properties.values()) {
+                visitSchema(openAPI, property, mimeType, visitedSchemas, visitor);
             }
         }
     }
