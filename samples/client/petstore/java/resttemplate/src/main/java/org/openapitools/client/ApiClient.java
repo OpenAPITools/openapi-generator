@@ -516,6 +516,7 @@ public class ApiClient {
         
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
         if (queryParams != null) {
+            //encode the query parameters in case they contain unsafe characters
             for (List<String> values : queryParams.values()) {
                 if (values != null) {
                     for (int i = 0; i < values.size(); i++) {
