@@ -91,7 +91,7 @@ void Pet::fromJson(nlohmann::json& val)
     {
         if(!val["category"].is_null())
         {
-            std::shared_ptr<Category> newItem(new Category());
+            Category newItem(Category());
             newItem->fromJson(val["category"]);
             setCategory( newItem );
         }
@@ -117,11 +117,11 @@ void Pet::fromJson(nlohmann::json& val)
             
             if(item.is_null())
             {
-                m_Tags.push_back( std::shared_ptr<Tag>(nullptr) );
+                m_Tags.push_back( Tag(nullptr) );
             }
             else
             {
-                std::shared_ptr<Tag> newItem(new Tag());
+                Tag newItem(Tag());
                 newItem->fromJson(item);
                 m_Tags.push_back( newItem );
             }
@@ -155,11 +155,11 @@ void Pet::unsetId()
 {
     m_IdIsSet = false;
 }
-std::shared_ptr<Category> Pet::getCategory() const
+Category Pet::getCategory() const
 {
     return m_Category;
 }
-void Pet::setCategory(std::shared_ptr<Category> value)
+void Pet::setCategory(Category value)
 {
     m_Category = value;
     m_CategoryIsSet = true;
@@ -185,7 +185,7 @@ std::vector<std::string>& Pet::getPhotoUrls()
 {
     return m_PhotoUrls;
 }
-std::vector<std::shared_ptr<Tag>>& Pet::getTags()
+std::vector<Tag>& Pet::getTags()
 {
     return m_Tags;
 }

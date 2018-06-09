@@ -62,8 +62,8 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::shared_ptr<Category> getCategory() const;
-    void setCategory(std::shared_ptr<Category> value);
+    Category getCategory() const;
+    void setCategory(Category value);
     bool categoryIsSet() const;
     void unsetCategory();
     /// <summary>
@@ -78,7 +78,7 @@ public:
         /// <summary>
     /// 
     /// </summary>
-    std::vector<std::shared_ptr<Tag>>& getTags();
+    std::vector<Tag>& getTags();
     bool tagsIsSet() const;
     void unsetTags();
     /// <summary>
@@ -92,13 +92,13 @@ public:
 protected:
     int64_t m_Id;
     bool m_IdIsSet;
-    std::shared_ptr<Category> m_Category;
+    Category m_Category;
     bool m_CategoryIsSet;
     std::string m_Name;
 
     std::vector<std::string> m_PhotoUrls;
 
-    std::vector<std::shared_ptr<Tag>> m_Tags;
+    std::vector<Tag> m_Tags;
     bool m_TagsIsSet;
     std::string m_Status;
     bool m_StatusIsSet;

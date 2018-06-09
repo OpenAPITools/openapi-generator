@@ -26,10 +26,10 @@ UserApiImpl::UserApiImpl(Pistache::Address addr)
 void UserApiImpl::create_user(const std::shared_ptr<User> &user, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void UserApiImpl::create_users_with_array_input(const std::vector<std::shared_ptr<User>> &user, Pistache::Http::ResponseWriter &response) {
+void UserApiImpl::create_users_with_array_input(const std::vector<User> &user, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void UserApiImpl::create_users_with_list_input(const std::vector<std::shared_ptr<User>> &user, Pistache::Http::ResponseWriter &response) {
+void UserApiImpl::create_users_with_list_input(const std::vector<User> &user, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 void UserApiImpl::delete_user(const std::string &username, Pistache::Http::ResponseWriter &response) {

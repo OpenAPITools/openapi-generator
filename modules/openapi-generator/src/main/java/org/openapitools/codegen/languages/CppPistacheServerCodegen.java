@@ -299,7 +299,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             return toModelName(openAPIType);
         }
 
-        return "std::shared_ptr<" + openAPIType + ">";
+        return openAPIType;
     }
 
     @Override
@@ -327,16 +327,16 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             if (!languageSpecificPrimitives.contains(inner)) {
-                inner = "std::shared_ptr<" + inner + ">";
+                inner = inner;
             }
             return "std::vector<" + inner + ">()";
         } else if (!StringUtils.isEmpty(p.get$ref())) { // model
-            return "new " + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
+            return toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
         } else if (ModelUtils.isStringSchema(p)) {
             return "\"\"";
         }
 
-        return "nullptr";
+        return "";
     }
 
     @Override
@@ -347,8 +347,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         boolean isListContainer = parameter.isListContainer == Boolean.TRUE;
         boolean isString = parameter.isString == Boolean.TRUE;
 
-        if (!isPrimitiveType && !isListContainer && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
-            parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
+        if (!isPrimitiveType && !isListContainer && !isString) {
+            parameter.dataType = parameter.dataType;
         }
     }
 

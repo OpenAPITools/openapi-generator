@@ -80,7 +80,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="user">List of user object</param>
-    virtual void create_users_with_array_input(const std::vector<std::shared_ptr<User>> &user, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_array_input(const std::vector<User> &user, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Creates list of users with given input array
@@ -89,7 +89,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="user">List of user object</param>
-    virtual void create_users_with_list_input(const std::vector<std::shared_ptr<User>> &user, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_list_input(const std::vector<User> &user, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Delete user

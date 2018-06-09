@@ -46,8 +46,8 @@ public:
     ~UserApiImpl() { };
 
     void create_user(const std::shared_ptr<User> &user, Pistache::Http::ResponseWriter &response);
-    void create_users_with_array_input(const std::vector<std::shared_ptr<User>> &user, Pistache::Http::ResponseWriter &response);
-    void create_users_with_list_input(const std::vector<std::shared_ptr<User>> &user, Pistache::Http::ResponseWriter &response);
+    void create_users_with_array_input(const std::vector<User> &user, Pistache::Http::ResponseWriter &response);
+    void create_users_with_list_input(const std::vector<User> &user, Pistache::Http::ResponseWriter &response);
     void delete_user(const std::string &username, Pistache::Http::ResponseWriter &response);
     void get_user_by_name(const std::string &username, Pistache::Http::ResponseWriter &response);
     void login_user(const Pistache::Optional<std::string> &username, const Pistache::Optional<std::string> &password, Pistache::Http::ResponseWriter &response);
