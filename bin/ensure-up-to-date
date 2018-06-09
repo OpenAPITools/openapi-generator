@@ -12,6 +12,7 @@ sleep 5
 # LIST OF SCRIPTS:
 ./bin/ruby-petstore.sh
 ./bin/java-petstore-all.sh
+./bin/java-jaxrs-petstore-server-all.sh
 ./bin/spring-all-pestore.sh
 ./bin/kotlin-client-petstore.sh
 ./bin/kotlin-client-string.sh
