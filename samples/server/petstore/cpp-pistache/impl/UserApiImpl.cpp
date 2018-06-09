@@ -38,7 +38,7 @@ void UserApiImpl::delete_user(const std::string &username, Pistache::Http::Respo
 void UserApiImpl::get_user_by_name(const std::string &username, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void UserApiImpl::login_user(const Optional<std::string> &username, const Optional<std::string> &password, Pistache::Http::ResponseWriter &response) {
+void UserApiImpl::login_user(const Pistache::Optional<std::string> &username, const Pistache::Optional<std::string> &password, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 void UserApiImpl::logout_user(Pistache::Http::ResponseWriter &response) {

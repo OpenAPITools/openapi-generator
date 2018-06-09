@@ -24,6 +24,8 @@
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
 
+#include <pistache/optional.h>
+
 #include "ApiResponse.h"
 #include "Pet.h"
 #include <string>
@@ -79,7 +81,7 @@ private:
     /// </remarks>
     /// <param name="petId">Pet id to delete</param>
     /// <param name="apiKey"> (optional)</param>
-    virtual void delete_pet(const int64_t &petId, const Optional<Net::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void delete_pet(const int64_t &petId, const Pistache::Optional<Net::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Finds Pets by status
@@ -88,7 +90,7 @@ private:
     /// Multiple status values can be provided with comma separated strings
     /// </remarks>
     /// <param name="status">Status values that need to be considered for filter</param>
-    virtual void find_pets_by_status(const Optional<std::string> &status, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void find_pets_by_status(const Pistache::Optional<std::string> &status, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Finds Pets by tags
@@ -97,7 +99,7 @@ private:
     /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     /// </remarks>
     /// <param name="tags">Tags to filter by</param>
-    virtual void find_pets_by_tags(const Optional<std::string> &tags, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void find_pets_by_tags(const Pistache::Optional<std::string> &tags, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Find pet by ID

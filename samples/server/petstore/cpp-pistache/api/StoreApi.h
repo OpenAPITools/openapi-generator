@@ -24,6 +24,8 @@
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
 
+#include <pistache/optional.h>
+
 #include "Order.h"
 #include <map>
 #include <string>
