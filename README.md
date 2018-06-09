@@ -395,12 +395,12 @@ When code is generated from this project, it shall be considered **AS IS** and o
 ## [4 - Companies/Projects using OpenAPI Generator](#table-of-contents)
 Here are some companies/projects (alphabetical order) using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
+- [Angular.Schule](https://angular.schule/)
 - [Bithost GmbH](https://www.bithost.ch)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
 - [REST United](https://restunited.com)
 - [unblu inc.](https://www.unblu.com/)
-- [Angular.Schule](https://angular.schule/)
 
 
 ## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
