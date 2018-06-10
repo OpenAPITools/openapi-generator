@@ -27,10 +27,6 @@ cache:
   - $HOME/samples/client/petstore/typescript-angular/typings
   - $HOME/perl5
 
-# Don't cache artifacts installed by this build.
-before_cache:
-  - rm -rf $HOME/.m2/repository/org/openapitools
-
 services:
   - docker
 
