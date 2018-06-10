@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	 <parent>
-        <groupId>org.openapitools</groupId>
-        <artifactId>openapi-generator-project</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
-        <relativePath>../..</relativePath>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.openapitools</groupId>
+	<parent>
+		<groupId>org.openapitools</groupId>
+		<artifactId>openapi-generator-project</artifactId>
+		<version>3.0.1-SNAPSHOT</version>
+		<relativePath>../..</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.openapitools</groupId>
 	<artifactId>openapi-generator-virtualan</artifactId>
 	<packaging>jar</packaging>
 	<name>openapi-generator-virtualan</name>
@@ -21,14 +21,14 @@
 		<spring.version>5.0.0.RELEASE</spring.version>
 		<spring.boot.version>2.0.0.RELEASE</spring.boot.version>
 	</properties>
-	 <developers>
-        <!-- original author of the project -->
-        <developer>
-            <id>elans3</id>
-            <name>Elan Thangamani</name>
-            <email>elans3.java@gmail.com</email>
-        </developer>
-     </developers>
+	<developers>
+		<!-- original author of the project -->
+		<developer>
+			<id>elans3</id>
+			<name>Elan Thangamani</name>
+			<email>elans3.java@gmail.com</email>
+		</developer>
+	</developers>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
@@ -240,5 +240,11 @@
 			<artifactId>guava</artifactId>
 			<version>16.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+			<version>2.0.2.RELEASE</version>
+		</dependency>
+
 	</dependencies>
 </project>

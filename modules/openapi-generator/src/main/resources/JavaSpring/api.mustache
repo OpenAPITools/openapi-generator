@@ -15,6 +15,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.openapitools.virtualan.model.MockRequest;
 import org.openapitools.virtualan.model.MockResponse;
 import org.openapitools.virtualan.model.MockServiceRequest;
+import org.openapitools.virtualan.annotation.ApiVirtual;
 import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,6 +94,9 @@ public interface {{classname}} {
 {{/jdk8}}
 {{#operation}}
 
+    {{#virtualService}}
+    @ApiVirtual
+    {{/virtualService}}
     @ApiOperation(value = "{{{summary}}}", nickname = "{{{operationId}}}", notes = "{{{notes}}}"{{#returnBaseType}}, response = {{{returnBaseType}}}.class{{/returnBaseType}}{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
         {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
             {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
