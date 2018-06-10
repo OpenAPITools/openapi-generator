@@ -442,4 +442,9 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
     public void setOptionalProjectFileFlag(boolean flag) {
         this.optionalProjectFileFlag = flag;
     }
+
+    @Override
+    public String getTypeDeclaration(String str) {
+		return str;
+    }
 }

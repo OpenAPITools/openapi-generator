@@ -38,7 +38,7 @@ public:
     void deleteOrder(QString* order_id);
     void getInventory();
     void getOrderById(qint64 order_id);
-    void placeOrder(std::shared_ptr<OAIOAIOrder>& oai_order);
+    void placeOrder(OAIOrder& oai_order);
     
 private:
     void deleteOrderCallback (OAIHttpRequestWorker * worker);
