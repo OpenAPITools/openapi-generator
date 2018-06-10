@@ -14,28 +14,58 @@
 #define _OAI_OBJECT_H_
 
 #include <QJsonObject>
+#include <QJsonDocument>
 
 namespace OpenAPI {
 
 class OAIObject {
   public:
     virtual QJsonObject asJsonObject() {
-      return QJsonObject();
+        if(jObj != nullptr){
+            return *jObj;
+        }
+        return QJsonObject();
     }
-    virtual ~OAIObject() {}
+
+    OAIObject() {
+        jObj = nullptr;
+    }
+
+    virtual ~OAIObject() {
+        if(jObj != nullptr){
+            delete jObj;
+        }
+    }
+
     virtual OAIObject* fromJson(QString jsonString) {
-        Q_UNUSED(jsonString);
-        return new OAIObject();
+        QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
+        auto ret = new OAIObject();
+        ret->fromJsonObject(doc.object());
+        return ret;
     }
+
     virtual void fromJsonObject(QJsonObject json) {
-        Q_UNUSED(json);
+        if(jObj != nullptr)
+        {
+            delete jObj;
+        }
+        jObj = new QJsonObject(json);
     }
+
     virtual QString asJson() {
-        return QString("");
+        if(jObj != nullptr)
+        {
+            QJsonDocument doc(*jObj);
+            return doc.toJson(QJsonDocument::Compact);
+        }
+        return QString();
     }
+
     virtual bool isSet() {
         return false;
     }
+private :
+   QJsonObject *jObj;
 };
 
 }

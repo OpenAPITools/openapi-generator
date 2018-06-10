@@ -36,12 +36,12 @@ public:
     QString basePath;
     QMap<QString, QString> defaultHeaders;
 
-    void addPet(std::shared_ptr<OAIOAIPet>& oai_pet);
+    void addPet(OAIPet& oai_pet);
     void deletePet(qint64 pet_id, QString* api_key);
     void findPetsByStatus(QList<QString*>* status);
     void findPetsByTags(QList<QString*>* tags);
     void getPetById(qint64 pet_id);
-    void updatePet(std::shared_ptr<OAIOAIPet>& oai_pet);
+    void updatePet(OAIPet& oai_pet);
     void updatePetWithForm(qint64 pet_id, QString* name, QString* status);
     void uploadFile(qint64 pet_id, QString* additional_metadata, OAIHttpRequestInputFileElement* file);
     

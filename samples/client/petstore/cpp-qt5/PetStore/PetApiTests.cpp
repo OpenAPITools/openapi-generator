@@ -11,15 +11,15 @@ PetApiTests::~PetApiTests () {
     exit(1);
 }
 
-SWGPetApi* PetApiTests::getApi() {
-    SWGPetApi* api = new SWGPetApi();
+OAIPetApi* PetApiTests::getApi() {
+    OAIPetApi* api = new OAIPetApi();
     api->host = "http://petstore.swagger.io";
     api->basePath = "/v2";
     return api;
 }
 
-SWGPet* PetApiTests::createRandomPet() {
-    SWGPet* pet = new SWGPet();
+OAIPet* PetApiTests::createRandomPet() {
+    OAIPet* pet = new OAIPet();
     qint64 id = QDateTime::currentMSecsSinceEpoch();
 
     pet->setName(new QString("monster"));
@@ -36,21 +36,21 @@ void PetApiTests::runTests() {
 }
 
 void PetApiTests::findPetsByStatusTest() {
-    SWGPetApi* api = getApi();
+    OAIPetApi* api = getApi();
 
     static QEventLoop loop;
     QTimer timer;
     timer.setInterval(14000);
     timer.setSingleShot(true);
 
-    auto validator = [](QList<SWGPet*>* pets) {
-        foreach(SWGPet* pet, *pets) {
+    auto validator = [](QList<OAIPet*>* pets) {
+        foreach(OAIPet* pet, *pets) {
             QVERIFY(pet->getStatus()->startsWith("available") || pet->getStatus()->startsWith("sold"));
         }
         loop.quit();
     };
 
-    connect(api, &SWGPetApi::findPetsByStatusSignal, this, validator);
+    connect(api, &OAIPetApi::findPetsByStatusSignal, this, validator);
     connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
 
     QList<QString*>* status = new QList<QString*>();
@@ -64,7 +64,7 @@ void PetApiTests::findPetsByStatusTest() {
 }
 
 void PetApiTests::createAndGetPetTest() {
-    SWGPetApi* api = getApi();
+    OAIPetApi* api = getApi();
 
     static QEventLoop loop;
     QTimer timer;
@@ -76,10 +76,10 @@ void PetApiTests::createAndGetPetTest() {
         loop.quit();
     };
 
-    connect(api, &SWGPetApi::addPetSignal, this, validator);
+    connect(api, &OAIPetApi::addPetSignal, this, validator);
     connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
 
-    SWGPet* pet = createRandomPet();
+    OAIPet* pet = createRandomPet();
     qint64 id = pet->getId();
 
     api->addPet(*pet);
@@ -90,13 +90,13 @@ void PetApiTests::createAndGetPetTest() {
     timer.setInterval(1000);
     timer.setSingleShot(true);
 
-    auto getPetValidator = [](SWGPet* pet) {
+    auto getPetValidator = [](OAIPet* pet) {
         QVERIFY(pet->getId() > 0);
         QVERIFY(pet->getStatus()->compare("freaky") == 0);
         loop.quit();
     };
 
-    connect(api, &SWGPetApi::getPetByIdSignal, this, getPetValidator);
+    connect(api, &OAIPetApi::getPetByIdSignal, this, getPetValidator);
     connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
 
     api->getPetById(id);
@@ -107,10 +107,10 @@ void PetApiTests::createAndGetPetTest() {
 }
 
 void PetApiTests::updatePetTest() {
-    static SWGPetApi* api = getApi();
+    static OAIPetApi* api = getApi();
 
-    SWGPet* pet = createRandomPet();
-    static SWGPet* petToCheck;
+    OAIPet* pet = createRandomPet();
+    static OAIPet* petToCheck;
     qint64 id = pet->getId();
     static QEventLoop loop;
     QTimer timer;
@@ -121,7 +121,7 @@ void PetApiTests::updatePetTest() {
         loop.quit();
     };
 
-    connect(api, &SWGPetApi::addPetSignal, this, validator);
+    connect(api, &OAIPetApi::addPetSignal, this, validator);
     connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
 
     // create pet
@@ -134,11 +134,11 @@ void PetApiTests::updatePetTest() {
     timer.setInterval(1000);
     timer.setSingleShot(true);
 
-    auto fetchPet = [](SWGPet* pet) {
+    auto fetchPet = [](OAIPet* pet) {
         petToCheck = pet;
         loop.quit();
     };
-    connect(api, &SWGPetApi::getPetByIdSignal, this, fetchPet);
+    connect(api, &OAIPetApi::getPetByIdSignal, this, fetchPet);
     connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
 
     // create pet
@@ -154,7 +154,7 @@ void PetApiTests::updatePetTest() {
         loop.quit();
     };
 
-    connect(api, &SWGPetApi::updatePetSignal, this, updatePetTest);
+    connect(api, &OAIPetApi::updatePetSignal, this, updatePetTest);
     connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
 
     // update pet
@@ -168,12 +168,12 @@ void PetApiTests::updatePetTest() {
     timer.setInterval(1000);
     timer.setSingleShot(true);
 
-    auto fetchPet2 = [](SWGPet* pet) {
+    auto fetchPet2 = [](OAIPet* pet) {
         QVERIFY(pet->getId() == petToCheck->getId());
         QVERIFY(pet->getStatus()->compare(petToCheck->getStatus()) == 0);
         loop.quit();
     };
-    connect(api, &SWGPetApi::getPetByIdSignal, this, fetchPet2);
+    connect(api, &OAIPetApi::getPetByIdSignal, this, fetchPet2);
     connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
     api->getPetById(id);
     timer.start();
@@ -182,10 +182,10 @@ void PetApiTests::updatePetTest() {
 }
 
 void PetApiTests::updatePetWithFormTest() {
-    static SWGPetApi* api = getApi();
+    static OAIPetApi* api = getApi();
 
-    SWGPet* pet = createRandomPet();
-    SWGPet* petToCheck;
+    OAIPet* pet = createRandomPet();
+    OAIPet* petToCheck;
     qint64 id = pet->getId();
     static QEventLoop loop;
     QTimer timer;
@@ -198,7 +198,7 @@ void PetApiTests::updatePetWithFormTest() {
         loop.quit();
     };
 
-    connect(api, &SWGPetApi::addPetSignal, this, validator);
+    connect(api, &OAIPetApi::addPetSignal, this, validator);
     connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
     api->addPet(*pet);
     timer.start();
@@ -209,11 +209,11 @@ void PetApiTests::updatePetWithFormTest() {
     timer.setInterval(1000);
     timer.setSingleShot(true);
 
-    auto fetchPet = [&](SWGPet* pet) {
+    auto fetchPet = [&](OAIPet* pet) {
         petToCheck = pet;
         loop.quit();
     };
-    connect(api, &SWGPetApi::getPetByIdSignal, this, fetchPet);
+    connect(api, &OAIPetApi::getPetByIdSignal, this, fetchPet);
     connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
 
     api->getPetById(id);
@@ -225,7 +225,7 @@ void PetApiTests::updatePetWithFormTest() {
     timer.setInterval(1000);
     timer.setSingleShot(true);
 
-    connect(api, &SWGPetApi::updatePetWithFormSignal, this, [](){loop.quit();});
+    connect(api, &OAIPetApi::updatePetWithFormSignal, this, [](){loop.quit();});
     connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
 
     api->updatePetWithForm(id, new QString("gorilla"), NULL);
@@ -237,11 +237,11 @@ void PetApiTests::updatePetWithFormTest() {
     timer.setInterval(1000);
     timer.setSingleShot(true);
 
-    auto fetchUpdatedPet = [](SWGPet* pet) {
+    auto fetchUpdatedPet = [](OAIPet* pet) {
         QVERIFY(pet->getName()->compare(QString("gorilla")) == 0);
         loop.quit();
     };
-    connect(api, &SWGPetApi::getPetByIdSignal, this, fetchUpdatedPet);
+    connect(api, &OAIPetApi::getPetByIdSignal, this, fetchUpdatedPet);
     connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
 
     api->getPetById(id);

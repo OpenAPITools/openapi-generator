@@ -30,7 +30,7 @@ OAIUserApi::OAIUserApi(QString host, QString basePath) {
 }
 
 void
-OAIUserApi::createUser(std::shared_ptr<OAIOAIUser>& oai_user) {
+OAIUserApi::createUser(OAIUser& oai_user) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user");
 
@@ -418,7 +418,7 @@ OAIUserApi::logoutUserCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::updateUser(QString* username, std::shared_ptr<OAIOAIUser>& oai_user) {
+OAIUserApi::updateUser(QString* username, OAIUser& oai_user) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
 
