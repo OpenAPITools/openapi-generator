@@ -53,42 +53,42 @@ public:
     /// 
     /// </summary>
     int64_t getId() const;
-    void setId(int64_t value);
+    void setId(int64_t& value);
     bool idIsSet() const;
     void unsetId();
     /// <summary>
     /// 
     /// </summary>
     int64_t getPetId() const;
-    void setPetId(int64_t value);
+    void setPetId(int64_t& value);
     bool petIdIsSet() const;
     void unsetPetId();
     /// <summary>
     /// 
     /// </summary>
     int32_t getQuantity() const;
-    void setQuantity(int32_t value);
+    void setQuantity(int32_t& value);
     bool quantityIsSet() const;
     void unsetQuantity();
     /// <summary>
     /// 
     /// </summary>
     std::string getShipDate() const;
-    void setShipDate(std::string value);
+    void setShipDate(std::string& value);
     bool shipDateIsSet() const;
     void unsetShipDate();
     /// <summary>
     /// Order Status
     /// </summary>
     std::string getStatus() const;
-    void setStatus(std::string value);
+    void setStatus(std::string& value);
     bool statusIsSet() const;
     void unsetStatus();
     /// <summary>
     /// 
     /// </summary>
     bool isComplete() const;
-    void setComplete(bool value);
+    void setComplete(bool& value);
     bool completeIsSet() const;
     void unsetComplete();
 

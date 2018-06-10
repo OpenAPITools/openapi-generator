@@ -326,9 +326,6 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            if (!languageSpecificPrimitives.contains(inner)) {
-                inner = inner;
-            }
             return "std::vector<" + inner + ">()";
         } else if (!StringUtils.isEmpty(p.get$ref())) { // model
             return toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";

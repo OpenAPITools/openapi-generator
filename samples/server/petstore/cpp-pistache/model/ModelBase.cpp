@@ -55,9 +55,9 @@ bool ModelBase::toJson( bool value )
     return value;
 }
 
-nlohmann::json ModelBase::toJson( std::shared_ptr<ModelBase> content )
+nlohmann::json ModelBase::toJson(ModelBase content )
 {
-    return content.get() ? content->toJson() : nlohmann::json();
+    return content.toJson();
 }
 
 }

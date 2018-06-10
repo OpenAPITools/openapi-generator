@@ -60,7 +60,7 @@ private:
     void update_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void user_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    std::shared_ptr<Pistache::Http::Endpoint> httpEndpoint;
+    Pistache::Http::Endpoint httpEndpoint;
     Pistache::Rest::Router router;
 
 

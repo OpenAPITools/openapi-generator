@@ -92,7 +92,7 @@ void Pet::fromJson(nlohmann::json& val)
         if(!val["category"].is_null())
         {
             Category newItem(Category());
-            newItem->fromJson(val["category"]);
+            newItem.fromJson(val["category"]);
             setCategory( newItem );
         }
         
@@ -122,7 +122,7 @@ void Pet::fromJson(nlohmann::json& val)
             else
             {
                 Tag newItem(Tag());
-                newItem->fromJson(item);
+                newItem.fromJson(item);
                 m_Tags.push_back( newItem );
             }
             
@@ -142,7 +142,7 @@ int64_t Pet::getId() const
 {
     return m_Id;
 }
-void Pet::setId(int64_t value)
+void Pet::setId(int64_t& value)
 {
     m_Id = value;
     m_IdIsSet = true;
@@ -159,7 +159,7 @@ Category Pet::getCategory() const
 {
     return m_Category;
 }
-void Pet::setCategory(Category value)
+void Pet::setCategory(Category& value)
 {
     m_Category = value;
     m_CategoryIsSet = true;
@@ -176,7 +176,7 @@ std::string Pet::getName() const
 {
     return m_Name;
 }
-void Pet::setName(std::string value)
+void Pet::setName(std::string& value)
 {
     m_Name = value;
     
@@ -201,7 +201,7 @@ std::string Pet::getStatus() const
 {
     return m_Status;
 }
-void Pet::setStatus(std::string value)
+void Pet::setStatus(std::string& value)
 {
     m_Status = value;
     m_StatusIsSet = true;
