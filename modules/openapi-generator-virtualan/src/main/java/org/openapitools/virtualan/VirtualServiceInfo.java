@@ -33,10 +33,10 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.openapitools.virtualan.model.VirtualServiceRequest;
-import org.openapitools.virtualan.model.VirtualServiceKeyValue;
 import org.openapitools.virtualan.model.ResourceMapper;
 import org.openapitools.virtualan.model.VirtualServiceApiResponse;
+import org.openapitools.virtualan.model.VirtualServiceKeyValue;
+import org.openapitools.virtualan.model.VirtualServiceRequest;
 import org.openapitools.virtualan.requestbody.RequestBodyTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

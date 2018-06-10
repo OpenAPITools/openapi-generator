@@ -27,17 +27,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "mock")
+@Table(name = "virtual_service")
 public class VirtualServiceEntity implements Serializable {
 
 	private static final long serialVersionUID = -1801714432822866390L;
 
-	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="MOCK_SEQ")
-	//@SequenceGenerator(name="MOCK_SEQ", sequenceName="MOCK_SEQ",allocationSize=1)
-
-	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "virtual_service_generator")
+	@SequenceGenerator(name="virtual_service_generator", sequenceName = "virtual_service_seq")
+	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 
 	@Column(name = "operationId", nullable = false)
