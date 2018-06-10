@@ -77,8 +77,11 @@ before_install:
   - cat /etc/hosts
   # show java version
   - java -version
-  - openssl aes-256-cbc -K $encrypted_6e2c8bba47c6_key -iv $encrypted_6e2c8bba47c6_iv -in sec.gpg.enc -out sec.gpg -d
-  - gpg --keyserver keyserver.ubuntu.com --recv-key $SIGNING_KEY
+  - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      openssl aes-256-cbc -K $encrypted_6e2c8bba47c6_key -iv $encrypted_6e2c8bba47c6_iv -in sec.gpg.enc -out sec.gpg -d ;
+      gpg --keyserver keyserver.ubuntu.com --recv-key $SIGNING_KEY ;
+      gpg --check-trustdb ;
+    fi;
 
 install:
   # Add Godeps dependencies to GOPATH and PATH
