@@ -445,6 +445,6 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
 
     @Override
     public String getTypeDeclaration(String str) {
-		return str;
+        return str;
     }
 }
