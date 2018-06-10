@@ -12,34 +12,34 @@ ModelBase::~ModelBase()
 {
 }
 
-std::string ModelBase::toJson( const std::string& value )
+std::string ModelBase::toJson( std::string const& value )
 {
     return value;
 }
 
-std::string ModelBase::toJson( const std::time_t& value )
+std::string ModelBase::toJson( std::time_t const& value )
 {
     char buf[sizeof "2011-10-08T07:07:09Z"];
     strftime(buf, sizeof buf, "%FT%TZ", gmtime(&value));
     return buf;
 }
 
-int32_t ModelBase::toJson( int32_t value )
+int32_t ModelBase::toJson( int32_t const value )
 {
     return value;
 }
 
-int64_t ModelBase::toJson( int64_t value )
+int64_t ModelBase::toJson( int64_t const value )
 {
     return value;
 }
 
-double ModelBase::toJson( double value )
+double ModelBase::toJson( double const value )
 {
     return value;
 }
 
-bool ModelBase::toJson( bool value )
+bool ModelBase::toJson( bool const value )
 {
     return value;
 }
