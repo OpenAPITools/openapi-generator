@@ -30,7 +30,7 @@ OAIPetApi::OAIPetApi(QString host, QString basePath) {
 }
 
 void
-OAIPetApi::addPet(std::shared_ptr<OAIOAIPet>& oai_pet) {
+OAIPetApi::addPet(OAIPet& oai_pet) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
 
@@ -405,7 +405,7 @@ OAIPetApi::getPetByIdCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::updatePet(std::shared_ptr<OAIOAIPet>& oai_pet) {
+OAIPetApi::updatePet(OAIPet& oai_pet) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
 
