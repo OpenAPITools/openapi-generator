@@ -395,6 +395,7 @@ When code is generated from this project, it shall be considered **AS IS** and o
 ## [4 - Companies/Projects using OpenAPI Generator](#table-of-contents)
 Here are some companies/projects (alphabetical order) using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
+- [Angular.Schule](https://angular.schule/)
 - [Bithost GmbH](https://www.bithost.ch)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
@@ -407,6 +408,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2018/05/12 - [OpenAPI Generator - community drivenで成長するコードジェネレータ](https://ackintosh.github.io/blog/2018/05/12/openapi-generator/) by [中野暁人](https://github.com/ackintosh)
 - 2018/05/15 - [Starting a new open-source project](http://jmini.github.io/blog/2018/2018-05-15_new-open-source-project.html) by [Jeremie Bresson](https://github.com/jmini)
 - 2018/05/15 - [REST API仕様からAPIクライアントやスタブサーバを自動生成する「OpenAPI Generator」オープンソースで公開。Swagger Codegenからのフォーク](https://www.publickey1.jp/blog/18/rest_apiapiopenapi_generatorswagger_generator.html) by [Publickey](https://www.publickey1.jp)
+- 2018/04/12 - [Generate Angular API clients with Swagger](https://angular.schule/blog/2018-04-swagger-codegen) by [JohannesHoppe](https://github.com/JohannesHoppe)
+- 2018/06/08 - [Swagger Codegen is now OpenAPI Generator](https://angular.schule/blog/2018-06-swagger-codegen-is-now-openapi-generator) by [JohannesHoppe](https://github.com/JohannesHoppe)
 
 ## [6 - About Us](#table-of-contents)
 
