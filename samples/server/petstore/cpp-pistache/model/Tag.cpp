@@ -72,7 +72,7 @@ int64_t Tag::getId() const
 {
     return m_Id;
 }
-void Tag::setId(int64_t& value)
+void Tag::setId(int64_t const value)
 {
     m_Id = value;
     m_IdIsSet = true;
@@ -89,7 +89,7 @@ std::string Tag::getName() const
 {
     return m_Name;
 }
-void Tag::setName(std::string& value)
+void Tag::setName(std::string const& value)
 {
     m_Name = value;
     m_NameIsSet = true;

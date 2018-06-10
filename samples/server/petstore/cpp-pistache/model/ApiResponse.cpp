@@ -83,7 +83,7 @@ int32_t ApiResponse::getCode() const
 {
     return m_Code;
 }
-void ApiResponse::setCode(int32_t& value)
+void ApiResponse::setCode(int32_t const value)
 {
     m_Code = value;
     m_CodeIsSet = true;
@@ -100,7 +100,7 @@ std::string ApiResponse::getType() const
 {
     return m_Type;
 }
-void ApiResponse::setType(std::string& value)
+void ApiResponse::setType(std::string const& value)
 {
     m_Type = value;
     m_TypeIsSet = true;
@@ -117,7 +117,7 @@ std::string ApiResponse::getMessage() const
 {
     return m_Message;
 }
-void ApiResponse::setMessage(std::string& value)
+void ApiResponse::setMessage(std::string const& value)
 {
     m_Message = value;
     m_MessageIsSet = true;

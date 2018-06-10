@@ -119,7 +119,7 @@ void {{classname}}::fromJson(nlohmann::json& val)
 {
     return m_{{name}};
 }
-void {{classname}}::{{setter}}({{{dataType}}}& value)
+void {{classname}}::{{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPrimitiveType}} value)
 {
     m_{{name}} = value;
     {{^required}}m_{{name}}IsSet = true;{{/required}}

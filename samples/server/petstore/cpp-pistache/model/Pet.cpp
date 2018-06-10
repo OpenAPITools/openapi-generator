@@ -142,7 +142,7 @@ int64_t Pet::getId() const
 {
     return m_Id;
 }
-void Pet::setId(int64_t& value)
+void Pet::setId(int64_t const value)
 {
     m_Id = value;
     m_IdIsSet = true;
@@ -159,7 +159,7 @@ Category Pet::getCategory() const
 {
     return m_Category;
 }
-void Pet::setCategory(Category& value)
+void Pet::setCategory(Category const& value)
 {
     m_Category = value;
     m_CategoryIsSet = true;
@@ -176,7 +176,7 @@ std::string Pet::getName() const
 {
     return m_Name;
 }
-void Pet::setName(std::string& value)
+void Pet::setName(std::string const& value)
 {
     m_Name = value;
     
@@ -201,7 +201,7 @@ std::string Pet::getStatus() const
 {
     return m_Status;
 }
-void Pet::setStatus(std::string& value)
+void Pet::setStatus(std::string const& value)
 {
     m_Status = value;
     m_StatusIsSet = true;

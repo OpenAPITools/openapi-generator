@@ -113,7 +113,7 @@ int64_t Order::getId() const
 {
     return m_Id;
 }
-void Order::setId(int64_t& value)
+void Order::setId(int64_t const value)
 {
     m_Id = value;
     m_IdIsSet = true;
@@ -130,7 +130,7 @@ int64_t Order::getPetId() const
 {
     return m_PetId;
 }
-void Order::setPetId(int64_t& value)
+void Order::setPetId(int64_t const value)
 {
     m_PetId = value;
     m_PetIdIsSet = true;
@@ -147,7 +147,7 @@ int32_t Order::getQuantity() const
 {
     return m_Quantity;
 }
-void Order::setQuantity(int32_t& value)
+void Order::setQuantity(int32_t const value)
 {
     m_Quantity = value;
     m_QuantityIsSet = true;
@@ -164,7 +164,7 @@ std::string Order::getShipDate() const
 {
     return m_ShipDate;
 }
-void Order::setShipDate(std::string& value)
+void Order::setShipDate(std::string const& value)
 {
     m_ShipDate = value;
     m_ShipDateIsSet = true;
@@ -181,7 +181,7 @@ std::string Order::getStatus() const
 {
     return m_Status;
 }
-void Order::setStatus(std::string& value)
+void Order::setStatus(std::string const& value)
 {
     m_Status = value;
     m_StatusIsSet = true;
@@ -198,7 +198,7 @@ bool Order::isComplete() const
 {
     return m_Complete;
 }
-void Order::setComplete(bool& value)
+void Order::setComplete(bool const value)
 {
     m_Complete = value;
     m_CompleteIsSet = true;

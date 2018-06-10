@@ -53,14 +53,14 @@ public:
     /// 
     /// </summary>
     int64_t getId() const;
-    void setId(int64_t& value);
+    void setId(int64_t const  value);
     bool idIsSet() const;
     void unsetId();
     /// <summary>
     /// 
     /// </summary>
     std::string getName() const;
-    void setName(std::string& value);
+    void setName(std::string const & value);
     bool nameIsSet() const;
     void unsetName();
 
