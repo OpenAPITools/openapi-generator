@@ -28,11 +28,11 @@ int main() {
 
 	printSeparator();
 
-	list_iterateThroughListForward(myList, listEntry_printAsInt);
+	list_iterateThroughListForward(myList, listEntry_printAsInt, NULL);
 
 	printSeparator();
 
-	list_iterateThroughListBackward(myList, listEntry_printAsInt);
+	list_iterateThroughListBackward(myList, listEntry_printAsInt, NULL);
 
 	printSeparator();
 
@@ -52,7 +52,7 @@ int main() {
 	list_addElement(myList, number2);
 
 	assert(myList->count == 1);
-	listEntry_printAsInt(list_getElementAt(myList, 0));
+	listEntry_printAsInt(list_getElementAt(myList, 0), NULL);
 	assert(*(int *) list_getElementAt(myList, 0)->data == NUMBER_2);
 
 	list_free(myList);

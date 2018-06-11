@@ -1,6 +1,8 @@
 #ifndef INCLUDE_LIST_H
 #define INCLUDE_LIST_H
 
+#include "cJSON.h"
+
 typedef struct list_t list_t;
 
 typedef struct listEntry_t listEntry_t;
@@ -26,8 +28,10 @@ listEntry_t* list_getElementAt(list_t *list, long indexOfElement);
 listEntry_t* list_getWithIndex(list_t* list, int index);
 void list_removeElement(list_t* list, listEntry_t* elementToRemove);
 
-void list_iterateThroughListForward(list_t* list, void (*operationToPerform)(listEntry_t*));
-void list_iterateThroughListBackward(list_t* list, void (*operationToPerform)(listEntry_t*));
+void list_iterateThroughListForward(list_t* list, void (*operationToPerform)(listEntry_t*, void*), void *additionalDataNeededForCallbackFunction);
+void list_iterateThroughListBackward(list_t* list, void (*operationToPerform)(listEntry_t*, void*), void *additionalDataNeededForCallbackFunction);
 
-void listEntry_printAsInt(listEntry_t* listEntry);
+void listEntry_addAsItemToJSONArray(listEntry_t *listEntry, void *cJSONArray);
+void listEntry_printAsInt(listEntry_t* listEntry, void *additionalData);
+void listEntry_free(listEntry_t *listEntry, void *additionalData);
 #endif // INCLUDE_LIST_H

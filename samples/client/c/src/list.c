@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "cJSON.h"
 #include "list.h"
 
 static listEntry_t *listEntry_create(void *data) {
@@ -15,12 +16,17 @@ static listEntry_t *listEntry_create(void *data) {
 	return createdListEntry;
 }
 
-void listEntry_free(listEntry_t *listEntry) {
+void listEntry_free(listEntry_t *listEntry, void *additionalData) {
 	free(listEntry);
 }
 
-void listEntry_printAsInt(listEntry_t *listEntry) {
+void listEntry_printAsInt(listEntry_t	*listEntry,
+                          void		*additionalData) {
 	printf("%i\n", *((int *) (listEntry->data)));
+}
+
+void listEntry_addAsItemToJSONArray(listEntry_t *listEntry, void *cJSONArray) {
+	cJSON_AddStringToObject(cJSONArray, "", listEntry->data);
 }
 
 list_t *list_create() {
@@ -36,8 +42,12 @@ list_t *list_create() {
 	return createdList;
 }
 
-void list_iterateThroughListForward(list_t *list, void (*operationToPerform)(
-					    listEntry_t *)) {
+void list_iterateThroughListForward(list_t *list,
+                                    void (*operationToPerform)(
+					    listEntry_t *,
+					    void *callbackFunctionUsedData),
+                                    void *additionalDataNeededForCallbackFunction)
+{
 	listEntry_t *currentListEntry = list->firstEntry;
 	listEntry_t *nextListEntry;
 
@@ -47,18 +57,24 @@ void list_iterateThroughListForward(list_t *list, void (*operationToPerform)(
 
 	nextListEntry = currentListEntry->nextListEntry;
 
-	operationToPerform(currentListEntry);
+	operationToPerform(currentListEntry,
+	                   additionalDataNeededForCallbackFunction);
 	currentListEntry = nextListEntry;
 
 	while(currentListEntry != NULL) {
 		nextListEntry = currentListEntry->nextListEntry;
-		operationToPerform(currentListEntry);
+		operationToPerform(currentListEntry,
+		                   additionalDataNeededForCallbackFunction);
 		currentListEntry = nextListEntry;
 	}
 }
 
-void list_iterateThroughListBackward(list_t *list, void (*operationToPerform)(
-					     listEntry_t *)) {
+void list_iterateThroughListBackward(list_t *list,
+                                     void (*operationToPerform)(
+					     listEntry_t *,
+					     void *callbackFunctionUsedData),
+                                     void *additionalDataNeededForCallbackFunction)
+{
 	listEntry_t *currentListEntry = list->lastEntry;
 	listEntry_t *nextListEntry = currentListEntry->prevListEntry;
 
@@ -66,18 +82,20 @@ void list_iterateThroughListBackward(list_t *list, void (*operationToPerform)(
 		return;
 	}
 
-	operationToPerform(currentListEntry);
+	operationToPerform(currentListEntry,
+	                   additionalDataNeededForCallbackFunction);
 	currentListEntry = nextListEntry;
 
 	while(currentListEntry != NULL) {
 		nextListEntry = currentListEntry->prevListEntry;
-		operationToPerform(currentListEntry);
+		operationToPerform(currentListEntry,
+		                   additionalDataNeededForCallbackFunction);
 		currentListEntry = nextListEntry;
 	}
 }
 
 void list_free(list_t *list) {
-	list_iterateThroughListForward(list, listEntry_free);
+	list_iterateThroughListForward(list, listEntry_free, NULL);
 	free(list);
 }
 
@@ -141,7 +159,7 @@ void list_removeElement(list_t *list, listEntry_t *elementToRemove) {
 		list->lastEntry = elementBeforeElementToRemove;
 	}
 
-	listEntry_free(elementToRemove);
+	listEntry_free(elementToRemove, NULL);
 
 	list->count--;
 }
