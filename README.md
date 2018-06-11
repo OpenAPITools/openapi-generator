@@ -76,7 +76,8 @@ OpenAPI Generator Version    | Release Date | OpenAPI Spec compatibility | Notes
 ---------------------------- | ------------ | -------------------------- | -----
 4.0.0 (upcoming major release) | TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Major release with breaking changes (no fallback)
 3.1.0 (upcoming minor release) | TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Minor release with breaking changes (with fallbacks)
-3.0.1 (current master, upcoming release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.0.1/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Bug fixes release
+3.0.2 (current master, upcoming release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.0.2-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 
+3.0.1 | 11.06.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Bugfix release
 3.0.0 | 01.06.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | First release with breaking changes
 
 ### [1.2 - Artifacts on Maven Central](#table-of-contents)
