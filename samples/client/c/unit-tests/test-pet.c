@@ -6,7 +6,7 @@
 #define EXAMPLE_CATEGORY_NAME "Example Category"
 #define EXAMPLE_PET_NAME "Example Pet"
 #define EXAMPLE_URL_1 "http://www.github.com"
-#define EXAMPLE_URL_2 "http://www.gitter.com"
+#define EXAMPLE_URL_2 "http://www.gitter.im"
 #define EXAMPLE_TAG_1 "beautiful code"
 #define EXAMPLE_TAG_2 "at least I tried"
 
