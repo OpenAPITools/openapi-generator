@@ -1,38 +1,53 @@
 ## Customization
-### Modifying the client library format
 
-Don't like the default client syntax?  Want a different language supported?  No problem!  OpenAPI Generator processes mustache templates with the [jmustache](https://github.com/samskivert/jmustache) engine.  You can modify our templates or make your own.
+### Modifying a template
 
-You can look at `modules/openapi-generator/src/main/resources/${your-language}` for examples. To make your own templates, create your own files and use the `-t` flag to specify your template folder.  It actually is that easy.
+Clone OpenAPI Generator and take a look at the following directory: `modules/openapi-generator/src/main/resources/${template}`. In here you'll see all of the generators available, for most programming languages, web application frameworks and web servers.
 
-### Making your own codegen modules
+Templates consist of multiple mustache files. Mustache is a simple, readable templating language, and the engine used is [jmustache](https://github.com/samskivert/jmustache).
 
-If you're starting a project with a new language and don't see what you need, openapi-generator can help you create a project to generate your own libraries:
+If you wish to modify one of these templates, copy and paste the template you're interested in to a templates directory you control. To let OpenAPI Generator know where this templates directory is, use the `-t` option (e.g: `-t ./templates/`).
+
+To tie that all together:
+
+```sh
+mkdir templates
+cp -r modules/openapi-generator/src/main/resources/${template} templates/
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
+  -t ./templates/ -g ruby -i ./foo.yml -o ./out/ruby
+```
+
+_**Note:** You cannot use this approach to create new templates, only override existing ones._
+
+### Creating a new template
+
+If none of the templates suit your needs at all, you can create a brand new template. OpenAPI Generator can help with this, using the `meta` command:
 
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar meta \
-  -o output/myLibrary -n myClientCodegen -p com.my.company.codegen
+  -o codegens/customCodegen -n myTemplate -p com.my.company.codegen
 ```
 
-This will write, in the folder `output/myLibrary`, all the files you need to get started, including a `README.md. Once modified and compiled, you can load your library with the codegen and generate clients with your own, custom-rolled logic.
+This will create a new directory `codegens/customCodegen`, with all the files you need to get started - including a `README.md. Once modified and compiled, you can use your new codegen just like any other, but with your own custom-rolled logic.
 
-You would then compile your library in the `output/myLibrary` folder with `mvn package` and execute the codegen like such:
+To compile your library, enter the `codegens/customCodegen` directory, run `mvn package` and execute the generator like such:
 
 ```sh
-java -cp output/myLibrary/target/myClientCodegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
+java -cp codegens/customCodegen/target/myTemplate-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
 ```
+
 For Windows users, you will need to use `;` instead of `:` in the classpath, e.g.
 ```
-java -cp output/myLibrary/target/myClientCodegen-openapi-generator-1.0.0.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
+java -cp codegens/customCodegen/target/myTemplate-openapi-generator-1.0.0.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
 ```
 
-Note the `myClientCodegen` is an option now, and you can use the usual arguments for generating your library:
+Note the `myTemplate` is an option for `-g` now, and you can use the usual arguments for generating your code:
 
 ```sh
-java -cp output/myLibrary/target/myClientCodegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
-  io.openapitools.codegen.OpenAPIGenerator generate -g myClientCodegen\
+java -cp codegens/customCodegen/target/myTemplate-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
+  io.openapitools.codegen.OpenAPIGenerator generate -g myTemplate \
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
-  -o myClient
+  -o ./out/myClient
 ```
 
 
@@ -95,7 +110,8 @@ The ignore file allows for better control over overwriting existing files than t
 Examples:
 
 ```sh
-# OpenAPI Generator Ignore
+# .openapi-generator-ignore
+
 # Lines beginning with a # are comments
 
 # This should match build.sh located anywhere.
