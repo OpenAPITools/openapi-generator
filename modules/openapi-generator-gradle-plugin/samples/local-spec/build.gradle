@@ -13,7 +13,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.openapitools:openapi-generator-gradle-plugin:3.0.0-SNAPSHOT"
+        // Updated version can be passed via command line arg as -PopenApiGeneratorVersion=VERSION
+        classpath "org.openapitools:openapi-generator-gradle-plugin:$openApiGeneratorVersion"
     }
 }
 
