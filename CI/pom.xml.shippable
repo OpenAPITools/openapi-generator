@@ -6,10 +6,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>openapi-generator-project</artifactId>
+    <artifactId>openapi-generator-shippable-pom</artifactId>
     <packaging>pom</packaging>
-    <name>openapi-generator-project</name>
-    <version>3.0.1-SNAPSHOT</version>
+    <name>openapi-generator-shippable-pom</name>
+    <version>3.0.1</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -858,10 +858,7 @@
         </profile>
     </profiles>
     <modules>
-        <module>../modules/openapi-generator</module>
-        <module>../modules/openapi-generator-cli</module>
-        <module>../modules/openapi-generator-maven-plugin</module>
-        <module>../modules/openapi-generator-online</module>
+        <module>../</module>
     </modules>
     <reporting>
         <outputDirectory>target/site</outputDirectory>
