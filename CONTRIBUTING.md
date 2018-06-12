@@ -22,6 +22,10 @@ If you're new to git, you may find the following FAQs useful:
 
 https://github.com/openapitools/openapi-generator/wiki/FAQ#git
 
+### Branches
+
+See the [Git Branches](https://github.com/OpenAPITools/openapi-generator/wiki/Git-Branches) page.
+
 ### Code generators
 
 All the code generators can be found in [modules/openapi-generator/src/main/java/org/openapitools/codegen/languages](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages)
