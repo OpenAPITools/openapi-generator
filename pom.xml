@@ -909,7 +909,7 @@
                 <module>samples/client/petstore/python-asyncio</module>
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
-                <!--<module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>-->
+                <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <!-- comment out due to github rate limit error
