@@ -450,19 +450,19 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: successful operation
-          schema:
-            type: string
-          headers:
-            X-Rate-Limit:
-              type: integer
-              format: int32
-              description: calls per hour allowed by the user
-            X-Expires-After:
-              type: string
-              format: date-time
-              description: date in UTC when token expires
+        # '200':
+        #   description: successful operation
+        #   schema:
+        #     type: string
+        #   headers:
+        #     X-Rate-Limit:
+        #       type: integer
+        #       format: int32
+        #       description: calls per hour allowed by the user
+        #     X-Expires-After:
+        #       type: string
+        #       format: date-time
+        #       description: date in UTC when token expires
         '400':
           description: Invalid username/password supplied
   /user/logout:
@@ -618,15 +618,15 @@ paths:
               - '$'
           in: formData
           description: Form parameter enum test (string array)
-        - name: enum_form_string
-          type: string
-          default: '-efg'
-          enum:
-            - _abc
-            - '-efg'
-            - (xyz)
-          in: formData
-          description: Form parameter enum test (string)
+        # - name: enum_form_string
+        #   type: string
+        #   default: '-efg'
+        #   enum:
+        #     - _abc
+        #     - '-efg'
+        #     - (xyz)
+        #   in: formData
+        #   description: Form parameter enum test (string)
         - name: enum_header_string_array
           type: array
           items:
@@ -753,12 +753,12 @@ paths:
           in: formData
           description: None
           required: true
-        - name: byte
-          type: string
-          format: byte
-          in: formData
-          description: None
-          required: true
+        # - name: byte
+        #   type: string
+        #   format: byte
+        #   in: formData
+        #   description: None
+        #   required: true
         - name: binary
           type: string
           format: binary
@@ -1204,9 +1204,9 @@ definitions:
       byte:
         type: string
         format: byte
-      binary:
-        type: string
-        format: binary
+      # binary:
+      #   type: string
+      #   format: binary
       date:
         type: string
         format: date

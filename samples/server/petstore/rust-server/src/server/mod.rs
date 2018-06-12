@@ -946,17 +946,6 @@ where
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter pattern_without_delimiter")))),
                                 };
 
-                                let param_byte = entries.fields.remove("byte");
-                                let param_byte = match param_byte {
-                                    Some(entry) =>
-
-                                        match entry.parse::<swagger::ByteArray>() {
-                                            Ok(entry) => entry,
-                                            Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse form parameter byte - doesn't match schema: {}", e)))),
-                                        },
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter byte")))),
-                                };
-
                                 let param_binary = entries.fields.remove("binary");
                                 let param_binary = match param_binary {
                                     Some(entry) =>
@@ -1018,7 +1007,7 @@ where
                                 };
 
 
-                                Box::new(api_impl.test_endpoint_parameters(param_number, param_double, param_pattern_without_delimiter, param_byte, param_integer, param_int32, param_int64, param_float, param_string, param_binary, param_date, param_date_time, param_password, param_callback, &context)
+                                Box::new(api_impl.test_endpoint_parameters(param_number, param_double, param_pattern_without_delimiter, param_integer, param_int32, param_int64, param_float, param_string, param_binary, param_date, param_date_time, param_password, param_callback, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
@@ -1109,9 +1098,8 @@ where
 
                                 // Form parameters
                                 let param_enum_form_string_array = None;
-                                let param_enum_form_string = Some("enum_form_string_example".to_string());
 
-                                Box::new(api_impl.test_enum_parameters(param_enum_header_string_array.as_ref(), param_enum_header_string, param_enum_query_string_array.as_ref(), param_enum_query_string, param_enum_query_integer, param_enum_query_double, param_enum_form_string_array.as_ref(), param_enum_form_string, &context)
+                                Box::new(api_impl.test_enum_parameters(param_enum_header_string_array.as_ref(), param_enum_header_string, param_enum_query_string_array.as_ref(), param_enum_query_string, param_enum_query_integer, param_enum_query_double, param_enum_form_string_array.as_ref(), &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
@@ -2949,30 +2937,6 @@ where
 
                                         match result {
                                             Ok(rsp) => match rsp {
-                                                LoginUserResponse::SuccessfulOperation
-
-                                                    {
-                                                        body,
-                                                        x_rate_limit, 
-
-                                                        x_expires_after
-                                                    }
-
-
-                                                => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
-                                                    header! { (ResponseXRateLimit, "X-Rate-Limit") => [i32] }
-                                                    response.headers_mut().set(ResponseXRateLimit(x_rate_limit));
-                                                    header! { (ResponseXExpiresAfter, "X-Expires-After") => [chrono::DateTime<chrono::Utc>] }
-                                                    response.headers_mut().set(ResponseXExpiresAfter(x_expires_after));
-
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::LOGIN_USER_SUCCESSFUL_OPERATION.clone()));
-
-
-                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-
-                                                    response.set_body(body);
-                                                },
                                                 LoginUserResponse::InvalidUsername
 
 

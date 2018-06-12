@@ -475,10 +475,6 @@ pub struct FormatTest {
     #[serde(rename = "byte")]
     pub byte: swagger::ByteArray,
 
-    #[serde(rename = "binary")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub binary: Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>,
-
     #[serde(rename = "date")]
     pub date: chrono::DateTime<chrono::Utc>,
 
@@ -506,7 +502,6 @@ impl FormatTest {
             double: None,
             string: None,
             byte: byte,
-            binary: None,
             date: date,
             date_time: None,
             uuid: None,

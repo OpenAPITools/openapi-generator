@@ -64,10 +64,6 @@ pub mod responses {
     lazy_static! {
         pub static ref GET_USER_BY_NAME_SUCCESSFUL_OPERATION: Mime = "application/json".parse().unwrap();
     }
-    /// Create Mime objects for the response content types for LoginUser
-    lazy_static! {
-        pub static ref LOGIN_USER_SUCCESSFUL_OPERATION: Mime = "application/json".parse().unwrap();
-    }
 
 }
 

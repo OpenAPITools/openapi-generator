@@ -774,7 +774,7 @@ if let Some(body) = body {
 
     }
 
-    fn test_endpoint_parameters(&self, param_number: f64, param_double: f64, param_pattern_without_delimiter: String, param_byte: swagger::ByteArray, param_integer: Option<i32>, param_int32: Option<i32>, param_int64: Option<i64>, param_float: Option<f32>, param_string: Option<String>, param_binary: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>, param_date: Option<chrono::DateTime<chrono::Utc>>, param_date_time: Option<chrono::DateTime<chrono::Utc>>, param_password: Option<String>, param_callback: Option<String>, context: &C) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>> {
+    fn test_endpoint_parameters(&self, param_number: f64, param_double: f64, param_pattern_without_delimiter: String, param_integer: Option<i32>, param_int32: Option<i32>, param_int64: Option<i64>, param_float: Option<f32>, param_string: Option<String>, param_binary: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>, param_date: Option<chrono::DateTime<chrono::Utc>>, param_date_time: Option<chrono::DateTime<chrono::Utc>>, param_password: Option<String>, param_callback: Option<String>, context: &C) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -885,7 +885,7 @@ if let Some(body) = body {
 
     }
 
-    fn test_enum_parameters(&self, param_enum_header_string_array: Option<&Vec<String>>, param_enum_header_string: Option<String>, param_enum_query_string_array: Option<&Vec<String>>, param_enum_query_string: Option<String>, param_enum_query_integer: Option<i32>, param_enum_query_double: Option<f64>, param_enum_form_string_array: Option<&Vec<String>>, param_enum_form_string: Option<String>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
+    fn test_enum_parameters(&self, param_enum_header_string_array: Option<&Vec<String>>, param_enum_header_string: Option<String>, param_enum_query_string_array: Option<&Vec<String>>, param_enum_query_string: Option<String>, param_enum_query_integer: Option<i32>, param_enum_query_double: Option<f64>, param_enum_form_string_array: Option<&Vec<String>>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
 
         // Query parameters
         let query_enum_query_string_array = param_enum_query_string_array.map_or_else(String::new, |query| format!("enum_query_string_array={enum_query_string_array}&", enum_query_string_array=query.join(",")));
@@ -912,7 +912,6 @@ if let Some(body) = body {
 
         let params = &[
             ("enum_form_string_array", param_enum_form_string_array),
-            ("enum_form_string", param_enum_form_string),
         ];
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
@@ -2533,38 +2532,6 @@ if let Some(body) = body {
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
-                200 => {
-                    header! { (ResponseXRateLimit, "X-Rate-Limit") => [i32] }
-                    let response_x_rate_limit = match response.headers().get::<ResponseXRateLimit>() {
-                        Some(response_x_rate_limit) => response_x_rate_limit.0.clone(),
-                        None => return Box::new(future::err(ApiError(String::from("Required response header X-Rate-Limit for response 200 was not found.")))) as Box<Future<Item=_, Error=_>>,
-                    };
-                    header! { (ResponseXExpiresAfter, "X-Expires-After") => [chrono::DateTime<chrono::Utc>] }
-                    let response_x_expires_after = match response.headers().get::<ResponseXExpiresAfter>() {
-                        Some(response_x_expires_after) => response_x_expires_after.0.clone(),
-                        None => return Box::new(future::err(ApiError(String::from("Required response header X-Expires-After for response 200 was not found.")))) as Box<Future<Item=_, Error=_>>,
-                    };
-                    let body = response.body();
-                    Box::new(
-
-                        body
-                        .concat2()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                                                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                                                 serde_xml_rs::from_str::<String>(body)
-                                                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
-
-                                             ))
-                        .map(move |body|
-                            LoginUserResponse::SuccessfulOperation{ body: body, x_rate_limit: response_x_rate_limit, x_expires_after: response_x_expires_after }
-                        )
-                    ) as Box<Future<Item=_, Error=_>>
-                },
                 400 => {
                     let body = response.body();
                     Box::new(
