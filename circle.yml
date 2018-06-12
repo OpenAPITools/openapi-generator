@@ -47,11 +47,11 @@ jobs:
     - run:
         working_directory: ~/OpenAPITools/openapi-generator
         command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
-    - run:
-        working_directory: ~/OpenAPITools/openapi-generator
-        command: |-
-          printf '127.0.0.1       petstore.swagger.io
-          ' | sudo tee -a /etc/hosts
+    #- run:
+    #    working_directory: ~/OpenAPITools/openapi-generator
+    #    command: |-
+    #      printf '127.0.0.1       petstore.swagger.io
+    #      ' | sudo tee -a /etc/hosts
     # Dependencies
     #   This would typically go in either a build or a build-and-test job when using workflows
     # Restore the dependency cache
