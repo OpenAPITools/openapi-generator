@@ -737,7 +737,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
             for (CodegenProperty header : op.responseHeaders) {
                 if (header.dataType.equals("uuid::Uuid")) {
-                    LOGGER.info("Has UUID");
                     additionalProperties.put("apiUsesUuid", true);
                 }
                 header.nameInCamelCase = toModelName(header.baseName);
@@ -1168,12 +1167,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private void processParam(CodegenParameter param, CodegenOperation op) {
-        LOGGER.info("Processing: {}", param);
         String example = null;
 
         if (param.isFile) {
-            // It looks as if we never enter here...
-            LOGGER.warn("Op has file param");
             param.vendorExtensions.put("formatString", "{:?}");
             op.vendorExtensions.put("hasFile", true);
             additionalProperties.put("apiHasFile", true);
