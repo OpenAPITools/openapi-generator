@@ -67,6 +67,8 @@ export class {{classname}} {
         if (configuration) {
             this.configuration = configuration;
             this.basePath = basePath || configuration.basePath || this.basePath;
+        } else {
+            this.configuration.basePath = basePath || this.basePath;
         }
     }
 
@@ -342,7 +344,7 @@ export class {{classname}} {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}{{{path}}}`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}{{{path}}}`, requestOptions);
 {{/useHttpClient}}
     }
 
