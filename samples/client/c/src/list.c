@@ -4,6 +4,7 @@
 
 #include "cJSON.h"
 #include "list.h"
+#include "tag.h"
 
 static listEntry_t *listEntry_create(void *data) {
 	listEntry_t *createdListEntry = malloc(sizeof(listEntry_t));
@@ -20,13 +21,21 @@ void listEntry_free(listEntry_t *listEntry, void *additionalData) {
 	free(listEntry);
 }
 
-void listEntry_printAsInt(listEntry_t	*listEntry,
-                          void		*additionalData) {
+void listEntry_printAsInt(listEntry_t *listEntry, void *additionalData) {
 	printf("%i\n", *((int *) (listEntry->data)));
 }
 
-void listEntry_addAsItemToJSONArray(listEntry_t *listEntry, void *cJSONArray) {
+void listEntry_addAsStringToJSONArray(listEntry_t	*listEntry,
+                                      void		*cJSONArray) {
 	cJSON_AddStringToObject(cJSONArray, "", listEntry->data);
+}
+
+void listEntry_addAsTagToJSONArray(listEntry_t *listEntry, void *cJSONArray) {
+	tag_t *tag = listEntry->data;
+	cJSON *item = cJSON_CreateObject();
+	cJSON_AddNumberToObject(item, "id", tag->id);
+	cJSON_AddStringToObject(item, "name", tag->name);
+	cJSON_AddItemToArray(cJSONArray, item);
 }
 
 list_t *list_create() {
