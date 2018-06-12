@@ -24,7 +24,7 @@ https://github.com/openapitools/openapi-generator/wiki/FAQ#git
 
 ### Branches
 
-See the [Git Branches](https://github.com/OpenAPITools/openapi-generator/wiki/Git-Branches) page.
+Please file the pull request against the correct branch, e.g. `master` for non-breaking changes. See the [Git Branches](https://github.com/OpenAPITools/openapi-generator/wiki/Git-Branches) page for more information.
 
 ### Code generators
 
