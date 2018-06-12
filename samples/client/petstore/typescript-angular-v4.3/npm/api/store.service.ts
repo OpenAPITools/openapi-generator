@@ -38,6 +38,8 @@ export class StoreService {
         if (configuration) {
             this.configuration = configuration;
             this.basePath = basePath || configuration.basePath || this.basePath;
+        } else {
+            this.configuration.basePath = basePath || this.basePath;
         }
     }
 
