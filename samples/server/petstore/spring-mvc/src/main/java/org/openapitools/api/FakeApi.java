@@ -15,6 +15,7 @@ import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -29,6 +30,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 
+@Validated
 @Api(value = "fake", description = "the fake API")
 public interface FakeApi {
 
