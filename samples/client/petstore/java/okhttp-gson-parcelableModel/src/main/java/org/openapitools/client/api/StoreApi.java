@@ -63,7 +63,7 @@ public class StoreApi {
      * @throws ApiException If fail to serialize the request body object
      */
     public com.squareup.okhttp.Call deleteOrderCall(String orderId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
+        Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/store/order/{order_id}"
@@ -181,7 +181,7 @@ public class StoreApi {
      * @throws ApiException If fail to serialize the request body object
      */
     public com.squareup.okhttp.Call getInventoryCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
+        Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/store/inventory";
@@ -295,7 +295,7 @@ public class StoreApi {
      * @throws ApiException If fail to serialize the request body object
      */
     public com.squareup.okhttp.Call getOrderByIdCall(Long orderId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
+        Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/store/order/{order_id}"

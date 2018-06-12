@@ -43,7 +43,7 @@ public class {{classname}} {
    * {{summary}}
    * {{notes}}{{#allParams}}
    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{/allParams}}{{#returnType}}
-   * @return {{{returnType}}}{{/returnType}}
+   * @return a {@code {{{returnType}}}}{{/returnType}}
    * @throws ApiException if fails to make API call
    {{#isDeprecated}}
    * @deprecated
@@ -57,7 +57,7 @@ public class {{classname}} {
   @Deprecated
   {{/isDeprecated}}
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
-    Object {{localVariablePrefix}}localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    Object {{localVariablePrefix}}localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}new Object(){{/bodyParam}};
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
     if ({{paramName}} == null) {

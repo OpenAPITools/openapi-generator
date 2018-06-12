@@ -9,7 +9,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.2-SNAPSHOT</version>
     <url>https://github.com/openapi-tools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapi-tools/openapi-generator.git</connection>
@@ -214,12 +214,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
+                <version>3.0.1</version>
                 <configuration>
                     <aggregate>true</aggregate>
                     <source>1.8</source>
                     <encoding>UTF-8</encoding>
                     <maxmemory>1g</maxmemory>
+                    <failOnWarnings>true</failOnWarnings>
                     <excludePackageNames>${javadoc.package.exclude}</excludePackageNames>
                 </configuration>
                 <executions>
@@ -919,7 +920,7 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-parser-version>2.0.0</swagger-parser-version>
+        <swagger-parser-version>2.0.1</swagger-parser-version>
         <swagger-core-version>2.0.1</swagger-core-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.0</felix-version>

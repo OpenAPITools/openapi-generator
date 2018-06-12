@@ -159,6 +159,7 @@ public class ModelUtils {
      */
     private static void visitOpenAPI(OpenAPI openAPI, OpenAPISchemaVisitor visitor) {
         Map<String, PathItem> paths = openAPI.getPaths();
+        List<String> visitedSchemas = new ArrayList<>();
 
         if (paths != null) {
             for (PathItem path : paths.values()) {
@@ -170,7 +171,7 @@ public class ModelUtils {
                             for (Parameter p : operation.getParameters()) {
                                 Parameter parameter = getReferencedParameter(openAPI, p);
                                 if (parameter.getSchema() != null) {
-                                    visitor.visit(parameter.getSchema(), null);
+                                    visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
                                 }
                             }
                         }
@@ -180,7 +181,7 @@ public class ModelUtils {
                         if (requestBody != null && requestBody.getContent() != null) {
                             for (Entry<String, MediaType> e : requestBody.getContent().entrySet()) {
                                 if (e.getValue().getSchema() != null) {
-                                    visitor.visit(e.getValue().getSchema(), e.getKey());
+                                    visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
                                 }
                             }
                         }
@@ -192,7 +193,7 @@ public class ModelUtils {
                                 if (apiResponse != null && apiResponse.getContent() != null) {
                                     for (Entry<String, MediaType> e : apiResponse.getContent().entrySet()) {
                                         if (e.getValue().getSchema() != null) {
-                                            visitor.visit(e.getValue().getSchema(), e.getKey());
+                                            visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
                                         }
                                     }
                                 }
@@ -200,6 +201,59 @@ public class ModelUtils {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private static void visitSchema(OpenAPI openAPI, Schema schema, String mimeType, List<String> visitedSchemas, OpenAPISchemaVisitor visitor) {
+        visitor.visit(schema, mimeType);
+        if(schema.get$ref() != null) {
+            String ref = getSimpleRef(schema.get$ref());
+            if(!visitedSchemas.contains(ref)) {
+                visitedSchemas.add(ref);
+                Schema referencedSchema = getSchemas(openAPI).get(ref);
+                if(referencedSchema != null) {
+                    visitSchema(openAPI, referencedSchema, mimeType, visitedSchemas, visitor);
+                }
+            }
+        }
+        if(schema instanceof ComposedSchema) {
+            List<Schema> oneOf = ((ComposedSchema) schema).getOneOf();
+            if(oneOf != null) {
+                for (Schema s : oneOf) {
+                    visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
+                }
+            }
+            List<Schema> allOf = ((ComposedSchema) schema).getAllOf();
+            if(allOf != null) {
+                for (Schema s : allOf) {
+                    visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
+                }
+            }
+            List<Schema> anyOf = ((ComposedSchema) schema).getAnyOf();
+            if(anyOf != null) {
+                for (Schema s : anyOf) {
+                    visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
+                }
+            }
+        } else if(schema instanceof ArraySchema) {
+            Schema itemsSchema = ((ArraySchema) schema).getItems();
+            if(itemsSchema != null) {
+                visitSchema(openAPI, itemsSchema, mimeType, visitedSchemas, visitor);
+            }
+        } else if(isMapSchema(schema)) {
+            Object additionalProperties = schema.getAdditionalProperties();
+            if(additionalProperties instanceof Schema) {
+                visitSchema(openAPI, (Schema) additionalProperties, mimeType, visitedSchemas, visitor);
+            }
+        }
+        if(schema.getNot() != null) {
+            visitSchema(openAPI, schema.getNot(), mimeType, visitedSchemas, visitor);
+        }
+        Map<String, Schema> properties = schema.getProperties();
+        if(properties != null) {
+            for (Schema property : properties.values()) {
+                visitSchema(openAPI, property, mimeType, visitedSchemas, visitor);
             }
         }
     }
@@ -423,7 +477,7 @@ public class ModelUtils {
     }
 
     /**
-     * If a Schema contains a reference to an other Schema with '$ref', returns the referenced Schema or the actual Schema in the other cases.
+     * If a Schema contains a reference to an other Schema with '$ref', returns the referenced Schema if it is found or the actual Schema in the other cases.
      * @param openAPI specification being checked
      * @param schema potentially containing a '$ref'
      * @return schema without '$ref'
@@ -431,7 +485,10 @@ public class ModelUtils {
     public static Schema getReferencedSchema(OpenAPI openAPI, Schema schema) {
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             String name = getSimpleRef(schema.get$ref());
-            return getSchema(openAPI, name);
+            Schema referencedSchema = getSchema(openAPI, name);
+            if(referencedSchema != null) {
+                return referencedSchema;
+            }
         }
         return schema;
     }
@@ -452,7 +509,7 @@ public class ModelUtils {
     }
 
     /**
-     * If a RequestBody contains a reference to an other RequestBody with '$ref', returns the referenced RequestBody or the actual RequestBody in the other cases.
+     * If a RequestBody contains a reference to an other RequestBody with '$ref', returns the referenced RequestBody if it is found or the actual RequestBody in the other cases.
      * @param openAPI specification being checked
      * @param requestBody potentially containing a '$ref'
      * @return requestBody without '$ref'
@@ -460,7 +517,10 @@ public class ModelUtils {
     public static RequestBody getReferencedRequestBody(OpenAPI openAPI, RequestBody requestBody) {
         if (requestBody != null && StringUtils.isNotEmpty(requestBody.get$ref())) {
             String name = getSimpleRef(requestBody.get$ref());
-            return getRequestBody(openAPI, name);
+            RequestBody referencedRequestBody = getRequestBody(openAPI, name);
+            if(referencedRequestBody != null) {
+                return referencedRequestBody;
+            }
         }
         return requestBody;
     }
@@ -477,7 +537,7 @@ public class ModelUtils {
     }
 
     /**
-     * If a ApiResponse contains a reference to an other ApiResponse with '$ref', returns the referenced ApiResponse or the actual ApiResponse in the other cases.
+     * If a ApiResponse contains a reference to an other ApiResponse with '$ref', returns the referenced ApiResponse if it is found or the actual ApiResponse in the other cases.
      * @param openAPI specification being checked
      * @param apiResponse potentially containing a '$ref'
      * @return apiResponse without '$ref'
@@ -485,7 +545,10 @@ public class ModelUtils {
     public static ApiResponse getReferencedApiResponse(OpenAPI openAPI, ApiResponse apiResponse) {
         if (apiResponse != null && StringUtils.isNotEmpty(apiResponse.get$ref())) {
             String name = getSimpleRef(apiResponse.get$ref());
-            return getApiResponse(openAPI, name);
+            ApiResponse referencedApiResponse = getApiResponse(openAPI, name);
+            if(referencedApiResponse != null) {
+                return referencedApiResponse;
+            }
         }
         return apiResponse;
     }
@@ -495,14 +558,14 @@ public class ModelUtils {
             return null;
         }
 
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getRequestBodies() != null) {
+        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getResponses() != null) {
             return openAPI.getComponents().getResponses().get(name);
         }
         return null;
     }
 
     /**
-     * If a Parameter contains a reference to an other Parameter with '$ref', returns the referenced Parameter or the actual Parameter in the other cases.
+     * If a Parameter contains a reference to an other Parameter with '$ref', returns the referenced Parameter if it is found or the actual Parameter in the other cases.
      * @param openAPI specification being checked
      * @param parameter potentially containing a '$ref'
      * @return parameter without '$ref'
@@ -510,7 +573,10 @@ public class ModelUtils {
     public static Parameter getReferencedParameter(OpenAPI openAPI, Parameter parameter) {
         if (parameter != null && StringUtils.isNotEmpty(parameter.get$ref())) {
             String name = getSimpleRef(parameter.get$ref());
-            return getParameter(openAPI, name);
+            Parameter referencedParameter = getParameter(openAPI, name);
+            if(referencedParameter != null) {
+                return referencedParameter;
+            }
         }
         return parameter;
     }
@@ -520,7 +586,7 @@ public class ModelUtils {
             return null;
         }
 
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getRequestBodies() != null) {
+        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getParameters() != null) {
             return openAPI.getComponents().getParameters().get(name);
         }
         return null;

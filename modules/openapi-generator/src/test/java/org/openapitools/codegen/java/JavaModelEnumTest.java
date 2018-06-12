@@ -30,6 +30,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ public class JavaModelEnumTest {
         final Schema model = new Schema().type("object").addProperties("name", enumSchema);
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.vars.size(), 1);
 
@@ -62,7 +63,7 @@ public class JavaModelEnumTest {
         final Schema model = new Schema().type("object").addProperties("name", enumSchema);
 
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.vars.size(), 1);
 
@@ -93,7 +94,7 @@ public class JavaModelEnumTest {
         final Schema model = new Schema().type("object").addProperties("name", enumSchema);
 
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.vars.size(), 1);
 

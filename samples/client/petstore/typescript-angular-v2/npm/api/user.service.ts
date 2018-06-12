@@ -204,7 +204,7 @@ export class UserService {
         let httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -212,7 +212,7 @@ export class UserService {
         const consumes: string[] = [
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
+        if (httpContentTypeSelected !== undefined) {
             headers.set('Content-Type', httpContentTypeSelected);
         }
 
@@ -247,7 +247,7 @@ export class UserService {
         let httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -255,7 +255,7 @@ export class UserService {
         const consumes: string[] = [
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
+        if (httpContentTypeSelected !== undefined) {
             headers.set('Content-Type', httpContentTypeSelected);
         }
 
@@ -290,7 +290,7 @@ export class UserService {
         let httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -298,7 +298,7 @@ export class UserService {
         const consumes: string[] = [
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
+        if (httpContentTypeSelected !== undefined) {
             headers.set('Content-Type', httpContentTypeSelected);
         }
 
@@ -333,7 +333,7 @@ export class UserService {
         let httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -373,7 +373,7 @@ export class UserService {
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -425,7 +425,7 @@ export class UserService {
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -460,7 +460,7 @@ export class UserService {
         let httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -502,7 +502,7 @@ export class UserService {
         let httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -510,7 +510,7 @@ export class UserService {
         const consumes: string[] = [
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
+        if (httpContentTypeSelected !== undefined) {
             headers.set('Content-Type', httpContentTypeSelected);
         }
 
