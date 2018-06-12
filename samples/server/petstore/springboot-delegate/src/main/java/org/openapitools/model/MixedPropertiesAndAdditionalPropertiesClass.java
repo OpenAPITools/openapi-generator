@@ -11,14 +11,12 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
 import org.threeten.bp.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@Validated
 
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
