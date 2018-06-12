@@ -9,7 +9,7 @@
     <artifactId>openapi-generator-shippable-pom</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-shippable-pom</name>
-    <version>3.0.2-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
