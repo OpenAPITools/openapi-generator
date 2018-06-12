@@ -6,6 +6,6 @@ import com.squareup.moshi.Json
 */
 enum class {{classname}}(val value: {{dataType}}){
 {{#allowableValues}}{{#enumVars}}
-    @Json(name = {{{value}}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
 {{/enumVars}}{{/allowableValues}}
 }

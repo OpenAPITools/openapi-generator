@@ -224,12 +224,13 @@ public class DefaultCodegenTest {
 
         codegen.updateCodegenPropertyEnum(array);
 
-        List<Map<String, String>> enumVars = (List<Map<String, String>>) array.getItems().getAllowableValues().get("enumVars");
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) array.getItems().getAllowableValues().get("enumVars");
         Assert.assertNotNull(enumVars);
-        Map<String, String> testedEnumVar = enumVars.get(0);
+        Map<String, Object> testedEnumVar = enumVars.get(0);
         Assert.assertNotNull(testedEnumVar);
         Assert.assertEquals(testedEnumVar.getOrDefault("name", ""),"_1");
         Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "\"1\"");
+        Assert.assertEquals(testedEnumVar.getOrDefault("isString", ""), false);
     }
 
     private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {
