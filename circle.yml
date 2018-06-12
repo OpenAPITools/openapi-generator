@@ -1,54 +1,115 @@
-# Java-related client, server tests
-machine:
-  java:
-    version: openjdk8
-  services:
-    - docker
-  # Override /etc/hosts
-  hosts:
-    petstore.swagger.io: 127.0.0.1
-  environment:
-    DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
-    DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
-
-dependencies:
-  cache_directories:
-    - "~/.m2"
-    - "~/.sbt"
-    - "~/.ivy2/cache"
-
-  pre:
-    - sudo add-apt-repository ppa:duggan/bats --yes
-    - sudo apt-get update -qq
-    - sudo apt-get install -qq bats
-    - sudo apt-get install -qq curl
-    # to run petstore server locally via docker
-    - docker pull swaggerapi/petstore
-    - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
-    - docker ps -a
-    # show host table to confirm petstore.swagger.io is mapped to localhost
-    - cat /etc/hosts
-  override:
-    - cp CI/pom.xml.circleci pom.xml
-
-test:
-  override:
-    ## test with jdk8
-    - java -version
-    - mvn --quiet clean install
-    - mvn --quiet verify -Psamples
-    # skip the rest if previous mvn task fails
-    - if [ $? -ne 0 ]; then exit 1; fi
-    ## test with jdk7
-    - sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
-    - java -version
-    - cp CI/pom.xml.circleci.java7 pom.xml # use jdk7 pom
-    - mvn --quiet clean install
-    - mvn --quiet verify -Psamples
-    # skip the rest if previous mvn task fails
-    - if [ $? -ne 0 ]; then exit 1; fi
-    ## docker push done in Travis instead
-    ## docker: build generator image and push to Docker Hub
-    #- if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build --rm=false -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/opeanapi-generator && if [ ! -z "$CIRCLE_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$CIRCLE_TAG; fi && if [ ! -z "$CIRCLE_TAG" ] || [ "$CIRCLE_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME; fi; fi
-    ### docker: build cli image and push to Docker Hub
-    #- if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build --rm=false -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli && if [ ! -z "$CIRCLE_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$CIRCLE_TAG; fi && if [ ! -z "$CIRCLE_TAG" ] || [ "$CIRCLE_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME; fi; fi
+# This configuration was automatically generated from a CircleCI 1.0 config.
+# It should include any build commands you had along with commands that CircleCI
+# inferred from your project structure. We strongly recommend you read all the
+# comments in this file to understand the structure of CircleCI 2.0, as the idiom
+# for configuration has changed substantially in 2.0 to allow arbitrary jobs rather
+# than the prescribed lifecycle of 1.0. In general, we recommend using this generated
+# configuration as a reference rather than using it in production, though in most
+# cases it should duplicate the execution of your original 1.0 config.
+version: 2
+jobs:
+  build:
+    working_directory: ~/OpenAPITools/openapi-generator
+    parallelism: 1
+    shell: /bin/bash --login
+    # CircleCI 2.0 does not support environment variables that refer to each other the same way as 1.0 did.
+    # If any of these refer to each other, rewrite them so that they don't or see https://circleci.com/docs/2.0/env-vars/#interpolating-environment-variables-to-set-other-environment-variables .
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
+      DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
+    # In CircleCI 1.0 we used a pre-configured image with a large number of languages and other packages.
+    # In CircleCI 2.0 you can now specify your own image, or use one of our pre-configured images.
+    # The following configuration line tells CircleCI to use the specified docker image as the runtime environment for you job.
+    # We have selected a pre-built image that mirrors the build environment we use on
+    # the 1.0 platform, but we recommend you choose an image more tailored to the needs
+    # of each job. For more information on choosing an image (or alternatively using a
+    # VM instead of a container) see https://circleci.com/docs/2.0/executor-types/
+    # To see the list of pre-built images that CircleCI provides for most common languages see
+    # https://circleci.com/docs/2.0/circleci-images/
+    docker:
+    - image: circleci/build-image:ubuntu-14.04-XXL-upstart-1189-5614f37
+      command: /sbin/init
+    steps:
+    # Machine Setup
+    #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
+    # The following `checkout` command checks out your code to your working directory. In 1.0 we did this implicitly. In 2.0 you can choose where in the course of a job your code should be checked out.
+    - checkout
+    # Prepare for artifact and test results  collection equivalent to how it was done on 1.0.
+    # In many cases you can simplify this from what is generated here.
+    # 'See docs on artifact collection here https://circleci.com/docs/2.0/artifacts/'
+    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+    # This is based on your 1.0 configuration file or project settings
+    - run:
+        working_directory: ~/OpenAPITools/openapi-generator
+        command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+    - run:
+        working_directory: ~/OpenAPITools/openapi-generator
+        command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
+    - run:
+        working_directory: ~/OpenAPITools/openapi-generator
+        command: |-
+          printf '127.0.0.1       petstore.swagger.io
+          ' | sudo tee -a /etc/hosts
+    # Dependencies
+    #   This would typically go in either a build or a build-and-test job when using workflows
+    # Restore the dependency cache
+    - restore_cache:
+        keys:
+        # This branch if available
+        - v1-dep-{{ .Branch }}-
+        # Default branch if not
+        - v1-dep-master-
+        # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
+        - v1-dep-
+    # This is based on your 1.0 configuration file or project settings
+    - run: sudo add-apt-repository ppa:duggan/bats --yes
+    - run: sudo apt-get update -qq
+    - run: sudo apt-get install -qq bats
+    - run: sudo apt-get install -qq curl
+    - run: docker pull swaggerapi/petstore
+    - run: docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+    - run: docker ps -a
+    - run: cat /etc/hosts
+    # This is based on your 1.0 configuration file or project settings
+    - run: cp CI/pom.xml.circleci pom.xml
+    # Save dependency cache
+    - save_cache:
+        key: v1-dep-{{ .Branch }}-{{ epoch }}
+        paths:
+        # This is a broad list of cache paths to include many possible development environments
+        # You can probably delete some of these entries
+        - vendor/bundle
+        - ~/virtualenvs
+        - ~/.m2
+        - ~/.ivy2
+        - ~/.bundle
+        - ~/.go_workspace
+        - ~/.gradle
+        - ~/.cache/bower
+        # These cache paths were specified in the 1.0 config
+        - ~/.sbt
+    # Test
+    #   This would typically be a build job when using workflows, possibly combined with build
+    # This is based on your 1.0 configuration file or project settings
+    - run: java -version
+    - run: mvn --quiet clean install
+    - run: mvn --quiet verify -Psamples
+    - run: if [ $? -ne 0 ]; then exit 1; fi
+    - run: sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
+    - run: java -version
+    - run: cp CI/pom.xml.circleci.java7 pom.xml
+    - run: mvn --quiet clean install
+    - run: mvn --quiet verify -Psamples
+    - run: if [ $? -ne 0 ]; then exit 1; fi
+    # Teardown
+    #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
+    # Save test results
+    - store_test_results:
+        path: /tmp/circleci-test-results
+    # Save artifacts
+    - store_artifacts:
+        path: /tmp/circleci-artifacts
+    - store_artifacts:
+        path: /tmp/circleci-test-results
