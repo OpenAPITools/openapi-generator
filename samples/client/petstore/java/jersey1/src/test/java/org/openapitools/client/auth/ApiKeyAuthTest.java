@@ -1,11 +1,11 @@
-package io.swagger.client.auth;
+package org.openapitools.client.auth;
 
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
 
-import io.swagger.client.Pair;
+import org.openapitools.client.Pair;
 import org.junit.*;
 import static org.junit.Assert.*;
 
