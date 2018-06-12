@@ -77,6 +77,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     public RustServerCodegen() {
         super();
 
+        // Show the generation timestamp by default
+        hideGenerationTimestamp = Boolean.FALSE;
+
         // set the output folder here
         outputFolder = "generated-code/rust-server";
 
@@ -556,19 +559,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
 
         List<String> produces = new ArrayList<String>(getProducesInfo(openAPI, operation));
-        // if "consumes" is defined (per operation or using global definition)
-        /*
-        if (operation.getProduces() != null) {
-            if (operation.getProduces().size() > 0) {
-                // use produces defined in the operation
-                produces = operation.getProduces();
-            }
-        } else if (swagger != null && swagger.getProduces() != null && swagger.getProduces().size() > 0) {
-            // use produces defined globally
-            produces = swagger.getProduces();
-            LOGGER.debug("No produces defined in operation. Using global produces (" + swagger.getProduces() + ") for " + op.operationId);
-        }
-        */
 
         boolean producesXml = false;
         boolean producesPlainText = false;
@@ -653,16 +643,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             header.nameInCamelCase = toModelName(header.baseName);
         }
 
-        // if (param.isFile) {
-        //     param.vendorExtensions.put("formatString", "{:?}");
-        //     op.vendorExtensions.put("hasFile", true);
-        //     additionalProperties.put("apiHasFile", true);
-        //     example = "Box::new(stream::once(Ok(b\"hello\".to_vec()))) as Box<Stream<Item=_, Error=_> + Send>";
-        // }
-
-        // op.vendorExtensions.put("hasFile", true);
-
-
         return op;
     }
 
@@ -694,13 +674,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
 
             if (op.bodyParam != null) {
-                // if (paramHasXmlNamespace(op.bodyParam, definitions)) {
-                    // op.bodyParam.vendorExtensions.put("has_namespace", "true");
-                // }
-                // for (String key : definitions.keySet()) {
-                    // op.bodyParam.vendorExtensions.put("model_key", key);
-                // }
-
                 // Default to consuming json
                 op.bodyParam.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase());
                 if (consumesXml) {
@@ -714,10 +687,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
             for (CodegenParameter param : op.bodyParams) {
                 processParam(param, op);
-
-                // if (paramHasXmlNamespace(param, definitions)) {
-                //     param.vendorExtensions.put("has_namespace", "true");
-                // }
 
                 param.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase());
 
@@ -760,18 +729,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             String innerType = getTypeDeclaration(inner);
             StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("array")).append("<");
-            // if (!StringUtils.isEmpty(inner.get$ref())) {
-            //     typeDeclaration.append("models::");
-            // }
             typeDeclaration.append(innerType).append(">");
             return typeDeclaration.toString();
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             String innerType = getTypeDeclaration(inner);
             StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
-            // if (!StringUtils.isEmpty(inner.get$ref())) {
-            //     typeDeclaration.append("models::");
-            // }
             typeDeclaration.append(innerType).append(">");
             return typeDeclaration.toString();
         } else if (!StringUtils.isEmpty(p.get$ref())) {
@@ -799,32 +762,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
         CodegenParameter parameter = super.fromParameter(param, imports);
-        /* TODO need ot revise the logic below as there's no body parameter
-        if (param instanceof BodyParameter) {
-            BodyParameter bp = (BodyParameter) param;
-            Model model = bp.getSchema();
-            if (model instanceof RefModel) {
-                String name = ((RefModel) model).getSimpleRef();
-                name = toModelName(name);
-                // We need to be able to look up the model in the model definitions later.
-                parameter.vendorExtensions.put("uppercase_data_type", name.toUpperCase());
-
-                name = "models::" + getTypeDeclaration(name);
-                parameter.baseType = name;
-                parameter.dataType = name;
-
-                String refName = ((RefModel) model).get$ref();
-                if (refName.indexOf("#/components/schemas/") == 0) {
-                    refName = refName.substring("#/components/schemas/".length());
-                }
-                parameter.vendorExtensions.put("refName", refName);
-
-            } else if (model instanceof ModelImpl) {
-                parameter.vendorExtensions.put("refName", ((ModelImpl) model).getName());
-            }
-        }
-        */
-
         if (!parameter.isString && !parameter.isNumeric && !parameter.isByteArray &&
             !parameter.isBinary && !parameter.isFile && !parameter.isBoolean &&
             !parameter.isDate && !parameter.isDateTime && !parameter.isUuid &&
@@ -853,43 +790,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             parameter.dataType = name;
             parameter.baseType = name;
         }
-
-
-        // if (parameter instanceof BodyParameter) {
-        //     BodyParameter bp = (BodyParameter) parameter;
-            // Model model = parameter.getSchema();
-            // if (model instanceof RefModel) {
-            //     String name = ((RefModel) model).getSimpleRef();
-            //     name = toModelName(name);
-            //     // We need to be able to look up the model in the model definitions later.
-            //     parameter.vendorExtensions.put("uppercase_data_type", name.toUpperCase());
-
-            //     name = "models::" + getTypeDeclaration(name);
-            //     parameter.baseType = name;
-            //     parameter.dataType = name;
-
-            //     String refName = ((RefModel) model).get$ref();
-            //     if (refName.indexOf("#/components/schemas/") == 0) {
-            //         refName = refName.substring("#/components/schemas/".length());
-            //     }
-            //     parameter.vendorExtensions.put("refName", refName);
-
-            // } else if (model instanceof ModelImpl) {
-            //     parameter.vendorExtensions.put("refName", ((ModelImpl) model).getName());
-            // }
-        // }
-    }
-
-    @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty property = super.fromProperty(name, p);
-
-        /* need to revise the logic below. Is this for alias?
-        if (p instanceof RefProperty) {
-            property.datatype = "models::" + property.datatype;
-        }
-        */
-        return property;
     }
 
     @Override
