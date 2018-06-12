@@ -76,7 +76,7 @@ OpenAPI Generator Version    | Release Date | OpenAPI Spec compatibility | Notes
 ---------------------------- | ------------ | -------------------------- | -----
 4.0.0 (upcoming major release) | TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Major release with breaking changes (no fallback)
 3.1.0 (upcoming minor release) | TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Minor release with breaking changes (with fallbacks)
-3.0.1 (current master, upcoming release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.0.1-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Bug fixes release
+3.0.1 (current master, upcoming release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.0.1/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Bug fixes release
 3.0.0 | 01.06.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | First release with breaking changes
 
 ### [1.2 - Artifacts on Maven Central](#table-of-contents)
@@ -393,17 +393,23 @@ The OpenAPI Generator project is intended as a benefit for users of the Open API
 When code is generated from this project, it shall be considered **AS IS** and owned by the user of the software.  There are no warranties--expressed or implied--for generated code.  You can do what you wish with it, and once generated, the code is your responsibility and subject to the licensing terms that you deem appropriate.
  
 ## [4 - Companies/Projects using OpenAPI Generator](#table-of-contents)
-Here are some companies/projects using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
+Here are some companies/projects (alphabetical order) using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
-- [REST United](https://restunited.com)
-- [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
+- [Angular.Schule](https://angular.schule/)
 - [Bithost GmbH](https://www.bithost.ch)
+- [GMO Pepabo](https://pepabo.com/en/)
+- [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
+- [REST United](https://restunited.com)
+- [unblu inc.](https://www.unblu.com/)
+
 
 ## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
 
 - 2018/05/12 - [OpenAPI Generator - community drivenで成長するコードジェネレータ](https://ackintosh.github.io/blog/2018/05/12/openapi-generator/) by [中野暁人](https://github.com/ackintosh)
 - 2018/05/15 - [Starting a new open-source project](http://jmini.github.io/blog/2018/2018-05-15_new-open-source-project.html) by [Jeremie Bresson](https://github.com/jmini)
 - 2018/05/15 - [REST API仕様からAPIクライアントやスタブサーバを自動生成する「OpenAPI Generator」オープンソースで公開。Swagger Codegenからのフォーク](https://www.publickey1.jp/blog/18/rest_apiapiopenapi_generatorswagger_generator.html) by [Publickey](https://www.publickey1.jp)
+- 2018/04/12 - [Generate Angular API clients with Swagger](https://angular.schule/blog/2018-04-swagger-codegen) by [JohannesHoppe](https://github.com/JohannesHoppe)
+- 2018/06/08 - [Swagger Codegen is now OpenAPI Generator](https://angular.schule/blog/2018-06-swagger-codegen-is-now-openapi-generator) by [JohannesHoppe](https://github.com/JohannesHoppe)
 
 ## [6 - About Us](#table-of-contents)
 

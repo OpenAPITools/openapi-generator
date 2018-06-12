@@ -61,7 +61,7 @@ public class CodegenConfigurator implements Serializable {
         nameMigrationMap.put("scala", new ScalaHttpClientCodegen().getName());
         nameMigrationMap.put("jaxrs", new JavaJerseyServerCodegen().getName());
         nameMigrationMap.put("qt5cpp", new CppQt5ClientCodegen().getName());
-        nameMigrationMap.put("cpprest", new CppRestClientCodegen().getName());
+        nameMigrationMap.put("cpprest", new CppRestSdkClientCodegen().getName());
         nameMigrationMap.put("tizen", new CppTizenClientCodegen().getName());
         nameMigrationMap.put("sinatra", new RubySinatraServerCodegen().getName());
         nameMigrationMap.put("swift", new SwiftClientCodegen().getName());

@@ -30,7 +30,7 @@ public class CodegenSecurity {
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     // ApiKey specific
     public String keyParamName;
-    public Boolean isKeyInQuery, isKeyInHeader;
+    public Boolean isKeyInQuery, isKeyInHeader, isKeyInCookie;
     // Oauth specific
     public String flow, authorizationUrl, tokenUrl;
     public List<Map<String, Object>> scopes;

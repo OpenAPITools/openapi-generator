@@ -159,6 +159,7 @@ public class ModelUtils {
      */
     private static void visitOpenAPI(OpenAPI openAPI, OpenAPISchemaVisitor visitor) {
         Map<String, PathItem> paths = openAPI.getPaths();
+        List<String> visitedSchemas = new ArrayList<>();
 
         if (paths != null) {
             for (PathItem path : paths.values()) {
@@ -170,7 +171,7 @@ public class ModelUtils {
                             for (Parameter p : operation.getParameters()) {
                                 Parameter parameter = getReferencedParameter(openAPI, p);
                                 if (parameter.getSchema() != null) {
-                                    visitor.visit(parameter.getSchema(), null);
+                                    visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
                                 }
                             }
                         }
@@ -180,7 +181,7 @@ public class ModelUtils {
                         if (requestBody != null && requestBody.getContent() != null) {
                             for (Entry<String, MediaType> e : requestBody.getContent().entrySet()) {
                                 if (e.getValue().getSchema() != null) {
-                                    visitor.visit(e.getValue().getSchema(), e.getKey());
+                                    visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
                                 }
                             }
                         }
@@ -192,7 +193,7 @@ public class ModelUtils {
                                 if (apiResponse != null && apiResponse.getContent() != null) {
                                     for (Entry<String, MediaType> e : apiResponse.getContent().entrySet()) {
                                         if (e.getValue().getSchema() != null) {
-                                            visitor.visit(e.getValue().getSchema(), e.getKey());
+                                            visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
                                         }
                                     }
                                 }
@@ -200,6 +201,59 @@ public class ModelUtils {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private static void visitSchema(OpenAPI openAPI, Schema schema, String mimeType, List<String> visitedSchemas, OpenAPISchemaVisitor visitor) {
+        visitor.visit(schema, mimeType);
+        if(schema.get$ref() != null) {
+            String ref = getSimpleRef(schema.get$ref());
+            if(!visitedSchemas.contains(ref)) {
+                visitedSchemas.add(ref);
+                Schema referencedSchema = getSchemas(openAPI).get(ref);
+                if(referencedSchema != null) {
+                    visitSchema(openAPI, referencedSchema, mimeType, visitedSchemas, visitor);
+                }
+            }
+        }
+        if(schema instanceof ComposedSchema) {
+            List<Schema> oneOf = ((ComposedSchema) schema).getOneOf();
+            if(oneOf != null) {
+                for (Schema s : oneOf) {
+                    visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
+                }
+            }
+            List<Schema> allOf = ((ComposedSchema) schema).getAllOf();
+            if(allOf != null) {
+                for (Schema s : allOf) {
+                    visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
+                }
+            }
+            List<Schema> anyOf = ((ComposedSchema) schema).getAnyOf();
+            if(anyOf != null) {
+                for (Schema s : anyOf) {
+                    visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
+                }
+            }
+        } else if(schema instanceof ArraySchema) {
+            Schema itemsSchema = ((ArraySchema) schema).getItems();
+            if(itemsSchema != null) {
+                visitSchema(openAPI, itemsSchema, mimeType, visitedSchemas, visitor);
+            }
+        } else if(isMapSchema(schema)) {
+            Object additionalProperties = schema.getAdditionalProperties();
+            if(additionalProperties instanceof Schema) {
+                visitSchema(openAPI, (Schema) additionalProperties, mimeType, visitedSchemas, visitor);
+            }
+        }
+        if(schema.getNot() != null) {
+            visitSchema(openAPI, schema.getNot(), mimeType, visitedSchemas, visitor);
+        }
+        Map<String, Schema> properties = schema.getProperties();
+        if(properties != null) {
+            for (Schema property : properties.values()) {
+                visitSchema(openAPI, property, mimeType, visitedSchemas, visitor);
             }
         }
     }
