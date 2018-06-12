@@ -1129,7 +1129,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             // Object isn't a sensible default. Instead, we set it to 'null'.
             // This ensures that we treat this model as a struct with multiple
             // parameters.
-            if (cm.vars.size() > 1) {
+            if (cm.dataType != null && cm.dataType.equals("object")) {
                 LOGGER.debug("Setting {} datatype to null", cm);
                 cm.dataType = null;
             } else if (cm.dataType != null) {

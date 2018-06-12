@@ -139,65 +139,37 @@ impl ApiResponse {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ArrayOfArrayOfNumberOnly {
+    #[serde(rename = "ArrayArrayNumber")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub array_array_number: Option<Vec<Vec<f64>>>,
 
-pub struct ArrayOfArrayOfNumberOnly(object);
+}
 
-impl ::std::convert::From<object> for ArrayOfArrayOfNumberOnly {
-    fn from(x: object) -> Self {
-        ArrayOfArrayOfNumberOnly(x)
+impl ArrayOfArrayOfNumberOnly {
+    pub fn new() -> ArrayOfArrayOfNumberOnly {
+        ArrayOfArrayOfNumberOnly {
+            array_array_number: None,
+        }
     }
 }
 
-impl ::std::convert::From<ArrayOfArrayOfNumberOnly> for object {
-    fn from(x: ArrayOfArrayOfNumberOnly) -> Self {
-        x.0
-    }
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ArrayOfNumberOnly {
+    #[serde(rename = "ArrayNumber")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub array_number: Option<Vec<f64>>,
+
 }
 
-impl ::std::ops::Deref for ArrayOfArrayOfNumberOnly {
-    type Target = object;
-    fn deref(&self) -> &object {
-        &self.0
+impl ArrayOfNumberOnly {
+    pub fn new() -> ArrayOfNumberOnly {
+        ArrayOfNumberOnly {
+            array_number: None,
+        }
     }
 }
-
-impl ::std::ops::DerefMut for ArrayOfArrayOfNumberOnly {
-    fn deref_mut(&mut self) -> &mut object {
-        &mut self.0
-    }
-}
-
-
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-
-pub struct ArrayOfNumberOnly(object);
-
-impl ::std::convert::From<object> for ArrayOfNumberOnly {
-    fn from(x: object) -> Self {
-        ArrayOfNumberOnly(x)
-    }
-}
-
-impl ::std::convert::From<ArrayOfNumberOnly> for object {
-    fn from(x: ArrayOfNumberOnly) -> Self {
-        x.0
-    }
-}
-
-impl ::std::ops::Deref for ArrayOfNumberOnly {
-    type Target = object;
-    fn deref(&self) -> &object {
-        &self.0
-    }
-}
-
-impl ::std::ops::DerefMut for ArrayOfNumberOnly {
-    fn deref_mut(&mut self) -> &mut object {
-        &mut self.0
-    }
-}
-
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ArrayTest {
@@ -247,7 +219,7 @@ pub struct Capitalization {
     #[serde(skip_serializing_if="Option::is_none")]
     pub sca_eth_flow_points: Option<String>,
 
-    /// Name of the pet 
+    /// Name of the pet
     #[serde(rename = "ATT_NAME")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub att_name: Option<String>,
@@ -315,65 +287,37 @@ impl Category {
 }
 
 /// Model for testing model with \"_class\" property
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ClassModel {
+    #[serde(rename = "_class")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _class: Option<String>,
 
-pub struct ClassModel(object);
+}
 
-impl ::std::convert::From<object> for ClassModel {
-    fn from(x: object) -> Self {
-        ClassModel(x)
+impl ClassModel {
+    pub fn new() -> ClassModel {
+        ClassModel {
+            _class: None,
+        }
     }
 }
 
-impl ::std::convert::From<ClassModel> for object {
-    fn from(x: ClassModel) -> Self {
-        x.0
-    }
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Client {
+    #[serde(rename = "client")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub client: Option<String>,
+
 }
 
-impl ::std::ops::Deref for ClassModel {
-    type Target = object;
-    fn deref(&self) -> &object {
-        &self.0
+impl Client {
+    pub fn new() -> Client {
+        Client {
+            client: None,
+        }
     }
 }
-
-impl ::std::ops::DerefMut for ClassModel {
-    fn deref_mut(&mut self) -> &mut object {
-        &mut self.0
-    }
-}
-
-
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-
-pub struct Client(object);
-
-impl ::std::convert::From<object> for Client {
-    fn from(x: object) -> Self {
-        Client(x)
-    }
-}
-
-impl ::std::convert::From<Client> for object {
-    fn from(x: Client) -> Self {
-        x.0
-    }
-}
-
-impl ::std::ops::Deref for Client {
-    type Target = object;
-    fn deref(&self) -> &object {
-        &self.0
-    }
-}
-
-impl ::std::ops::DerefMut for Client {
-    fn deref_mut(&mut self) -> &mut object {
-        &mut self.0
-    }
-}
-
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Dog {
@@ -429,7 +373,7 @@ impl EnumArrays {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Eq, Ord)]
-pub enum EnumClass { 
+pub enum EnumClass {
     #[serde(rename = "_abc")]
     _ABC,
     #[serde(rename = "-efg")]
@@ -440,7 +384,7 @@ pub enum EnumClass {
 
 impl ::std::fmt::Display for EnumClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        match *self { 
+        match *self {
             EnumClass::_ABC => write!(f, "{}", "_abc"),
             EnumClass::_EFG => write!(f, "{}", "-efg"),
             EnumClass::_XYZ_ => write!(f, "{}", "(xyz)"),
@@ -592,35 +536,21 @@ impl HasOnlyReadOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct List {
+    #[serde(rename = "123-list")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _123_list: Option<String>,
 
-pub struct List(object);
-
-impl ::std::convert::From<object> for List {
-    fn from(x: object) -> Self {
-        List(x)
-    }
 }
 
-impl ::std::convert::From<List> for object {
-    fn from(x: List) -> Self {
-        x.0
+impl List {
+    pub fn new() -> List {
+        List {
+            _123_list: None,
+        }
     }
 }
-
-impl ::std::ops::Deref for List {
-    type Target = object;
-    fn deref(&self) -> &object {
-        &self.0
-    }
-}
-
-impl ::std::ops::DerefMut for List {
-    fn deref_mut(&mut self) -> &mut object {
-        &mut self.0
-    }
-}
-
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct MapTest {
@@ -694,35 +624,22 @@ impl Model200Response {
 }
 
 /// Model for testing reserved words
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename = "Return")]
-pub struct ModelReturn(object);
+pub struct ModelReturn {
+    #[serde(rename = "return")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _return: Option<i32>,
 
-impl ::std::convert::From<object> for ModelReturn {
-    fn from(x: object) -> Self {
-        ModelReturn(x)
-    }
 }
 
-impl ::std::convert::From<ModelReturn> for object {
-    fn from(x: ModelReturn) -> Self {
-        x.0
+impl ModelReturn {
+    pub fn new() -> ModelReturn {
+        ModelReturn {
+            _return: None,
+        }
     }
 }
-
-impl ::std::ops::Deref for ModelReturn {
-    type Target = object;
-    fn deref(&self) -> &object {
-        &self.0
-    }
-}
-
-impl ::std::ops::DerefMut for ModelReturn {
-    fn deref_mut(&mut self) -> &mut object {
-        &mut self.0
-    }
-}
-
 
 /// Model for testing model name same as property name
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -756,35 +673,21 @@ impl Name {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct NumberOnly {
+    #[serde(rename = "JustNumber")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub just_number: Option<f64>,
 
-pub struct NumberOnly(object);
-
-impl ::std::convert::From<object> for NumberOnly {
-    fn from(x: object) -> Self {
-        NumberOnly(x)
-    }
 }
 
-impl ::std::convert::From<NumberOnly> for object {
-    fn from(x: NumberOnly) -> Self {
-        x.0
+impl NumberOnly {
+    pub fn new() -> NumberOnly {
+        NumberOnly {
+            just_number: None,
+        }
     }
 }
-
-impl ::std::ops::Deref for NumberOnly {
-    type Target = object;
-    fn deref(&self) -> &object {
-        &self.0
-    }
-}
-
-impl ::std::ops::DerefMut for NumberOnly {
-    fn deref_mut(&mut self) -> &mut object {
-        &mut self.0
-    }
-}
-
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename = "Order")]
@@ -862,7 +765,7 @@ impl OuterComposite {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Eq, Ord)]
-pub enum OuterEnum { 
+pub enum OuterEnum {
     #[serde(rename = "placed")]
     PLACED,
     #[serde(rename = "approved")]
@@ -873,7 +776,7 @@ pub enum OuterEnum {
 
 impl ::std::fmt::Display for OuterEnum {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        match *self { 
+        match *self {
             OuterEnum::PLACED => write!(f, "{}", "placed"),
             OuterEnum::APPROVED => write!(f, "{}", "approved"),
             OuterEnum::DELIVERED => write!(f, "{}", "delivered"),
@@ -956,35 +859,22 @@ impl ReadOnlyFirst {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename = "$special[model.name]")]
-pub struct SpecialModelName(object);
+pub struct SpecialModelName {
+    #[serde(rename = "$special[property.name]")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub special_property_name: Option<i64>,
 
-impl ::std::convert::From<object> for SpecialModelName {
-    fn from(x: object) -> Self {
-        SpecialModelName(x)
-    }
 }
 
-impl ::std::convert::From<SpecialModelName> for object {
-    fn from(x: SpecialModelName) -> Self {
-        x.0
+impl SpecialModelName {
+    pub fn new() -> SpecialModelName {
+        SpecialModelName {
+            special_property_name: None,
+        }
     }
 }
-
-impl ::std::ops::Deref for SpecialModelName {
-    type Target = object;
-    fn deref(&self) -> &object {
-        &self.0
-    }
-}
-
-impl ::std::ops::DerefMut for SpecialModelName {
-    fn deref_mut(&mut self) -> &mut object {
-        &mut self.0
-    }
-}
-
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename = "Tag")]
