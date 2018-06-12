@@ -219,7 +219,7 @@ pub struct Capitalization {
     #[serde(skip_serializing_if="Option::is_none")]
     pub sca_eth_flow_points: Option<String>,
 
-    /// Name of the pet
+    /// Name of the pet 
     #[serde(rename = "ATT_NAME")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub att_name: Option<String>,
@@ -373,7 +373,7 @@ impl EnumArrays {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Eq, Ord)]
-pub enum EnumClass {
+pub enum EnumClass { 
     #[serde(rename = "_abc")]
     _ABC,
     #[serde(rename = "-efg")]
@@ -384,7 +384,7 @@ pub enum EnumClass {
 
 impl ::std::fmt::Display for EnumClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        match *self {
+        match *self { 
             EnumClass::_ABC => write!(f, "{}", "_abc"),
             EnumClass::_EFG => write!(f, "{}", "-efg"),
             EnumClass::_XYZ_ => write!(f, "{}", "(xyz)"),
@@ -733,6 +733,36 @@ impl Order {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct OuterBoolean(bool);
+
+impl ::std::convert::From<bool> for OuterBoolean {
+    fn from(x: bool) -> Self {
+        OuterBoolean(x)
+    }
+}
+
+impl ::std::convert::From<OuterBoolean> for bool {
+    fn from(x: OuterBoolean) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for OuterBoolean {
+    type Target = bool;
+    fn deref(&self) -> &bool {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for OuterBoolean {
+    fn deref_mut(&mut self) -> &mut bool {
+        &mut self.0
+    }
+}
+
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct OuterComposite {
     #[serde(rename = "my_number")]
@@ -765,7 +795,7 @@ impl OuterComposite {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Eq, Ord)]
-pub enum OuterEnum {
+pub enum OuterEnum { 
     #[serde(rename = "placed")]
     PLACED,
     #[serde(rename = "approved")]
@@ -776,7 +806,7 @@ pub enum OuterEnum {
 
 impl ::std::fmt::Display for OuterEnum {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        match *self {
+        match *self { 
             OuterEnum::PLACED => write!(f, "{}", "placed"),
             OuterEnum::APPROVED => write!(f, "{}", "approved"),
             OuterEnum::DELIVERED => write!(f, "{}", "delivered"),
@@ -795,6 +825,66 @@ impl ::std::str::FromStr for OuterEnum {
         }
     }
 }
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct OuterNumber(f64);
+
+impl ::std::convert::From<f64> for OuterNumber {
+    fn from(x: f64) -> Self {
+        OuterNumber(x)
+    }
+}
+
+impl ::std::convert::From<OuterNumber> for f64 {
+    fn from(x: OuterNumber) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for OuterNumber {
+    type Target = f64;
+    fn deref(&self) -> &f64 {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for OuterNumber {
+    fn deref_mut(&mut self) -> &mut f64 {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct OuterString(String);
+
+impl ::std::convert::From<String> for OuterString {
+    fn from(x: String) -> Self {
+        OuterString(x)
+    }
+}
+
+impl ::std::convert::From<OuterString> for String {
+    fn from(x: OuterString) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for OuterString {
+    type Target = String;
+    fn deref(&self) -> &String {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for OuterString {
+    fn deref_mut(&mut self) -> &mut String {
+        &mut self.0
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename = "Pet")]

@@ -1126,14 +1126,17 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-            // Object isn't a sensible default. Instead, we set it to 'null'.
-            // This ensures that we treat this model as a struct with multiple
-            // parameters.
+
             if (cm.dataType != null && cm.dataType.equals("object")) {
-                LOGGER.debug("Setting {} datatype to null", cm);
+                // Object isn't a sensible default. Instead, we set it to
+                // 'null'. This ensures that we treat this model as a struct
+                // with multiple parameters.
                 cm.dataType = null;
             } else if (cm.dataType != null) {
-                LOGGER.warn("Found a disappearing model: {}, {}", cm, cm.dataType);
+                // We need to hack about with single-parameter models to get
+                // them recognised correctly.
+                cm.isAlias = false;
+                cm.dataType = typeMapping.get(cm.dataType);
             }
         }
         return super.postProcessModelsEnum(objs);
