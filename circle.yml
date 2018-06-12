@@ -68,6 +68,13 @@ jobs:
     - run: sudo apt-get update -qq
     - run: sudo apt-get install -qq bats
     - run: sudo apt-get install -qq curl
+    - run:
+        name: Install Docker Compose
+        command: |
+          curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+          chmod +x ~/docker-compose
+          sudo mv ~/docker-compose /usr/local/bin/docker-compose
+          docker-compose up -d 
     - run: docker pull swaggerapi/petstore
     - run: docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
     - run: docker ps -a
