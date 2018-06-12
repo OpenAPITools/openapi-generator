@@ -653,6 +653,16 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             header.nameInCamelCase = toModelName(header.baseName);
         }
 
+        // if (param.isFile) {
+        //     param.vendorExtensions.put("formatString", "{:?}");
+        //     op.vendorExtensions.put("hasFile", true);
+        //     additionalProperties.put("apiHasFile", true);
+        //     example = "Box::new(stream::once(Ok(b\"hello\".to_vec()))) as Box<Stream<Item=_, Error=_> + Send>";
+        // }
+
+        // op.vendorExtensions.put("hasFile", true);
+
+
         return op;
     }
 
@@ -724,6 +734,16 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             for (CodegenParameter param : op.formParams) {
                 processParam(param, op);
             }
+
+            for (CodegenProperty header : op.responseHeaders) {
+                if (header.dataType.equals("uuid::Uuid")) {
+                    LOGGER.info("Has UUID");
+                    additionalProperties.put("apiUsesUuid", true);
+                }
+                header.nameInCamelCase = toModelName(header.baseName);
+            }
+
+            additionalProperties.put("apiHasFile", true);
         }
 
         return objs;
@@ -760,8 +780,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             try {
                 datatype = p.get$ref();
 
-                // LOGGER.info("Got model {}", datatype);
-
                 if (datatype.indexOf("#/components/schemas/") == 0) {
                     datatype = toModelName(datatype.substring("#/components/schemas/".length()));
                     datatype = "models::" + datatype;
@@ -775,13 +793,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (p instanceof FileSchema) {
             return typeMapping.get("File").toString();
         }
-        String datatype;
 
-        datatype = super.getTypeDeclaration(p);
-
-        // LOGGER.info("Got {}", datatype);
-
-        return datatype;
+        return super.getTypeDeclaration(p);
     }
 
     @Override
@@ -822,7 +835,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             String name = "models::" + getTypeDeclaration(parameter.dataType);
             parameter.dataType = name;
             parameter.baseType = name;
-            // LOGGER.info("Adding fromParameter: {}", parameter.dataType);
         }
 
         return parameter;
@@ -830,12 +842,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
-        // !languageSpecificPrimitives.contains(property.dataType)
-
-        // @@@BJG2 - this is catching languageSpecificPrimitives, but isn't catching wrappers (e.g. OuterNumber)
-
-        // If this parameter is not a primitive type, prefix it with "models::" to
-        // ensure it's namespaced correctly in the Rust code.
+        // If this parameter is not a primitive type, prefix it with "models::"
+        // to ensure it's namespaced correctly in the Rust code.
         if (!parameter.isString && !parameter.isNumeric && !parameter.isByteArray &&
             !parameter.isBinary && !parameter.isFile && !parameter.isBoolean &&
             !parameter.isDate && !parameter.isDateTime && !parameter.isUuid &&
@@ -845,7 +853,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             String name = "models::" + getTypeDeclaration(parameter.dataType);
             parameter.dataType = name;
             parameter.baseType = name;
-            // LOGGER.info("Adding postProcessParameter: {}", parameter.dataType);
         }
 
 
@@ -1161,9 +1168,17 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private void processParam(CodegenParameter param, CodegenOperation op) {
+        LOGGER.info("Processing: {}", param);
         String example = null;
 
-        if (param.isString) {
+        if (param.isFile) {
+            // It looks as if we never enter here...
+            LOGGER.warn("Op has file param");
+            param.vendorExtensions.put("formatString", "{:?}");
+            op.vendorExtensions.put("hasFile", true);
+            additionalProperties.put("apiHasFile", true);
+            example = "Box::new(stream::once(Ok(b\"hello\".to_vec()))) as Box<Stream<Item=_, Error=_> + Send>";
+        } else if (param.isString) {
             if (param.dataFormat != null && param.dataFormat.equals("byte")) {
                 param.vendorExtensions.put("formatString", "\\\"{:?}\\\"");
                 example = "swagger::ByteArray(\"" + ((param.example != null) ? param.example : "") + "\".to_string().into_bytes())";
@@ -1184,11 +1199,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (param.isListContainer) {
             param.vendorExtensions.put("formatString", "{:?}");
             example = (param.example != null) ? param.example : "&Vec::new()";
-        } else if (param.isFile) {
-            param.vendorExtensions.put("formatString", "{:?}");
-            op.vendorExtensions.put("hasFile", true);
-            additionalProperties.put("apiHasFile", true);
-            example = "Box::new(stream::once(Ok(b\"hello\".to_vec()))) as Box<Stream<Item=_, Error=_> + Send>";
         } else {
             param.vendorExtensions.put("formatString", "{:?}");
             if (param.example != null) {

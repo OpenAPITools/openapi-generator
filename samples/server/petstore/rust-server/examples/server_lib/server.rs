@@ -4,9 +4,9 @@
 
 use futures::{self, Future};
 use chrono;
-
+use futures::Stream;
 use std::collections::HashMap;
-
+use std::io::Error;
 use std::marker::PhantomData;
 
 use swagger;

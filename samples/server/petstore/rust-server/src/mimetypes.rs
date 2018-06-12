@@ -101,10 +101,6 @@ pub mod requests {
     lazy_static! {
         pub static ref TEST_CLIENT_MODEL: Mime = "application/json".parse().unwrap();
     }
-   /// Create Mime objects for the request content types for TestEndpointParameters
-    lazy_static! {
-        pub static ref TEST_ENDPOINT_PARAMETERS: Mime = "application/x-www-form-urlencoded".parse().unwrap();
-    }
    /// Create Mime objects for the request content types for TestEnumParameters
     lazy_static! {
         pub static ref TEST_ENUM_PARAMETERS: Mime = "application/x-www-form-urlencoded".parse().unwrap();
@@ -132,10 +128,6 @@ pub mod requests {
    /// Create Mime objects for the request content types for UpdatePetWithForm
     lazy_static! {
         pub static ref UPDATE_PET_WITH_FORM: Mime = "application/x-www-form-urlencoded".parse().unwrap();
-    }
-   /// Create Mime objects for the request content types for UploadFile
-    lazy_static! {
-        pub static ref UPLOAD_FILE: Mime = "multipart/form-data".parse().unwrap();
     }
    /// Create Mime objects for the request content types for PlaceOrder
     lazy_static! {

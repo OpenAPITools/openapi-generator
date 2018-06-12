@@ -6,11 +6,11 @@ extern crate openssl;
 extern crate mime;
 extern crate chrono;
 extern crate url;
-
+extern crate multipart;
 extern crate serde_urlencoded;
 
 
-
+use self::multipart::client::lazy::Multipart;
 use hyper;
 use hyper::header::{Headers, ContentType};
 use hyper::Uri;
@@ -789,7 +789,18 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
+        // Form data body
+        let mut multipart = Multipart::new();
 
+        // Helper function to convert a Stream into a String. The String can then be used to build the HTTP body.
+        fn convert_stream_to_string(stream: Box<Stream<Item=Vec<u8>, Error=Error> + Send>) -> Result<String, ApiError> {
+
+            stream.concat2()
+              .wait()
+              .map_err(|e| ApiError(format!("Unable to collect stream: {}", e)))
+              .and_then(|body| String::from_utf8(body)
+                .map_err(|e| ApiError(format!("Failed to convert utf8 stream to String: {}", e))))
+        }
 
         if let Ok(Some(param_binary)) = param_binary.wait() { 
             match convert_stream_to_string(param_binary) {
@@ -799,26 +810,20 @@ if let Some(body) = body {
                 },
                 Err(err) => return Box::new(futures::done(Err(err))),
             }
-        }        let params = &[
-            ("integer", param_integer.map(|param| format!("{:?}", param))),
-            ("int32", param_int32.map(|param| format!("{:?}", param))),
-            ("int64", param_int64.map(|param| format!("{:?}", param))),
-            ("number", Some(format!("{:?}", param_number))),
-            ("float", param_float.map(|param| format!("{:?}", param))),
-            ("double", Some(format!("{:?}", param_double))),
-            ("string", param_string),
-            ("pattern_without_delimiter", Some(param_pattern_without_delimiter)),
-            ("byte", Some(format!("{:?}", param_byte))),
-            ("binary", param_binary.map(|param| format!("{:?}", param))),
-            ("date", param_date.map(|param| format!("{:?}", param))),
-            ("dateTime", param_date_time.map(|param| format!("{:?}", param))),
-            ("password", param_password),
-            ("callback", param_callback),
-        ];
-        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
+        }
 
-        request.headers_mut().set(ContentType(mimetypes::requests::TEST_ENDPOINT_PARAMETERS.clone()));
-        request.set_body(body.into_bytes());
+        let mut fields = match multipart.prepare() {
+            Ok(fields) => fields,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build request: {}", err))))),
+        };
+
+        let mut body_string = String::new();
+        let body = fields.to_body().read_to_string(&mut body_string);
+        let boundary = fields.boundary();
+        let multipart_header = match mime::Mime::from_str(&format!("multipart/form-data;boundary={}", boundary)) {
+            Ok(multipart_header) => multipart_header,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build multipart header: {:?}", err))))),
+        };
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
         (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
@@ -829,6 +834,9 @@ if let Some(body) = body {
             }
         });
 
+
+        request.headers_mut().set(ContentType(multipart_header));
+        request.set_body(body_string.into_bytes());
 
 
         Box::new(self.hyper_client.call(request)
@@ -1731,7 +1739,18 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
+        // Form data body
+        let mut multipart = Multipart::new();
 
+        // Helper function to convert a Stream into a String. The String can then be used to build the HTTP body.
+        fn convert_stream_to_string(stream: Box<Stream<Item=Vec<u8>, Error=Error> + Send>) -> Result<String, ApiError> {
+
+            stream.concat2()
+              .wait()
+              .map_err(|e| ApiError(format!("Unable to collect stream: {}", e)))
+              .and_then(|body| String::from_utf8(body)
+                .map_err(|e| ApiError(format!("Failed to convert utf8 stream to String: {}", e))))
+        }
 
         if let Ok(Some(param_file)) = param_file.wait() { 
             match convert_stream_to_string(param_file) {
@@ -1741,18 +1760,27 @@ if let Some(body) = body {
                 },
                 Err(err) => return Box::new(futures::done(Err(err))),
             }
-        }        let params = &[
-            ("additionalMetadata", param_additional_metadata),
-            ("file", param_file.map(|param| format!("{:?}", param))),
-        ];
-        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
+        }
 
-        request.headers_mut().set(ContentType(mimetypes::requests::UPLOAD_FILE.clone()));
-        request.set_body(body.into_bytes());
+        let mut fields = match multipart.prepare() {
+            Ok(fields) => fields,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build request: {}", err))))),
+        };
+
+        let mut body_string = String::new();
+        let body = fields.to_body().read_to_string(&mut body_string);
+        let boundary = fields.boundary();
+        let multipart_header = match mime::Mime::from_str(&format!("multipart/form-data;boundary={}", boundary)) {
+            Ok(multipart_header) => multipart_header,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build multipart header: {:?}", err))))),
+        };
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
+
+        request.headers_mut().set(ContentType(multipart_header));
+        request.set_body(body_string.into_bytes());
 
 
         Box::new(self.hyper_client.call(request)
