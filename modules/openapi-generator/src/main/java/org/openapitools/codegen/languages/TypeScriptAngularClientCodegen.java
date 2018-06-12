@@ -43,11 +43,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
     public static final String PROVIDED_IN_ROOT ="providedInRoot";
-
+    public static final String SERVICE_SUFFIX = "serviceSuffix";
+    public static final String SERVICE_FILE_SUFFIX = "serviceFileSuffix";
 
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
     protected String npmRepository = null;
+    protected String serviceSuffix = "Service";
+    protected String serviceFileSuffix = "service";
 
     private boolean taggedUnions = false;
 
@@ -81,6 +84,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).",
                 SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '4.3'"));
+        this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service. Default is Service"));
+        this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service.<suffix>.ts). Default is service"));
     }
 
     @Override
@@ -158,6 +163,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         additionalProperties.put("useRxJS6", ngVersion.atLeast("6.0.0"));
         if (!ngVersion.atLeast("4.3.0")) {
             supportingFiles.add(new SupportingFile("rxjs-operators.mustache", getIndexDirectory(), "rxjs-operators.ts"));
+        }
+        if (additionalProperties.containsKey(SERVICE_SUFFIX)) {
+            serviceSuffix = additionalProperties.get(SERVICE_SUFFIX).toString();
+        }
+        if (additionalProperties.containsKey(SERVICE_FILE_SUFFIX)) {
+            serviceFileSuffix = additionalProperties.get(SERVICE_FILE_SUFFIX).toString();
         }
     }
 
@@ -418,7 +429,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (name.length() == 0) {
             return "DefaultService";
         }
-        return initialCaps(name) + "Service";
+        return initialCaps(name) + serviceSuffix;
     }
 
     @Override
@@ -426,7 +437,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (name.length() == 0) {
             return "default.service";
         }
-        return camelize(name, true) + ".service";
+        return camelize(name, true) + "." + serviceFileSuffix;
     }
 
     @Override
