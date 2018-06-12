@@ -77,7 +77,7 @@ jobs:
     - setup_remote_docker:
           reusable: true
           exclusive: false
-    - run: docker-compose up -d 
+    #- run: docker-compose up -d 
     - run: docker pull swaggerapi/petstore
     - run: docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
     - run: docker ps -a
