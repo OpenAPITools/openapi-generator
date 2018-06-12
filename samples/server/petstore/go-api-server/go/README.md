@@ -24,12 +24,12 @@ go run main.go
 
 To run the server in a docker container
 ```
-docker build --network=host -t petstore .
+docker build --network=host -t petstoreserver .
 ```
 
 Once image is built use
 ```
-docker run --rm -it petstore 
+docker run --rm -it petstoreserver 
 ```
 
 
