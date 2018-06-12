@@ -729,7 +729,7 @@ impl ::std::ops::DerefMut for ModelReturn {
 #[serde(rename = "Name")]
 pub struct Name {
     #[serde(rename = "name")]
-    pub _name: i32,
+    pub name: i32,
 
     #[serde(rename = "snake_case")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -746,9 +746,9 @@ pub struct Name {
 }
 
 impl Name {
-    pub fn new(_name: i32, ) -> Name {
+    pub fn new(name: i32, ) -> Name {
         Name {
-            _name: _name,
+            name: name,
             snake_case: None,
             property: None,
             _123_number: None,

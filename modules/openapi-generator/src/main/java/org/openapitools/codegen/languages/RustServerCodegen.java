@@ -760,8 +760,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             try {
                 datatype = p.get$ref();
 
-                LOGGER.info("Got model {}", datatype);
-
+                // LOGGER.info("Got model {}", datatype);
 
                 if (datatype.indexOf("#/components/schemas/") == 0) {
                     datatype = toModelName(datatype.substring("#/components/schemas/".length()));
@@ -780,7 +779,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         datatype = super.getTypeDeclaration(p);
 
-        LOGGER.info("Got {}", datatype);
+        // LOGGER.info("Got {}", datatype);
 
         return datatype;
     }
@@ -822,8 +821,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
             String name = "models::" + getTypeDeclaration(parameter.dataType);
             parameter.dataType = name;
-            parameter.dataType = name;
-            LOGGER.info("Adding fromParameter: {}", parameter.dataType);
+            parameter.baseType = name;
+            // LOGGER.info("Adding fromParameter: {}", parameter.dataType);
         }
 
         return parameter;
@@ -845,8 +844,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
             String name = "models::" + getTypeDeclaration(parameter.dataType);
             parameter.dataType = name;
-            parameter.dataType = name;
-            LOGGER.info("Adding postProcessParameter: {}", parameter.dataType);
+            parameter.baseType = name;
+            // LOGGER.info("Adding postProcessParameter: {}", parameter.dataType);
         }
 
 
@@ -1127,12 +1126,14 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-            // @@@ 'Object' isn't a sensible default. Instead, we set it to
-            // @@@ 'null'. This ensures that we treat this model as a struct
-            // @@@ with multiple parameters.
-            if (cm.dataType.equal("object")) {
-                LOGGER.warn("Setting {} datatype to null", cm);
+            // Object isn't a sensible default. Instead, we set it to 'null'.
+            // This ensures that we treat this model as a struct with multiple
+            // parameters.
+            if (cm.vars.size() > 1) {
+                LOGGER.debug("Setting {} datatype to null", cm);
                 cm.dataType = null;
+            } else if (cm.dataType != null) {
+                LOGGER.warn("Found a disappearing model: {}, {}", cm, cm.dataType);
             }
         }
         return super.postProcessModelsEnum(objs);
