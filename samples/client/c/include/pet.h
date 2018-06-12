@@ -1,3 +1,6 @@
+#ifndef INCLUDE_PET_H
+#define INCLUDE_PET_H
+
 #include "list.h"
 #include "category.h"
 
@@ -20,3 +23,5 @@ void pet_free(pet_t* pet);
 
 pet_t* pet_parseFromJSON(char *jsonString);
 char *pet_convertToJSON(pet_t *pet);
+
+#endif // INCLUDE_PET_H
