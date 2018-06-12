@@ -1,4 +1,3 @@
-#define DEBUG
 #include <stdlib.h>
 #ifdef DEBUG
 #include <stdio.h>
