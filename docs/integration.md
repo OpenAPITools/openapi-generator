@@ -1,8 +1,19 @@
 ## Workflow Integration (Maven, Github, CI/CD)
 
+### Gradle Integration
+
+See the [openapi-generator-gradle-plugin README](../modules/openapi-generator-gradle-plugin/README.adoc) for details related to configuring and using the Gradle Plugin.
+
+Supported tasks include:
+
+* Listing generators
+* Validation of Open API 2.0 and 3.0 Specs
+* Generating "Meta" generators
+* Generating all generators supported by OpenAPI Generator
+
 ### Maven Integration
 
-You can use the [openapi-generator-maven-plugin](modules/openapi-generator-maven-plugin/README.md) for integrating with your workflow, and generating any codegen target.
+See the [openapi-generator-maven-plugin README](../modules/openapi-generator-maven-plugin/README.md) for details related to configuring and using the Maven Plugin.
 
 ### GitHub Integration
 
@@ -13,7 +24,7 @@ To push the auto-generated SDK to GitHub, we provide `git_push.sh` to streamline
  2) Generate the SDK
 ```sh
  java -jar openapi-generator-cli.jar generate \
- -i modules/openapi-generator/src/test/resources/2_0/petstore.json -l perl \
+ -i modules/openapi-generator/src/test/resources/2_0/petstore.json -g perl \
  --git-user-id "wing328" \
  --git-repo-id "petstore-perl" \
  --release-note "Github integration demo" \

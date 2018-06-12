@@ -17,24 +17,31 @@
 
 package org.openapitools.codegen.objc;
 
+import com.google.common.collect.Sets;
+
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.DateTimeSchema;
+import io.swagger.v3.oas.models.media.Discriminator;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.languages.ObjcClientCodegen;
-
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.core.models.ParseOptions;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-
-import com.google.common.collect.Sets;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Collections;
 import java.util.Map;
 
 @SuppressWarnings("static-method")
@@ -48,7 +55,7 @@ public class ObjcModelTest {
                   .additionalProperties(new MapSchema().additionalProperties(new StringSchema())))
         .addRequiredItem("id");
         final DefaultCodegen codegen = new ObjcClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
         
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "OAISample");
@@ -57,7 +64,7 @@ public class ObjcModelTest {
         
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.datatype, "NSDictionary<NSString*, NSDictionary<NSString*, NSString*>*>*");
+        Assert.assertEquals(property1.dataType, "NSDictionary<NSString*, NSDictionary<NSString*, NSString*>*>*");
         Assert.assertEquals(property1.name, "translations");
         Assert.assertEquals(property1.baseType, "NSDictionary");
         Assert.assertEquals(property1.containerType, "map");
@@ -76,7 +83,7 @@ public class ObjcModelTest {
                 .addRequiredItem("name")
                 .discriminator(new Discriminator().mapping("test", "test"));
         final DefaultCodegen codegen = new ObjcClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "OAISample");
@@ -86,7 +93,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "NSNumber*");
+        Assert.assertEquals(property1.dataType, "NSNumber*");
         Assert.assertEquals(property1.name, "_id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "NSNumber");
@@ -97,7 +104,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
-        Assert.assertEquals(property2.datatype, "NSString*");
+        Assert.assertEquals(property2.dataType, "NSString*");
         Assert.assertEquals(property2.name, "name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "NSString");
@@ -108,7 +115,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.datatype, "NSDate*");
+        Assert.assertEquals(property3.dataType, "NSDate*");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "NSDate");
@@ -126,7 +133,7 @@ public class ObjcModelTest {
                         .items(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new ObjcClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "OAISample");
@@ -135,7 +142,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "NSNumber*");
+        Assert.assertEquals(property1.dataType, "NSNumber*");
         Assert.assertEquals(property1.name, "_id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "NSNumber");
@@ -146,7 +153,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
-        Assert.assertEquals(property2.datatype, "NSArray<NSString*>*");
+        Assert.assertEquals(property2.dataType, "NSArray<NSString*>*");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "NSArray");
@@ -165,7 +172,7 @@ public class ObjcModelTest {
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new ObjcClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "OAISample");
@@ -174,7 +181,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.datatype, "NSDictionary<NSString*, NSString*>*");
+        Assert.assertEquals(property1.dataType, "NSDictionary<NSString*, NSString*>*");
         Assert.assertEquals(property1.name, "translations");
         Assert.assertEquals(property1.baseType, "NSDictionary");
         Assert.assertEquals(property1.containerType, "map");
@@ -190,7 +197,7 @@ public class ObjcModelTest {
                 .description("a sample model")
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new ObjcClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "OAISample");
@@ -199,7 +206,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "OAIChildren*");
+        Assert.assertEquals(property1.dataType, "OAIChildren*");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "OAIChildren");
         Assert.assertFalse(property1.required);
@@ -213,7 +220,7 @@ public class ObjcModelTest {
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new ObjcClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "OAISample");
@@ -223,7 +230,7 @@ public class ObjcModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "OAIChildren");
-        Assert.assertEquals(property1.datatype, "NSArray<OAIChildren>*");
+        Assert.assertEquals(property1.dataType, "NSArray<OAIChildren>*");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "NSArray");
         Assert.assertEquals(property1.containerType, "array");
@@ -238,7 +245,7 @@ public class ObjcModelTest {
                 .addProperties("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new ObjcClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "OAISample");
@@ -249,7 +256,7 @@ public class ObjcModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "OAIChildren");
-        Assert.assertEquals(property1.datatype, "NSDictionary<OAIChildren>*");
+        Assert.assertEquals(property1.dataType, "NSDictionary<OAIChildren>*");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "NSDictionary");
         Assert.assertEquals(property1.containerType, "map");
@@ -264,7 +271,7 @@ public class ObjcModelTest {
                 .items(new Schema().$ref("#/definitions/Children"))
                 .description("an array model");
         final DefaultCodegen codegen = new ObjcClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "OAISample");
@@ -281,7 +288,7 @@ public class ObjcModelTest {
                 .description("a map model for testing ObjC generator")
                 .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new ObjcClientCodegen();
-        final CodegenModel cm = codegen.fromModel("map_model", model);
+        final CodegenModel cm = codegen.fromModel("map_model", model, Collections.singletonMap("map_model", model));
 
         Assert.assertEquals(cm.name, "map_model");
         Assert.assertEquals(cm.classname, "OAIMapModel");
@@ -322,7 +329,7 @@ public class ObjcModelTest {
         final OpenAPI model = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final Schema definition = model.getComponents().getSchemas().get("AnimalFarm");
-        final CodegenModel codegenModel = codegen.fromModel("AnimalFarm",definition);
+        final CodegenModel codegenModel = codegen.fromModel("AnimalFarm", definition, Collections.singletonMap("AnimalFarm", definition));
 
         Assert.assertEquals(codegenModel.isArrayModel, true);
         Assert.assertEquals(codegenModel.arrayModelType,"OAIAnimal");

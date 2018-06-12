@@ -25,7 +25,7 @@ public interface {{classname}} extends ApiClient.Api {
    * {{summary}}
    * {{notes}}
 {{#allParams}}
-    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
 {{/allParams}}
 {{#returnType}}
    * @return {{returnType}}
@@ -55,14 +55,14 @@ public interface {{classname}} extends ApiClient.Api {
    * building up this map in a fluent style.
       {{#allParams}}
         {{^isQueryParam}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
         {{/isQueryParam}}
       {{/allParams}}
    * @param queryParams Map of query parameters as name-value pairs
    *   <p>The following elements may be specified in the query map:</p>
    *   <ul>
       {{#queryParams}}
-   *   <li>{{paramName}} - {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}</li>
+   *   <li>{{paramName}} - {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</li>
       {{/queryParams}}
    *   </ul>
       {{#returnType}}

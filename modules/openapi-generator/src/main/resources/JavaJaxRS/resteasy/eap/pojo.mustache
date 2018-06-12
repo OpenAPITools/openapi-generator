@@ -6,11 +6,12 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
 {{/serializableModel}}
-  {{#vars}}{{#isEnum}}
+  {{#vars}}{{#isEnum}}{{^isContainer}}
 
-{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+{{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 
-{{>enumClass}}{{/items}}{{/items.isEnum}}
+{{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
+
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
   {{#vars}}

@@ -24,6 +24,11 @@
   "Dynamic API context to be applied in API calls."
   default-api-context)
 
+(defn set-api-context
+  "Set the *api-context* globally"
+  [new-context]
+  (alter-var-root #'*api-context* (constantly (merge *api-context* new-context))))
+
 (defmacro with-api-context
   "A helper macro to wrap *api-context* with default values."
   [api-context & body]

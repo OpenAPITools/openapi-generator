@@ -178,7 +178,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        generateJSONSpecFile(objs);
+        generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
     }
 

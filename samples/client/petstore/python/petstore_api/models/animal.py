@@ -102,7 +102,7 @@ class Animal(object):
 
     def get_real_child_model(self, data):
         """Returns the real base class specified by the discriminator"""
-        discriminator_value = data[self.discriminator].lower()
+        discriminator_value = data[self.discriminator]
         return self.discriminator_value_class_map.get(discriminator_value)
 
     def to_dict(self):

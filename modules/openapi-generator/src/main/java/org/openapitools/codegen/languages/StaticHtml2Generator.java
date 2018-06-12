@@ -195,7 +195,6 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
      * Parse Markdown to HTML for the main "Description" attribute
      *
      * @param openAPI The base object containing the global description through "Info" class
-     * @return Void
      */
     private void preparHtmlForGlobalDescription(OpenAPI openAPI) {
         if (openAPI.getInfo() == null) {

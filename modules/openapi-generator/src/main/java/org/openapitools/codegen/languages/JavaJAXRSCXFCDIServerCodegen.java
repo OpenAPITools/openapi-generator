@@ -51,7 +51,7 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME
                 + File.separator + "cxf-cdi";
 
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
+        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
     }
 
     @Override
@@ -67,9 +67,8 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
 
-        if (useBeanValidation) {
-            writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
-        }
+        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 

@@ -18,14 +18,23 @@
 package org.openapitools.codegen.scalaakka;
 
 import com.google.common.collect.Sets;
-import io.swagger.v3.oas.models.media.*;
+
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.DateTimeSchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.Collections;
 
 public class ScalaAkkaClientCodegenTest {
 
@@ -41,7 +50,7 @@ public class ScalaAkkaClientCodegenTest {
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -52,7 +61,7 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.getter, "getId");
         Assert.assertEquals(property1.setter, "setId");
-        Assert.assertEquals(property1.datatype, "Long");
+        Assert.assertEquals(property1.dataType, "Long");
         Assert.assertEquals(property1.name, "id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "Long");
@@ -64,7 +73,7 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.getter, "getName");
         Assert.assertEquals(property2.setter, "setName");
-        Assert.assertEquals(property2.datatype, "String");
+        Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "String");
@@ -76,7 +85,7 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.getter, "getCreatedAt");
         Assert.assertEquals(property3.setter, "setCreatedAt");
-        Assert.assertEquals(property3.datatype, "DateTime");
+        Assert.assertEquals(property3.dataType, "DateTime");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "DateTime");
@@ -94,7 +103,7 @@ public class ScalaAkkaClientCodegenTest {
                         .items(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -105,7 +114,7 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(property1.baseName, "urls");
         Assert.assertEquals(property1.getter, "getUrls");
         Assert.assertEquals(property1.setter, "setUrls");
-        Assert.assertEquals(property1.datatype, "Seq[String]");
+        Assert.assertEquals(property1.dataType, "Seq[String]");
         Assert.assertEquals(property1.name, "urls");
         Assert.assertEquals(property1.defaultValue, "Seq[String].empty ");
         Assert.assertEquals(property1.baseType, "Seq");
@@ -122,7 +131,7 @@ public class ScalaAkkaClientCodegenTest {
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -133,7 +142,7 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(property1.baseName, "translations");
         Assert.assertEquals(property1.getter, "getTranslations");
         Assert.assertEquals(property1.setter, "setTranslations");
-        Assert.assertEquals(property1.datatype, "Map[String, String]");
+        Assert.assertEquals(property1.dataType, "Map[String, String]");
         Assert.assertEquals(property1.name, "translations");
         Assert.assertEquals(property1.defaultValue, "Map[String, String].empty ");
         Assert.assertEquals(property1.baseType, "Map");
@@ -148,7 +157,7 @@ public class ScalaAkkaClientCodegenTest {
                 .description("a sample model")
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -159,7 +168,7 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.getter, "getChildren");
         Assert.assertEquals(property1.setter, "setChildren");
-        Assert.assertEquals(property1.datatype, "Children");
+        Assert.assertEquals(property1.dataType, "Children");
         Assert.assertEquals(property1.name, "children");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "Children");
@@ -174,7 +183,7 @@ public class ScalaAkkaClientCodegenTest {
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -186,7 +195,7 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(property1.complexType, "Children");
         Assert.assertEquals(property1.getter, "getChildren");
         Assert.assertEquals(property1.setter, "setChildren");
-        Assert.assertEquals(property1.datatype, "Seq[Children]");
+        Assert.assertEquals(property1.dataType, "Seq[Children]");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.defaultValue, "Seq[Children].empty ");
         Assert.assertEquals(property1.baseType, "Seq");
@@ -202,7 +211,7 @@ public class ScalaAkkaClientCodegenTest {
                 .addProperties("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -215,7 +224,7 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(property1.complexType, "Children");
         Assert.assertEquals(property1.getter, "getChildren");
         Assert.assertEquals(property1.setter, "setChildren");
-        Assert.assertEquals(property1.datatype, "Map[String, Children]");
+        Assert.assertEquals(property1.dataType, "Map[String, Children]");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.defaultValue, "Map[String, Children].empty ");
         Assert.assertEquals(property1.baseType, "Map");
@@ -231,7 +240,7 @@ public class ScalaAkkaClientCodegenTest {
                 .items(new Schema().$ref("#/definitions/Children"))
                 .description("an array model");
         final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -248,7 +257,7 @@ public class ScalaAkkaClientCodegenTest {
                 .description("a map model")
                 .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

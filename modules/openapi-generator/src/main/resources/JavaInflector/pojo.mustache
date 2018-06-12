@@ -6,14 +6,12 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     {{^isContainer}}
 {{>enumClass}}
     {{/isContainer}}
-    {{/isEnum}}
-    {{#items.isEnum}}
-      {{#items}}
-      {{^isContainer}}
+    {{#isContainer}}
+    {{#mostInnerItems}}
 {{>enumClass}}
-      {{/isContainer}}
-      {{/items}}
-    {{/items.isEnum}}
+    {{/mostInnerItems}}
+    {{/isContainer}}
+    {{/isEnum}}
   {{#jackson}}
   @JsonProperty("{{baseName}}")
   {{/jackson}}

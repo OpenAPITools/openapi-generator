@@ -216,7 +216,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
 
     /**
      * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -l flag.
+     * to select the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -441,5 +441,10 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
 
     public void setOptionalProjectFileFlag(boolean flag) {
         this.optionalProjectFileFlag = flag;
+    }
+
+    @Override
+    public String getTypeDeclaration(String str) {
+        return str;
     }
 }

@@ -44,7 +44,7 @@ public class FakeApi {
    * 
    * Test serialization of outer boolean types
    * @param body Input boolean as post body (optional)
-   * @return Boolean
+   * @return a {@code Boolean}
    * @throws ApiException if fails to make API call
    */
   public Boolean fakeOuterBooleanSerialize(Boolean body) throws ApiException {
@@ -80,7 +80,7 @@ public class FakeApi {
    * 
    * Test serialization of object with outer number type
    * @param outerComposite Input composite as post body (optional)
-   * @return OuterComposite
+   * @return a {@code OuterComposite}
    * @throws ApiException if fails to make API call
    */
   public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws ApiException {
@@ -116,7 +116,7 @@ public class FakeApi {
    * 
    * Test serialization of outer number types
    * @param body Input number as post body (optional)
-   * @return BigDecimal
+   * @return a {@code BigDecimal}
    * @throws ApiException if fails to make API call
    */
   public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
@@ -152,7 +152,7 @@ public class FakeApi {
    * 
    * Test serialization of outer string types
    * @param body Input string as post body (optional)
-   * @return String
+   * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
   public String fakeOuterStringSerialize(String body) throws ApiException {
@@ -235,7 +235,7 @@ public class FakeApi {
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
    * @param client client model (required)
-   * @return Client
+   * @return a {@code Client}
    * @throws ApiException if fails to make API call
    */
   public Client testClientModel(Client client) throws ApiException {
@@ -292,7 +292,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // verify the required parameter 'number' is set
     if (number == null) {
@@ -382,7 +382,7 @@ if (paramCallback != null)
    * @throws ApiException if fails to make API call
    */
   public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // create path and map variables
     String localVarPath = "/fake".replaceAll("\\{format\\}","json");
@@ -470,7 +470,7 @@ if (enumFormString != null)
    * @throws ApiException if fails to make API call
    */
   public void testJsonFormData(String param, String param2) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // verify the required parameter 'param' is set
     if (param == null) {

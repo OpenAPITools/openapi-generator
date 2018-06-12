@@ -22,12 +22,12 @@ executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
 if [ ! -f "$executable" ]
 then
-  mvn clean package
+  mvn -B clean package
 fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -t modules/openapi-generator/src/main/resources/JavaPlayFramework -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l java-play-framework -o samples/server/petstore/java-play-framework-no-exception-handling -DhideGenerationTimestamp=true,handleExceptions=false"
+ags="generate -t modules/openapi-generator/src/main/resources/JavaPlayFramework -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g java-play-framework -o samples/server/petstore/java-play-framework-no-exception-handling -DhideGenerationTimestamp=true,handleExceptions=false $@"
 
 java $JAVA_OPTS -jar $executable $ags
 

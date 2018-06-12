@@ -29,7 +29,7 @@ import Data.Function ((&))
 {{^vendorExtensions.x-customNewtype}}
 {{^parent}}
 {{vendorExtensions.x-data}} {{classname}} = {{classname}}
-  { {{#vars}}{{& name}} :: {{datatype}} -- ^ {{& description}}{{#hasMore}}
+  { {{#vars}}{{& name}} :: {{dataType}} -- ^ {{& description}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}
   } deriving (Show, Eq, Generic)
 

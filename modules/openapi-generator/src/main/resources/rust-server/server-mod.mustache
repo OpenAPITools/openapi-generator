@@ -363,7 +363,7 @@ where
                                                 => {
 {{^isFile}}                                                    response.set_status(StatusCode::try_from({{code}}).unwrap());
 {{#headers}}
-                                                    header! { (Response{{nameInCamelCase}}, "{{baseName}}") => [{{{datatype}}}] }
+                                                    header! { (Response{{nameInCamelCase}}, "{{baseName}}") => [{{{dataType}}}] }
                                                     response.headers_mut().set(Response{{nameInCamelCase}}({{name}}));
 {{/headers}}
 {{#produces}}{{#-first}}{{#dataType}}
@@ -395,7 +395,7 @@ where
                                                             response.set_status(StatusCode::try_from({{code}}).unwrap());
 
 {{#headers}}
-                                                            header! { (Response{{nameInCamelCase}}, "{{baseName}}") => [{{{datatype}}}] }
+                                                            header! { (Response{{nameInCamelCase}}, "{{baseName}}") => [{{{dataType}}}] }
                                                     response.headers_mut().set(Response{{nameInCamelCase}}({{name}}));
 {{/headers}}{{#produces}}{{#-first}}{{#dataType}}
                                                             response.headers_mut().set(ContentType(mimetypes::responses::{{#vendorExtensions}}{{uppercase_operation_id}}_{{x-uppercaseResponseId}}{{/vendorExtensions}}.clone()));

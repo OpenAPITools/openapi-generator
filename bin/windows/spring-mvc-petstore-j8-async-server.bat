@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
-set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore-with-fake-endpoints-models-for-testing.yaml -l spring --library=spring-mvc -o samples\server\petstore\spring-mvc-j8-async -c bin\spring-mvc-petstore-j8-async.json -DhideGenerationTimestamp=true
+set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore-with-fake-endpoints-models-for-testing.yaml -g spring --library=spring-mvc -o samples\server\petstore\spring-mvc-j8-async -c bin\spring-mvc-petstore-j8-async.json -DhideGenerationTimestamp=true
 
 java %JAVA_OPTS% -jar %executable% %ags%

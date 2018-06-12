@@ -5,7 +5,7 @@ function New-{{{classname}}} {
     Param (
 {{#vars}}
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true{{#required}}, Mandatory = $true{{/required}})]
-        [{{#isString}}{{{datatype}}}{{/isString}}{{^isString}}{{^required}}System.Nullable[{{/required}}{{datatype}}{{^required}}]{{/required}}{{/isString}}]
+        [{{#isString}}{{{dataType}}}{{/isString}}{{^isString}}{{^required}}System.Nullable[{{/required}}{{dataType}}{{^required}}]{{/required}}{{/isString}}]
         {{=<% %>=}}
         ${<%name%>}<%^-last%>,<%/-last%>
         <%={{ }}=%>

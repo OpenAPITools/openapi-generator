@@ -22,7 +22,6 @@ import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache.Compiler;
 
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.headers.Header;
@@ -47,6 +46,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1370,17 +1370,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Convert OAS Model object to Codegen Model object without providing all model definitions
-     *
-     * @param name   the name of the model
-     * @param schema OAS Model object
-     * @return Codegen Model object
-     */
-    public CodegenModel fromModel(String name, Schema schema) {
-        return fromModel(name, schema, null);
-    }
-
-    /**
      * Convert OAS Model object to Codegen Model object
      *
      * @param name           the name of the model
@@ -1459,7 +1448,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             // parent model
             final String parentName = getParentName(composed, allDefinitions);
-            final Schema parent = StringUtils.isBlank(parentName) ? null : allDefinitions.get(parentName);
+            final Schema parent = StringUtils.isBlank(parentName) || allDefinitions == null ? null : allDefinitions.get(parentName);
 
             List<Schema> interfaces = getInterfaces(composed);
 
@@ -1544,36 +1533,6 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging fromModel return: " + m);
 
         return m;
-    }
-
-    /**
-     * Recursively look for a discriminator in the interface tree
-     *
-     * @param schema         composed schema
-     * @param allDefinitions all schema defintion
-     * @return true if it's a discriminator
-     */
-    private boolean isDiscriminatorInInterfaceTree(ComposedSchema schema, Map<String, Schema> allDefinitions) {
-        if (schema == null || allDefinitions == null || allDefinitions.isEmpty()) {
-            return false;
-        }
-        if (schema.getDiscriminator() != null) {
-            return true;
-        }
-        final List<Schema> interfaces = getInterfaces(schema);
-        if (interfaces == null) {
-            return false;
-        }
-        for (Schema interfaceSchema : interfaces) {
-            if (interfaceSchema.getDiscriminator() != null) {
-                return true;
-            }
-            // TODO revise the logic below
-            if (interfaceSchema instanceof ComposedSchema) {
-                return isDiscriminatorInInterfaceTree((ComposedSchema) interfaceSchema, allDefinitions);
-            }
-        }
-        return false;
     }
 
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
@@ -1820,7 +1779,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        property.datatype = getTypeDeclaration(p);
+        property.dataType = getTypeDeclaration(p);
         property.dataFormat = p.getFormat();
         property.baseType = getSchemaType(p);
 
@@ -1829,7 +1788,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.datatypeWithEnum = toEnumName(property);
             property.enumName = toEnumName(property);
         } else {
-            property.datatypeWithEnum = property.datatype;
+            property.datatypeWithEnum = property.dataType;
         }
 
         if (ModelUtils.isArraySchema(p)) {
@@ -1899,6 +1858,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.isPrimitiveType = true;
         }
         property.items = innerProperty;
+        property.mostInnerItems = getMostInnerItems(innerProperty);
         // inner item is Enum
         if (isPropertyInnerMostEnum(property)) {
             // isEnum is set to true when the type is an enum
@@ -1930,6 +1890,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.isPrimitiveType = true;
         }
         property.items = innerProperty;
+        property.mostInnerItems = getMostInnerItems(innerProperty);
         property.dataFormat = innerProperty.dataFormat;
         // inner item is Enum
         if (isPropertyInnerMostEnum(property)) {
@@ -1952,21 +1913,22 @@ public class DefaultCodegen implements CodegenConfig {
      * @return True if the inner most type is enum
      */
     protected Boolean isPropertyInnerMostEnum(CodegenProperty property) {
-        CodegenProperty currentProperty = property;
-        while (currentProperty != null && (Boolean.TRUE.equals(currentProperty.isMapContainer)
-                || Boolean.TRUE.equals(currentProperty.isListContainer))) {
-            currentProperty = currentProperty.items;
-        }
+        CodegenProperty currentProperty = getMostInnerItems(property);
 
         return currentProperty == null ? false : currentProperty.isEnum;
     }
 
-    protected Map<String, Object> getInnerEnumAllowableValues(CodegenProperty property) {
+    protected CodegenProperty getMostInnerItems(CodegenProperty property) {
         CodegenProperty currentProperty = property;
         while (currentProperty != null && (Boolean.TRUE.equals(currentProperty.isMapContainer)
                 || Boolean.TRUE.equals(currentProperty.isListContainer))) {
             currentProperty = currentProperty.items;
         }
+        return currentProperty;
+    }
+
+    protected Map<String, Object> getInnerEnumAllowableValues(CodegenProperty property) {
+        CodegenProperty currentProperty = getMostInnerItems(property);
 
         return currentProperty == null ? new HashMap<String, Object>() : currentProperty.allowableValues;
     }
@@ -2166,7 +2128,7 @@ public class DefaultCodegen implements CodegenConfig {
                     // generate examples
                     op.examples = new ExampleGenerator(schemas, openAPI).generateFromResponseSchema(responseSchema, getProducesInfo(openAPI, operation));
                     op.defaultResponse = toDefaultValue(responseSchema);
-                    op.returnType = cm.datatype;
+                    op.returnType = cm.dataType;
                     op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
 
                     // lookup discriminator
@@ -2418,7 +2380,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            r.dataType = cp.datatype;
+            r.dataType = cp.dataType;
 
             if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isUuid)) {
                 r.isUuid = true;
@@ -2453,7 +2415,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (Boolean.TRUE.equals(cp.isDateTime)) {
                 r.isDateTime = true;
             } else {
-                LOGGER.debug("Property type is not primitive: " + cp.datatype);
+                LOGGER.debug("Property type is not primitive: " + cp.dataType);
             }
 
             if (cp.isContainer) {
@@ -2530,7 +2492,8 @@ public class DefaultCodegen implements CodegenConfig {
                 collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
                 CodegenProperty codegenProperty = fromProperty("inner", inner);
                 codegenParameter.items = codegenProperty;
-                codegenParameter.baseType = codegenProperty.datatype;
+                codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
+                codegenParameter.baseType = codegenProperty.dataType;
                 codegenParameter.isContainer = true;
                 codegenParameter.isListContainer = true;
 
@@ -2544,7 +2507,8 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (ModelUtils.isMapSchema(parameterSchema)) { // for map parameter
                 CodegenProperty codegenProperty = fromProperty("inner", (Schema) parameterSchema.getAdditionalProperties());
                 codegenParameter.items = codegenProperty;
-                codegenParameter.baseType = codegenProperty.datatype;
+                codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
+                codegenParameter.baseType = codegenProperty.dataType;
                 codegenParameter.isContainer = true;
                 codegenParameter.isMapContainer = true;
 
@@ -2578,7 +2542,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (parameterDataType != null) {
                 codegenParameter.dataType = parameterDataType;
             } else {
-                codegenParameter.dataType = codegenProperty.datatype;
+                codegenParameter.dataType = codegenProperty.dataType;
             }
             codegenParameter.dataFormat = codegenProperty.dataFormat;
             codegenParameter.required = codegenProperty.required;
@@ -2598,6 +2562,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
                 codegenParameter.enumName = codegenProperty.enumName;
                 codegenParameter.items = codegenProperty.items;
+                codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
             }
 
             codegenParameter.collectionFormat = collectionFormat;
@@ -2806,12 +2771,13 @@ public class DefaultCodegen implements CodegenConfig {
                 cs.isApiKey = true;
                 cs.keyParamName = securityScheme.getName();
                 cs.isKeyInHeader = securityScheme.getIn() == SecurityScheme.In.HEADER;
-                cs.isKeyInQuery = !cs.isKeyInHeader;
+                cs.isKeyInQuery = securityScheme.getIn() == SecurityScheme.In.QUERY;
+                cs.isKeyInCookie = securityScheme.getIn() == SecurityScheme.In.COOKIE;  //it assumes a validation step prior to generation. (cookie-auth supported from OpenAPI 3.0.0)
             } else if (SecurityScheme.Type.HTTP.equals(securityScheme.getType())) {
-                cs.isKeyInHeader = cs.isKeyInQuery = cs.isApiKey = cs.isOAuth = false;
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = false;
                 cs.isBasic = true;
             } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
-                cs.isKeyInHeader = cs.isKeyInQuery = cs.isApiKey = cs.isBasic = false;
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
                 cs.isOAuth = true;
                 final OAuthFlows flows = securityScheme.getFlows();
                 if (securityScheme.getFlows() == null) {
@@ -2957,20 +2923,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 if (i < objs.size() - 1) {
                     objs.get(i).hasMore = true;
-                }
-            }
-        }
-        return objs;
-    }
-
-    private static Map<String, Object> addHasMore(Map<String, Object> objs) {
-        if (objs != null) {
-            for (int i = 0; i < objs.size() - 1; i++) {
-                if (i > 0) {
-                    objs.put("secondaryParam", true);
-                }
-                if (i < objs.size() - 1) {
-                    objs.put("hasMore", true);
                 }
             }
         }
@@ -3674,7 +3626,7 @@ public class DefaultCodegen implements CodegenConfig {
             parameter.isDateTime = true;
             parameter.isPrimitiveType = true;
         } else {
-            LOGGER.debug("Property type is not primitive: " + property.datatype);
+            LOGGER.debug("Property type is not primitive: " + property.dataType);
         }
 
         if (Boolean.TRUE.equals(property.isFile)) {
@@ -3720,8 +3672,8 @@ public class DefaultCodegen implements CodegenConfig {
                     enumName = value.toString();
                 }
             }
-            enumVar.put("name", toEnumVarName(enumName, var.datatype));
-            enumVar.put("value", toEnumValue(value.toString(), var.datatype));
+            enumVar.put("name", toEnumVarName(enumName, var.dataType));
+            enumVar.put("value", toEnumValue(value.toString(), var.dataType));
             enumVars.add(enumVar);
         }
         allowableValues.put("enumVars", enumVars);
@@ -3730,7 +3682,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (var.defaultValue != null) {
             String enumName = null;
             for (Map<String, String> enumVar : enumVars) {
-                if (toEnumValue(var.defaultValue, var.datatype).equals(enumVar.get("value"))) {
+                if (toEnumValue(var.defaultValue, var.dataType).equals(enumVar.get("value"))) {
                     enumName = enumVar.get("name");
                     break;
                 }
@@ -3973,7 +3925,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * returns the list of MIME types the APIs can produce
      *
-     * @param openAPI
+     * @param openAPI current specification instance
      * @param operation Operation
      * @return a set of MIME types
      */
@@ -3992,19 +3944,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return produces;
-    }
-
-    protected Schema detectParent(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
-        if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
-            Schema schema = composedSchema.getAllOf().get(0);
-            String ref = schema.get$ref();
-            if (StringUtils.isBlank(ref)) {
-                return null;
-            }
-            ref = ModelUtils.getSimpleRef(ref);
-            return allSchemas.get(ref);
-        }
-        return null;
     }
 
     protected String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
@@ -4036,12 +3975,6 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             return null;
         }
-    }
-
-    // TODO do we still need the methdo below?
-    protected static boolean hasSchemaProperties(Schema schema) {
-        final Object additionalProperties = schema.getAdditionalProperties();
-        return additionalProperties != null && additionalProperties instanceof Schema;
     }
 
     public CodegenType getTag() {
@@ -4084,13 +4017,19 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter = fromFormProperty(entry.getKey(), inner, imports);
                     CodegenProperty codegenProperty = fromProperty("inner", inner);
                     codegenParameter.items = codegenProperty;
-                    codegenParameter.baseType = codegenProperty.datatype;
+                    codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
+                    codegenParameter.baseType = codegenProperty.dataType;
                     codegenParameter.isPrimitiveType = false;
                     codegenParameter.isContainer = true;
                     codegenParameter.isListContainer = true;
                     codegenParameter.description = s.getDescription();
                     codegenParameter.dataType = getTypeDeclaration(s);
-                    codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(codegenParameter.baseType, codegenParameter.enumName);
+                    if (codegenParameter.baseType != null && codegenParameter.enumName != null){
+                        codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(codegenParameter.baseType, codegenParameter.enumName);
+                    }
+                    else {
+                        LOGGER.warn("Could not compute datatypeWithEnum from " + codegenParameter.baseType + ", " + codegenParameter.enumName);
+                    }
                     //TODO fix collectformat for form parameters
                     //collectionFormat = getCollectionFormat(s);
                     // default to csv:
@@ -4131,7 +4070,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.baseName = codegenProperty.baseName;
         codegenParameter.paramName = toParamName((codegenParameter.baseName));
         codegenParameter.baseType = codegenProperty.baseType;
-        codegenParameter.dataType = codegenProperty.datatype;
+        codegenParameter.dataType = codegenProperty.dataType;
         codegenParameter.dataFormat = codegenProperty.dataFormat;
         codegenParameter.description = escapeText(codegenProperty.description);
         codegenParameter.unescapedDescription = codegenProperty.getDescription();
@@ -4159,6 +4098,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (codegenProperty.items != null && codegenProperty.items.isEnum) {
             codegenParameter.items = codegenProperty.items;
+            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
         }
 
         // import
@@ -4238,6 +4178,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             codegenParameter.paramName = toParamName(codegenParameter.baseName);
             codegenParameter.items = codegenProperty.items;
+            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
             codegenParameter.dataType = getTypeDeclaration(schema);
             codegenParameter.baseType = getSchemaType(inner);
             codegenParameter.isContainer = Boolean.TRUE;
@@ -4272,6 +4213,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             codegenParameter.paramName = toArrayModelParamName(codegenParameter.baseName);
             codegenParameter.items = codegenProperty.items;
+            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
             codegenParameter.dataType = getTypeDeclaration(arraySchema);
             codegenParameter.baseType = getSchemaType(arraySchema);
             codegenParameter.isContainer = Boolean.TRUE;
@@ -4317,7 +4259,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                     codegenParameter.baseName = codegenProperty.baseType;
                     codegenParameter.baseType = codegenProperty.baseType;
-                    codegenParameter.dataType = codegenProperty.datatype;
+                    codegenParameter.dataType = codegenProperty.dataType;
                     codegenParameter.description = codegenProperty.description;
                     codegenParameter.paramName = toParamName(codegenProperty.baseType);
 
@@ -4339,7 +4281,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 codegenParameter.isPrimitiveType = true;
                 codegenParameter.baseType = codegenProperty.baseType;
-                codegenParameter.dataType = codegenProperty.datatype;
+                codegenParameter.dataType = codegenProperty.dataType;
                 codegenParameter.description = codegenProperty.description;
                 codegenParameter.paramName = toParamName(codegenParameter.baseName);
 
@@ -4356,10 +4298,6 @@ public class DefaultCodegen implements CodegenConfig {
         setParameterExampleValue(codegenParameter);
 
         return codegenParameter;
-    }
-
-    protected void addOption(String key, String description) {
-        addOption(key, description, null);
     }
 
     protected void addOption(String key, String description, String defaultValue) {
@@ -4399,12 +4337,9 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public void generateYAMLSpecFile(Map<String, Object> objs) {
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
-        if (openAPI != null) {
-            try {
-                objs.put("openapi-yaml", Yaml.mapper().writeValueAsString(openAPI));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
+        String yaml = SerializerUtils.toYamlString(openAPI);
+        if(yaml != null) {
+            objs.put("openapi-yaml", yaml);
         }
     }
 

@@ -36,7 +36,7 @@ to obtain and use the openapi-generator cli tool lives at
 
 https://openapi-generator.tech
 
-The _language_ argument (`--lang`) passed to the cli tool used should be 
+The _generator-name_ argument (`--generator-name`) passed to the cli tool used should be 
 
 ```
 haskell-http-client
@@ -80,13 +80,13 @@ These options allow some customization of the code generation process.
 An example setting _strictFields_ and _dateTimeFormat_:
 
 ```
-java -jar openapi-generator-cli.jar generate -i petstore.yaml -l haskell-http-client -o output/haskell-http-client -DstrictFields=true -DdateTimeFormat="%Y-%m-%dT%H:%M:%S%Q%z"
+java -jar openapi-generator-cli.jar generate -i petstore.yaml -g haskell-http-client -o output/haskell-http-client -DstrictFields=true -DdateTimeFormat="%Y-%m-%dT%H:%M:%S%Q%z"
 ```
 
 View the full list of Codegen "config option" parameters with the command:
 
 ```
-java -jar openapi-generator-cli.jar config-help -l haskell-http-client
+java -jar openapi-generator-cli.jar config-help -g haskell-http-client
 ```
 
 ## Usage Notes
@@ -101,7 +101,7 @@ An example of the generated haddock documentation targeting the server http://pe
 
 An example application using the auto-generated haskell-http-client bindings for the server http://petstore.swagger.io/ can be found [here][3]
 
-[3]: https://github.com/openapitools/openapi-generator/master/samples/client/petstore/haskell-http-client/example-app
+[3]: https://github.com/openapitools/openapi-generator/tree/master/samples/client/petstore/haskell-http-client/example-app
 
 This library is intended to be imported qualified.
 

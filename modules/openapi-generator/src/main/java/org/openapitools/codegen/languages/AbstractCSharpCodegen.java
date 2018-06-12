@@ -412,11 +412,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             CodegenModel model = ModelUtils.getModelByName(swaggerName, models);
             if (model != null) {
                 for (CodegenProperty var : model.allVars) {
-                    if (enumRefs.containsKey(var.datatype)) {
+                    if (enumRefs.containsKey(var.dataType)) {
                         // Handle any enum properties referred to by $ref.
                         // This is different in C# than most other generators, because enums in C# are compiled to integral types,
                         // while enums in many other languages are true objects.
-                        CodegenModel refModel = enumRefs.get(var.datatype);
+                        CodegenModel refModel = enumRefs.get(var.dataType);
                         var.allowableValues = refModel.allowableValues;
                         var.isEnum = true;
 

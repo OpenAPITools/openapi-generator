@@ -4,7 +4,7 @@
     "swagger": "2.0",
     "title": "Petstore Sample API",
     "info": {
-      "description": "A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification",
+      "description": "A sample API that uses a petstore as an example to demonstrate features in the OpenAPI-2.0 specification",
       "title": "Petstore Sample API",
       "contact": {
         "name": "Wordnik API Team"

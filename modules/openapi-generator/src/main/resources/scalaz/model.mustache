@@ -13,7 +13,7 @@ import {{classname}}._
 
 case class {{classname}} (
   {{#vars}}{{#description}}/* {{{description}}} */
-  {{/description}}{{name}}: {{^required}}Option[{{/required}}{{^isEnum}}{{datatype}}{{/isEnum}}{{#isEnum}}{{datatypeWithEnum}}{{/isEnum}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}{{^hasMore}}){{/hasMore}}
+  {{/description}}{{name}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{datatypeWithEnum}}{{/isEnum}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}{{^hasMore}}){{/hasMore}}
   {{/vars}}
 
 object {{classname}} {

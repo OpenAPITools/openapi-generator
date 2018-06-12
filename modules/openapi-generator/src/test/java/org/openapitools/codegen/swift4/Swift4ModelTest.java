@@ -17,11 +17,6 @@
 
 package org.openapitools.codegen.swift4;
 
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.languages.Swift4Codegen;
 import io.swagger.v3.oas.models.media.BinarySchema;
 import io.swagger.v3.oas.models.media.ByteArraySchema;
 import io.swagger.v3.oas.models.media.DateSchema;
@@ -32,8 +27,15 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.media.UUIDSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.languages.Swift4Codegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.Collections;
 
 @SuppressWarnings("static-method")
 public class Swift4ModelTest {
@@ -53,7 +55,7 @@ public class Swift4ModelTest {
                 .addRequiredItem("name")
                 .discriminator(new Discriminator().propertyName("test"));
         final DefaultCodegen codegen = new Swift4Codegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -63,7 +65,7 @@ public class Swift4ModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.datatype, "Int64");
+        Assert.assertEquals(property1.dataType, "Int64");
         Assert.assertEquals(property1.name, "_id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "Int64");
@@ -74,7 +76,7 @@ public class Swift4ModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
-        Assert.assertEquals(property2.datatype, "String");
+        Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "String");
@@ -85,7 +87,7 @@ public class Swift4ModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.datatype, "Date");
+        Assert.assertEquals(property3.dataType, "Date");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "Date");
@@ -95,7 +97,7 @@ public class Swift4ModelTest {
 
         final CodegenProperty property4 = cm.vars.get(3);
         Assert.assertEquals(property4.baseName, "binary");
-        Assert.assertEquals(property4.datatype, "URL");
+        Assert.assertEquals(property4.dataType, "URL");
         Assert.assertEquals(property4.name, "binary");
         Assert.assertNull(property4.defaultValue);
         Assert.assertEquals(property4.baseType, "URL");
@@ -105,7 +107,7 @@ public class Swift4ModelTest {
 
         final CodegenProperty property5 = cm.vars.get(4);
         Assert.assertEquals(property5.baseName, "byte");
-        Assert.assertEquals(property5.datatype, "Data");
+        Assert.assertEquals(property5.dataType, "Data");
         Assert.assertEquals(property5.name, "byte");
         Assert.assertNull(property5.defaultValue);
         Assert.assertEquals(property5.baseType, "Data");
@@ -115,7 +117,7 @@ public class Swift4ModelTest {
 
         final CodegenProperty property6 = cm.vars.get(5);
         Assert.assertEquals(property6.baseName, "uuid");
-        Assert.assertEquals(property6.datatype, "UUID");
+        Assert.assertEquals(property6.dataType, "UUID");
         Assert.assertEquals(property6.name, "uuid");
         Assert.assertNull(property6.defaultValue);
         Assert.assertEquals(property6.baseType, "UUID");
@@ -125,7 +127,7 @@ public class Swift4ModelTest {
 
         final CodegenProperty property7 = cm.vars.get(6);
         Assert.assertEquals(property7.baseName, "dateOfBirth");
-        Assert.assertEquals(property7.datatype, "Date");
+        Assert.assertEquals(property7.dataType, "Date");
         Assert.assertEquals(property7.name, "dateOfBirth");
         Assert.assertNull(property7.defaultValue);
         Assert.assertEquals(property7.baseType, "Date");

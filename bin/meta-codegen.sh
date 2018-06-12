@@ -22,7 +22,7 @@ executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
 if [ ! -f "$executable" ]
 then
-  mvn clean package
+  mvn -B clean package
 fi
 
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
@@ -32,6 +32,6 @@ java $JAVA_OPTS -jar $executable $ags
 
 mvn verify -f samples/meta-codegen/lib/pom.xml
 
-ags2="generate -l myClientCodegen -i modules/openapi-generator/src/test/resources/2_0/petstore.json -o samples/meta-codegen/usage $@"
+ags2="generate -g myClientCodegen -i modules/openapi-generator/src/test/resources/2_0/petstore.json -o samples/meta-codegen/usage $@"
 
 java $JAVA_OPTS -cp samples/meta-codegen/lib/target/myClientCodegen-openapi-generator-1.0.0.jar:$executable org.openapitools.codegen.OpenAPIGenerator $ags2

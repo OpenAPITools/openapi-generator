@@ -17,17 +17,7 @@
 
 package org.openapitools.codegen.scalahttpclient;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.ScalaHttpClientCodegen;
-
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.languages.ScalaHttpClientCodegen;
+import com.google.common.collect.Sets;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.DateTimeSchema;
@@ -37,10 +27,14 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
-
-import com.google.common.collect.Sets;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.languages.ScalaHttpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.Collections;
 
 @SuppressWarnings("static-method")
 public class ScalaHttpClientModelTest {
@@ -55,7 +49,7 @@ public class ScalaHttpClientModelTest {
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -66,7 +60,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.getter, "getId");
         Assert.assertEquals(property1.setter, "setId");
-        Assert.assertEquals(property1.datatype, "Long");
+        Assert.assertEquals(property1.dataType, "Long");
         Assert.assertEquals(property1.name, "id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "Long");
@@ -78,7 +72,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.getter, "getName");
         Assert.assertEquals(property2.setter, "setName");
-        Assert.assertEquals(property2.datatype, "String");
+        Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "String");
@@ -90,7 +84,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.getter, "getCreatedAt");
         Assert.assertEquals(property3.setter, "setCreatedAt");
-        Assert.assertEquals(property3.datatype, "Date");
+        Assert.assertEquals(property3.dataType, "Date");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "Date");
@@ -108,7 +102,7 @@ public class ScalaHttpClientModelTest {
                         .items(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -119,7 +113,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.baseName, "urls");
         Assert.assertEquals(property1.getter, "getUrls");
         Assert.assertEquals(property1.setter, "setUrls");
-        Assert.assertEquals(property1.datatype, "List[String]");
+        Assert.assertEquals(property1.dataType, "List[String]");
         Assert.assertEquals(property1.name, "urls");
         Assert.assertEquals(property1.defaultValue, "new ListBuffer[String]() ");
         Assert.assertEquals(property1.baseType, "List");
@@ -136,7 +130,7 @@ public class ScalaHttpClientModelTest {
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -147,7 +141,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.baseName, "translations");
         Assert.assertEquals(property1.getter, "getTranslations");
         Assert.assertEquals(property1.setter, "setTranslations");
-        Assert.assertEquals(property1.datatype, "Map[String, String]");
+        Assert.assertEquals(property1.dataType, "Map[String, String]");
         Assert.assertEquals(property1.name, "translations");
         Assert.assertEquals(property1.defaultValue, "new HashMap[String, String]() ");
         Assert.assertEquals(property1.baseType, "Map");
@@ -162,7 +156,7 @@ public class ScalaHttpClientModelTest {
                 .description("a sample model")
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -173,7 +167,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.getter, "getChildren");
         Assert.assertEquals(property1.setter, "setChildren");
-        Assert.assertEquals(property1.datatype, "Children");
+        Assert.assertEquals(property1.dataType, "Children");
         Assert.assertEquals(property1.name, "children");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "Children");
@@ -188,7 +182,7 @@ public class ScalaHttpClientModelTest {
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -200,7 +194,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.complexType, "Children");
         Assert.assertEquals(property1.getter, "getChildren");
         Assert.assertEquals(property1.setter, "setChildren");
-        Assert.assertEquals(property1.datatype, "List[Children]");
+        Assert.assertEquals(property1.dataType, "List[Children]");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.defaultValue, "new ListBuffer[Children]() ");
         Assert.assertEquals(property1.baseType, "List");
@@ -216,7 +210,7 @@ public class ScalaHttpClientModelTest {
                 .addProperties("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -229,7 +223,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.complexType, "Children");
         Assert.assertEquals(property1.getter, "getChildren");
         Assert.assertEquals(property1.setter, "setChildren");
-        Assert.assertEquals(property1.datatype, "Map[String, Children]");
+        Assert.assertEquals(property1.dataType, "Map[String, Children]");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.defaultValue, "new HashMap[String, Children]() ");
         Assert.assertEquals(property1.baseType, "Map");
@@ -245,7 +239,7 @@ public class ScalaHttpClientModelTest {
                 .items(new Schema().$ref("#/definitions/Children"))
                 .description("an array model");
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -262,7 +256,7 @@ public class ScalaHttpClientModelTest {
                 .description("a map model")
                 .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

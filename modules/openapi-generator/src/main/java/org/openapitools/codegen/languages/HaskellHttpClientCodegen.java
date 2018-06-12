@@ -1202,7 +1202,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             for (CodegenProperty var : cm.vars) {
                 String datatype = genEnums && !StringUtils.isBlank(var.datatypeWithEnum)
                         ? var.datatypeWithEnum
-                        : var.datatype;
+                        : var.dataType;
                 var.vendorExtensions.put(X_DATA_TYPE, datatype);
             }
         }
@@ -1261,7 +1261,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             paramNameType = toDedupedModelName(paramNameType, enumValues, false);
             var.datatypeWithEnum = paramNameType;
             updateCodegenPropertyEnum(var);
-            addEnumToUniques(paramNameType, var.datatype, enumValues, var.allowableValues, var.description);
+            addEnumToUniques(paramNameType, var.dataType, enumValues, var.allowableValues, var.description);
         }
 
         return paramNameType;

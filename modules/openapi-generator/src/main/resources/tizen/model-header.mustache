@@ -51,16 +51,16 @@ public:
 	{{#vars}}
 	/*! \brief Get {{{description}}}
 	 */
-	{{datatype}}{{#isContainer}}{{#isMapContainer}}<std::string, std::string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{datatype}}{{/items}}>{{/isMapContainer}}{{/isContainer}} {{getter}}();
+	{{dataType}}{{#isContainer}}{{#isMapContainer}}<std::string, std::string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{dataType}}{{/items}}>{{/isMapContainer}}{{/isContainer}} {{getter}}();
 
 	/*! \brief Set {{{description}}}
 	 */
-	void {{setter}}({{datatype}} {{#isContainer}}{{#isMapContainer}}<std::string, std::string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{datatype}}{{/items}}>{{/isMapContainer}}{{/isContainer}} {{name}});
+	void {{setter}}({{dataType}} {{#isContainer}}{{#isMapContainer}}<std::string, std::string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{dataType}}{{/items}}>{{/isMapContainer}}{{/isContainer}} {{name}});
 	{{/vars}}
 
 private:
 	{{#vars}}
-	{{datatype}} {{#isContainer}}{{#isMapContainer}}<std::string, std::string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{datatype}}{{/items}}>{{/isMapContainer}}{{/isContainer}}{{name}};
+	{{dataType}} {{#isContainer}}{{#isMapContainer}}<std::string, std::string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{dataType}}{{/items}}>{{/isMapContainer}}{{/isContainer}}{{name}};
 	{{/vars}}
 	void __init();
 	void __cleanup();

@@ -9,8 +9,9 @@ cache:
   - $HOME/.ivy2
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
+  - $HOME/samples/client/petstore/javascript/node_modules
   - $HOME/samples/client/petstore/php/OpenAPIToolsClient-php/vendor
-  - $HOME/samples/client/petstore/ruby/venodr/bundle
+  - $HOME/samples/client/petstore/ruby/vendor/bundle
   - $HOME/samples/client/petstore/python/.venv/
   - $HOME/samples/client/petstore/typescript-node/npm/node_modules
   - $HOME/samples/client/petstore/typescript-node/npm/typings/
@@ -72,6 +73,11 @@ before_install:
   - cat /etc/hosts
   # show java version
   - java -version
+  - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      openssl aes-256-cbc -K $encrypted_6e2c8bba47c6_key -iv $encrypted_6e2c8bba47c6_iv -in sec.gpg.enc -out sec.gpg -d ;
+      gpg --keyserver keyserver.ubuntu.com --recv-key $SIGNING_KEY ;
+      gpg --check-trustdb ;
+    fi;
 
 install:
   # Add Godeps dependencies to GOPATH and PATH
@@ -90,18 +96,23 @@ script:
   # fail if generators contain tab '\t'
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
-  - mvn clean install
-  - mvn -q --batch-mode verify -Psamples
+  - mvn --quiet clean install
+  - mvn --quiet verify -Psamples
 after_success:
+  # push to maven repo
+  - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && ([ "$TRAVIS_BRANCH" = "master" ] || [ "$TRAVIS_BRANCH" = "3.1.x" ] || [ "$TRAVIS_BRANCH" = "4.0.x" ]) && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      mvn clean deploy -DskipTests=true -B -U -P release --settings CI/settings.xml;
+      echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
+      pushd .;
+      cd modules/openapi-generator-gradle-plugin;
+      ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" uploadArchives --no-daemon;
+      echo "Finished ./gradlew uploadArchives";
+      popd;
+    fi;
   ## docker: build and push openapi-generator-online to DockerHub
   - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && docker build -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME && echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME"; fi; fi
   ## docker: build cli image and push to Docker Hub
   - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && docker build -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME && echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME"; fi; fi
-  # push a snapshot version to maven repo
-  - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_BRANCH" = "master" ]; then
-      mvn clean deploy --settings CI/settings.xml;
-      echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
-    fi;
 
 env:
   - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli
