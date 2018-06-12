@@ -289,7 +289,7 @@ pub trait Api<C> {
     fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>, context: &C) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>>;
 
     /// To test enum parameters
-    fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>, enum_form_string_array: Option<&Vec<String>>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>>;
+    fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>>;
 
     /// test inline additionalProperties
     fn test_inline_additional_properties(&self, request_body: HashMap<String, String>, context: &C) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError>>;
@@ -390,7 +390,7 @@ pub trait ApiNoContext {
     fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>>;
 
     /// To test enum parameters
-    fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>, enum_form_string_array: Option<&Vec<String>>) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>>;
+    fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>>;
 
     /// test inline additionalProperties
     fn test_inline_additional_properties(&self, request_body: HashMap<String, String>) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError>>;
@@ -518,8 +518,8 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     }
 
     /// To test enum parameters
-    fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>, enum_form_string_array: Option<&Vec<String>>) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
-        self.api().test_enum_parameters(enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, enum_form_string_array, &self.context())
+    fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
+        self.api().test_enum_parameters(enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, &self.context())
     }
 
     /// test inline additionalProperties

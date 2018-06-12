@@ -637,20 +637,6 @@ paths:
           - -1.2
           format: double
           type: number
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              properties:
-                enum_form_string_array:
-                  description: Form parameter enum test (string array)
-                  items:
-                    default: $
-                    enum:
-                    - '>'
-                    - $
-                    type: string
-                  type: array
       responses:
         400:
           content: {}

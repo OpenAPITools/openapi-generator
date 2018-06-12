@@ -885,7 +885,7 @@ if let Some(body) = body {
 
     }
 
-    fn test_enum_parameters(&self, param_enum_header_string_array: Option<&Vec<String>>, param_enum_header_string: Option<String>, param_enum_query_string_array: Option<&Vec<String>>, param_enum_query_string: Option<String>, param_enum_query_integer: Option<i32>, param_enum_query_double: Option<f64>, param_enum_form_string_array: Option<&Vec<String>>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
+    fn test_enum_parameters(&self, param_enum_header_string_array: Option<&Vec<String>>, param_enum_header_string: Option<String>, param_enum_query_string_array: Option<&Vec<String>>, param_enum_query_string: Option<String>, param_enum_query_integer: Option<i32>, param_enum_query_double: Option<f64>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
 
         // Query parameters
         let query_enum_query_string_array = param_enum_query_string_array.map_or_else(String::new, |query| format!("enum_query_string_array={enum_query_string_array}&", enum_query_string_array=query.join(",")));
@@ -910,13 +910,7 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
-        let params = &[
-            ("enum_form_string_array", param_enum_form_string_array),
-        ];
-        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        request.headers_mut().set(ContentType(mimetypes::requests::TEST_ENUM_PARAMETERS.clone()));
-        request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 

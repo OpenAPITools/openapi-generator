@@ -165,7 +165,7 @@ fn main() {
          },
 
         Some("TestEnumParameters") => {
-            let result = core.run(client.test_enum_parameters(Some(&Vec::new()), Some("enum_header_string_example".to_string()), Some(&Vec::new()), Some("enum_query_string_example".to_string()), Some(56), Some(1.2), Some("enum_form_string_array_example".to_string())));
+            let result = core.run(client.test_enum_parameters(Some(&Vec::new()), Some("enum_header_string_example".to_string()), Some(&Vec::new()), Some("enum_query_string_example".to_string()), Some(56), Some(1.2)));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 

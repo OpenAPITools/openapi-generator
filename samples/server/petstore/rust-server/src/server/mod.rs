@@ -1096,10 +1096,7 @@ where
                 Box::new({
                         {{
 
-                                // Form parameters
-                                let param_enum_form_string_array = None;
-
-                                Box::new(api_impl.test_enum_parameters(param_enum_header_string_array.as_ref(), param_enum_header_string, param_enum_query_string_array.as_ref(), param_enum_query_string, param_enum_query_integer, param_enum_query_double, param_enum_form_string_array.as_ref(), &context)
+                                Box::new(api_impl.test_enum_parameters(param_enum_header_string_array.as_ref(), param_enum_header_string, param_enum_query_string_array.as_ref(), param_enum_query_string, param_enum_query_integer, param_enum_query_double, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));

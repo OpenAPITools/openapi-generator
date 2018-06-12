@@ -608,16 +608,16 @@ paths:
       consumes:
         - "application/x-www-form-urlencoded"
       parameters:
-        - name: enum_form_string_array
-          type: array
-          items:
-            type: string
-            default: '$'
-            enum:
-              - '>'
-              - '$'
-          in: formData
-          description: Form parameter enum test (string array)
+        # - name: enum_form_string_array
+        #   type: array
+        #   items:
+        #     type: string
+        #     default: '$'
+        #     enum:
+        #       - '>'
+        #       - '$'
+        #   in: formData
+        #   description: Form parameter enum test (string array)
         # - name: enum_form_string
         #   type: string
         #   default: '-efg'
