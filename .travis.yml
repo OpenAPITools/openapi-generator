@@ -100,7 +100,7 @@ script:
   - mvn --quiet verify -Psamples
 after_success:
   # push to maven repo
-  - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+  - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && ([ "$TRAVIS_BRANCH" = "master" ] || [ "$TRAVIS_BRANCH" = "3.1.x" ] || [ "$TRAVIS_BRANCH" = "4.0.x" ]) && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       mvn clean deploy -DskipTests=true -B -U -P release --settings CI/settings.xml;
       echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
       pushd .;
