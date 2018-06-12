@@ -1122,6 +1122,19 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            // @@@ 'Object' isn't a sensible default. Instead, we set it to
+            // @@@ 'null'. This ensures that we treat this model as a struct
+            // @@@ with multiple parameters.
+            if (cm.dataType.equal("object")) {
+                LOGGER.warn("Setting {} datatype to null", cm);
+                cm.dataType = null;
+            }
+        }
         return super.postProcessModelsEnum(objs);
 
     }

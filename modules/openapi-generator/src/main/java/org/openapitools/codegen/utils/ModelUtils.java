@@ -561,7 +561,7 @@ public class ModelUtils {
             return null;
         }
         if(content.size() > 1) {
-            LOGGER.warn("Multiple schemas found, returning only the first one: {}", content);
+            LOGGER.warn("Multiple schemas found, returning only the first one");
         }
         MediaType mediaType = content.values().iterator().next();
         return mediaType.getSchema();
