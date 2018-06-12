@@ -22,7 +22,7 @@ char *status_ToString(status_t status) {
 status_t status_FromString(char *status) {
 	if(strcmp(status, "available") == 0) {
 		return 0;
-	} else if(strcmp(status, "pending")) {
+	} else if(strcmp(status, "pending") == 0) {
 		return 1;
 	} else {
 		return 2;
