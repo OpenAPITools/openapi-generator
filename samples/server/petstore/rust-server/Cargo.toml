@@ -1,14 +1,14 @@
 [package]
 name = "petstore_api"
 version = "1.0.0"
-authors = ["apiteam@swagger.io"]
+authors = []
 description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"
 license = "Unlicense"
 
 [features]
 default = ["client", "server"]
-client = ["serde_json", "serde_urlencoded",  "serde-xml-rs", "serde_ignored", "hyper", "hyper-tls", "native-tls", "openssl", "tokio-core", "url", "uuid", "multipart"]
-server = ["serde_json", "serde-xml-rs", "serde_ignored", "hyper", "hyper-tls", "native-tls", "openssl", "tokio-core", "tokio-proto", "tokio-tls", "regex", "percent-encoding", "url", "uuid", "multipart"]
+client = ["serde_json", "serde_urlencoded",  "serde-xml-rs", "serde_ignored", "hyper", "hyper-tls", "native-tls", "openssl", "tokio-core", "url", "uuid"]
+server = ["serde_json", "serde-xml-rs", "serde_ignored", "hyper", "hyper-tls", "native-tls", "openssl", "tokio-core", "tokio-proto", "tokio-tls", "regex", "percent-encoding", "url", "uuid"]
 
 [dependencies]
 # Required by example server.
@@ -17,7 +17,7 @@ chrono = { version = "0.4", features = ["serde"] }
 futures = "0.1"
 hyper = {version = "0.11", optional = true}
 hyper-tls = {version = "0.1.2", optional = true}
-swagger = "0.10.0"
+swagger = "0.12.1"
 
 # Not required by example server.
 #

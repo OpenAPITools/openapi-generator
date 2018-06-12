@@ -10,46 +10,65 @@ use models;
 use swagger;
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct AdditionalPropertiesClass {
-    #[serde(rename = "map_property")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub map_property: Option<HashMap<String, String>>,
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 
-    #[serde(rename = "map_of_map_property")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub map_of_map_property: Option<HashMap<String, HashMap<String, String>>>,
+pub struct AdditionalPropertiesClass(object);
 
-}
-
-impl AdditionalPropertiesClass {
-    pub fn new() -> AdditionalPropertiesClass {
-        AdditionalPropertiesClass {
-            map_property: None,
-            map_of_map_property: None,
-        }
+impl ::std::convert::From<object> for AdditionalPropertiesClass {
+    fn from(x: object) -> Self {
+        AdditionalPropertiesClass(x)
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Animal {
-    #[serde(rename = "className")]
-    pub class_name: String,
-
-    #[serde(rename = "color")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub color: Option<String>,
-
-}
-
-impl Animal {
-    pub fn new(class_name: String, ) -> Animal {
-        Animal {
-            class_name: class_name,
-            color: Some("red".to_string()),
-        }
+impl ::std::convert::From<AdditionalPropertiesClass> for object {
+    fn from(x: AdditionalPropertiesClass) -> Self {
+        x.0
     }
 }
+
+impl ::std::ops::Deref for AdditionalPropertiesClass {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for AdditionalPropertiesClass {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct Animal(object);
+
+impl ::std::convert::From<object> for Animal {
+    fn from(x: object) -> Self {
+        Animal(x)
+    }
+}
+
+impl ::std::convert::From<Animal> for object {
+    fn from(x: Animal) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for Animal {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for Animal {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct AnimalFarm(Vec<Animal>);
@@ -113,209 +132,326 @@ impl ::std::ops::DerefMut for AnimalFarm {
 }
 
 
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct ApiResponse(object);
+
+impl ::std::convert::From<object> for ApiResponse {
+    fn from(x: object) -> Self {
+        ApiResponse(x)
+    }
+}
+
+impl ::std::convert::From<ApiResponse> for object {
+    fn from(x: ApiResponse) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for ApiResponse {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for ApiResponse {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct ArrayOfArrayOfNumberOnly(object);
+
+impl ::std::convert::From<object> for ArrayOfArrayOfNumberOnly {
+    fn from(x: object) -> Self {
+        ArrayOfArrayOfNumberOnly(x)
+    }
+}
+
+impl ::std::convert::From<ArrayOfArrayOfNumberOnly> for object {
+    fn from(x: ArrayOfArrayOfNumberOnly) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for ArrayOfArrayOfNumberOnly {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for ArrayOfArrayOfNumberOnly {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct ArrayOfNumberOnly(object);
+
+impl ::std::convert::From<object> for ArrayOfNumberOnly {
+    fn from(x: object) -> Self {
+        ArrayOfNumberOnly(x)
+    }
+}
+
+impl ::std::convert::From<ArrayOfNumberOnly> for object {
+    fn from(x: ArrayOfNumberOnly) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for ArrayOfNumberOnly {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for ArrayOfNumberOnly {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct ArrayTest(object);
+
+impl ::std::convert::From<object> for ArrayTest {
+    fn from(x: object) -> Self {
+        ArrayTest(x)
+    }
+}
+
+impl ::std::convert::From<ArrayTest> for object {
+    fn from(x: ArrayTest) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for ArrayTest {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for ArrayTest {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct Capitalization(object);
+
+impl ::std::convert::From<object> for Capitalization {
+    fn from(x: object) -> Self {
+        Capitalization(x)
+    }
+}
+
+impl ::std::convert::From<Capitalization> for object {
+    fn from(x: Capitalization) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for Capitalization {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for Capitalization {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct ApiResponse {
-    #[serde(rename = "code")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub code: Option<i32>,
+pub struct Cat {
+    #[serde(rename = "className")]
+    pub class_name: String,
 
-    #[serde(rename = "type")]
+    #[serde(rename = "color")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub _type: Option<String>,
+    pub color: Option<String>,
 
-    #[serde(rename = "message")]
+    #[serde(rename = "declawed")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub message: Option<String>,
+    pub declawed: Option<bool>,
 
 }
 
-impl ApiResponse {
-    pub fn new() -> ApiResponse {
-        ApiResponse {
-            code: None,
-            _type: None,
-            message: None,
+impl Cat {
+    pub fn new(class_name: String, ) -> Cat {
+        Cat {
+            class_name: class_name,
+            color: Some("red".to_string()),
+            declawed: None,
         }
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct ArrayOfArrayOfNumberOnly {
-    #[serde(rename = "ArrayArrayNumber")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub array_array_number: Option<Vec<Vec<f64>>>,
-
-}
-
-impl ArrayOfArrayOfNumberOnly {
-    pub fn new() -> ArrayOfArrayOfNumberOnly {
-        ArrayOfArrayOfNumberOnly {
-            array_array_number: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct ArrayOfNumberOnly {
-    #[serde(rename = "ArrayNumber")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub array_number: Option<Vec<f64>>,
-
-}
-
-impl ArrayOfNumberOnly {
-    pub fn new() -> ArrayOfNumberOnly {
-        ArrayOfNumberOnly {
-            array_number: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct ArrayTest {
-    #[serde(rename = "array_of_string")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub array_of_string: Option<Vec<String>>,
-
-    #[serde(rename = "array_array_of_integer")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub array_array_of_integer: Option<Vec<Vec<i64>>>,
-
-    #[serde(rename = "array_array_of_model")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub array_array_of_model: Option<Vec<Vec<models::ReadOnlyFirst>>>,
-
-}
-
-impl ArrayTest {
-    pub fn new() -> ArrayTest {
-        ArrayTest {
-            array_of_string: None,
-            array_array_of_integer: None,
-            array_array_of_model: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Capitalization {
-    #[serde(rename = "smallCamel")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub small_camel: Option<String>,
-
-    #[serde(rename = "CapitalCamel")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub capital_camel: Option<String>,
-
-    #[serde(rename = "small_Snake")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub small_snake: Option<String>,
-
-    #[serde(rename = "Capital_Snake")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub capital_snake: Option<String>,
-
-    #[serde(rename = "SCA_ETH_Flow_Points")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub sca_eth_flow_points: Option<String>,
-
-    /// Name of the pet 
-    #[serde(rename = "ATT_NAME")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub att_name: Option<String>,
-
-}
-
-impl Capitalization {
-    pub fn new() -> Capitalization {
-        Capitalization {
-            small_camel: None,
-            capital_camel: None,
-            small_snake: None,
-            capital_snake: None,
-            sca_eth_flow_points: None,
-            att_name: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[serde(rename = "Category")]
-pub struct Category {
-    #[serde(rename = "id")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub id: Option<i64>,
+pub struct Category(object);
 
-    #[serde(rename = "name")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub name: Option<String>,
-
-}
-
-impl Category {
-    pub fn new() -> Category {
-        Category {
-            id: None,
-            name: None,
-        }
+impl ::std::convert::From<object> for Category {
+    fn from(x: object) -> Self {
+        Category(x)
     }
 }
+
+impl ::std::convert::From<Category> for object {
+    fn from(x: Category) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for Category {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for Category {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
 
 /// Model for testing model with \"_class\" property
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct ClassModel(object);
+
+impl ::std::convert::From<object> for ClassModel {
+    fn from(x: object) -> Self {
+        ClassModel(x)
+    }
+}
+
+impl ::std::convert::From<ClassModel> for object {
+    fn from(x: ClassModel) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for ClassModel {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for ClassModel {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct Client(object);
+
+impl ::std::convert::From<object> for Client {
+    fn from(x: object) -> Self {
+        Client(x)
+    }
+}
+
+impl ::std::convert::From<Client> for object {
+    fn from(x: Client) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for Client {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for Client {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct ClassModel {
-    #[serde(rename = "_class")]
+pub struct Dog {
+    #[serde(rename = "className")]
+    pub class_name: String,
+
+    #[serde(rename = "color")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub _class: Option<String>,
+    pub color: Option<String>,
+
+    #[serde(rename = "breed")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub breed: Option<String>,
 
 }
 
-impl ClassModel {
-    pub fn new() -> ClassModel {
-        ClassModel {
-            _class: None,
+impl Dog {
+    pub fn new(class_name: String, ) -> Dog {
+        Dog {
+            class_name: class_name,
+            color: Some("red".to_string()),
+            breed: None,
         }
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Client {
-    #[serde(rename = "client")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub client: Option<String>,
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 
-}
+pub struct EnumArrays(object);
 
-impl Client {
-    pub fn new() -> Client {
-        Client {
-            client: None,
-        }
+impl ::std::convert::From<object> for EnumArrays {
+    fn from(x: object) -> Self {
+        EnumArrays(x)
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct EnumArrays {
-    // Note: inline enums are not fully supported by swagger-codegen
-    #[serde(rename = "just_symbol")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub just_symbol: Option<String>,
-
-    // Note: inline enums are not fully supported by swagger-codegen
-    #[serde(rename = "array_enum")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub array_enum: Option<Vec<String>>,
-
-}
-
-impl EnumArrays {
-    pub fn new() -> EnumArrays {
-        EnumArrays {
-            just_symbol: None,
-            array_enum: None,
-        }
+impl ::std::convert::From<EnumArrays> for object {
+    fn from(x: EnumArrays) -> Self {
+        x.0
     }
 }
+
+impl ::std::ops::Deref for EnumArrays {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for EnumArrays {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
 
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
@@ -354,390 +490,368 @@ impl ::std::str::FromStr for EnumClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct EnumTest {
-    // Note: inline enums are not fully supported by swagger-codegen
-    #[serde(rename = "enum_string")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub enum_string: Option<String>,
-
-    // Note: inline enums are not fully supported by swagger-codegen
-    #[serde(rename = "enum_string_required")]
-    pub enum_string_required: String,
-
-    // Note: inline enums are not fully supported by swagger-codegen
-    #[serde(rename = "enum_integer")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub enum_integer: Option<i32>,
-
-    // Note: inline enums are not fully supported by swagger-codegen
-    #[serde(rename = "enum_number")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub enum_number: Option<f64>,
-
-    #[serde(rename = "outerEnum")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub outer_enum: Option<models::OuterEnum>,
-
-}
-
-impl EnumTest {
-    pub fn new(enum_string_required: String, ) -> EnumTest {
-        EnumTest {
-            enum_string: None,
-            enum_string_required: enum_string_required,
-            enum_integer: None,
-            enum_number: None,
-            outer_enum: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct FormatTest {
-    #[serde(rename = "integer")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub integer: Option<u8>,
-
-    #[serde(rename = "int32")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub int32: Option<u32>,
-
-    #[serde(rename = "int64")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub int64: Option<i64>,
-
-    #[serde(rename = "number")]
-    pub number: f64,
-
-    #[serde(rename = "float")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub float: Option<f32>,
-
-    #[serde(rename = "double")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub double: Option<f64>,
-
-    #[serde(rename = "string")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub string: Option<String>,
-
-    #[serde(rename = "byte")]
-    pub byte: swagger::ByteArray,
-
-    #[serde(rename = "binary")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub binary: Option<swagger::ByteArray>,
-
-    #[serde(rename = "date")]
-    pub date: chrono::DateTime<chrono::Utc>,
-
-    #[serde(rename = "dateTime")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub date_time: Option<chrono::DateTime<chrono::Utc>>,
-
-    #[serde(rename = "uuid")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub uuid: Option<uuid::Uuid>,
-
-    #[serde(rename = "password")]
-    pub password: String,
-
-}
-
-impl FormatTest {
-    pub fn new(number: f64, byte: swagger::ByteArray, date: chrono::DateTime<chrono::Utc>, password: String, ) -> FormatTest {
-        FormatTest {
-            integer: None,
-            int32: None,
-            int64: None,
-            number: number,
-            float: None,
-            double: None,
-            string: None,
-            byte: byte,
-            binary: None,
-            date: date,
-            date_time: None,
-            uuid: None,
-            password: password,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct HasOnlyReadOnly {
-    #[serde(rename = "bar")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub bar: Option<String>,
-
-    #[serde(rename = "foo")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub foo: Option<String>,
-
-}
-
-impl HasOnlyReadOnly {
-    pub fn new() -> HasOnlyReadOnly {
-        HasOnlyReadOnly {
-            bar: None,
-            foo: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct List {
-    #[serde(rename = "123-list")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub _123_list: Option<String>,
-
-}
-
-impl List {
-    pub fn new() -> List {
-        List {
-            _123_list: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct MapTest {
-    #[serde(rename = "map_map_of_string")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub map_map_of_string: Option<HashMap<String, HashMap<String, String>>>,
-
-    // Note: inline enums are not fully supported by swagger-codegen
-    #[serde(rename = "map_of_enum_string")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub map_of_enum_string: Option<HashMap<String, String>>,
-
-}
-
-impl MapTest {
-    pub fn new() -> MapTest {
-        MapTest {
-            map_map_of_string: None,
-            map_of_enum_string: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct MixedPropertiesAndAdditionalPropertiesClass {
-    #[serde(rename = "uuid")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub uuid: Option<uuid::Uuid>,
-
-    #[serde(rename = "dateTime")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub date_time: Option<chrono::DateTime<chrono::Utc>>,
-
-    #[serde(rename = "map")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub map: Option<HashMap<String, models::Animal>>,
-
-}
-
-impl MixedPropertiesAndAdditionalPropertiesClass {
-    pub fn new() -> MixedPropertiesAndAdditionalPropertiesClass {
-        MixedPropertiesAndAdditionalPropertiesClass {
-            uuid: None,
-            date_time: None,
-            map: None,
-        }
-    }
-}
-
-/// Model for testing model name starting with number
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename = "Name")]
-pub struct Model200Response {
-    #[serde(rename = "name")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub name: Option<i32>,
-
-    #[serde(rename = "class")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub class: Option<String>,
-
-}
-
-impl Model200Response {
-    pub fn new() -> Model200Response {
-        Model200Response {
-            name: None,
-            class: None,
-        }
-    }
-}
-
-/// Model for testing reserved words
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename = "Return")]
-pub struct ModelReturn {
-    #[serde(rename = "return")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub _return: Option<i32>,
-
-}
-
-impl ModelReturn {
-    pub fn new() -> ModelReturn {
-        ModelReturn {
-            _return: None,
-        }
-    }
-}
-
-/// Model for testing model name same as property name
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename = "Name")]
-pub struct Name {
-    #[serde(rename = "name")]
-    pub name: i32,
-
-    #[serde(rename = "snake_case")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub snake_case: Option<i32>,
-
-    #[serde(rename = "property")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub property: Option<String>,
-
-    #[serde(rename = "123Number")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub _123_number: Option<isize>,
-
-}
-
-impl Name {
-    pub fn new(name: i32, ) -> Name {
-        Name {
-            name: name,
-            snake_case: None,
-            property: None,
-            _123_number: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct NumberOnly {
-    #[serde(rename = "JustNumber")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub just_number: Option<f64>,
-
-}
-
-impl NumberOnly {
-    pub fn new() -> NumberOnly {
-        NumberOnly {
-            just_number: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename = "Order")]
-pub struct Order {
-    #[serde(rename = "id")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub id: Option<i64>,
-
-    #[serde(rename = "petId")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub pet_id: Option<i64>,
-
-    #[serde(rename = "quantity")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub quantity: Option<i32>,
-
-    #[serde(rename = "shipDate")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub ship_date: Option<chrono::DateTime<chrono::Utc>>,
-
-    /// Order Status
-    // Note: inline enums are not fully supported by swagger-codegen
-    #[serde(rename = "status")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub status: Option<String>,
-
-    #[serde(rename = "complete")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub complete: Option<bool>,
-
-}
-
-impl Order {
-    pub fn new() -> Order {
-        Order {
-            id: None,
-            pet_id: None,
-            quantity: None,
-            ship_date: None,
-            status: None,
-            complete: Some(false),
-        }
-    }
-}
-
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 
-pub struct OuterBoolean(bool);
+pub struct EnumTest(object);
 
-impl ::std::convert::From<bool> for OuterBoolean {
-    fn from(x: bool) -> Self {
-        OuterBoolean(x)
+impl ::std::convert::From<object> for EnumTest {
+    fn from(x: object) -> Self {
+        EnumTest(x)
     }
 }
 
-impl ::std::convert::From<OuterBoolean> for bool {
-    fn from(x: OuterBoolean) -> Self {
+impl ::std::convert::From<EnumTest> for object {
+    fn from(x: EnumTest) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for OuterBoolean {
-    type Target = bool;
-    fn deref(&self) -> &bool {
+impl ::std::ops::Deref for EnumTest {
+    type Target = object;
+    fn deref(&self) -> &object {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for OuterBoolean {
-    fn deref_mut(&mut self) -> &mut bool {
+impl ::std::ops::DerefMut for EnumTest {
+    fn deref_mut(&mut self) -> &mut object {
         &mut self.0
     }
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct OuterComposite {
-    #[serde(rename = "my_number")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub my_number: Option<models::OuterNumber>,
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 
-    #[serde(rename = "my_string")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub my_string: Option<models::OuterString>,
+pub struct FormatTest(object);
 
-    #[serde(rename = "my_boolean")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub my_boolean: Option<models::OuterBoolean>,
-
-}
-
-impl OuterComposite {
-    pub fn new() -> OuterComposite {
-        OuterComposite {
-            my_number: None,
-            my_string: None,
-            my_boolean: None,
-        }
+impl ::std::convert::From<object> for FormatTest {
+    fn from(x: object) -> Self {
+        FormatTest(x)
     }
 }
+
+impl ::std::convert::From<FormatTest> for object {
+    fn from(x: FormatTest) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for FormatTest {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for FormatTest {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct HasOnlyReadOnly(object);
+
+impl ::std::convert::From<object> for HasOnlyReadOnly {
+    fn from(x: object) -> Self {
+        HasOnlyReadOnly(x)
+    }
+}
+
+impl ::std::convert::From<HasOnlyReadOnly> for object {
+    fn from(x: HasOnlyReadOnly) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for HasOnlyReadOnly {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for HasOnlyReadOnly {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct List(object);
+
+impl ::std::convert::From<object> for List {
+    fn from(x: object) -> Self {
+        List(x)
+    }
+}
+
+impl ::std::convert::From<List> for object {
+    fn from(x: List) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for List {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for List {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct MapTest(object);
+
+impl ::std::convert::From<object> for MapTest {
+    fn from(x: object) -> Self {
+        MapTest(x)
+    }
+}
+
+impl ::std::convert::From<MapTest> for object {
+    fn from(x: MapTest) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for MapTest {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for MapTest {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct MixedPropertiesAndAdditionalPropertiesClass(object);
+
+impl ::std::convert::From<object> for MixedPropertiesAndAdditionalPropertiesClass {
+    fn from(x: object) -> Self {
+        MixedPropertiesAndAdditionalPropertiesClass(x)
+    }
+}
+
+impl ::std::convert::From<MixedPropertiesAndAdditionalPropertiesClass> for object {
+    fn from(x: MixedPropertiesAndAdditionalPropertiesClass) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for MixedPropertiesAndAdditionalPropertiesClass {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for MixedPropertiesAndAdditionalPropertiesClass {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+/// Model for testing model name starting with number
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[serde(rename = "Name")]
+pub struct Model200Response(object);
+
+impl ::std::convert::From<object> for Model200Response {
+    fn from(x: object) -> Self {
+        Model200Response(x)
+    }
+}
+
+impl ::std::convert::From<Model200Response> for object {
+    fn from(x: Model200Response) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for Model200Response {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for Model200Response {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+/// Model for testing reserved words
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[serde(rename = "Return")]
+pub struct ModelReturn(object);
+
+impl ::std::convert::From<object> for ModelReturn {
+    fn from(x: object) -> Self {
+        ModelReturn(x)
+    }
+}
+
+impl ::std::convert::From<ModelReturn> for object {
+    fn from(x: ModelReturn) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for ModelReturn {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for ModelReturn {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+/// Model for testing model name same as property name
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[serde(rename = "Name")]
+pub struct Name(object);
+
+impl ::std::convert::From<object> for Name {
+    fn from(x: object) -> Self {
+        Name(x)
+    }
+}
+
+impl ::std::convert::From<Name> for object {
+    fn from(x: Name) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for Name {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for Name {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct NumberOnly(object);
+
+impl ::std::convert::From<object> for NumberOnly {
+    fn from(x: object) -> Self {
+        NumberOnly(x)
+    }
+}
+
+impl ::std::convert::From<NumberOnly> for object {
+    fn from(x: NumberOnly) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for NumberOnly {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for NumberOnly {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[serde(rename = "Order")]
+pub struct Order(object);
+
+impl ::std::convert::From<object> for Order {
+    fn from(x: object) -> Self {
+        Order(x)
+    }
+}
+
+impl ::std::convert::From<Order> for object {
+    fn from(x: Order) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for Order {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for Order {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct OuterComposite(object);
+
+impl ::std::convert::From<object> for OuterComposite {
+    fn from(x: object) -> Self {
+        OuterComposite(x)
+    }
+}
+
+impl ::std::convert::From<OuterComposite> for object {
+    fn from(x: OuterComposite) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for OuterComposite {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for OuterComposite {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
 
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
@@ -777,30 +891,30 @@ impl ::std::str::FromStr for OuterEnum {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[serde(rename = "Pet")]
+pub struct Pet(object);
 
-pub struct OuterNumber(f64);
-
-impl ::std::convert::From<f64> for OuterNumber {
-    fn from(x: f64) -> Self {
-        OuterNumber(x)
+impl ::std::convert::From<object> for Pet {
+    fn from(x: object) -> Self {
+        Pet(x)
     }
 }
 
-impl ::std::convert::From<OuterNumber> for f64 {
-    fn from(x: OuterNumber) -> Self {
+impl ::std::convert::From<Pet> for object {
+    fn from(x: Pet) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for OuterNumber {
-    type Target = f64;
-    fn deref(&self) -> &f64 {
+impl ::std::ops::Deref for Pet {
+    type Target = object;
+    fn deref(&self) -> &object {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for OuterNumber {
-    fn deref_mut(&mut self) -> &mut f64 {
+impl ::std::ops::DerefMut for Pet {
+    fn deref_mut(&mut self) -> &mut object {
         &mut self.0
     }
 }
@@ -808,235 +922,120 @@ impl ::std::ops::DerefMut for OuterNumber {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 
-pub struct OuterString(String);
+pub struct ReadOnlyFirst(object);
 
-impl ::std::convert::From<String> for OuterString {
-    fn from(x: String) -> Self {
-        OuterString(x)
+impl ::std::convert::From<object> for ReadOnlyFirst {
+    fn from(x: object) -> Self {
+        ReadOnlyFirst(x)
     }
 }
 
-impl ::std::convert::From<OuterString> for String {
-    fn from(x: OuterString) -> Self {
+impl ::std::convert::From<ReadOnlyFirst> for object {
+    fn from(x: ReadOnlyFirst) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for OuterString {
-    type Target = String;
-    fn deref(&self) -> &String {
+impl ::std::ops::Deref for ReadOnlyFirst {
+    type Target = object;
+    fn deref(&self) -> &object {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for OuterString {
-    fn deref_mut(&mut self) -> &mut String {
+impl ::std::ops::DerefMut for ReadOnlyFirst {
+    fn deref_mut(&mut self) -> &mut object {
         &mut self.0
     }
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename = "Pet")]
-pub struct Pet {
-    #[serde(rename = "id")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub id: Option<i64>,
-
-    #[serde(rename = "category")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub category: Option<models::Category>,
-
-    #[serde(rename = "name")]
-    pub name: String,
-
-    #[serde(rename = "photoUrls")]
-    pub photo_urls: Vec<String>,
-
-    #[serde(rename = "tags")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub tags: Option<Vec<models::Tag>>,
-
-    /// pet status in the store
-    // Note: inline enums are not fully supported by swagger-codegen
-    #[serde(rename = "status")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub status: Option<String>,
-
-}
-
-impl Pet {
-    pub fn new(name: String, photo_urls: Vec<String>, ) -> Pet {
-        Pet {
-            id: None,
-            category: None,
-            name: name,
-            photo_urls: photo_urls,
-            tags: None,
-            status: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct ReadOnlyFirst {
-    #[serde(rename = "bar")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub bar: Option<String>,
-
-    #[serde(rename = "baz")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub baz: Option<String>,
-
-}
-
-impl ReadOnlyFirst {
-    pub fn new() -> ReadOnlyFirst {
-        ReadOnlyFirst {
-            bar: None,
-            baz: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[serde(rename = "$special[model.name]")]
-pub struct SpecialModelName {
-    #[serde(rename = "$special[property.name]")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub special_property_name: Option<i64>,
+pub struct SpecialModelName(object);
 
-}
-
-impl SpecialModelName {
-    pub fn new() -> SpecialModelName {
-        SpecialModelName {
-            special_property_name: None,
-        }
+impl ::std::convert::From<object> for SpecialModelName {
+    fn from(x: object) -> Self {
+        SpecialModelName(x)
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+impl ::std::convert::From<SpecialModelName> for object {
+    fn from(x: SpecialModelName) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for SpecialModelName {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for SpecialModelName {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[serde(rename = "Tag")]
-pub struct Tag {
-    #[serde(rename = "id")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub id: Option<i64>,
+pub struct Tag(object);
 
-    #[serde(rename = "name")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub name: Option<String>,
-
-}
-
-impl Tag {
-    pub fn new() -> Tag {
-        Tag {
-            id: None,
-            name: None,
-        }
+impl ::std::convert::From<object> for Tag {
+    fn from(x: object) -> Self {
+        Tag(x)
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+impl ::std::convert::From<Tag> for object {
+    fn from(x: Tag) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for Tag {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for Tag {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[serde(rename = "User")]
-pub struct User {
-    #[serde(rename = "id")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub id: Option<i64>,
+pub struct User(object);
 
-    #[serde(rename = "username")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub username: Option<String>,
-
-    #[serde(rename = "firstName")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub first_name: Option<String>,
-
-    #[serde(rename = "lastName")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub last_name: Option<String>,
-
-    #[serde(rename = "email")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub email: Option<String>,
-
-    #[serde(rename = "password")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub password: Option<String>,
-
-    #[serde(rename = "phone")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub phone: Option<String>,
-
-    /// User Status
-    #[serde(rename = "userStatus")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub user_status: Option<i32>,
-
-}
-
-impl User {
-    pub fn new() -> User {
-        User {
-            id: None,
-            username: None,
-            first_name: None,
-            last_name: None,
-            email: None,
-            password: None,
-            phone: None,
-            user_status: None,
-        }
+impl ::std::convert::From<object> for User {
+    fn from(x: object) -> Self {
+        User(x)
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Cat {
-    #[serde(rename = "className")]
-    pub class_name: String,
-
-    #[serde(rename = "color")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub color: Option<String>,
-
-    #[serde(rename = "declawed")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub declawed: Option<bool>,
-
-}
-
-impl Cat {
-    pub fn new(class_name: String, ) -> Cat {
-        Cat {
-            class_name: class_name,
-            color: Some("red".to_string()),
-            declawed: None,
-        }
+impl ::std::convert::From<User> for object {
+    fn from(x: User) -> Self {
+        x.0
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Dog {
-    #[serde(rename = "className")]
-    pub class_name: String,
-
-    #[serde(rename = "color")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub color: Option<String>,
-
-    #[serde(rename = "breed")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub breed: Option<String>,
-
-}
-
-impl Dog {
-    pub fn new(class_name: String, ) -> Dog {
-        Dog {
-            class_name: class_name,
-            color: Some("red".to_string()),
-            breed: None,
-        }
+impl ::std::ops::Deref for User {
+    type Target = object;
+    fn deref(&self) -> &object {
+        &self.0
     }
 }
+
+impl ::std::ops::DerefMut for User {
+    fn deref_mut(&mut self) -> &mut object {
+        &mut self.0
+    }
+}
+

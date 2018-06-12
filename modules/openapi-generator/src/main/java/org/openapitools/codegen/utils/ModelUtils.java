@@ -137,7 +137,7 @@ public class ModelUtils {
         visitOpenAPI(openAPI, (s, t) -> {
             if(s.get$ref() != null) {
                 String ref = getSimpleRef(s.get$ref());
-                if ("application/x-www-form-urlencoded".equalsIgnoreCase(t) || 
+                if ("application/x-www-form-urlencoded".equalsIgnoreCase(t) ||
                         "multipart/form-data".equalsIgnoreCase(t)) {
                     schemasUsedInFormParam.add(ref);
                 } else {
@@ -153,7 +153,7 @@ public class ModelUtils {
      * {@link #getUnusedSchemas(OpenAPI)},
      * {@link #getSchemasUsedOnlyInFormParam(OpenAPI)}, ...) to traverse all paths of an
      * OpenAPI instance and call the visitor functional interface when a schema is found.
-     * 
+     *
      * @param openAPI specification
      * @param visitor functional interface (can be defined as a lambda) called each time a schema is found.
      */
@@ -438,7 +438,7 @@ public class ModelUtils {
         }
         return schema;
     }
-    
+
     public static Schema getSchema(OpenAPI openAPI, String name) {
         if (name == null) {
             return null;
@@ -561,7 +561,7 @@ public class ModelUtils {
             return null;
         }
         if(content.size() > 1) {
-            LOGGER.warn("Multiple schemas found, returning only the first one");
+            LOGGER.warn("Multiple schemas found, returning only the first one: {}", content);
         }
         MediaType mediaType = content.values().iterator().next();
         return mediaType.getSchema();
