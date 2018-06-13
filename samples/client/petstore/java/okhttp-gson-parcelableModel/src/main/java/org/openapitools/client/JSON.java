@@ -64,8 +64,7 @@ public class JSON {
             }
           })
         ;
-        GsonBuilder builder = fireBuilder.createGsonBuilder();
-        return builder;
+        return fireBuilder.createGsonBuilder();
     }
 
     private static String getDiscriminatorValue(JsonElement readElement, String discriminatorField) {
