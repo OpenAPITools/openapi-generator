@@ -66,7 +66,7 @@ jobs:
        command: git clone https://github.com/wing328/swagger-samples
     - run:
        working_directory: ~/swagger-samples\java\java-jersey-jaxrs-ci
-       coammnd: mvn jetty:run &
+       command: mvn jetty:run &
     # This is based on your 1.0 configuration file or project settings
     - run: sudo add-apt-repository ppa:duggan/bats --yes
     - run: sudo apt-get update -qq
