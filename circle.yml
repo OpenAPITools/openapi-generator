@@ -75,8 +75,8 @@ jobs:
           reusable: true
           exclusive: false
     #- run: docker-compose up -d
-    - run: docker pull swaggerapi/petstore
-    - run: docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+    - run: docker pull openapitools/openapi-petstore
+    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -p 80:8080 openapitools/openapi-petstore
     - run: docker ps -a
     - run: cat /etc/hosts
     # This is based on your 1.0 configuration file or project settings
