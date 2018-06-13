@@ -7,15 +7,7 @@ package org.openapitools.virtualan.api;
 
 import org.openapitools.virtualan.model.Client;
 import io.swagger.annotations.*;
-import org.openapitools.virtualan.VirtualServiceUtil;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.openapitools.virtualan.model.MockRequest;
-import org.openapitools.virtualan.model.MockResponse;
-import org.openapitools.virtualan.model.MockServiceRequest;
-import java.util.HashMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import java.io.IOException;
+import org.openapitools.virtualan.annotation.ApiVirtual;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,20 +29,12 @@ import java.util.Optional;
 
 @Api(value = "another-fake", description = "the another-fake API")
 public interface AnotherFakeApi {
-	default String addQueryParamValue(Object value){
-		return String.join(",", (java.util.List)value);
-	}
-    Logger log = LoggerFactory.getLogger(AnotherFakeApi.class);
-
-
-	default Optional<VirtualServiceUtil> getVirtualServiceUtil() {
-        return Optional.empty();
-    }
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
 
+    @ApiVirtual
     @ApiOperation(value = "To test special tags", nickname = "testSpecialTags", notes = "To test special tags", response = Client.class, tags={ "$another-fake?", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
@@ -59,20 +43,15 @@ public interface AnotherFakeApi {
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
     default ResponseEntity<Client> testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-		try {
-			mockServiceRequest.setResource("another-fake");
-			mockServiceRequest.setOperationId("testSpecialTags");
-			mockServiceRequest.setParams(paramMap);
-			mockServiceRequest.setInputObjectType(client.getClass());
-			mockServiceRequest.setInputObject(client);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "testSpecialTags", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testSpecialTags\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 

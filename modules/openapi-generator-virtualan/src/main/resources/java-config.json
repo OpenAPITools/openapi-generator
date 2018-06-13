@@ -1,6 +1,0 @@
- {
-   "virtualService": true,
-   "modelPackage" : "org.openapitools.virtualan.model",
-   "apiPackage"   : "org.openapitools.virtualan.api"
- }
- 

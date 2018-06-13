@@ -9,15 +9,7 @@ import org.openapitools.virtualan.model.ModelApiResponse;
 import org.openapitools.virtualan.model.Pet;
 import org.springframework.core.io.Resource;
 import io.swagger.annotations.*;
-import org.openapitools.virtualan.VirtualServiceUtil;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.openapitools.virtualan.model.MockRequest;
-import org.openapitools.virtualan.model.MockResponse;
-import org.openapitools.virtualan.model.MockServiceRequest;
-import java.util.HashMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import java.io.IOException;
+import org.openapitools.virtualan.annotation.ApiVirtual;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,20 +31,12 @@ import java.util.Optional;
 
 @Api(value = "pet", description = "the pet API")
 public interface PetApi {
-	default String addQueryParamValue(Object value){
-		return String.join(",", (java.util.List)value);
-	}
-    Logger log = LoggerFactory.getLogger(PetApi.class);
-
-
-	default Optional<VirtualServiceUtil> getVirtualServiceUtil() {
-        return Optional.empty();
-    }
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
 
+    @ApiVirtual
     @ApiOperation(value = "Add a new pet to the store", nickname = "addPet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -65,24 +49,12 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.POST)
     default ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-		try {
-			mockServiceRequest.setResource("pet");
-			mockServiceRequest.setOperationId("addPet");
-			mockServiceRequest.setParams(paramMap);
-			mockServiceRequest.setInputObjectType(pet.getClass());
-			mockServiceRequest.setInputObject(pet);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "addPet", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for addPet\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "Deletes a pet", nickname = "deletePet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -94,23 +66,12 @@ public interface PetApi {
     @RequestMapping(value = "/pet/{petId}",
         method = RequestMethod.DELETE)
     default ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-		paramMap.put("petId", String.valueOf(petId));
-
-		try {
-			mockServiceRequest.setResource("pet");
-			mockServiceRequest.setOperationId("deletePet");
-			mockServiceRequest.setParams(paramMap);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "deletePet", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for deletePet\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "Finds Pets by status", nickname = "findPetsByStatus", notes = "Multiple status values can be provided with comma separated strings", response = Pet.class, responseContainer = "List", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -124,27 +85,24 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
     default ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-	if(status != null && status.getClass().toString().contains("List")){
-		paramMap.put("status", addQueryParamValue(status));
-	} else{
-		paramMap.put("status", String.valueOf(status));
-	}
-
-		try {
-			mockServiceRequest.setResource("pet");
-			mockServiceRequest.setOperationId("findPetsByStatus");
-			mockServiceRequest.setParams(paramMap);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "findPetsByStatus", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for findPetsByStatus\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}");
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    ApiUtil.setExampleResponse(request, "application/xml", "<Pet>  <id>123456789</id>  <name>doggie</name>  <photoUrls>    <photoUrls>aeiou</photoUrls>  </photoUrls>  <tags>  </tags>  <status>aeiou</status></Pet>");
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "Finds Pets by tags", nickname = "findPetsByTags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -158,27 +116,24 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
     default ResponseEntity<List<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-	if(tags != null && tags.getClass().toString().contains("List")){
-		paramMap.put("tags", addQueryParamValue(tags));
-	} else{
-		paramMap.put("tags", String.valueOf(tags));
-	}
-
-		try {
-			mockServiceRequest.setResource("pet");
-			mockServiceRequest.setOperationId("findPetsByTags");
-			mockServiceRequest.setParams(paramMap);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "findPetsByTags", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for findPetsByTags\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}");
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    ApiUtil.setExampleResponse(request, "application/xml", "<Pet>  <id>123456789</id>  <name>doggie</name>  <photoUrls>    <photoUrls>aeiou</photoUrls>  </photoUrls>  <tags>  </tags>  <status>aeiou</status></Pet>");
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "Find pet by ID", nickname = "getPetById", notes = "Returns a single pet", response = Pet.class, authorizations = {
         @Authorization(value = "api_key")
     }, tags={ "pet", })
@@ -190,22 +145,24 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
     default ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return",required=true) @PathVariable("petId") Long petId) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-		paramMap.put("petId", String.valueOf(petId));
-		try {
-			mockServiceRequest.setResource("pet");
-			mockServiceRequest.setOperationId("getPetById");
-			mockServiceRequest.setParams(paramMap);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "getPetById", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for getPetById\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}");
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    ApiUtil.setExampleResponse(request, "application/xml", "<Pet>  <id>123456789</id>  <name>doggie</name>  <photoUrls>    <photoUrls>aeiou</photoUrls>  </photoUrls>  <tags>  </tags>  <status>aeiou</status></Pet>");
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "Update an existing pet", nickname = "updatePet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -220,24 +177,12 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.PUT)
     default ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-		try {
-			mockServiceRequest.setResource("pet");
-			mockServiceRequest.setOperationId("updatePet");
-			mockServiceRequest.setParams(paramMap);
-			mockServiceRequest.setInputObjectType(pet.getClass());
-			mockServiceRequest.setInputObject(pet);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "updatePet", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for updatePet\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "Updates a pet in the store with form data", nickname = "updatePetWithForm", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -250,24 +195,12 @@ public interface PetApi {
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
     default ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet", defaultValue="null") @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet", defaultValue="null") @RequestParam(value="status", required=false)  String status) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-		paramMap.put("petId", String.valueOf(petId));
-
-
-		try {
-			mockServiceRequest.setResource("pet");
-			mockServiceRequest.setOperationId("updatePetWithForm");
-			mockServiceRequest.setParams(paramMap);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "updatePetWithForm", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for updatePetWithForm\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "uploads an image", nickname = "uploadFile", notes = "", response = ModelApiResponse.class, authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -281,20 +214,15 @@ public interface PetApi {
         consumes = { "multipart/form-data" },
         method = RequestMethod.POST)
     default ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server", defaultValue="null") @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-		paramMap.put("petId", String.valueOf(petId));
-
-
-		try {
-			mockServiceRequest.setResource("pet");
-			mockServiceRequest.setOperationId("uploadFile");
-			mockServiceRequest.setParams(paramMap);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "uploadFile", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for uploadFile\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}");
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 

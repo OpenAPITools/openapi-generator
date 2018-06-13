@@ -10,16 +10,7 @@ package {{package}};
 import io.swagger.annotations.*;
 {{#jdk8-no-delegate}}
 {{#virtualService}}
-import org.openapitools.virtualan.VirtualServiceUtil;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.openapitools.virtualan.model.MockRequest;
-import org.openapitools.virtualan.model.MockResponse;
-import org.openapitools.virtualan.model.MockServiceRequest;
 import org.openapitools.virtualan.annotation.ApiVirtual;
-import java.util.HashMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import java.io.IOException;
 {{/virtualService}}
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -67,17 +58,6 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
 public interface {{classname}} {
 {{#jdk8}}
     {{^isDelegate}}
-	{{#virtualService}}
-	default String addQueryParamValue(Object value){
-		return String.join(",", (java.util.List)value);
-	}
-    Logger log = LoggerFactory.getLogger({{classname}}.class);
-
-
-	default Optional<VirtualServiceUtil> getVirtualServiceUtil() {
-        return Optional.empty();
-    }
-	{{/virtualService}}
         {{^reactive}}
 
     default Optional<NativeWebRequest> getRequest() {
@@ -127,17 +107,12 @@ public interface {{classname}} {
     // Override this method
     default {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{^isFile}}{{{dataType}}}{{/isFile}}{{#isFile}}MultipartFile{{/isFile}} {{paramName}}{{#hasMore}},{{/hasMore}}{{^hasMore}}{{#reactive}}, {{/reactive}}{{/hasMore}}{{/allParams}}{{#reactive}}ServerWebExchange exchange{{/reactive}}) {
         {{/delegate-method}}
-        {{#virtualService}}
-		{{>apiMockLogic}}
-		{{/virtualService}}
-		{{^virtualService}}
         {{^isDelegate}}
         {{>methodBody}}
         {{/isDelegate}}
         {{#isDelegate}}
         return getDelegate().{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#reactive}}, exchange{{/reactive}});
         {{/isDelegate}}
-		{{/virtualService}}
     }{{/jdk8}}
 
 {{/operation}}
