@@ -1,4 +1,4 @@
-package io.swagger.client.model;
+package org.openapitools.client.model;
 
 import org.junit.Test;
 
@@ -48,7 +48,7 @@ public class EnumValueTest {
             mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
             ObjectWriter ow = mapper.writer();
             String json = ow.writeValueAsString(enumTest);
-            assertEquals(json, "{\"enum_string\":\"lower\",\"enum_integer\":1,\"enum_number\":1.1,\"outerEnum\":null}");
+            assertEquals(json, "{\"enum_string\":\"lower\",\"enum_string_required\":null,\"enum_integer\":1,\"enum_number\":1.1,\"outerEnum\":null}");
 
             // test deserialization (json => object)
             EnumTest fromString = mapper.readValue(json, EnumTest.class);

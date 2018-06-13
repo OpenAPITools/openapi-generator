@@ -1,6 +1,6 @@
-package io.swagger.client;
+package org.openapitools.client;
 
-import io.swagger.client.model.Order;
+import org.openapitools.client.model.Order;
 import org.junit.Before;
 import org.junit.Test;
 import org.threeten.bp.OffsetDateTime;
