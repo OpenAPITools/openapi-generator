@@ -1,4 +1,4 @@
-package io.swagger.client.auth;
+package org.openapitools.client.auth;
 
 import java.util.HashMap;
 import java.util.ArrayList;
