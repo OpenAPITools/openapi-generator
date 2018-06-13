@@ -42,16 +42,13 @@ jobs:
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     # This is based on your 1.0 configuration file or project settings
     - run:
-        working_directory: ~/OpenAPITools/openapi-generator
         command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
     - run:
-        working_directory: ~/OpenAPITools/openapi-generator
         command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
-    #- run:
-    #    working_directory: ~/OpenAPITools/openapi-generator
-    #    command: |-
-    #      printf '127.0.0.1       petstore.swagger.io
-    #      ' | sudo tee -a /etc/hosts
+    - run:
+       command: |-
+         printf '127.0.0.1       petstore.swagger.io
+         ' | sudo tee -a /etc/hosts
     # Dependencies
     #   This would typically go in either a build or a build-and-test job when using workflows
     # Restore the dependency cache
@@ -77,7 +74,7 @@ jobs:
     - setup_remote_docker:
           reusable: true
           exclusive: false
-    #- run: docker-compose up -d 
+    #- run: docker-compose up -d
     - run: docker pull swaggerapi/petstore
     - run: docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
     - run: docker ps -a
