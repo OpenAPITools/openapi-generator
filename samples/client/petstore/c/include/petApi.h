@@ -3,5 +3,5 @@
 
 #include "pet.h"
 
-pet_t* getPetById(long petId);
+pet_t* petApi_getPetById(long petId);
 #endif // INCLUDE_PET_API_H

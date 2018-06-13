@@ -14,7 +14,7 @@
 #define EXAMPLE_OPERATION_PARAMETER 4
 
 int main() {
-	pet_t *pet = getPetById(EXAMPLE_OPERATION_PARAMETER);
+	pet_t *pet = petApi_getPetById(EXAMPLE_OPERATION_PARAMETER);
     #ifdef DEBUG
 	char *petJSON = pet_convertToJSON(pet);
 	puts(petJSON);

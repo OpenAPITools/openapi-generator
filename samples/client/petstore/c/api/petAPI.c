@@ -6,7 +6,7 @@
 
 #define MAX_BUFFER_LENGTH 9
 
-pet_t *getPetById(long petId) {
+pet_t *petApi_getPetById(long petId) {
 	pet_t *pet;
 	apiClient_t *apiClient;
 	char *petIdString = malloc(MAX_BUFFER_LENGTH);
