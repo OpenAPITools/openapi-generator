@@ -100,6 +100,7 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
         supportingFiles.add(new SupportingFile(".env.example", packagePath + File.separator + srcBasePath, ".env.example"));
+        supportingFiles.add(new SupportingFile("storage_logs_.gitignore", packagePath + File.separator + srcBasePath + File.separator + "storage" + File.separator + "logs", ".gitignore"));
         supportingFiles.add(new SupportingFile("artisan", packagePath + File.separator + srcBasePath, "artisan"));
         supportingFiles.add(new SupportingFile("composer.mustache", packagePath + File.separator + srcBasePath, "composer.json"));
         supportingFiles.add(new SupportingFile("readme.md", packagePath + File.separator + srcBasePath, "readme.md"));
