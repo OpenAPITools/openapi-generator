@@ -61,12 +61,12 @@ jobs:
         # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
         - v1-dep-
     # start petstore server (mvn jetty)
-    - run:
-       working_directory: ~/
-       command: git clone https://github.com/wing328/swagger-samples
-    - run:
-       working_directory: ~/swagger-samples\java\java-jersey-jaxrs-ci
-       command: mvn jetty:run &
+    #- run:
+    #   working_directory: ~/
+    #   command: git clone https://github.com/wing328/swagger-samples
+    #- run:
+    #   working_directory: ~/swagger-samples\java\java-jersey-jaxrs-ci
+    #   command: mvn jetty:run &
     # This is based on your 1.0 configuration file or project settings
     - run: sudo add-apt-repository ppa:duggan/bats --yes
     - run: sudo apt-get update -qq
@@ -81,10 +81,10 @@ jobs:
     - setup_remote_docker:
           reusable: true
           exclusive: false
-    #- run: docker-compose up -d
-    #- run: docker pull openapitools/openapi-petstore
-    #- run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 80:8080 openapitools/openapi-petstore
-    #- run: docker ps -a
+    - run: docker-compose up -d
+    - run: docker pull openapitools/openapi-petstore
+    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 8080:8080 openapitools/openapi-petstore
+    - run: docker ps -a
     - run: cat /etc/hosts
     # This is based on your 1.0 configuration file or project settings
     - run: cp CI/pom.xml.circleci pom.xml
