@@ -1,8 +1,8 @@
-package io.swagger.client;
+package org.openapitools.client;
 
 import com.google.gson.reflect.TypeToken;
 
-import io.swagger.client.model.Order;
+import org.openapitools.client.model.Order;
 
 import java.lang.Exception;
 import java.lang.reflect.Type;

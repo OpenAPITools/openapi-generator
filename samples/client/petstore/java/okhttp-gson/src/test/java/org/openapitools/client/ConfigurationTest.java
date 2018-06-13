@@ -1,4 +1,4 @@
-package io.swagger.client;
+package org.openapitools.client;
 
 import org.junit.*;
 import static org.junit.Assert.*;

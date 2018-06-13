@@ -1,4 +1,4 @@
-package io.swagger.client.model;
+package org.openapitools.client.model;
 
 import org.junit.Test;
 
