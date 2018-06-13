@@ -32,3 +32,6 @@ ags="generate -t modules/openapi-generator/src/main/resources/Java/libraries/okh
 rm -rf samples/client/petstore/java/okhttp-gson/src/main
 find samples/client/petstore/java/okhttp-gson -maxdepth 1 -type f ! -name "README.md" -exec rm {} +
 java $JAVA_OPTS -jar $executable $ags
+
+# copy additional manually written unit-tests
+cp CI/samples.ci/client/petstore/java/test/StringUtilTest.java  samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/StringUtilTest.java
