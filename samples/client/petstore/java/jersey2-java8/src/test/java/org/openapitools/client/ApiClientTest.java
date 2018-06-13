@@ -1,6 +1,6 @@
-package io.swagger.client;
+package org.openapitools.client;
 
-import io.swagger.client.auth.*;
+import org.openapitools.client.auth.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
