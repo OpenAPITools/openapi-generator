@@ -13,12 +13,44 @@ To learn more about building and using the library, please visit this page:
 
 https://ci.quickmediasolutions.com/job/qhttpengine-documentation/doxygen/
 
+
+### Build with make
+Install the tools [Linux/Debian]
+```
+sudo apt install cmake build-essential libssl-dev qtbase5-dev qtbase5-dev-tools git curl
+```
+
+To build, go to the `server` folder
+```
+make 
+```
+
+To run the server
+```
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/external/lib  && ./build/cpp-qt5-server &
+```
+Invoke and API
+```
+curl -X GET http://localhost:8080/
+```
+
 ### Run and build with docker
-Building with docker multistage build
+Building with docker multistage 
 ```
 docker build --network=host -t cpp-qt5-server .
 ```
 Running with docker 
 ```
-docker run --rm -it cpp-qt5-server
+docker run --rm -it --name=server-container cpp-qt5-server 
+```
+
+Invoke an API
+Mind the IP here
+```
+curl -X GET http://172.17.0.2:8080/
+```
+
+use this command to get the container IP
+```
+docker inspect server-container | grep "IPAddress"
 ```
