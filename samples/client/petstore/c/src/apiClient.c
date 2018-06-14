@@ -62,8 +62,6 @@ void apiClient_invoke(apiClient_t	*apiClient,
 			                  operationName,
 			                  operationParameter);
 
-		// puts(targetUrl);
-
 		curl_easy_setopt(handle, CURLOPT_URL, targetUrl);
 		curl_easy_setopt(handle,
 		                 CURLOPT_WRITEFUNCTION,
