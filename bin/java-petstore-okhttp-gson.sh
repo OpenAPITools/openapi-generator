@@ -34,4 +34,4 @@ find samples/client/petstore/java/okhttp-gson -maxdepth 1 -type f ! -name "READM
 java $JAVA_OPTS -jar $executable $ags
 
 # copy additional manually written unit-tests
-cp CI/samples.ci/client/petstore/java/test/StringUtilTest.java  samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/StringUtilTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/common/StringUtilTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/StringUtilTest.java

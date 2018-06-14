@@ -35,4 +35,4 @@ find samples/client/petstore/java/jersey2 -maxdepth 1 -type f ! -name "README.md
 java $JAVA_OPTS -jar $executable $ags
 
 # copy additional manually written unit-tests
-cp CI/samples.ci/client/petstore/java/test/StringUtilTest.java  samples/client/petstore/java/jersey2/src/test/java/org/openapitools/client/StringUtilTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/common/StringUtilTest.java samples/client/petstore/java/jersey2/src/test/java/org/openapitools/client/StringUtilTest.java
