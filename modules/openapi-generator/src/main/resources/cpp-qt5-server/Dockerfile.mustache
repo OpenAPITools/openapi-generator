@@ -1,4 +1,4 @@
-FROM debian:stretch-stretch-slim
+FROM debian:stretch-stretch-slim AS build
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -11,3 +11,15 @@ RUN apt-get update \
         qtbase5-dev \       
         qtbase5-dev-tools 
 
+WORKDIR /usr/server
+ADD ./src ./src
+ADD ./CMakeLists.txt ./
+ADD ./Makefile ./
+RUN mkdir -p ./build
+RUN make
+
+FROM debian:stretch-stretch-slim AS runtime
+WORKDIR /usr/server
+COPY --from=build /usr/server/build/{{packageName}} ./
+COPY --from=build /usr/server/external/lib ./
+ENTRYPOINT ["/usr/server/{{packageName}}"]

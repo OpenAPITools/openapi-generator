@@ -1,3 +1,5 @@
+## Qt5 HTTP Server based on the Qhttpengine
+
 ## QHTTPEngine
 
 [![Build Status](https://travis-ci.org/nitroshare/qhttpengine.svg?branch=master)](https://travis-ci.org/nitroshare/qhttpengine)
@@ -10,3 +12,13 @@ Simple set of classes for developing HTTP server applications in Qt.
 To learn more about building and using the library, please visit this page:
 
 https://ci.quickmediasolutions.com/job/qhttpengine-documentation/doxygen/
+
+### Run and build with docker
+Building with docker multistage build
+```
+docker build --network=host -t {{packageName}} .
+```
+Running with docker 
+```
+docker run --rm -it {{packageName}}
+```
