@@ -9,6 +9,6 @@ typedef struct apiClient_t {
 
 apiClient_t* apiClient_create();
 void apiClient_free(apiClient_t *apiClient);
-void apiClient_invoke(apiClient_t *apiClient, char* operationName, char* parameter);
+void apiClient_invoke(apiClient_t *apiClient, char* operationName, char* operationParameter, char *dataToPost);
 
 #endif // INCLUDE_API_CLIENT_H

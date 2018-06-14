@@ -14,7 +14,8 @@ int main() {
 	apiClient_t *apiClient = apiClient_create();
 	apiClient_invoke(apiClient,
 	                 EXAMPLE_OPERATION_NAME,
-	                 EXAMPLE_OPERATION_PARAMETER);
+	                 EXAMPLE_OPERATION_PARAMETER,
+	                 NULL);
 	pet_t *pet = pet_parseFromJSON(apiClient->dataReceived);
 	if(pet == NULL) {
 		return 0;
