@@ -1,4 +1,4 @@
-# SwaggerPetstore.Order
+# OpenApiPetstore.Order
 
 ## Properties
 Name | Type | Description | Notes

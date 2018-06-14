@@ -1,4 +1,4 @@
-# SwaggerPetstore.AnotherFakeApi
+# OpenApiPetstore.AnotherFakeApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="testSpecialTags"></a>
 # **testSpecialTags**
-> Client testSpecialTags(body)
+> Client testSpecialTags(client)
 
 To test special tags
 
@@ -17,14 +17,11 @@ To test special tags
 
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.AnotherFakeApi();
-
-let body = new SwaggerPetstore.Client(); // Client | client model
-
-
-apiInstance.testSpecialTags(body, (error, data, response) => {
+let apiInstance = new OpenApiPetstore.AnotherFakeApi();
+let client = new OpenApiPetstore.Client(); // Client | client model
+apiInstance.testSpecialTags(client, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -37,7 +34,7 @@ apiInstance.testSpecialTags(body, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

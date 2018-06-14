@@ -840,7 +840,7 @@
             </modules>
         </profile>
         <profile>
-            <id>samples</id>
+            <id>samples.shippable</id>
             <activation>
                 <property>
                     <name>env</name>
