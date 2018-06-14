@@ -4,7 +4,7 @@
     <artifactId>openapi-petstore-javascript-promise-es6</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>OpenAPI Petstore JS Client</name>
+    <name>OpenAPI Petstore JS Client (ES6, Promise)</name>
     <build>
         <plugins>
             <plugin>
