@@ -25,19 +25,6 @@ void listEntry_printAsInt(listEntry_t *listEntry, void *additionalData) {
 	printf("%i\n", *((int *) (listEntry->data)));
 }
 
-void listEntry_addAsStringToJSONArray(listEntry_t	*listEntry,
-                                      void		*cJSONArray) {
-	cJSON_AddStringToObject(cJSONArray, "", listEntry->data);
-}
-
-void listEntry_addAsTagToJSONArray(listEntry_t *listEntry, void *cJSONArray) {
-	tag_t *tag = listEntry->data;
-	cJSON *item = cJSON_CreateObject();
-	cJSON_AddNumberToObject(item, "id", tag->id);
-	cJSON_AddStringToObject(item, "name", tag->name);
-	cJSON_AddItemToArray(cJSONArray, item);
-}
-
 list_t *list_create() {
 	list_t *createdList = malloc(sizeof(list_t));
 	if(createdList == NULL) {

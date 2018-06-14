@@ -1,10 +1,10 @@
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 #include "pet.h"
 #include "cJSON.h"
 #include "tag.h"
 #include "category.h"
-#include <stdio.h>
-#include <string.h>
 
 char *status_ToString(status_t status) {
 	switch(status) {
@@ -206,6 +206,7 @@ end:
 
 char *pet_convertToJSON(pet_t *pet) {
 	char *string;
+	listEntry_t *listEntry;
 
 	cJSON *petJSONObject = cJSON_CreateObject();
 
@@ -246,9 +247,9 @@ char *pet_convertToJSON(pet_t *pet) {
 		goto end;
 	}
 
-	list_iterateThroughListForward(pet->photoUrls,
-	                               listEntry_addAsStringToJSONArray,
-	                               photoUrls);
+	list_ForEach(listEntry, pet->photoUrls) {
+		cJSON_AddStringToObject(photoUrls, "", listEntry->data);
+	}
 
 	// Pet->tags
 	cJSON *tags = cJSON_AddArrayToObject(petJSONObject, "tags");
@@ -257,9 +258,13 @@ char *pet_convertToJSON(pet_t *pet) {
 		goto end;
 	}
 
-	list_iterateThroughListForward(pet->tags,
-	                               listEntry_addAsTagToJSONArray,
-	                               tags);
+	list_ForEach(listEntry, pet->tags) {
+		tag_t *tag = listEntry->data;
+		cJSON *item = cJSON_CreateObject();
+		cJSON_AddNumberToObject(item, "id", tag->id);
+		cJSON_AddStringToObject(item, "name", tag->name);
+		cJSON_AddItemToArray(tags, item);
+	}
 
 	// Pet->status
 	cJSON_AddStringToObject(petJSONObject, "status",
