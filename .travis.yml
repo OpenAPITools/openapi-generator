@@ -25,7 +25,9 @@ cache:
   - $HOME/samples/client/petstore/typescript-fetch/npm/with-npm-version/typings
   - $HOME/samples/client/petstore/typescript-angular/node_modules
   - $HOME/samples/client/petstore/typescript-angular/typings
+  - $HOME/samples/server/petstore/rust-server/target
   - $HOME/perl5
+  - $HOME/.cargo
 
 services:
   - docker
@@ -41,7 +43,7 @@ before_install:
   - stack upgrade
   - stack --version
   # install rust
-  - curl -sSf https://static.rust-lang.org/rustup.sh | sh
+  - curl https://sh.rustup.rs -sSf | sh -s -- -y -v
   # required when sudo: required for the Ruby petstore tests
   - gem install bundler
   - npm install -g typescript
@@ -83,7 +85,7 @@ install:
   # Add Godeps dependencies to GOPATH and PATH
   - eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme | GIMME_GO_VERSION=1.4 bash)"
   - export GOPATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace"
-  - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$PATH"
+  - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$HOME/.cargo/bin:$PATH"
   - go version
 
 script:
