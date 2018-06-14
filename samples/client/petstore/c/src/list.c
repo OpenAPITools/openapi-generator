@@ -108,20 +108,6 @@ void list_free(list_t *list) {
 	free(list);
 }
 
-listEntry_t *list_getWithIndex(list_t *list, int index) {
-	listEntry_t *currentListEntry = list->firstEntry;
-
-	for(int i = 0; i < index; i++) {
-		if(currentListEntry != NULL) {
-			currentListEntry = currentListEntry->nextListEntry;
-		} else {
-			return NULL;
-		}
-	}
-
-	return currentListEntry;
-}
-
 void list_addElement(list_t *list, void *dataToAddInList) {
 	listEntry_t *newListEntry = listEntry_create(dataToAddInList);
 	if(newListEntry == NULL) {
