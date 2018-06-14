@@ -1,0 +1,36 @@
+{{>licenseInfo}}
+#ifndef ModelFactory_H_
+#define ModelFactory_H_
+
+#include "{{prefix}}Object.h"
+{{#models}}{{#model}}
+#include "{{classname}}.h"{{/model}}{{/models}}
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+  inline void* create(QString type) {
+    {{#models}}{{#model}}if(QString("{{classname}}").compare(type) == 0) {
+      return new {{classname}}();
+    }
+    {{/model}}{{/models}}
+    return nullptr;
+  }
+
+  inline void* create(QString json, QString type) {
+    if(type.startsWith("QString")) {
+      return new QString();
+    }    
+    auto val = static_cast<{{prefix}}Object*>(create(type));
+    if(val != nullptr) {
+      return val->fromJson(json);
+    }
+    return nullptr;
+  }
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}
+
+#endif /* ModelFactory_H_ */

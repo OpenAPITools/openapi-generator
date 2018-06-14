@@ -1,0 +1,28 @@
+{{>licenseInfo}}
+#ifndef {{prefix}}_QOBJECT_WRAPPER_H
+#define {{prefix}}_QOBJECT_WRAPPER_H
+
+#include <QObject>
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+    template <typename ObjectPtrT>
+    class {{prefix}}QObjectWrapper : public QObject {
+        public:
+            {{prefix}}QObjectWrapper(ObjectPtrT ptr){
+                data = ptr;
+            }
+            ~{{prefix}}QObjectWrapper(){
+                delete data;
+            }
+        private :
+            ObjectPtrT data;
+    };
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}
+
+#endif // {{prefix}}_QOBJECT_WRAPPER_H

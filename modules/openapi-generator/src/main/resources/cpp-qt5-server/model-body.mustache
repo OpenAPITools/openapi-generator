@@ -1,0 +1,250 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}
+#include "{{classname}}.h"
+
+#include "{{prefix}}Helpers.h"
+
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QObject>
+#include <QDebug>
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+{{classname}}::{{classname}}(QString json) {
+    init();
+    this->fromJson(json);
+}
+
+{{classname}}::{{classname}}() {
+    init();
+}
+
+{{classname}}::~{{classname}}() {
+    this->cleanup();
+}
+
+void
+{{classname}}::init() {
+    {{#vars}}
+    {{name}} = {{{defaultValue}}};
+    m_{{name}}_isSet = false;
+    {{/vars}}
+}
+
+void
+{{classname}}::cleanup() {
+    {{#vars}}
+    {{#complexType}}
+    if({{name}} != nullptr) { {{#isContainer}}
+        auto arr = {{name}};
+        for(auto o: *arr) { {{#items.isContainer}}
+            for(auto o1: *o) {
+                delete o1;
+            }{{/items.isContainer}}
+            delete o;
+        }{{/isContainer}}
+        delete {{name}};
+    }{{/complexType}}{{^complexType}}{{#isContainer}}
+    if({{name}} != nullptr) { {{#items.isContainer}}
+        auto arr = {{name}};
+        for(auto o: *arr) { 
+            delete o;
+        }{{/items.isContainer}}
+        delete {{name}};
+    }{{/isContainer}}{{/complexType}}
+    {{/vars}}
+}
+
+{{classname}}*
+{{classname}}::fromJson(QString json) {
+    QByteArray array (json.toStdString().c_str());
+    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonObject jsonObject = doc.object();
+    this->fromJsonObject(jsonObject);
+    return this;
+}
+
+void
+{{classname}}::fromJsonObject(QJsonObject pJson) {
+    {{#vars}}
+    {{^isContainer}}::{{cppNamespace}}::setValue(&{{name}}, pJson["{{baseName}}"], "{{baseType}}", "{{complexType}}");{{/isContainer}}
+    {{#isContainer}}{{^items.isContainer}}::{{cppNamespace}}::setValue(&{{name}}, pJson["{{baseName}}"], "{{baseType}}", "{{items.baseType}}");{{/items.isContainer}}{{#items.isContainer}}{{#isListContainer}}
+    if(pJson["{{baseName}}"].isArray()){
+        auto arr = pJson["{{baseName}}"].toArray();
+        for (const QJsonValue & jval : arr) {
+            {{#items.isListContainer}}auto {{name}}_item = new QList<{{items.items.baseType}}{{^items.items.isLong}}{{^items.items.isInteger}}{{^items.items.isDouble}}{{^items.items.isFloat}}{{^items.items.isBoolean}}*{{/items.items.isBoolean}}{{/items.items.isFloat}}{{/items.items.isDouble}}{{/items.items.isInteger}}{{/items.items.isLong}}>();{{/items.isListContainer}}
+            {{#items.isMapContainer}}auto {{name}}_item = new QMap<QString, {{items.items.baseType}} {{^items.items.isLong}}{{^items.items.isInteger}}{{^items.items.isDouble}}{{^items.items.isFloat}}{{^items.items.isBoolean}}*{{/items.items.isBoolean}}{{/items.items.isFloat}}{{/items.items.isDouble}}{{/items.items.isInteger}}{{/items.items.isLong}}>();{{/items.isMapContainer}}
+            auto jsonval = jval.toObject();
+            ::{{cppNamespace}}::setValue({{name}}_item, jsonval, "{{items.baseType}}", "{{items.items.baseType}}");
+            {{name}}->push_back({{name}}_item);
+        }
+    }{{/isListContainer}}{{#isMapContainer}}
+    if(pJson["{{baseName}}"].isObject()){
+        auto varmap = pJson["{{baseName}}"].toObject().toVariantMap();
+        if(varmap.count() > 0){
+            for(auto val : varmap.keys()){
+                {{#items.isListContainer}}auto {{name}}_item = new QList<{{items.items.baseType}}{{^items.items.isLong}}{{^items.items.isInteger}}{{^items.items.isDouble}}{{^items.items.isFloat}}{{^items.items.isBoolean}}*{{/items.items.isBoolean}}{{/items.items.isFloat}}{{/items.items.isDouble}}{{/items.items.isInteger}}{{/items.items.isLong}}>();{{/items.isListContainer}}
+                {{#items.isMapContainer}}auto {{name}}_item = new QMap<QString, {{items.items.baseType}}{{^items.items.isLong}}{{^items.items.isInteger}}{{^items.items.isDouble}}{{^items.items.isFloat}}{{^items.items.isBoolean}}*{{/items.items.isBoolean}}{{/items.items.isFloat}}{{/items.items.isDouble}}{{/items.items.isInteger}}{{/items.items.isLong}}>();{{/items.isMapContainer}}
+    		    auto jsonval = QJsonValue::fromVariant(varmap.value(val));
+    		    ::{{cppNamespace}}::setValue((QMap<QString, void *>*)&{{name}}_item, jsonval, "{{items.baseType}}", "{{items.items.baseType}}");
+
+                {{name}}->insert({{name}}->end(), val, {{name}}_item);
+            }
+        }
+    }{{/isMapContainer}}{{/items.isContainer}}{{/isContainer}}
+    {{/vars}}
+}
+
+QString
+{{classname}}::asJson ()
+{
+    QJsonObject obj = this->asJsonObject();
+    QJsonDocument doc(obj);
+    QByteArray bytes = doc.toJson();
+    return QString(bytes);
+}
+
+QJsonObject
+{{classname}}::asJsonObject() {
+    QJsonObject obj;
+    {{#vars}}
+    {{^isContainer}}
+    {{#complexType}}
+    {{^isString}}
+    {{^isDate}}
+    {{^isDateTime}}
+    {{^isByteArray}} 
+    if(({{name}} != nullptr) && ({{name}}->isSet())){
+        toJsonValue(QString("{{baseName}}"), {{name}}, obj, QString("{{complexType}}"));
+    }
+    {{/isByteArray}}
+    {{/isDateTime}}
+    {{/isDate}}
+    {{/isString}}
+    {{#isString}}
+    if({{name}} != nullptr && *{{name}} != QString("")){
+        toJsonValue(QString("{{baseName}}"), {{name}}, obj, QString("{{complexType}}"));
+    }
+    {{/isString}}
+    {{/complexType}}
+    {{#isPrimitiveType}}
+    {{^isDateTime}}
+    {{^isDate}}
+    {{^isByteArray}}
+    if(m_{{name}}_isSet){
+        obj.insert("{{baseName}}", QJsonValue({{name}}));
+    }
+    {{/isByteArray}}
+    {{/isDate}}
+    {{/isDateTime}}
+    {{/isPrimitiveType}}
+    {{#isDate}}    
+    if({{name}} != nullptr) { 
+        toJsonValue(QString("{{baseName}}"), {{name}}, obj, QString("{{complexType}}"));
+    }
+    {{/isDate}}
+    {{#isByteArray}}    
+    if({{name}} != nullptr) { 
+        obj.insert("{{name}}", QJsonValue(*{{name}}));
+    }
+    {{/isByteArray}}
+    {{#isDateTime}}   
+    if({{name}} != nullptr) { 
+        toJsonValue(QString("{{baseName}}"), {{name}}, obj, QString("{{complexType}}"));
+    }
+    {{/isDateTime}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#isListContainer}}
+    if({{name}}->size() > 0){
+        {{^items.isContainer}}
+        toJsonArray((QList<void*>*){{name}}, obj, "{{baseName}}", "{{complexType}}");
+        {{/items.isContainer}}
+        {{#items.isContainer}}
+        QJsonArray jarray;
+        for(auto items : *{{name}}){
+            QJsonObject jobj;
+            {{#items.isListContainer}}
+            toJsonArray((QList<void*>*)items, jobj, "{{baseName}}", "{{items.items.baseType}}");
+            {{/items.isListContainer}}
+            {{#items.isMapContainer}}
+            toJsonMap((QMap<QString, void*>*)items, jobj, "{{baseName}}", "{{items.items.baseType}}");
+            {{/items.isMapContainer}}
+            jarray.append(jobj.value("{{baseName}}"));
+        }
+        obj.insert("{{baseName}}", jarray);
+        {{/items.isContainer}}
+    }
+    {{/isListContainer}}
+    {{#isMapContainer}}
+    if({{name}}->size() > 0){
+        {{^items.isContainer}}toJsonMap((QMap<QString, void*>*) {{name}}, obj, "{{baseName}}", "{{complexType}}");{{/items.isContainer}}{{#items.isContainer}}
+        QJsonObject mapobj;
+        for(auto itemkey : {{name}}->keys()){
+            QJsonObject jobj;
+            {{#items.isListContainer}}
+            toJsonArray((QList<void*>*){{name}}->value(itemkey), jobj, itemkey, "{{items.items.baseType}}");
+            {{/items.isListContainer}}
+            {{#items.isMapContainer}}
+            toJsonMap((QMap<QString, void*>*){{name}}->value(itemkey), jobj, itemkey, "{{items.items.baseType}}");
+            {{/items.isMapContainer}}
+            mapobj.insert(itemkey, jobj);
+        }
+        obj.insert("{{baseName}}", mapobj);{{/items.isContainer}}
+    }
+    {{/isMapContainer}}
+    {{/isContainer}}
+    {{/vars}}
+
+    return obj;
+}
+
+{{#vars}}
+{{{dataType}}}
+{{classname}}::{{getter}}() {
+    return {{name}};
+}
+void
+{{classname}}::{{setter}}({{{dataType}}} {{name}}) {
+    this->{{name}} = {{name}};
+    this->m_{{name}}_isSet = true;
+}
+
+{{/vars}}
+
+bool
+{{classname}}::isSet(){
+    bool isObjectUpdated = false;
+    do{
+    {{#vars}}
+        {{#isPrimitiveType}}
+        if(m_{{name}}_isSet){ isObjectUpdated = true; break;}
+        {{/isPrimitiveType}}
+        {{#isContainer}}
+        if({{name}}->size() > 0){ isObjectUpdated = true; break;}
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#complexType}}
+        {{^isString}}
+        {{^isDateTime}}
+        if({{name}} != nullptr && {{name}}->isSet()){ isObjectUpdated = true; break;}
+        {{/isDateTime}}
+        {{/isString}}
+        {{#isString}}
+        if({{name}} != nullptr && *{{name}} != QString("")){ isObjectUpdated = true; break;}
+        {{/isString}}
+        {{/complexType}}
+        {{/isContainer}}
+    {{/vars}}
+    }while(false);
+    return isObjectUpdated;
+}
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}
+
+{{/model}}
+{{/models}}

@@ -1,0 +1,13 @@
+FROM debian:stretch-stretch-slim
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        cmake \
+        build-essential 
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        libssl-dev \        
+        qtbase5-dev \       
+        qtbase5-dev-tools 
+
