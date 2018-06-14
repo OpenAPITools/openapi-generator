@@ -1,4 +1,4 @@
-# SwaggerPetstore.PetApi
+# OpenApiPetstore.PetApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -16,26 +16,21 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> addPet(body)
+> addPet(pet)
 
 Add a new pet to the store
 
-
-
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
-
+var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
-var apiInstance = new SwaggerPetstore.PetApi();
-
-var body = new SwaggerPetstore.Pet(); // Pet | Pet object that needs to be added to the store
-
-apiInstance.addPet(body).then(function() {
+var apiInstance = new OpenApiPetstore.PetApi();
+var pet = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
+apiInstance.addPet(pet).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -47,7 +42,7 @@ apiInstance.addPet(body).then(function() {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -60,7 +55,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="deletePet"></a>
 # **deletePet**
@@ -68,22 +63,17 @@ null (empty response body)
 
 Deletes a pet
 
-
-
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
-
+var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
-var apiInstance = new SwaggerPetstore.PetApi();
-
+var apiInstance = new OpenApiPetstore.PetApi();
 var petId = 789; // Number | Pet id to delete
-
-var opts = { 
+var opts = {
   'apiKey': "apiKey_example" // String | 
 };
 apiInstance.deletePet(petId, opts).then(function() {
@@ -112,7 +102,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="findPetsByStatus"></a>
 # **findPetsByStatus**
@@ -124,17 +114,14 @@ Multiple status values can be provided with comma separated strings
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
-
+var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
-var apiInstance = new SwaggerPetstore.PetApi();
-
-var status = ["status_example"]; // [String] | Status values that need to be considered for filter
-
+var apiInstance = new OpenApiPetstore.PetApi();
+var status = ["'available'"]; // [String] | Status values that need to be considered for filter
 apiInstance.findPetsByStatus(status).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
@@ -172,17 +159,14 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
-
+var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
-var apiInstance = new SwaggerPetstore.PetApi();
-
-var tags = ["tags_example"]; // [String] | Tags to filter by
-
+var apiInstance = new OpenApiPetstore.PetApi();
+var tags = ["inner_example"]; // [String] | Tags to filter by
 apiInstance.findPetsByTags(tags).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
@@ -220,19 +204,16 @@ Returns a single pet
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
-
+var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 // Configure API key authorization: api_key
 var api_key = defaultClient.authentications['api_key'];
 api_key.apiKey = 'YOUR API KEY';
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //api_key.apiKeyPrefix = 'Token';
 
-var apiInstance = new SwaggerPetstore.PetApi();
-
+var apiInstance = new OpenApiPetstore.PetApi();
 var petId = 789; // Number | ID of pet to return
-
 apiInstance.getPetById(petId).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
@@ -262,26 +243,21 @@ Name | Type | Description  | Notes
 
 <a name="updatePet"></a>
 # **updatePet**
-> updatePet(body)
+> updatePet(pet)
 
 Update an existing pet
 
-
-
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
-
+var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
-var apiInstance = new SwaggerPetstore.PetApi();
-
-var body = new SwaggerPetstore.Pet(); // Pet | Pet object that needs to be added to the store
-
-apiInstance.updatePet(body).then(function() {
+var apiInstance = new OpenApiPetstore.PetApi();
+var pet = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
+apiInstance.updatePet(pet).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -293,7 +269,7 @@ apiInstance.updatePet(body).then(function() {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -306,7 +282,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="updatePetWithForm"></a>
 # **updatePetWithForm**
@@ -314,22 +290,17 @@ null (empty response body)
 
 Updates a pet in the store with form data
 
-
-
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
-
+var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
-var apiInstance = new SwaggerPetstore.PetApi();
-
+var apiInstance = new OpenApiPetstore.PetApi();
 var petId = 789; // Number | ID of pet that needs to be updated
-
-var opts = { 
+var opts = {
   'name': "name_example", // String | Updated name of the pet
   'status': "status_example" // String | Updated status of the pet
 };
@@ -360,7 +331,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="uploadFile"></a>
 # **uploadFile**
@@ -368,24 +339,19 @@ null (empty response body)
 
 uploads an image
 
-
-
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
-
+var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
-var apiInstance = new SwaggerPetstore.PetApi();
-
+var apiInstance = new OpenApiPetstore.PetApi();
 var petId = 789; // Number | ID of pet to update
-
-var opts = { 
+var opts = {
   'additionalMetadata': "additionalMetadata_example", // String | Additional data to pass to server
-  'file': "/path/to/file.txt" // File | file to upload
+  'file': "/path/to/file" // File | file to upload
 };
 apiInstance.uploadFile(petId, opts).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
