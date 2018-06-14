@@ -1,4 +1,4 @@
-# SwaggerPetstore.Cat
+# OpenApiPetstore.Cat
 
 ## Properties
 Name | Type | Description | Notes
