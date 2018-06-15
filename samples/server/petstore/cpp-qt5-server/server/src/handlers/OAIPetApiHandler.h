@@ -32,27 +32,42 @@
  * IN THE SOFTWARE.
  */
 
-#ifndef _OAI_OAIPetApi_H_
-#define _OAI_OAIPetApi_H_
+#ifndef _OAI_OAIPetApiHandler_H_
+#define _OAI_OAIPetApiHandler_H_
 
 #include <QObject>
 #include <QStringList>
 
 #include <qhttpengine/socket.h>
+
 namespace OpenAPI {
 
-class OAIPetApi : public QObject
+class OAIPetApiHandler : public QObject
 {
     Q_OBJECT
-
+    
 public Q_SLOTS:
-
-
-private:
-
-
+    void addPet(QHttpEngine::Socket *socket);
+    void deletePet(QHttpEngine::Socket *socket);
+    void findPetsByStatus(QHttpEngine::Socket *socket);
+    void findPetsByTags(QHttpEngine::Socket *socket);
+    void getPetById(QHttpEngine::Socket *socket);
+    void updatePet(QHttpEngine::Socket *socket);
+    void updatePetWithForm(QHttpEngine::Socket *socket);
+    void uploadFile(QHttpEngine::Socket *socket);
+    
+public:
+    void addPetCallback();
+    void deletePetCallback();
+    void findPetsByStatusCallback();
+    void findPetsByTagsCallback();
+    void getPetByIdCallback();
+    void updatePetCallback();
+    void updatePetWithFormCallback();
+    void uploadFileCallback();
+    
 };
 
 }
 
-#endif // _OAI_OAIPetApi_H_
+#endif // _OAI_OAIPetApiHandler_H_

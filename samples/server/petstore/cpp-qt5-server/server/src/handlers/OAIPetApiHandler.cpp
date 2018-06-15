@@ -36,9 +36,86 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QVariantMap>
+#include <QDebug>
 
 #include "OAIPetApiHandler.h"
 namespace OpenAPI {
+
+void  OAIPetApiHandler::addPet(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/pet";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+void  OAIPetApiHandler::deletePet(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/pet/{petId}";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+void  OAIPetApiHandler::findPetsByStatus(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/pet/findByStatus";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+void  OAIPetApiHandler::findPetsByTags(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/pet/findByTags";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+void  OAIPetApiHandler::getPetById(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/pet/{petId}";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+void  OAIPetApiHandler::updatePet(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/pet";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+void  OAIPetApiHandler::updatePetWithForm(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/pet/{petId}";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+void  OAIPetApiHandler::uploadFile(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/pet/{petId}/uploadImage";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+
+
+
+void OAIPetApiHandler::addPetCallback(){
+    
+}
+void OAIPetApiHandler::deletePetCallback(){
+    
+}
+void OAIPetApiHandler::findPetsByStatusCallback(){
+    
+}
+void OAIPetApiHandler::findPetsByTagsCallback(){
+    
+}
+void OAIPetApiHandler::getPetByIdCallback(){
+    
+}
+void OAIPetApiHandler::updatePetCallback(){
+    
+}
+void OAIPetApiHandler::updatePetWithFormCallback(){
+    
+}
+void OAIPetApiHandler::uploadFileCallback(){
+    
+}
 
 
 }

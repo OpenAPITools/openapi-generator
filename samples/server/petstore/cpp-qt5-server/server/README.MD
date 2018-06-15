@@ -37,11 +37,11 @@ make
 
 To run the server
 ```
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/external/lib  && ./build/cpp-qt5-server &
+./build/cpp-qt5-server &
 ```
 Invoke and API
 ```
-curl -X GET http://localhost:8080/
+curl -X GET http://localhost:8080/v2/store/inventory
 ```
 
 ### Run and build with docker
@@ -57,7 +57,7 @@ docker run --rm -it --name=server-container cpp-qt5-server
 Invoke an API
 Mind the IP here
 ```
-curl -X GET http://172.17.0.2:8080/
+curl -X GET http://172.17.0.2:8080/v2/store/inventory
 ```
 
 use this command to get the container IP

@@ -32,27 +32,42 @@
  * IN THE SOFTWARE.
  */
 
-#ifndef _OAI_OAIUserApi_H_
-#define _OAI_OAIUserApi_H_
+#ifndef _OAI_OAIUserApiHandler_H_
+#define _OAI_OAIUserApiHandler_H_
 
 #include <QObject>
 #include <QStringList>
 
 #include <qhttpengine/socket.h>
+
 namespace OpenAPI {
 
-class OAIUserApi : public QObject
+class OAIUserApiHandler : public QObject
 {
     Q_OBJECT
-
+    
 public Q_SLOTS:
-
-
-private:
-
-
+    void createUser(QHttpEngine::Socket *socket);
+    void createUsersWithArrayInput(QHttpEngine::Socket *socket);
+    void createUsersWithListInput(QHttpEngine::Socket *socket);
+    void deleteUser(QHttpEngine::Socket *socket);
+    void getUserByName(QHttpEngine::Socket *socket);
+    void loginUser(QHttpEngine::Socket *socket);
+    void logoutUser(QHttpEngine::Socket *socket);
+    void updateUser(QHttpEngine::Socket *socket);
+    
+public:
+    void createUserCallback();
+    void createUsersWithArrayInputCallback();
+    void createUsersWithListInputCallback();
+    void deleteUserCallback();
+    void getUserByNameCallback();
+    void loginUserCallback();
+    void logoutUserCallback();
+    void updateUserCallback();
+    
 };
 
 }
 
-#endif // _OAI_OAIUserApi_H_
+#endif // _OAI_OAIUserApiHandler_H_

@@ -40,19 +40,16 @@
 
 #include <qhttpengine/socket.h>
 #include <qhttpengine/handler.h>
+#include <qhttpengine/qobjecthandler.h>
+#include <qhttpengine/filesystemhandler.h>
 
 namespace OpenAPI {
 
 class ApiHandler : public QObject
 {
     Q_OBJECT
-
-public Q_SLOTS:
-
-private:
-
 public:
-    void registerEndpoints(QHttpEngine::Handler& handler);
+    void registerEndpoints(QHttpEngine::Handler* handler);
 
 };
 }

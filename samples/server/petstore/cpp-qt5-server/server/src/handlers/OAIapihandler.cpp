@@ -38,11 +38,58 @@
 #include <QVariantMap>
 
 #include "OAIapihandler.h"
+#include "OAIPetApiHandler.h"
+#include "OAIStoreApiHandler.h"
+#include "OAIUserApiHandler.h"
+
 
 namespace OpenAPI {
 
-void ApiHandler::registerEndpoints(QHttpEngine::Handler& handler)
+void ApiHandler::registerEndpoints(QHttpEngine::Handler* handler)
 {
+
+    OAIPetApiHandler OAIPetApiHandlerobj;
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/pet", &OAIPetApiHandlerobj, &OAIPetApiHandler::addPet);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/pet/{petId}", &OAIPetApiHandlerobj, &OAIPetApiHandler::deletePet);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/pet/findByStatus", &OAIPetApiHandlerobj, &OAIPetApiHandler::findPetsByStatus);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/pet/findByTags", &OAIPetApiHandlerobj, &OAIPetApiHandler::findPetsByTags);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/pet/{petId}", &OAIPetApiHandlerobj, &OAIPetApiHandler::getPetById);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/pet", &OAIPetApiHandlerobj, &OAIPetApiHandler::updatePet);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/pet/{petId}", &OAIPetApiHandlerobj, &OAIPetApiHandler::updatePetWithForm);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/pet/{petId}/uploadImage", &OAIPetApiHandlerobj, &OAIPetApiHandler::uploadFile);
+
+    OAIStoreApiHandler OAIStoreApiHandlerobj;
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/store/order/{orderId}", &OAIStoreApiHandlerobj, &OAIStoreApiHandler::deleteOrder);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/store/inventory", &OAIStoreApiHandlerobj, &OAIStoreApiHandler::getInventory);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/store/order/{orderId}", &OAIStoreApiHandlerobj, &OAIStoreApiHandler::getOrderById);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/store/order", &OAIStoreApiHandlerobj, &OAIStoreApiHandler::placeOrder);
+
+    OAIUserApiHandler OAIUserApiHandlerobj;
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/user", &OAIUserApiHandlerobj, &OAIUserApiHandler::createUser);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/user/createWithArray", &OAIUserApiHandlerobj, &OAIUserApiHandler::createUsersWithArrayInput);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/user/createWithList", &OAIUserApiHandlerobj, &OAIUserApiHandler::createUsersWithListInput);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/user/{username}", &OAIUserApiHandlerobj, &OAIUserApiHandler::deleteUser);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/user/{username}", &OAIUserApiHandlerobj, &OAIUserApiHandler::getUserByName);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/user/login", &OAIUserApiHandlerobj, &OAIUserApiHandler::loginUser);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/user/logout", &OAIUserApiHandlerobj, &OAIUserApiHandler::logoutUser);
+
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("/v2/user/{username}", &OAIUserApiHandlerobj, &OAIUserApiHandler::updateUser);
 
 }
 

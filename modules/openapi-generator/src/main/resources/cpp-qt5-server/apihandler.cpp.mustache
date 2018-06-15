@@ -27,14 +27,19 @@
 #include <QVariantMap>
 
 #include "{{prefix}}apihandler.h"
+{{#apiInfo}}{{#apis}}{{#operations}}#include "{{classname}}.h"
+{{/operations}}{{/apis}}{{/apiInfo}}
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-void ApiHandler::registerEndpoints(QHttpEngine::Handler& handler)
+void ApiHandler::registerEndpoints(QHttpEngine::Handler* handler)
 {
-
+{{#apiInfo}}{{#apis}}{{#operations}}
+    {{classname}} {{classname}}obj;{{#operation}}
+    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("{{{basePathWithoutHost}}}{{{path}}}", &{{classname}}obj, &{{classname}}::{{nickname}});
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 }
 
 {{#cppNamespaceDeclarations}}

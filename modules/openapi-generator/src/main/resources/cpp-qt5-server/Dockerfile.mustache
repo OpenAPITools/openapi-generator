@@ -8,7 +8,7 @@ RUN apt-get update \
         libssl-dev \        
         qtbase5-dev \       
         qtbase5-dev-tools \
-    ca-certificates 
+        ca-certificates 
 RUN rm -rf /var/lib/apt/lists/*
  
 WORKDIR /usr/server

@@ -64,7 +64,7 @@ int main(int argc, char * argv[])
         QStringList() << "p" << "port",
         "port to listen on",
         "port",
-        "8000"
+        "8080"
     );
     parser.addOption(portOption);
     parser.addHelpOption();
@@ -78,7 +78,7 @@ int main(int argc, char * argv[])
 
     OpenAPI::ApiHandler baseHandler;
     QHttpEngine::QObjectHandler apiHandler;
-    baseHandler.registerEndpoints(apiHandler);
+    baseHandler.registerEndpoints(&apiHandler);
     QHttpEngine::Server server(&apiHandler);
 
     // Attempt to listen on the specified port

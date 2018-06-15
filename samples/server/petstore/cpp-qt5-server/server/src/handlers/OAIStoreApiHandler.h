@@ -32,27 +32,34 @@
  * IN THE SOFTWARE.
  */
 
-#ifndef _OAI_OAIStoreApi_H_
-#define _OAI_OAIStoreApi_H_
+#ifndef _OAI_OAIStoreApiHandler_H_
+#define _OAI_OAIStoreApiHandler_H_
 
 #include <QObject>
 #include <QStringList>
 
 #include <qhttpengine/socket.h>
+
 namespace OpenAPI {
 
-class OAIStoreApi : public QObject
+class OAIStoreApiHandler : public QObject
 {
     Q_OBJECT
-
+    
 public Q_SLOTS:
-
-
-private:
-
-
+    void deleteOrder(QHttpEngine::Socket *socket);
+    void getInventory(QHttpEngine::Socket *socket);
+    void getOrderById(QHttpEngine::Socket *socket);
+    void placeOrder(QHttpEngine::Socket *socket);
+    
+public:
+    void deleteOrderCallback();
+    void getInventoryCallback();
+    void getOrderByIdCallback();
+    void placeOrderCallback();
+    
 };
 
 }
 
-#endif // _OAI_OAIStoreApi_H_
+#endif // _OAI_OAIStoreApiHandler_H_

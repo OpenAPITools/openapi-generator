@@ -5,8 +5,8 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
-set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fPIC -Wall")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -std=c++14 -Wall")
+set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fPIC -Wall -pg -g3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -std=c++14 -Wall -pg -g3")
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Network REQUIRED)
@@ -24,7 +24,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/handlers
 )
 link_directories(
-     ${CMAKE_PREFIX_PATH}/lib
+    ${CMAKE_PREFIX_PATH}/lib
 )
 
 add_executable(${PROJECT_NAME} ${SRCS})

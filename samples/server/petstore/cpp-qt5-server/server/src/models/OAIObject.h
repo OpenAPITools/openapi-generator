@@ -45,16 +45,14 @@ class OAIObject {
     }
 
     virtual void fromJsonObject(QJsonObject json) {
-        if(jObj != nullptr)
-        {
+        if(jObj != nullptr){
             delete jObj;
         }
         jObj = new QJsonObject(json);
     }
 
     virtual QString asJson() {
-        if(jObj != nullptr)
-        {
+        if(jObj != nullptr){
             QJsonDocument doc(*jObj);
             return doc.toJson(QJsonDocument::Compact);
         }

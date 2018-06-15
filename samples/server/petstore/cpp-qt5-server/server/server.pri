@@ -9,9 +9,9 @@ HEADERS += \
     $${PWD}/OAITag.h \
     $${PWD}/OAIUser.h \
 # APIs
-    $${PWD}/OAIPetApi.h \
-    $${PWD}/OAIStoreApi.h \
-    $${PWD}/OAIUserApi.h \
+    $${PWD}/OAIPetApiHandler.h \
+    $${PWD}/OAIStoreApiHandler.h \
+    $${PWD}/OAIUserApiHandler.h \
 # Others
     $${PWD}/OAIHelpers.h \
     $${PWD}/OAIHttpRequest.h \
@@ -28,9 +28,9 @@ SOURCES += \
     $${PWD}/OAITag.cpp \
     $${PWD}/OAIUser.cpp \
 # APIs
-    $${PWD}/OAIPetApi.cpp \
-    $${PWD}/OAIStoreApi.cpp \
-    $${PWD}/OAIUserApi.cpp \
+    $${PWD}/OAIPetApiHandler.cpp \
+    $${PWD}/OAIStoreApiHandler.cpp \
+    $${PWD}/OAIUserApiHandler.cpp \
 # Others
     $${PWD}/OAIHelpers.cpp \
     $${PWD}/OAIHttpRequest.cpp

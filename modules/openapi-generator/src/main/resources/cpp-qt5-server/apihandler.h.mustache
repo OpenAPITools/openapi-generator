@@ -29,6 +29,8 @@
 
 #include <qhttpengine/socket.h>
 #include <qhttpengine/handler.h>
+#include <qhttpengine/qobjecthandler.h>
+#include <qhttpengine/filesystemhandler.h>
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -37,13 +39,8 @@ namespace {{this}} {
 class ApiHandler : public QObject
 {
     Q_OBJECT
-
-public Q_SLOTS:
-
-private:
-
 public:
-    void registerEndpoints(QHttpEngine::Handler& handler);
+    void registerEndpoints(QHttpEngine::Handler* handler);
 
 };
 {{#cppNamespaceDeclarations}}

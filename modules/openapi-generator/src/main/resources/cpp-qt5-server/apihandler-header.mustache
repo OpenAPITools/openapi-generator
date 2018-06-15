@@ -28,6 +28,7 @@
 #include <QStringList>
 
 #include <qhttpengine/socket.h>
+
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
@@ -35,13 +36,13 @@ namespace {{this}} {
 class {{classname}} : public QObject
 {
     Q_OBJECT
-
+    
 public Q_SLOTS:
-
-
-private:
-
-
+    {{#operations}}{{#operation}}void {{nickname}}(QHttpEngine::Socket *socket);
+    {{/operation}}{{/operations}}
+public:
+    {{#operations}}{{#operation}}void {{nickname}}Callback();
+    {{/operation}}{{/operations}}
 };
 
 {{#cppNamespaceDeclarations}}

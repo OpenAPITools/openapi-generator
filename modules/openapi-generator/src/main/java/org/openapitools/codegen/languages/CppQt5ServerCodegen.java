@@ -438,7 +438,7 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
 
     @Override
     public String toApiName(String type) {
-        return modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api";
+        return modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "ApiHandler";
     }
 
     @Override

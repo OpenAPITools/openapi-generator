@@ -36,9 +36,86 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QVariantMap>
+#include <QDebug>
 
 #include "OAIUserApiHandler.h"
 namespace OpenAPI {
+
+void  OAIUserApiHandler::createUser(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/user";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+void  OAIUserApiHandler::createUsersWithArrayInput(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/user/createWithArray";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+void  OAIUserApiHandler::createUsersWithListInput(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/user/createWithList";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+void  OAIUserApiHandler::deleteUser(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/user/{username}";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+void  OAIUserApiHandler::getUserByName(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/user/{username}";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+void  OAIUserApiHandler::loginUser(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/user/login";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+void  OAIUserApiHandler::logoutUser(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/user/logout";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+void  OAIUserApiHandler::updateUser(QHttpEngine::Socket *socket){
+    qDebug() << "/v2/user/{username}";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+
+
+
+void OAIUserApiHandler::createUserCallback(){
+    
+}
+void OAIUserApiHandler::createUsersWithArrayInputCallback(){
+    
+}
+void OAIUserApiHandler::createUsersWithListInputCallback(){
+    
+}
+void OAIUserApiHandler::deleteUserCallback(){
+    
+}
+void OAIUserApiHandler::getUserByNameCallback(){
+    
+}
+void OAIUserApiHandler::loginUserCallback(){
+    
+}
+void OAIUserApiHandler::logoutUserCallback(){
+    
+}
+void OAIUserApiHandler::updateUserCallback(){
+    
+}
 
 
 }

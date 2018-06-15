@@ -3,12 +3,12 @@ FROM debian:stretch-slim AS build
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         cmake \
-	git \
+        git \
         build-essential \
         libssl-dev \        
         qtbase5-dev \       
         qtbase5-dev-tools \
-	ca-certificates 
+        ca-certificates 
 RUN rm -rf /var/lib/apt/lists/*
  
 WORKDIR /usr/server
@@ -25,7 +25,7 @@ RUN apt-get update \
         libc6 \
         libstdc++6  \
         libqt5core5a \
-	    libqt5network5 \
+        libqt5network5 \
         libssl1.1
 
 RUN rm -rf /var/lib/apt/lists/*

@@ -25,12 +25,26 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QVariantMap>
+#include <QDebug>
 
-#include "{{classname}}Handler.h"
+#include "{{classname}}.h"
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
+
+{{#operations}}{{#operation}}void  {{classname}}::{{nickname}}(QHttpEngine::Socket *socket){
+    qDebug() << "{{{basePathWithoutHost}}}{{{path}}}";
+    socket->writeHeaders();
+    socket->close();
+    return;
+}
+{{/operation}}{{/operations}}
+
 {{/cppNamespaceDeclarations}}
 
+{{#operations}}{{#operation}}void {{classname}}::{{nickname}}Callback(){
+    
+}
+{{/operation}}{{/operations}}
 
 {{#cppNamespaceDeclarations}}
 }
