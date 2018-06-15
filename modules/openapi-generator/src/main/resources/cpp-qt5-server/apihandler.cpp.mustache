@@ -34,6 +34,15 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
+inline QString toQHttpEngineRoute(QString str) {
+    if(str.startsWith(QString("/")) ){
+        return QString(str.remove(0,1));
+    }
+    else{
+        return str;
+    }
+}
+
 ApiHandler::ApiHandler(){
 
 }
@@ -44,7 +53,7 @@ ApiHandler::~ApiHandler(){
 void ApiHandler::registerEndpoints(QSharedPointer<QHttpEngine::QObjectHandler> handler) {
 {{#apiInfo}}{{#apis}}{{#operations}}
     {{classname}} {{classname}}Obj;{{#operation}}
-    handler->registerMethod("{{{basePathWithoutHost}}}{{{path}}}", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("{{{basePathWithoutHost}}}{{{path}}}"), [&](QHttpEngine::Socket *socket){
         {{classname}}Obj.{{nickname}}(socket);
         socket->writeHeaders();
         socket->close();

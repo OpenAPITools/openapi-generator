@@ -41,7 +41,7 @@ public slots:
     {{#operations}}{{#operation}}void {{nickname}}(QHttpEngine::Socket *socket);
     {{/operation}}{{/operations}}
 public:
-    {{#operations}}{{#operation}}void {{nickname}}Callback();
+    {{#operations}}{{#operation}}virtual void {{nickname}}Callback();
     {{/operation}}{{/operations}}
 };
 
