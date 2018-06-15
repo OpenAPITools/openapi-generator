@@ -131,8 +131,8 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("modelFactory.mustache", sourceFolder + MODEL_DIR, PREFIX + "ModelFactory.h"));
         supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, PREFIX + "Object.h"));
         supportingFiles.add(new SupportingFile("QObjectWrapper.h.mustache", sourceFolder + MODEL_DIR, PREFIX + "QObjectWrapper.h"));
-        supportingFiles.add(new SupportingFile("apihandler.h.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "apihandler.h"));
-        supportingFiles.add(new SupportingFile("apihandler.cpp.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "apihandler.cpp"));
+        supportingFiles.add(new SupportingFile("apirouter.h.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "apirouter.h"));
+        supportingFiles.add(new SupportingFile("apirouter.cpp.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "apirouter.cpp"));
 
         supportingFiles.add(new SupportingFile("main.cpp.mustache", sourceFolder + SRC_DIR, "main.cpp"));
         supportingFiles.add(new SupportingFile("src-CMakeLists.txt.mustache", sourceFolder + SRC_DIR, "CMakeLists.txt"));

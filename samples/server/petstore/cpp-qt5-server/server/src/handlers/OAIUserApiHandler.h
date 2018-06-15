@@ -57,14 +57,14 @@ public slots:
     void updateUser(QHttpEngine::Socket *socket);
     
 public:
-    void createUserCallback();
-    void createUsersWithArrayInputCallback();
-    void createUsersWithListInputCallback();
-    void deleteUserCallback();
-    void getUserByNameCallback();
-    void loginUserCallback();
-    void logoutUserCallback();
-    void updateUserCallback();
+    virtual void createUserCallback();
+    virtual void createUsersWithArrayInputCallback();
+    virtual void createUsersWithListInputCallback();
+    virtual void deleteUserCallback();
+    virtual void getUserByNameCallback();
+    virtual void loginUserCallback();
+    virtual void logoutUserCallback();
+    virtual void updateUserCallback();
     
 };
 

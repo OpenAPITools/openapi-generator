@@ -43,41 +43,49 @@ namespace OpenAPI {
 
 void  OAIUserApiHandler::createUser(QHttpEngine::Socket *socket){
     qDebug() << "/v2/user";
+
     socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIUserApiHandler::createUsersWithArrayInput(QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/createWithArray";
+
     socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIUserApiHandler::createUsersWithListInput(QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/createWithList";
+
     socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIUserApiHandler::deleteUser(QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/{username}";
+
     socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIUserApiHandler::getUserByName(QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/{username}";
+
     socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIUserApiHandler::loginUser(QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/login";
+
     socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIUserApiHandler::logoutUser(QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/logout";
+
     socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIUserApiHandler::updateUser(QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/{username}";
+
     socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }

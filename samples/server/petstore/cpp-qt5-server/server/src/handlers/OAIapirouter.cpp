@@ -37,7 +37,7 @@
 #include <QJsonObject>
 #include <QVariantMap>
 
-#include "OAIapihandler.h"
+#include "OAIapirouter.h"
 #include "OAIPetApiHandler.h"
 #include "OAIStoreApiHandler.h"
 #include "OAIUserApiHandler.h"
@@ -45,133 +45,142 @@
 
 namespace OpenAPI {
 
-ApiHandler::ApiHandler(){
+inline QString toQHttpEngineRoute(QString str) {
+    if(str.startsWith(QString("/")) ){
+        return QString(str.remove(0,1));
+    }
+    else{
+        return str;
+    }
+}
+
+ApiRouter::ApiRouter(){
 
 }
-ApiHandler::~ApiHandler(){
+ApiRouter::~ApiRouter(){
 
 }
 
-void ApiHandler::registerEndpoints(QSharedPointer<QHttpEngine::QObjectHandler> handler) {
+void ApiRouter::registerEndpoints(QSharedPointer<QHttpEngine::QObjectHandler> handler) {
 
     OAIPetApiHandler OAIPetApiHandlerObj;
-    handler->registerMethod("/v2/pet", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/pet"), [&](QHttpEngine::Socket *socket){
         OAIPetApiHandlerObj.addPet(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/pet/{petId}", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/pet/{petId}"), [&](QHttpEngine::Socket *socket){
         OAIPetApiHandlerObj.deletePet(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/pet/findByStatus", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/pet/findByStatus"), [&](QHttpEngine::Socket *socket){
         OAIPetApiHandlerObj.findPetsByStatus(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/pet/findByTags", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/pet/findByTags"), [&](QHttpEngine::Socket *socket){
         OAIPetApiHandlerObj.findPetsByTags(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/pet/{petId}", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/pet/{petId}"), [&](QHttpEngine::Socket *socket){
         OAIPetApiHandlerObj.getPetById(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/pet", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/pet"), [&](QHttpEngine::Socket *socket){
         OAIPetApiHandlerObj.updatePet(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/pet/{petId}", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/pet/{petId}"), [&](QHttpEngine::Socket *socket){
         OAIPetApiHandlerObj.updatePetWithForm(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/pet/{petId}/uploadImage", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/pet/{petId}/uploadImage"), [&](QHttpEngine::Socket *socket){
         OAIPetApiHandlerObj.uploadFile(socket);
         socket->writeHeaders();
         socket->close();
     });
 
     OAIStoreApiHandler OAIStoreApiHandlerObj;
-    handler->registerMethod("/v2/store/order/{orderId}", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/store/order/{orderId}"), [&](QHttpEngine::Socket *socket){
         OAIStoreApiHandlerObj.deleteOrder(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/store/inventory", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/store/inventory"), [&](QHttpEngine::Socket *socket){
         OAIStoreApiHandlerObj.getInventory(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/store/order/{orderId}", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/store/order/{orderId}"), [&](QHttpEngine::Socket *socket){
         OAIStoreApiHandlerObj.getOrderById(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/store/order", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/store/order"), [&](QHttpEngine::Socket *socket){
         OAIStoreApiHandlerObj.placeOrder(socket);
         socket->writeHeaders();
         socket->close();
     });
 
     OAIUserApiHandler OAIUserApiHandlerObj;
-    handler->registerMethod("/v2/user", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/user"), [&](QHttpEngine::Socket *socket){
         OAIUserApiHandlerObj.createUser(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/user/createWithArray", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/user/createWithArray"), [&](QHttpEngine::Socket *socket){
         OAIUserApiHandlerObj.createUsersWithArrayInput(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/user/createWithList", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/user/createWithList"), [&](QHttpEngine::Socket *socket){
         OAIUserApiHandlerObj.createUsersWithListInput(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/user/{username}", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/user/{username}"), [&](QHttpEngine::Socket *socket){
         OAIUserApiHandlerObj.deleteUser(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/user/{username}", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/user/{username}"), [&](QHttpEngine::Socket *socket){
         OAIUserApiHandlerObj.getUserByName(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/user/login", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/user/login"), [&](QHttpEngine::Socket *socket){
         OAIUserApiHandlerObj.loginUser(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/user/logout", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/user/logout"), [&](QHttpEngine::Socket *socket){
         OAIUserApiHandlerObj.logoutUser(socket);
         socket->writeHeaders();
         socket->close();
     });
 
-    handler->registerMethod("/v2/user/{username}", [&](QHttpEngine::Socket *socket){
+    handler->registerMethod(toQHttpEngineRoute("/v2/user/{username}"), [&](QHttpEngine::Socket *socket){
         OAIUserApiHandlerObj.updateUser(socket);
         socket->writeHeaders();
         socket->close();

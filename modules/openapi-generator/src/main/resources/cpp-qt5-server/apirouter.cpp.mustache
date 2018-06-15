@@ -26,7 +26,7 @@
 #include <QJsonObject>
 #include <QVariantMap>
 
-#include "{{prefix}}apihandler.h"
+#include "{{prefix}}apirouter.h"
 {{#apiInfo}}{{#apis}}{{#operations}}#include "{{classname}}.h"
 {{/operations}}{{/apis}}{{/apiInfo}}
 
@@ -43,14 +43,14 @@ inline QString toQHttpEngineRoute(QString str) {
     }
 }
 
-ApiHandler::ApiHandler(){
+ApiRouter::ApiRouter(){
 
 }
-ApiHandler::~ApiHandler(){
+ApiRouter::~ApiRouter(){
 
 }
 
-void ApiHandler::registerEndpoints(QSharedPointer<QHttpEngine::QObjectHandler> handler) {
+void ApiRouter::registerEndpoints(QSharedPointer<QHttpEngine::QObjectHandler> handler) {
 {{#apiInfo}}{{#apis}}{{#operations}}
     {{classname}} {{classname}}Obj;{{#operation}}
     handler->registerMethod(toQHttpEngineRoute("{{{basePathWithoutHost}}}{{{path}}}"), [&](QHttpEngine::Socket *socket){

@@ -53,10 +53,10 @@ public slots:
     void placeOrder(QHttpEngine::Socket *socket);
     
 public:
-    void deleteOrderCallback();
-    void getInventoryCallback();
-    void getOrderByIdCallback();
-    void placeOrderCallback();
+    virtual void deleteOrderCallback();
+    virtual void getInventoryCallback();
+    virtual void getOrderByIdCallback();
+    virtual void placeOrderCallback();
     
 };
 

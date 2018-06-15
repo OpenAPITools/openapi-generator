@@ -1,6 +1,6 @@
 {{>licenseInfo}}
-#ifndef {{prefix}}_APIHANDLER_H
-#define {{prefix}}_APIHANDLER_H
+#ifndef {{prefix}}_APIROUTER_H
+#define {{prefix}}_APIROUTER_H
 /*
  * Copyright (c) 2017 Nathan Osman
  *
@@ -38,12 +38,12 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-class ApiHandler : public QObject
+class ApiRouter : public QObject
 {
     Q_OBJECT
 public:
-    ApiHandler();
-    virtual ~ApiHandler();
+    ApiRouter();
+    virtual ~ApiRouter();
     void registerEndpoints(QSharedPointer<QHttpEngine::QObjectHandler> handler);
 };
 
@@ -51,4 +51,4 @@ public:
 }
 {{/cppNamespaceDeclarations}}
 
-#endif // {{prefix}}_APIHANDLER_H
+#endif // {{prefix}}_APIROUTER_H

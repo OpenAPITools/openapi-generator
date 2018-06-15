@@ -57,14 +57,14 @@ public slots:
     void uploadFile(QHttpEngine::Socket *socket);
     
 public:
-    void addPetCallback();
-    void deletePetCallback();
-    void findPetsByStatusCallback();
-    void findPetsByTagsCallback();
-    void getPetByIdCallback();
-    void updatePetCallback();
-    void updatePetWithFormCallback();
-    void uploadFileCallback();
+    virtual void addPetCallback();
+    virtual void deletePetCallback();
+    virtual void findPetsByStatusCallback();
+    virtual void findPetsByTagsCallback();
+    virtual void getPetByIdCallback();
+    virtual void updatePetCallback();
+    virtual void updatePetWithFormCallback();
+    virtual void uploadFileCallback();
     
 };
 

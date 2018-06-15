@@ -45,7 +45,7 @@
 #include <qhttpengine/server.h>
 #include <qhttpengine/qobjecthandler.h>
 
-#include "OAIapihandler.h"
+#include "OAIapirouter.h"
 
 
 int main(int argc, char * argv[])
@@ -77,9 +77,9 @@ int main(int argc, char * argv[])
     QHostAddress address = QHostAddress(parser.value(addressOption));
     quint16 port = parser.value(portOption).toInt();
 
-    OpenAPI::ApiHandler baseHandler;
+    OpenAPI::ApiRouter router;
     QSharedPointer<QHttpEngine::QObjectHandler> handler(new QHttpEngine::QObjectHandler());
-    baseHandler.registerEndpoints(handler);
+    router.registerEndpoints(handler);
     QHttpEngine::Server server(handler.data());
 
     // Attempt to listen on the specified port

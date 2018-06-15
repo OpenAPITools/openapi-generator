@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-#ifndef OAI_APIHANDLER_H
-#define OAI_APIHANDLER_H
+#ifndef OAI_APIROUTER_H
+#define OAI_APIROUTER_H
 /*
  * Copyright (c) 2017 Nathan Osman
  *
@@ -47,15 +47,15 @@
 
 namespace OpenAPI {
 
-class ApiHandler : public QObject
+class ApiRouter : public QObject
 {
     Q_OBJECT
 public:
-    ApiHandler();
-    virtual ~ApiHandler();
+    ApiRouter();
+    virtual ~ApiRouter();
     void registerEndpoints(QSharedPointer<QHttpEngine::QObjectHandler> handler);
 };
 
 }
 
-#endif // OAI_APIHANDLER_H
+#endif // OAI_APIROUTER_H
