@@ -22,7 +22,6 @@ import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache.Compiler;
 
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.headers.Header;
@@ -47,6 +46,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1535,36 +1535,6 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
-    /**
-     * Recursively look for a discriminator in the interface tree
-     *
-     * @param schema         composed schema
-     * @param allDefinitions all schema defintion
-     * @return true if it's a discriminator
-     */
-    private boolean isDiscriminatorInInterfaceTree(ComposedSchema schema, Map<String, Schema> allDefinitions) {
-        if (schema == null || allDefinitions == null || allDefinitions.isEmpty()) {
-            return false;
-        }
-        if (schema.getDiscriminator() != null) {
-            return true;
-        }
-        final List<Schema> interfaces = getInterfaces(schema);
-        if (interfaces == null) {
-            return false;
-        }
-        for (Schema interfaceSchema : interfaces) {
-            if (interfaceSchema.getDiscriminator() != null) {
-                return true;
-            }
-            // TODO revise the logic below
-            if (interfaceSchema instanceof ComposedSchema) {
-                return isDiscriminatorInInterfaceTree((ComposedSchema) interfaceSchema, allDefinitions);
-            }
-        }
-        return false;
-    }
-
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         addParentContainer(codegenModel, codegenModel.name, schema);
     }
@@ -2801,12 +2771,13 @@ public class DefaultCodegen implements CodegenConfig {
                 cs.isApiKey = true;
                 cs.keyParamName = securityScheme.getName();
                 cs.isKeyInHeader = securityScheme.getIn() == SecurityScheme.In.HEADER;
-                cs.isKeyInQuery = !cs.isKeyInHeader;
+                cs.isKeyInQuery = securityScheme.getIn() == SecurityScheme.In.QUERY;
+                cs.isKeyInCookie = securityScheme.getIn() == SecurityScheme.In.COOKIE;  //it assumes a validation step prior to generation. (cookie-auth supported from OpenAPI 3.0.0)
             } else if (SecurityScheme.Type.HTTP.equals(securityScheme.getType())) {
-                cs.isKeyInHeader = cs.isKeyInQuery = cs.isApiKey = cs.isOAuth = false;
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = false;
                 cs.isBasic = true;
             } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
-                cs.isKeyInHeader = cs.isKeyInQuery = cs.isApiKey = cs.isBasic = false;
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
                 cs.isOAuth = true;
                 final OAuthFlows flows = securityScheme.getFlows();
                 if (securityScheme.getFlows() == null) {
@@ -2952,20 +2923,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 if (i < objs.size() - 1) {
                     objs.get(i).hasMore = true;
-                }
-            }
-        }
-        return objs;
-    }
-
-    private static Map<String, Object> addHasMore(Map<String, Object> objs) {
-        if (objs != null) {
-            for (int i = 0; i < objs.size() - 1; i++) {
-                if (i > 0) {
-                    objs.put("secondaryParam", true);
-                }
-                if (i < objs.size() - 1) {
-                    objs.put("hasMore", true);
                 }
             }
         }
@@ -3989,19 +3946,6 @@ public class DefaultCodegen implements CodegenConfig {
         return produces;
     }
 
-    protected Schema detectParent(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
-        if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
-            Schema schema = composedSchema.getAllOf().get(0);
-            String ref = schema.get$ref();
-            if (StringUtils.isBlank(ref)) {
-                return null;
-            }
-            ref = ModelUtils.getSimpleRef(ref);
-            return allSchemas.get(ref);
-        }
-        return null;
-    }
-
     protected String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
         if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
             Schema schema = composedSchema.getAllOf().get(0);
@@ -4031,12 +3975,6 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             return null;
         }
-    }
-
-    // TODO do we still need the methdo below?
-    protected static boolean hasSchemaProperties(Schema schema) {
-        final Object additionalProperties = schema.getAdditionalProperties();
-        return additionalProperties != null && additionalProperties instanceof Schema;
     }
 
     public CodegenType getTag() {
@@ -4362,10 +4300,6 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
-    protected void addOption(String key, String description) {
-        addOption(key, description, null);
-    }
-
     protected void addOption(String key, String description, String defaultValue) {
         CliOption option = new CliOption(key, description);
         if (defaultValue != null)
@@ -4403,12 +4337,9 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public void generateYAMLSpecFile(Map<String, Object> objs) {
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
-        if (openAPI != null) {
-            try {
-                objs.put("openapi-yaml", Yaml.mapper().writeValueAsString(openAPI));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
+        String yaml = SerializerUtils.toYamlString(openAPI);
+        if(yaml != null) {
+            objs.put("openapi-yaml", yaml);
         }
     }
 

@@ -1,4 +1,4 @@
-# SwaggerPetstore.FakeClassnameTags123Api
+# OpenApiPetstore.FakeClassnameTags123Api
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -9,14 +9,16 @@ Method | HTTP request | Description
 
 <a name="testClassname"></a>
 # **testClassname**
-> Client testClassname(body)
+> Client testClassname(client)
+
+To test class name in snake case
 
 To test class name in snake case
 
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
-let defaultClient = SwaggerPetstore.ApiClient.instance;
+import OpenApiPetstore from 'open_api_petstore';
+let defaultClient = OpenApiPetstore.ApiClient.instance;
 
 // Configure API key authorization: api_key_query
 let api_key_query = defaultClient.authentications['api_key_query'];
@@ -24,11 +26,9 @@ api_key_query.apiKey = 'YOUR API KEY';
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //api_key_query.apiKeyPrefix = 'Token';
 
-let apiInstance = new SwaggerPetstore.FakeClassnameTags123Api();
-
-let body = new SwaggerPetstore.Client(); // Client | client model
-
-apiInstance.testClassname(body).then((data) => {
+let apiInstance = new OpenApiPetstore.FakeClassnameTags123Api();
+let client = new OpenApiPetstore.Client(); // Client | client model
+apiInstance.testClassname(client).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
 }, (error) => {
   console.error(error);
@@ -40,7 +40,7 @@ apiInstance.testClassname(body).then((data) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

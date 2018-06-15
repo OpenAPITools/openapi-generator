@@ -9,9 +9,9 @@
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        {{^reactive}}
+        {{#useSpringfox}}
         <springfox-version>2.8.0</springfox-version>
-        {{/reactive}}
+        {{/useSpringfox}}
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -33,6 +33,38 @@
                     </execution>
                 </executions>
             </plugin>
+            {{#apiFirst}}
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>{{{generatorVersion}}}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>src/main/resources/openapi.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <apiPackage>{{{apiPackage}}}</apiPackage>
+                            <modelPackage>{{{modelPackage}}}</modelPackage>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            {{#modelNamePrefix}}
+                            <modelNamePrefix>{{{.}}}</modelNamePrefix>
+                            {{/modelNamePrefix}}
+                            {{#modelNameSuffix}}
+                            <modelNameSuffix>{{{.}}}</modelNameSuffix>
+                            {{/modelNameSuffix}}
+                            <configOptions>
+                            {{#configOptions}}
+                                <{{left}}>{{right}}</{{left}}>
+                            {{/configOptions}}
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            {{/apiFirst}}
         </plugins>
         {{/interfaceOnly}}
     </build>
@@ -41,7 +73,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}</artifactId>
         </dependency>
-        {{^reactive}}
+        {{#useSpringfox}}
         <!--SpringFox dependencies -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -53,43 +85,47 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-version}</version>
         </dependency>
-        {{/reactive}}
-        {{#reactive}}
+        {{/useSpringfox}}
+        {{^useSpringfox}}
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>3.14.2</version>
+        </dependency>
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>1.5.14</version>
         </dependency>
-        {{/reactive}}
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+        </dependency>
+        {{/useSpringfox}}
         {{#withXml}}
-
         <!-- XML processing: Jackson -->
         <dependency>
           <groupId>com.fasterxml.jackson.dataformat</groupId>
           <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
-
         {{/withXml}}
         {{#java8}}
-
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
         {{/java8}}
         {{#joda}}
-
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
         {{/joda}}
         {{#threetenbp}}
-
         <dependency>
             <groupId>com.github.joschi.jackson</groupId>
             <artifactId>jackson-datatype-threetenbp</artifactId>
-            <version>2.6.4</version>
+            <version>2.8.4</version>
         </dependency>
         {{/threetenbp}}
 {{#useBeanValidation}}

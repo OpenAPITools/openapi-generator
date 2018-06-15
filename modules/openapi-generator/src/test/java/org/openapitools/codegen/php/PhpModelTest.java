@@ -33,8 +33,6 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.languages.PhpClientCodegen;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -46,7 +44,6 @@ import java.util.Map;
 
 @SuppressWarnings("static-method")
 public class PhpModelTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PhpModelTest.class);
 
     @Test(description = "convert a simple php model")
     public void simpleModelTest() {

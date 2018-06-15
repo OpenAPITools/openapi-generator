@@ -3,6 +3,7 @@
 #define _{{prefix}}_OBJECT_H_
 
 #include <QJsonObject>
+#include <QJsonDocument>
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -11,22 +12,51 @@ namespace {{this}} {
 class {{prefix}}Object {
   public:
     virtual QJsonObject asJsonObject() {
-      return QJsonObject();
+        if(jObj != nullptr){
+            return *jObj;
+        }
+        return QJsonObject();
     }
-    virtual ~{{prefix}}Object() {}
+
+    {{prefix}}Object() {
+        jObj = nullptr;
+    }
+
+    virtual ~{{prefix}}Object() {
+        if(jObj != nullptr){
+            delete jObj;
+        }
+    }
+
     virtual {{prefix}}Object* fromJson(QString jsonString) {
-        Q_UNUSED(jsonString);
-        return new {{prefix}}Object();
+        QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
+        auto ret = new {{prefix}}Object();
+        ret->fromJsonObject(doc.object());
+        return ret;
     }
+
     virtual void fromJsonObject(QJsonObject json) {
-        Q_UNUSED(json);
+        if(jObj != nullptr)
+        {
+            delete jObj;
+        }
+        jObj = new QJsonObject(json);
     }
+
     virtual QString asJson() {
-        return QString("");
+        if(jObj != nullptr)
+        {
+            QJsonDocument doc(*jObj);
+            return doc.toJson(QJsonDocument::Compact);
+        }
+        return QString();
     }
+
     virtual bool isSet() {
         return false;
     }
+private :
+   QJsonObject *jObj;
 };
 
 {{#cppNamespaceDeclarations}}

@@ -18,7 +18,7 @@ There are several reasons:
 
 #### Has anything been done in attempt to address the issues before deciding to fork Swagger Codegen and maintain a community-driven version?
 
-There was several conversations with SmartBear (Ron, Hugo) via emails, gitter, Skype call and GitHub issues.
+There were several conversations with SmartBear (Ron, Hugo) via emails, gitter, Skype call and GitHub issues.
 But there was no consensus on the next steps and on the direction for Swagger Codegen 3.0.0.
 
 #### Is there any change to the project license?
