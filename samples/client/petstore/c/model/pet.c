@@ -204,65 +204,60 @@ end:
 	return pet;
 }
 
-char *pet_convertToJSON(pet_t *pet) {
-	char *string;
+cJSON *pet_convertToJSON(pet_t *pet) {
 	listEntry_t *listEntry;
 
 	cJSON *petJSONObject = cJSON_CreateObject();
 
 	// Pet->id
 	if(cJSON_AddNumberToObject(petJSONObject, "id", pet->id) == NULL) {
-		goto end;
+		goto fail;
 	}
+
+	cJSON *category = category_convertToJSON(pet->category);
+
+	if(category == NULL) {
+		goto fail;
+	}
+
 	// Pet->category
-	if(cJSON_AddObjectToObject(petJSONObject, "category") == NULL) {
-		goto end;
-	}
-
-	cJSON *categoryJSONObject = cJSON_GetObjectItem(petJSONObject,
-	                                                "category");
-
-	// Category->id
-	if(cJSON_AddNumberToObject(categoryJSONObject, "id",
-	                           pet->category->id) == NULL)
-	{
-		goto end;
-	}
-	// Category->name
-	if(cJSON_AddStringToObject(categoryJSONObject, "name",
-	                           pet->category->name) == NULL)
-	{
-		goto end;
+	cJSON_AddItemToObject(petJSONObject, "category", category);
+	if(petJSONObject->child == NULL) {
+		goto fail;
 	}
 
 	// Pet->name
 	if(cJSON_AddStringToObject(petJSONObject, "name", pet->name) == NULL) {
-		goto end;
+		goto fail;
 	}
 
 	// Pet->photoUrls
 	cJSON *photoUrls = cJSON_AddArrayToObject(petJSONObject, "photoUrls");
 
 	if(photoUrls == NULL) {
-		goto end;
+		goto fail;
 	}
 
 	list_ForEach(listEntry, pet->photoUrls) {
-		cJSON_AddStringToObject(photoUrls, "", listEntry->data);
+		if(cJSON_AddStringToObject(photoUrls, "",
+		                           listEntry->data) == NULL)
+		{
+			goto fail;
+		}
 	}
 
 	// Pet->tags
 	cJSON *tags = cJSON_AddArrayToObject(petJSONObject, "tags");
 
 	if(tags == NULL) {
-		goto end;
+		goto fail;
 	}
 
 	list_ForEach(listEntry, pet->tags) {
-		tag_t *tag = listEntry->data;
-		cJSON *item = cJSON_CreateObject();
-		cJSON_AddNumberToObject(item, "id", tag->id);
-		cJSON_AddStringToObject(item, "name", tag->name);
+		cJSON *item = tag_convertToJSON(listEntry->data);
+		if(item == NULL) {
+			goto fail;
+		}
 		cJSON_AddItemToArray(tags, item);
 	}
 
@@ -270,14 +265,10 @@ char *pet_convertToJSON(pet_t *pet) {
 	cJSON_AddStringToObject(petJSONObject, "status",
 	                        status_ToString(pet->status));
 
-	// Outputs the assembles JSON string into a variable
-	string = cJSON_Print(petJSONObject);
-	if(string == NULL) {
-		fprintf(stderr, "Failed to print petJSONObject.\n");
-	}
+	return petJSONObject;
 
-end:
+fail:
 	// frees memory
 	cJSON_Delete(petJSONObject);
-	return string;
+	return NULL;
 }
