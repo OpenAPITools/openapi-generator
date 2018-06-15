@@ -924,6 +924,23 @@
                 <module>samples/server/petstore/rust-server</module>
             </modules>
         </profile>
+        <profile>
+            <id>samples.shippable</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.shippable</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- clients -->
+                <module>samples/client/petstore/elixir</module>
+                <!--<module>samples/client/petstore/haskell-http-client</module>-->
+                <module>samples/client/petstore/erlang-client</module>
+                <!-- servers -->
+                <module>samples/server/petstore/erlang-server</module>
+            </modules>
+        </profile>
     </profiles>
     <modules>
         <module>modules/openapi-generator</module>
