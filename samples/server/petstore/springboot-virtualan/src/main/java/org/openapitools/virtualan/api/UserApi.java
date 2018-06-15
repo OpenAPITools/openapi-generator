@@ -8,15 +8,7 @@ package org.openapitools.virtualan.api;
 import java.util.List;
 import org.openapitools.virtualan.model.User;
 import io.swagger.annotations.*;
-import org.openapitools.virtualan.VirtualServiceUtil;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.openapitools.virtualan.model.MockRequest;
-import org.openapitools.virtualan.model.MockResponse;
-import org.openapitools.virtualan.model.MockServiceRequest;
-import java.util.HashMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import java.io.IOException;
+import org.openapitools.virtualan.annotation.ApiVirtual;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,92 +30,48 @@ import java.util.Optional;
 
 @Api(value = "user", description = "the user API")
 public interface UserApi {
-	default String addQueryParamValue(Object value){
-		return String.join(",", (java.util.List)value);
-	}
-    Logger log = LoggerFactory.getLogger(UserApi.class);
-
-
-	default Optional<VirtualServiceUtil> getVirtualServiceUtil() {
-        return Optional.empty();
-    }
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
 
+    @ApiVirtual
     @ApiOperation(value = "Create user", nickname = "createUser", notes = "This can only be done by the logged in user.", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user",
         method = RequestMethod.POST)
     default ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User user) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-		try {
-			mockServiceRequest.setResource("user");
-			mockServiceRequest.setOperationId("createUser");
-			mockServiceRequest.setParams(paramMap);
-			mockServiceRequest.setInputObjectType(user.getClass());
-			mockServiceRequest.setInputObject(user);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "createUser", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for createUser\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithArrayInput", notes = "", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/createWithArray",
         method = RequestMethod.POST)
     default ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> user) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-		try {
-			mockServiceRequest.setResource("user");
-			mockServiceRequest.setOperationId("createUsersWithArrayInput");
-			mockServiceRequest.setParams(paramMap);
-			mockServiceRequest.setInputObjectType(user.getClass());
-			mockServiceRequest.setInputObject(user);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "createUsersWithArrayInput", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for createUsersWithArrayInput\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithListInput", notes = "", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/createWithList",
         method = RequestMethod.POST)
     default ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> user) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-		try {
-			mockServiceRequest.setResource("user");
-			mockServiceRequest.setOperationId("createUsersWithListInput");
-			mockServiceRequest.setParams(paramMap);
-			mockServiceRequest.setInputObjectType(user.getClass());
-			mockServiceRequest.setInputObject(user);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "createUsersWithListInput", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for createUsersWithListInput\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "Delete user", nickname = "deleteUser", notes = "This can only be done by the logged in user.", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied"),
@@ -131,22 +79,12 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         method = RequestMethod.DELETE)
     default ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-		paramMap.put("username", String.valueOf(username));
-		try {
-			mockServiceRequest.setResource("user");
-			mockServiceRequest.setOperationId("deleteUser");
-			mockServiceRequest.setParams(paramMap);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "deleteUser", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for deleteUser\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "Get user by user name", nickname = "getUserByName", notes = "", response = User.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
@@ -156,22 +94,24 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
     default ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-		paramMap.put("username", String.valueOf(username));
-		try {
-			mockServiceRequest.setResource("user");
-			mockServiceRequest.setOperationId("getUserByName");
-			mockServiceRequest.setParams(paramMap);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "getUserByName", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for getUserByName\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"firstName\" : \"firstName\",  \"lastName\" : \"lastName\",  \"password\" : \"password\",  \"userStatus\" : 6,  \"phone\" : \"phone\",  \"id\" : 0,  \"email\" : \"email\",  \"username\" : \"username\"}");
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    ApiUtil.setExampleResponse(request, "application/xml", "<User>  <id>123456789</id>  <username>aeiou</username>  <firstName>aeiou</firstName>  <lastName>aeiou</lastName>  <email>aeiou</email>  <password>aeiou</password>  <phone>aeiou</phone>  <userStatus>123</userStatus></User>");
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "Logs user into the system", nickname = "loginUser", notes = "", response = String.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
@@ -180,44 +120,24 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
     default ResponseEntity<String> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-	if(username != null && username.getClass().toString().contains("List")){
-		paramMap.put("username", addQueryParamValue(username));
-	} else{
-		paramMap.put("username", String.valueOf(username));
-	}
-
-	if(password != null && password.getClass().toString().contains("List")){
-		paramMap.put("password", addQueryParamValue(password));
-	} else{
-		paramMap.put("password", String.valueOf(password));
-	}
-
-		try {
-			mockServiceRequest.setResource("user");
-			mockServiceRequest.setOperationId("loginUser");
-			mockServiceRequest.setParams(paramMap);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "loginUser", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for loginUser\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "Logs out current logged in user session", nickname = "logoutUser", notes = "", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/logout",
         method = RequestMethod.GET)
     default ResponseEntity<Void> logoutUser() {
-			return new ResponseEntity("{\"code\": \"CASE_NOT_HANDLED\", \"message\":\"Mock NOT SUPPORTED AT this time \"}", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "Updated user", nickname = "updateUser", notes = "This can only be done by the logged in user.", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied"),
@@ -225,21 +145,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         method = RequestMethod.PUT)
     default ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User user) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-		paramMap.put("username", String.valueOf(username));
-
-		try {
-			mockServiceRequest.setResource("user");
-			mockServiceRequest.setOperationId("updateUser");
-			mockServiceRequest.setParams(paramMap);
-			mockServiceRequest.setInputObjectType(user.getClass());
-			mockServiceRequest.setInputObject(user);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "updateUser", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for updateUser\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 

@@ -897,7 +897,6 @@
         <module>modules/openapi-generator-maven-plugin</module>
         <module>modules/openapi-generator-gradle-plugin</module>
         <module>modules/openapi-generator-online</module>
-		<module>modules/openapi-generator-virtualan</module>
     </modules>
     <reporting>
         <outputDirectory>target/site</outputDirectory>

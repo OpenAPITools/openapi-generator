@@ -14,15 +14,7 @@ import org.openapitools.virtualan.model.OuterComposite;
 import org.springframework.core.io.Resource;
 import org.openapitools.virtualan.model.User;
 import io.swagger.annotations.*;
-import org.openapitools.virtualan.VirtualServiceUtil;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.openapitools.virtualan.model.MockRequest;
-import org.openapitools.virtualan.model.MockResponse;
-import org.openapitools.virtualan.model.MockServiceRequest;
-import java.util.HashMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import java.io.IOException;
+import org.openapitools.virtualan.annotation.ApiVirtual;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -44,20 +36,12 @@ import java.util.Optional;
 
 @Api(value = "fake", description = "the fake API")
 public interface FakeApi {
-	default String addQueryParamValue(Object value){
-		return String.join(",", (java.util.List)value);
-	}
-    Logger log = LoggerFactory.getLogger(FakeApi.class);
-
-
-	default Optional<VirtualServiceUtil> getVirtualServiceUtil() {
-        return Optional.empty();
-    }
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
 
+    @ApiVirtual
     @ApiOperation(value = "", nickname = "fakeOuterBooleanSerialize", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
@@ -65,24 +49,20 @@ public interface FakeApi {
         produces = { "*/*" }, 
         method = RequestMethod.POST)
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody Boolean body) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-		try {
-			mockServiceRequest.setResource("fake");
-			mockServiceRequest.setOperationId("fakeOuterBooleanSerialize");
-			mockServiceRequest.setParams(paramMap);
-			mockServiceRequest.setInputObjectType(body.getClass());
-			mockServiceRequest.setInputObject(body);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "fakeOuterBooleanSerialize", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for fakeOuterBooleanSerialize\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                    ApiUtil.setExampleResponse(request, "*/*", "null");
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "", nickname = "fakeOuterCompositeSerialize", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
@@ -90,24 +70,20 @@ public interface FakeApi {
         produces = { "*/*" }, 
         method = RequestMethod.POST)
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody OuterComposite outerComposite) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-		try {
-			mockServiceRequest.setResource("fake");
-			mockServiceRequest.setOperationId("fakeOuterCompositeSerialize");
-			mockServiceRequest.setParams(paramMap);
-			mockServiceRequest.setInputObjectType(outerComposite.getClass());
-			mockServiceRequest.setInputObject(outerComposite);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "fakeOuterCompositeSerialize", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for fakeOuterCompositeSerialize\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                    ApiUtil.setExampleResponse(request, "*/*", "{ }");
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "", nickname = "fakeOuterNumberSerialize", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
@@ -115,24 +91,20 @@ public interface FakeApi {
         produces = { "*/*" }, 
         method = RequestMethod.POST)
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody BigDecimal body) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-		try {
-			mockServiceRequest.setResource("fake");
-			mockServiceRequest.setOperationId("fakeOuterNumberSerialize");
-			mockServiceRequest.setParams(paramMap);
-			mockServiceRequest.setInputObjectType(body.getClass());
-			mockServiceRequest.setInputObject(body);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "fakeOuterNumberSerialize", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for fakeOuterNumberSerialize\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                    ApiUtil.setExampleResponse(request, "*/*", "null");
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "", nickname = "fakeOuterStringSerialize", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output string", response = String.class) })
@@ -140,24 +112,20 @@ public interface FakeApi {
         produces = { "*/*" }, 
         method = RequestMethod.POST)
     default ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody String body) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-		try {
-			mockServiceRequest.setResource("fake");
-			mockServiceRequest.setOperationId("fakeOuterStringSerialize");
-			mockServiceRequest.setParams(paramMap);
-			mockServiceRequest.setInputObjectType(body.getClass());
-			mockServiceRequest.setInputObject(body);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "fakeOuterStringSerialize", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for fakeOuterStringSerialize\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                    ApiUtil.setExampleResponse(request, "*/*", "null");
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "", nickname = "testBodyWithQueryParams", notes = "", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })
@@ -165,30 +133,12 @@ public interface FakeApi {
         consumes = { "application/json" },
         method = RequestMethod.PUT)
     default ResponseEntity<Void> testBodyWithQueryParams(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "" ,required=true )  @Valid @RequestBody User user) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-	if(query != null && query.getClass().toString().contains("List")){
-		paramMap.put("query", addQueryParamValue(query));
-	} else{
-		paramMap.put("query", String.valueOf(query));
-	}
-
-
-		try {
-			mockServiceRequest.setResource("fake");
-			mockServiceRequest.setOperationId("testBodyWithQueryParams");
-			mockServiceRequest.setParams(paramMap);
-			mockServiceRequest.setInputObjectType(user.getClass());
-			mockServiceRequest.setInputObject(user);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "testBodyWithQueryParams", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testBodyWithQueryParams\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "To test \"client\" model", nickname = "testClientModel", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
@@ -197,24 +147,20 @@ public interface FakeApi {
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
     default ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-		try {
-			mockServiceRequest.setResource("fake");
-			mockServiceRequest.setOperationId("testClientModel");
-			mockServiceRequest.setParams(paramMap);
-			mockServiceRequest.setInputObjectType(client.getClass());
-			mockServiceRequest.setInputObject(client);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "testClientModel", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testClientModel\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", nickname = "testEndpointParameters", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", authorizations = {
         @Authorization(value = "http_basic_test")
     }, tags={ "fake", })
@@ -225,35 +171,12 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
     default ResponseEntity<Void> testEndpointParameters(@ApiParam(value = "None", required=true, defaultValue="null") @RequestParam(value="number", required=true)  BigDecimal number,@ApiParam(value = "None", required=true, defaultValue="null") @RequestParam(value="double", required=true)  Double _double,@ApiParam(value = "None", required=true, defaultValue="null") @RequestParam(value="pattern_without_delimiter", required=true)  String patternWithoutDelimiter,@ApiParam(value = "None", required=true, defaultValue="null") @RequestParam(value="byte", required=true)  byte[] _byte,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="integer", required=false)  Integer integer,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="int32", required=false)  Integer int32,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="int64", required=false)  Long int64,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="float", required=false)  Float _float,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="string", required=false)  String string,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile binary,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="date", required=false)  LocalDate date,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="dateTime", required=false)  OffsetDateTime dateTime,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="password", required=false)  String password,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="callback", required=false)  String paramCallback) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		try {
-			mockServiceRequest.setResource("fake");
-			mockServiceRequest.setOperationId("testEndpointParameters");
-			mockServiceRequest.setParams(paramMap);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "testEndpointParameters", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testEndpointParameters\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "To test enum parameters", nickname = "testEnumParameters", notes = "To test enum parameters", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid request"),
@@ -262,49 +185,12 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.GET)
     default ResponseEntity<Void> testEnumParameters(@ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $") @RequestHeader(value="enum_header_string_array", required=false) List<String> enumHeaderStringArray,@ApiParam(value = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @RequestHeader(value="enum_header_string", required=false) String enumHeaderString,@ApiParam(value = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,@ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString,@ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,@ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,@ApiParam(value = "Form parameter enum test (string array)", allowableValues=">, $", defaultValue="$") @RequestParam(value="enum_form_string_array", required=false)  List<String> enumFormStringArray,@ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @RequestParam(value="enum_form_string", required=false)  String enumFormString) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-
-	if(enumQueryStringArray != null && enumQueryStringArray.getClass().toString().contains("List")){
-		paramMap.put("enum_query_string_array", addQueryParamValue(enumQueryStringArray));
-	} else{
-		paramMap.put("enum_query_string_array", String.valueOf(enumQueryStringArray));
-	}
-
-	if(enumQueryString != null && enumQueryString.getClass().toString().contains("List")){
-		paramMap.put("enum_query_string", addQueryParamValue(enumQueryString));
-	} else{
-		paramMap.put("enum_query_string", String.valueOf(enumQueryString));
-	}
-
-	if(enumQueryInteger != null && enumQueryInteger.getClass().toString().contains("List")){
-		paramMap.put("enum_query_integer", addQueryParamValue(enumQueryInteger));
-	} else{
-		paramMap.put("enum_query_integer", String.valueOf(enumQueryInteger));
-	}
-
-	if(enumQueryDouble != null && enumQueryDouble.getClass().toString().contains("List")){
-		paramMap.put("enum_query_double", addQueryParamValue(enumQueryDouble));
-	} else{
-		paramMap.put("enum_query_double", String.valueOf(enumQueryDouble));
-	}
-
-
-
-		try {
-			mockServiceRequest.setResource("fake");
-			mockServiceRequest.setOperationId("testEnumParameters");
-			mockServiceRequest.setParams(paramMap);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "testEnumParameters", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testEnumParameters\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "test inline additionalProperties", nickname = "testInlineAdditionalProperties", notes = "", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -312,24 +198,12 @@ public interface FakeApi {
         consumes = { "application/json" },
         method = RequestMethod.POST)
     default ResponseEntity<Void> testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true )  @Valid @RequestBody Map<String, String> requestBody) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-		try {
-			mockServiceRequest.setResource("fake");
-			mockServiceRequest.setOperationId("testInlineAdditionalProperties");
-			mockServiceRequest.setParams(paramMap);
-			mockServiceRequest.setInputObjectType(requestBody.getClass());
-			mockServiceRequest.setInputObject(requestBody);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "testInlineAdditionalProperties", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testInlineAdditionalProperties\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
+    @ApiVirtual
     @ApiOperation(value = "test json serialization of form data", nickname = "testJsonFormData", notes = "", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -337,19 +211,7 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.GET)
     default ResponseEntity<Void> testJsonFormData(@ApiParam(value = "field1", required=true, defaultValue="null") @RequestParam(value="param", required=true)  String param,@ApiParam(value = "field2", required=true, defaultValue="null") @RequestParam(value="param2", required=true)  String param2) {
-				Map<String, String> paramMap =  new HashMap<>();
-		MockServiceRequest mockServiceRequest = new MockServiceRequest();
-
-
-		try {
-			mockServiceRequest.setResource("fake");
-			mockServiceRequest.setOperationId("testJsonFormData");
-			mockServiceRequest.setParams(paramMap);
-			return getVirtualServiceUtil().get().returnResponse(mockServiceRequest);
-		} catch (Exception e){
-			log.error("Unable to load the mock Response for " + "testJsonFormData", e);
-			return new ResponseEntity("{\"code\": \"ERROR\", \"message\": \"Unable to load the mock Response for testJsonFormData\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
