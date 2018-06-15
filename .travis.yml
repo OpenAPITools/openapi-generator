@@ -28,6 +28,7 @@ cache:
   - $HOME/samples/server/petstore/rust-server/target
   - $HOME/perl5
   - $HOME/.cargo
+  - $HOME/.stack
 
 services:
   - docker

@@ -15,7 +15,7 @@ dependencies:
   cache_directories:
     - "~/.m2"
     - "~/.sbt"
-    - "~/.ivy2/cache"
+    - "~/.ivy2"
 
   pre:
     - sudo add-apt-repository ppa:duggan/bats --yes
