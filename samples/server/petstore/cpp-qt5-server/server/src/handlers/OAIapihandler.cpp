@@ -32,27 +32,18 @@
  * IN THE SOFTWARE.
  */
 
-#ifndef _OAI_OAIUserApi_H_
-#define _OAI_OAIUserApi_H_
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QVariantMap>
 
-#include <QObject>
-#include <QStringList>
+#include "OAIapihandler.h"
 
-#include <qhttpengine/socket.h>
 namespace OpenAPI {
 
-class OAIUserApi : public QObject
+void ApiHandler::registerEndpoints(QHttpEngine::Handler& handler)
 {
-    Q_OBJECT
-
-public Q_SLOTS:
-
-
-private:
-
-
-};
 
 }
 
-#endif // _OAI_OAIUserApi_H_
+}

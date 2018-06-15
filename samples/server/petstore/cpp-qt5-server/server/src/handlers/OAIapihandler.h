@@ -10,6 +10,8 @@
  * Do not edit the class manually.
  */
 
+#ifndef OAI_APIHANDLER_H
+#define OAI_APIHANDLER_H
 /*
  * Copyright (c) 2017 Nathan Osman
  *
@@ -32,27 +34,27 @@
  * IN THE SOFTWARE.
  */
 
-#ifndef _OAI_OAIUserApi_H_
-#define _OAI_OAIUserApi_H_
 
 #include <QObject>
 #include <QStringList>
 
 #include <qhttpengine/socket.h>
+#include <qhttpengine/handler.h>
+
 namespace OpenAPI {
 
-class OAIUserApi : public QObject
+class ApiHandler : public QObject
 {
     Q_OBJECT
 
 public Q_SLOTS:
 
-
 private:
 
+public:
+    void registerEndpoints(QHttpEngine::Handler& handler);
 
 };
-
 }
 
-#endif // _OAI_OAIUserApi_H_
+#endif // OAI_APIHANDLER_H

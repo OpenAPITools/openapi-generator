@@ -1,25 +1,35 @@
-FROM debian:stretch-stretch-slim AS build
+FROM debian:stretch-slim AS build
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         cmake \
-        build-essential 
-
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
+        git \
+        build-essential \
         libssl-dev \        
         qtbase5-dev \       
-        qtbase5-dev-tools 
-
+        qtbase5-dev-tools \
+    ca-certificates 
+RUN rm -rf /var/lib/apt/lists/*
+ 
 WORKDIR /usr/server
 ADD ./src ./src
 ADD ./CMakeLists.txt ./
-ADD ./Makefile ./
 RUN mkdir -p ./build
-RUN make
+WORKDIR /usr/server/build
+RUN cmake ..
+RUN make 
 
-FROM debian:stretch-stretch-slim AS runtime
+FROM debian:stretch-slim AS runtime
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        libc6 \
+        libstdc++6  \
+        libqt5core5a \
+        libqt5network5 \
+        libssl1.1
+
+RUN rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/server
-COPY --from=build /usr/server/build/cpp-qt5-server ./
-COPY --from=build /usr/server/external/lib ./
-ENTRYPOINT ["/usr/server/cpp-qt5-server"]
+COPY --from=build /usr/server/build/src/cpp-qt5-server ./build/src/
+COPY --from=build /usr/server/external/ ./external
+ENTRYPOINT ["/usr/server/build/src/cpp-qt5-server"]

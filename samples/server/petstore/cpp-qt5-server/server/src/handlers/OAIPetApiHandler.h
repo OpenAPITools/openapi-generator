@@ -10,80 +10,49 @@
  * Do not edit the class manually.
  */
 
+/*
+ * Copyright (c) 2017 Nathan Osman
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ */
+
 #ifndef _OAI_OAIPetApi_H_
 #define _OAI_OAIPetApi_H_
 
-#include "OAIHttpRequest.h"
-
-#include "OAIApiResponse.h"
-#include "OAIHttpRequest.h"
-#include "OAIPet.h"
-#include <QString>
-
 #include <QObject>
+#include <QStringList>
 
+#include <qhttpengine/socket.h>
 namespace OpenAPI {
 
-class OAIPetApi: public QObject {
+class OAIPetApi : public QObject
+{
     Q_OBJECT
 
-public:
-    OAIPetApi();
-    OAIPetApi(QString host, QString basePath);
-    ~OAIPetApi();
+public Q_SLOTS:
 
-    QString host;
-    QString basePath;
-    QMap<QString, QString> defaultHeaders;
 
-    void addPet(OAIPet& oai_pet);
-    void deletePet(qint64 pet_id, QString* api_key);
-    void findPetsByStatus(QList<QString*>* status);
-    void findPetsByTags(QList<QString*>* tags);
-    void getPetById(qint64 pet_id);
-    void updatePet(OAIPet& oai_pet);
-    void updatePetWithForm(qint64 pet_id, QString* name, QString* status);
-    void uploadFile(qint64 pet_id, QString* additional_metadata, OAIHttpRequestInputFileElement* file);
-    
 private:
-    void addPetCallback (OAIHttpRequestWorker * worker);
-    void deletePetCallback (OAIHttpRequestWorker * worker);
-    void findPetsByStatusCallback (OAIHttpRequestWorker * worker);
-    void findPetsByTagsCallback (OAIHttpRequestWorker * worker);
-    void getPetByIdCallback (OAIHttpRequestWorker * worker);
-    void updatePetCallback (OAIHttpRequestWorker * worker);
-    void updatePetWithFormCallback (OAIHttpRequestWorker * worker);
-    void uploadFileCallback (OAIHttpRequestWorker * worker);
-    
-signals:
-    void addPetSignal();
-    void deletePetSignal();
-    void findPetsByStatusSignal(QList<OAIPet*>* summary);
-    void findPetsByTagsSignal(QList<OAIPet*>* summary);
-    void getPetByIdSignal(OAIPet* summary);
-    void updatePetSignal();
-    void updatePetWithFormSignal();
-    void uploadFileSignal(OAIApiResponse* summary);
-    
-    void addPetSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void deletePetSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void findPetsByStatusSignalE(QList<OAIPet*>* summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void findPetsByTagsSignalE(QList<OAIPet*>* summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getPetByIdSignalE(OAIPet* summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void updatePetSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void updatePetWithFormSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void uploadFileSignalE(OAIApiResponse* summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    
-    void addPetSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void deletePetSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void findPetsByStatusSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void findPetsByTagsSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getPetByIdSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void updatePetSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void updatePetWithFormSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void uploadFileSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    
+
+
 };
 
 }
-#endif
+
+#endif // _OAI_OAIPetApi_H_

@@ -41,6 +41,9 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate server.pri.";
 
     protected final String PREFIX = "OAI";
+    protected final String SRC_DIR = "/src";
+    protected final String MODEL_DIR = "/src/models";
+    protected final String APIHANDLER_DIR = "/src/handlers";
     protected Set<String> foundationClasses = new HashSet<String>();
     // source folder where to write the files
     protected String sourceFolder = "server";
@@ -81,7 +84,7 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
          * class
          */
         apiTemplateFiles.put(
-                "apihandler.mustache",   // the template to use
+                "apihandler-header.mustache",   // the template to use
                 ".h");       // the extension for each file to write
 
         apiTemplateFiles.put(
@@ -123,14 +126,16 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
                         "double")
         );
 
-        supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + "/src/models", PREFIX + "Helpers.h"));
-        supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + "/src/models", PREFIX + "Helpers.cpp"));
-        supportingFiles.add(new SupportingFile("modelFactory.mustache", sourceFolder + "/src/models", PREFIX + "ModelFactory.h"));
-        supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + "/src/models", PREFIX + "Object.h"));
-        supportingFiles.add(new SupportingFile("QObjectWrapper.h.mustache", sourceFolder + "/src/models", PREFIX + "QObjectWrapper.h"));
+        supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.h"));
+        supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.cpp"));
+        supportingFiles.add(new SupportingFile("modelFactory.mustache", sourceFolder + MODEL_DIR, PREFIX + "ModelFactory.h"));
+        supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, PREFIX + "Object.h"));
+        supportingFiles.add(new SupportingFile("QObjectWrapper.h.mustache", sourceFolder + MODEL_DIR, PREFIX + "QObjectWrapper.h"));
+        supportingFiles.add(new SupportingFile("apihandler.h.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "apihandler.h"));
+        supportingFiles.add(new SupportingFile("apihandler.cpp.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "apihandler.cpp"));
 
-        supportingFiles.add(new SupportingFile("main.cpp.mustache", sourceFolder + "/src", "main.cpp"));
-        supportingFiles.add(new SupportingFile("src-CMakeLists.txt.mustache", sourceFolder + "/src", "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("main.cpp.mustache", sourceFolder + SRC_DIR, "main.cpp"));
+        supportingFiles.add(new SupportingFile("src-CMakeLists.txt.mustache", sourceFolder + SRC_DIR, "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("README.md.mustache", sourceFolder, "README.MD"));
         supportingFiles.add(new SupportingFile("Makefile.mustache", sourceFolder, "Makefile"));
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
@@ -152,21 +157,15 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "QList");
         typeMapping.put("map", "QMap");
-        typeMapping.put("file", "OAIHttpRequestInputFileElement");
         typeMapping.put("object", PREFIX + "Object");
         // mapped as "file" type for OAS 3.0
-        typeMapping.put("binary", "OAIHttpRequestInputFileElement");
         typeMapping.put("ByteArray", "QByteArray");
         //   UUID support - possible enhancement : use QUuid instead of QString.
         //   beware though that Serialisation/deserialisation of QUuid does not
         //   come out of the box and will need to be sorted out (at least imply
         //   modifications on multiple templates)
         typeMapping.put("UUID", "QString");
-
         importMapping = new HashMap<String, String>();
-
-        importMapping.put("OAIHttpRequestInputFileElement", "#include \"" + PREFIX + "HttpRequest.h\"");
-
         namespaces = new HashMap<String, String>();
 
         foundationClasses.add("QString");
@@ -190,14 +189,16 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
         additionalProperties.put("cppNamespaceDeclarations", cppNamespace.split("\\::"));
         if (additionalProperties.containsKey("modelNamePrefix")) {
             supportingFiles.clear();
-            supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + "/src/models", PREFIX + "Helpers.h"));
-            supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + "/src/models", PREFIX + "Helpers.cpp"));
-            supportingFiles.add(new SupportingFile("modelFactory.mustache", sourceFolder + "/src/models", PREFIX + "ModelFactory.h"));
-            supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + "/src/models", PREFIX + "Object.h"));
-            supportingFiles.add(new SupportingFile("QObjectWrapper.h.mustache", sourceFolder + "/src/models", PREFIX + "QObjectWrapper.h"));
-
-            supportingFiles.add(new SupportingFile("main.cpp.mustache", sourceFolder + "/src", "main.cpp"));
-            supportingFiles.add(new SupportingFile("src-CMakeLists.txt.mustache", sourceFolder + "/src", "CMakeLists.txt"));
+            supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.h"));
+            supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.cpp"));
+            supportingFiles.add(new SupportingFile("modelFactory.mustache", sourceFolder + MODEL_DIR, PREFIX + "ModelFactory.h"));
+            supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, PREFIX + "Object.h"));
+            supportingFiles.add(new SupportingFile("QObjectWrapper.h.mustache", sourceFolder + MODEL_DIR, PREFIX + "QObjectWrapper.h"));
+            supportingFiles.add(new SupportingFile("apihandler.h.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "apihandler.h"));
+            supportingFiles.add(new SupportingFile("apihandler.cpp.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "apihandler.cpp"));
+            
+            supportingFiles.add(new SupportingFile("main.cpp.mustache", sourceFolder + SRC_DIR, "main.cpp"));
+            supportingFiles.add(new SupportingFile("src-CMakeLists.txt.mustache", sourceFolder + SRC_DIR, "CMakeLists.txt"));
             supportingFiles.add(new SupportingFile("README.md.mustache", sourceFolder, "README.MD"));
             supportingFiles.add(new SupportingFile("Makefile.mustache", sourceFolder, "Makefile"));
             supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
@@ -283,7 +284,7 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
      */
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/src/models" + "/" + modelPackage().replace("::", File.separator);
+        return outputFolder + "/" + sourceFolder + MODEL_DIR + "/" + modelPackage().replace("::", File.separator);
     }
 
     /**
@@ -292,7 +293,7 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
      */
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/src/handlers" + apiPackage().replace("::", File.separator);
+        return outputFolder + "/" + sourceFolder + APIHANDLER_DIR + "/" + apiPackage().replace("::", File.separator);
     }
 
     @Override

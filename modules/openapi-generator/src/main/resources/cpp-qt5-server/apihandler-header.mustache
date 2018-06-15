@@ -28,22 +28,24 @@
 #include <QStringList>
 
 #include <qhttpengine/socket.h>
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
 
-class ApiHandler : public QObject
+class {{classname}} : public QObject
 {
     Q_OBJECT
 
 public Q_SLOTS:
 
-    void messages(QHttpEngine::Socket *socket);
-    void messagesNew(QHttpEngine::Socket *socket);
 
 private:
 
-    QStringList mMessages;
+
 };
 
 {{#cppNamespaceDeclarations}}
 }
 {{/cppNamespaceDeclarations}}
-#endif
+
+#endif // _{{prefix}}_{{classname}}_H_

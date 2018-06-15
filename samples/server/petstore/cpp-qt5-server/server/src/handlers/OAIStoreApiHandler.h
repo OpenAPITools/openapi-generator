@@ -10,59 +10,49 @@
  * Do not edit the class manually.
  */
 
+/*
+ * Copyright (c) 2017 Nathan Osman
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ */
+
 #ifndef _OAI_OAIStoreApi_H_
 #define _OAI_OAIStoreApi_H_
 
-#include "OAIHttpRequest.h"
-
-#include "OAIOrder.h"
-#include <QMap>
-#include <QString>
-
 #include <QObject>
+#include <QStringList>
 
+#include <qhttpengine/socket.h>
 namespace OpenAPI {
 
-class OAIStoreApi: public QObject {
+class OAIStoreApi : public QObject
+{
     Q_OBJECT
 
-public:
-    OAIStoreApi();
-    OAIStoreApi(QString host, QString basePath);
-    ~OAIStoreApi();
+public Q_SLOTS:
 
-    QString host;
-    QString basePath;
-    QMap<QString, QString> defaultHeaders;
 
-    void deleteOrder(QString* order_id);
-    void getInventory();
-    void getOrderById(qint64 order_id);
-    void placeOrder(OAIOrder& oai_order);
-    
 private:
-    void deleteOrderCallback (OAIHttpRequestWorker * worker);
-    void getInventoryCallback (OAIHttpRequestWorker * worker);
-    void getOrderByIdCallback (OAIHttpRequestWorker * worker);
-    void placeOrderCallback (OAIHttpRequestWorker * worker);
-    
-signals:
-    void deleteOrderSignal();
-    void getInventorySignal(QMap<QString, qint32>* summary);
-    void getOrderByIdSignal(OAIOrder* summary);
-    void placeOrderSignal(OAIOrder* summary);
-    
-    void deleteOrderSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void getInventorySignalE(QMap<QString, qint32>* summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getOrderByIdSignalE(OAIOrder* summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void placeOrderSignalE(OAIOrder* summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    
-    void deleteOrderSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getInventorySignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getOrderByIdSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    void placeOrderSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
-    
+
+
 };
 
 }
-#endif
+
+#endif // _OAI_OAIStoreApi_H_

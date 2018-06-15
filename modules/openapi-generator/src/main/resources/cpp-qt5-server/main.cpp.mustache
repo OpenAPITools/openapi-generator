@@ -1,3 +1,4 @@
+{{>licenseInfo}}
 /*
  * Copyright (c) 2017 Nathan Osman
  *
@@ -32,7 +33,8 @@
 #include <qhttpengine/server.h>
 #include <qhttpengine/qobjecthandler.h>
 
-#include "apihandler.h"
+#include "{{prefix}}apihandler.h"
+
 
 int main(int argc, char * argv[])
 {
@@ -63,23 +65,15 @@ int main(int argc, char * argv[])
     QHostAddress address = QHostAddress(parser.value(addressOption));
     quint16 port = parser.value(portOption).toInt();
 
-    // Build the hierarchy of handlers
-    QHttpEngine::FilesystemHandler handler(":/static");
-    handler.addRedirect(QRegExp("^$"), "/index.html");
-
-    ApiHandler renameMe;
+    {{cppNamespace}}::ApiHandler baseHandler;
     QHttpEngine::QObjectHandler apiHandler;
-    apiHandler.registerMethod("messages", &renameMe, &ApiHandler::messages);
-    apiHandler.registerMethod("messages/new", &renameMe, &ApiHandler::messagesNew);
-    handler.addSubHandler(QRegExp("api/"), &apiHandler);
-
-    QHttpEngine::Server server(&handler);
+    baseHandler.registerEndpoints(apiHandler);
+    QHttpEngine::Server server(&apiHandler);
 
     // Attempt to listen on the specified port
     if (!server.listen(address, port)) {
         qCritical("Unable to listen on the specified port.");
         return 1;
     }
-
     return a.exec();
 }
