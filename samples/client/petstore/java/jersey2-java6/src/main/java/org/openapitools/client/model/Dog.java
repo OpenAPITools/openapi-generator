@@ -40,7 +40,7 @@ public class Dog extends Animal {
   **/
   @ApiModelProperty(value = "")
   public String getBreed() {
-    return breed;
+    return breed == null ? (String) this.get("breed") : breed;
   }
 
   public void setBreed(String breed) {

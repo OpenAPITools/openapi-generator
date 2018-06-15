@@ -139,7 +139,12 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   {{{vendorExtensions.extraAnnotation}}}
 {{/vendorExtensions.extraAnnotation}}
   public {{{datatypeWithEnum}}} {{getter}}() {
+    {{#parent}}
+    return {{name}} == null ? ({{{datatypeWithEnum}}}) this.get("{{name}}") : {{name}};
+    {{/parent}}
+    {{^parent}}
     return {{name}};
+    {{/parent}}
   }
   {{^isReadOnly}}
 
