@@ -8,7 +8,7 @@
 #endif // DEBUG
 
 #define EXAMPLE_OPERATION_NAME "pet"
-#define EXAMPLE_OPERATION_PARAMETER "4"
+#define EXAMPLE_OPERATION_PARAMETER "3"
 
 int main() {
 	apiClient_t *apiClient = apiClient_create();
@@ -18,13 +18,17 @@ int main() {
 	                 NULL);
 	pet_t *pet = pet_parseFromJSON(apiClient->dataReceived);
 	if(pet == NULL) {
+		free(apiClient);
 		return 0;
 	} else {
-		char *jsonString = pet_convertToJSON(pet);
+		cJSON *petJSONObject = pet_convertToJSON(pet);
+
 		#ifdef DEBUG
+		char *jsonString = cJSON_Print(petJSONObject);
 		puts(jsonString);
-		#endif
 		free(jsonString);
+		#endif
+		cJSON_Delete(petJSONObject);
 	}
 	apiClient_free(apiClient);
 	pet_free(pet);

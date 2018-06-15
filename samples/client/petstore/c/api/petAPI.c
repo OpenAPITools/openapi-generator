@@ -22,8 +22,8 @@ pet_t *petApi_getPetById(long petId) {
 	if(pet == NULL) {
 		return 0;
 	} else {
-		char *jsonString = pet_convertToJSON(pet);
-		free(jsonString);
+		cJSON *jsonObject = pet_convertToJSON(pet);
+		cJSON_Delete(jsonObject);
 	}
 	apiClient_free(apiClient);
 	free(petIdString);
@@ -33,10 +33,11 @@ pet_t *petApi_getPetById(long petId) {
 
 void *petApi_addPet(pet_t *pet) {
 	apiClient_t *apiClient;
+	cJSON *petJSONObject;
 	char *petJSONString;
 
-	petJSONString = pet_convertToJSON(pet);
-
+	petJSONObject = pet_convertToJSON(pet);
+	petJSONString = cJSON_Print(petJSONObject);
 	apiClient = apiClient_create();
 	apiClient_invoke(apiClient,
 	                 "pet",
@@ -44,6 +45,7 @@ void *petApi_addPet(pet_t *pet) {
 	                 petJSONString);
 	apiClient_free(apiClient);
 	free(petJSONString);
+	cJSON_Delete(petJSONObject);
 
 	return pet;
 }

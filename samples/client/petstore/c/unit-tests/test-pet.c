@@ -50,7 +50,7 @@ int main() {
 
 	pet_t *pet =
 		pet_create(1, category, petName, photoUrls, tags, status);
-	free(pet_convertToJSON(pet));
+	cJSON_Delete(pet_convertToJSON(pet));
 
 	pet_free(pet);
 }
