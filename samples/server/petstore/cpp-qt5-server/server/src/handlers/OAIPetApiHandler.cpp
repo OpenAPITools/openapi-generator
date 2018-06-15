@@ -43,50 +43,42 @@ namespace OpenAPI {
 
 void  OAIPetApiHandler::addPet(QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet";
-    socket->writeHeaders();
-    socket->close();
+    socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIPetApiHandler::deletePet(QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet/{petId}";
-    socket->writeHeaders();
-    socket->close();
+    socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIPetApiHandler::findPetsByStatus(QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet/findByStatus";
-    socket->writeHeaders();
-    socket->close();
+    socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIPetApiHandler::findPetsByTags(QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet/findByTags";
-    socket->writeHeaders();
-    socket->close();
+    socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIPetApiHandler::getPetById(QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet/{petId}";
-    socket->writeHeaders();
-    socket->close();
+    socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIPetApiHandler::updatePet(QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet";
-    socket->writeHeaders();
-    socket->close();
+    socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIPetApiHandler::updatePetWithForm(QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet/{petId}";
-    socket->writeHeaders();
-    socket->close();
+    socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIPetApiHandler::uploadFile(QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet/{petId}/uploadImage";
-    socket->writeHeaders();
-    socket->close();
+    socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 

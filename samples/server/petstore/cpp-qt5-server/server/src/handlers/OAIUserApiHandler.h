@@ -46,7 +46,7 @@ class OAIUserApiHandler : public QObject
 {
     Q_OBJECT
     
-public Q_SLOTS:
+public slots:
     void createUser(QHttpEngine::Socket *socket);
     void createUsersWithArrayInput(QHttpEngine::Socket *socket);
     void createUsersWithListInput(QHttpEngine::Socket *socket);

@@ -37,6 +37,8 @@
 
 #include <QObject>
 #include <QStringList>
+#include <QSharedPointer>
+#include <QList>
 
 #include <qhttpengine/socket.h>
 #include <qhttpengine/handler.h>
@@ -49,9 +51,11 @@ class ApiHandler : public QObject
 {
     Q_OBJECT
 public:
-    void registerEndpoints(QHttpEngine::Handler* handler);
-
+    ApiHandler();
+    virtual ~ApiHandler();
+    void registerEndpoints(QSharedPointer<QHttpEngine::QObjectHandler> handler);
 };
+
 }
 
 #endif // OAI_APIHANDLER_H

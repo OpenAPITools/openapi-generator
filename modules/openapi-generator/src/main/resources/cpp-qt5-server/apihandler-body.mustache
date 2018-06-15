@@ -33,8 +33,7 @@ namespace {{this}} {
 
 {{#operations}}{{#operation}}void  {{classname}}::{{nickname}}(QHttpEngine::Socket *socket){
     qDebug() << "{{{basePathWithoutHost}}}{{{path}}}";
-    socket->writeHeaders();
-    socket->close();
+    socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 {{/operation}}{{/operations}}

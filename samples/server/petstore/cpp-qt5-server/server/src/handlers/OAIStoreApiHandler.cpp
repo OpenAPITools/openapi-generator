@@ -43,26 +43,22 @@ namespace OpenAPI {
 
 void  OAIStoreApiHandler::deleteOrder(QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/order/{orderId}";
-    socket->writeHeaders();
-    socket->close();
+    socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIStoreApiHandler::getInventory(QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/inventory";
-    socket->writeHeaders();
-    socket->close();
+    socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIStoreApiHandler::getOrderById(QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/order/{orderId}";
-    socket->writeHeaders();
-    socket->close();
+    socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 void  OAIStoreApiHandler::placeOrder(QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/order";
-    socket->writeHeaders();
-    socket->close();
+    socket->setStatusCode(QHttpEngine::Socket::OK);
     return;
 }
 

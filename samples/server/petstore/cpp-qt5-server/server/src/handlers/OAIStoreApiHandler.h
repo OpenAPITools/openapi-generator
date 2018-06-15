@@ -46,7 +46,7 @@ class OAIStoreApiHandler : public QObject
 {
     Q_OBJECT
     
-public Q_SLOTS:
+public slots:
     void deleteOrder(QHttpEngine::Socket *socket);
     void getInventory(QHttpEngine::Socket *socket);
     void getOrderById(QHttpEngine::Socket *socket);

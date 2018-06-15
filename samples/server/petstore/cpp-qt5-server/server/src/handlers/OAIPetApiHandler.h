@@ -46,7 +46,7 @@ class OAIPetApiHandler : public QObject
 {
     Q_OBJECT
     
-public Q_SLOTS:
+public slots:
     void addPet(QHttpEngine::Socket *socket);
     void deletePet(QHttpEngine::Socket *socket);
     void findPetsByStatus(QHttpEngine::Socket *socket);

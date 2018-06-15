@@ -34,11 +34,21 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-void ApiHandler::registerEndpoints(QHttpEngine::Handler* handler)
-{
+ApiHandler::ApiHandler(){
+
+}
+ApiHandler::~ApiHandler(){
+
+}
+
+void ApiHandler::registerEndpoints(QSharedPointer<QHttpEngine::QObjectHandler> handler) {
 {{#apiInfo}}{{#apis}}{{#operations}}
-    {{classname}} {{classname}}obj;{{#operation}}
-    static_cast<QHttpEngine::QObjectHandler>(handler).registerMethod("{{{basePathWithoutHost}}}{{{path}}}", &{{classname}}obj, &{{classname}}::{{nickname}});
+    {{classname}} {{classname}}Obj;{{#operation}}
+    handler->registerMethod("{{{basePathWithoutHost}}}{{{path}}}", [&](QHttpEngine::Socket *socket){
+        {{classname}}Obj.{{nickname}}(socket);
+        socket->writeHeaders();
+        socket->close();
+    });
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 }
 

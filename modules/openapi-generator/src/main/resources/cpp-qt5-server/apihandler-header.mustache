@@ -37,7 +37,7 @@ class {{classname}} : public QObject
 {
     Q_OBJECT
     
-public Q_SLOTS:
+public slots:
     {{#operations}}{{#operation}}void {{nickname}}(QHttpEngine::Socket *socket);
     {{/operation}}{{/operations}}
 public:

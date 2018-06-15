@@ -38,6 +38,7 @@
 #include <QHostAddress>
 #include <QRegExp>
 #include <QStringList>
+#include <QSharedPointer>
 
 #include <qhttpengine/filesystemhandler.h>
 #include <qhttpengine/handler.h>
@@ -77,9 +78,9 @@ int main(int argc, char * argv[])
     quint16 port = parser.value(portOption).toInt();
 
     OpenAPI::ApiHandler baseHandler;
-    QHttpEngine::QObjectHandler apiHandler;
-    baseHandler.registerEndpoints(&apiHandler);
-    QHttpEngine::Server server(&apiHandler);
+    QSharedPointer<QHttpEngine::QObjectHandler> handler(new QHttpEngine::QObjectHandler());
+    baseHandler.registerEndpoints(handler);
+    QHttpEngine::Server server(handler.data());
 
     // Attempt to listen on the specified port
     if (!server.listen(address, port)) {
