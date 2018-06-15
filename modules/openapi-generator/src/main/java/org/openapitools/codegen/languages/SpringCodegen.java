@@ -88,7 +88,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean openapiDocketConfig = false;
     protected boolean apiFirst = false;
     protected boolean useOptional = false;
-	protected boolean virtualService = false;
+    protected boolean virtualService = false;
 
     public SpringCodegen() {
         super();
@@ -667,6 +667,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void setJava8(boolean java8) { this.java8 = java8; }
 
     public void setVirtualService(boolean virtualService) { this.virtualService = virtualService; }
+
     public void setAsync(boolean async) { this.async = async; }
 
     public void setReactive(boolean reactive) { this.reactive = reactive; }
