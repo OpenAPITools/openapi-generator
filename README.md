@@ -179,12 +179,14 @@ If you don't have maven installed, you may directly use the included [maven wrap
 
 ### [1.5 - Homebrew](#table-of-contents)
 
-To install, run `brew install openapi-generator` (the new brew formula is pending https://github.com/Homebrew/homebrew-core/pull/28584)
+To install, run `brew install openapi-generator`
 
 Here is an example usage to generate a Ruby client:
 ```sh
 openapi-generator generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g ruby -o /tmp/test/
 ```
+
+To reinstall with the latest master, run `brew reinstall --HEAD openapi-generator`
 
 ### [1.6 - Docker](#table-of-contents)
 
