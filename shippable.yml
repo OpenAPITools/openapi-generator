@@ -13,7 +13,7 @@ build:
     - mvn --quiet clean install
     # ensure all modifications created by 'mature' generators are in the git repo
     - ./bin/utils/ensure-up-to-date
-    # prepare enviroment for tests
+    # prepare environment for tests
     - sudo apt-get update -qq
     # install stack
     - curl -sSL https://get.haskellstack.org/ | sh
