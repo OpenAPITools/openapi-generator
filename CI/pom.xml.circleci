@@ -833,6 +833,8 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <!-- test non-java projects -->
+                <module>samples/client/petstore/go</module>
                 <!-- test java-related projects -->
                 <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/scala</module>
@@ -855,8 +857,6 @@
                 <module>samples/client/petstore/kotlin/</module>
                 <module>samples/client/petstore/kotlin-threetenbp/</module>
                 <module>samples/client/petstore/kotlin-string/</module>
-                <!-- test non-java projects -->
-                <module>samples/client/petstore/go</module>
                 <!-- servers -->
                 <module>samples/server/petstore/java-vertx/rx</module>
                 <module>samples/server/petstore/java-vertx/async</module>
@@ -873,9 +873,10 @@
                 <module>samples/server/petstore/java-play-framework-api-package-override</module>
                 <module>samples/server/petstore/undertow</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
-                <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey1-useTags</module>
-                <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
+                <!-- move to other CI as the following fails often in CircleCI
+                <module>samples/server/petstore/jaxrs/jersey2</module>
+                <module>samples/server/petstore/jaxrs/jersey2-useTags</module> -->
                 <module>samples/server/petstore/jaxrs-datelib-j8</module>
                 <module>samples/server/petstore/jaxrs-resteasy/default</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap</module>
@@ -883,9 +884,10 @@
                 <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
                 <!--<module>samples/server/petstore/kotlin-server/ktor</module>-->
+                <!-- move to other CI as the following fails often in CircleCI
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
+                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>-->
                 <module>samples/client/petstore/spring-cloud</module>
                 <module>samples/server/petstore/springboot</module>
                 <module>samples/server/petstore/springboot-beanvalidation</module>
@@ -898,6 +900,7 @@
                 <module>samples/server/petstore/jaxrs-spec-interface</module>
                 <module>samples/server/petstore/scala-lagom-server</module>
                 <module>samples/server/petstore/scalatra</module>
+                <module>samples/server/petstore/finch</module>
             </modules>
         </profile>
     </profiles>
