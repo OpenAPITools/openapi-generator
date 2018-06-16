@@ -37,9 +37,9 @@ make
 
 To run the server
 ```
-./build/cpp-qt5-server &
+./build/src/cpp-qt5-server &
 ```
-Invoke and API
+Invoke an API
 ```
 curl -X GET http://localhost:8080/v2/store/inventory
 ```

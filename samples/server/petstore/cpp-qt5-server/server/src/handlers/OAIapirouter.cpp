@@ -10,32 +10,11 @@
  * Do not edit the class manually.
  */
 
-/*
- * Copyright (c) 2017 Nathan Osman
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
- * deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
- */
-
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QVariantMap>
+#include <QRegularExpression>
 
 #include "OAIapirouter.h"
 #include "OAIPetApiHandler.h"
@@ -45,147 +24,286 @@
 
 namespace OpenAPI {
 
-inline QString toQHttpEngineRoute(QString str) {
-    if(str.startsWith(QString("/")) ){
-        return QString(str.remove(0,1));
-    }
-    else{
-        return str;
-    }
+inline QHttpEngine::Socket::Method toQHttpEngineMethod(QString method){
+
+    if( method == QString("OPTIONS"))
+        return QHttpEngine::Socket::Method::OPTIONS;
+    if( method == QString("GET"))
+        return QHttpEngine::Socket::Method::GET;
+    if( method == QString("HEAD"))
+        return QHttpEngine::Socket::Method::HEAD;
+    if( method == QString("POST"))
+        return QHttpEngine::Socket::Method::POST;
+    if( method == QString("PUT"))
+        return QHttpEngine::Socket::Method::PUT;
+    if( method == QString("DELETE"))
+        return QHttpEngine::Socket::Method::DELETE;
+    if( method == QString("TRACE"))
+        return QHttpEngine::Socket::Method::TRACE;
+    if( method == QString("CONNECT"))
+        return QHttpEngine::Socket::Method::CONNECT;
+
+     return static_cast<QHttpEngine::Socket::Method>(-1);
 }
 
-ApiRouter::ApiRouter(){
+ApiRouter::ApiRouter(QObject *parent) : QObject(parent){
 
 }
 ApiRouter::~ApiRouter(){
-
+    qDebug() << "~ApiRouter()";
 }
 
-void ApiRouter::registerEndpoints(QSharedPointer<QHttpEngine::QObjectHandler> handler) {
-
-    OAIPetApiHandler OAIPetApiHandlerObj;
-    handler->registerMethod(toQHttpEngineRoute("/v2/pet"), [&](QHttpEngine::Socket *socket){
-        OAIPetApiHandlerObj.addPet(socket);
-        socket->writeHeaders();
+void ApiRouter::onNewRequest(QHttpEngine::Socket *socket){
+    auto queries = socket->queryString();
+    auto rqpath  = socket->path();
+    auto method =  socket->method();
+    auto headers = socket->headers();
+    auto peer = socket->peerAddress();
+    qDebug() << rqpath;
+    socket->setStatusCode(QHttpEngine::Socket::OK);
+    do{ 
+        {            
+            if((toQHttpEngineMethod("POST") == method) && (QString::compare("/v2/pet", rqpath, Qt::CaseInsensitive) == 0)){
+                OAIPetApiHandler OAIPetApiHandlerObj;
+                QString pathparam = QString("");
+                OAIPetApiHandlerObj.addPet(pathparam, queries, rqpath, method, headers, peer, socket);
+                break;
+            } 
+        }
+        {            
+            QString completePath("/v2/pet/{petId}");
+            QString pet_idPathParam("{"); 
+            pet_idPathParam.append("petId").append("}");
+            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex 
+            completePath.replace(pet_idPathParam, "([^\\/]*?)"); // match anything but '/''
+            completePath.append("$");  // End of string
+            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
+            QRegularExpressionMatch match = re.match(rqpath);
+            if ((toQHttpEngineMethod("DELETE") == method) && match.hasMatch() ) {
+                QString pathparam = match.captured(1);
+                OAIPetApiHandler OAIPetApiHandlerObj;
+                OAIPetApiHandlerObj.deletePet(pathparam, queries, rqpath, method, headers, peer, socket);
+                break; 
+            }
+        }
+        {            
+            if((toQHttpEngineMethod("GET") == method) && (QString::compare("/v2/pet/findByStatus", rqpath, Qt::CaseInsensitive) == 0)){
+                OAIPetApiHandler OAIPetApiHandlerObj;
+                QString pathparam = QString("");
+                OAIPetApiHandlerObj.findPetsByStatus(pathparam, queries, rqpath, method, headers, peer, socket);
+                break;
+            } 
+        }
+        {            
+            if((toQHttpEngineMethod("GET") == method) && (QString::compare("/v2/pet/findByTags", rqpath, Qt::CaseInsensitive) == 0)){
+                OAIPetApiHandler OAIPetApiHandlerObj;
+                QString pathparam = QString("");
+                OAIPetApiHandlerObj.findPetsByTags(pathparam, queries, rqpath, method, headers, peer, socket);
+                break;
+            } 
+        }
+        {            
+            QString completePath("/v2/pet/{petId}");
+            QString pet_idPathParam("{"); 
+            pet_idPathParam.append("petId").append("}");
+            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex 
+            completePath.replace(pet_idPathParam, "([^\\/]*?)"); // match anything but '/''
+            completePath.append("$");  // End of string
+            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
+            QRegularExpressionMatch match = re.match(rqpath);
+            if ((toQHttpEngineMethod("GET") == method) && match.hasMatch() ) {
+                QString pathparam = match.captured(1);
+                OAIPetApiHandler OAIPetApiHandlerObj;
+                OAIPetApiHandlerObj.getPetById(pathparam, queries, rqpath, method, headers, peer, socket);
+                break; 
+            }
+        }
+        {            
+            if((toQHttpEngineMethod("PUT") == method) && (QString::compare("/v2/pet", rqpath, Qt::CaseInsensitive) == 0)){
+                OAIPetApiHandler OAIPetApiHandlerObj;
+                QString pathparam = QString("");
+                OAIPetApiHandlerObj.updatePet(pathparam, queries, rqpath, method, headers, peer, socket);
+                break;
+            } 
+        }
+        {            
+            QString completePath("/v2/pet/{petId}");
+            QString pet_idPathParam("{"); 
+            pet_idPathParam.append("petId").append("}");
+            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex 
+            completePath.replace(pet_idPathParam, "([^\\/]*?)"); // match anything but '/''
+            completePath.append("$");  // End of string
+            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
+            QRegularExpressionMatch match = re.match(rqpath);
+            if ((toQHttpEngineMethod("POST") == method) && match.hasMatch() ) {
+                QString pathparam = match.captured(1);
+                OAIPetApiHandler OAIPetApiHandlerObj;
+                OAIPetApiHandlerObj.updatePetWithForm(pathparam, queries, rqpath, method, headers, peer, socket);
+                break; 
+            }
+        }
+        {            
+            QString completePath("/v2/pet/{petId}/uploadImage");
+            QString pet_idPathParam("{"); 
+            pet_idPathParam.append("petId").append("}");
+            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex 
+            completePath.replace(pet_idPathParam, "([^\\/]*?)"); // match anything but '/''
+            completePath.append("$");  // End of string
+            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
+            QRegularExpressionMatch match = re.match(rqpath);
+            if ((toQHttpEngineMethod("POST") == method) && match.hasMatch() ) {
+                QString pathparam = match.captured(1);
+                OAIPetApiHandler OAIPetApiHandlerObj;
+                OAIPetApiHandlerObj.uploadFile(pathparam, queries, rqpath, method, headers, peer, socket);
+                break; 
+            }
+        }
+        {            
+            QString completePath("/v2/store/order/{orderId}");
+            QString order_idPathParam("{"); 
+            order_idPathParam.append("orderId").append("}");
+            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex 
+            completePath.replace(order_idPathParam, "([^\\/]*?)"); // match anything but '/''
+            completePath.append("$");  // End of string
+            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
+            QRegularExpressionMatch match = re.match(rqpath);
+            if ((toQHttpEngineMethod("DELETE") == method) && match.hasMatch() ) {
+                QString pathparam = match.captured(1);
+                OAIStoreApiHandler OAIStoreApiHandlerObj;
+                OAIStoreApiHandlerObj.deleteOrder(pathparam, queries, rqpath, method, headers, peer, socket);
+                break; 
+            }
+        }
+        {            
+            if((toQHttpEngineMethod("GET") == method) && (QString::compare("/v2/store/inventory", rqpath, Qt::CaseInsensitive) == 0)){
+                OAIStoreApiHandler OAIStoreApiHandlerObj;
+                QString pathparam = QString("");
+                OAIStoreApiHandlerObj.getInventory(pathparam, queries, rqpath, method, headers, peer, socket);
+                break;
+            } 
+        }
+        {            
+            QString completePath("/v2/store/order/{orderId}");
+            QString order_idPathParam("{"); 
+            order_idPathParam.append("orderId").append("}");
+            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex 
+            completePath.replace(order_idPathParam, "([^\\/]*?)"); // match anything but '/''
+            completePath.append("$");  // End of string
+            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
+            QRegularExpressionMatch match = re.match(rqpath);
+            if ((toQHttpEngineMethod("GET") == method) && match.hasMatch() ) {
+                QString pathparam = match.captured(1);
+                OAIStoreApiHandler OAIStoreApiHandlerObj;
+                OAIStoreApiHandlerObj.getOrderById(pathparam, queries, rqpath, method, headers, peer, socket);
+                break; 
+            }
+        }
+        {            
+            if((toQHttpEngineMethod("POST") == method) && (QString::compare("/v2/store/order", rqpath, Qt::CaseInsensitive) == 0)){
+                OAIStoreApiHandler OAIStoreApiHandlerObj;
+                QString pathparam = QString("");
+                OAIStoreApiHandlerObj.placeOrder(pathparam, queries, rqpath, method, headers, peer, socket);
+                break;
+            } 
+        }
+        {            
+            if((toQHttpEngineMethod("POST") == method) && (QString::compare("/v2/user", rqpath, Qt::CaseInsensitive) == 0)){
+                OAIUserApiHandler OAIUserApiHandlerObj;
+                QString pathparam = QString("");
+                OAIUserApiHandlerObj.createUser(pathparam, queries, rqpath, method, headers, peer, socket);
+                break;
+            } 
+        }
+        {            
+            if((toQHttpEngineMethod("POST") == method) && (QString::compare("/v2/user/createWithArray", rqpath, Qt::CaseInsensitive) == 0)){
+                OAIUserApiHandler OAIUserApiHandlerObj;
+                QString pathparam = QString("");
+                OAIUserApiHandlerObj.createUsersWithArrayInput(pathparam, queries, rqpath, method, headers, peer, socket);
+                break;
+            } 
+        }
+        {            
+            if((toQHttpEngineMethod("POST") == method) && (QString::compare("/v2/user/createWithList", rqpath, Qt::CaseInsensitive) == 0)){
+                OAIUserApiHandler OAIUserApiHandlerObj;
+                QString pathparam = QString("");
+                OAIUserApiHandlerObj.createUsersWithListInput(pathparam, queries, rqpath, method, headers, peer, socket);
+                break;
+            } 
+        }
+        {            
+            QString completePath("/v2/user/{username}");
+            QString usernamePathParam("{"); 
+            usernamePathParam.append("username").append("}");
+            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex 
+            completePath.replace(usernamePathParam, "([^\\/]*?)"); // match anything but '/''
+            completePath.append("$");  // End of string
+            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
+            QRegularExpressionMatch match = re.match(rqpath);
+            if ((toQHttpEngineMethod("DELETE") == method) && match.hasMatch() ) {
+                QString pathparam = match.captured(1);
+                OAIUserApiHandler OAIUserApiHandlerObj;
+                OAIUserApiHandlerObj.deleteUser(pathparam, queries, rqpath, method, headers, peer, socket);
+                break; 
+            }
+        }
+        {            
+            QString completePath("/v2/user/{username}");
+            QString usernamePathParam("{"); 
+            usernamePathParam.append("username").append("}");
+            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex 
+            completePath.replace(usernamePathParam, "([^\\/]*?)"); // match anything but '/''
+            completePath.append("$");  // End of string
+            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
+            QRegularExpressionMatch match = re.match(rqpath);
+            if ((toQHttpEngineMethod("GET") == method) && match.hasMatch() ) {
+                QString pathparam = match.captured(1);
+                OAIUserApiHandler OAIUserApiHandlerObj;
+                OAIUserApiHandlerObj.getUserByName(pathparam, queries, rqpath, method, headers, peer, socket);
+                break; 
+            }
+        }
+        {            
+            if((toQHttpEngineMethod("GET") == method) && (QString::compare("/v2/user/login", rqpath, Qt::CaseInsensitive) == 0)){
+                OAIUserApiHandler OAIUserApiHandlerObj;
+                QString pathparam = QString("");
+                OAIUserApiHandlerObj.loginUser(pathparam, queries, rqpath, method, headers, peer, socket);
+                break;
+            } 
+        }
+        {            
+            if((toQHttpEngineMethod("GET") == method) && (QString::compare("/v2/user/logout", rqpath, Qt::CaseInsensitive) == 0)){
+                OAIUserApiHandler OAIUserApiHandlerObj;
+                QString pathparam = QString("");
+                OAIUserApiHandlerObj.logoutUser(pathparam, queries, rqpath, method, headers, peer, socket);
+                break;
+            } 
+        }
+        {            
+            QString completePath("/v2/user/{username}");
+            QString usernamePathParam("{"); 
+            usernamePathParam.append("username").append("}");
+            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex 
+            completePath.replace(usernamePathParam, "([^\\/]*?)"); // match anything but '/''
+            completePath.append("$");  // End of string
+            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
+            QRegularExpressionMatch match = re.match(rqpath);
+            if ((toQHttpEngineMethod("PUT") == method) && match.hasMatch() ) {
+                QString pathparam = match.captured(1);
+                OAIUserApiHandler OAIUserApiHandlerObj;
+                OAIUserApiHandlerObj.updateUser(pathparam, queries, rqpath, method, headers, peer, socket);
+                break; 
+            }
+        }
+        socket->setStatusCode(QHttpEngine::Socket::NotFound);
+        if(socket->isOpen()){
+            socket->close();
+        }
+        return;   
+    } while(false);
+    socket->writeHeaders();
+    if(socket->isOpen()){
         socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/pet/{petId}"), [&](QHttpEngine::Socket *socket){
-        OAIPetApiHandlerObj.deletePet(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/pet/findByStatus"), [&](QHttpEngine::Socket *socket){
-        OAIPetApiHandlerObj.findPetsByStatus(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/pet/findByTags"), [&](QHttpEngine::Socket *socket){
-        OAIPetApiHandlerObj.findPetsByTags(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/pet/{petId}"), [&](QHttpEngine::Socket *socket){
-        OAIPetApiHandlerObj.getPetById(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/pet"), [&](QHttpEngine::Socket *socket){
-        OAIPetApiHandlerObj.updatePet(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/pet/{petId}"), [&](QHttpEngine::Socket *socket){
-        OAIPetApiHandlerObj.updatePetWithForm(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/pet/{petId}/uploadImage"), [&](QHttpEngine::Socket *socket){
-        OAIPetApiHandlerObj.uploadFile(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    OAIStoreApiHandler OAIStoreApiHandlerObj;
-    handler->registerMethod(toQHttpEngineRoute("/v2/store/order/{orderId}"), [&](QHttpEngine::Socket *socket){
-        OAIStoreApiHandlerObj.deleteOrder(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/store/inventory"), [&](QHttpEngine::Socket *socket){
-        OAIStoreApiHandlerObj.getInventory(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/store/order/{orderId}"), [&](QHttpEngine::Socket *socket){
-        OAIStoreApiHandlerObj.getOrderById(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/store/order"), [&](QHttpEngine::Socket *socket){
-        OAIStoreApiHandlerObj.placeOrder(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    OAIUserApiHandler OAIUserApiHandlerObj;
-    handler->registerMethod(toQHttpEngineRoute("/v2/user"), [&](QHttpEngine::Socket *socket){
-        OAIUserApiHandlerObj.createUser(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/user/createWithArray"), [&](QHttpEngine::Socket *socket){
-        OAIUserApiHandlerObj.createUsersWithArrayInput(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/user/createWithList"), [&](QHttpEngine::Socket *socket){
-        OAIUserApiHandlerObj.createUsersWithListInput(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/user/{username}"), [&](QHttpEngine::Socket *socket){
-        OAIUserApiHandlerObj.deleteUser(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/user/{username}"), [&](QHttpEngine::Socket *socket){
-        OAIUserApiHandlerObj.getUserByName(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/user/login"), [&](QHttpEngine::Socket *socket){
-        OAIUserApiHandlerObj.loginUser(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/user/logout"), [&](QHttpEngine::Socket *socket){
-        OAIUserApiHandlerObj.logoutUser(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
-    handler->registerMethod(toQHttpEngineRoute("/v2/user/{username}"), [&](QHttpEngine::Socket *socket){
-        OAIUserApiHandlerObj.updateUser(socket);
-        socket->writeHeaders();
-        socket->close();
-    });
-
+    }
+    return;
 }
-
 }

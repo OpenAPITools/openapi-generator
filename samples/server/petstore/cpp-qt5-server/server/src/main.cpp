@@ -39,14 +39,10 @@
 #include <QRegExp>
 #include <QStringList>
 #include <QSharedPointer>
+#include <QObject>
 
-#include <qhttpengine/filesystemhandler.h>
-#include <qhttpengine/handler.h>
 #include <qhttpengine/server.h>
-#include <qhttpengine/qobjecthandler.h>
-
 #include "OAIapirouter.h"
-
 
 int main(int argc, char * argv[])
 {
@@ -76,16 +72,20 @@ int main(int argc, char * argv[])
     // Obtain the values
     QHostAddress address = QHostAddress(parser.value(addressOption));
     quint16 port = parser.value(portOption).toInt();
+   
+    QSharedPointer<OpenAPI::RequestHandler> handler(new OpenAPI::RequestHandler());
+    QObject::connect(handler.data(), &OpenAPI::RequestHandler::requestReceived, [](QHttpEngine::Socket *socket) {
+        auto transientRouter = new OpenAPI::ApiRouter(socket);
+        transientRouter->onNewRequest(socket);
+    });
 
-    OpenAPI::ApiRouter router;
-    QSharedPointer<QHttpEngine::QObjectHandler> handler(new QHttpEngine::QObjectHandler());
-    router.registerEndpoints(handler);
     QHttpEngine::Server server(handler.data());
-
+    qDebug() << "Serving on " << address.toString() << ":" << port;
     // Attempt to listen on the specified port
     if (!server.listen(address, port)) {
         qCritical("Unable to listen on the specified port.");
         return 1;
     }
+    
     return a.exec();
 }

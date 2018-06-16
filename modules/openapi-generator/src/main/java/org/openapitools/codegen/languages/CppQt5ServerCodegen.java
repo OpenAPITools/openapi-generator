@@ -134,6 +134,9 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("apirouter.h.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "apirouter.h"));
         supportingFiles.add(new SupportingFile("apirouter.cpp.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "apirouter.cpp"));
 
+        supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "HttpRequest.h"));
+        supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "HttpRequest.cpp"));
+
         supportingFiles.add(new SupportingFile("main.cpp.mustache", sourceFolder + SRC_DIR, "main.cpp"));
         supportingFiles.add(new SupportingFile("src-CMakeLists.txt.mustache", sourceFolder + SRC_DIR, "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("README.md.mustache", sourceFolder, "README.MD"));
@@ -157,8 +160,10 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "QList");
         typeMapping.put("map", "QMap");
+        typeMapping.put("file", PREFIX + "HttpRequestInputFileElement");
         typeMapping.put("object", PREFIX + "Object");
         // mapped as "file" type for OAS 3.0
+        typeMapping.put("binary", PREFIX + "HttpRequestInputFileElement");
         typeMapping.put("ByteArray", "QByteArray");
         //   UUID support - possible enhancement : use QUuid instead of QString.
         //   beware though that Serialisation/deserialisation of QUuid does not
@@ -166,6 +171,7 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
         //   modifications on multiple templates)
         typeMapping.put("UUID", "QString");
         importMapping = new HashMap<String, String>();
+        importMapping.put(PREFIX + "HttpRequestInputFileElement", "#include \"" + PREFIX + "HttpRequest.h\"");
         namespaces = new HashMap<String, String>();
 
         foundationClasses.add("QString");
@@ -189,13 +195,16 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
         additionalProperties.put("cppNamespaceDeclarations", cppNamespace.split("\\::"));
         if (additionalProperties.containsKey("modelNamePrefix")) {
             supportingFiles.clear();
-            supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.h"));
-            supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.cpp"));
-            supportingFiles.add(new SupportingFile("modelFactory.mustache", sourceFolder + MODEL_DIR, PREFIX + "ModelFactory.h"));
-            supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, PREFIX + "Object.h"));
-            supportingFiles.add(new SupportingFile("QObjectWrapper.h.mustache", sourceFolder + MODEL_DIR, PREFIX + "QObjectWrapper.h"));
-            supportingFiles.add(new SupportingFile("apihandler.h.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "apihandler.h"));
-            supportingFiles.add(new SupportingFile("apihandler.cpp.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "apihandler.cpp"));
+            supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Helpers.h"));
+            supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Helpers.cpp"));
+            supportingFiles.add(new SupportingFile("modelFactory.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "ModelFactory.h"));
+            supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Object.h"));
+            supportingFiles.add(new SupportingFile("QObjectWrapper.h.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "QObjectWrapper.h"));
+            supportingFiles.add(new SupportingFile("apihandler.h.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "apihandler.h"));
+            supportingFiles.add(new SupportingFile("apihandler.cpp.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "apihandler.cpp"));
+            
+            supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "HttpRequest.h"));
+            supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "HttpRequest.cpp"));
             
             supportingFiles.add(new SupportingFile("main.cpp.mustache", sourceFolder + SRC_DIR, "main.cpp"));
             supportingFiles.add(new SupportingFile("src-CMakeLists.txt.mustache", sourceFolder + SRC_DIR, "CMakeLists.txt"));
@@ -204,6 +213,9 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
             supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
             supportingFiles.add(new SupportingFile("Dockerfile.mustache", sourceFolder, "Dockerfile"));
             supportingFiles.add(new SupportingFile("LICENSE.txt.mustache", sourceFolder, "LICENSE.txt"));
+
+            typeMapping.put("file", modelNamePrefix + "HttpRequestInputFileElement");
+            importMapping.put(modelNamePrefix + "HttpRequestInputFileElement", "#include \"" + modelNamePrefix + "HttpRequest.h\"");            
 
             typeMapping.put("object", modelNamePrefix + "Object");
             additionalProperties().put("prefix", modelNamePrefix);

@@ -1,30 +1,9 @@
 {{>licenseInfo}}
-/*
- * Copyright (c) 2017 Nathan Osman
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
- * deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
- */
-
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QVariantMap>
+#include <QRegularExpression>
 
 #include "{{prefix}}apirouter.h"
 {{#apiInfo}}{{#apis}}{{#operations}}#include "{{classname}}.h"
@@ -34,33 +13,77 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-inline QString toQHttpEngineRoute(QString str) {
-    if(str.startsWith(QString("/")) ){
-        return QString(str.remove(0,1));
-    }
-    else{
-        return str;
-    }
+inline QHttpEngine::Socket::Method toQHttpEngineMethod(QString method){
+
+    if( method == QString("OPTIONS"))
+        return QHttpEngine::Socket::Method::OPTIONS;
+    if( method == QString("GET"))
+        return QHttpEngine::Socket::Method::GET;
+    if( method == QString("HEAD"))
+        return QHttpEngine::Socket::Method::HEAD;
+    if( method == QString("POST"))
+        return QHttpEngine::Socket::Method::POST;
+    if( method == QString("PUT"))
+        return QHttpEngine::Socket::Method::PUT;
+    if( method == QString("DELETE"))
+        return QHttpEngine::Socket::Method::DELETE;
+    if( method == QString("TRACE"))
+        return QHttpEngine::Socket::Method::TRACE;
+    if( method == QString("CONNECT"))
+        return QHttpEngine::Socket::Method::CONNECT;
+
+     return static_cast<QHttpEngine::Socket::Method>(-1);
 }
 
-ApiRouter::ApiRouter(){
+ApiRouter::ApiRouter(QObject *parent) : QObject(parent){
 
 }
 ApiRouter::~ApiRouter(){
-
+    qDebug() << "~ApiRouter()";
 }
 
-void ApiRouter::registerEndpoints(QSharedPointer<QHttpEngine::QObjectHandler> handler) {
-{{#apiInfo}}{{#apis}}{{#operations}}
-    {{classname}} {{classname}}Obj;{{#operation}}
-    handler->registerMethod(toQHttpEngineRoute("{{{basePathWithoutHost}}}{{{path}}}"), [&](QHttpEngine::Socket *socket){
-        {{classname}}Obj.{{nickname}}(socket);
-        socket->writeHeaders();
+void ApiRouter::onNewRequest(QHttpEngine::Socket *socket){
+    auto queries = socket->queryString();
+    auto rqpath  = socket->path();
+    auto method =  socket->method();
+    auto headers = socket->headers();
+    auto peer = socket->peerAddress();
+    qDebug() << rqpath;
+    socket->setStatusCode(QHttpEngine::Socket::OK);
+    do{ {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+        {            
+            {{^pathParams}}if((toQHttpEngineMethod("{{httpMethod}}") == method) && (QString::compare("{{{basePathWithoutHost}}}{{{path}}}", rqpath, Qt::CaseInsensitive) == 0)){
+                {{classname}} {{classname}}Obj;
+                QString pathparam = QString("");
+                {{classname}}Obj.{{nickname}}(pathparam, queries, rqpath, method, headers, peer, socket);
+                break;
+            } {{/pathParams}}{{#pathParams}}QString completePath("{{{basePathWithoutHost}}}{{{path}}}");
+            QString {{paramName}}PathParam("{"); 
+            {{paramName}}PathParam.append("{{baseName}}").append("}");
+            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex 
+            completePath.replace({{paramName}}PathParam, "([^\\/]*?)"); // match anything but '/''
+            completePath.append("$");  // End of string
+            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
+            QRegularExpressionMatch match = re.match(rqpath);
+            if ((toQHttpEngineMethod("{{httpMethod}}") == method) && match.hasMatch() ) {
+                QString pathparam = match.captured(1);
+                {{classname}} {{classname}}Obj;
+                {{classname}}Obj.{{nickname}}(pathparam, queries, rqpath, method, headers, peer, socket);
+                break; 
+            }{{/pathParams}}
+        }{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+        socket->setStatusCode(QHttpEngine::Socket::NotFound);
+        if(socket->isOpen()){
+            socket->close();
+        }
+        return;   
+    } while(false);
+    socket->writeHeaders();
+    if(socket->isOpen()){
         socket->close();
-    });
-{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+    }
+    return;
 }
-
 {{#cppNamespaceDeclarations}}
 }
 {{/cppNamespaceDeclarations}}

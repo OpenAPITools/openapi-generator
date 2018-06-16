@@ -1,49 +1,99 @@
 {{>licenseInfo}}
-/*
- * Copyright (c) 2017 Nathan Osman
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
- * deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
- */
-
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QVariantMap>
 #include <QDebug>
 
+#include "{{prefix}}Helpers.h"
+#include "{{prefix}}ModelFactory.h"
+
 #include "{{classname}}.h"
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
-
-{{#operations}}{{#operation}}void  {{classname}}::{{nickname}}(QHttpEngine::Socket *socket){
-    qDebug() << "{{{basePathWithoutHost}}}{{{path}}}";
-    socket->setStatusCode(QHttpEngine::Socket::OK);
-    return;
-}
-{{/operation}}{{/operations}}
-
 {{/cppNamespaceDeclarations}}
 
-{{#operations}}{{#operation}}void {{classname}}::{{nickname}}Callback(){
-    
+{{classname}}::{{classname}}(QObject *parent): QObject(parent){
+
 }
-{{/operation}}{{/operations}}
+{{classname}}::~{{classname}}(){
+
+}
+
+{{#operations}}{{#operation}}void {{classname}}::{{nickname}}(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
+    qDebug() << "{{{basePathWithoutHost}}}{{{path}}}";
+
+#if 0
+    // Request
+    {{#allParams}}{{{dataType}}}{{#isBodyParam}}&{{/isBodyParam}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}
+
+#endif
+    // Do something
+
+#if 0
+    // TODO Create Response
+    {{#returnType}}
+    {{#isListContainer}}
+    {{{returnType}}} output = {{{defaultResponse}}};
+    QString json(worker->response);
+    QByteArray array (json.toStdString().c_str());
+    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonArray jsonArray = doc.array();
+    auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
+    wrapper->deleteLater();
+    foreach(QJsonValue obj, jsonArray) {
+        {{{returnBaseType}}}* o = new {{returnBaseType}}();
+        QJsonObject jv = obj.toObject();
+        QJsonObject * ptr = (QJsonObject*)&jv;
+        o->fromJsonObject(*ptr);
+        auto objwrapper = new {{prefix}}QObjectWrapper<{{{returnBaseType}}}*> (o);
+        objwrapper->deleteLater();
+        output->append(o);
+    }
+    {{/isListContainer}}
+    {{^isListContainer}}
+    {{^isMapContainer}}
+    {{#returnTypeIsPrimitive}}
+    {{{returnType}}} output;  // TODO add primitive output support
+    {{#isByteArray}}auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
+    wrapper->deleteLater();{{/isByteArray}}
+    {{#isDateTime}}auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
+    wrapper->deleteLater();{{/isDateTime}}
+    {{#isDate}}auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
+    wrapper->deleteLater();{{/isDate}}
+    {{#isString}}auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
+    wrapper->deleteLater();{{/isString}}
+    {{/returnTypeIsPrimitive}}
+    {{/isMapContainer}}
+    {{#isMapContainer}}
+    {{{returnType}}} output = {{{defaultResponse}}};
+    QString json(worker->response);
+    QByteArray array (json.toStdString().c_str());
+    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonObject obj = doc.object();
+
+    foreach(QString key, obj.keys()) {
+        {{returnBaseType}} val;
+        setValue(&val, obj[key], "{{returnBaseType}}", QString());
+        output->insert(key, val);
+    }
+    {{/isMapContainer}}
+    {{^isMapContainer}}
+    {{^returnTypeIsPrimitive}}
+    QString json(worker->response);
+    {{{returnType}}} output = static_cast<{{{returnType}}}>(create(json, QString("{{{returnBaseType}}}")));
+    auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
+    wrapper->deleteLater();
+    {{/returnTypeIsPrimitive}}
+    {{/isMapContainer}}
+    {{/isListContainer}}
+    {{/returnType}}
+#endif
+    foreach(QString key, this->defaultHeaders.keys()) {
+        socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
+    }
+}
+{{/operation}}{{/operations}}  
 
 {{#cppNamespaceDeclarations}}
 }

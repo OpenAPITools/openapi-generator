@@ -10,76 +10,112 @@
  * Do not edit the class manually.
  */
 
-/*
- * Copyright (c) 2017 Nathan Osman
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
- * deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
- */
-
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QVariantMap>
 #include <QDebug>
 
+#include "OAIHelpers.h"
+#include "OAIModelFactory.h"
+
 #include "OAIStoreApiHandler.h"
 namespace OpenAPI {
 
-void  OAIStoreApiHandler::deleteOrder(QHttpEngine::Socket *socket){
+OAIStoreApiHandler::OAIStoreApiHandler(QObject *parent): QObject(parent){
+
+}
+OAIStoreApiHandler::~OAIStoreApiHandler(){
+
+}
+
+void OAIStoreApiHandler::deleteOrder(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/order/{orderId}";
 
-    socket->setStatusCode(QHttpEngine::Socket::OK);
-    return;
+#if 0
+    // Request
+    QString* order_id
+
+#endif
+    // Do something
+
+#if 0
+    // TODO Create Response
+#endif
+    foreach(QString key, this->defaultHeaders.keys()) {
+        socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
+    }
 }
-void  OAIStoreApiHandler::getInventory(QHttpEngine::Socket *socket){
+void OAIStoreApiHandler::getInventory(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/inventory";
 
-    socket->setStatusCode(QHttpEngine::Socket::OK);
-    return;
+#if 0
+    // Request
+    
+
+#endif
+    // Do something
+
+#if 0
+    // TODO Create Response
+    QMap<QString, qint32>* output = new QMap<QString, qint32>();
+    QString json(worker->response);
+    QByteArray array (json.toStdString().c_str());
+    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonObject obj = doc.object();
+
+    foreach(QString key, obj.keys()) {
+        qint32 val;
+        setValue(&val, obj[key], "qint32", QString());
+        output->insert(key, val);
+    }
+#endif
+    foreach(QString key, this->defaultHeaders.keys()) {
+        socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
+    }
 }
-void  OAIStoreApiHandler::getOrderById(QHttpEngine::Socket *socket){
+void OAIStoreApiHandler::getOrderById(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/order/{orderId}";
 
-    socket->setStatusCode(QHttpEngine::Socket::OK);
-    return;
+#if 0
+    // Request
+    qint64 order_id
+
+#endif
+    // Do something
+
+#if 0
+    // TODO Create Response
+    QString json(worker->response);
+    OAIOrder* output = static_cast<OAIOrder*>(create(json, QString("OAIOrder")));
+    auto wrapper = new OAIQObjectWrapper<OAIOrder*> (output);
+    wrapper->deleteLater();
+#endif
+    foreach(QString key, this->defaultHeaders.keys()) {
+        socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
+    }
 }
-void  OAIStoreApiHandler::placeOrder(QHttpEngine::Socket *socket){
+void OAIStoreApiHandler::placeOrder(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/order";
 
-    socket->setStatusCode(QHttpEngine::Socket::OK);
-    return;
-}
+#if 0
+    // Request
+    OAIOrder& oai_order
 
+#endif
+    // Do something
 
-
-void OAIStoreApiHandler::deleteOrderCallback(){
-    
+#if 0
+    // TODO Create Response
+    QString json(worker->response);
+    OAIOrder* output = static_cast<OAIOrder*>(create(json, QString("OAIOrder")));
+    auto wrapper = new OAIQObjectWrapper<OAIOrder*> (output);
+    wrapper->deleteLater();
+#endif
+    foreach(QString key, this->defaultHeaders.keys()) {
+        socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
+    }
 }
-void OAIStoreApiHandler::getInventoryCallback(){
-    
-}
-void OAIStoreApiHandler::getOrderByIdCallback(){
-    
-}
-void OAIStoreApiHandler::placeOrderCallback(){
-    
-}
-
+  
 
 }
