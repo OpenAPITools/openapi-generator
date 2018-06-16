@@ -613,7 +613,7 @@ toValue(QString inStr, qint64 *value){
 bool 
 toValue(QString inStr, bool *value){
     *value = QVariant(inStr).toBool();
-    return (inStr == "true" || inStr == "false");
+    return ((inStr == "true") || (inStr == "false"));
 }
 bool 
 toValue(QString inStr, float *value){

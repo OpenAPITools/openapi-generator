@@ -22,7 +22,8 @@ namespace {{this}} {
 
 }
 
-{{#operations}}{{#operation}}void {{classname}}::{{nickname}}(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
+{{#operations}}{{#operation}}
+void {{classname}}::{{nickname}}(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "{{{basePathWithoutHost}}}{{{path}}}";
     
     {{#queryParams}}{{queryParam}}{{^isContainer}}{{#isString}}
@@ -95,7 +96,86 @@ namespace {{this}} {
     {{/isListContainer}}        
     {{/bodyParam}}{{/bodyParams}}
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    {{#returnType}}
+    {{#isListContainer}}
+    {{{returnType}}} response = {{{defaultResponse}}};
+    auto reswrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (response);
+    reswrapper->deleteLater();
+    {
+        {{{returnBaseType}}}* o = new {{returnBaseType}}();
+        o->fromJsonObject(QJsonObject());
+        auto objwrapper = new {{prefix}}QObjectWrapper<{{{returnBaseType}}}*> (o);
+        objwrapper->deleteLater();
+        response->append(o);
+    }
+    {{/isListContainer}}
+    {{^isListContainer}}
+    {{^isMapContainer}}
+    {{#returnTypeIsPrimitive}}
+    {{{returnType}}} response = {{{defaultResponse}}};  
+    {{#isByteArray}}auto reswrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (response);
+    reswrapper->deleteLater();{{/isByteArray}}
+    {{#isDateTime}}auto reswrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (response);
+    reswrapper->deleteLater();{{/isDateTime}}
+    {{#isDate}}auto reswrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (response);
+    reswrapper->deleteLater();{{/isDate}}
+    {{#isString}}auto reswrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (response);
+    reswrapper->deleteLater();{{/isString}}
+    {{/returnTypeIsPrimitive}}
+    {{/isMapContainer}}
+    {{#isMapContainer}}
+    {{{returnType}}} response = {{{defaultResponse}}};
+    auto reswrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (response);
+    reswrapper->deleteLater();
+    { 
+        {{returnBaseType}} val;
+        setValue(&val, QJsonObject(), "{{returnBaseType}}", QString());
+        response->insert("key", val);
+    }    
+    {{/isMapContainer}}
+    {{^isMapContainer}}
+    {{^returnTypeIsPrimitive}}
+    {{{returnType}}} response = static_cast<{{{returnType}}}>(create(QString(""), QString("{{{returnBaseType}}}")));
+    auto reswrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (response);
+    reswrapper->deleteLater();
+    {{/returnTypeIsPrimitive}}
+    {{/isMapContainer}}
+    {{/isListContainer}}
+    {{/returnType}}
+    
+
+
+    // Serialize Data
+    {{#returnType}}
+    {{#isListContainer}}
+    QJsonArray jsonArray;
+    foreach(auto item,  *response){
+        jsonArray.append(item->asJsonObject());
+    }
+    socket->writeJson(QJsonDocument(jsonArray));
+    {{/isListContainer}}
+    {{^isListContainer}}
+    {{#isMapContainer}}
+    // TODO
+    {{/isMapContainer}}
+    {{^isMapContainer}}
+    {{#returnTypeIsPrimitive}}
+    // TODO
+    {{/returnTypeIsPrimitive}}
+    {{^returnTypeIsPrimitive}}{{^hasResponseHeaders}}
+    socket->writeJson(QJsonDocument(response->asJsonObject()));
+    {{/hasResponseHeaders}}{{/returnTypeIsPrimitive}}
+    {{/isMapContainer}}
+    {{/isListContainer}}
+    {{/returnType}}
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());

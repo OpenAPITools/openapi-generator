@@ -31,6 +31,7 @@ OAIPetApiHandler::~OAIPetApiHandler(){
 
 }
 
+
 void OAIPetApiHandler::addPet(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet";
     
@@ -43,12 +44,24 @@ void OAIPetApiHandler::addPet(QString pathparam, QHttpEngine::Socket::QueryStrin
     wrapper->deleteLater();
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    
+
+
+    // Serialize Data
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIPetApiHandler::deletePet(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet/{petId}";
     
@@ -57,36 +70,102 @@ void OAIPetApiHandler::deletePet(QString pathparam, QHttpEngine::Socket::QuerySt
     toValue(pathparam, &pet_id);
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    
+
+
+    // Serialize Data
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIPetApiHandler::findPetsByStatus(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet/findByStatus";
     
     
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    QList<OAIPet*>* response = new QList<OAIPet*>();
+    auto reswrapper = new OAIQObjectWrapper<QList<OAIPet*>*> (response);
+    reswrapper->deleteLater();
+    {
+        OAIPet* o = new OAIPet();
+        o->fromJsonObject(QJsonObject());
+        auto objwrapper = new OAIQObjectWrapper<OAIPet*> (o);
+        objwrapper->deleteLater();
+        response->append(o);
+    }
+    
+
+
+    // Serialize Data
+    QJsonArray jsonArray;
+    foreach(auto item,  *response){
+        jsonArray.append(item->asJsonObject());
+    }
+    socket->writeJson(QJsonDocument(jsonArray));
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIPetApiHandler::findPetsByTags(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet/findByTags";
     
     
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    QList<OAIPet*>* response = new QList<OAIPet*>();
+    auto reswrapper = new OAIQObjectWrapper<QList<OAIPet*>*> (response);
+    reswrapper->deleteLater();
+    {
+        OAIPet* o = new OAIPet();
+        o->fromJsonObject(QJsonObject());
+        auto objwrapper = new OAIQObjectWrapper<OAIPet*> (o);
+        objwrapper->deleteLater();
+        response->append(o);
+    }
+    
+
+
+    // Serialize Data
+    QJsonArray jsonArray;
+    foreach(auto item,  *response){
+        jsonArray.append(item->asJsonObject());
+    }
+    socket->writeJson(QJsonDocument(jsonArray));
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIPetApiHandler::getPetById(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet/{petId}";
     
@@ -95,12 +174,30 @@ void OAIPetApiHandler::getPetById(QString pathparam, QHttpEngine::Socket::QueryS
     toValue(pathparam, &pet_id);
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    OAIPet* response = static_cast<OAIPet*>(create(QString(""), QString("OAIPet")));
+    auto reswrapper = new OAIQObjectWrapper<OAIPet*> (response);
+    reswrapper->deleteLater();
+    
+
+
+    // Serialize Data
+    
+    socket->writeJson(QJsonDocument(response->asJsonObject()));
+    
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIPetApiHandler::updatePet(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet";
     
@@ -113,12 +210,24 @@ void OAIPetApiHandler::updatePet(QString pathparam, QHttpEngine::Socket::QuerySt
     wrapper->deleteLater();
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    
+
+
+    // Serialize Data
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIPetApiHandler::updatePetWithForm(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet/{petId}";
     
@@ -127,12 +236,24 @@ void OAIPetApiHandler::updatePetWithForm(QString pathparam, QHttpEngine::Socket:
     toValue(pathparam, &pet_id);
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    
+
+
+    // Serialize Data
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIPetApiHandler::uploadFile(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/pet/{petId}/uploadImage";
     
@@ -141,7 +262,24 @@ void OAIPetApiHandler::uploadFile(QString pathparam, QHttpEngine::Socket::QueryS
     toValue(pathparam, &pet_id);
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    OAIApiResponse* response = static_cast<OAIApiResponse*>(create(QString(""), QString("OAIApiResponse")));
+    auto reswrapper = new OAIQObjectWrapper<OAIApiResponse*> (response);
+    reswrapper->deleteLater();
+    
+
+
+    // Serialize Data
+    
+    socket->writeJson(QJsonDocument(response->asJsonObject()));
+    
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());

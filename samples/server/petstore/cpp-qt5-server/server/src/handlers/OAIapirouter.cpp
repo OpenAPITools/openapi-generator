@@ -61,6 +61,9 @@ void ApiRouter::onNewRequest(QHttpEngine::Socket *socket){
     auto peer = socket->peerAddress();
     qDebug() << rqpath;
     socket->setStatusCode(QHttpEngine::Socket::OK);
+    
+    // Creating transient Objects instead of singletons
+
     do{ 
         {            
             if((toQHttpEngineMethod("POST") == method) && (QString::compare("/v2/pet", rqpath, Qt::CaseInsensitive) == 0)){

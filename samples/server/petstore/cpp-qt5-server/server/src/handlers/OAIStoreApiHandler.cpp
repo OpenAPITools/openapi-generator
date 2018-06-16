@@ -31,6 +31,7 @@ OAIStoreApiHandler::~OAIStoreApiHandler(){
 
 }
 
+
 void OAIStoreApiHandler::deleteOrder(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/order/{orderId}";
     
@@ -40,24 +41,57 @@ void OAIStoreApiHandler::deleteOrder(QString pathparam, QHttpEngine::Socket::Que
     toValue(pathparam, &order_id);
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    
+
+
+    // Serialize Data
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIStoreApiHandler::getInventory(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/inventory";
     
     
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    QMap<QString, qint32>* response = new QMap<QString, qint32>();
+    auto reswrapper = new OAIQObjectWrapper<QMap<QString, qint32>*> (response);
+    reswrapper->deleteLater();
+    { 
+        qint32 val;
+        setValue(&val, QJsonObject(), "qint32", QString());
+        response->insert("key", val);
+    }    
+    
+
+
+    // Serialize Data
+    // TODO
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIStoreApiHandler::getOrderById(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/order/{orderId}";
     
@@ -66,25 +100,60 @@ void OAIStoreApiHandler::getOrderById(QString pathparam, QHttpEngine::Socket::Qu
     toValue(pathparam, &order_id);
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    OAIOrder* response = static_cast<OAIOrder*>(create(QString(""), QString("OAIOrder")));
+    auto reswrapper = new OAIQObjectWrapper<OAIOrder*> (response);
+    reswrapper->deleteLater();
+    
+
+
+    // Serialize Data
+    
+    socket->writeJson(QJsonDocument(response->asJsonObject()));
+    
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIStoreApiHandler::placeOrder(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/order";
     
     
      
     QJsonDocument doc;
-    auto readstatus = socket->readJson(doc);
+    socket->readJson(doc);
     OAIOrder *request = static_cast<OAIOrder*>(create(QString(doc.toJson(QJsonDocument::Compact)), QString("OAIOrder")));
     auto wrapper = new OAIQObjectWrapper<OAIOrder*> (request);
     wrapper->deleteLater();
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    OAIOrder* response = static_cast<OAIOrder*>(create(QString(""), QString("OAIOrder")));
+    auto reswrapper = new OAIQObjectWrapper<OAIOrder*> (response);
+    reswrapper->deleteLater();
+    
+
+
+    // Serialize Data
+    
+    socket->writeJson(QJsonDocument(response->asJsonObject()));
+    
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());

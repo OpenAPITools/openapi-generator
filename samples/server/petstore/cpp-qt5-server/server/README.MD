@@ -24,6 +24,10 @@ To learn more about building and using the library, please visit this page:
 https://ci.quickmediasolutions.com/job/qhttpengine-documentation/doxygen/
 
 
+### Viewing the code
+You can view the code using an editor like Microsoft Visual Studio Code or you can 
+Use QtCreator and browse for the root CMakeLists.txt and load it as a project
+
 ### Build with make
 Install the tools [Linux/Debian]
 ```
@@ -39,13 +43,19 @@ To run the server
 ```
 ./build/src/cpp-qt5-server &
 ```
-Invoke an API
+#### Invoke an API
 ```
+curl -X GET http://localhost:8080/v2/store/inventory
+curl -X POST http://localhost:8080/v2/store/order -H "Content-Type: application/json" -d "{ \"id\": 22, \"petId\": 1541, \"quantity\": 5, \"shipDate\": \"2018-06-16T18:31:43.870Z\", \"status\": \"placed\", \"complete\": \"true\" }"
+curl -X GET http://localhost:8080/v2/pet/findByStatus
 curl -X GET http://localhost:8080/v2/store/inventory
 ```
 
 ### Run and build with docker
-Building with docker multistage 
+Building with docker multistage
+If you dont have docker install [here](https://docs.docker.com/install)
+Add yourself to the docker group
+
 ```
 docker build --network=host -t cpp-qt5-server .
 ```
@@ -54,10 +64,11 @@ Running with docker
 docker run --rm -it --name=server-container cpp-qt5-server 
 ```
 
-Invoke an API
+#### Invoking an API
 Mind the IP here
 ```
 curl -X GET http://172.17.0.2:8080/v2/store/inventory
+curl -X POST http://localhost:8080/v2/store/order -H "Content-Type: application/json" -d "{ \"id\": 22, \"petId\": 1541, \"quantity\": 5, \"shipDate\": \"2018-06-16T18:31:43.870Z\", \"status\": \"placed\", \"complete\": \"true\" }"
 ```
 
 use this command to get the container IP

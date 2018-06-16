@@ -31,6 +31,7 @@ OAIUserApiHandler::~OAIUserApiHandler(){
 
 }
 
+
 void OAIUserApiHandler::createUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user";
     
@@ -43,12 +44,24 @@ void OAIUserApiHandler::createUser(QString pathparam, QHttpEngine::Socket::Query
     wrapper->deleteLater();
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    
+
+
+    // Serialize Data
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIUserApiHandler::createUsersWithArrayInput(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/createWithArray";
     
@@ -72,12 +85,24 @@ void OAIUserApiHandler::createUsersWithArrayInput(QString pathparam, QHttpEngine
     wrapper->deleteLater();
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    
+
+
+    // Serialize Data
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIUserApiHandler::createUsersWithListInput(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/createWithList";
     
@@ -101,12 +126,24 @@ void OAIUserApiHandler::createUsersWithListInput(QString pathparam, QHttpEngine:
     wrapper->deleteLater();
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    
+
+
+    // Serialize Data
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIUserApiHandler::deleteUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/{username}";
     
@@ -116,12 +153,24 @@ void OAIUserApiHandler::deleteUser(QString pathparam, QHttpEngine::Socket::Query
     toValue(pathparam, &username);
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    
+
+
+    // Serialize Data
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIUserApiHandler::getUserByName(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/{username}";
     
@@ -131,12 +180,30 @@ void OAIUserApiHandler::getUserByName(QString pathparam, QHttpEngine::Socket::Qu
     toValue(pathparam, &username);
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    OAIUser* response = static_cast<OAIUser*>(create(QString(""), QString("OAIUser")));
+    auto reswrapper = new OAIQObjectWrapper<OAIUser*> (response);
+    reswrapper->deleteLater();
+    
+
+
+    // Serialize Data
+    
+    socket->writeJson(QJsonDocument(response->asJsonObject()));
+    
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIUserApiHandler::loginUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/login";
     
@@ -153,24 +220,52 @@ void OAIUserApiHandler::loginUser(QString pathparam, QHttpEngine::Socket::QueryS
     
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    QString* response = static_cast<QString*>(create(QString(""), QString("QString")));
+    auto reswrapper = new OAIQObjectWrapper<QString*> (response);
+    reswrapper->deleteLater();
+    
+
+
+    // Serialize Data
+    
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIUserApiHandler::logoutUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/logout";
     
     
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    
+
+
+    // Serialize Data
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
+
 void OAIUserApiHandler::updateUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/{username}";
     
@@ -186,7 +281,18 @@ void OAIUserApiHandler::updateUser(QString pathparam, QHttpEngine::Socket::Query
     wrapper->deleteLater();
     
 
-    // Do something
+    /******************************************
+     * Do something
+     ******************************************/
+
+
+
+
+    // Creating Response
+    
+
+
+    // Serialize Data
 
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());

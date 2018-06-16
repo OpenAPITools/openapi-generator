@@ -50,6 +50,9 @@ void ApiRouter::onNewRequest(QHttpEngine::Socket *socket){
     auto peer = socket->peerAddress();
     qDebug() << rqpath;
     socket->setStatusCode(QHttpEngine::Socket::OK);
+    
+    // Creating transient Objects instead of singletons
+
     do{ {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
         {            
             {{^pathParams}}if((toQHttpEngineMethod("{{httpMethod}}") == method) && (QString::compare("{{{basePathWithoutHost}}}{{{path}}}", rqpath, Qt::CaseInsensitive) == 0)){
