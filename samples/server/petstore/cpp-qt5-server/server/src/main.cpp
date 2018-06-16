@@ -54,7 +54,7 @@ int main(int argc, char * argv[])
         QStringList() << "a" << "address",
         "address to bind to",
         "address",
-        "127.0.0.1"
+        "0.0.0.0"
     );
     parser.addOption(addressOption);
     QCommandLineOption portOption(

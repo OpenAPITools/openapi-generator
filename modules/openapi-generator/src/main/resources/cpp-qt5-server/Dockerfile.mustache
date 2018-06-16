@@ -27,9 +27,10 @@ RUN apt-get update \
         libqt5core5a \
         libqt5network5 \
         libssl1.1
-
 RUN rm -rf /var/lib/apt/lists/*
+
 WORKDIR /usr/server
 COPY --from=build /usr/server/build/src/cpp-qt5-server ./build/src/
 COPY --from=build /usr/server/external/ ./external
+EXPOSE 8080/tcp
 ENTRYPOINT ["/usr/server/build/src/cpp-qt5-server"]

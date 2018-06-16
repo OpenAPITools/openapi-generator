@@ -38,7 +38,6 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
 
     public static final String CPP_NAMESPACE = "cppNamespace";
     public static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
-    public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate server.pri.";
 
     protected final String PREFIX = "OAI";
     protected final String SRC_DIR = "/src";
@@ -99,7 +98,6 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
 
         // CLI options
         addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
-        addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE, OPTIONAL_PROJECT_FILE_DESC, this.optionalProjectFileFlag);
 
         /*
          * Additional Properties.  These values can be passed to the templates and
@@ -144,11 +142,6 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", sourceFolder, "Dockerfile"));
         supportingFiles.add(new SupportingFile("LICENSE.txt.mustache", sourceFolder, "LICENSE.txt"));
-
-
-        if (optionalProjectFileFlag) {
-            supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, "server.pri"));
-        }
 
         super.typeMapping = new HashMap<String, String>();
 
@@ -219,12 +212,6 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
 
             typeMapping.put("object", modelNamePrefix + "Object");
             additionalProperties().put("prefix", modelNamePrefix);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
-            setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
-        } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_PROJECT_FILE, optionalProjectFileFlag);
         }
     }
 
