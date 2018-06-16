@@ -11,50 +11,41 @@
  *
  */
 
-
 import ApiClient from '../ApiClient';
 
-
-
-
-
 /**
-* The OuterComposite model module.
-* @module model/OuterComposite
-* @version 1.0.0
-*/
-export default class OuterComposite {
+ * The OuterComposite model module.
+ * @module model/OuterComposite
+ * @version 1.0.0
+ */
+class OuterComposite {
     /**
-    * Constructs a new <code>OuterComposite</code>.
-    * @alias module:model/OuterComposite
-    * @class
-    */
-
-    constructor() {
+     * Constructs a new <code>OuterComposite</code>.
+     * @alias module:model/OuterComposite
+     */
+    constructor() { 
         
-
-        
-        
-
-        
-
-        
+        OuterComposite.initialize(this);
     }
 
     /**
-    * Constructs a <code>OuterComposite</code> from a plain JavaScript object, optionally creating a new instance.
-    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-    * @param {Object} data The plain JavaScript object bearing properties of interest.
-    * @param {module:model/OuterComposite} obj Optional instance to populate.
-    * @return {module:model/OuterComposite} The populated <code>OuterComposite</code> instance.
-    */
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+    }
+
+    /**
+     * Constructs a <code>OuterComposite</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/OuterComposite} obj Optional instance to populate.
+     * @return {module:model/OuterComposite} The populated <code>OuterComposite</code> instance.
+     */
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new OuterComposite();
-
-            
-            
-            
 
             if (data.hasOwnProperty('my_number')) {
                 obj['my_number'] = 'Number'.constructFromObject(data['my_number']);
@@ -69,26 +60,28 @@ export default class OuterComposite {
         return obj;
     }
 
-    /**
-    * @member {Number} my_number
-    */
-    my_number = undefined;
-    /**
-    * @member {String} my_string
-    */
-    my_string = undefined;
-    /**
-    * @member {Boolean} my_boolean
-    */
-    my_boolean = undefined;
-
-
-
-
-
-
-
 
 }
 
+/**
+ * @member {Number} my_number
+ */
+OuterComposite.prototype['my_number'] = undefined;
+
+/**
+ * @member {String} my_string
+ */
+OuterComposite.prototype['my_string'] = undefined;
+
+/**
+ * @member {Boolean} my_boolean
+ */
+OuterComposite.prototype['my_boolean'] = undefined;
+
+
+
+
+
+
+export default OuterComposite;
 
