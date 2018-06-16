@@ -18,8 +18,10 @@
 
 #include "OAIHelpers.h"
 #include "OAIModelFactory.h"
+#include "OAIQObjectWrapper.h"
 
 #include "OAIUserApiHandler.h"
+
 namespace OpenAPI {
 
 OAIUserApiHandler::OAIUserApiHandler(QObject *parent): QObject(parent){
@@ -31,144 +33,161 @@ OAIUserApiHandler::~OAIUserApiHandler(){
 
 void OAIUserApiHandler::createUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user";
+    
+    
+     
+    QJsonDocument doc;
+    socket->readJson(doc);
+    OAIUser *request = static_cast<OAIUser*>(create(QString(doc.toJson(QJsonDocument::Compact)), QString("OAIUser")));
+    auto wrapper = new OAIQObjectWrapper<OAIUser*> (request);
+    wrapper->deleteLater();
+    
 
-#if 0
-    // Request
-    OAIUser& oai_user
-
-#endif
     // Do something
 
-#if 0
-    // TODO Create Response
-#endif
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
 void OAIUserApiHandler::createUsersWithArrayInput(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/createWithArray";
+    
+    
+     
+    auto request = new QList<OAIUser*>;
+    QJsonDocument doc;
+    if(socket->readJson(doc)){
+        QJsonArray jsonArray = doc.array();
+        foreach(QJsonValue obj, jsonArray) {
+            OAIUser* o = new OAIUser();
+            QJsonObject jv = obj.toObject();
+            QJsonObject * ptr = (QJsonObject*)&jv;
+            o->fromJsonObject(*ptr);
+            auto wrapper = new OAIQObjectWrapper<OAIUser*> (o);
+            wrapper->deleteLater();
+            request->append(o);
+        }
+    }
+    auto wrapper = new OAIQObjectWrapper<QList<OAIUser*>*> (request);
+    wrapper->deleteLater();
+    
 
-#if 0
-    // Request
-    QList<OAIUser*>*& oai_user
-
-#endif
     // Do something
 
-#if 0
-    // TODO Create Response
-#endif
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
 void OAIUserApiHandler::createUsersWithListInput(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/createWithList";
+    
+    
+     
+    auto request = new QList<OAIUser*>;
+    QJsonDocument doc;
+    if(socket->readJson(doc)){
+        QJsonArray jsonArray = doc.array();
+        foreach(QJsonValue obj, jsonArray) {
+            OAIUser* o = new OAIUser();
+            QJsonObject jv = obj.toObject();
+            QJsonObject * ptr = (QJsonObject*)&jv;
+            o->fromJsonObject(*ptr);
+            auto wrapper = new OAIQObjectWrapper<OAIUser*> (o);
+            wrapper->deleteLater();
+            request->append(o);
+        }
+    }
+    auto wrapper = new OAIQObjectWrapper<QList<OAIUser*>*> (request);
+    wrapper->deleteLater();
+    
 
-#if 0
-    // Request
-    QList<OAIUser*>*& oai_user
-
-#endif
     // Do something
 
-#if 0
-    // TODO Create Response
-#endif
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
 void OAIUserApiHandler::deleteUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/{username}";
+    
+    
+    
+    QString username;   
+    toValue(pathparam, &username);
+    
 
-#if 0
-    // Request
-    QString* username
-
-#endif
     // Do something
 
-#if 0
-    // TODO Create Response
-#endif
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
 void OAIUserApiHandler::getUserByName(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/{username}";
+    
+    
+    
+    QString username;   
+    toValue(pathparam, &username);
+    
 
-#if 0
-    // Request
-    QString* username
-
-#endif
     // Do something
 
-#if 0
-    // TODO Create Response
-    QString json(worker->response);
-    OAIUser* output = static_cast<OAIUser*>(create(json, QString("OAIUser")));
-    auto wrapper = new OAIQObjectWrapper<OAIUser*> (output);
-    wrapper->deleteLater();
-#endif
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
 void OAIUserApiHandler::loginUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/login";
+    
+    
+    QString username;   
+    if(queries.keys().contains("username")){
+        toValue(queries.value("username"), &username);
+    }
+    
+    QString password;   
+    if(queries.keys().contains("password")){
+        toValue(queries.value("password"), &password);
+    }
+    
+    
 
-#if 0
-    // Request
-    QString* username, QString* password
-
-#endif
     // Do something
 
-#if 0
-    // TODO Create Response
-    QString json(worker->response);
-    QString* output = static_cast<QString*>(create(json, QString("QString")));
-    auto wrapper = new OAIQObjectWrapper<QString*> (output);
-    wrapper->deleteLater();
-#endif
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
 void OAIUserApiHandler::logoutUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/logout";
-
-#if 0
-    // Request
+    
+    
     
 
-#endif
     // Do something
 
-#if 0
-    // TODO Create Response
-#endif
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
 void OAIUserApiHandler::updateUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/user/{username}";
+    
+    
+    
+    QString username;   
+    toValue(pathparam, &username);
+     
+    QJsonDocument doc;
+    socket->readJson(doc);
+    OAIUser *request = static_cast<OAIUser*>(create(QString(doc.toJson(QJsonDocument::Compact)), QString("OAIUser")));
+    auto wrapper = new OAIQObjectWrapper<OAIUser*> (request);
+    wrapper->deleteLater();
+    
 
-#if 0
-    // Request
-    QString* username, OAIUser& oai_user
-
-#endif
     // Do something
 
-#if 0
-    // TODO Create Response
-#endif
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }

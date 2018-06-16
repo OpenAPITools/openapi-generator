@@ -46,6 +46,7 @@ To run the server
 Invoke an API
 ```
 curl -X GET http://localhost:8080/v2/store/inventory
+curl -X POST http://localhost:8080/v2/store/order -H "Content-Type: application/json" -d "{ \"id\": 22, \"petId\": 1541, \"quantity\": 5, \"shipDate\": \"2018-06-16T18:31:43.870Z\", \"status\": \"placed\", \"complete\": \"true\" }"
 ```
 
 ### Run and build with docker
@@ -62,6 +63,7 @@ Invoke an API
 Mind the IP here
 ```
 curl -X GET http://172.17.0.2:8080/v2/store/inventory
+curl -X POST http://localhost:8080/v2/store/order -H "Content-Type: application/json" -d "{ \"id\": 22, \"petId\": 1541, \"quantity\": 5, \"shipDate\": \"2018-06-16T18:31:43.870Z\", \"status\": \"placed\", \"complete\": \"true\" }"
 ```
 
 use this command to get the container IP

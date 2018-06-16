@@ -296,12 +296,14 @@ void ApiRouter::onNewRequest(QHttpEngine::Socket *socket){
         }
         socket->setStatusCode(QHttpEngine::Socket::NotFound);
         if(socket->isOpen()){
+            socket->writeHeaders();
             socket->close();
         }
         return;   
     } while(false);
     socket->writeHeaders();
     if(socket->isOpen()){
+        socket->writeHeaders();
         socket->close();
     }
     return;

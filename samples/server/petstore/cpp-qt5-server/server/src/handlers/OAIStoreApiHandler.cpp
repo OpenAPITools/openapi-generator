@@ -18,8 +18,10 @@
 
 #include "OAIHelpers.h"
 #include "OAIModelFactory.h"
+#include "OAIQObjectWrapper.h"
 
 #include "OAIStoreApiHandler.h"
+
 namespace OpenAPI {
 
 OAIStoreApiHandler::OAIStoreApiHandler(QObject *parent): QObject(parent){
@@ -31,87 +33,59 @@ OAIStoreApiHandler::~OAIStoreApiHandler(){
 
 void OAIStoreApiHandler::deleteOrder(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/order/{orderId}";
+    
+    
+    
+    QString order_id;   
+    toValue(pathparam, &order_id);
+    
 
-#if 0
-    // Request
-    QString* order_id
-
-#endif
     // Do something
 
-#if 0
-    // TODO Create Response
-#endif
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
 void OAIStoreApiHandler::getInventory(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/inventory";
-
-#if 0
-    // Request
+    
+    
     
 
-#endif
     // Do something
 
-#if 0
-    // TODO Create Response
-    QMap<QString, qint32>* output = new QMap<QString, qint32>();
-    QString json(worker->response);
-    QByteArray array (json.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
-    QJsonObject obj = doc.object();
-
-    foreach(QString key, obj.keys()) {
-        qint32 val;
-        setValue(&val, obj[key], "qint32", QString());
-        output->insert(key, val);
-    }
-#endif
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
 void OAIStoreApiHandler::getOrderById(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/order/{orderId}";
+    
+    
+    qint64 order_id;   
+    toValue(pathparam, &order_id);
+    
 
-#if 0
-    // Request
-    qint64 order_id
-
-#endif
     // Do something
 
-#if 0
-    // TODO Create Response
-    QString json(worker->response);
-    OAIOrder* output = static_cast<OAIOrder*>(create(json, QString("OAIOrder")));
-    auto wrapper = new OAIQObjectWrapper<OAIOrder*> (output);
-    wrapper->deleteLater();
-#endif
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
 }
 void OAIStoreApiHandler::placeOrder(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "/v2/store/order";
+    
+    
+     
+    QJsonDocument doc;
+    auto readstatus = socket->readJson(doc);
+    OAIOrder *request = static_cast<OAIOrder*>(create(QString(doc.toJson(QJsonDocument::Compact)), QString("OAIOrder")));
+    auto wrapper = new OAIQObjectWrapper<OAIOrder*> (request);
+    wrapper->deleteLater();
+    
 
-#if 0
-    // Request
-    OAIOrder& oai_order
-
-#endif
     // Do something
 
-#if 0
-    // TODO Create Response
-    QString json(worker->response);
-    OAIOrder* output = static_cast<OAIOrder*>(create(json, QString("OAIOrder")));
-    auto wrapper = new OAIQObjectWrapper<OAIOrder*> (output);
-    wrapper->deleteLater();
-#endif
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }

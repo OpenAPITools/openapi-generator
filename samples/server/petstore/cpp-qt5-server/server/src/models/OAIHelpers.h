@@ -29,6 +29,15 @@ namespace OpenAPI {
     QString stringValue(qint32 value);
     QString stringValue(qint64 value);
     QString stringValue(bool value);
+    QString stringValue(float value);
+    QString stringValue(double value);
+
+    bool toValue(QString inStr, QString *value);
+    bool toValue(QString inStr, qint32 *value);
+    bool toValue(QString inStr, qint64 *value);
+    bool toValue(QString inStr, bool *value);
+    bool toValue(QString inStr, float *value);
+    bool toValue(QString inStr, double *value);
 
 }
 

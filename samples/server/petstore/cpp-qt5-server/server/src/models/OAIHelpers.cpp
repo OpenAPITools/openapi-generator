@@ -582,4 +582,51 @@ stringValue(bool value) {
     return QString(value ? "true" : "false");
 }
 
+QString 
+stringValue(float value){
+    return QString::number(value);
+}
+
+QString 
+stringValue(double value){
+    return QString::number(value);
+}
+
+bool 
+toValue(QString inStr, QString *value){
+    value->clear();
+    value->append(inStr);
+    return true;
+}
+bool 
+toValue(QString inStr, qint32 *value){
+    bool ok = false;
+    *value = QVariant(inStr).toInt(&ok);
+    return ok;
+}
+bool 
+toValue(QString inStr, qint64 *value){
+    bool ok = false;
+    *value = QVariant(inStr).toLongLong(&ok);
+    return ok;
+}
+bool 
+toValue(QString inStr, bool *value){
+    *value = QVariant(inStr).toBool();
+    return (inStr == "true" || inStr == "false");
+}
+bool 
+toValue(QString inStr, float *value){
+    bool ok = false;
+    *value = QVariant(inStr).toFloat(&ok);
+    return ok;
+}
+bool 
+toValue(QString inStr, double *value){
+    bool ok = false;
+    *value = QVariant(inStr).toDouble(&ok);
+    return ok;
+}
+
+
 }

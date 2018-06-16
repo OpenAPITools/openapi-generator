@@ -7,8 +7,10 @@
 
 #include "{{prefix}}Helpers.h"
 #include "{{prefix}}ModelFactory.h"
+#include "{{prefix}}QObjectWrapper.h"
 
 #include "{{classname}}.h"
+
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
@@ -22,73 +24,79 @@ namespace {{this}} {
 
 {{#operations}}{{#operation}}void {{classname}}::{{nickname}}(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){
     qDebug() << "{{{basePathWithoutHost}}}{{{path}}}";
-
-#if 0
-    // Request
-    {{#allParams}}{{{dataType}}}{{#isBodyParam}}&{{/isBodyParam}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}
-
-#endif
-    // Do something
-
-#if 0
-    // TODO Create Response
-    {{#returnType}}
-    {{#isListContainer}}
-    {{{returnType}}} output = {{{defaultResponse}}};
-    QString json(worker->response);
-    QByteArray array (json.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
-    QJsonArray jsonArray = doc.array();
-    auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
-    wrapper->deleteLater();
-    foreach(QJsonValue obj, jsonArray) {
-        {{{returnBaseType}}}* o = new {{returnBaseType}}();
-        QJsonObject jv = obj.toObject();
-        QJsonObject * ptr = (QJsonObject*)&jv;
-        o->fromJsonObject(*ptr);
-        auto objwrapper = new {{prefix}}QObjectWrapper<{{{returnBaseType}}}*> (o);
-        objwrapper->deleteLater();
-        output->append(o);
+    
+    {{#queryParams}}{{queryParam}}{{^isContainer}}{{#isString}}
+    QString {{paramName}};{{/isString}}{{^isString}}{{dataType}} {{paramName}};{{/isString}}   
+    if(queries.keys().contains("{{paramName}}")){
+        toValue(queries.value("{{paramName}}"), &{{paramName}});
     }
+    {{/isContainer}}{{#isListContainer}}{{/isListContainer}}{{queryParam}}{{/queryParams}}
+    {{#pathParams}}{{#isString}}
+    QString {{paramName}};{{/isString}}{{^isString}}{{dataType}} {{paramName}};{{/isString}}   
+    toValue(pathparam, &{{paramName}});
+    {{/pathParams}}{{#bodyParams}} {{#bodyParam}}
+    {{#isListContainer}}
+    auto request = new {{baseType}}<{{items.baseType}}*>;
+    QJsonDocument doc;
+    if(socket->readJson(doc)){
+        QJsonArray jsonArray = doc.array();
+        foreach(QJsonValue obj, jsonArray) {
+            {{items.baseType}}* o = new {{items.baseType}}();
+            QJsonObject jv = obj.toObject();
+            QJsonObject * ptr = (QJsonObject*)&jv;
+            o->fromJsonObject(*ptr);
+            auto wrapper = new {{prefix}}QObjectWrapper<{{items.baseType}}*> (o);
+            wrapper->deleteLater();
+            request->append(o);
+        }
+    }
+    auto wrapper = new {{prefix}}QObjectWrapper<{{baseType}}<{{items.baseType}}*>*> (request);
+    wrapper->deleteLater();
     {{/isListContainer}}
     {{^isListContainer}}
     {{^isMapContainer}}
-    {{#returnTypeIsPrimitive}}
-    {{{returnType}}} output;  // TODO add primitive output support
-    {{#isByteArray}}auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
+    {{#isPrimitive}}
+    {{{baseType}}} request;
+    QJsonDocument doc;
+    socket->readJson(doc);
+    QJsonObject obj = doc.object();  
+    {{#isByteArray}}auto wrapper = new {{prefix}}QObjectWrapper<{{{baseType}}}> (request);
     wrapper->deleteLater();{{/isByteArray}}
-    {{#isDateTime}}auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
+    {{#isDateTime}}auto wrapper = new {{prefix}}QObjectWrapper<{{{baseType}}}> (request);
     wrapper->deleteLater();{{/isDateTime}}
-    {{#isDate}}auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
+    {{#isDate}}auto wrapper = new {{prefix}}QObjectWrapper<{{{baseType}}}> (request);
     wrapper->deleteLater();{{/isDate}}
-    {{#isString}}auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
+    {{#isString}}auto wrapper = new {{prefix}}QObjectWrapper<{{{baseType}}}> (request);
     wrapper->deleteLater();{{/isString}}
-    {{/returnTypeIsPrimitive}}
+    setValue(&request, obj, QString("{{{baseType}}}")), QString("{{{baseType}}}")))
+    {{/isPrimitive}}
     {{/isMapContainer}}
     {{#isMapContainer}}
-    {{{returnType}}} output = {{{defaultResponse}}};
-    QString json(worker->response);
-    QByteArray array (json.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
+    {{{dataType}}}  request;
+    QJsonDocument doc;
+    socket->readJson(doc);
     QJsonObject obj = doc.object();
-
+    auto request = new {{baseType}}<QString, {{items.baseType}}*>();    
     foreach(QString key, obj.keys()) {
-        {{returnBaseType}} val;
-        setValue(&val, obj[key], "{{returnBaseType}}", QString());
-        output->insert(key, val);
+        {{baseType}} val;
+        setValue(&val, obj[key], "{{baseType}}", QString());
+        request->insert(key, val);
     }
     {{/isMapContainer}}
     {{^isMapContainer}}
-    {{^returnTypeIsPrimitive}}
-    QString json(worker->response);
-    {{{returnType}}} output = static_cast<{{{returnType}}}>(create(json, QString("{{{returnBaseType}}}")));
-    auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
+    {{^isPrimitive}}
+    QJsonDocument doc;
+    socket->readJson(doc);
+    {{{dataType}}} *request = static_cast<{{{dataType}}}*>(create(QString(doc.toJson(QJsonDocument::Compact)), QString("{{{baseType}}}")));
+    auto wrapper = new {{prefix}}QObjectWrapper<{{{dataType}}}*> (request);
     wrapper->deleteLater();
-    {{/returnTypeIsPrimitive}}
+    {{/isPrimitive}}
     {{/isMapContainer}}
-    {{/isListContainer}}
-    {{/returnType}}
-#endif
+    {{/isListContainer}}        
+    {{/bodyParam}}{{/bodyParams}}
+
+    // Do something
+
     foreach(QString key, this->defaultHeaders.keys()) {
         socket->setHeader(key.toUtf8(), this->defaultHeaders.value(key).toUtf8());
     }
