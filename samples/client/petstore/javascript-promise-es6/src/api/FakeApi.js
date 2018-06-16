@@ -60,7 +60,7 @@ export default class FakeApi {
       let authNames = [];
       let contentTypes = [];
       let accepts = ['*/*'];
-      let returnType = Boolean;
+      let returnType = 'Boolean';
 
       return this.apiClient.callApi(
         '/fake/outer/boolean', 'POST',
@@ -152,7 +152,7 @@ export default class FakeApi {
       let authNames = [];
       let contentTypes = [];
       let accepts = ['*/*'];
-      let returnType = Number;
+      let returnType = 'Number';
 
       return this.apiClient.callApi(
         '/fake/outer/number', 'POST',
@@ -198,7 +198,7 @@ export default class FakeApi {
       let authNames = [];
       let contentTypes = [];
       let accepts = ['*/*'];
-      let returnType = String;
+      let returnType = 'String';
 
       return this.apiClient.callApi(
         '/fake/outer/string', 'POST',

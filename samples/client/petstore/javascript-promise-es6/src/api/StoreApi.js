@@ -107,7 +107,7 @@ export default class StoreApi {
       let authNames = ['api_key'];
       let contentTypes = [];
       let accepts = ['application/json'];
-      let returnType = {String: Number};
+      let returnType = {'String': 'Number'};
 
       return this.apiClient.callApi(
         '/store/inventory', 'GET',

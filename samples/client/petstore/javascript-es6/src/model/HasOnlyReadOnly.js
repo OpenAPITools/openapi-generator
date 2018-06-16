@@ -11,50 +11,41 @@
  *
  */
 
-
 import ApiClient from '../ApiClient';
 
-
-
-
-
 /**
-* The HasOnlyReadOnly model module.
-* @module model/HasOnlyReadOnly
-* @version 1.0.0
-*/
-export default class HasOnlyReadOnly {
+ * The HasOnlyReadOnly model module.
+ * @module model/HasOnlyReadOnly
+ * @version 1.0.0
+ */
+class HasOnlyReadOnly {
     /**
-    * Constructs a new <code>HasOnlyReadOnly</code>.
-    * @alias module:model/HasOnlyReadOnly
-    * @class
-    */
-
-    constructor() {
+     * Constructs a new <code>HasOnlyReadOnly</code>.
+     * @alias module:model/HasOnlyReadOnly
+     */
+    constructor() { 
         
-
-        
-        
-
-        
-
-        
+        HasOnlyReadOnly.initialize(this);
     }
 
     /**
-    * Constructs a <code>HasOnlyReadOnly</code> from a plain JavaScript object, optionally creating a new instance.
-    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-    * @param {Object} data The plain JavaScript object bearing properties of interest.
-    * @param {module:model/HasOnlyReadOnly} obj Optional instance to populate.
-    * @return {module:model/HasOnlyReadOnly} The populated <code>HasOnlyReadOnly</code> instance.
-    */
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+    }
+
+    /**
+     * Constructs a <code>HasOnlyReadOnly</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/HasOnlyReadOnly} obj Optional instance to populate.
+     * @return {module:model/HasOnlyReadOnly} The populated <code>HasOnlyReadOnly</code> instance.
+     */
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new HasOnlyReadOnly();
-
-            
-            
-            
 
             if (data.hasOwnProperty('bar')) {
                 obj['bar'] = ApiClient.convertToType(data['bar'], 'String');
@@ -66,22 +57,23 @@ export default class HasOnlyReadOnly {
         return obj;
     }
 
-    /**
-    * @member {String} bar
-    */
-    bar = undefined;
-    /**
-    * @member {String} foo
-    */
-    foo = undefined;
-
-
-
-
-
-
-
 
 }
 
+/**
+ * @member {String} bar
+ */
+HasOnlyReadOnly.prototype['bar'] = undefined;
+
+/**
+ * @member {String} foo
+ */
+HasOnlyReadOnly.prototype['foo'] = undefined;
+
+
+
+
+
+
+export default HasOnlyReadOnly;
 

@@ -986,6 +986,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 }
                 String jsdocType = getJSDocType(operation);
                 operation.vendorExtensions.put("x-jsdoc-type", jsdocType);
+
+                // Format the return type correctly
+                if (operation.returnType != null) {
+                    operation.vendorExtensions.put("x-return-type", normalizeType(operation.returnType));
+                }
             }
         }
         return objs;
