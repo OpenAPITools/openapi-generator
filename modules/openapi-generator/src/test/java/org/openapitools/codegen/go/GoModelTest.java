@@ -238,7 +238,7 @@ public class GoModelTest {
         Assert.assertEquals(cm.imports.size(), 1);
     }
 
-    @Test(description = "convert an map model")
+    @Test(description = "convert a map model")
     public void mapModelTest() {
         final Schema model = new Schema()
                 .additionalProperties(new Schema().$ref("#/definitions/Children"))
