@@ -22,7 +22,6 @@ import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache.Compiler;
 
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.headers.Header;
@@ -47,6 +46,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -210,7 +210,7 @@ public class DefaultCodegen implements CodegenConfig {
             for (String name : allModels.keySet()) {
                 CodegenModel cm = allModels.get(name);
                 CodegenModel parent = allModels.get(cm.getParent());
-                // if a discriminator exists on the parent, don't add this child to the inheritance heirarchy
+                // if a discriminator exists on the parent, don't add this child to the inheritance hierarchy
                 // TODO Determine what to do if the parent discriminator name == the grandparent discriminator name
                 while (parent != null) {
                     if (parent.getChildren() == null) {
@@ -1201,7 +1201,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     private static String getPrimitiveType(Schema schema) {
         if (schema == null) {
-            throw new RuntimeException("schema cannnot be null in getPrimitiveType");
+            throw new RuntimeException("schema cannot be null in getPrimitiveType");
         } else if (ModelUtils.isStringSchema(schema) && "number".equals(schema.getFormat())) {
             // special handle of type: string, format: number
             return "BigDecimal";
@@ -1300,7 +1300,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Determine the type alias for the given type if it exists. This feature
-     * was original developed for Java because the language does not have a aliasing
+     * was originally developed for Java because the language does not have an aliasing
      * mechanism of its own but later extends to handle other languages
      *
      * @param name The type name.
@@ -1533,36 +1533,6 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging fromModel return: " + m);
 
         return m;
-    }
-
-    /**
-     * Recursively look for a discriminator in the interface tree
-     *
-     * @param schema         composed schema
-     * @param allDefinitions all schema defintion
-     * @return true if it's a discriminator
-     */
-    private boolean isDiscriminatorInInterfaceTree(ComposedSchema schema, Map<String, Schema> allDefinitions) {
-        if (schema == null || allDefinitions == null || allDefinitions.isEmpty()) {
-            return false;
-        }
-        if (schema.getDiscriminator() != null) {
-            return true;
-        }
-        final List<Schema> interfaces = getInterfaces(schema);
-        if (interfaces == null) {
-            return false;
-        }
-        for (Schema interfaceSchema : interfaces) {
-            if (interfaceSchema.getDiscriminator() != null) {
-                return true;
-            }
-            // TODO revise the logic below
-            if (interfaceSchema instanceof ComposedSchema) {
-                return isDiscriminatorInInterfaceTree((ComposedSchema) interfaceSchema, allDefinitions);
-            }
-        }
-        return false;
     }
 
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
@@ -2085,7 +2055,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (operation == null)
-            throw new RuntimeException("operation cannnot be null in fromOperation");
+            throw new RuntimeException("operation cannot be null in fromOperation");
 
         // store the original operationId for plug-in
         op.operationIdOriginal = operation.getOperationId();
@@ -2801,12 +2771,13 @@ public class DefaultCodegen implements CodegenConfig {
                 cs.isApiKey = true;
                 cs.keyParamName = securityScheme.getName();
                 cs.isKeyInHeader = securityScheme.getIn() == SecurityScheme.In.HEADER;
-                cs.isKeyInQuery = !cs.isKeyInHeader;
+                cs.isKeyInQuery = securityScheme.getIn() == SecurityScheme.In.QUERY;
+                cs.isKeyInCookie = securityScheme.getIn() == SecurityScheme.In.COOKIE;  //it assumes a validation step prior to generation. (cookie-auth supported from OpenAPI 3.0.0)
             } else if (SecurityScheme.Type.HTTP.equals(securityScheme.getType())) {
-                cs.isKeyInHeader = cs.isKeyInQuery = cs.isApiKey = cs.isOAuth = false;
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = false;
                 cs.isBasic = true;
             } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
-                cs.isKeyInHeader = cs.isKeyInQuery = cs.isApiKey = cs.isBasic = false;
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
                 cs.isOAuth = true;
                 final OAuthFlows flows = securityScheme.getFlows();
                 if (securityScheme.getFlows() == null) {
@@ -2952,20 +2923,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 if (i < objs.size() - 1) {
                     objs.get(i).hasMore = true;
-                }
-            }
-        }
-        return objs;
-    }
-
-    private static Map<String, Object> addHasMore(Map<String, Object> objs) {
-        if (objs != null) {
-            for (int i = 0; i < objs.size() - 1; i++) {
-                if (i > 0) {
-                    objs.put("secondaryParam", true);
-                }
-                if (i < objs.size() - 1) {
-                    objs.put("hasMore", true);
                 }
             }
         }
@@ -3896,7 +3853,7 @@ public class DefaultCodegen implements CodegenConfig {
         RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
 
         if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
-            return Collections.emptySet(); // return emtpy set
+            return Collections.emptySet(); // return empty set
         }
         return requestBody.getContent().keySet();
     }
@@ -3989,19 +3946,6 @@ public class DefaultCodegen implements CodegenConfig {
         return produces;
     }
 
-    protected Schema detectParent(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
-        if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
-            Schema schema = composedSchema.getAllOf().get(0);
-            String ref = schema.get$ref();
-            if (StringUtils.isBlank(ref)) {
-                return null;
-            }
-            ref = ModelUtils.getSimpleRef(ref);
-            return allSchemas.get(ref);
-        }
-        return null;
-    }
-
     protected String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
         if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
             Schema schema = composedSchema.getAllOf().get(0);
@@ -4031,12 +3975,6 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             return null;
         }
-    }
-
-    // TODO do we still need the methdo below?
-    protected static boolean hasSchemaProperties(Schema schema) {
-        final Object additionalProperties = schema.getAdditionalProperties();
-        return additionalProperties != null && additionalProperties instanceof Schema;
     }
 
     public CodegenType getTag() {
@@ -4311,7 +4249,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (schema.getAdditionalProperties() != null) {// http body is map
                     LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
                 } else if (codegenProperty != null) {
-                    LOGGER.warn("The folowing schema has undefined (null) baseType. " +
+                    LOGGER.warn("The following schema has undefined (null) baseType. " +
                             "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
                             "A correct 'consumes' for form parameters should be " +
                             "'application/x-www-form-urlencoded' or 'multipart/form-data'");
@@ -4362,10 +4300,6 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
-    protected void addOption(String key, String description) {
-        addOption(key, description, null);
-    }
-
     protected void addOption(String key, String description, String defaultValue) {
         CliOption option = new CliOption(key, description);
         if (defaultValue != null)
@@ -4403,12 +4337,9 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public void generateYAMLSpecFile(Map<String, Object> objs) {
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
-        if (openAPI != null) {
-            try {
-                objs.put("openapi-yaml", Yaml.mapper().writeValueAsString(openAPI));
-            } catch (JsonProcessingException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
+        String yaml = SerializerUtils.toYamlString(openAPI);
+        if(yaml != null) {
+            objs.put("openapi-yaml", yaml);
         }
     }
 
