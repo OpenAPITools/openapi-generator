@@ -1,3 +1,20 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ * Copyright 2018 SmartBear Software
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
@@ -12,7 +29,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class JavascriptFlowtypedCodegen extends AbstractTypeScriptClientCodegen {
+public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
 
     public static final String NPM_NAME = "npmName";
@@ -24,7 +41,7 @@ public class JavascriptFlowtypedCodegen extends AbstractTypeScriptClientCodegen 
     protected String npmVersion = "1.0.0";
     protected String npmRepository = null;
 
-    public JavascriptFlowtypedCodegen() {
+    public JavascriptFlowtypedClientCodegen() {
         super();
 
         // clear import mapping (from default generator) as TS does not use it
@@ -78,7 +95,8 @@ public class JavascriptFlowtypedCodegen extends AbstractTypeScriptClientCodegen 
         typeMapping.put("double", "number");
         typeMapping.put("object", "Object");
         typeMapping.put("integer", "number");
-        // binary not supported in JavaScript client right now, using String as a workaround
+        // file, binary not supported in JS client right now, using String as a workaround
+        typeMapping.put("file", "string");
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
@@ -177,7 +195,7 @@ public class JavascriptFlowtypedCodegen extends AbstractTypeScriptClientCodegen 
 
         // default values
         if (StringUtils.isBlank(npmName)) {
-            npmName = "swagger-js-client";
+            npmName = "openapi-js-client";
         }
         if (StringUtils.isBlank(npmVersion)) {
             npmVersion = "1.0.0";
@@ -233,7 +251,7 @@ public class JavascriptFlowtypedCodegen extends AbstractTypeScriptClientCodegen 
 
     @Override
     public String getHelp() {
-        return "Generates a Javascript client library using Flow types and Fetch API.";
+        return "Generates a Javascript client library (beta) using Flow types and Fetch API.";
     }
 
     public String getNpmName() {
