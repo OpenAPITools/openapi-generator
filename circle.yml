@@ -75,8 +75,8 @@ jobs:
 #          exclusive: false
 #    - run: docker pull openapitools/openapi-petstore
 #    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 80:8080 openapitools/openapi-petstore
-    - docker pull swaggerapi/petstore
-    - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+    - run: docker pull swaggerapi/petstore
+    - run: docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
     - run: docker ps -a
     - run: sleep 30
     - run: cat /etc/hosts
