@@ -1,11 +1,3 @@
-# This configuration was automatically generated from a CircleCI 1.0 config.
-# It should include any build commands you had along with commands that CircleCI
-# inferred from your project structure. We strongly recommend you read all the
-# comments in this file to understand the structure of CircleCI 2.0, as the idiom
-# for configuration has changed substantially in 2.0 to allow arbitrary jobs rather
-# than the prescribed lifecycle of 1.0. In general, we recommend using this generated
-# configuration as a reference rather than using it in production, though in most
-# cases it should duplicate the execution of your original 1.0 config.
 version: 2
 jobs:
   build:
@@ -19,10 +11,6 @@ jobs:
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
       DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
       DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
-    # https://circleci.com/docs/2.0/circleci-images/
-    #docker:
-    #- image: circleci/build-image:ubuntu-14.04-XXL-upstart-1189-5614f37
-    #  command: /sbin/init
     steps:
     # Machine Setup
     #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
@@ -44,35 +32,17 @@ jobs:
     # Dependencies
     #   This would typically go in either a build or a build-and-test job when using workflows
     # Restore the dependency cache
-#    - restore_cache:
-#        keys:
-#        # This branch if available
-#        - v1-dep-{{ .Branch }}-
-#        # Default branch if not
-#        - v1-dep-master-
-#        # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
-#        - v1-dep-
-#    # start petstore server (mvn jetty)
-#    - run:
-#       working_directory: ~/
-#       command: git clone https://github.com/wing328/swagger-samples
-#    - run:
-#       working_directory: ~/swagger-samples\java\java-jersey-jaxrs-ci
-#       command: mvn jetty:run &
+    - restore_cache:
+        keys:
+        # This branch if available
+        - v1-dep-{{ .Branch }}-
+        # Default branch if not
+        - v1-dep-master-
     # This is based on your 1.0 configuration file or project settings
     - run: sudo add-apt-repository ppa:duggan/bats --yes
     - run: sudo apt-get update -qq
     - run: sudo apt-get install -qq bats
     - run: sudo apt-get install -qq curl
-#    - run:
-#        name: Install Docker Compose
-#        command: |
-#          curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-#          chmod +x ~/docker-compose
-#          sudo mv ~/docker-compose /usr/local/bin/docker-compose
-#    - setup_remote_docker:
-#          reusable: true
-#          exclusive: false
 #    - run: docker pull openapitools/openapi-petstore
 #    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 80:8080 openapitools/openapi-petstore
     - run: docker pull swaggerapi/petstore
@@ -84,7 +54,7 @@ jobs:
     - run: cp CI/pom.xml.circleci pom.xml
     # Save dependency cache
     - save_cache:
-        key: v1-dep-{{ .Branch }}-{{ epoch }}
+        key: v1-dep-{{ .Branch }}
         paths:
         # This is a broad list of cache paths to include many possible development environments
         # You can probably delete some of these entries
