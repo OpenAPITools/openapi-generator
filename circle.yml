@@ -62,24 +62,31 @@ jobs:
         - v1-dep-master-
         # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
         - v1-dep-
+#    # start petstore server (mvn jetty)
+#    - run:
+#       working_directory: ~/
+#       command: git clone https://github.com/wing328/swagger-samples
+#    - run:
+#       working_directory: ~/swagger-samples\java\java-jersey-jaxrs-ci
+#       command: mvn jetty:run &
     # This is based on your 1.0 configuration file or project settings
     - run: sudo add-apt-repository ppa:duggan/bats --yes
     - run: sudo apt-get update -qq
     - run: sudo apt-get install -qq bats
     - run: sudo apt-get install -qq curl
-    #- run:
-    #    name: Install Docker Compose
-    #    command: |
-    #      curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-    #      chmod +x ~/docker-compose
-    #      sudo mv ~/docker-compose /usr/local/bin/docker-compose
-    #- setup_remote_docker:
-    #      reusable: true
-    #      exclusive: false
-    #- run: docker-compose up -d
-    - run: docker pull swaggerapi/petstore
-    - run: docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+#    - run:
+#        name: Install Docker Compose
+#        command: |
+#          curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+#          chmod +x ~/docker-compose
+#          sudo mv ~/docker-compose /usr/local/bin/docker-compose
+#    - setup_remote_docker:
+#          reusable: true
+#          exclusive: false
+    #- run: docker pull openapitools/openapi-petstore
+    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 8080:8080 openapitools/openapi-petstore
     - run: docker ps -a
+    - run: sleep 10
     - run: cat /etc/hosts
     # This is based on your 1.0 configuration file or project settings
     - run: cp CI/pom.xml.circleci pom.xml

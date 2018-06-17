@@ -833,6 +833,8 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <!-- test non-java projects -->
+                <module>samples/client/petstore/go</module>
                 <!-- test java-related projects -->
                 <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/scala</module>
@@ -855,8 +857,6 @@
                 <module>samples/client/petstore/kotlin/</module>
                 <module>samples/client/petstore/kotlin-threetenbp/</module>
                 <module>samples/client/petstore/kotlin-string/</module>
-                <!-- test non-java projects -->
-                <module>samples/client/petstore/go</module>
                 <!-- servers -->
                 <module>samples/server/petstore/java-vertx/rx</module>
                 <module>samples/server/petstore/java-vertx/async</module>
