@@ -40,14 +40,49 @@
 #include <QStringList>
 #include <QSharedPointer>
 #include <QObject>
-
+#ifdef __linux__ 
+#include <signal.h>
+#include <unistd.h>
+#endif 
 #include <qhttpengine/server.h>
 #include "OAIapirouter.h"
+
+#ifdef __linux__ 
+void ignoreUnixSignals(QList<int> ignoreSignals) {
+    // all these signals will be ignored.
+    for (int sig : ignoreSignals)
+        signal(sig, SIG_IGN);
+}
+
+void catchUnixSignals(QList<int> quitSignals) {
+    auto handler = [](int sig) -> void {
+        // blocking and not aysnc-signal-safe func are valid
+        qDebug() << "\nquit the application by signal(%d)" << sig;
+        QCoreApplication::quit();
+    };
+    
+    sigset_t blocking_mask;   
+    sigemptyset(&blocking_mask);  
+    for (auto sig : quitSignals) 
+        sigaddset(&blocking_mask, sig);  
+        
+    struct sigaction sa;   
+    sa.sa_handler = handler;   
+    sa.sa_mask    = blocking_mask;  
+    sa.sa_flags   = 0;    
+    
+    for (auto sig : quitSignals)   
+        sigaction(sig, &sa, nullptr);
+}
+#endif 
 
 int main(int argc, char * argv[])
 {
     QCoreApplication a(argc, argv);
-
+#ifdef __linux__ 
+    QList<int> sigs({SIGQUIT, SIGINT, SIGTERM, SIGHUP});
+    catchUnixSignals(sigs);
+#endif      
     // Build the command-line options
     QCommandLineParser parser;
     QCommandLineOption addressOption(
