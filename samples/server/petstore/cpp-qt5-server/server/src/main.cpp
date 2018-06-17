@@ -48,16 +48,10 @@
 #include "OAIapirouter.h"
 
 #ifdef __linux__ 
-void ignoreUnixSignals(QList<int> ignoreSignals) {
-    // all these signals will be ignored.
-    for (int sig : ignoreSignals)
-        signal(sig, SIG_IGN);
-}
-
 void catchUnixSignals(QList<int> quitSignals) {
     auto handler = [](int sig) -> void {
         // blocking and not aysnc-signal-safe func are valid
-        qDebug() << "\nquit the application by signal(%d)" << sig;
+        qDebug() << "\nquit the application by signal " << sig;
         QCoreApplication::quit();
     };
     
