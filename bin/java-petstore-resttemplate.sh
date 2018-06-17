@@ -35,7 +35,7 @@ find samples/client/petstore/java/resttemplate -maxdepth 1 -type f ! -name "READ
 java $JAVA_OPTS -jar $executable $ags
 
 # copy additional manually written unit-tests
-cp CI/samples.ci/client/petstore/java/test-manual/resttemplate/ApiClientTest.java samples/client/petstore/java/resttemplate/src/test/java/org/openapitools/client/ApiClientTest.java
-cp CI/samples.ci/client/petstore/java/test-manual/resttemplate/auth/ApiKeyAuthTest.java samples/client/petstore/java/resttemplate/src/test/java/org/openapitools/client/auth/ApiKeyAuthTest.java
-cp CI/samples.ci/client/petstore/java/test-manual/resttemplate/auth/HttpBasicAuthTest.java samples/client/petstore/java/resttemplate/src/test/java/org/openapitools/client/auth/HttpBasicAuthTest.java
-cp CI/samples.ci/client/petstore/java/test-manual/resttemplate/model/EnumValueTest.java samples/client/petstore/java/resttemplate/src/test/java/org/openapitools/client/model/EnumValueTest.java
+mkdir -p samples/client/petstore/java/resttemplate/src/test/java/org/openapitools/client && cp CI/samples.ci/client/petstore/java/test-manual/resttemplate/ApiClientTest.java $_
+mkdir -p samples/client/petstore/java/resttemplate/src/test/java/org/openapitools/client/auth && cp CI/samples.ci/client/petstore/java/test-manual/resttemplate/auth/ApiKeyAuthTest.java $_
+mkdir -p samples/client/petstore/java/resttemplate/src/test/java/org/openapitools/client/auth && cp CI/samples.ci/client/petstore/java/test-manual/resttemplate/auth/HttpBasicAuthTest.java $_
+mkdir -p samples/client/petstore/java/resttemplate/src/test/java/org/openapitools/client/model && cp CI/samples.ci/client/petstore/java/test-manual/resttemplate/model/EnumValueTest.java $_
