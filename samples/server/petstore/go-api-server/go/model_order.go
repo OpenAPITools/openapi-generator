@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-// An order for a pets from the pet store
+// Order - An order for a pets from the pet store
 type Order struct {
 
 	Id int64 `json:"id,omitempty"`
