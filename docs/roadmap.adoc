@@ -1,5 +1,12 @@
 == Roadmap
 
+This document lists short-term, medium-term, and long-term goals for the project.
+
+[NOTE]
+====
+These are goals, not necessarily commitments. The sections are not intended to represent exclusive focus during these terms. For example, when you start at a college or university you may have a long-term goal to graduate and a short-term goal to find a job for supplemental income. We will similarly work toward many of our medium-term and long-term goals in the near future as we move toward meeting our short-term goals.
+====
+
 === Short-term
 
 > Usability, stability, and marketing.
