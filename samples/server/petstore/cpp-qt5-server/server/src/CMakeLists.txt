@@ -5,8 +5,18 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
-set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fPIC -Wall -pg -g3 -Wno-unused-variable")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -std=c++14 -Wall -pg -g3 -Wno-unused-variable")
+OPTION(NODEBUG  "Deactivate No debugging option" "OFF")
+
+set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fPIC -Wall -Wno-unused-variable")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -std=c++14 -Wall -Wno-unused-variable")
+
+if(${NODEBUG} STREQUAL "OFF")
+set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -pg -g3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg -g3")
+else (${NODEBUG} STREQUAL "OFF") 
+set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -s -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s -O3")
+endif(${NODEBUG} STREQUAL "OFF")
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Network REQUIRED)

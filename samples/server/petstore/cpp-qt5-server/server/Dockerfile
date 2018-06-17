@@ -1,33 +1,26 @@
-FROM debian:stretch-slim AS build
+FROM alpine:latest AS build
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
+RUN apk add --update \   
         cmake \
-        git \
-        build-essential \
-        libssl-dev \        
-        qtbase5-dev \       
-        qtbase5-dev-tools \
-        ca-certificates 
-RUN rm -rf /var/lib/apt/lists/*
- 
+        alpine-sdk \
+        openssl \        
+        qt5-qtbase-dev \       
+        qt5-qttools-dev 
+
 WORKDIR /usr/server
 ADD ./src ./src
 ADD ./CMakeLists.txt ./
 RUN mkdir -p ./build
 WORKDIR /usr/server/build
-RUN cmake ..
+RUN cmake  -DNODEBUG:STRING="ON" ..
 RUN make 
 
-FROM debian:stretch-slim AS runtime
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        libc6 \
-        libstdc++6  \
-        libqt5core5a \
-        libqt5network5 \
-        libssl1.1
-RUN rm -rf /var/lib/apt/lists/*
+FROM alpine:latest AS runtime
+RUN apk add --update \    
+        libgcc  \
+        libstdc++  \
+        qt5-qtbase \
+        openssl
 
 WORKDIR /usr/server
 COPY --from=build /usr/server/build/src/cpp-qt5-server ./build/src/
