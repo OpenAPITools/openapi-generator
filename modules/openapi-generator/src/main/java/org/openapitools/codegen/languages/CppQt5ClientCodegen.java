@@ -92,7 +92,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        embeddedTemplateDir = templateDir = "qt5cpp";
+        embeddedTemplateDir = templateDir = "cpp-qt5-client";
 
         // CLI options
         addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
