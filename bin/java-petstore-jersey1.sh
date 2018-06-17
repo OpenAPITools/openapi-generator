@@ -39,3 +39,4 @@ cp CI/samples.ci/client/petstore/java/test-manual/common/StringUtilTest.java sam
 cp CI/samples.ci/client/petstore/java/test-manual/jersey1/ApiClientTest.java samples/client/petstore/java/jersey1/src/test/java/org/openapitools/client/ApiClientTest.java
 cp CI/samples.ci/client/petstore/java/test-manual/common/ConfigurationTest.java samples/client/petstore/java/jersey1/src/test/java/org/openapitools/client/ConfigurationTest.java
 cp CI/samples.ci/client/petstore/java/test-manual/jersey1/auth/ApiKeyAuthTest.java samples/client/petstore/java/jersey1/src/test/java/org/openapitools/client/auth/ApiKeyAuthTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/jersey1/auth/HttpBasicAuthTest.java samples/client/petstore/java/jersey1/src/test/java/org/openapitools/client/auth/HttpBasicAuthTest.java

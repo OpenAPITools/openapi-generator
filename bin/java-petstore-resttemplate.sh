@@ -37,3 +37,4 @@ java $JAVA_OPTS -jar $executable $ags
 # copy additional manually written unit-tests
 cp CI/samples.ci/client/petstore/java/test-manual/resttemplate/ApiClientTest.java samples/client/petstore/java/resttemplate/src/test/java/org/openapitools/client/ApiClientTest.java
 cp CI/samples.ci/client/petstore/java/test-manual/resttemplate/auth/ApiKeyAuthTest.java samples/client/petstore/java/resttemplate/src/test/java/org/openapitools/client/auth/ApiKeyAuthTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/resttemplate/auth/HttpBasicAuthTest.java samples/client/petstore/java/resttemplate/src/test/java/org/openapitools/client/auth/HttpBasicAuthTest.java
