@@ -76,7 +76,7 @@ jobs:
     #- run: docker pull openapitools/openapi-petstore
     - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 8080:8080 openapitools/openapi-petstore
     - run: docker ps -a
-    - run: sleep 10
+    - run: sleep 30
     - run: cat /etc/hosts
     # This is based on your 1.0 configuration file or project settings
     - run: cp CI/pom.xml.circleci pom.xml
