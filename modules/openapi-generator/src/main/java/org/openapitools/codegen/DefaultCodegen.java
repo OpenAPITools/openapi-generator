@@ -210,7 +210,7 @@ public class DefaultCodegen implements CodegenConfig {
             for (String name : allModels.keySet()) {
                 CodegenModel cm = allModels.get(name);
                 CodegenModel parent = allModels.get(cm.getParent());
-                // if a discriminator exists on the parent, don't add this child to the inheritance heirarchy
+                // if a discriminator exists on the parent, don't add this child to the inheritance hierarchy
                 // TODO Determine what to do if the parent discriminator name == the grandparent discriminator name
                 while (parent != null) {
                     if (parent.getChildren() == null) {
@@ -1201,7 +1201,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     private static String getPrimitiveType(Schema schema) {
         if (schema == null) {
-            throw new RuntimeException("schema cannnot be null in getPrimitiveType");
+            throw new RuntimeException("schema cannot be null in getPrimitiveType");
         } else if (ModelUtils.isStringSchema(schema) && "number".equals(schema.getFormat())) {
             // special handle of type: string, format: number
             return "BigDecimal";
@@ -1300,7 +1300,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Determine the type alias for the given type if it exists. This feature
-     * was original developed for Java because the language does not have a aliasing
+     * was originally developed for Java because the language does not have an aliasing
      * mechanism of its own but later extends to handle other languages
      *
      * @param name The type name.
@@ -2055,7 +2055,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (operation == null)
-            throw new RuntimeException("operation cannnot be null in fromOperation");
+            throw new RuntimeException("operation cannot be null in fromOperation");
 
         // store the original operationId for plug-in
         op.operationIdOriginal = operation.getOperationId();
@@ -3853,7 +3853,7 @@ public class DefaultCodegen implements CodegenConfig {
         RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
 
         if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
-            return Collections.emptySet(); // return emtpy set
+            return Collections.emptySet(); // return empty set
         }
         return requestBody.getContent().keySet();
     }
@@ -4249,7 +4249,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (schema.getAdditionalProperties() != null) {// http body is map
                     LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
                 } else if (codegenProperty != null) {
-                    LOGGER.warn("The folowing schema has undefined (null) baseType. " +
+                    LOGGER.warn("The following schema has undefined (null) baseType. " +
                             "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
                             "A correct 'consumes' for form parameters should be " +
                             "'application/x-www-form-urlencoded' or 'multipart/form-data'");
