@@ -92,11 +92,11 @@ public class ModelUtilsTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/unusedSchemas.yaml", null, new ParseOptions()).getOpenAPI();
         List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         Assert.assertEquals(unusedSchemas.size(), 3);
-        //SomeObj2 is only used in a 'application/x-www-form-urlencoded' request
+        //SomeObj2 is only used in an 'application/x-www-form-urlencoded' request
         Assert.assertTrue(unusedSchemas.contains("SomeObj2"), "contains 'SomeObj2'");
         //SomeObj3 is only used in a 'multipart/form-data' request
         Assert.assertTrue(unusedSchemas.contains("SomeObj3"), "contains 'SomeObj3'");
-        //SomeObj7 is only used in a 'application/x-www-form-urlencoded' request (with referenced request body)
+        //SomeObj7 is only used in an 'application/x-www-form-urlencoded' request (with referenced request body)
         Assert.assertTrue(unusedSchemas.contains("SomeObj7"), "contains 'SomeObj7'");
     }
 

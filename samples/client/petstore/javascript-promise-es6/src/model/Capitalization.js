@@ -11,50 +11,41 @@
  *
  */
 
-
 import ApiClient from '../ApiClient';
 
-
-
-
-
 /**
-* The Capitalization model module.
-* @module model/Capitalization
-* @version 1.0.0
-*/
-export default class Capitalization {
+ * The Capitalization model module.
+ * @module model/Capitalization
+ * @version 1.0.0
+ */
+class Capitalization {
     /**
-    * Constructs a new <code>Capitalization</code>.
-    * @alias module:model/Capitalization
-    * @class
-    */
-
-    constructor() {
+     * Constructs a new <code>Capitalization</code>.
+     * @alias module:model/Capitalization
+     */
+    constructor() { 
         
-
-        
-        
-
-        
-
-        
+        Capitalization.initialize(this);
     }
 
     /**
-    * Constructs a <code>Capitalization</code> from a plain JavaScript object, optionally creating a new instance.
-    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-    * @param {Object} data The plain JavaScript object bearing properties of interest.
-    * @param {module:model/Capitalization} obj Optional instance to populate.
-    * @return {module:model/Capitalization} The populated <code>Capitalization</code> instance.
-    */
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+    }
+
+    /**
+     * Constructs a <code>Capitalization</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Capitalization} obj Optional instance to populate.
+     * @return {module:model/Capitalization} The populated <code>Capitalization</code> instance.
+     */
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new Capitalization();
-
-            
-            
-            
 
             if (data.hasOwnProperty('smallCamel')) {
                 obj['smallCamel'] = ApiClient.convertToType(data['smallCamel'], 'String');
@@ -78,39 +69,44 @@ export default class Capitalization {
         return obj;
     }
 
-    /**
-    * @member {String} smallCamel
-    */
-    smallCamel = undefined;
-    /**
-    * @member {String} CapitalCamel
-    */
-    CapitalCamel = undefined;
-    /**
-    * @member {String} small_Snake
-    */
-    small_Snake = undefined;
-    /**
-    * @member {String} Capital_Snake
-    */
-    Capital_Snake = undefined;
-    /**
-    * @member {String} SCA_ETH_Flow_Points
-    */
-    SCA_ETH_Flow_Points = undefined;
-    /**
-    * Name of the pet 
-    * @member {String} ATT_NAME
-    */
-    ATT_NAME = undefined;
-
-
-
-
-
-
-
 
 }
 
+/**
+ * @member {String} smallCamel
+ */
+Capitalization.prototype['smallCamel'] = undefined;
+
+/**
+ * @member {String} CapitalCamel
+ */
+Capitalization.prototype['CapitalCamel'] = undefined;
+
+/**
+ * @member {String} small_Snake
+ */
+Capitalization.prototype['small_Snake'] = undefined;
+
+/**
+ * @member {String} Capital_Snake
+ */
+Capitalization.prototype['Capital_Snake'] = undefined;
+
+/**
+ * @member {String} SCA_ETH_Flow_Points
+ */
+Capitalization.prototype['SCA_ETH_Flow_Points'] = undefined;
+
+/**
+ * Name of the pet 
+ * @member {String} ATT_NAME
+ */
+Capitalization.prototype['ATT_NAME'] = undefined;
+
+
+
+
+
+
+export default Capitalization;
 
