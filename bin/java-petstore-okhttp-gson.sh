@@ -37,3 +37,4 @@ java $JAVA_OPTS -jar $executable $ags
 cp CI/samples.ci/client/petstore/java/test-manual/common/StringUtilTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/StringUtilTest.java
 cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/ApiClientTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/ApiClientTest.java
 cp CI/samples.ci/client/petstore/java/test-manual/common/ConfigurationTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/ConfigurationTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/auth/ApiKeyAuthTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/auth/ApiKeyAuthTest.java
