@@ -39,3 +39,4 @@ cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/ApiClientTest.java
 cp CI/samples.ci/client/petstore/java/test-manual/common/ConfigurationTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/ConfigurationTest.java
 cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/auth/ApiKeyAuthTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/auth/ApiKeyAuthTest.java
 cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/auth/HttpBasicAuthTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/auth/HttpBasicAuthTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/model/EnumValueTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/model/EnumValueTest.java
