@@ -19,7 +19,7 @@ Short term are focused on improving contributor and user productivity (part of t
 *** centralize build scripts
 *** organize samples/bin scripts according to new generator names
 *** consolidate typescript generators
-*** jaxrs => use Swagger core v3 (@jmini to define)
+*** jaxrs => use Swagger core v3 (see https://github.com/OpenAPITools/openapi-generator/issues/27[#27])
 * Documentation
 ** Static pages, preferably on gh-pages, devoted to each generator
 ** Explain generator options
@@ -31,12 +31,13 @@ Short term are focused on improving contributor and user productivity (part of t
 
 * API
 ** Typed representation of the model bound to our templates. As it is, everything is treated an an Object, and this can lead to changes in the interface which might be unexpected from the template perspective.
-* Feature set (potential generators to add)
+* Feature set (potential generators to add; not an exhaustive list)
 ** Azure functions (node.js, server)
 ** Finagle HTTP Client (Scala, client)
 ** Finagle Http Server (Scala, server)
 ** Finatra (Scala, server)
 ** Kotlin Spring MVC/Springboot (server)
+** C++ Server, any framework (server)
 * General
 ** Migrate from Maven to Gradle
 ** Java 9+ support
