@@ -33,3 +33,6 @@ echo "Removing files and folders under samples/client/petstore/java/resttemplate
 rm -rf samples/client/petstore/java/resttemplate/src/main
 find samples/client/petstore/java/resttemplate -maxdepth 1 -type f ! -name "README.md" -exec rm {} +
 java $JAVA_OPTS -jar $executable $ags
+
+# copy additional manually written unit-tests
+cp CI/samples.ci/client/petstore/java/test-manual/resttemplate/ApiClientTest.java samples/client/petstore/java/resttemplate/src/test/java/org/openapitools/client/ApiClientTest.java
