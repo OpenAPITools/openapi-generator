@@ -74,7 +74,7 @@ jobs:
 #          reusable: true
 #          exclusive: false
     #- run: docker pull openapitools/openapi-petstore
-    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 8080:8080 openapitools/openapi-petstore
+    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 80:8080 openapitools/openapi-petstore
     - run: docker ps -a
     - run: sleep 30
     - run: cat /etc/hosts
