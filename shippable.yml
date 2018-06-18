@@ -12,7 +12,7 @@ build:
   ci:
     - mvn --quiet clean install
     # ensure all modifications created by 'mature' generators are in the git repo
-    # - ./bin/utils/ensure-up-to-date
+    - ./bin/utils/ensure-up-to-date
     # prepare environment for tests
     - sudo apt-get update -qq
     # install stack
