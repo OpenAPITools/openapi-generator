@@ -50,7 +50,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     protected String npmVersion = "1.0.0";
     protected String npmRepository = null;
     protected String serviceSuffix = "Service";
-    protected String serviceFileSuffix = "service";
+    protected String serviceFileSuffix = ".service";
 
     private boolean taggedUnions = false;
 
@@ -437,7 +437,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (name.length() == 0) {
             return "default.service";
         }
-        return camelize(name, true) + "." + serviceFileSuffix;
+        return camelize(name, true) + serviceFileSuffix;
     }
 
     @Override

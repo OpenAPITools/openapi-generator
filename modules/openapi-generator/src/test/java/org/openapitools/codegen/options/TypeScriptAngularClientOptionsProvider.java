@@ -36,7 +36,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
     public static final String NG_VERSION = "2";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static String SERVICE_SUFFIX = "Service";
-    public static String SERVICE_FILE_SUFFIX = "service";
+    public static String SERVICE_FILE_SUFFIX = ".service";
 
     @Override
     public String getLanguage() {
