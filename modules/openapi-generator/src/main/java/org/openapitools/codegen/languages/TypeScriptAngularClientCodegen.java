@@ -84,8 +84,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).",
                 SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '4.3'"));
-        this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service. Default is Service"));
-        this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service.<suffix>.ts). Default is service"));
+        this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service. Default is 'Service'."));
+        this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts). Default is '.service'."));
     }
 
     @Override
