@@ -17,6 +17,7 @@ $router->get('/', function () use ($router) {
  * {{httpMethod}} {{operationId}}
  * Summary: {{summary}}
  * Notes: {{notes}}
+ * Output-Formats: {{#hasProduces}}[{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]{{/hasProduces}}
  */
 $router->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', '{{classname}}@{{operationId}}');
 {{/operation}}
