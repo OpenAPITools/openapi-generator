@@ -3902,8 +3902,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         int count = 0;
         for (String key : produces) {
-            // escape quotation to avoid code injection, "*/*" is a special case, do nothing
-            String encodedKey = "*/*".equals(key)? key : escapeText(escapeQuotationMark(key));
+            // escape quotation to avoid code injection, "*/*" is a special case, do nothing except adding blank
+            String encodedKey = "*/*".equals(key)? "* / *" : escapeText(escapeQuotationMark(key));
             //Only unique media types should be added to "produces"
             if (!existingMediaTypes.contains(encodedKey)) {
                 Map<String, String> mediaType = new HashMap<String, String>();
