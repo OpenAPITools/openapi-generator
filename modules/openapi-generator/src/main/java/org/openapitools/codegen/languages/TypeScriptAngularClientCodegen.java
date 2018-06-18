@@ -480,7 +480,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     private String getApiFilenameFromClassname(String classname) {
-        String name = classname.substring(0, classname.length() - "Service".length());
+        String name = classname.substring(0, classname.length() - serviceSuffix.length());
         return toApiFilename(name);
     }
 
