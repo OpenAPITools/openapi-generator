@@ -239,9 +239,36 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toModelName(String name) {
+        // remove [
+        name = name.replaceAll("\\]", "");
+
+        // Note: backslash ("\\") is allowed for e.g. "\\DateTime"
+        name = name.replaceAll("[^\\w\\\\]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        // remove dollar sign
+        name = name.replaceAll("$", "");
+
         // model name cannot use reserved keyword
         if (isReservedWord(name)) {
-            escapeReservedWord(name); // e.g. return => _return
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        }
+
+        // add prefix and/or suffic only if name does not start wth \ (e.g. \DateTime)
+        if (!name.matches("^\\\\.*")) {
+            if (!StringUtils.isEmpty(modelNamePrefix)) {
+                name = modelNamePrefix + "_" + name;
+            }
+
+            if (!StringUtils.isEmpty(modelNameSuffix)) {
+                name = name + "_" + modelNameSuffix;
+            }
         }
 
         // camelize the model name
