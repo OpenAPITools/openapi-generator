@@ -41,4 +41,4 @@ mkdir -p samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitoo
 mkdir -p samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/auth && cp CI/samples.ci/client/petstore/java/test-manual/jersey2/auth/ApiKeyAuthTest.java $_
 mkdir -p samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/auth && cp CI/samples.ci/client/petstore/java/test-manual/jersey2/auth/HttpBasicAuthTest.java $_
 mkdir -p samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/model && cp CI/samples.ci/client/petstore/java/test-manual/jersey2/model/EnumValueTest.java $_
-mkdir -p samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client && cp CI/samples.ci/client/petstore/java/test-manual/jersey2/JSONTest.java $_
+mkdir -p samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client && cp CI/samples.ci/client/petstore/java/test-manual/jersey2-java8/JSONTest.java $_ 
