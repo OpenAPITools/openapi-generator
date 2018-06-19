@@ -10,6 +10,200 @@ $app = new Slim\App();
 
 
 /**
+ * PATCH testSpecialTags
+ * Summary: To test special tags
+ * Notes: To test special tags
+ * Output-Formats: [application/json]
+ */
+$app->PATCH('/v2/another-fake/dummy', function($request, $response, $args) {
+            
+            
+            
+            $body = $request->getParsedBody();
+            $response->write('How about implementing testSpecialTags as a PATCH method ?');
+            return $response;
+            });
+
+
+/**
+ * POST fakeOuterBooleanSerialize
+ * Summary: 
+ * Notes: Test serialization of outer boolean types
+ * Output-Formats: [*/*]
+ */
+$app->POST('/v2/fake/outer/boolean', function($request, $response, $args) {
+            
+            
+            
+            $body = $request->getParsedBody();
+            $response->write('How about implementing fakeOuterBooleanSerialize as a POST method ?');
+            return $response;
+            });
+
+
+/**
+ * POST fakeOuterCompositeSerialize
+ * Summary: 
+ * Notes: Test serialization of object with outer number type
+ * Output-Formats: [*/*]
+ */
+$app->POST('/v2/fake/outer/composite', function($request, $response, $args) {
+            
+            
+            
+            $body = $request->getParsedBody();
+            $response->write('How about implementing fakeOuterCompositeSerialize as a POST method ?');
+            return $response;
+            });
+
+
+/**
+ * POST fakeOuterNumberSerialize
+ * Summary: 
+ * Notes: Test serialization of outer number types
+ * Output-Formats: [*/*]
+ */
+$app->POST('/v2/fake/outer/number', function($request, $response, $args) {
+            
+            
+            
+            $body = $request->getParsedBody();
+            $response->write('How about implementing fakeOuterNumberSerialize as a POST method ?');
+            return $response;
+            });
+
+
+/**
+ * POST fakeOuterStringSerialize
+ * Summary: 
+ * Notes: Test serialization of outer string types
+ * Output-Formats: [*/*]
+ */
+$app->POST('/v2/fake/outer/string', function($request, $response, $args) {
+            
+            
+            
+            $body = $request->getParsedBody();
+            $response->write('How about implementing fakeOuterStringSerialize as a POST method ?');
+            return $response;
+            });
+
+
+/**
+ * PUT testBodyWithQueryParams
+ * Summary: 
+ * Notes: 
+
+ */
+$app->PUT('/v2/fake/body-with-query-params', function($request, $response, $args) {
+            
+            $queryParams = $request->getQueryParams();
+            $query = $queryParams['query'];    
+            
+            $body = $request->getParsedBody();
+            $response->write('How about implementing testBodyWithQueryParams as a PUT method ?');
+            return $response;
+            });
+
+
+/**
+ * PATCH testClientModel
+ * Summary: To test \&quot;client\&quot; model
+ * Notes: To test \&quot;client\&quot; model
+ * Output-Formats: [application/json]
+ */
+$app->PATCH('/v2/fake', function($request, $response, $args) {
+            
+            
+            
+            $body = $request->getParsedBody();
+            $response->write('How about implementing testClientModel as a PATCH method ?');
+            return $response;
+            });
+
+
+/**
+ * POST testEndpointParameters
+ * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+ * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+
+ */
+$app->POST('/v2/fake', function($request, $response, $args) {
+            
+            
+            $integer = $args['integer'];    $int32 = $args['int32'];    $int64 = $args['int64'];    $number = $args['number'];    $float = $args['float'];    $double = $args['double'];    $string = $args['string'];    $patternWithoutDelimiter = $args['patternWithoutDelimiter'];    $byte = $args['byte'];    $binary = $args['binary'];    $date = $args['date'];    $dateTime = $args['dateTime'];    $password = $args['password'];    $callback = $args['callback'];    
+            
+            $response->write('How about implementing testEndpointParameters as a POST method ?');
+            return $response;
+            });
+
+
+/**
+ * GET testEnumParameters
+ * Summary: To test enum parameters
+ * Notes: To test enum parameters
+
+ */
+$app->GET('/v2/fake', function($request, $response, $args) {
+            $headers = $request->getHeaders();
+            $queryParams = $request->getQueryParams();
+            $enumQueryStringArray = $queryParams['enumQueryStringArray'];    $enumQueryString = $queryParams['enumQueryString'];    $enumQueryInteger = $queryParams['enumQueryInteger'];    $enumQueryDouble = $queryParams['enumQueryDouble'];    
+            $enumFormStringArray = $args['enumFormStringArray'];    $enumFormString = $args['enumFormString'];    
+            
+            $response->write('How about implementing testEnumParameters as a GET method ?');
+            return $response;
+            });
+
+
+/**
+ * POST testInlineAdditionalProperties
+ * Summary: test inline additionalProperties
+ * Notes: 
+
+ */
+$app->POST('/v2/fake/inline-additionalProperties', function($request, $response, $args) {
+            
+            
+            
+            $body = $request->getParsedBody();
+            $response->write('How about implementing testInlineAdditionalProperties as a POST method ?');
+            return $response;
+            });
+
+
+/**
+ * GET testJsonFormData
+ * Summary: test json serialization of form data
+ * Notes: 
+
+ */
+$app->GET('/v2/fake/jsonFormData', function($request, $response, $args) {
+            
+            
+            $param = $args['param'];    $param2 = $args['param2'];    
+            
+            $response->write('How about implementing testJsonFormData as a GET method ?');
+            return $response;
+            });
+
+
+/**
+ * PATCH testClassname
+ * Summary: To test class name in snake case
+ * Notes: To test class name in snake case
+ * Output-Formats: [application/json]
+ */
+$app->PATCH('/v2/fake_classname_test', function($request, $response, $args) {
+            
+            
+            
+            $body = $request->getParsedBody();
+            $response->write('How about implementing testClassname as a PATCH method ?');
+            return $response;
+            });
+
+
+/**
  * POST addPet
  * Summary: Add a new pet to the store
  * Notes: 
@@ -145,7 +339,7 @@ $app->POST('/v2/pet/{petId}/uploadImage', function($request, $response, $args) {
  * Notes: For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
 
  */
-$app->DELETE('/v2/store/order/{orderId}', function($request, $response, $args) {
+$app->DELETE('/v2/store/order/{order_id}', function($request, $response, $args) {
             
             
             
@@ -177,7 +371,7 @@ $app->GET('/v2/store/inventory', function($request, $response, $args) {
  * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/v2/store/order/{orderId}', function($request, $response, $args) {
+$app->GET('/v2/store/order/{order_id}', function($request, $response, $args) {
             
             
             
