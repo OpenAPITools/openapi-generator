@@ -16,14 +16,39 @@ $app = new Slim\App();
 {{#hasProduces}} * Output-Formats: [{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]{{/hasProduces}}
  */
 $app->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', function($request, $response, $args) {
-            {{#hasHeaderParams}}$headers = $request->getHeaders();{{/hasHeaderParams}}
-            {{#hasQueryParams}}$queryParams = $request->getQueryParams();
-            {{#queryParams}}${{paramName}} = $queryParams['{{paramName}}'];{{newline}}    {{/queryParams}}{{/hasQueryParams}}
-            {{#hasFormParams}}{{#formParams}}${{paramName}} = $args['{{paramName}}'];{{newline}}    {{/formParams}}{{/hasFormParams}}
-            {{#hasBodyParam}}$body = $request->getParsedBody();{{/hasBodyParam}}
-            $response->write('How about implementing {{nickname}} as a {{httpMethod}} method ?');
-            return $response;
-            });
+    {{#hasHeaderParams}}
+    $headers = $request->getHeaders();
+    {{#headerParams}}
+    ${{paramName}} = $request->hasHeader('{{baseName}}') ? $headers['{{baseName}}'] : null;
+    {{/headerParams}}
+    {{/hasHeaderParams}}
+    {{#hasPathParams}}
+    {{#pathParams}}
+    ${{paramName}} = $args['{{baseName}}'];
+    {{/pathParams}}
+    {{/hasPathParams}}
+    {{#hasQueryParams}}
+    $queryParams = $request->getQueryParams();
+    {{#queryParams}}
+    ${{paramName}} = $request->getQueryParam('{{baseName}}');
+    {{/queryParams}}
+    {{/hasQueryParams}}
+    {{#hasFormParams}}
+    {{#formParams}}
+    {{#notFile}}
+    ${{paramName}} = $request->getParsedBodyParam('{{baseName}}');
+    {{/notFile}}
+    {{#isFile}}
+    ${{paramName}} = $request->getUploadedFiles()['{{baseName}}'];
+    {{/isFile}}
+    {{/formParams}}
+    {{/hasFormParams}}
+    {{#hasBodyParam}}
+    $body = $request->getParsedBody();
+    {{/hasBodyParam}}
+    $response->write('How about implementing {{nickname}} as a {{httpMethod}} method ?');
+    return $response;
+});
 
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 

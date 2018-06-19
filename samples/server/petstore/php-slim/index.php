@@ -16,13 +16,10 @@ $app = new Slim\App();
  * Output-Formats: [application/json]
  */
 $app->PATCH('/v2/another-fake/dummy', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing testSpecialTags as a PATCH method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing testSpecialTags as a PATCH method ?');
+    return $response;
+});
 
 
 /**
@@ -32,13 +29,10 @@ $app->PATCH('/v2/another-fake/dummy', function($request, $response, $args) {
  * Output-Formats: [*_/_*]
  */
 $app->POST('/v2/fake/outer/boolean', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing fakeOuterBooleanSerialize as a POST method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing fakeOuterBooleanSerialize as a POST method ?');
+    return $response;
+});
 
 
 /**
@@ -48,13 +42,10 @@ $app->POST('/v2/fake/outer/boolean', function($request, $response, $args) {
  * Output-Formats: [*_/_*]
  */
 $app->POST('/v2/fake/outer/composite', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing fakeOuterCompositeSerialize as a POST method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing fakeOuterCompositeSerialize as a POST method ?');
+    return $response;
+});
 
 
 /**
@@ -64,13 +55,10 @@ $app->POST('/v2/fake/outer/composite', function($request, $response, $args) {
  * Output-Formats: [*_/_*]
  */
 $app->POST('/v2/fake/outer/number', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing fakeOuterNumberSerialize as a POST method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing fakeOuterNumberSerialize as a POST method ?');
+    return $response;
+});
 
 
 /**
@@ -80,13 +68,10 @@ $app->POST('/v2/fake/outer/number', function($request, $response, $args) {
  * Output-Formats: [*_/_*]
  */
 $app->POST('/v2/fake/outer/string', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing fakeOuterStringSerialize as a POST method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing fakeOuterStringSerialize as a POST method ?');
+    return $response;
+});
 
 
 /**
@@ -96,14 +81,12 @@ $app->POST('/v2/fake/outer/string', function($request, $response, $args) {
 
  */
 $app->PUT('/v2/fake/body-with-query-params', function($request, $response, $args) {
-            
-            $queryParams = $request->getQueryParams();
-            $query = $queryParams['query'];    
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing testBodyWithQueryParams as a PUT method ?');
-            return $response;
-            });
+    $queryParams = $request->getQueryParams();
+    $query = $request->getQueryParam('query');
+    $body = $request->getParsedBody();
+    $response->write('How about implementing testBodyWithQueryParams as a PUT method ?');
+    return $response;
+});
 
 
 /**
@@ -113,13 +96,10 @@ $app->PUT('/v2/fake/body-with-query-params', function($request, $response, $args
  * Output-Formats: [application/json]
  */
 $app->PATCH('/v2/fake', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing testClientModel as a PATCH method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing testClientModel as a PATCH method ?');
+    return $response;
+});
 
 
 /**
@@ -129,13 +109,10 @@ $app->PATCH('/v2/fake', function($request, $response, $args) {
 
  */
 $app->POST('/v2/fake', function($request, $response, $args) {
-            
-            
-            $integer = $args['integer'];    $int32 = $args['int32'];    $int64 = $args['int64'];    $number = $args['number'];    $float = $args['float'];    $double = $args['double'];    $string = $args['string'];    $patternWithoutDelimiter = $args['patternWithoutDelimiter'];    $byte = $args['byte'];    $binary = $args['binary'];    $date = $args['date'];    $dateTime = $args['dateTime'];    $password = $args['password'];    $callback = $args['callback'];    
-            
-            $response->write('How about implementing testEndpointParameters as a POST method ?');
-            return $response;
-            });
+    $binary = $request->getUploadedFiles()['binary'];
+    $response->write('How about implementing testEndpointParameters as a POST method ?');
+    return $response;
+});
 
 
 /**
@@ -145,14 +122,17 @@ $app->POST('/v2/fake', function($request, $response, $args) {
 
  */
 $app->GET('/v2/fake', function($request, $response, $args) {
-            $headers = $request->getHeaders();
-            $queryParams = $request->getQueryParams();
-            $enumQueryStringArray = $queryParams['enumQueryStringArray'];    $enumQueryString = $queryParams['enumQueryString'];    $enumQueryInteger = $queryParams['enumQueryInteger'];    $enumQueryDouble = $queryParams['enumQueryDouble'];    
-            $enumFormStringArray = $args['enumFormStringArray'];    $enumFormString = $args['enumFormString'];    
-            
-            $response->write('How about implementing testEnumParameters as a GET method ?');
-            return $response;
-            });
+    $headers = $request->getHeaders();
+    $enumHeaderStringArray = $request->hasHeader('enum_header_string_array') ? $headers['enum_header_string_array'] : null;
+    $enumHeaderString = $request->hasHeader('enum_header_string') ? $headers['enum_header_string'] : null;
+    $queryParams = $request->getQueryParams();
+    $enumQueryStringArray = $request->getQueryParam('enum_query_string_array');
+    $enumQueryString = $request->getQueryParam('enum_query_string');
+    $enumQueryInteger = $request->getQueryParam('enum_query_integer');
+    $enumQueryDouble = $request->getQueryParam('enum_query_double');
+    $response->write('How about implementing testEnumParameters as a GET method ?');
+    return $response;
+});
 
 
 /**
@@ -162,13 +142,10 @@ $app->GET('/v2/fake', function($request, $response, $args) {
 
  */
 $app->POST('/v2/fake/inline-additionalProperties', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing testInlineAdditionalProperties as a POST method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing testInlineAdditionalProperties as a POST method ?');
+    return $response;
+});
 
 
 /**
@@ -178,13 +155,9 @@ $app->POST('/v2/fake/inline-additionalProperties', function($request, $response,
 
  */
 $app->GET('/v2/fake/jsonFormData', function($request, $response, $args) {
-            
-            
-            $param = $args['param'];    $param2 = $args['param2'];    
-            
-            $response->write('How about implementing testJsonFormData as a GET method ?');
-            return $response;
-            });
+    $response->write('How about implementing testJsonFormData as a GET method ?');
+    return $response;
+});
 
 
 /**
@@ -194,13 +167,10 @@ $app->GET('/v2/fake/jsonFormData', function($request, $response, $args) {
  * Output-Formats: [application/json]
  */
 $app->PATCH('/v2/fake_classname_test', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing testClassname as a PATCH method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing testClassname as a PATCH method ?');
+    return $response;
+});
 
 
 /**
@@ -210,13 +180,10 @@ $app->PATCH('/v2/fake_classname_test', function($request, $response, $args) {
 
  */
 $app->POST('/v2/pet', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing addPet as a POST method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing addPet as a POST method ?');
+    return $response;
+});
 
 
 /**
@@ -226,14 +193,11 @@ $app->POST('/v2/pet', function($request, $response, $args) {
  * Output-Formats: [application/xml, application/json]
  */
 $app->GET('/v2/pet/findByStatus', function($request, $response, $args) {
-            
-            $queryParams = $request->getQueryParams();
-            $status = $queryParams['status'];    
-            
-            
-            $response->write('How about implementing findPetsByStatus as a GET method ?');
-            return $response;
-            });
+    $queryParams = $request->getQueryParams();
+    $status = $request->getQueryParam('status');
+    $response->write('How about implementing findPetsByStatus as a GET method ?');
+    return $response;
+});
 
 
 /**
@@ -243,14 +207,11 @@ $app->GET('/v2/pet/findByStatus', function($request, $response, $args) {
  * Output-Formats: [application/xml, application/json]
  */
 $app->GET('/v2/pet/findByTags', function($request, $response, $args) {
-            
-            $queryParams = $request->getQueryParams();
-            $tags = $queryParams['tags'];    
-            
-            
-            $response->write('How about implementing findPetsByTags as a GET method ?');
-            return $response;
-            });
+    $queryParams = $request->getQueryParams();
+    $tags = $request->getQueryParam('tags');
+    $response->write('How about implementing findPetsByTags as a GET method ?');
+    return $response;
+});
 
 
 /**
@@ -260,13 +221,10 @@ $app->GET('/v2/pet/findByTags', function($request, $response, $args) {
 
  */
 $app->PUT('/v2/pet', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing updatePet as a PUT method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing updatePet as a PUT method ?');
+    return $response;
+});
 
 
 /**
@@ -276,13 +234,12 @@ $app->PUT('/v2/pet', function($request, $response, $args) {
 
  */
 $app->DELETE('/v2/pet/{petId}', function($request, $response, $args) {
-            $headers = $request->getHeaders();
-            
-            
-            
-            $response->write('How about implementing deletePet as a DELETE method ?');
-            return $response;
-            });
+    $headers = $request->getHeaders();
+    $apiKey = $request->hasHeader('api_key') ? $headers['api_key'] : null;
+    $petId = $args['petId'];
+    $response->write('How about implementing deletePet as a DELETE method ?');
+    return $response;
+});
 
 
 /**
@@ -292,13 +249,10 @@ $app->DELETE('/v2/pet/{petId}', function($request, $response, $args) {
  * Output-Formats: [application/xml, application/json]
  */
 $app->GET('/v2/pet/{petId}', function($request, $response, $args) {
-            
-            
-            
-            
-            $response->write('How about implementing getPetById as a GET method ?');
-            return $response;
-            });
+    $petId = $args['petId'];
+    $response->write('How about implementing getPetById as a GET method ?');
+    return $response;
+});
 
 
 /**
@@ -308,13 +262,10 @@ $app->GET('/v2/pet/{petId}', function($request, $response, $args) {
 
  */
 $app->POST('/v2/pet/{petId}', function($request, $response, $args) {
-            
-            
-            $name = $args['name'];    $status = $args['status'];    
-            
-            $response->write('How about implementing updatePetWithForm as a POST method ?');
-            return $response;
-            });
+    $petId = $args['petId'];
+    $response->write('How about implementing updatePetWithForm as a POST method ?');
+    return $response;
+});
 
 
 /**
@@ -324,13 +275,11 @@ $app->POST('/v2/pet/{petId}', function($request, $response, $args) {
  * Output-Formats: [application/json]
  */
 $app->POST('/v2/pet/{petId}/uploadImage', function($request, $response, $args) {
-            
-            
-            $additionalMetadata = $args['additionalMetadata'];    $file = $args['file'];    
-            
-            $response->write('How about implementing uploadFile as a POST method ?');
-            return $response;
-            });
+    $petId = $args['petId'];
+    $file = $request->getUploadedFiles()['file'];
+    $response->write('How about implementing uploadFile as a POST method ?');
+    return $response;
+});
 
 
 /**
@@ -340,13 +289,9 @@ $app->POST('/v2/pet/{petId}/uploadImage', function($request, $response, $args) {
  * Output-Formats: [application/json]
  */
 $app->GET('/v2/store/inventory', function($request, $response, $args) {
-            
-            
-            
-            
-            $response->write('How about implementing getInventory as a GET method ?');
-            return $response;
-            });
+    $response->write('How about implementing getInventory as a GET method ?');
+    return $response;
+});
 
 
 /**
@@ -356,13 +301,10 @@ $app->GET('/v2/store/inventory', function($request, $response, $args) {
  * Output-Formats: [application/xml, application/json]
  */
 $app->POST('/v2/store/order', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing placeOrder as a POST method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing placeOrder as a POST method ?');
+    return $response;
+});
 
 
 /**
@@ -372,13 +314,10 @@ $app->POST('/v2/store/order', function($request, $response, $args) {
 
  */
 $app->DELETE('/v2/store/order/{order_id}', function($request, $response, $args) {
-            
-            
-            
-            
-            $response->write('How about implementing deleteOrder as a DELETE method ?');
-            return $response;
-            });
+    $orderId = $args['order_id'];
+    $response->write('How about implementing deleteOrder as a DELETE method ?');
+    return $response;
+});
 
 
 /**
@@ -388,13 +327,10 @@ $app->DELETE('/v2/store/order/{order_id}', function($request, $response, $args) 
  * Output-Formats: [application/xml, application/json]
  */
 $app->GET('/v2/store/order/{order_id}', function($request, $response, $args) {
-            
-            
-            
-            
-            $response->write('How about implementing getOrderById as a GET method ?');
-            return $response;
-            });
+    $orderId = $args['order_id'];
+    $response->write('How about implementing getOrderById as a GET method ?');
+    return $response;
+});
 
 
 /**
@@ -404,13 +340,10 @@ $app->GET('/v2/store/order/{order_id}', function($request, $response, $args) {
 
  */
 $app->POST('/v2/user', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing createUser as a POST method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing createUser as a POST method ?');
+    return $response;
+});
 
 
 /**
@@ -420,13 +353,10 @@ $app->POST('/v2/user', function($request, $response, $args) {
 
  */
 $app->POST('/v2/user/createWithArray', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing createUsersWithArrayInput as a POST method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing createUsersWithArrayInput as a POST method ?');
+    return $response;
+});
 
 
 /**
@@ -436,13 +366,10 @@ $app->POST('/v2/user/createWithArray', function($request, $response, $args) {
 
  */
 $app->POST('/v2/user/createWithList', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing createUsersWithListInput as a POST method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing createUsersWithListInput as a POST method ?');
+    return $response;
+});
 
 
 /**
@@ -452,14 +379,12 @@ $app->POST('/v2/user/createWithList', function($request, $response, $args) {
  * Output-Formats: [application/xml, application/json]
  */
 $app->GET('/v2/user/login', function($request, $response, $args) {
-            
-            $queryParams = $request->getQueryParams();
-            $username = $queryParams['username'];    $password = $queryParams['password'];    
-            
-            
-            $response->write('How about implementing loginUser as a GET method ?');
-            return $response;
-            });
+    $queryParams = $request->getQueryParams();
+    $username = $request->getQueryParam('username');
+    $password = $request->getQueryParam('password');
+    $response->write('How about implementing loginUser as a GET method ?');
+    return $response;
+});
 
 
 /**
@@ -469,13 +394,9 @@ $app->GET('/v2/user/login', function($request, $response, $args) {
 
  */
 $app->GET('/v2/user/logout', function($request, $response, $args) {
-            
-            
-            
-            
-            $response->write('How about implementing logoutUser as a GET method ?');
-            return $response;
-            });
+    $response->write('How about implementing logoutUser as a GET method ?');
+    return $response;
+});
 
 
 /**
@@ -485,13 +406,10 @@ $app->GET('/v2/user/logout', function($request, $response, $args) {
 
  */
 $app->DELETE('/v2/user/{username}', function($request, $response, $args) {
-            
-            
-            
-            
-            $response->write('How about implementing deleteUser as a DELETE method ?');
-            return $response;
-            });
+    $username = $args['username'];
+    $response->write('How about implementing deleteUser as a DELETE method ?');
+    return $response;
+});
 
 
 /**
@@ -501,13 +419,10 @@ $app->DELETE('/v2/user/{username}', function($request, $response, $args) {
  * Output-Formats: [application/xml, application/json]
  */
 $app->GET('/v2/user/{username}', function($request, $response, $args) {
-            
-            
-            
-            
-            $response->write('How about implementing getUserByName as a GET method ?');
-            return $response;
-            });
+    $username = $args['username'];
+    $response->write('How about implementing getUserByName as a GET method ?');
+    return $response;
+});
 
 
 /**
@@ -517,13 +432,11 @@ $app->GET('/v2/user/{username}', function($request, $response, $args) {
 
  */
 $app->PUT('/v2/user/{username}', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing updateUser as a PUT method ?');
-            return $response;
-            });
+    $username = $args['username'];
+    $body = $request->getParsedBody();
+    $response->write('How about implementing updateUser as a PUT method ?');
+    return $response;
+});
 
 
 
