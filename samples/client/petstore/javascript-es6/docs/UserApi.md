@@ -1,4 +1,4 @@
-# SwaggerPetstore.UserApi
+# OpenApiPetstore.UserApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createUser"></a>
 # **createUser**
-> createUser(body)
+> createUser(user)
 
 Create user
 
@@ -24,14 +24,11 @@ This can only be done by the logged in user.
 
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.UserApi();
-
-let body = new SwaggerPetstore.User(); // User | Created user object
-
-
-apiInstance.createUser(body, (error, data, response) => {
+let apiInstance = new OpenApiPetstore.UserApi();
+let user = new OpenApiPetstore.User(); // User | Created user object
+apiInstance.createUser(user, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -44,7 +41,7 @@ apiInstance.createUser(body, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+ **user** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -57,26 +54,21 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(body)
+> createUsersWithArrayInput(user)
 
 Creates list of users with given input array
 
-
-
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.UserApi();
-
-let body = [new SwaggerPetstore.User()]; // [User] | List of user object
-
-
-apiInstance.createUsersWithArrayInput(body, (error, data, response) => {
+let apiInstance = new OpenApiPetstore.UserApi();
+let user = [new OpenApiPetstore.User()]; // [User] | List of user object
+apiInstance.createUsersWithArrayInput(user, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -89,7 +81,7 @@ apiInstance.createUsersWithArrayInput(body, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](User.md)| List of user object | 
+ **user** | [**[User]**](Array.md)| List of user object | 
 
 ### Return type
 
@@ -102,26 +94,21 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> createUsersWithListInput(body)
+> createUsersWithListInput(user)
 
 Creates list of users with given input array
 
-
-
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.UserApi();
-
-let body = [new SwaggerPetstore.User()]; // [User] | List of user object
-
-
-apiInstance.createUsersWithListInput(body, (error, data, response) => {
+let apiInstance = new OpenApiPetstore.UserApi();
+let user = [new OpenApiPetstore.User()]; // [User] | List of user object
+apiInstance.createUsersWithListInput(user, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -134,7 +121,7 @@ apiInstance.createUsersWithListInput(body, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](User.md)| List of user object | 
+ **user** | [**[User]**](Array.md)| List of user object | 
 
 ### Return type
 
@@ -147,7 +134,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="deleteUser"></a>
 # **deleteUser**
@@ -159,13 +146,10 @@ This can only be done by the logged in user.
 
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.UserApi();
-
+let apiInstance = new OpenApiPetstore.UserApi();
 let username = "username_example"; // String | The name that needs to be deleted
-
-
 apiInstance.deleteUser(username, (error, data, response) => {
   if (error) {
     console.error(error);
@@ -192,7 +176,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="getUserByName"></a>
 # **getUserByName**
@@ -200,17 +184,12 @@ No authorization required
 
 Get user by user name
 
-
-
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.UserApi();
-
-let username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing. 
-
-
+let apiInstance = new OpenApiPetstore.UserApi();
+let username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing.
 apiInstance.getUserByName(username, (error, data, response) => {
   if (error) {
     console.error(error);
@@ -224,7 +203,7 @@ apiInstance.getUserByName(username, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing.  | 
+ **username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
 
@@ -241,23 +220,17 @@ No authorization required
 
 <a name="loginUser"></a>
 # **loginUser**
-> &#39;String&#39; loginUser(username, password)
+> String loginUser(username, password)
 
 Logs user into the system
 
-
-
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.UserApi();
-
+let apiInstance = new OpenApiPetstore.UserApi();
 let username = "username_example"; // String | The user name for login
-
 let password = "password_example"; // String | The password for login in clear text
-
-
 apiInstance.loginUser(username, password, (error, data, response) => {
   if (error) {
     console.error(error);
@@ -276,7 +249,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**&#39;String&#39;**
+**String**
 
 ### Authorization
 
@@ -293,14 +266,11 @@ No authorization required
 
 Logs out current logged in user session
 
-
-
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.UserApi();
-
+let apiInstance = new OpenApiPetstore.UserApi();
 apiInstance.logoutUser((error, data, response) => {
   if (error) {
     console.error(error);
@@ -324,11 +294,11 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 <a name="updateUser"></a>
 # **updateUser**
-> updateUser(username, body)
+> updateUser(username, user)
 
 Updated user
 
@@ -336,16 +306,12 @@ This can only be done by the logged in user.
 
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.UserApi();
-
+let apiInstance = new OpenApiPetstore.UserApi();
 let username = "username_example"; // String | name that need to be deleted
-
-let body = new SwaggerPetstore.User(); // User | Updated user object
-
-
-apiInstance.updateUser(username, body, (error, data, response) => {
+let user = new OpenApiPetstore.User(); // User | Updated user object
+apiInstance.updateUser(username, user, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -359,7 +325,7 @@ apiInstance.updateUser(username, body, (error, data, response) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | 
+ **user** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -372,5 +338,5 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 

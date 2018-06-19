@@ -74,7 +74,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         apiTemplateFiles.put("api-impl-source.mustache", ".cpp");
         apiTemplateFiles.put("main-api-server.mustache", ".cpp");
 
-        embeddedTemplateDir = templateDir = "pistache-server";
+        embeddedTemplateDir = templateDir = "cpp-pistache-server";
 
         cliOptions.clear();
 

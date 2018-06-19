@@ -1,4 +1,4 @@
-# SwaggerPetstore.Category
+# OpenApiPetstore.Category
 
 ## Properties
 Name | Type | Description | Notes

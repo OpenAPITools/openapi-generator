@@ -1,4 +1,4 @@
-# SwaggerPetstore.HasOnlyReadOnly
+# OpenApiPetstore.HasOnlyReadOnly
 
 ## Properties
 Name | Type | Description | Notes

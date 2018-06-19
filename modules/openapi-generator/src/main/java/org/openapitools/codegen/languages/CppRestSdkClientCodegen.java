@@ -99,7 +99,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-source.mustache", ".cpp");
 
-        embeddedTemplateDir = templateDir = "cpprest";
+        embeddedTemplateDir = templateDir = "cpp-rest-sdk-client";
 
         cliOptions.clear();
 
