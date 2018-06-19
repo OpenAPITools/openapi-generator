@@ -17,6 +17,9 @@
 #include <QJsonValue>
 #include <QList>
 #include <QMap>
+#include <QDateTime>
+#include <QByteArray>
+#include <QDate>
 
 namespace OpenAPI {
 
@@ -25,14 +28,24 @@ namespace OpenAPI {
     void toJsonValue(QString name, void* value, QJsonObject& output, QString type);
     void toJsonMap(QMap<QString, void*>* value, QJsonObject& output, QString innerName, QString innerType);
     bool isCompatibleJsonValue(QString type);
+
     QString stringValue(QString* value);
+    QString stringValue(QDateTime* value);
+    QString stringValue(QByteArray* value);
+    QString stringValue(QDate* value);
+
     QString stringValue(qint32 value);
     QString stringValue(qint64 value);
     QString stringValue(bool value);
     QString stringValue(float value);
     QString stringValue(double value);
 
+
     bool toValue(QString inStr, QString *value);
+    bool toValue(QString inStr, QDateTime *value);
+    bool toValue(QString inStr, QByteArray *value);
+    bool toValue(QString inStr, QDate *value);
+
     bool toValue(QString inStr, qint32 *value);
     bool toValue(QString inStr, qint64 *value);
     bool toValue(QString inStr, bool *value);

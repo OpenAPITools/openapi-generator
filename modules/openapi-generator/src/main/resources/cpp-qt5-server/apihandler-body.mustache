@@ -21,6 +21,10 @@ namespace {{this}} {
 {{classname}}::~{{classname}}(){
 
 }
+QMap<QString, QString> 
+{{classname}}::getDefaultHeaders(){
+    return defaultHeaders;
+}
 
 {{#operations}}{{#operation}}
 void {{classname}}::{{nickname}}(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){

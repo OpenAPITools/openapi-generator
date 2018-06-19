@@ -41,6 +41,8 @@ public:
     virtual void updateUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
     
 
+    QMap<QString, QString> getDefaultHeaders();
+
 private:
     QMap<QString, QString> defaultHeaders;
 };

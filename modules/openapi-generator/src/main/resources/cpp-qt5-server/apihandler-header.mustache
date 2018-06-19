@@ -24,6 +24,8 @@ public:
     {{#operations}}{{#operation}}virtual void {{nickname}}(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
     {{/operation}}{{/operations}}
 
+    QMap<QString, QString> getDefaultHeaders();
+
 private:
     QMap<QString, QString> defaultHeaders;
 };

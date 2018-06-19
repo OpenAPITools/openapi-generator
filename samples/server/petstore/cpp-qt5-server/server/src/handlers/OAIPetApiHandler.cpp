@@ -30,6 +30,10 @@ OAIPetApiHandler::OAIPetApiHandler(QObject *parent): QObject(parent){
 OAIPetApiHandler::~OAIPetApiHandler(){
 
 }
+QMap<QString, QString> 
+OAIPetApiHandler::getDefaultHeaders(){
+    return defaultHeaders;
+}
 
 
 void OAIPetApiHandler::addPet(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){

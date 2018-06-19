@@ -30,6 +30,10 @@ OAIStoreApiHandler::OAIStoreApiHandler(QObject *parent): QObject(parent){
 OAIStoreApiHandler::~OAIStoreApiHandler(){
 
 }
+QMap<QString, QString> 
+OAIStoreApiHandler::getDefaultHeaders(){
+    return defaultHeaders;
+}
 
 
 void OAIStoreApiHandler::deleteOrder(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket){

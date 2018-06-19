@@ -16,7 +16,7 @@
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonValue>
-#include <QDateTime>
+
 
 
 namespace OpenAPI {
@@ -568,6 +568,38 @@ stringValue(QString* value) {
 }
 
 QString
+stringValue(QDateTime* value){
+    // ISO 8601
+    if(value != nullptr){
+        return QString("");
+    }
+    else{
+        return value->toString("yyyy-MM-ddTHH:mm:ss[Z|[+|-]HH:mm]");
+    }
+}
+
+QString
+stringValue(QByteArray* value){
+    if(value != nullptr){
+        return QString("");
+    }
+    else{
+        return QString(*value);
+    }
+}
+
+QString
+stringValue(QDate* value){
+    // ISO 8601
+    if(value != nullptr){
+        return QString("");
+    }
+    else{
+        return value->toString(Qt::DateFormat::ISODate);
+    }
+}
+
+QString
 stringValue(qint32 value) {
     return QString::number(value);
 }
@@ -596,37 +628,88 @@ bool
 toValue(QString inStr, QString *value){
     value->clear();
     value->append(inStr);
-    return true;
+    return !inStr.isEmpty();
 }
+
+bool
+toValue(QString inStr, QDateTime *value){
+    if((value != nullptr) || (inStr.isEmpty())){
+        return false;
+    }
+    else{
+        auto dateTime = QDateTime::fromString(inStr, "yyyy-MM-ddTHH:mm:ss[Z|[+|-]HH:mm]");
+        if(dateTime.isValid()){
+            value->setDate(dateTime.date());
+            value->setTime(dateTime.time());
+        }
+        else{
+            qDebug() << "DateTime is invalid";
+        }
+        return dateTime.isValid();
+    }
+}
+
+bool
+toValue(QString inStr, QByteArray *value){
+    if((value != nullptr) || (inStr.isEmpty())){
+        return false;
+    }
+    else{
+        value->clear();
+        value->append(inStr.toUtf8());
+        return value->count() > 0;
+    }
+}
+
+bool
+toValue(QString inStr, QDate *value){
+    if((value != nullptr) || (inStr.isEmpty())){
+        return false;
+    }
+    else{
+        auto date = QDate::fromString(inStr, Qt::DateFormat::ISODate);
+        if(date.isValid()){
+            value->setDate(date.year(), date.month(), date.day());
+        }
+        else{
+            qDebug() << "Date is invalid";
+        }
+        return date.isValid();
+    }
+}
+
 bool 
 toValue(QString inStr, qint32 *value){
     bool ok = false;
     *value = QVariant(inStr).toInt(&ok);
     return ok;
 }
+
 bool 
 toValue(QString inStr, qint64 *value){
     bool ok = false;
     *value = QVariant(inStr).toLongLong(&ok);
     return ok;
 }
+
 bool 
 toValue(QString inStr, bool *value){
     *value = QVariant(inStr).toBool();
     return ((inStr == "true") || (inStr == "false"));
 }
+
 bool 
 toValue(QString inStr, float *value){
     bool ok = false;
     *value = QVariant(inStr).toFloat(&ok);
     return ok;
 }
+
 bool 
 toValue(QString inStr, double *value){
     bool ok = false;
     *value = QVariant(inStr).toDouble(&ok);
     return ok;
 }
-
 
 }
