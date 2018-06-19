@@ -11,10 +11,7 @@
  *
  */
 
-
 import ApiClient from '../ApiClient';
-
-
 /**
 * Enum class EnumClass.
 * @enum {}
@@ -26,21 +23,21 @@ export default class EnumClass {
          * value: "_abc"
          * @const
          */
-        _abc = "_abc";
+        "_abc" = "_abc";
 
     
         /**
          * value: "-efg"
          * @const
          */
-        -efg = "-efg";
+        "-efg" = "-efg";
 
     
         /**
          * value: "(xyz)"
          * @const
          */
-        (xyz) = "(xyz)";
+        "(xyz)" = "(xyz)";
 
     
 
@@ -53,5 +50,4 @@ export default class EnumClass {
         return object;
     }
 }
-
 

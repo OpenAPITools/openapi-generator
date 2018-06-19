@@ -572,6 +572,42 @@
             </modules>
         </profile>
         <profile>
+            <id>javascript-client-es6</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>javascript</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/javascript-es6</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>javascript-client-promise</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>javascript</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/javascript-promise</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>javascript-client-promise-es6</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>javascript</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/javascript-promise-es6</module>
+            </modules>
+        </profile>
+        <profile>
             <id>scala-client</id>
             <activation>
                 <property>
@@ -904,6 +940,9 @@
                 <module>samples/client/petstore/scala</module>
                 <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/javascript</module>
+                <module>samples/client/petstore/javascript-es6</module>
+                <module>samples/client/petstore/javascript-promise</module>
+                <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/python-tornado</module>
                 <module>samples/client/petstore/python-asyncio</module>

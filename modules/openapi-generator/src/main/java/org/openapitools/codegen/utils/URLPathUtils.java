@@ -39,7 +39,7 @@ public class URLPathUtils {
             LOGGER.warn("Server information seems not defined in the spec. Default to {}.", LOCAL_HOST);
             return getDefaultUrl();
         }
-        // TOOD need a way to obtain all server URLs
+        // TODO need a way to obtain all server URLs
         final Server server = servers.get(0);
         String url = sanitizeUrl(server.getUrl());
 

@@ -11,53 +11,45 @@
  *
  */
 
-
 import ApiClient from '../ApiClient';
 import Animal from './Animal';
 
-
-
-
-
 /**
-* The Dog model module.
-* @module model/Dog
-* @version 1.0.0
-*/
-export default class Dog {
+ * The Dog model module.
+ * @module model/Dog
+ * @version 1.0.0
+ */
+class Dog {
     /**
-    * Constructs a new <code>Dog</code>.
-    * @alias module:model/Dog
-    * @class
-    * @extends module:model/Animal
-    * @implements module:model/Animal
-    * @param className {} 
-    */
-
-    constructor(className) {
-        
-
-        Animal.call(this, className);
-        Animal.call(this, className);
-
-        
-
-        
+     * Constructs a new <code>Dog</code>.
+     * @alias module:model/Dog
+     * @extends module:model/Animal
+     * @implements module:model/Animal
+     * @param className {} 
+     */
+    constructor(className) { 
+        Animal.initialize(this, className);
+        Dog.initialize(this, className);
     }
 
     /**
-    * Constructs a <code>Dog</code> from a plain JavaScript object, optionally creating a new instance.
-    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-    * @param {Object} data The plain JavaScript object bearing properties of interest.
-    * @param {module:model/Dog} obj Optional instance to populate.
-    * @return {module:model/Dog} The populated <code>Dog</code> instance.
-    */
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj, className) { 
+    }
+
+    /**
+     * Constructs a <code>Dog</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Dog} obj Optional instance to populate.
+     * @return {module:model/Dog} The populated <code>Dog</code> instance.
+     */
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new Dog();
-
-            
-
             Animal.constructFromObject(data, obj);
             Animal.constructFromObject(data, obj);
 
@@ -68,29 +60,28 @@ export default class Dog {
         return obj;
     }
 
-    /**
-    * @member {String} breed
-    */
-    breed = undefined;
-
-
-    // Implement Animal interface:
-    /**
-    * @member {String} className
-    */
-    className = undefined;
-/**
-    * @member {String} color
-    * @default 'red'
-    */
-    color = 'red';
-
-
-
-
-
-
 
 }
 
+/**
+ * @member {String} breed
+ */
+Dog.prototype['breed'] = undefined;
+
+
+// Implement Animal interface:
+/**
+ * @member {String} className
+ */
+Animal.prototype['className'] = undefined;
+/**
+ * @member {String} color
+ * @default 'red'
+ */
+Animal.prototype['color'] = 'red';
+
+
+
+
+export default Dog;
 
