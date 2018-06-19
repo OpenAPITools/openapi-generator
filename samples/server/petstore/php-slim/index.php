@@ -220,22 +220,6 @@ $app->POST('/v2/pet', function($request, $response, $args) {
 
 
 /**
- * DELETE deletePet
- * Summary: Deletes a pet
- * Notes: 
-
- */
-$app->DELETE('/v2/pet/{petId}', function($request, $response, $args) {
-            $headers = $request->getHeaders();
-            
-            
-            
-            $response->write('How about implementing deletePet as a DELETE method ?');
-            return $response;
-            });
-
-
-/**
  * GET findPetsByStatus
  * Summary: Finds Pets by status
  * Notes: Multiple status values can be provided with comma separated strings
@@ -270,22 +254,6 @@ $app->GET('/v2/pet/findByTags', function($request, $response, $args) {
 
 
 /**
- * GET getPetById
- * Summary: Find pet by ID
- * Notes: Returns a single pet
- * Output-Formats: [application/xml, application/json]
- */
-$app->GET('/v2/pet/{petId}', function($request, $response, $args) {
-            
-            
-            
-            
-            $response->write('How about implementing getPetById as a GET method ?');
-            return $response;
-            });
-
-
-/**
  * PUT updatePet
  * Summary: Update an existing pet
  * Notes: 
@@ -297,6 +265,38 @@ $app->PUT('/v2/pet', function($request, $response, $args) {
             
             $body = $request->getParsedBody();
             $response->write('How about implementing updatePet as a PUT method ?');
+            return $response;
+            });
+
+
+/**
+ * DELETE deletePet
+ * Summary: Deletes a pet
+ * Notes: 
+
+ */
+$app->DELETE('/v2/pet/{petId}', function($request, $response, $args) {
+            $headers = $request->getHeaders();
+            
+            
+            
+            $response->write('How about implementing deletePet as a DELETE method ?');
+            return $response;
+            });
+
+
+/**
+ * GET getPetById
+ * Summary: Find pet by ID
+ * Notes: Returns a single pet
+ * Output-Formats: [application/xml, application/json]
+ */
+$app->GET('/v2/pet/{petId}', function($request, $response, $args) {
+            
+            
+            
+            
+            $response->write('How about implementing getPetById as a GET method ?');
             return $response;
             });
 
@@ -334,22 +334,6 @@ $app->POST('/v2/pet/{petId}/uploadImage', function($request, $response, $args) {
 
 
 /**
- * DELETE deleteOrder
- * Summary: Delete purchase order by ID
- * Notes: For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-
- */
-$app->DELETE('/v2/store/order/{order_id}', function($request, $response, $args) {
-            
-            
-            
-            
-            $response->write('How about implementing deleteOrder as a DELETE method ?');
-            return $response;
-            });
-
-
-/**
  * GET getInventory
  * Summary: Returns pet inventories by status
  * Notes: Returns a map of status codes to quantities
@@ -366,22 +350,6 @@ $app->GET('/v2/store/inventory', function($request, $response, $args) {
 
 
 /**
- * GET getOrderById
- * Summary: Find purchase order by ID
- * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
- * Output-Formats: [application/xml, application/json]
- */
-$app->GET('/v2/store/order/{order_id}', function($request, $response, $args) {
-            
-            
-            
-            
-            $response->write('How about implementing getOrderById as a GET method ?');
-            return $response;
-            });
-
-
-/**
  * POST placeOrder
  * Summary: Place an order for a pet
  * Notes: 
@@ -393,6 +361,38 @@ $app->POST('/v2/store/order', function($request, $response, $args) {
             
             $body = $request->getParsedBody();
             $response->write('How about implementing placeOrder as a POST method ?');
+            return $response;
+            });
+
+
+/**
+ * DELETE deleteOrder
+ * Summary: Delete purchase order by ID
+ * Notes: For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+
+ */
+$app->DELETE('/v2/store/order/{order_id}', function($request, $response, $args) {
+            
+            
+            
+            
+            $response->write('How about implementing deleteOrder as a DELETE method ?');
+            return $response;
+            });
+
+
+/**
+ * GET getOrderById
+ * Summary: Find purchase order by ID
+ * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+ * Output-Formats: [application/xml, application/json]
+ */
+$app->GET('/v2/store/order/{order_id}', function($request, $response, $args) {
+            
+            
+            
+            
+            $response->write('How about implementing getOrderById as a GET method ?');
             return $response;
             });
 
@@ -446,38 +446,6 @@ $app->POST('/v2/user/createWithList', function($request, $response, $args) {
 
 
 /**
- * DELETE deleteUser
- * Summary: Delete user
- * Notes: This can only be done by the logged in user.
-
- */
-$app->DELETE('/v2/user/{username}', function($request, $response, $args) {
-            
-            
-            
-            
-            $response->write('How about implementing deleteUser as a DELETE method ?');
-            return $response;
-            });
-
-
-/**
- * GET getUserByName
- * Summary: Get user by user name
- * Notes: 
- * Output-Formats: [application/xml, application/json]
- */
-$app->GET('/v2/user/{username}', function($request, $response, $args) {
-            
-            
-            
-            
-            $response->write('How about implementing getUserByName as a GET method ?');
-            return $response;
-            });
-
-
-/**
  * GET loginUser
  * Summary: Logs user into the system
  * Notes: 
@@ -506,6 +474,38 @@ $app->GET('/v2/user/logout', function($request, $response, $args) {
             
             
             $response->write('How about implementing logoutUser as a GET method ?');
+            return $response;
+            });
+
+
+/**
+ * DELETE deleteUser
+ * Summary: Delete user
+ * Notes: This can only be done by the logged in user.
+
+ */
+$app->DELETE('/v2/user/{username}', function($request, $response, $args) {
+            
+            
+            
+            
+            $response->write('How about implementing deleteUser as a DELETE method ?');
+            return $response;
+            });
+
+
+/**
+ * GET getUserByName
+ * Summary: Get user by user name
+ * Notes: 
+ * Output-Formats: [application/xml, application/json]
+ */
+$app->GET('/v2/user/{username}', function($request, $response, $args) {
+            
+            
+            
+            
+            $response->write('How about implementing getUserByName as a GET method ?');
             return $response;
             });
 

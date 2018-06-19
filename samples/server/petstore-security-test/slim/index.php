@@ -16,13 +16,10 @@ $app = new Slim\App();
 
  */
 $app->PUT('/fake', function($request, $response, $args) {
-            
-            
-            
-            $body = $request->getParsedBody();
-            $response->write('How about implementing testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \r as a PUT method ?');
-            return $response;
-            });
+    $body = $request->getParsedBody();
+    $response->write('How about implementing testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \r as a PUT method ?');
+    return $response;
+});
 
 
 

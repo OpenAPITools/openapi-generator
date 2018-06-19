@@ -37,6 +37,8 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.regex.Matcher;
+import java.util.Comparator;
+import java.util.Collections;
 
 public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
@@ -340,6 +342,28 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
                     }
                 }
             }
+        }
+        return objs;
+    }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
+        List<HashMap<String, Object>> apiList = (List<HashMap<String, Object>>) apiInfo.get("apis");
+        for (HashMap<String, Object> api : apiList) {
+            HashMap<String, Object> operations = (HashMap<String, Object>) api.get("operations");
+            List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+
+            // Sort operations to avoid static routes shadowing
+            // ref: https://github.com/nikic/FastRoute/blob/master/src/DataGenerator/RegexBasedAbstract.php#L92-L101
+            Collections.sort(operationList, new Comparator<CodegenOperation>() {
+                @Override
+                public int compare(CodegenOperation one, CodegenOperation another) {
+                    if (one.getHasPathParams() && !another.getHasPathParams()) return 1;
+                    if (!one.getHasPathParams() && another.getHasPathParams()) return -1;
+                    return 0;
+                }
+            });
         }
         return objs;
     }
