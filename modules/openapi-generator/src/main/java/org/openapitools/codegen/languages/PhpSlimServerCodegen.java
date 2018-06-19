@@ -25,6 +25,8 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.swagger.v3.oas.models.media.*;
 
@@ -37,6 +39,8 @@ import java.util.HashSet;
 import java.util.regex.Matcher;
 
 public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
+
     protected String invokerPackage;
     protected String srcBasePath = "lib";
     protected String groupId = "org.openapitools";
