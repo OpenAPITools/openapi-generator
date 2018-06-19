@@ -35,6 +35,7 @@ use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use OpenAPI\Client\ApiException;
+use OpenAPI\Client\ApiResponse;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
 use OpenAPI\Client\ObjectSerializer;
@@ -100,12 +101,16 @@ class AnotherFakeApi
      */
     public function call123TestSpecialTags($client)
     {
-        list($response) = $this->call123TestSpecialTagsWithHttpInfo($client);
-        return $response;
+        $apiResponse = $this->call123TestSpecialTagsWithApiResponse($client);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation call123TestSpecialTagsWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * To test special tags
      *
@@ -113,9 +118,33 @@ class AnotherFakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (strings[])
      */
     public function call123TestSpecialTagsWithHttpInfo($client)
+    {
+      $apiResponse = $this->call123TestSpecialTagsWithApiResponse($client);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation call123TestSpecialTagsWithApiResponse
+     *
+     * To test special tags
+     *
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type \OpenAPI\Client\Model\Client
+     */
+    public function call123TestSpecialTagsWithApiResponse($client)
     {
         $request = $this->call123TestSpecialTagsRequest($client);
 
@@ -159,11 +188,11 @@ class AnotherFakeApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Client', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = '\OpenAPI\Client\Model\Client';
@@ -177,11 +206,11 @@ class AnotherFakeApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -210,16 +239,18 @@ class AnotherFakeApi
      */
     public function call123TestSpecialTagsAsync($client)
     {
-        return $this->call123TestSpecialTagsAsyncWithHttpInfo($client)
+        return $this->call123TestSpecialTagsAsyncWithApiResponse($client)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation call123TestSpecialTagsAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * To test special tags
      *
@@ -229,6 +260,30 @@ class AnotherFakeApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function call123TestSpecialTagsAsyncWithHttpInfo($client)
+    {
+      return $this->call123TestSpecialTagsAsyncWithApiResponse($client)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation call123TestSpecialTagsAsyncWithApiResponse
+     *
+     * To test special tags
+     *
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function call123TestSpecialTagsAsyncWithApiResponse($client)
     {
         $returnType = '\OpenAPI\Client\Model\Client';
         $request = $this->call123TestSpecialTagsRequest($client);
@@ -247,11 +302,11 @@ class AnotherFakeApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();

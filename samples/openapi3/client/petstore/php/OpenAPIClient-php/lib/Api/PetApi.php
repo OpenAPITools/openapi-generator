@@ -35,6 +35,7 @@ use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use OpenAPI\Client\ApiException;
+use OpenAPI\Client\ApiResponse;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
 use OpenAPI\Client\ObjectSerializer;
@@ -100,11 +101,15 @@ class PetApi
      */
     public function addPet($pet)
     {
-        $this->addPetWithHttpInfo($pet);
+        $this->addPetWithApiResponse($pet);
     }
+
 
     /**
      * Operation addPetWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Add a new pet to the store
      *
@@ -112,9 +117,33 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function addPetWithHttpInfo($pet)
+    {
+      $apiResponse = $this->addPetWithApiResponse($pet);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation addPetWithApiResponse
+     *
+     * Add a new pet to the store
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function addPetWithApiResponse($pet)
     {
         $request = $this->addPetRequest($pet);
 
@@ -146,7 +175,7 @@ class PetApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -167,16 +196,18 @@ class PetApi
      */
     public function addPetAsync($pet)
     {
-        return $this->addPetAsyncWithHttpInfo($pet)
+        return $this->addPetAsyncWithApiResponse($pet)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation addPetAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Add a new pet to the store
      *
@@ -187,14 +218,37 @@ class PetApi
      */
     public function addPetAsyncWithHttpInfo($pet)
     {
-        $returnType = '';
+      return $this->addPetAsyncWithApiResponse($pet)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation addPetAsyncWithApiResponse
+     *
+     * Add a new pet to the store
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function addPetAsyncWithApiResponse($pet)
+    {
         $request = $this->addPetRequest($pet);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -324,11 +378,15 @@ class PetApi
      */
     public function deletePet($pet_id, $api_key = null)
     {
-        $this->deletePetWithHttpInfo($pet_id, $api_key);
+        $this->deletePetWithApiResponse($pet_id, $api_key);
     }
+
 
     /**
      * Operation deletePetWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Deletes a pet
      *
@@ -337,9 +395,34 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function deletePetWithHttpInfo($pet_id, $api_key = null)
+    {
+      $apiResponse = $this->deletePetWithApiResponse($pet_id, $api_key);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation deletePetWithApiResponse
+     *
+     * Deletes a pet
+     *
+     * @param  int $pet_id Pet id to delete (required)
+     * @param  string $api_key (optional)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function deletePetWithApiResponse($pet_id, $api_key = null)
     {
         $request = $this->deletePetRequest($pet_id, $api_key);
 
@@ -371,7 +454,7 @@ class PetApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -393,16 +476,18 @@ class PetApi
      */
     public function deletePetAsync($pet_id, $api_key = null)
     {
-        return $this->deletePetAsyncWithHttpInfo($pet_id, $api_key)
+        return $this->deletePetAsyncWithApiResponse($pet_id, $api_key)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation deletePetAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Deletes a pet
      *
@@ -414,14 +499,38 @@ class PetApi
      */
     public function deletePetAsyncWithHttpInfo($pet_id, $api_key = null)
     {
-        $returnType = '';
+      return $this->deletePetAsyncWithApiResponse($pet_id, $api_key)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation deletePetAsyncWithApiResponse
+     *
+     * Deletes a pet
+     *
+     * @param  int $pet_id Pet id to delete (required)
+     * @param  string $api_key (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deletePetAsyncWithApiResponse($pet_id, $api_key = null)
+    {
         $request = $this->deletePetRequest($pet_id, $api_key);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -560,12 +669,16 @@ class PetApi
      */
     public function findPetsByStatus($status)
     {
-        list($response) = $this->findPetsByStatusWithHttpInfo($status);
-        return $response;
+        $apiResponse = $this->findPetsByStatusWithApiResponse($status);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation findPetsByStatusWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Finds Pets by status
      *
@@ -573,9 +686,33 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\Pet[], HTTP status code, HTTP response headers (strings[])
      */
     public function findPetsByStatusWithHttpInfo($status)
+    {
+      $apiResponse = $this->findPetsByStatusWithApiResponse($status);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation findPetsByStatusWithApiResponse
+     *
+     * Finds Pets by status
+     *
+     * @param  string[] $status Status values that need to be considered for filter (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type \OpenAPI\Client\Model\Pet[]
+     */
+    public function findPetsByStatusWithApiResponse($status)
     {
         $request = $this->findPetsByStatusRequest($status);
 
@@ -619,11 +756,11 @@ class PetApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Pet[]', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = '\OpenAPI\Client\Model\Pet[]';
@@ -637,11 +774,11 @@ class PetApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -670,16 +807,18 @@ class PetApi
      */
     public function findPetsByStatusAsync($status)
     {
-        return $this->findPetsByStatusAsyncWithHttpInfo($status)
+        return $this->findPetsByStatusAsyncWithApiResponse($status)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation findPetsByStatusAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Finds Pets by status
      *
@@ -689,6 +828,30 @@ class PetApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function findPetsByStatusAsyncWithHttpInfo($status)
+    {
+      return $this->findPetsByStatusAsyncWithApiResponse($status)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation findPetsByStatusAsyncWithApiResponse
+     *
+     * Finds Pets by status
+     *
+     * @param  string[] $status Status values that need to be considered for filter (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function findPetsByStatusAsyncWithApiResponse($status)
     {
         $returnType = '\OpenAPI\Client\Model\Pet[]';
         $request = $this->findPetsByStatusRequest($status);
@@ -707,11 +870,11 @@ class PetApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -844,12 +1007,16 @@ class PetApi
      */
     public function findPetsByTags($tags)
     {
-        list($response) = $this->findPetsByTagsWithHttpInfo($tags);
-        return $response;
+        $apiResponse = $this->findPetsByTagsWithApiResponse($tags);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation findPetsByTagsWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Finds Pets by tags
      *
@@ -857,9 +1024,33 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\Pet[], HTTP status code, HTTP response headers (strings[])
      */
     public function findPetsByTagsWithHttpInfo($tags)
+    {
+      $apiResponse = $this->findPetsByTagsWithApiResponse($tags);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation findPetsByTagsWithApiResponse
+     *
+     * Finds Pets by tags
+     *
+     * @param  string[] $tags Tags to filter by (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type \OpenAPI\Client\Model\Pet[]
+     */
+    public function findPetsByTagsWithApiResponse($tags)
     {
         $request = $this->findPetsByTagsRequest($tags);
 
@@ -903,11 +1094,11 @@ class PetApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Pet[]', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = '\OpenAPI\Client\Model\Pet[]';
@@ -921,11 +1112,11 @@ class PetApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -954,16 +1145,18 @@ class PetApi
      */
     public function findPetsByTagsAsync($tags)
     {
-        return $this->findPetsByTagsAsyncWithHttpInfo($tags)
+        return $this->findPetsByTagsAsyncWithApiResponse($tags)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation findPetsByTagsAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Finds Pets by tags
      *
@@ -973,6 +1166,30 @@ class PetApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function findPetsByTagsAsyncWithHttpInfo($tags)
+    {
+      return $this->findPetsByTagsAsyncWithApiResponse($tags)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation findPetsByTagsAsyncWithApiResponse
+     *
+     * Finds Pets by tags
+     *
+     * @param  string[] $tags Tags to filter by (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function findPetsByTagsAsyncWithApiResponse($tags)
     {
         $returnType = '\OpenAPI\Client\Model\Pet[]';
         $request = $this->findPetsByTagsRequest($tags);
@@ -991,11 +1208,11 @@ class PetApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1128,12 +1345,16 @@ class PetApi
      */
     public function getPetById($pet_id)
     {
-        list($response) = $this->getPetByIdWithHttpInfo($pet_id);
-        return $response;
+        $apiResponse = $this->getPetByIdWithApiResponse($pet_id);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation getPetByIdWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Find pet by ID
      *
@@ -1141,9 +1362,33 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\Pet, HTTP status code, HTTP response headers (strings[])
      */
     public function getPetByIdWithHttpInfo($pet_id)
+    {
+      $apiResponse = $this->getPetByIdWithApiResponse($pet_id);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation getPetByIdWithApiResponse
+     *
+     * Find pet by ID
+     *
+     * @param  int $pet_id ID of pet to return (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type \OpenAPI\Client\Model\Pet
+     */
+    public function getPetByIdWithApiResponse($pet_id)
     {
         $request = $this->getPetByIdRequest($pet_id);
 
@@ -1187,11 +1432,11 @@ class PetApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Pet', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = '\OpenAPI\Client\Model\Pet';
@@ -1205,11 +1450,11 @@ class PetApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -1238,16 +1483,18 @@ class PetApi
      */
     public function getPetByIdAsync($pet_id)
     {
-        return $this->getPetByIdAsyncWithHttpInfo($pet_id)
+        return $this->getPetByIdAsyncWithApiResponse($pet_id)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation getPetByIdAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Find pet by ID
      *
@@ -1257,6 +1504,30 @@ class PetApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function getPetByIdAsyncWithHttpInfo($pet_id)
+    {
+      return $this->getPetByIdAsyncWithApiResponse($pet_id)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation getPetByIdAsyncWithApiResponse
+     *
+     * Find pet by ID
+     *
+     * @param  int $pet_id ID of pet to return (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getPetByIdAsyncWithApiResponse($pet_id)
     {
         $returnType = '\OpenAPI\Client\Model\Pet';
         $request = $this->getPetByIdRequest($pet_id);
@@ -1275,11 +1546,11 @@ class PetApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1414,11 +1685,15 @@ class PetApi
      */
     public function updatePet($pet)
     {
-        $this->updatePetWithHttpInfo($pet);
+        $this->updatePetWithApiResponse($pet);
     }
+
 
     /**
      * Operation updatePetWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Update an existing pet
      *
@@ -1426,9 +1701,33 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function updatePetWithHttpInfo($pet)
+    {
+      $apiResponse = $this->updatePetWithApiResponse($pet);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation updatePetWithApiResponse
+     *
+     * Update an existing pet
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function updatePetWithApiResponse($pet)
     {
         $request = $this->updatePetRequest($pet);
 
@@ -1460,7 +1759,7 @@ class PetApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -1481,16 +1780,18 @@ class PetApi
      */
     public function updatePetAsync($pet)
     {
-        return $this->updatePetAsyncWithHttpInfo($pet)
+        return $this->updatePetAsyncWithApiResponse($pet)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation updatePetAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Update an existing pet
      *
@@ -1501,14 +1802,37 @@ class PetApi
      */
     public function updatePetAsyncWithHttpInfo($pet)
     {
-        $returnType = '';
+      return $this->updatePetAsyncWithApiResponse($pet)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation updatePetAsyncWithApiResponse
+     *
+     * Update an existing pet
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updatePetAsyncWithApiResponse($pet)
+    {
         $request = $this->updatePetRequest($pet);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1639,11 +1963,15 @@ class PetApi
      */
     public function updatePetWithForm($pet_id, $name = null, $status = null)
     {
-        $this->updatePetWithFormWithHttpInfo($pet_id, $name, $status);
+        $this->updatePetWithFormWithApiResponse($pet_id, $name, $status);
     }
+
 
     /**
      * Operation updatePetWithFormWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Updates a pet in the store with form data
      *
@@ -1653,9 +1981,35 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function updatePetWithFormWithHttpInfo($pet_id, $name = null, $status = null)
+    {
+      $apiResponse = $this->updatePetWithFormWithApiResponse($pet_id, $name, $status);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation updatePetWithFormWithApiResponse
+     *
+     * Updates a pet in the store with form data
+     *
+     * @param  int $pet_id ID of pet that needs to be updated (required)
+     * @param  string $name Updated name of the pet (optional)
+     * @param  string $status Updated status of the pet (optional)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function updatePetWithFormWithApiResponse($pet_id, $name = null, $status = null)
     {
         $request = $this->updatePetWithFormRequest($pet_id, $name, $status);
 
@@ -1687,7 +2041,7 @@ class PetApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -1710,16 +2064,18 @@ class PetApi
      */
     public function updatePetWithFormAsync($pet_id, $name = null, $status = null)
     {
-        return $this->updatePetWithFormAsyncWithHttpInfo($pet_id, $name, $status)
+        return $this->updatePetWithFormAsyncWithApiResponse($pet_id, $name, $status)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation updatePetWithFormAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Updates a pet in the store with form data
      *
@@ -1732,14 +2088,39 @@ class PetApi
      */
     public function updatePetWithFormAsyncWithHttpInfo($pet_id, $name = null, $status = null)
     {
-        $returnType = '';
+      return $this->updatePetWithFormAsyncWithApiResponse($pet_id, $name, $status)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation updatePetWithFormAsyncWithApiResponse
+     *
+     * Updates a pet in the store with form data
+     *
+     * @param  int $pet_id ID of pet that needs to be updated (required)
+     * @param  string $name Updated name of the pet (optional)
+     * @param  string $status Updated status of the pet (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updatePetWithFormAsyncWithApiResponse($pet_id, $name = null, $status = null)
+    {
         $request = $this->updatePetWithFormRequest($pet_id, $name, $status);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1885,12 +2266,16 @@ class PetApi
      */
     public function uploadFile($pet_id, $additional_metadata = null, $file = null)
     {
-        list($response) = $this->uploadFileWithHttpInfo($pet_id, $additional_metadata, $file);
-        return $response;
+        $apiResponse = $this->uploadFileWithApiResponse($pet_id, $additional_metadata, $file);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation uploadFileWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * uploads an image
      *
@@ -1900,9 +2285,35 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\ApiResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\ApiResponse, HTTP status code, HTTP response headers (strings[])
      */
     public function uploadFileWithHttpInfo($pet_id, $additional_metadata = null, $file = null)
+    {
+      $apiResponse = $this->uploadFileWithApiResponse($pet_id, $additional_metadata, $file);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation uploadFileWithApiResponse
+     *
+     * uploads an image
+     *
+     * @param  int $pet_id ID of pet to update (required)
+     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  \SplFileObject $file file to upload (optional)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type \OpenAPI\Client\Model\ApiResponse
+     */
+    public function uploadFileWithApiResponse($pet_id, $additional_metadata = null, $file = null)
     {
         $request = $this->uploadFileRequest($pet_id, $additional_metadata, $file);
 
@@ -1946,11 +2357,11 @@ class PetApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\ApiResponse', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = '\OpenAPI\Client\Model\ApiResponse';
@@ -1964,11 +2375,11 @@ class PetApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -1999,16 +2410,18 @@ class PetApi
      */
     public function uploadFileAsync($pet_id, $additional_metadata = null, $file = null)
     {
-        return $this->uploadFileAsyncWithHttpInfo($pet_id, $additional_metadata, $file)
+        return $this->uploadFileAsyncWithApiResponse($pet_id, $additional_metadata, $file)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation uploadFileAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * uploads an image
      *
@@ -2020,6 +2433,32 @@ class PetApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function uploadFileAsyncWithHttpInfo($pet_id, $additional_metadata = null, $file = null)
+    {
+      return $this->uploadFileAsyncWithApiResponse($pet_id, $additional_metadata, $file)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation uploadFileAsyncWithApiResponse
+     *
+     * uploads an image
+     *
+     * @param  int $pet_id ID of pet to update (required)
+     * @param  string $additional_metadata Additional data to pass to server (optional)
+     * @param  \SplFileObject $file file to upload (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function uploadFileAsyncWithApiResponse($pet_id, $additional_metadata = null, $file = null)
     {
         $returnType = '\OpenAPI\Client\Model\ApiResponse';
         $request = $this->uploadFileRequest($pet_id, $additional_metadata, $file);
@@ -2038,11 +2477,11 @@ class PetApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -2189,12 +2628,16 @@ class PetApi
      */
     public function uploadFileWithRequiredFile($pet_id, $required_file, $additional_metadata = null)
     {
-        list($response) = $this->uploadFileWithRequiredFileWithHttpInfo($pet_id, $required_file, $additional_metadata);
-        return $response;
+        $apiResponse = $this->uploadFileWithRequiredFileWithApiResponse($pet_id, $required_file, $additional_metadata);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation uploadFileWithRequiredFileWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * uploads an image (required)
      *
@@ -2204,9 +2647,35 @@ class PetApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\ApiResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\ApiResponse, HTTP status code, HTTP response headers (strings[])
      */
     public function uploadFileWithRequiredFileWithHttpInfo($pet_id, $required_file, $additional_metadata = null)
+    {
+      $apiResponse = $this->uploadFileWithRequiredFileWithApiResponse($pet_id, $required_file, $additional_metadata);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation uploadFileWithRequiredFileWithApiResponse
+     *
+     * uploads an image (required)
+     *
+     * @param  int $pet_id ID of pet to update (required)
+     * @param  \SplFileObject $required_file file to upload (required)
+     * @param  string $additional_metadata Additional data to pass to server (optional)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type \OpenAPI\Client\Model\ApiResponse
+     */
+    public function uploadFileWithRequiredFileWithApiResponse($pet_id, $required_file, $additional_metadata = null)
     {
         $request = $this->uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata);
 
@@ -2250,11 +2719,11 @@ class PetApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\ApiResponse', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = '\OpenAPI\Client\Model\ApiResponse';
@@ -2268,11 +2737,11 @@ class PetApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -2303,16 +2772,18 @@ class PetApi
      */
     public function uploadFileWithRequiredFileAsync($pet_id, $required_file, $additional_metadata = null)
     {
-        return $this->uploadFileWithRequiredFileAsyncWithHttpInfo($pet_id, $required_file, $additional_metadata)
+        return $this->uploadFileWithRequiredFileAsyncWithApiResponse($pet_id, $required_file, $additional_metadata)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation uploadFileWithRequiredFileAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * uploads an image (required)
      *
@@ -2324,6 +2795,32 @@ class PetApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function uploadFileWithRequiredFileAsyncWithHttpInfo($pet_id, $required_file, $additional_metadata = null)
+    {
+      return $this->uploadFileWithRequiredFileAsyncWithApiResponse($pet_id, $required_file, $additional_metadata)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation uploadFileWithRequiredFileAsyncWithApiResponse
+     *
+     * uploads an image (required)
+     *
+     * @param  int $pet_id ID of pet to update (required)
+     * @param  \SplFileObject $required_file file to upload (required)
+     * @param  string $additional_metadata Additional data to pass to server (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function uploadFileWithRequiredFileAsyncWithApiResponse($pet_id, $required_file, $additional_metadata = null)
     {
         $returnType = '\OpenAPI\Client\Model\ApiResponse';
         $request = $this->uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata);
@@ -2342,11 +2839,11 @@ class PetApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();

@@ -25,6 +25,7 @@ use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use {{invokerPackage}}\ApiException;
+use {{invokerPackage}}\ApiResponse;
 use {{invokerPackage}}\Configuration;
 use {{invokerPackage}}\HeaderSelector;
 use {{invokerPackage}}\ObjectSerializer;
@@ -99,12 +100,16 @@ use {{invokerPackage}}\ObjectSerializer;
      */
     public function {{operationId}}({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
-        {{#returnType}}list($response) = {{/returnType}}$this->{{operationId}}WithHttpInfo({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
-        return $response;{{/returnType}}
+        {{#returnType}}$apiResponse = {{/returnType}}$this->{{operationId}}WithApiResponse({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+        return $apiResponse->getMessage();{{/returnType}}
     }
+
 
     /**
      * Operation {{{operationId}}}WithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
 {{#summary}}
      *
      * {{{summary}}}
@@ -120,9 +125,41 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of {{#returnType}}{{#responses}}{{#dataType}}{{^-first}}|{{/-first}}{{/dataType}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
+     * @return array of {{#returnType}}{{#responses}}{{#dataType}}{{^-first}}|{{/-first}}{{/dataType}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (strings[])
      */
     public function {{operationId}}WithHttpInfo({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    {
+      $apiResponse = $this->{{operationId}}WithApiResponse({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation {{{operationId}}}WithApiResponse
+{{#summary}}
+     *
+     * {{{summary}}}
+{{/summary}}
+     *
+{{#description}}
+     * {{.}}
+     *
+{{/description}}
+{{#allParams}}
+     * @param  {{dataType}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+{{/allParams}}
+     *
+     * @throws \{{invokerPackage}}\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property {{#returnType}}of type {{{returnType}}}{{/returnType}}{{^returnType}}equals to null{{/returnType}}
+     */
+    public function {{operationId}}WithApiResponse({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
         $request = $this->{{operationId}}Request({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 
@@ -171,11 +208,11 @@ use {{invokerPackage}}\ObjectSerializer;
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, '{{dataType}}', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             {{/dataType}}
             {{#-last}}
             }
@@ -193,15 +230,15 @@ use {{invokerPackage}}\ObjectSerializer;
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
             {{/returnType}}
             {{^returnType}}
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
             {{/returnType}}
 
         } catch (ApiException $e) {
@@ -241,16 +278,18 @@ use {{invokerPackage}}\ObjectSerializer;
      */
     public function {{operationId}}Async({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
-        return $this->{{operationId}}AsyncWithHttpInfo({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        return $this->{{operationId}}AsyncWithApiResponse({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation {{{operationId}}}AsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * {{{summary}}}
      *
@@ -267,13 +306,45 @@ use {{invokerPackage}}\ObjectSerializer;
      */
     public function {{operationId}}AsyncWithHttpInfo({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
+      return $this->{{operationId}}AsyncWithApiResponse({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation {{{operationId}}}AsyncWithApiResponse
+     *
+     * {{{summary}}}
+     *
+{{#description}}
+     * {{.}}
+     *
+{{/description}}
+{{#allParams}}
+     * @param  {{dataType}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+{{/allParams}}
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function {{operationId}}AsyncWithApiResponse({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    {
+        {{#returnType}}
         $returnType = '{{returnType}}';
+        {{/returnType}}
         $request = $this->{{operationId}}Request({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
+                function ($response){{#returnType}} use ($returnType){{/returnType}} {
                     {{#returnType}}
                     $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
@@ -285,14 +356,14 @@ use {{invokerPackage}}\ObjectSerializer;
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                     {{/returnType}}
                     {{^returnType}}
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 {{/returnType}}
                 },
                 function ($exception) {

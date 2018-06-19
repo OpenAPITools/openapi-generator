@@ -35,6 +35,7 @@ use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use OpenAPI\Client\ApiException;
+use OpenAPI\Client\ApiResponse;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
 use OpenAPI\Client\ObjectSerializer;
@@ -98,20 +99,46 @@ class FakeApi
      */
     public function fakeOuterBooleanSerialize($body = null)
     {
-        list($response) = $this->fakeOuterBooleanSerializeWithHttpInfo($body);
-        return $response;
+        $apiResponse = $this->fakeOuterBooleanSerializeWithApiResponse($body);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation fakeOuterBooleanSerializeWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * @param  bool $body Input boolean as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of bool, HTTP status code, HTTP response headers (array of strings)
+     * @return array of bool, HTTP status code, HTTP response headers (strings[])
      */
     public function fakeOuterBooleanSerializeWithHttpInfo($body = null)
+    {
+      $apiResponse = $this->fakeOuterBooleanSerializeWithApiResponse($body);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation fakeOuterBooleanSerializeWithApiResponse
+     *
+     * @param  bool $body Input boolean as post body (optional)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type bool
+     */
+    public function fakeOuterBooleanSerializeWithApiResponse($body = null)
     {
         $request = $this->fakeOuterBooleanSerializeRequest($body);
 
@@ -155,11 +182,11 @@ class FakeApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, 'bool', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = 'bool';
@@ -173,11 +200,11 @@ class FakeApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -206,16 +233,18 @@ class FakeApi
      */
     public function fakeOuterBooleanSerializeAsync($body = null)
     {
-        return $this->fakeOuterBooleanSerializeAsyncWithHttpInfo($body)
+        return $this->fakeOuterBooleanSerializeAsyncWithApiResponse($body)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation fakeOuterBooleanSerializeAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * 
      *
@@ -225,6 +254,30 @@ class FakeApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function fakeOuterBooleanSerializeAsyncWithHttpInfo($body = null)
+    {
+      return $this->fakeOuterBooleanSerializeAsyncWithApiResponse($body)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation fakeOuterBooleanSerializeAsyncWithApiResponse
+     *
+     * 
+     *
+     * @param  bool $body Input boolean as post body (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function fakeOuterBooleanSerializeAsyncWithApiResponse($body = null)
     {
         $returnType = 'bool';
         $request = $this->fakeOuterBooleanSerializeRequest($body);
@@ -243,11 +296,11 @@ class FakeApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -364,20 +417,46 @@ class FakeApi
      */
     public function fakeOuterCompositeSerialize($outer_composite = null)
     {
-        list($response) = $this->fakeOuterCompositeSerializeWithHttpInfo($outer_composite);
-        return $response;
+        $apiResponse = $this->fakeOuterCompositeSerializeWithApiResponse($outer_composite);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation fakeOuterCompositeSerializeWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\OuterComposite, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\OuterComposite, HTTP status code, HTTP response headers (strings[])
      */
     public function fakeOuterCompositeSerializeWithHttpInfo($outer_composite = null)
+    {
+      $apiResponse = $this->fakeOuterCompositeSerializeWithApiResponse($outer_composite);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation fakeOuterCompositeSerializeWithApiResponse
+     *
+     * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type \OpenAPI\Client\Model\OuterComposite
+     */
+    public function fakeOuterCompositeSerializeWithApiResponse($outer_composite = null)
     {
         $request = $this->fakeOuterCompositeSerializeRequest($outer_composite);
 
@@ -421,11 +500,11 @@ class FakeApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\OuterComposite', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = '\OpenAPI\Client\Model\OuterComposite';
@@ -439,11 +518,11 @@ class FakeApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -472,16 +551,18 @@ class FakeApi
      */
     public function fakeOuterCompositeSerializeAsync($outer_composite = null)
     {
-        return $this->fakeOuterCompositeSerializeAsyncWithHttpInfo($outer_composite)
+        return $this->fakeOuterCompositeSerializeAsyncWithApiResponse($outer_composite)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation fakeOuterCompositeSerializeAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * 
      *
@@ -491,6 +572,30 @@ class FakeApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function fakeOuterCompositeSerializeAsyncWithHttpInfo($outer_composite = null)
+    {
+      return $this->fakeOuterCompositeSerializeAsyncWithApiResponse($outer_composite)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation fakeOuterCompositeSerializeAsyncWithApiResponse
+     *
+     * 
+     *
+     * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function fakeOuterCompositeSerializeAsyncWithApiResponse($outer_composite = null)
     {
         $returnType = '\OpenAPI\Client\Model\OuterComposite';
         $request = $this->fakeOuterCompositeSerializeRequest($outer_composite);
@@ -509,11 +614,11 @@ class FakeApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -630,20 +735,46 @@ class FakeApi
      */
     public function fakeOuterNumberSerialize($body = null)
     {
-        list($response) = $this->fakeOuterNumberSerializeWithHttpInfo($body);
-        return $response;
+        $apiResponse = $this->fakeOuterNumberSerializeWithApiResponse($body);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation fakeOuterNumberSerializeWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * @param  float $body Input number as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of float, HTTP status code, HTTP response headers (array of strings)
+     * @return array of float, HTTP status code, HTTP response headers (strings[])
      */
     public function fakeOuterNumberSerializeWithHttpInfo($body = null)
+    {
+      $apiResponse = $this->fakeOuterNumberSerializeWithApiResponse($body);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation fakeOuterNumberSerializeWithApiResponse
+     *
+     * @param  float $body Input number as post body (optional)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type float
+     */
+    public function fakeOuterNumberSerializeWithApiResponse($body = null)
     {
         $request = $this->fakeOuterNumberSerializeRequest($body);
 
@@ -687,11 +818,11 @@ class FakeApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, 'float', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = 'float';
@@ -705,11 +836,11 @@ class FakeApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -738,16 +869,18 @@ class FakeApi
      */
     public function fakeOuterNumberSerializeAsync($body = null)
     {
-        return $this->fakeOuterNumberSerializeAsyncWithHttpInfo($body)
+        return $this->fakeOuterNumberSerializeAsyncWithApiResponse($body)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation fakeOuterNumberSerializeAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * 
      *
@@ -757,6 +890,30 @@ class FakeApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function fakeOuterNumberSerializeAsyncWithHttpInfo($body = null)
+    {
+      return $this->fakeOuterNumberSerializeAsyncWithApiResponse($body)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation fakeOuterNumberSerializeAsyncWithApiResponse
+     *
+     * 
+     *
+     * @param  float $body Input number as post body (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function fakeOuterNumberSerializeAsyncWithApiResponse($body = null)
     {
         $returnType = 'float';
         $request = $this->fakeOuterNumberSerializeRequest($body);
@@ -775,11 +932,11 @@ class FakeApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -896,20 +1053,46 @@ class FakeApi
      */
     public function fakeOuterStringSerialize($body = null)
     {
-        list($response) = $this->fakeOuterStringSerializeWithHttpInfo($body);
-        return $response;
+        $apiResponse = $this->fakeOuterStringSerializeWithApiResponse($body);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation fakeOuterStringSerializeWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * @param  string $body Input string as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array of string, HTTP status code, HTTP response headers (strings[])
      */
     public function fakeOuterStringSerializeWithHttpInfo($body = null)
+    {
+      $apiResponse = $this->fakeOuterStringSerializeWithApiResponse($body);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation fakeOuterStringSerializeWithApiResponse
+     *
+     * @param  string $body Input string as post body (optional)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type string
+     */
+    public function fakeOuterStringSerializeWithApiResponse($body = null)
     {
         $request = $this->fakeOuterStringSerializeRequest($body);
 
@@ -953,11 +1136,11 @@ class FakeApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, 'string', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = 'string';
@@ -971,11 +1154,11 @@ class FakeApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -1004,16 +1187,18 @@ class FakeApi
      */
     public function fakeOuterStringSerializeAsync($body = null)
     {
-        return $this->fakeOuterStringSerializeAsyncWithHttpInfo($body)
+        return $this->fakeOuterStringSerializeAsyncWithApiResponse($body)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation fakeOuterStringSerializeAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * 
      *
@@ -1023,6 +1208,30 @@ class FakeApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function fakeOuterStringSerializeAsyncWithHttpInfo($body = null)
+    {
+      return $this->fakeOuterStringSerializeAsyncWithApiResponse($body)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation fakeOuterStringSerializeAsyncWithApiResponse
+     *
+     * 
+     *
+     * @param  string $body Input string as post body (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function fakeOuterStringSerializeAsyncWithApiResponse($body = null)
     {
         $returnType = 'string';
         $request = $this->fakeOuterStringSerializeRequest($body);
@@ -1041,11 +1250,11 @@ class FakeApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1162,19 +1371,45 @@ class FakeApi
      */
     public function testBodyWithFileSchema($file_schema_test_class)
     {
-        $this->testBodyWithFileSchemaWithHttpInfo($file_schema_test_class);
+        $this->testBodyWithFileSchemaWithApiResponse($file_schema_test_class);
     }
+
 
     /**
      * Operation testBodyWithFileSchemaWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function testBodyWithFileSchemaWithHttpInfo($file_schema_test_class)
+    {
+      $apiResponse = $this->testBodyWithFileSchemaWithApiResponse($file_schema_test_class);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation testBodyWithFileSchemaWithApiResponse
+     *
+     * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function testBodyWithFileSchemaWithApiResponse($file_schema_test_class)
     {
         $request = $this->testBodyWithFileSchemaRequest($file_schema_test_class);
 
@@ -1206,7 +1441,7 @@ class FakeApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -1227,16 +1462,18 @@ class FakeApi
      */
     public function testBodyWithFileSchemaAsync($file_schema_test_class)
     {
-        return $this->testBodyWithFileSchemaAsyncWithHttpInfo($file_schema_test_class)
+        return $this->testBodyWithFileSchemaAsyncWithApiResponse($file_schema_test_class)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation testBodyWithFileSchemaAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * 
      *
@@ -1247,14 +1484,37 @@ class FakeApi
      */
     public function testBodyWithFileSchemaAsyncWithHttpInfo($file_schema_test_class)
     {
-        $returnType = '';
+      return $this->testBodyWithFileSchemaAsyncWithApiResponse($file_schema_test_class)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation testBodyWithFileSchemaAsyncWithApiResponse
+     *
+     * 
+     *
+     * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function testBodyWithFileSchemaAsyncWithApiResponse($file_schema_test_class)
+    {
         $request = $this->testBodyWithFileSchemaRequest($file_schema_test_class);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1378,20 +1638,47 @@ class FakeApi
      */
     public function testBodyWithQueryParams($query, $user)
     {
-        $this->testBodyWithQueryParamsWithHttpInfo($query, $user);
+        $this->testBodyWithQueryParamsWithApiResponse($query, $user);
     }
+
 
     /**
      * Operation testBodyWithQueryParamsWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * @param  string $query (required)
      * @param  \OpenAPI\Client\Model\User $user (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function testBodyWithQueryParamsWithHttpInfo($query, $user)
+    {
+      $apiResponse = $this->testBodyWithQueryParamsWithApiResponse($query, $user);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation testBodyWithQueryParamsWithApiResponse
+     *
+     * @param  string $query (required)
+     * @param  \OpenAPI\Client\Model\User $user (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function testBodyWithQueryParamsWithApiResponse($query, $user)
     {
         $request = $this->testBodyWithQueryParamsRequest($query, $user);
 
@@ -1423,7 +1710,7 @@ class FakeApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -1445,16 +1732,18 @@ class FakeApi
      */
     public function testBodyWithQueryParamsAsync($query, $user)
     {
-        return $this->testBodyWithQueryParamsAsyncWithHttpInfo($query, $user)
+        return $this->testBodyWithQueryParamsAsyncWithApiResponse($query, $user)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation testBodyWithQueryParamsAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * 
      *
@@ -1466,14 +1755,38 @@ class FakeApi
      */
     public function testBodyWithQueryParamsAsyncWithHttpInfo($query, $user)
     {
-        $returnType = '';
+      return $this->testBodyWithQueryParamsAsyncWithApiResponse($query, $user)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation testBodyWithQueryParamsAsyncWithApiResponse
+     *
+     * 
+     *
+     * @param  string $query (required)
+     * @param  \OpenAPI\Client\Model\User $user (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function testBodyWithQueryParamsAsyncWithApiResponse($query, $user)
+    {
         $request = $this->testBodyWithQueryParamsRequest($query, $user);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1609,12 +1922,16 @@ class FakeApi
      */
     public function testClientModel($client)
     {
-        list($response) = $this->testClientModelWithHttpInfo($client);
-        return $response;
+        $apiResponse = $this->testClientModelWithApiResponse($client);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation testClientModelWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * To test \"client\" model
      *
@@ -1622,9 +1939,33 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (strings[])
      */
     public function testClientModelWithHttpInfo($client)
+    {
+      $apiResponse = $this->testClientModelWithApiResponse($client);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation testClientModelWithApiResponse
+     *
+     * To test \"client\" model
+     *
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type \OpenAPI\Client\Model\Client
+     */
+    public function testClientModelWithApiResponse($client)
     {
         $request = $this->testClientModelRequest($client);
 
@@ -1668,11 +2009,11 @@ class FakeApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Client', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = '\OpenAPI\Client\Model\Client';
@@ -1686,11 +2027,11 @@ class FakeApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -1719,16 +2060,18 @@ class FakeApi
      */
     public function testClientModelAsync($client)
     {
-        return $this->testClientModelAsyncWithHttpInfo($client)
+        return $this->testClientModelAsyncWithApiResponse($client)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation testClientModelAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * To test \"client\" model
      *
@@ -1738,6 +2081,30 @@ class FakeApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function testClientModelAsyncWithHttpInfo($client)
+    {
+      return $this->testClientModelAsyncWithApiResponse($client)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation testClientModelAsyncWithApiResponse
+     *
+     * To test \"client\" model
+     *
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function testClientModelAsyncWithApiResponse($client)
     {
         $returnType = '\OpenAPI\Client\Model\Client';
         $request = $this->testClientModelRequest($client);
@@ -1756,11 +2123,11 @@ class FakeApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1898,11 +2265,15 @@ class FakeApi
      */
     public function testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
-        $this->testEndpointParametersWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
+        $this->testEndpointParametersWithApiResponse($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
     }
+
 
     /**
      * Operation testEndpointParametersWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
@@ -1923,9 +2294,46 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function testEndpointParametersWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
+    {
+      $apiResponse = $this->testEndpointParametersWithApiResponse($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation testEndpointParametersWithApiResponse
+     *
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     *
+     * @param  float $number None (required)
+     * @param  double $double None (required)
+     * @param  string $pattern_without_delimiter None (required)
+     * @param  string $byte None (required)
+     * @param  int $integer None (optional)
+     * @param  int $int32 None (optional)
+     * @param  int $int64 None (optional)
+     * @param  float $float None (optional)
+     * @param  string $string None (optional)
+     * @param  \SplFileObject $binary None (optional)
+     * @param  \DateTime $date None (optional)
+     * @param  \DateTime $date_time None (optional)
+     * @param  string $password None (optional)
+     * @param  string $callback None (optional)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function testEndpointParametersWithApiResponse($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
         $request = $this->testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
 
@@ -1957,7 +2365,7 @@ class FakeApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -1991,16 +2399,18 @@ class FakeApi
      */
     public function testEndpointParametersAsync($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
-        return $this->testEndpointParametersAsyncWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback)
+        return $this->testEndpointParametersAsyncWithApiResponse($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation testEndpointParametersAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
@@ -2024,14 +2434,50 @@ class FakeApi
      */
     public function testEndpointParametersAsyncWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
-        $returnType = '';
+      return $this->testEndpointParametersAsyncWithApiResponse($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation testEndpointParametersAsyncWithApiResponse
+     *
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     *
+     * @param  float $number None (required)
+     * @param  double $double None (required)
+     * @param  string $pattern_without_delimiter None (required)
+     * @param  string $byte None (required)
+     * @param  int $integer None (optional)
+     * @param  int $int32 None (optional)
+     * @param  int $int64 None (optional)
+     * @param  float $float None (optional)
+     * @param  string $string None (optional)
+     * @param  \SplFileObject $binary None (optional)
+     * @param  \DateTime $date None (optional)
+     * @param  \DateTime $date_time None (optional)
+     * @param  string $password None (optional)
+     * @param  string $callback None (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function testEndpointParametersAsyncWithApiResponse($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
+    {
         $request = $this->testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -2299,11 +2745,15 @@ class FakeApi
      */
     public function testEnumParameters($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
-        $this->testEnumParametersWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
+        $this->testEnumParametersWithApiResponse($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
     }
+
 
     /**
      * Operation testEnumParametersWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * To test enum parameters
      *
@@ -2318,9 +2768,40 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function testEnumParametersWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
+    {
+      $apiResponse = $this->testEnumParametersWithApiResponse($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation testEnumParametersWithApiResponse
+     *
+     * To test enum parameters
+     *
+     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
+     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
+     * @param  int $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional)
+     * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
+     * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function testEnumParametersWithApiResponse($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
         $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
 
@@ -2352,7 +2833,7 @@ class FakeApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -2380,16 +2861,18 @@ class FakeApi
      */
     public function testEnumParametersAsync($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
-        return $this->testEnumParametersAsyncWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string)
+        return $this->testEnumParametersAsyncWithApiResponse($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation testEnumParametersAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * To test enum parameters
      *
@@ -2407,14 +2890,44 @@ class FakeApi
      */
     public function testEnumParametersAsyncWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
-        $returnType = '';
+      return $this->testEnumParametersAsyncWithApiResponse($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation testEnumParametersAsyncWithApiResponse
+     *
+     * To test enum parameters
+     *
+     * @param  string[] $enum_header_string_array Header parameter enum test (string array) (optional)
+     * @param  string $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
+     * @param  string[] $enum_query_string_array Query parameter enum test (string array) (optional)
+     * @param  string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
+     * @param  int $enum_query_integer Query parameter enum test (double) (optional)
+     * @param  double $enum_query_double Query parameter enum test (double) (optional)
+     * @param  string[] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
+     * @param  string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function testEnumParametersAsyncWithApiResponse($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
+    {
         $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -2575,11 +3088,15 @@ class FakeApi
      */
     public function testInlineAdditionalProperties($request_body)
     {
-        $this->testInlineAdditionalPropertiesWithHttpInfo($request_body);
+        $this->testInlineAdditionalPropertiesWithApiResponse($request_body);
     }
+
 
     /**
      * Operation testInlineAdditionalPropertiesWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * test inline additionalProperties
      *
@@ -2587,9 +3104,33 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function testInlineAdditionalPropertiesWithHttpInfo($request_body)
+    {
+      $apiResponse = $this->testInlineAdditionalPropertiesWithApiResponse($request_body);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation testInlineAdditionalPropertiesWithApiResponse
+     *
+     * test inline additionalProperties
+     *
+     * @param  map[string,string] $request_body request body (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function testInlineAdditionalPropertiesWithApiResponse($request_body)
     {
         $request = $this->testInlineAdditionalPropertiesRequest($request_body);
 
@@ -2621,7 +3162,7 @@ class FakeApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -2642,16 +3183,18 @@ class FakeApi
      */
     public function testInlineAdditionalPropertiesAsync($request_body)
     {
-        return $this->testInlineAdditionalPropertiesAsyncWithHttpInfo($request_body)
+        return $this->testInlineAdditionalPropertiesAsyncWithApiResponse($request_body)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation testInlineAdditionalPropertiesAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * test inline additionalProperties
      *
@@ -2662,14 +3205,37 @@ class FakeApi
      */
     public function testInlineAdditionalPropertiesAsyncWithHttpInfo($request_body)
     {
-        $returnType = '';
+      return $this->testInlineAdditionalPropertiesAsyncWithApiResponse($request_body)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation testInlineAdditionalPropertiesAsyncWithApiResponse
+     *
+     * test inline additionalProperties
+     *
+     * @param  map[string,string] $request_body request body (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function testInlineAdditionalPropertiesAsyncWithApiResponse($request_body)
+    {
         $request = $this->testInlineAdditionalPropertiesRequest($request_body);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -2795,11 +3361,15 @@ class FakeApi
      */
     public function testJsonFormData($param, $param2)
     {
-        $this->testJsonFormDataWithHttpInfo($param, $param2);
+        $this->testJsonFormDataWithApiResponse($param, $param2);
     }
+
 
     /**
      * Operation testJsonFormDataWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * test json serialization of form data
      *
@@ -2808,9 +3378,34 @@ class FakeApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function testJsonFormDataWithHttpInfo($param, $param2)
+    {
+      $apiResponse = $this->testJsonFormDataWithApiResponse($param, $param2);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation testJsonFormDataWithApiResponse
+     *
+     * test json serialization of form data
+     *
+     * @param  string $param field1 (required)
+     * @param  string $param2 field2 (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function testJsonFormDataWithApiResponse($param, $param2)
     {
         $request = $this->testJsonFormDataRequest($param, $param2);
 
@@ -2842,7 +3437,7 @@ class FakeApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -2864,16 +3459,18 @@ class FakeApi
      */
     public function testJsonFormDataAsync($param, $param2)
     {
-        return $this->testJsonFormDataAsyncWithHttpInfo($param, $param2)
+        return $this->testJsonFormDataAsyncWithApiResponse($param, $param2)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation testJsonFormDataAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * test json serialization of form data
      *
@@ -2885,14 +3482,38 @@ class FakeApi
      */
     public function testJsonFormDataAsyncWithHttpInfo($param, $param2)
     {
-        $returnType = '';
+      return $this->testJsonFormDataAsyncWithApiResponse($param, $param2)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation testJsonFormDataAsyncWithApiResponse
+     *
+     * test json serialization of form data
+     *
+     * @param  string $param field1 (required)
+     * @param  string $param2 field2 (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function testJsonFormDataAsyncWithApiResponse($param, $param2)
+    {
         $request = $this->testJsonFormDataRequest($param, $param2);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();

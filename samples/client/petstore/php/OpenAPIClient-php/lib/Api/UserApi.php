@@ -35,6 +35,7 @@ use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use OpenAPI\Client\ApiException;
+use OpenAPI\Client\ApiResponse;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
 use OpenAPI\Client\ObjectSerializer;
@@ -100,11 +101,15 @@ class UserApi
      */
     public function createUser($user)
     {
-        $this->createUserWithHttpInfo($user);
+        $this->createUserWithApiResponse($user);
     }
+
 
     /**
      * Operation createUserWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Create user
      *
@@ -112,9 +117,33 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function createUserWithHttpInfo($user)
+    {
+      $apiResponse = $this->createUserWithApiResponse($user);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation createUserWithApiResponse
+     *
+     * Create user
+     *
+     * @param  \OpenAPI\Client\Model\User $user Created user object (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function createUserWithApiResponse($user)
     {
         $request = $this->createUserRequest($user);
 
@@ -146,7 +175,7 @@ class UserApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -167,16 +196,18 @@ class UserApi
      */
     public function createUserAsync($user)
     {
-        return $this->createUserAsyncWithHttpInfo($user)
+        return $this->createUserAsyncWithApiResponse($user)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation createUserAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Create user
      *
@@ -187,14 +218,37 @@ class UserApi
      */
     public function createUserAsyncWithHttpInfo($user)
     {
-        $returnType = '';
+      return $this->createUserAsyncWithApiResponse($user)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation createUserAsyncWithApiResponse
+     *
+     * Create user
+     *
+     * @param  \OpenAPI\Client\Model\User $user Created user object (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createUserAsyncWithApiResponse($user)
+    {
         $request = $this->createUserRequest($user);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -319,11 +373,15 @@ class UserApi
      */
     public function createUsersWithArrayInput($user)
     {
-        $this->createUsersWithArrayInputWithHttpInfo($user);
+        $this->createUsersWithArrayInputWithApiResponse($user);
     }
+
 
     /**
      * Operation createUsersWithArrayInputWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Creates list of users with given input array
      *
@@ -331,9 +389,33 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function createUsersWithArrayInputWithHttpInfo($user)
+    {
+      $apiResponse = $this->createUsersWithArrayInputWithApiResponse($user);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation createUsersWithArrayInputWithApiResponse
+     *
+     * Creates list of users with given input array
+     *
+     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function createUsersWithArrayInputWithApiResponse($user)
     {
         $request = $this->createUsersWithArrayInputRequest($user);
 
@@ -365,7 +447,7 @@ class UserApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -386,16 +468,18 @@ class UserApi
      */
     public function createUsersWithArrayInputAsync($user)
     {
-        return $this->createUsersWithArrayInputAsyncWithHttpInfo($user)
+        return $this->createUsersWithArrayInputAsyncWithApiResponse($user)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation createUsersWithArrayInputAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Creates list of users with given input array
      *
@@ -406,14 +490,37 @@ class UserApi
      */
     public function createUsersWithArrayInputAsyncWithHttpInfo($user)
     {
-        $returnType = '';
+      return $this->createUsersWithArrayInputAsyncWithApiResponse($user)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation createUsersWithArrayInputAsyncWithApiResponse
+     *
+     * Creates list of users with given input array
+     *
+     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createUsersWithArrayInputAsyncWithApiResponse($user)
+    {
         $request = $this->createUsersWithArrayInputRequest($user);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -538,11 +645,15 @@ class UserApi
      */
     public function createUsersWithListInput($user)
     {
-        $this->createUsersWithListInputWithHttpInfo($user);
+        $this->createUsersWithListInputWithApiResponse($user);
     }
+
 
     /**
      * Operation createUsersWithListInputWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Creates list of users with given input array
      *
@@ -550,9 +661,33 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function createUsersWithListInputWithHttpInfo($user)
+    {
+      $apiResponse = $this->createUsersWithListInputWithApiResponse($user);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation createUsersWithListInputWithApiResponse
+     *
+     * Creates list of users with given input array
+     *
+     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function createUsersWithListInputWithApiResponse($user)
     {
         $request = $this->createUsersWithListInputRequest($user);
 
@@ -584,7 +719,7 @@ class UserApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -605,16 +740,18 @@ class UserApi
      */
     public function createUsersWithListInputAsync($user)
     {
-        return $this->createUsersWithListInputAsyncWithHttpInfo($user)
+        return $this->createUsersWithListInputAsyncWithApiResponse($user)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation createUsersWithListInputAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Creates list of users with given input array
      *
@@ -625,14 +762,37 @@ class UserApi
      */
     public function createUsersWithListInputAsyncWithHttpInfo($user)
     {
-        $returnType = '';
+      return $this->createUsersWithListInputAsyncWithApiResponse($user)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation createUsersWithListInputAsyncWithApiResponse
+     *
+     * Creates list of users with given input array
+     *
+     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function createUsersWithListInputAsyncWithApiResponse($user)
+    {
         $request = $this->createUsersWithListInputRequest($user);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -757,11 +917,15 @@ class UserApi
      */
     public function deleteUser($username)
     {
-        $this->deleteUserWithHttpInfo($username);
+        $this->deleteUserWithApiResponse($username);
     }
+
 
     /**
      * Operation deleteUserWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Delete user
      *
@@ -769,9 +933,33 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function deleteUserWithHttpInfo($username)
+    {
+      $apiResponse = $this->deleteUserWithApiResponse($username);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation deleteUserWithApiResponse
+     *
+     * Delete user
+     *
+     * @param  string $username The name that needs to be deleted (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function deleteUserWithApiResponse($username)
     {
         $request = $this->deleteUserRequest($username);
 
@@ -803,7 +991,7 @@ class UserApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -824,16 +1012,18 @@ class UserApi
      */
     public function deleteUserAsync($username)
     {
-        return $this->deleteUserAsyncWithHttpInfo($username)
+        return $this->deleteUserAsyncWithApiResponse($username)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation deleteUserAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Delete user
      *
@@ -844,14 +1034,37 @@ class UserApi
      */
     public function deleteUserAsyncWithHttpInfo($username)
     {
-        $returnType = '';
+      return $this->deleteUserAsyncWithApiResponse($username)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation deleteUserAsyncWithApiResponse
+     *
+     * Delete user
+     *
+     * @param  string $username The name that needs to be deleted (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteUserAsyncWithApiResponse($username)
+    {
         $request = $this->deleteUserRequest($username);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -981,12 +1194,16 @@ class UserApi
      */
     public function getUserByName($username)
     {
-        list($response) = $this->getUserByNameWithHttpInfo($username);
-        return $response;
+        $apiResponse = $this->getUserByNameWithApiResponse($username);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation getUserByNameWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Get user by user name
      *
@@ -994,9 +1211,33 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\User, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\User, HTTP status code, HTTP response headers (strings[])
      */
     public function getUserByNameWithHttpInfo($username)
+    {
+      $apiResponse = $this->getUserByNameWithApiResponse($username);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation getUserByNameWithApiResponse
+     *
+     * Get user by user name
+     *
+     * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type \OpenAPI\Client\Model\User
+     */
+    public function getUserByNameWithApiResponse($username)
     {
         $request = $this->getUserByNameRequest($username);
 
@@ -1040,11 +1281,11 @@ class UserApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\User', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = '\OpenAPI\Client\Model\User';
@@ -1058,11 +1299,11 @@ class UserApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -1091,16 +1332,18 @@ class UserApi
      */
     public function getUserByNameAsync($username)
     {
-        return $this->getUserByNameAsyncWithHttpInfo($username)
+        return $this->getUserByNameAsyncWithApiResponse($username)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation getUserByNameAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Get user by user name
      *
@@ -1110,6 +1353,30 @@ class UserApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function getUserByNameAsyncWithHttpInfo($username)
+    {
+      return $this->getUserByNameAsyncWithApiResponse($username)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation getUserByNameAsyncWithApiResponse
+     *
+     * Get user by user name
+     *
+     * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getUserByNameAsyncWithApiResponse($username)
     {
         $returnType = '\OpenAPI\Client\Model\User';
         $request = $this->getUserByNameRequest($username);
@@ -1128,11 +1395,11 @@ class UserApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1263,12 +1530,16 @@ class UserApi
      */
     public function loginUser($username, $password)
     {
-        list($response) = $this->loginUserWithHttpInfo($username, $password);
-        return $response;
+        $apiResponse = $this->loginUserWithApiResponse($username, $password);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation loginUserWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Logs user into the system
      *
@@ -1277,9 +1548,34 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array of string, HTTP status code, HTTP response headers (strings[])
      */
     public function loginUserWithHttpInfo($username, $password)
+    {
+      $apiResponse = $this->loginUserWithApiResponse($username, $password);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation loginUserWithApiResponse
+     *
+     * Logs user into the system
+     *
+     * @param  string $username The user name for login (required)
+     * @param  string $password The password for login in clear text (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type string
+     */
+    public function loginUserWithApiResponse($username, $password)
     {
         $request = $this->loginUserRequest($username, $password);
 
@@ -1323,11 +1619,11 @@ class UserApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, 'string', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = 'string';
@@ -1341,11 +1637,11 @@ class UserApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -1375,16 +1671,18 @@ class UserApi
      */
     public function loginUserAsync($username, $password)
     {
-        return $this->loginUserAsyncWithHttpInfo($username, $password)
+        return $this->loginUserAsyncWithApiResponse($username, $password)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation loginUserAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Logs user into the system
      *
@@ -1395,6 +1693,31 @@ class UserApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function loginUserAsyncWithHttpInfo($username, $password)
+    {
+      return $this->loginUserAsyncWithApiResponse($username, $password)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation loginUserAsyncWithApiResponse
+     *
+     * Logs user into the system
+     *
+     * @param  string $username The user name for login (required)
+     * @param  string $password The password for login in clear text (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function loginUserAsyncWithApiResponse($username, $password)
     {
         $returnType = 'string';
         $request = $this->loginUserRequest($username, $password);
@@ -1413,11 +1736,11 @@ class UserApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1553,20 +1876,47 @@ class UserApi
      */
     public function logoutUser()
     {
-        $this->logoutUserWithHttpInfo();
+        $this->logoutUserWithApiResponse();
     }
+
 
     /**
      * Operation logoutUserWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Logs out current logged in user session
      *
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function logoutUserWithHttpInfo()
+    {
+      $apiResponse = $this->logoutUserWithApiResponse();
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation logoutUserWithApiResponse
+     *
+     * Logs out current logged in user session
+     *
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function logoutUserWithApiResponse()
     {
         $request = $this->logoutUserRequest();
 
@@ -1598,7 +1948,7 @@ class UserApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -1618,16 +1968,18 @@ class UserApi
      */
     public function logoutUserAsync()
     {
-        return $this->logoutUserAsyncWithHttpInfo()
+        return $this->logoutUserAsyncWithApiResponse()
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation logoutUserAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Logs out current logged in user session
      *
@@ -1637,14 +1989,36 @@ class UserApi
      */
     public function logoutUserAsyncWithHttpInfo()
     {
-        $returnType = '';
+      return $this->logoutUserAsyncWithApiResponse()
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation logoutUserAsyncWithApiResponse
+     *
+     * Logs out current logged in user session
+     *
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function logoutUserAsyncWithApiResponse()
+    {
         $request = $this->logoutUserRequest();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1760,11 +2134,15 @@ class UserApi
      */
     public function updateUser($username, $user)
     {
-        $this->updateUserWithHttpInfo($username, $user);
+        $this->updateUserWithApiResponse($username, $user);
     }
+
 
     /**
      * Operation updateUserWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Updated user
      *
@@ -1773,9 +2151,34 @@ class UserApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function updateUserWithHttpInfo($username, $user)
+    {
+      $apiResponse = $this->updateUserWithApiResponse($username, $user);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation updateUserWithApiResponse
+     *
+     * Updated user
+     *
+     * @param  string $username name that need to be deleted (required)
+     * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function updateUserWithApiResponse($username, $user)
     {
         $request = $this->updateUserRequest($username, $user);
 
@@ -1807,7 +2210,7 @@ class UserApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -1829,16 +2232,18 @@ class UserApi
      */
     public function updateUserAsync($username, $user)
     {
-        return $this->updateUserAsyncWithHttpInfo($username, $user)
+        return $this->updateUserAsyncWithApiResponse($username, $user)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation updateUserAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Updated user
      *
@@ -1850,14 +2255,38 @@ class UserApi
      */
     public function updateUserAsyncWithHttpInfo($username, $user)
     {
-        $returnType = '';
+      return $this->updateUserAsyncWithApiResponse($username, $user)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation updateUserAsyncWithApiResponse
+     *
+     * Updated user
+     *
+     * @param  string $username name that need to be deleted (required)
+     * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function updateUserAsyncWithApiResponse($username, $user)
+    {
         $request = $this->updateUserRequest($username, $user);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();

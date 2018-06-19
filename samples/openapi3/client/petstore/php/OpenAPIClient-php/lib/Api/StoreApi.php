@@ -35,6 +35,7 @@ use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use OpenAPI\Client\ApiException;
+use OpenAPI\Client\ApiResponse;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
 use OpenAPI\Client\ObjectSerializer;
@@ -100,11 +101,15 @@ class StoreApi
      */
     public function deleteOrder($order_id)
     {
-        $this->deleteOrderWithHttpInfo($order_id);
+        $this->deleteOrderWithApiResponse($order_id);
     }
+
 
     /**
      * Operation deleteOrderWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Delete purchase order by ID
      *
@@ -112,9 +117,33 @@ class StoreApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (strings[])
      */
     public function deleteOrderWithHttpInfo($order_id)
+    {
+      $apiResponse = $this->deleteOrderWithApiResponse($order_id);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation deleteOrderWithApiResponse
+     *
+     * Delete purchase order by ID
+     *
+     * @param  string $order_id ID of the order that needs to be deleted (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property equals to null
+     */
+    public function deleteOrderWithApiResponse($order_id)
     {
         $request = $this->deleteOrderRequest($order_id);
 
@@ -146,7 +175,7 @@ class StoreApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            return new ApiResponse(null, $statusCode, $response->getHeaders());
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -167,16 +196,18 @@ class StoreApi
      */
     public function deleteOrderAsync($order_id)
     {
-        return $this->deleteOrderAsyncWithHttpInfo($order_id)
+        return $this->deleteOrderAsyncWithApiResponse($order_id)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation deleteOrderAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Delete purchase order by ID
      *
@@ -187,14 +218,37 @@ class StoreApi
      */
     public function deleteOrderAsyncWithHttpInfo($order_id)
     {
-        $returnType = '';
+      return $this->deleteOrderAsyncWithApiResponse($order_id)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation deleteOrderAsyncWithApiResponse
+     *
+     * Delete purchase order by ID
+     *
+     * @param  string $order_id ID of the order that needs to be deleted (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function deleteOrderAsyncWithApiResponse($order_id)
+    {
         $request = $this->deleteOrderRequest($order_id);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                function ($response) {
+                    return new ApiResponse(null, $response->getStatusCode(), $response->getHeaders());
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -323,21 +377,48 @@ class StoreApi
      */
     public function getInventory()
     {
-        list($response) = $this->getInventoryWithHttpInfo();
-        return $response;
+        $apiResponse = $this->getInventoryWithApiResponse();
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation getInventoryWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Returns pet inventories by status
      *
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of map[string,int], HTTP status code, HTTP response headers (array of strings)
+     * @return array of map[string,int], HTTP status code, HTTP response headers (strings[])
      */
     public function getInventoryWithHttpInfo()
+    {
+      $apiResponse = $this->getInventoryWithApiResponse();
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation getInventoryWithApiResponse
+     *
+     * Returns pet inventories by status
+     *
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type map[string,int]
+     */
+    public function getInventoryWithApiResponse()
     {
         $request = $this->getInventoryRequest();
 
@@ -381,11 +462,11 @@ class StoreApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, 'map[string,int]', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = 'map[string,int]';
@@ -399,11 +480,11 @@ class StoreApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -431,16 +512,18 @@ class StoreApi
      */
     public function getInventoryAsync()
     {
-        return $this->getInventoryAsyncWithHttpInfo()
+        return $this->getInventoryAsyncWithApiResponse()
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation getInventoryAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Returns pet inventories by status
      *
@@ -449,6 +532,29 @@ class StoreApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function getInventoryAsyncWithHttpInfo()
+    {
+      return $this->getInventoryAsyncWithApiResponse()
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation getInventoryAsyncWithApiResponse
+     *
+     * Returns pet inventories by status
+     *
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getInventoryAsyncWithApiResponse()
     {
         $returnType = 'map[string,int]';
         $request = $this->getInventoryRequest();
@@ -467,11 +573,11 @@ class StoreApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -591,12 +697,16 @@ class StoreApi
      */
     public function getOrderById($order_id)
     {
-        list($response) = $this->getOrderByIdWithHttpInfo($order_id);
-        return $response;
+        $apiResponse = $this->getOrderByIdWithApiResponse($order_id);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation getOrderByIdWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Find purchase order by ID
      *
@@ -604,9 +714,33 @@ class StoreApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (strings[])
      */
     public function getOrderByIdWithHttpInfo($order_id)
+    {
+      $apiResponse = $this->getOrderByIdWithApiResponse($order_id);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation getOrderByIdWithApiResponse
+     *
+     * Find purchase order by ID
+     *
+     * @param  int $order_id ID of pet that needs to be fetched (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type \OpenAPI\Client\Model\Order
+     */
+    public function getOrderByIdWithApiResponse($order_id)
     {
         $request = $this->getOrderByIdRequest($order_id);
 
@@ -650,11 +784,11 @@ class StoreApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Order', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = '\OpenAPI\Client\Model\Order';
@@ -668,11 +802,11 @@ class StoreApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -701,16 +835,18 @@ class StoreApi
      */
     public function getOrderByIdAsync($order_id)
     {
-        return $this->getOrderByIdAsyncWithHttpInfo($order_id)
+        return $this->getOrderByIdAsyncWithApiResponse($order_id)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation getOrderByIdAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Find purchase order by ID
      *
@@ -720,6 +856,30 @@ class StoreApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function getOrderByIdAsyncWithHttpInfo($order_id)
+    {
+      return $this->getOrderByIdAsyncWithApiResponse($order_id)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation getOrderByIdAsyncWithApiResponse
+     *
+     * Find purchase order by ID
+     *
+     * @param  int $order_id ID of pet that needs to be fetched (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getOrderByIdAsyncWithApiResponse($order_id)
     {
         $returnType = '\OpenAPI\Client\Model\Order';
         $request = $this->getOrderByIdRequest($order_id);
@@ -738,11 +898,11 @@ class StoreApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -879,12 +1039,16 @@ class StoreApi
      */
     public function placeOrder($order)
     {
-        list($response) = $this->placeOrderWithHttpInfo($order);
-        return $response;
+        $apiResponse = $this->placeOrderWithApiResponse($order);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation placeOrderWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * Place an order for a pet
      *
@@ -892,9 +1056,33 @@ class StoreApi
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (strings[])
      */
     public function placeOrderWithHttpInfo($order)
+    {
+      $apiResponse = $this->placeOrderWithApiResponse($order);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation placeOrderWithApiResponse
+     *
+     * Place an order for a pet
+     *
+     * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type \OpenAPI\Client\Model\Order
+     */
+    public function placeOrderWithApiResponse($order)
     {
         $request = $this->placeOrderRequest($order);
 
@@ -938,11 +1126,11 @@ class StoreApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Order', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = '\OpenAPI\Client\Model\Order';
@@ -956,11 +1144,11 @@ class StoreApi
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -989,16 +1177,18 @@ class StoreApi
      */
     public function placeOrderAsync($order)
     {
-        return $this->placeOrderAsyncWithHttpInfo($order)
+        return $this->placeOrderAsyncWithApiResponse($order)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation placeOrderAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * Place an order for a pet
      *
@@ -1008,6 +1198,30 @@ class StoreApi
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function placeOrderAsyncWithHttpInfo($order)
+    {
+      return $this->placeOrderAsyncWithApiResponse($order)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation placeOrderAsyncWithApiResponse
+     *
+     * Place an order for a pet
+     *
+     * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function placeOrderAsyncWithApiResponse($order)
     {
         $returnType = '\OpenAPI\Client\Model\Order';
         $request = $this->placeOrderRequest($order);
@@ -1026,11 +1240,11 @@ class StoreApi
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();

@@ -35,6 +35,7 @@ use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use OpenAPI\Client\ApiException;
+use OpenAPI\Client\ApiResponse;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
 use OpenAPI\Client\ObjectSerializer;
@@ -100,12 +101,16 @@ class FakeClassnameTags123Api
      */
     public function testClassname($client)
     {
-        list($response) = $this->testClassnameWithHttpInfo($client);
-        return $response;
+        $apiResponse = $this->testClassnameWithApiResponse($client);
+        return $apiResponse->getMessage();
     }
+
 
     /**
      * Operation testClassnameWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
+     *
      *
      * To test class name in snake case
      *
@@ -113,9 +118,33 @@ class FakeClassnameTags123Api
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (strings[])
      */
     public function testClassnameWithHttpInfo($client)
+    {
+      $apiResponse = $this->testClassnameWithApiResponse($client);
+
+      return [
+        $apiResponse->getMessage(),
+        $apiResponse->getStatusCode(),
+        $apiResponse->getHeaders()
+      ];
+    }
+
+
+
+    /**
+     * Operation testClassnameWithApiResponse
+     *
+     * To test class name in snake case
+     *
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return APIResponse with "message" property of type \OpenAPI\Client\Model\Client
+     */
+    public function testClassnameWithApiResponse($client)
     {
         $request = $this->testClassnameRequest($client);
 
@@ -159,11 +188,11 @@ class FakeClassnameTags123Api
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Client', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
             }
 
             $returnType = '\OpenAPI\Client\Model\Client';
@@ -177,11 +206,11 @@ class FakeClassnameTags123Api
                 }
             }
 
-            return [
+            return new ApiResponse(
                 ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
                 $response->getHeaders()
-            ];
+            );
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -210,16 +239,18 @@ class FakeClassnameTags123Api
      */
     public function testClassnameAsync($client)
     {
-        return $this->testClassnameAsyncWithHttpInfo($client)
+        return $this->testClassnameAsyncWithApiResponse($client)
             ->then(
-                function ($response) {
-                    return $response[0];
+                function ($apiResponse) {
+                    return $apiResponse->getMessage();
                 }
             );
     }
 
     /**
      * Operation testClassnameAsyncWithHttpInfo
+     *
+     * (method preserved to keep backward compatibility)
      *
      * To test class name in snake case
      *
@@ -229,6 +260,30 @@ class FakeClassnameTags123Api
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function testClassnameAsyncWithHttpInfo($client)
+    {
+      return $this->testClassnameAsyncWithApiResponse($client)
+          ->then(
+              function ($apiResponse) {
+                  return [
+                    $apiResponse->getMessage(),
+                    $apiResponse->getStatusCode(),
+                    $apiResponse->getHeaders()
+                  ];
+              }
+          );
+    }
+
+    /**
+     * Operation testClassnameAsyncWithApiResponse
+     *
+     * To test class name in snake case
+     *
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function testClassnameAsyncWithApiResponse($client)
     {
         $returnType = '\OpenAPI\Client\Model\Client';
         $request = $this->testClassnameRequest($client);
@@ -247,11 +302,11 @@ class FakeClassnameTags123Api
                         }
                     }
 
-                    return [
+                    return new ApiResponse(
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
                         $response->getHeaders()
-                    ];
+                    );
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
