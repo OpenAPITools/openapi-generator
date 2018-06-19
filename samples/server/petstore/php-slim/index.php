@@ -29,7 +29,7 @@ $app->PATCH('/v2/another-fake/dummy', function($request, $response, $args) {
  * POST fakeOuterBooleanSerialize
  * Summary: 
  * Notes: Test serialization of outer boolean types
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 $app->POST('/v2/fake/outer/boolean', function($request, $response, $args) {
             
@@ -45,7 +45,7 @@ $app->POST('/v2/fake/outer/boolean', function($request, $response, $args) {
  * POST fakeOuterCompositeSerialize
  * Summary: 
  * Notes: Test serialization of object with outer number type
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 $app->POST('/v2/fake/outer/composite', function($request, $response, $args) {
             
@@ -61,7 +61,7 @@ $app->POST('/v2/fake/outer/composite', function($request, $response, $args) {
  * POST fakeOuterNumberSerialize
  * Summary: 
  * Notes: Test serialization of outer number types
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 $app->POST('/v2/fake/outer/number', function($request, $response, $args) {
             
@@ -77,7 +77,7 @@ $app->POST('/v2/fake/outer/number', function($request, $response, $args) {
  * POST fakeOuterStringSerialize
  * Summary: 
  * Notes: Test serialization of outer string types
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 $app->POST('/v2/fake/outer/string', function($request, $response, $args) {
             
