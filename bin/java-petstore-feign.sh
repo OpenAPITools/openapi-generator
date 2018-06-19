@@ -35,4 +35,6 @@ find samples/client/petstore/java/feign -maxdepth 1 -type f ! -name "README.md" 
 java $JAVA_OPTS -jar $executable $ags
 
 # copy additional manually written unit-tests
-mkdir -p samples/client/petstore/java/feign/src/test/java/org/openapitools/client && cp CI/samples.ci/client/petstore/java/test-manual/common/StringUtilTest.java $_
+mkdir samples/client/petstore/java/feign/src/test/java/org/openapitools/client
+
+cp CI/samples.ci/client/petstore/java/test-manual/common/StringUtilTest.java samples/client/petstore/java/feign/src/test/java/org/openapitools/client/StringUtilTest.java
