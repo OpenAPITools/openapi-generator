@@ -297,7 +297,7 @@ export default class UserApi {
       let authNames = [];
       let contentTypes = [];
       let accepts = ['application/xml', 'application/json'];
-      let returnType = String;
+      let returnType = 'String';
 
       return this.apiClient.callApi(
         '/user/login', 'GET',

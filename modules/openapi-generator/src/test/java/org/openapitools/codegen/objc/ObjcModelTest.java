@@ -47,7 +47,7 @@ import java.util.Map;
 @SuppressWarnings("static-method")
 public class ObjcModelTest {
 
-    @Test(description = "convert a model with a advanced map property")
+    @Test(description = "convert a model with an advanced map property")
     public void advancedMapPropertyTest() {
         final Schema model = new Schema()
         .description("a sample model")
@@ -282,7 +282,7 @@ public class ObjcModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("OAIChildren")).size(), 1);
     }
 
-    @Test(description = "convert an map model")
+    @Test(description = "convert a map model")
     public void mapModelTest() {
         final Schema model = new Schema()
                 .description("a map model for testing ObjC generator")
