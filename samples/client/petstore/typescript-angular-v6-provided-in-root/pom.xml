@@ -50,8 +50,10 @@
                             <arguments>
                                 <argument>test</argument>
                                 <argument>--</argument>
-                                <argument>--no-watch</argument>
                                 <argument>--progress=false</argument>
+                                <argument>--no-watch</argument>
+                                <argument>--browsers</argument>
+                                <argument>ChromeHeadless</argument>
                             </arguments>
                         </configuration>
                     </execution>
