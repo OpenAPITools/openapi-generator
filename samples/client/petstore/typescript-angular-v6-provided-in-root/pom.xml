@@ -49,6 +49,8 @@
                             <executable>npm</executable>
                             <arguments>
                                 <argument>test</argument>
+                                <argument>--</argument>
+                                <argument>--no-watch</argument>
                             </arguments>
                         </configuration>
                     </execution>
