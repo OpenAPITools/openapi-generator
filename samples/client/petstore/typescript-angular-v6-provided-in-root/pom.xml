@@ -51,6 +51,7 @@
                                 <argument>test</argument>
                                 <argument>--</argument>
                                 <argument>--no-watch</argument>
+                                <argument>--progress=false</argument>
                             </arguments>
                         </configuration>
                     </execution>
