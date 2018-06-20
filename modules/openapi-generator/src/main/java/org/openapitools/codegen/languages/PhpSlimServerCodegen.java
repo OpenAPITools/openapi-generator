@@ -284,6 +284,22 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
         return toModelName(name);
     }
 
+    @Override
+    public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
+        // method name cannot use reserved keyword, e.g. return
+        if (isReservedWord(operationId)) {
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            operationId = "call_" + operationId;
+        }
+
+        return camelize(sanitizeName(operationId), true);
+    }
+
     public String toPackagePath(String packageName, String basePath) {
         packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (basePath != null && basePath.length() > 0) {
