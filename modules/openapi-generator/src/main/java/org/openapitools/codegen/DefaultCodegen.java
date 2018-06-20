@@ -4226,7 +4226,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenProperty = codegenProperty.items;
             }
 
-        } else if (ModelUtils.isObjectSchema(schema)) {
+        } else if (ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema)) {
             CodegenModel codegenModel = null;
             if (StringUtils.isNotBlank(name)) {
                 schema.setName(name);
