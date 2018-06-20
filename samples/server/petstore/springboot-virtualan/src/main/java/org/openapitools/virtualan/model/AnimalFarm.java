@@ -4,14 +4,12 @@ import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.virtualan.model.Animal;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * AnimalFarm
  */
-@Validated
 
 public class AnimalFarm extends ArrayList<Animal>  {
 
