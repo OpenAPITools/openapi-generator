@@ -29,6 +29,7 @@ use hyper::server::Http;
 use tokio_proto::TcpServer;
 use clap::{App, Arg};
 use swagger::auth::AllowAllAuthenticator;
+use swagger::EmptyContext;
 
 mod server_lib;
 
@@ -54,9 +55,9 @@ fn main() {
         .get_matches();
 
     let service_fn =
-        petstore_api::server::auth::NewService::new(
+        petstore_api::server::auth::NewService::<_, EmptyContext>::new(
             AllowAllAuthenticator::new(
-                server_lib::NewService,
+                server_lib::NewService::new(),
                 "cosmo"
             )
         );

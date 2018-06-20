@@ -9,7 +9,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.0.3-SNAPSHOT</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -60,6 +60,16 @@
         <system>github</system>
         <url>https://github.com/openapitools/openapi-generator/issues</url>
     </issueManagement>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
     <licenses>
         <license>
             <name>Apache License 2.0</name>
@@ -214,12 +224,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
+                <version>3.0.1</version>
                 <configuration>
                     <aggregate>true</aggregate>
                     <source>1.8</source>
                     <encoding>UTF-8</encoding>
                     <maxmemory>1g</maxmemory>
+                    <failOnWarnings>true</failOnWarnings>
                     <excludePackageNames>${javadoc.package.exclude}</excludePackageNames>
                 </configuration>
                 <executions>
@@ -278,6 +289,40 @@
         </pluginManagement>
     </build>
     <profiles>
+
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.8</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>release-profile</id>
             <properties>
@@ -524,6 +569,42 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/javascript</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>javascript-client-es6</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>javascript</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/javascript-es6</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>javascript-client-promise</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>javascript</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/javascript-promise</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>javascript-client-promise-es6</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>javascript</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/javascript-promise-es6</module>
             </modules>
         </profile>
         <profile>
@@ -871,6 +952,9 @@
                 <module>samples/client/petstore/scala</module>
                 <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/javascript</module>
+                <module>samples/client/petstore/javascript-es6</module>
+                <module>samples/client/petstore/javascript-promise</module>
+                <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/python-tornado</module>
                 <module>samples/client/petstore/python-asyncio</module>
@@ -888,6 +972,28 @@
                 <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
                 <!--<module>samples/client/petstore/bash</module>-->
                 <module>samples/client/petstore/ruby</module>
+                <module>samples/server/petstore/rust-server</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>samples.shippable</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.shippable</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- clients -->
+                <module>samples/client/petstore/elixir</module>
+                <module>samples/client/petstore/erlang-client</module>
+                <!-- servers -->
+                <module>samples/server/petstore/erlang-server</module>
+                <module>samples/server/petstore/jaxrs/jersey2</module>
+                <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
+                <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/server/petstore/spring-mvc-j8-async</module>
+                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
             </modules>
         </profile>
     </profiles>

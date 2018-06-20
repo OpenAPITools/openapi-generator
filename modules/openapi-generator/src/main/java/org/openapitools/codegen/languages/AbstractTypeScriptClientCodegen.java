@@ -325,11 +325,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         } else if (ModelUtils.isDateTimeSchema(p)) {
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isNumberSchema(p)) {
-            NumberSchema dp = (NumberSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-            return UNDEFINED_VALUE;
+           if (p.getDefault() != null) {
+             return p.getDefault().toString();
+           }
+           return UNDEFINED_VALUE;
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();

@@ -9,7 +9,7 @@
 
 package petstoreserver
 
-// A tag for a pet
+// Tag - A tag for a pet
 type Tag struct {
 
 	Id int64 `json:"id,omitempty"`

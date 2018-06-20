@@ -32,7 +32,7 @@ export class Configuration {
      * @returns the selected content-type or <code>undefined</code> if no selection could be made.
      */
     public selectHeaderContentType (contentTypes: string[]): string | undefined {
-        if (contentTypes.length == 0) {
+        if (contentTypes.length === 0) {
             return undefined;
         }
 
@@ -51,7 +51,7 @@ export class Configuration {
      * @returns the selected content-type or <code>undefined</code> if no selection could be made.
      */
     public selectHeaderAccept(accepts: string[]): string | undefined {
-        if (accepts.length == 0) {
+        if (accepts.length === 0) {
             return undefined;
         }
 
@@ -74,6 +74,6 @@ export class Configuration {
      */
     public isJsonMime(mime: string): boolean {
         const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
-        return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
+        return mime !== null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
     }
 }
