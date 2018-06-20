@@ -413,6 +413,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [GMO Pepabo](https://pepabo.com/en/)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
 - [REST United](https://restunited.com)
+- [Telstra](https://dev.telstra.com)
 - [unblu inc.](https://www.unblu.com/)
 
 
