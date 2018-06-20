@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.wordnik</groupId>
-    <artifactId>TSAngular4PestoreTest</artifactId>
+    <artifactId>TSAngular4PestoreClientTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>TS Angular4 Petstore Test</name>
+    <name>TS Angular 4 Petstore Client Tests</name>
     <build>
         <plugins>
             <plugin>
