@@ -2,6 +2,8 @@ sudo: required
 language: java
 jdk:
   - openjdk8
+addons:
+    chrome: stable
 
 cache:
   directories:

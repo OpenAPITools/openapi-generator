@@ -51,8 +51,6 @@
                                 <argument>test</argument>
                                 <argument>--</argument>
                                 <argument>--no-watch</argument>
-                                <argument>--browsers</argument>
-                                <argument>PhantomJS</argument>
                             </arguments>
                         </configuration>
                     </execution>
