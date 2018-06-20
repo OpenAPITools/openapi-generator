@@ -116,7 +116,6 @@ class PetApi
      */
     public function addPetWithHttpInfo($pet)
     {
-        $returnType = '';
         $request = $this->addPetRequest($pet);
 
         try {
@@ -342,7 +341,6 @@ class PetApi
      */
     public function deletePetWithHttpInfo($pet_id, $api_key = null)
     {
-        $returnType = '';
         $request = $this->deletePetRequest($pet_id, $api_key);
 
         try {
@@ -579,7 +577,6 @@ class PetApi
      */
     public function findPetsByStatusWithHttpInfo($status)
     {
-        $returnType = '\OpenAPI\Client\Model\Pet[]';
         $request = $this->findPetsByStatusRequest($status);
 
         try {
@@ -610,6 +607,26 @@ class PetApi
                 );
             }
 
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('\OpenAPI\Client\Model\Pet[]' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('\OpenAPI\Client\Model\Pet[]' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Pet[]', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\OpenAPI\Client\Model\Pet[]';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -844,7 +861,6 @@ class PetApi
      */
     public function findPetsByTagsWithHttpInfo($tags)
     {
-        $returnType = '\OpenAPI\Client\Model\Pet[]';
         $request = $this->findPetsByTagsRequest($tags);
 
         try {
@@ -875,6 +891,26 @@ class PetApi
                 );
             }
 
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('\OpenAPI\Client\Model\Pet[]' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('\OpenAPI\Client\Model\Pet[]' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Pet[]', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\OpenAPI\Client\Model\Pet[]';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -1109,7 +1145,6 @@ class PetApi
      */
     public function getPetByIdWithHttpInfo($pet_id)
     {
-        $returnType = '\OpenAPI\Client\Model\Pet';
         $request = $this->getPetByIdRequest($pet_id);
 
         try {
@@ -1140,6 +1175,26 @@ class PetApi
                 );
             }
 
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('\OpenAPI\Client\Model\Pet' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('\OpenAPI\Client\Model\Pet' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Pet', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\OpenAPI\Client\Model\Pet';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -1375,7 +1430,6 @@ class PetApi
      */
     public function updatePetWithHttpInfo($pet)
     {
-        $returnType = '';
         $request = $this->updatePetRequest($pet);
 
         try {
@@ -1603,7 +1657,6 @@ class PetApi
      */
     public function updatePetWithFormWithHttpInfo($pet_id, $name = null, $status = null)
     {
-        $returnType = '';
         $request = $this->updatePetWithFormRequest($pet_id, $name, $status);
 
         try {
@@ -1851,7 +1904,6 @@ class PetApi
      */
     public function uploadFileWithHttpInfo($pet_id, $additional_metadata = null, $file = null)
     {
-        $returnType = '\OpenAPI\Client\Model\ApiResponse';
         $request = $this->uploadFileRequest($pet_id, $additional_metadata, $file);
 
         try {
@@ -1882,6 +1934,26 @@ class PetApi
                 );
             }
 
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('\OpenAPI\Client\Model\ApiResponse' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('\OpenAPI\Client\Model\ApiResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\ApiResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\OpenAPI\Client\Model\ApiResponse';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer

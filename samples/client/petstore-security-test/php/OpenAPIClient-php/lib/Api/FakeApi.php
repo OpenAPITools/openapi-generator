@@ -116,7 +116,6 @@ class FakeApi
      */
     public function testCodeInjectEndRnNRWithHttpInfo($unknown_base_type = null)
     {
-        $returnType = '';
         $request = $this->testCodeInjectEndRnNRRequest($unknown_base_type);
 
         try {
