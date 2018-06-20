@@ -196,7 +196,7 @@ OAIStoreApi::getOrderByIdCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIStoreApi::placeOrder(std::shared_ptr<OAIOAIOrder>& oai_order) {
+OAIStoreApi::placeOrder(OAIOrder& oai_order) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order");
 
