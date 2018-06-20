@@ -3,13 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {
   ApiModule,
-  Configuration,
-  ConfigurationParameters,
   PetService,
   Pet,
 } from '@swagger/typescript-angular-petstore';
+import {BASE_PATH} from "../../../../builds/default/variables";
 
-describe(`Configuration`, () => {
+describe(`API (basePath)`, () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
 
@@ -26,6 +25,7 @@ describe(`Configuration`, () => {
       ],
       providers: [
         PetService,
+        { provide: BASE_PATH, useValue: '//test'}
       ]
     });
 
@@ -45,28 +45,16 @@ describe(`Configuration`, () => {
       expect(petService).toBeTruthy();
     });
 
-    it(`should call to the default basePath http://petstore.swagger.io/v2/pet`, async(() => {
+    it(`should call to the injected basePath //test/pet`, async(() => {
       const petService = TestBed.get(PetService);
 
       petService.addPet(pet).subscribe(
-        (result) => {
-          return expect(result).toEqual(pet);
-        },
-        (error) => {
-          return fail(`expected a result, not the error: ${error.message}`);
-        }
+        result => expect(result).toEqual(pet),
+        error => fail(`expected a result, not the error: ${error.message}`),
       );
 
-      // The following `expectOne()` will match the request's URL.
-      // If no requests or multiple requests matched that URL
-      // `expectOne()` would throw.
-      const req = httpTestingController.expectOne('http://petstore.swagger.io/v2/pet');
-
-      // Assert that the request is a GET.
+      const req = httpTestingController.expectOne('//test/pet');
       expect(req.request.method).toEqual('POST');
-
-      // Respond with mock data, causing Observable to resolve.
-      // Subscribe callback asserts that correct data was returned.
       req.flush(pet);
     }));
 
