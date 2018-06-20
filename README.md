@@ -414,7 +414,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
 - [REST United](https://restunited.com)
 - [unblu inc.](https://www.unblu.com/)
-
+- [Telstra](https://www.dev.telstra.com/)
 
 ## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
 
