@@ -1,6 +1,5 @@
 package org.openapitools.model;
 
-import org.openapitools.model.OuterEnum;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -149,7 +148,40 @@ public enum EnumNumberEnum {
 }
 
   private @Valid EnumNumberEnum enumNumber = null;
-  private @Valid OuterEnum outerEnum = null;
+
+public enum OuterEnumEnum {
+
+    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
+
+
+    private String value;
+
+    OuterEnumEnum (String v) {
+        value = v;
+    }
+
+    public String value() {
+        return value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static OuterEnumEnum fromValue(String v) {
+        for (OuterEnumEnum b : OuterEnumEnum.values()) {
+            if (String.valueOf(b.value).equals(v)) {
+                return b;
+            }
+        }
+        return null;
+    }
+}
+
+  private @Valid OuterEnumEnum outerEnum = null;
 
   /**
    **/
@@ -222,7 +254,7 @@ public enum EnumNumberEnum {
 
   /**
    **/
-  public EnumTest outerEnum(OuterEnum outerEnum) {
+  public EnumTest outerEnum(OuterEnumEnum outerEnum) {
     this.outerEnum = outerEnum;
     return this;
   }
@@ -230,10 +262,10 @@ public enum EnumNumberEnum {
   
   @ApiModelProperty(value = "")
   @JsonProperty("outerEnum")
-  public OuterEnum getOuterEnum() {
+  public OuterEnumEnum getOuterEnum() {
     return outerEnum;
   }
-  public void setOuterEnum(OuterEnum outerEnum) {
+  public void setOuterEnum(OuterEnumEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
 

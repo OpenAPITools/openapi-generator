@@ -34,9 +34,8 @@ class EnumTest
     public $enum_number;
     /**
      * @DTA\Data(field="outerEnum", nullable=true)
-     * @DTA\Strategy(name="Object", options={"type":\App\DTO\OuterEnum::class})
-     * @DTA\Validator(name="Dictionary", options={"type":\App\DTO\OuterEnum::class})
-     * @var \App\DTO\OuterEnum
+     * @DTA\Validator(name="Type", options={"type":"string"})
+     * @var string
      */
     public $outer_enum;
 }

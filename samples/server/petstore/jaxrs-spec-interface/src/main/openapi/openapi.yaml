@@ -1230,7 +1230,11 @@ components:
           format: double
           type: number
         outerEnum:
-          $ref: '#/components/schemas/OuterEnum'
+          enum:
+          - placed
+          - approved
+          - delivered
+          type: string
       required:
       - enum_string_required
       type: object
@@ -1342,14 +1346,18 @@ components:
           type: array
       type: object
     OuterComposite:
-      example: {}
+      example:
+        my_string: my_string
+        my_number: 0.80082819046101150206595775671303272247314453125
+        my_boolean: true
       properties:
         my_number:
-          $ref: '#/components/schemas/OuterNumber'
+          type: number
         my_string:
-          $ref: '#/components/schemas/OuterString'
+          type: string
         my_boolean:
-          $ref: '#/components/schemas/OuterBoolean'
+          type: boolean
+          x-codegen-body-parameter-name: boolean_post_body
       type: object
     format_test:
       properties:
@@ -1447,6 +1455,10 @@ components:
       required:
       - className
       type: object
+    StringBooleanMap:
+      additionalProperties:
+        type: boolean
+      type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
@@ -1468,6 +1480,14 @@ components:
             - UPPER
             - lower
             type: string
+          type: object
+        direct_map:
+          additionalProperties:
+            type: boolean
+          type: object
+        indirect_map:
+          additionalProperties:
+            type: boolean
           type: object
       type: object
     Tag:

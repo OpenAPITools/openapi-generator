@@ -56,6 +56,12 @@ public enum InnerEnum {
 
   @ApiModelProperty(value = "")
   private Map<String, InnerEnum> mapOfEnumString = null;
+
+  @ApiModelProperty(value = "")
+  private Map<String, Boolean> directMap = null;
+
+  @ApiModelProperty(value = "")
+  private Map<String, Boolean> indirectMap = null;
  /**
    * Get mapMapOfString
    * @return mapMapOfString
@@ -102,6 +108,52 @@ public enum InnerEnum {
     return this;
   }
 
+ /**
+   * Get directMap
+   * @return directMap
+  **/
+  @JsonProperty("direct_map")
+  public Map<String, Boolean> getDirectMap() {
+    return directMap;
+  }
+
+  public void setDirectMap(Map<String, Boolean> directMap) {
+    this.directMap = directMap;
+  }
+
+  public MapTest directMap(Map<String, Boolean> directMap) {
+    this.directMap = directMap;
+    return this;
+  }
+
+  public MapTest putDirectMapItem(String key, Boolean directMapItem) {
+    this.directMap.put(key, directMapItem);
+    return this;
+  }
+
+ /**
+   * Get indirectMap
+   * @return indirectMap
+  **/
+  @JsonProperty("indirect_map")
+  public Map<String, Boolean> getIndirectMap() {
+    return indirectMap;
+  }
+
+  public void setIndirectMap(Map<String, Boolean> indirectMap) {
+    this.indirectMap = indirectMap;
+  }
+
+  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
+    this.indirectMap = indirectMap;
+    return this;
+  }
+
+  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
+    this.indirectMap.put(key, indirectMapItem);
+    return this;
+  }
+
 
   @Override
   public String toString() {
@@ -110,6 +162,8 @@ public enum InnerEnum {
     
     sb.append("    mapMapOfString: ").append(toIndentedString(mapMapOfString)).append("\n");
     sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
+    sb.append("    directMap: ").append(toIndentedString(directMap)).append("\n");
+    sb.append("    indirectMap: ").append(toIndentedString(indirectMap)).append("\n");
     sb.append("}");
     return sb.toString();
   }

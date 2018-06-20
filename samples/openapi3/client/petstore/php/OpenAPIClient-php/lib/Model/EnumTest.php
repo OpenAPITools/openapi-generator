@@ -61,7 +61,7 @@ class EnumTest implements ModelInterface, ArrayAccess
         'enum_string_required' => 'string',
         'enum_integer' => 'int',
         'enum_number' => 'double',
-        'outer_enum' => '\OpenAPI\Client\Model\OuterEnum'
+        'outer_enum' => 'string'
     ];
 
     /**
@@ -188,6 +188,9 @@ class EnumTest implements ModelInterface, ArrayAccess
     const ENUM_INTEGER_MINUS_1 = -1;
     const ENUM_NUMBER_1_DOT_1 = 1.1;
     const ENUM_NUMBER_MINUS_1_DOT_2 = -1.2;
+    const OUTER_ENUM_PLACED = 'placed';
+    const OUTER_ENUM_APPROVED = 'approved';
+    const OUTER_ENUM_DELIVERED = 'delivered';
     
 
     
@@ -242,6 +245,20 @@ class EnumTest implements ModelInterface, ArrayAccess
         return [
             self::ENUM_NUMBER_1_DOT_1,
             self::ENUM_NUMBER_MINUS_1_DOT_2,
+        ];
+    }
+    
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getOuterEnumAllowableValues()
+    {
+        return [
+            self::OUTER_ENUM_PLACED,
+            self::OUTER_ENUM_APPROVED,
+            self::OUTER_ENUM_DELIVERED,
         ];
     }
     
@@ -308,6 +325,14 @@ class EnumTest implements ModelInterface, ArrayAccess
         if (!is_null($this->container['enum_number']) && !in_array($this->container['enum_number'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value for 'enum_number', must be one of '%s'",
+                implode("', '", $allowedValues)
+            );
+        }
+
+        $allowedValues = $this->getOuterEnumAllowableValues();
+        if (!is_null($this->container['outer_enum']) && !in_array($this->container['outer_enum'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value for 'outer_enum', must be one of '%s'",
                 implode("', '", $allowedValues)
             );
         }
@@ -462,7 +487,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Gets outer_enum
      *
-     * @return \OpenAPI\Client\Model\OuterEnum|null
+     * @return string|null
      */
     public function getOuterEnum()
     {
@@ -472,12 +497,21 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Sets outer_enum
      *
-     * @param \OpenAPI\Client\Model\OuterEnum|null $outer_enum outer_enum
+     * @param string|null $outer_enum outer_enum
      *
      * @return $this
      */
     public function setOuterEnum($outer_enum)
     {
+        $allowedValues = $this->getOuterEnumAllowableValues();
+        if (!is_null($outer_enum) && !in_array($outer_enum, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'outer_enum', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
         $this->container['outer_enum'] = $outer_enum;
 
         return $this;
