@@ -1,6 +1,6 @@
 #!/bin/bash
 # this bash script run the scripts for the 'mature' generators
-# it ensures that all changes are commited into the 'samples/' folder
+# it ensures that all changes are committed into the 'samples/' folder
 
 echo "# START SCRIPT: $0"
 

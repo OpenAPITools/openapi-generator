@@ -7,7 +7,7 @@ expanded class
 feature -- Access
 
 	from_json (a_val:STRING; a_type: TYPE [detachable ANY] ): detachable ANY
-			-- Deserialize a a json representation `a_val' to an object
+			-- Deserialize a json representation `a_val' to an object
 			-- of type `a_type'
 		local
 			conv_from: JSON_BASIC_REFLECTOR_DESERIALIZER

@@ -11,52 +11,44 @@
  *
  */
 
-
 import ApiClient from '../ApiClient';
 
-
-
-
-
 /**
-* The Name model module.
-* @module model/Name
-* @version 1.0.0
-*/
-export default class Name {
+ * The Name model module.
+ * @module model/Name
+ * @version 1.0.0
+ */
+class Name {
     /**
-    * Constructs a new <code>Name</code>.
-    * Model for testing model name same as property name
-    * @alias module:model/Name
-    * @class
-    * @param name {Number} 
-    */
-
-    constructor(name) {
+     * Constructs a new <code>Name</code>.
+     * Model for testing model name same as property name
+     * @alias module:model/Name
+     * @param name {Number} 
+     */
+    constructor(name) { 
         
-
-        
-        
-
-        this['name'] = name;
-
-        
+        Name.initialize(this, name);
     }
 
     /**
-    * Constructs a <code>Name</code> from a plain JavaScript object, optionally creating a new instance.
-    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-    * @param {Object} data The plain JavaScript object bearing properties of interest.
-    * @param {module:model/Name} obj Optional instance to populate.
-    * @return {module:model/Name} The populated <code>Name</code> instance.
-    */
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj, name) { 
+        obj['name'] = name;
+    }
+
+    /**
+     * Constructs a <code>Name</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Name} obj Optional instance to populate.
+     * @return {module:model/Name} The populated <code>Name</code> instance.
+     */
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new Name();
-
-            
-            
-            
 
             if (data.hasOwnProperty('name')) {
                 obj['name'] = ApiClient.convertToType(data['name'], 'Number');
@@ -74,30 +66,33 @@ export default class Name {
         return obj;
     }
 
-    /**
-    * @member {Number} name
-    */
-    name = undefined;
-    /**
-    * @member {Number} snake_case
-    */
-    snake_case = undefined;
-    /**
-    * @member {String} property
-    */
-    property = undefined;
-    /**
-    * @member {Number} 123Number
-    */
-    123Number = undefined;
-
-
-
-
-
-
-
 
 }
 
+/**
+ * @member {Number} name
+ */
+Name.prototype['name'] = undefined;
+
+/**
+ * @member {Number} snake_case
+ */
+Name.prototype['snake_case'] = undefined;
+
+/**
+ * @member {String} property
+ */
+Name.prototype['property'] = undefined;
+
+/**
+ * @member {Number} 123Number
+ */
+Name.prototype['123Number'] = undefined;
+
+
+
+
+
+
+export default Name;
 

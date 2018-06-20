@@ -377,7 +377,7 @@
     },
     "SampleBase": {
       "type": "object",
-      "description": "This is an base class object from which other classes will derive.",
+      "description": "This is a base class object from which other classes will derive.",
       "properties": {
         "baseClassStringProp": {
           "type": "string"
@@ -389,7 +389,7 @@
       }
     },
     "SampleSubClass": {
-      "description": "This is an subclass defived from the SampleBase class.",
+      "description": "This is a subclass defived from the SampleBase class.",
       "allOf": [
         {
           "$ref": "#/definitions/SampleBase"
@@ -423,7 +423,7 @@
       }
     },
     "PersonCard": {
-      "description": "This is an card object for a Person derived from BaseCard.",
+      "description": "This is a card object for a Person derived from BaseCard.",
       "x-unit-tests": ["B45"],
       "allOf": [
         {
@@ -443,7 +443,7 @@
       ]
     },
     "PlaceCard": {
-      "description": "This is an card object for a Person derived from BaseCard.",
+      "description": "This is a card object for a Person derived from BaseCard.",
       "x-unit-tests": ["B45"],
       "allOf": [
         {
