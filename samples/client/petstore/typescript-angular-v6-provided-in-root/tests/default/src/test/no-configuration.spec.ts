@@ -3,42 +3,24 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {
   ApiModule,
-  Configuration,
-  ConfigurationParameters,
   PetService,
   Pet,
 } from '@swagger/typescript-angular-petstore';
 
-describe(`Configuration`, () => {
+describe(`API (no configuration)`, () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
 
-  const getPet: () => Pet = () => {
-    const time = Date.now();
-    return {
-      name: `pet-${time}`,
-      photoUrls: []
-    }
-  };
-
-  const pet: Pet = getPet();
-
-  const apiConfigurationParams: ConfigurationParameters = {
-    // add configuration params here
-    basePath: '//test-initial'
-  };
-
-  const apiConfig = new Configuration(apiConfigurationParams);
-
-  const getApiConfig = () => {
-    return apiConfig;
+  const pet: Pet = {
+    name: `pet`,
+    photoUrls: []
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule ,
-        ApiModule.forRoot(getApiConfig)
+        ApiModule,
       ],
       providers: [
         PetService,
@@ -61,31 +43,17 @@ describe(`Configuration`, () => {
       expect(petService).toBeTruthy();
     });
 
-    it(`should call initially configured basePath //test-initial and the endpoint /pet with post`, async(() => {
+    it(`should call to the default basePath http://petstore.swagger.io/v2/pet`, async(() => {
       const petService = TestBed.get(PetService);
 
       petService.addPet(pet).subscribe(
-        (result) => {
-          return expect(result).toEqual(pet);
-        },
-        (error) => {
-          return fail(`expected a result, not the error: ${error.message}`);
-        }
+        result => expect(result).toEqual(pet),
+        error => fail(`expected a result, not the error: ${error.message}`),
       );
 
-      // The following `expectOne()` will match the request's URL.
-      // If no requests or multiple requests matched that URL
-      // `expectOne()` would throw.
-      const req = httpTestingController.expectOne('//test-initial/pet');
-      console.log(req);
-
-      // Assert that the request is a GET.
+      const req = httpTestingController.expectOne('http://petstore.swagger.io/v2/pet');
       expect(req.request.method).toEqual('POST');
-
-      // Respond with mock data, causing Observable to resolve.
-      // Subscribe callback asserts that correct data was returned.
       req.flush(pet);
-
     }));
 
   });

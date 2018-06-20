@@ -1,44 +1,29 @@
 import { TestBed, async } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {
   ApiModule,
   Configuration,
   ConfigurationParameters,
   PetService,
-  StoreService,
-  UserService,
   Pet,
-  Category,
 } from '@swagger/typescript-angular-petstore';
 
+describe(`API (with ConfigurationFactory)`, () => {
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
-describe(`API`, () => {
-  const getCategory: () => Category = () => {
-    return { }
+  const pet: Pet = {
+    name: `pet`,
+    photoUrls: []
   };
 
-  const getPet: () => Pet = () => {
-    const time = Date.now();
-    return {
-      name: `pet-${time}`,
-      photoUrls: []
-    }
-  };
-
-  const options = {
-    credentials: 'include',
-    mode: 'cors'
-  };
-
-  const newPet: Pet = getPet();
-  let createdPet: Pet;
-
-  const apiConfigurationParams: ConfigurationParameters = {
+  let apiConfigurationParams: ConfigurationParameters = {
     // add configuration params here
-    apiKeys: { api_key: "foobar" }
+    basePath: '//test-initial'
   };
 
-  const apiConfig = new Configuration(apiConfigurationParams);
+  let apiConfig: Configuration = new Configuration(apiConfigurationParams);
 
   const getApiConfig = () => {
     return apiConfig;
@@ -47,15 +32,22 @@ describe(`API`, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientModule,
+        HttpClientTestingModule ,
         ApiModule.forRoot(getApiConfig)
       ],
       providers: [
         PetService,
-        StoreService,
-        UserService,
       ]
     });
+
+    // Inject the http service and test controller for each test
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
+  });
+
+  afterEach(() => {
+    // After every test, assert that there are no more pending requests.
+    httpTestingController.verify();
   });
 
   describe(`PetService`, () => {
@@ -64,64 +56,38 @@ describe(`API`, () => {
       expect(petService).toBeTruthy();
     });
 
-    it(`should add a pet`, async(() => {
+    it(`should call initially configured basePath //test-initial/pet`, async(() => {
       const petService = TestBed.get(PetService);
 
-      return petService.addPet(newPet).subscribe(
-        (result) => {
-          createdPet = result;
-          return expect(result.id).toBeGreaterThan(0);
-        },
-        (error) => {
-          return expect(error).toBeFalsy();
-        }
+      petService.addPet(pet).subscribe(
+        result => expect(result).toEqual(pet),
+        error => fail(`expected a result, not the error: ${error.message}`),
       );
+
+      const req = httpTestingController.expectOne('//test-initial/pet');
+
+      expect(req.request.method).toEqual('POST');
+
+      req.flush(pet);
     }));
 
-    it(`should have created a pet`, () => {
-      expect(createdPet.name).toEqual(newPet.name);
-    });
 
-    it(`should get the pet data by id`, async(() => {
-      const petService = TestBed.get(PetService);
-      return petService.getPetById(createdPet.id).subscribe(
-        (result) => {
-          return expect(result.name).toEqual(newPet.name);
-        },
-        (error) => {
-          return expect(error).toBeFalsy();
-        }
-      );
-    }));
+    it(`should call updated basePath //test-changed/pet`, async(() => {
+      apiConfig.basePath = '//test-changed';
 
-    it(`should update the pet name by pet object`, async(() => {
-      const petService = TestBed.get(PetService);
-      const newName = `pet-${Date.now()}`;
-      createdPet.name = newName;
-
-      return petService.updatePet(createdPet).subscribe(
-        (result) => {
-          return expect(result.name).toEqual(newName);
-        },
-        (error) => {
-          return expect(error).toBeFalsy();
-        }
-      );
-    }));
-
-    it(`should delete the pet`, async(() => {
       const petService = TestBed.get(PetService);
 
-      return petService.deletePet(createdPet.id).subscribe(
-        (result) => {
-          return expect(result).toBeFalsy();
-        },
-        (error) => {
-          return expect(error).toBeFalsy();
-        }
+      petService.addPet(pet).subscribe(
+        result => expect(result).toEqual(pet),
+        error => fail(`expected a result, not the error: ${error.message}`),
       );
-    }));
 
+      const req = httpTestingController.expectOne('//test-changed/pet');
+
+      expect(req.request.method).toEqual('POST');
+
+      req.flush(pet);
+    }));
   });
 
 });
