@@ -37,11 +37,11 @@ $app->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', function($request, $
     {{/hasQueryParams}}
     {{#hasFormParams}}
     {{#formParams}}
-    {{#notFile}}
+    {{^isFile}}
     ${{paramName}} = $request->getParsedBodyParam('{{baseName}}');
-    {{/notFile}}
+    {{/isFile}}
     {{#isFile}}
-    ${{paramName}} = $request->getUploadedFiles()['{{baseName}}'];
+    ${{paramName}} = (key_exists('{{baseName}}', $request->getUploadedFiles())) ? $request->getUploadedFiles()['{{baseName}}'] : null;
     {{/isFile}}
     {{/formParams}}
     {{/hasFormParams}}

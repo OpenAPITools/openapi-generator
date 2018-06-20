@@ -107,7 +107,20 @@ $app->PATCH('/v2/fake', function($request, $response, $args) {
  * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
  */
 $app->POST('/v2/fake', function($request, $response, $args) {
-    $binary = $request->getUploadedFiles()['binary'];
+    $integer = $request->getParsedBodyParam('integer');
+    $int32 = $request->getParsedBodyParam('int32');
+    $int64 = $request->getParsedBodyParam('int64');
+    $number = $request->getParsedBodyParam('number');
+    $float = $request->getParsedBodyParam('float');
+    $double = $request->getParsedBodyParam('double');
+    $string = $request->getParsedBodyParam('string');
+    $patternWithoutDelimiter = $request->getParsedBodyParam('pattern_without_delimiter');
+    $byte = $request->getParsedBodyParam('byte');
+    $binary = (key_exists('binary', $request->getUploadedFiles())) ? $request->getUploadedFiles()['binary'] : null;
+    $date = $request->getParsedBodyParam('date');
+    $dateTime = $request->getParsedBodyParam('dateTime');
+    $password = $request->getParsedBodyParam('password');
+    $callback = $request->getParsedBodyParam('callback');
     $response->write('How about implementing testEndpointParameters as a POST method ?');
     return $response;
 });
@@ -127,6 +140,8 @@ $app->GET('/v2/fake', function($request, $response, $args) {
     $enumQueryString = $request->getQueryParam('enum_query_string');
     $enumQueryInteger = $request->getQueryParam('enum_query_integer');
     $enumQueryDouble = $request->getQueryParam('enum_query_double');
+    $enumFormStringArray = $request->getParsedBodyParam('enum_form_string_array');
+    $enumFormString = $request->getParsedBodyParam('enum_form_string');
     $response->write('How about implementing testEnumParameters as a GET method ?');
     return $response;
 });
@@ -150,6 +165,8 @@ $app->POST('/v2/fake/inline-additionalProperties', function($request, $response,
  * Notes: 
  */
 $app->GET('/v2/fake/jsonFormData', function($request, $response, $args) {
+    $param = $request->getParsedBodyParam('param');
+    $param2 = $request->getParsedBodyParam('param2');
     $response->write('How about implementing testJsonFormData as a GET method ?');
     return $response;
 });
@@ -254,6 +271,8 @@ $app->GET('/v2/pet/{petId}', function($request, $response, $args) {
  */
 $app->POST('/v2/pet/{petId}', function($request, $response, $args) {
     $petId = $args['petId'];
+    $name = $request->getParsedBodyParam('name');
+    $status = $request->getParsedBodyParam('status');
     $response->write('How about implementing updatePetWithForm as a POST method ?');
     return $response;
 });
@@ -267,7 +286,8 @@ $app->POST('/v2/pet/{petId}', function($request, $response, $args) {
  */
 $app->POST('/v2/pet/{petId}/uploadImage', function($request, $response, $args) {
     $petId = $args['petId'];
-    $file = $request->getUploadedFiles()['file'];
+    $additionalMetadata = $request->getParsedBodyParam('additionalMetadata');
+    $file = (key_exists('file', $request->getUploadedFiles())) ? $request->getUploadedFiles()['file'] : null;
     $response->write('How about implementing uploadFile as a POST method ?');
     return $response;
 });
