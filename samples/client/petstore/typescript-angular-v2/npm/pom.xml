@@ -4,7 +4,7 @@
     <artifactId>TSAngular2PestoreTest</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>TS Angular2 Pettore Test</name>
+    <name>TS Angular2 Petstore Test</name>
     <build>
         <plugins>
             <plugin>
