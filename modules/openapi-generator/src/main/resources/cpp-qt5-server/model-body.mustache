@@ -158,44 +158,12 @@ QJsonObject
     {{/isDateTime}}
     {{/isContainer}}
     {{#isContainer}}
-    {{#isListContainer}}
     if({{name}}->size() > 0){
-        {{^items.isContainer}}
-        toJsonArray((QList<void*>*){{name}}, obj, "{{baseName}}", "{{complexType}}");
-        {{/items.isContainer}}
-        {{#items.isContainer}}
-        QJsonArray jarray;
-        for(auto items : *{{name}}){
-            QJsonObject jobj;
-            {{#items.isListContainer}}
-            toJsonArray((QList<void*>*)items, jobj, "{{baseName}}", "{{items.items.baseType}}");
-            {{/items.isListContainer}}
-            {{#items.isMapContainer}}
-            toJsonMap((QMap<QString, void*>*)items, jobj, "{{baseName}}", "{{items.items.baseType}}");
-            {{/items.isMapContainer}}
-            jarray.append(jobj.value("{{baseName}}"));
-        }
-        obj.insert("{{baseName}}", jarray);
-        {{/items.isContainer}}
+        {{^items.isContainer}}toJsonValue("{{baseName}}", static_cast<void*>({{name}}), obj, "{{baseType}}", "{{items.baseType}}");{{/items.isContainer}}{{#items.isContainer}}
+        QJsonObject containerObj;
+        toJsonValue("{{baseName}}", static_cast<void*>({{name}}), containerObj, "{{items.baseType}}", "{{items.items.baseType}}");
+        obj.insert("{{baseName}}", containerObj);{{/items.isContainer}}
     }
-    {{/isListContainer}}
-    {{#isMapContainer}}
-    if({{name}}->size() > 0){
-        {{^items.isContainer}}toJsonMap((QMap<QString, void*>*) {{name}}, obj, "{{baseName}}", "{{complexType}}");{{/items.isContainer}}{{#items.isContainer}}
-        QJsonObject mapobj;
-        for(auto itemkey : {{name}}->keys()){
-            QJsonObject jobj;
-            {{#items.isListContainer}}
-            toJsonArray((QList<void*>*){{name}}->value(itemkey), jobj, itemkey, "{{items.items.baseType}}");
-            {{/items.isListContainer}}
-            {{#items.isMapContainer}}
-            toJsonMap((QMap<QString, void*>*){{name}}->value(itemkey), jobj, itemkey, "{{items.items.baseType}}");
-            {{/items.isMapContainer}}
-            mapobj.insert(itemkey, jobj);
-        }
-        obj.insert("{{baseName}}", mapobj);{{/items.isContainer}}
-    }
-    {{/isMapContainer}}
     {{/isContainer}}
     {{/vars}}
 

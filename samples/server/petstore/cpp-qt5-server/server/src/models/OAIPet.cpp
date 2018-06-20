@@ -126,10 +126,10 @@ OAIPet::asJsonObject() {
         toJsonValue(QString("name"), name, obj, QString("QString"));
     }
     if(photo_urls->size() > 0){
-        toJsonArray((QList<void*>*)photo_urls, obj, "photoUrls", "QString");
+        toJsonValue("photoUrls", static_cast<void*>(photo_urls), obj, "QList", "QString");
     }
     if(tags->size() > 0){
-        toJsonArray((QList<void*>*)tags, obj, "tags", "OAITag");
+        toJsonValue("tags", static_cast<void*>(tags), obj, "QList", "OAITag");
     }
     if(status != nullptr && *status != QString("")){
         toJsonValue(QString("status"), status, obj, QString("QString"));
