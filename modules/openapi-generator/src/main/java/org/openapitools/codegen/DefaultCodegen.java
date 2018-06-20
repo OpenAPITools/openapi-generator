@@ -1167,7 +1167,7 @@ public class DefaultCodegen implements CodegenConfig {
         // TODO better logic to handle compose schema
         if (schema instanceof ComposedSchema) { // composed schema
             ComposedSchema cs = (ComposedSchema) schema;
-            if(cs.getAllOf() != null) {
+            if (cs.getAllOf() != null) {
                 for (Schema s : cs.getAllOf()) {
                     if (s != null) {
                         // using the first schema defined in allOf
@@ -1383,6 +1383,9 @@ public class DefaultCodegen implements CodegenConfig {
             typeAliases = getAllAliases(allDefinitions);
         }
 
+        // unalias schema
+        schema = ModelUtils.unaliasSchema(allDefinitions, schema);
+
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
 
         if (reservedWords.contains(name)) {
@@ -1522,7 +1525,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
             }
-            addVars(m, schema.getProperties(), schema.getRequired());
+            addVars(m, unaliasPropertySchema(allDefinitions, schema.getProperties()), schema.getRequired());
         }
 
         if (m.vars != null) {
@@ -1591,7 +1594,6 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
         LOGGER.debug("debugging fromProperty for " + name + " : " + p);
-
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
         property.name = toVarName(name);
         property.baseName = name;
@@ -1832,7 +1834,6 @@ public class DefaultCodegen implements CodegenConfig {
             //    property.baseType = getSimpleRef(p.get$ref());
             //}
             // --END of revision
-
             setNonArrayMapProperty(property, type);
         }
 
@@ -3047,6 +3048,24 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    /**
+     * Loop through propertiies and unalias the reference if $ref (reference) is defined
+     *
+     * @param allSchemas all schemas defined in the spec
+     * @param properties model properties (schemas)
+     * @return model properties with direct reference to schemas
+     */
+    private Map<String, Schema> unaliasPropertySchema(Map<String, Schema> allSchemas, Map<String, Schema> properties) {
+        if (properties != null) {
+            for (String key : properties.keySet()) {
+                properties.put(key, ModelUtils.unaliasSchema(allSchemas, properties.get(key)));
+
+            }
+        }
+
+        return properties;
+    }
+
     private void addVars(CodegenModel model, Map<String, Schema> properties, List<String> required) {
         addVars(model, properties, required, null, null);
     }
@@ -3163,6 +3182,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (schemaType != null && !schemaType.equals("object") && !schemaType.equals("array") && schema.getEnum() == null) {
                 aliases.put(oasName, schemaType);
             }
+
         }
 
         return aliases;
@@ -3896,14 +3916,14 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Set<String> existingMediaTypes = new HashSet<>();
-        for (Map<String, String> mediaType: codegenOperation.produces) {
+        for (Map<String, String> mediaType : codegenOperation.produces) {
             existingMediaTypes.add(mediaType.get("mediaType"));
         }
 
         int count = 0;
         for (String key : produces) {
             // escape quotation to avoid code injection, "*/*" is a special case, do nothing
-            String encodedKey = "*/*".equals(key)? key : escapeText(escapeQuotationMark(key));
+            String encodedKey = "*/*".equals(key) ? key : escapeText(escapeQuotationMark(key));
             //Only unique media types should be added to "produces"
             if (!existingMediaTypes.contains(encodedKey)) {
                 Map<String, String> mediaType = new HashMap<String, String>();
@@ -3925,7 +3945,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * returns the list of MIME types the APIs can produce
      *
-     * @param openAPI current specification instance
+     * @param openAPI   current specification instance
      * @param operation Operation
      * @return a set of MIME types
      */
@@ -4024,10 +4044,9 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.isListContainer = true;
                     codegenParameter.description = s.getDescription();
                     codegenParameter.dataType = getTypeDeclaration(s);
-                    if (codegenParameter.baseType != null && codegenParameter.enumName != null){
+                    if (codegenParameter.baseType != null && codegenParameter.enumName != null) {
                         codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(codegenParameter.baseType, codegenParameter.enumName);
-                    }
-                    else {
+                    } else {
                         LOGGER.warn("Could not compute datatypeWithEnum from " + codegenParameter.baseType + ", " + codegenParameter.enumName);
                     }
                     //TODO fix collectformat for form parameters
@@ -4338,7 +4357,7 @@ public class DefaultCodegen implements CodegenConfig {
     public void generateYAMLSpecFile(Map<String, Object> objs) {
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
         String yaml = SerializerUtils.toYamlString(openAPI);
-        if(yaml != null) {
+        if (yaml != null) {
             objs.put("openapi-yaml", yaml);
         }
     }
