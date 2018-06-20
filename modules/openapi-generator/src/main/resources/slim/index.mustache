@@ -13,7 +13,9 @@ $app = new Slim\App();
  * {{httpMethod}} {{nickname}}
  * Summary: {{summary}}
  * Notes: {{notes}}
-{{#hasProduces}} * Output-Formats: [{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]{{/hasProduces}}
+ {{#hasProduces}}
+ * Output-Formats: [{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]
+ {{/hasProduces}}
  */
 $app->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', function($request, $response, $args) {
     {{#hasHeaderParams}}

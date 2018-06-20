@@ -78,7 +78,6 @@ $app->POST('/v2/fake/outer/string', function($request, $response, $args) {
  * PUT testBodyWithQueryParams
  * Summary: 
  * Notes: 
-
  */
 $app->PUT('/v2/fake/body-with-query-params', function($request, $response, $args) {
     $queryParams = $request->getQueryParams();
@@ -106,7 +105,6 @@ $app->PATCH('/v2/fake', function($request, $response, $args) {
  * POST testEndpointParameters
  * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
  * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-
  */
 $app->POST('/v2/fake', function($request, $response, $args) {
     $binary = $request->getUploadedFiles()['binary'];
@@ -119,7 +117,6 @@ $app->POST('/v2/fake', function($request, $response, $args) {
  * GET testEnumParameters
  * Summary: To test enum parameters
  * Notes: To test enum parameters
-
  */
 $app->GET('/v2/fake', function($request, $response, $args) {
     $headers = $request->getHeaders();
@@ -139,7 +136,6 @@ $app->GET('/v2/fake', function($request, $response, $args) {
  * POST testInlineAdditionalProperties
  * Summary: test inline additionalProperties
  * Notes: 
-
  */
 $app->POST('/v2/fake/inline-additionalProperties', function($request, $response, $args) {
     $body = $request->getParsedBody();
@@ -152,7 +148,6 @@ $app->POST('/v2/fake/inline-additionalProperties', function($request, $response,
  * GET testJsonFormData
  * Summary: test json serialization of form data
  * Notes: 
-
  */
 $app->GET('/v2/fake/jsonFormData', function($request, $response, $args) {
     $response->write('How about implementing testJsonFormData as a GET method ?');
@@ -177,7 +172,6 @@ $app->PATCH('/v2/fake_classname_test', function($request, $response, $args) {
  * POST addPet
  * Summary: Add a new pet to the store
  * Notes: 
-
  */
 $app->POST('/v2/pet', function($request, $response, $args) {
     $body = $request->getParsedBody();
@@ -218,7 +212,6 @@ $app->GET('/v2/pet/findByTags', function($request, $response, $args) {
  * PUT updatePet
  * Summary: Update an existing pet
  * Notes: 
-
  */
 $app->PUT('/v2/pet', function($request, $response, $args) {
     $body = $request->getParsedBody();
@@ -231,7 +224,6 @@ $app->PUT('/v2/pet', function($request, $response, $args) {
  * DELETE deletePet
  * Summary: Deletes a pet
  * Notes: 
-
  */
 $app->DELETE('/v2/pet/{petId}', function($request, $response, $args) {
     $headers = $request->getHeaders();
@@ -259,7 +251,6 @@ $app->GET('/v2/pet/{petId}', function($request, $response, $args) {
  * POST updatePetWithForm
  * Summary: Updates a pet in the store with form data
  * Notes: 
-
  */
 $app->POST('/v2/pet/{petId}', function($request, $response, $args) {
     $petId = $args['petId'];
@@ -311,7 +302,6 @@ $app->POST('/v2/store/order', function($request, $response, $args) {
  * DELETE deleteOrder
  * Summary: Delete purchase order by ID
  * Notes: For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-
  */
 $app->DELETE('/v2/store/order/{order_id}', function($request, $response, $args) {
     $orderId = $args['order_id'];
@@ -337,7 +327,6 @@ $app->GET('/v2/store/order/{order_id}', function($request, $response, $args) {
  * POST createUser
  * Summary: Create user
  * Notes: This can only be done by the logged in user.
-
  */
 $app->POST('/v2/user', function($request, $response, $args) {
     $body = $request->getParsedBody();
@@ -350,7 +339,6 @@ $app->POST('/v2/user', function($request, $response, $args) {
  * POST createUsersWithArrayInput
  * Summary: Creates list of users with given input array
  * Notes: 
-
  */
 $app->POST('/v2/user/createWithArray', function($request, $response, $args) {
     $body = $request->getParsedBody();
@@ -363,7 +351,6 @@ $app->POST('/v2/user/createWithArray', function($request, $response, $args) {
  * POST createUsersWithListInput
  * Summary: Creates list of users with given input array
  * Notes: 
-
  */
 $app->POST('/v2/user/createWithList', function($request, $response, $args) {
     $body = $request->getParsedBody();
@@ -391,7 +378,6 @@ $app->GET('/v2/user/login', function($request, $response, $args) {
  * GET logoutUser
  * Summary: Logs out current logged in user session
  * Notes: 
-
  */
 $app->GET('/v2/user/logout', function($request, $response, $args) {
     $response->write('How about implementing logoutUser as a GET method ?');
@@ -403,7 +389,6 @@ $app->GET('/v2/user/logout', function($request, $response, $args) {
  * DELETE deleteUser
  * Summary: Delete user
  * Notes: This can only be done by the logged in user.
-
  */
 $app->DELETE('/v2/user/{username}', function($request, $response, $args) {
     $username = $args['username'];
@@ -429,7 +414,6 @@ $app->GET('/v2/user/{username}', function($request, $response, $args) {
  * PUT updateUser
  * Summary: Updated user
  * Notes: This can only be done by the logged in user.
-
  */
 $app->PUT('/v2/user/{username}', function($request, $response, $args) {
     $username = $args['username'];
