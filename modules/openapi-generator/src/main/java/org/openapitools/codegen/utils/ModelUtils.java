@@ -637,9 +637,7 @@ public class ModelUtils {
      * @return actual schema
      */
     public static Schema unaliasSchema(Map<String, Schema> allSchemas, Schema schema) {
-        LOGGER.info("calling unaliasSchema..." + schema.get$ref());
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
-            LOGGER.info("Get inner schema ref:" + schema.get$ref());
             Schema ref = allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref()));
             if (ref == null) {
                 LOGGER.warn("{} is not defined", schema.get$ref());
