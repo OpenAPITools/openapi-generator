@@ -3,8 +3,8 @@
     "version": "{{npmVersion}}",
     "description": "NodeJS client for {{npmName}}",
     "repository": "{{gitUserId}}/{{gitRepoId}}",
-    "main": "api.js",
-    "types": "api.d.ts",
+    "main": "index.js",
+    "types": "index.d.ts",
     "scripts": {
         "clean": "rm -Rf node_modules/ *.js",
         "build": "tsc",
@@ -16,12 +16,13 @@
         "bluebird": "^3.5.0",
         "request": "^2.81.0",
         "@types/bluebird": "*",
-        "@types/request": "*"
+        "@types/request": "*",
+        "rewire": "^3.0.2"
     },
     "devDependencies": {
         "typescript": "^2.4.2"
     }{{#npmRepository}},
-    "publishConfig":{
-        "registry":"{{npmRepository}}"
+    "publishConfig": {
+        "registry": "{{npmRepository}}"
     }{{/npmRepository}}
 }
