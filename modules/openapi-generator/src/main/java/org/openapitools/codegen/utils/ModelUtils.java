@@ -633,6 +633,7 @@ public class ModelUtils {
     /**
      * Get the actual schema from aliases. If the provided schema is not an alias, the schema itself will be returned.
      *
+     * @param allSchemas all schemas
      * @param schema schema (alias or direct reference)
      * @return actual schema
      */
