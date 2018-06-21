@@ -835,6 +835,7 @@
                 <!-- clients -->
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
+                <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <!-- test java-related projects -->
                 <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-httpclient</module>

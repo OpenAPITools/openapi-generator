@@ -35,12 +35,13 @@ export class StoreService implements StoreServiceInterface {
     public configuration = new Configuration();
 
     constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-        if (basePath) {
-            this.basePath = basePath;
-        }
+
         if (configuration) {
             this.configuration = configuration;
-            this.basePath = basePath || configuration.basePath || this.basePath;
+            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
+
+        } else {
+            this.configuration.basePath = basePath || this.basePath;
         }
     }
 
@@ -157,7 +158,7 @@ export class StoreService implements StoreServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`, requestOptions);
     }
 
     /**
@@ -197,7 +198,7 @@ export class StoreService implements StoreServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/store/inventory`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/store/inventory`, requestOptions);
     }
 
     /**
@@ -237,7 +238,7 @@ export class StoreService implements StoreServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`, requestOptions);
     }
 
     /**
@@ -282,7 +283,7 @@ export class StoreService implements StoreServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/store/order`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/store/order`, requestOptions);
     }
 
 }
