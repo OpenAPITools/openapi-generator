@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.client.model.StringBooleanMap;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -91,11 +92,9 @@ public class MapTest {
   private Map<String, Boolean> directMap = null;
 
   @JsonProperty("indirect_map")
-  // Is a container wrapped=false
-  // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
-  // items.example= items.type=Boolean
-  @XmlElement(name = "inner")
-  private Map<String, Boolean> indirectMap = null;
+  @JacksonXmlProperty(localName = "indirect_map")
+  @XmlElement(name = "indirect_map")
+  private StringBooleanMap indirectMap = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -175,16 +174,8 @@ public class MapTest {
     this.directMap = directMap;
   }
 
-  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
+  public MapTest indirectMap(StringBooleanMap indirectMap) {
     this.indirectMap = indirectMap;
-    return this;
-  }
-
-  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
-    if (this.indirectMap == null) {
-      this.indirectMap = new HashMap<String, Boolean>();
-    }
-    this.indirectMap.put(key, indirectMapItem);
     return this;
   }
 
@@ -193,11 +184,11 @@ public class MapTest {
    * @return indirectMap
   **/
   @ApiModelProperty(value = "")
-  public Map<String, Boolean> getIndirectMap() {
+  public StringBooleanMap getIndirectMap() {
     return indirectMap;
   }
 
-  public void setIndirectMap(Map<String, Boolean> indirectMap) {
+  public void setIndirectMap(StringBooleanMap indirectMap) {
     this.indirectMap = indirectMap;
   }
 

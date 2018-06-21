@@ -38,11 +38,9 @@ class MapTest
     public $direct_map;
     /**
      * @DTA\Data(field="indirect_map", nullable=true)
-     * TODO check validator and strategy are correct and can handle container item type
-     * @DTA\Validator(name="Collection", options={"validators":{
-     *     {"name":"Type", "options":{"type":"bool"}}
-     * }})
-     * @var map[string,bool]
+     * @DTA\Strategy(name="Object", options={"type":\App\DTO\StringBooleanMap::class})
+     * @DTA\Validator(name="Dictionary", options={"type":\App\DTO\StringBooleanMap::class})
+     * @var \App\DTO\StringBooleanMap
      */
     public $indirect_map;
 }

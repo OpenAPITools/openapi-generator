@@ -60,7 +60,7 @@ module Petstore
         :'map_map_of_string' => :'Hash<String, Hash<String, String>>',
         :'map_of_enum_string' => :'Hash<String, String>',
         :'direct_map' => :'Hash<String, BOOLEAN>',
-        :'indirect_map' => :'Hash<String, BOOLEAN>'
+        :'indirect_map' => :'StringBooleanMap'
       }
     end
 
@@ -91,9 +91,7 @@ module Petstore
       end
 
       if attributes.has_key?(:'indirect_map')
-        if (value = attributes[:'indirect_map']).is_a?(Hash)
-          self.indirect_map = value
-        end
+        self.indirect_map = attributes[:'indirect_map']
       end
     end
 
