@@ -121,6 +121,7 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
         supportingFiles.add(new SupportingFile("composer.json", packagePath.replace('/', File.separatorChar), "composer.json"));
         supportingFiles.add(new SupportingFile("index.mustache", packagePath.replace('/', File.separatorChar), "index.php"));
         supportingFiles.add(new SupportingFile(".htaccess", packagePath.replace('/', File.separatorChar), ".htaccess"));
+        supportingFiles.add(new SupportingFile(".gitignore", packagePath.replace('/', File.separatorChar), ".gitignore"));
     }
 
     @Override
