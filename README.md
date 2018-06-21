@@ -36,6 +36,9 @@
 
 :warning: If the OpenAPI spec is obtained from an untrusted source, please make sure you've reviewed the spec before using OpenAPI Generator to generate the API client, server stub or documentation as [code injection](https://en.wikipedia.org/wiki/Code_injection) may occur :warning:
 
+:bangbang: Both "OpenAPI Tools" (https://OpenAPITools.org - the parent organization of OpenAPI Generator) and "OpenAPI Generator" are not affiliated with OpenAPI Initiative (OAI) :bangbang:
+
+
 </div>
 
 ## Overview
