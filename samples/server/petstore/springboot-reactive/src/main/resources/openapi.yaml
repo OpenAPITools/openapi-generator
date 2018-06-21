@@ -1283,11 +1283,7 @@ components:
           format: double
           type: number
         outerEnum:
-          enum:
-          - placed
-          - approved
-          - delivered
-          type: string
+          $ref: '#/components/schemas/OuterEnum'
       required:
       - enum_string_required
       type: object

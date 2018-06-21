@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **enumStringRequired** | [**EnumStringRequiredEnum**](#EnumStringRequiredEnum) |  | 
 **enumInteger** | [**EnumIntegerEnum**](#EnumIntegerEnum) |  |  [optional]
 **enumNumber** | [**EnumNumberEnum**](#EnumNumberEnum) |  |  [optional]
-**outerEnum** | [**OuterEnumEnum**](#OuterEnumEnum) |  |  [optional]
+**outerEnum** | [**OuterEnum**](OuterEnum.md) |  |  [optional]
 
 
 <a name="EnumStringEnum"></a>
@@ -43,15 +43,6 @@ Name | Value
 ---- | -----
 NUMBER_1_DOT_1 | 1.1
 NUMBER_MINUS_1_DOT_2 | -1.2
-
-
-<a name="OuterEnumEnum"></a>
-## Enum: OuterEnumEnum
-Name | Value
----- | -----
-PLACED | &quot;placed&quot;
-APPROVED | &quot;approved&quot;
-DELIVERED | &quot;delivered&quot;
 
 
 

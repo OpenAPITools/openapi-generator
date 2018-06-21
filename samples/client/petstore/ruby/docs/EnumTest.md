@@ -7,6 +7,6 @@ Name | Type | Description | Notes
 **enum_string_required** | **String** |  | 
 **enum_integer** | **Integer** |  | [optional] 
 **enum_number** | **Float** |  | [optional] 
-**outer_enum** | **String** |  | [optional] 
+**outer_enum** | [**OuterEnum**](OuterEnum.md) |  | [optional] 
 
 
