@@ -645,6 +645,9 @@ public class ModelUtils {
                 return schema;
             } else if (isObjectSchema(ref)) { // model
                 return schema;
+            } else if (isStringSchema(ref) && (ref.getEnum() != null && !ref.getEnum().isEmpty())) {
+                // top-level enum class
+                return schema;
             } else {
                 return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
             }
