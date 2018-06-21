@@ -32,3 +32,16 @@ ags="generate -t modules/openapi-generator/src/main/resources/Java/libraries/okh
 rm -rf samples/client/petstore/java/okhttp-gson/src/main
 find samples/client/petstore/java/okhttp-gson -maxdepth 1 -type f ! -name "README.md" -exec rm {} +
 java $JAVA_OPTS -jar $executable $ags
+
+# copy additional manually written unit-tests
+mkdir samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client
+mkdir samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/auth
+mkdir samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/model
+
+cp CI/samples.ci/client/petstore/java/test-manual/common/StringUtilTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/StringUtilTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/ApiClientTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/ApiClientTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/common/ConfigurationTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/ConfigurationTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/auth/ApiKeyAuthTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/auth/ApiKeyAuthTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/auth/HttpBasicAuthTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/auth/HttpBasicAuthTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/model/EnumValueTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/model/EnumValueTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/JSONTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/JSONTest.java

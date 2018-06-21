@@ -116,7 +116,6 @@ class StoreApi
      */
     public function deleteOrderWithHttpInfo($order_id)
     {
-        $returnType = '';
         $request = $this->deleteOrderRequest($order_id);
 
         try {
@@ -340,7 +339,6 @@ class StoreApi
      */
     public function getInventoryWithHttpInfo()
     {
-        $returnType = 'map[string,int]';
         $request = $this->getInventoryRequest();
 
         try {
@@ -371,6 +369,26 @@ class StoreApi
                 );
             }
 
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('map[string,int]' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('map[string,int]' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, 'map[string,int]', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = 'map[string,int]';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -590,7 +608,6 @@ class StoreApi
      */
     public function getOrderByIdWithHttpInfo($order_id)
     {
-        $returnType = '\OpenAPI\Client\Model\Order';
         $request = $this->getOrderByIdRequest($order_id);
 
         try {
@@ -621,6 +638,26 @@ class StoreApi
                 );
             }
 
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('\OpenAPI\Client\Model\Order' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('\OpenAPI\Client\Model\Order' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Order', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\OpenAPI\Client\Model\Order';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -859,7 +896,6 @@ class StoreApi
      */
     public function placeOrderWithHttpInfo($order)
     {
-        $returnType = '\OpenAPI\Client\Model\Order';
         $request = $this->placeOrderRequest($order);
 
         try {
@@ -890,6 +926,26 @@ class StoreApi
                 );
             }
 
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('\OpenAPI\Client\Model\Order' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('\OpenAPI\Client\Model\Order' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Order', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\OpenAPI\Client\Model\Order';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
