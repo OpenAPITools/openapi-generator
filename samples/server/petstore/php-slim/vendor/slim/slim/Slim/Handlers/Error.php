@@ -1,9 +1,9 @@
 <?php
 /**
- * Slim Framework (http://slimframework.com)
+ * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2016 Josh Lockhart
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Handlers;
@@ -47,7 +47,7 @@ class Error extends AbstractError
             case 'text/html':
                 $output = $this->renderHtmlErrorMessage($exception);
                 break;
-            
+
             default:
                 throw new UnexpectedValueException('Cannot render unknown content type ' . $contentType);
         }
@@ -81,7 +81,7 @@ class Error extends AbstractError
 
             while ($exception = $exception->getPrevious()) {
                 $html .= '<h2>Previous exception</h2>';
-                $html .= $this->renderHtmlException($exception);
+                $html .= $this->renderHtmlExceptionOrError($exception);
             }
         } else {
             $html = '<p>A website error has occurred. Sorry for the temporary inconvenience.</p>';
@@ -103,12 +103,30 @@ class Error extends AbstractError
     /**
      * Render exception as HTML.
      *
+     * Provided for backwards compatibility; use renderHtmlExceptionOrError().
+     *
      * @param \Exception $exception
      *
      * @return string
      */
     protected function renderHtmlException(\Exception $exception)
     {
+        return $this->renderHtmlExceptionOrError($exception);
+    }
+
+    /**
+     * Render exception or error as HTML.
+     *
+     * @param \Exception|\Error $exception
+     *
+     * @return string
+     */
+    protected function renderHtmlExceptionOrError($exception)
+    {
+        if (!$exception instanceof \Exception && !$exception instanceof \Error) {
+            throw new \RuntimeException("Unexpected type. Expected Exception or Error.");
+        }
+
         $html = sprintf('<div><strong>Type:</strong> %s</div>', get_class($exception));
 
         if (($code = $exception->getCode())) {

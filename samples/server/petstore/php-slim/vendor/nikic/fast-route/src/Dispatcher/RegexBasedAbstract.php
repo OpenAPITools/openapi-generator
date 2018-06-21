@@ -4,13 +4,21 @@ namespace FastRoute\Dispatcher;
 
 use FastRoute\Dispatcher;
 
-abstract class RegexBasedAbstract implements Dispatcher {
-    protected $staticRouteMap;
-    protected $variableRouteData;
+abstract class RegexBasedAbstract implements Dispatcher
+{
+    /** @var mixed[][] */
+    protected $staticRouteMap = [];
 
-    protected abstract function dispatchVariableRoute($routeData, $uri);
+    /** @var mixed[] */
+    protected $variableRouteData = [];
 
-    public function dispatch($httpMethod, $uri) {
+    /**
+     * @return mixed[]
+     */
+    abstract protected function dispatchVariableRoute($routeData, $uri);
+
+    public function dispatch($httpMethod, $uri)
+    {
         if (isset($this->staticRouteMap[$httpMethod][$uri])) {
             $handler = $this->staticRouteMap[$httpMethod][$uri];
             return [self::FOUND, $handler, []];
@@ -73,8 +81,8 @@ abstract class RegexBasedAbstract implements Dispatcher {
         // If there are no allowed methods the route simply does not exist
         if ($allowedMethods) {
             return [self::METHOD_NOT_ALLOWED, $allowedMethods];
-        } else {
-            return [self::NOT_FOUND];
         }
+
+        return [self::NOT_FOUND];
     }
 }

@@ -89,16 +89,16 @@ In the example above, "container 2" contains a controller "myController" and the
 Without the *delegate lookup* feature, when requesting the "myController" instance to container 2, it would take 
 in charge the instanciation of both entries.
 
-However, using the *delegate lookup* feature, here is what happens when we ask the composite controller for the 
+However, using the *delegate lookup* feature, here is what happens when we ask the composite container for the 
 "myController" instance:
 
-- The composite controller asks container 1 if if contains the "myController" instance. The answer is no.
-- The composite controller asks container 2 if if contains the "myController" instance. The answer is yes.
-- The composite controller performs a `get` call on container 2 for the "myController" instance.
+- The composite container asks container 1 if if contains the "myController" instance. The answer is no.
+- The composite container asks container 2 if if contains the "myController" instance. The answer is yes.
+- The composite container performs a `get` call on container 2 for the "myController" instance.
 - Container 2 sees that "myController" has a dependency on "entityManager".
-- Container 2 delegates the lookup of "entityManager" to the composite controller.
-- The composite controller asks container 1 if if contains the "entityManager" instance. The answer is yes.
-- The composite controller performs a `get` call on container 1 for the "entityManager" instance.
+- Container 2 delegates the lookup of "entityManager" to the composite container.
+- The composite container asks container 1 if if contains the "entityManager" instance. The answer is yes.
+- The composite container performs a `get` call on container 1 for the "entityManager" instance.
 
 In the end, we get a controller instanciated by container 2 that references an entityManager instanciated
 by container 1.

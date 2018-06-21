@@ -2,12 +2,15 @@
 
 namespace FastRoute\Dispatcher;
 
-class CharCountBased extends RegexBasedAbstract {
-    public function __construct($data) {
+class CharCountBased extends RegexBasedAbstract
+{
+    public function __construct($data)
+    {
         list($this->staticRouteMap, $this->variableRouteData) = $data;
     }
 
-    protected function dispatchVariableRoute($routeData, $uri) {
+    protected function dispatchVariableRoute($routeData, $uri)
+    {
         foreach ($routeData as $data) {
             if (!preg_match($data['regex'], $uri . $data['suffix'], $matches)) {
                 continue;

@@ -1,9 +1,9 @@
 <?php
 /**
- * Slim Framework (http://slimframework.com)
+ * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2016 Josh Lockhart
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Http;
@@ -77,7 +77,7 @@ class Headers extends Collection implements HeadersInterface
     {
         $authorization = $environment->get('HTTP_AUTHORIZATION');
 
-        if (null === $authorization && is_callable('getallheaders')) {
+        if (empty($authorization) && is_callable('getallheaders')) {
             $headers = getallheaders();
             $headers = array_change_key_case($headers, CASE_LOWER);
             if (isset($headers['authorization'])) {

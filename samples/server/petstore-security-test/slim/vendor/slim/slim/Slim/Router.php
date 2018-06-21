@@ -1,21 +1,21 @@
 <?php
 /**
- * Slim Framework (http://slimframework.com)
+ * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2016 Josh Lockhart
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim;
 
 use FastRoute\Dispatcher;
+use Psr\Container\ContainerInterface;
 use InvalidArgumentException;
 use RuntimeException;
 use Psr\Http\Message\ServerRequestInterface;
 use FastRoute\RouteCollector;
 use FastRoute\RouteParser;
 use FastRoute\RouteParser\Std as StdParser;
-use FastRoute\DataGenerator;
 use Slim\Interfaces\RouteGroupInterface;
 use Slim\Interfaces\RouterInterface;
 use Slim\Interfaces\RouteInterface;
@@ -30,6 +30,13 @@ use Slim\Interfaces\RouteInterface;
  */
 class Router implements RouterInterface
 {
+    /**
+     * Container Interface
+     *
+     * @var ContainerInterface
+     */
+    protected $container;
+
     /**
      * Parser
      *
@@ -128,6 +135,14 @@ class Router implements RouterInterface
     }
 
     /**
+     * @param ContainerInterface $container
+     */
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * Add route
      *
      * @param  string[] $methods Array of HTTP methods
@@ -153,7 +168,7 @@ class Router implements RouterInterface
         $methods = array_map("strtoupper", $methods);
 
         // Add route
-        $route = new Route($methods, $pattern, $handler, $this->routeGroups, $this->routeCounter);
+        $route = $this->createRoute($methods, $pattern, $handler);
         $this->routes[$route->getIdentifier()] = $route;
         $this->routeCounter++;
 
@@ -177,6 +192,25 @@ class Router implements RouterInterface
             $request->getMethod(),
             $uri
         );
+    }
+
+    /**
+     * Create a new Route object
+     *
+     * @param  string[] $methods Array of HTTP methods
+     * @param  string   $pattern The route pattern
+     * @param  callable $callable The route callable
+     *
+     * @return \Slim\Interfaces\RouteInterface
+     */
+    protected function createRoute($methods, $pattern, $callable)
+    {
+        $route = new Route($methods, $pattern, $callable, $this->routeGroups, $this->routeCounter);
+        if (!empty($this->container)) {
+            $route->setContainer($this->container);
+        }
+
+        return $route;
     }
 
     /**
@@ -244,7 +278,7 @@ class Router implements RouterInterface
         }
         throw new RuntimeException('Named route does not exist for name: ' . $name);
     }
-    
+
     /**
      * Remove named route
      *

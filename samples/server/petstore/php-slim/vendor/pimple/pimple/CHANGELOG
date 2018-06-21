@@ -1,3 +1,27 @@
+* 3.2.3 (2017-XX-XX)
+
+ * n/a
+
+* 3.2.2 (2017-07-23)
+
+ * reverted extending a protected closure throws an exception (deprecated it instead)
+
+* 3.2.1 (2017-07-17)
+
+ * fixed PHP error
+
+* 3.2.0 (2017-07-17)
+
+ * added a PSR-11 service locator
+ * added a PSR-11 wrapper
+ * added ServiceIterator
+ * fixed extending a protected closure (now throws InvalidServiceIdentifierException)
+
+* 3.1.0 (2017-07-03)
+
+ * deprecated the C extension
+ * added support for PSR-11 exceptions
+
 * 3.0.2 (2015-09-11)
 
  * refactored the C extension

@@ -3,10 +3,10 @@ Delegate lookup feature
 
 This document describes a standard for dependency injection containers.
 
-The goal set by the *delegate lookup* feature is to allow several containers to share entries. 
+The goal set by the *delegate lookup* feature is to allow several containers to share entries.
 Containers implementing this feature can perform dependency lookups in other containers.
 
-Containers implementing this feature will offer a greater lever of interoperability 
+Containers implementing this feature will offer a greater lever of interoperability
 with other containers. Implementation of this feature is therefore RECOMMENDED.
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
@@ -36,22 +36,22 @@ fetching the dependencies from.
 A container implementing the *delegate lookup* feature:
 
 - MUST implement the [`ContainerInterface`](ContainerInterface.md)
-- MUST provide a way to register a delegate container (using a constructor parameter, or a setter, 
+- MUST provide a way to register a delegate container (using a constructor parameter, or a setter,
   or any possible way). The delegate container MUST implement the [`ContainerInterface`](ContainerInterface.md).
 
 When a container is configured to use a delegate container for dependencies:
 
 - Calls to the `get` method should only return an entry if the entry is part of the container.
-  If the entry is not part of the container, an exception should be thrown 
+  If the entry is not part of the container, an exception should be thrown
   (as requested by the [`ContainerInterface`](ContainerInterface.md)).
 - Calls to the `has` method should only return `true` if the entry is part of the container.
   If the entry is not part of the container, `false` should be returned.
-- If the fetched entry has dependencies, **instead** of performing 
+- If the fetched entry has dependencies, **instead** of performing
   the dependency lookup in the container, the lookup is performed on the *delegate container*.
 
 Important: By default, the dependency lookups SHOULD be performed on the delegate container **only**, not on the container itself.
 
-It is however allowed for containers to provide exception cases for special entries, and a way to lookup 
+It is however allowed for containers to provide exception cases for special entries, and a way to lookup
 into the same container (or another container) instead of the delegate container.
 
 3. Package / Interface

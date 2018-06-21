@@ -54,7 +54,7 @@ The summary of the analysis showed that:
 - all containers offer a method to get an entry by its id
 - a large majority name such method `get()`
 - for all containers, the `get()` method has 1 mandatory parameter of type string
-- some containers have an optional additional argument for `get()`, but it doesn't same the same purpose between containers
+- some containers have an optional additional argument for `get()`, but it doesn't have the same purpose between containers
 - a large majority of the containers offer a method to test if it can return an entry by its id
 - a majority name such method `has()`
 - for all containers offering `has()`, the method has exactly 1 parameter of type string

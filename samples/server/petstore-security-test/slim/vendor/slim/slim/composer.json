@@ -3,7 +3,7 @@
     "type": "library",
     "description": "Slim is a PHP micro framework that helps you quickly write simple yet powerful web applications and APIs",
     "keywords": ["framework","micro","api","router"],
-    "homepage": "http://slimframework.com",
+    "homepage": "https://slimframework.com",
     "license": "MIT",
     "authors": [
         {
@@ -32,7 +32,8 @@
         "pimple/pimple": "^3.0",
         "psr/http-message": "^1.0",
         "nikic/fast-route": "^1.0",
-        "container-interop/container-interop": "^1.1"
+        "container-interop/container-interop": "^1.2",
+        "psr/container": "^1.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.5",

@@ -36,7 +36,7 @@ interface MessageInterface
      * new protocol version.
      *
      * @param string $version HTTP protocol version
-     * @return self
+     * @return static
      */
     public function withProtocolVersion($version);
 
@@ -61,7 +61,7 @@ interface MessageInterface
      * While header names are not case-sensitive, getHeaders() will preserve the
      * exact case in which headers were originally specified.
      *
-     * @return array Returns an associative array of the message's headers. Each
+     * @return string[][] Returns an associative array of the message's headers. Each
      *     key MUST be a header name, and each value MUST be an array of strings
      *     for that header.
      */
@@ -126,7 +126,7 @@ interface MessageInterface
      *
      * @param string $name Case-insensitive header field name.
      * @param string|string[] $value Header value(s).
-     * @return self
+     * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
     public function withHeader($name, $value);
@@ -144,7 +144,7 @@ interface MessageInterface
      *
      * @param string $name Case-insensitive header field name to add.
      * @param string|string[] $value Header value(s).
-     * @return self
+     * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
     public function withAddedHeader($name, $value);
@@ -159,7 +159,7 @@ interface MessageInterface
      * the named header.
      *
      * @param string $name Case-insensitive header field name to remove.
-     * @return self
+     * @return static
      */
     public function withoutHeader($name);
 
@@ -180,7 +180,7 @@ interface MessageInterface
      * new body stream.
      *
      * @param StreamInterface $body Body.
-     * @return self
+     * @return static
      * @throws \InvalidArgumentException When the body is not valid.
      */
     public function withBody(StreamInterface $body);

@@ -10,7 +10,8 @@ use FastRoute\RouteParser;
  *
  * "/user/{name}[/{id:[0-9]+}]"
  */
-class Std implements RouteParser {
+class Std implements RouteParser
+{
     const VARIABLE_REGEX = <<<'REGEX'
 \{
     \s* ([a-zA-Z_][a-zA-Z0-9_-]*) \s*
@@ -21,7 +22,8 @@ class Std implements RouteParser {
 REGEX;
     const DEFAULT_DISPATCH_REGEX = '[^/]+';
 
-    public function parse($route) {
+    public function parse($route)
+    {
         $routeWithoutClosingOptionals = rtrim($route, ']');
         $numOptionals = strlen($route) - strlen($routeWithoutClosingOptionals);
 
@@ -30,7 +32,7 @@ REGEX;
         if ($numOptionals !== count($segments) - 1) {
             // If there are any ] in the middle of the route, throw a more specific error message
             if (preg_match('~' . self::VARIABLE_REGEX . '(*SKIP)(*F) | \]~x', $routeWithoutClosingOptionals)) {
-                throw new BadRouteException("Optional segments can only occur at the end of a route");
+                throw new BadRouteException('Optional segments can only occur at the end of a route');
             }
             throw new BadRouteException("Number of opening '[' and closing ']' does not match");
         }
@@ -39,7 +41,7 @@ REGEX;
         $routeDatas = [];
         foreach ($segments as $n => $segment) {
             if ($segment === '' && $n !== 0) {
-                throw new BadRouteException("Empty optional part");
+                throw new BadRouteException('Empty optional part');
             }
 
             $currentRoute .= $segment;
@@ -50,8 +52,12 @@ REGEX;
 
     /**
      * Parses a route string that does not contain optional segments.
+     *
+     * @param string
+     * @return mixed[]
      */
-    private function parsePlaceholders($route) {
+    private function parsePlaceholders($route)
+    {
         if (!preg_match_all(
             '~' . self::VARIABLE_REGEX . '~x', $route, $matches,
             PREG_OFFSET_CAPTURE | PREG_SET_ORDER
@@ -72,7 +78,7 @@ REGEX;
             $offset = $set[0][1] + strlen($set[0][0]);
         }
 
-        if ($offset != strlen($route)) {
+        if ($offset !== strlen($route)) {
             $routeData[] = substr($route, $offset);
         }
 

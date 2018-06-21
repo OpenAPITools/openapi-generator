@@ -45,7 +45,7 @@ if test "$PHP_PIMPLE" != "no"; then
 
   dnl # --with-pimple -> check for lib and symbol presence
   dnl LIBNAME=pimple # you may want to change this
-  dnl LIBSYMBOL=pimple # you most likely want to change this 
+  dnl LIBSYMBOL=pimple # you most likely want to change this
 
   dnl PHP_CHECK_LIBRARY($LIBNAME,$LIBSYMBOL,
   dnl [

@@ -1,9 +1,9 @@
 <?php
 /**
- * Slim Framework (http://slimframework.com)
+ * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2016 Josh Lockhart
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Http;
@@ -226,11 +226,11 @@ class UploadedFile implements UploadedFileInterface
             throw new RuntimeException('Uploaded file already moved');
         }
 
-        if (!is_writable(dirname($targetPath))) {
+        $targetIsStream = strpos($targetPath, '://') > 0;
+        if (!$targetIsStream && !is_writable(dirname($targetPath))) {
             throw new InvalidArgumentException('Upload target path is not writable');
         }
 
-        $targetIsStream = strpos($targetPath, '://') > 0;
         if ($targetIsStream) {
             if (!copy($this->file, $targetPath)) {
                 throw new RuntimeException(sprintf('Error moving uploaded file %1s to %2s', $this->name, $targetPath));

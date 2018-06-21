@@ -2,7 +2,8 @@
 
 namespace FastRoute;
 
-interface Dispatcher {
+interface Dispatcher
+{
     const NOT_FOUND = 0;
     const FOUND = 1;
     const METHOD_NOT_ALLOWED = 2;

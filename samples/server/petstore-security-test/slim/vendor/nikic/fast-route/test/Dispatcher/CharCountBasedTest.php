@@ -2,12 +2,15 @@
 
 namespace FastRoute\Dispatcher;
 
-class CharCountBasedTest extends DispatcherTest {
-    protected function getDispatcherClass() {
+class CharCountBasedTest extends DispatcherTest
+{
+    protected function getDispatcherClass()
+    {
         return 'FastRoute\\Dispatcher\\CharCountBased';
     }
 
-    protected function getDataGeneratorClass() {
+    protected function getDataGeneratorClass()
+    {
         return 'FastRoute\\DataGenerator\\CharCountBased';
     }
 }

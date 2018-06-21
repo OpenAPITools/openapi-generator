@@ -1,9 +1,9 @@
 <?php
 /**
- * Slim Framework (http://slimframework.com)
+ * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2016 Josh Lockhart
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim;
@@ -33,7 +33,7 @@ class RouteGroup extends Routable implements RouteGroupInterface
     /**
      * Invoke the group to register any Routable objects within it.
      *
-     * @param App $app The App to bind the callable to.
+     * @param App $app The App instance to bind/pass to the group callable
      */
     public function __invoke(App $app = null)
     {
@@ -42,6 +42,6 @@ class RouteGroup extends Routable implements RouteGroupInterface
             $callable = $callable->bindTo($app);
         }
 
-        $callable();
+        $callable($app);
     }
 }
