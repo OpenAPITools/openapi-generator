@@ -76,7 +76,7 @@ public class OuterComposite   {
   @ApiModelProperty(value = "")
 
 
-  public Boolean getMyBoolean() {
+  public Boolean isMyBoolean() {
     return myBoolean;
   }
 

@@ -89,4 +89,18 @@ class MapTestTest extends \PHPUnit_Framework_TestCase
     public function testPropertyMapOfEnumString()
     {
     }
+
+    /**
+     * Test attribute "direct_map"
+     */
+    public function testPropertyDirectMap()
+    {
+    }
+
+    /**
+     * Test attribute "indirect_map"
+     */
+    public function testPropertyIndirectMap()
+    {
+    }
 }
