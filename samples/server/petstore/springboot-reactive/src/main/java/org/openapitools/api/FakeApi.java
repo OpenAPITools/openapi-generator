@@ -70,7 +70,7 @@ public interface FakeApi {
         Mono<OuterComposite> result = Mono.empty();
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                result = ApiUtil.getExampleResponse(exchange, "{ }")
+                result = ApiUtil.getExampleResponse(exchange, "{  \"my_string\" : \"my_string\",  \"my_number\" : 0.80082819046101150206595775671303272247314453125,  \"my_boolean\" : true}")
                         .then(Mono.empty());
                 break;
             }

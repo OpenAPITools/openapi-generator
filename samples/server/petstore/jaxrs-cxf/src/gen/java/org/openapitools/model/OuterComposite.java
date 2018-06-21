@@ -66,7 +66,7 @@ public class OuterComposite  {
    * @return myBoolean
   **/
   @JsonProperty("my_boolean")
-  public Boolean getMyBoolean() {
+  public Boolean isMyBoolean() {
     return myBoolean;
   }
 
