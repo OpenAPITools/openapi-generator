@@ -13,6 +13,9 @@
     <name>openapi-generator-gradle-plugin (maven wrapper)</name>
     <description>This is a maven wrapper to call gradle during installation phase</description>
 
+    <properties>
+        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    </properties>
 
     <dependencies>
         <dependency>
