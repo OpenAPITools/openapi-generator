@@ -144,8 +144,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toVarName(String name) {
+    	
+    	if(name != null) {
+    		name = name.replaceAll("-", "_");
+    	}
         // replace - with _ e.g. created-at => created_at
-        name = sanitizeName(name.replaceAll("-", "_"));
+        name = sanitizeName(name);
 
         // if it's all uppper case, do nothing
         if (name.matches("^[A-Z_]*$"))
