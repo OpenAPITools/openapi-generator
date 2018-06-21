@@ -648,6 +648,8 @@ public class ModelUtils {
             } else if (isStringSchema(ref) && (ref.getEnum() != null && !ref.getEnum().isEmpty())) {
                 // top-level enum class
                 return schema;
+            } else if (isMapSchema(ref) || isArraySchema(ref)) { // map/array def should be created as models
+                return schema;
             } else {
                 return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
             }
