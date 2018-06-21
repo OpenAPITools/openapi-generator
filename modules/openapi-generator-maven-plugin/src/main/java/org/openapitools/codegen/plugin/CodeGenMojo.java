@@ -138,14 +138,6 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "apiPackage")
     private String apiPackage;
 
-    
-    /**
-     * The package to use for generated virtualServices
-     */
-    @Parameter(name = "virtualService")
-    private Boolean virtualService;
-    
-    
     /**
      * The package to use for generated model objects/classes
      */
@@ -457,11 +449,6 @@ public class CodeGenMojo extends AbstractMojo {
             System.clearProperty(CodegenConstants.MODELS);
         }
 
-        if (null != virtualService && virtualService) {
-        	configurator.setVirtualService(String.valueOf(virtualService.booleanValue()));
-        } 
-
-        
         if (null != generateSupportingFiles && generateSupportingFiles) {
             System.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesToGenerate);
         } else {
