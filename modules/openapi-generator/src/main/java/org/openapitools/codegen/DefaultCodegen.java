@@ -1511,9 +1511,8 @@ public class DefaultCodegen implements CodegenConfig {
                     addProperties(allProperties, allRequired, child, allDefinitions);
                 }
             }
-            addVars(m, properties, required, allProperties, allRequired);
-            // TODO
-            //} else if (schema instanceof RefModel) {
+            addVars(m, unaliasPropertySchema(allDefinitions, properties), required, allProperties, allRequired);
+
         } else {
             m.dataType = getSchemaType(schema);
             if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
