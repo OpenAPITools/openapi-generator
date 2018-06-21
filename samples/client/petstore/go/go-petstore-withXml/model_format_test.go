@@ -22,7 +22,7 @@ type FormatTest struct {
 	Double float64 `json:"double,omitempty" xml:"double"`
 	String string `json:"string,omitempty" xml:"string"`
 	Byte string `json:"byte" xml:"byte"`
-	Binary **os.File `json:"binary,omitempty" xml:"binary"`
+	Binary *os.File `json:"binary,omitempty" xml:"binary"`
 	Date string `json:"date" xml:"date"`
 	DateTime time.Time `json:"dateTime,omitempty" xml:"dateTime"`
 	Uuid string `json:"uuid,omitempty" xml:"uuid"`
