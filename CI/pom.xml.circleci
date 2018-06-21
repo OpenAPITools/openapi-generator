@@ -836,8 +836,8 @@
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
                 <!-- test java-related projects -->
-                <module>samples/client/petstore/akka-scala</module>
-                <module>samples/client/petstore/scala</module>
+                <module>samples/client/petstore/scala-akka-client</module>
+                <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/feign</module>
