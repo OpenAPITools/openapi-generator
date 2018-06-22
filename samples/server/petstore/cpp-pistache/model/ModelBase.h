@@ -39,13 +39,13 @@ public:
     virtual nlohmann::json toJson() const = 0;
     virtual void fromJson(nlohmann::json& json) = 0;
 
-    static std::string toJson( const std::string& value );
-    static std::string toJson( const std::time_t& value );
-    static int32_t toJson( int32_t value );
-    static int64_t toJson( int64_t value );
-    static double toJson( double value );
-    static bool toJson( bool value );
-    static nlohmann::json toJson( std::shared_ptr<ModelBase> content );
+    static std::string toJson(  std::string const& value );
+    static std::string toJson(  std::time_t const& value );
+    static int32_t toJson( int32_t const value );
+    static int64_t toJson( int64_t const value );
+    static double toJson( double const value );
+    static bool toJson( bool const value );
+    static nlohmann::json toJson(ModelBase const& content );
 
 };
 

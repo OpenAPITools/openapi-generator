@@ -84,7 +84,7 @@ void {{classname}}::fromJson(nlohmann::json& val)
             else
             {
                 {{{items.datatype}}} newItem({{{items.defaultValue}}});
-                newItem->fromJson(item);
+                newItem.fromJson(item);
                 m_{{name}}.push_back( newItem );
             }
             {{/items.isDateTime}}{{/items.isString}}{{/isPrimitiveType}}
@@ -100,7 +100,7 @@ void {{classname}}::fromJson(nlohmann::json& val)
         {{/isDateTime}}{{^isDateTime}}if(!val["{{baseName}}"].is_null())
         {
             {{{dataType}}} newItem({{{defaultValue}}});
-            newItem->fromJson(val["{{baseName}}"]);
+            newItem.fromJson(val["{{baseName}}"]);
             {{setter}}( newItem );
         }
         {{/isDateTime}}{{/isString}}
@@ -119,7 +119,7 @@ void {{classname}}::fromJson(nlohmann::json& val)
 {
     return m_{{name}};
 }
-void {{classname}}::{{setter}}({{{dataType}}} value)
+void {{classname}}::{{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPrimitiveType}} value)
 {
     m_{{name}} = value;
     {{^required}}m_{{name}}IsSet = true;{{/required}}
