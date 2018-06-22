@@ -177,6 +177,13 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 {{#hasFormParams}}
 {{#formParams}}
 {{#isFile}}
+{{#allParams}}
+{{#required}}
+    {{#isFile}}
+    localVarFile := {{paramName}}
+    {{/isFile}}
+{{/required}}
+{{/allParams}}
 {{^required}}
 	var localVarFile {{dataType}}
 	if localVarOptionals != nil && localVarOptionals.{{vendorExtensions.x-exportParamName}}.IsSet() {
