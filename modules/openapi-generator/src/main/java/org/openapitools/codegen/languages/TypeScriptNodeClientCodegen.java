@@ -41,6 +41,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
     protected String npmRepository = null;
+    protected String apiSuffix = "Api";
 
     public TypeScriptNodeClientCodegen() {
         super();
@@ -95,17 +96,17 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
-            return "DefaultApi";
+            return "Default" + apiSuffix;
         }
-        return initialCaps(name) + "Api";
+        return initialCaps(name) + apiSuffix;
     }
     
     @Override
     public String toApiFilename(String name) {
         if (name.length() == 0) {
-            return "defaultApi";
+            return "default" + apiSuffix;
         }
-        return camelize(name, true) + "Api";
+        return camelize(name, true) + apiSuffix;
     }
 
     @Override
@@ -249,6 +250,8 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         return indexPackage.replace('.', File.separatorChar);
     }
 
+    // The purpose of this override and associated methods is to allow for automatic conversion
+    // from 'file' type to the built in node 'Buffer' type
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
@@ -270,6 +273,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         return languageSpecificPrimitives.contains(type);
     }
 
+    // Determines if the given type is a generic/templated type (ie. ArrayList<String>)
     private boolean isLanguageGenericType(String type) {
         for (String genericType : languageGenericTypes) {
             if (type.startsWith(genericType + "<")) {
@@ -285,7 +289,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     }
     
     private String getApiFilenameFromClassname(String classname) {
-        String name = classname.substring(0, classname.length() - "Api".length());
+        String name = classname.substring(0, classname.length() - apiSuffix.length());
         return toApiFilename(name);
     }
     
