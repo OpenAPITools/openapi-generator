@@ -95,7 +95,7 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+     * @return {{#returnType}}{{#responses}}{{#dataType}}{{^-first}}|{{/-first}}{{/dataType}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}void{{/returnType}}
      */
     public function {{operationId}}({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
@@ -120,11 +120,10 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
+     * @return array of {{#returnType}}{{#responses}}{{#dataType}}{{^-first}}|{{/-first}}{{/dataType}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
      */
     public function {{operationId}}WithHttpInfo({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
-        $returnType = '{{returnType}}';
         $request = $this->{{operationId}}Request({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 
         try {
@@ -154,8 +153,36 @@ use {{invokerPackage}}\ObjectSerializer;
                     $response->getBody()
                 );
             }
-
             {{#returnType}}
+        {{#responses}}
+            {{#-first}}
+
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+            {{/-first}}
+            {{#dataType}}
+                {{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
+                    if ('{{dataType}}' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('{{dataType}}' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '{{dataType}}', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            {{/dataType}}
+            {{#-last}}
+            }
+            {{/-last}}
+        {{/responses}}
+
+            $returnType = '{{returnType}}';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -173,6 +200,7 @@ use {{invokerPackage}}\ObjectSerializer;
             ];
             {{/returnType}}
             {{^returnType}}
+
             return [null, $statusCode, $response->getHeaders()];
             {{/returnType}}
 

@@ -108,7 +108,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -163,7 +163,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // verify the required parameter 'status' is set
     if (status == null) {
@@ -220,7 +220,7 @@ public class PetApi {
    */
   @Deprecated
   public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // verify the required parameter 'tags' is set
     if (tags == null) {
@@ -273,7 +273,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -380,7 +380,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -441,7 +441,7 @@ if (status != null)
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
-    Object localVarPostBody = null;
+    Object localVarPostBody = new Object();
     
     // verify the required parameter 'petId' is set
     if (petId == null) {

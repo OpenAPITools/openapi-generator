@@ -10,14 +10,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.springframework.core.io.Resource;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * FormatTest
  */
-@Validated
 
 public class FormatTest   {
   @JsonProperty("integer")

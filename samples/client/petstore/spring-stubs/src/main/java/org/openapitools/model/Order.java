@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,7 +14,6 @@ import javax.validation.constraints.*;
  * An order for a pets from the pet store
  */
 @ApiModel(description = "An order for a pets from the pet store")
-@Validated
 
 public class Order   {
   @JsonProperty("id")

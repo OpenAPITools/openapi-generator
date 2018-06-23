@@ -10,7 +10,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.0.3-SNAPSHOT</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -218,12 +218,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
+                <version>3.0.1</version>
                 <configuration>
                     <aggregate>true</aggregate>
                     <source>1.8</source>
                     <encoding>UTF-8</encoding>
                     <maxmemory>1g</maxmemory>
+                    <failOnWarnings>true</failOnWarnings>
                     <excludePackageNames>${javadoc.package.exclude}</excludePackageNames>
                 </configuration>
                 <executions>
@@ -833,8 +834,8 @@
             <modules>
                 <!-- clients -->
                 <!-- test java-related projects -->
-                <module>samples/client/petstore/akka-scala</module>
-                <module>samples/client/petstore/scala</module>
+                <module>samples/client/petstore/scala-akka</module>
+                <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/feign</module>

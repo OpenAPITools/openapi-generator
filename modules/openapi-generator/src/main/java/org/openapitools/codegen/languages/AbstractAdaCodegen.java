@@ -51,9 +51,9 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     protected String packageName = "defaultPackage";
     protected String projectName = "defaultProject";
     protected List<Map<String, Object>> orderedModels;
-    protected Map<String, List<String>> modelDepends;
-    protected Map<String, String> nullableTypeMapping;
-    protected HashMap<String, String> operationsScopes;
+    protected final Map<String, List<String>> modelDepends;
+    protected final Map<String, String> nullableTypeMapping;
+    protected final HashMap<String, String> operationsScopes;
     protected int scopeIndex = 0;
 
     public AbstractAdaCodegen() {
@@ -153,14 +153,15 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("file", "Swagger.Http_Content_Type");
         typeMapping.put("binary", "Swagger.Binary");
 
+        // Mapping to convert an Ada required type to an optional type (nullable).
         nullableTypeMapping = new HashMap<String, String>();
-        nullableTypeMapping.put("date", "Swagger.Nullable_Date");
-        nullableTypeMapping.put("DateTime", "Swagger.Nullable_Date");
-        nullableTypeMapping.put("string", "Swagger.Nullable_UString");
-        nullableTypeMapping.put("integer", "Swagger.Nullable_Integer");
-        nullableTypeMapping.put("long", "Swagger.Nullable_Long");
-        nullableTypeMapping.put("boolean", "Swagger.Nullable_Boolean");
-        nullableTypeMapping.put("object", "Swagger.Object");
+        nullableTypeMapping.put("Swagger.Date", "Swagger.Nullable_Date");
+        nullableTypeMapping.put("Swagger.Datetime", "Swagger.Nullable_Date");
+        nullableTypeMapping.put("Swagger.UString", "Swagger.Nullable_UString");
+        nullableTypeMapping.put("Integer", "Swagger.Nullable_Integer");
+        nullableTypeMapping.put("Swagger.Long", "Swagger.Nullable_Long");
+        nullableTypeMapping.put("Boolean", "Swagger.Nullable_Boolean");
+        nullableTypeMapping.put("Swagger.Object", "Swagger.Object");
 
         modelDepends = new HashMap<String, List<String>>();
         orderedModels = new ArrayList<Map<String, Object>>();
@@ -336,13 +337,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 return "Swagger." + name;
             }
         }
-        // TODO need to revise/test the logic below to check "required"
         if (typeMapping.containsKey(schemaType)) {
-            if (p.getRequired() != null && p.getRequired().contains(p.getName())) {
-                return typeMapping.get(schemaType);
-            } else {
-                return nullableTypeMapping.get(schemaType);
-            }
+            return typeMapping.get(schemaType);
         }
         //  LOGGER.info("Swagger type " + schemaType);
         if (languageSpecificPrimitives.contains(schemaType)) {
@@ -382,7 +378,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     /**
      * Post process the media types (produces and consumes) for Ada code generator.
      * <p>
-     * For each media type, add a adaMediaType member that gives the Ada enum constant
+     * For each media type, add an adaMediaType member that gives the Ada enum constant
      * for the corresponding type.
      *
      * @param types the list of media types.
@@ -443,6 +439,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 if (p.isFormParam && p.isFile) {
                     p.dataType = "Swagger.File_Part_Type";
                 }
+                // Convert optional parameters to use the Nullable_<T> type.
+                if (!p.required && nullableTypeMapping.containsKey(p.dataType)) {
+                    p.dataType = nullableTypeMapping.get(p.dataType);
+                }
             }
             for (CodegenParameter p : op1.formParams) {
                 if (p.isFile) {
@@ -471,7 +471,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                     if (last < 0) {
                         break;
                     }
-                    if (path.substring(pos, last - 1) == p.baseName) {
+                    if (path.substring(pos, last - 1).equals(p.baseName)) {
                         break;
                     }
                     pos = last + 1;
@@ -505,6 +505,11 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                         isModel = true;
                     }
                     p.vendorExtensions.put("x-is-model-type", isModel);
+
+                    // Convert optional members to use the Nullable_<T> type.
+                    if (!p.required && nullableTypeMapping.containsKey(p.dataType)) {
+                        p.dataType = nullableTypeMapping.get(p.dataType);
+                    }
                 }
                 // let us work with fully qualified names only
                 modelDepends.put(modelPackage + ".Models." + m.classname, d);
@@ -518,7 +523,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         //   cycle over orderedModels
         //     if I find a model that has no dependencies, or all of its dependencies are in revisedOrderedModels, consider it the independentModel
         //   put the independentModel at the end of revisedOrderedModels, and remove it from orderedModels
-        //   
+        //
         List<Map<String, Object>> revisedOrderedModels = new ArrayList<Map<String, Object>>();
         List<String> collectedModelNames = new ArrayList<String>();
         int sizeOrderedModels = orderedModels.size();
