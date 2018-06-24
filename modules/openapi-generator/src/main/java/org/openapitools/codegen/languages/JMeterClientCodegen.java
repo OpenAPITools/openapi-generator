@@ -30,7 +30,7 @@ import io.swagger.v3.oas.models.info.Info;
 import java.util.*;
 import java.io.File;
 
-public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
+public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     // source folder where to write the files
     protected String sourceFolder = "";
@@ -69,11 +69,11 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
         return "Generates a JMeter .jmx file.";
     }
 
-    public JMeterCodegen() {
+    public JMeterClientCodegen() {
         super();
 
         // set the output folder here
-        outputFolder = "generated-code/JMeterCodegen";
+        outputFolder = "generated-code/JMeterClientCodegen";
 
         /*
          * Api classes.  You can write classes for each Api file with the apiTemplateFiles map.
