@@ -56,7 +56,7 @@ namespace {{packageName}}.Models
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public {{#parent}}{{^isCollectionModel}}new {{/isCollectionModel}}{{/parent}}string ToJson()
+        public {{#parent}}{{^isMapModel}}{{^isArrayModel}}new {{/isArrayModel}}{{/isMapModel}}{{/parent}}string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
