@@ -248,7 +248,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
         if (!folder.isEmpty())
             folder += File.separator;
 
-        return "#include \"" + folder + name + ".h\"";
+        return "#include \"" + folder + toModelName(name) + ".h\"";
     }
 
     /**
@@ -285,7 +285,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
 
     @Override
     public String toModelFilename(String name) {
-        return modelNamePrefix + initialCaps(name);
+        return initialCaps(toModelName(name));
     }
 
     @Override
@@ -381,7 +381,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
     @Override
     public String toModelName(String type) {
         if (type == null) {
-            LOGGER.warn("Model name can't be null. Defaul to 'UnknownModel'.");
+            LOGGER.warn("Model name can't be null. Default to 'UnknownModel'.");
             type = "UnknownModel";
         }
 
@@ -392,30 +392,31 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
                 languageSpecificPrimitives.contains(type)) {
             return type;
         } else {
-            return modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1);
+            String typeName = sanitizeName(type);
+            return modelNamePrefix + Character.toUpperCase(typeName.charAt(0)) + typeName.substring(1);
         }
     }
 
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        String varName = sanitizeName(name); 
 
         // if it's all uppper case, convert to lower case
-        if (name.matches("^[A-Z_]*$")) {
-            name = name.toLowerCase();
+        if (varName.matches("^[A-Z_]*$")) {
+            name = varName.toLowerCase();
         }
 
         // camelize (lower first character) the variable name
         // petId => pet_id
-        name = underscore(name);
+        varName = underscore(varName);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
+        if (isReservedWord(varName) || varName.matches("^\\d.*")) {
+            varName = escapeReservedWord(varName);
         }
 
-        return name;
+        return varName;
     }
 
     @Override
