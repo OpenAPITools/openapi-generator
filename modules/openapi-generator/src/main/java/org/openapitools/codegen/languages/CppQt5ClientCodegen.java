@@ -404,7 +404,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
 
         // if it's all uppper case, convert to lower case
         if (varName.matches("^[A-Z_]*$")) {
-            name = varName.toLowerCase();
+            varName = varName.toLowerCase();
         }
 
         // camelize (lower first character) the variable name
