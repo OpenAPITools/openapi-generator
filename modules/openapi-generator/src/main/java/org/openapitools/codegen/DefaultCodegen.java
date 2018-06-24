@@ -1412,7 +1412,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (ModelUtils.isArraySchema(schema)) {
             m.isArrayModel = true;
-            m.isCollectionModel = true;
             m.arrayModelType = fromProperty(name, schema).complexType;
             addParentContainer(m, name, schema);
         } else if (schema instanceof ComposedSchema) {
@@ -1522,7 +1521,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
-                m.isCollectionModel = true;
+                m.isMapModel = true;
             }
             addVars(m, schema.getProperties(), schema.getRequired());
         }
