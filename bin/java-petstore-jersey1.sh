@@ -33,3 +33,15 @@ echo "Removing files and folders under samples/client/petstore/java/jersey1/src/
 rm -rf samples/client/petstore/java/jersey1/src/main
 find samples/client/petstore/java/jersey1 -maxdepth 1 -type f ! -name "README.md" -exec rm {} +
 java $JAVA_OPTS -jar $executable $ags
+
+# copy additional manually written unit-tests
+mkdir samples/client/petstore/java/jersey1/src/test/java/org/openapitools/client
+mkdir samples/client/petstore/java/jersey1/src/test/java/org/openapitools/client/auth
+mkdir samples/client/petstore/java/jersey1/src/test/java/org/openapitools/client/model
+
+cp CI/samples.ci/client/petstore/java/test-manual/common/StringUtilTest.java samples/client/petstore/java/jersey1/src/test/java/org/openapitools/client/StringUtilTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/jersey1/ApiClientTest.java samples/client/petstore/java/jersey1/src/test/java/org/openapitools/client/ApiClientTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/common/ConfigurationTest.java samples/client/petstore/java/jersey1/src/test/java/org/openapitools/client/ConfigurationTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/jersey1/auth/ApiKeyAuthTest.java samples/client/petstore/java/jersey1/src/test/java/org/openapitools/client/auth/ApiKeyAuthTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/jersey1/auth/HttpBasicAuthTest.java samples/client/petstore/java/jersey1/src/test/java/org/openapitools/client/auth/HttpBasicAuthTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/jersey1/model/EnumValueTest.java samples/client/petstore/java/jersey1/src/test/java/org/openapitools/client/model/EnumValueTest.java

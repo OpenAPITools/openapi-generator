@@ -113,7 +113,6 @@ class FakeApi
      */
     public function fakeOuterBooleanSerializeWithHttpInfo($body = null)
     {
-        $returnType = 'bool';
         $request = $this->fakeOuterBooleanSerializeRequest($body);
 
         try {
@@ -144,6 +143,26 @@ class FakeApi
                 );
             }
 
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('bool' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('bool' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, 'bool', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = 'bool';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -360,7 +379,6 @@ class FakeApi
      */
     public function fakeOuterCompositeSerializeWithHttpInfo($outer_composite = null)
     {
-        $returnType = '\OpenAPI\Client\Model\OuterComposite';
         $request = $this->fakeOuterCompositeSerializeRequest($outer_composite);
 
         try {
@@ -391,6 +409,26 @@ class FakeApi
                 );
             }
 
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('\OpenAPI\Client\Model\OuterComposite' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('\OpenAPI\Client\Model\OuterComposite' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\OuterComposite', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\OpenAPI\Client\Model\OuterComposite';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -607,7 +645,6 @@ class FakeApi
      */
     public function fakeOuterNumberSerializeWithHttpInfo($body = null)
     {
-        $returnType = 'float';
         $request = $this->fakeOuterNumberSerializeRequest($body);
 
         try {
@@ -638,6 +675,26 @@ class FakeApi
                 );
             }
 
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('float' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('float' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, 'float', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = 'float';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -854,7 +911,6 @@ class FakeApi
      */
     public function fakeOuterStringSerializeWithHttpInfo($body = null)
     {
-        $returnType = 'string';
         $request = $this->fakeOuterStringSerializeRequest($body);
 
         try {
@@ -885,6 +941,26 @@ class FakeApi
                 );
             }
 
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('string' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('string' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, 'string', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = 'string';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -1105,7 +1181,6 @@ class FakeApi
      */
     public function testClientModelWithHttpInfo($client)
     {
-        $returnType = '\OpenAPI\Client\Model\Client';
         $request = $this->testClientModelRequest($client);
 
         try {
@@ -1136,6 +1211,26 @@ class FakeApi
                 );
             }
 
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('\OpenAPI\Client\Model\Client' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('\OpenAPI\Client\Model\Client' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Client', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\OpenAPI\Client\Model\Client';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
@@ -1387,7 +1482,6 @@ class FakeApi
      */
     public function testEndpointParametersWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
-        $returnType = '';
         $request = $this->testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
 
         try {
@@ -1783,7 +1877,6 @@ class FakeApi
      */
     public function testEnumParametersWithHttpInfo($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
-        $returnType = '';
         $request = $this->testEnumParametersRequest($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
 
         try {
@@ -2053,7 +2146,6 @@ class FakeApi
      */
     public function testInlineAdditionalPropertiesWithHttpInfo($request_body)
     {
-        $returnType = '';
         $request = $this->testInlineAdditionalPropertiesRequest($request_body);
 
         try {
@@ -2275,7 +2367,6 @@ class FakeApi
      */
     public function testJsonFormDataWithHttpInfo($param, $param2)
     {
-        $returnType = '';
         $request = $this->testJsonFormDataRequest($param, $param2);
 
         try {

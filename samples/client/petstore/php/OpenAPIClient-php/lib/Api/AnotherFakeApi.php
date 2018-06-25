@@ -117,7 +117,6 @@ class AnotherFakeApi
      */
     public function testSpecialTagsWithHttpInfo($client)
     {
-        $returnType = '\OpenAPI\Client\Model\Client';
         $request = $this->testSpecialTagsRequest($client);
 
         try {
@@ -148,6 +147,26 @@ class AnotherFakeApi
                 );
             }
 
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('\OpenAPI\Client\Model\Client' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ('\OpenAPI\Client\Model\Client' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Client', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\OpenAPI\Client\Model\Client';
             $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer

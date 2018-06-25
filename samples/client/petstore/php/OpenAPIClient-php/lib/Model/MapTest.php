@@ -58,7 +58,9 @@ class MapTest implements ModelInterface, ArrayAccess
       */
     protected static $openAPITypes = [
         'map_map_of_string' => 'map[string,map[string,string]]',
-        'map_of_enum_string' => 'map[string,string]'
+        'map_of_enum_string' => 'map[string,string]',
+        'direct_map' => 'map[string,bool]',
+        'indirect_map' => '\OpenAPI\Client\Model\StringBooleanMap'
     ];
 
     /**
@@ -68,7 +70,9 @@ class MapTest implements ModelInterface, ArrayAccess
       */
     protected static $openAPIFormats = [
         'map_map_of_string' => null,
-        'map_of_enum_string' => null
+        'map_of_enum_string' => null,
+        'direct_map' => null,
+        'indirect_map' => null
     ];
 
     /**
@@ -99,7 +103,9 @@ class MapTest implements ModelInterface, ArrayAccess
      */
     protected static $attributeMap = [
         'map_map_of_string' => 'map_map_of_string',
-        'map_of_enum_string' => 'map_of_enum_string'
+        'map_of_enum_string' => 'map_of_enum_string',
+        'direct_map' => 'direct_map',
+        'indirect_map' => 'indirect_map'
     ];
 
     /**
@@ -109,7 +115,9 @@ class MapTest implements ModelInterface, ArrayAccess
      */
     protected static $setters = [
         'map_map_of_string' => 'setMapMapOfString',
-        'map_of_enum_string' => 'setMapOfEnumString'
+        'map_of_enum_string' => 'setMapOfEnumString',
+        'direct_map' => 'setDirectMap',
+        'indirect_map' => 'setIndirectMap'
     ];
 
     /**
@@ -119,7 +127,9 @@ class MapTest implements ModelInterface, ArrayAccess
      */
     protected static $getters = [
         'map_map_of_string' => 'getMapMapOfString',
-        'map_of_enum_string' => 'getMapOfEnumString'
+        'map_of_enum_string' => 'getMapOfEnumString',
+        'direct_map' => 'getDirectMap',
+        'indirect_map' => 'getIndirectMap'
     ];
 
     /**
@@ -199,6 +209,8 @@ class MapTest implements ModelInterface, ArrayAccess
     {
         $this->container['map_map_of_string'] = isset($data['map_map_of_string']) ? $data['map_map_of_string'] : null;
         $this->container['map_of_enum_string'] = isset($data['map_of_enum_string']) ? $data['map_of_enum_string'] : null;
+        $this->container['direct_map'] = isset($data['direct_map']) ? $data['direct_map'] : null;
+        $this->container['indirect_map'] = isset($data['indirect_map']) ? $data['indirect_map'] : null;
     }
 
     /**
@@ -278,6 +290,54 @@ class MapTest implements ModelInterface, ArrayAccess
             );
         }
         $this->container['map_of_enum_string'] = $map_of_enum_string;
+
+        return $this;
+    }
+
+    /**
+     * Gets direct_map
+     *
+     * @return map[string,bool]|null
+     */
+    public function getDirectMap()
+    {
+        return $this->container['direct_map'];
+    }
+
+    /**
+     * Sets direct_map
+     *
+     * @param map[string,bool]|null $direct_map direct_map
+     *
+     * @return $this
+     */
+    public function setDirectMap($direct_map)
+    {
+        $this->container['direct_map'] = $direct_map;
+
+        return $this;
+    }
+
+    /**
+     * Gets indirect_map
+     *
+     * @return \OpenAPI\Client\Model\StringBooleanMap|null
+     */
+    public function getIndirectMap()
+    {
+        return $this->container['indirect_map'];
+    }
+
+    /**
+     * Sets indirect_map
+     *
+     * @param \OpenAPI\Client\Model\StringBooleanMap|null $indirect_map indirect_map
+     *
+     * @return $this
+     */
+    public function setIndirectMap($indirect_map)
+    {
+        $this->container['indirect_map'] = $indirect_map;
 
         return $this;
     }

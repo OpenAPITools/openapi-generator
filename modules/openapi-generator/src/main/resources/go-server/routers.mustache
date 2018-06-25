@@ -40,14 +40,14 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 var routes = Routes{
-	Route{
+	{
 		"Index",
 		"GET",
 		"{{{basePathWithoutHost}}}/",
 		Index,
 	},{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
 
-	Route{
+	{
 		"{{operationId}}",
 		strings.ToUpper("{{httpMethod}}"),
 		"{{{basePathWithoutHost}}}{{{path}}}",

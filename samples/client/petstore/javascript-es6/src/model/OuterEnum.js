@@ -11,10 +11,7 @@
  *
  */
 
-
 import ApiClient from '../ApiClient';
-
-
 /**
 * Enum class OuterEnum.
 * @enum {}
@@ -26,21 +23,21 @@ export default class OuterEnum {
          * value: "placed"
          * @const
          */
-        placed = "placed";
+        "placed" = "placed";
 
     
         /**
          * value: "approved"
          * @const
          */
-        approved = "approved";
+        "approved" = "approved";
 
     
         /**
          * value: "delivered"
          * @const
          */
-        delivered = "delivered";
+        "delivered" = "delivered";
 
     
 
@@ -53,5 +50,4 @@ export default class OuterEnum {
         return object;
     }
 }
-
 
