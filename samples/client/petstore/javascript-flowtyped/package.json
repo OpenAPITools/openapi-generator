@@ -1,0 +1,31 @@
+{
+  "name": "open_api_petstore",
+  "version": "1.0.0",
+  "description": "swagger client for open_api_petstore",
+  "author": "Swagger Codegen Contributors",
+  "keywords": [
+    "fetch",
+    "flow",
+    "swagger-client",
+    "open_api_petstore"
+  ],
+  "license": "Unlicense",
+  "main": "./lib/index.js",
+  "scripts": {
+    "build": "npm run build:clean && npm run build:lib && npm run build:flow",
+    "build:clean": "rimraf lib",
+    "build:lib": "node_modules/.bin/babel -d lib src --ignore '**/__tests__/**'",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib"
+  },
+  "dependencies": {
+    "portable-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-preset-react-app": "^3.1.1",
+    "flow-copy-source": "^1.3.0",
+    "rimraf": "^2.6.2"
+  }
+}
