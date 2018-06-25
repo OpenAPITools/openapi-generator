@@ -2087,6 +2087,7 @@ public class DefaultCodegen implements CodegenConfig {
             for (String key : operation.getResponses().keySet()) {
                 ApiResponse response = operation.getResponses().get(key);
                 addProducesInfo(openAPI, response, op);
+                addHeadersFromRefs(openAPI, response, op);
                 CodegenResponse r = fromResponse(key, response);
                 r.hasMore = true;
                 if (r.baseType != null &&
@@ -2318,6 +2319,14 @@ public class DefaultCodegen implements CodegenConfig {
         op.isRestful = op.isRestful();
 
         return op;
+    }
+
+    private void addHeadersFromRefs(OpenAPI openAPI, ApiResponse response, CodegenOperation op) {
+        for(Entry<String, Header> header : response.getHeaders().entrySet()){
+            if(header.getValue().get$ref() != null){
+                response.addHeaderObject(header.getKey(), getHeaderFromRef(header.getValue().get$ref(), openAPI));
+            }
+        }
     }
 
     public boolean isParameterNameUnique(CodegenParameter p, List<CodegenParameter> parameters) {
@@ -2907,6 +2916,9 @@ public class DefaultCodegen implements CodegenConfig {
     private void addHeaders(ApiResponse response, List<CodegenProperty> properties) {
         if (response.getHeaders() != null) {
             for (Map.Entry<String, Header> headers : response.getHeaders().entrySet()) {
+                if(headers.getValue().get$ref() != null){
+                    continue;
+                }
                 CodegenProperty cp = fromProperty(headers.getKey(), headers.getValue().getSchema());
                 cp.setDescription(escapeText(headers.getValue().getDescription()));
                 cp.setUnescapedDescription(headers.getValue().getDescription());
@@ -3773,8 +3785,28 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected Parameter getParameterFromRef(String ref, OpenAPI openAPI) {
         String parameterName = ref.substring(ref.lastIndexOf('/') + 1);
-        Map<String, Parameter> parameterMap = openAPI.getComponents().getParameters();
-        return parameterMap.get(parameterName);
+        if(ref.contains("parameters")) {
+            Map<String, Parameter> parameterMap = openAPI.getComponents().getParameters();
+            return parameterMap.get(parameterName);
+        } else if (ref.contains("headers")){
+            return toHeaderParameter(parameterName, getHeaderFromRef(ref, openAPI));
+        }
+        return null;
+    }
+
+    protected Header getHeaderFromRef(String ref, OpenAPI openAPI){
+        String parameterName = ref.substring(ref.lastIndexOf('/') + 1);
+        Map<String, Header> headerMap = openAPI.getComponents().getHeaders();
+        return headerMap.get(parameterName);
+    }
+
+    private static Parameter toHeaderParameter(String parameterName, Header header){
+        return new HeaderParameter()
+                .name(parameterName)
+                .description(header.getDescription())
+                .schema(header.getSchema())
+                .required(header.getRequired())
+                .in("header");
     }
 
     private void setOauth2Info(CodegenSecurity codegenSecurity, OAuthFlow flow) {
