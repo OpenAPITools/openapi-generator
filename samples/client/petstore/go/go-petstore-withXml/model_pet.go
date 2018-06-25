@@ -11,7 +11,7 @@ package petstore
 
 type Pet struct {
 	Id int64 `json:"id,omitempty" xml:"id"`
-	Category *Category `json:"category,omitempty" xml:"category"`
+	Category Category `json:"category,omitempty" xml:"category"`
 	Name string `json:"name" xml:"name"`
 	PhotoUrls []string `json:"photoUrls" xml:"photoUrls"`
 	Tags []Tag `json:"tags,omitempty" xml:"tags"`
