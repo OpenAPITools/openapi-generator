@@ -214,4 +214,19 @@ public class DefaultCodegenTest {
 
         Assert.assertNotNull(type);
     }
+
+    @Test
+    public void testEscapeTextWhileAllowingNewLines() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        // allow new lines
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\n"), "\n");
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\r"), "\r");
+
+        // escape other special characters
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\t"), " ");
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\\"), "\\\\");
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\""), "\\\"");
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\\/"), "/");
+    }
 }
