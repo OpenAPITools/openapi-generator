@@ -45,7 +45,7 @@ public:
     /// </summary>
     {{^isNotContainer}}{{{dataType}}}& {{getter}}();
     {{/isNotContainer}}{{#isNotContainer}}{{{dataType}}} {{getter}}() const;
-    void {{setter}}({{{dataType}}} value);
+    void {{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPrimitiveType}} value);
     {{/isNotContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();
     {{/required}}

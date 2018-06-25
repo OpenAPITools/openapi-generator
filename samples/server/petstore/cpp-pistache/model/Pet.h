@@ -56,21 +56,21 @@ public:
     /// 
     /// </summary>
     int64_t getId() const;
-    void setId(int64_t value);
+    void setId(int64_t const value);
     bool idIsSet() const;
     void unsetId();
     /// <summary>
     /// 
     /// </summary>
-    std::shared_ptr<Category> getCategory() const;
-    void setCategory(std::shared_ptr<Category> value);
+    Category getCategory() const;
+    void setCategory(Category const& value);
     bool categoryIsSet() const;
     void unsetCategory();
     /// <summary>
     /// 
     /// </summary>
     std::string getName() const;
-    void setName(std::string value);
+    void setName(std::string const& value);
         /// <summary>
     /// 
     /// </summary>
@@ -78,27 +78,27 @@ public:
         /// <summary>
     /// 
     /// </summary>
-    std::vector<std::shared_ptr<Tag>>& getTags();
+    std::vector<Tag>& getTags();
     bool tagsIsSet() const;
     void unsetTags();
     /// <summary>
     /// pet status in the store
     /// </summary>
     std::string getStatus() const;
-    void setStatus(std::string value);
+    void setStatus(std::string const& value);
     bool statusIsSet() const;
     void unsetStatus();
 
 protected:
     int64_t m_Id;
     bool m_IdIsSet;
-    std::shared_ptr<Category> m_Category;
+    Category m_Category;
     bool m_CategoryIsSet;
     std::string m_Name;
 
     std::vector<std::string> m_PhotoUrls;
 
-    std::vector<std::shared_ptr<Tag>> m_Tags;
+    std::vector<Tag> m_Tags;
     bool m_TagsIsSet;
     std::string m_Status;
     bool m_StatusIsSet;

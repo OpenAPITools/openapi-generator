@@ -24,6 +24,8 @@
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
 
+#include <pistache/optional.h>
+
 #include "User.h"
 #include <string>
 #include <vector>
@@ -58,7 +60,7 @@ private:
     void update_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void user_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    std::shared_ptr<Pistache::Http::Endpoint> httpEndpoint;
+    Pistache::Http::Endpoint httpEndpoint;
     Pistache::Rest::Router router;
 
 
@@ -78,7 +80,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="user">List of user object</param>
-    virtual void create_users_with_array_input(const std::vector<std::shared_ptr<User>> &user, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_array_input(const std::vector<User> &user, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Creates list of users with given input array
@@ -87,7 +89,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="user">List of user object</param>
-    virtual void create_users_with_list_input(const std::vector<std::shared_ptr<User>> &user, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_list_input(const std::vector<User> &user, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Delete user
@@ -115,7 +117,7 @@ private:
     /// </remarks>
     /// <param name="username">The user name for login</param>
     /// <param name="password">The password for login in clear text</param>
-    virtual void login_user(const Optional<std::string> &username, const Optional<std::string> &password, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void login_user(const Pistache::Optional<std::string> &username, const Pistache::Optional<std::string> &password, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Logs out current logged in user session

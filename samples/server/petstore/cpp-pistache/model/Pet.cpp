@@ -91,8 +91,8 @@ void Pet::fromJson(nlohmann::json& val)
     {
         if(!val["category"].is_null())
         {
-            std::shared_ptr<Category> newItem(new Category());
-            newItem->fromJson(val["category"]);
+            Category newItem(Category());
+            newItem.fromJson(val["category"]);
             setCategory( newItem );
         }
         
@@ -117,12 +117,12 @@ void Pet::fromJson(nlohmann::json& val)
             
             if(item.is_null())
             {
-                m_Tags.push_back( std::shared_ptr<Tag>(nullptr) );
+                m_Tags.push_back( Tag(nullptr) );
             }
             else
             {
-                std::shared_ptr<Tag> newItem(new Tag());
-                newItem->fromJson(item);
+                Tag newItem(Tag());
+                newItem.fromJson(item);
                 m_Tags.push_back( newItem );
             }
             
@@ -142,7 +142,7 @@ int64_t Pet::getId() const
 {
     return m_Id;
 }
-void Pet::setId(int64_t value)
+void Pet::setId(int64_t const value)
 {
     m_Id = value;
     m_IdIsSet = true;
@@ -155,11 +155,11 @@ void Pet::unsetId()
 {
     m_IdIsSet = false;
 }
-std::shared_ptr<Category> Pet::getCategory() const
+Category Pet::getCategory() const
 {
     return m_Category;
 }
-void Pet::setCategory(std::shared_ptr<Category> value)
+void Pet::setCategory(Category const& value)
 {
     m_Category = value;
     m_CategoryIsSet = true;
@@ -176,7 +176,7 @@ std::string Pet::getName() const
 {
     return m_Name;
 }
-void Pet::setName(std::string value)
+void Pet::setName(std::string const& value)
 {
     m_Name = value;
     
@@ -185,7 +185,7 @@ std::vector<std::string>& Pet::getPhotoUrls()
 {
     return m_PhotoUrls;
 }
-std::vector<std::shared_ptr<Tag>>& Pet::getTags()
+std::vector<Tag>& Pet::getTags()
 {
     return m_Tags;
 }
@@ -201,7 +201,7 @@ std::string Pet::getStatus() const
 {
     return m_Status;
 }
-void Pet::setStatus(std::string value)
+void Pet::setStatus(std::string const& value)
 {
     m_Status = value;
     m_StatusIsSet = true;
