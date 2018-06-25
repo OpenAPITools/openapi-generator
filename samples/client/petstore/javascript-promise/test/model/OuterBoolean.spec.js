@@ -28,7 +28,8 @@
   var instance;
 
   beforeEach(function() {
-    instance = new SwaggerPetstore.OuterBoolean();
+    // OuterBoolean is not a member of SwaggerPetstore
+    //instance = new SwaggerPetstore.OuterBoolean();
   });
 
   var getProperty = function(object, getter, property) {

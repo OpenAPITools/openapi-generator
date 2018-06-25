@@ -19,6 +19,9 @@ package org.openapitools.codegen.java;
 
 import com.google.common.collect.ImmutableMap;
 
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Content;
@@ -28,10 +31,12 @@ import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -299,6 +304,17 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.mmmmm");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.mmmmm");
     }
+    
+    @Test
+    public void testGetSchemaTypeWithComposedSchemaWithAllOf() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/composed-allof.yaml", null, new ParseOptions()).getOpenAPI();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        Operation operation = openAPI.getPaths().get("/ping").getPost();
+        CodegenOperation co = codegen.fromOperation("/ping", "POST", operation, ModelUtils.getSchemas(openAPI), openAPI);
+        Assert.assertEquals(co.allParams.size(), 1);
+        Assert.assertEquals(co.allParams.get(0).baseType, "MessageEventCoreWithTimeListEntries");
+    }
 
     @Test
     public void updateCodegenPropertyEnum() {
@@ -314,8 +330,6 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(testedEnumVar.getOrDefault("name", ""),"NUMBER_1");
         Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
     }
-
-
 
     private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {
         CodegenProperty array = new CodegenProperty();

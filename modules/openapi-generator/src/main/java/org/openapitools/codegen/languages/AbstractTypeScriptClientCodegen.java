@@ -48,7 +48,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         importMapping.clear();
 
         supportsInheritance = true;
-        setReservedWordsLowerCase(Arrays.asList(
+        
+        // NOTE: TypeScript uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
+        reservedWords.addAll(Arrays.asList(
                 // local variable names used in API methods (endpoints)
                 "varLocalPath", "queryParameters", "headerParams", "formParams", "useFormData", "varLocalDeferred",
                 "requestOptions",
@@ -325,11 +327,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         } else if (ModelUtils.isDateTimeSchema(p)) {
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isNumberSchema(p)) {
-            NumberSchema dp = (NumberSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-            return UNDEFINED_VALUE;
+           if (p.getDefault() != null) {
+             return p.getDefault().toString();
+           }
+           return UNDEFINED_VALUE;
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
@@ -344,6 +345,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return UNDEFINED_VALUE;
         }
 
+    }
+    
+    @Override
+    protected boolean isReservedWord(String word) {
+        // NOTE: This differs from super's implementation in that TypeScript does _not_ want case insensitive matching.
+        return reservedWords.contains(word);
     }
 
     @Override

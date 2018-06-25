@@ -255,7 +255,7 @@ public class PhpModelTest {
         // skip import test as import is not used by PHP codegen
     }
 
-    @Test(description = "convert an map model")
+    @Test(description = "convert a map model")
     public void mapModelTest() {
         final Schema model = new Schema()
                 .description("a map model")

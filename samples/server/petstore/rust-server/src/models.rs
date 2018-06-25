@@ -240,6 +240,31 @@ impl Capitalization {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Cat {
+    #[serde(rename = "className")]
+    pub class_name: String,
+
+    #[serde(rename = "color")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub color: Option<String>,
+
+    #[serde(rename = "declawed")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub declawed: Option<bool>,
+
+}
+
+impl Cat {
+    pub fn new(class_name: String, ) -> Cat {
+        Cat {
+            class_name: class_name,
+            color: Some("red".to_string()),
+            declawed: None,
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename = "Category")]
 pub struct Category {
     #[serde(rename = "id")]
@@ -295,13 +320,38 @@ impl Client {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Dog {
+    #[serde(rename = "className")]
+    pub class_name: String,
+
+    #[serde(rename = "color")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub color: Option<String>,
+
+    #[serde(rename = "breed")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub breed: Option<String>,
+
+}
+
+impl Dog {
+    pub fn new(class_name: String, ) -> Dog {
+        Dog {
+            class_name: class_name,
+            color: Some("red".to_string()),
+            breed: None,
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EnumArrays {
-    // Note: inline enums are not fully supported by swagger-codegen
+    // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "just_symbol")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub just_symbol: Option<String>,
 
-    // Note: inline enums are not fully supported by swagger-codegen
+    // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "array_enum")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_enum: Option<Vec<String>>,
@@ -356,21 +406,21 @@ impl ::std::str::FromStr for EnumClass {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EnumTest {
-    // Note: inline enums are not fully supported by swagger-codegen
+    // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_string")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_string: Option<String>,
 
-    // Note: inline enums are not fully supported by swagger-codegen
+    // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_string_required")]
     pub enum_string_required: String,
 
-    // Note: inline enums are not fully supported by swagger-codegen
+    // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_integer")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_integer: Option<i32>,
 
-    // Note: inline enums are not fully supported by swagger-codegen
+    // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_number")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_number: Option<f64>,
@@ -425,10 +475,6 @@ pub struct FormatTest {
     #[serde(rename = "byte")]
     pub byte: swagger::ByteArray,
 
-    #[serde(rename = "binary")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub binary: Option<swagger::ByteArray>,
-
     #[serde(rename = "date")]
     pub date: chrono::DateTime<chrono::Utc>,
 
@@ -456,7 +502,6 @@ impl FormatTest {
             double: None,
             string: None,
             byte: byte,
-            binary: None,
             date: date,
             date_time: None,
             uuid: None,
@@ -508,7 +553,7 @@ pub struct MapTest {
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_map_of_string: Option<HashMap<String, HashMap<String, String>>>,
 
-    // Note: inline enums are not fully supported by swagger-codegen
+    // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "map_of_enum_string")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_of_enum_string: Option<HashMap<String, String>>,
@@ -659,7 +704,7 @@ pub struct Order {
     pub ship_date: Option<chrono::DateTime<chrono::Utc>>,
 
     /// Order Status
-    // Note: inline enums are not fully supported by swagger-codegen
+    // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "status")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<String>,
@@ -858,7 +903,7 @@ pub struct Pet {
     pub tags: Option<Vec<models::Tag>>,
 
     /// pet status in the store
-    // Note: inline enums are not fully supported by swagger-codegen
+    // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "status")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<String>,
@@ -987,56 +1032,6 @@ impl User {
             password: None,
             phone: None,
             user_status: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Cat {
-    #[serde(rename = "className")]
-    pub class_name: String,
-
-    #[serde(rename = "color")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub color: Option<String>,
-
-    #[serde(rename = "declawed")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub declawed: Option<bool>,
-
-}
-
-impl Cat {
-    pub fn new(class_name: String, ) -> Cat {
-        Cat {
-            class_name: class_name,
-            color: Some("red".to_string()),
-            declawed: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Dog {
-    #[serde(rename = "className")]
-    pub class_name: String,
-
-    #[serde(rename = "color")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub color: Option<String>,
-
-    #[serde(rename = "breed")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub breed: Option<String>,
-
-}
-
-impl Dog {
-    pub fn new(class_name: String, ) -> Dog {
-        Dog {
-            class_name: class_name,
-            color: Some("red".to_string()),
-            breed: None,
         }
     }
 }
