@@ -11,54 +11,47 @@
  *
  */
 
-
 import ApiClient from '../ApiClient';
 import Animal from './Animal';
 
-
-
-
-
 /**
-* The AnimalFarm model module.
-* @module model/AnimalFarm
-* @version 1.0.0
-*/
-export default class AnimalFarm extends Array {
+ * The AnimalFarm model module.
+ * @module model/AnimalFarm
+ * @version 1.0.0
+ */
+class AnimalFarm extends Array {
     /**
-    * Constructs a new <code>AnimalFarm</code>.
-    * @alias module:model/AnimalFarm
-    * @class
-    * @extends Array
-    */
-
-    constructor() {
-        
+     * Constructs a new <code>AnimalFarm</code>.
+     * @alias module:model/AnimalFarm
+     * @extends Array
+     */
+    constructor() { 
         super();
         
-
         
-        
-
-        
-
-        return this;
+        AnimalFarm.initialize(this);
     }
 
     /**
-    * Constructs a <code>AnimalFarm</code> from a plain JavaScript object, optionally creating a new instance.
-    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-    * @param {Object} data The plain JavaScript object bearing properties of interest.
-    * @param {module:model/AnimalFarm} obj Optional instance to populate.
-    * @return {module:model/AnimalFarm} The populated <code>AnimalFarm</code> instance.
-    */
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+    }
+
+    /**
+     * Constructs a <code>AnimalFarm</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/AnimalFarm} obj Optional instance to populate.
+     * @return {module:model/AnimalFarm} The populated <code>AnimalFarm</code> instance.
+     */
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new AnimalFarm();
 
             ApiClient.constructFromObject(data, obj, 'Animal');
-
-            
             
 
         }
@@ -66,13 +59,12 @@ export default class AnimalFarm extends Array {
     }
 
 
-
-
-
-
-
-
-
 }
 
+
+
+
+
+
+export default AnimalFarm;
 

@@ -251,7 +251,7 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ListBuffer", "Children")).size(), 2);
     }
 
-    @Test(description = "convert an map model")
+    @Test(description = "convert a map model")
     public void mapModelTest() {
         final Schema model = new Schema()
                 .description("a map model")

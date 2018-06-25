@@ -73,7 +73,7 @@
       var authNames = [];
       var contentTypes = [];
       var accepts = ['*/*'];
-      var returnType = Boolean;
+      var returnType = 'Boolean';
 
       return this.apiClient.callApi(
         '/fake/outer/boolean', 'POST',
@@ -169,7 +169,7 @@
       var authNames = [];
       var contentTypes = [];
       var accepts = ['*/*'];
-      var returnType = Number;
+      var returnType = 'Number';
 
       return this.apiClient.callApi(
         '/fake/outer/number', 'POST',
@@ -217,7 +217,7 @@
       var authNames = [];
       var contentTypes = [];
       var accepts = ['*/*'];
-      var returnType = String;
+      var returnType = 'String';
 
       return this.apiClient.callApi(
         '/fake/outer/string', 'POST',

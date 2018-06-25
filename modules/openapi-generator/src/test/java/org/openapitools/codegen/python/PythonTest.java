@@ -272,7 +272,7 @@ public class PythonTest {
     }
 
     // should not start with 'null'. need help from the community to investigate further
-    @Test(description = "convert an map model")
+    @Test(description = "convert a map model")
     public void mapModelTest() {
         final Schema model = new Schema()
                 .description("a map model")

@@ -11,54 +11,49 @@
  *
  */
 
-
 import ApiClient from '../ApiClient';
 
-
-
-
-
 /**
-* The FormatTest model module.
-* @module model/FormatTest
-* @version 1.0.0
-*/
-export default class FormatTest {
+ * The FormatTest model module.
+ * @module model/FormatTest
+ * @version 1.0.0
+ */
+class FormatTest {
     /**
-    * Constructs a new <code>FormatTest</code>.
-    * @alias module:model/FormatTest
-    * @class
-    * @param _number {Number} 
-    * @param _byte {Blob} 
-    * @param _date {Date} 
-    * @param password {String} 
-    */
-
-    constructor(_number, _byte, _date, password) {
+     * Constructs a new <code>FormatTest</code>.
+     * @alias module:model/FormatTest
+     * @param _number {Number} 
+     * @param _byte {Blob} 
+     * @param _date {Date} 
+     * @param password {String} 
+     */
+    constructor(_number, _byte, _date, password) { 
         
-
-        
-        
-
-        this['number'] = _number;this['byte'] = _byte;this['date'] = _date;this['password'] = password;
-
-        
+        FormatTest.initialize(this, _number, _byte, _date, password);
     }
 
     /**
-    * Constructs a <code>FormatTest</code> from a plain JavaScript object, optionally creating a new instance.
-    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-    * @param {Object} data The plain JavaScript object bearing properties of interest.
-    * @param {module:model/FormatTest} obj Optional instance to populate.
-    * @return {module:model/FormatTest} The populated <code>FormatTest</code> instance.
-    */
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj, _number, _byte, _date, password) { 
+        obj['number'] = _number;
+        obj['byte'] = _byte;
+        obj['date'] = _date;
+        obj['password'] = password;
+    }
+
+    /**
+     * Constructs a <code>FormatTest</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/FormatTest} obj Optional instance to populate.
+     * @return {module:model/FormatTest} The populated <code>FormatTest</code> instance.
+     */
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new FormatTest();
-
-            
-            
-            
 
             if (data.hasOwnProperty('integer')) {
                 obj['integer'] = ApiClient.convertToType(data['integer'], 'Number');
@@ -103,66 +98,78 @@ export default class FormatTest {
         return obj;
     }
 
-    /**
-    * @member {Number} integer
-    */
-    integer = undefined;
-    /**
-    * @member {Number} int32
-    */
-    int32 = undefined;
-    /**
-    * @member {Number} int64
-    */
-    int64 = undefined;
-    /**
-    * @member {Number} number
-    */
-    number = undefined;
-    /**
-    * @member {Number} float
-    */
-    float = undefined;
-    /**
-    * @member {Number} double
-    */
-    double = undefined;
-    /**
-    * @member {String} string
-    */
-    string = undefined;
-    /**
-    * @member {Blob} byte
-    */
-    byte = undefined;
-    /**
-    * @member {File} binary
-    */
-    binary = undefined;
-    /**
-    * @member {Date} date
-    */
-    date = undefined;
-    /**
-    * @member {Date} dateTime
-    */
-    dateTime = undefined;
-    /**
-    * @member {String} uuid
-    */
-    uuid = undefined;
-    /**
-    * @member {String} password
-    */
-    password = undefined;
-
-
-
-
-
-
-
 
 }
 
+/**
+ * @member {Number} integer
+ */
+FormatTest.prototype['integer'] = undefined;
+
+/**
+ * @member {Number} int32
+ */
+FormatTest.prototype['int32'] = undefined;
+
+/**
+ * @member {Number} int64
+ */
+FormatTest.prototype['int64'] = undefined;
+
+/**
+ * @member {Number} number
+ */
+FormatTest.prototype['number'] = undefined;
+
+/**
+ * @member {Number} float
+ */
+FormatTest.prototype['float'] = undefined;
+
+/**
+ * @member {Number} double
+ */
+FormatTest.prototype['double'] = undefined;
+
+/**
+ * @member {String} string
+ */
+FormatTest.prototype['string'] = undefined;
+
+/**
+ * @member {Blob} byte
+ */
+FormatTest.prototype['byte'] = undefined;
+
+/**
+ * @member {File} binary
+ */
+FormatTest.prototype['binary'] = undefined;
+
+/**
+ * @member {Date} date
+ */
+FormatTest.prototype['date'] = undefined;
+
+/**
+ * @member {Date} dateTime
+ */
+FormatTest.prototype['dateTime'] = undefined;
+
+/**
+ * @member {String} uuid
+ */
+FormatTest.prototype['uuid'] = undefined;
+
+/**
+ * @member {String} password
+ */
+FormatTest.prototype['password'] = undefined;
+
+
+
+
+
+
+export default FormatTest;
 

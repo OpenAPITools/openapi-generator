@@ -47,9 +47,6 @@ open class FakeClassnameTags123API: APIBase {
      - API Key:
        - type: apiKey api_key_query (QUERY)
        - name: api_key_query
-     - examples: [{contentType=application/json, example={
-  "client" : "client"
-}}]
      - parameter client: (body) client model 
      - returns: RequestBuilder<Client> 
      */

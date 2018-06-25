@@ -159,22 +159,17 @@ paths:
     delete:
       operationId: deletePet
       parameters:
-      - explode: false
-        in: header
+      - in: header
         name: api_key
-        required: false
         schema:
           type: string
-        style: simple
       - description: Pet id to delete
-        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
-        style: simple
       responses:
         400:
           content: {}
@@ -191,14 +186,12 @@ paths:
       operationId: getPetById
       parameters:
       - description: ID of pet to return
-        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
-        style: simple
       responses:
         200:
           content:
@@ -224,19 +217,23 @@ paths:
       operationId: updatePetWithForm
       parameters:
       - description: ID of pet that needs to be updated
-        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
-        style: simple
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/body'
+              properties:
+                name:
+                  description: Updated name of the pet
+                  type: string
+                status:
+                  description: Updated status of the pet
+                  type: string
       responses:
         405:
           content: {}
@@ -253,19 +250,24 @@ paths:
       operationId: uploadFile
       parameters:
       - description: ID of pet to update
-        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
-        style: simple
       requestBody:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/body_1'
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: string
+                file:
+                  description: file to upload
+                  format: binary
+                  type: string
       responses:
         200:
           content:
@@ -331,13 +333,11 @@ paths:
       operationId: deleteOrder
       parameters:
       - description: ID of the order that needs to be deleted
-        explode: false
         in: path
         name: order_id
         required: true
         schema:
           type: string
-        style: simple
       responses:
         400:
           content: {}
@@ -353,7 +353,6 @@ paths:
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
-        explode: false
         in: path
         name: order_id
         required: true
@@ -362,7 +361,6 @@ paths:
           maximum: 5
           minimum: 1
           type: integer
-        style: simple
       responses:
         200:
           content:
@@ -443,21 +441,17 @@ paths:
       operationId: loginUser
       parameters:
       - description: The user name for login
-        explode: true
         in: query
         name: username
         required: true
         schema:
           type: string
-        style: form
       - description: The password for login in clear text
-        explode: true
         in: query
         name: password
         required: true
         schema:
           type: string
-        style: form
       responses:
         200:
           content:
@@ -471,18 +465,14 @@ paths:
           headers:
             X-Rate-Limit:
               description: calls per hour allowed by the user
-              explode: false
               schema:
                 format: int32
                 type: integer
-              style: simple
             X-Expires-After:
               description: date in UTC when token expires
-              explode: false
               schema:
                 format: date-time
                 type: string
-              style: simple
         400:
           content: {}
           description: Invalid username/password supplied
@@ -505,13 +495,11 @@ paths:
       operationId: deleteUser
       parameters:
       - description: The name that needs to be deleted
-        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
-        style: simple
       responses:
         400:
           content: {}
@@ -526,13 +514,11 @@ paths:
       operationId: getUserByName
       parameters:
       - description: The name that needs to be fetched. Use user1 for testing.
-        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
-        style: simple
       responses:
         200:
           content:
@@ -557,13 +543,11 @@ paths:
       operationId: updateUser
       parameters:
       - description: name that need to be deleted
-        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
-        style: simple
       requestBody:
         content:
           '*/*':
@@ -613,7 +597,6 @@ paths:
         explode: false
         in: header
         name: enum_header_string_array
-        required: false
         schema:
           items:
             default: $
@@ -624,10 +607,8 @@ paths:
           type: array
         style: simple
       - description: Header parameter enum test (string)
-        explode: false
         in: header
         name: enum_header_string
-        required: false
         schema:
           default: -efg
           enum:
@@ -635,12 +616,10 @@ paths:
           - -efg
           - (xyz)
           type: string
-        style: simple
       - description: Query parameter enum test (string array)
         explode: false
         in: query
         name: enum_query_string_array
-        required: false
         schema:
           items:
             default: $
@@ -651,10 +630,8 @@ paths:
           type: array
         style: form
       - description: Query parameter enum test (string)
-        explode: true
         in: query
         name: enum_query_string
-        required: false
         schema:
           default: -efg
           enum:
@@ -662,36 +639,46 @@ paths:
           - -efg
           - (xyz)
           type: string
-        style: form
       - description: Query parameter enum test (double)
-        explode: true
         in: query
         name: enum_query_integer
-        required: false
         schema:
           enum:
           - 1
           - -2
           format: int32
           type: integer
-        style: form
       - description: Query parameter enum test (double)
-        explode: true
         in: query
         name: enum_query_double
-        required: false
         schema:
           enum:
           - 1.1
           - -1.2
           format: double
           type: number
-        style: form
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/body_2'
+              properties:
+                enum_form_string_array:
+                  description: Form parameter enum test (string array)
+                  items:
+                    default: $
+                    enum:
+                    - '>'
+                    - $
+                    type: string
+                  type: array
+                enum_form_string:
+                  default: -efg
+                  description: Form parameter enum test (string)
+                  enum:
+                  - _abc
+                  - -efg
+                  - (xyz)
+                  type: string
       responses:
         400:
           content: {}
@@ -733,7 +720,76 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/body_3'
+              properties:
+                integer:
+                  description: None
+                  maximum: 100
+                  minimum: 10
+                  type: integer
+                int32:
+                  description: None
+                  format: int32
+                  maximum: 200
+                  minimum: 20
+                  type: integer
+                int64:
+                  description: None
+                  format: int64
+                  type: integer
+                number:
+                  description: None
+                  maximum: 543.2
+                  minimum: 32.1
+                  type: number
+                float:
+                  description: None
+                  format: float
+                  maximum: 987.6
+                  type: number
+                double:
+                  description: None
+                  format: double
+                  maximum: 123.4
+                  minimum: 67.8
+                  type: number
+                string:
+                  description: None
+                  pattern: /[a-z]/i
+                  type: string
+                pattern_without_delimiter:
+                  description: None
+                  pattern: ^[A-Z].*
+                  type: string
+                byte:
+                  description: None
+                  format: byte
+                  type: string
+                binary:
+                  description: None
+                  format: binary
+                  type: string
+                date:
+                  description: None
+                  format: date
+                  type: string
+                dateTime:
+                  description: None
+                  format: date-time
+                  type: string
+                password:
+                  description: None
+                  format: password
+                  maxLength: 64
+                  minLength: 10
+                  type: string
+                callback:
+                  description: None
+                  type: string
+              required:
+              - byte
+              - double
+              - number
+              - pattern_without_delimiter
         required: true
       responses:
         400:
@@ -838,7 +894,16 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/body_4'
+              properties:
+                param:
+                  description: field1
+                  type: string
+                param2:
+                  description: field2
+                  type: string
+              required:
+              - param
+              - param2
         required: true
       responses:
         200:
@@ -870,13 +935,11 @@ paths:
     put:
       operationId: testBodyWithQueryParams
       parameters:
-      - explode: true
-        in: query
+      - in: query
         name: query
         required: true
         schema:
           type: string
-        style: form
       requestBody:
         content:
           application/json:
@@ -1025,7 +1088,6 @@ components:
         property:
           type: string
         123Number:
-          format: int32
           readOnly: true
           type: integer
       required:
@@ -1214,26 +1276,29 @@ components:
           type: array
       type: object
     OuterComposite:
-      example: {}
+      example:
+        my_string: my_string
+        my_number: 0.80082819046101150206595775671303272247314453125
+        my_boolean: true
       properties:
         my_number:
-          $ref: '#/components/schemas/OuterNumber'
+          type: number
         my_string:
-          $ref: '#/components/schemas/OuterString'
+          type: string
         my_boolean:
-          $ref: '#/components/schemas/OuterBoolean'
+          type: boolean
+          x-codegen-body-parameter-name: boolean_post_body
       type: object
     format_test:
       properties:
         integer:
-          format: int32
-          maximum: 100.0
-          minimum: 10.0
+          maximum: 1E+2
+          minimum: 1E+1
           type: integer
         int32:
           format: int32
-          maximum: 200.0
-          minimum: 20.0
+          maximum: 2E+2
+          minimum: 2E+1
           type: integer
         int64:
           format: int64
@@ -1320,6 +1385,10 @@ components:
       required:
       - className
       type: object
+    StringBooleanMap:
+      additionalProperties:
+        type: boolean
+      type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
@@ -1342,6 +1411,12 @@ components:
             - lower
             type: string
           type: object
+        direct_map:
+          additionalProperties:
+            type: boolean
+          type: object
+        indirect_map:
+          $ref: '#/components/schemas/StringBooleanMap'
       type: object
     Tag:
       example:
@@ -1422,125 +1497,6 @@ components:
           readOnly: true
           type: string
       type: object
-    body:
-      properties:
-        name:
-          description: Updated name of the pet
-          type: string
-        status:
-          description: Updated status of the pet
-          type: string
-    body_1:
-      properties:
-        additionalMetadata:
-          description: Additional data to pass to server
-          type: string
-        file:
-          description: file to upload
-          format: binary
-          type: string
-    body_2:
-      properties:
-        enum_form_string_array:
-          description: Form parameter enum test (string array)
-          items:
-            default: $
-            enum:
-            - '>'
-            - $
-            type: string
-          type: array
-        enum_form_string:
-          default: -efg
-          description: Form parameter enum test (string)
-          enum:
-          - _abc
-          - -efg
-          - (xyz)
-          type: string
-    body_3:
-      properties:
-        integer:
-          description: None
-          format: int32
-          maximum: 100
-          minimum: 10
-          type: integer
-        int32:
-          description: None
-          format: int32
-          maximum: 200
-          minimum: 20
-          type: integer
-        int64:
-          description: None
-          format: int64
-          type: integer
-        number:
-          description: None
-          maximum: 543.2
-          minimum: 32.1
-          type: number
-        float:
-          description: None
-          format: float
-          maximum: 987.6
-          type: number
-        double:
-          description: None
-          format: double
-          maximum: 123.4
-          minimum: 67.8
-          type: number
-        string:
-          description: None
-          pattern: /[a-z]/i
-          type: string
-        pattern_without_delimiter:
-          description: None
-          pattern: ^[A-Z].*
-          type: string
-        byte:
-          description: None
-          format: byte
-          type: string
-        binary:
-          description: None
-          format: binary
-          type: string
-        date:
-          description: None
-          format: date
-          type: string
-        dateTime:
-          description: None
-          format: date-time
-          type: string
-        password:
-          description: None
-          format: password
-          maxLength: 64
-          minLength: 10
-          type: string
-        callback:
-          description: None
-          type: string
-      required:
-      - byte
-      - double
-      - number
-      - pattern_without_delimiter
-    body_4:
-      properties:
-        param:
-          description: field1
-          type: string
-        param2:
-          description: field2
-          type: string
-      required:
-      - param
-      - param2
   securitySchemes:
     petstore_auth:
       flows:
