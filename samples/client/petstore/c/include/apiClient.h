@@ -4,6 +4,9 @@
 typedef struct apiClient_t {
     char *basePath;
     void *dataReceived;
+    // this would only be generated for basic authentication
+    char *username;
+    char *password;
 
 } apiClient_t;
 

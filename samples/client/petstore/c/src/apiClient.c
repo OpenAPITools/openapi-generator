@@ -10,6 +10,9 @@ apiClient_t *apiClient_create() {
 	curl_global_init(CURL_GLOBAL_ALL);
 	apiClient_t *apiClient = malloc(sizeof(apiClient_t));
 	apiClient->basePath = "http://petstore.swagger.io:80/v2/";
+	apiClient->username = NULL;
+	apiClient->password = NULL;
+
 	return apiClient;
 }
 
@@ -70,6 +73,30 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		                 &apiClient->dataReceived);
 		curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
 
+		// this would only be generated for basic authentication:
+		char *authenticationToken;
+
+		if((apiClient->username != NULL) &&
+		   (apiClient->password != NULL) )
+		{
+			authenticationToken = malloc(strlen(
+							     apiClient->username) +
+			                             strlen(
+							     apiClient->password) +
+			                             2);
+			sprintf(authenticationToken,
+			        "%s:%s",
+			        apiClient->username,
+			        apiClient->password);
+
+			curl_easy_setopt(handle,
+			                 CURLOPT_HTTPAUTH,
+			                 CURLAUTH_BASIC);
+			curl_easy_setopt(handle,
+			                 CURLOPT_USERPWD,
+			                 authenticationToken);
+		}
+
 		if(dataToPost != NULL) {
 			postData(handle, dataToPost);
 		}
@@ -84,7 +111,11 @@ void apiClient_invoke(apiClient_t	*apiClient,
 			fprintf(stderr, "curl_easy_perform() failed: %s\n",
 			        curl_easy_strerror(res));
 		}
-
+		if((apiClient->username != NULL) &&
+		   (apiClient->password != NULL) )
+		{
+			free(authenticationToken);
+		}
 		curl_easy_cleanup(handle);
 	}
 }
