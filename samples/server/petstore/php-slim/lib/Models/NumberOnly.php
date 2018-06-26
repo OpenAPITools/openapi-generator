@@ -8,6 +8,6 @@ namespace \Models;
  * NumberOnly
  */
 class NumberOnly {
-    /* @var Number $justNumber  */
+    /* @var float $justNumber  */
     private $justNumber;
 }
