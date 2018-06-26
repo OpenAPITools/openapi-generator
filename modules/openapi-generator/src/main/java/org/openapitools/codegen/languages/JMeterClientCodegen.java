@@ -19,18 +19,13 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.*;
-import org.openapitools.codegen.mustache.*;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.oas.models.info.Info;
 
 import java.util.*;
 import java.io.File;
 
-public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
+public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     // source folder where to write the files
     protected String sourceFolder = "";
@@ -69,11 +64,11 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
         return "Generates a JMeter .jmx file.";
     }
 
-    public JMeterCodegen() {
+    public JMeterClientCodegen() {
         super();
 
         // set the output folder here
-        outputFolder = "generated-code/JMeterCodegen";
+        outputFolder = "generated-code/JMeterClientCodegen";
 
         /*
          * Api classes.  You can write classes for each Api file with the apiTemplateFiles map.
@@ -90,7 +85,7 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        embeddedTemplateDir = templateDir = "JMeter";
+        embeddedTemplateDir = templateDir = "jmeter-client";
 
         /*
          * Api Package.  Optional, if needed, this can be used in templates
