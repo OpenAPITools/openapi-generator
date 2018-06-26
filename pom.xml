@@ -941,6 +941,7 @@
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/client/petstore/javascript-promise</module>
                 <module>samples/client/petstore/javascript-promise-es6</module>
+                <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/python-tornado</module>
                 <module>samples/client/petstore/python-asyncio</module>
@@ -975,7 +976,8 @@
                 <module>samples/client/petstore/elixir</module>
                 <module>samples/client/petstore/erlang-client</module>
                 <!-- servers -->
-                <module>samples/server/petstore/erlang-server</module>
+                <!-- disable erlang server test due to dependency issues
+                <module>samples/server/petstore/erlang-server</module> -->
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <module>samples/server/petstore/spring-mvc</module>
