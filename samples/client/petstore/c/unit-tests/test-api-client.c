@@ -30,6 +30,7 @@ int main() {
 		#endif
 		cJSON_Delete(petJSONObject);
 	}
+	free(apiClient->dataReceived);
 	apiClient_free(apiClient);
 	pet_free(pet);
 }

@@ -14,7 +14,6 @@ apiClient_t *apiClient_create() {
 }
 
 void apiClient_free(apiClient_t *apiClient) {
-	free(apiClient->dataReceived);
 	free(apiClient);
 	curl_global_cleanup();
 }

@@ -33,6 +33,8 @@
    Could fail if someone else makes changes to the added pet, before it can be fetched again.
  */
 int main() {
+	apiClient_t *apiClient = apiClient_create();
+
 	char *categoryName = malloc(strlen(EXAMPLE_CATEGORY_NAME) + 1);
 	strcpy(categoryName, EXAMPLE_CATEGORY_NAME);
 
@@ -76,11 +78,11 @@ int main() {
 		           tags,
 		           status);
 
-	petApi_addPet(pet);
+	petApi_addPet(apiClient, pet);
 
 	pet_free(pet);
 
-	pet = petApi_getPetById(1);
+	pet = petApi_getPetById(apiClient, 1);
 
 	assert(strcmp(pet->name, EXAMPLE_PET_NAME) == 0);
 	assert(pet->id == EXAMPLE_PET_ID);
@@ -105,4 +107,5 @@ int main() {
 	free(petJSON);
     #endif // DEBUG
 	pet_free(pet);
+	apiClient_free(apiClient);
 }
