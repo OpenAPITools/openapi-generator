@@ -415,6 +415,12 @@ public class DefaultCodegen implements CodegenConfig {
                         .replace("\"", "\\\""));
     }
 
+    /**
+     * Escape characters while allowing new lines
+     *
+     * @param input String to be escaped
+     * @return escaped string
+     */
     public String escapeTextWhileAllowingNewLines(String input) {
         if (input == null) {
             return input;
