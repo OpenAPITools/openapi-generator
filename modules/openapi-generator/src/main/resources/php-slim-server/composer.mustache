@@ -9,5 +9,16 @@
   },
   "autoload": {
     "psr-4": { "{{escapedInvokerPackage}}\\": "{{srcBasePath}}/" }
+  },
+  "autoload-dev": {
+    "psr-4": { "{{escapedInvokerPackage}}\\": "{{testBasePath}}/" }
+  },
+  "scripts": {
+    "test": [
+      "@test-apis",
+      "@test-models"
+    ],
+    "test-apis": "phpunit --testsuite Apis",
+    "test-models": "phpunit --testsuite Models"
   }
 }

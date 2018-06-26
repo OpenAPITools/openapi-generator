@@ -118,6 +118,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile(".gitignore", getPackagePath(), ".gitignore"));
         supportingFiles.add(new SupportingFile("AbstractApiController.mustache", toSrcPath(invokerPackage, srcBasePath), "AbstractApiController.php"));
         supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
+        supportingFiles.add(new SupportingFile("phpunit.xml.mustache", getPackagePath(), "phpunit.xml.dist"));
     }
 
     @Override
