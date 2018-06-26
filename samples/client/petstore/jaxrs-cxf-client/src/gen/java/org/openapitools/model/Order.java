@@ -31,7 +31,6 @@ public class Order  {
   @ApiModelProperty(value = "")
   private Date shipDate = null;
 
-
 @XmlType(name="StatusEnum")
 @XmlEnum(String.class)
 public enum StatusEnum {
