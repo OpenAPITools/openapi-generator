@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 [**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**upload_file**](PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**upload_file_with_required_file**](PetApi.md#upload_file_with_required_file) | **POST** /pet/{petId}/uploadImageWithRequiredFile | uploads an image
 
 
 # **add_pet**
@@ -393,6 +394,57 @@ Name | Type | Description  | Notes
  **pet_id** | **int**| ID of pet to update | 
  **additional_metadata** | **string**| Additional data to pass to server | [optional] 
  **file** | **string****string**| file to upload | [optional] 
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **upload_file_with_required_file**
+> ApiResponse upload_file_with_required_file(pet_id => $pet_id, file => $file, additional_metadata => $additional_metadata)
+
+uploads an image
+
+### Example 
+```perl
+use Data::Dumper;
+use WWW::OpenAPIClient::PetApi;
+my $api_instance = WWW::OpenAPIClient::PetApi->new(
+
+    # Configure OAuth2 access token for authorization: petstore_auth
+    access_token => 'YOUR_ACCESS_TOKEN',
+);
+
+my $pet_id = 789; # int | ID of pet to update
+my $file = "/path/to/file"; # string | file to upload
+my $additional_metadata = "additional_metadata_example"; # string | Additional data to pass to server
+
+eval { 
+    my $result = $api_instance->upload_file_with_required_file(pet_id => $pet_id, file => $file, additional_metadata => $additional_metadata);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling PetApi->upload_file_with_required_file: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet_id** | **int**| ID of pet to update | 
+ **file** | **string****string**| file to upload | 
+ **additional_metadata** | **string**| Additional data to pass to server | [optional] 
 
 ### Return type
 

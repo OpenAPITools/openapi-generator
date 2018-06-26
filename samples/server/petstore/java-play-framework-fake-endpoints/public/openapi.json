@@ -108,6 +108,7 @@
           "in" : "query",
           "description" : "Status values that need to be considered for filter",
           "required" : true,
+          "style" : "form",
           "explode" : false,
           "schema" : {
             "type" : "array",
@@ -162,6 +163,7 @@
           "in" : "query",
           "description" : "Tags to filter by",
           "required" : true,
+          "style" : "form",
           "explode" : false,
           "schema" : {
             "type" : "array",
@@ -359,6 +361,61 @@
               }
             }
           }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "petstore_auth" : [ "write:pets", "read:pets" ]
+        } ],
+        "x-contentType" : "multipart/form-data",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/pet/{petId}/uploadImageWithRequiredFile" : {
+      "post" : {
+        "tags" : [ "pet" ],
+        "summary" : "uploads an image",
+        "operationId" : "uploadFileWithRequiredFile",
+        "parameters" : [ {
+          "name" : "petId",
+          "in" : "path",
+          "description" : "ID of pet to update",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "required" : [ "file" ],
+                "properties" : {
+                  "additionalMetadata" : {
+                    "type" : "string",
+                    "description" : "Additional data to pass to server"
+                  },
+                  "file" : {
+                    "type" : "string",
+                    "description" : "file to upload",
+                    "format" : "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required" : true
         },
         "responses" : {
           "200" : {
@@ -833,6 +890,8 @@
           "name" : "enum_header_string_array",
           "in" : "header",
           "description" : "Header parameter enum test (string array)",
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "type" : "array",
             "items" : {
@@ -854,6 +913,7 @@
           "name" : "enum_query_string_array",
           "in" : "query",
           "description" : "Query parameter enum test (string array)",
+          "style" : "form",
           "explode" : false,
           "schema" : {
             "type" : "array",

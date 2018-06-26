@@ -157,8 +157,8 @@ public class PetApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     public Response updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathParam("petId") Long petId
-,@ApiParam(value = "Updated name of the pet")  @FormParam("name")  String name
-,@ApiParam(value = "Updated status of the pet")  @FormParam("status")  String status
+,@ApiParam(value = "Updated name of the pet", defaultValue="null")  @DefaultValue("null") @FormParam("name")  String name
+,@ApiParam(value = "Updated status of the pet", defaultValue="null")  @DefaultValue("null") @FormParam("status")  String status
 )
     throws NotFoundException {
         return delegate.updatePetWithForm(petId,name,status);
@@ -176,12 +176,33 @@ public class PetApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId
-,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata
+,@ApiParam(value = "Additional data to pass to server", defaultValue="null")@FormDataParam("additionalMetadata")  String additionalMetadata
 ,
             @FormDataParam("file") InputStream fileInputStream,
             @FormDataParam("file") FileInfo fileDetail
 )
     throws NotFoundException {
         return delegate.uploadFile(petId,additionalMetadata,fileInputStream, fileDetail);
+    }
+    @POST
+    @Path("/{petId}/uploadImageWithRequiredFile")
+    @Consumes({ "multipart/form-data" })
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = ModelApiResponse.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+            @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+            @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
+        })
+    }, tags={ "pet", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
+    public Response uploadFileWithRequiredFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId
+,
+            @FormDataParam("file") InputStream fileInputStream,
+            @FormDataParam("file") FileInfo fileDetail
+,@ApiParam(value = "Additional data to pass to server", defaultValue="null")@FormDataParam("additionalMetadata")  String additionalMetadata
+)
+    throws NotFoundException {
+        return delegate.uploadFileWithRequiredFile(petId,fileInputStream, fileDetail,additionalMetadata);
     }
 }

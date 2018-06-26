@@ -495,7 +495,7 @@ namespace Example
             var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
             var enumQueryInteger = 56;  // int? | Query parameter enum test (double) (optional) 
             var enumQueryDouble = 1.2;  // double? | Query parameter enum test (double) (optional) 
-            var enumFormStringArray = enumFormStringArray_example;  // List<string> | Form parameter enum test (string array) (optional)  (default to $)
+            var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
             var enumFormString = enumFormString_example;  // string | Form parameter enum test (string) (optional)  (default to -efg)
 
             try
@@ -522,7 +522,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
- **enumFormStringArray** | **List&lt;string&gt;**| Form parameter enum test (string array) | [optional] [default to $]
+ **enumFormStringArray** | [**List&lt;string&gt;**](string.md)| Form parameter enum test (string array) | [optional] [default to $]
  **enumFormString** | **string**| Form parameter enum test (string) | [optional] [default to -efg]
 
 ### Return type

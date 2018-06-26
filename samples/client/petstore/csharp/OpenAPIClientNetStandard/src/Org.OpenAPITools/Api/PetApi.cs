@@ -202,6 +202,31 @@ namespace Org.OpenAPITools.Api
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
         ApiResponse<ApiResponse> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
+        /// <summary>
+        /// uploads an image
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="file">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <returns>ApiResponse</returns>
+        ApiResponse UploadFileWithRequiredFile (long? petId, System.IO.Stream file, string additionalMetadata = null);
+
+        /// <summary>
+        /// uploads an image
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="file">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <returns>ApiResponse of ApiResponse</returns>
+        ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo (long? petId, System.IO.Stream file, string additionalMetadata = null);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -382,6 +407,31 @@ namespace Org.OpenAPITools.Api
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
+        /// <summary>
+        /// uploads an image
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="file">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long? petId, System.IO.Stream file, string additionalMetadata = null);
+
+        /// <summary>
+        /// uploads an image
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="file">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <returns>Task of ApiResponse (ApiResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsyncWithHttpInfo (long? petId, System.IO.Stream file, string additionalMetadata = null);
         #endregion Asynchronous Operations
     }
 
@@ -1692,6 +1742,171 @@ namespace Org.OpenAPITools.Api
             if (ExceptionFactory != null)
             {
                 Exception exception = ExceptionFactory("UploadFile", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<ApiResponse>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToString()),
+                (ApiResponse) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(ApiResponse)));
+        }
+
+        /// <summary>
+        /// uploads an image 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="file">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <returns>ApiResponse</returns>
+        public ApiResponse UploadFileWithRequiredFile (long? petId, System.IO.Stream file, string additionalMetadata = null)
+        {
+             ApiResponse<ApiResponse> localVarResponse = UploadFileWithRequiredFileWithHttpInfo(petId, file, additionalMetadata);
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// uploads an image 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="file">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <returns>ApiResponse of ApiResponse</returns>
+        public ApiResponse< ApiResponse > UploadFileWithRequiredFileWithHttpInfo (long? petId, System.IO.Stream file, string additionalMetadata = null)
+        {
+            // verify the required parameter 'petId' is set
+            if (petId == null)
+                throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->UploadFileWithRequiredFile");
+            // verify the required parameter 'file' is set
+            if (file == null)
+                throw new ApiException(400, "Missing required parameter 'file' when calling PetApi->UploadFileWithRequiredFile");
+
+            var localVarPath = "./pet/{petId}/uploadImageWithRequiredFile";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "multipart/form-data"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (petId != null) localVarPathParams.Add("petId", this.Configuration.ApiClient.ParameterToString(petId)); // path parameter
+            if (additionalMetadata != null) localVarFormParams.Add("additionalMetadata", this.Configuration.ApiClient.ParameterToString(additionalMetadata)); // form parameter
+            if (file != null) localVarFileParams.Add("file", this.Configuration.ApiClient.ParameterToFile("file", file));
+
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("UploadFileWithRequiredFile", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<ApiResponse>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToString()),
+                (ApiResponse) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(ApiResponse)));
+        }
+
+        /// <summary>
+        /// uploads an image 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="file">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long? petId, System.IO.Stream file, string additionalMetadata = null)
+        {
+             ApiResponse<ApiResponse> localVarResponse = await UploadFileWithRequiredFileAsyncWithHttpInfo(petId, file, additionalMetadata);
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// uploads an image 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="file">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <returns>Task of ApiResponse (ApiResponse)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsyncWithHttpInfo (long? petId, System.IO.Stream file, string additionalMetadata = null)
+        {
+            // verify the required parameter 'petId' is set
+            if (petId == null)
+                throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->UploadFileWithRequiredFile");
+            // verify the required parameter 'file' is set
+            if (file == null)
+                throw new ApiException(400, "Missing required parameter 'file' when calling PetApi->UploadFileWithRequiredFile");
+
+            var localVarPath = "./pet/{petId}/uploadImageWithRequiredFile";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "multipart/form-data"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (petId != null) localVarPathParams.Add("petId", this.Configuration.ApiClient.ParameterToString(petId)); // path parameter
+            if (additionalMetadata != null) localVarFormParams.Add("additionalMetadata", this.Configuration.ApiClient.ParameterToString(additionalMetadata)); // form parameter
+            if (file != null) localVarFileParams.Add("file", this.Configuration.ApiClient.ParameterToFile("file", file));
+
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("UploadFileWithRequiredFile", localVarResponse);
                 if (exception != null) throw exception;
             }
 

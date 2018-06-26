@@ -49,7 +49,7 @@ extern NSInteger const SWGUnknownResponseObjectErrorCode;
 @interface SWGResponseDeserializer : NSObject <SWGResponseDeserializer>
 
 /**
- *  If an null value occurs in dictionary or array if set to YES whole response will be invalid else will be ignored
+ *  If a null value occurs in dictionary or array if set to YES whole response will be invalid else will be ignored
  *  @default NO
  */
 @property (nonatomic, assign) BOOL treatNullAsError;

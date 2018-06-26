@@ -315,7 +315,8 @@ case $state in
             "getPetById[Find pet by ID]" \
             "updatePet[Update an existing pet]" \
             "updatePetWithForm[Updates a pet in the store with form data]" \
-            "uploadFile[uploads an image]"             "deleteOrder[Delete purchase order by ID]" \
+            "uploadFile[uploads an image]" \
+            "uploadFileWithRequiredFile[uploads an image]"             "deleteOrder[Delete purchase order by ID]" \
             "getInventory[Returns pet inventories by status]" \
             "getOrderById[Find purchase order by ID]" \
             "placeOrder[Place an order for a pet]"             "createUser[Create user]" \
@@ -460,6 +461,13 @@ case $state in
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       uploadFile)
+        local -a _op_arguments
+        _op_arguments=(
+          "petId=:[PATH] ID of pet to update"
+                    )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      uploadFileWithRequiredFile)
         local -a _op_arguments
         _op_arguments=(
           "petId=:[PATH] ID of pet to update"
