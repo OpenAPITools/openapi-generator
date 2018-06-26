@@ -162,6 +162,13 @@ $app->post('/v2/pet/{petId}', 'PetApi@updatePetWithForm');
  */
 $app->post('/v2/pet/{petId}/uploadImage', 'PetApi@uploadFile');
 /**
+ * post uploadFileWithRequiredFile
+ * Summary: uploads an image
+ * Notes: 
+ * Output-Formats: [application/json]
+ */
+$app->post('/v2/pet/{petId}/uploadImageWithRequiredFile', 'PetApi@uploadFileWithRequiredFile');
+/**
  * get getInventory
  * Summary: Returns pet inventories by status
  * Notes: Returns a map of status codes to quantities

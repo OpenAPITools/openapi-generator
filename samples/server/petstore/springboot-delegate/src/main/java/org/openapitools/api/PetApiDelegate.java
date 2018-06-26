@@ -62,4 +62,11 @@ public interface PetApiDelegate {
          String  additionalMetadata,
         MultipartFile file);
 
+    /**
+     * @see PetApi#uploadFileWithRequiredFile
+     */
+    ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile( Long  petId,
+        MultipartFile file,
+         String  additionalMetadata);
+
 }
