@@ -216,6 +216,18 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testEscapeText() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        Assert.assertEquals(codegen.escapeText("\n"), " ");
+        Assert.assertEquals(codegen.escapeText("\r"), " ");
+        Assert.assertEquals(codegen.escapeText("\t"), " ");
+        Assert.assertEquals(codegen.escapeText("\\"), "\\\\");
+        Assert.assertEquals(codegen.escapeText("\""), "\\\"");
+        Assert.assertEquals(codegen.escapeText("\\/"), "/");
+    }
+
+    @Test
     public void testEscapeTextWhileAllowingNewLines() {
         final DefaultCodegen codegen = new DefaultCodegen();
 
