@@ -88,7 +88,6 @@ _petstore-cli()
     operations["updatePet"]=1
     operations["updatePetWithForm"]=1
     operations["uploadFile"]=1
-    operations["uploadFileWithRequiredFile"]=1
     operations["deleteOrder"]=1
     operations["getInventory"]=1
     operations["getOrderById"]=1
@@ -125,7 +124,6 @@ _petstore-cli()
     operation_parameters["updatePet"]=""
     operation_parameters["updatePetWithForm"]="petId= "
     operation_parameters["uploadFile"]="petId= "
-    operation_parameters["uploadFileWithRequiredFile"]="petId= "
     operation_parameters["deleteOrder"]="order_id= "
     operation_parameters["getInventory"]=""
     operation_parameters["getOrderById"]="order_id= "

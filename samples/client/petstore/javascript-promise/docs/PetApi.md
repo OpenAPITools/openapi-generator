@@ -12,7 +12,6 @@ Method | HTTP request | Description
 [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /pet/{petId}/uploadImageWithRequiredFile | uploads an image
 
 
 <a name="addPet"></a>
@@ -369,55 +368,6 @@ Name | Type | Description  | Notes
  **petId** | **Number**| ID of pet to update | 
  **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
  **file** | **File**| file to upload | [optional] 
-
-### Return type
-
-[**ApiResponse**](ApiResponse.md)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth)
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
-
-<a name="uploadFileWithRequiredFile"></a>
-# **uploadFileWithRequiredFile**
-> ApiResponse uploadFileWithRequiredFile(petId, file, opts)
-
-uploads an image
-
-### Example
-```javascript
-var OpenApiPetstore = require('open_api_petstore');
-var defaultClient = OpenApiPetstore.ApiClient.instance;
-// Configure OAuth2 access token for authorization: petstore_auth
-var petstore_auth = defaultClient.authentications['petstore_auth'];
-petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
-
-var apiInstance = new OpenApiPetstore.PetApi();
-var petId = 789; // Number | ID of pet to update
-var file = "/path/to/file"; // File | file to upload
-var opts = {
-  'additionalMetadata': "additionalMetadata_example" // String | Additional data to pass to server
-};
-apiInstance.uploadFileWithRequiredFile(petId, file, opts).then(function(data) {
-  console.log('API called successfully. Returned data: ' + data);
-}, function(error) {
-  console.error(error);
-});
-
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Number**| ID of pet to update | 
- **file** | **File**| file to upload | 
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
 
 ### Return type
 

@@ -142,9 +142,6 @@ operation_parameters_minimum_occurrences["updatePetWithForm:::status"]=0
 operation_parameters_minimum_occurrences["uploadFile:::petId"]=1
 operation_parameters_minimum_occurrences["uploadFile:::additionalMetadata"]=0
 operation_parameters_minimum_occurrences["uploadFile:::file"]=0
-operation_parameters_minimum_occurrences["uploadFileWithRequiredFile:::petId"]=1
-operation_parameters_minimum_occurrences["uploadFileWithRequiredFile:::file"]=1
-operation_parameters_minimum_occurrences["uploadFileWithRequiredFile:::additionalMetadata"]=0
 operation_parameters_minimum_occurrences["deleteOrder:::order_id"]=1
 operation_parameters_minimum_occurrences["getOrderById:::order_id"]=1
 operation_parameters_minimum_occurrences["placeOrder:::Order"]=1
@@ -212,9 +209,6 @@ operation_parameters_maximum_occurrences["updatePetWithForm:::status"]=0
 operation_parameters_maximum_occurrences["uploadFile:::petId"]=0
 operation_parameters_maximum_occurrences["uploadFile:::additionalMetadata"]=0
 operation_parameters_maximum_occurrences["uploadFile:::file"]=0
-operation_parameters_maximum_occurrences["uploadFileWithRequiredFile:::petId"]=0
-operation_parameters_maximum_occurrences["uploadFileWithRequiredFile:::file"]=0
-operation_parameters_maximum_occurrences["uploadFileWithRequiredFile:::additionalMetadata"]=0
 operation_parameters_maximum_occurrences["deleteOrder:::order_id"]=0
 operation_parameters_maximum_occurrences["getOrderById:::order_id"]=0
 operation_parameters_maximum_occurrences["placeOrder:::Order"]=0
@@ -279,9 +273,6 @@ operation_parameters_collection_type["updatePetWithForm:::status"]=""
 operation_parameters_collection_type["uploadFile:::petId"]=""
 operation_parameters_collection_type["uploadFile:::additionalMetadata"]=""
 operation_parameters_collection_type["uploadFile:::file"]=""
-operation_parameters_collection_type["uploadFileWithRequiredFile:::petId"]=""
-operation_parameters_collection_type["uploadFileWithRequiredFile:::file"]=""
-operation_parameters_collection_type["uploadFileWithRequiredFile:::additionalMetadata"]=""
 operation_parameters_collection_type["deleteOrder:::order_id"]=""
 operation_parameters_collection_type["getOrderById:::order_id"]=""
 operation_parameters_collection_type["placeOrder:::Order"]=""
@@ -734,7 +725,6 @@ read -r -d '' ops <<EOF
   ${CYAN}updatePet${OFF};Update an existing pet (AUTH)
   ${CYAN}updatePetWithForm${OFF};Updates a pet in the store with form data (AUTH)
   ${CYAN}uploadFile${OFF};uploads an image (AUTH)
-  ${CYAN}uploadFileWithRequiredFile${OFF};uploads an image (AUTH)
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
@@ -1191,22 +1181,6 @@ print_updatePetWithForm_help() {
 print_uploadFile_help() {
     echo ""
     echo -e "${BOLD}${WHITE}uploadFile - uploads an image${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e ""
-    echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}petId${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet to update ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo ""
-    echo -e "${BOLD}${WHITE}Responses${OFF}"
-    code=200
-    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-}
-##############################################################################
-#
-# Print help for uploadFileWithRequiredFile operation
-#
-##############################################################################
-print_uploadFileWithRequiredFile_help() {
-    echo ""
-    echo -e "${BOLD}${WHITE}uploadFileWithRequiredFile - uploads an image${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}petId${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet to update ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -2591,42 +2565,6 @@ call_uploadFile() {
 
 ##############################################################################
 #
-# Call uploadFileWithRequiredFile operation
-#
-##############################################################################
-call_uploadFileWithRequiredFile() {
-    # ignore error about 'path_parameter_names' being unused; passed by reference
-    # shellcheck disable=SC2034
-    local path_parameter_names=(petId)
-    # ignore error about 'query_parameter_names' being unused; passed by reference
-    # shellcheck disable=SC2034
-    local query_parameter_names=(  )
-    local path
-
-    if ! path=$(build_request_path "/v2/pet/{petId}/uploadImageWithRequiredFile" path_parameter_names query_parameter_names); then
-        ERROR_MSG=$path
-        exit 1
-    fi
-    local method="POST"
-    local headers_curl
-    headers_curl=$(header_arguments_to_curl)
-    if [[ -n $header_accept ]]; then
-        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
-    fi
-
-    local basic_auth_option=""
-    if [[ -n $basic_auth_credential ]]; then
-        basic_auth_option="-u ${basic_auth_credential}"
-    fi
-    if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
-    else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
-    fi
-}
-
-##############################################################################
-#
 # Call deleteOrder operation
 #
 ##############################################################################
@@ -3379,9 +3317,6 @@ case $key in
     uploadFile)
     operation="uploadFile"
     ;;
-    uploadFileWithRequiredFile)
-    operation="uploadFileWithRequiredFile"
-    ;;
     deleteOrder)
     operation="deleteOrder"
     ;;
@@ -3561,9 +3496,6 @@ case $operation in
     ;;
     uploadFile)
     call_uploadFile
-    ;;
-    uploadFileWithRequiredFile)
-    call_uploadFileWithRequiredFile
     ;;
     deleteOrder)
     call_deleteOrder

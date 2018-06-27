@@ -12,7 +12,6 @@ Method | HTTP request | Description
 [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /pet/{petId}/uploadImageWithRequiredFile | uploads an image
 
 
 ## **addPet**
@@ -250,38 +249,6 @@ Name | Type | Description  | Notes
  **petId** | **integer** | ID of pet to update |
  **additionalMetadata** | **string** | Additional data to pass to server | [optional] [default to null]
  **file** | **binary** | file to upload | [optional] [default to null]
-
-### Return type
-
-[**ApiResponse**](ApiResponse.md)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth)
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-## **uploadFileWithRequiredFile**
-
-uploads an image
-
-### Example
-```bash
-petstore-cli uploadFileWithRequiredFile petId=value
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **integer** | ID of pet to update |
- **file** | **binary** | file to upload | [default to null]
- **additionalMetadata** | **string** | Additional data to pass to server | [optional] [default to null]
 
 ### Return type
 

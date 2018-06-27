@@ -70,11 +70,5 @@ public class PetController  {
     }
   */
 
-  /*
-    public ResponseContext uploadFileWithRequiredFile(RequestContext request , Long petId, FormDataContentDisposition fileDetail, String additionalMetadata) {
-        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
-    }
-  */
-
 }
 

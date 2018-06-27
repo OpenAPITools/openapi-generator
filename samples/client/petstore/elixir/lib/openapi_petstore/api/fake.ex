@@ -271,7 +271,7 @@ defmodule OpenapiPetstore.Api.Fake do
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - request_body (%{optional(String.t) &#x3D;&gt; String.t}): request body
+  - request_body (String.t): request body
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 

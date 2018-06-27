@@ -294,48 +294,6 @@ paths:
       - pet
       x-contentType: multipart/form-data
       x-accepts: application/json
-  /pet/{petId}/uploadImageWithRequiredFile:
-    post:
-      operationId: uploadFileWithRequiredFile
-      parameters:
-      - description: ID of pet to update
-        in: path
-        name: petId
-        required: true
-        schema:
-          format: int64
-          type: integer
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  format: binary
-                  type: string
-              required:
-              - file
-        required: true
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-          description: successful operation
-      security:
-      - petstore_auth:
-        - write:pets
-        - read:pets
-      summary: uploads an image
-      tags:
-      - pet
-      x-contentType: multipart/form-data
-      x-accepts: application/json
   /store/inventory:
     get:
       description: Returns a map of status codes to quantities

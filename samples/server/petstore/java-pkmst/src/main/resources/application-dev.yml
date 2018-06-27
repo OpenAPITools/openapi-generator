@@ -1,6 +1,6 @@
 # Discovery Server Access
 server:
-  port: 8080
+  port: -1
 
 # Spring Actuator
 management:

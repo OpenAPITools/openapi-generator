@@ -41,7 +41,6 @@ Class | Method | HTTP request | Description
 *PET_API* | [**update_pet**](docs/PET_API.md#update_pet) | **Put** /pet | Update an existing pet
 *PET_API* | [**update_pet_with_form**](docs/PET_API.md#update_pet_with_form) | **Post** /pet/{petId} | Updates a pet in the store with form data
 *PET_API* | [**upload_file**](docs/PET_API.md#upload_file) | **Post** /pet/{petId}/uploadImage | uploads an image
-*PET_API* | [**upload_file_with_required_file**](docs/PET_API.md#upload_file_with_required_file) | **Post** /pet/{petId}/uploadImageWithRequiredFile | uploads an image
 *STORE_API* | [**delete_order**](docs/STORE_API.md#delete_order) | **Delete** /store/order/{order_id} | Delete purchase order by ID
 *STORE_API* | [**inventory**](docs/STORE_API.md#inventory) | **Get** /store/inventory | Returns pet inventories by status
 *STORE_API* | [**order_by_id**](docs/STORE_API.md#order_by_id) | **Get** /store/order/{order_id} | Find purchase order by ID

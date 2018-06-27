@@ -1,15 +1,15 @@
 openapi: 3.0.1
 info:
-  contact:
-    email: something@something.abc */ ' " =end -- \r\n \n \r
+  title: OpenAPI Petstore */ ' " =end -- \r\n \n \r
   description: "This spec is mainly for testing Petstore server and contains fake\
     \ endpoints, models. Please do not use this for any other purpose. Special characters:\
     \ \" \\  */ ' \" =end -- \r\n \n \r"
+  termsOfService: http://url.to/terms/ */ ' " =end -- \r\n \n \r
+  contact:
+    email: something@something.abc */ ' " =end -- \r\n \n \r
   license:
     name: Apache-2.0 */ ' " =end -- \r\n \n \r
     url: http://www.apache.org/licenses/LICENSE-2.0.html */ ' " =end -- \r\n \n \r
-  termsOfService: http://url.to/terms/ */ ' " =end -- \r\n \n \r
-  title: OpenAPI Petstore */ ' " =end -- \r\n \n \r
   version: 1.0.0 */ ' " =end -- \r\n \n \r
 externalDocs:
   description: Find out more about OpenAPI  */ ' " =end -- \r\n \n \r
@@ -17,14 +17,17 @@ externalDocs:
 servers:
 - url: petstore.swagger.io */ ' " =end -- \r\n \n \r/v2 */ ' " =end -- \r\n \n \r
 tags:
-- description: Everything about your Pets */ ' " =end -- \r\n \n \r
+- name: fake
+  description: Everything about your Pets */ ' " =end -- \r\n \n \r
   externalDocs:
     description: Find out more */ ' " =end -- \r\n \n \r
     url: https://openapis.org
-  name: fake
 paths:
   /fake:
     put:
+      tags:
+      - fake
+      summary: To test code injection */ ' " =end -- \r\n \n \r
       operationId: testCodeInject */ ' " =end -- \r\n \n \r
       requestBody:
         content:
@@ -32,43 +35,40 @@ paths:
             schema:
               properties:
                 test code inject */ ' " =end -- \r\n \n \r:
-                  description: To test code injection */ ' " =end -- \r\n \n \r
                   type: string
+                  description: To test code injection */ ' " =end -- \r\n \n \r
           ? "*/ ' \" =end -- \r\n \n \r"
           : schema:
               properties:
                 test code inject */ ' " =end -- \r\n \n \r:
-                  description: To test code injection */ ' " =end -- \r\n \n \r
                   type: string
+                  description: To test code injection */ ' " =end -- \r\n \n \r
       responses:
         400:
-          content: {}
           description: To test code injection */ ' " =end -- \r\n \n \r
-      summary: To test code injection */ ' " =end -- \r\n \n \r
-      tags:
-      - fake
+          content: {}
 components:
   schemas:
     Return:
-      description: Model for testing reserved words  */ ' " =end -- \r\n \n \r
+      type: object
       properties:
         return:
+          type: integer
           description: property description  */ ' " =end -- \r\n \n \r
           format: int32
-          type: integer
-      type: object
+      description: Model for testing reserved words  */ ' " =end -- \r\n \n \r
       xml:
         name: Return
   securitySchemes:
     petstore_auth:
+      type: oauth2
       flows:
         implicit:
           authorizationUrl: http://petstore.swagger.io/api/oauth/dialog
           scopes:
             write:pets: modify pets in your account  */ ' " =end -- \r\n \n \r
             read:pets: read your pets  */ ' " =end -- \r\n \n \r
-      type: oauth2
     api_key:
-      in: header
-      name: api_key  */ ' " =end -- \r\n \n \r
       type: apiKey
+      name: api_key  */ ' " =end -- \r\n \n \r
+      in: header

@@ -12,7 +12,6 @@ Feature | HTTP request | Description
 [**update_pet**](PET_API.md#update_pet) | **Put** /pet | Update an existing pet
 [**update_pet_with_form**](PET_API.md#update_pet_with_form) | **Post** /pet/{petId} | Updates a pet in the store with form data
 [**upload_file**](PET_API.md#upload_file) | **Post** /pet/{petId}/uploadImage | uploads an image
-[**upload_file_with_required_file**](PET_API.md#upload_file_with_required_file) | **Post** /pet/{petId}/uploadImageWithRequiredFile | uploads an image
 
 
 # **add_pet**
@@ -234,36 +233,6 @@ Name | Type | Description  | Notes
  **pet_id** | **INTEGER_64**| ID of pet to update | 
  **additional_metadata** | **STRING_32**| Additional data to pass to server | [optional] [default to null]
  **file** | **FILE**| file to upload | [optional] [default to null]
-
-### Return type
-
-[**API_RESPONSE**](ApiResponse.md)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth)
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **upload_file_with_required_file**
-> upload_file_with_required_file (pet_id: INTEGER_64 ; file: FILE ; additional_metadata:  detachable STRING_32 ): detachable API_RESPONSE
-	
-
-uploads an image
-
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **INTEGER_64**| ID of pet to update | 
- **file** | **FILE**| file to upload | [default to null]
- **additional_metadata** | **STRING_32**| Additional data to pass to server | [optional] [default to null]
 
 ### Return type
 

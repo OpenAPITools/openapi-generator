@@ -56,10 +56,4 @@ public class PetApiControllerImp implements PetApiControllerImpInterface {
         return new ModelApiResponse();
     }
 
-    @Override
-    public ModelApiResponse uploadFileWithRequiredFile(Long petId, Http.MultipartFormData.FilePart file, String additionalMetadata) throws Exception {
-        //Do your magic!!!
-        return new ModelApiResponse();
-    }
-
 }

@@ -278,8 +278,8 @@ Updates a pet in the store with form data
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet that needs to be updated
-String name = null; // String | Updated name of the pet
-String status = null; // String | Updated status of the pet
+String name = "null"; // String | Updated name of the pet
+String status = "null"; // String | Updated status of the pet
 try {
     apiInstance.updatePetWithForm(petId, name, status);
 } catch (ApiException e) {
@@ -322,8 +322,8 @@ uploads an image
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet to update
-String additionalMetadata = null; // String | Additional data to pass to server
-File file = null; // File | file to upload
+String additionalMetadata = "null"; // String | Additional data to pass to server
+File file = new File("null"); // File | file to upload
 try {
     ApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
     System.out.println(result);

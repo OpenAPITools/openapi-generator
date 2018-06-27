@@ -15,7 +15,7 @@ defmodule OpenapiPetstore.Connection do
   plug Tesla.Middleware.EncodeJson
 
   @doc """
-  Configure a client connection using Basic authentication.
+  Configure an client connection using Basic authentication.
 
   ## Parameters
 
