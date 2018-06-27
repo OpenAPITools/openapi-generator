@@ -363,6 +363,7 @@ Class | Method | HTTP request | Description
 *PetApi* | [**update_pet**](docs/PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 *PetApi* | [**update_pet_with_form**](docs/PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**upload_file**](docs/PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
+*PetApi* | [**upload_file_with_required_file**](docs/PetApi.md#upload_file_with_required_file) | **POST** /pet/{petId}/uploadImageWithRequiredFile | uploads an image
 *StoreApi* | [**delete_order**](docs/StoreApi.md#delete_order) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 *StoreApi* | [**get_inventory**](docs/StoreApi.md#get_inventory) | **GET** /store/inventory | Returns pet inventories by status
 *StoreApi* | [**get_order_by_id**](docs/StoreApi.md#get_order_by_id) | **GET** /store/order/{order_id} | Find purchase order by ID

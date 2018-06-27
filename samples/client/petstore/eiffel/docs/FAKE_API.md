@@ -257,7 +257,7 @@ Name | Type | Description  | Notes
  **enum_query_string** | **STRING_32**| Query parameter enum test (string) | [optional] [default to -efg]
  **enum_query_integer** | **INTEGER_32**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **REAL_64**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | **LIST [STRING_32]**| Form parameter enum test (string array) | [optional] [default to $]
+ **enum_form_string_array** | [**LIST [STRING_32]**](STRING_32.md)| Form parameter enum test (string array) | [optional] [default to $]
  **enum_form_string** | **STRING_32**| Form parameter enum test (string) | [optional] [default to -efg]
 
 ### Return type

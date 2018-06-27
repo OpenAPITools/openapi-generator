@@ -32,6 +32,7 @@ GET     /v2/pet/:petId                     controllers.PetApiController.getPetBy
 PUT     /v2/pet                     controllers.PetApiController.updatePet()
 POST     /v2/pet/:petId                     controllers.PetApiController.updatePetWithForm(petId: Long)
 POST     /v2/pet/:petId/uploadImage                     controllers.PetApiController.uploadFile(petId: Long)
+POST     /v2/pet/:petId/uploadImageWithRequiredFile                     controllers.PetApiController.uploadFileWithRequiredFile(petId: Long)
 
 #Functions for Store API
 DELETE     /v2/store/order/:orderId                     controllers.StoreApiController.deleteOrder(orderId: String)

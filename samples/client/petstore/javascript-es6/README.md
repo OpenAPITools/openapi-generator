@@ -110,6 +110,7 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.PetApi* | [**updatePet**](docs/PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 *OpenApiPetstore.PetApi* | [**updatePetWithForm**](docs/PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *OpenApiPetstore.PetApi* | [**uploadFile**](docs/PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+*OpenApiPetstore.PetApi* | [**uploadFileWithRequiredFile**](docs/PetApi.md#uploadFileWithRequiredFile) | **POST** /pet/{petId}/uploadImageWithRequiredFile | uploads an image
 *OpenApiPetstore.StoreApi* | [**deleteOrder**](docs/StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 *OpenApiPetstore.StoreApi* | [**getInventory**](docs/StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
 *OpenApiPetstore.StoreApi* | [**getOrderById**](docs/StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID

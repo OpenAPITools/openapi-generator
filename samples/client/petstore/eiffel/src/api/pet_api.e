@@ -315,5 +315,51 @@ feature -- API Access
 			end
 		end	
 
+	upload_file_with_required_file (pet_id: INTEGER_64; file: FILE; additional_metadata: STRING_32): detachable API_RESPONSE
+			-- uploads an image
+			-- 
+			-- 
+			-- argument: pet_id ID of pet to update (required)
+			-- 
+			-- argument: file file to upload (required)
+			-- 
+			-- argument: additional_metadata Additional data to pass to server (optional, default to null)
+			-- 
+			-- 
+			-- Result API_RESPONSE
+		require
+		local
+  			l_path: STRING
+  			l_request: API_CLIENT_REQUEST
+  			l_response: API_CLIENT_RESPONSE
+		do
+			reset_error
+			create l_request
+			
+			l_path := "/pet/{petId}/uploadImageWithRequiredFile"
+			l_path.replace_substring_all ("{"+"petId"+"}", api_client.url_encode (pet_id.out))
+
+			if attached additional_metadata as l_additional_metadata then
+				l_request.add_form(l_additional_metadata,"additionalMetadata");
+			end
+			if attached file as l_file then
+				l_request.add_form(l_file,"file");
+			end
+
+			if attached {STRING} api_client.select_header_accept (<<"application/json">>)  as l_accept then
+				l_request.add_header(l_accept,"Accept");
+			end
+			l_request.add_header(api_client.select_header_content_type (<<"multipart/form-data">>),"Content-Type")
+			l_request.set_auth_names (<<"petstore_auth">>)
+			l_response := api_client.call_api (l_path, "Post", l_request, Void, agent deserializer)
+			if l_response.has_error then
+				last_error := l_response.error
+			elseif attached { API_RESPONSE } l_response.data ({ API_RESPONSE }) as l_data then
+				Result := l_data
+			else
+				create last_error.make ("Unknown error: Status response [ " + l_response.status.out + "]")
+			end
+		end	
+
 
 end
