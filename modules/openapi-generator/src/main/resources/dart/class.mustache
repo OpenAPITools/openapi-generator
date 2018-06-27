@@ -19,7 +19,11 @@ class {{classname}} {
   {{#isDateTime}}
     {{name}} = json['{{baseName}}'] == null ? null : DateTime.parse(json['{{baseName}}']);
   {{/isDateTime}}
+  {{#isDate}}
+    {{name}} = json['{{baseName}}'] == null ? null : DateTime.parse(json['{{baseName}}']);
+  {{/isDate}}
   {{^isDateTime}}
+  {{^isDate}}
     {{#complexType}}
       {{#isListContainer}}
     {{name}} = {{complexType}}.listFromJson(json['{{baseName}}']);
@@ -41,6 +45,7 @@ class {{classname}} {
     {{name}} = json['{{baseName}}'];
       {{/isListContainer}}
     {{/complexType}}
+  {{/isDate}}
   {{/isDateTime}}
   {{/vars}}
   }
@@ -51,8 +56,13 @@ class {{classname}} {
       {{#isDateTime}}
       '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
       {{/isDateTime}}
+      {{#isDate}}
+      '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
+      {{/isDate}}
       {{^isDateTime}}
+      {{^isDate}}
       '{{baseName}}': {{name}}{{^-last}},{{/-last}}
+      {{/isDate}}
       {{/isDateTime}}
     {{/vars}}
     };
