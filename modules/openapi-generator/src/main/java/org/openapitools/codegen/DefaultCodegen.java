@@ -218,7 +218,7 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                     parent.getChildren().add(cm);
                     if (parent.getDiscriminator() == null) {
-                        parent = allModels.get(parent.parent);
+                        parent = allModels.get(parent.getParent());
                     } else {
                         parent = null;
                     }
@@ -1524,6 +1524,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
+                m.isMapModel = true;
             }
             if (ModelUtils.isIntegerSchema(schema)) { // integer type
                 if (!ModelUtils.isLongSchema(schema)) { // long type is not integer
