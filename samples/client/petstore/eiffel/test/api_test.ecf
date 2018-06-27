@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<<<<<<< HEAD
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name="test" 	uuid="7b639e47-4041-4aa0-8fba-973cf255feb6">
+=======
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name="test" 	uuid="a8690cf3-a06e-41e4-94ca-da78738f206c">
+>>>>>>> 2c6791c7e6f7a7153c00eb9a8ad646c35e96d536
 	<target name="test">
 		<root feature="make" class="APPLICATION"/>
 		<file_rule>
