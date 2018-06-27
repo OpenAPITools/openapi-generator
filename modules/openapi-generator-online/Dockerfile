@@ -2,7 +2,7 @@ FROM openjdk:8-jre-alpine
 
 WORKDIR /generator
 
-COPY target/openapi-generator-online-3.0.3-SNAPSHOT.jar /generator/openapi-generator-online.jar
+COPY target/openapi-generator-online-3.0.3.jar /generator/openapi-generator-online.jar
 
 ENV GENERATOR_HOST=http://localhost
 
